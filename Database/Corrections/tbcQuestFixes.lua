@@ -2842,7 +2842,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [11131] = {
-            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{53.1,51.4}},[zoneIDs.ELWYNN_FOREST]={{42,66.5}},[zoneIDs.AZUREMYST_ISLE]={{49.3,51.5}}}},
+            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{44.8,52.1},{47.5,51.6}},[zoneIDs.ELWYNN_FOREST]={{41.3,65.2},{43.6,65.8}},[zoneIDs.AZUREMYST_ISLE]={{49.8,52.3},{48.8,50}}}},
+            [questKeys.requiredSourceItems] = {32971},
+            [questKeys.exclusiveTo] = {12133},
         },
         [11140] = {
             [questKeys.requiredSourceItems] = {33040,33044},
@@ -2920,6 +2922,11 @@ function QuestieTBCQuestFixes:Load()
         [11216] = {
             [questKeys.nextQuestInChain] = 9824,
         },
+        [11219] = {
+            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUROTAR]={{52.12,43.59},{53.21,42.56},{51.58,42.08}},[zoneIDs.TIRISFAL_GLADES]={{60.32,53.29},{61.11,51.25},{61.64,51.97}},[zoneIDs.EVERSONG_WOODS]={{47.76,47.3},{48.21,46.16}}}},
+            [questKeys.requiredSourceItems] = {32971},
+            [questKeys.exclusiveTo] = {12155},
+        },
         [11242] = {
             [questKeys.startedBy] = {{23904},nil,nil},
             [questKeys.finishedBy] = {{24519},nil},
@@ -2982,13 +2989,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {11360,11439,11440},
         },
         [11357] = {
-            [questKeys.exclusiveTo] = {11361},
-        },
-        [11361] = {
-            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {11361,11449,11450},
         },
         [11360] = {
             [questKeys.exclusiveTo] = {11439,11440},
+            [questKeys.requiredSourceItems] = {32971},
+        },
+        [11361] = {
+            [questKeys.exclusiveTo] = {11449,11450},
             [questKeys.requiredSourceItems] = {32971},
         },
         [11379] = {
@@ -3035,6 +3043,16 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {},
             [questKeys.startedBy] = {{24711}},
             [questKeys.finishedBy] = {{24711}},
+        },
+        [11449] = {
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {11361,11450},
+            [questKeys.requiredSourceItems] = {32971},
+        },
+        [11450] = {
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {11361,11449},
+            [questKeys.requiredSourceItems] = {32971},
         },
         [11481] = {
             [questKeys.requiredMinRep] = {932,0},
@@ -3928,30 +3946,36 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questFlags] = 4224,
         },
         [12135] = {
-            [questKeys.name] = "Let the Fires Come!",
+            [questKeys.name] = "\"Let the Fires Come!\"",
             [questKeys.startedBy] = {{24519},nil,nil,},
             [questKeys.finishedBy] = {{24519,},nil,},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"The Costumed Orphan Matron wants you to help put out all the village fires after the Headless Horseman lights them. When they are out, speak again to the Costumed Orphan Matron.",},
-            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{53.1,51.4}},[zoneIDs.ELWYNN_FOREST]={{42,66.5}},[zoneIDs.AZUREMYST_ISLE]={{49.3,51.5}}}},
-            [questKeys.preQuestSingle] = {11360},
+            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{44.8,52.1},{47.5,51.6}},[zoneIDs.ELWYNN_FOREST]={{41.3,65.2},{43.6,65.8}},[zoneIDs.AZUREMYST_ISLE]={{49.8,52.3},{48.8,50}}}},
+            [questKeys.preQuestSingle] = {11360,11439,11440},
             [questKeys.zoneOrSort] = -22,
             [questKeys.specialFlags] = 1,
+            [questKeys.requiredSourceItems] = {32971},
+            [questKeys.questFlags] = 4224,
+            [questKeys.exclusiveTo] = {12133},
         },
         [12139] = {
-            [questKeys.name] = "Let the Fires Come!",
+            [questKeys.name] = "\"Let the Fires Come!\"",
             [questKeys.startedBy] = {{23973},nil,nil,},
             [questKeys.finishedBy] = {{23973,},nil,},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"The Masked Orphan Matron wants you to help put out all the village fires. When they are out, speak again to the Masked Orphan Matron in town.",},
-            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUROTAR]={{52.6,41.7}},[zoneIDs.TIRISFAL_GLADES]={{60.8,52.5}},[zoneIDs.EVERSONG_WOODS]={{47.4,47}}}},
-            [questKeys.preQuestSingle] = {11361},
+            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUROTAR]={{52.12,43.59},{53.21,42.56},{51.58,42.08}},[zoneIDs.TIRISFAL_GLADES]={{60.32,53.29},{61.11,51.25},{61.64,51.97}},[zoneIDs.EVERSONG_WOODS]={{47.76,47.3},{48.21,46.16}}}},
+            [questKeys.preQuestSingle] = {11361,11449,11450},
             [questKeys.zoneOrSort] = -22,
             [questKeys.specialFlags] = 1,
+            [questKeys.requiredSourceItems] = {32971},
+            [questKeys.questFlags] = 4224,
+            [questKeys.exclusiveTo] = {12155},
         },
         [12155] = {
             [questKeys.name] = "Smash the Pumpkin",
