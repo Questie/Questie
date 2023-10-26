@@ -5274,28 +5274,20 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1156,3000},
         },
         [24819] = {
+            [questKeys.startedBy] = {{38316}},
             [questKeys.requiredMinRep] = {1156,3000},
         },
         [24820] = {
+            [questKeys.startedBy] = {{38316}},
             [questKeys.requiredMinRep] = {1156,3000},
         },
         [24821] = {
+            [questKeys.startedBy] = {{38316}},
             [questKeys.requiredMinRep] = {1156,3000},
         },
         [24822] = {
+            [questKeys.startedBy] = {{38316}},
             [questKeys.requiredMinRep] = {1156,3000},
-        },
-        [24819] = {
-            [questKeys.startedBy] = {{38316}},
-        },
-        [24820] = {
-            [questKeys.startedBy] = {{38316}},
-        },
-        [24821] = {
-            [questKeys.startedBy] = {{38316}},
-        },
-        [24822] = {
-            [questKeys.startedBy] = {{38316}},
         },
         [24836] = {
             [questKeys.startedBy] = {{38316}},
