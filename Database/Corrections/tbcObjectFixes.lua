@@ -118,6 +118,8 @@ function QuestieTBCObjectFixes:Load()
                 [zoneIDs.ELWYNN_FOREST]={{42.5,65.8}},
                 [zoneIDs.DUN_MOROGH]={{46.4,52.2}},
                 [zoneIDs.TIRISFAL_GLADES]={{60.9,52.7}},
+                [zoneIDs.AZUREMYST_ISLE]={{48.99,51.02}},
+                [zoneIDs.EVERSONG_WOODS]={{47.5,46.3}},
             },
         },
         [187039] = {
@@ -668,4 +670,36 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
         },
     }
+end
+
+-- This should allow manual fix for object availability
+function QuestieTBCObjectFixes:LoadFactionFixes()
+    local objectKeys = QuestieDB.objectKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
+    local objectFixesHorde = {
+        [186887] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.DUROTAR]={{52.6,42.5}},
+                [zoneIDs.TIRISFAL_GLADES]={{60.9,52.7}},
+                [zoneIDs.EVERSONG_WOODS]={{47.58,46.24}},
+            },
+        },
+    }
+
+    local objectFixesAlliance = {
+        [186887] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.ELWYNN_FOREST]={{42.5,65.8}},
+                [zoneIDs.DUN_MOROGH]={{46.4,52.2}},
+                [zoneIDs.AZUREMYST_ISLE]={{48.99,51.02}},
+            },
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return objectFixesHorde
+    else
+        return objectFixesAlliance
+    end
 end
