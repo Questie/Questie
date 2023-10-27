@@ -68,10 +68,41 @@ function QuestieOptions.tabs.general:Initialize()
                     end
                 end,
             },
-            Spacer_B = QuestieOptionsUtils:Spacer(2.5),
+            Spacer_A = QuestieOptionsUtils:Spacer(2.5),
+            --Spacer_A = QuestieOptionsUtils:Spacer(3.9, (not Questie.IsTBC)),
+            isleOfQuelDanasPhase = {
+                type = "select",
+                order = 3,
+                width = 1.5,
+                --hidden = (not Questie.IsTBC),
+                values = IsleOfQuelDanas.localizedPhaseNames,
+                style = 'dropdown',
+                name = function() return l10n("Isle of Quel'Danas Phase") end,
+                desc = function() return l10n("Select the phase fitting your realm progress on the Isle of Quel'Danas"); end,
+                disabled = function() return (not Questie.IsWotlk) end,
+                get = function() return Questie.db.profile.isleOfQuelDanasPhase; end,
+                set = function(_, key)
+                    Questie.db.profile.isleOfQuelDanasPhase = key
+                    QuestieQuest:SmoothReset()
+                end,
+            },
+            isleOfQuelDanasPhaseReminder = {
+                type = "toggle",
+                order = 3.1,
+                --hidden = (not Questie.IsTBC),
+                name = function() return l10n('Disable Phase reminder'); end,
+                desc = function() return l10n("Enable or disable the reminder on login to set the Isle of Quel'Danas phase"); end,
+                disabled = function() return (not Questie.IsWotlk) end,
+                width = 1,
+                get = function() return Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled; end,
+                set = function(_, value)
+                    Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled = value
+                end,
+            },
+            Spacer_B = QuestieOptionsUtils:Spacer(3.5),
             level_options_group = {
                 type = "group",
-                order = 3,
+                order = 4,
                 inline = true,
                 name = function() return l10n('Quest Level Options'); end,
                 args = {
@@ -174,38 +205,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                 },
             },
-            Spacer_A = QuestieOptionsUtils:Spacer(3.9),
-            --Spacer_A = QuestieOptionsUtils:Spacer(3.9, (not Questie.IsTBC)),
-            isleOfQuelDanasPhase = {
-                type = "select",
-                order = 4,
-                width = 1.5,
-                --hidden = (not Questie.IsTBC),
-                values = IsleOfQuelDanas.localizedPhaseNames,
-                style = 'dropdown',
-                name = function() return l10n("Isle of Quel'Danas Phase") end,
-                desc = function() return l10n("Select the phase fitting your realm progress on the Isle of Quel'Danas"); end,
-                disabled = function() return (not Questie.IsWotlk) end,
-                get = function() return Questie.db.profile.isleOfQuelDanasPhase; end,
-                set = function(_, key)
-                    Questie.db.profile.isleOfQuelDanasPhase = key
-                    QuestieQuest:SmoothReset()
-                end,
-            },
-            isleOfQuelDanasPhaseReminder = {
-                type = "toggle",
-                order = 4.1,
-                --hidden = (not Questie.IsTBC),
-                name = function() return l10n('Disable Phase reminder'); end,
-                desc = function() return l10n("Enable or disable the reminder on login to set the Isle of Quel'Danas phase"); end,
-                disabled = function() return (not Questie.IsWotlk) end,
-                width = 1,
-                get = function() return Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled; end,
-                set = function(_, value)
-                    Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled = value
-                end,
-            },
-            Spacer_A1 = QuestieOptionsUtils:Spacer(4.2),
+            map_spacer = QuestieOptionsUtils:Spacer(4.5),
             map_options_group = {
                 type = "group",
                 order = 5,
@@ -289,6 +289,7 @@ function QuestieOptions.tabs.general:Initialize()
                     }
                 },
             },
+            social_spacer = QuestieOptionsUtils:Spacer(6),
             social_options_group = {
                 type = "group",
                 order = 7,
@@ -422,6 +423,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                 },
             },
+            tooltip_spacer = QuestieOptionsUtils:Spacer(7.5),
             tooltip_options_group = {
                 type = "group",
                 order = 8,
