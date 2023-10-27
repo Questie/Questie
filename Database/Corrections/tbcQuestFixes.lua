@@ -39,6 +39,9 @@ function QuestieTBCQuestFixes:Load()
         [77] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [100] = {
+            [questKeys.childQuests] = {},
+        },
         [171] = {
             [questKeys.questLevel] = -1,
         },
