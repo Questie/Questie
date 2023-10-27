@@ -287,6 +287,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestGroup] = {1687,1479,1558},
             [questKeys.inGroupWith] = nil,
+            [questKeys.childQuests] = {},
         },
         [566] = {
             [questKeys.preQuestSingle] = {549}, -- #1484
