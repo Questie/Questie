@@ -7,25 +7,12 @@ local l10n = QuestieLoader:ImportModule("l10n")
 -- make sure to always add to the end of the table as it runs first to last
 local migrationFunctions = {
     [1] = function()
-        -- this is the big Questie v9.0 settings refactor, implementing profiles; this wipes all existing settings
-        local optionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults"):Load()
-        Questie:Print("[Migration] Migrating Questie for v9.0. This will reset all Questie settings to default. Journey history will be preserved.")
-
-        -- preserve journey history by backing it up prior to settings wipe
-        local journey
-        if Questie.db.char then
-            journey = Questie.db.char.journey
+        -- this is the big Questie v9.0 settings refactor, implementing profiles
+        if Questie.db.char then -- if you actually have previous settings, then on first startup we should notify you of this
+            Questie:Print("[Migration] Migrated Questie for v9.0. This will reset all Questie settings to default. Journey history has been preserved.")
         end
-
-        -- wipe settings
-        Questie.db.profile = nil
-        Questie.db.global = nil
-        Questie.db.char = optionsDefaults.char
-
-        -- restore journey history
-        Questie.db.char.journey = journey
-
-        Questie:Print("[Migration] Migrated Questie to v9.0.")
+        -- theres no need to delete old settings, since we read/write to different addresses now;
+        -- old settings can linger unused unless you roll back versions, no harm no foul
     end
 }
 
