@@ -480,6 +480,8 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Get some Strawberry Ice Cream for your ward. The lad seems to prefer Tigule's brand ice cream."}, -- orc orphan
             [questKeys.preQuestGroup] = {1800,910,911},
             [questKeys.inGroupWith] = nil,
+            [questKeys.childQuests] = {},
+            [questKeys.parentQuest] = 0,
         },
         [918] = {
             [questKeys.preQuestSingle] = {},
@@ -490,6 +492,7 @@ function QuestieQuestFixes:Load()
         [925] = {
             [questKeys.preQuestGroup] = {1800,910,911},
             [questKeys.inGroupWith] = nil,
+            [questKeys.parentQuest] = 0,
         },
         [926] = {
             [questKeys.parentQuest] = 924, -- #806
