@@ -111,7 +111,7 @@ function _QuestieAnnounce:AnnounceToChannel(message)
     alreadySentBandaid[message] = true
 
     if IsInRaid() or IsInGroup() then
-        SendChatMessage(message, (IsInRaid() and "RAID") or (IsInGroup() and "PARTY"))
+        SendChatMessage(message, _QuestieAnnounce.GetChatMessageChannel())
     elseif Questie.db.profile.questAnnounceLocally == true then
         Questie:Print(message)
     end
