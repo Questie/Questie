@@ -278,6 +278,9 @@ function QuestieTBCQuestFixes:Load()
         [2861] = {
             [questKeys.startedBy] = {{4568,5144,5497,5885,16651,17514}}
         },
+        [2841] = {
+            [questKeys.childQuests] = {},
+        },
         [2842] = {
             [questKeys.requiredLevel] = 20,
             [questKeys.parentQuest] = 0,
