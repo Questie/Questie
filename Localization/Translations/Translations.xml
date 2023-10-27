@@ -20,6 +20,8 @@
     <Script file="Options\Sounds.lua"/>
     <Script file="Options\Tooltips.lua"/>
     <Script file="Options\Tracker.lua"/>
+    <Script file="Options\Auto.lua"/>
+    <Script file="Options\Icons.lua"/>
 
     <Script file="Zones\Battlegrounds.lua"/>
     <Script file="Zones\Dungeons.lua"/>
