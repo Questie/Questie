@@ -29,4 +29,3 @@ releases/
 #Log files
 *.log
 *.bak
-.vscode/settings.json
