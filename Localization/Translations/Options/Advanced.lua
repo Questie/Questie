@@ -314,6 +314,30 @@ local advancedOptionsLocales = {
         ["esES"] = "Questie está bajo desarrollo activo para World of Warcraft: Classic. Por favor ve a Github para las versiones alfa o para reportar problemas. O únete a nuestro Discord! (( https://github.com/Questie/Questie/ ))",
         ["frFR"] = "Questie est en cours de développement pour World of Warcraft: Classic. Veuillez consulter GitHub pour connaître les dernières versions alpha ou signaler des problèmes. Ou rejoignez nous sur notre discord ! ( https://github.com/Questie/Questie/ ) ",
     },
+    ["Skip Validation"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ["Skip database validation upon recompile. Validation is only present with debug enabled in the first place."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(advancedOptionsLocales) do

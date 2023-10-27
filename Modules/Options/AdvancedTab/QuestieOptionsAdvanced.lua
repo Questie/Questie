@@ -115,6 +115,21 @@ function QuestieOptions.tabs.advanced:Initialize()
                     end
                 end,
             },
+            skipValidation = {
+                type = "toggle",
+                order = 2.25,
+                name = function() return l10n('Skip Validation'); end,
+                desc = function() return l10n('Skip database validation upon recompile. Validation is only present with debug enabled in the first place.'); end,
+                width = "full",
+                disabled = function() return not Questie.db.profile.debugEnabled; end,
+                get = function () return Questie.db.profile.skipValidation; end,
+                set = function (_, value)
+                    Questie.db.profile.skipValidation = value
+                    if Questie.db.profile.skipValidation then
+                        QuestieLoader:PopulateGlobals()
+                    end
+                end,
+            },
             debugEnabledPrint = {
                 type = "toggle",
                 order = 2.3,
