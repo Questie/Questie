@@ -26,6 +26,7 @@ local optionsDefaults = QuestieOptionsDefaults:Load()
 
 local _GetIconTypes
 local _GetIconTypesSort
+local iconsHidden = true
 
 function QuestieOptions.tabs.icons:Initialize()
     return {

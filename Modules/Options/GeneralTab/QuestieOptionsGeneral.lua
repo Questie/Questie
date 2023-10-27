@@ -34,8 +34,6 @@ local optionsDefaults = QuestieOptionsDefaults:Load()
 local _GetAnnounceChannels
 local _IsAnnounceDisabled
 
-local iconsHidden = true
-
 function QuestieOptions.tabs.general:Initialize()
     return {
         name = function() return l10n('General'); end,
