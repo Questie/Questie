@@ -26,7 +26,6 @@ local optionsDefaults = QuestieOptionsDefaults:Load()
 
 local _GetIconTypes
 local _GetIconTypesSort
-local iconsHidden = true
 
 function QuestieOptions.tabs.icons:Initialize()
     return {
@@ -534,7 +533,6 @@ function QuestieOptions.tabs.icons:Initialize()
             iconOverrides = {
                 type = "group",
                 order = 16,
-                hidden = function() return (iconsHidden); end,
                 inline = true,
                 name = "Icon Overrides",
                 args = {
