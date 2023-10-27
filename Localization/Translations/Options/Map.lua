@@ -50,7 +50,7 @@ local mapOptionsLocales = {
         ["esES"] = "Habilita o deshabilita el botón de mostrar/ocultar Questie en el mapa (Puede solucionar algunas interacciones con Addons de mapas)",
         ["frFR"] = "Active l'affichage du bouton Afficher/Masquer Questie sur la carte. (peut corriger certaines interactions avec des add-ons modifiant la carte)",
     },
-    ["Always Glow Behind Map Icons"] = {
+    ["Map Icons Glow"] = {
         ["ptBR"] = "Sempre visível atrás dos ícones do mapa",
         ["ruRU"] = "Подсветка значков (карта мира)",
         ["deDE"] = "Weltkarten-Icons immer leuchten lassen",
@@ -74,7 +74,7 @@ local mapOptionsLocales = {
         ["esES"] = "Mostrar un aura destrás de los iconos de mapa con colores unicos para cada misión",
         ["frFR"] = "Active un effet de surbrillance autour des icônes sur la carte, colorié différemment pour chaque quête.",
     },
-    ["Different Map Icon Color for Each Quest"] = {
+    ["Unique Map Icon Colors"] = {
         ["ptBR"] = "Cor diferente do ícone do mapa para cada missão",
         ["ruRU"] = "Различные цветa значков (карта мира)",
         ["deDE"] = "Karten-Icons für jede Quest unterschiedlich färben",
@@ -110,19 +110,7 @@ local mapOptionsLocales = {
         ["esES"] = "Opciones de las notas de mapa",
         ["frFR"] = "Options des icônes sur la carte",
     },
-    ["Global Scale for Map Icons"] = {
-        ["ptBR"] = "Escala global de ícones do mapa",
-        ["ruRU"] = "Глобальный размер",
-        ["deDE"] = "Gloable Skalierung der Weltkarten-Icons",
-        ["koKR"] = "지도 아이콘 크기 설정",
-        ["esMX"] = "Tamaño global para los iconos del mapa",
-        ["enUS"] = true,
-        ["zhCN"] = "大地图标记的全局大小",
-        ["zhTW"] = "大地圖圖示的整體縮放大小",
-        ["esES"] = "Tamaño global para los iconos del mapa",
-        ["frFR"] = "Échelle des icônes sur la carte",
-    },
-    ["How large the Map Icons are. ( Default: %s )"] = {
+    ["How large the map icons are. (Default: %s)"] = {
         ["ptBR"] = "Qual é o tamanho dos ícones do mapa. (Por defeito: %s)",
         ["ruRU"] = "Одновременная регулировка размера всех значков на карте мира (по умолчанию: %s)",
         ["deDE"] = "Skaliert die Größe aller Weltkarten-Icons. ( Standard: %s )",
@@ -146,7 +134,7 @@ local mapOptionsLocales = {
         ["esES"] = "Tamaño de iconos de misión disponible y completada",
         ["frFR"] = "Échelle des icônes de quête disponible/terminée",
     },
-    ["How large the available/complete icons are. ( Default: %s )"] = {
+    ["How large the available/complete icons are. (Default: %s)"] = {
         ["ptBR"] = "Qual é o tamanho dos ícones disponíveis / completos (Por defeito: %s)",
         ["ruRU"] = "Регулировка размера значков доступных/выполненных заданий на карте мира и миникарте (по умолчанию: %s)",
         ["deDE"] = "Skaliert die Icons der verfügbaren/abgeschlossenen Quests. ( Standard: %s )",
@@ -254,7 +242,7 @@ local mapOptionsLocales = {
         ["esES"] = "Especifíca la escala de los iconos de objeto. ( Por defecto: %s )",
         ["frFR"] = "Définis la taille des icônes d'objet. (Par défaut : %s)",
     },
-    ["Map and Cursor Coordinates"] = {
+    ["Show Map Coordinates"] = {
         ["ptBR"] = "Coordenadas do mapa e cursor",
         ["ruRU"] = "Координаты",
         ["deDE"] = "Karten- und Zeiger-Koordinaten",
@@ -265,18 +253,6 @@ local mapOptionsLocales = {
         ["zhTW"] = "大地圖和滑鼠坐標",
         ["esES"] = "Coordenadas de mapa y ratón",
         ["frFR"] = "Coordonnées",
-    },
-    ["Player and Cursor Coordinates"] = {
-        ["ptBR"] = "Coordenadas do jogador e do cursor",
-        ["ruRU"] = "Координаты игрока и курсора",
-        ["deDE"] = "Spieler- und Zeiger-Koordinaten aktivieren",
-        ["koKR"] = "플레이어 및 커서 좌표 표시",
-        ["esMX"] = "Coordenadas de mapa y ratón",
-        ["enUS"] = true,
-        ["zhCN"] = "显示玩家与鼠标的座标",
-        ["zhTW"] = "顯示玩家和滑鼠游標的坐標",
-        ["esES"] = "Coordenadas de mapa y ratón",
-        ["frFR"] = "Coordonnées du joueur et du curseur",
     },
     ["Place the Player's coordinates and Cursor's coordinates on the Map's title."] = {
         ["ptBR"] = "Coloque as coordenadas do jogador e as do cursor no título do cartão.",

@@ -26,7 +26,7 @@ local minimapOptionsLocales = {
         ["esES"] = "Opciones de las notas del minimapa",
         ["frFR"] = "Options de la mini-carte",
     },
-    ["Always Glow Behind Minimap Icons"] = {
+    ["Minimap Icons Glow"] = {
         ["ptBR"] = "Sempre visível atrás dos ícones do mini-mapa",
         ["ruRU"] = "Подсветка значков (миникарта)",
         ["deDE"] = "Minimap-Icons immer leuchten lassen",
@@ -38,7 +38,7 @@ local minimapOptionsLocales = {
         ["esES"] = "Mostrar aura detrás de los iconos de minimapa",
         ["frFR"] = "Surbrillance des icônes sur la mini-carte",
     },
-    ["Different Minimap Icon Color for Each Quest"] = {
+    ["Unique Minimap Icon Colors"] = {
             ["ptBR"] = false,
             ["ruRU"] = "Различные цвета значков (миникарта)",
             ["deDE"] = "Minimap-Icons für jede Quest unterschiedlich färben",
@@ -74,19 +74,7 @@ local minimapOptionsLocales = {
         ["esES"] = "Opciones de las notas del minimapa",
         ["frFR"] = "Options des icônes sur la mini-carte",
     },
-    ["Global Scale for Minimap Icons"] = {
-        ["ptBR"] = "Escala global de ícones da mini-carta",
-        ["ruRU"] = "Глобальный размер",
-        ["deDE"] = "Globale Skalierung der Minimap-Icons",
-        ["koKR"] = "미니맵 아이콘 크기 설정",
-        ["esMX"] = "Tamaño de los iconos en el minimapa",
-        ["enUS"] = true,
-        ["zhCN"] = "小地图标记的全局大小",
-        ["zhTW"] = "小地圖圖示的整體縮放大小",
-        ["esES"] = "Tamaño de los iconos en el minimapa",
-        ["frFR"] = "Échelle des icônes sur la mini-carte",
-    },
-    ["How large the Minimap icons are. ( Default: %s )"] = {
+    ["How large the minimap icons are. (Default: %s)"] = {
         ["ptBR"] = "Qual é o tamanho dos ícones da mini-carta. (Por defeito: %s)",
         ["ruRU"] = "Одновременная регулировка размера всех значков на миникарте (по умолчанию: %s)",
         ["deDE"] = "Skaliert wie groß die Minimap-Icons sind. ( Standard: %s )",
@@ -110,7 +98,7 @@ local minimapOptionsLocales = {
         ["esES"] = "Transparencia con respecto al jugador",
         ["frFR"] = "Disparition à proximité du joueur",
     },
-    ["Fade objective distance"] = {
+    ["Minimap Icon Fade Distance"] = {
         ["ptBR"] = "Distância objetiva do fundo",
         ["ruRU"] = "Дистанция блеклости",
         ["deDE"] = "Distanz der verblassenden Ziele",
@@ -194,7 +182,7 @@ local minimapOptionsLocales = {
         ["esES"] = "Cuando deberian de desvancerse los iconos alrededor del jugador. ( Por defecto: %s )",
         ["frFR"] = "Définis l'opacité des icônes proches du joueur. (Par défaut : %s)",
     },
-    ["Minimap Coordinates"] = {
+    ["Show Minimap Coordinates"] = {
         ["ptBR"] = "Coordenadas do mini-mapa",
         ["ruRU"] = "Координаты",
         ["deDE"] = "Minimap-Koordinanten",

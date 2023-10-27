@@ -251,7 +251,7 @@ function QuestieOptions.tabs.icons:Initialize()
                 order = 3,
                 inline = true,
                 width = 0.5,
-                name = function() return l10n('Map Icons'); end,
+                name = function() return l10n('Map Options'); end,
                 args = {
                     enableMapToggle = {
                         type = "toggle",
@@ -312,7 +312,7 @@ function QuestieOptions.tabs.icons:Initialize()
                 order = 4,
                 inline = true,
                 width = 0.5,
-                name = function() return l10n('Minimap Icons'); end,
+                name = function() return l10n('Minimap Options'); end,
                 disabled = function() return not Questie.db.profile.enabled end,
                 args = {
                     enableMiniMapToggle = {
@@ -344,8 +344,8 @@ function QuestieOptions.tabs.icons:Initialize()
                     questMinimapObjectiveColors = {
                         type = "toggle",
                         order = 4.3,
-                        name = function() return l10n('Unique Map Icon Colors'); end,
-                        desc = function() return l10n('Show map icons with colors that are randomly generated based on quest ID.'); end,
+                        name = function() return l10n('Unique Minimap Icon Colors'); end,
+                        desc = function() return l10n('Draw a glow texture behind minimap icons, colored unique to each quest.'); end,
                         width = 1.5,
                         disabled = function() return ((not Questie.db.profile.enabled) or (not Questie.db.profile.enableMiniMapIcons)); end,
                         get = function(info) return QuestieOptions:GetProfileValue(info); end,
@@ -426,7 +426,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "range",
                         order = 5.1,
                         name = function() return l10n('Map Icons'); end,
-                        desc = function() return l10n('How large the map Icons are. ( Default: %s )', optionsDefaults.profile.globalScale); end,
+                        desc = function() return l10n('How large the map icons are. (Default: %s)', optionsDefaults.profile.globalScale); end,
                         width = 1.55,
                         min = 0.01,
                         max = 4,
@@ -441,7 +441,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "range",
                         order = 5.2,
                         name = function() return l10n('Minimap Icons'); end,
-                        desc = function() return l10n('How large the minimap icons are. ( Default: %s )', optionsDefaults.profile.globalMiniMapScale); end,
+                        desc = function() return l10n('How large the minimap icons are. (Default: %s)', optionsDefaults.profile.globalMiniMapScale); end,
                         width = 1.55,
                         min = 0.01,
                         max = 4,

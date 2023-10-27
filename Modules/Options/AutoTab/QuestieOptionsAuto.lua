@@ -41,7 +41,7 @@ function QuestieOptions.tabs.auto:Initialize()
                 type = "toggle",
                 order = 1.1,
                 name = function() return l10n('Auto Complete Quests'); end,
-                desc = function() return l10n('When enabled, Questie will automatically complete finished quests when talking to NPCs.'); end,
+                desc = function() return l10n('When enabled, Questie will automatically hand in finished quests when talking to NPCs.'); end,
                 get = function () return Questie.db.profile.autocomplete; end,
                 set = function (info, value)
                     Questie.db.profile.autocomplete = value
