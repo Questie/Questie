@@ -115,10 +115,7 @@ function QuestieQuest:ToggleNotes(showIcons)
 end
 
 function _QuestieQuest:ShowQuestIcons()
-    -- change map button
-    if Questie.db.profile.enabled then
-        Questie_Toggle:SetText(l10n("Hide Questie"));
-    end
+    WorldMapButton.UpdateText()
 
     local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
     for questId, frameList in pairs(QuestieMap.questIdFrames) do
@@ -164,9 +161,7 @@ function _QuestieQuest:ShowManualIcons()
 end
 
 function _QuestieQuest:HideQuestIcons()
-    if (not Questie.db.profile.enabled) then
-        Questie_Toggle:SetText(l10n("Show Questie"));
-    end
+    WorldMapButton.UpdateText()
 
     for _, frameList in pairs(QuestieMap.questIdFrames) do
         for _, frameName in pairs(frameList) do                                 -- this may seem a bit expensive, but its actually really fast due to the order things are checked

@@ -260,7 +260,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     QuestieJourneyUtils:AddLine(details, "")
 
     if Questie.db.profile.debugEnabled then
-        QuestieJourneyUtils:AddLine(details, recurseTable(QuestieDB:GetQuest(id), QuestieDB.questKeys))
+        QuestieJourneyUtils:AddLine(details, recurseTable(QuestieDB.GetQuest(id), QuestieDB.questKeys))
     end
 end
 
