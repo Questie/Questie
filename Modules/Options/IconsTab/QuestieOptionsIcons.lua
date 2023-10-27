@@ -24,6 +24,8 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
 QuestieOptions.tabs.icons = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
+local _GetIconTypes
+local _GetIconTypesSort
 
 function QuestieOptions.tabs.icons:Initialize()
     return {
