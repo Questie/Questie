@@ -305,6 +305,19 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:ToggleNotes(not value)
                         end,
                     },
+                    hideIconsOnContinents = {
+                        type = "toggle",
+                        order = 3.5,
+                        name = function() return l10n('Hide Icons on Continent Map'); end,
+                        desc = function() return l10n('Hide icons on the continent map, when not viewing a specific zone.'); end,
+                        width = 1.5,
+                        disabled = function() return ((not Questie.db.profile.enabled) or (not Questie.db.profile.enableMapIcons)); end,
+                        get = function() return Questie.db.profile.hideIconsOnContinents; end,
+                        set = function(info, value)
+                            Questie.db.profile.hideIconsOnContinents = value
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
                 },
             },
             minimap_settings_group = {

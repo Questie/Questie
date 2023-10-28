@@ -55,6 +55,7 @@ function QuestieOptionsDefaults:Load()
             enableMiniMapIcons = true,
             questieShutUp = false,
             bugWorkarounds = true,
+            hideIconsOnContinents = false,
 
             -- Tracker Settings Tab
             autoTrackQuests = true,

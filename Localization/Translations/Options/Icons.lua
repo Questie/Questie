@@ -1046,6 +1046,30 @@ local iconOptionsLocales = {
         ["esES"] = false,
         ["frFR"] = false,
     },
+    ["Hide Icons on Continent Map"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ["Hide icons on the continent map, when not viewing a specific zone."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(iconOptionsLocales) do
