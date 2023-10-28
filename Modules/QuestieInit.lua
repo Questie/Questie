@@ -191,7 +191,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         coYield()
     end
 
-    if (not Questie.db.char.townsfolk) or Questie.db.global.dbCompiledCount ~= Questie.db.char.townsfolkVersion then
+    if (not Questie.db.char.townsfolk) or (Questie.db.global.dbCompiledCount ~= Questie.db.char.townsfolkVersion) or (Questie.db.char.townsfolkClass ~= UnitClass("player")) then
         Questie.db.char.townsfolkVersion = Questie.db.global.dbCompiledCount
         coYield()
         QuestieMenu:BuildCharacterTownsfolk()
