@@ -55,7 +55,6 @@ function QuestieOptionsDefaults:Load()
             enableMiniMapIcons = true,
             questieShutUp = false,
             bugWorkarounds = true,
-            skipValidation = false,
 
             -- Tracker Settings Tab
             autoTrackQuests = true,
