@@ -14,7 +14,7 @@ local iconOptionsLocales = {
         ["esES"] = "Habilitar Iconos",
         ["frFR"] = "Activer les icônes",
     },
-    ["Enable or disable Questie icons."] = {
+    ["Shows or hides the icons that Questie draws on the world map and minimap."] = {
         ["ptBR"] = "Ativar ou desativar os ícones da Questie",
         ["ruRU"] = "Показать/скрыть значки Questie",
         ["deDE"] = "Aktivieren/Deaktivieren der Questie-Icons",

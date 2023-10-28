@@ -274,7 +274,7 @@ function QuestieOptions.tabs.general:Initialize()
                         type = "range",
                         order = 5.5,
                         name = function() return l10n('Map Coordinates Decimal Precision'); end,
-                        desc = function() return l10n('How many decimals to include in the precision on the Map for Player and Cursor coordinates. ( Default: %s )', optionsDefaults.profile.mapCoordinatePrecision); end,
+                        desc = function() return l10n('How many decimals to include in the precision on the Map for Player and Cursor coordinates.\n(Default: %s)', optionsDefaults.profile.mapCoordinatePrecision); end,
                         width = 1.4,
                         min = 1,
                         max = 5,

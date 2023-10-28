@@ -43,7 +43,7 @@ function QuestieOptions.tabs.icons:Initialize()
                 type = "toggle",
                 order = 1.1,
                 name = function() return l10n('Enable Icons'); end,
-                desc = function() return l10n('Enable or disable Questie icons.'); end,
+                desc = function() return l10n('Shows or hides the icons that Questie draws on the world map and minimap.'); end,
                 width = 1.9,
                 get = function() return Questie.db.profile.enabled; end,
                 set = function(info, value)
@@ -358,7 +358,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "range",
                         order = 4.4,
                         name = function() return l10n('Minimap Icon Fade Distance'); end,
-                        desc = function() return l10n('How much objective icons should fade depending on distance. ( Default: %s )', optionsDefaults.profile.fadeLevel); end,
+                        desc = function() return l10n('How much objective icons should fade depending on distance.\n(Default: %s)', optionsDefaults.profile.fadeLevel); end,
                         width = 3.1,
                         min = 10,
                         max = 100,
@@ -385,7 +385,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "range",
                         order = 4.6,
                         name = function() return l10n('Fade over Player Distance'); end,
-                        desc = function() return l10n('How far from player should icons start to fade. ( Default: %s )', optionsDefaults.profile.fadeOverPlayerDistance); end,
+                        desc = function() return l10n('How far from player should icons start to fade.\n(Default: %s)', optionsDefaults.profile.fadeOverPlayerDistance); end,
                         width = 1.55,
                         min = 0,
                         max = 20,
@@ -401,7 +401,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "range",
                         order = 4.7,
                         name = function() return l10n('Fade over Player Amount'); end,
-                        desc = function() return l10n('How much should the icons around the player fade. ( Default: %s )', optionsDefaults.profile.fadeOverPlayerLevel); end,
+                        desc = function() return l10n('How much should the icons around the player fade.\n(Default: %s)', optionsDefaults.profile.fadeOverPlayerLevel); end,
                         width = 1.55,
                         min = 0.1,
                         max = 1,
@@ -426,7 +426,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "range",
                         order = 5.1,
                         name = function() return l10n('Map Icons'); end,
-                        desc = function() return l10n('How large the map icons are. (Default: %s)', optionsDefaults.profile.globalScale); end,
+                        desc = function() return l10n('How large the map icons are.\n(Default: %s)', optionsDefaults.profile.globalScale); end,
                         width = 1.55,
                         min = 0.01,
                         max = 4,
@@ -441,7 +441,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "range",
                         order = 5.2,
                         name = function() return l10n('Minimap Icons'); end,
-                        desc = function() return l10n('How large the minimap icons are. (Default: %s)', optionsDefaults.profile.globalMiniMapScale); end,
+                        desc = function() return l10n('How large the minimap icons are.\n(Default: %s)', optionsDefaults.profile.globalMiniMapScale); end,
                         width = 1.55,
                         min = 0.01,
                         max = 4,
@@ -457,7 +457,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "range",
                         order = 5.4,
                         name = function() return l10n('Quest Icons'); end,
-                        desc = function() return l10n('How large the available/complete icons are. Affects both map and minimap icons. ( Default: %s )', optionsDefaults.profile.availableScale); end,
+                        desc = function() return l10n('How large the available/complete icons are. Affects both map and minimap icons.\n(Default: %s)', optionsDefaults.profile.availableScale); end,
                         width = 3.1,
                         min = 0.01,
                         max = 4,
@@ -472,7 +472,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "range",
                         order = 5.5,
                         name = function() return l10n('Loot Objectives'); end,
-                        desc = function() return l10n('How large the loot icons are.  ( Default: %s )', optionsDefaults.profile.lootScale); end,
+                        desc = function() return l10n('How large the loot icons are.\n(Default: %s)', optionsDefaults.profile.lootScale); end,
                         width = 1.55,
                         min = 0.01,
                         max = 4,
@@ -487,7 +487,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "range",
                         order = 5.6,
                         name = function() return l10n('Slay Objectives'); end,
-                        desc = function() return l10n('How large the slay icons are.  ( Default: %s )', optionsDefaults.profile.monsterScale); end,
+                        desc = function() return l10n('How large the slay icons are.\n(Default: %s)', optionsDefaults.profile.monsterScale); end,
                         width = 1.55,
                         min = 0.01,
                         max = 4,
@@ -502,7 +502,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "range",
                         order = 5.7,
                         name = function() return l10n('Event Objectives'); end,
-                        desc = function() return l10n('How large the event icons are.  ( Default: %s )', optionsDefaults.profile.eventScale); end,
+                        desc = function() return l10n('How large the event icons are.\n(Default: %s)', optionsDefaults.profile.eventScale); end,
                         width = 1.55,
                         min = 0.01,
                         max = 4,
@@ -517,7 +517,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "range",
                         order = 5.8,
                         name = function() return l10n('Object Objectives'); end,
-                        desc = function() return l10n('How large the object icons are.  ( Default: %s )', optionsDefaults.profile.objectScale); end,
+                        desc = function() return l10n('How large the object icons are.\n(Default: %s)', optionsDefaults.profile.objectScale); end,
                         width = 1.55,
                         min = 0.01,
                         max = 4,
@@ -542,10 +542,10 @@ function QuestieOptions.tabs.icons:Initialize()
                         name = function() return l10n('Toggle pfQuest/ClassicCodex icon style'); end,
                         desc = function()
                             return l10n('Toggles between Questie icon style and pfQuest/ClassicCodex icon style.\n\nToggling affects the following settings:\n\n- Objective icons\n- ')
-                                .. l10n('Always Glow Behind Map Icons') .. '\n- '
-                                .. l10n('Different Map Icon Color for Each Quest') .. '\n- '
-                                .. l10n('Always Glow Behind Minimap Icons') .. '\n- '
-                                .. l10n('Different Minimap Icon Color for Each Quest') .. '\n- '
+                                .. l10n('Map Icons Glow') .. '\n- '
+                                .. l10n('Unique Map Icon Colors') .. '\n- '
+                                .. l10n('Minimap Icons Glow') .. '\n- '
+                                .. l10n('Unique Minimap Icon Colors') .. '\n- '
                                 .. l10n('Objective icon cluster amount');
                         end,
                         width = 3,
