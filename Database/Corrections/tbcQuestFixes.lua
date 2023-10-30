@@ -39,6 +39,9 @@ function QuestieTBCQuestFixes:Load()
         [77] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [100] = {
+            [questKeys.childQuests] = {},
+        },
         [171] = {
             [questKeys.questLevel] = -1,
         },
@@ -275,12 +278,12 @@ function QuestieTBCQuestFixes:Load()
         [2841] = {
             [questKeys.childQuests] = {},
         },
-        [2861] = {
-            [questKeys.startedBy] = {{4568,5144,5497,5885,16651,17514}}
-        },
         [2842] = {
             [questKeys.requiredLevel] = 20,
             [questKeys.parentQuest] = 0,
+        },
+        [2861] = {
+            [questKeys.startedBy] = {{4568,5144,5497,5885,16651,17514}}
         },
         [2880] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
