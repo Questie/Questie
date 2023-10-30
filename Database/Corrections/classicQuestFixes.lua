@@ -287,6 +287,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestGroup] = {1687,1479,1558},
             [questKeys.inGroupWith] = nil,
+            [questKeys.childQuests] = {},
         },
         [566] = {
             [questKeys.preQuestSingle] = {549}, -- #1484
@@ -479,6 +480,8 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Get some Strawberry Ice Cream for your ward. The lad seems to prefer Tigule's brand ice cream."}, -- orc orphan
             [questKeys.preQuestGroup] = {1800,910,911},
             [questKeys.inGroupWith] = nil,
+            [questKeys.childQuests] = {},
+            [questKeys.parentQuest] = 0,
         },
         [918] = {
             [questKeys.preQuestSingle] = {},
@@ -489,6 +492,7 @@ function QuestieQuestFixes:Load()
         [925] = {
             [questKeys.preQuestGroup] = {1800,910,911},
             [questKeys.inGroupWith] = nil,
+            [questKeys.parentQuest] = 0,
         },
         [926] = {
             [questKeys.parentQuest] = 924, -- #806
@@ -1689,6 +1693,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Get some Strawberry Ice Cream for your ward. The lad seems to prefer Tigule's brand ice cream."}, -- human orphan
             [questKeys.inGroupWith] = nil,
             [questKeys.preQuestGroup] = {1479,1558,1687},
+            [questKeys.childQuests] = {},
         },
         [4866] = {
             [questKeys.objectives] = {{{9563,"Milked"}}},

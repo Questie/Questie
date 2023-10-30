@@ -88,13 +88,11 @@ function QuestieWotlkQuestFixes:Load()
         [915] = {
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.parentQuest] = 0,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
         [925] = {
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.parentQuest] = 0,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
         [1056] = {
@@ -3818,6 +3816,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13679},
             [questKeys.parentQuest] = 0,
         },
+        [13672] = {
+            [questKeys.childQuests] = {},
+        },
         [13673] = {
             [questKeys.preQuestGroup] = {13829,13838,13839},
             [questKeys.exclusiveTo] = {13674,13675,13680},
@@ -3847,6 +3848,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13680},
             [questKeys.parentQuest] = 0,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
+        },
+        [13678] = {
+            [questKeys.childQuests] = {},
         },
         [13679] = {
             [questKeys.objectives] = {{{33448,"Argent Valiant defeated"}}},
