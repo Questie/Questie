@@ -125,9 +125,6 @@ function QuestieOptions.tabs.advanced:Initialize()
                 get = function () return Questie.db.profile.skipValidation; end,
                 set = function (_, value)
                     Questie.db.profile.skipValidation = value
-                    if Questie.db.profile.skipValidation then
-                        QuestieLoader:PopulateGlobals()
-                    end
                 end,
             },
             debugEnabledPrint = {
