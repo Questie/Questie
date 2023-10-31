@@ -16,12 +16,12 @@ function WorldMapButton.Initialize()
     mapButton:SetPoint("RIGHT", WorldMapFrame.MaximizeMinimizeFrame or WorldMapFrameCloseButton, "LEFT", 4, 0)
     mapButton:SetFrameLevel(10)
     mapButton:SetScript("OnClick", function()
-        Questie.db.char.enabled = (not Questie.db.char.enabled)
-        QuestieQuest:ToggleNotes(Questie.db.char.enabled)
+        Questie.db.profile.enabled = (not Questie.db.profile.enabled)
+        QuestieQuest:ToggleNotes(Questie.db.profile.enabled)
     end)
 
     WorldMapButton.UpdateText()
-    WorldMapButton.Toggle(Questie.db.global.mapShowHideEnabled)
+    WorldMapButton.Toggle(Questie.db.profile.mapShowHideEnabled)
 
     C_Timer.After(1, function()
         WorldMapButton.UpdatePosition()
@@ -29,7 +29,7 @@ function WorldMapButton.Initialize()
 end
 
 function WorldMapButton.UpdateText()
-    if Questie.db.char.enabled then
+    if Questie.db.profile.enabled then
         mapButton:SetText(l10n("Hide Questie"))
     else
         mapButton:SetText(l10n("Show Questie"))
