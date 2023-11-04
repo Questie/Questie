@@ -80,17 +80,6 @@ function QuestieOptions.tabs.icons:Initialize()
                     end
                 end,
             },
-            showCustomQuestFrameIcons = {
-                type = "toggle",
-                order = 1.4,
-                name = function() return l10n('Show custom quest frame icons'); end,
-                desc = function() return l10n('Use custom Questie icons for NPC dialogs, reflecting the status and type of each quest.'); end,
-                width = 1.9,
-                get = function() return Questie.db.profile.enableQuestFrameIcons; end,
-                set = function(info, value)
-                    Questie.db.profile.enableQuestFrameIcons = value
-                end,
-            },
             clusterLevelHotzone = {
                 type = "range",
                 order = 1.5,
