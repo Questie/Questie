@@ -45,27 +45,6 @@ function QuestieOptions.tabs.general:Initialize()
                 order = 1,
                 name = function() return l10n('General Options'); end,
             },
-            instantQuest = {
-                type = "toggle",
-                order = 2,
-                name = function() return l10n('Enable Instant Quest Text'); end,
-                desc = function() return l10n('Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface.'); end,
-                width = 1.5,
-                get = function()
-                    if GetCVar("instantQuestText") == '1' then
-                        return true;
-                    else
-                        return false;
-                    end
-                end,
-                set = function(info, value)
-                    if value then
-                        SetCVar("instantQuestText", 1);
-                    else
-                        SetCVar("instantQuestText", 0);
-                    end
-                end,
-            },
             Spacer_A = QuestieOptionsUtils:Spacer(2.5),
             --Spacer_A = QuestieOptionsUtils:Spacer(3.9, (not Questie.IsTBC)),
             isleOfQuelDanasPhase = {
@@ -210,9 +189,30 @@ function QuestieOptions.tabs.general:Initialize()
                 inline = true,
                 name = function() return l10n('Interface Options'); end,
                 args = {
-                    mapShowHideEnabled = {
+                    instantQuest = {
                         type = "toggle",
                         order = 5.1,
+                        name = function() return l10n('Enable Instant Quest Text'); end,
+                        desc = function() return l10n('Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface.'); end,
+                        width = 1.55,
+                        get = function()
+                            if GetCVar("instantQuestText") == '1' then
+                                return true;
+                            else
+                                return false;
+                            end
+                        end,
+                        set = function(info, value)
+                            if value then
+                                SetCVar("instantQuestText", 1);
+                            else
+                                SetCVar("instantQuestText", 0);
+                            end
+                        end,
+                    },
+                    mapShowHideEnabled = {
+                        type = "toggle",
+                        order = 5.2,
                         name = function() return l10n('Show Questie Map Button'); end,
                         desc = function() return l10n('Enable or disable the Show/Hide Questie Button on Map (May fix some Map Addon interactions).'); end,
                         width = 1.55,
@@ -225,7 +225,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     minimapButtonEnabled = {
                         type = "toggle",
-                        order = 5.2,
+                        order = 5.3,
                         name = function() return l10n('Enable Minimap Button'); end,
                         desc = function() return l10n('Enable or disable the Questie minimap button. You can still access the options menu with /questie.'); end,
                         width = 1.55,
@@ -237,21 +237,6 @@ function QuestieOptions.tabs.general:Initialize()
                                 Questie.minimapConfigIcon:Show("Questie");
                             else
                                 Questie.minimapConfigIcon:Hide("Questie");
-                            end
-                        end,
-                    },
-                    mapCoordinatesEnabled = {
-                        type = "toggle",
-                        order = 5.3,
-                        name = function() return l10n('Show Map Coordinates'); end,
-                        desc = function() return l10n("Place the Player's coordinates and Cursor's coordinates on the Map's title."); end,
-                        width = 1.55,
-                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                        set = function (info, value)
-                            QuestieOptions:SetProfileValue(info, value)
-
-                            if not value then
-                                QuestieCoords.ResetMapText();
                             end
                         end,
                     },
@@ -270,9 +255,24 @@ function QuestieOptions.tabs.general:Initialize()
                             end
                         end,
                     },
+                    mapCoordinatesEnabled = {
+                        type = "toggle",
+                        order = 5.5,
+                        name = function() return l10n('Show Map Coordinates'); end,
+                        desc = function() return l10n("Place the Player's coordinates and Cursor's coordinates on the Map's title."); end,
+                        width = 1.55,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                        set = function (info, value)
+                            QuestieOptions:SetProfileValue(info, value)
+
+                            if not value then
+                                QuestieCoords.ResetMapText();
+                            end
+                        end,
+                    },
                     mapCoordinatePrecision = {
                         type = "range",
-                        order = 5.5,
+                        order = 5.6,
                         name = function() return l10n('Map Coordinates Decimal Precision'); end,
                         desc = function() return l10n('How many decimals to include in the precision on the Map for Player and Cursor coordinates.\n(Default: %s)', optionsDefaults.profile.mapCoordinatePrecision); end,
                         width = 1.4,
@@ -284,7 +284,7 @@ function QuestieOptions.tabs.general:Initialize()
                         set = function (info, value)
                             QuestieOptions:SetProfileValue(info, value)
                         end,
-                    }
+                    },
                 },
             },
             social_spacer = QuestieOptionsUtils:Spacer(6),
