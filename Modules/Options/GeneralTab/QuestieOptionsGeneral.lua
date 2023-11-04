@@ -112,7 +112,7 @@ function QuestieOptions.tabs.general:Initialize()
                     manualOffset = {
                         type = "range",
                         order = 3.1,
-                        name = function() return l10n('Show below level offset'); end,
+                        name = function() return l10n('Player level offset'); end,
                         desc = function()
                             return l10n('How many levels below your character to show. ( Default: %s )', optionsDefaults.profile.manualLevelOffset);
                         end,
