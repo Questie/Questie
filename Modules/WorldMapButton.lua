@@ -12,7 +12,7 @@ local mapButton
 function WorldMapButton.Initialize()
     mapButton = CreateFrame("Button", "Questie_Toggle", WorldMapFrame, "UIPanelButtonTemplate")
 
-    mapButton:SetSize(120, 20)
+    mapButton:SetSize(120, 18)
     mapButton:SetPoint("RIGHT", WorldMapFrame.MaximizeMinimizeFrame or WorldMapFrameCloseButton, "LEFT", 4, 0)
     mapButton:SetFrameLevel(10)
     mapButton:SetScript("OnClick", function()
