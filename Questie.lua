@@ -235,5 +235,10 @@ function Questie:GetIconNameFromPath(path)
     end
 end
 
+Questie.LOWLEVEL_NONE = 1
+Questie.LOWLEVEL_ALL = 2
+Questie.LOWLEVEL_OFFSET = 3
+Questie.LOWLEVEL_RANGE = 4
+
 -- Start checking the game's cache.
 QuestieValidateGameCache.StartCheck()

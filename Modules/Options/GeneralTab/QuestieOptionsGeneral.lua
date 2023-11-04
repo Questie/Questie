@@ -87,82 +87,68 @@ function QuestieOptions.tabs.general:Initialize()
                         type = "description",
                         order = 1,
                         name = function() return Questie:Colorize(l10n('By default, Questie only shows quests that are relevant for your level. You can change this behavior below.'), 'gray'); end,
-                        --name = function() return l10n('By default, Questie only shows quests that are relevant for your level. You can change this behavior below.'); end,
                         fontSize = "small",
                     },
                     level_spacer = QuestieOptionsUtils:Spacer(2),
-                    gray = {
-                        type = "toggle",
-                        order = 3.1,
-                        name = function() return l10n('Show All Quests below range (Low level quests)'); end,
-                        desc = function() return l10n('Enable or disable showing of showing low level quests on the map.'); end,
-                        width = "full",
-                        get = function() return Questie.db.profile.lowlevel; end,
-                        set = function(info, value)
-                            Questie.db.profile.lowlevel = value
+                    radio = {
+                        order = 3.0,
+                        type = "select",
+                        style = "radio",
+                        width = 3,
+                        name = l10n("Which available quests should be displayed"),
+                        values = {
+                            [Questie.LOWLEVEL_NONE] = l10n("Show only quests granting experience (Default)"),
+                            [Questie.LOWLEVEL_ALL] = l10n("Show all low level quests"),
+                            [Questie.LOWLEVEL_OFFSET] = l10n("Show quests to a set level below the player"),
+                            [Questie.LOWLEVEL_RANGE] = l10n("Show quests between two set levels"),
+                        },
+                        get = function () return Questie.db.profile.lowLevelStyle end,
+                        set = function (_, value)
+                            Questie.db.profile.lowLevelStyle = value
                             QuestieOptions.AvailableQuestRedraw();
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "Gray Quests toggled to:", value)
+                            Questie:Debug(Questie.DEBUG_DEVELOP, "Lowlevel Quests set to:", value)
                         end,
                     },
-                    manualMinLevelOffset = {
-                        type = "toggle",
-                        order = 3.2,
-                        name = function() return l10n('Enable manual minimum level offset'); end,
-                        desc = function() return l10n('Enable manual minimum level offset instead of the automatic GetQuestGreenLevel function.'); end,
-                        width = 1.55,
-                        disabled = function() return Questie.db.profile.lowlevel or Questie.db.profile.absoluteLevelOffset; end,
-                        get = function() return Questie.db.profile.manualMinLevelOffset; end,
-                        set = function(info, value)
-                            Questie.db.profile.manualMinLevelOffset = value
-                            QuestieOptions.AvailableQuestRedraw();
-                            Questie:Debug(Questie.DEBUG_DEVELOP, l10n('Enable manual minimum level offset'), value)
-                        end,
-                    },
-                    absoluteLevelOffset = {
-                        type = "toggle",
-                        order = 3.3,
-                        name = function() return l10n('Enable absolute level range'); end,
-                        desc = function() return l10n('Change the level offset to absolute level values.'); end,
-                        width = 1.55,
-                        disabled = function() return Questie.db.profile.lowlevel or Questie.db.profile.manualMinLevelOffset; end,
-                        get = function() return Questie.db.profile.absoluteLevelOffset; end,
-                        set = function(info, value)
-                            Questie.db.profile.absoluteLevelOffset = value
-                            QuestieOptions.AvailableQuestRedraw();
-                            Questie:Debug(Questie.DEBUG_DEVELOP, l10n('Enable absolute level range'), value)
-                        end,
-                    },
-                    minLevelFilter = {
+                    manualOffset = {
                         type = "range",
-                        order = 3.4,
-                        name = function()
-                            if Questie.db.profile.absoluteLevelOffset then
-                                return l10n('Level from');
-                            else
-                                return l10n('< Show below level');
-                            end
-                        end,
+                        order = 3.1,
+                        name = function() return l10n('Show below level offset'); end,
                         desc = function()
-                            if Questie.db.profile.absoluteLevelOffset then
-                                return l10n('Minimum quest level to show.');
-                            else
-                                return l10n('How many levels below your character to show. ( Default: %s )', optionsDefaults.profile.minLevelFilter);
-                            end
+                            return l10n('How many levels below your character to show. ( Default: %s )', optionsDefaults.profile.manualLevelOffset);
                         end,
                         width = 1.55,
                         min = 0,
                         max = 60 + 10 * GetExpansionLevel(),
                         step = 1,
-                        disabled = function() return (not Questie.db.profile.manualMinLevelOffset) and (not Questie.db.profile.absoluteLevelOffset); end,
+                        disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_OFFSET) end,
+                        get = function() return Questie.db.profile.manualLevelOffset end,
+                        set = function(info, value)
+                            Questie.db.profile.manualLevelOffset = value;
+                            QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "manualLevelOffset set to " .. value)
+                        end,
+                    },
+                    minLevelFilter = {
+                        type = "range",
+                        order = 3.2,
+                        name = function() return l10n('Level from'); end,
+                        desc = function() return l10n('Minimum quest level to show.'); end,
+                        width = 1.55,
+                        min = 0,
+                        max = 60 + 10 * GetExpansionLevel(),
+                        step = 1,
+                        disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
                         get = function() return Questie.db.profile.minLevelFilter; end,
                         set = function(info, value)
+                            if value > Questie.db.profile.maxLevelFilter then
+                                value = Questie.db.profile.maxLevelFilter
+                            end
                             Questie.db.profile.minLevelFilter = value;
                             QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "minLevelFilter set to " .. value)
                         end,
                     },
                     maxLevelFilter = {
                         type = "range",
-                        order = 3.5,
+                        order = 3.3,
                         name = function()
                             return l10n('Level to');
                         end,
@@ -173,9 +159,12 @@ function QuestieOptions.tabs.general:Initialize()
                         min = 0,
                         max = 60 + 10 * GetExpansionLevel(),
                         step = 1,
-                        disabled = function() return (not Questie.db.profile.absoluteLevelOffset); end,
+                        disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
                         get = function(info) return Questie.db.profile.maxLevelFilter; end,
                         set = function(info, value)
+                            if value < Questie.db.profile.minLevelFilter then
+                                value = Questie.db.profile.minLevelFilter
+                            end
                             Questie.db.profile.maxLevelFilter = value;
                             QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "maxLevelFilter set to " .. value)
                         end,

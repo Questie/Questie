@@ -103,12 +103,11 @@ function QuestieOptionsDefaults:Load()
             trackerBackdropAlpha = 1,
             trackerHeightRatio = 0.50,
 
-            minLevelFilter = GetQuestGreenRange("player"), -- Raised the default to allow more quests to be shown
-            maxLevelFilter = 7,
+            lowLevelStyle = 1, -- Questie.LOWLEVEL_NONE
+            manualLevelOffset = 7,
+            minLevelFilter = 1,
+            maxLevelFilter = 10,
             enabled = true,
-            lowlevel = false,
-            manualMinLevelOffset = false,
-            absoluteLevelOffset = false,
             searchType = 1,
             autoaccept = false,
             autocomplete = false,

@@ -275,10 +275,14 @@ function QuestieMenu:Show()
         QuestieQuest:SmoothReset()
     end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=Questie.db.profile.enableAvailable, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, { text= l10n("Trivial Quest"), func = function()
-        local value = not Questie.db.profile.lowlevel
-        Questie.db.profile.lowlevel = value
+        local value = Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_ALL
+        if value then
+            Questie.db.profile.lowLevelStyle = Questie.LOWLEVEL_NONE
+        else
+            Questie.db.profile.lowLevelStyle = Questie.LOWLEVEL_ALL
+        end
         QuestieOptions.AvailableQuestRedraw()
-    end, icon=QuestieLib.AddonPath.."Icons\\available_gray.blp", notCheckable=false, checked=Questie.db.profile.lowlevel, isNotRadio=true, keepShownOnClick=true})
+    end, icon=QuestieLib.AddonPath.."Icons\\available_gray.blp", notCheckable=false, checked=Questie.db.profile.lowLevelStyle==Questie.LOWLEVEL_ALL, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, { text= l10n("Objective"), func = function()
         local value = not Questie.db.profile.enableObjectives
         Questie.db.profile.enableObjectives = value

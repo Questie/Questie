@@ -1689,11 +1689,11 @@ do
         local minLevel = playerLevel - GetQuestGreenRange("player")
         local maxLevel = playerLevel
 
-        if Questie.db.profile.absoluteLevelOffset then
+        if Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_RANGE then
             minLevel = Questie.db.profile.minLevelFilter
             maxLevel = Questie.db.profile.maxLevelFilter
-        elseif Questie.db.profile.manualMinLevelOffset then
-            minLevel = playerLevel - Questie.db.profile.minLevelFilter
+        elseif Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_OFFSET then
+            minLevel = playerLevel - Questie.db.profile.manualLevelOffset
         end
 
         local showRepeatableQuests = Questie.db.profile.showRepeatableQuests

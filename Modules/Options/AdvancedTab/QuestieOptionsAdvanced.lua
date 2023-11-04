@@ -250,7 +250,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                     end
 
                     Questie.db.profile.enabled = optionsDefaults.profile.enabled;
-                    Questie.db.profile.lowlevel = optionsDefaults.profile.lowlevel;
+                    Questie.db.profile.lowLevelStyle = optionsDefaults.profile.lowLevelStyle;
 
                     Questie.db.profile.migrationVersion = nil
 

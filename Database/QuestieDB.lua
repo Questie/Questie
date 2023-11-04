@@ -402,19 +402,19 @@ function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, pla
     end
 
     --* QuestieEvent.activeQuests[questId] logic is from QuestieDB.IsParentQuestActive, if you edit here, also edit there
-    if (not Questie.db.profile.absoluteLevelOffset) and
+    if (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) and
         minLevel > requiredLevel and
         QuestieEvent.activeQuests[questId]  then
         return true
     end
 
     if maxLevel >= level then
-        if (not Questie.db.profile.lowlevel) and minLevel > level then
+        if (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_ALL) and minLevel > level then
             -- The quest level is too low and trivial quests are not shown
             return false
         end
     else
-        if Questie.db.profile.absoluteLevelOffset or maxLevel < requiredLevel then
+        if (Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_RANGE) or maxLevel < requiredLevel then
             -- Either an absolute level range is set and maxLevel < level OR the maxLevel is manually set to a lower value
             return false
         end
