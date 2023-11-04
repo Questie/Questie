@@ -51,16 +51,6 @@ function QuestieOptions.tabs.icons:Initialize()
                     QuestieQuest:ToggleNotes(value);
                 end,
             },
-            townfolkOptions = {
-                type = "execute",
-                order = 1.2,
-                name = function() return l10n('Config Tracking Icons'); end,
-                desc = function() return l10n('Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.'); end,
-                width = 1.4,
-                func = function(info, value)
-                    QuestieMenu:Show()
-                end,
-            },
             hideMapIconsForUntrackedToggle = {
                 type = "toggle",
                 order = 1.3,
@@ -125,9 +115,15 @@ function QuestieOptions.tabs.icons:Initialize()
                 name = function() return l10n('Show icons for...'); end,
                 disabled = function() return not Questie.db.profile.enabled end,
                 args = {
+                    quest_options = {
+                        type = "header",
+                        order = 2,
+                        width = "normal",
+                        name = function() return l10n('Quests'); end,
+                    },
                     showNormalQuests = {
                         type = "toggle",
-                        order = 2.1,
+                        order = 2.01,
                         name = function() return l10n('Available Normal Quests'); end,
                         desc = function() return l10n('When this is enabled, the locations of available quests will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -140,7 +136,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     },
                     showEventQuests = {
                         type = "toggle",
-                        order = 2.2,
+                        order = 2.02,
                         name = function() return l10n('Available Event Quests'); end,
                         desc = function() return l10n('When this is enabled, the locations of active event quests will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -153,7 +149,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     },
                     showRepeatableQuests = {
                         type = "toggle",
-                        order = 2.3,
+                        order = 2.03,
                         name = function() return l10n('Available Repeatable Quests'); end,
                         desc = function() return l10n('When this is enabled, the locations of repeatable quests will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -166,7 +162,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     },
                     showPvPQuests = {
                         type = "toggle",
-                        order = 2.4,
+                        order = 2.04,
                         name = function() return l10n('Available PvP Quests'); end,
                         desc = function() return l10n('When this is enabled, the locations of PvP quests will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -179,7 +175,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     },
                     showDungeonQuests = {
                         type = "toggle",
-                        order = 2.5,
+                        order = 2.05,
                         name = function() return l10n('Available Dungeon Quests'); end,
                         desc = function() return l10n('When this is enabled, the locations of dungeon quests will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -192,7 +188,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     },
                     showRaidQuests = {
                         type = "toggle",
-                        order = 2.6,
+                        order = 2.06,
                         name = function() return l10n('Available Raid Quests'); end,
                         desc = function() return l10n('When this is enabled, the locations of raid quests will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -205,7 +201,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     },
                     showCompleteQuests = {
                         type = "toggle",
-                        order = 2.7,
+                        order = 2.07,
                         name = function() return l10n('Completed Quests'); end,
                         desc = function() return l10n('When this is enabled, the quest turn-in locations will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -218,7 +214,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     },
                     showObjectivesToggle = {
                         type = "toggle",
-                        order = 2.8,
+                        order = 2.08,
                         name = function() return l10n('Objectives'); end,
                         desc = function() return l10n('When this is enabled, quest objective icons will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -231,7 +227,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     },
                     showAQWarEffortQuests = {
                         type = "toggle",
-                        order = 2.9,
+                        order = 2.09,
                         hidden = (not Questie.IsClassic),
                         name = function() return l10n('Available AQ War Effort Quests'); end,
                         desc = function() return l10n('When this is enabled, the locations of the AQ War Effort quests will be shown on the map/minimap.'); end,
@@ -241,6 +237,156 @@ function QuestieOptions.tabs.icons:Initialize()
                         set = function(info, value)
                             Questie.db.profile.showAQWarEffortQuests = value
                             QuestieQuest:ToggleNotes(value)
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
+                    townfolk_options = {
+                        type = "header",
+                        order = 2.10,
+                        width = "normal",
+                        name = function() return l10n('Townsfolk'); end,
+                    },
+                    repairToggle = {
+                        type = "toggle",
+                        order = 2.11,
+                        name = function() return l10n('Repair'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.profile.enabled); end,
+                        get = function() return Questie.db.profile.townsfolkConfig["Repair"]; end,
+                        set = function(info, value)
+                            Questie.db.profile.townsfolkConfig["Repair"] = value
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
+                    innkeeperToggle = {
+                        type = "toggle",
+                        order = 2.12,
+                        name = function() return l10n('Innkeeper'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.profile.enabled); end,
+                        get = function() return Questie.db.profile.townsfolkConfig["Innkeeper"]; end,
+                        set = function(info, value)
+                            Questie.db.profile.townsfolkConfig["Innkeeper"] = value
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
+                    classTrainerToggle = {
+                        type = "toggle",
+                        order = 2.13,
+                        name = function() return l10n('Class Trainer'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.profile.enabled); end,
+                        get = function() return Questie.db.profile.townsfolkConfig["Class Trainer"]; end,
+                        set = function(info, value)
+                            Questie.db.profile.townsfolkConfig["Class Trainer"] = value
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
+                    bankerToggle = {
+                        type = "toggle",
+                        order = 2.14,
+                        name = function() return l10n('Banker'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.profile.enabled); end,
+                        get = function() return Questie.db.profile.townsfolkConfig["Banker"]; end,
+                        set = function(info, value)
+                            Questie.db.profile.townsfolkConfig["Banker"] = value
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
+                    spiritHealerToggle = {
+                        type = "toggle",
+                        order = 2.15,
+                        name = function() return l10n('Spirit Healer'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.profile.enabled); end,
+                        get = function() return Questie.db.profile.townsfolkConfig["Spirit Healer"]; end,
+                        set = function(info, value)
+                            Questie.db.profile.townsfolkConfig["Spirit Healer"] = value
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
+                    flightMasterToggle = {
+                        type = "toggle",
+                        order = 2.16,
+                        name = function() return l10n('Flight Master'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.profile.enabled); end,
+                        get = function() return Questie.db.profile.townsfolkConfig["Flight Master"]; end,
+                        set = function(info, value)
+                            Questie.db.profile.townsfolkConfig["Flight Master"] = value
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
+                    battlemasterToggle = {
+                        type = "toggle",
+                        order = 2.17,
+                        name = function() return l10n('Battlemaster'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.profile.enabled); end,
+                        get = function() return Questie.db.profile.townsfolkConfig["Battlemaster"]; end,
+                        set = function(info, value)
+                            Questie.db.profile.townsfolkConfig["Battlemaster"] = value
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
+                    weaponmasterToggle = {
+                        type = "toggle",
+                        order = 2.18,
+                        name = function() return l10n('Weapon Master'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.profile.enabled); end,
+                        get = function() return Questie.db.profile.townsfolkConfig["Weapon Master"]; end,
+                        set = function(info, value)
+                            Questie.db.profile.townsfolkConfig["Weapon Master"] = value
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
+                    mailboxToggle = {
+                        type = "toggle",
+                        order = 2.19,
+                        name = function() return l10n('Mailbox'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.profile.enabled); end,
+                        get = function() return Questie.db.profile.townsfolkConfig["Mailbox"]; end,
+                        set = function(info, value)
+                            Questie.db.profile.townsfolkConfig["Mailbox"] = value
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
+                    auctioneerToggle = {
+                        type = "toggle",
+                        order = 2.20,
+                        name = function() return l10n('Auctioneer'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.profile.enabled); end,
+                        get = function() return Questie.db.profile.townsfolkConfig["Auctioneer"]; end,
+                        set = function(info, value)
+                            Questie.db.profile.townsfolkConfig["Auctioneer"] = value
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
+                    meetingStonesToggle = {
+                        type = "toggle",
+                        order = 2.21,
+                        name = function() return l10n('Meeting Stones'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.profile.enabled); end,
+                        get = function() return Questie.db.profile.townsfolkConfig["Meeting Stones"]; end,
+                        set = function(info, value)
+                            Questie.db.profile.townsfolkConfig["Meeting Stones"] = value
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
+                    reagentsToggle = {
+                        type = "toggle",
+                        order = 2.22,
+                        name = function() return l10n('Reagents'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.profile.enabled); end,
+                        get = function() return Questie.db.profile.townsfolkConfig["Reagents"]; end,
+                        set = function(info, value)
+                            Questie.db.profile.townsfolkConfig["Reagents"] = value
                             QuestieQuest:SmoothReset()
                         end,
                     },

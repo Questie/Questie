@@ -289,7 +289,21 @@ local townsfolkLocales = {
         ["zhTW"] = "武器大師",
         ["esES"] = "Maestro armero",
         ["frFR"] = "Maître d'armes",
-    }
+    },
+    ["Townsfolk"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Stadtbewohner",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+
+
 }
 
 for k, v in pairs(townsfolkLocales) do
