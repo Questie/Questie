@@ -25,7 +25,7 @@ QuestieCorrections.killCreditObjectiveFirst[13380] = true
 
 function QuestieWotlkQuestFixes:Load()
     _QuestieWotlkQuestFixes:InsertMissingQuestIds()
-	
+
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
@@ -3348,7 +3348,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{15350}},
             [questKeys.exclusiveTo] = {11339,11340,11341,11342,14164},
         },
-        [13408] = { 
+        [13408] = {
             [questKeys.preQuestSingle] = {10143,10483},
         },
         [13409] = {
@@ -5344,6 +5344,10 @@ function QuestieWotlkQuestFixes:Load()
         [24857] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [24869] = {
+            [questKeys.startedBy] = {{34871}},
+            [questKeys.finishedBy] = {{34871}},
+        },
         [24872] = {
             [questKeys.startedBy] = {{38589}},
             [questKeys.finishedBy] = {{38017}},
@@ -5354,6 +5358,10 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Rotface after getting hit by Slime Spray"), 0, {{"monster", 36627}}},
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Festergut after getting hit by Gaseous Blight"), 0, {{"monster", 36626}}},
             },
+        },
+        [24875] = {
+            [questKeys.startedBy] = {{34871}},
+            [questKeys.finishedBy] = {{34871}},
         },
         [24880] = {
             [questKeys.startedBy] = {{38589}},
@@ -5587,7 +5595,7 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[70401] = {} -- Talented
     QuestieDB.questData[70411] = {} -- To the Dockmaster
     QuestieDB.questData[70870] = {} -- Talented
-	
+
     -- Horde boosted quests
     QuestieDB.questData[70396] = {} -- A New Beginning
     QuestieDB.questData[70734] = {} -- Tools for Survival
@@ -5602,7 +5610,7 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
 
     -- Neutral boosted quests
     QuestieDB.questData[70865] = {} -- To Shattrath City
-    
+
     -- P4 quests
     QuestieDB.questData[78752] = {} -- Proof of Demise: Titan Rune Protocol Gamma
     QuestieDB.questData[78753] = {} -- Proof of Demise: Threats to Azeroth

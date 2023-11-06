@@ -146,7 +146,7 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.TELDRASSIL]={{38.17,57.75},{38.38,57.18},{38.7,57.17},{38.13,56.67},{38.36,56.66},{37.76,56.29},{36.44,56.19},{36.78,56.13},{38.78,56.12},{38.09,55.73},{38.41,55.66},{37.48,55.22},{38.12,55.16},{37.11,54.81},{36.77,54.75},{36.77,54.66},{36.76,54.66}}
             },
         },
-        [16817] = { 
+        [16817] = {
             [npcKeys.spawns] = {
                 [zoneIDs.TELDRASSIL]={{56.5,92.3}},
                 [zoneIDs.STORMWIND_CITY]={{49.53,72.27}},
@@ -1554,6 +1554,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [38342] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{47.21,54.09}}}
+        },
+        [38471] = {
+            [npcKeys.questStarts] = {24869,24875},
+            [npcKeys.questEnds] = {24869,24875},
         },
         [198875] = {
             [npcKeys.name] = "Thassarian",
