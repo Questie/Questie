@@ -146,7 +146,7 @@ local debugMessagesLocales = {
         ["esES"] = "Se produjo un error al obtener los objetivos para %s %s %s %s",
         ["frFR"] = "Une erreur s'est produite lors de la création des objectifs pour %s %s %s %s",
     },
-    ["Error: Questie tracker in invalid location, resetting..."] = {
+    ["Error: Questie tracker in invalid location; resetting..."] = {
         ["ptBR"] = "Erro: Rastreador do Questie em um local inválido, redefinindo...",
         ["ruRU"] = "Ошибка: трекер Questie в неправильном положении, сброс...",
         ["deDE"] = "Fehler: Der Questie-Tracker ist in einer ungültigen Position und wird zurückgesetzt...",
@@ -170,8 +170,8 @@ local debugMessagesLocales = {
         ["esES"] = "Establaciendo límite de ícono a %s : Redibujando!",
         ["frFR"] = "Définition de la valeur limite de l'icône sur %s : Redessiner !",
     },
-    ["You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing"] = {
-        ["ptBR"] = "Você atualizou o Questie sem reiniciar o jogo, isso provavelmente irá causar problemas. Por favor, reinicie o jogo antes de continuar",
+    ["You have updated Questie without restarting the game. This will likely cause problems. Please restart the game before continuing"] = {
+        ["ptBR"] = "Você atualizou o Questie sem reiniciar o jogo. Isso provavelmente irá causar problemas. Por favor, reinicie o jogo antes de continuar",
         ["ruRU"] = "Вы обновили Questie без перезапуска игры, это может вызвать проблемы. Пожалуйста, перезапустите игру, прежде чем продолжить",
         ["deDE"] = "Du hast Questie aktualisiert ohne WoW neuzustarten, was zu Problemen führen wird! Bitte starte den WoW Client neu, bevor du fortfährst.",
         ["koKR"] = "게임을 재실행하지 않고 Questie를 업데이트했습니다. 이로 인해 문제가 발생할 수 있습니다. 계속하시기 전에 게임을 재실행해주세요.",
@@ -179,8 +179,8 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhCN"] = "你没有重开游戏就更新了Questie，这可能会使Questie出现某些错误。请完全关闭魔兽世界再重新启动游戏，确保Questie能正常运作。",
         ["zhTW"] = "更新 Questie 後沒有重開遊戲，可能會造成問題。請先重新啟動遊戲再繼續玩下去",
-        ["esES"] = "Has actualizado Questie sin reiniciar el juego, esto probablemente causará problemas. Reinicia el juego antes de continuar.",
-        ["frFR"] = "Vous avez mis à jour Questie sans redémarrer le jeu, cela risque de poser problème. Veuillez redémarrer le jeu avant de continuer",
+        ["esES"] = "Has actualizado Questie sin reiniciar el juego. Esto probablemente causará problemas. Reinicia el juego antes de continuar.",
+        ["frFR"] = "Vous avez mis à jour Questie sans redémarrer le jeu. Cela risque de poser problème. Veuillez redémarrer le jeu avant de continuer",
     },
     ["Questie DB has updated!"] = {
         ["ptBR"] = "O banco de dados do Questie foi atualizado!",
@@ -386,11 +386,11 @@ local debugMessagesLocales = {
         ["esES"] = "¡Error durante la inicialización!",
         ["esMX"] = "¡Error durante la inicialización!",
     },
-    ["The quest %s is missing from Questie's database, Please report this on GitHub or Discord!"] = {
-        ["ptBR"] = "A missão %s está faltando no banco de dados da Questie, por favor, informe isso no GitHub ou Discord!",
+    ["The quest %s is missing from Questie's database. Please report this on GitHub or Discord!"] = {
+        ["ptBR"] = "A missão %s está faltando no banco de dados da Questie. Por favor, informe isso no GitHub ou Discord!",
         ["ruRU"] = "Задание %s отсутствует в БД Questie. Пожалуйста, сообщите нам об этом на GitHub или в Discord!",
         ["koKR"] = "해당 퀘스트 %s 는 퀘스티 데이터베이스에서 찾을 수 없습니다. Github/Discord에 리포트 부탁드립니다!",
-        ["frFR"] = "La quête %s n'est pas présente dans la Base de données Questie, veuillez le signaler sur GitHub ou Discord !",
+        ["frFR"] = "La quête %s n'est pas présente dans la Base de données Questie.  Veuillez le signaler sur GitHub ou Discord !",
         ["zhCN"] = "Questie 数据库中缺少的任务 %s，请到 GitHub 或 Discord 上报告，谢谢!",
         ["enUS"] = true,
         ["zhTW"] = "Questie 的資料庫中沒有這個任務 %s，請到 GitHub 或 Discord 做回報!",
@@ -422,7 +422,7 @@ local debugMessagesLocales = {
         ["zhTW"] = "缺少任務目標資料: ",
         ["zhCN"] = "缺少任务目标资料：",
     },
-    ["|cffff0000Please note:|r One of the next Questie releases will reset your settings. We advise you to backup your Questie related Saved Variables as a precaution. This can be done by creating a copy of the WTF folder of your WoW install."] = {
+    ["|cffff0000Please note:|r One of the next Questie releases will reset your settings. We advise you to back up your Questie related Saved Variables as a precaution. This can be done by creating a copy of the WTF folder of your WoW install."] = {
         ["ptBR"] = false,
         ["ruRU"] = "|cffff0000Обратите внимание:|r Один из следующих релизов Questie сбросит ваши настройки. Мы советуем вам сделать резервную копию настроек Questie, находящихся в папке Saved Variables вашего аккаунта. Это можно сделать путем создания копии папки WTF в папке установки WoW.",
         ["deDE"] = "|cffff0000Hinweis:|r Mit einem der nächsten Questie-Releases werden deine Einstellungen zurückgesetzt. Zur Sicherheit solltest du ein Backup deiner Questie-SavedVariables erstellen. Dies kannst du machen indem du eine Kopie des WTF-Ordners deiner WoW-Installtion erstellst.",
