@@ -158,6 +158,24 @@ function QuestieCorrections:MinimalInit() -- db already compiled
                 QuestieDB.itemDataOverrides[id][key] = value
             end
         end
+
+        for id, data in pairs(QuestieTBCNpcFixes:LoadFactionFixes()) do
+            for key, value in pairs(data) do
+                if not QuestieDB.npcDataOverrides[id] then
+                    QuestieDB.npcDataOverrides[id] = {}
+                end
+                QuestieDB.npcDataOverrides[id][key] = value
+            end
+        end
+
+        for id, data in pairs(QuestieTBCObjectFixes:LoadFactionFixes()) do
+            for key, value in pairs(data) do
+                if not QuestieDB.objectDataOverrides[id] then
+                    QuestieDB.objectDataOverrides[id] = {}
+                end
+                QuestieDB.objectDataOverrides[id][key] = value
+            end
+        end
     end
 
     if (Questie.IsWotlk) then
