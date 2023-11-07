@@ -2079,6 +2079,13 @@ function QuestieNPCFixes:Load()
         [15114] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{-1,-1}}},
         },
+        [15197] = {
+            [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{55.57,69.9}}},
+        },
+        [15199] = {
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{50,57.35}}},
+            [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
+        },
         [15203] = {
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{39.6,45.08},{25.56,34.04},{18.55,83.52}}},
@@ -2151,6 +2158,10 @@ function QuestieNPCFixes:Load()
         [15383] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{64.1,65.5}}},
             [npcKeys.zoneID] = zoneIDs.IRONFORGE,
+        },
+        [15415] = {
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{50.3,57.6}}},
+            [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
         [15449] = {
             [npcKeys.zoneID] = zoneIDs.SILITHUS,

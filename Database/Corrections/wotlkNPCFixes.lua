@@ -103,7 +103,7 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.IRONFORGE]={{70.41,91.10}},
                 [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
                 [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{24.55,55.42}},
+                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
                 [zoneIDs.STORMWIND_CITY]={{83.47,33.66},{75.67,66.54}},
                 [zoneIDs.DALARAN]={{29.79,75.78}},
                 [zoneIDs.WINTERGRASP]={{50.02,15.16}},
@@ -146,7 +146,7 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.TELDRASSIL]={{38.17,57.75},{38.38,57.18},{38.7,57.17},{38.13,56.67},{38.36,56.66},{37.76,56.29},{36.44,56.19},{36.78,56.13},{38.78,56.12},{38.09,55.73},{38.41,55.66},{37.48,55.22},{38.12,55.16},{37.11,54.81},{36.77,54.75},{36.77,54.66},{36.76,54.66}}
             },
         },
-        [16817] = { 
+        [16817] = {
             [npcKeys.spawns] = {
                 [zoneIDs.TELDRASSIL]={{56.5,92.3}},
                 [zoneIDs.STORMWIND_CITY]={{49.53,72.27}},
@@ -1370,6 +1370,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{44.2,32.4},{44.2,32.6},{44.2,33.6},{44.4,31.4},{44.6,32},{44.6,34.2},{44.8,31.4},{45.6,32},{46.6,32.4},{46.8,32.6},{46.8,33.6}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [33707] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{68.79,20.87}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [33956] = {
             [npcKeys.spawns] = {[zoneIDs.THE_ARCHIVUM]={{15.6,89.5}},[zoneIDs.ULDUAR]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_ARCHIVUM,
@@ -1426,12 +1430,35 @@ function QuestieWotlkNpcFixes:Load()
         [36627] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{19.8,41.8}}},
         },
+        [36658] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{44.2,26}}},
+            [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
+        },
+        [36770] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{46.9,65.3},{50.1,62.8},{54.5,62.2},{59.1,59.7}}},
+            [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
+        },
+        [36678] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{13.4,53.4}}},
+        },
+        [36990] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{40.5,77.8}}},
+            [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
+        },
         [37172] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{50.7,65.8}}},
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
         [37214] = {
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{29.1,66.5},{28.8,66.2},{29.5,65.7},{28.8,65.7},{29.2,65.2}},[zoneIDs.DUROTAR]={{40.3,15.8},{40.1,15.5},{40.5,15.5},{40.5,15.2},{40.3,15.0}}}
+        },
+        [37592] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{66,54.8}}},
+            [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
+        },
+        [37596] = {
+            [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{68.3,90.9}}},
+            [npcKeys.zoneID] = zoneIDs.FORGE_OF_SOULS,
         },
         [37671] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{47.7,11.9},{47.8,11.7},{47.6,11.8}}},
@@ -1444,6 +1471,10 @@ function QuestieWotlkNpcFixes:Load()
         [37715] = {
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{27.43,34.83}},[zoneIDs.DUROTAR]={{50.63,13.13}}}
         },
+        [37223] = {
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{44.5,76.5}}},
+            [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
+        },
         [37776] = {
             [npcKeys.waypoints] = {[zoneIDs.DALARAN]={{{45.96,76.74},{45.19,76.29},{44.96,75.11},{45.14,73.88},{45.35,72.66},{45.60,71.45},{45.97,70.31},{46.35,69.18},{46.72,68.05},{47.10,66.92},{47.47,65.78},{47.67,64.55},{47.77,63.30},{47.75,62.04},{47.28,61.02},{46.49,60.94},{46.32,61.13}}}},
         },
@@ -1452,6 +1483,9 @@ function QuestieWotlkNpcFixes:Load()
         },
         [37917] = {
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{55.2,61.0},{55.3,62.0},{54.9,63.1},{54.6,62.3}},[zoneIDs.DARKSHORE]={{43.3,79.9},{43.2,79.9},{43.2,79.5},{42.7,79.5},{43.0,79.4}}}
+        },
+        [37970] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{51.8,14.1}}},
         },
         [37984] = {
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{28.3,38.5},{28.6,38.2},{27.9,37.8},{28.6,37.4},{28.3,36.7}}},
@@ -1487,6 +1521,14 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{33.92,47.27},{34.07,47.27}}},
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
+        [38161] = {
+            [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{44.6,13.6}}},
+            [npcKeys.zoneID] = zoneIDs.FORGE_OF_SOULS,
+        },
+        [38189] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{43.5,22.7}}},
+            [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
+        },
         [38293] = {
             [npcKeys.spawns] = {[1657]={{42.0,50.05}},[1537]={{35.37,69.01}}, -- original data
                                [zoneIDs.THE_EXODAR]={{76,57.5}}}, -- correction
@@ -1513,12 +1555,30 @@ function QuestieWotlkNpcFixes:Load()
         [38342] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{47.21,54.09}}}
         },
+        [38471] = {
+            [npcKeys.questStarts] = {24869,24875},
+            [npcKeys.questEnds] = {24869,24875},
+        },
         [198875] = {
             [npcKeys.name] = "Thassarian",
             [npcKeys.minLevel] = 72,
             [npcKeys.maxLevel] = 72,
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{86.64,31.38}}},
             [npcKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
+        },
+        [211332] = {
+            [npcKeys.name] = "Korralin Hoperender",
+            [npcKeys.minLevel] = 80,
+            [npcKeys.maxLevel] = 80,
+            [npcKeys.spawns] = {[zoneIDs.DALARAN]={{38,55.8}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN,
+        },
+        [211340] = {
+            [npcKeys.name] = "Kolara Dreamsmasher",
+            [npcKeys.minLevel] = 80,
+            [npcKeys.maxLevel] = 80,
+            [npcKeys.spawns] = {[zoneIDs.DALARAN]={{65.5,24.8}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN,
         },
 
         -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the

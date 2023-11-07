@@ -175,7 +175,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     local dbCompiled = false
 
     -- Check if the DB needs to be recompiled
-    if (not Questie.db.global.dbIsCompiled) or QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= Questie.db.global.dbCompiledLang then
+    if (not Questie.db.global.dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion) or ((Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= Questie.db.global.dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
         print("\124cFFAAEEFF" .. l10n("Questie DB has updated!") .. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
         loadFullDatabase()
         QuestieDBCompiler:Compile()
@@ -191,7 +191,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         coYield()
     end
 
-    if (not Questie.db.char.townsfolk) or Questie.db.global.dbCompiledCount ~= Questie.db.char.townsfolkVersion then
+    if (not Questie.db.char.townsfolk) or (Questie.db.global.dbCompiledCount ~= Questie.db.char.townsfolkVersion) or (Questie.db.char.townsfolkClass ~= UnitClass("player")) then
         Questie.db.char.townsfolkVersion = Questie.db.global.dbCompiledCount
         coYield()
         QuestieMenu:BuildCharacterTownsfolk()

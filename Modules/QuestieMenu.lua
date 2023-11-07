@@ -845,6 +845,7 @@ end
 function QuestieMenu:BuildCharacterTownsfolk()
     Questie.db.char.townsfolk = {}
     Questie.db.char.vendorList = {}
+    Questie.db.char.townsfolkClass = UnitClass("player")
 
     for key, npcs in pairs(Questie.db.global.factionSpecificTownsfolk[playerFaction]) do
         Questie.db.char.townsfolk[key] = npcs

@@ -17,8 +17,15 @@ local _GetAnnounceMarker
 
 ---@return string
 _GetAnnounceMarker = function()
+    local locale = l10n:GetUILocale()
     if IsInRaid() or IsInGroup() then
-        return (l10n:GetUILocale() == "ruRU" and "{звезда}" or "{rt1}") .. " Questie : ";
+        if locale == "ruRU" then
+            return "{звезда} Questie: ";
+        elseif locale == "frFR" then
+            return "{rt1} Questie : ";
+        else
+            return "{rt1} Questie: "
+        end
     else
         return ""
     end

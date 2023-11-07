@@ -2959,10 +2959,12 @@ ZoneDB.private.zoneIDs = {
     THE_NEXUS_MAP = 4805,
     -- Fake IDs for Ahn'Kahet: The Old Kingdom
     AHNKAHET_MAP = 4808,
+    FORGE_OF_SOULS = 4809,
     -- Fake IDs for Halls of Stone
     HALLS_OF_STONE_MAP = 4810,
     -- Fake IDs for The Culling of Stratholme
     THE_CULLING_OF_STRATHOLME_VILLAGE = 4811,
+    PIT_OF_SARON = 4813,
     THE_CULLING_OF_STRATHOLME_CITY = 4814,
     -- Fake IDs for Utgarde Pinnacle
     UTGARDE_PINNACLE_LOWER_LEVEL = 4816,
@@ -2970,6 +2972,7 @@ ZoneDB.private.zoneIDs = {
     -- Fake IDs for Utgarde Keep
     UTGARDE_KEEP_LOWER_LEVEL = 4818,
     UTGARDE_KEEP_MIDDLE_LEVEL = 4819,
+    HALLS_OF_REFLECTION = 4820,
     UTGARDE_KEEP_UPPER_LEVEL = 4821,
     -- Fake IDs for Drak'tharon Keep
     DRAKTHARON_KEEP_LOWER_LEVEL = 4822,

@@ -999,6 +999,7 @@ function QuestieDBCompiler:Compile()
 
     Questie.db.global.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
     Questie.db.global.dbCompiledLang = (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale())
+    Questie.db.global.dbCompiledExpansion = WOW_PROJECT_ID
     Questie.db.global.dbIsCompiled = true
     Questie.db.global.dbCompiledCount = (Questie.db.global.dbCompiledCount or 0) + 1
 end
