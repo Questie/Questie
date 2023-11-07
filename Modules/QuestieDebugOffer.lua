@@ -161,7 +161,8 @@ function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker duri
 end
 
 local targetTimeout = {} -- store timeouts per-ID so we don't cause lag or spam chat if a player clicks on an unknown NPC often
-local timeoutDuration = 120 -- how many seconds to ignore re-passes
+local timeoutDurationOverworld = 120 -- how many seconds to ignore re-passes outside of instances
+local timeoutDurationInstance = 600 -- how many seconds to ignore re-passes outside of instances
 -- Missing NPC ID when targeting
 function QuestieDebugOffer.NPCTarget()
     local targetGUID = UnitGUID("target")
@@ -210,7 +211,12 @@ function QuestieDebugOffer.NPCTarget()
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
                 Questie:Print("The NPC you just targeted is missing from the Questie database. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[More Info]|h|r")
             end
-            C_Timer.NewTimer (timeoutDuration, function() targetTimeout[npcID] = false end)
+            local inInstance, _ = IsInInstance()
+            if inInstance == false then
+                C_Timer.NewTimer (timeoutDurationOverworld, function() targetTimeout[npcID] = false end)
+            else
+                C_Timer.NewTimer (timeoutDurationInstance, function() targetTimeout[npcID] = false end)
+            end
         end
     else
         return -- If the target is not an NPC, bail!
