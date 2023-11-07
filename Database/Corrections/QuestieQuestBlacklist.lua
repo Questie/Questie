@@ -1443,8 +1443,7 @@ function QuestieQuestBlacklist:Load()
     end
 
     if Questie.IsSoD then
-        print("Blacklisting SoD quests...")
-        --Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting SoD quests...")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting SoD quests...")
         local questsByPhase = QuestieQuestBlacklist:GetSoDQuestsToBlacklist()
         for phase= 1, #questsByPhase do
             for questId, _ in pairs(questsByPhase[phase]) do
