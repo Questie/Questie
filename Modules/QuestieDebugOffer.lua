@@ -19,7 +19,9 @@ local AceGUI = LibStub("AceGUI-3.0")
 local hook
 local _E
 
-local DebugInformation = "Nothing here!"
+local DebugInformation_LootWindow = "Nothing here!"
+local DebugInformation_QuestDialog = "Nothing here!"
+local DebugInformation_QuestTracking = "Nothing here!"
 
 local GetBestMapForUnit = C_Map.GetBestMapForUnit
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition
@@ -57,23 +59,23 @@ function QuestieDebugOffer.LootWindow()
         end
 
         if itemID > 0 and itemPresentInDB == false then
-            DebugInformation = "Item not present in ItemDB!"
-            DebugInformation = DebugInformation .. "\n\n|cFFAAAAAAItem ID:|r " .. itemID .. "\n|cFFAAAAAAItem Name:|r " .. itemLink
-            DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuest Item:|r " .. tostring(questItem)
-            DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuest Starter:|r " .. tostring(questStarts)
-            DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuest ID:|r " .. questID
+            DebugInformation_LootWindow = "Item not present in ItemDB!"
+            DebugInformation_LootWindow = DebugInformation_LootWindow .. "\n\n|cFFAAAAAAItem ID:|r " .. itemID .. "\n|cFFAAAAAAItem Name:|r " .. itemLink
+            DebugInformation_LootWindow = DebugInformation_LootWindow .. "\n|cFFAAAAAAQuest Item:|r " .. tostring(questItem)
+            DebugInformation_LootWindow = DebugInformation_LootWindow .. "\n|cFFAAAAAAQuest Starter:|r " .. tostring(questStarts)
+            DebugInformation_LootWindow = DebugInformation_LootWindow .. "\n|cFFAAAAAAQuest ID:|r " .. questID
             local _, playerrace = UnitRace("player")
-            DebugInformation = DebugInformation .. "\n|cFFAAAAAACharacter:|r Lvl " .. UnitLevel("player") .. " " .. string.upper(playerrace) .. " " .. UnitClassBase("player")
+            DebugInformation_LootWindow = DebugInformation_LootWindow .. "\n|cFFAAAAAACharacter:|r Lvl " .. UnitLevel("player") .. " " .. string.upper(playerrace) .. " " .. UnitClassBase("player")
             local debugContainer = GetLootSourceInfo(i)
-            DebugInformation = DebugInformation .. "\n|cFFAAAAAAContainer:|r " .. debugContainer
+            DebugInformation_LootWindow = DebugInformation_LootWindow .. "\n|cFFAAAAAAContainer:|r " .. debugContainer
             local mapID = GetBestMapForUnit("player")
             local pos = GetPlayerMapPosition(mapID, "player");
             PosX = pos.x * 100
             PosY = pos.y * 100
-            DebugInformation = DebugInformation .. "\n|cFFAAAAAACoordinates:|r  [" .. mapID .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
+            DebugInformation_LootWindow = DebugInformation_LootWindow .. "\n|cFFAAAAAACoordinates:|r  [" .. mapID .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
             local questLog = ""
             for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
-            DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
+            DebugInformation_LootWindow = DebugInformation_LootWindow .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
             local gameType = ""
             if Questie.IsWotlk then
                 gameType = "Wrath"
@@ -82,11 +84,10 @@ function QuestieDebugOffer.LootWindow()
             elseif Questie.IsEra then
                 gameType = "Era"
             end
-            DebugInformation = DebugInformation .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
-            DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
+            DebugInformation_LootWindow = DebugInformation_LootWindow .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
+            DebugInformation_LootWindow = DebugInformation_LootWindow .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
 
-            --print(DebugInformation)
-            Questie:Print("An item you just encountered is missing from the Questie database. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer|h[More Info]|h|r")
+            Questie:Print("An item you just encountered is missing from the Questie database. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer:lootwindow|h[More Info]|h|r")
 
         end
     end
@@ -102,22 +103,22 @@ function QuestieDebugOffer.QuestDialog()
         local rewardText = GetRewardText()
         local rewardXP = GetRewardXP()
 
-        DebugInformation = "Quest in dialog not present in QuestDB!"
-        DebugInformation = DebugInformation .. "\n\n|cFFAAAAAAQuest ID:|r " .. tostring(questID) .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(questText)
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(objectiveText)
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAAReward Text:|r " .. tostring(rewardText)
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAAReward XP:|r " .. tostring(rewardXP)
+        DebugInformation_QuestDialog = "Quest in dialog not present in QuestDB!"
+        DebugInformation_QuestDialog = DebugInformation_QuestDialog .. "\n\n|cFFAAAAAAQuest ID:|r " .. tostring(questID) .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
+        DebugInformation_QuestDialog = DebugInformation_QuestDialog .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(questText)
+        DebugInformation_QuestDialog = DebugInformation_QuestDialog .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(objectiveText)
+        DebugInformation_QuestDialog = DebugInformation_QuestDialog .. "\n|cFFAAAAAAReward Text:|r " .. tostring(rewardText)
+        DebugInformation_QuestDialog = DebugInformation_QuestDialog .. "\n|cFFAAAAAAReward XP:|r " .. tostring(rewardXP)
         local _, playerrace = UnitRace("player")
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel("player")) .. " " .. string.upper(tostring(playerrace)) .. " " .. tostring(UnitClassBase("player"))
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuestgiver:|r " .. tostring(UnitGUID("questnpc"))
+        DebugInformation_QuestDialog = DebugInformation_QuestDialog .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel("player")) .. " " .. string.upper(tostring(playerrace)) .. " " .. tostring(UnitClassBase("player"))
+        DebugInformation_QuestDialog = DebugInformation_QuestDialog .. "\n|cFFAAAAAAQuestgiver:|r " .. tostring(UnitGUID("questnpc"))
         local mapID = GetBestMapForUnit("player")
         local pos = GetPlayerMapPosition(mapID, "player");
         if pos then PosX = pos.x * 100; PosY = pos.y * 100 end
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAACoordinates:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
+        DebugInformation_QuestDialog = DebugInformation_QuestDialog .. "\n|cFFAAAAAACoordinates:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
         local questLog = ""
         for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
+        DebugInformation_QuestDialog = DebugInformation_QuestDialog .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
         local gameType = ""
         if Questie.IsWotlk then
             gameType = "Wrath"
@@ -126,9 +127,9 @@ function QuestieDebugOffer.QuestDialog()
         elseif Questie.IsEra then
             gameType = "Era"
         end
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
-        Questie:Print("A quest you just encountered is missing from the Questie database. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer|h[More Info]|h|r")
+        DebugInformation_QuestDialog = DebugInformation_QuestDialog .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
+        DebugInformation_QuestDialog = DebugInformation_QuestDialog .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
+        Questie:Print("A quest you just encountered is missing from the Questie database. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer:questdialog|h[More Info]|h|r")
     end
 end
 
@@ -140,20 +141,20 @@ function QuestieDebugOffer.QuestTracking(questID)
             local questTitle, questLevel, suggestedGroup, _, _, _, frequency, questlogid = GetQuestLogTitle(i)
             if questID == questlogid then
                 local questText, objectiveText = GetQuestLogQuestText(i)
-                DebugInformation = "Quest in tracker not present in QuestDB!"
-                DebugInformation = DebugInformation .. "\n\n|cFFAAAAAAQuest ID:|r " .. tostring(questlogid) .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
-                DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(questText)
-                DebugInformation = DebugInformation .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(objectiveText)
+                DebugInformation_QuestTracking = "Quest in tracker not present in QuestDB!"
+                DebugInformation_QuestTracking = DebugInformation_QuestTracking .. "\n\n|cFFAAAAAAQuest ID:|r " .. tostring(questlogid) .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
+                DebugInformation_QuestTracking = DebugInformation_QuestTracking .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(questText)
+                DebugInformation_QuestTracking = DebugInformation_QuestTracking .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(objectiveText)
                 local _, playerrace = UnitRace("player")
-                DebugInformation = DebugInformation .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel("player")) .. " " .. string.upper(playerrace) .. " " .. tostring(UnitClassBase("player"))
+                DebugInformation_QuestTracking = DebugInformation_QuestTracking .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel("player")) .. " " .. string.upper(playerrace) .. " " .. tostring(UnitClassBase("player"))
                 local mapID = GetBestMapForUnit("player")
                 local pos = GetPlayerMapPosition(mapID, "player");
                 PosX = pos.x * 100
                 PosY = pos.y * 100
-                DebugInformation = DebugInformation .. "\n|cFFAAAAAACoordinates:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
+                DebugInformation_QuestTracking = DebugInformation_QuestTracking .. "\n|cFFAAAAAACoordinates:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
                 local questLog = ""
                 for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
-                DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
+                DebugInformation_QuestTracking = DebugInformation_QuestTracking .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
                 local gameType = ""
                 if Questie.IsWotlk then
                     gameType = "Wrath"
@@ -162,28 +163,32 @@ function QuestieDebugOffer.QuestTracking(questID)
                 elseif Questie.IsEra then
                     gameType = "Era"
                 end
-                DebugInformation = DebugInformation .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
-                DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
-                Questie:Print("A quest in your quest log is missing from the Questie database and can't be tracked. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer|h[More Info]|h|r")
+                DebugInformation_QuestTracking = DebugInformation_QuestTracking .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
+                DebugInformation_QuestTracking = DebugInformation_QuestTracking .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
+                Questie:Print("A quest in your quest log is missing from the Questie database and can't be tracked. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer:questtracking|h[More Info]|h|r")
             end
         end
     end
 end
 
--- Link handling code
+---- Link handling code
 
 local LINK_CODE = "addon:questie:offer";
 local LINK_COLOR = CreateColorFromHexString("cff71d5ff");
 local LINK_LENGTHS = LINK_CODE:len();
 
+-- handles clicking on link
 hooksecurefunc("SetItemRef", function(link)
     local linkType = link:sub(1, LINK_LENGTHS);
     if linkType == LINK_CODE then
-        QuestieDebugOffer.ShowOffer()
+        local LINK_SUB = string.sub(link,21)
+        QuestieDebugOffer.ShowOffer(LINK_SUB)
     end
 end);
 
-function QuestieDebugOffer.ShowOffer()
+-- generates dialog based on link clicked
+---@param LINK_SUB string
+function QuestieDebugOffer.ShowOffer(LINK_SUB)
     local discordURL = "https://discord.gg/txNSuwyBQ8"
     if Questie.IsWotlk then
         discordURL = "https://discord.gg/7qyRwwNncS"
@@ -192,6 +197,13 @@ function QuestieDebugOffer.ShowOffer()
     elseif Questie.IsClassic then
         discordURL = "https://discord.gg/KAzNSy5D9C"
     end
+
+    local DebugInformation = ""
+    if LINK_SUB == "lootwindow" then DebugInformation = DebugInformation_LootWindow
+    elseif LINK_SUB == "questdialog" then DebugInformation = DebugInformation_QuestDialog
+    elseif LINK_SUB == "questtracking" then DebugInformation = DebugInformation_QuestTracking
+    end
+
     StaticPopupDialogs["QUESTIE_DEBUGOFFER"] = {
         text = "|TInterface\\Addons\\Questie\\Icons\\startendstart.tga:16|t |cFFFED218Questie Debug Info|r |TInterface\\Addons\\Questie\\Icons\\startendstart.tga:16|t\n\n" .. DebugInformation .. "\n\n|cFFAAAAAAPlease screenshot this info\nand share it with us on  |TInterface\\Addons\\Questie\\Icons\\discord.blp:16|t |cFF5765ECDiscord|r:|r",
         button1 = "Dismiss",
