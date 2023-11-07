@@ -119,6 +119,7 @@ Modules\Sounds.lua
 Modules\TaskQueue.lua
 Modules\QuestiePlayer.lua
 Modules\WorldMapButton.lua
+Modules\QuestieDebugOffer.lua
 
 # QuestLinks
 Modules\QuestLinks\ChatFilter.lua
