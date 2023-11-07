@@ -1448,7 +1448,6 @@ function QuestieQuestBlacklist:Load()
         local questsByPhase = QuestieQuestBlacklist:GetSoDQuestsToBlacklist()
         for phase= 1, #questsByPhase do
             for questId, _ in pairs(questsByPhase[phase]) do
-                print("blacklisting " .. questId)
                 questsToBlacklist[questId] = true
             end
         end
