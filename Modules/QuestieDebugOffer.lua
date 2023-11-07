@@ -66,10 +66,11 @@ function QuestieDebugOffer.LootWindow()
             itemPresentInDB = true
         end
 
-        if itemID > 0 and itemPresentInDB == false then
+        if itemID > 0 and itemPresentInDB == false then -- if ID not in our DB
             Di = Di + 1
             DebugInformation[Di] = "Item not present in ItemDB!"
-            DebugInformation[Di] = DebugInformation[Di] .. "\n\n|cFFAAAAAAItem ID:|r " .. itemID .. "\n|cFFAAAAAAItem Name:|r " .. itemLink
+            DebugInformation[Di] = DebugInformation[Di] .. "\n\n|cFFAAAAAAItem ID:|r " .. itemID
+            DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAItem Name:|r " .. itemLink
             DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuest Item:|r " .. tostring(questItem)
             DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuest Starter:|r " .. tostring(questStarts)
             DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuest ID:|r " .. questID
@@ -95,8 +96,8 @@ end
 
 -- Missing questID when conversing
 function QuestieDebugOffer.QuestDialog()
-    local questID = GetQuestID()
-    if QuestieDB.QueryQuestSingle(questID, "name") == nil then
+    local questID = GetQuestID() -- obtain quest ID from dialog
+    if QuestieDB.QueryQuestSingle(questID, "name") == nil then -- if ID not in our DB
         Di = Di + 1
         local questTitle = GetTitleText()
         local questText = GetQuestText()
@@ -105,7 +106,8 @@ function QuestieDebugOffer.QuestDialog()
         local rewardXP = GetRewardXP()
 
         DebugInformation[Di] = "Quest in dialog not present in QuestDB!"
-        DebugInformation[Di] = DebugInformation[Di] .. "\n\n|cFFAAAAAAQuest ID:|r " .. tostring(questID) .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
+        DebugInformation[Di] = DebugInformation[Di] .. "\n\n|cFFAAAAAAQuest ID:|r " .. tostring(questID)
+        DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
         DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(questText)
         DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(objectiveText)
         DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAReward Text:|r " .. tostring(rewardText)
@@ -128,15 +130,16 @@ end
 
 -- Missing questID when tracking
 ---@param questID number
-function QuestieDebugOffer.QuestTracking(questID)
-    if QuestieDB.QueryQuestSingle(questID, "name") == nil then
+function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker during update
+    if QuestieDB.QueryQuestSingle(questID, "name") == nil then -- if ID not in our DB
         for i=1, GetNumQuestLogEntries() do
             local questTitle, questLevel, suggestedGroup, _, _, _, frequency, questlogid = GetQuestLogTitle(i)
             local questText, objectiveText = GetQuestLogQuestText(i)
             if questID == questlogid then
                 Di = Di + 1
                 DebugInformation[Di] = "Quest in tracker not present in QuestDB!"
-                DebugInformation[Di] = DebugInformation[Di] .. "\n\n|cFFAAAAAAQuest ID:|r " .. tostring(questlogid) .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
+                DebugInformation[Di] = DebugInformation[Di] .. "\n\n|cFFAAAAAAQuest ID:|r " .. tostring(questlogid)
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(questText)
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(objectiveText)
                 local _, playerrace = UnitRace("player")
@@ -154,6 +157,63 @@ function QuestieDebugOffer.QuestTracking(questID)
                 Questie:Print("A quest in your quest log is missing from the Questie database and can't be tracked. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[More Info]|h|r")
             end
         end
+    end
+end
+
+local targetTimeout = {} -- store timeouts per-ID so we don't cause lag or spam chat if a player clicks on an unknown NPC often
+local timeoutDuration = 120 -- how many seconds to ignore re-passes
+-- Missing NPC ID when targeting
+function QuestieDebugOffer.NPCTarget()
+    local targetGUID = UnitGUID("target")
+    local unit_type = strsplit("-", targetGUID) -- determine target type
+    if unit_type == "Creature" then -- if target is an NPC
+        local npcID = tonumber(targetGUID:match("-(%d+)-%x+$"), 10) -- obtain NPC ID
+        if targetTimeout[npcID] == true then -- if target was already targeted recently
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - NPC targeted was targeted recently, ignoring")
+            return
+        else -- if target was NOT targeted recently
+            targetTimeout[npcID] = true
+            if QuestieDB.QueryNPCSingle(npcID, "name") == nil then -- if ID not in our DB
+                Di = Di + 1
+                DebugInformation[Di] = "Targeted NPC not present in QuestDB!"
+                local npcName = UnitFullName("target")
+                local npcLevel = UnitLevel("target")
+                local npcHealth = UnitHealth("target")
+                local npcHealthMax = UnitHealthMax("target")
+                local npcHostile = UnitIsEnemy("target", "player")
+                local npcFriendly = UnitIsFriend("target", "player")
+                local npcStatus = "Unknown"
+                if npcHostile == true then
+                    npcStatus = "Hostile"
+                elseif npcFriendly == true then
+                    npcStatus = "Friendly"
+                elseif npcFriendly == false then
+                    npcStatus = "Neutral"
+                end
+                DebugInformation[Di] = DebugInformation[Di] .. "\n\n|cFFAAAAAANPC ID:|r " .. tostring(npcID)
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAANPC Name:|r " .. tostring(npcName)
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAANPC Level:|r " .. tostring(npcLevel)
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAANPC Health, Max:|r " .. tostring(npcHealth) .. ", " .. tostring(npcHealthMax)
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAANPC Allegiance:|r " .. tostring(npcStatus)
+                local _, playerrace = UnitRace("player")
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel("player")) .. " " .. string.upper(playerrace) .. " " .. tostring(UnitClassBase("player"))
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACharacter Name:|r " .. tostring(GetUnitName("player")) .. "-" .. tostring(GetRealmName())
+                local mapID = GetBestMapForUnit("player")
+                local pos = GetPlayerMapPosition(mapID, "player");
+                PosX = pos.x * 100
+                PosY = pos.y * 100
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACoordinates:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
+                local questLog = ""
+                for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
+                Questie:Print("The NPC you just targeted is missing from the Questie database. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[More Info]|h|r")
+            end
+            C_Timer.NewTimer (timeoutDuration, function() targetTimeout[npcID] = false end)
+        end
+    else
+        return -- If the target is not an NPC, bail!
     end
 end
 

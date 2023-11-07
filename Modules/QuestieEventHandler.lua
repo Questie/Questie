@@ -181,7 +181,10 @@ function QuestieEventHandler:RegisterLateEvents()
     -- Nameplate / Target Frame Objective Events
     Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated)
     Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed)
-    Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
+    Questie:RegisterEvent("PLAYER_TARGET_CHANGED", function(...)
+        QuestieNameplate.DrawTargetFrame()
+        QuestieDebugOffer.NPCTarget()
+    end)
 
     -- quest announce
     Questie:RegisterEvent("CHAT_MSG_LOOT", function(_, text, notPlayerName, _, _, playerName)
