@@ -73,7 +73,8 @@ Questie.IsSoM = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons
 
 --- Addon is running on Classic "Vanilla" client and on Season of Discovery realm specifically
 ---@type boolean
-Questie.IsSoD = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == 2)
+--Questie.IsSoD = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == 2)
+Questie.IsSoD = Questie.IsClassic --temporary override
 
 --- Addon is running on a HardCore realm specifically
 ---@type boolean

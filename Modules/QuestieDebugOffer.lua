@@ -93,30 +93,28 @@ function QuestieDebugOffer.LootWindow()
 end
 
 -- Missing questID when conversing
-
 function QuestieDebugOffer.QuestDialog()
     local questID = GetQuestID()
-    if QuestieDB.QueryQuestSingle(questID, "name") == nil or true then
+    if QuestieDB.QueryQuestSingle(questID, "name") == nil then
         local questTitle = GetTitleText()
         local questText = GetQuestText()
-        local objective = GetObjectiveText()
+        local objectiveText = GetObjectiveText()
         local rewardText = GetRewardText()
         local rewardXP = GetRewardXP()
 
-        DebugInformation = "Quest not present in QuestDB!"
-        DebugInformation = DebugInformation .. "\n\n|cFFAAAAAAQuest ID:|r " .. questID .. "\n|cFFAAAAAAQuest Name:|r " .. questTitle
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuest Text:|r " .. questText
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAAObjective Text:|r " .. objective
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAAReward Text:|r " .. rewardText
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAAReward XP:|r " .. rewardXP
+        DebugInformation = "Quest in dialog not present in QuestDB!"
+        DebugInformation = DebugInformation .. "\n\n|cFFAAAAAAQuest ID:|r " .. tostring(questID) .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
+        DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(questText)
+        DebugInformation = DebugInformation .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(objectiveText)
+        DebugInformation = DebugInformation .. "\n|cFFAAAAAAReward Text:|r " .. tostring(rewardText)
+        DebugInformation = DebugInformation .. "\n|cFFAAAAAAReward XP:|r " .. tostring(rewardXP)
         local _, playerrace = UnitRace("player")
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAACharacter:|r Lvl " .. UnitLevel("player") .. " " .. string.upper(playerrace) .. " " .. UnitClassBase("player")
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuestgiver:|r " .. UnitGUID("questnpc")
+        DebugInformation = DebugInformation .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel("player")) .. " " .. string.upper(tostring(playerrace)) .. " " .. tostring(UnitClassBase("player"))
+        DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuestgiver:|r " .. tostring(UnitGUID("questnpc"))
         local mapID = GetBestMapForUnit("player")
         local pos = GetPlayerMapPosition(mapID, "player");
-        PosX = pos.x * 100
-        PosY = pos.y * 100
-        DebugInformation = DebugInformation .. "\n|cFFAAAAAACoordinates:|r  [" .. mapID .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
+        if pos then PosX = pos.x * 100; PosY = pos.y * 100 end
+        DebugInformation = DebugInformation .. "\n|cFFAAAAAACoordinates:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
         local questLog = ""
         for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
         DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
@@ -131,6 +129,44 @@ function QuestieDebugOffer.QuestDialog()
         DebugInformation = DebugInformation .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
         DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
         Questie:Print("A quest you just encountered is missing from the Questie database. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer|h[More Info]|h|r")
+    end
+end
+
+-- Missing questID when tracking
+---@param questID number
+function QuestieDebugOffer.QuestTracking(questID)
+    if QuestieDB.QueryQuestSingle(questID, "name") == nil or true then
+        for i=1, GetNumQuestLogEntries() do
+            local questTitle, questLevel, suggestedGroup, _, _, _, frequency, questlogid = GetQuestLogTitle(i)
+            if questID == questlogid then
+                local questText, objectiveText = GetQuestLogQuestText(i)
+                DebugInformation = "Quest in tracker not present in QuestDB!"
+                DebugInformation = DebugInformation .. "\n\n|cFFAAAAAAQuest ID:|r " .. tostring(questlogid) .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
+                DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(questText)
+                DebugInformation = DebugInformation .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(objectiveText)
+                local _, playerrace = UnitRace("player")
+                DebugInformation = DebugInformation .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel("player")) .. " " .. string.upper(playerrace) .. " " .. tostring(UnitClassBase("player"))
+                local mapID = GetBestMapForUnit("player")
+                local pos = GetPlayerMapPosition(mapID, "player");
+                PosX = pos.x * 100
+                PosY = pos.y * 100
+                DebugInformation = DebugInformation .. "\n|cFFAAAAAACoordinates:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
+                local questLog = ""
+                for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
+                DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
+                local gameType = ""
+                if Questie.IsWotlk then
+                    gameType = "Wrath"
+                elseif Questie.IsSoD then
+                    gameType = "SoD"
+                elseif Questie.IsEra then
+                    gameType = "Era"
+                end
+                DebugInformation = DebugInformation .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
+                DebugInformation = DebugInformation .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
+                Questie:Print("A quest in your quest log is missing from the Questie database and can't be tracked. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer|h[More Info]|h|r")
+            end
+        end
     end
 end
 
