@@ -1,16 +1,37 @@
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
-local currentPhase = 5 -- TODO: Use API function which hopefully will come in the future
+local currentPhase = 1 -- TODO: Use API function which hopefully will come in the future
 
 -- This function blacklists any quests in phases LATER than the currentPhase value
 -- so in Phase 1, quests in phases 2+ are blacklisted, in phase 2, phases 3+ are blacklisted, etc
 -- Phase 1 is omitted, because everything not in this list is supposed to be available in Phase 1
-local questsToBlacklistBySoMPhase = {
-    [1] = {}, -- Phase 1 - Regular Phase 1 + Dire Maul + Tier 0.5 quests (this is required for counting, but should stay empty)
-    [2] = { -- Phase 2 - World Bosses
+local questsToBlacklistBySoDPhase = {
+    [1] = { -- SoD Phase 1 - level cap 25 (this is required for counting, but should stay empty)
     },
-    [3] = { -- Phase 3 - BWL + Darkmoon Faire
+    [2] = { -- SoD Phase 2 - level cap 40
+    },
+    [3] = { -- SoD Phase 3 - level cap 50
+    },
+    [4] = { -- SoD Phase 4 - level cap 60
+    },
+    [5] = { -- SoD Phase 5
+    },
+    [6] = { -- SoD Phase 6
+    },
+    [7] = { -- SoD Phase 7
+    },
+    [8] = { -- SoD Phase 8
+    },
+    [9] = { -- SoD Phase 9
+    },
+    [10] = { -- SoD Phase 10
+    },
+    [11] = { -- Era Phase 1 - MC, Ony
+    },
+    [12] = { -- Era Phase 2 - World Bosses
+    },
+    [13] = { -- Era Phase 3 - BWL + Darkmoon Faire
         [7761] = true, -- Blackhand's Command BWL pre quest
         [7787] = true,
         -- Darkmoon Faire quests
@@ -64,7 +85,7 @@ local questsToBlacklistBySoMPhase = {
         [10941] = true,
         -----------------
     },
-    [4] = { -- Phase 4 - Zul'Gurub
+    [14] = { -- Era Phase 4 - Zul'Gurub
         [456] = true,
         [636] = true,
         [8411] = true,
@@ -183,7 +204,7 @@ local questsToBlacklistBySoMPhase = {
         [8287] = true,
         [8314] = true,
     },
-    [5] = { -- Phase 5 - AQ
+    [15] = { -- Era Phase 5 - AQ
         [8277] = true,
         [8280] = true,
         [8283] = true,
@@ -394,7 +415,7 @@ local questsToBlacklistBySoMPhase = {
         [8821] = true,
         [8819] = true,
     },
-    [6] = { --Phase 6 - Naxxramas
+    [16] = { -- Era Phase 6 - Naxxramas
         [9085] = true,
         [9142] = true,
         [9165] = true,
@@ -523,12 +544,67 @@ local questsToBlacklistBySoMPhase = {
         [9419] = true,
         [9416] = true,
     },
+    [17] = { -- Never appearing in Season of Discovery
+    -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
+    [909] = true,
+    [971] = true,
+    [1198] = true,
+    [1199] = true,
+    [1200] = true,
+    [1275] = true,
+    [6561] = true,
+    [6562] = true,
+    [6563] = true,
+    [6564] = true,
+    [6565] = true,
+    [6921] = true,
+    [6922] = true,
+
+    -- Original Gnomeregan quests (instance reworked to raid, new quest IDs)
+    [2841] = true,
+    [2842] = true,
+    [2843] = true,
+    [2904] = true,
+    [2922] = true,
+    [2923] = true,
+    [2924] = true,
+    [2925] = true,
+    [2926] = true,
+    [2927] = true,
+    [2928] = true,
+    [2929] = true,
+    [2930] = true,
+    [2931] = true,
+    [2945] = true,
+    [2947] = true,
+    [2949] = true,
+    [2951] = true,
+    [2952] = true,
+    [2953] = true,
+    [2962] = true,
+    [4601] = true,
+    [4602] = true,
+    [4603] = true,
+    [4604] = true,
+    [4605] = true,
+    [4606] = true,
+
+    -- Original Scarlet Monastery quests (instance reworked to raid, new quest IDs)
+    [1048] = true,
+    [1049] = true,
+    [1050] = true,
+    [1051] = true,
+    [1052] = true,
+    [1053] = true,
+    [1113] = true,
+    [1160] = true,
+    },
 }
 
 ---@return table<number, table<number, boolean>> @All quests that should be blacklisted separated by phase
-function QuestieQuestBlacklist:GetSoMQuestsToBlacklist()
+function QuestieQuestBlacklist:GetSoDQuestsToBlacklist()
     for phase = 1, currentPhase do
-        questsToBlacklistBySoMPhase[phase] = {} -- empty table instead of nil to keep table size
+        questsToBlacklistBySoDPhase[phase] = {} -- empty table instead of nil to keep table size
     end
-    return questsToBlacklistBySoMPhase
+    return questsToBlacklistBySoDPhase
 end

@@ -3879,6 +3879,8 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {65593},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
+
+        -- Implement Season of Discovery quests below
     }
 end
 

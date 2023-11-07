@@ -72,6 +72,7 @@ QuestieCorrections.TBC_ONLY = 1 -- Hide only in TBC
 QuestieCorrections.CLASSIC_ONLY = 2 -- Hide only in Classic
 QuestieCorrections.WOTLK_ONLY = 3 -- Hide only in Wotlk
 QuestieCorrections.TBC_AND_WOTLK = 4 -- Hide in TBC and Wotlk
+QuestieCorrections.SOD_ONLY = 5 -- Hide when *not* Season of Discovery; use for SoD-only quests
 
 QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 
@@ -82,6 +83,7 @@ QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 local function filterExpansion(values)
     local isTBC = Questie.IsTBC
     local isWotlk = Questie.IsWotlk
+    local isSoD = Questie.IsSoD
     for k, v in pairs(values) do
         if v == QuestieCorrections.WOTLK_ONLY then
             if isWotlk then
@@ -103,6 +105,12 @@ local function filterExpansion(values)
             end
         elseif v == QuestieCorrections.TBC_AND_WOTLK then
             if isTBC or isWotlk then
+                values[k] = true
+            else
+                values[k] = nil
+            end
+        elseif v == QuestieCorrections.SOD_ONLY then
+            if not isSoD then
                 values[k] = true
             else
                 values[k] = nil

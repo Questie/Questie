@@ -60,6 +60,7 @@ Database\Corrections\QuestieCorrections.lua
 Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieNPCBlacklist.lua
 Database\Corrections\QuestieQuestBlacklist.lua
+Database\Corrections\SoDPhases.lua
 Database\Corrections\SoMPhases.lua
 Database\Corrections\QuestieEvent.lua
 
