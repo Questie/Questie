@@ -400,6 +400,11 @@ function _Qframe:FakeHide()
             self.shouldBeShowing = true;
         end
         self:Hide();
+        if self.data and self.data.lineFrames then
+            for _, line in pairs(self.data.lineFrames) do
+                line:Hide()
+            end
+        end
         self._hide = self.Hide;
         self.Hide = function()
             self.shouldBeShowing = false;
@@ -418,6 +423,11 @@ function _Qframe:FakeShow()
         self._hide = nil
         if self.shouldBeShowing then
             self:Show();
+            if self.data and self.data.lineFrames then
+                for _, line in pairs(self.data.lineFrames) do
+                    line:Show()
+                end
+            end
         end
     end
 end
