@@ -176,7 +176,7 @@ function QuestieDebugOffer.NPCTarget()
             targetTimeout[npcID] = true
             if QuestieDB.QueryNPCSingle(npcID, "name") == nil then -- if ID not in our DB
                 Di = Di + 1
-                DebugInformation[Di] = "Targeted NPC not present in QuestDB!"
+                DebugInformation[Di] = "Targeted NPC not present in NPC DB!"
                 local npcName = UnitFullName("target")
                 local npcLevel = UnitLevel("target")
                 local npcHealth = UnitHealth("target")
