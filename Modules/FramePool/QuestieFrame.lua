@@ -374,6 +374,14 @@ function _Qframe:FadeOut()
             local r, g, b = self.glowTexture:GetVertexColor()
             self.glowTexture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
         end
+        if self.data.lineFrames then
+            for _, lineFrame in pairs(self.data.lineFrames) do
+                local line = lineFrame.line
+                if line then
+                    line:SetColorTexture(line.dR, line.dG, line.dB, Questie.db.global.iconFadeLevel)
+                end
+            end
+        end
     end
 end
 
@@ -388,6 +396,14 @@ function _Qframe:FadeIn()
             local r, g, b = self.glowTexture:GetVertexColor()
             self.glowTexture:SetVertexColor(r, g, b, 1)
         end
+        if self.data.lineFrames then
+            for _, lineFrame in pairs(self.data.lineFrames) do
+                local line = lineFrame.line
+                if line then
+                    line:SetColorTexture(line.dR, line.dG, line.dB, line.dA)
+                end
+            end
+        end
     end
 end
 
@@ -400,7 +416,7 @@ function _Qframe:FakeHide()
             self.shouldBeShowing = true;
         end
         self:Hide();
-        if self.data and self.data.lineFrames then
+        if self.data.lineFrames then
             for _, line in pairs(self.data.lineFrames) do
                 line:Hide()
             end
@@ -423,7 +439,7 @@ function _Qframe:FakeShow()
         self._hide = nil
         if self.shouldBeShowing then
             self:Show();
-            if self.data and self.data.lineFrames then
+            if self.data.lineFrames then
                 for _, line in pairs(self.data.lineFrames) do
                     line:Show()
                 end
