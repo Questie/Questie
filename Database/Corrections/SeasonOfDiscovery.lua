@@ -1,10 +1,117 @@
+---@class SeasonOfDiscovery
+local SeasonOfDiscovery = QuestieLoader:CreateModule("SeasonOfDiscovery")
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-
 local currentPhase = 1 -- TODO: Use API function which hopefully will come in the future
+
+local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
+    --[88] = true,
+    --[1234] = true,
+    --[5678] = true,
+}
+
+---@param questId number
+---@return boolean
+function QuestieDB.IsSoDRuneQuest(questId)
+    return runeQuestsInSoD[questId]
+end
+
+-- New Season of Discovery quests and corrections
+function SeasonOfDiscovery:LoadQuests()
+    local questKeys = QuestieDB.questKeys
+    local zoneIDs = ZoneDB.zoneIDs
+    local raceIDs = QuestieDB.raceKeys
+    local classIDs = QuestieDB.classKeys
+    local sortKeys = QuestieDB.sortKeys
+    local profKeys = QuestieProfessions.professionKeys
+    local specKeys = QuestieProfessions.specializationKeys
+
+    return {
+        -- Example from corrections
+        -- [65610] = {
+        --     [questKeys.name] = "Wish You Were Here",
+        --     [questKeys.startedBy] = { { 3363 }, nil, nil },
+        --     [questKeys.finishedBy] = { { 5875 }, nil },
+        --     [questKeys.requiredLevel] = 20,
+        --     [questKeys.questLevel] = -1,
+        --     [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        --     [questKeys.requiredClasses] = classIDs.WARLOCK,
+        --     [questKeys.objectivesText] = { "Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar." },
+        --     [questKeys.preQuestSingle] = { 65601 },
+        --     [questKeys.objectives] = { nil, nil, { { 190232 } }, nil, nil },
+        --     [questKeys.exclusiveTo] = { 65593 },
+        --     [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        -- },
+
+        --[88] = {
+        --    [questKeys.name] = "this is a test"
+        --}
+    }
+end
+
+-- New Season of Discovery NPCs and corrections
+function SeasonOfDiscovery:LoadNPCs()
+    local npcKeys = QuestieDB.npcKeys
+    local zoneIDs = ZoneDB.zoneIDs
+    local npcFlags = QuestieDB.npcFlags
+    local waypointPresets = QuestieDB.waypointPresets
+
+    return {
+        -- Example from corrections
+        -- [185333] = {
+        --     [npcKeys.name] = "Avelina Lilly",
+        --     [npcKeys.minLevel] = 22,
+        --     [npcKeys.maxLevel] = 22,
+        --     [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
+        --     [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{63.5,65.3}}},
+        -- },
+    }
+end
+
+-- New Season of Discovery items and corrections
+function SeasonOfDiscovery:LoadItems()
+    local itemKeys = QuestieDB.itemKeys
+    local itemClasses = QuestieDB.itemClasses
+
+    return {
+        -- Example from corrections
+        -- [3713] = {
+        --     [itemKeys.name] = "Soothing Spices",
+        --     [itemKeys.relatedQuests] = {555,1218},
+        --     [itemKeys.npcDrops] = {2381,4897},
+        --     [itemKeys.objectDrops] = {},
+        -- },
+    }
+end
+
+-- New Season of Discovery objects and corrections
+function SeasonOfDiscovery:LoadObjects()
+    local objectKeys = QuestieDB.objectKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
+    return {
+        -- Example from corrections
+        -- [500005] = {
+        --     [objectKeys.name] = "Ironforge City Fishing Location",
+        --     [objectKeys.questStarts] = {},
+        --     [objectKeys.questEnds] = {},
+        --     [objectKeys.spawns] = {[zoneIDs.IRONFORGE]={{46.9,14.5}}},
+        --     [objectKeys.zoneID] = zoneIDs.IRONFORGE
+        -- },
+    }
+end
 
 -- This function blacklists any quests in phases LATER than the currentPhase value
 -- so in Phase 1, quests in phases 2+ are blacklisted, in phase 2, phases 3+ are blacklisted, etc
@@ -610,16 +717,4 @@ function QuestieQuestBlacklist:GetSoDQuestsToBlacklist()
         questsToBlacklistBySoDPhase[phase] = {} -- empty table instead of nil to keep table size
     end
     return questsToBlacklistBySoDPhase
-end
-
-local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
-    [88] = true,
-    --[1234] = true,
-    --[5678] = true,
-}
-
----@param questId number
----@return boolean
-function QuestieDB.IsSoDRuneQuest(questId)
-    return runeQuestsInSoD[questId]
 end
