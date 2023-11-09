@@ -542,7 +542,7 @@ local classicObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Combine Omokk's Head with the Roughshot Pike."] = { -- 4867
+    ["Combine Omokk's Head with the Roughshod Pike."] = { -- 4867
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
