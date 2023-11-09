@@ -408,6 +408,10 @@ function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, pla
         return true
     end
 
+    if (Questie.IsSoD == true) and (QuestieDB.IsSoDRuneQuest(questId) == true) then
+        return true
+    end
+
     if maxLevel >= level then
         if (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_ALL) and minLevel > level then
             -- The quest level is too low and trivial quests are not shown

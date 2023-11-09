@@ -1681,7 +1681,9 @@ end
 ---@param quest Quest
 function _QuestieQuest:GetQuestIcon(quest)
     local icon
-    if QuestieDB.IsActiveEventQuest(quest.Id) then
+    if Questie.IsSoD == true and QuestieDB.IsSoDRuneQuest(quest.Id) then
+        icon = Questie.ICON_TYPE_SODRUNE
+    elseif QuestieDB.IsActiveEventQuest(quest.Id) then
         icon = Questie.ICON_TYPE_EVENTQUEST
     elseif QuestieDB.IsPvPQuest(quest.Id) then
         icon = Questie.ICON_TYPE_PVPQUEST

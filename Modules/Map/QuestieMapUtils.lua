@@ -50,6 +50,8 @@ function QuestieMap.utils:SetDrawOrder(frame)
             frame.texture:SetDrawLayer("OVERLAY", 6)
         elseif frame.data.Icon == Questie.ICON_TYPE_PVPQUEST_COMPLETE then
             frame.texture:SetDrawLayer("OVERLAY", 6)
+        elseif frame.data.Icon == Questie.ICON_TYPE_SODRUNE then
+            frame.texture:SetDrawLayer("OVERLAY", 6)
         else
             frame.texture:SetDrawLayer("OVERLAY", 0)
         end

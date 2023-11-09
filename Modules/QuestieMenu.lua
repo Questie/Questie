@@ -745,7 +745,7 @@ function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries he
 
     -- populate vendor IDs from db
     if #reagents > 0 then
-        Questie.db.char.townsfolk["Reagents"] = _reformatVendors(QuestieMenu:PopulateVendors(reagents))
+        Questie.db.char.vendorList["Reagents"] = _reformatVendors(QuestieMenu:PopulateVendors(reagents))
     end
     Questie.db.char.vendorList["Trade Goods"] = _reformatVendors(QuestieMenu:PopulateVendors({ -- item ids from wowhead for trade goods   (temporarily disabled)
         14256,12810,13463,8845,8846,4234,3713,8170,14341,4389,3357,2453,13464,

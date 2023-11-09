@@ -1,6 +1,9 @@
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
 local currentPhase = 1 -- TODO: Use API function which hopefully will come in the future
 
 -- This function blacklists any quests in phases LATER than the currentPhase value
@@ -607,4 +610,16 @@ function QuestieQuestBlacklist:GetSoDQuestsToBlacklist()
         questsToBlacklistBySoDPhase[phase] = {} -- empty table instead of nil to keep table size
     end
     return questsToBlacklistBySoDPhase
+end
+
+local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
+    [88] = true,
+    --[1234] = true,
+    --[5678] = true,
+}
+
+---@param questId number
+---@return boolean
+function QuestieDB.IsSoDRuneQuest(questId)
+    return runeQuestsInSoD[questId]
 end

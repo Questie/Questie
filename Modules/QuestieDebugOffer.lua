@@ -155,6 +155,7 @@ function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker duri
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
                 Questie:Print("A quest in your quest log is missing from the Questie database and can't be tracked. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[More Info]|h|r")
+                print(tostring(QuestieDB.IsSoDRuneQuest(questlogid)))
             end
         end
     end
@@ -166,7 +167,7 @@ local timeoutDurationInstance = 600 -- how many seconds to ignore re-passes outs
 -- Missing NPC ID when targeting
 function QuestieDebugOffer.NPCTarget()
     local targetGUID = UnitGUID("target")
-    local unit_type = strsplit("-", targetGUID) -- determine target type
+    local unit_type = strsplit("-", tostring(targetGUID)) -- determine target type
     if unit_type == "Creature" then -- if target is an NPC
         local npcID = tonumber(targetGUID:match("-(%d+)-%x+$"), 10) -- obtain NPC ID
         if targetTimeout[npcID] == true then -- if target was already targeted recently
@@ -259,8 +260,8 @@ function QuestieDebugOffer.ShowOffer(link)
         hideOnEscape = true,
         hasEditBox = true,
         EditBoxOnTextChanged = function (self)
-            self.editBox:SetText(discordURL)
-            self.editBox:HighlightText()
+            self:SetText(discordURL)
+            self:HighlightText()
         end,
         OnShow = function (self, data)
             self.editBox:SetText(discordURL)
