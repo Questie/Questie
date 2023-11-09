@@ -290,6 +290,13 @@ function QuestieCorrections:Initialize(validationTables)
         _LoadCorrections("objectData", QuestieWotlkObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
     end
 
+    if Questie.IsSoD then
+        _LoadCorrections("questData", QuestieQuestFixes:LoadSoD(), QuestieDB.questKeysReversed, validationTables)
+        -- Add npcData, objectData and itemData corrections here if needed
+        -- _LoadCorrections("npcData", QuestieNPCFixes:LoadSoD(), QuestieDB.npcKeysReversed, validationTables)
+        -- _LoadCorrections("itemData", QuestieItemFixes:LoadSoD(), QuestieDB.itemKeysReversed, validationTables)
+        -- _LoadCorrections("objectData", QuestieObjectFixes:LoadSoD(), QuestieDB.objectKeysReversed, validationTables)
+    end
 
     --- Corrections that apply to all versions
     _LoadCorrections("itemData", QuestieItemStartFixes:LoadAutomaticQuestStarts(), QuestieDB.itemKeysReversed, validationTables, true, true)
