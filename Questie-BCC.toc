@@ -193,13 +193,8 @@ Modules\Options\AutoTab\QuestieOptionsAuto.lua
 Modules\Options\DBMTab\QuestieOptionsDBM.lua
 Modules\Options\GeneralTab\QuestieOptionsGeneral.lua
 Modules\Options\IconsTab\QuestieOptionsIcons.lua
-Modules\Options\MapTab\QuestieOptionsMap.lua
-Modules\Options\MinimapTab\QuestieOptionsMinimap.lua
 Modules\Options\NameplateTab\QuestieOptionsNameplate.lua
-Modules\Options\SocialTab\QuestieOptionsSocial.lua
-Modules\Options\SoundsTab\QuestieOptionsSounds.lua
 Modules\Options\TrackerTab\QuestieOptionsTracker.lua
-Modules\Options\TooltipTab\QuestieOptionsTooltip.lua
 
 # Cleanup
 Modules\QuestieCleanup.lua
