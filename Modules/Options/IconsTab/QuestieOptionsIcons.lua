@@ -20,6 +20,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 
 QuestieOptions.tabs.icons = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -229,155 +231,51 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
-                    townfolk_options = {
+                    townsfolk_options = {
                         type = "header",
                         order = 2.10,
                         width = "normal",
-                        name = function() return l10n('Townsfolk'); end,
+                        name = function() return l10n('Other Icons'); end,
                     },
-                    repairToggle = {
-                        type = "toggle",
+                    townsfolkSpacer1 = {
+                        type = "description",
                         order = 2.11,
-                        name = function() return l10n('Repair'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.profile.enabled); end,
-                        get = function() return Questie.db.profile.townsfolkConfig["Repair"]; end,
-                        set = function(info, value)
-                            Questie.db.profile.townsfolkConfig["Repair"] = value
-                            QuestieQuest:SmoothReset()
-                        end,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.32,
+                        width = 0.32,
+                        func = function() end,
                     },
-                    innkeeperToggle = {
-                        type = "toggle",
+                    townsfolkOptions = {
+                        type = "execute",
                         order = 2.12,
-                        name = function() return l10n('Innkeeper'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.profile.enabled); end,
-                        get = function() return Questie.db.profile.townsfolkConfig["Innkeeper"]; end,
-                        set = function(info, value)
-                            Questie.db.profile.townsfolkConfig["Innkeeper"] = value
-                            QuestieQuest:SmoothReset()
-                        end,
+                        name = function() return l10n('Townsfolk'); end,
+                        desc = function() return l10n('Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.'); end,
+                        width = 0.8,
+                        func = function(info, value)
+                            QuestieMenu:ShowTownsfolk(1)
+                        end
                     },
-                    classTrainerToggle = {
-                        type = "toggle",
+                    professionOptions = {
+                        type = "execute",
                         order = 2.13,
-                        name = function() return l10n('Class Trainer'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.profile.enabled); end,
-                        get = function() return Questie.db.profile.townsfolkConfig["Class Trainer"]; end,
-                        set = function(info, value)
-                            Questie.db.profile.townsfolkConfig["Class Trainer"] = value
-                            QuestieQuest:SmoothReset()
-                        end,
+                        name = function() return l10n('Profession Trainers'); end,
+                        desc = function() return l10n('Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.'); end,
+                        width = 0.95,
+                        func = function(info, value)
+                            QuestieMenu:ShowProfessions(1)
+                        end
                     },
-                    bankerToggle = {
-                        type = "toggle",
+                    vendorOptions = {
+                        type = "execute",
                         order = 2.14,
-                        name = function() return l10n('Banker'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.profile.enabled); end,
-                        get = function() return Questie.db.profile.townsfolkConfig["Banker"]; end,
-                        set = function(info, value)
-                            Questie.db.profile.townsfolkConfig["Banker"] = value
-                            QuestieQuest:SmoothReset()
-                        end,
-                    },
-                    spiritHealerToggle = {
-                        type = "toggle",
-                        order = 2.15,
-                        name = function() return l10n('Spirit Healer'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.profile.enabled); end,
-                        get = function() return Questie.db.profile.townsfolkConfig["Spirit Healer"]; end,
-                        set = function(info, value)
-                            Questie.db.profile.townsfolkConfig["Spirit Healer"] = value
-                            QuestieQuest:SmoothReset()
-                        end,
-                    },
-                    flightMasterToggle = {
-                        type = "toggle",
-                        order = 2.16,
-                        name = function() return l10n('Flight Master'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.profile.enabled); end,
-                        get = function() return Questie.db.profile.townsfolkConfig["Flight Master"]; end,
-                        set = function(info, value)
-                            Questie.db.profile.townsfolkConfig["Flight Master"] = value
-                            QuestieQuest:SmoothReset()
-                        end,
-                    },
-                    battlemasterToggle = {
-                        type = "toggle",
-                        order = 2.17,
-                        name = function() return l10n('Battlemaster'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.profile.enabled); end,
-                        get = function() return Questie.db.profile.townsfolkConfig["Battlemaster"]; end,
-                        set = function(info, value)
-                            Questie.db.profile.townsfolkConfig["Battlemaster"] = value
-                            QuestieQuest:SmoothReset()
-                        end,
-                    },
-                    weaponmasterToggle = {
-                        type = "toggle",
-                        order = 2.18,
-                        name = function() return l10n('Weapon Master'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.profile.enabled); end,
-                        get = function() return Questie.db.profile.townsfolkConfig["Weapon Master"]; end,
-                        set = function(info, value)
-                            Questie.db.profile.townsfolkConfig["Weapon Master"] = value
-                            QuestieQuest:SmoothReset()
-                        end,
-                    },
-                    mailboxToggle = {
-                        type = "toggle",
-                        order = 2.19,
-                        name = function() return l10n('Mailbox'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.profile.enabled); end,
-                        get = function() return Questie.db.profile.townsfolkConfig["Mailbox"]; end,
-                        set = function(info, value)
-                            Questie.db.profile.townsfolkConfig["Mailbox"] = value
-                            QuestieQuest:SmoothReset()
-                        end,
-                    },
-                    auctioneerToggle = {
-                        type = "toggle",
-                        order = 2.20,
-                        name = function() return l10n('Auctioneer'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.profile.enabled); end,
-                        get = function() return Questie.db.profile.townsfolkConfig["Auctioneer"]; end,
-                        set = function(info, value)
-                            Questie.db.profile.townsfolkConfig["Auctioneer"] = value
-                            QuestieQuest:SmoothReset()
-                        end,
-                    },
-                    meetingStonesToggle = {
-                        type = "toggle",
-                        order = 2.21,
-                        name = function() return l10n('Meeting Stones'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.profile.enabled); end,
-                        get = function() return Questie.db.profile.townsfolkConfig["Meeting Stones"]; end,
-                        set = function(info, value)
-                            Questie.db.profile.townsfolkConfig["Meeting Stones"] = value
-                            QuestieQuest:SmoothReset()
-                        end,
-                    },
-                    reagentsToggle = {
-                        type = "toggle",
-                        order = 2.22,
-                        name = function() return l10n('Reagents'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.profile.enabled); end,
-                        get = function() return Questie.db.profile.townsfolkConfig["Reagents"]; end,
-                        set = function(info, value)
-                            Questie.db.profile.townsfolkConfig["Reagents"] = value
-                            QuestieQuest:SmoothReset()
-                        end,
+                        name = function() return l10n('Vendors'); end,
+                        desc = function() return l10n('Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.'); end,
+                        width = 0.8,
+                        func = function(info, value)
+                            QuestieMenu:ShowVendors(1)
+                        end
                     },
                 },
             },
@@ -706,13 +604,23 @@ function QuestieOptions.tabs.icons:Initialize()
                         order = 16.5,
                         name = function() return l10n('Objectives') end,
                     },
+                    objectiveSpacer1 = {
+                        type = "description",
+                        order = 16.9,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.2,
+                        width = 0.2,
+                        func = function() end,
+                    },
                     iconTypeSlay = {
                         type = "select",
                         order = 17,
                         values = _GetIconTypes(),
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
-                        width = 1.03,
+                        width = 0.796,
                         name = function() return l10n('Slay objectives') end,
                         desc = function() return l10n('The icon that is displayed for quest objectives where you need to kill an NPC'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_SLAY) or "slay"; end,
@@ -723,13 +631,23 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    objectiveSpacer2 = {
+                        type = "description",
+                        order = 17.5,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.2,
+                        width = 0.2,
+                        func = function() end,
+                    },
                     iconTypeLoot = {
                         type = "select",
                         order = 18,
                         values = _GetIconTypes(),
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
-                        width = 1.03,
+                        width = 0.796,
                         name = function() return l10n('Loot objectives') end,
                         desc = function() return l10n('The icon that is displayed for quest objectives where you need to loot an item'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_LOOT) or "loot"; end,
@@ -740,13 +658,23 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    objectiveSpacer3 = {
+                        type = "description",
+                        order = 18.5,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.2,
+                        width = 0.2,
+                        func = function() end,
+                    },
                     iconTypeObject = {
                         type = "select",
                         order = 19,
                         values = _GetIconTypes(),
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
-                        width = 1.03,
+                        width = 0.796,
                         name = function() return l10n('Object objectives') end,
                         desc = function() return l10n('The icon that is displayed for quest objectives where you need to interact with an object'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_OBJECT) or "object"; end,
@@ -757,13 +685,23 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    objectiveSpacer4 = {
+                        type = "description",
+                        order = 19.5,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.699,
+                        width = 0.699,
+                        func = function() end,
+                    },
                     iconTypeEvent = {
                         type = "select",
                         order = 20,
                         values = _GetIconTypes(),
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
-                        width = 1.03,
+                        width = 0.796,
                         name = function() return l10n('Event objectives') end,
                         desc = function() return l10n('The icon that is displayed for quest objectives where you need to do something in a certain area, like exploring it or casting a spell there'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_EVENT) or "event"; end,
@@ -774,13 +712,23 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    objectiveSpacer5 = {
+                        type = "description",
+                        order = 20.5,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.2,
+                        width = 0.2,
+                        func = function() end,
+                    },
                     iconTypeTalk = {
                         type = "select",
                         order = 21,
                         values = _GetIconTypes(),
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
-                        width = 1.03,
+                        width = 0.796,
                         name = function() return l10n('Talk objectives') end,
                         desc = function() return l10n('The icon that is displayed for quest objectives where you need to talk to an NPC'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_TALK) or "talk"; end,
@@ -796,13 +744,23 @@ function QuestieOptions.tabs.icons:Initialize()
                         order = 22,
                         name = function() return l10n('Normal Quests') end,
                     },
+                    questSpacer1 = {
+                        type = "description",
+                        order = 22.5,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.2,
+                        width = 0.2,
+                        func = function() end,
+                    },
                     iconTypeAvailable = {
                         type = "select",
                         order = 23,
                         values = _GetIconTypes(),
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
-                        width = 1.03,
+                        width = 0.796,
                         name = function() return l10n('Available quests') end,
                         desc = function() return l10n('The icon that is displayed for available quests'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_AVAILABLE) or "available"; end,
@@ -813,13 +771,23 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    questSpacer2 = {
+                        type = "description",
+                        order = 23.5,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.2,
+                        width = 0.2,
+                        func = function() end,
+                    },
                     iconTypeComplete = {
                         type = "select",
                         order = 25,
                         values = _GetIconTypes(),
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
-                        width = 1.03,
+                        width = 0.796,
                         name = function() return l10n('Complete quests') end,
                         desc = function() return l10n('The icon that is displayed for completed quests that can be handed in'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_COMPLETE) or "complete"; end,
@@ -830,13 +798,23 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    questSpacer3 = {
+                        type = "description",
+                        order = 25.5,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.2,
+                        width = 0.2,
+                        func = function() end,
+                    },
                     iconTypeAvailableGray = {
                         type = "select",
                         order = 26,
                         values = _GetIconTypes(),
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
-                        width = 1.03,
+                        width = 0.796,
                         name = function() return l10n('Unavailable and trivial quests') end,
                         desc = function() return l10n('The icon that is displayed for quests that require additional conditions to be met before they can be accepted, or are so low level they don\'t reward experience'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_AVAILABLE_GRAY) or "available_gray"; end,
@@ -852,13 +830,23 @@ function QuestieOptions.tabs.icons:Initialize()
                         order = 27,
                         name = function() return l10n('Repeatable Quests') end,
                     },
+                    repeatableSpacer1 = {
+                        type = "description",
+                        order = 27.5,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.2,
+                        width = 0.2,
+                        func = function() end,
+                    },
                     iconTypeRepeatable = {
                         type = "select",
                         order = 28,
                         values = _GetIconTypes(),
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
-                        width = 1.03,
+                        width = 1.295,
                         name = function() return l10n('Available repeatable quests') end,
                         desc = function() return l10n('The icon that is displayed for available repeatable quests like dailies'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_REPEATABLE) or "repeatable"; end,
@@ -869,13 +857,23 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    repeatableSpacer2 = {
+                        type = "description",
+                        order = 28.5,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.2,
+                        width = 0.2,
+                        func = function() end,
+                    },
                     iconTypeRepeatableComplete = {
                         type = "select",
                         order = 29,
                         values = _GetIconTypes(),
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
-                        width = 1.03,
+                        width = 1.295,
                         name = function() return l10n('Complete repeatable quests') end,
                         desc = function() return l10n('The icon that is displayed for repeatable quests that can be handed in'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_REPEATABLE_COMPLETE) or "repeatable_complete"; end,
@@ -891,13 +889,23 @@ function QuestieOptions.tabs.icons:Initialize()
                         order = 30,
                         name = function() return l10n('Event Quests') end,
                     },
+                    eventSpacer1 = {
+                        type = "description",
+                        order = 30.5,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.2,
+                        width = 0.2,
+                        func = function() end,
+                    },
                     iconTypeEventQuest = {
                         type = "select",
                         order = 31,
                         values = _GetIconTypes(),
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
-                        width = 1.03,
+                        width = 1.295,
                         name = function() return l10n('Available event quests') end,
                         desc = function() return l10n('The icon that is displayed for available event quests during holidays'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_EVENTQUEST) or "eventquest"; end,
@@ -908,13 +916,23 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    eventSpacer2 = {
+                        type = "description",
+                        order = 31.5,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.2,
+                        width = 0.2,
+                        func = function() end,
+                    },
                     iconTypeEventQuestComplete = {
                         type = "select",
                         order = 32,
                         values = _GetIconTypes(),
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
-                        width = 1.03,
+                        width = 1.295,
                         name = function() return l10n('Complete event quests') end,
                         desc = function() return l10n('The icon that is displayed for event quests that can be handed in'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_EVENTQUEST_COMPLETE) or "eventquest_complete"; end,
@@ -930,13 +948,23 @@ function QuestieOptions.tabs.icons:Initialize()
                         order = 33,
                         name = function() return l10n('PVP Quests') end,
                     },
+                    pvpSpacer1 = {
+                        type = "description",
+                        order = 33.5,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.2,
+                        width = 0.2,
+                        func = function() end,
+                    },
                     iconTypePVPQuest = {
                         type = "select",
                         order = 34,
                         values = _GetIconTypes(),
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
-                        width = 1.03,
+                        width = 1.295,
                         name = function() return l10n('Available PvP quests') end,
                         desc = function() return l10n('The icon that is displayed for available PvP quests'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_PVPQUEST) or "pvpquest"; end,
@@ -947,13 +975,23 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    pvpSpacer2 = {
+                        type = "description",
+                        order = 34.5,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.2,
+                        width = 0.2,
+                        func = function() end,
+                    },
                     iconTypePVPQuestComplete = {
                         type = "select",
                         order = 35,
                         values = _GetIconTypes(),
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
-                        width = 1.03,
+                        width = 1.295,
                         name = function() return l10n('Complete PvP quests') end,
                         desc = function() return l10n('The icon that is displayed for PvP quests that can be handed in'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_PVPQUEST_COMPLETE) or "pvpquest_complete"; end,
