@@ -25,6 +25,7 @@ function QuestieOptions.tabs.dbm:Initialize()
         name = function() return l10n('DBM HUD'); end,
         type = "group",
         disabled = function() if DBM and DBM.HudMap then return false else return true end end,
+        hidden = function() if DBM and DBM.HudMap then return false else return true end end,
         order = 15,
         args = {
             info_prespacer = QuestieOptionsUtils:Spacer(0),
