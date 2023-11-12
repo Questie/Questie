@@ -138,6 +138,7 @@ function QuestieOptionsDefaults:Load()
             objectiveCompleteSoundChoiceName = "ObjectiveDefault",
             soundOnObjectiveProgress = false,
             objectiveProgressSoundChoiceName = "ObjectiveProgress",
+            iconTheme = "questie",
 
             minimap = {
                 hide = false
