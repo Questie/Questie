@@ -632,23 +632,23 @@ function QuestieOptions.tabs.icons:Initialize()
                 inline = true,
                 name = "Icon Overrides",
                 args = {
-                    usePfQuestIcons = {
-                        type = "toggle",
-                        order = 16.1,
-                        name = function() return l10n('Toggle pfQuest/ClassicCodex icon style'); end,
-                        desc = function()
-                            return l10n('Toggles between Questie icon style and pfQuest/ClassicCodex icon style.\n\nToggling affects the following settings:\n\n- Objective icons\n- ')
-                                .. l10n('Map Icons Glow') .. '\n- '
-                                .. l10n('Unique Map Icon Colors') .. '\n- '
-                                .. l10n('Minimap Icons Glow') .. '\n- '
-                                .. l10n('Unique Minimap Icon Colors') .. '\n- '
-                                .. l10n('Objective icon cluster amount');
-                        end,
-                        width = 3,
-                        disabled = function() return (not Questie.db.profile.enabled); end,
-                        get = function(info) return Questie.db.profile.usePfQuestIcons end,
-                        set = QuestieOptionsUtils.SetPfQuestIcons,
-                    },
+                    --usePfQuestIcons = {
+                    --    type = "toggle",
+                    --    order = 16.1,
+                    --    name = function() return l10n('Toggle pfQuest/ClassicCodex icon style'); end,
+                    --    desc = function()
+                    --        return l10n('Toggles between Questie icon style and pfQuest/ClassicCodex icon style.\n\nToggling affects the following settings:\n\n- Objective icons\n- ')
+                    --            .. l10n('Map Icons Glow') .. '\n- '
+                    --            .. l10n('Unique Map Icon Colors') .. '\n- '
+                    --            .. l10n('Minimap Icons Glow') .. '\n- '
+                    --            .. l10n('Unique Minimap Icon Colors') .. '\n- '
+                    --            .. l10n('Objective icon cluster amount');
+                    --    end,
+                    --    width = 3,
+                    --    disabled = function() return (not Questie.db.profile.enabled); end,
+                    --    get = function(info) return Questie.db.profile.usePfQuestIcons end,
+                    --    set = QuestieOptionsUtils.SetPfQuestIcons,
+                    --},
                     overrideObjectivesHeader = {
                         type = "header",
                         order = 16.5,
