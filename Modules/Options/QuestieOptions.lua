@@ -121,11 +121,11 @@ _CreateOptionsTable = function()
     --coroutine.yield()
     --local map_tab = QuestieOptions.tabs.map:Initialize()
     --coroutine.yield()
-    local auto_tab = QuestieOptions.tabs.auto:Initialize()
-    coroutine.yield()
     local icons_tab = QuestieOptions.tabs.icons:Initialize()
     coroutine.yield()
     local tracker_tab = QuestieOptions.tabs.tracker:Initialize()
+    coroutine.yield()
+    local auto_tab = QuestieOptions.tabs.auto:Initialize()
     coroutine.yield()
     --local tooltip_tab = QuestieOptions.tabs.tooltip:Initialize()
     --coroutine.yield()
@@ -147,11 +147,11 @@ _CreateOptionsTable = function()
             --social_tab = social_tab,
             --minimap_tab = minimap_tab,
             --map_tab = map_tab,
-            auto_tab = auto_tab,
             icons_tab = icons_tab,
             tracker_tab = tracker_tab,
+            auto_tab = auto_tab,
             --tooltip_tab = tooltip_tab,
-            sounds_tab = sounds_tab,
+            --sounds_tab = sounds_tab,
             nameplate_tab = nameplate_tab,
             dbm_hud_tab = dbm_hud_tab,
             advanced_tab = advanced_tab,

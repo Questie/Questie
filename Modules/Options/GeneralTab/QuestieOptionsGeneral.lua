@@ -44,7 +44,7 @@ function QuestieOptions.tabs.general:Initialize()
     return {
         name = function() return l10n('General'); end,
         type = "group",
-        order = 10,
+        order = 1,
         args = {
             questie_header = {
                 type = "header",

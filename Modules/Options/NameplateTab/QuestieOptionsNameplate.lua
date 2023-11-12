@@ -20,7 +20,7 @@ function QuestieOptions.tabs.nameplate:Initialize()
     return {
         name = function() return l10n('Nameplates'); end,
         type = "group",
-        order = 14,
+        order = 5,
         args = {
             nameplate_options_group = {
                 type = "group",

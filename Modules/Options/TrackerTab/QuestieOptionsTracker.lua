@@ -28,7 +28,7 @@ function QuestieOptions.tabs.tracker:Initialize()
     trackerOptions = {
         name = function() return l10n('Tracker') end,
         type = "group",
-        order = 13,
+        order = 3,
         args = {
             header = {
                 type = "header",

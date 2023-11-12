@@ -40,7 +40,7 @@ function QuestieOptions.tabs.advanced:Initialize()
     return {
         name = function() return l10n('Advanced'); end,
         type = "group",
-        order = 18,
+        order = 7,
         args = {
             map_options = {
                 type = "header",
@@ -99,6 +99,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 set = function(info, value)
                     QuestieOptionsUtils:Delay(0.5, QuestieOptions.ClusterRedraw, l10n('Setting clustering value, clusterLevelHotzone set to %s : Redrawing!', value))
                     QuestieOptions:SetProfileValue(info, value)
+                    QuestieOptionsUtils.DetermineTheme()
                 end,
             },
             quelDanasSpacer1 = QuestieOptionsUtils:Spacer(1.45),
