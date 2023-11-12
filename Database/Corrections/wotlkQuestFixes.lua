@@ -5274,6 +5274,9 @@ function QuestieWotlkQuestFixes:Load()
         [24756] = {
             [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Blood then defeat Lana'thel.", {[zoneIDs.ICECROWN_CITADEL_QUEEN_LANA_THEL]={{51.3,44.1}}}},
         },
+        [24757] = {
+            [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Frost then slay Sindragosa.", {[zoneIDs.ICECROWN_CITADEL_SINDRAGOSA]={{36.7,23.1}}}},
+        },
         [24792] = {
             [questKeys.preQuestSingle] = {24657},
         },

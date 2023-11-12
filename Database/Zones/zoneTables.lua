@@ -182,6 +182,7 @@ ZoneDB.private.areaIdToUiMapId = {
     [4821] = 135, -- Utgarde Keep - Upper Level (fake ID for Utgarde Keep)
     [4830] = 190, -- Icecrown Citadel - Upper Spire (fake ID for ICC)
     [4831] = 191, -- Icecrown Citadel - Upper Spire (fake ID for ICC)
+    [4832] = 189, -- Icecrown Citadel - Sindragosa (fake ID for ICC)
     [4987] = 200, -- The Ruby Sanctum - Raid
     --- These should not be needed from my limited testing
     -- [14284] = 114, -- Borean Tundra - Battleground
@@ -433,7 +434,7 @@ ZoneDB.private.uiMapIdToAreaId = {
     [186] = 4812, -- Icecrown Citadel - Raid
     [187] = 4812, -- Icecrown Citadel - Raid
     [188] = 4812, -- Icecrown Citadel - Raid
-    [189] = 4812, -- Icecrown Citadel - Raid
+    [189] = 4832, -- Icecrown Citadel - Sindragosa (fake ID for ICC)
     [190] = 4830, -- Icecrown Citadel - Uppe Spire (fake ID for ICC)
     [191] = 4831, -- Icecrown Citadel - Queen Lana'thel (fake ID for ICC)
     [192] = 4812, -- Icecrown Citadel - Raid
@@ -2724,7 +2725,8 @@ ZoneDB.private.subZoneToParentZone = {
   [4824] = 4416, -- Gundrak - Upper Level (fake ID for Gundrak)
   [4825] = 4416, -- Gundrak - Lower Level (fake ID for Gundrak)
   [4830] = 4812, -- Upper Spire -> Icecrown Citadel (fake ID for ICC)
-  [4831] = 4812, -- Upper Spire -> Icecrown Citadel (fake ID for ICC)
+  [4831] = 4812, -- Blood Queen Lana'thel -> Icecrown Citadel (fake ID for ICC)
+  [4832] = 4812, -- Sindragosa -> Icecrown Citadel (fake ID for ICC)
   [4859] = 4896, -- The Frozen Throne -> The Frozen Throne
   [4862] = 210, -- The Frozen Halls -> Icecrown
   [4889] = 4893, -- The Frost Queen's Lair -> The Frost Queen's Lair
@@ -2941,6 +2943,7 @@ ZoneDB.private.zoneIDs = {
     HROTHGARS_LANDING = 4742,
     ICECROWN_CITADEL = 4812,
     -- Fake IDS for ICC
+    ICECROWN_CITADEL_SINDRAGOSA = 4832, -- UiMapID 189
     ICECROWN_CITADEL_UPPER_SPIRE = 4830, -- UiMapID 190
     ICECROWN_CITADEL_QUEEN_LANA_THEL = 4831, -- UiMapID 191
     -- Fake IDs for Ulduar
