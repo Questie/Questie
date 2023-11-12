@@ -106,11 +106,6 @@ end
 
 ---Run the validator
 local function runValidator()
-    if Questie.db.profile.skipValidation then
-        print("Skipping validation.")
-        return
-    end
-
     if type(QuestieDB.questData) == "string" or type(QuestieDB.npcData) == "string" or type(QuestieDB.objectData) == "string" or type(QuestieDB.itemData) == "string" then
         Questie:Error("Cannot run the validator on string data, load database first")
         return
@@ -202,8 +197,12 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     --? Only run the validator on recompile if debug is enabled, otherwise it's a waste of time.
     if Questie.db.profile.debugEnabled and dbCompiled then
-        runValidator()
-        print("\124cFF4DDBFF Load and Validation complete...")
+        if not Questie.db.profile.skipValidation == true then
+            runValidator()
+            print("\124cFF4DDBFF Load and Validation complete.")
+        else
+            print("\124cFF4DDBFF Validation skipped, load complete.")
+        end
     end
 
     QuestieCleanup:Run()
