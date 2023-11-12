@@ -5379,6 +5379,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{38589}},
             [questKeys.finishedBy] = {{38017}},
         },
+        [24914] = {
+            [questKeys.preQuestSingle] = {24549},
+        },
 
         ----- Boosted character quests -----
         [70395] = {
