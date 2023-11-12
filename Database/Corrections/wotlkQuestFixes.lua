@@ -5271,6 +5271,9 @@ function QuestieWotlkQuestFixes:Load()
         [24749] = {
             [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Unholy power then slay Putricide.", {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{13.4,53.4}}}},
         },
+        [24756] = {
+            [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Blood then defeat Lana'thel.", {[zoneIDs.ICECROWN_CITADEL_QUEEN_LANA_THEL]={{51.3,44.1}}}},
+        },
         [24792] = {
             [questKeys.preQuestSingle] = {24657},
         },
