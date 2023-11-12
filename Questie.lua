@@ -47,7 +47,7 @@ function Questie:RefreshConfig(db, profile)
     Questie:SetIcons()
     QuestieQuest:SmoothReset()
     TrackerBaseFrame:OnProfileChange()
-    print("Switched Profile!")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Switched Ace Profile!")
 end
 
 --- Colorize a string with a color code
