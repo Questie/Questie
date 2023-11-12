@@ -23,7 +23,7 @@ for toc in tocs:
             if line[:10] == '## Version':
                 print('## Version: ' + version)
             elif line[:8] == '## Title':
-                print('## Title: Questie|cFF00FF00 v' + version + '|r')
+                print('## Title: |TInterface/Addons/Questie/Icons/complete:18:18:0:0:512:512:32:512:16:496|tQuestie|cFF00FF00 v' + version + '|r')
             else:
                 print(line, end='')
 
