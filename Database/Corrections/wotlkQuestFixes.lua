@@ -5076,6 +5076,9 @@ function QuestieWotlkQuestFixes:Load()
         [24541] = {
             [questKeys.sourceItemId] = 49867,
         },
+        [24547] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}}, Questie.ICON_TYPE_SLAY, l10n("Slay 1000 enemies in Icecrown Citadel while Shadow's Edge is equipped"), 0}},
+        },
         [24579] = {
             [questKeys.exclusiveTo] = {24580,24581,24582,24583,24584,24585,24586,24587,24588,24589,24590},
         },
