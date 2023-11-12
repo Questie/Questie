@@ -197,7 +197,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     --? Only run the validator on recompile if debug is enabled, otherwise it's a waste of time.
     if Questie.db.profile.debugEnabled and dbCompiled then
-        if not (Questie.db.profile.skipValidation == true) then
+        if Questie.db.profile.skipValidation ~= true then
             runValidator()
             print("\124cFF4DDBFF Load and Validation complete.")
         else
