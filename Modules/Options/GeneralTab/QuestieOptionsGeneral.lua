@@ -3,8 +3,6 @@
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
----@type IsleOfQuelDanas
-local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas");
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 ---@type QuestieOptionsDefaults
@@ -52,37 +50,6 @@ function QuestieOptions.tabs.general:Initialize()
                 type = "header",
                 order = 1,
                 name = function() return l10n('General Options'); end,
-            },
-            Spacer_A = QuestieOptionsUtils:Spacer(2.5),
-            --Spacer_A = QuestieOptionsUtils:Spacer(3.9, (not Questie.IsTBC)),
-            isleOfQuelDanasPhase = {
-                type = "select",
-                order = 3,
-                width = 1.5,
-                --hidden = (not Questie.IsTBC),
-                values = IsleOfQuelDanas.localizedPhaseNames,
-                style = 'dropdown',
-                name = function() return l10n("Isle of Quel'Danas Phase") end,
-                desc = function() return l10n("Select the phase fitting your realm progress on the Isle of Quel'Danas"); end,
-                disabled = function() return (not Questie.IsWotlk) end,
-                get = function() return Questie.db.profile.isleOfQuelDanasPhase; end,
-                set = function(_, key)
-                    Questie.db.profile.isleOfQuelDanasPhase = key
-                    QuestieQuest:SmoothReset()
-                end,
-            },
-            isleOfQuelDanasPhaseReminder = {
-                type = "toggle",
-                order = 3.1,
-                --hidden = (not Questie.IsTBC),
-                name = function() return l10n('Disable Phase reminder'); end,
-                desc = function() return l10n("Enable or disable the reminder on login to set the Isle of Quel'Danas phase"); end,
-                disabled = function() return (not Questie.IsWotlk) end,
-                width = 1,
-                get = function() return Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled; end,
-                set = function(_, value)
-                    Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled = value
-                end,
             },
             Spacer_B = QuestieOptionsUtils:Spacer(3.5),
             level_options_group = {
@@ -307,8 +274,9 @@ function QuestieOptions.tabs.general:Initialize()
                         order = 7.1,
                         name = function() return l10n('Questie ShutUp!'); end,
                         desc = function() return l10n('Remove all Questie chat messages coming from other players and disable sending your own.'); end,
+                        descStyle = "inline",
                         disabled = function() return false end,
-                        width = 1.7,
+                        width = 2,
                         get = function () return Questie.db.profile.questieShutUp end,
                         set = function (_, value)
                             Questie.db.profile.questieShutUp = value

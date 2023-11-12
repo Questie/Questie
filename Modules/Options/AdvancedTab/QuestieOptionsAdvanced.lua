@@ -11,6 +11,8 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+---@type IsleOfQuelDanas
+local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -62,7 +64,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 order = 1.2,
                 name = function() return l10n('Icon Limit'); end,
                 desc = function() return l10n('Limits the amount of icons drawn per type. ( Default: %s )', optionsDefaults.profile.iconLimit); end,
-                width = "double",
+                width = 1.5,
                 min = 10,
                 max = 500,
                 step = 10,
@@ -73,9 +75,91 @@ function QuestieOptions.tabs.advanced:Initialize()
                     QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n('Setting icon limit value to %s : Redrawing!', value))
                 end,
             },
+            iconSpacer = {
+                type = "description",
+                order = 1.3,
+                name = "",
+                desc = "",
+                image = "",
+                imageWidth = 0.3,
+                width = 0.3,
+                func = function() end,
+            },
+            clusterLevelHotzone = {
+                type = "range",
+                order = 1.4,
+                name = function() return l10n('Objective icon cluster amount'); end,
+                desc = function() return l10n('How much objective icons should cluster.'); end,
+                width = 1.5,
+                disabled = function() return (not Questie.db.profile.enabled); end,
+                min = 1,
+                max = 300,
+                step = 1,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                set = function(info, value)
+                    QuestieOptionsUtils:Delay(0.5, QuestieOptions.ClusterRedraw, l10n('Setting clustering value, clusterLevelHotzone set to %s : Redrawing!', value))
+                    QuestieOptions:SetProfileValue(info, value)
+                end,
+            },
+            quelDanasSpacer1 = QuestieOptionsUtils:Spacer(1.45),
+            --Spacer_A = QuestieOptionsUtils:Spacer(1.45, (not Questie.IsTBC)),
+            npcrules_group = {
+                type = "group",
+                order = 1.5,
+                inline = true,
+                width = 0.5,
+                name = function() return l10n("Quel'Danas Settings"); end,
+                disabled = function() return not Questie.db.profile.autoaccept end,
+                args = {
+                    isleOfQuelDanasPhase = {
+                        type = "select",
+                        order = 1.3,
+                        width = 1.5,
+                        --hidden = (not Questie.IsTBC),
+                        values = IsleOfQuelDanas.localizedPhaseNames,
+                        style = 'dropdown',
+                        name = function() return l10n("Isle of Quel'Danas Phase") end,
+                        desc = function() return l10n("Select the phase fitting your realm progress on the Isle of Quel'Danas"); end,
+                        disabled = function() return (not Questie.IsWotlk) end,
+                        get = function() return Questie.db.profile.isleOfQuelDanasPhase; end,
+                        set = function(_, key)
+                            Questie.db.profile.isleOfQuelDanasPhase = key
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
+                    quelDanasSpacer2 = {
+                        type = "description",
+                        order = 1.4,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.2,
+                        width = 0.2,
+                        func = function() end,
+                    },
+                    isleOfQuelDanasPhaseReminder = {
+                        type = "toggle",
+                        order = 1.5,
+                        --hidden = (not Questie.IsTBC),
+                        name = function() return l10n('Disable Phase reminder'); end,
+                        desc = function() return l10n("Enable or disable the reminder on login to set the Isle of Quel'Danas phase"); end,
+                        disabled = function() return (not Questie.IsWotlk) end,
+                        width = 1,
+                        get = function() return Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled; end,
+                        set = function(_, value)
+                            Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled = value
+                        end,
+                    },
+                },
+            },
+            seperatingHeader2 = {
+                type = "header",
+                order = 2,
+                name = l10n('Developer Options'),
+            },
             bugWorkarounds = {
                 type = "toggle",
-                order = 1.3,
+                order = 2.05,
                 name = function() return l10n('Enable bug workarounds'); end,
                 desc = function() return l10n('When enabled, Questie will hotfix vanilla UI bugs.'); end,
                 width = "full",
@@ -83,11 +167,6 @@ function QuestieOptions.tabs.advanced:Initialize()
                 set = function (_, value)
                     Questie.db.profile.bugWorkarounds = value
                 end
-            },
-            seperatingHeader2 = {
-                type = "header",
-                order = 2,
-                name = l10n('Developer Options'),
             },
             showQuestIDs = {
                 type = "toggle",
@@ -151,7 +230,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 order = 2.4,
                 name = function() return l10n('Debug level to print'); end,
                 width = "normal",
-                disabled = function() return not Questie.db.profile.debugEnabled; end,
+                disabled = function() return not (Questie.db.profile.debugEnabledPrint and Questie.db.profile.debugEnabled); end,
                 get = function(_, key)
                     --Questie:Debug(Questie.DEBUG_SPAM, "Debug Key:", key, math.pow(2, key), state.option.values[key])
                     --Questie:Debug(Questie.DEBUG_SPAM, "Debug Level:", Questie.db.profile.debugLevel, bit.band(Questie.db.profile.debugLevel, math.pow(2, key)))
