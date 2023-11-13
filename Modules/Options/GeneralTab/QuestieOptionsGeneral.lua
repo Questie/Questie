@@ -51,221 +51,10 @@ function QuestieOptions.tabs.general:Initialize()
                 order = 1,
                 name = function() return l10n('General Options'); end,
             },
-            Spacer_B = QuestieOptionsUtils:Spacer(3.5),
-            level_options_group = {
-                type = "group",
-                order = 4,
-                inline = true,
-                name = function() return l10n('Quest Level Options'); end,
-                args = {
-                    level_text = {
-                        type = "description",
-                        order = 1,
-                        name = function() return Questie:Colorize(l10n('By default, Questie only shows quests that are relevant for your level. You can change this behavior below.'), 'gray'); end,
-                        fontSize = "small",
-                    },
-                    level_spacer = QuestieOptionsUtils:Spacer(2),
-                    radio = {
-                        order = 3.0,
-                        type = "select",
-                        style = "radio",
-                        width = 3,
-                        name = l10n("Which available quests should be displayed"),
-                        values = {
-                            [Questie.LOWLEVEL_NONE] = l10n("Show only quests granting experience (Default)"),
-                            [Questie.LOWLEVEL_ALL] = l10n("Show all low level quests"),
-                            [Questie.LOWLEVEL_OFFSET] = l10n("Show quests to a set level below the player"),
-                            [Questie.LOWLEVEL_RANGE] = l10n("Show quests between two set levels"),
-                        },
-                        get = function () return Questie.db.profile.lowLevelStyle end,
-                        set = function (_, value)
-                            Questie.db.profile.lowLevelStyle = value
-                            QuestieOptions.AvailableQuestRedraw();
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "Lowlevel Quests set to:", value)
-                        end,
-                    },
-                    manualOffset = {
-                        type = "range",
-                        order = 3.1,
-                        name = function() return l10n('Player level offset'); end,
-                        desc = function()
-                            return l10n('How many levels below your character to show. ( Default: %s )', optionsDefaults.profile.manualLevelOffset);
-                        end,
-                        width = 1.063,
-                        min = 0,
-                        max = 60 + 10 * GetExpansionLevel(),
-                        step = 1,
-                        disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_OFFSET) end,
-                        get = function() return Questie.db.profile.manualLevelOffset end,
-                        set = function(info, value)
-                            Questie.db.profile.manualLevelOffset = value;
-                            QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "manualLevelOffset set to " .. value)
-                        end,
-                    },
-                    minLevelFilter = {
-                        type = "range",
-                        order = 3.2,
-                        name = function() return l10n('Level from'); end,
-                        desc = function() return l10n('Minimum quest level to show.'); end,
-                        width = 1.063,
-                        min = 0,
-                        max = 60 + 10 * GetExpansionLevel(),
-                        step = 1,
-                        disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
-                        get = function() return Questie.db.profile.minLevelFilter; end,
-                        set = function(info, value)
-                            if value > Questie.db.profile.maxLevelFilter then
-                                value = Questie.db.profile.maxLevelFilter
-                            end
-                            Questie.db.profile.minLevelFilter = value;
-                            QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "minLevelFilter set to " .. value)
-                        end,
-                    },
-                    maxLevelFilter = {
-                        type = "range",
-                        order = 3.3,
-                        name = function()
-                            return l10n('Level to');
-                        end,
-                        desc = function()
-                            return l10n('Maximum quest level to show.');
-                        end,
-                        width = 1.063,
-                        min = 0,
-                        max = 60 + 10 * GetExpansionLevel(),
-                        step = 1,
-                        disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
-                        get = function(info) return Questie.db.profile.maxLevelFilter; end,
-                        set = function(info, value)
-                            if value < Questie.db.profile.minLevelFilter then
-                                value = Questie.db.profile.minLevelFilter
-                            end
-                            Questie.db.profile.maxLevelFilter = value;
-                            QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "maxLevelFilter set to " .. value)
-                        end,
-                    },
-                },
-            },
-            map_spacer = QuestieOptionsUtils:Spacer(4.5),
-            map_options_group = {
-                type = "group",
-                order = 5,
-                inline = true,
-                name = function() return l10n('Interface Options'); end,
-                args = {
-                    instantQuest = {
-                        type = "toggle",
-                        order = 5.1,
-                        name = function() return l10n('Enable Instant Quest Text'); end,
-                        desc = function() return l10n('Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface.'); end,
-                        width = 1.55,
-                        get = function()
-                            if GetCVar("instantQuestText") == '1' then
-                                return true;
-                            else
-                                return false;
-                            end
-                        end,
-                        set = function(info, value)
-                            if value then
-                                SetCVar("instantQuestText", 1);
-                            else
-                                SetCVar("instantQuestText", 0);
-                            end
-                        end,
-                    },
-                    showCustomQuestFrameIcons = {
-                        type = "toggle",
-                        order = 5.2,
-                        name = function() return l10n('Show custom quest frame icons'); end,
-                        desc = function() return l10n('Use custom Questie icons for NPC dialogs, reflecting the status and type of each quest.'); end,
-                        width = 1.55,
-                        get = function() return Questie.db.profile.enableQuestFrameIcons; end,
-                        set = function(info, value)
-                            Questie.db.profile.enableQuestFrameIcons = value
-                        end,
-                    },
-                    mapShowHideEnabled = {
-                        type = "toggle",
-                        order = 5.25,
-                        name = function() return l10n('Show Questie Map Button'); end,
-                        desc = function() return l10n('Enable or disable the Show/Hide Questie Button on Map (May fix some Map Addon interactions).'); end,
-                        width = 1.55,
-                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                        set = function (info, value)
-                            QuestieOptions:SetProfileValue(info, value)
-
-                            WorldMapButton.Toggle(value)
-                        end,
-                    },
-                    minimapButtonEnabled = {
-                        type = "toggle",
-                        order = 5.3,
-                        name = function() return l10n('Enable Minimap Button'); end,
-                        desc = function() return l10n('Enable or disable the Questie minimap button. You can still access the options menu with /questie.'); end,
-                        width = 1.55,
-                        get = function() return not Questie.db.profile.minimap.hide; end,
-                        set = function(info, value)
-                            Questie.db.profile.minimap.hide = not value;
-
-                            if value then
-                                Questie.minimapConfigIcon:Show("Questie");
-                            else
-                                Questie.minimapConfigIcon:Hide("Questie");
-                            end
-                        end,
-                    },
-                    mapCoordinatesEnabled = {
-                        type = "toggle",
-                        order = 5.4,
-                        name = function() return l10n('Show Map Coordinates'); end,
-                        desc = function() return l10n("Place the Player's coordinates and Cursor's coordinates on the Map's title."); end,
-                        width = 1.55,
-                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                        set = function (info, value)
-                            QuestieOptions:SetProfileValue(info, value)
-
-                            if not value then
-                                QuestieCoords.ResetMapText();
-                            end
-                        end,
-                    },
-                    minimapCoordinatesEnabled = {
-                        type = "toggle",
-                        order = 5.5,
-                        name = function() return l10n('Show Minimap Coordinates'); end,
-                        desc = function() return l10n("Place the Player's coordinates on the Minimap title."); end,
-                        width = 1.55,
-                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                        set = function (info, value)
-                            QuestieOptions:SetProfileValue(info, value)
-
-                            if not value then
-                                QuestieCoords:ResetMinimapText();
-                            end
-                        end,
-                    },
-                    mapCoordinatePrecision = {
-                        type = "range",
-                        order = 5.6,
-                        name = function() return l10n('Map Coordinates Decimal Precision'); end,
-                        desc = function() return l10n('How many decimals to include in the precision on the Map for Player and Cursor coordinates.\n(Default: %s)', optionsDefaults.profile.mapCoordinatePrecision); end,
-                        width = 1.4,
-                        min = 1,
-                        max = 5,
-                        step = 1,
-                        disabled = function() return not Questie.db.profile.mapCoordinatesEnabled end,
-                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                        set = function (info, value)
-                            QuestieOptions:SetProfileValue(info, value)
-                        end,
-                    },
-                },
-            },
-            social_spacer = QuestieOptionsUtils:Spacer(6),
+            social_spacer = QuestieOptionsUtils:Spacer(1.5,nil,"minimal"),
             social_options_group = {
                 type = "group",
-                order = 7,
+                order = 2,
                 inline = true,
                 name = function() return l10n('Social Options'); end,
                 args = {
@@ -397,10 +186,221 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                 },
             },
-            tooltip_spacer = QuestieOptionsUtils:Spacer(7.5),
+            interface_spacer = QuestieOptionsUtils:Spacer(2.5,nil,"minimal"),
+            interface_options_group = {
+                type = "group",
+                order = 3,
+                inline = true,
+                name = function() return l10n('Interface Options'); end,
+                args = {
+                    instantQuest = {
+                        type = "toggle",
+                        order = 5.1,
+                        name = function() return l10n('Enable Instant Quest Text'); end,
+                        desc = function() return l10n('Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface.'); end,
+                        width = 1.55,
+                        get = function()
+                            if GetCVar("instantQuestText") == '1' then
+                                return true;
+                            else
+                                return false;
+                            end
+                        end,
+                        set = function(info, value)
+                            if value then
+                                SetCVar("instantQuestText", 1);
+                            else
+                                SetCVar("instantQuestText", 0);
+                            end
+                        end,
+                    },
+                    showCustomQuestFrameIcons = {
+                        type = "toggle",
+                        order = 5.2,
+                        name = function() return l10n('Show custom quest frame icons'); end,
+                        desc = function() return l10n('Use custom Questie icons for NPC dialogs, reflecting the status and type of each quest.'); end,
+                        width = 1.55,
+                        get = function() return Questie.db.profile.enableQuestFrameIcons; end,
+                        set = function(info, value)
+                            Questie.db.profile.enableQuestFrameIcons = value
+                        end,
+                    },
+                    mapShowHideEnabled = {
+                        type = "toggle",
+                        order = 5.25,
+                        name = function() return l10n('Show Questie Map Button'); end,
+                        desc = function() return l10n('Enable or disable the Show/Hide Questie Button on Map (May fix some Map Addon interactions).'); end,
+                        width = 1.55,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                        set = function (info, value)
+                            QuestieOptions:SetProfileValue(info, value)
+
+                            WorldMapButton.Toggle(value)
+                        end,
+                    },
+                    minimapButtonEnabled = {
+                        type = "toggle",
+                        order = 5.3,
+                        name = function() return l10n('Enable Minimap Button'); end,
+                        desc = function() return l10n('Enable or disable the Questie minimap button. You can still access the options menu with /questie.'); end,
+                        width = 1.55,
+                        get = function() return not Questie.db.profile.minimap.hide; end,
+                        set = function(info, value)
+                            Questie.db.profile.minimap.hide = not value;
+
+                            if value then
+                                Questie.minimapConfigIcon:Show("Questie");
+                            else
+                                Questie.minimapConfigIcon:Hide("Questie");
+                            end
+                        end,
+                    },
+                    mapCoordinatesEnabled = {
+                        type = "toggle",
+                        order = 5.4,
+                        name = function() return l10n('Show Map Coordinates'); end,
+                        desc = function() return l10n("Place the Player's coordinates and Cursor's coordinates on the Map's title."); end,
+                        width = 1.55,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                        set = function (info, value)
+                            QuestieOptions:SetProfileValue(info, value)
+
+                            if not value then
+                                QuestieCoords.ResetMapText();
+                            end
+                        end,
+                    },
+                    minimapCoordinatesEnabled = {
+                        type = "toggle",
+                        order = 5.5,
+                        name = function() return l10n('Show Minimap Coordinates'); end,
+                        desc = function() return l10n("Place the Player's coordinates on the Minimap title."); end,
+                        width = 1.55,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                        set = function (info, value)
+                            QuestieOptions:SetProfileValue(info, value)
+
+                            if not value then
+                                QuestieCoords:ResetMinimapText();
+                            end
+                        end,
+                    },
+                    mapCoordinatePrecision = {
+                        type = "range",
+                        order = 5.6,
+                        name = function() return l10n('Map Coordinates Decimal Precision'); end,
+                        desc = function() return l10n('How many decimals to include in the precision on the Map for Player and Cursor coordinates.\n(Default: %s)', optionsDefaults.profile.mapCoordinatePrecision); end,
+                        width = 1.4,
+                        min = 1,
+                        max = 5,
+                        step = 1,
+                        disabled = function() return not Questie.db.profile.mapCoordinatesEnabled end,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                        set = function (info, value)
+                            QuestieOptions:SetProfileValue(info, value)
+                        end,
+                    },
+                },
+            },
+            level_spacer = QuestieOptionsUtils:Spacer(3.5,nil,"minimal"),
+            level_options_group = {
+                type = "group",
+                order = 4,
+                inline = true,
+                name = function() return l10n('Quest Level Options'); end,
+                args = {
+                    level_text = {
+                        type = "description",
+                        order = 1,
+                        name = function() return Questie:Colorize(l10n('By default, Questie only shows quests that are relevant for your level. You can change this behavior below.'), 'gray'); end,
+                        fontSize = "small",
+                    },
+                    level_spacer = QuestieOptionsUtils:Spacer(2),
+                    radio = {
+                        order = 3.0,
+                        type = "select",
+                        style = "radio",
+                        width = 3,
+                        name = l10n("Which available quests should be displayed"),
+                        values = {
+                            [Questie.LOWLEVEL_NONE] = l10n("Show only quests granting experience (Default)"),
+                            [Questie.LOWLEVEL_ALL] = l10n("Show all low level quests"),
+                            [Questie.LOWLEVEL_OFFSET] = l10n("Show quests to a set level below the player"),
+                            [Questie.LOWLEVEL_RANGE] = l10n("Show quests between two set levels"),
+                        },
+                        get = function () return Questie.db.profile.lowLevelStyle end,
+                        set = function (_, value)
+                            Questie.db.profile.lowLevelStyle = value
+                            QuestieOptions.AvailableQuestRedraw();
+                            Questie:Debug(Questie.DEBUG_DEVELOP, "Lowlevel Quests set to:", value)
+                        end,
+                    },
+                    manualOffset = {
+                        type = "range",
+                        order = 3.1,
+                        name = function() return l10n('Player level offset'); end,
+                        desc = function()
+                            return l10n('How many levels below your character to show. ( Default: %s )', optionsDefaults.profile.manualLevelOffset);
+                        end,
+                        width = 1.063,
+                        min = 0,
+                        max = 60 + 10 * GetExpansionLevel(),
+                        step = 1,
+                        disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_OFFSET) end,
+                        get = function() return Questie.db.profile.manualLevelOffset end,
+                        set = function(info, value)
+                            Questie.db.profile.manualLevelOffset = value;
+                            QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "manualLevelOffset set to " .. value)
+                        end,
+                    },
+                    minLevelFilter = {
+                        type = "range",
+                        order = 3.2,
+                        name = function() return l10n('Level from'); end,
+                        desc = function() return l10n('Minimum quest level to show.'); end,
+                        width = 1.063,
+                        min = 0,
+                        max = 60 + 10 * GetExpansionLevel(),
+                        step = 1,
+                        disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
+                        get = function() return Questie.db.profile.minLevelFilter; end,
+                        set = function(info, value)
+                            if value > Questie.db.profile.maxLevelFilter then
+                                value = Questie.db.profile.maxLevelFilter
+                            end
+                            Questie.db.profile.minLevelFilter = value;
+                            QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "minLevelFilter set to " .. value)
+                        end,
+                    },
+                    maxLevelFilter = {
+                        type = "range",
+                        order = 3.3,
+                        name = function()
+                            return l10n('Level to');
+                        end,
+                        desc = function()
+                            return l10n('Maximum quest level to show.');
+                        end,
+                        width = 1.063,
+                        min = 0,
+                        max = 60 + 10 * GetExpansionLevel(),
+                        step = 1,
+                        disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
+                        get = function(info) return Questie.db.profile.maxLevelFilter; end,
+                        set = function(info, value)
+                            if value < Questie.db.profile.minLevelFilter then
+                                value = Questie.db.profile.minLevelFilter
+                            end
+                            Questie.db.profile.maxLevelFilter = value;
+                            QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "maxLevelFilter set to " .. value)
+                        end,
+                    },
+                },
+            },
+            tooltip_spacer = QuestieOptionsUtils:Spacer(4.5,nil,"minimal"),
             tooltip_options_group = {
                 type = "group",
-                order = 8,
+                order = 5,
                 inline = true,
                 name = function() return l10n('Tooltip Options'); end,
                 args = {
@@ -459,10 +459,10 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                 },
             },
-            sound_spacer = QuestieOptionsUtils:Spacer(8.99),
+            sound_spacer = QuestieOptionsUtils:Spacer(5.5,nil,"minimal"),
             sound_options_group = {
                 type = "group",
-                order = 9,
+                order = 6,
                 inline = true,
                 name = function() return l10n('Sound Options'); end,
                 args = {

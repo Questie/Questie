@@ -797,7 +797,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     overrideNormalQuestsHeader = {
                         type = "header",
                         order = 22,
-                        name = function() return l10n('Normal Quests') end,
+                        name = function() return l10n('Quests') end,
                     },
                     questSpacer1 = {
                         type = "description",
@@ -880,11 +880,7 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
-                    overrideRepeatableQuestsHeader = {
-                        type = "header",
-                        order = 27,
-                        name = function() return l10n('Repeatable Quests') end,
-                    },
+                    repeatable_spacer = QuestieOptionsUtils:Spacer(27,nil,"minimal"),
                     repeatableSpacer1 = {
                         type = "description",
                         order = 27.5,
@@ -939,11 +935,7 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
-                    overrideEventQuestsHeader = {
-                        type = "header",
-                        order = 30,
-                        name = function() return l10n('Event Quests') end,
-                    },
+                    event_spacer = QuestieOptionsUtils:Spacer(30,nil,"minimal"),
                     eventSpacer1 = {
                         type = "description",
                         order = 30.5,
@@ -998,11 +990,7 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
-                    overridePVPQuestsHeader = {
-                        type = "header",
-                        order = 33,
-                        name = function() return l10n('PVP Quests') end,
-                    },
+                    pvp_spacer = QuestieOptionsUtils:Spacer(33,nil,"minimal"),
                     pvpSpacer1 = {
                         type = "description",
                         order = 33.5,
