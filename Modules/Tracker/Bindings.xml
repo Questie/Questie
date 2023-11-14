@@ -1,0 +1,5 @@
+<Bindings>
+    <Binding name="Expand/Collapse Tracker" category="Questie">
+        TrackerExpansionStateToggle()
+    </Binding>
+</Bindings>

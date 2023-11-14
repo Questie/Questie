@@ -166,6 +166,7 @@ Modules\Journey\QuestieSearch.lua
 Modules\Journey\QuestieSearchResults.lua
 
 # Tracker
+Bindings.xml
 Modules\Tracker\QuestieTracker.lua
 Modules\Tracker\TrackerUtils.lua
 Modules\Tracker\TrackerMenu.lua
@@ -175,6 +176,7 @@ Modules\Tracker\TrackerHeaderFrame.lua
 Modules\Tracker\TrackerQuestFrame.lua
 Modules\Tracker\TrackerQuestTimers.lua
 Modules\Tracker\TrackerLinePool.lua
+Modules\Tracker\TrackerExpansionStateToggle.lua
 
 Modules\QuestieDBMIntegration.lua
 Modules\QuestieSlash.lua
