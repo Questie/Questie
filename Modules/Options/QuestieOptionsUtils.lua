@@ -8,7 +8,7 @@ local QuestieOptionsUtils = QuestieLoader:CreateModule("QuestieOptionsUtils");
 function QuestieOptionsUtils:Spacer(order, hidden, fontSize)
     local name = " "
     if fontSize == "small" or fontSize == "medium" or fontSize == "large" then
-        do end -- valid data
+        fontSize = fontSize
     elseif fontSize == "minimal" then
         name = "" -- removing the space from name reduces the height further, but still larger than nothing
         fontSize = "small"
