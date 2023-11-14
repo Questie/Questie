@@ -14,6 +14,8 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -59,8 +61,12 @@ function _MinimapIcon:CreateDataBrokerObject()
                 if (not IsModifierKeyDown()) then
                     -- CLose config window if it's open to avoid desyncing the Checkbox
                     QuestieOptions:HideFrame();
-
-                    QuestieJourney.ToggleJourneyWindow();
+                    if InCombatLockdown() then
+                        Questie:Print(l10n("Questie will open after combat ends."))
+                    end
+                    QuestieCombatQueue:Queue(function()
+                        QuestieOptions:OpenConfigWindow()
+                    end)
                     return;
                 elseif IsControlKeyDown() then
                     Questie.db.profile.minimap.hide = true;
@@ -74,7 +80,7 @@ function _MinimapIcon:CreateDataBrokerObject()
             tooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1);
             tooltip:AddLine(Questie:Colorize(l10n('Left Click') , 'gray') .. ": ".. l10n('Toggle Menu'));
             tooltip:AddLine(Questie:Colorize(l10n('Ctrl + Shift + Left Click') , 'gray') .. ": ".. l10n('Toggle Questie'));
-            tooltip:AddLine(Questie:Colorize(l10n('Right Click') , 'gray') .. ": ".. l10n('Toggle My Journey'));
+            tooltip:AddLine(Questie:Colorize(l10n('Right Click') , 'gray') .. ": ".. l10n('Questie Options'));
             tooltip:AddLine(Questie:Colorize(l10n('Ctrl + Right Click') , 'gray') .. ": ".. l10n('Hide Minimap Button'));
             tooltip:AddLine(Questie:Colorize(l10n('Ctrl + Left Click'),   'gray') .. ": ".. l10n('Reload Questie'));
         end,
