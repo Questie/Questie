@@ -15,6 +15,8 @@ local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 ---@type TrackerQuestTimers
 local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
+---@type TrackerExpansionStateToggle
+local TrackerExpansionStateToggle = QuestieLoader:ImportModule("TrackerExpansionStateToggle")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
@@ -118,6 +120,7 @@ function QuestieTracker.Initialize()
     -- Initialize tracker functions
     TrackerLinePool.Initialize(trackerQuestFrame)
     TrackerFadeTicker.Initialize(trackerBaseFrame, trackerHeaderFrame)
+    TrackerExpansionStateToggle.Initialize()
     QuestieTracker.started = true
 
     -- Initialize hooks

@@ -180,6 +180,7 @@ Modules\Tracker\TrackerHeaderFrame.lua
 Modules\Tracker\TrackerQuestFrame.lua
 Modules\Tracker\TrackerQuestTimers.lua
 Modules\Tracker\TrackerLinePool.lua
+Modules\Tracker\TrackerExpansionStateToggle.lua
 
 Modules\QuestieDBMIntegration.lua
 Modules\QuestieSlash.lua

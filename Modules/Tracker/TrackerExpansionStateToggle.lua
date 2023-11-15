@@ -1,24 +1,36 @@
--- Create a secure button to execute TrackerExpansionStateToggle
-local btn = CreateFrame("Button", "MySecureButton", UIParent, "SecureActionButtonTemplate")
-btn:SetAttribute("type", "macro")
-btn:SetAttribute("macrotext", "/run TrackerExpansionStateToggle()")
+---@class TrackerExpansionStateToggle
+local TrackerExpansionStateToggle = QuestieLoader:CreateModule("TrackerExpansionStateToggle")
+-------------------------
+--Import QuestieTracker modules.
+-------------------------
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type TrackerBaseFrame
+local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 
--- Toggle the Questie tracker expansion state (called by the keybind)
-function TrackerExpansionStateToggle()
-    local qt = QuestieLoader:ImportModule("QuestieTracker")
+local btn
+
+function TrackerExpansionStateToggle.Initialize()
+    -- Create a secure button to execute TrackerExpansionStateToggle with ESC
+    btn = CreateFrame("Button", "TESTButton", UIParent, "SecureActionButtonTemplate")
+    btn:SetAttribute("type", "macro")
+    btn:SetAttribute("macrotext", "/run G_TrackerExpansionStateToggle()")
+end
+
+-- Toggles the Questie tracker expansion state (called by the keybind)
+function TrackerExpansionStateToggle.Toggle()
     if Questie.db.char.isTrackerExpanded then
-        qt:Collapse()
+        QuestieTracker:Collapse()
         ClearOverrideBindings(btn)  -- Remove the override when collapsed
     else
-        qt:Expand()
-        SetOverrideBinding(btn, false, "ESCAPE", "CLICK MySecureButton:LeftButton")  -- Set the override when expanded
+        QuestieTracker:Expand()
+        if TrackerBaseFrame and Questie.db.char.isTrackerExpanded then
+            SetOverrideBinding(btn, false, "ESCAPE", "CLICK TESTButton:LeftButton")  -- Set the override if initially expanded
+        end
     end
 end
 
--- Initialize the override binding based on the current state
-local frame = _G["TrackerBaseFrame"]  -- Get the Questie tracker frame
-if frame then  -- Check if the frame exists
-    if Questie and Questie.db.char.isTrackerExpanded then
-        SetOverrideBinding(btn, false, "ESCAPE", "CLICK MySecureButton:LeftButton")  -- Set the override if initially expanded
-    end
+-- Global function to toggle the tracker
+function G_TrackerExpansionStateToggle()
+    TrackerExpansionStateToggle:Toggle()
 end

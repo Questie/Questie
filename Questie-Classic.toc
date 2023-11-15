@@ -176,7 +176,6 @@ Modules\Tracker\TrackerQuestFrame.lua
 Modules\Tracker\TrackerQuestTimers.lua
 Modules\Tracker\TrackerLinePool.lua
 Modules\Tracker\TrackerExpansionStateToggle.lua
-Modules\Tracker\Bindings.xml
 
 Modules\QuestieDBMIntegration.lua
 Modules\QuestieSlash.lua
