@@ -1471,6 +1471,9 @@ function QuestieWotlkQuestFixes:Load()
         [12301] = {
             [questKeys.triggerEnd] = {"The Forgotten Redeemed",{[zoneIDs.DRAGONBLIGHT]={{86.86,66.18,},},},},
         },
+        [12307] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [12316] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27500,27550},27550,"Horde killed in Venture Bay"}}},
         },
