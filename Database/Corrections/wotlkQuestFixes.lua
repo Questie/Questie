@@ -164,6 +164,9 @@ function QuestieWotlkQuestFixes:Load()
         [3602] = {
             [questKeys.requiredSourceItems] = {},
         },
+        [3641] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [3763] = {
             [questKeys.startedBy] = {{6735}},
             [questKeys.exclusiveTo] = {3789,3790},
