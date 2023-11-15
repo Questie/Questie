@@ -34,8 +34,20 @@ CF_METADATA=$(cat <<-EOF
 EOF
 )
 
-curl -sS \
+response=$(curl -sS \
+    -o response.txt \
+    -w "%{http_code}" \
     -H "X-API-TOKEN: $CF_API_TOKEN" \
     -F "metadata=$CF_METADATA" \
     -F "file=@releases/$LATEST_GIT_TAG/Questie-$LATEST_GIT_TAG.zip" \
-    "https://wow.curseforge.com/api/projects/334372/upload-file"
+    "https://wow.curseforge.com/api/projects/334372/upload-file")
+
+http_status=$(echo "$response" | tail -n1)
+
+if [ "$http_status" -eq 200 ]; then
+  echo "CurseForge upload successful"
+else
+  echo "CurseForge upload failed, HTTP-code: $http_status"
+  cat response.txt
+  exit 1
+fi
