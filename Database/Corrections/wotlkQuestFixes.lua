@@ -1725,6 +1725,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {12501,12563},
             [questKeys.childQuests] = {12541,12588,12591,12594},
         },
+        [12588] = {
+            [questKeys.objectives] = {nil,{{190550,"Ancient Dirt Mounds Investigated"}}},
+        },
         [12589] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12523,12525},
