@@ -223,6 +223,9 @@ function QuestieWotlkNpcFixes:Load()
         [24083] = {
             [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP_UPPER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_KEEP]={{-1,-1}}},
         },
+        [24111] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{59.56,48.85}}},
+        },
         [24120] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{86.7,59.2}}},
         },
