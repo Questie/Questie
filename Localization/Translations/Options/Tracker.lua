@@ -605,18 +605,6 @@ local trackerOptionsLocales = {
         ["frFR"] = "Lorsque ceci est coché, le traqueur est vérouillé, maintenez CTRL lorsque vous souhaitez le déplacer.",
     },
     ---------------------------------------------------------
-    ["Disable Tracker"] = {
-        ["ptBR"] = "Desativar o rastreador",
-        ["ruRU"] = "Отключение",
-        ["deDE"] = "Deaktiviere den Tracker",
-        ["koKR"] = "트래커 비활성화",
-        ["esMX"] = "Deshabilitar el rastreador",
-        ["enUS"] = true,
-        ["zhCN"] = "禁用追踪器",
-        ["zhTW"] = "停用任務清單",
-        ["esES"] = "Deshabilitar el rastreador",
-        ["frFR"] = "Suivi par défaut",
-    },
     ["Disabling the Tracker will replace the Questie Tracker with the default Blizzard Quest Tracker.\n\nNOTE: This setting is saved Per Character and will reload the UI."] = {
         ["ptBR"] = "Desativar o Rastreador substituirá o Questie Rastreador pelo Blizzard Quest Rastreador padrão.",
         ["ruRU"] = "После нажатия данной кнопки трекер Questie заменится трекером Blizzard.\n\nПРИМЕЧАНИЕ: Эта настройка действует для каждого персонажа отдельно и перезапускает пользовательский интерфейс",
