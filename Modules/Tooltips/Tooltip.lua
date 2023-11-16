@@ -32,8 +32,6 @@ local MAX_GROUP_MEMBER_COUNT = 6
 
 local _InitObjectiveTexts
 
-local lastTooltipUpdate = GetTime()
-
 ---@param questId number
 ---@param key string monster: m_, items: i_, objects: o_ + string name of the objective
 ---@param objective table
@@ -44,28 +42,30 @@ function QuestieTooltips:RegisterObjectiveTooltip(questId, key, objective)
     if not QuestieTooltips.lookupKeysByQuestId[questId] then
         QuestieTooltips.lookupKeysByQuestId[questId] = {}
     end
-    local tooltip = {};
-    tooltip.questId = questId;
-    tooltip.objective = objective
+    local tooltip = {
+        questId = questId,
+        objective = objective,
+    };
     QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. objective.Index] = tooltip
-    table.insert(QuestieTooltips.lookupKeysByQuestId[questId], key)
+    tinsert(QuestieTooltips.lookupKeysByQuestId[questId], key)
 end
 
 ---@param questId number
 ---@param npc table
-function QuestieTooltips:RegisterQuestStartTooltip(questId, npc)
-    local key = "m_" .. npc.id
+---@param key string @Either m_<npcId> or o_<objectId>
+function QuestieTooltips:RegisterQuestStartTooltip(questId, npc, key)
     if not QuestieTooltips.lookupByKey[key] then
         QuestieTooltips.lookupByKey[key] = {};
     end
     if not QuestieTooltips.lookupKeysByQuestId[questId] then
         QuestieTooltips.lookupKeysByQuestId[questId] = {}
     end
-    local tooltip = {};
-    tooltip.questId = questId
-    tooltip.npc = npc
+    local tooltip = {
+        questId = questId,
+        npc = npc,
+    };
     QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. npc.name] = tooltip
-    table.insert(QuestieTooltips.lookupKeysByQuestId[questId], key)
+    tinsert(QuestieTooltips.lookupKeysByQuestId[questId], key)
 end
 
 ---@param questId number
@@ -77,7 +77,7 @@ function QuestieTooltips:RemoveQuest(questId)
     if QuestieTooltips.lookupKeysByQuestId[questId] then
         -- Remove tooltip related keys from quest table so that
         -- it can be readded/registered by other quest functions.
-        local quest = QuestieDB:GetQuest(questId)
+        local quest = QuestieDB.GetQuest(questId)
 
         if quest then
             for _, objective in pairs(quest.Objectives) do
@@ -231,7 +231,7 @@ function QuestieTooltips:GetTooltip(key)
             if tooltip.npc then
                 if Questie.db.char.showQuestsInNpcTooltip then
                     local questString = QuestieLib:GetColoredQuestName(tooltip.questId, Questie.db.global.enableTooltipsQuestLevel, true, true)
-                    table.insert(tooltipLines, questString)
+                    tinsert(tooltipLines, questString)
                 end
             else
                 local objective = tooltip.objective
@@ -401,7 +401,7 @@ function QuestieTooltips:Initialize()
                     (not QuestieTooltips.lastGametooltipCount) or
                     _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
                     or QuestieTooltips.lastGametooltipType ~= "object"
-                ) then
+                ) and (not self.ShownAsMapIcon) then -- We are hovering over a Questie map icon which adds it's own tooltip
                 _QuestieTooltips:AddObjectDataToTooltip(GameTooltipTextLeft1:GetText())
                 QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
             end

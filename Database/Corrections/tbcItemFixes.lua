@@ -4,8 +4,6 @@ local QuestieTBCItemFixes = QuestieLoader:CreateModule("QuestieTBCItemFixes")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
-QuestieDB.fakeTbcItemStartId = 60000
-
 function QuestieTBCItemFixes:Load()
     local itemKeys = QuestieDB.itemKeys
 
@@ -103,6 +101,9 @@ function QuestieTBCItemFixes:Load()
         [23880] = {
             [itemKeys.objectDrops] = {181781},
         },
+        [23894] = {
+            [itemKeys.npcDrops] = {17370,17371,17377,17381,17395,17397,17398,17414,17429,17491,17624,17626,},
+        },
         [23984] = {
             [itemKeys.npcDrops] = {17324,17327,17339,17342,17343,17344,17346,17347,17348,17350,17352,17353,17522,17523,17527,17588,17589,17661,17683,17322,17323,17325,17326,17328,17329,17330,17334,17336,17337,17338,17340,17341,17358,17494,17550,17604,17606,17607,17608,17609,17610,17713,17714,17715},
         },
@@ -124,10 +125,16 @@ function QuestieTBCItemFixes:Load()
         [24286] = {
             [itemKeys.npcDrops] = {16611},
         },
+        [24289] = {
+            [itemKeys.class] = 12,
+        },
         [24317] = {
             [itemKeys.objectDrops] = {182074},
         },
         [24335] = {
+            [itemKeys.class] = 12,
+        },
+        [24474] = {
             [itemKeys.class] = 12,
         },
         [24502] = {
@@ -173,17 +180,26 @@ function QuestieTBCItemFixes:Load()
         [25555] = {
             [itemKeys.class] = 12,
         },
+        [25642] = {
+            [itemKeys.objectDrops] = {185201},
+        },
         [25807] = {
             [itemKeys.npcDrops] = {18476,18477},
-        },
-        [25852] = {
-            [itemKeys.objectDrops] = {184842},
         },
         [25658] = {
             [itemKeys.class] = 12,
         },
-        [28548] = {
-            [itemKeys.npcDrops] = {18865,18881},
+        [28038] = {
+            [itemKeys.class] = 12,
+        },
+        [28106] = {
+            [itemKeys.class] = 12,
+        },
+        [28132] = {
+            [itemKeys.class] = 12,
+        },
+        [28478] = {
+            [itemKeys.class] = 12,
         },
         [29112] = {
             [itemKeys.npcDrops] = {18907},
@@ -191,8 +207,33 @@ function QuestieTBCItemFixes:Load()
         [29162] = {
             [itemKeys.objectDrops] = {184162},
         },
+        [29324] = {
+            [itemKeys.class] = 12,
+        },
+        [29460] = {
+            [itemKeys.class] = 12,
+        },
+        [29473] = {
+            [itemKeys.class] = 12,
+        },
+        [29482] = {
+            [itemKeys.class] = 12,
+        },
+        [29742] = {
+            [itemKeys.class] = 12,
+        },
+        [29778] = {
+            [itemKeys.class] = 12,
+        },
+        [29796] = {
+            [itemKeys.class] = 12,
+        },
+        [30259] = {
+            [itemKeys.class] = 12,
+        },
         [30426] = {
             [itemKeys.npcDrops] = {19762,19768,19789},
+            [itemKeys.class] = 12,
         },
         [30430] = {
             [itemKeys.objectDrops] = {184715},
@@ -203,17 +244,50 @@ function QuestieTBCItemFixes:Load()
         [30451] = {
             [itemKeys.npcDrops] = {19799,19800,19802,21337,21656},
         },
+        [30540] = {
+            [itemKeys.class] = 12,
+        },
+        [30639] = {
+            [itemKeys.class] = 12,
+        },
         [30658] = {
             [itemKeys.npcDrops] = {21727},
         },
         [30659] = {
             [itemKeys.npcDrops] = {21725},
         },
+        [30672] = {
+            [itemKeys.class] = 12,
+        },
+        [30712] = {
+            [itemKeys.class] = 12,
+        },
+        [30719] = {
+            [itemKeys.class] = 12,
+        },
+        [30721] = {
+            [itemKeys.class] = 12,
+        },
+        [30743] = {
+            [itemKeys.npcDrops] = {21821,20021},
+        },
+        [30782] = {
+            [itemKeys.npcDrops] = {21817,20021},
+        },
+        [30783] = {
+            [itemKeys.npcDrops] = {21820,20021},
+        },
+        [30808] = {
+            [itemKeys.npcDrops] = {18667},
+        },
         [30823] = {
             [itemKeys.npcDrops] = {19678},
         },
-        [30890] = {
-            [itemKeys.npcDrops] = {21057},
+        [31121] = {
+            [itemKeys.class] = 12,
+        },
+        [31122] = {
+            [itemKeys.class] = 12,
         },
         [31130] = {
             [itemKeys.npcDrops] = {21387},
@@ -221,8 +295,38 @@ function QuestieTBCItemFixes:Load()
         [31252] = {
             [itemKeys.npcDrops] = {18733},
         },
+        [31279] = {
+            [itemKeys.class] = 12,
+        },
+        [31316] = {
+            [itemKeys.class] = 12,
+        },
         [31530] = {
             [itemKeys.objectDrops] = {177281},
+        },
+        [31495] = {
+            [itemKeys.class] = 12,
+        },
+        [31517] = {
+            [itemKeys.class] = 12,
+        },
+        [31518] = {
+            [itemKeys.class] = 12,
+        },
+        [31655] = {
+            [itemKeys.class] = 12,
+        },
+        [31664] = {
+            [itemKeys.class] = 12,
+        },
+        [31708] = {
+            [itemKeys.objectDrops] = {185224},
+        },
+        [31709] = {
+            [itemKeys.objectDrops] = {185226},
+        },
+        [31710] = {
+            [itemKeys.objectDrops] = {185225},
         },
         [31716] = {
             [itemKeys.npcDrops] = {17301},
@@ -246,17 +350,20 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.objectDrops] = {185566},
             [itemKeys.npcDrops] = {23002},
         },
-        [32380] = {
-            [itemKeys.npcDrops] = {20600},
-        },
         [32385] = {
             [itemKeys.npcDrops] = {21174},
         },
         [32386] = {
             [itemKeys.npcDrops] = {21174},
         },
+        [32406] = {
+            [itemKeys.class] = 12,
+        },
         [32723] = {
             [itemKeys.npcDrops] = {},
+        },
+        [32971] = {
+            [itemKeys.class] = 12,
         },
         [33071] = {
             [itemKeys.npcDrops] = {},
@@ -291,11 +398,62 @@ function QuestieTBCItemFixes:Load()
         [33175] = {
             [itemKeys.npcDrops] = {},
         },
+        [33814] = {
+            [itemKeys.npcDrops] = {17377},
+        },
+        [33815] = {
+            [itemKeys.npcDrops] = {16808},
+        },
+        [33821] = {
+            [itemKeys.npcDrops] = {17942},
+        },
+        [33826] = {
+            [itemKeys.npcDrops] = {17882},
+        },
+        [33827] = {
+            [itemKeys.npcDrops] = {17798},
+        },
+        [33833] = {
+            [itemKeys.npcDrops] = {17536},
+        },
+        [33834] = {
+            [itemKeys.npcDrops] = {18473},
+        },
+        [33835] = {
+            [itemKeys.npcDrops] = {18344},
+        },
         [33836] = {
             [itemKeys.npcDrops] = {18373},
         },
-        [34502] = {
-            [itemKeys.objectDrops] = {400014},
+        [33837] = {
+            [itemKeys.npcDrops] = {18096},
+        },
+        [33840] = {
+            [itemKeys.npcDrops] = {18708},
+        },
+        [33858] = {
+            [itemKeys.npcDrops] = {17881},
+        },
+        [33859] = {
+            [itemKeys.npcDrops] = {17977},
+        },
+        [33860] = {
+            [itemKeys.npcDrops] = {19220},
+        },
+        [33861] = {
+            [itemKeys.npcDrops] = {20912},
+        },
+        [34160] = {
+            [itemKeys.npcDrops] = {24664},
+        },
+        [34338] = {
+            [itemKeys.npcDrops] = {24960,24966},
+        },
+        [34475] = {
+            [itemKeys.class] = 12,
+        },
+        [34477] = {
+            [itemKeys.class] = 12,
         },
         [34864] = {
             [itemKeys.objectDrops] = {500004,500005,500006},
@@ -326,16 +484,34 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.subClass] = 0,
             [itemKeys.vendors] = {24495,27489},
         },
+    }
+end
 
-        -- Below are fake items which can be used to show special quest "objectives" as requiredSourceItem.
-        -- For example this is used for quest 10129 to show the NPC you have to talk with to start the flight
+-- This should allow manual fix for item availability
+function QuestieTBCItemFixes:LoadFactionFixes()
+    local itemKeys = QuestieDB.itemKeys
 
-        -- TODO: Transform these items to extraObjectives. These fakeIds were introduced before extraObjectives were a thing
-        [40000] = {
-            [itemKeys.name] = "Speak with Wing Commander Brack",
-            [itemKeys.relatedQuests] = {10129},
-            [itemKeys.npcDrops] = {19401},
-            [itemKeys.objectDrops] = {},
+    local itemFixesHorde = {
+        [30712] = {
+            [itemKeys.npcDrops] = {21779},
+        },
+        [30713] = {
+            [itemKeys.objectDrops] = {185233},
         },
     }
+
+    local itemFixesAlliance = {
+        [30712] = {
+            [itemKeys.npcDrops] = {21778},
+        },
+        [30713] = {
+            [itemKeys.objectDrops] = {184947},
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return itemFixesHorde
+    else
+        return itemFixesAlliance
+    end
 end

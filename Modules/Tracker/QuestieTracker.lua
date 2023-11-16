@@ -1478,7 +1478,7 @@ function QuestieTracker:Update()
                                     -- Set correct Objective ID. Sometimes stand alone trackable Achievements are part of a group of Achievements under a parent Achievement.
                                     local objId
 
-                                    if refId and select(2, GetAchievementInfo(refId)) == criteriaString and ((GetAchievementInfo(refId) and refId ~= 0) or (refId > 0 and (not QuestieDB:GetQuest(refId)))) then
+                                    if refId and select(2, GetAchievementInfo(refId)) == criteriaString and ((GetAchievementInfo(refId) and refId ~= 0) or (refId > 0 and (not QuestieDB.GetQuest(refId)))) then
                                         objId = refId
                                     else
                                         objId = achieve
@@ -2114,7 +2114,7 @@ function QuestieTracker:AQW_Insert(index, expire)
             end
         end
 
-        local quest = QuestieDB:GetQuest(questId)
+        local quest = QuestieDB.GetQuest(questId)
 
         if quest then
             -- Make sure quests or zones (re)added to the tracker isn't in a minimized state

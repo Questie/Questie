@@ -31,7 +31,6 @@ local REPUTATION_ICON_TEXTURE = "|T" .. REPUTATION_ICON_PATH .. ":14:14:2:0|t"
 local TRANSPARENT_ICON_PATH = "Interface\\Minimap\\UI-bonusobjectiveblob-inside.blp"
 local TRANSPARENT_ICON_TEXTURE = "|T" .. TRANSPARENT_ICON_PATH .. ":14:14:2:0|t"
 
-local WRAP_TEXT = 1;
 local DEFAULT_WAYPOINT_HOVER_COLOR = { 0.93, 0.46, 0.13, 0.8 }
 
 local lastTooltipShowTimestamp = GetTime()
@@ -94,7 +93,7 @@ function MapIconTooltip:Show()
     --end
 
     local usedText = {}
-    local npcOrder = {};
+    local npcAndObjectOrder = {};
     local questOrder = {};
     local manualOrder = {}
 
@@ -124,12 +123,12 @@ function MapIconTooltip:Show()
             local dist = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y);
             if dist < maxDistCluster then
                 if iconData.Type == "available" or iconData.Type == "complete" then
-                    if not npcOrder[iconData.Name] then
-                        npcOrder[iconData.Name] = {};
+                    if not npcAndObjectOrder[iconData.Name] then
+                        npcAndObjectOrder[iconData.Name] = {};
                     end
 
                     local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
-                    npcOrder[iconData.Name][tip.title] = tip
+                    npcAndObjectOrder[iconData.Name][tip.title] = tip
                 elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
                     local key = iconData.Id
                     if not questOrder[key] then
@@ -184,7 +183,7 @@ function MapIconTooltip:Show()
         end
     end
 
-    Tooltip.npcOrder = npcOrder
+    Tooltip.npcAndObjectOrder = npcAndObjectOrder
     Tooltip.questOrder = questOrder
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
@@ -195,27 +194,27 @@ function MapIconTooltip:Show()
         local firstLine = true;
         local playerIsHuman = QuestiePlayer:GetRaceId() == 1
         local playerIsHonoredWithShaTar = (not QuestieReputation:HasReputation(nil, { 935, 8999 }))
-        for questTitle, quests in pairs(self.npcOrder) do -- this logic really needs to be improved
+        for npcOrObjectName, quests in pairs(self.npcAndObjectOrder) do -- this logic really needs to be improved
             haveGiver = true
             if shift and (not firstLine) then
                 -- Spacer between NPCs
                 self:AddLine("             ")
             end
             if (firstLine and not shift) then
-                self:AddDoubleLine(questTitle, "(" .. l10n('Hold Shift') .. ")", 0.2, 1, 0.2, 0.43, 0.43, 0.43);
+                self:AddDoubleLine(npcOrObjectName, "(" .. l10n('Hold Shift') .. ")", 0.2, 1, 0.2, 0.43, 0.43, 0.43);
                 firstLine = false;
             elseif (firstLine and shift) then
-                self:AddLine(questTitle, 0.2, 1, 0.2);
+                self:AddLine(npcOrObjectName, 0.2, 1, 0.2);
                 firstLine = false;
             else
-                self:AddLine(questTitle, 0.2, 1, 0.2);
+                self:AddLine(npcOrObjectName, 0.2, 1, 0.2);
             end
 
             for _, questData in pairs(quests) do
                 local reputationReward = QuestieDB.QueryQuestSingle(questData.questId, "reputationReward")
 
                 if questData.title ~= nil then
-                    local quest = QuestieDB:GetQuest(questData.questId)
+                    local quest = QuestieDB.GetQuest(questData.questId)
                     local rewardString = ""
                     if (quest and shift) then
                         local xpReward = QuestXP:GetQuestLogRewardXP(questData.questId, Questie.db.global.showQuestXpAtMaxLevel)
@@ -306,7 +305,7 @@ function MapIconTooltip:Show()
         ---@param questId number
         for questId, textList in pairs(self.questOrder) do -- this logic really needs to be improved
             ---@type Quest
-            local quest = QuestieDB:GetQuest(questId);
+            local quest = QuestieDB.GetQuest(questId);
             local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, true, true);
             local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.global.showQuestXpAtMaxLevel);
             r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
@@ -357,15 +356,20 @@ function MapIconTooltip:Show()
             local defaultQuestColor = QuestieLib:GetRGBForObjective({})
             if shift then
                 local creatureLevels = QuestieDB:GetCreatureLevels(quest) -- Data for min and max level
+                local addedCreatureNames = {}
                 for _, textData in pairs(textList) do
                     for textLine, nameData in pairs(textData) do
                         local dataType = type(nameData)
                         if dataType == "table" then
                             for name in pairs(nameData) do
-                                name = _GetLevelString(creatureLevels, name)
-                                self:AddLine("   |cFFDDDDDD" .. name);
+                                if (not addedCreatureNames[name]) then
+                                    addedCreatureNames[name] = true
+                                    name = _GetLevelString(creatureLevels, name)
+                                    self:AddLine("   |cFFDDDDDD" .. name);
+                                end
                             end
-                        elseif dataType == "string" then
+                        elseif dataType == "string" and (not addedCreatureNames[nameData]) then
+                            addedCreatureNames[nameData] = true
                             nameData = _GetLevelString(creatureLevels, nameData)
                             self:AddLine("   |cFFDDDDDD" .. nameData);
                         end
@@ -381,7 +385,7 @@ function MapIconTooltip:Show()
             end
         end
 
-        if next(self.npcOrder) and next(self.manualOrder) then
+        if next(self.npcAndObjectOrder) and next(self.manualOrder) then
             -- Spacer before townsfolk
             self:AddLine("             ")
         end
@@ -404,6 +408,7 @@ function MapIconTooltip:Show()
     end
     Tooltip:_Rebuild() -- we separate this so things like MODIFIER_STATE_CHANGED can redraw the tooltip
     Tooltip:SetFrameStrata("TOOLTIP");
+    Tooltip.ShownAsMapIcon = true
     Tooltip:Show();
 end
 
@@ -549,14 +554,16 @@ function _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
     for text, nameTable in pairs(tip) do
         local data = {}
         data[text] = nameTable
-        --Add the data for the first time
+        -- Add the data for the first time
         if not usedText[icon.data.Id] then
-            usedText[icon.data.Id] = {}
-
-            if not usedText[icon.data.Id][text] then
-                tinsert(quest, data)
-                usedText[icon.data.Id][text] = true
-            end
+            usedText[icon.data.Id] = {
+                [text] = true
+            }
+            tinsert(quest, data)
+            -- add another line to an existing entry
+        elseif not usedText[icon.data.Id][text] then
+            tinsert(quest, data)
+            usedText[icon.data.Id][text] = true
         else
             --We want to add more NPCs as possible candidates when shift is pressed.
             if icon.data.Name then

@@ -260,7 +260,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     QuestieJourneyUtils:AddLine(details, "")
 
     if Questie.db.global.debugEnabled then
-        QuestieJourneyUtils:AddLine(details, recurseTable(QuestieDB:GetQuest(id), QuestieDB.questKeys))
+        QuestieJourneyUtils:AddLine(details, recurseTable(QuestieDB.GetQuest(id), QuestieDB.questKeys))
     end
 end
 
@@ -308,7 +308,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
 
         local zoneName = QuestieJourneyUtils:GetZoneName(startindex)
 
-        spawnZone:SetText(zoneName);
+        spawnZone:SetText(l10n(zoneName));
         spawnZone:SetFullWidth(true);
         f:AddChild(spawnZone);
 
@@ -341,7 +341,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         local startQuests = {};
         local counter = 1;
         for _, v in pairs(questStarts) do
-            local quest = QuestieDB:GetQuest(v)
+            local quest = QuestieDB.GetQuest(v)
             local frame = AceGUI:Create("InteractiveLabel")
             frame:SetUserData("id", v)
             frame:SetUserData("name", quest.name)
@@ -380,7 +380,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         local endQuests = {};
         local counter = 1;
         for _, v in ipairs(questEnds) do
-            local quest = QuestieDB:GetQuest(v)
+            local quest = QuestieDB.GetQuest(v)
             local frame = AceGUI:Create("InteractiveLabel")
             frame:SetText(QuestieLib:GetColoredQuestName(quest.Id, true, true))
             frame:SetUserData("id", v)

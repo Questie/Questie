@@ -26,6 +26,10 @@ function QuestieTBCObjectFixes:Load()
         [181138] = {
             [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS]={{12.53,26.51},{14.7,26.4},{13.69,26.84}}},
         },
+        [181679] = {
+            [objectKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.THE_SHATTERED_HALLS,
+        },
         [181697] = {
             [objectKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{33.7,74.4},{37,69.4},{37,69.5},{38,72},{38.2,69.4},{38.2,69.6},{38.8,74.4},{38.8,74.6},{39.9,69.5},{39.9,71.2},{39.9,71.5},{40,69.2},{41.3,67.1},{42.4,66.1},{42.4,68.8},{42.6,66},{42.6,68.9},{43.9,65.8},{44.4,69},{44.6,68.8},{44.8,70.4},{44.8,70.5},{46.3,66.3},{46.5,66.2},{48.3,64.9},{48.5,64.7},{49.3,61.9},{50.1,57.4},{50.1,57.5},{50.2,60.1},{50.3,63.3},{50.3,66.9},{50.4,63.5},{50.5,63.1},{51.1,64.7},{51.4,65.9},{51.5,66},{52.8,67},{54.4,64.4},{54.4,64.5},{54.5,64.4},{54.5,64.5},{55.4,62},{55.5,62.1},{55.7,63.9},{57,63.6}}},
         },
@@ -53,9 +57,12 @@ function QuestieTBCObjectFixes:Load()
         [183050] = {
             [objectKeys.spawns] = {[zoneIDs.SETHEKK_HALLS]={{-1,-1}}},
         },
+        [183933] = {
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{18.54,73.68},{35.53,57.98},{34.93,58.48},{36.56,59.4},{37.25,57.88},{19.82,75.69},{20.31,77.36},{19.39,78.38},{22.24,78.14},{24.42,78.22},{23.75,79.38},{31.73,71.52},{32.94,79.62},{32.9,78.28},{33.92,79.24},{34.81,78.16},{33.83,77.23},{34.73,77.5},{35.4,76.08},{39.09,77.34},{39.08,78.19},{40.81,77.3},{41.87,77.04},{19.61,75.08},{19.59,78.58},{21.6,78.4},{23.42,77.77},{19.44,74.0},{32.3,79.15},{32.43,79.37},{33.91,75.74},{34.14,78.13},{41.26,77.05},{40.37,78.64},{33.97,75.64}}},
+        },
         [184588] = {
             [objectKeys.name] = "Captain Tyralius's Prison",
-            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{53.3,41.4}}},
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{53.3,41.43}}},
             [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
         [184980] = {
@@ -63,10 +70,17 @@ function QuestieTBCObjectFixes:Load()
         },
         [184998] = {
             [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.52,39.93},{54.53,40.28},{54.28,40.29},{54.53,40.6},{54.77,40.28},{54.76,39.91},{54.46,46.37},{54.82,46.79},{54.63,46.76},{54.45,46.73},{54.73,46.57},{54.54,46.55},{54.38,46.53},{54.64,46.39}}},
         },
         [185015] = {
             [objectKeys.spawns] = {[zoneIDs.THE_MECHANAR]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_MECHANAR,
+        },
+        [185033] = {
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{66.39,44.08}}},
+        },
+        [185200] = {
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.12,19.37}}},
         },
         [185322] = {
             [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{28.7,98.7}}},
@@ -74,8 +88,26 @@ function QuestieTBCObjectFixes:Load()
         [185460] = {
             [objectKeys.name] = "Ethereum Prison",
         },
+        [185562] = {
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{77.53,31.2}}},
+        },
+        [185567] = {
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.92,47.61}}},
+        },
+        [185569] = {
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{58.59,60.8}}},
+        },
         [185574] = {
-            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{20.5,17.8}}},
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{20.17,18.1}}},
+        },
+        [185577] = {
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.7,25.46}}},
+        },
+        [185937] = {
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{66.71,14.3}}},
+        },
+        [185938] = {
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{62.75,7.33}}},
         },
         [186273] = {
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{61.7,18.2}}},
@@ -86,10 +118,15 @@ function QuestieTBCObjectFixes:Load()
                 [zoneIDs.ELWYNN_FOREST]={{42.5,65.8}},
                 [zoneIDs.DUN_MOROGH]={{46.4,52.2}},
                 [zoneIDs.TIRISFAL_GLADES]={{60.9,52.7}},
+                [zoneIDs.AZUREMYST_ISLE]={{48.99,51.02}},
+                [zoneIDs.EVERSONG_WOODS]={{47.5,46.3}},
             },
         },
         [187039] = {
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{50.0,12.4},{50.7,13.3},{50.7,13.9},{50.47,19.23},{49.27,19.97},{49.08,19.02},{49.31,17.77},{49.48,17.03},{50.91,17.26},{50.18,16.55},{51.15,16.75},{51.98,15.68},{50.7,13.34},{51.94,13.16},{51.02,11.97},{51.6,13.9},{54.13,18.84},},},
+        },
+        [187072] = {
+            [objectKeys.spawns] = {[3519]={{57.58,13.98},{53.94,13.64},{59.56,12.85},{55.3,12.31},{60.97,10.78},{47.65,7.78},{45.84,6.15},{47.46,5.59}}},
         },
         [187078] = {
             [objectKeys.spawns] = {[zoneIDs.ISLE_OF_QUEL_DANAS]={{46.5,35.5},{48.63,35.37},{48.89,39.15},{49.14,29.53},{50.32,38.27},{50.34,42.36},{53.77,36.21},}},
@@ -210,13 +247,12 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
         [189989] = {
-            [objectKeys.questStarts] = {12192},
-            [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{44.1,17.2}}},
-            [objectKeys.zoneID] = zoneIDs.DUROTAR,
+            [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{48.89,38.81}}},
+            [objectKeys.zoneID] = zoneIDs.DUN_MOROGH,
         },
         [189990] = {
-            [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{48.89,38.82}}},
-            [objectKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{44.1,17.2}}},
+            [objectKeys.zoneID] = zoneIDs.DUROTAR,
         },
         [190034] = {
             [objectKeys.spawns] = {[zoneIDs.TELDRASSIL]={{55.61,59.85}}},
@@ -610,13 +646,60 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
         },
         [400014] = {
-            [objectKeys.name] = "Gather Bloodberries all around the Isle of Quel'Danas",
-            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_QUEL_DANAS]={{40,30}}},
-            [objectKeys.zoneID] = zoneIDs.ISLE_OF_QUEL_DANAS,
+            [objectKeys.name] = "Scrying Orb",
+            [objectKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.MAGISTERS_TERRACE,
+        },
+        [400058] = {
+            [objectKeys.name] = "Portal to Socrethar's Seat",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{36.44,18.35}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [400059] = {
+            [objectKeys.name] = "Portal to Netherstorm",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{30.56,17.69}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [400060] = {
+            [objectKeys.name] = "Ethereum Transponder Zeta",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{56.81,38.7}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
         [500007] = {
             [objectKeys.name] = "Alcaz Survey Credit", -- 4391
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
         },
     }
+end
+
+-- This should allow manual fix for object availability
+function QuestieTBCObjectFixes:LoadFactionFixes()
+    local objectKeys = QuestieDB.objectKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
+    local objectFixesHorde = {
+        [186887] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.DUROTAR]={{52.6,42.5}},
+                [zoneIDs.TIRISFAL_GLADES]={{60.9,52.7}},
+                [zoneIDs.EVERSONG_WOODS]={{47.58,46.24}},
+            },
+        },
+    }
+
+    local objectFixesAlliance = {
+        [186887] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.ELWYNN_FOREST]={{42.5,65.8}},
+                [zoneIDs.DUN_MOROGH]={{46.4,52.2}},
+                [zoneIDs.AZUREMYST_ISLE]={{48.99,51.02}},
+            },
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return objectFixesHorde
+    else
+        return objectFixesAlliance
+    end
 end
