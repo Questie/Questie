@@ -4,6 +4,35 @@ QuestieCompat = {}
 
 local errorMsg = "Questie tried to call a blizzard API function that does not exist..."
 
+------------------------------------------
+-- Older client compatibility (pre 1.14.1)
+------------------------------------------
+
+-- Add missing Seasons object, if not available (e.g. 1.14.0 and below is missing it)
+if not C_Seasons then
+    C_Seasons = {
+        ---[C_Seasons.HasActiveSeason Documentation](https://wowpedia.fandom.com/wiki/API_C_Seasons.HasActiveSeason)
+        ---Returns true if the player is on a seasonal realm.
+        HasActiveSeason = function()
+            return false
+        end,
+        ---[C_Seasons.GetActiveSeason Documentation](https://wowpedia.fandom.com/wiki/API_C_Seasons.GetActiveSeason)
+        ---Returns the ID of the season that is active on the current realm.
+        GetActiveSeason = function()
+            return 0
+        end
+    }
+end
+
+-- Specific subclass of this mixin was added in a minor version and is missing in earlier patches, functionality this makes next to no visual difference
+if not TooltipBackdropTemplateMixin then
+    TooltipBackdropTemplateMixin = BackdropTemplateMixin
+end
+
+-------------------------------------------
+-- API difference compatibility (Era/Wotlk)
+-------------------------------------------
+
 ---[SetMinResize Documentation](https://wowpedia.fandom.com/wiki/API_Frame_SetMinResize)
 ---[SetMaxResize Documentation](https://wowpedia.fandom.com/wiki/API_Frame_SetMaxResize)
 ---[SetResizeBounds Documentation](https://wowpedia.fandom.com/wiki/API_Frame_SetMinResize)
@@ -70,6 +99,8 @@ end
 ---@return GossipQuestUIInfo[] info
 function QuestieCompat.GetActiveQuests()
     if C_GossipInfo and C_GossipInfo.GetActiveQuests then
+        -- QuestieDB needs to be loaded locally, otherwise it will be an empty module
+        local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         local info = C_GossipInfo.GetActiveQuests()
         local activeQuests = {}
         local index = 1
@@ -77,7 +108,7 @@ function QuestieCompat.GetActiveQuests()
             activeQuests[index] = activeQuest.title
             activeQuests[index + 1] = activeQuest.questLevel
             activeQuests[index + 2] = activeQuest.isTrivial
-            activeQuests[index + 3] = activeQuest.isComplete
+            activeQuests[index + 3] = activeQuest.isComplete or QuestieDB.IsComplete(activeQuest.questID) == 1
             activeQuests[index + 4] = activeQuest.isLegendary
             activeQuests[index + 5] = activeQuest.isIgnored
             index = index + 6

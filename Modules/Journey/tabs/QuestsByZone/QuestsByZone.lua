@@ -66,7 +66,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
 
         ---@type number
         questId = tonumber(questId)
-        local quest = QuestieDB:GetQuest(questId)
+        local quest = QuestieDB.GetQuest(questId)
 
         -- Add the quest to the open chat window if it was a shift click
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then

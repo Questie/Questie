@@ -402,7 +402,7 @@ do
             local count = 0
             Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("QuestieDBTests", "yellow") .. "] Testing QuestDB")
             for questId in pairs(data) do
-                local quest = QuestieDB:GetQuest(questId, true)
+                local quest = QuestieDB.GetQuest(questId, true)
                 local quest2 = GetQuestOLD(questId)
                 assert(equals(quest, quest2), Questie:Colorize("[QuestieDBTests] Quest " .. questId .. " is not equal", "red"))
                 count = count + 1

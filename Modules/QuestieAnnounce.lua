@@ -92,6 +92,16 @@ function _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()
     end
 end
 
+function _QuestieAnnounce.GetChatMessageChannel()
+    if IsInRaid() then
+        return "RAID"
+    elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+        return "INSTANCE_CHAT"
+    else
+        return "PARTY"
+    end
+end
+
 function _QuestieAnnounce:AnnounceToChannel(message)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAnnounce] raw msg: ", message)
     if (not message) or alreadySentBandaid[message] or Questie.db.global.questieShutUp then
@@ -101,7 +111,7 @@ function _QuestieAnnounce:AnnounceToChannel(message)
     alreadySentBandaid[message] = true
 
     if IsInRaid() or IsInGroup() then
-        SendChatMessage(message, (IsInRaid() and "RAID") or (IsInGroup() and "PARTY"))
+        SendChatMessage(message, _QuestieAnnounce.GetChatMessageChannel())
     elseif Questie.db.char.questAnnounceLocally == true then
         Questie:Print(message)
     end
@@ -118,7 +128,6 @@ function QuestieAnnounce:ItemLooted(text, notPlayerName, _, _, playerName)
     if (playerNameCache or _GetPlayerName()) == playerName or (string.len(playerName) == 0 and playerNameCache == notPlayerName) then
         local itemId = tonumber(string.match(text, "item:(%d+)"))
         if not itemId then return end
-
         local startQuestId = itemCache[itemId]
         -- startQuestId can have boolean false as value, need to compare to nil
         -- check QueryItemSingle because this event can fire before db init is complete

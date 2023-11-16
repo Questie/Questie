@@ -17,9 +17,9 @@ local lastIndexTried = 1
 local lastEvent
 
 local MOP_INDEX_AVAILABLE = 7 -- was '5' in Cataclysm
-local MOP_INDEX_COMPLETE = 6 -- was '4' in Cataclysm
+local MOP_INDEX_COMPLETE = 6  -- was '4' in Cataclysm
 
- -- forward declarations
+-- forward declarations
 local _SelectAvailableQuest
 
 
@@ -41,7 +41,7 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
     end
     lastEvent = "GOSSIP_SHOW"
 
-    local availableQuests = {QuestieCompat.GetAvailableQuests()}
+    local availableQuests = { QuestieCompat.GetAvailableQuests() }
     local currentNPC = UnitName("target")
     if lastNPCTalkedTo ~= currentNPC or #availableQuests ~= lastAmountOfAvailableQuests then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Greeted by a new NPC")
@@ -58,6 +58,18 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
         lastIndexTried = lastIndexTried + MOP_INDEX_AVAILABLE
     end
 
+    -- Turn in complete quests
+    if Questie.db.char.autocomplete and isAllowedNPC then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Checking active quests from gossip")
+        local completeQuests = { QuestieCompat.GetActiveQuests() }
+
+        for index = 1, #completeQuests, MOP_INDEX_COMPLETE do
+            _QuestieAuto:CompleteQuestFromGossip(index, completeQuests, MOP_INDEX_COMPLETE)
+        end
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] DONE. Checked all complete quests")
+    end
+
+    -- Accept new quests
     if Questie.db.char.autoaccept and (not doneWithAccept) and isAllowedNPC then
         if lastIndexTried < #availableQuests then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Checking available quests from gossip")
@@ -68,16 +80,6 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
             doneWithAccept = true
             lastIndexTried = 1
         end
-    end
-
-    if Questie.db.char.autocomplete and isAllowedNPC then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Checking active quests from gossip")
-        local completeQuests = {QuestieCompat.GetActiveQuests()}
-
-        for index=1, #completeQuests, MOP_INDEX_COMPLETE do
-            _QuestieAuto:CompleteQuestFromGossip(index, completeQuests, MOP_INDEX_COMPLETE)
-        end
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] DONE. Checked all complete quests")
     end
 end
 
@@ -112,7 +114,7 @@ function QuestieAuto:QUEST_PROGRESS(event, ...)
     lastEvent = "QUEST_PROGRESS"
 end
 
-_SelectAvailableQuest = function (index)
+_SelectAvailableQuest = function(index)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Selecting available quest at index", index)
     SelectAvailableQuest(index)
 end
@@ -122,8 +124,8 @@ function QuestieAuto:QUEST_ACCEPT_CONFIRM(event, ...)
     lastEvent = "QUEST_ACCEPT_CONFIRM"
     doneTalking = false
     -- Escort stuff
-    if(Questie.db.char.autoaccept) then
-       ConfirmAcceptQuest()
+    if (Questie.db.char.autoaccept) then
+        ConfirmAcceptQuest()
     end
 end
 
@@ -167,7 +169,6 @@ function QuestieAuto:QUEST_GREETING(event, ...)
     end
 end
 
-
 function QuestieAuto:QUEST_DETAIL(event, ...)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto][EVENT] QUEST_DETAIL", event, ...)
     lastEvent = "QUEST_DETAIL"
@@ -186,22 +187,22 @@ function QuestieAuto:QUEST_DETAIL(event, ...)
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] INSIDE", event, ...)
 
         local questId = GetQuestID()
-        local quest
+        local questLevel
 
         if questId and questId ~= 0 then
-            quest = QuestieDB:GetQuest(questId)
+            questLevel = QuestieDB.QueryQuestSingle(questId, "questLevel")
         end
 
-        if not quest then
+        if not questLevel then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] No quest object, retrying in 1 second")
             C_Timer.After(1, function()
                 questId = GetQuestID()
                 if questId and questId ~= 0 then
-                    quest = QuestieDB:GetQuest(questId)
-                    if not quest then
+                    questLevel = QuestieDB.QueryQuestSingle(questId, "questLevel")
+                    if not questLevel then
                         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] retry failed. Quest", questId, "might not be in the DB!")
-                    elseif (not quest:IsTrivial()) or Questie.db.char.acceptTrivial then
-                        Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Questie Auto-Acceping quest")
+                    elseif (not QuestieDB.IsTrivial(questLevel)) or Questie.db.char.acceptTrivial then
+                        Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Questie Auto-Accepting quest:", questId)
                         AcceptQuest()
                     end
                 end
@@ -210,8 +211,8 @@ function QuestieAuto:QUEST_DETAIL(event, ...)
             return
         end
 
-        if (not quest:IsTrivial()) or Questie.db.char.acceptTrivial then
-            Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Questie Auto-Acceping quest")
+        if (not QuestieDB.IsTrivial(questLevel)) or Questie.db.char.acceptTrivial then
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Questie Auto-Accepting quest:", questId)
             AcceptQuest()
         end
     end
@@ -236,7 +237,6 @@ function QuestieAuto:QUEST_COMPLETE(event, ...)
     --    return
     -- end
     if (Questie.db.char.autocomplete) then
-
         local questname = GetTitleText()
         local numOptions = GetNumQuestChoices()
         Questie:Debug(Questie.DEBUG_DEVELOP, event, questname, numOptions, ...)
@@ -270,18 +270,19 @@ function QuestieAuto:QUEST_ACCEPTED()
     end
 end
 
+--[[ TODO: This function already exsists in Privates.lua line 8. Does it belong here or in Privates?
 function _QuestieAuto:AllQuestWindowsClosed()
     if GossipFrame and (not GossipFrame:IsVisible())
-            and GossipFrameGreetingPanel and (not GossipFrameGreetingPanel:IsVisible())
-            and QuestFrameGreetingPanel and (not QuestFrameGreetingPanel:IsVisible())
-            and QuestFrameDetailPanel and (not QuestFrameDetailPanel:IsVisible())
-            and QuestFrameProgressPanel and (not QuestFrameProgressPanel:IsVisible())
-            and QuestFrameRewardPanel and (not QuestFrameRewardPanel:IsVisible()) then
+        and GossipFrameGreetingPanel and (not GossipFrameGreetingPanel:IsVisible())
+        and QuestFrameGreetingPanel and (not QuestFrameGreetingPanel:IsVisible())
+        and QuestFrameDetailPanel and (not QuestFrameDetailPanel:IsVisible())
+        and QuestFrameProgressPanel and (not QuestFrameProgressPanel:IsVisible())
+        and QuestFrameRewardPanel and (not QuestFrameRewardPanel:IsVisible()) then
         return true
     end
     return false
 end
-
+--]]
 --- The closingCounter needs to reach 1 for QuestieAuto to reset
 --- Whenever the gossip frame is closed this event is called once, HOWEVER
 --- when totally stop talking to an NPC this event is called twice.

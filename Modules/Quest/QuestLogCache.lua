@@ -5,10 +5,11 @@
 local QuestLogCache = QuestieLoader:CreateModule("QuestLogCache")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type Sounds
+local Sounds = QuestieLoader:ImportModule("Sounds")
 
 local stringByte = string.byte
 local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = GetQuestLogTitle, C_QuestLog.GetQuestObjectives
-local type = type
 
 -- 3 * (Max possible number of quests in game quest log)
 -- This is a safe value, even smaller would be enough. Too large won't effect performance
@@ -100,6 +101,14 @@ local function GetNewObjectives(questId, oldObjectives)
                     changedObjIds[#changedObjIds+1] = objIndex
                 end
 
+                if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired == newObj.numFulfilled then
+                    Sounds.PlayObjectiveComplete()
+                end
+
+                if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired ~= newObj.numFulfilled then
+                    Sounds.PlayObjectiveProgress()
+                end
+
                 newObjectives[objIndex] = {
                     raw_text = newObj.text,
                     raw_finished = newObj.finished,
@@ -160,7 +169,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
 
                 if newObjectives then
                     if cachedQuest and (#cachedObjectives ~= #newObjectives) then
-                        Questie:Error("Please report on Github or Discord! Number of the objectives of the quest changed. questId, oldNum, newNum", questId, #cachedObjectives, #newObjectives)
+                        Questie:Debug(Questie.DEBUG_CRITICAL, "Please report on Github or Discord! Number of the objectives of the quest changed. questId, oldNum, newNum", questId, #cachedObjectives, #newObjectives)
                         -- Number of the objectives changed?! Shouldn't be possible.
                         -- For now go as nothing in the quest changed.
                         cacheMiss = true
@@ -186,6 +195,11 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                                 end
                             end
                         end
+
+                        if cachedQuest and (not cachedQuest.isComplete) and isComplete == 1 then
+                            Sounds.PlayQuestComplete()
+                        end
+
                         if changedObjIds then
                             -- Save to cache
                             cache[questId] = {
@@ -222,7 +236,8 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
     if questIdsToCheck then
         for questId in pairs(questIdsToCheck) do
             if (not questIdsChecked[questId]) then
-                Questie:Error("Please report on Github or Discord. QuestId doesn't exist in Game's quest log:", questId)
+                -- TODO: This actually happens and need to be fixed
+                Questie:Warning("Please report on Github or Discord. QuestId doesn't exist in Game's quest log:", questId)
             end
         end
     end
@@ -263,17 +278,6 @@ function QuestLogCache.TestGameCache()
         if (not isHeader) then
             if HaveQuestData(questId) then
                 local objectives = C_QuestLog_GetQuestObjectives(questId)
-
-                if type(objectives) ~= "table" then
-                    -- I couldn't find yet a quest returning nil like older code suggested for example for quest 2744, which isn't true.
-                    -- I guess older code queried data before HaveQuestData() was true.
-                    -- This check is to catch if that is possible.
-                    -- TODO: Remove this if block once confirmed error never happens.
-                    -- I = Laume / Laumesis@Github
-                    Questie:Error("Please report on Github or Discord! Quest objectives aren't a table at TestGameCache. questId =", questId)
-                    error("Please report on Github or Discord! Quest objectives aren't a table at TestGameCache. questId = "..questId)
-                    -- execution ends here because of error ^
-                end
 
                 for objIndex=1, #objectives do
                     local text = objectives[objIndex].text

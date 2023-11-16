@@ -123,9 +123,9 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             local startQuests = {}
             local counter = 1
             for _, v in pairs(startNpc.questStarts) do
-                if (not v == quest.Id) then
+                if v ~= quest.Id then
                     startQuests[counter] = {}
-                    local startQuest = QuestieDB:GetQuest(v)
+                    local startQuest = QuestieDB.GetQuest(v)
                     local label = _QuestieJourney:GetInteractiveQuestLabel(startQuest)
                     startQuests[counter].frame = label
                     startQuests[counter].quest = startQuest
@@ -209,7 +209,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                 for _, v in pairs(startObj.questStarts) do
                     if v ~= quest.Id then
                         startQuests[counter] = {}
-                        local startQuest = QuestieDB:GetQuest(v)
+                        local startQuest = QuestieDB.GetQuest(v)
                         local label = _QuestieJourney:GetInteractiveQuestLabel(startQuest)
                         startQuests[counter].frame = label
                         startQuests[counter].quest = startQuest
@@ -296,7 +296,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             for _, v in ipairs(endNPC.endQuests) do
                 if v ~= quest.Id then
                     endQuests[counter] = {}
-                    local endQuest = QuestieDB:GetQuest(v)
+                    local endQuest = QuestieDB.GetQuest(v)
                     local label = _QuestieJourney:GetInteractiveQuestLabel(endQuest)
                     endQuests[counter].frame = label
                     endQuests[counter].quest = endQuest
@@ -381,7 +381,7 @@ function _QuestieJourney:CreatePreQuestGroup(quest)
     if (quest.preQuestSingle and next(quest.preQuestSingle)) then
         for _, v in pairs(quest.preQuestSingle) do
             if v ~= quest.Id then
-                local preQuest = QuestieDB:GetQuest(v)
+                local preQuest = QuestieDB.GetQuest(v)
                 local label = _QuestieJourney:GetInteractiveQuestLabel(preQuest)
                 preQuestInlineGroup:AddChild(label)
                 preQuestCounter = preQuestCounter + 1
@@ -392,7 +392,7 @@ function _QuestieJourney:CreatePreQuestGroup(quest)
     if (quest.preQuestGroup and next(quest.preQuestGroup)) then
         for _, v in pairs(quest.preQuestGroup) do
             if v ~= quest.Id then
-                local preQuest = QuestieDB:GetQuest(v)
+                local preQuest = QuestieDB.GetQuest(v)
                 local label = _QuestieJourney:GetInteractiveQuestLabel(preQuest)
                 preQuestInlineGroup:AddChild(label)
                 preQuestCounter = preQuestCounter + 1

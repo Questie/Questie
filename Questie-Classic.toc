@@ -1,28 +1,29 @@
-## Interface: 11403
-## Title: Questie|cFF00FF00 7.5.2|r
+## Interface: 11404
+## Title: Questie|cFF00FF00 v8.10.10|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 7.5.2
+## Version: 8.10.10
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
 ## X-Curse-Project-ID: 334372
+## X-Wago-ID: qv634BKb
 
+Modules\QuestieCompat.lua
 Modules\WorldMapTaintWorkaround.lua
 
 embeds.xml
 
 Modules\VersionCheck.lua
-Modules\QuestieCompat.lua
+
+# Loader module
+Modules\Libs\QuestieLoader.lua
 
 Libs\LibUIDropDownMenu\LibUIDropDownMenu.xml
 Libs\HereBeDragons\HereBeDragons-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Migrate.lua
-
-# Loader module
-Modules\Libs\QuestieLoader.lua
 
 # Thread Manager
 Modules\Libs\ThreadLib.lua
@@ -59,6 +60,7 @@ Database\Corrections\QuestieCorrections.lua
 Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieNPCBlacklist.lua
 Database\Corrections\QuestieQuestBlacklist.lua
+Database\Corrections\HardcoreBlacklist.lua
 Database\Corrections\SoMPhases.lua
 Database\Corrections\QuestieEvent.lua
 
@@ -102,8 +104,10 @@ Modules\Migration.lua
 Modules\QuestieMenu.lua
 Modules\QuestieAnnounce.lua
 Modules\QuestieShutUp.lua
+Modules\Sounds.lua
 Modules\TaskQueue.lua
 Modules\QuestiePlayer.lua
+Modules\WorldMapButton.lua
 
 # QuestLinks
 Modules\QuestLinks\ChatFilter.lua
@@ -165,11 +169,12 @@ Modules\Journey\QuestieSearchResults.lua
 Modules\Tracker\QuestieTracker.lua
 Modules\Tracker\TrackerUtils.lua
 Modules\Tracker\TrackerMenu.lua
-Modules\Tracker\FadeTicker.lua
+Modules\Tracker\TrackerFadeTicker.lua
 Modules\Tracker\TrackerBaseFrame.lua
-Modules\Tracker\QuestieQuestTimers.lua
-Modules\Tracker\ActiveQuestsHeader.lua
-Modules\Tracker\LinePool.lua
+Modules\Tracker\TrackerHeaderFrame.lua
+Modules\Tracker\TrackerQuestFrame.lua
+Modules\Tracker\TrackerQuestTimers.lua
+Modules\Tracker\TrackerLinePool.lua
 
 Modules\QuestieDBMIntegration.lua
 Modules\QuestieSlash.lua

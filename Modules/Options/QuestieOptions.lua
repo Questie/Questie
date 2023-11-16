@@ -11,8 +11,10 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
-QuestieOptions.tabs = {...}
+QuestieOptions.tabs = { ... }
 QuestieConfigFrame = nil
 
 local AceGUI = LibStub("AceGUI-3.0")
@@ -53,8 +55,10 @@ function QuestieOptions:Initialize()
     journeyButton:SetPoint("TOPRIGHT", configFrame.frame, "TOPRIGHT", -50, -13)
     journeyButton:SetText(l10n('My Journey'))
     journeyButton:SetCallback("OnClick", function()
-        QuestieOptions:OpenConfigWindow()
-        QuestieJourney:ToggleJourneyWindow()
+        QuestieCombatQueue:Queue(function()
+            QuestieJourney:ToggleJourneyWindow()
+            QuestieOptions:OpenConfigWindow()
+        end)
     end)
 
     configFrame:Hide()
@@ -69,9 +73,9 @@ end
 
 -- Generic function to hide the config frame.
 function QuestieOptions:HideFrame()
-  if QuestieConfigFrame and QuestieConfigFrame:IsShown() then
-    QuestieConfigFrame:Hide();
-  end
+    if QuestieConfigFrame and QuestieConfigFrame:IsShown() then
+        QuestieConfigFrame:Hide();
+    end
 end
 
 -- Open the configuration window
@@ -93,7 +97,7 @@ end
 -- set option value
 function QuestieOptions:SetGlobalOptionValue(info, value)
     if debug and Questie.db.global[info[#info]] ~= value then
-        Questie:Debug(Questie.DEBUG_SPAM, "DEBUG: global option", info[#info], "changed from '"..tostring(Questie.db.global[info[#info]]).."' to '"..tostring(value).."'")
+        Questie:Debug(Questie.DEBUG_SPAM, "DEBUG: global option", info[#info], "changed from '" .. tostring(Questie.db.global[info[#info]]) .. "' to '" .. tostring(value) .. "'")
     end
     Questie.db.global[info[#info]] = value
 end
@@ -107,8 +111,6 @@ function QuestieOptions:ClusterRedraw()
     --Redraw clusters here
     QuestieQuest:SmoothReset();
 end
-
-
 
 ---@return table
 _CreateOptionsTable = function()

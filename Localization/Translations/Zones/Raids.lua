@@ -244,8 +244,8 @@ local raidLocales = {
         ["zhCN"] = "银色比武场",
     },
     ["Icecrown Citadel"] = {
-        ["ptBR"] = "Цитадель Ледяной Короны",
-        ["ruRU"] = "Cidadela da Coroa de Gelo",
+        ["ptBR"] = "Cidadela da Coroa de Gelo",
+        ["ruRU"] = "Цитадель Ледяной Короны",
         ["deDE"] = "Eiskronenzitadelle",
         ["koKR"] = "얼음왕관 성채",
         ["esMX"] = "Ciudadela de la Corona de Hielo",

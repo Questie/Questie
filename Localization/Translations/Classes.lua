@@ -11,7 +11,7 @@ local classLocales = {
         ["enUS"] = true,
         ["frFR"] = "Guerrier",
         ["esES"] = "Guerrero",
-        ["zhTW"] = "Warrior",
+        ["zhTW"] = "戰士",
         ["zhCN"] = "战士",
     },
     ["Paladin"] = {
@@ -23,7 +23,7 @@ local classLocales = {
         ["enUS"] = true,
         ["frFR"] = "Paladin",
         ["esES"] = "Paladín",
-        ["zhTW"] = "Paladin",
+        ["zhTW"] = "聖騎士",
         ["zhCN"] = "圣骑士",
     },
     ["Shaman"] = {
@@ -35,7 +35,7 @@ local classLocales = {
         ["enUS"] = true,
         ["frFR"] = "Chaman",
         ["esES"] = "Chamán",
-        ["zhTW"] = "Shaman",
+        ["zhTW"] = "薩滿",
         ["zhCN"] = "萨满祭司",
     },
     ["Rogue"] = {
@@ -47,7 +47,7 @@ local classLocales = {
         ["enUS"] = true,
         ["frFR"] = "Voleur",
         ["esES"] = "Pícaro",
-        ["zhTW"] = "Rogue",
+        ["zhTW"] = "盜賊",
         ["zhCN"] = "潜行者",
     },
     ["Mage"] = {
@@ -59,7 +59,7 @@ local classLocales = {
         ["enUS"] = true,
         ["frFR"] = "Mage",
         ["esES"] = "Mago",
-        ["zhTW"] = "Mage",
+        ["zhTW"] = "法師",
         ["zhCN"] = "法师",
     },
     ["Druid"] = {
@@ -71,7 +71,7 @@ local classLocales = {
         ["enUS"] = true,
         ["frFR"] = "Druide",
         ["esES"] = "Sacerdote",
-        ["zhTW"] = "Druid",
+        ["zhTW"] = "德魯伊",
         ["zhCN"] = "德鲁伊",
     },
     ["Priest"] = {
@@ -83,7 +83,7 @@ local classLocales = {
         ["enUS"] = true,
         ["frFR"] = "Prêtre",
         ["esES"] = "Priest",
-        ["zhTW"] = "Priest",
+        ["zhTW"] = "牧師",
         ["zhCN"] = "牧师",
     },
     ["Hunter"] = {
@@ -95,7 +95,7 @@ local classLocales = {
         ["enUS"] = true,
         ["frFR"] = "Chasseur",
         ["esES"] = "Cazador",
-        ["zhTW"] = "Hunter",
+        ["zhTW"] = "獵人",
         ["zhCN"] = "猎人",
     },
     ["Warlock"] = {
@@ -107,8 +107,20 @@ local classLocales = {
         ["enUS"] = true,
         ["frFR"] = "Démoniste",
         ["esES"] = "Brujo",
-        ["zhTW"] = "Warlock",
+        ["zhTW"] = "術士",
         ["zhCN"] = "术士",
+    },
+    ["Death Knight"] = {
+        ["ptBR"] = "Cavaleiro da Morte",
+        ["ruRU"] = "Рыцарь смерти",
+        ["deDE"] = "Todesritter",
+        ["koKR"] = "죽음의 기사,죽음의 기사",
+        ["esMX"] = "Caballero de la Muerte",
+        ["enUS"] = true,
+        ["frFR"] = "Chevalier de la mort",
+        ["esES"] = "Caballero de la Muerte",
+        ["zhTW"] = "死亡騎士",
+        ["zhCN"] = "死亡骑士",
     },
 }
 

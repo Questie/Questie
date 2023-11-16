@@ -12,6 +12,8 @@
 ## IntelliJ settings
 .idea/
 
+CHANGELOG.md
+
 #This is used for the atom build package, enables the build to happen on each save.
 .atom-build.yml
 
@@ -26,3 +28,4 @@ releases/
 
 #Log files
 *.log
+*.bak

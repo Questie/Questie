@@ -15,6 +15,9 @@ local QuestieSearch = QuestieLoader:ImportModule("QuestieSearch")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+
 
 function QuestieSlash.RegisterSlashCommands()
     Questie:RegisterChatCommand("questieclassic", QuestieSlash.HandleCommands)
@@ -34,7 +37,9 @@ function QuestieSlash.HandleCommands(input)
 
     -- /questie
     if mainCommand == "" or not mainCommand then
-        QuestieOptions:OpenConfigWindow();
+        QuestieCombatQueue:Queue(function()
+            QuestieOptions:OpenConfigWindow();
+        end)
 
         if QuestieJourney:IsShown() then
             QuestieJourney.ToggleJourneyWindow();
