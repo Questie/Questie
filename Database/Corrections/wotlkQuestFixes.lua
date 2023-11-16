@@ -61,6 +61,9 @@ function QuestieWotlkQuestFixes:Load()
         [403] = {
             [questKeys.startedBy] = {nil,{269}},
         },
+        [434] = {
+            [questKeys.triggerEnd] = {"Overhear Lescovar and Marzon's Conversation", {[zoneIDs.STORMWIND_CITY]={{72.22,35.37}}}},
+        },
         [508] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
