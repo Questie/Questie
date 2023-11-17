@@ -4433,6 +4433,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{191761}},
             [questKeys.finishedBy] = {nil,{191761}},
             [questKeys.preQuestSingle] = {12889},
+            [questKeys.requiredSpell] = -55252,
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,400},
         },
         [13846] = {

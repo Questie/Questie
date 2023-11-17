@@ -1233,7 +1233,7 @@ function QuestieQuestBlacklist:Load()
         [14032] = true, -- Not in the game
         [13825] = true, -- EXISTS ingame, but can only be picked up if quest 6610 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
         [13826] = true, -- EXISTS ingame, but can only be picked up if quest 6607 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
-        [13843] = true, -- Questie NYI - only available if recipe 55252 is not known but quest 12889 is completed, we can't yet determine recipe knowledge
+        --[13843] = true, -- Questie NYI - only available if recipe 55252 is not known but quest 12889 is completed, we can't yet determine recipe knowledge - fixed
 
         [8367] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
         [8371] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
