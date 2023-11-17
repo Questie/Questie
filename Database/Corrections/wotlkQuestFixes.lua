@@ -5619,6 +5619,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{1090,75}},
         },
         [78753] = {
             [questKeys.name] = "Proof of Demise: Threats to Azeroth",
@@ -5632,6 +5633,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{1090,75}},
         },
     }
 end
