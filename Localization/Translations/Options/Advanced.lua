@@ -338,6 +338,18 @@ local advancedOptionsLocales = {
         ["esES"] = false,
         ["frFR"] = false,
     },
+    ["Quel'Danas Settings"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(advancedOptionsLocales) do

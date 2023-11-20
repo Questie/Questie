@@ -566,6 +566,18 @@ local generalOptionsLocales = {
         ["esES"] = false,
         ["frFR"] = false,
     },
+    ["Sound Options"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
     ["By default, Questie only shows quests that are relevant for your level. You can change this behavior below."] = {
         ["ptBR"] = false,
         ["ruRU"] = false,

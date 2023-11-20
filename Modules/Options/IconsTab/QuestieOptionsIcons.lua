@@ -1164,16 +1164,16 @@ end
 _GetIconThemes = function()
     if Questie.IsWotlk then
         return {
-            ['questie'] = l10n("|T" .. Questie.icons["slay"] .. ":14|t Questie"),
-            ['blizzard'] = l10n("|TInterface/buttons/adventureguidemicrobuttonalert.blp:20:20:0:0:32:32:2:28:2:28|t Blizzard"),
-            ['pfquest'] = l10n("|T" .. Questie.icons["node"] .. ":14|t pfQuest"),
-            ['custom'] = l10n("|T" .. Questie.icons["object"] .. ":16|t Custom"),
+            ['questie'] = "|T" .. Questie.icons["slay"] .. ":14|t Questie",
+            ['blizzard'] = "|TInterface/buttons/adventureguidemicrobuttonalert.blp:20:20:0:0:32:32:2:28:2:28|t Blizzard",
+            ['pfquest'] = "|T" .. Questie.icons["node"] .. ":14|t pfQuest",
+            ['custom'] = "|T" .. Questie.icons["object"] .. ":16|t " .. l10n("Custom"),
         }
     else
         return {
-            ['questie'] = l10n("|T" .. Questie.icons["complete"] .. ":14|t Questie"),
-            ['pfquest'] = l10n("|T" .. Questie.icons["node"] .. ":14|t pfQuest"),
-            ['custom'] = l10n("|T" .. Questie.icons["object"] .. ":16|t Custom"),
+            ['questie'] = "|T" .. Questie.icons["complete"] .. ":14|t Questie",
+            ['pfquest'] = "|T" .. Questie.icons["node"] .. ":14|t pfQuest",
+            ['custom'] = "|T" .. Questie.icons["object"] .. ":16|t " .. l10n("Custom"),
         }
     end
 end
