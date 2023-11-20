@@ -153,103 +153,6 @@ function QuestieOptions.tabs.advanced:Initialize()
                     },
                 },
             },
-            seperatingHeader2 = {
-                type = "header",
-                order = 2,
-                name = l10n('Developer Options'),
-            },
-            bugWorkarounds = {
-                type = "toggle",
-                order = 2.05,
-                name = function() return l10n('Enable bug workarounds'); end,
-                desc = function() return l10n('When enabled, Questie will hotfix vanilla UI bugs.'); end,
-                width = "full",
-                get = function() return Questie.db.profile.bugWorkarounds; end,
-                set = function (_, value)
-                    Questie.db.profile.bugWorkarounds = value
-                end
-            },
-            showQuestIDs = {
-                type = "toggle",
-                order = 2.1,
-                name = function() return l10n('Show Quest IDs'); end,
-                desc = function() return l10n('When this is checked, the ID of quests will show in the tooltips and the tracker.'); end,
-                width = "full",
-                get = function() return Questie.db.profile.enableTooltipsQuestID; end,
-                set = function (_, value)
-                    Questie.db.profile.enableTooltipsQuestID = value
-                    QuestieTracker:Update()
-                end
-            },
-            debugEnabled = {
-                type = "toggle",
-                order = 2.2,
-                name = function() return l10n('Enable Debug'); end,
-                desc = function() return l10n('Enable or disable debug functionality.'); end,
-                width = "full",
-                get = function () return Questie.db.profile.debugEnabled; end,
-                set = function (_, value)
-                    Questie.db.profile.debugEnabled = value
-                    if Questie.db.profile.debugEnabled then
-                        QuestieLoader:PopulateGlobals()
-                    end
-                end,
-            },
-            skipValidation = {
-                type = "toggle",
-                order = 2.25,
-                name = function() return l10n('Skip Validation'); end,
-                desc = function() return l10n('Skip database validation upon recompile. Validation is only present with debug enabled in the first place.'); end,
-                width = "full",
-                disabled = function() return not Questie.db.profile.debugEnabled; end,
-                get = function () return Questie.db.profile.skipValidation; end,
-                set = function (_, value)
-                    Questie.db.profile.skipValidation = value
-                end,
-            },
-            debugEnabledPrint = {
-                type = "toggle",
-                order = 2.3,
-                disabled = function() return not Questie.db.profile.debugEnabled; end,
-                name = function() return l10n('Enable Debug').."-PRINT" end,
-                desc = function() return l10n('Enable or disable debug functionality.').."-PRINT" end,
-                width = "full",
-                get = function () return Questie.db.profile.debugEnabledPrint; end,
-                set = function (_, value)
-                    Questie.db.profile.debugEnabledPrint = value
-                end,
-            },
-            debugLevel = {
-                type = "multiselect",
-                values = {
-                    [0] = "DEBUG_CRITICAL",
-                    [1] = "DEBUG_ELEVATED",
-                    [2] = "DEBUG_INFO",
-                    [3] = "DEBUG_DEVELOP",
-                    [4] = "DEBUG_SPAM",
-                },
-                order = 2.4,
-                name = function() return l10n('Debug level to print'); end,
-                width = "normal",
-                disabled = function() return not (Questie.db.profile.debugEnabledPrint and Questie.db.profile.debugEnabled); end,
-                get = function(_, key)
-                    --Questie:Debug(Questie.DEBUG_SPAM, "Debug Key:", key, math.pow(2, key), state.option.values[key])
-                    --Questie:Debug(Questie.DEBUG_SPAM, "Debug Level:", Questie.db.profile.debugLevel, bit.band(Questie.db.profile.debugLevel, math.pow(2, key)))
-                    return bit.band(Questie.db.profile.debugLevel, math.pow(2, key)) > 0
-                end,
-                set = function (_, value)
-                    local currentValue = Questie.db.profile.debugLevel
-                    local flag = math.pow(2, value)
-                    --Questie:Debug(Questie.DEBUG_SPAM, "Setting Debug:", currentValue, flag, bit.band(currentValue, flag)>0)
-                    -- When current debug level is active, remove it
-                    if (bit.band(currentValue, flag) > 0) then
-                        Questie.db.profile.debugLevel = bit.bxor(flag, currentValue)
-                    -- When current debug level is inactive, add it
-                    else
-                        Questie.db.profile.debugLevel = bit.bor(flag, currentValue)
-                    end
-                end,
-            },
 
             Spacer_A = QuestieOptionsUtils:Spacer(2.9),
             locale_header = {
@@ -372,6 +275,103 @@ function QuestieOptions.tabs.advanced:Initialize()
                 order = 4.8,
                 name = function() return Questie:Colorize(l10n('Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/Questie/Questie/ ))'), 'purple'); end,
                 fontSize = "medium",
+            },
+            HeaderDev = {
+                type = "header",
+                order = 5,
+                name = l10n('Developer Options'),
+            },
+            bugWorkarounds = {
+                type = "toggle",
+                order = 5.01,
+                name = function() return l10n('Enable bug workarounds'); end,
+                desc = function() return l10n('When enabled, Questie will hotfix vanilla UI bugs.'); end,
+                width = "full",
+                get = function() return Questie.db.profile.bugWorkarounds; end,
+                set = function (_, value)
+                    Questie.db.profile.bugWorkarounds = value
+                end
+            },
+            showQuestIDs = {
+                type = "toggle",
+                order = 5.02,
+                name = function() return l10n('Show Quest IDs'); end,
+                desc = function() return l10n('When this is checked, the ID of quests will show in the tooltips and the tracker.'); end,
+                width = "full",
+                get = function() return Questie.db.profile.enableTooltipsQuestID; end,
+                set = function (_, value)
+                    Questie.db.profile.enableTooltipsQuestID = value
+                    QuestieTracker:Update()
+                end
+            },
+            debugEnabled = {
+                type = "toggle",
+                order = 5.03,
+                name = function() return l10n('Enable Debug'); end,
+                desc = function() return l10n('Enable or disable debug functionality.'); end,
+                width = "full",
+                get = function () return Questie.db.profile.debugEnabled; end,
+                set = function (_, value)
+                    Questie.db.profile.debugEnabled = value
+                    if Questie.db.profile.debugEnabled then
+                        QuestieLoader:PopulateGlobals()
+                    end
+                end,
+            },
+            skipValidation = {
+                type = "toggle",
+                order = 5.04,
+                name = function() return l10n('Skip Validation'); end,
+                desc = function() return l10n('Skip database validation upon recompile. Validation is only present with debug enabled in the first place.'); end,
+                width = "full",
+                disabled = function() return not Questie.db.profile.debugEnabled; end,
+                get = function () return Questie.db.profile.skipValidation; end,
+                set = function (_, value)
+                    Questie.db.profile.skipValidation = value
+                end,
+            },
+            debugEnabledPrint = {
+                type = "toggle",
+                order = 5.06,
+                disabled = function() return not Questie.db.profile.debugEnabled; end,
+                name = function() return l10n('Enable Debug').."-PRINT" end,
+                desc = function() return l10n('Enable or disable debug functionality.').."-PRINT" end,
+                width = "full",
+                get = function () return Questie.db.profile.debugEnabledPrint; end,
+                set = function (_, value)
+                    Questie.db.profile.debugEnabledPrint = value
+                end,
+            },
+            debugLevel = {
+                type = "multiselect",
+                values = {
+                    [0] = "DEBUG_CRITICAL",
+                    [1] = "DEBUG_ELEVATED",
+                    [2] = "DEBUG_INFO",
+                    [3] = "DEBUG_DEVELOP",
+                    [4] = "DEBUG_SPAM",
+                },
+                order = 5.07,
+                name = function() return l10n('Debug level to print'); end,
+                width = "normal",
+                disabled = function() return not (Questie.db.profile.debugEnabledPrint and Questie.db.profile.debugEnabled); end,
+                get = function(_, key)
+                    --Questie:Debug(Questie.DEBUG_SPAM, "Debug Key:", key, math.pow(2, key), state.option.values[key])
+                    --Questie:Debug(Questie.DEBUG_SPAM, "Debug Level:", Questie.db.profile.debugLevel, bit.band(Questie.db.profile.debugLevel, math.pow(2, key)))
+                    return bit.band(Questie.db.profile.debugLevel, math.pow(2, key)) > 0
+                end,
+                set = function (_, value)
+                    local currentValue = Questie.db.profile.debugLevel
+                    local flag = math.pow(2, value)
+                    --Questie:Debug(Questie.DEBUG_SPAM, "Setting Debug:", currentValue, flag, bit.band(currentValue, flag)>0)
+                    -- When current debug level is active, remove it
+                    if (bit.band(currentValue, flag) > 0) then
+                        Questie.db.profile.debugLevel = bit.bxor(flag, currentValue)
+                    -- When current debug level is inactive, add it
+                    else
+                        Questie.db.profile.debugLevel = bit.bor(flag, currentValue)
+                    end
+                end,
             },
         },
     }
