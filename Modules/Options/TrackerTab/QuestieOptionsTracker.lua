@@ -441,7 +441,7 @@ function QuestieOptions.tabs.tracker:Initialize()
             },
             useEscapeKeyForTracker = {
                 type = "toggle",
-                order = 3.05,  -- Adjust the order as needed to place it correctly in the settings
+                order = 3.05,
                 width = 1.5,
                 name = function() return l10n("Collapse Tracker With Escape Key") end,
                 desc = function() return l10n("When this is checked, the Escape key will collapse the Questie Tracker (while not in combat).") end,
