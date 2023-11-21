@@ -50,6 +50,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
+        [176] = {
+            [questKeys.startedBy] = {nil,{68,156561}},
+        },
         [236] = {
             [questKeys.startedBy] = {{31108}},
             [questKeys.finishedBy] = {{31108}},
@@ -57,6 +60,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [403] = {
             [questKeys.startedBy] = {nil,{269}},
+        },
+        [434] = {
+            [questKeys.triggerEnd] = {"Overhear Lescovar and Marzon's Conversation", {[zoneIDs.STORMWIND_CITY]={{72.22,35.37}}}},
         },
         [508] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -138,10 +144,16 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
+        [1716] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [1800] = {
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+        },
+        [1885] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
         [2204] = {
             [questKeys.startedBy] = {nil,{112877}},
@@ -160,6 +172,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [3602] = {
             [questKeys.requiredSourceItems] = {},
+        },
+        [3641] = {
+            [questKeys.preQuestSingle] = {},
         },
         [3763] = {
             [questKeys.startedBy] = {{6735}},
@@ -1468,6 +1483,9 @@ function QuestieWotlkQuestFixes:Load()
         [12301] = {
             [questKeys.triggerEnd] = {"The Forgotten Redeemed",{[zoneIDs.DRAGONBLIGHT]={{86.86,66.18,},},},},
         },
+        [12307] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [12316] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27500,27550},27550,"Horde killed in Venture Bay"}}},
         },
@@ -1722,9 +1740,15 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {12501,12563},
             [questKeys.childQuests] = {12541,12588,12591,12594},
         },
+        [12588] = {
+            [questKeys.objectives] = {nil,{{190550,"Ancient Dirt Mounds Investigated"}}},
+        },
         [12589] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12523,12525},
+        },
+        [12591] = {
+            [questKeys.objectives] = {nil,{{190555,"Nerubian Tunnels Collapsed"}}},
         },
         [12595] = {
             [questKeys.preQuestSingle] = {},
@@ -1733,6 +1757,9 @@ function QuestieWotlkQuestFixes:Load()
         [12596] = {
             [questKeys.preQuestSingle] = {12740},
             [questKeys.preQuestGroup] = {},
+        },
+        [12598] = {
+            [questKeys.objectives] = {nil,{{190555,"Nerubian Tunnels Sealed"}}},
         },
         [12601] = {
             [questKeys.extraObjectives] = {
@@ -4409,6 +4436,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{191761}},
             [questKeys.finishedBy] = {nil,{191761}},
             [questKeys.preQuestSingle] = {12889},
+            [questKeys.requiredSpell] = -55252,
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,400},
         },
         [13846] = {
@@ -5594,6 +5622,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{1090,75}},
         },
         [78753] = {
             [questKeys.name] = "Proof of Demise: Threats to Azeroth",
@@ -5607,6 +5636,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{1090,75}},
         },
     }
 end

@@ -7,7 +7,7 @@ CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 # Docs: https://support.curseforge.com/en/support/solutions/articles/9000197321-curseforge-upload-api
 
 # We get the "gameVersions" by doing an authenticated GET to https://wow.curseforge.com/api/game/versions
-# You can do so by opening the API in your browser and manually add the X-API-TOKEN Header with an API-Token to the request.
+# You can do so by opening the API in your browser and manually add the X-API-TOKEN Header with an API-Token to the request (https://authors-old.curseforge.com/account/api-tokens).
 # Check the answer for the required version (e.g. name = "1.14.4") and take the "id" field for the gameVersions.
 
 CF_METADATA=$(cat <<-EOF
@@ -16,7 +16,7 @@ CF_METADATA=$(cat <<-EOF
     "releaseType": "release",
     "changelog": $CHANGELOG,
     "changelogType": "markdown",
-    "gameVersions": [10272, 9895],
+    "gameVersions": [10272, 10341],
     "relations": {
         "projects": [
             {slug: "Ace3", type: "embeddedLibrary"},
@@ -34,8 +34,20 @@ CF_METADATA=$(cat <<-EOF
 EOF
 )
 
-curl -sS \
+response=$(curl -sS \
+    -o response.txt \
+    -w "%{http_code}" \
     -H "X-API-TOKEN: $CF_API_TOKEN" \
     -F "metadata=$CF_METADATA" \
     -F "file=@releases/$LATEST_GIT_TAG/Questie-$LATEST_GIT_TAG.zip" \
-    "https://wow.curseforge.com/api/projects/334372/upload-file"
+    "https://wow.curseforge.com/api/projects/334372/upload-file")
+
+http_status=$(echo "$response" | tail -n1)
+
+if [ "$http_status" -eq 200 ]; then
+  echo "CurseForge upload successful"
+else
+  echo "CurseForge upload failed, HTTP-code: $http_status"
+  cat response.txt
+  exit 1
+fi

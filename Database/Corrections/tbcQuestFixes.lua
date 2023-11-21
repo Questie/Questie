@@ -236,6 +236,9 @@ function QuestieTBCQuestFixes:Load()
         [1805] = {
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
+        [1858] = {
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
+        },
         [1859] = {
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
         },
@@ -247,6 +250,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [1899] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [1963] = {
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
         },
         [1978] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,

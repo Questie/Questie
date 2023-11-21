@@ -520,7 +520,7 @@ ZoneDB.private.dungeons = {
 --- {"name", alternative areaId (a sub zone), parentId}
 ---@type table<AreaId, { [1]: Name, [2]: AreaId, [3]: AreaId }>
 ZoneDB.private.dungeonLocations = {
-    [206] = {{495, 57.3, 46.8}},
+    [206] = {{495, 58.8, 48.3}},
     [209] = {{130, 45, 68.7}},
     [491] = {{17, 42.3, 89.9}},
     [717] = {(Questie.IsWotlk and {1519, 52.4, 70}) or {1519, 40.5, 55.9}},
