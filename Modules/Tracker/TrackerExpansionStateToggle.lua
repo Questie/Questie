@@ -17,6 +17,12 @@ function TrackerExpansionStateToggle.Initialize()
     TrackerCollapseBtn:SetAttribute("macrotext", "/run G_TrackerExpansionStateToggle()")
 end
 
+function TrackerExpansionStateToggle.CreateButton()
+    if QuestieTracker and Questie.db.char.isTrackerExpanded and Questie.db.global.useEscapeKeyForTracker then
+        SetOverrideBinding(TrackerCollapseBtn, false, "ESCAPE", "CLICK TESTButton:LeftButton")
+    end
+end
+
 -- Toggles the Questie tracker expansion state (called by the keybind)
 function TrackerExpansionStateToggle.Toggle()
     if UnitAffectingCombat("player") then
@@ -27,16 +33,12 @@ function TrackerExpansionStateToggle.Toggle()
         ClearOverrideBindings(TrackerCollapseBtn)  -- Remove the override when collapsed
     else
         QuestieTracker:Expand()
-        if QuestieTracker and Questie.db.global.useEscapeKeyForTracker and Questie.db.char.isTrackerExpanded then
-            SetOverrideBinding(TrackerCollapseBtn, false, "ESCAPE", "CLICK TESTButton:LeftButton")
-        end
+        TrackerExpansionStateToggle.CreateButton()
     end
 end
 
 function G_TrackerCreateButton()
-    if QuestieTracker and Questie.db.char.isTrackerExpanded then
-        SetOverrideBinding(TrackerCollapseBtn, false, "ESCAPE", "CLICK TESTButton:LeftButton")
-    end
+    TrackerExpansionStateToggle:CreateButton()
 end
 
 -- Global function to toggle the tracker
@@ -58,8 +60,6 @@ eventFrame:SetScript("OnEvent", function(self, event)
         end
     elseif event == "PLAYER_REGEN_ENABLED" then
         -- Player left combat
-        if Questie.db.global.useEscapeKeyForTracker and QuestieTracker and Questie.db.char.isTrackerExpanded then
-            SetOverrideBinding(TrackerCollapseBtn, false, "ESCAPE", "CLICK TESTButton:LeftButton")
-        end
+        TrackerExpansionStateToggle.CreateButton()
     end
 end)
