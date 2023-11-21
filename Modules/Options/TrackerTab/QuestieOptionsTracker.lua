@@ -439,6 +439,19 @@ function QuestieOptions.tabs.tracker:Initialize()
                     TrackerBaseFrame:Update()
                 end
             },
+            useEscapeKeyForTracker = {
+                type = "toggle",
+                order = 3.05,  -- Adjust the order as needed to place it correctly in the settings
+                width = 1.5,
+                name = function() return l10n("Collapse Tracker With Escape Key") end,
+                desc = function() return l10n("When this is checked, the Escape key will collapse the Questie Tracker (while not in combat).") end,
+                disabled = function() return not Questie.db.char.trackerEnabled end,
+                get = function() return Questie.db.global.useEscapeKeyForTracker end,
+                set = function(_, value)
+                    Questie.db.global.useEscapeKeyForTracker = value
+                    G_TrackerCreateButton()
+                end
+            },
             Spacer_B = QuestieOptionsUtils:Spacer(3.1),
             enableQuestieTracker = {
                 type = "execute",
