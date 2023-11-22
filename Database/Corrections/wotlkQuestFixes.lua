@@ -4615,50 +4615,70 @@ function QuestieWotlkQuestFixes:Load()
         [14023] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14024,
         },
         [14024] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14028,
+            [questKeys.preQuestSingle] = {14023},
         },
         [14028] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14030,
+            [questKeys.preQuestSingle] = {14024},
         },
         [14030] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14033,
+            [questKeys.preQuestSingle] = {14028},
         },
         [14033] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14035,
+            [questKeys.preQuestSingle] = {14030},
         },
         [14035] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.preQuestSingle] = {14033},
         },
         [14037] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14040,
         },
         [14040] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14041,
+            [questKeys.preQuestSingle] = {14037},
         },
         [14041] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14043,
+            [questKeys.preQuestSingle] = {14040},
         },
         [14043] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14044,
+            [questKeys.preQuestSingle] = {14041},
         },
         [14044] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14047,
+            [questKeys.preQuestSingle] = {14043},
         },
         [14047] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.preQuestSingle] = {14044},
         },
         [14048] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
