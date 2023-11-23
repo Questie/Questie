@@ -34,9 +34,9 @@ end
 ---@param shouldShow boolean
 function WorldMapButton.Toggle(shouldShow)
     if shouldShow then
-        mapButton:Show();
+        mapButton:Show()
     else
-        mapButton:Hide();
+        mapButton:Hide()
     end
 end
 
@@ -71,10 +71,10 @@ QuestieWorldMapButtonMixin = {
     end,
     OnMouseUp = function() end,
     OnEnter = function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
-        GameTooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1);
-        GameTooltip:AddLine(Questie:Colorize(l10n('Left Click') , 'gray') .. ": ".. l10n('Toggle Questie'));
-        GameTooltip:AddLine(Questie:Colorize(l10n('Right Click') , 'gray') .. ": ".. l10n('Toggle Menu'));
+        GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+        GameTooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1)
+        GameTooltip:AddLine(Questie:Colorize(l10n('Left Click') , 'gray') .. ": ".. l10n('Toggle Questie'))
+        GameTooltip:AddLine(Questie:Colorize(l10n('Right Click') , 'gray') .. ": ".. l10n('Toggle Menu'))
         GameTooltip:Show()
     end,
     OnLeave = function() end,
