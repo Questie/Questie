@@ -39,6 +39,9 @@ function QuestieTBCQuestFixes:Load()
         [77] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [100] = {
+            [questKeys.childQuests] = {},
+        },
         [171] = {
             [questKeys.questLevel] = -1,
         },
@@ -233,6 +236,9 @@ function QuestieTBCQuestFixes:Load()
         [1805] = {
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
+        [1858] = {
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
+        },
         [1859] = {
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
         },
@@ -244,6 +250,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [1899] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [1963] = {
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
         },
         [1978] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
@@ -275,12 +284,12 @@ function QuestieTBCQuestFixes:Load()
         [2841] = {
             [questKeys.childQuests] = {},
         },
-        [2861] = {
-            [questKeys.startedBy] = {{4568,5144,5497,5885,16651,17514}}
-        },
         [2842] = {
             [questKeys.requiredLevel] = 20,
             [questKeys.parentQuest] = 0,
+        },
+        [2861] = {
+            [questKeys.startedBy] = {{4568,5144,5497,5885,16651,17514}}
         },
         [2880] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2686,7 +2695,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11064] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.triggerEnd] = {"Murg \"Oldie\" Muckjaw Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.76,85.05}}}},
+            [questKeys.objectives] = {{{23340,"Murg \"Oldie\" Muckjaw Defeated"}}},
         },
         [11065] = {
             [questKeys.requiredLevel] = 70,
@@ -2698,23 +2707,23 @@ function QuestieTBCQuestFixes:Load()
         },
         [11067] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.triggerEnd] = {"Trope the Filth-Belcher Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.75,85}}}},
+            [questKeys.objectives] = {{{23342,"Trope the Filth-Belcher Defeated"}}},
         },
         [11068] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.triggerEnd] = {"Corlok the Vet Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.72,84.75}}}},
+            [questKeys.objectives] = {{{23344,"Corlok the Vet Defeated"}}},
         },
         [11069] = {
             [questKeys.startedBy] = {{23345},nil,nil},
-            [questKeys.triggerEnd] = {"Wing Commander Ichman Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.77,85.09}}}},
+            [questKeys.objectives] = {{{23345,"Wing Commander Ichman Defeated"}}},
         },
         [11070] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.triggerEnd] = {"Wing Commander Mulverick Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.77,84.36}}}},
+            [questKeys.objectives] = {{{23346,"Wing Commander Mulverick Defeated"}}},
         },
         [11071] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.triggerEnd] = {"Captain Skyshatter Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.71,85.05}}}},
+            [questKeys.objectives] = {{{23348,"Captain Skyshatter Defeated"}}},
         },
         [11073] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Time-Lost offering to summon Terokk"), 0, {{"object", 185928}}}},
@@ -2754,11 +2763,11 @@ function QuestieTBCQuestFixes:Load()
         },
         [11089] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Sar'this for his help hunting a Flawless Arcane Elemental"), 0, {{"monster", 23093}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Sar'this for his help hunting a Flawless Arcane Elemental"), 4, {{"monster", 23093}}}},
         },
         [11090] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.triggerEnd] = {"Subdue Reth'hedron the Subduer", {[zoneIDs.NAGRAND]={{8.7,42.79}}}},
+            [questKeys.objectives] = {{{22357,"Subdue Reth'hedron the Subduer"}}},
         },
         [11093] = {
             [questKeys.objectives] = {{{23219,"Nether Ray Meal"}}},
@@ -2842,7 +2851,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [11131] = {
-            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{53.1,51.4}},[zoneIDs.ELWYNN_FOREST]={{42,66.5}},[zoneIDs.AZUREMYST_ISLE]={{49.3,51.5}}}},
+            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{44.8,52.1},{47.5,51.6}},[zoneIDs.ELWYNN_FOREST]={{41.3,65.2},{43.6,65.8}},[zoneIDs.AZUREMYST_ISLE]={{49.8,52.3},{48.8,50}}}},
+            [questKeys.requiredSourceItems] = {32971},
+            [questKeys.exclusiveTo] = {12133},
         },
         [11140] = {
             [questKeys.requiredSourceItems] = {33040,33044},
@@ -2920,9 +2931,16 @@ function QuestieTBCQuestFixes:Load()
         [11216] = {
             [questKeys.nextQuestInChain] = 9824,
         },
+        [11219] = {
+            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUROTAR]={{52.12,43.59},{53.21,42.56},{51.58,42.08}},[zoneIDs.TIRISFAL_GLADES]={{60.32,53.29},{61.11,51.25},{61.64,51.97}},[zoneIDs.EVERSONG_WOODS]={{47.76,47.3},{48.21,46.16}}}},
+            [questKeys.requiredSourceItems] = {32971},
+            [questKeys.exclusiveTo] = {12155},
+        },
         [11242] = {
             [questKeys.startedBy] = {{23904},nil,nil},
             [questKeys.finishedBy] = {{24519},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {11135},
         },
         [11335] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
@@ -2977,13 +2995,18 @@ function QuestieTBCQuestFixes:Load()
             }},
         },
         [11356] = {
-            [questKeys.exclusiveTo] = {11360},
+            [questKeys.exclusiveTo] = {11360,11439,11440},
         },
         [11357] = {
-            [questKeys.exclusiveTo] = {11361},
+            [questKeys.exclusiveTo] = {11361,11449,11450},
+        },
+        [11360] = {
+            [questKeys.exclusiveTo] = {11439,11440},
+            [questKeys.requiredSourceItems] = {32971},
         },
         [11361] = {
-            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {11449,11450},
+            [questKeys.requiredSourceItems] = {32971},
         },
         [11379] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Cook Demon Broiled Surprise in the remains of a Abyssal Flamebringer in Blade's Edge Mountains"), 0, {{"monster", 19973}}}},
@@ -2997,6 +3020,18 @@ function QuestieTBCQuestFixes:Load()
         [11403] = {
             [questKeys.startedBy] = {{23904},nil,nil},
             [questKeys.finishedBy] = {{23973},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {11220},
+        },
+        [11439] = {
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {11360,11440},
+            [questKeys.requiredSourceItems] = {32971},
+        },
+        [11440] = {
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {11360,11439},
+            [questKeys.requiredSourceItems] = {32971},
         },
         [11441] = {
             [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102},nil,nil},
@@ -3017,6 +3052,16 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {},
             [questKeys.startedBy] = {{24711}},
             [questKeys.finishedBy] = {{24711}},
+        },
+        [11449] = {
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {11361,11450},
+            [questKeys.requiredSourceItems] = {32971},
+        },
+        [11450] = {
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {11361,11449},
+            [questKeys.requiredSourceItems] = {32971},
         },
         [11481] = {
             [questKeys.requiredMinRep] = {932,0},
@@ -3907,32 +3952,39 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.sourceItemId] = 36876,
             [questKeys.zoneOrSort] = -22,
             [questKeys.specialFlags] = 1,
+            [questKeys.questFlags] = 4224,
         },
         [12135] = {
-            [questKeys.name] = "Let the Fires Come!",
+            [questKeys.name] = "\"Let the Fires Come!\"",
             [questKeys.startedBy] = {{24519},nil,nil,},
             [questKeys.finishedBy] = {{24519,},nil,},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"The Costumed Orphan Matron wants you to help put out all the village fires after the Headless Horseman lights them. When they are out, speak again to the Costumed Orphan Matron.",},
-            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{53.1,51.4}},[zoneIDs.ELWYNN_FOREST]={{42,66.5}},[zoneIDs.AZUREMYST_ISLE]={{49.3,51.5}}}},
-            [questKeys.preQuestSingle] = {11360},
+            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{44.8,52.1},{47.5,51.6}},[zoneIDs.ELWYNN_FOREST]={{41.3,65.2},{43.6,65.8}},[zoneIDs.AZUREMYST_ISLE]={{49.8,52.3},{48.8,50}}}},
+            [questKeys.preQuestSingle] = {11360,11439,11440},
             [questKeys.zoneOrSort] = -22,
             [questKeys.specialFlags] = 1,
+            [questKeys.requiredSourceItems] = {32971},
+            [questKeys.questFlags] = 4224,
+            [questKeys.exclusiveTo] = {12133},
         },
         [12139] = {
-            [questKeys.name] = "Let the Fires Come!",
+            [questKeys.name] = "\"Let the Fires Come!\"",
             [questKeys.startedBy] = {{23973},nil,nil,},
             [questKeys.finishedBy] = {{23973,},nil,},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"The Masked Orphan Matron wants you to help put out all the village fires. When they are out, speak again to the Masked Orphan Matron in town.",},
-            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUROTAR]={{52.6,41.7}},[zoneIDs.TIRISFAL_GLADES]={{60.8,52.5}},[zoneIDs.EVERSONG_WOODS]={{47.4,47}}}},
-            [questKeys.preQuestSingle] = {11361},
+            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUROTAR]={{52.12,43.59},{53.21,42.56},{51.58,42.08}},[zoneIDs.TIRISFAL_GLADES]={{60.32,53.29},{61.11,51.25},{61.64,51.97}},[zoneIDs.EVERSONG_WOODS]={{47.76,47.3},{48.21,46.16}}}},
+            [questKeys.preQuestSingle] = {11361,11449,11450},
             [questKeys.zoneOrSort] = -22,
             [questKeys.specialFlags] = 1,
+            [questKeys.requiredSourceItems] = {32971},
+            [questKeys.questFlags] = 4224,
+            [questKeys.exclusiveTo] = {12155},
         },
         [12155] = {
             [questKeys.name] = "Smash the Pumpkin",
@@ -3945,6 +3997,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.sourceItemId] = 36876,
             [questKeys.zoneOrSort] = -22,
             [questKeys.specialFlags] = 1,
+            [questKeys.questFlags] = 4224,
         },
         [12192] = {
             [questKeys.name] = "This One Time, When I Was Drunk...",

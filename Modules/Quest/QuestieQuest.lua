@@ -419,6 +419,9 @@ function QuestieQuest:UnhideQuest(id)
     QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
 end
 
+local allianceTournamentMarkerQuests = {[13684] = true, [13685] = true, [13688] = true, [13689] = true, [13690] = true, [13593] = true, [13703] = true, [13704] = true, [13705] = true, [13706] = true}
+local hordeTournamentMarkerQuests = {[13691] = true, [13693] = true, [13694] = true, [13695] = true, [13696] = true, [13707] = true, [13708] = true, [13709] = true, [13710] = true, [13711] = true}
+
 ---@param questId number
 function QuestieQuest:AcceptQuest(questId)
     local quest = QuestieDB.GetQuest(questId)
@@ -447,6 +450,13 @@ function QuestieQuest:AcceptQuest(questId)
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId)
 
             QuestiePlayer.currentQuestlog[questId] = quest
+
+            if allianceTournamentMarkerQuests[questId] then
+                Questie.db.char.complete[13686] = true -- Alliance Tournament Eligibility Marker
+            elseif hordeTournamentMarkerQuests[questId] then
+                Questie.db.char.complete[13687] = true -- Horde Tournament Eligibility Marker
+            end
+
             TaskQueue:Queue(
             -- Get all the Frames for the quest and unload them, the available quest icon for example.
                 function() QuestieMap:UnloadQuestFrames(questId) end,
@@ -481,6 +491,9 @@ function QuestieQuest:AcceptQuest(questId)
     end
 end
 
+local allianceChampionMarkerQuests = {[13699] = true, [13713] = true, [13723] = true, [13724] = true, [13725] = true}
+local hordeChampionMarkerQuests = {[13726] = true, [13727] = true, [13728] = true, [13729] = true, [13731] = true}
+
 ---@param questId number
 function QuestieQuest:CompleteQuest(questId)
     -- Skip quests which are turn in only and are not added to the quest log in the first place
@@ -493,7 +506,15 @@ function QuestieQuest:CompleteQuest(questId)
 
     -- Only quests that are daily quests or aren't repeatable should be marked complete,
     -- otherwise objectives for repeatable quests won't track correctly - #1433
-    Questie.db.char.complete[questId] = QuestieDB.IsDailyQuest(questId) or (not QuestieDB.IsRepeatable(questId));
+    Questie.db.char.complete[questId] = (not QuestieDB.IsRepeatable(questId)) or QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId);
+
+    if allianceChampionMarkerQuests[questId] then
+        Questie.db.char.complete[13700] = true -- Alliance Champion Marker
+        Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
+    elseif hordeChampionMarkerQuests[questId] then
+        Questie.db.char.complete[13701] = true -- Horde Champion Marker
+        Questie.db.char.complete[13687] = nil -- Horde Tournament Eligibility Marker
+    end
     QuestieMap:UnloadQuestFrames(questId)
 
     if (QuestieMap.questIdFrames[questId]) then
@@ -526,6 +547,20 @@ function QuestieQuest:AbandonedQuest(questId)
             -- Reset quest flags
             quest.WasComplete = nil
             quest.isComplete = nil
+
+            if allianceTournamentMarkerQuests[questId] then
+                Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
+            elseif hordeTournamentMarkerQuests[questId] then
+                Questie.db.char.complete[13687] = nil -- Horde Tournament Eligibility Marker
+            end
+
+            local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
+            if childQuests then
+                for _, childQuestId in pairs(childQuests) do
+                    Questie.db.char.complete[childQuestId] = nil
+                    QuestLogCache.RemoveQuest(childQuestId)
+                end
+            end
         end
 
         for questIdAvailable, _ in pairs(QuestieQuest.availableQuests) do
@@ -663,7 +698,7 @@ function QuestieQuest:GetAllQuestIds()
     for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
         if (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
-                Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
+                Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!", tostring(questId)))
                 Questie._sessionWarnings[questId] = true
             end
         else
@@ -792,7 +827,7 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
     for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
         if (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
-                Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
+                Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!", tostring(questId)))
                 Questie._sessionWarnings[questId] = true
             end
         else
@@ -1032,7 +1067,7 @@ function QuestieQuest:AddFinisher(quest)
                 end
             end
         else
-            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] finisher or finisher.spawns == nil")
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] finisher or finisher.spawns == nil for questId", questId)
         end
     end
 end
@@ -1699,13 +1734,38 @@ do
         local hiddenQuests = QuestieCorrections.hiddenQuests
         local hidden = Questie.db.char.hidden
 
+        QuestieDB.activeChildQuests = {} -- Reset here so we don't need to keep track in the quest event system
+
         local questCount = 0
         for questId in pairs(data) do
             --? Quick exit through autoBlacklist if IsDoable has blacklisted it.
             if (not autoBlacklist[questId]) then
+
+                if QuestiePlayer.currentQuestlog[questId] then
+                    -- Mark all child quests as active when the parent quest is in the quest log
+                    local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
+                    if childQuests then
+                        for _, childQuestId in pairs(childQuests) do
+                            if (not Questie.db.char.complete[childQuestId]) and (not QuestiePlayer.currentQuestlog[childQuestId]) then
+                                QuestieDB.activeChildQuests[childQuestId] = true
+                                -- Draw them right away and skip all other irrelevant checks
+                                NewThread(function()
+                                    local quest = QuestieDB.GetQuest(childQuestId)
+                                    if (not quest.tagInfoWasCached) then
+                                        QuestieDB.GetQuestTagInfo(childQuestId) -- cache to load in the tooltip
+
+                                        quest.tagInfoWasCached = true
+                                    end
+
+                                    _QuestieQuest:DrawAvailableQuest(quest)
+                                end, 0)
+                            end
+                        end
+                    end
                 --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
-                if (
+                elseif (
                         (not Questie.db.char.complete[questId]) and                                               -- Don't show completed quests
+                        (not QuestieDB.activeChildQuests[questId]) and                                            -- Don't show child quests again. We already did that above
                         ((not QuestiePlayer.currentQuestlog[questId]) or QuestieDB.IsComplete(questId) == -1) and -- Don't show quests if they're already in the quest log
                         (not hiddenQuests[questId] and not hidden[questId]) and                                   -- Don't show blacklisted or player hidden quests
                         (showRepeatableQuests or (not QuestieDB.IsRepeatable(questId))) and                       -- Show repeatable quests if the quest is repeatable and the option is enabled

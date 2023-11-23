@@ -1752,6 +1752,7 @@ globals = {
     "KBSystem_GetServerStatus",
     "LE_EXPANSION_CLASSIC",
     "LE_EXPANSION_BURNING_CRUSADE",
+    "LE_PARTY_CATEGORY_INSTANCE",
     "LE_QUEST_FREQUENCY_DAILY",
     "LE_QUEST_FREQUENCY_WEEKLY",
     "LearnTalent",
