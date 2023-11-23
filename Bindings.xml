@@ -2,7 +2,7 @@
 
     <!-- Toggle tracker expansion-->
     <Binding name="Expand/Collapse Tracker" category="Questie">
-        G_TrackerExpansionStateToggle()
+        Questie:ToggleTracker()
     </Binding>
 
 </Bindings>

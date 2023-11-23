@@ -17,6 +17,8 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler");
 ---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 
 function Questie:OnInitialize()
     -- This has to happen OnInitialize to be available asap
@@ -131,6 +133,16 @@ function Questie:Debug(...)
         if Questie.db.global.debugEnabledPrint then
             Questie:Print(...)
         end
+    end
+end
+
+-- This might be unnecessary
+Questie.ToggleTracker = function()
+    -- Check if the tracker is enabled in the user's settings
+    if Questie.db.char.trackerEnabled then
+        QuestieTracker:ToggleTrackedQuests()
+    else
+        Questie:Print("Tracker is disabled in settings.")
     end
 end
 

@@ -9,6 +9,8 @@ local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type TrackerBaseFrame
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
+---@type TrackerEscapeHandler
+local TrackerEscapeHandler = QuestieLoader:ImportModule("TrackerEscapeHandler")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type TrackerQuestTimers
@@ -449,7 +451,13 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.useEscapeKeyForTracker end,
                 set = function(_, value)
                     Questie.db.global.useEscapeKeyForTracker = value
-                    G_TrackerCreateButton()
+                    if Questie.db.global.useEscapeKeyForTracker then
+                        if Questie.db.char.isTrackerExpanded then
+                            TrackerEscapeHandler.SetEscapeBinding()
+                        end
+                    else
+                        TrackerEscapeHandler.ClearEscapeBinding()
+                    end
                 end
             },
             Spacer_B = QuestieOptionsUtils:Spacer(3.1),

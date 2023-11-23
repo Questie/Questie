@@ -16,7 +16,7 @@ local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 ---@type TrackerQuestTimers
 local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 ---@type TrackerExpansionStateToggle
-local TrackerExpansionStateToggle = QuestieLoader:ImportModule("TrackerExpansionStateToggle")
+local TrackerEscapeHandler = QuestieLoader:ImportModule("TrackerEscapeHandler")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
@@ -120,7 +120,7 @@ function QuestieTracker.Initialize()
     -- Initialize tracker functions
     TrackerLinePool.Initialize(trackerQuestFrame)
     TrackerFadeTicker.Initialize(trackerBaseFrame, trackerHeaderFrame)
-    TrackerExpansionStateToggle.Initialize()
+    TrackerEscapeHandler.Initialize(trackerHeaderFrame)
     QuestieTracker.started = true
 
     -- Initialize hooks
@@ -558,6 +558,15 @@ function QuestieTracker:Expand()
     if trackerHeaderFrame and trackerHeaderFrame.trackedQuests and (not Questie.db.char.isTrackerExpanded) then
         trackerHeaderFrame.trackedQuests:Click()
         QuestieTracker:Update()
+    end
+end
+
+-- Toggles the Questie tracker expansion state
+function QuestieTracker:ToggleTrackedQuests()
+    if Questie.db.char.isTrackerExpanded then
+        QuestieTracker:Collapse()
+    else
+        QuestieTracker:Expand()
     end
 end
 
