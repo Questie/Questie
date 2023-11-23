@@ -6,6 +6,8 @@ local WorldMapButton = QuestieLoader:CreateModule("WorldMapButton")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestieMenu
+local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 
 local KButtons = LibStub("Krowi_WorldMapButtons-1.4")
 
@@ -56,15 +58,18 @@ end
 
 QuestieWorldMapButtonMixin = {
     OnLoad = function() end,
-    OnMouseDown = function(button) print("button", button) end,
     OnEnter = function() end,
     OnHide = function() end,
+    OnMouseDown = function(_, button)
+        if button == "LeftButton" then
+            Questie.db.char.enabled = (not Questie.db.char.enabled)
+            QuestieQuest:ToggleNotes(Questie.db.char.enabled)
+        elseif button == "RightButton" then
+            QuestieMenu:Show()
+        end
+    end,
     OnMouseUp = function() end,
     OnLeave = function() end,
-    OnClick = function(clicked)
-        print("clicked", clicked)
-        Questie.db.char.enabled = (not Questie.db.char.enabled)
-        QuestieQuest:ToggleNotes(Questie.db.char.enabled)
-    end,
+    OnClick = function() end, -- Only fires on left click
     Refresh = function() end,
 }
