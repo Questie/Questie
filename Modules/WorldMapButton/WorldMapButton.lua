@@ -71,7 +71,8 @@ QuestieWorldMapButtonMixin = {
     end,
     OnMouseUp = function() end,
     OnEnter = function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+        GameTooltip:SetOwner(self, "ANCHOR_NONE");
+        GameTooltip:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, 0);
         GameTooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1)
         GameTooltip:AddLine(Questie:Colorize(l10n('Left Click') , 'gray') .. ": ".. l10n('Toggle Questie'))
         GameTooltip:AddLine(Questie:Colorize(l10n('Right Click') , 'gray') .. ": ".. l10n('Toggle Menu'))
