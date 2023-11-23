@@ -58,6 +58,8 @@ QuestieWorldMapButtonMixin = {
     OnLoad = function() end,
     OnMouseDown = function(button) print("button", button) end,
     OnEnter = function() end,
+    OnHide = function() end,
+    OnMouseUp = function() end,
     OnLeave = function() end,
     OnClick = function(clicked)
         print("clicked", clicked)
