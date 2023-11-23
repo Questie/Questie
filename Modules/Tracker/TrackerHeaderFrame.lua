@@ -9,6 +9,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerFadeTicker
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
+---@type TrackerEscapeHandler
+local TrackerEscapeHandler = QuestieLoader:ImportModule("TrackerEscapeHandler")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
@@ -28,7 +30,7 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local l10n = QuestieLoader:ImportModule("l10n")
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
-local headerFrame, trackerBaseFrame
+local headerFrame, trackerBaseFrame, trackedQuests
 
 function TrackerHeaderFrame.Initialize(baseFrame)
     trackerBaseFrame = baseFrame
@@ -121,12 +123,25 @@ function TrackerHeaderFrame.Initialize(baseFrame)
     headerFrame.questieIcon = questieIcon
 
     -- Questie Tracked Quests Settings
-    local trackedQuests = CreateFrame("Button", nil, trackerBaseFrame)
+    local trackedQuests = CreateFrame("Button", "ToggleHandler", trackerBaseFrame)
     trackedQuests:SetPoint("TOPLEFT", questieIcon, "TOPLEFT", 10, 0)
 
     -- Questie Tracked Quests Label
     trackedQuests.label = headerFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     trackedQuests.label:SetPoint("TOPLEFT", headerFrame, "TOPLEFT", 0, 0)
+
+    local function ToggleTrackerState()
+        local newState = Questie.db.char.isTrackerExpanded and 0 or 1
+
+        trackedQuests:SetMode(newState)
+        Questie.db.char.isTrackerExpanded = not Questie.db.char.isTrackerExpanded
+
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerHeaderFrame:OnClick] - Tracker " .. (newState == 1 and "Maximized" or "Minimized"))
+
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
+    end
 
     trackedQuests.SetMode = function(self, mode)
         if mode ~= self.mode then
@@ -134,36 +149,28 @@ function TrackerHeaderFrame.Initialize(baseFrame)
         end
     end
 
-    if Questie.db.char.isTrackerExpanded then
-        trackedQuests:SetMode(1)
-    else
-        trackedQuests:SetMode(0)
-    end
-
     trackedQuests:EnableMouse(true)
     trackedQuests:RegisterForDrag("LeftButton")
     trackedQuests:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
+    local escapeHandlerFrame
+
+    -- Set the mouse click handler
     trackedQuests:SetScript("OnClick", function(self)
         if InCombatLockdown() then
             return
         end
 
-        if self.mode == 1 then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerHeaderFrame:OnClick] - Tracker Minimized")
+        ToggleTrackerState()
 
-            self:SetMode(0)
-            Questie.db.char.isTrackerExpanded = false
-        else
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerHeaderFrame:OnClick] - Tracker Maximized")
-
-            self:SetMode(1)
-            Questie.db.char.isTrackerExpanded = true
+        if Questie.db.global.useEscapeKeyForTracker then
+            if Questie.db.char.isTrackerExpanded then
+                TrackerEscapeHandler.SetEscHandlerFrame(trackedQuests)
+                TrackerEscapeHandler.SetEscapeBinding()
+            else
+                TrackerEscapeHandler.ClearEscapeBinding()
+            end
         end
-
-        QuestieCombatQueue:Queue(function()
-            QuestieTracker:Update()
-        end)
     end)
 
     trackedQuests:SetScript("OnDragStart", TrackerBaseFrame.OnDragStart)

@@ -9,6 +9,8 @@ local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type TrackerBaseFrame
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
+---@type TrackerEscapeHandler
+local TrackerEscapeHandler = QuestieLoader:ImportModule("TrackerEscapeHandler")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type TrackerQuestTimers
@@ -437,6 +439,25 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.trackerLocked = value
                     TrackerBaseFrame:Update()
+                end
+            },
+            useEscapeKeyForTracker = {
+                type = "toggle",
+                order = 3.05,
+                width = 1.5,
+                name = function() return l10n("Collapse Tracker With Escape Key") end,
+                desc = function() return l10n("When this is checked, the Escape key will collapse the Questie Tracker (while not in combat).") end,
+                disabled = function() return not Questie.db.char.trackerEnabled end,
+                get = function() return Questie.db.global.useEscapeKeyForTracker end,
+                set = function(_, value)
+                    Questie.db.global.useEscapeKeyForTracker = value
+                    if Questie.db.global.useEscapeKeyForTracker then
+                        if Questie.db.char.isTrackerExpanded then
+                            TrackerEscapeHandler.SetEscapeBinding()
+                        end
+                    else
+                        TrackerEscapeHandler.ClearEscapeBinding()
+                    end
                 end
             },
             Spacer_B = QuestieOptionsUtils:Spacer(3.1),

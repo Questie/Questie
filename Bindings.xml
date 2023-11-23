@@ -1,0 +1,8 @@
+<Bindings>
+
+    <!-- Toggle tracker expansion-->
+    <Binding name="Expand/Collapse Tracker" category="Questie">
+        Questie:ToggleTracker()
+    </Binding>
+
+</Bindings>
