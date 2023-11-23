@@ -1,0 +1,65 @@
+
+---@alias BasePoint { uiMapId: UiMapId, x: MapX, y: MapY , frameLevel: number }
+
+---@alias RelationPoint BasePoint|{iconData: table<QuestId, RelationMapData>, id: NpcId|ObjectId|ItemId, type: RelationPointType, majorityType: RelationPointType}
+---@alias AvailablePoints { x: MapX[], y: MapY[], iconData: table<QuestId, RelationMapData>[], id: NpcId[], type: RelationPointType[]}
+---@alias AvailableWaypointPoints AvailablePoints|{ waypointIndex: number[] }
+
+
+---@alias RelationPointType "npc"|"object"|"item"|"npcFinisher"|"objectFinisher"
+
+---@class MapCanvasPinMixin
+---@field OnLoad fun(self)
+---@field OnAcquired fun(self, ...) -- the arguments here are anything that are passed into AcquirePin after the pinTemplate
+---@field OnReleased fun(self)
+---@field OnClick fun(self, button)
+---@field OnMouseEnter fun(self)
+---@field OnMouseLeave fun(self)
+---@field OnMouseDown fun(self)
+---@field OnMouseUp fun(self)
+---@field OnMapInsetSizeChanged fun(self, mapInsetIndex, expanded)
+---@field OnMapInsetMouseEnter fun(self, mapInsetIndex)
+---@field OnMapInsetMouseLeave fun(self, mapInsetIndex)
+---@field SetNudgeTargetFactor fun(self, newFactor)
+---@field GetNudgeTargetFactor fun(self)
+---@field SetNudgeSourceRadius fun(self, newRadius)
+---@field GetNudgeSourceRadius fun(self)
+---@field SetNudgeSourceMagnitude fun(self, nudgeSourceZoomedOutMagnitude, nudgeSourceZoomedInMagnitude)
+---@field GetNudgeSourceZoomedOutMagnitude fun(self)
+---@field GetNudgeSourceZoomedInMagnitude fun(self)
+---@field SetNudgeZoomedInFactor fun(self, newFactor)
+---@field GetZoomedInNudgeFactor fun(self)
+---@field SetNudgeZoomedOutFactor fun(self, newFactor)
+---@field GetZoomedOutNudgeFactor fun(self)
+---@field IgnoresNudging fun(self)
+---@field GetMap fun(self)
+---@field GetNudgeVector fun(self)
+---@field GetNudgeSourcePinZoomedOutNudgeFactor fun(self)
+---@field GetNudgeSourcePinZoomedInNudgeFactor fun(self)
+---@field SetNudgeVector fun(self, sourcePinZoomedOutNudgeFactor, sourcePinZoomedInNudgeFactor, x, y)
+---@field GetNudgeFactor fun(self)
+---@field SetNudgeFactor fun(self, nudgeFactor)
+---@field GetNudgeZoomFactor fun(self)
+---@field SetPosition fun(self, normalizedX, normalizedY, insetIndex)
+---@field GetPosition fun(self)
+---@field GetGlobalPosition fun(self)
+---@field PanTo fun(self, normalizedXOffset, normalizedYOffset)
+---@field PanAndZoomTo fun(self, normalizedXOffset, normalizedYOffset)
+---@field OnCanvasScaleChanged fun(self)
+---@field OnCanvasPanChanged fun(self)
+---@field OnCanvasSizeChanged fun(self)
+---@field SetIgnoreGlobalPinScale fun(self, ignore)
+---@field IsIgnoringGlobalPinScale fun(self)
+---@field SetScalingLimits fun(self, scaleFactor, startScale, endScale)
+---@field SetScaleStyle fun(self, scaleStyle)
+---@field SetAlphaLimits fun(self, alphaFactor, startAlpha, endAlpha)
+---@field SetAlphaStyle fun(self, alphaStyle)
+---@field ApplyCurrentPosition fun(self)
+---@field ApplyCurrentScale fun(self)
+---@field ApplyCurrentAlpha fun(self)
+---@field UseFrameLevelType fun(self, pinFrameLevelType, index)
+---@field GetFrameLevelType fun(self, pinFrameLevelType)
+---@field ApplyFrameLevel fun(self)
+---@field SetScript fun(self, script, handler)
+---@field IsMouseClickEnabled fun(self)
+---@field IsMouseMotionEnabled fun(self)

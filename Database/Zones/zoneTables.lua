@@ -517,8 +517,8 @@ ZoneDB.private.dungeons = {
 
 
 
---- {"name", alternative areaId (a sub zone), parentId}
----@type table<AreaId, { [1]: Name, [2]: AreaId, [3]: AreaId }>
+--- {AreaId = {AreaId on map, X, Y}
+---@type table<AreaId, { [1]: AreaId, [2]: MapX, [3]: MapY }[]>
 ZoneDB.private.dungeonLocations = {
     [206] = {{495, 58.8, 48.3}},
     [209] = {{130, 45, 68.7}},

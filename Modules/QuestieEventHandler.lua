@@ -2,6 +2,13 @@
 local QuestieEventHandler = QuestieLoader:CreateModule("QuestieEventHandler")
 local _EventHandler = {}
 
+
+-------------------------
+--Import System Modules.
+-------------------------
+---@type SystemEventBus
+local SystemEventBus = QuestieLoader:ImportModule("SystemEventBus")
+
 -------------------------
 --Import modules.
 -------------------------
@@ -386,7 +393,14 @@ function _EventHandler:ModifierStateChanged(key, down)
             end)
         end
     end
+     --Shift is clicked
+    if down == 1 then
+        SystemEventBus:Fire("KEY_PRESS-KEY_PRESS_MODIFIER_PRESSED_"..key:sub(2), key)
+    else
+        SystemEventBus:Fire("KEY_PRESS-KEY_PRESS_MODIFIER_RELEASED_"..key:sub(2), key)
+    end
 end
+
 
 --- Fires when some chat messages about skills are displayed
 function _EventHandler:ChatMsgSkill()

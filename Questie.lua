@@ -17,10 +17,14 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler");
 ---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
+---@type SystemEventBus
+local SystemEventBus = QuestieLoader:ImportModule("SystemEventBus")
 
 function Questie:OnInitialize()
     -- This has to happen OnInitialize to be available asap
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
+
+    SystemEventBus.FireEvent.ACE_DB_LOADED()
 
     QuestieEventHandler:RegisterEarlyEvents()
 end
@@ -104,6 +108,12 @@ end
 
 function Questie:Error(...)
     Questie:Print("|cffff0000[ERROR]|r", ...)
+end
+
+function Questie:ErrorDebug(...)
+    if (Questie.db.global.debugEnabled) then  -- prints regardless of "debugPrint" toggle
+        Questie:Print("|cffff0000[ERROR]|r", ...)
+    end
 end
 
 function Questie:Warning(...)

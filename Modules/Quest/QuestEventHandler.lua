@@ -31,6 +31,9 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+---@type QuestEventBus
+local QuestEventBus = QuestieLoader("QuestEventBus")
+
 local tableRemove = table.remove
 
 local QUEST_LOG_STATES = {
@@ -260,6 +263,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
         QuestieQuest:AcceptQuest(questId)
     end
 
+    QuestEventBus.FireEvent.QUEST_ACCEPTED(questId)
     return true
 end
 
@@ -309,6 +313,8 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     QuestieQuest:CompleteQuest(questId)
     QuestieJourney:CompleteQuest(questId)
     QuestieAnnounce:CompletedQuest(questId)
+
+    QuestEventBus.FireEvent.QUEST_COMPLETED(questId)
 end
 
 --- Fires when a quest is removed from the quest log. This includes turning it in and abandoning it.
@@ -356,6 +362,9 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
         QuestieQuest:AbandonedQuest(questId)
         QuestieJourney:AbandonQuest(questId)
         QuestieAnnounce:AbandonedQuest(questId)
+
+        QuestEventBus.FireEvent.QUEST_ABANDONED(questId)
+
         questLog[questId] = nil
     end
 end
@@ -446,6 +455,8 @@ function _QuestEventHandler:UpdateAllQuests()
 
             QuestieNameplate:UpdateNameplate()
             QuestieQuest:UpdateQuest(questId)
+
+            QuestEventBus.FireEvent.QUEST_UPDATED(questId, objIds)
         end
         QuestieCombatQueue:Queue(function()
             C_Timer.After(1.0, function()

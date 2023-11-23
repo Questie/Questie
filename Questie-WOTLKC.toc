@@ -25,10 +25,25 @@ Libs\HereBeDragons\HereBeDragons-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Migrate.lua
 
+# Loader module
+Modules\Libs\QuestieLoader.lua
+ModulesNew\Debug\DebugText.lua
+
+#Libs (These depend on QuestieLoader)
+Libs\Tween\Tween.lua
+ModulesNew\Map\Helpers\Spline.lua
+ModulesNew\Map\Helpers\Bezier.lua
+
 # Thread Manager
 Modules\Libs\ThreadLib.lua
-#Message Handler
-Modules\Libs\MessageHandler.lua
+
+#* Event bus *#
+ModulesNew\EventBus\EventBusFactory.lua
+## System Bus
+ModulesNew\EventBus\SystemEventBus.lua
+## Event bus
+ModulesNew\EventBus\QuestEventBus.lua
+ModulesNew\EventBus\MapEventBus.lua
 
 #Quest XP
 Database\QuestXP\QuestieXP.lua
@@ -153,6 +168,8 @@ Modules\Quest\QuestgiverFrame.lua
 Modules\Quest\QuestieQuest.lua
 Modules\Quest\QuestieQuestPrivates.lua
 
+Database\Zones\MapCoordinates.lua
+
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
 
@@ -216,3 +233,63 @@ Modules\QuestieProfiler.lua
 
 # Main
 Questie.lua
+
+
+
+#* Processors
+## General
+ModulesNew\Map\Processor\SpawnProcessor.lua
+## Relation
+ModulesNew\Map\Processor\RelationsProcessor.lua
+
+
+
+#### Map ####
+##* Pin Template definitions
+ModulesNew\Map\PinTemplates.lua
+
+##* Map Helpers
+ModulesNew\Map\Helpers\Animation\PinAnimationHelper.lua
+ModulesNew\Map\Helpers\Animation\WaypointAnimationHelper.lua
+
+##* Framepools
+ModulesNew\Map\FramePools\FramePoolMap.lua
+ModulesNew\Map\FramePools\FramePoolWaypoint.lua
+
+##* Pins
+ModulesNew\Map\Pins\Map\BasePin.lua
+ModulesNew\Map\Pins\Map\DebugPin.lua
+ModulesNew\Map\Pins\Map\RelationPin.lua
+ModulesNew\Map\Pins\Map\WaypointPin.lua
+
+##* Map Providers
+ModulesNew\Map\MapProviders\Map.lua
+ModulesNew\Map\MapProviders\MapWaypoint.lua
+
+##* Renderers
+ModulesNew\Map\Renderers\RelationRenderers.lua
+
+ModulesNew\Map\MapTooltip.lua
+
+#### Minimap ####
+##* Underlying canvas and provider system
+ModulesNew\Map\MinimapProviders\Mixin\MinimapCanvasBase.lua
+ModulesNew\Map\MinimapProviders\Mixin\MinimapDataProviderBase.lua
+
+##* Pin Mixin
+ModulesNew\Map\Pins\Mixin\MinimapCanvasPinMixin.lua
+
+##* Minimap Canvas
+ModulesNew\Map\MinimapProviders\MinimapCanvas.lua
+
+##* Framepools
+ModulesNew\Map\FramePools\FramePoolMinimap.lua
+
+##* Pins
+ModulesNew\Map\Pins\Minimap\BasePinMini.lua
+
+##* Minimap Providers
+ModulesNew\Map\MinimapProviders\MinimapProvider.lua
+
+
+ModulesNew\Quest\Quest.lua

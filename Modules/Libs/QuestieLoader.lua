@@ -1,6 +1,14 @@
 -- The only public class except for Questie
 ---@class QuestieLoader
-QuestieLoader = {}
+QuestieLoader = setmetatable({},
+{
+    __call = function(self, moduleName)
+        return self:ImportModule(moduleName)
+    end,
+    __index = function(self, moduleName)
+        return self:ImportModule(moduleName)
+    end
+})
 
 
 local modules = {}
