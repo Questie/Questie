@@ -158,10 +158,10 @@ local classicObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Slay Vale Screechers and use Veh'kinya's Bramble on their corpse."] = { -- 3520
+    ["Slay Vale Screechers and use Yeh'kinya's Bramble on their corpse."] = { -- 3520
         ["ptBR"] = false,
         ["ruRU"] = "Убейте Норовистого дольного крикуна, а затем используйте Колючку Йе'киньи на его трупе.",
-        ["deDE"] = "Erschlagt Wilde Talkreischer und benutzt dann Veh'kinya's Stab auf ihren Körpern.",
+        ["deDE"] = "Erschlagt Wilde Talkreischer und benutzt dann Yeh'kinyas Dornbusch auf ihren Körpern.",
         ["koKR"] = false,
         ["esMX"] = false,
         ["enUS"] = true,
@@ -542,7 +542,7 @@ local classicObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Combine Omokk's Head with the Roughshot Pike."] = { -- 4867
+    ["Combine Omokk's Head with the Roughshod Pike."] = { -- 4867
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
