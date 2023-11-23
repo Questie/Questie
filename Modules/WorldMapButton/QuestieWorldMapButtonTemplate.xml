@@ -22,9 +22,8 @@
                 <Texture parentKey="Icon" file="Interface\Addons\Questie\Icons\complete.blp">
                     <Size x="20" y="20"/>
                     <Anchors>
-                        <Anchor point="TOPLEFT" x="6" y="-6"/>
+                        <Anchor point="TOPLEFT" x="6" y="-5"/>
                     </Anchors>
-                    <TexCoords left="0.0625" right="0.59375" top="0.09375" bottom="0.625"/>
                 </Texture>
             </Layer>
             <Layer level="OVERLAY">
