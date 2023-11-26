@@ -284,7 +284,7 @@ end
 --- Fires on MAP_EXPLORATION_UPDATED.
 function _EventHandler:MapExplorationUpdated()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] MAP_EXPLORATION_UPDATED")
-    if Questie.db.char.hideUnexploredMapIcons then
+    if Questie.db.profile.hideUnexploredMapIcons then
         QuestieMap.utils:MapExplorationUpdate()
     end
 
@@ -361,7 +361,7 @@ function _EventHandler:ModifierStateChanged(key, down)
         TrackerUtils:ShowVoiceOverPlayButtons()
     end
 
-    if Questie.db.global.trackerLocked then
+    if Questie.db.profile.trackerLocked then
         if QuestieTracker.started then
             -- This is a safety catch for race conditions to prevent the Tracker Sizer
             -- from becoming stuck to the mouse pointer when the player releases the
@@ -465,12 +465,12 @@ function _EventHandler:PlayerRegenDisabled()
 
     -- Let's make sure the frame exists - might be nil if player is in combat upon login
     if QuestieTracker then
-        if Questie.db.global.hideTrackerInCombat and Questie.db.char.isTrackerExpanded and (not trackerHiddenByCombat) then
+        if Questie.db.profile.hideTrackerInCombat and Questie.db.char.isTrackerExpanded and (not trackerHiddenByCombat) then
             trackerHiddenByCombat = true
             QuestieTracker:Collapse()
         end
 
-        if IsInInstance() and Questie.db.global.hideTrackerInDungeons then
+        if IsInInstance() and Questie.db.profile.hideTrackerInDungeons then
             QuestieTracker:Collapse()
         end
     end
@@ -494,8 +494,8 @@ end
 
 function _EventHandler:PlayerRegenEnabled()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
-    if Questie.db.global.hideTrackerInCombat and trackerHiddenByCombat then
-        if (not Questie.db.global.hideTrackerInDungeons) or (not IsInInstance()) then
+    if Questie.db.profile.hideTrackerInCombat and trackerHiddenByCombat then
+        if (not Questie.db.profile.hideTrackerInDungeons) or (not IsInInstance()) then
             trackerHiddenByCombat = false
             QuestieTracker:Expand()
         end

@@ -175,8 +175,8 @@ function TrackerHeaderFrame.Initialize(baseFrame)
 
     headerFrame.trackedQuests = trackedQuests
 
-    if Questie.db.global.trackerHeaderEnabled then
-        headerFrame:SetSize(1, Questie.db.global.trackerFontSizeHeader) -- Width is updated later on
+    if Questie.db.profile.trackerHeaderEnabled then
+        headerFrame:SetSize(1, Questie.db.profile.trackerFontSizeHeader) -- Width is updated later on
     else
         headerFrame:SetSize(1, 1)
     end
@@ -191,10 +191,10 @@ function TrackerHeaderFrame.Initialize(baseFrame)
 end
 
 function TrackerHeaderFrame:Update()
-    local trackerFontSizeHeader = Questie.db.global.trackerFontSizeHeader
-    local trackerFontSizeZone = Questie.db.global.trackerFontSizeZone
+    local trackerFontSizeHeader = Questie.db.profile.trackerFontSizeHeader
+    local trackerFontSizeZone = Questie.db.profile.trackerFontSizeZone
 
-    if Questie.db.global.trackerHeaderEnabled then
+    if Questie.db.profile.trackerHeaderEnabled then
         headerFrame:ClearAllPoints()
         headerFrame.questieIcon.texture:SetWidth(trackerFontSizeHeader)
         headerFrame.questieIcon.texture:SetHeight(trackerFontSizeHeader)
@@ -206,7 +206,7 @@ function TrackerHeaderFrame:Update()
         headerFrame.questieIcon:SetPoint("TOPLEFT", headerFrame, "TOPLEFT", 6, 0)
         headerFrame.questieIcon:Show()
 
-        headerFrame.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader), trackerFontSizeHeader, Questie.db.global.trackerFontOutline)
+        headerFrame.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontHeader), trackerFontSizeHeader, Questie.db.profile.trackerFontOutline)
 
         local maxQuestAmount = "/" .. C_QuestLog.GetMaxNumQuestsCanAccept()
         local _, activeQuests = GetNumQuestLogEntries()
@@ -241,9 +241,9 @@ function TrackerHeaderFrame:Update()
         headerFrame.questieIcon:SetHeight(trackerFontSizeZone)
         headerFrame.questieIcon:SetAlpha(0)
 
-        local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
+        local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
 
-        if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") and Questie.db.global.autoMoveHeader then
+        if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") and Questie.db.profile.autoMoveHeader then
             headerFrame.questieIcon:SetPoint("BOTTOMRIGHT", trackerBaseFrame, "BOTTOMRIGHT", -4, 8)
         else
             headerFrame.questieIcon:SetPoint("TOPRIGHT", trackerBaseFrame, "TOPRIGHT", -4, -8)
@@ -256,8 +256,8 @@ function TrackerHeaderFrame:Update()
 end
 
 function TrackerHeaderFrame.PositionTrackerHeaderFrame()
-    local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
-    if Questie.db.global.autoMoveHeader then
+    local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
+    if Questie.db.profile.autoMoveHeader then
         if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
             -- Auto move tracker header to the bottom
             headerFrame:SetPoint("BOTTOMLEFT", trackerBaseFrame, "BOTTOMLEFT", 0, 5)
@@ -267,7 +267,7 @@ function TrackerHeaderFrame.PositionTrackerHeaderFrame()
         end
     else
         if Questie.db.char.isTrackerExpanded then
-            if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") and Questie.db.global.alwaysShowTracker and (not QuestieTracker:HasQuest()) then
+            if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") and Questie.db.profile.alwaysShowTracker and (not QuestieTracker:HasQuest()) then
                 -- No Automove and Always Show Tracker. Move tracker header to the bottom
                 headerFrame:SetPoint("BOTTOMLEFT", trackerBaseFrame, "BOTTOMLEFT", 0, 5)
             else
