@@ -30,6 +30,22 @@ local supportedLocals = {
     ['koKR'] = true,
 }
 
+function l10n:InitializeLocaleOverride()
+    local overridingLocale = QUESTIE_LOCALES_OVERRIDE.locale
+    supportedLocals[overridingLocale] = true
+    l10n.itemLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.itemLookup
+    l10n.questLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.questLookup
+    l10n.npcNameLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.npcNameLookup
+    l10n.objectLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.objectLookup
+
+    for id, _ in pairs(l10n.translations) do
+        if QUESTIE_LOCALES_OVERRIDE.translations[id] ~= nil then
+            l10n.translations[id][overridingLocale] = QUESTIE_LOCALES_OVERRIDE.translations[id]
+        else
+            l10n.translations[id][overridingLocale] = false
+        end
+    end
+end
 
 function l10n:Initialize()
     -- Load item locales

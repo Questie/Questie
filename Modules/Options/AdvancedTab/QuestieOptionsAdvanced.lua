@@ -18,6 +18,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
+local _GetLanguages
 
 function QuestieOptions.tabs.advanced:Initialize()
     -- This needs to be called inside of the Init process for l10n to be fully loaded
@@ -161,19 +162,7 @@ function QuestieOptions.tabs.advanced:Initialize()
             locale_dropdown = {
                 type = "select",
                 order = 3.1,
-                values = {
-                    ['auto'] = l10n('Automatic'),
-                    ['enUS'] = 'English',
-                    ['esES'] = 'Español',
-                    ['esMX'] = 'Español (México)',
-                    ['ptBR'] = 'Português',
-                    ['frFR'] = 'Français',
-                    ['deDE'] = 'Deutsch',
-                    ['ruRU'] = 'Русский',
-                    ['zhCN'] = '简体中文',
-                    ['zhTW'] = '正體中文',
-                    ['koKR'] = '한국어',
-                },
+                values = _GetLanguages(),
                 style = 'dropdown',
                 name = function() return l10n('Select UI Locale'); end,
                 get = function()
@@ -184,20 +173,25 @@ function QuestieOptions.tabs.advanced:Initialize()
                     end
                 end,
                 set = function(_, lang)
+                    local previousLocale = Questie.db.global.questieLocale
                     if lang == 'auto' then
                         local clientLocale = GetLocale()
+                        if QUESTIE_LOCALES_OVERRIDE ~= nil then
+                            clientLocale = QUESTIE_LOCALES_OVERRIDE.locale
+                        end
                         l10n:SetUILocale(clientLocale)
                         Questie.db.global.questieLocale = clientLocale
                         Questie.db.global.questieLocaleDiff = false
-                        Questie.db.global.dbIsCompiled = nil -- recompile db with new lang
-                        StaticPopup_Show("QUESTIE_LANG_CHANGED_RELOAD")
-                        return
+                    else
+                        l10n:SetUILocale(lang);
+                        Questie.db.global.questieLocale = lang;
+                        Questie.db.global.questieLocaleDiff = true;
                     end
-                    l10n:SetUILocale(lang);
-                    Questie.db.global.questieLocale = lang;
-                    Questie.db.global.questieLocaleDiff = true;
-                    Questie.db.global.dbIsCompiled = nil -- recompile db with new lang
-                    StaticPopup_Show("QUESTIE_LANG_CHANGED_RELOAD")
+
+                    if previousLocale ~= Questie.db.global.questieLocale then
+                        Questie.db.global.dbIsCompiled = nil -- recompile db with new lang if locale changed
+                        StaticPopup_Show("QUESTIE_LANG_CHANGED_RELOAD")
+                    end
                 end,
             },
             Spacer_C = QuestieOptionsUtils:Spacer(3.9),
@@ -410,4 +404,24 @@ function QuestieOptions.tabs.advanced:Initialize()
             },
         },
     }
+end
+
+_GetLanguages = function()
+    local languages = {
+        ['auto'] = l10n('Automatic'),
+        ['enUS'] = 'English',
+        ['esES'] = 'Español',
+        ['esMX'] = 'Español (México)',
+        ['ptBR'] = 'Português',
+        ['frFR'] = 'Français',
+        ['deDE'] = 'Deutsch',
+        ['ruRU'] = 'Русский',
+        ['zhCN'] = '简体中文',
+        ['zhTW'] = '正體中文',
+        ['koKR'] = '한국어',
+    }
+    if QUESTIE_LOCALES_OVERRIDE ~= nil then
+        languages[QUESTIE_LOCALES_OVERRIDE.locale] = QUESTIE_LOCALES_OVERRIDE.localeName
+    end
+    return languages
 end
