@@ -77,6 +77,7 @@ function QuestieJourney:BuildMainFrame()
         end)
         journeyFrame:SetTitle(l10n("%s's Journey", UnitName("player")))
         journeyFrame:SetLayout("Fill")
+        journeyFrame:EnableResize(false)
         QuestieCompat.SetResizeBounds(journeyFrame.frame, 550, 400)
 
         local tabGroup = AceGUI:Create("TabGroup")

@@ -37,8 +37,8 @@ QuestieWorldMapButtonMixin = {
     OnHide = function() end,
     OnMouseDown = function(_, button)
         if button == "LeftButton" then
-            Questie.db.char.enabled = (not Questie.db.char.enabled)
-            QuestieQuest:ToggleNotes(Questie.db.char.enabled)
+            Questie.db.profile.enabled = (not Questie.db.profile.enabled)
+            QuestieQuest:ToggleNotes(Questie.db.profile.enabled)
         elseif button == "RightButton" then
             QuestieMenu:Show()
         end

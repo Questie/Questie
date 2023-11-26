@@ -49,7 +49,7 @@ local lineMarginLeft = 10
 ---@param questFrame Frame
 function TrackerLinePool.Initialize(questFrame)
     local trackerQuestFrame = questFrame
-    local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
+    local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
 
     -- create linePool for quests/achievements
     local nextFrame
@@ -143,11 +143,11 @@ function TrackerLinePool.Initialize(questFrame)
 
         function line:SetVerticalPadding(amount)
             if self.mode == "zone" then
-                self:SetHeight(Questie.db.global.trackerFontSizeZone + amount)
+                self:SetHeight(Questie.db.profile.trackerFontSizeZone + amount)
             elseif self.mode == "quest" or "achieve" then
-                self:SetHeight(Questie.db.global.trackerFontSizeQuest + amount)
+                self:SetHeight(Questie.db.profile.trackerFontSizeQuest + amount)
             else
-                self:SetHeight(Questie.db.global.trackerFontSizeObjective + amount)
+                self:SetHeight(Questie.db.profile.trackerFontSizeObjective + amount)
             end
         end
 
@@ -179,8 +179,8 @@ function TrackerLinePool.Initialize(questFrame)
         -- create objective complete criteria marks
         local criteriaMark = CreateFrame("Button", "linePool.criteriaMark" .. i, line)
         criteriaMark.texture = criteriaMark:CreateTexture(nil, "OVERLAY", nil, 0)
-        criteriaMark.texture:SetWidth(Questie.db.global.trackerFontSizeObjective)
-        criteriaMark.texture:SetHeight(Questie.db.global.trackerFontSizeObjective)
+        criteriaMark.texture:SetWidth(Questie.db.profile.trackerFontSizeObjective)
+        criteriaMark.texture:SetHeight(Questie.db.profile.trackerFontSizeObjective)
         criteriaMark.texture:SetAllPoints(criteriaMark)
 
         criteriaMark:SetWidth(1)
@@ -204,8 +204,8 @@ function TrackerLinePool.Initialize(questFrame)
                     ---------------------------------------------------------------------
                 end
 
-                self:SetWidth(Questie.db.global.trackerFontSizeObjective)
-                self:SetHeight(Questie.db.global.trackerFontSizeObjective)
+                self:SetWidth(Questie.db.profile.trackerFontSizeObjective)
+                self:SetHeight(Questie.db.profile.trackerFontSizeObjective)
             end
         end
 
@@ -383,7 +383,7 @@ function TrackerLinePool.Initialize(questFrame)
                         self:SetNormalTexture(texturePath)
 
                         -- Move the VoiceOverFrame below the DurabilityFrame if it's present and not already moved
-                        if (Questie.db.global.stickyDurabilityFrame and DurabilityFrame:IsVisible()) and select(5, VoiceOverFrame:GetPoint()) < -125 then
+                        if (Questie.db.profile.stickyDurabilityFrame and DurabilityFrame:IsVisible()) and select(5, VoiceOverFrame:GetPoint()) < -125 then
                             QuestieTracker:UpdateVoiceOverFrame()
                         end
                     end
@@ -416,8 +416,8 @@ function TrackerLinePool.Initialize(questFrame)
                 else
                     self.texture:SetTexture("Interface\\Buttons\\UI-PlusButton-Up")
                 end
-                self:SetWidth(Questie.db.global.trackerFontSizeQuest + 3)
-                self:SetHeight(Questie.db.global.trackerFontSizeQuest + 3)
+                self:SetWidth(Questie.db.profile.trackerFontSizeQuest + 3)
+                self:SetHeight(Questie.db.profile.trackerFontSizeQuest + 3)
             end
         end
 
@@ -457,7 +457,7 @@ function TrackerLinePool.Initialize(questFrame)
             line:HookScript("OnUpdate", line.OnUpdate)
         end
 
-        if Questie.db.global.trackerFadeMinMaxButtons then
+        if Questie.db.profile.trackerFadeMinMaxButtons then
             expandQuest:SetAlpha(0)
         end
 
@@ -486,7 +486,7 @@ function TrackerLinePool.Initialize(questFrame)
         btn.count = btn:CreateFontString(nil, "ARTWORK", "Game10Font_o1")
         btn:Hide()
 
-        if Questie.db.global.trackerFadeQuestItemButtons then
+        if Questie.db.profile.trackerFadeQuestItemButtons then
             btn:SetAlpha(0)
         end
 
@@ -589,7 +589,7 @@ function TrackerLinePool.Initialize(questFrame)
 
                 -- Charges Updates
                 self.count:Hide()
-                self.count:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest), Questie.db.global.trackerFontSizeQuest, "OUTLINE")
+                self.count:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontQuest), Questie.db.profile.trackerFontSizeQuest, "OUTLINE")
                 if self.charges > 1 then
                     self.count:SetText(self.charges)
                     self.count:Show()
@@ -718,7 +718,7 @@ function TrackerLinePool.ResetLinesForChange()
         Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetLinesForChange]")
     end
 
-    if InCombatLockdown() or not Questie.db.char.trackerEnabled then
+    if InCombatLockdown() or not Questie.db.profile.trackerEnabled then
         return
     end
 
@@ -755,7 +755,7 @@ function TrackerLinePool.ResetButtonsForChange()
         Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetButtonsForChange]")
     end
 
-    if InCombatLockdown() or not Questie.db.char.trackerEnabled then
+    if InCombatLockdown() or not Questie.db.profile.trackerEnabled then
         return
     end
 
@@ -763,7 +763,7 @@ function TrackerLinePool.ResetButtonsForChange()
 end
 
 function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
-    local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
+    local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
     local trackerMarginLeft = 14
     local trackerMarginRight = 30
     local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest)
@@ -772,9 +772,9 @@ function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
 
     -- Updates all the line.label widths in the linePool for wrapped text only
     for _, line in pairs(linePool) do
-        if Questie.db[Questie.db.global.questieTLoc].TrackerWidth == 0 then
+        if Questie.db.profile.TrackerWidth == 0 then
             if line.mode == "objective" then
-                if line.label:GetNumLines() > 1 and line:GetHeight() > Questie.db.global.trackerFontSizeObjective then
+                if line.label:GetNumLines() > 1 and line:GetHeight() > Questie.db.profile.trackerFontSizeObjective then
                     line.label:SetText(line.label:GetText())
 
                     if line.altButton then
@@ -785,8 +785,8 @@ function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
                         line:SetWidth(trackerLineWidth)
                     end
 
-                    line:SetHeight(line.label:GetStringHeight() + 2 + Questie.db.global.trackerQuestPadding)
-                    line.label:SetHeight(line:GetHeight() - 2 - Questie.db.global.trackerQuestPadding)
+                    line:SetHeight(line.label:GetStringHeight() + 2 + Questie.db.profile.trackerQuestPadding)
+                    line.label:SetHeight(line:GetHeight() - 2 - Questie.db.profile.trackerQuestPadding)
                 end
             end
         end
@@ -1002,14 +1002,14 @@ TrackerLinePool.OnClickQuest = function(self, button)
         LibDropDown:CloseDropDownMenus()
     end
 
-    if TrackerUtils:IsBindTrue(Questie.db.global.trackerbindSetTomTom, button) then
+    if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindSetTomTom, button) then
         local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(self.Quest)
         if spawn then
             TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
-    elseif TrackerUtils:IsBindTrue(Questie.db.global.trackerbindUntrack, button) then
+    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            if Questie.db.global.trackerShowQuestLevel then
+            if Questie.db.profile.trackerShowQuestLevel then
                 ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.Quest.level, self.Quest.name, self.Quest.Id))
             else
                 ChatEdit_InsertLink("[" .. self.Quest.name .. " (" .. self.Quest.Id .. ")]")
@@ -1021,7 +1021,7 @@ TrackerLinePool.OnClickQuest = function(self, button)
                 QuestLog_Update()
             end
         end
-    elseif TrackerUtils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
+    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
         TrackerUtils:ShowQuestLog(self.Quest)
     elseif button == "RightButton" then
         local menu = TrackerMenu:GetMenuForQuest(self.Quest)
@@ -1040,7 +1040,7 @@ TrackerLinePool.OnClickAchieve = function(self, button)
         LibDropDown:CloseDropDownMenus()
     end
 
-    if TrackerUtils:IsBindTrue(Questie.db.global.trackerbindUntrack, button) then
+    if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
             ChatEdit_InsertLink(GetAchievementLink(self.Quest.Id))
         else
@@ -1062,7 +1062,7 @@ TrackerLinePool.OnClickAchieve = function(self, button)
                 UIErrorsFrame:AddMessage(format(l10n("You can't untrack an objective of an achievement.")), 1.0, 0.1, 0.1, 1.0)
             end
         end
-    elseif TrackerUtils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
+    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
         if (not AchievementFrame) then
             AchievementFrame_LoadUI()
         end
@@ -1105,17 +1105,17 @@ TrackerLinePool.SetMode = function(self, mode)
     if mode ~= self.mode then
         self.mode = mode
         if mode == "zone" then
-            local trackerFontSizeZone = Questie.db.global.trackerFontSizeZone
-            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontZone), trackerFontSizeZone, Questie.db.global.trackerFontOutline)
+            local trackerFontSizeZone = Questie.db.profile.trackerFontSizeZone
+            self.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontZone), trackerFontSizeZone, Questie.db.profile.trackerFontOutline)
             self.label:SetHeight(trackerFontSizeZone)
         elseif mode == "quest" or mode == "achieve" then
-            local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
-            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest), trackerFontSizeQuest, Questie.db.global.trackerFontOutline)
+            local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
+            self.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontQuest), trackerFontSizeQuest, Questie.db.profile.trackerFontOutline)
             self.label:SetHeight(trackerFontSizeQuest)
             self.button = nil
         elseif mode == "objective" then
-            local trackerFontSizeObjective = Questie.db.global.trackerFontSizeObjective
-            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective), trackerFontSizeObjective, Questie.db.global.trackerFontOutline)
+            local trackerFontSizeObjective = Questie.db.profile.trackerFontSizeObjective
+            self.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
             self.label:SetHeight(trackerFontSizeObjective)
         end
     end
