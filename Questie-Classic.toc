@@ -107,7 +107,8 @@ Modules\QuestieShutUp.lua
 Modules\Sounds.lua
 Modules\TaskQueue.lua
 Modules\QuestiePlayer.lua
-Modules\WorldMapButton.lua
+Modules\WorldMapButton\WorldMapButton.lua
+Modules\WorldMapButton\QuestieWorldMapButtonTemplate.xml
 
 # QuestLinks
 Modules\QuestLinks\ChatFilter.lua

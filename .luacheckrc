@@ -2823,4 +2823,5 @@ globals = {
     "QuestieConfigFrame",
     "QuestieConfig",
     "QuestieCompat",
+    "QuestieWorldMapButtonMixin",
 }
