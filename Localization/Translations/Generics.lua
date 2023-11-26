@@ -401,7 +401,7 @@ local genericsLocales = {
     ["Party"] = {
         ["ptBR"] = false,
         ["ruRU"] = "Группа",
-        ["deDE"] = false,
+        ["deDE"] = true,
         ["koKR"] = false,
         ["esMX"] = "Grupo",
         ["enUS"] = true,
@@ -409,18 +409,6 @@ local genericsLocales = {
         ["zhTW"] = "小隊",
         ["esES"] = "Grupo",
         ["frFR"] = "Groupe",
-    },
-    ["PvP"] = {
-        ["ptBR"] = "JxJ",
-        ["ruRU"] = "PvP",
-        ["deDE"] = "PvP",
-        ["koKR"] = "전쟁",
-        ["esMX"] = "JcJ",
-        ["enUS"] = true,
-        ["zhCN"] = "PvP",
-        ["zhTW"] = "PvP",
-        ["esES"] = "JcJ",
-        ["frFR"] = "JcJ",
     },
     ["Raid"] = {
         ["ptBR"] = "Raide",

@@ -292,7 +292,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "execute",
                         order = 2.12,
                         name = function() return l10n('Townsfolk'); end,
-                        desc = function() return l10n('Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.'); end,
+                        desc = function() return l10n('Allows to select which tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.'); end,
                         width = 0.8,
                         disabled = false,
                         func = function(info, value)
@@ -303,7 +303,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "execute",
                         order = 2.13,
                         name = function() return l10n('Profession Trainers'); end,
-                        desc = function() return l10n('Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.'); end,
+                        desc = function() return l10n('Allows to select which profession trainers to show on the map and minimap.'); end,
                         width = 0.95,
                         disabled = false,
                         func = function(info, value)
@@ -314,7 +314,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "execute",
                         order = 2.14,
                         name = function() return l10n('Vendors'); end,
-                        desc = function() return l10n('Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.'); end,
+                        desc = function() return l10n('Allows to select which vendors to show on the map and minimap.'); end,
                         width = 0.8,
                         disabled = false,
                         func = function(info, value)
@@ -567,7 +567,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     lootScale = {
                         type = "range",
                         order = 5.5,
-                        name = function() return l10n('Loot Objectives'); end,
+                        name = function() return l10n('Loot objectives'); end,
                         desc = function() return l10n('How large the loot icons are.\n(Default: %s)', optionsDefaults.profile.lootScale); end,
                         width = 1.55,
                         min = 0.01,
@@ -582,7 +582,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     monsterScale = {
                         type = "range",
                         order = 5.6,
-                        name = function() return l10n('Slay Objectives'); end,
+                        name = function() return l10n('Slay objectives'); end,
                         desc = function() return l10n('How large the slay icons are.\n(Default: %s)', optionsDefaults.profile.monsterScale); end,
                         width = 1.55,
                         min = 0.01,
@@ -597,7 +597,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     eventScale = {
                         type = "range",
                         order = 5.7,
-                        name = function() return l10n('Event Objectives'); end,
+                        name = function() return l10n('Event objectives'); end,
                         desc = function() return l10n('How large the event icons are.\n(Default: %s)', optionsDefaults.profile.eventScale); end,
                         width = 1.55,
                         min = 0.01,
@@ -612,7 +612,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     objectScale = {
                         type = "range",
                         order = 5.8,
-                        name = function() return l10n('Object Objectives'); end,
+                        name = function() return l10n('Object objectives'); end,
                         desc = function() return l10n('How large the object icons are.\n(Default: %s)', optionsDefaults.profile.objectScale); end,
                         width = 1.55,
                         min = 0.01,
