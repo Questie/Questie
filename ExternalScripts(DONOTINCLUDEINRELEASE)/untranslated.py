@@ -9,6 +9,8 @@ duplicates = {}
 
 for filePath in re.findall('file="([\\a-zA-Z]*?.lua)"', open('%sTranslations.xml' % basePath).read()):
     with open('%s%s' % (basePath, filePath.replace('\\', '/'))) as translationFile:
+        if translationFile.name.endswith('Objectives.lua'):
+            continue
         for filePath, tableContent in re.findall('\n\nlocal (.*?) = {\n(.*?\n)\}\n\n', translationFile.read(), re.DOTALL):
             if filePath not in translations:
                 translations[filePath] = {}
