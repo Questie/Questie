@@ -43,11 +43,11 @@ local soundsOptionsLocales = {
         ["ruRU"] = "Воспроизводить короткий звук при выполнении цели задания",
         ["deDE"] = "Spielt einen kurzen Ton, wenn ein Quest-Ziel abgeschlossen ist.",
         ["koKR"] = false,
-        ["esMX"] = "Reproduce un sonido corto al completar un objetivo de misión".,
+        ["esMX"] = "Reproduce un sonido corto al completar un objetivo de misión.",
         ["enUS"] = true,
         ["zhCN"] = "完成任务目标时播放音效。",
         ["zhTW"] = "完成任務目標時播放音效。",
-        ["esES"] = "Reproduce un sonido corto al completar un objetivo de misión".,
+        ["esES"] = "Reproduce un sonido corto al completar un objetivo de misión.",
         ["frFR"] = "Jouer un court son lorsqu'un objectif de quête est complété.",
     },
     ["Quest Complete Sound Selection"] = {
