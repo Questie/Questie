@@ -91,7 +91,6 @@ local autoOptionsLocales = {
         ["ruRU"] = false,
         ["deDE"] = "Wiederholbare Quests (inkl. Dailies) automatisch annehmen.",
         ["koKR"] = false,
-        ["koKR"] = false,
         ["esMX"] = "Acepta automáticamente misiones repetibles (incluidas las diarias) de los jugadores.",
         ["enUS"] = true,
         ["zhCN"] = false,
