@@ -777,7 +777,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{24018},nil,{34091}},
         },
         [11460] = {
-            [questKeys.triggerEnd] = {"Fjord Rock Falcon Fed",{[zoneIDs.HOWLING_FJORD]={{75.26,64.91,},},},},
+            [questKeys.objectives] = {{{24752,"Fjord Rock Falcon Fed"}}},
         },
         [11466] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Olga"), 0, {{"monster", 24639}}}},
