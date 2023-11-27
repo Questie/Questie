@@ -167,7 +167,7 @@ function QuestieEventHandler:RegisterLateEvents()
     end
 
     -- Questie Debug Offer
-    if Questie.IsEra then
+    if Questie.IsSoD then
         Questie:RegisterEvent("LOOT_OPENED", QuestieDebugOffer.LootWindow)
     end
 
