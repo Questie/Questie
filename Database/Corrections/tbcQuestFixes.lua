@@ -2412,7 +2412,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10942},
         },
         [10946] = {
-            [questKeys.triggerEnd] = {"Ruse of the Ashtongue", {[zoneIDs.NETHERSTORM]={{73.88,63.76}}}},
+            [questKeys.objectives] = {{{19514,"Ruse of the Ashtongue"}}},
         },
         [10950] = {
             [questKeys.questLevel] = -1,
