@@ -164,7 +164,8 @@ local function _CheckClassicDatabase()
         char = {
             showEventQuests = false
         },
-        global = {}
+        global = {},
+        profile = {}
     }
     QuestieConfig = {}
 
@@ -230,7 +231,8 @@ local function _CheckTBCDatabase()
         char = {
             showEventQuests = false
         },
-        global = {}
+        global = {},
+        profile = {}
     }
     QuestieConfig = {}
 
@@ -295,7 +297,8 @@ local function _CheckWotlkDatabase()
         char = {
             showEventQuests = false
         },
-        global = {}
+        global = {},
+        profile = {}
     }
     QuestieConfig = {}
 

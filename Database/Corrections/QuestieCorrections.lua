@@ -158,6 +158,24 @@ function QuestieCorrections:MinimalInit() -- db already compiled
                 QuestieDB.itemDataOverrides[id][key] = value
             end
         end
+
+        for id, data in pairs(QuestieTBCNpcFixes:LoadFactionFixes()) do
+            for key, value in pairs(data) do
+                if not QuestieDB.npcDataOverrides[id] then
+                    QuestieDB.npcDataOverrides[id] = {}
+                end
+                QuestieDB.npcDataOverrides[id][key] = value
+            end
+        end
+
+        for id, data in pairs(QuestieTBCObjectFixes:LoadFactionFixes()) do
+            for key, value in pairs(data) do
+                if not QuestieDB.objectDataOverrides[id] then
+                    QuestieDB.objectDataOverrides[id] = {}
+                end
+                QuestieDB.objectDataOverrides[id][key] = value
+            end
+        end
     end
 
     if (Questie.IsWotlk) then
@@ -200,7 +218,7 @@ function QuestieCorrections:MinimalInit() -- db already compiled
         end
     end
 
-    if Questie.db.char.showEventQuests then
+    if Questie.db.profile.showEventQuests then
         C_Timer.After(1, function()
              -- This is done with a delay because on startup the Blizzard API seems to be
              -- very slow and therefore the date calculation in QuestieEvents isn't done

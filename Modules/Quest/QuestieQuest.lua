@@ -43,8 +43,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
----@type WorldMapButton
-local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
@@ -102,8 +100,6 @@ function QuestieQuest:ToggleNotes(showIcons)
 end
 
 function _QuestieQuest:ShowQuestIcons()
-    WorldMapButton.UpdateText()
-
     local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
     for questId, frameList in pairs(QuestieMap.questIdFrames) do
         if (not trackerHiddenQuests) or (not trackerHiddenQuests[questId]) then -- Skip quests which are completely hidden from the Tracker menu
@@ -148,8 +144,6 @@ function _QuestieQuest:ShowManualIcons()
 end
 
 function _QuestieQuest:HideQuestIcons()
-    WorldMapButton.UpdateText()
-
     for _, frameList in pairs(QuestieMap.questIdFrames) do
         for _, frameName in pairs(frameList) do                                 -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
@@ -385,11 +379,11 @@ end
 ---@param questId number
 ---@return boolean
 function QuestieQuest:ShouldShowQuestNotes(questId)
-    if not Questie.db.char.hideUntrackedQuestsMapIcons then
+    if not Questie.db.profile.hideUntrackedQuestsMapIcons then
         return true
     end
 
-    local autoWatch = Questie.db.global.autoTrackQuests
+    local autoWatch = Questie.db.profile.autoTrackQuests
     local trackedAuto = autoWatch and (not Questie.db.char.AutoUntrackedQuests or not Questie.db.char.AutoUntrackedQuests[questId])
     local trackedManual = not autoWatch and (Questie.db.char.TrackedQuests and Questie.db.char.TrackedQuests[questId])
     return trackedAuto or trackedManual
@@ -405,6 +399,9 @@ function QuestieQuest:UnhideQuest(id)
     Questie.db.char.hidden[id] = nil
     AvailableQuests.CalculateAndDrawAll()
 end
+
+local allianceTournamentMarkerQuests = {[13684] = true, [13685] = true, [13688] = true, [13689] = true, [13690] = true, [13593] = true, [13703] = true, [13704] = true, [13705] = true, [13706] = true}
+local hordeTournamentMarkerQuests = {[13691] = true, [13693] = true, [13694] = true, [13695] = true, [13696] = true, [13707] = true, [13708] = true, [13709] = true, [13710] = true, [13711] = true}
 
 ---@param questId number
 function QuestieQuest:AcceptQuest(questId)
@@ -434,6 +431,13 @@ function QuestieQuest:AcceptQuest(questId)
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId)
 
             QuestiePlayer.currentQuestlog[questId] = quest
+
+            if allianceTournamentMarkerQuests[questId] then
+                Questie.db.char.complete[13686] = true -- Alliance Tournament Eligibility Marker
+            elseif hordeTournamentMarkerQuests[questId] then
+                Questie.db.char.complete[13687] = true -- Horde Tournament Eligibility Marker
+            end
+
             TaskQueue:Queue(
             -- Get all the Frames for the quest and unload them, the available quest icon for example.
                 function() QuestieMap:UnloadQuestFrames(questId) end,
@@ -468,6 +472,9 @@ function QuestieQuest:AcceptQuest(questId)
     end
 end
 
+local allianceChampionMarkerQuests = {[13699] = true, [13713] = true, [13723] = true, [13724] = true, [13725] = true}
+local hordeChampionMarkerQuests = {[13726] = true, [13727] = true, [13728] = true, [13729] = true, [13731] = true}
+
 ---@param questId number
 function QuestieQuest:CompleteQuest(questId)
     -- Skip quests which are turn in only and are not added to the quest log in the first place
@@ -481,6 +488,14 @@ function QuestieQuest:CompleteQuest(questId)
     -- Only quests that are daily quests or aren't repeatable should be marked complete,
     -- otherwise objectives for repeatable quests won't track correctly - #1433
     Questie.db.char.complete[questId] = (not QuestieDB.IsRepeatable(questId)) or QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId);
+
+    if allianceChampionMarkerQuests[questId] then
+        Questie.db.char.complete[13700] = true -- Alliance Champion Marker
+        Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
+    elseif hordeChampionMarkerQuests[questId] then
+        Questie.db.char.complete[13701] = true -- Horde Champion Marker
+        Questie.db.char.complete[13687] = nil -- Horde Tournament Eligibility Marker
+    end
     QuestieMap:UnloadQuestFrames(questId)
 
     if (QuestieMap.questIdFrames[questId]) then
@@ -513,6 +528,12 @@ function QuestieQuest:AbandonedQuest(questId)
             -- Reset quest flags
             quest.WasComplete = nil
             quest.isComplete = nil
+
+            if allianceTournamentMarkerQuests[questId] then
+                Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
+            elseif hordeTournamentMarkerQuests[questId] then
+                Questie.db.char.complete[13687] = nil -- Horde Tournament Eligibility Marker
+            end
 
             local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
             if childQuests then
@@ -654,7 +675,7 @@ function QuestieQuest:GetAllQuestIds()
     for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
         if (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
-                Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
+                Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!", tostring(questId)))
                 Questie._sessionWarnings[questId] = true
             end
         else
@@ -783,7 +804,7 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
     for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
         if (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
-                Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
+                Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!", tostring(questId)))
                 Questie._sessionWarnings[questId] = true
             end
         else
@@ -871,7 +892,7 @@ function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
 end
 
 local function _GetIconScaleForAvailable()
-    return Questie.db.global.availableScale or 1.3
+    return Questie.db.profile.availableScale or 1.3
 end
 
 ---@param quest Quest
@@ -1023,7 +1044,7 @@ function QuestieQuest:AddFinisher(quest)
                 end
             end
         else
-            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] finisher or finisher.spawns == nil")
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] finisher or finisher.spawns == nil for questId", questId)
         end
     end
 end
@@ -1064,8 +1085,8 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
     if next(objective.spawnList) then
         local maxPerType = 300
 
-        if Questie.db.global.enableIconLimit and Questie.db.global.iconLimit < maxPerType then
-            maxPerType = Questie.db.global.iconLimit
+        if Questie.db.profile.enableIconLimit and Questie.db.profile.iconLimit < maxPerType then
+            maxPerType = Questie.db.profile.iconLimit
         end
 
         local closestStarter = QuestieMap:FindClosestStarter()
@@ -1163,7 +1184,7 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
             objective.Icon = spawnData.Icon
         end
 
-        if (not objective.AlreadySpawned[id]) and (not objective.Completed) and Questie.db.global.enableObjectives then
+        if (not objective.AlreadySpawned[id]) and (not objective.Completed) and Questie.db.profile.enableObjectives then
             local data = {
                 Id = quest.Id,
                 ObjectiveIndex = objectiveIndex,
@@ -1235,7 +1256,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
     local icon
     local iconPerZone = {}
 
-    local range = Questie.db.global.clusterLevelHotzone
+    local range = Questie.db.profile.clusterLevelHotzone
 
     local iconCount, orderedList = _GetIconsSortedByDistance(iconsToDraw)
 

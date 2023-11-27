@@ -14,7 +14,7 @@ local tooltipOptionsLocales = {
         ["esES"] = "Descripción emergente",
         ["frFR"] = "Info-bulle",
     },
-    ["Tooltip options"] = {
+    ["Tooltip Options"] = {
         ["ptBR"] = "Opções de dica de ferramenta",
         ["ruRU"] = "Настройки всплывающих подсказок",
         ["deDE"] = "Tooltip-Optionen",
@@ -49,18 +49,6 @@ local tooltipOptionsLocales = {
         ["zhTW"] = "啟用時，會在相關的怪物/物品浮動提示中加入任務資訊。",
         ["esES"] = "Cuando está habilitado la información de la mision aparecera en la descripcion de los monstruos/objetos relevantes",
         ["frFR"] = "Active l'affichage des informations de quête dans les info-bulles des monstres et des objets.",
-    },
-    ["Show Quest Level in Tooltips"] = {
-        ["ptBR"] = "Mostrar o nível da missão nas dicas de ferramentas",
-        ["ruRU"] = "Уровень заданий в подсказках",
-        ["deDE"] = "Questlevel in Tooltips aktivieren",
-        ["koKR"] = "툴팁에 퀘스트 레벨 표시",
-        ["esMX"] = "Mostrar nivel de misión en tooltips",
-        ["enUS"] = true,
-        ["zhCN"] = "显示任务等级",
-        ["zhTW"] = "在浮動提示資訊中顯示任務等級",
-        ["esES"] = "Mostrar nivel de misión en tooltips",
-        ["frFR"] = "Niveau des quêtes dans les info-bulles",
     },
     ["When this is checked, the level of quests will show in the tooltips."] = {
         ["ptBR"] = "Quando esta opção está marcada, o nível das missões será mostrado nas dicas de ferramentas.",

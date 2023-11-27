@@ -287,6 +287,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestGroup] = {1687,1479,1558},
             [questKeys.inGroupWith] = nil,
+            [questKeys.childQuests] = {},
         },
         [566] = {
             [questKeys.preQuestSingle] = {549}, -- #1484
@@ -479,6 +480,8 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Get some Strawberry Ice Cream for your ward. The lad seems to prefer Tigule's brand ice cream."}, -- orc orphan
             [questKeys.preQuestGroup] = {1800,910,911},
             [questKeys.inGroupWith] = nil,
+            [questKeys.childQuests] = {},
+            [questKeys.parentQuest] = 0,
         },
         [918] = {
             [questKeys.preQuestSingle] = {},
@@ -489,6 +492,7 @@ function QuestieQuestFixes:Load()
         [925] = {
             [questKeys.preQuestGroup] = {1800,910,911},
             [questKeys.inGroupWith] = nil,
+            [questKeys.parentQuest] = 0,
         },
         [926] = {
             [questKeys.parentQuest] = 924, -- #806
@@ -1329,7 +1333,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{5797},nil,{10621}},
         },
         [3520] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Vale Screechers and use Veh'kinya's Bramble on their corpse."), 0, {{"monster", 5307},{"monster", 5308}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Vale Screechers and use Yeh'kinya's Bramble on their corpse."), 0, {{"monster", 5307},{"monster", 5308}}}},
         },
         [3525] = {
             [questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[zoneIDs.THE_BARRENS]={{50.86,92.87}}}},
@@ -1689,13 +1693,14 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Get some Strawberry Ice Cream for your ward. The lad seems to prefer Tigule's brand ice cream."}, -- human orphan
             [questKeys.inGroupWith] = nil,
             [questKeys.preQuestGroup] = {1479,1558,1687},
+            [questKeys.childQuests] = {},
         },
         [4866] = {
             [questKeys.objectives] = {{{9563,"Milked"}}},
         },
         [4867] = {
             [questKeys.requiredSourceItems] = {12533,12534},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Combine Omokk's Head with the Roughshot Pike."),0,{{"object", 175621}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Combine Omokk's Head with the Roughshod Pike."),0,{{"object", 175621}}},
 			                               {nil, Questie.ICON_TYPE_OBJECT, l10n("Use it to instantly kill one nearby ogre."),0,{{"object", 400063}}},
 			},
         },
@@ -1840,6 +1845,13 @@ function QuestieQuestFixes:Load()
         },
         [5305]  ={
             [questKeys.exclusiveTo] = {8869},
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
+        },
+        [5306]  ={
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
+        },
+        [5307]  ={
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
         },
         [5321] = {
             [questKeys.triggerEnd] = {"Escort Kerlonian Evershade to Maestra's Post", {[zoneIDs.ASHENVALE]={{26.77,36.91}}}},
@@ -2823,7 +2835,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8399,8400,8401,8402,8403},
         },
         [8373] = {
-            [questKeys.triggerEnd] = {"Clean up a stink bomb that's been dropped on Southshore!", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{49.60,58.60}}}},
+            [questKeys.objectives] = {nil,{{180449,"Clean up a stink bomb that's been dropped on Southshore!"}}},
         },
         [8399] = {
             [questKeys.exclusiveTo] = {8372,8400,8401,8402,8403},

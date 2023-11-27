@@ -158,7 +158,7 @@ function QuestieDB:Initialize()
             ReloadUI()
         end,
         OnDecline = function()
-            Questie.db.global.disableDatabaseWarnings = true
+            Questie.db.profile.disableDatabaseWarnings = true
         end,
         OnShow = function(self)
             self:SetFrameStrata("TOOLTIP")
@@ -407,19 +407,19 @@ function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, pla
     end
 
     --* QuestieEvent.activeQuests[questId] logic is from QuestieDB.IsParentQuestActive, if you edit here, also edit there
-    if (not Questie.db.char.absoluteLevelOffset) and
+    if (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) and
         minLevel > requiredLevel and
         QuestieEvent.activeQuests[questId]  then
         return true
     end
 
     if maxLevel >= level then
-        if (not Questie.db.char.lowlevel) and minLevel > level then
+        if (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_ALL) and minLevel > level then
             -- The quest level is too low and trivial quests are not shown
             return false
         end
     else
-        if Questie.db.char.absoluteLevelOffset or maxLevel < requiredLevel then
+        if (Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_RANGE) or maxLevel < requiredLevel then
             -- Either an absolute level range is set and maxLevel < level OR the maxLevel is manually set to a lower value
             return false
         end
@@ -483,24 +483,13 @@ end
 ---@param preQuestSingle number[]
 ---@return boolean
 function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
-    if not preQuestSingle then
+    if (not preQuestSingle) then
         return true
     end
     for preQuestIndex=1, #preQuestSingle do
-    -- for _, preQuestId in pairs(preQuestSingle) do
         -- If a quest is complete the requirement is fulfilled
         if Questie.db.char.complete[preQuestSingle[preQuestIndex]] then
             return true
-        -- If one of the quests in the exclusive group is complete the requirement is fulfilled
-        else
-            local preQuestExclusiveQuestGroup = QuestieDB.QueryQuestSingle(preQuestSingle[preQuestIndex], "exclusiveTo")
-            if preQuestExclusiveQuestGroup then
-                for i=1, #preQuestExclusiveQuestGroup do
-                    if Questie.db.char.complete[preQuestExclusiveQuestGroup[i]] then
-                        return true
-                    end
-                end
-            end
         end
     end
     -- No preQuest is complete
@@ -514,17 +503,17 @@ function QuestieDB.IsDoable(questId, debugPrint)
 
     -- These are localized in the init function
     if QuestieCorrectionshiddenQuests[questId] then
-        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is hidden!") end
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest "..questId.." is hidden!") end
         return false
     end
 
     if Questiedbcharhidden[questId] then
-        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is hidden manually!") end
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest "..questId.." is hidden manually!") end
         return false
     end
 
     if QuestieDB.activeChildQuests[questId] then
-        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is a child quest and the parent is active!") end
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest "..questId.." is a child quest and the parent is active!") end
         -- The parent quest is active, so this quest is doable
         return true
     end
@@ -600,14 +589,14 @@ function QuestieDB.IsDoable(questId, debugPrint)
 
     local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
     if parentQuest and parentQuest ~= 0 then
-        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest has an inactive parent quest") end
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] questid "..questId.." has an inactive parent quest") end
         return false
     end
 
     local nextQuestInChain = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
     if nextQuestInChain and nextQuestInChain ~= 0 then
         if Questie.db.char.complete[nextQuestInChain] or QuestiePlayer.currentQuestlog[nextQuestInChain] then
-            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Follow up quests already completed or in the quest log!") end
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Follow up quests already completed or in the quest log for questid:", questId) end
 
             return false
         end
@@ -619,7 +608,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     if ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for _, v in pairs(ExclusiveQuestGroup) do
             if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
-                if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] we have completed a quest that locks out this quest!") end
+                if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] we have completed a quest that locks out this questid:", questId) end
 
                 return false
             end
@@ -627,7 +616,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     end
 
     if (not DailyQuests:IsActiveDailyQuest(questId)) then
-        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is a daily quest not active today!") end
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] questid "..questId.." is a daily quest not active today!") end
         return false
     end
 
@@ -708,7 +697,7 @@ end
 
 ---@return number
 local _GetIconScale = function()
-    return Questie.db.global.objectScale or 1
+    return Questie.db.profile.objectScale or 1
 end
 
 ---@param questId QuestId

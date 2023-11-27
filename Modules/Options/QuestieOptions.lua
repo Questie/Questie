@@ -9,8 +9,6 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type ThreadLib
-local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
@@ -42,9 +40,10 @@ function QuestieOptions:Initialize()
     configFrame:Hide()
     coroutine.yield()
 
-    AceConfigDialog:SetDefaultSize("Questie", 640, 780)
+    AceConfigDialog:SetDefaultSize("Questie", 640, 700)
     AceConfigDialog:Open("Questie", configFrame) -- load the options into configFrame
     configFrame:SetLayout("Fill")
+    configFrame:EnableResize(false)
     QuestieCompat.SetResizeBounds(configFrame.frame, 550, 400)
 
     configFrame:Hide()
@@ -90,16 +89,16 @@ function QuestieOptions:OpenConfigWindow()
 end
 
 -- get option value
-function QuestieOptions:GetGlobalOptionValue(info)
-    return Questie.db.global[info[#info]]
+function QuestieOptions:GetProfileValue(info)
+    return Questie.db.profile[info[#info]]
 end
 
 -- set option value
-function QuestieOptions:SetGlobalOptionValue(info, value)
-    if debug and Questie.db.global[info[#info]] ~= value then
-        Questie:Debug(Questie.DEBUG_SPAM, "DEBUG: global option", info[#info], "changed from '" .. tostring(Questie.db.global[info[#info]]) .. "' to '" .. tostring(value) .. "'")
+function QuestieOptions:SetProfileValue(info, value)
+    if debug and Questie.db.profile[info[#info]] ~= value then
+        Questie:Debug(Questie.DEBUG_SPAM, "DEBUG: global option", info[#info], "changed from '" .. tostring(Questie.db.profile[info[#info]]) .. "' to '" .. tostring(value) .. "'")
     end
-    Questie.db.global[info[#info]] = value
+    Questie.db.profile[info[#info]] = value
 end
 
 function QuestieOptions:ClusterRedraw()
@@ -112,19 +111,25 @@ end
 _CreateOptionsTable = function()
     local general_tab = QuestieOptions.tabs.general:Initialize()
     coroutine.yield()
-    local social_tab = QuestieOptions.tabs.social:Initialize()
-    coroutine.yield()
-    local minimap_tab = QuestieOptions.tabs.minimap:Initialize()
-    coroutine.yield()
-    local map_tab = QuestieOptions.tabs.map:Initialize()
-    coroutine.yield()
-    local dbm_hud_tab = QuestieOptions.tabs.dbm:Initialize()
+    --local social_tab = QuestieOptions.tabs.social:Initialize()
+    --coroutine.yield()
+    --local minimap_tab = QuestieOptions.tabs.minimap:Initialize()
+    --coroutine.yield()
+    --local map_tab = QuestieOptions.tabs.map:Initialize()
+    --coroutine.yield()
+    local icons_tab = QuestieOptions.tabs.icons:Initialize()
     coroutine.yield()
     local tracker_tab = QuestieOptions.tabs.tracker:Initialize()
     coroutine.yield()
+    local auto_tab = QuestieOptions.tabs.auto:Initialize()
+    coroutine.yield()
+    --local tooltip_tab = QuestieOptions.tabs.tooltip:Initialize()
+    --coroutine.yield()
+    --local sounds_tab = QuestieOptions.tabs.sounds:Initialize()
+    --coroutine.yield()
     local nameplate_tab = QuestieOptions.tabs.nameplate:Initialize()
     coroutine.yield()
-    local tooltip_tab = QuestieOptions.tabs.tooltip:Initialize()
+    local dbm_hud_tab = QuestieOptions.tabs.dbm:Initialize()
     coroutine.yield()
     local advanced_tab = QuestieOptions.tabs.advanced:Initialize()
     coroutine.yield()
@@ -135,14 +140,18 @@ _CreateOptionsTable = function()
         childGroups = "tab",
         args = {
             general_tab = general_tab,
-            social_tab = social_tab,
-            minimap_tab = minimap_tab,
-            map_tab = map_tab,
-            dbm_hud_tab = dbm_hud_tab,
+            --social_tab = social_tab,
+            --minimap_tab = minimap_tab,
+            --map_tab = map_tab,
+            icons_tab = icons_tab,
             tracker_tab = tracker_tab,
+            auto_tab = auto_tab,
+            --tooltip_tab = tooltip_tab,
+            --sounds_tab = sounds_tab,
             nameplate_tab = nameplate_tab,
-            tooltip_tab = tooltip_tab,
+            dbm_hud_tab = dbm_hud_tab,
             advanced_tab = advanced_tab,
+            profiles_tab = LibStub("AceDBOptions-3.0"):GetOptionsTable(Questie.db)
         }
     }
 end

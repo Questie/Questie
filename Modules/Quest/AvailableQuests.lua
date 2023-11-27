@@ -71,12 +71,12 @@ local function _GetQuestIcon(quest)
 end
 
 local function _GetIconScaleForAvailable()
-    return Questie.db.global.availableScale or 1.3
+    return Questie.db.profile.availableScale or 1.3
 end
 
 local function _CalculateAvailableQuests()
     -- Localize the variables for speeeeed
-    local debugEnabled = Questie.db.global.debugEnabled
+    local debugEnabled = Questie.db.profile.debugEnabled
 
     local questData = QuestieDB.QuestPointers or QuestieDB.questData
 
@@ -84,26 +84,26 @@ local function _CalculateAvailableQuests()
     local minLevel = playerLevel - GetQuestGreenRange("player")
     local maxLevel = playerLevel
 
-    if Questie.db.char.absoluteLevelOffset then
-        minLevel = Questie.db.char.minLevelFilter
-        maxLevel = Questie.db.char.maxLevelFilter
-    elseif Questie.db.char.manualMinLevelOffset then
-        minLevel = playerLevel - Questie.db.char.minLevelFilter
+    if Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_RANGE then
+        minLevel = Questie.db.profile.minLevelFilter
+        maxLevel = Questie.db.profile.maxLevelFilter
+    elseif Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_OFFSET then
+        minLevel = playerLevel - Questie.db.profile.manualLevelOffset
     end
 
     local completedQuests = Questie.db.char.complete
-    local showRepeatableQuests = Questie.db.char.showRepeatableQuests
-    local showDungeonQuests = Questie.db.char.showDungeonQuests
-    local showRaidQuests = Questie.db.char.showRaidQuests
-    local showPvPQuests = Questie.db.char.showPvPQuests
-    local showAQWarEffortQuests = Questie.db.char.showAQWarEffortQuests
+    local showRepeatableQuests = Questie.db.profile.showRepeatableQuests
+    local showDungeonQuests = Questie.db.profile.showDungeonQuests
+    local showRaidQuests = Questie.db.profile.showRaidQuests
+    local showPvPQuests = Questie.db.profile.showPvPQuests
+    local showAQWarEffortQuests = Questie.db.profile.showAQWarEffortQuests
 
     local autoBlacklist = QuestieDB.autoBlacklist
     local hiddenQuests = QuestieCorrections.hiddenQuests
     local hidden = Questie.db.char.hidden
 
     local currentQuestlog = QuestiePlayer.currentQuestlog
-    local currentIsleOfQuelDanasQuests = IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase]
+    local currentIsleOfQuelDanasQuests = IsleOfQuelDanas.quests[Questie.db.profile.isleOfQuelDanasPhase]
     local aqWarEffortQuests = QuestieQuestBlacklist.AQWarEffortQuests
 
     QuestieDB.activeChildQuests = {} -- Reset here so we don't need to keep track in the quest event system

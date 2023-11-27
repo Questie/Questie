@@ -306,7 +306,7 @@ function QuestieMap.ProcessQueue()
             HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
 
             --? If you ever chanage this logic, make sure you change the logic in QuestieMap.utils:RescaleIcon function too!
-            local size = (16 * (frame.data.IconScale or 1) * (Questie.db.global.globalScale or 0.7)) * scaleValue;
+            local size = (16 * (frame.data.IconScale or 1) * (Questie.db.profile.globalScale or 0.7)) * scaleValue;
             frame:SetSize(size, size)
 
             QuestieMap.utils:SetDrawOrder(frame);
@@ -350,7 +350,7 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     data.id = npc.id
     data.Icon = icon or "Interface\\WorldMap\\WorldMapPartyIcon"
 
-    data.GetIconScale = function() return scale or Questie.db.global.manualScale or 0.7 end
+    data.GetIconScale = function() return scale or Questie.db.profile.manualScale or 0.7 end
     data.IconScale = data:GetIconScale()
     data.Type = "manual"
     data.spawnType = "monster"
@@ -410,7 +410,7 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
         data.id = -object.id
     end
     data.Icon = icon or "Interface\\WorldMap\\WorldMapPartyIcon"
-    data.GetIconScale = function() return scale or Questie.db.global.manualScale or 0.7 end
+    data.GetIconScale = function() return scale or Questie.db.profile.manualScale or 0.7 end
     data.IconScale = data:GetIconScale()
     data.Type = "manual"
     data.spawnType = "object"
@@ -509,11 +509,11 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     -- create the minimap icon
     local iconMinimap = QuestieFramePool:GetFrame()
     local colorsMinimap = { 1, 1, 1 }
-    if data.IconColor ~= nil and Questie.db.global.questMinimapObjectiveColors then
+    if data.IconColor ~= nil and Questie.db.profile.questMinimapObjectiveColors then
         colorsMinimap = data.IconColor
     end
-    iconMinimap:SetWidth(16 * ((data:GetIconScale() or 1) * (Questie.db.global.globalMiniMapScale or 0.7)))
-    iconMinimap:SetHeight(16 * ((data:GetIconScale() or 1) * (Questie.db.global.globalMiniMapScale or 0.7)))
+    iconMinimap:SetWidth(16 * ((data:GetIconScale() or 1) * (Questie.db.profile.globalMiniMapScale or 0.7)))
+    iconMinimap:SetHeight(16 * ((data:GetIconScale() or 1) * (Questie.db.profile.globalMiniMapScale or 0.7)))
     iconMinimap.data = data
     iconMinimap.x = x
     iconMinimap.y = y
@@ -528,14 +528,14 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     tinsert(QuestieMap.manualFrames[typ][data.id], iconMinimap:GetName())
 
     -- make sure notes are only shown when they are supposed to
-    if (not Questie.db.char.enabled) then -- TODO: or (not Questie.db.global.manualNotes)
+    if (not Questie.db.profile.enabled) then -- TODO: or (not Questie.db.profile.manualNotes)
         icon:FakeHide()
         iconMinimap:FakeHide()
     else
-        if (not Questie.db.global.enableMapIcons) then
+        if (not Questie.db.profile.enableMapIcons) then
             icon:FakeHide()
         end
-        if (not Questie.db.global.enableMiniMapIcons) then
+        if (not Questie.db.profile.enableMiniMapIcons) then
             iconMinimap:FakeHide()
         end
     end
@@ -615,8 +615,6 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     iconMinimap.miniMapIcon = true;
     iconMinimap:UpdateTexture(Questie.usedIcons[data.Icon]);
 
-    local questieGlobalDB = Questie.db.global
-
     if (not iconMinimap.FadeLogic) then
         function iconMinimap:SetFade(value)
             if self.lastGlowFade ~= value then
@@ -630,7 +628,8 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
         end
 
         function iconMinimap:FadeLogic()
-            if self.miniMapIcon and self.x and self.y and self.texture and self.UiMapID and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
+            local profile = Questie.db.profile
+            if self.miniMapIcon and self.x and self.y and self.texture and self.UiMapID and self.texture.SetVertexColor and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
                 if (QuestieMap.playerX and QuestieMap.playerY) then
                     local x, y
                     if not self.worldX then
@@ -645,19 +644,19 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
                         --Very small value before, hard to work with.
                         local distance = QuestieLib:Euclid(QuestieMap.playerX, QuestieMap.playerY, x, y) / 10;
 
-                        if (distance > questieGlobalDB.fadeLevel) then
-                            local fade = 1 - (math.min(10, (distance - questieGlobalDB.fadeLevel)) * normalizedValue);
+                        if (distance > profile.fadeLevel) then
+                            local fade = 1 - (math.min(10, (distance - profile.fadeLevel)) * normalizedValue);
                             self:SetFade(fade)
-                        elseif (distance < questieGlobalDB.fadeOverPlayerDistance) and questieGlobalDB.fadeOverPlayer then
-                            local fadeAmount = questieGlobalDB.fadeOverPlayerLevel + distance * (1 - questieGlobalDB.fadeOverPlayerLevel) / questieGlobalDB.fadeOverPlayerDistance
+                        elseif (distance < profile.fadeOverPlayerDistance) and profile.fadeOverPlayer then
+                            local fadeAmount = profile.fadeOverPlayerLevel + distance * (1 - profile.fadeOverPlayerLevel) / profile.fadeOverPlayerDistance
                             -- local fadeAmount = math.max(fadeAmount, 0.5);
-                            if self.faded and fadeAmount > questieGlobalDB.iconFadeLevel then
-                                fadeAmount = questieGlobalDB.iconFadeLevel
+                            if self.faded and fadeAmount > profile.iconFadeLevel then
+                                fadeAmount = profile.iconFadeLevel
                             end
                             self:SetFade(fadeAmount)
                         else
                             if self.faded then
-                                self:SetFade(questieGlobalDB.iconFadeLevel)
+                                self:SetFade(profile.iconFadeLevel)
                             else
                                 self:SetFade(1)
                             end
@@ -665,7 +664,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
                     end
                 else
                     if self.faded then
-                        self:SetFade(questieGlobalDB.iconFadeLevel)
+                        self:SetFade(profile.iconFadeLevel)
                     else
                         self:SetFade(1)
                     end

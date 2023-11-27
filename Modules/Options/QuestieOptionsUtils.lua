@@ -2,30 +2,42 @@
 local QuestieOptionsUtils = QuestieLoader:CreateModule("QuestieOptionsUtils");
 
 --- Creates a vertical spacer with the given height
----@param o number
+---@param order number
 ---@param hidden boolean?
-function QuestieOptionsUtils:Spacer(o, hidden)
+---@param fontSize string?
+function QuestieOptionsUtils:Spacer(order, hidden, fontSize)
+    local name = " "
+    if fontSize == "small" or fontSize == "medium" or fontSize == "large" then
+        fontSize = fontSize
+    elseif fontSize == "minimal" then
+        name = "" -- removing the space from name reduces the height further, but still larger than nothing
+        fontSize = "small"
+    else
+        fontSize = "large"
+    end
     return {
         type = "description",
-        order = o,
+        order = order,
         hidden = hidden,
-        name = " ",
-        fontSize = "large"
+        name = name,
+        fontSize = fontSize,
     }
 end
 
 --- Creates a horizonal spacer with the given width.
----@param o number
----@param width number
-function QuestieOptionsUtils:HorizontalSpacer(o, width)
+---@param order number
+---@param width number?
+---@param hidden boolean?
+function QuestieOptionsUtils:HorizontalSpacer(order, width, hidden)
     if not width then
         width = 0.5
     end
     return {
         type = "description",
-        order = o,
+        order = order,
         name = " ",
-        width = width
+        width = width,
+        hidden = hidden,
     }
 end
 
