@@ -101,7 +101,7 @@ function QuestieEvent:Load()
         endMonth = tonumber(endMonth)
 
         if _WithinDates(startDay, startMonth, endDay, endMonth) and (eventCorrections[eventName] ~= false) then
-            print(Questie:Colorize("[Questie]", "yellow"), l10n("The '%s' world event is active!", eventName))
+            print(Questie:Colorize("[Questie]", "yellow"), l10n("The '%s' world event is active!", l10n(eventName)))
             activeEvents[eventName] = true
         end
     end
