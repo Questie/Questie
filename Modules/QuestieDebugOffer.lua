@@ -238,6 +238,75 @@ hooksecurefunc("SetItemRef", function(link)
     end
 end);
 
+---@param popupText string --@A string containing the lines of text to be displayed in the popup
+---@param discordURL string --@A string containing the URL to the Questie Discord
+local function _CreateOfferFrame(popupText, discordURL)
+    local debugFrame = CreateFrame("Frame", "QuestieDebugOfferFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
+    debugFrame:SetPoint("CENTER")
+    debugFrame:SetMovable(true)
+    debugFrame:EnableMouse(true)
+    debugFrame:RegisterForDrag("LeftButton")
+    debugFrame:SetScript("OnDragStart", debugFrame.StartMoving)
+    debugFrame:SetScript("OnDragStop", debugFrame.StopMovingOrSizing)
+
+    -- Dynamically set the height of the frame based on the number of lines of text
+    local numLines = 0
+    for _ in popupText:gmatch("\n") do
+        numLines = numLines + 1
+    end
+    debugFrame:SetSize(300, numLines * 30 + 20)
+
+    debugFrame.title = debugFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    debugFrame.title:SetPoint("TOP", 0, -15)
+    debugFrame.title:SetText("|TInterface\\Addons\\Questie\\Icons\\startendstart.tga:16|t |cFFFED218Questie Debug Info|r |TInterface\\Addons\\Questie\\Icons\\startendstart.tga:16|t")
+
+    -- Create a single large edit box with no background
+    debugFrame.dataEditBox = CreateFrame("EditBox", nil, debugFrame)
+    debugFrame.dataEditBox:SetText(popupText)
+    debugFrame.dataEditBox:SetFontObject(ChatFontNormal)
+    debugFrame.dataEditBox:SetMultiLine(true)
+    debugFrame.dataEditBox:SetPoint("TOP", debugFrame.title, "BOTTOM", 0, -10)
+    debugFrame.dataEditBox:SetJustifyH("CENTER")
+    debugFrame.dataEditBox:SetJustifyV("CENTER")
+    debugFrame.dataEditBox:SetSize(270, 1) -- Height of a multiline EditBox is automatically adjusted
+    debugFrame.dataEditBox:SetFocus()
+    debugFrame.dataEditBox:SetScript("OnTextChanged", function(self)
+        self:SetText(popupText)
+        self:HighlightText()
+    end)
+    debugFrame.dataEditBox:SetScript("OnEscapePressed", function()
+        debugFrame:Hide()
+    end)
+
+    debugFrame.discordText = debugFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    debugFrame.discordText:SetPoint("TOP", debugFrame.dataEditBox, "BOTTOM", 0, -15)
+    debugFrame.discordText:SetText("|cFFAAAAAAPlease screenshot this info\nand share it with us on  |TInterface\\Addons\\Questie\\Icons\\discord.blp:16|t |cFF5765ECDiscord|r")
+
+    debugFrame.discordLinkEditBox = CreateFrame("EditBox", "QuestieDebugFrameDiscordLinkEditBox", debugFrame, "InputBoxTemplate")
+    debugFrame.discordLinkEditBox:SetSize(200, 20)
+    debugFrame.discordLinkEditBox:SetPoint("TOP", debugFrame.discordText, "BOTTOM", 0, -10)
+    debugFrame.discordLinkEditBox:SetAutoFocus(false)
+    debugFrame.discordLinkEditBox:SetText(discordURL)
+
+    debugFrame.dismissButton = CreateFrame("Button", nil, debugFrame, "UIPanelButtonTemplate")
+    debugFrame.dismissButton:SetSize(80, 22)
+    debugFrame.dismissButton:SetPoint("TOP", debugFrame.discordLinkEditBox, "BOTTOM", 0, -10)
+    debugFrame.dismissButton:SetText("Dismiss")
+    debugFrame.dismissButton:SetScript("OnClick", function(self)
+        debugFrame:Hide()
+    end)
+
+    debugFrame:SetBackdrop({
+        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+        tile = true, tileSize = 32, edgeSize = 32,
+        insets = { left = 8, right = 8, top = 8, bottom = 8 }
+    })
+
+    debugFrame:Show()
+end
+
+
 -- generates dialog based on link clicked
 ---@param link string
 function QuestieDebugOffer.ShowOffer(link)
@@ -252,22 +321,5 @@ function QuestieDebugOffer.ShowOffer(link)
     local i = tonumber(string.sub(link,21))
     local popupText = DebugInformation[i]
 
-    StaticPopupDialogs["QUESTIE_DEBUGOFFER"] = {
-        text = "|TInterface\\Addons\\Questie\\Icons\\startendstart.tga:16|t |cFFFED218Questie Debug Info|r |TInterface\\Addons\\Questie\\Icons\\startendstart.tga:16|t\n\n" .. popupText .. "\n\n|cFFAAAAAAPlease screenshot this info\nand share it with us on  |TInterface\\Addons\\Questie\\Icons\\discord.blp:16|t |cFF5765ECDiscord|r:|r",
-        button1 = "Dismiss",
-        timeout = 0,
-        whileDead = true,
-        hideOnEscape = true,
-        hasEditBox = true,
-        EditBoxOnTextChanged = function (self)
-            self:SetText(discordURL)
-            self:HighlightText()
-        end,
-        OnShow = function (self, data)
-            self.editBox:SetText(discordURL)
-            self.editBox:SetWidth(200)
-            self.editBox:HighlightText()
-        end,
-    }
-    StaticPopup_Show("QUESTIE_DEBUGOFFER")
+    _CreateOfferFrame(popupText, discordURL)
 end
