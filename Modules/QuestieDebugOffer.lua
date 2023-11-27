@@ -7,17 +7,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
----@class QuestiePlayer
-local QuestiePlayer = QuestieLoader:CreateModule("QuestiePlayer");
-
----@class QuestLogCache
+---@type QuestLogCache
 local QuestLogCache = QuestieLoader:CreateModule("QuestLogCache")
-
-
-local AceGUI = LibStub("AceGUI-3.0")
-
-local hook
-local _E
 
 local DebugInformation = {} -- stores text of debug data dump per session
 local Di = 0 -- current debug index, used so we can still retrieve info from previous offers
@@ -292,7 +283,7 @@ local function _CreateOfferFrame(popupText, discordURL)
     debugFrame.dismissButton:SetSize(80, 22)
     debugFrame.dismissButton:SetPoint("TOP", debugFrame.discordLinkEditBox, "BOTTOM", 0, -10)
     debugFrame.dismissButton:SetText("Dismiss")
-    debugFrame.dismissButton:SetScript("OnClick", function(self)
+    debugFrame.dismissButton:SetScript("OnClick", function()
         debugFrame:Hide()
     end)
 
@@ -302,6 +293,9 @@ local function _CreateOfferFrame(popupText, discordURL)
         tile = true, tileSize = 32, edgeSize = 32,
         insets = { left = 8, right = 8, top = 8, bottom = 8 }
     })
+
+    -- TODO l10n of used strings
+    -- TODO Adjust "discordText" to note about copy/pasting the info into Discord
 
     debugFrame:Show()
 end

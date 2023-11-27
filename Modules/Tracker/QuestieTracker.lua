@@ -39,8 +39,8 @@ local _QuestEventHandler = QuestEventHandler.private
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@class QuestieDebugOffer
-local QuestieDebugOffer = QuestieLoader:CreateModule("QuestieDebugOffer")
+---@type QuestieDebugOffer
+local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
