@@ -282,7 +282,7 @@ local function _CreateOfferFrame(popupText, discordURL)
     debugFrame.discordText:SetPoint("TOP", debugFrame.dataEditBox, "BOTTOM", 0, -15)
     debugFrame.discordText:SetText("|cFFAAAAAAPlease screenshot this info\nand share it with us on  |TInterface\\Addons\\Questie\\Icons\\discord.blp:16|t |cFF5765ECDiscord|r")
 
-    debugFrame.discordLinkEditBox = CreateFrame("EditBox", "QuestieDebugFrameDiscordLinkEditBox", debugFrame, "InputBoxTemplate")
+    debugFrame.discordLinkEditBox = CreateFrame("EditBox", nil, debugFrame, "InputBoxTemplate")
     debugFrame.discordLinkEditBox:SetSize(200, 20)
     debugFrame.discordLinkEditBox:SetPoint("TOP", debugFrame.discordText, "BOTTOM", 0, -10)
     debugFrame.discordLinkEditBox:SetAutoFocus(false)
