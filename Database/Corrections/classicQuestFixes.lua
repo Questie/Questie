@@ -3652,6 +3652,9 @@ function QuestieQuestFixes:Load()
         [9118] = {
             [questKeys.specialFlags] = 1,
         },
+        [9120] = {
+            [questKeys.startedBy] = {{15990},nil,{22520}},
+        },
         [9124] = {
             [questKeys.requiredMinRep] = {529,3000},
         },
