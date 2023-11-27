@@ -779,6 +779,9 @@ function QuestieWotlkQuestFixes:Load()
         [11460] = {
             [questKeys.objectives] = {{{24752,"Fjord Rock Falcon Fed"}}},
         },
+        [11465] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Send your Trained Rock Falcon after it"), 0, {{"monster", 24746}}}},
+        },
         [11466] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Olga"), 0, {{"monster", 24639}}}},
         },
