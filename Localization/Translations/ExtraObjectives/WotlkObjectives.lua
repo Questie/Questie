@@ -1790,6 +1790,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Kill Oluf the Violent"] = { -- 11300
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use Muddled Mojo on Prophet of Sseratus before killing it"] = { -- 12516
         ["ptBR"] = false,
         ["ruRU"] = false,

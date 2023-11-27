@@ -193,7 +193,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
         [23931] = {
-            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55,57.6}}},
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{54.93,57.47}}},
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
         [23953] = {
@@ -294,15 +294,15 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.factionID] = 1064,
         },
         [24213] = {
-            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.00,57.43}}},
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.08,57.53}}},
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
         [24214] = {
-            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.00,57.43}}},
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.08,57.53}}},
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
         [24215] = {
-            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.00,57.43}}},
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.08,57.53}}},
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
         [24234] = { --"Junat the Wanderer"
