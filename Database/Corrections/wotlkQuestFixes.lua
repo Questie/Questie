@@ -5136,6 +5136,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 60,
             [questKeys.exclusiveTo] = {24223,24224},
         },
+        [24428] = {
+            [questKeys.startedBy] = {{10184},nil,{49644}},
+        },
+        [24429] = {
+            [questKeys.startedBy] = {{10184},nil,{49643}},
+        },
         [24431] = {
             [questKeys.specialFlags] = 1,
         },
