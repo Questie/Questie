@@ -3769,6 +3769,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [13604] = {
+            [questKeys.startedBy] = {{32867,32927},nil,{45506}},
+        },
         [13607] = {
             [questKeys.triggerEnd] = {"Entrance to Celestial Planetarium located",{[zoneIDs.THE_ARCHIVUM]={{60,46.3}},[zoneIDs.ULDUAR]={{-1,-1}}}},
             [questKeys.preQuestSingle] = {13604},
@@ -4372,6 +4375,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13817] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.startedBy] = {{32867,32927},nil,{45857}},
         },
         [13819] = {
             [questKeys.startedBy] = {{32871},nil,{46053}},

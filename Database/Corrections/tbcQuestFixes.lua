@@ -2558,6 +2558,9 @@ function QuestieTBCQuestFixes:Load()
         [11003] = {
             [questKeys.startedBy] = {{17257},nil,{33102,},},
         },
+        [11007] = {
+            [questKeys.startedBy] = {{19622},nil,{32405}},
+        },
         [11010] = {
             [questKeys.requiredClasses] = classIDs.WARLOCK + classIDs.ROGUE + classIDs.MAGE + classIDs.PRIEST + classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.SHAMAN,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"), 0, {{"object", 185861}}}},

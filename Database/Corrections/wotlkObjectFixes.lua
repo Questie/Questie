@@ -250,6 +250,14 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.THE_ARCHIVUM]={{15.6,90.3}},[zoneIDs.ULDUAR]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_ARCHIVUM,
         },
+        [194821] = {
+            [objectKeys.spawns] = {[zoneIDs.ULDUAR]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.ULDUAR,
+        },
+        [194822] = {
+            [objectKeys.spawns] = {[zoneIDs.ULDUAR]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.ULDUAR,
+        },
         [194957] = {
             [objectKeys.spawns] = {[zoneIDs.THE_SPARK_OF_IMAGINATION]={{43.7,40.9}},[zoneIDs.ULDUAR]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_SPARK_OF_IMAGINATION,
