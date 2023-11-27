@@ -6,7 +6,7 @@ local shouldPlayObjectiveSound = false
 local shouldPlayObjectiveProgress = false
 
 function Sounds.PlayObjectiveProgress()
-    if (not Questie.db.char.soundOnObjectiveProgress) then
+    if (not Questie.db.profile.soundOnObjectiveProgress) then
         return
     end
 
@@ -14,7 +14,7 @@ function Sounds.PlayObjectiveProgress()
         shouldPlayObjectiveProgress = true
         C_Timer.After(0.5, function ()
             if shouldPlayObjectiveProgress then
-                PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.char.objectiveProgressSoundChoiceName), "Master")
+                PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveProgressSoundChoiceName), "Master")
                 shouldPlayObjectiveProgress = false
             end
         end)
@@ -22,7 +22,7 @@ function Sounds.PlayObjectiveProgress()
 end
 
 function Sounds.PlayObjectiveComplete()
-    if (not Questie.db.char.soundOnObjectiveComplete) then
+    if (not Questie.db.profile.soundOnObjectiveComplete) then
         return
     end
 
@@ -30,7 +30,7 @@ function Sounds.PlayObjectiveComplete()
         shouldPlayObjectiveSound = true
         C_Timer.After(0.5, function ()
             if shouldPlayObjectiveSound then
-                PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.char.objectiveCompleteSoundChoiceName), "Master")
+                PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveCompleteSoundChoiceName), "Master")
                 shouldPlayObjectiveSound = false
             end
         end)
@@ -38,13 +38,13 @@ function Sounds.PlayObjectiveComplete()
 end
 
 function Sounds.PlayQuestComplete()
-    if (not Questie.db.char.soundOnQuestComplete) then
+    if (not Questie.db.profile.soundOnQuestComplete) then
         return
     end
 
     shouldPlayObjectiveSound = false
     shouldPlayObjectiveProgress = false
-    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.char.questCompleteSoundChoiceName), "Master")
+    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.questCompleteSoundChoiceName), "Master")
 end
 
 function Sounds.GetSelectedSoundFile(typeSelected)

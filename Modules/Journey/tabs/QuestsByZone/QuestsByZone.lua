@@ -70,7 +70,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
 
         -- Add the quest to the open chat window if it was a shift click
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            if Questie.db.global.trackerShowQuestLevel then
+            if Questie.db.profile.trackerShowQuestLevel then
                 ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(quest.level, quest.name, quest.Id))
             else
                 ChatEdit_InsertLink("[" .. quest.name .. " (" .. quest.Id .. ")]")
@@ -138,7 +138,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
         -- Only show quests which are not hidden
         if QuestieCorrections.hiddenQuests and ((not QuestieCorrections.hiddenQuests[questId]) or QuestieEvent:IsEventQuest(questId)) and QuestieDB.QuestPointers[questId] then
             temp.value = questId
-            temp.text = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, false, true)
+            temp.text = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false, true)
 
             -- Completed quests
             if Questie.db.char.complete[questId] then

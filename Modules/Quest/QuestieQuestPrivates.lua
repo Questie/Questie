@@ -11,19 +11,19 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 local function _GetIconScaleForMonster()
-    return Questie.db.global.monsterScale or 1
+    return Questie.db.profile.monsterScale or 1
 end
 
 local function _GetIconScaleForObject()
-    return Questie.db.global.objectScale or 1
+    return Questie.db.profile.objectScale or 1
 end
 
 local function _GetIconScaleForEvent()
-    return Questie.db.global.eventScale or 1.35
+    return Questie.db.profile.eventScale or 1.35
 end
 
 local function _GetIconScaleForLoot()
-    return Questie.db.global.lootScale or 1
+    return Questie.db.profile.lootScale or 1
 end
 
 

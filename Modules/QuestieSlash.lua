@@ -62,8 +62,8 @@ function QuestieSlash.HandleCommands(input)
 
     -- /questie toggle
     if mainCommand == "toggle" then
-        Questie.db.char.enabled = (not Questie.db.char.enabled)
-        QuestieQuest:ToggleNotes(Questie.db.char.enabled);
+        Questie.db.profile.enabled = (not Questie.db.profile.enabled)
+        QuestieQuest:ToggleNotes(Questie.db.profile.enabled);
 
         -- Close config window if it's open to avoid desyncing the Checkbox
         QuestieOptions:HideFrame();

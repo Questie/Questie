@@ -7,7 +7,7 @@
     <Include file="Libs\AceBucket-3.0\AceBucket-3.0.xml"/>
     <!--Include file="Libs\AceHook-3.0\AceHook-3.0.xml"/-->
     <Include file="Libs\AceDB-3.0\AceDB-3.0.xml"/>
-    <!--Include file="Libs\AceDBOptions-3.0\AceDBOptions-3.0.xml"/-->
+    <Include file="Libs\AceDBOptions-3.0\AceDBOptions-3.0.xml"/>
     <Include file="Libs\AceLocale-3.0\AceLocale-3.0.xml"/>
     <Include file="Libs\AceConsole-3.0\AceConsole-3.0.xml"/>
     <Include file="Libs\AceGUI-3.0\AceGUI-3.0.xml"/>
@@ -20,4 +20,6 @@
     <Include file="Libs\AceGUI-3.0-SharedMediaWidgets\widget.xml"/>
     <Script file="Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
     <Script file="Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua"/>
+
+    <Script file="Libs\Krowi_WorldMapButtons\Krowi_WorldMapButtons-1.4.lua"/>
 </Ui>

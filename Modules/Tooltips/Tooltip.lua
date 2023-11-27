@@ -144,7 +144,7 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
         for questId, playerList in pairs(tooltipDataExternal) do
             if (not tooltipData[questId]) then
                 tooltipData[questId] = {
-                    title = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, true, true)
+                    title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
                 }
             end
             for playerName, _ in pairs(playerList) do
@@ -166,7 +166,7 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
         for questId, playerList in pairs(tooltipDataExternal) do
             if (not tooltipData[questId]) then
                 tooltipData[questId] = {
-                    title = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, true, true)
+                    title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
                 }
             end
             for playerName, objectives in pairs(playerList) do
@@ -229,8 +229,8 @@ function QuestieTooltips:GetTooltip(key)
         local playerName = UnitName("player")
         for k, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
             if tooltip.npc then
-                if Questie.db.char.showQuestsInNpcTooltip then
-                    local questString = QuestieLib:GetColoredQuestName(tooltip.questId, Questie.db.global.enableTooltipsQuestLevel, true, true)
+                if Questie.db.profile.showQuestsInNpcTooltip then
+                    local questString = QuestieLib:GetColoredQuestName(tooltip.questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
                     tinsert(tooltipLines, questString)
                 end
             else
@@ -244,7 +244,7 @@ function QuestieTooltips:GetTooltip(key)
                 local objectiveIndex = objective.Index;
                 if (not tooltipData[questId]) then
                     tooltipData[questId] = {
-                        title = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, true, true)
+                        title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
                     }
                 end
 
@@ -285,7 +285,7 @@ function QuestieTooltips:GetTooltip(key)
                 local playerType = ""
                 if playerInfo then
                     playerColor = "|c" .. playerInfo.colorHex
-                elseif QuestieComms.remotePlayerEnabled[objectivePlayerName] and QuestieComms.remoteQuestLogs[questId] and QuestieComms.remoteQuestLogs[questId][objectivePlayerName] and (not Questie.db.global.onlyPartyShared or UnitInParty(objectivePlayerName)) then
+                elseif QuestieComms.remotePlayerEnabled[objectivePlayerName] and QuestieComms.remoteQuestLogs[questId] and QuestieComms.remoteQuestLogs[questId][objectivePlayerName] and (not Questie.db.profile.onlyPartyShared or UnitInParty(objectivePlayerName)) then
                     playerColor = QuestieComms.remotePlayerClasses[playerName]
                     if playerColor then
                         playerColor = Questie:GetClassColor(playerColor)

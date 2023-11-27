@@ -3,7 +3,7 @@ local QuestieOptionsDefaults = QuestieLoader:CreateModule("QuestieOptionsDefault
 
 function QuestieOptionsDefaults:Load()
     return {
-        global = {
+        profile = {
             clusterLevelHotzone = 50,
             enableIconLimit = false,
             iconLimit = 200,
@@ -20,9 +20,6 @@ function QuestieOptionsDefaults:Load()
             fadeOverPlayer = true,
             fadeOverPlayerLevel = 0.5,
             fadeOverPlayerDistance = 5,
-            debugEnabled = false,
-            debugEnabledPrint = false,
-            debugLevel = 0,
             nameplateX = -17,
             nameplateY = -7,
             nameplateScale = 1,
@@ -44,8 +41,6 @@ function QuestieOptionsDefaults:Load()
             nameplateTargetFrameX = -30,
             nameplateTargetFrameY = 25,
             nameplateTargetFrameScale = 1.7,
-            questieLocale = 'enUS',
-            questieLocaleDiff = false,
             alwaysGlowMap = true,
             alwaysGlowMinimap = false,
             questObjectiveColors = false,
@@ -60,10 +55,7 @@ function QuestieOptionsDefaults:Load()
             enableMiniMapIcons = true,
             questieShutUp = false,
             bugWorkarounds = true,
-            -- TBC Isle of Quel'Danas
-            isleOfQuelDanasPhase = 1,
-            isIsleOfQuelDanasPhaseReminderDisabled = false,
-            --
+            hideIconsOnContinents = false,
 
             -- Tracker Settings Tab
             autoTrackQuests = true,
@@ -92,7 +84,6 @@ function QuestieOptionsDefaults:Load()
             listAchievementsFirst = false,
             stickyVoiceOverFrame = false,
             alwaysShowTracker = false,
-            globalTrackerLocation = true,
             trackerColorObjectives = 'minimal',
             trackerSortObjectives = 'byZone',
             trackerbindSetTomTom = 'ctrlleft',
@@ -111,27 +102,12 @@ function QuestieOptionsDefaults:Load()
             trackerFontOutline = "None",
             trackerBackdropAlpha = 1,
             trackerHeightRatio = 0.50,
-            questieTLoc = "char",
-        },
-        char = {
-            minLevelFilter = GetQuestGreenRange("player"), -- Raised the default to allow more quests to be shown
-            maxLevelFilter = 7,
-            complete = {},
-            hidden = {},
-            hiddenDailies = {
-                nhc = {},
-                hc = {},
-                cooking = {},
-                fishing = {},
-                pvp = {},
-            },
-            lastDailyRequestResetTime = 0,
-            lastDailySetDate = "",
+
+            lowLevelStyle = 1, -- Questie.LOWLEVEL_NONE
+            manualLevelOffset = 7,
+            minLevelFilter = 1,
+            maxLevelFilter = 10,
             enabled = true,
-            lowlevel = false,
-            manualMinLevelOffset = false,
-            absoluteLevelOffset = false,
-            journey = {},
             searchType = 1,
             autoaccept = false,
             autocomplete = false,
@@ -144,7 +120,6 @@ function QuestieOptionsDefaults:Load()
             questAnnounceObjectives = true,
             questAnnounceCompleted = false,
             questAnnounceLocally = false,
-            isTrackerExpanded = true,
             hideUnexploredMapIcons = false,
             hideUntrackedQuestsMapIcons = false,
             showRepeatableQuests = true,
@@ -162,8 +137,62 @@ function QuestieOptionsDefaults:Load()
             soundOnObjectiveComplete = false,
             objectiveCompleteSoundChoiceName = "ObjectiveDefault",
             soundOnObjectiveProgress = false,
-            objectiveProgressSoundChoiceName = "ObjectiveProgress"
+            objectiveProgressSoundChoiceName = "ObjectiveProgress",
+            iconTheme = "questie",
+
+            minimap = {
+                hide = false
+            },
+
+            TrackerWidth = 0,
+            TrackerHeight = 0,
+
+            townsfolkConfig = {
+                ["Repair"] = false,
+                ["Innkeeper"] = true,
+                ["Class Trainer"] = false,
+                ["Banker"] = false,
+                ["Spirit Healer"] = false,
+                ["Flight Master"] = true,
+                ["Battlemaster"] = false,
+                ["Weapon Master"] = false,
+                ["Mailbox"] = true,
+                ["Auctioneer"] = false,
+                ["Meeting Stones"] = true,
+                ["Reagents"] = false,
+            },
+
+            -- Migration
+            migrationVersion = 0,
+            globalMigrationSteps = {},
+
+            debugEnabled = false,
+            debugEnabledPrint = false,
+            debugLevel = 0,
+            skipValidation = false,
         },
-        profile = { minimap = { hide = false } }
+        char = {
+            complete = {},
+            hidden = {},
+            hiddenDailies = {
+                nhc = {},
+                hc = {},
+                cooking = {},
+                fishing = {},
+                pvp = {},
+            },
+            journey = {},
+            isTrackerExpanded = true,
+        },
+        global = {
+            -- TBC Isle of Quel'Danas
+            isleOfQuelDanasPhase = 1,
+            isIsleOfQuelDanasPhaseReminderDisabled = false,
+            --
+            lastDailyRequestResetTime = 0,
+            lastDailyRequestDate = "",
+            questieLocale = 'enUS',
+            questieLocaleDiff = false,
+        }
     }
 end

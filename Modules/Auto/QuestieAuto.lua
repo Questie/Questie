@@ -34,7 +34,7 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
 
     if (not shouldRunAuto) then
         return
-    elseif _QuestieAuto:IsBindTrue(Questie.db.char.autoModifier) then
+    elseif _QuestieAuto:IsBindTrue(Questie.db.profile.autoModifier) then
         shouldRunAuto = false
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Modifier-Key down: Disabling QuestieAuto for now")
         return
@@ -59,7 +59,7 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
     end
 
     -- Turn in complete quests
-    if Questie.db.char.autocomplete and isAllowedNPC then
+    if Questie.db.profile.autocomplete and isAllowedNPC then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Checking active quests from gossip")
         local completeQuests = { QuestieCompat.GetActiveQuests() }
 
@@ -70,7 +70,7 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
     end
 
     -- Accept new quests
-    if Questie.db.char.autoaccept and (not doneWithAccept) and isAllowedNPC then
+    if Questie.db.profile.autoaccept and (not doneWithAccept) and isAllowedNPC then
         if lastIndexTried < #availableQuests then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Checking available quests from gossip")
             _QuestieAuto:AcceptQuestFromGossip(lastIndexTried, availableQuests, MOP_INDEX_AVAILABLE)
@@ -89,13 +89,13 @@ function QuestieAuto:QUEST_PROGRESS(event, ...)
 
     if (not shouldRunAuto) then
         return
-    elseif _QuestieAuto:IsBindTrue(Questie.db.char.autoModifier) then
+    elseif _QuestieAuto:IsBindTrue(Questie.db.profile.autoModifier) then
         shouldRunAuto = false
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Modifier-Key down: Disabling QuestieAuto for now")
         return
     end
 
-    if Questie.db.char.autocomplete then
+    if Questie.db.profile.autocomplete then
         if _QuestieAuto:IsAllowedNPC() and _QuestieAuto:IsAllowedQuest() then
             if IsQuestCompletable() then
                 CompleteQuest()
@@ -124,7 +124,7 @@ function QuestieAuto:QUEST_ACCEPT_CONFIRM(event, ...)
     lastEvent = "QUEST_ACCEPT_CONFIRM"
     doneTalking = false
     -- Escort stuff
-    if (Questie.db.char.autoaccept) then
+    if (Questie.db.profile.autoaccept) then
         ConfirmAcceptQuest()
     end
 end
@@ -136,7 +136,7 @@ function QuestieAuto:QUEST_GREETING(event, ...)
 
     if (not shouldRunAuto) then
         return
-    elseif _QuestieAuto:IsBindTrue(Questie.db.char.autoModifier) then
+    elseif _QuestieAuto:IsBindTrue(Questie.db.profile.autoModifier) then
         shouldRunAuto = false
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Modifier-Key down: Disabling QuestieAuto for now")
         return
@@ -149,7 +149,7 @@ function QuestieAuto:QUEST_GREETING(event, ...)
     end
 
     -- Quest already taken
-    if (Questie.db.char.autocomplete) then
+    if (Questie.db.profile.autocomplete) then
         for index = 1, GetNumActiveQuests() do
             local quest, isComplete = GetActiveTitle(index)
             Questie:Debug(Questie.DEBUG_DEVELOP, quest, isComplete)
@@ -157,7 +157,7 @@ function QuestieAuto:QUEST_GREETING(event, ...)
         end
     end
 
-    if (Questie.db.char.autoaccept) then
+    if (Questie.db.profile.autoaccept) then
         local availableQuestsCount = GetNumAvailableQuests()
         if lastIndexTried == 0 or lastIndexTried > availableQuestsCount then
             lastIndexTried = 1
@@ -176,14 +176,14 @@ function QuestieAuto:QUEST_DETAIL(event, ...)
 
     if (not shouldRunAuto) then
         return
-    elseif _QuestieAuto:IsBindTrue(Questie.db.char.autoModifier) then
+    elseif _QuestieAuto:IsBindTrue(Questie.db.profile.autoModifier) then
         shouldRunAuto = false
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Modifier-Key down: Disabling QuestieAuto for now")
         return
     end
 
     -- We really want to disable this in instances, mostly to prevent retards from ruining groups.
-    if (Questie.db.char.autoaccept and _QuestieAuto:IsAllowedNPC() and _QuestieAuto:IsAllowedQuest()) then
+    if (Questie.db.profile.autoaccept and _QuestieAuto:IsAllowedNPC() and _QuestieAuto:IsAllowedQuest()) then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] INSIDE", event, ...)
 
         local questId = GetQuestID()
@@ -201,7 +201,7 @@ function QuestieAuto:QUEST_DETAIL(event, ...)
                     questLevel = QuestieDB.QueryQuestSingle(questId, "questLevel")
                     if not questLevel then
                         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] retry failed. Quest", questId, "might not be in the DB!")
-                    elseif (not QuestieDB.IsTrivial(questLevel)) or Questie.db.char.acceptTrivial then
+                    elseif (not QuestieDB.IsTrivial(questLevel)) or Questie.db.profile.acceptTrivial then
                         Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Questie Auto-Accepting quest:", questId)
                         AcceptQuest()
                     end
@@ -211,7 +211,7 @@ function QuestieAuto:QUEST_DETAIL(event, ...)
             return
         end
 
-        if (not QuestieDB.IsTrivial(questLevel)) or Questie.db.char.acceptTrivial then
+        if (not QuestieDB.IsTrivial(questLevel)) or Questie.db.profile.acceptTrivial then
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Questie Auto-Accepting quest:", questId)
             AcceptQuest()
         end
@@ -226,7 +226,7 @@ function QuestieAuto:QUEST_COMPLETE(event, ...)
 
     if (not shouldRunAuto) then
         return
-    elseif _QuestieAuto:IsBindTrue(Questie.db.char.autoModifier) then
+    elseif _QuestieAuto:IsBindTrue(Questie.db.profile.autoModifier) then
         shouldRunAuto = false
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Modifier-Key down: Disabling QuestieAuto for now")
         return
@@ -236,7 +236,7 @@ function QuestieAuto:QUEST_COMPLETE(event, ...)
     -- if not AllowedToHandle() then
     --    return
     -- end
-    if (Questie.db.char.autocomplete) then
+    if (Questie.db.profile.autocomplete) then
         local questname = GetTitleText()
         local numOptions = GetNumQuestChoices()
         Questie:Debug(Questie.DEBUG_DEVELOP, event, questname, numOptions, ...)
@@ -265,7 +265,7 @@ end
 
 function QuestieAuto:QUEST_ACCEPTED()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto][EVENT] QUEST_ACCEPTED")
-    if Questie.db.global.bugWorkarounds == true and QuestFrameDetailPanel:IsVisible() == true then
+    if Questie.db.profile.bugWorkarounds == true and QuestFrameDetailPanel:IsVisible() == true then
         QuestFrameCloseButton:Click()
     end
 end

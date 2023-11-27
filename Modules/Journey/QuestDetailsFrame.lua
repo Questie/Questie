@@ -410,7 +410,7 @@ function _QuestieJourney:GetInteractiveQuestLabel(quest)
     local label = AceGUI:Create("InteractiveLabel")
     local questId = quest.Id
 
-    label:SetText(QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, false, true))
+    label:SetText(QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false, true))
     label:SetUserData('id', questId)
     label:SetUserData('name', quest.name)
     label:SetCallback("OnClick", function()
