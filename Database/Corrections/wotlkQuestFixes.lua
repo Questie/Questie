@@ -790,6 +790,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Lure Reef Bull with Tasty Reef Fish"), 0, {{"monster", 24786}}}},
             [questKeys.reputationReward] = {{1073,500}},
         },
+        [11475] = {
+            [questKeys.preQuestSingle] = {11244},
+        },
         [11478] = {
             [questKeys.exclusiveTo] = {11448},
         },
