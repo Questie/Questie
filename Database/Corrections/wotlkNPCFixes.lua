@@ -349,6 +349,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{48.16,27.53}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
         },
+        [24640] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{65.01,39.94}}},
+            [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
         [24657] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{45.01,17.41}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,

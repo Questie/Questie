@@ -757,7 +757,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {11316},
         },
         [11429] = {
-            [questKeys.triggerEnd] = {"Alliance Banner Defended",{[zoneIDs.HOWLING_FJORD]={{64.89,40.03,},},},},
+            [questKeys.objectives] = {nil,{{186863,"Alliance Banner Placed"}},nil,nil,{{{24640},24640,"Alliance Banner Defended"}}},
         },
         [11431] = {
             [questKeys.startedBy] = {{24657}},
