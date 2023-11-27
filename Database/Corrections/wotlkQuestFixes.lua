@@ -767,6 +767,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Go Harpoon Surfing",{[zoneIDs.HOWLING_FJORD]={{60.08,62.06,},},},},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Go Harpoon Surfing"),0,{{"object",186894}}}},
         },
+        [11448] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Ask McGoyver for a ride to the Explorers' League Outpost"),0,{{"monster",24040}}}},
+        },
         [11452] = {
             [questKeys.startedBy] = {{24018},nil,{34090}},
         },
