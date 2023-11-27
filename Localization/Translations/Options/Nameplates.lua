@@ -3,15 +3,15 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local nameplateOptionsLocales = {
     ["Nameplates"] = {
-        ["ptBR"] = "Opções de nome da placa",
+        ["ptBR"] = "Nome da placa",
         ["ruRU"] = "Индикаторы здоровья",
         ["deDE"] = "Namensplaketten",
         ["koKR"] = "이름표",
-        ["esMX"] = "Opciones de placas de nombre",
+        ["esMX"] = "Placas de nombre",
         ["enUS"] = true,
         ["zhCN"] = "姓名板",
         ["zhTW"] = "名條",
-        ["esES"] = "Opciones de placas de nombre",
+        ["esES"] = "Placas de nombre",
         ["frFR"] = "Barres de vie",
     },
     ["Nameplate Icon Options"] = {
@@ -139,11 +139,11 @@ local nameplateOptionsLocales = {
         ["ruRU"] = "Сбросить настройки значков целей заданий на индикаторах здоровья к значениям по умолчанию",
         ["deDE"] = "Setzt die Position und Skalierung der Namensplaketten auf die Standardeinstellungen zurück.",
         ["koKR"] = "이름표 아이콘 위치와 크기를 기본값으로 초기화합니다.",
-        ["esMX"] = "Reinicia a valores por defecto el tamaño y la posición de la placa de nombre",
+        ["esMX"] = "Reinicia a valores predeterminados el tamaño y la posición de la placa de nombre",
         ["enUS"] = true,
         ["zhCN"] = "重设姓名板图标的位置和大小",
         ["zhTW"] = "重置成預設的名條位置和縮放大小。",
-        ["esES"] = "Reinicia a valores por defecto el tamaño y la posición de la placa de nombre",
+        ["esES"] = "Reinicia a valores predeterminados el tamaño y la posición de la placa de nombre",
         ["frFR"] = "Réinitialise les positions et l'échelle des icônes sur les barres de vie flottantes à leurs valeurs par défaut.",
     },
     ["Target Frame Icon Options"] = {
@@ -199,11 +199,11 @@ local nameplateOptionsLocales = {
         ["ruRU"] = "Сбросить настройки значков целей заданий на рамке выбранной цели к значениям по умолчанию",
         ["deDE"] = "Setzt die Position und Skalierung der Icons am anvisierten Ziel zurück.",
         ["koKR"] = "대상 프레임 아이콘 위치와 크기를 기본값으로 초기화합니다.",
-        ["esMX"] = "Reinicia a valores por defecto el tamaño y la posición del marco de objetivo",
+        ["esMX"] = "Reinicia a valores predeterminados el tamaño y la posición del marco de objetivo",
         ["enUS"] = true,
         ["zhCN"] = "重设目标图标的位置和大小",
         ["zhTW"] = "重置成預設的目標頭像框架位置和縮放大小。",
-        ["esES"] = "Reinicia a valores por defecto el tamaño y la posición del marco de objetivo",
+        ["esES"] = "Reinicia a valores predeterminados el tamaño y la posición del marco de objetivo",
         ["frFR"] = "Réinitialise les positions et l'échelle des icônes sur la barre de vie de la cible à leurs valeurs par défaut.",
     },
 }
