@@ -619,7 +619,7 @@ local trackerOptionsLocales = {
     },
     ["Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.\n\nNOTE: Changing this setting will reload the UI."] = {
         ["ptBR"] = false, --Old Translation: "A ativação do Rastreador substituirá o Blizzard Quest Rastreador padrão pelo Questie Rastreador.",
-        ["ruRU"] = false, --Old Translation: "После нажатия данной кнопки трекер Blizzard заменится трекером Questie.\n\nПРИМЕЧАНИЕ: Эта настройка действует для каждого персонажа отдельно и перезапускает пользовательский интерфейс",
+        ["ruRU"] = "После нажатия данной кнопки трекер Blizzard заменится трекером Questie.\n\nПРИМЕЧАНИЕ: Эта настройка перезапускает пользовательский интерфейс",
         ["deDE"] = "Durch Aktivieren des Trackers wird der Standard-Blizzard-Quest-Tracker durch den Questie-Tracker ersetzt.\n\nHINWEIS: Das Ändern dieser Einstellung wird das Benutzerinterface neu laden.",
         ["koKR"] = false, --Old Translation: "추적기를 활성화하면 기본 블리자드 퀘스트 추적기가 Questie 추적기로 대체됩니다.",
         ["esMX"] = false, --Old Translation: "Habilitar el Rastreador reemplazará el Rastreador de misiones de Blizzard predeterminado con el Rastreador de misiones.",
@@ -1459,7 +1459,7 @@ local trackerOptionsLocales = {
     },
     ["Tracker Background"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Фон трекера",
         ["deDE"] = "Trackerhintergrund",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -1471,7 +1471,7 @@ local trackerOptionsLocales = {
     },
     ["Tracker Header"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Заголовок трекера",
         ["deDE"] = "Trackerüberschrift",
         ["koKR"] = false,
         ["esMX"] = false,
