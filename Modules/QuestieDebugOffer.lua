@@ -295,7 +295,7 @@ local function _CreateOfferFrame(popupText, discordURL, index)
     debugFrame.dismissButton = CreateFrame("Button", nil, debugFrame, "UIPanelButtonTemplate")
     debugFrame.dismissButton:SetSize(80, 22)
     debugFrame.dismissButton:SetPoint("TOP", debugFrame.discordLinkEditBox, "BOTTOM", 0, -10)
-    debugFrame.dismissButton:SetText("Dismiss")
+    debugFrame.dismissButton:SetText(l10n("Dismiss"))
     debugFrame.dismissButton:SetScript("OnClick", function()
         debugFrame:Hide();
         debugOpen[index] = false;
