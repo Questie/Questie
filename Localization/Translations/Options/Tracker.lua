@@ -1482,6 +1482,18 @@ local trackerOptionsLocales = {
         ["esES"] = false,
         ["frFR"] = false,
     },
+    ["Tracker Header"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Trackerüberschrift",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(trackerOptionsLocales) do
