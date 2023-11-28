@@ -80,13 +80,13 @@ function QuestieDebugOffer.LootWindow()
             local pos = GetPlayerMapPosition(mapID, player);
             PosX = pos.x * 100
             PosY = pos.y * 100
-            DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACoordinates:|r  [" .. mapID .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
+            DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. mapID .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
             local questLog = ""
             for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
             DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
             DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
             DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
-            Questie:Print(l10n("An item you just encountered is missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[]" .. l10n("More Info") .. "]|h|r")
+            Questie:Print(l10n("An item you just encountered is missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[" .. l10n("More Info") .. "]|h|r")
 
         end
     end
@@ -116,13 +116,13 @@ function QuestieDebugOffer.QuestDialog()
         local mapID = GetBestMapForUnit(player)
         local pos = GetPlayerMapPosition(mapID, player);
         if pos then PosX = pos.x * 100; PosY = pos.y * 100 end
-        DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACoordinates:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
+        DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
         local questLog = ""
         for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
         DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
         DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
         DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
-        Questie:Print(l10n("A quest you just encountered is missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[]" .. l10n("More Info") .. "]|h|r")
+        Questie:Print(l10n("A quest you just encountered is missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[" .. l10n("More Info") .. "]|h|r")
     end
 end
 
@@ -146,13 +146,13 @@ function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker duri
                 local pos = GetPlayerMapPosition(mapID, player);
                 PosX = pos.x * 100
                 PosY = pos.y * 100
-                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACoordinates:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
                 local questLog = ""
                 for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
-                Questie:Print(l10n("A quest in your quest log is missing from the Questie database and can't be tracked.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[]" .. l10n("More Info") .. "]|h|r")
+                Questie:Print(l10n("A quest in your quest log is missing from the Questie database and can't be tracked.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[" .. l10n("More Info") .. "]|h|r")
                 print(tostring(QuestieDB.IsSoDRuneQuest(questlogid)))
             end
         end
@@ -202,13 +202,13 @@ function QuestieDebugOffer.NPCTarget()
                 local pos = GetPlayerMapPosition(mapID, player);
                 PosX = pos.x * 100
                 PosY = pos.y * 100
-                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACoordinates:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
                 local questLog = ""
                 for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
-                Questie:Print(l10n("The NPC you just targeted is missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[]" .. l10n("More Info") .. "]|h|r")
+                Questie:Print(l10n("The NPC you just targeted is missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[" .. l10n("More Info") .. "]|h|r")
             end
             local inInstance, _ = IsInInstance()
             if inInstance == false then
