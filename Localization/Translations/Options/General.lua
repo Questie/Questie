@@ -626,6 +626,30 @@ local generalOptionsLocales = {
         ["esES"] = false,
         ["frFR"] = false,
     },
+    ["Welcome to Season of Discovery! Questie is being continuously updated with the new quests from this season, but it will take time. Be sure to update frequently to minimize errors."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ["While playing Season of Discovery, Questie will notify you if it encounters a quest it doesn't yet know about. Please share this info with us on Discord or GitHub!"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(generalOptionsLocales) do

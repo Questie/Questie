@@ -10,15 +10,21 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:CreateModule("QuestLogCache")
 
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 local DebugInformation = {} -- stores text of debug data dump per session
 local Di = 0 -- current debug index, used so we can still retrieve info from previous offers
-local debugOpen = {}
+local debugOpen = {} -- determines if existing debug window is already open, prevents duplicates
 
 local GetBestMapForUnit = C_Map.GetBestMapForUnit
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition
 local PosX = 0
 local PosY = 0
 local itemLink
+local target = "target"
+local player = "player"
+local questnpc = "questnpc"
 
 local gameType = ""
 if Questie.IsWotlk then
@@ -66,12 +72,12 @@ function QuestieDebugOffer.LootWindow()
             DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuest Item:|r " .. tostring(questItem)
             DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuest Starter:|r " .. tostring(questStarts)
             DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuest ID:|r " .. questID
-            local _, playerrace = UnitRace("player")
-            DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACharacter:|r Lvl " .. UnitLevel("player") .. " " .. string.upper(playerrace) .. " " .. UnitClassBase("player")
+            local _, playerrace = UnitRace(player)
+            DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACharacter:|r Lvl " .. UnitLevel(player) .. " " .. string.upper(playerrace) .. " " .. UnitClassBase(player)
             local debugContainer = GetLootSourceInfo(i)
             DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAContainer:|r " .. debugContainer
-            local mapID = GetBestMapForUnit("player")
-            local pos = GetPlayerMapPosition(mapID, "player");
+            local mapID = GetBestMapForUnit(player)
+            local pos = GetPlayerMapPosition(mapID, player);
             PosX = pos.x * 100
             PosY = pos.y * 100
             DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACoordinates:|r  [" .. mapID .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
@@ -80,7 +86,7 @@ function QuestieDebugOffer.LootWindow()
             DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
             DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
             DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
-            Questie:Print("An item you just encountered is missing from the Questie database. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[More Info]|h|r")
+            Questie:Print(l10n("An item you just encountered is missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[]" .. l10n("More Info") .. "]|h|r")
 
         end
     end
@@ -104,11 +110,11 @@ function QuestieDebugOffer.QuestDialog()
         DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(objectiveText)
         DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAReward Text:|r " .. tostring(rewardText)
         DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAReward XP:|r " .. tostring(rewardXP)
-        local _, playerrace = UnitRace("player")
-        DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel("player")) .. " " .. string.upper(tostring(playerrace)) .. " " .. tostring(UnitClassBase("player"))
-        DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestgiver:|r " .. tostring(UnitGUID("questnpc"))
-        local mapID = GetBestMapForUnit("player")
-        local pos = GetPlayerMapPosition(mapID, "player");
+        local _, playerrace = UnitRace(player)
+        DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel(player)) .. " " .. string.upper(tostring(playerrace)) .. " " .. tostring(UnitClassBase(player))
+        DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestgiver:|r " .. tostring(UnitGUID(questnpc))
+        local mapID = GetBestMapForUnit(player)
+        local pos = GetPlayerMapPosition(mapID, player);
         if pos then PosX = pos.x * 100; PosY = pos.y * 100 end
         DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACoordinates:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
         local questLog = ""
@@ -116,7 +122,7 @@ function QuestieDebugOffer.QuestDialog()
         DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
         DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
         DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
-        Questie:Print("A quest you just encountered is missing from the Questie database. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[More Info]|h|r")
+        Questie:Print(l10n("A quest you just encountered is missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[]" .. l10n("More Info") .. "]|h|r")
     end
 end
 
@@ -134,10 +140,10 @@ function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker duri
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(questText)
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(objectiveText)
-                local _, playerrace = UnitRace("player")
-                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel("player")) .. " " .. string.upper(playerrace) .. " " .. tostring(UnitClassBase("player"))
-                local mapID = GetBestMapForUnit("player")
-                local pos = GetPlayerMapPosition(mapID, "player");
+                local _, playerrace = UnitRace(player)
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel(player)) .. " " .. string.upper(playerrace) .. " " .. tostring(UnitClassBase(player))
+                local mapID = GetBestMapForUnit(player)
+                local pos = GetPlayerMapPosition(mapID, player);
                 PosX = pos.x * 100
                 PosY = pos.y * 100
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACoordinates:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
@@ -146,7 +152,7 @@ function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker duri
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
-                Questie:Print("A quest in your quest log is missing from the Questie database and can't be tracked. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[More Info]|h|r")
+                Questie:Print(l10n("A quest in your quest log is missing from the Questie database and can't be tracked.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[]" .. l10n("More Info") .. "]|h|r")
                 print(tostring(QuestieDB.IsSoDRuneQuest(questlogid)))
             end
         end
@@ -158,7 +164,7 @@ local timeoutDurationOverworld = 120 -- how many seconds to ignore re-passes out
 local timeoutDurationInstance = 600 -- how many seconds to ignore re-passes outside of instances
 -- Missing NPC ID when targeting
 function QuestieDebugOffer.NPCTarget()
-    local targetGUID = UnitGUID("target")
+    local targetGUID = UnitGUID(target)
     local unit_type = strsplit("-", tostring(targetGUID)) -- determine target type
     if unit_type == "Creature" then -- if target is an NPC
         local npcID = tonumber(targetGUID:match("-(%d+)-%x+$"), 10) -- obtain NPC ID
@@ -170,12 +176,12 @@ function QuestieDebugOffer.NPCTarget()
             if QuestieDB.QueryNPCSingle(npcID, "name") == nil then -- if ID not in our DB
                 Di = Di + 1
                 DebugInformation[Di] = "Targeted NPC not present in NPC DB!"
-                local npcName = UnitFullName("target")
-                local npcLevel = UnitLevel("target")
-                local npcHealth = UnitHealth("target")
-                local npcHealthMax = UnitHealthMax("target")
-                local npcHostile = UnitIsEnemy("target", "player")
-                local npcFriendly = UnitIsFriend("target", "player")
+                local npcName = UnitFullName(target)
+                local npcLevel = UnitLevel(target)
+                local npcHealth = UnitHealth(target)
+                local npcHealthMax = UnitHealthMax(target)
+                local npcHostile = UnitIsEnemy(target, player)
+                local npcFriendly = UnitIsFriend(target, player)
                 local npcStatus = "Unknown"
                 if npcHostile == true then
                     npcStatus = "Hostile"
@@ -189,11 +195,11 @@ function QuestieDebugOffer.NPCTarget()
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAANPC Level:|r " .. tostring(npcLevel)
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAANPC Health, Max:|r " .. tostring(npcHealth) .. ", " .. tostring(npcHealthMax)
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAANPC Allegiance:|r " .. tostring(npcStatus)
-                local _, playerrace = UnitRace("player")
-                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel("player")) .. " " .. string.upper(playerrace) .. " " .. tostring(UnitClassBase("player"))
-                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACharacter Name:|r " .. tostring(GetUnitName("player")) .. "-" .. tostring(GetRealmName())
-                local mapID = GetBestMapForUnit("player")
-                local pos = GetPlayerMapPosition(mapID, "player");
+                local _, playerrace = UnitRace(player)
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel(player)) .. " " .. string.upper(playerrace) .. " " .. tostring(UnitClassBase(player))
+                DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACharacter Name:|r " .. tostring(GetUnitName(player)) .. "-" .. tostring(GetRealmName())
+                local mapID = GetBestMapForUnit(player)
+                local pos = GetPlayerMapPosition(mapID, player);
                 PosX = pos.x * 100
                 PosY = pos.y * 100
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAACoordinates:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
@@ -202,7 +208,7 @@ function QuestieDebugOffer.NPCTarget()
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
-                Questie:Print("The NPC you just targeted is missing from the Questie database. Would you like to help us fix it? |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[More Info]|h|r")
+                Questie:Print(l10n("The NPC you just targeted is missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[]" .. l10n("More Info") .. "]|h|r")
             end
             local inInstance, _ = IsInInstance()
             if inInstance == false then
@@ -255,7 +261,7 @@ local function _CreateOfferFrame(popupText, discordURL, index)
 
     debugFrame.title = debugFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     debugFrame.title:SetPoint("TOP", 0, -15)
-    debugFrame.title:SetText("|TInterface\\Addons\\Questie\\Icons\\startendstart.tga:16|t |cFFFED218Questie Debug Info|r |TInterface\\Addons\\Questie\\Icons\\startendstart.tga:16|t")
+    debugFrame.title:SetText("|TInterface\\Addons\\Questie\\Icons\\startendstart.tga:16|t |cFFFED218" .. l10n("Questie Debug Info") .. "|r |TInterface\\Addons\\Questie\\Icons\\startendstart.tga:16|t")
 
     -- Create a single large edit box with no background
     debugFrame.dataEditBox = CreateFrame("EditBox", nil, debugFrame)
@@ -278,7 +284,7 @@ local function _CreateOfferFrame(popupText, discordURL, index)
 
     debugFrame.discordText = debugFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     debugFrame.discordText:SetPoint("TOP", debugFrame.dataEditBox, "BOTTOM", 0, -15)
-    debugFrame.discordText:SetText("|cFFAAAAAAPlease share this info with us on  |TInterface\\Addons\\Questie\\Icons\\discord.blp:16|t |cFF5765ECDiscord|r")
+    debugFrame.discordText:SetText("|cFFAAAAAA" .. l10n("Please share this info with us on") .. "  |TInterface\\Addons\\Questie\\Icons\\discord.blp:16|t |cFF5765ECDiscord|r")
 
     debugFrame.discordLinkEditBox = CreateFrame("EditBox", nil, debugFrame, "InputBoxTemplate")
     debugFrame.discordLinkEditBox:SetSize(200, 20)
@@ -301,9 +307,6 @@ local function _CreateOfferFrame(popupText, discordURL, index)
         tile = true, tileSize = 32, edgeSize = 32,
         insets = { left = 8, right = 8, top = 8, bottom = 8 }
     })
-
-    -- TODO l10n of used strings
-    -- TODO Adjust "discordText" to note about copy/pasting the info into Discord
 
     debugOpen[index] = true
     debugFrame:Show()
