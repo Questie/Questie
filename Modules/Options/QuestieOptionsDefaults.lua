@@ -128,6 +128,7 @@ function QuestieOptionsDefaults:Load()
             showRaidQuests = true,
             showPvPQuests = true,
             showAQWarEffortQuests = false,
+            showSoDRunes = false,
             showQuestsInNpcTooltip = true,
             trackerEnabled = true,
             ldbDisplayText = "Questie",

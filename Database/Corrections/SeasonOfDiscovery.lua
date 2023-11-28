@@ -14,7 +14,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
-local currentPhase = 1 -- TODO: Use API function which hopefully will come in the future
+SeasonOfDiscovery.currentPhase = 1 -- TODO: Use API function which hopefully will come in the future
 
 local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
     --[88] = true,
@@ -713,7 +713,7 @@ local questsToBlacklistBySoDPhase = {
 
 ---@return table<number, table<number, boolean>> @All quests that should be blacklisted separated by phase
 function QuestieQuestBlacklist:GetSoDQuestsToBlacklist()
-    for phase = 1, currentPhase do
+    for phase = 1, SeasonOfDiscovery.currentPhase do
         questsToBlacklistBySoDPhase[phase] = {} -- empty table instead of nil to keep table size
     end
     return questsToBlacklistBySoDPhase
