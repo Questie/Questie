@@ -565,8 +565,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         style = 'dropdown',
                         name = function() return l10n('Tracker Growth Direction') end,
                         desc = function()
-                            return l10n(
-                                "This determines the direction in which the Questie Tracker grows when you add or remove Quests. For example, if you use the 'Up & Right' option then the ideal place for the Tracker should be in the lower left-hand corner of your screen. This allows the 'Sizer Mode: Auto' to push the Tracker Height and Width 'Up & Right' so the Tracker doesn't inadvertently cover up elements of your UI.\n\nNOTE: This will also move the Active Quests Header (if enabled) to the bottom of the Questie Tracker when using the options 'Up & Right' or the 'Up & Left' setting. You can override this behavior by disabling the 'Auto Move Active Quests Header' option to force the Active Quests Header to remain at the top of the Questie Tracker. The 'Auto Move Active Quests Header' option is disabled when the options 'Down & Right' or 'Down & Left' are used.")
+                            return l10n("This determines the direction in which the Questie Tracker grows when you add or remove Quests. For example, if you use the 'Up & Right' option then the ideal place for the Tracker should be in the lower left-hand corner of your screen. This allows the 'Sizer Mode: Auto' to push the Tracker Height and Width 'Up & Right' so the Tracker doesn't inadvertently cover up elements of your UI.")
                         end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.trackerSetpoint end,
@@ -617,35 +616,25 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 type = "toggle",
                                 order = 1,
                                 width = 1.5,
-                                name = function() return l10n("Enable Active Quests Header") end,
-                                desc = function() return l10n("When this is checked, the Active Quests Header will become visible and the total number of Quests you have in your Quest Log will be shown.\n\nNOTE: When this is disabled, the Questie Icon will fade in while your mouse is over the Tracker.") end,
-                                disabled = function() return not Questie.db.profile.trackerEnabled or Questie.db.profile.alwaysShowTracker end,
+                                name = function() return l10n("Enable Tracker Header") end,
+                                desc = function() return l10n("When this is enabled the Tracker Header with the number of active quests and the Questie Icon will be permanently visible.\n\nWhen this is disabled the Questie Icon will fade in while your mouse is over the Tracker.") end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled end,
                                 get = function() return Questie.db.profile.trackerHeaderEnabled end,
                                 set = function(_, value)
                                     Questie.db.profile.trackerHeaderEnabled = value
-
-                                    if Questie.db.profile.alwaysShowTracker == false then
-                                        Questie.db.profile.currentHeaderEnabledSetting = value
-                                    end
-
                                     QuestieTracker:UpdateFormatting()
                                 end
                             },
-                            autoMoveHeader = {
+                            moveHeaderToBottom = {
                                 type = "toggle",
                                 order = 2,
                                 width = 1.5,
-                                name = function() return l10n('Auto Move Active Quests Header') end,
-                                desc = function() return l10n("When this is checked, the Active Quests Header will automatically move to the bottom of the Questie Tracker.\n\nNOTE: This setting only works while the 'Tracker Growth Direction' setting is set to 'Up & Right' or 'Up & Left'.") end,
-                                disabled = function()
-                                    return (not Questie.db.profile.trackerEnabled)
-                                        or (not Questie.db.profile.trackerHeaderEnabled)
-                                        or Questie.db.profile.trackerSetpoint == "TOPLEFT"
-                                        or Questie.db.profile.trackerSetpoint == "TOPRIGHT"
-                                end,
-                                get = function() return Questie.db.profile.autoMoveHeader end,
+                                name = function() return l10n("Show Tracker Header At The Bottom") end,
+                                desc = function() return l10n("When this is enabled the Tracker Header and/or the Questie Icon will be moved to the bottom of the Questie Tracker and the sizer to the top.") end,
+                                disabled = function() return (not Questie.db.profile.trackerEnabled) end,
+                                get = function() return Questie.db.profile.moveHeaderToBottom end,
                                 set = function(_, value)
-                                    Questie.db.profile.autoMoveHeader = value
+                                    Questie.db.profile.moveHeaderToBottom = value
                                     QuestieTracker:UpdateFormatting()
                                 end
                             },
@@ -653,26 +642,15 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 type = "toggle",
                                 order = 3,
                                 width = 1.5,
-                                name = function() return l10n("Always Show Tracker") end,
-                                desc = function() return l10n("When this is checked, the Questie Trackers 'Active Quests Header' will always be visible when nothing is being tracked versus being hidden completely.\n\nNOTE: If the 'Active Quests Header' is in a disabled state, enabling this option will toggle it on when nothing is being tracked then toggle back off when you track something.") end,
+                                name = function() return l10n("Show Header For Empty Tracker") end,
+                                desc = function() return l10n("When this is enabled the Tracker Header will be visible even when no quests are being tracked versus the Tracker being hidden completely.") end,
                                 disabled = function() return not Questie.db.profile.trackerEnabled end,
                                 get = function() return Questie.db.profile.alwaysShowTracker end,
                                 set = function(_, value)
                                     Questie.db.profile.alwaysShowTracker = value
-                                    if Questie.db.profile.alwaysShowTracker == true then
-                                        if Questie.db.char.isTrackerExpanded == false then
-                                            Questie.db.char.isTrackerExpanded = true
-                                        end
-
-                                        if (not QuestieTracker:HasQuest()) then
-                                            Questie.db.profile.trackerHeaderEnabled = true
-                                        else
-                                            Questie.db.profile.trackerHeaderEnabled = Questie.db.profile.currentHeaderEnabledSetting
-                                        end
-                                    else
-                                        Questie.db.profile.trackerHeaderEnabled = Questie.db.profile.currentHeaderEnabledSetting
+                                    if (Questie.db.profile.alwaysShowTracker == true) and (Questie.db.char.isTrackerExpanded == false) then
+                                        Questie.db.char.isTrackerExpanded = true
                                     end
-
                                     QuestieTracker:UpdateFormatting()
                                 end
                             },
