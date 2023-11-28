@@ -398,6 +398,7 @@ function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, pla
     --* QuestiePlayer.currentQuestlog[parentQuestId] logic is from QuestieDB.IsParentQuestActive, if you edit here, also edit there
     local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
     if parentQuestId and QuestiePlayer.currentQuestlog[parentQuestId] then
+        -- If the quest is in the player's log already, there's no need to do any logic here, it must already be available
         return true
     end
 
@@ -408,7 +409,8 @@ function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, pla
         return true
     end
 
-    if (Questie.IsSoD == true) and (QuestieDB.IsSoDRuneQuest(questId) == true) then
+    if (Questie.IsSoD == true) and (QuestieDB.IsSoDRuneQuest(questId) == true) and (requiredLevel <= playerLevel) then
+        -- Season of Discovery Rune quests are still shown when trivial
         return true
     end
 
