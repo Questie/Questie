@@ -40,13 +40,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 order = 2,
                 width = 1.5,
                 name = function() return l10n('Enable Tracker') end,
-                desc = function()
-                    if Questie.db.profile.trackerEnabled then
-                        return l10n('Disabling the Tracker will replace the Questie Tracker with the default Blizzard Quest Tracker.\n\nNOTE: This setting is saved Per Character and will reload the UI.')
-                    elseif (not Questie.db.profile.trackerEnabled) then
-                        return l10n('Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.\n\nNOTE: This setting is saved Per Character and will reload the UI.')
-                    end
-                end,
+                desc = function() return l10n("Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.\n\nNOTE: Changing this setting will reload the UI.") end,
                 disabled = function() return InCombatLockdown() end,
                 get = function() return Questie.db.profile.trackerEnabled end,
                 set = function()

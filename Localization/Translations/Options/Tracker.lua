@@ -605,19 +605,6 @@ local trackerOptionsLocales = {
         ["frFR"] = "Lorsque ceci est coché, le traqueur est vérouillé, maintenez CTRL lorsque vous souhaitez le déplacer.",
     },
     ---------------------------------------------------------
-    ["Disabling the Tracker will replace the Questie Tracker with the default Blizzard Quest Tracker.\n\nNOTE: This setting is saved Per Character and will reload the UI."] = {
-        ["ptBR"] = "Desativar o Rastreador substituirá o Questie Rastreador pelo Blizzard Quest Rastreador padrão.",
-        ["ruRU"] = "После нажатия данной кнопки трекер Questie заменится трекером Blizzard.\n\nПРИМЕЧАНИЕ: Эта настройка действует для каждого персонажа отдельно и перезапускает пользовательский интерфейс",
-        ["deDE"] = "Durch Deaktivieren des Trackers wird der Questie-Tracker durch den Standard-Blizzard-Quest-Tracker ersetzt.",
-        ["koKR"] = "추적기를 비활성화하면 Questie 추적기가 기본 블리자드 퀘스트 추적기로 대체됩니다.",
-        ["esMX"] = "Deshabilitar el Rastreador reemplazará el Rastreador de misiones con el Rastreador de misiones de Blizzard predeterminado.",
-        ["enUS"] = true,
-        ["zhCN"] = "禁用跟踪器会将Questie追踪器替换为默认的暴雪任务追踪器。",
-        ["zhTW"] = "停用任務位置提示插件的任務清單，改用遊戲內建的。\n\n此設定是每個角色分開儲存的，更改後會重新載入介面。",
-        ["esES"] = "Deshabilitar el Rastreador reemplazará el Rastreador de misiones con el Rastreador de misiones de Blizzard predeterminado.",
-        ["frFR"] = "L'activation du suivi des quêtes par défaut remplacera le suivi des quêtes Questie.",
-    },
-    ---------------------------------------------------------
     ["Enable Tracker"] = {
         ["ptBR"] = "Ativar o rastreador",
         ["ruRU"] = "Включить трекер",
@@ -630,17 +617,17 @@ local trackerOptionsLocales = {
         ["esES"] = "Habilitar el rastreador",
         ["frFR"] = "Suivi Questie",
     },
-    ["Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.\n\nNOTE: This setting is saved Per Character and will reload the UI."] = {
-        ["ptBR"] = "A ativação do Rastreador substituirá o Blizzard Quest Rastreador padrão pelo Questie Rastreador.",
-        ["ruRU"] = "После нажатия данной кнопки трекер Blizzard заменится трекером Questie.\n\nПРИМЕЧАНИЕ: Эта настройка действует для каждого персонажа отдельно и перезапускает пользовательский интерфейс",
-        ["deDE"] = "Durch Aktivieren des Trackers wird der Standard-Blizzard-Quest-Tracker durch den Questie-Tracker ersetzt.",
-        ["koKR"] = "추적기를 활성화하면 기본 블리자드 퀘스트 추적기가 Questie 추적기로 대체됩니다.",
-        ["esMX"] = "Habilitar el Rastreador reemplazará el Rastreador de misiones de Blizzard predeterminado con el Rastreador de misiones.",
+    ["Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.\n\nNOTE: Changing this setting will reload the UI."] = {
+        ["ptBR"] = false, --Old Translation: "A ativação do Rastreador substituirá o Blizzard Quest Rastreador padrão pelo Questie Rastreador.",
+        ["ruRU"] = false, --Old Translation: "После нажатия данной кнопки трекер Blizzard заменится трекером Questie.\n\nПРИМЕЧАНИЕ: Эта настройка действует для каждого персонажа отдельно и перезапускает пользовательский интерфейс",
+        ["deDE"] = "Durch Aktivieren des Trackers wird der Standard-Blizzard-Quest-Tracker durch den Questie-Tracker ersetzt.\n\nHINWEIS: Das Ändern dieser Einstellung wird das Benutzerinterface neu laden.",
+        ["koKR"] = false, --Old Translation: "추적기를 활성화하면 기본 블리자드 퀘스트 추적기가 Questie 추적기로 대체됩니다.",
+        ["esMX"] = false, --Old Translation: "Habilitar el Rastreador reemplazará el Rastreador de misiones de Blizzard predeterminado con el Rastreador de misiones.",
         ["enUS"] = true,
-        ["zhCN"] = "启用跟踪器会将默认的暴雪自带任务追踪器替换为Questie追踪器。",
+        ["zhCN"] = false, --Old Translation: "启用跟踪器会将默认的暴雪自带任务追踪器替换为Questie追踪器。",
         ["zhTW"] = "啟用任務位置提示插件的任務清單來取代遊戲內建的。\n\n此設定是每個角色分開儲存的，更改後會重新載入介面。",
-        ["esES"] = "Habilitar el Rastreador reemplazará el Rastreador de misiones de Blizzard predeterminado con el Rastreador de misiones.",
-        ["frFR"] = "L'activation du suivi des quêtes Questie remplacera le suivi des quêtes par défaut.",
+        ["esES"] = false, --Old Translation: "Habilitar el Rastreador reemplazará el Rastreador de misiones de Blizzard predeterminado con el Rastreador de misiones.",
+        ["frFR"] = false, --Old Translation: "L'activation du suivi des quêtes Questie remplacera le suivi des quêtes par défaut.",
     },
     ---------------------------------------------------------
     ["Reset Tracker"] = {
