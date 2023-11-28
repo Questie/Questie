@@ -515,88 +515,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
-                    enableBackground = {
-                        type = "toggle",
-                        order = 8,
-                        width = 1.5,
-                        name = function() return l10n('Enable Background') end,
-                        desc = function() return l10n('When this is checked, the Questie Tracker Background becomes visible.') end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.trackerBackdropEnabled end,
-                        set = function(_, value)
-                            Questie.db.profile.trackerBackdropEnabled = value
-                            Questie.db.profile.currentBackdropEnabled = value
-
-                            if value == true and not Questie.db.profile.trackerBackdropFader then
-                                TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.profile.trackerBackdropAlpha)
-                            else
-                                TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, 0)
-                            end
-                            QuestieTracker:UpdateFormatting()
-                        end
-                    },
-                    enableBorder = {
-                        type = "toggle",
-                        order = 9,
-                        width = 1.5,
-                        name = function() return l10n('Enable Border') end,
-                        desc = function() return l10n('When this is checked, the Questie Tracker Border becomes visible.') end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled or not Questie.db.profile.trackerBackdropEnabled end,
-                        get = function() return Questie.db.profile.trackerBorderEnabled end,
-                        set = function(_, value)
-                            Questie.db.profile.trackerBorderEnabled = value
-                            Questie.db.profile.currentBorderEnabled = value
-
-                            if value == true and not Questie.db.profile.trackerBackdropFader then
-                                TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.profile.trackerBackdropAlpha)
-                            else
-                                TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
-                            end
-                            QuestieTracker:UpdateFormatting()
-                        end
-                    },
-                    fadeTrackerBackdrop = {
-                        type = "toggle",
-                        order = 10,
-                        width = 1.5,
-                        name = function() return l10n('Fade Background') end,
-                        desc = function() return l10n('When this is checked, the Questie Tracker Backdrop and Border (if enabled) will fade and become transparent when not in use.') end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled or not Questie.db.profile.trackerBackdropEnabled end,
-                        get = function() return Questie.db.profile.trackerBackdropFader end,
-                        set = function(_, value)
-                            Questie.db.profile.trackerBackdropFader = value
-                            Questie.db.profile.currentBackdropFader = value
-
-                            if value == true then
-                                local fadeTicker
-                                local fadeTickerValue = 1
-                                fadeTicker = C_Timer.NewTicker(0.02, function()
-                                    if fadeTickerValue <= 1 then
-                                        fadeTickerValue = fadeTickerValue - 0.05
-
-                                        if fadeTickerValue < 0 then
-                                            fadeTickerValue = 0
-                                            fadeTicker:Cancel()
-                                        end
-
-                                        if Questie.db.char.isTrackerExpanded then
-                                            TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, fadeTickerValue)
-
-                                            if Questie.db.profile.trackerBorderEnabled then
-                                                TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, fadeTickerValue)
-                                            end
-                                        end
-                                    else
-                                        fadeTickerValue:Cancel()
-                                    end
-                                end)
-                            end
-                            QuestieTracker:UpdateFormatting()
-                        end
-                    },
                     hideSizer = {
                         type = "toggle",
-                        order = 11,
+                        order = 8,
                         width = 1.5,
                         name = function() return l10n("Hide Tracker Sizer") end,
                         desc = function() return l10n("When this is checked, the Questie Tracker Sizer that appears in the bottom or top right hand corner will be hidden.") end,
@@ -609,7 +530,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     },
                     alwaysShowTracker = {
                         type = "toggle",
-                        order = 12,
+                        order = 9,
                         width = 1.5,
                         name = function() return l10n("Always Show Tracker") end,
                         desc = function() return l10n("When this is checked, the Questie Trackers 'Active Quests Header' will always be visible when nothing is being tracked versus being hidden completely.\n\nNOTE: If the 'Active Quests Header' is in a disabled state, enabling this option will toggle it on when nothing is being tracked then toggle back off when you track something.") end,
@@ -636,7 +557,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     },
                     lockTracker = {
                         type = "toggle",
-                        order = 13,
+                        order = 10,
                         width = 1.5,
                         name = function() return l10n("Lock Tracker") end,
                         desc = function() return l10n("When this is checked, the Questie Tracker is locked and you need to hold CTRL when you want to move it.") end,
@@ -649,7 +570,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     },
                     stickyVoiceOverFrame = {
                         type = "toggle",
-                        order = 14,
+                        order = 11,
                         width = 1.5,
                         name = function() return l10n("Sticky VoiceOver Frame") end,
                         desc = function() return l10n("When this is checked, the VoiceOver talking head / sound queue frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen.") end,
@@ -664,10 +585,10 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
-                    Spacer_Dropdowns = QuestieOptionsUtils:Spacer(15),
+                    Spacer_Dropdowns = QuestieOptionsUtils:Spacer(12),
                     setTomTom = {
                         type = "select",
-                        order = 16,
+                        order = 13,
                         values = _GetShortcuts(),
                         style = 'dropdown',
                         name = function() return l10n('Set |cFF54e33bTomTom|r Target') end,
@@ -687,7 +608,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     },
                     trackerSetpoint = {
                         type = "select",
-                        order = 17,
+                        order = 14,
                         values = function()
                             return {
                                 ["TOPLEFT"] = l10n('Down & Right'),
@@ -710,26 +631,10 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
-                    Spacer_Sliders = QuestieOptionsUtils:Spacer(18),
-                    questBackdropAlpha = {
-                        type = "range",
-                        order = 19,
-                        name = function() return l10n('Tracker Backdrop Alpha') end,
-                        desc = function() return l10n('The alpha level of the Questie Trackers backdrop. A setting of 100 percent is fully visible.') end,
-                        width = "double",
-                        min = 0,
-                        max = 100,
-                        step = 5,
-                        disabled = function() return not Questie.db.profile.trackerBackdropEnabled or not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.trackerBackdropAlpha * 100 end,
-                        set = function(_, value)
-                            Questie.db.profile.trackerBackdropAlpha = value / 100
-                            QuestieTracker:UpdateFormatting()
-                        end
-                    },
+                    Spacer_Sliders = QuestieOptionsUtils:Spacer(15),
                     trackerHeightRatio = {
                         type = "range",
-                        order = 20,
+                        order = 16,
                         name = function() return l10n('Tracker Height Ratio') end,
                         desc = function() return l10n('The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height.\n\nNOTE: This setting only applies while in Sizer Mode: Auto') end,
                         width = "double",
@@ -754,6 +659,111 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 QuestieTracker:UpdateFormatting()
                             end
                         end
+                    },
+                    group_background = {
+                        type = "group",
+                        order = 17,
+                        inline = true,
+                        width = 0.5,
+                        name = function() return l10n('Tracker Background') end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        args = {
+                            enableBackground = {
+                                type = "toggle",
+                                order = 1,
+                                width = 1.5,
+                                name = function() return l10n('Enable Background') end,
+                                desc = function() return l10n('When this is checked, the Questie Tracker Background becomes visible.') end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled end,
+                                get = function() return Questie.db.profile.trackerBackdropEnabled end,
+                                set = function(_, value)
+                                    Questie.db.profile.trackerBackdropEnabled = value
+                                    Questie.db.profile.currentBackdropEnabled = value
+
+                                    if value == true and not Questie.db.profile.trackerBackdropFader then
+                                        TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.profile.trackerBackdropAlpha)
+                                    else
+                                        TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, 0)
+                                    end
+                                    QuestieTracker:UpdateFormatting()
+                                end
+                            },
+                            enableBorder = {
+                                type = "toggle",
+                                order = 2,
+                                width = 1.5,
+                                name = function() return l10n('Enable Border') end,
+                                desc = function() return l10n('When this is checked, the Questie Tracker Border becomes visible.') end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled or not Questie.db.profile.trackerBackdropEnabled end,
+                                get = function() return Questie.db.profile.trackerBorderEnabled end,
+                                set = function(_, value)
+                                    Questie.db.profile.trackerBorderEnabled = value
+                                    Questie.db.profile.currentBorderEnabled = value
+
+                                    if value == true and not Questie.db.profile.trackerBackdropFader then
+                                        TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.profile.trackerBackdropAlpha)
+                                    else
+                                        TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
+                                    end
+                                    QuestieTracker:UpdateFormatting()
+                                end
+                            },
+                            fadeTrackerBackdrop = {
+                                type = "toggle",
+                                order = 3,
+                                width = 1.5,
+                                name = function() return l10n('Fade Background') end,
+                                desc = function() return l10n('When this is checked, the Questie Tracker Backdrop and Border (if enabled) will fade and become transparent when not in use.') end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled or not Questie.db.profile.trackerBackdropEnabled end,
+                                get = function() return Questie.db.profile.trackerBackdropFader end,
+                                set = function(_, value)
+                                    Questie.db.profile.trackerBackdropFader = value
+                                    Questie.db.profile.currentBackdropFader = value
+
+                                    if value == true then
+                                        local fadeTicker
+                                        local fadeTickerValue = 1
+                                        fadeTicker = C_Timer.NewTicker(0.02, function()
+                                            if fadeTickerValue <= 1 then
+                                                fadeTickerValue = fadeTickerValue - 0.05
+
+                                                if fadeTickerValue < 0 then
+                                                    fadeTickerValue = 0
+                                                    fadeTicker:Cancel()
+                                                end
+
+                                                if Questie.db.char.isTrackerExpanded then
+                                                    TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, fadeTickerValue)
+
+                                                    if Questie.db.profile.trackerBorderEnabled then
+                                                        TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, fadeTickerValue)
+                                                    end
+                                                end
+                                            else
+                                                fadeTickerValue:Cancel()
+                                            end
+                                        end)
+                                    end
+                                    QuestieTracker:UpdateFormatting()
+                                end
+                            },
+                            questBackdropAlpha = {
+                                type = "range",
+                                order = 4,
+                                name = function() return l10n('Tracker Backdrop Alpha') end,
+                                desc = function() return l10n('The alpha level of the Questie Trackers backdrop. A setting of 100 percent is fully visible.') end,
+                                width = 3,
+                                min = 0,
+                                max = 100,
+                                step = 5,
+                                disabled = function() return not Questie.db.profile.trackerBackdropEnabled or not Questie.db.profile.trackerEnabled end,
+                                get = function() return Questie.db.profile.trackerBackdropAlpha * 100 end,
+                                set = function(_, value)
+                                    Questie.db.profile.trackerBackdropAlpha = value / 100
+                                    QuestieTracker:UpdateFormatting()
+                                end
+                            },
+                        },
                     },
                 }
             },

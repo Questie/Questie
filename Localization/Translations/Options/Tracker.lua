@@ -1470,6 +1470,18 @@ local trackerOptionsLocales = {
         ["esES"] = "Opciones de la ventana del rastreador",
         ["frFR"] = false,
     },
+    ["Tracker Background"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Trackerhintergrund",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(trackerOptionsLocales) do
