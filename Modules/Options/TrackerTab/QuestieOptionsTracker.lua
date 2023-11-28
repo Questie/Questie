@@ -110,22 +110,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
-                    showCompleteQuests = {
-                        type = "toggle",
-                        order = 2,
-                        width = 1.5,
-                        name = function() return l10n('Show Completed Quests') end,
-                        desc = function() return l10n("When this is checked, completed Quests will show in the Questie Tracker.\n\nNOTE: This setting only works when 'Auto Track Quests' is enabled.") end,
-                        disabled = function() return (not Questie.db.profile.trackerEnabled) or (not Questie.db.profile.autoTrackQuests) end,
-                        get = function() return Questie.db.profile.trackerShowCompleteQuests end,
-                        set = function(_, value)
-                            Questie.db.profile.trackerShowCompleteQuests = value
-                            QuestieTracker:Update()
-                        end
-                    },
                     showQuestLevels = {
                         type = "toggle",
-                        order = 3,
+                        order = 2,
                         width = 1.5,
                         name = function() return l10n('Show Quest Level') end,
                         desc = function() return l10n('When this is checked, the Quest Level Tags for Quest Titles will show in the Questie Tracker.') end,
@@ -136,54 +123,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
-                    collapseCompletedQuests = {
-                        type = "toggle",
-                        order = 4,
-                        width = 1.5,
-                        name = function() return l10n('Auto Minimize Completed Quests') end,
-                        desc = function() return l10n('When this is checked, completed Quests will automatically minimize.') end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.collapseCompletedQuests end,
-                        set = function(_, value)
-                            Questie.db.profile.collapseCompletedQuests = value
-                            if Questie.db.profile.collapseCompletedQuests == false then
-                                Questie.db.char.collapsedQuests = {}
-                            end
-                            QuestieTracker:Update()
-                        end
-                    },
-                    hideCompletedQuestObjectives = {
-                        type = "toggle",
-                        order = 5,
-                        width = 1.5,
-                        name = function() return l10n('Hide Completed Quest Objectives') end,
-                        desc = function() return l10n('When this is checked, completed Quest Objectives will automatically be removed from the Questie Tracker.') end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.hideCompletedQuestObjectives end,
-                        set = function(_, value)
-                            Questie.db.profile.hideCompletedQuestObjectives = value
-                            QuestieTracker:Update()
-                        end
-                    },
-                    hideBlizzardCompletionText = {
-                        type = "toggle",
-                        order = 6,
-                        width = 1.5,
-                        name = function() return l10n('Hide Blizzard Completion Text') end,
-                        desc = function() return l10n('When this is checked, Blizzard Completion Text will be hidden for completed Quests and instead show the old Questie tags: "Quest Complete!" or "Quest Failed!"') end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled or Questie.db.profile.trackerColorObjectives == "minimal" end,
-                        get = function() return Questie.db.profile.hideBlizzardCompletionText end,
-                        set = function(_, value)
-                            Questie.db.profile.hideBlizzardCompletionText = value
-                            if Questie.db.profile.hideBlizzardCompletionText == false then
-                                Questie.db.char.collapsedQuests = {}
-                            end
-                            QuestieTracker:Update()
-                        end
-                    },
                     showQuestTimer = {
                         type = "toggle",
-                        order = 7,
+                        order = 3,
                         width = 1.5,
                         name = function() return l10n('Show Blizzard Timer') end,
                         desc = function() return l10n('When this is checked, the default Blizzard Timer Frame for Quests will be shown instead of being embedded inside the Questie Tracker.') end,
@@ -201,23 +143,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
-                    hideCompletedAchieveObjectives = {
-                        type = "toggle",
-                        order = 8,
-                        width = 1.5,
-                        name = function() return l10n('Hide Completed Achieve Objectives') end,
-                        desc = function() return l10n('When this is checked, completed Achievement Objectives will automatically be removed from the Questie Tracker.') end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        hidden = function() return not Questie.IsWotlk end,
-                        get = function() return Questie.db.profile.hideCompletedAchieveObjectives end,
-                        set = function(_, value)
-                            Questie.db.profile.hideCompletedAchieveObjectives = value
-                            QuestieTracker:Update()
-                        end
-                    },
                     listAchievementsFirst = {
                         type = "toggle",
-                        order = 9,
+                        order = 4,
                         width = 1.5,
                         name = function() return l10n("List Achievements First") end,
                         desc = function() return l10n("When this is checked, the Questie Tracker will list Achievements first then Quests.") end,
@@ -229,58 +157,10 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
-                    Spacer_Dropdowns = QuestieOptionsUtils:Spacer(10),
-                    colorObjectives = {
-                        type = "select",
-                        order = 11,
-                        values = function()
-                            return {
-                                ['white'] = l10n('White'),
-                                ['whiteToGreen'] = l10n('White to Green'),
-                                ['whiteAndGreen'] = l10n('White and Green'),
-                                ['redToGreen'] = l10n('Red to Green'),
-                                ['minimal'] = l10n('Minimalistic')
-                            }
-                        end,
-                        style = 'dropdown',
-                        name = function() return l10n('Objective Color') end,
-                        desc = function() return l10n('Change the color of Objectives in the Questie Tracker by how complete they are.\n\nNOTE: The Minimalistic option will not display the "Blizzard Completion Text" and just label the Quest as either "Quest Complete!" or "Quest Failed!".') end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.trackerColorObjectives end,
-                        set = function(_, key)
-                            Questie.db.profile.trackerColorObjectives = key
-                            QuestieTracker:Update()
-                        end
-                    },
-                    sortObjectives = {
-                        type = "select",
-                        order = 12,
-                        values = function()
-                            return {
-                                ['byComplete'] = l10n('By %% Complete'),
-                                ['byCompleteReversed'] = l10n('By %% Complete (Reversed)'),
-                                ['byLevel'] = l10n('By Level'),
-                                ['byLevelReversed'] = l10n('By Level (Reversed)'),
-                                ['byProximity'] = l10n('By Proximity'),
-                                ['byProximityReversed'] = l10n('By Proximity (Reversed)'),
-                                ['byZone'] = l10n('By Zone'),
-                                ['byZonePlayerProximity'] = l10n('By Zone Prox'),
-                                ['byZonePlayerProximityReversed'] = l10n('By Zone Prox (Reversed)'),
-                            }
-                        end,
-                        style = 'dropdown',
-                        name = function() return l10n('Objective Sorting') end,
-                        desc = function() return l10n('How Objectives are sorted in the Questie Tracker.') end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.trackerSortObjectives end,
-                        set = function(_, key)
-                            Questie.db.profile.trackerSortObjectives = key
-                            QuestieTracker:Update()
-                        end
-                    },
+                    Spacer_Dropdowns = QuestieOptionsUtils:Spacer(5),
                     openQuestLog = {
                         type = "select",
-                        order = 13,
+                        order = 7,
                         values = _GetShortcuts(),
                         style = 'dropdown',
                         name = function()
@@ -305,7 +185,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     },
                     untrackQuest = {
                         type = "select",
-                        order = 14,
+                        order = 8,
                         values = _GetShortcuts(),
                         style = 'dropdown',
                         name = function()
@@ -328,15 +208,15 @@ function QuestieOptions.tabs.tracker:Initialize()
                             Questie.db.profile.trackerbindUntrack = key
                         end
                     },
-                    Spacer_Sliders = QuestieOptionsUtils:Spacer(15),
+                    Spacer_Sliders = QuestieOptionsUtils:Spacer(9),
                     questPadding = {
                         type = "range",
-                        order = 16,
+                        order = 10,
                         name = function() return l10n('Padding Between Quests') end,
                         desc = function() return l10n('The amount of padding between Quests in the Questie Tracker.\n\nNOTE: Changing this setting while in Sizer Manual Mode will reset the Sizer back to Auto Mode') end,
                         width = "double",
                         min = 2,
-                        max = 16,
+                        max = 15,
                         step = 1,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.trackerQuestPadding end,
@@ -351,6 +231,139 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 QuestieTracker:Update()
                             end
                         end
+                    },
+                    group_tracker = {
+                        type = "group",
+                        order = 11,
+                        inline = true,
+                        width = 0.5,
+                        name = function() return l10n('Objectives'); end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        args = {
+                            showCompleteQuests = {
+                                type = "toggle",
+                                order = 1,
+                                width = 1.5,
+                                name = function() return l10n('Show Completed Quests') end,
+                                desc = function() return l10n("When this is checked, completed Quests will show in the Questie Tracker.\n\nNOTE: This setting only works when 'Auto Track Quests' is enabled.") end,
+                                disabled = function() return (not Questie.db.profile.trackerEnabled) or (not Questie.db.profile.autoTrackQuests) end,
+                                get = function() return Questie.db.profile.trackerShowCompleteQuests end,
+                                set = function(_, value)
+                                    Questie.db.profile.trackerShowCompleteQuests = value
+                                    QuestieTracker:Update()
+                                end
+                            },
+                            collapseCompletedQuests = {
+                                type = "toggle",
+                                order = 2,
+                                width = 1.5,
+                                name = function() return l10n('Auto Minimize Completed Quests') end,
+                                desc = function() return l10n('When this is checked, completed Quests will automatically minimize.') end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled end,
+                                get = function() return Questie.db.profile.collapseCompletedQuests end,
+                                set = function(_, value)
+                                    Questie.db.profile.collapseCompletedQuests = value
+                                    if Questie.db.profile.collapseCompletedQuests == false then
+                                        Questie.db.char.collapsedQuests = {}
+                                    end
+                                    QuestieTracker:Update()
+                                end
+                            },
+                            hideCompletedQuestObjectives = {
+                                type = "toggle",
+                                order = 3,
+                                width = 1.5,
+                                name = function() return l10n('Hide Completed Quest Objectives') end,
+                                desc = function() return l10n('When this is checked, completed Quest Objectives will automatically be removed from the Questie Tracker.') end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled end,
+                                get = function() return Questie.db.profile.hideCompletedQuestObjectives end,
+                                set = function(_, value)
+                                    Questie.db.profile.hideCompletedQuestObjectives = value
+                                    QuestieTracker:Update()
+                                end
+                            },
+                            hideCompletedAchieveObjectives = {
+                                type = "toggle",
+                                order = 4,
+                                width = 1.5,
+                                name = function() return l10n('Hide Completed Achieve Objectives') end,
+                                desc = function() return l10n('When this is checked, completed Achievement Objectives will automatically be removed from the Questie Tracker.') end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled end,
+                                hidden = function() return not Questie.IsWotlk end,
+                                get = function() return Questie.db.profile.hideCompletedAchieveObjectives end,
+                                set = function(_, value)
+                                    Questie.db.profile.hideCompletedAchieveObjectives = value
+                                    QuestieTracker:Update()
+                                end
+                            },
+                            Spacer_X = QuestieOptionsUtils:Spacer(5),
+                            colorObjectives = {
+                                type = "select",
+                                order = 6,
+                                values = function()
+                                    return {
+                                        ['white'] = l10n('White'),
+                                        ['whiteToGreen'] = l10n('White to Green'),
+                                        ['whiteAndGreen'] = l10n('White and Green'),
+                                        ['redToGreen'] = l10n('Red to Green'),
+                                        ['minimal'] = l10n('Minimalistic')
+                                    }
+                                end,
+                                style = 'dropdown',
+                                name = function() return l10n('Objective Color') end,
+                                desc = function() return l10n('Change the color of Objectives in the Questie Tracker by how complete they are.\n\nNOTE: The Minimalistic option will not display the "Blizzard Completion Text" and just label the Quest as either "Quest Complete!" or "Quest Failed!".') end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled end,
+                                get = function() return Questie.db.profile.trackerColorObjectives end,
+                                set = function(_, key)
+                                    Questie.db.profile.trackerColorObjectives = key
+                                    QuestieTracker:Update()
+                                end
+                            },
+                            Space_Y = QuestieOptionsUtils:HorizontalSpacer(7, 0.1),
+                            hideBlizzardCompletionText = {
+                                type = "toggle",
+                                order = 8,
+                                width = 1.5,
+                                name = function() return l10n('Hide Blizzard Completion Text') end,
+                                desc = function() return l10n('When this is checked, Blizzard Completion Text will be hidden for completed Quests and instead show the old Questie tags: "Quest Complete!" or "Quest Failed!"') end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled or Questie.db.profile.trackerColorObjectives == "minimal" end,
+                                get = function() return Questie.db.profile.hideBlizzardCompletionText end,
+                                set = function(_, value)
+                                    Questie.db.profile.hideBlizzardCompletionText = value
+                                    if Questie.db.profile.hideBlizzardCompletionText == false then
+                                        Questie.db.char.collapsedQuests = {}
+                                    end
+                                    QuestieTracker:Update()
+                                end
+                            },
+                            Spacer_Z = QuestieOptionsUtils:Spacer(9),
+                            sortObjectives = {
+                                type = "select",
+                                order = 10,
+                                values = function()
+                                    return {
+                                        ['byComplete'] = l10n('By %% Complete'),
+                                        ['byCompleteReversed'] = l10n('By %% Complete (Reversed)'),
+                                        ['byLevel'] = l10n('By Level'),
+                                        ['byLevelReversed'] = l10n('By Level (Reversed)'),
+                                        ['byProximity'] = l10n('By Proximity'),
+                                        ['byProximityReversed'] = l10n('By Proximity (Reversed)'),
+                                        ['byZone'] = l10n('By Zone'),
+                                        ['byZonePlayerProximity'] = l10n('By Zone Prox'),
+                                        ['byZonePlayerProximityReversed'] = l10n('By Zone Prox (Reversed)'),
+                                    }
+                                end,
+                                style = 'dropdown',
+                                name = function() return l10n('Objective Sorting') end,
+                                desc = function() return l10n('How Objectives are sorted in the Questie Tracker.') end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled end,
+                                get = function() return Questie.db.profile.trackerSortObjectives end,
+                                set = function(_, key)
+                                    Questie.db.profile.trackerSortObjectives = key
+                                    QuestieTracker:Update()
+                                end
+                            },
+                        },
                     },
                 }
             },
