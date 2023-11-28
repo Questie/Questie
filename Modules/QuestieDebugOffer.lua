@@ -12,6 +12,7 @@ local QuestLogCache = QuestieLoader:CreateModule("QuestLogCache")
 
 local DebugInformation = {} -- stores text of debug data dump per session
 local Di = 0 -- current debug index, used so we can still retrieve info from previous offers
+local debugOpen = {}
 
 local GetBestMapForUnit = C_Map.GetBestMapForUnit
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition
@@ -22,7 +23,7 @@ local itemLink
 local gameType = ""
 if Questie.IsWotlk then
     gameType = "Wrath"
-elseif Questie.IsSoD then
+elseif Questie.IsSoD then -- seasonal checks must be made before non-seasonal for that client, since IsEra resolves true in SoD
     gameType = "SoD"
 elseif Questie.IsEra then
     gameType = "Era"
@@ -231,7 +232,12 @@ end);
 
 ---@param popupText string --@A string containing the lines of text to be displayed in the popup
 ---@param discordURL string --@A string containing the URL to the Questie Discord
-local function _CreateOfferFrame(popupText, discordURL)
+---@param index integer --@Integer containing the index of the DebugOffer in question
+local function _CreateOfferFrame(popupText, discordURL, index)
+    if debugOpen[index] == true then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - An offer is already open, not creating new frame")
+        return
+    end
     local debugFrame = CreateFrame("Frame", "QuestieDebugOfferFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
     debugFrame:SetPoint("CENTER")
     debugFrame:SetMovable(true)
@@ -266,12 +272,13 @@ local function _CreateOfferFrame(popupText, discordURL)
         self:HighlightText()
     end)
     debugFrame.dataEditBox:SetScript("OnEscapePressed", function()
-        debugFrame:Hide()
+        debugFrame:Hide();
+        debugOpen[index] = false;
     end)
 
     debugFrame.discordText = debugFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     debugFrame.discordText:SetPoint("TOP", debugFrame.dataEditBox, "BOTTOM", 0, -15)
-    debugFrame.discordText:SetText("|cFFAAAAAAPlease screenshot this info\nand share it with us on  |TInterface\\Addons\\Questie\\Icons\\discord.blp:16|t |cFF5765ECDiscord|r")
+    debugFrame.discordText:SetText("|cFFAAAAAAPlease share this info with us on  |TInterface\\Addons\\Questie\\Icons\\discord.blp:16|t |cFF5765ECDiscord|r")
 
     debugFrame.discordLinkEditBox = CreateFrame("EditBox", nil, debugFrame, "InputBoxTemplate")
     debugFrame.discordLinkEditBox:SetSize(200, 20)
@@ -284,7 +291,8 @@ local function _CreateOfferFrame(popupText, discordURL)
     debugFrame.dismissButton:SetPoint("TOP", debugFrame.discordLinkEditBox, "BOTTOM", 0, -10)
     debugFrame.dismissButton:SetText("Dismiss")
     debugFrame.dismissButton:SetScript("OnClick", function()
-        debugFrame:Hide()
+        debugFrame:Hide();
+        debugOpen[index] = false;
     end)
 
     debugFrame:SetBackdrop({
@@ -297,6 +305,7 @@ local function _CreateOfferFrame(popupText, discordURL)
     -- TODO l10n of used strings
     -- TODO Adjust "discordText" to note about copy/pasting the info into Discord
 
+    debugOpen[index] = true
     debugFrame:Show()
 end
 
@@ -315,5 +324,5 @@ function QuestieDebugOffer.ShowOffer(link)
     local i = tonumber(string.sub(link,21))
     local popupText = DebugInformation[i]
 
-    _CreateOfferFrame(popupText, discordURL)
+    _CreateOfferFrame(popupText, discordURL, i)
 end
