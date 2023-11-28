@@ -273,7 +273,7 @@ local function _CreateOfferFrame(popupText, discordURL, index)
     debugFrame.dataEditBox:SetJustifyV("CENTER")
     debugFrame.dataEditBox:SetSize(270, 1) -- Height of a multiline EditBox is automatically adjusted
     debugFrame.dataEditBox:SetFocus()
-    debugFrame.dataEditBox:SetScript("OnTextChanged", function(self)
+    debugFrame.dataEditBox:SetScript("OnCursorChanged", function(self)
         self:SetText(popupText)
         self:HighlightText()
     end)
