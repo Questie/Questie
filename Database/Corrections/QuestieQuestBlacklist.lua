@@ -33,6 +33,7 @@ function QuestieQuestBlacklist:Load()
         [11189] = true, -- Removed
         [13417] = true, -- Duplicate of 12973
         [936] = QuestieCorrections.CLASSIC_ONLY,
+        [535] = QuestieCorrections.WOTLK_ONLY, -- Valik
         [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
@@ -605,6 +606,8 @@ function QuestieQuestBlacklist:Load()
         --- Noblegarden
         [13479] = true,
         [13480] = true,
+        [13483] = true,
+        [13484] = true,
         [13502] = true,
         [13503] = true,
 
@@ -668,10 +671,32 @@ function QuestieQuestBlacklist:Load()
         [13548] = true,
 
         --- Pilgrim's Bounty
-        [13483] = true,
-        [13484] = true,
-        [14036] = true,
         [14022] = true,
+        [14036] = true,
+        [14023] = true,
+        [14024] = true,
+        [14028] = true,
+        [14030] = true,
+        [14033] = true,
+        [14035] = true,
+        [14037] = true,
+        [14040] = true,
+        [14041] = true,
+        [14043] = true,
+        [14044] = true,
+        [14047] = true,
+        [14048] = true,
+        [14051] = true,
+        [14053] = true,
+        [14054] = true,
+        [14055] = true,
+        [14058] = true,
+        [14059] = true,
+        [14060] = true,
+        [14061] = true,
+        [14062] = true,
+        [14064] = true,
+        [14065] = true,
 
         --- Brewfest
         [12193] = true,
@@ -1232,7 +1257,7 @@ function QuestieQuestBlacklist:Load()
         [14032] = true, -- Not in the game
         [13825] = true, -- EXISTS ingame, but can only be picked up if quest 6610 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
         [13826] = true, -- EXISTS ingame, but can only be picked up if quest 6607 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
-        [13843] = true, -- Questie NYI - only available if recipe 55252 is not known but quest 12889 is completed, we can't yet determine recipe knowledge
+        --[13843] = true, -- Questie NYI - only available if recipe 55252 is not known but quest 12889 is completed, we can't yet determine recipe knowledge - fixed
 
         [8367] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
         [8371] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
@@ -1752,7 +1777,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         [14150] = true, --* Blank [PH] (https://www.wowhead.com/wotlk/quest=14150) (Retail Data)
 
         -- Kalimdor -> Orgrimmar (1 -> 1637)
-        [24429] = true, --* A Most Puzzling Circumstance (https://www.wowhead.com/wotlk/quest=24429) (Retail Data)
+        --[24429] = true, --* A Most Puzzling Circumstance (https://www.wowhead.com/wotlk/quest=24429) (Retail Data)
 
         -- Kalimdor -> Darnassus (1 -> 1657)
         --[14409] = true, --* A Cautious Return (https://www.wowhead.com/wotlk/quest=14409) (Retail Data)
@@ -2072,7 +2097,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         [9378] = true, --* DND FLAG The Dread Citadel - Naxxramas (https://www.wowhead.com/wotlk/quest=9378) (Retail Data)
 
         -- Eastern Kingdoms -> Stormwind City (0 -> 1519)
-        [24428] = true, --* A Most Puzzling Circumstance (https://www.wowhead.com/wotlk/quest=24428) (Retail Data)
+        --[24428] = true, --* A Most Puzzling Circumstance (https://www.wowhead.com/wotlk/quest=24428) (Retail Data)
 
         -- World Events -> Childrens Week (9 -> -1002)
         [13929] = true, --* The Biggest Tree Ever! (https://www.wowhead.com/wotlk/quest=13929) (Retail Data)

@@ -50,6 +50,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
+        [176] = {
+            [questKeys.startedBy] = {nil,{68,156561}},
+        },
         [236] = {
             [questKeys.startedBy] = {{31108}},
             [questKeys.finishedBy] = {{31108}},
@@ -57,6 +60,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [403] = {
             [questKeys.startedBy] = {nil,{269}},
+        },
+        [434] = {
+            [questKeys.triggerEnd] = {"Overhear Lescovar and Marzon's Conversation", {[zoneIDs.STORMWIND_CITY]={{72.22,35.37}}}},
         },
         [508] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -138,10 +144,16 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
+        [1716] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [1800] = {
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+        },
+        [1885] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
         [2204] = {
             [questKeys.startedBy] = {nil,{112877}},
@@ -160,6 +172,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [3602] = {
             [questKeys.requiredSourceItems] = {},
+        },
+        [3641] = {
+            [questKeys.preQuestSingle] = {},
         },
         [3763] = {
             [questKeys.startedBy] = {{6735}},
@@ -528,7 +543,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [11300] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill gladiators at the Ring of Judgement until Oluf the Violent appears"), 0, {{"monster", 24213},{"monster", 24214},{"monster", 24215}}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Kill gladiators at the Ring of Judgement until Oluf the Violent appears"), 0, {{"monster", 24213},{"monster", 24214},{"monster", 24215}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Kill Oluf the Violent"), 0, {{"monster", 23931}}}
+            },
         },
         [11301] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Use Grick's Bonesaw on corpses of Deranged Explorers"), 0, {{"monster", 23967}}}},
@@ -739,7 +757,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {11316},
         },
         [11429] = {
-            [questKeys.triggerEnd] = {"Alliance Banner Defended",{[zoneIDs.HOWLING_FJORD]={{64.89,40.03,},},},},
+            [questKeys.objectives] = {nil,{{186863,"Alliance Banner Placed"}},nil,nil,{{{24640},24640,"Alliance Banner Defended"}}},
         },
         [11431] = {
             [questKeys.startedBy] = {{24657}},
@@ -749,6 +767,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Go Harpoon Surfing",{[zoneIDs.HOWLING_FJORD]={{60.08,62.06,},},},},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Go Harpoon Surfing"),0,{{"object",186894}}}},
         },
+        [11448] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Ask McGoyver for a ride to the Explorers' League Outpost"),0,{{"monster",24040}}}},
+        },
         [11452] = {
             [questKeys.startedBy] = {{24018},nil,{34090}},
         },
@@ -756,10 +777,19 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{24018},nil,{34091}},
         },
         [11460] = {
-            [questKeys.triggerEnd] = {"Fjord Rock Falcon Fed",{[zoneIDs.HOWLING_FJORD]={{75.26,64.91,},},},},
+            [questKeys.objectives] = {{{24752,"Fjord Rock Falcon Fed"}}},
+        },
+        [11465] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Send your Trained Rock Falcon after it"), 0, {{"monster", 24746}}}},
         },
         [11466] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Olga"), 0, {{"monster", 24639}}}},
+        },
+        [11468] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Send your Trained Rock Falcon after it"), 0, {{"monster", 24747}}}},
+        },
+        [11470] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Release the Trained Rock Falcon"), 0, {{"object", 190222}}}},
         },
         [11471] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Fight Jonah"), 0, {{"monster", 24742}}}},
@@ -769,14 +799,22 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Lure Reef Bull with Tasty Reef Fish"), 0, {{"monster", 24786}}}},
             [questKeys.reputationReward] = {{1073,500}},
         },
+        [11475] = {
+            [questKeys.preQuestSingle] = {11244},
+        },
         [11478] = {
             [questKeys.exclusiveTo] = {11448},
         },
         [11485] = {
             [questKeys.triggerEnd] = {"Rocket Jump Mastered",{[zoneIDs.HOWLING_FJORD]={{75.08,64.55,},},},},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Work Bench then cast Rocket Jump standing on the rune next to it"),0,{{"object", 186958}}}},
+        },
+        [11489] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Work Bench then cast Collect Data near the blue relic near Gwendolyn's cart"),0,{{"object", 186958}}}},
         },
         [11491] = {
-            [questKeys.triggerEnd] = {"Lebronski Bluffed",{[zoneIDs.HOWLING_FJORD]={{74.8,65.28,},},},},
+            [questKeys.objectives] = {{{24718,"Lebronski Bluffed"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Work Bench then cast Bluff on Lebronski after you've walked on his rug"),0,{{"object", 186958}}}},
         },
         [11495] = {
             [questKeys.triggerEnd] = {"Thundering Cave investigated",{[zoneIDs.HOWLING_FJORD]={{71.5,69.75,},},},},
@@ -1468,6 +1506,9 @@ function QuestieWotlkQuestFixes:Load()
         [12301] = {
             [questKeys.triggerEnd] = {"The Forgotten Redeemed",{[zoneIDs.DRAGONBLIGHT]={{86.86,66.18,},},},},
         },
+        [12307] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [12316] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27500,27550},27550,"Horde killed in Venture Bay"}}},
         },
@@ -1722,9 +1763,15 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {12501,12563},
             [questKeys.childQuests] = {12541,12588,12591,12594},
         },
+        [12588] = {
+            [questKeys.objectives] = {nil,{{190550,"Ancient Dirt Mounds Investigated"}}},
+        },
         [12589] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12523,12525},
+        },
+        [12591] = {
+            [questKeys.objectives] = {nil,{{190555,"Nerubian Tunnels Collapsed"}}},
         },
         [12595] = {
             [questKeys.preQuestSingle] = {},
@@ -1733,6 +1780,9 @@ function QuestieWotlkQuestFixes:Load()
         [12596] = {
             [questKeys.preQuestSingle] = {12740},
             [questKeys.preQuestGroup] = {},
+        },
+        [12598] = {
+            [questKeys.objectives] = {nil,{{190555,"Nerubian Tunnels Sealed"}}},
         },
         [12601] = {
             [questKeys.extraObjectives] = {
@@ -3732,15 +3782,18 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13600] = { -- HUMAN A Worthy Weapon
             [questKeys.preQuestSingle] = {13684,13593},
-            [questKeys.exclusiveTo] = {13603,13616,13699,13742,13747,13758,13753},
+            [questKeys.exclusiveTo] = {13699,13603,13616,13741,13742,13743,13746,13747,13748,13757,13758,13759,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13603] = { -- HUMAN A Blade Fit For A Champion
             [questKeys.preQuestSingle] = {13684,13593},
-            [questKeys.exclusiveTo] = {13600,13616,13699,13741,13746,13757,13752},
+            [questKeys.exclusiveTo] = {13699,13600,13616,13741,13742,13743,13746,13747,13748,13757,13758,13759,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13604] = {
+            [questKeys.startedBy] = {{32867,32927},nil,{45506}},
         },
         [13607] = {
             [questKeys.triggerEnd] = {"Entrance to Celestial Planetarium located",{[zoneIDs.THE_ARCHIVUM]={{60,46.3}},[zoneIDs.ULDUAR]={{-1,-1}}}},
@@ -3748,7 +3801,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13616] = { -- HUMAN The Edge Of Winter
             [questKeys.preQuestSingle] = {13684,13593},
-            [questKeys.exclusiveTo] = {13600,13603,13699,13743,13748,13759,13754},
+            [questKeys.exclusiveTo] = {13699,13600,13603,13741,13742,13743,13746,13747,13748,13757,13758,13759,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -4040,19 +4093,19 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13741] = { -- DWARF A Blade Fit For A Champion
             [questKeys.preQuestSingle] = {13685,13703},
-            [questKeys.exclusiveTo] = {13713,13742,13743,13603,13746,13757,13752},
+            [questKeys.exclusiveTo] = {13713,13600,13603,13616,13742,13743,13746,13747,13748,13757,13758,13759,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13742] = { -- DWARF A Worthy Weapon
             [questKeys.preQuestSingle] = {13685,13703},
-            [questKeys.exclusiveTo] = {13713,13741,13743,13600,13747,13758,13753},
+            [questKeys.exclusiveTo] = {13713,13600,13603,13616,13741,13743,13746,13747,13748,13757,13758,13759,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13743] = { -- DWARF The Edge Of Winter
             [questKeys.preQuestSingle] = {13685,13703},
-            [questKeys.exclusiveTo] = {13713,13741,13742,13616,13748,13759,13754},
+            [questKeys.exclusiveTo] = {13713,13600,13603,13616,13741,13742,13746,13747,13748,13757,13758,13759,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -4069,19 +4122,19 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13746] = { -- GNOME A Blade Fit For A Champion
             [questKeys.preQuestSingle] = {13688,13704},
-            [questKeys.exclusiveTo] = {13723,13747,13748,13603,13741,13757,13752},
+            [questKeys.exclusiveTo] = {13723,13600,13603,13616,13741,13742,13743,13747,13748,13757,13758,13759,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13747] = { -- GNOME A Worthy Weapon
             [questKeys.preQuestSingle] = {13688,13704},
-            [questKeys.exclusiveTo] = {13723,13746,13748,13600,13742,13758,13753},
+            [questKeys.exclusiveTo] = {13723,13600,13603,13616,13741,13742,13743,13746,13748,13757,13758,13759,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13748] = { -- GNOME The Edge Of Winter
             [questKeys.preQuestSingle] = {13688,13704},
-            [questKeys.exclusiveTo] = {13723,13746,13747,13616,13743,13759,13754},
+            [questKeys.exclusiveTo] = {13723,13600,13603,13616,13741,13742,13743,13746,13747,13757,13758,13759,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -4098,19 +4151,19 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13752] = { -- DRAENEI A Blade Fit For A Champion
             [questKeys.preQuestSingle] = {13690,13705},
-            [questKeys.exclusiveTo] = {13724,13753,13754,13603,13741,13746,13757},
+            [questKeys.exclusiveTo] = {13724,13600,13603,13616,13741,13742,13743,13746,13747,13748,13757,13758,13759,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13753] = { -- DRAENEI A Worthy Weapon
             [questKeys.preQuestSingle] = {13690,13705},
-            [questKeys.exclusiveTo] = {13724,13752,13754,13600,13742,13747,13758},
+            [questKeys.exclusiveTo] = {13724,13600,13603,13616,13741,13742,13743,13746,13747,13748,13757,13758,13759,13752,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13754] = { -- DRAENEI The Edge Of Winter
             [questKeys.preQuestSingle] = {13690,13705},
-            [questKeys.exclusiveTo] = {13724,13752,13753,13616,13743,13748,13759},
+            [questKeys.exclusiveTo] = {13724,13600,13603,13616,13741,13742,13743,13746,13747,13748,13757,13758,13759,13752,13753},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -4127,19 +4180,19 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13757] = { -- NIGHT ELF A Blade Fit For A Champion
             [questKeys.preQuestSingle] = {13689,13706},
-            [questKeys.exclusiveTo] = {13725,13758,13759,13603,13741,13746,13752},
+            [questKeys.exclusiveTo] = {13725,13600,13603,13616,13741,13742,13743,13746,13747,13748,13758,13759,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13758] = { -- NIGHT ELF A Worthy Weapon
             [questKeys.preQuestSingle] = {13689,13706},
-            [questKeys.exclusiveTo] = {13725,13757,13759,13600,13742,13747,13753},
+            [questKeys.exclusiveTo] = {13725,13600,13603,13616,13741,13742,13743,13746,13747,13748,13757,13759,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13759] = { -- NIGHT ELF The Edge Of Winter
             [questKeys.preQuestSingle] = {13689,13706},
-            [questKeys.exclusiveTo] = {13725,13757,13758,13616,13743,13748,13754},
+            [questKeys.exclusiveTo] = {13725,13600,13603,13616,13741,13742,13743,13746,13747,13748,13757,13758,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -4156,19 +4209,19 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13762] = { -- ORC A Blade Fit For A Champion
             [questKeys.preQuestSingle] = {13691,13707},
-            [questKeys.exclusiveTo] = {13726,13763,13764,13768,13773,13778,13783},
+            [questKeys.exclusiveTo] = {13726,13763,13764,13768,13769,13770,13773,13774,13775,13778,13779,13780,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13763] = { -- ORC A Worthy Weapon
             [questKeys.preQuestSingle] = {13691,13707},
-            [questKeys.exclusiveTo] = {13726,13762,13764,13769,13774,13779,13784},
+            [questKeys.exclusiveTo] = {13726,13762,13764,13768,13769,13770,13773,13774,13775,13778,13779,13780,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13764] = { -- ORC The Edge Of Winter
             [questKeys.preQuestSingle] = {13691,13707},
-            [questKeys.exclusiveTo] = {13726,13762,13763,13770,13775,13780,13785},
+            [questKeys.exclusiveTo] = {13726,13762,13763,13768,13769,13770,13773,13774,13775,13778,13779,13780,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
@@ -4185,19 +4238,19 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13768] = { -- TROLL A Blade Fit For A Champion
             [questKeys.preQuestSingle] = {13693,13708},
-            [questKeys.exclusiveTo] = {13727,13769,13770,13762,13773,13778,13783},
+            [questKeys.exclusiveTo] = {13727,13762,13763,13764,13769,13770,13773,13774,13775,13778,13779,13780,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13769] = { -- TROLL A Worthy Weapon
             [questKeys.preQuestSingle] = {13693,13708},
-            [questKeys.exclusiveTo] = {13727,13768,13770,13763,13774,13779,13784},
+            [questKeys.exclusiveTo] = {13727,13762,13763,13764,13768,13770,13773,13774,13775,13778,13779,13780,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13770] = { -- TROLL The Edge Of Winter
             [questKeys.preQuestSingle] = {13693,13708},
-            [questKeys.exclusiveTo] = {13727,13768,13769,13764,13775,13780,13785},
+            [questKeys.exclusiveTo] = {13727,13762,13763,13764,13768,13769,13773,13774,13775,13778,13779,13780,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
@@ -4214,19 +4267,19 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13773] = { -- TAUREN A Blade Fit For A Champion
             [questKeys.preQuestSingle] = {13694,13709},
-            [questKeys.exclusiveTo] = {13728,13774,13775,13762,13768,13778,13783},
+            [questKeys.exclusiveTo] = {13728,13762,13763,13764,13768,13769,13770,13774,13775,13778,13779,13780,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13774] = { -- TAUREN A Worthy Weapon
             [questKeys.preQuestSingle] = {13694,13709},
-            [questKeys.exclusiveTo] = {13728,13773,13775,13763,13769,13779,13784},
+            [questKeys.exclusiveTo] = {13728,13762,13763,13764,13768,13769,13770,13773,13775,13778,13779,13780,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13775] = { -- TAUREN The Edge Of Winter
             [questKeys.preQuestSingle] = {13694,13709},
-            [questKeys.exclusiveTo] = {13728,13773,13774,13764,13770,13780,13785},
+            [questKeys.exclusiveTo] = {13728,13762,13763,13764,13768,13769,13770,13773,13774,13778,13779,13780,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
@@ -4243,19 +4296,19 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13778] = { -- UNDEAD A Blade Fit For A Champion
             [questKeys.preQuestSingle] = {13695,13710},
-            [questKeys.exclusiveTo] = {13729,13779,13780,13762,13768,13773,13783},
+            [questKeys.exclusiveTo] = {13729,13762,13763,13764,13768,13769,13770,13773,13774,13775,13779,13780,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13779] = { -- UNDEAD A Worthy Weapon
             [questKeys.preQuestSingle] = {13695,13710},
-            [questKeys.exclusiveTo] = {13729,13778,13780,13763,13769,13774,13784},
+            [questKeys.exclusiveTo] = {13729,13762,13763,13764,13768,13769,13770,13773,13774,13775,13778,13780,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13780] = { -- UNDEAD The Edge Of Winter
             [questKeys.preQuestSingle] = {13695,13710},
-            [questKeys.exclusiveTo] = {13729,13778,13779,13764,13770,13775,13785},
+            [questKeys.exclusiveTo] = {13729,13762,13763,13764,13768,13769,13770,13773,13774,13775,13778,13779,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
@@ -4272,19 +4325,19 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13783] = { -- BLOOD ELF A Blade Fit For A Champion
             [questKeys.preQuestSingle] = {13696,13711},
-            [questKeys.exclusiveTo] = {13731,13784,13785,13762,13768,13773,13778},
+            [questKeys.exclusiveTo] = {13731,13762,13763,13764,13768,13769,13770,13773,13774,13775,13778,13779,13780,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13784] = { -- BLOOD ELF A Worthy Weapon
             [questKeys.preQuestSingle] = {13696,13711},
-            [questKeys.exclusiveTo] = {13731,13783,13785,13763,13769,13774,13779},
+            [questKeys.exclusiveTo] = {13731,13762,13763,13764,13768,13769,13770,13773,13774,13775,13778,13779,13780,13783,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13785] = { -- BLOOD ELF The Edge Of Winter
             [questKeys.preQuestSingle] = {13696,13711},
-            [questKeys.exclusiveTo] = {13731,13783,13784,13764,13770,13775,13780},
+            [questKeys.exclusiveTo] = {13731,13762,13763,13764,13768,13769,13770,13773,13774,13775,13778,13779,13780,13783,13784},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
@@ -4345,6 +4398,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13817] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.startedBy] = {{32867,32927},nil,{45857}},
         },
         [13819] = {
             [questKeys.startedBy] = {{32871},nil,{46053}},
@@ -4409,6 +4463,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{191761}},
             [questKeys.finishedBy] = {nil,{191761}},
             [questKeys.preQuestSingle] = {12889},
+            [questKeys.requiredSpell] = -55252,
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,400},
         },
         [13846] = {
@@ -4587,50 +4642,70 @@ function QuestieWotlkQuestFixes:Load()
         [14023] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14024,
         },
         [14024] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14028,
+            [questKeys.preQuestSingle] = {14023},
         },
         [14028] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14030,
+            [questKeys.preQuestSingle] = {14024},
         },
         [14030] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14033,
+            [questKeys.preQuestSingle] = {14028},
         },
         [14033] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14035,
+            [questKeys.preQuestSingle] = {14030},
         },
         [14035] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.preQuestSingle] = {14033},
         },
         [14037] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14040,
         },
         [14040] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14041,
+            [questKeys.preQuestSingle] = {14037},
         },
         [14041] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14043,
+            [questKeys.preQuestSingle] = {14040},
         },
         [14043] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14044,
+            [questKeys.preQuestSingle] = {14041},
         },
         [14044] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.nextQuestInChain] = 14047,
+            [questKeys.preQuestSingle] = {14043},
         },
         [14047] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
+            [questKeys.preQuestSingle] = {14044},
         },
         [14048] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5066,6 +5141,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 60,
             [questKeys.exclusiveTo] = {24223,24224},
         },
+        [24428] = {
+            [questKeys.startedBy] = {{10184},nil,{49644}},
+        },
+        [24429] = {
+            [questKeys.startedBy] = {{10184},nil,{49643}},
+        },
         [24431] = {
             [questKeys.specialFlags] = 1,
         },
@@ -5075,6 +5156,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24541] = {
             [questKeys.sourceItemId] = 49867,
+        },
+        [24547] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}}, Questie.ICON_TYPE_SLAY, l10n("Slay 1000 enemies in Icecrown Citadel while Shadow's Edge is equipped"), 0}},
         },
         [24579] = {
             [questKeys.exclusiveTo] = {24580,24581,24582,24583,24584,24585,24586,24587,24588,24589,24590},
@@ -5265,6 +5349,20 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24662, 24663, 24664, 24665},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400057}}}},
         },
+        [24748] = {
+            [questKeys.startedBy] = {{37120}},
+            [questKeys.finishedBy] = {{37120}},
+            [questKeys.preQuestSingle] = {24549},
+        },
+        [24749] = {
+            [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Unholy power then slay Putricide.", {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{13.4,53.4}}}},
+        },
+        [24756] = {
+            [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Blood then defeat Lana'thel.", {[zoneIDs.ICECROWN_CITADEL_QUEEN_LANA_THEL]={{51.3,44.1}}}},
+        },
+        [24757] = {
+            [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Frost then slay Sindragosa.", {[zoneIDs.ICECROWN_CITADEL_SINDRAGOSA]={{36.7,23.1}}}},
+        },
         [24792] = {
             [questKeys.preQuestSingle] = {24657},
         },
@@ -5366,6 +5464,14 @@ function QuestieWotlkQuestFixes:Load()
         [24880] = {
             [questKeys.startedBy] = {{38589}},
             [questKeys.finishedBy] = {{38017}},
+        },
+        [24914] = {
+            [questKeys.preQuestSingle] = {24549},
+        },
+        [24915] = {
+            [questKeys.startedBy] = {{37120}},
+            [questKeys.finishedBy] = {{37120}},
+            [questKeys.preQuestSingle] = {24549},
         },
 
         ----- Boosted character quests -----
@@ -5569,6 +5675,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{1090,75}},
         },
         [78753] = {
             [questKeys.name] = "Proof of Demise: Threats to Azeroth",
@@ -5582,6 +5689,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{1090,75}},
         },
     }
 end

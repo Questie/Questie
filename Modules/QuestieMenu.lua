@@ -113,7 +113,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
                     if (not _spawned[id]) then
                         local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
                         if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and (not QuestieCorrections.questNPCBlacklist[id]) then
-                            QuestieMap:ShowNPC(id, icon, 1.2, Questie:Colorize(QuestieDB.QueryNPCSingle(id, "name") or ("Missing NPC name for " .. tostring(id)), "white") .. " (" .. (QuestieDB.QueryNPCSingle(id, "subName") or l10n(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key, true)
+                            QuestieMap:ShowNPC(id, icon, 1.2, Questie:Colorize(QuestieDB.QueryNPCSingle(id, "name") or ("Missing NPC name for " .. tostring(id)), "white") .. " (" .. (QuestieDB.QueryNPCSingle(id, "subName") or l10n(tostring(key)) or key) .. ")", {}, true, key, true)
                             _spawned[id] = true
                         end
                     end
@@ -211,63 +211,67 @@ local secondaryProfessions = {
     [QuestieProfessions.professionKeys.FISHING] = true
 }
 
-function QuestieMenu:Show()
+function QuestieMenu.buildProfessionMenu()
+    local profMenu = {}
+    local profMenuSorted = {}
+    local secondaryProfMenuSorted = {}
+    local profMenuData = {}
+    for key, _ in pairs(Questie.db.global.professionTrainers) do
+        local localizedKey = l10n(QuestieProfessions:GetProfessionName(key))
+        profMenuData[localizedKey] = buildLocalized(key, localizedKey)
+        if secondaryProfessions[key] then
+            tinsert(secondaryProfMenuSorted, localizedKey)
+        else
+            tinsert(profMenuSorted, localizedKey)
+        end
+    end
+    table.sort(profMenuSorted)
+    table.sort(secondaryProfMenuSorted)
+    for _, key in pairs(profMenuSorted) do
+        tinsert(profMenu, profMenuData[key])
+    end
+    tinsert(profMenu, div)
+    for _, key in pairs(secondaryProfMenuSorted) do
+        tinsert(profMenu, profMenuData[key])
+    end
+    return profMenu
+end
+
+function QuestieMenu.buildVendorMenu()
+    local vendorMenu = {}
+    local vendorMenuSorted = {}
+    local vendorMenuData = {}
+    for key, _ in pairs(Questie.db.char.vendorList) do
+        local localizedKey = l10n(tostring(key))
+        vendorMenuData[localizedKey] = build(key)
+        tinsert(vendorMenuSorted, localizedKey)
+    end
+    table.sort(vendorMenuSorted)
+    for _, key in pairs(vendorMenuSorted) do
+        tinsert(vendorMenu, vendorMenuData[key])
+    end
+    return vendorMenu
+end
+
+function QuestieMenu.buildTownsfolkMenu()
+    local townsfolkMenu = {}
+    for key in pairs(Questie.db.global.townsfolk) do
+        tinsert(townsfolkMenu, build(key))
+    end
+    for key in pairs(Questie.db.char.townsfolk) do
+        tinsert(townsfolkMenu, build(key))
+    end
+    return townsfolkMenu
+end
+
+function QuestieMenu:Show(hideDelay)
     if not Questie.db.profile.townsfolkConfig then
         Questie.db.profile.townsfolkConfig = {}
     end
     if not QuestieMenu.menu then
         QuestieMenu.menu = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrame", UIParent)
     end
-    local menuTable = {}
-    for key in pairs(Questie.db.global.townsfolk) do
-        tinsert(menuTable, build(key))
-    end
-    for key in pairs(Questie.db.char.townsfolk) do
-        tinsert(menuTable, build(key))
-    end
-
-    local function buildProfessionMenu()
-        local profMenu = {}
-        local profMenuSorted = {}
-        local secondaryProfMenuSorted = {}
-        local profMenuData = {}
-        for key, _ in pairs(Questie.db.global.professionTrainers) do
-            local localizedKey = l10n(QuestieProfessions:GetProfessionName(key))
-            profMenuData[localizedKey] = buildLocalized(key, localizedKey)
-            if secondaryProfessions[key] then
-                tinsert(secondaryProfMenuSorted, localizedKey)
-            else
-                tinsert(profMenuSorted, localizedKey)
-            end
-        end
-        table.sort(profMenuSorted)
-        table.sort(secondaryProfMenuSorted)
-        for _, key in pairs(profMenuSorted) do
-            tinsert(profMenu, profMenuData[key])
-        end
-        tinsert(profMenu, div)
-        for _, key in pairs(secondaryProfMenuSorted) do
-            tinsert(profMenu, profMenuData[key])
-        end
-        return profMenu
-    end
-
-    local function buildVendorMenu()
-        local vendorMenu = {}
-        local vendorMenuSorted = {}
-        local vendorMenuData = {}
-        for key, _ in pairs(Questie.db.char.vendorList) do
-            local localizedKey = l10n(tostring(key))
-            vendorMenuData[localizedKey] = build(key)
-            tinsert(vendorMenuSorted, localizedKey)
-        end
-        table.sort(vendorMenuSorted)
-        for _, key in pairs(vendorMenuSorted) do
-            tinsert(vendorMenu, vendorMenuData[key])
-        end
-        return vendorMenu
-    end
-
+    local menuTable = QuestieMenu.buildTownsfolkMenu()
     tinsert(menuTable, { text= l10n("Available Quest"), func = function()
         local value = not Questie.db.profile.enableAvailable
         Questie.db.profile.enableAvailable = value
@@ -289,8 +293,8 @@ function QuestieMenu:Show()
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
     end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=Questie.db.profile.enableObjectives, isNotRadio=true, keepShownOnClick=true})
-    tinsert(menuTable, {text= l10n("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildProfessionMenu(), notCheckable=true})
-    tinsert(menuTable, {text= l10n("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildVendorMenu(), notCheckable=true})
+    tinsert(menuTable, {text= l10n("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=QuestieMenu.buildProfessionMenu(), notCheckable=true})
+    tinsert(menuTable, {text= l10n("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=QuestieMenu.buildVendorMenu(), notCheckable=true})
 
     tinsert(menuTable, div)
 
@@ -315,7 +319,43 @@ function QuestieMenu:Show()
     end
 
     tinsert(menuTable, {text= l10n('Cancel'), func=function() end})
-    LibDropDown:EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, 0, "MENU")
+    LibDropDown:EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, -15, "MENU", hideDelay or 2)
+end
+
+function QuestieMenu:ShowTownsfolk(hideDelay)
+    if not Questie.db.profile.townsfolkConfig then
+        Questie.db.profile.townsfolkConfig = {}
+    end
+    if not QuestieMenu.menuTowns then
+        QuestieMenu.menuTowns = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrameTownsfolk", UIParent)
+    end
+    local menuTable = QuestieMenu.buildTownsfolkMenu()
+    tinsert(menuTable, {text= l10n('Cancel'), func=function() end})
+    LibDropDown:EasyMenu(menuTable, QuestieMenu.menuTowns, "cursor", -80, -15, "MENU", hideDelay)
+end
+
+function QuestieMenu:ShowProfessions(hideDelay)
+    if not Questie.db.profile.townsfolkConfig then
+        Questie.db.profile.townsfolkConfig = {}
+    end
+    if not QuestieMenu.menuProfs then
+        QuestieMenu.menuProfs = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrameProfs", UIParent)
+    end
+    local menuTable = QuestieMenu.buildProfessionMenu()
+    tinsert(menuTable, {text= l10n('Cancel'), func=function() end})
+    LibDropDown:EasyMenu(menuTable, QuestieMenu.menuProfs, "cursor", -75, -15, "MENU", hideDelay)
+end
+
+function QuestieMenu:ShowVendors(hideDelay)
+    if not Questie.db.profile.townsfolkConfig then
+        Questie.db.profile.townsfolkConfig = {}
+    end
+    if not QuestieMenu.menuVendors then
+        QuestieMenu.menuVendors = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrameVendors", UIParent)
+    end
+    local menuTable = QuestieMenu.buildVendorMenu()
+    tinsert(menuTable, {text= l10n('Cancel'), func=function() end})
+    LibDropDown:EasyMenu(menuTable, QuestieMenu.menuVendors, "cursor", -60, -15, "MENU", hideDelay)
 end
 
 local function _reformatVendors(lst, existingTable)

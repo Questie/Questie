@@ -12,14 +12,26 @@ WAGO_METADATA=$(cat <<-EOF
    "stability": "stable",
    "changelog": $CHANGELOG,
    "supported_wotlk_patch": "3.4.3",
-   "supported_classic_patch": "1.14.4"
+   "supported_classic_patch": "1.15.0"
 }
 EOF
 )
 
-curl -sS \
+response=$(curl -sS \
+    -o response.txt \
+    -w "%{http_code}" \
     -H "authorization: Bearer $WAGO_API_TOKEN" \
     -H "accept: application/json" \
     -F "metadata=$WAGO_METADATA" \
     -F "file=@releases/$LATEST_GIT_TAG/Questie-$LATEST_GIT_TAG.zip" \
-    "https://addons.wago.io/api/projects/qv634BKb/version"
+    "https://addons.wago.io/api/projects/qv634BKb/version")
+
+http_status=$(echo "$response" | tail -n1)
+
+if [ "$http_status" -eq 201 ]; then
+  echo "Wago upload successful"
+else
+  echo "Wago upload failed, HTTP-code: $http_status"
+  cat response.txt
+  exit 1
+fi

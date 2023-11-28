@@ -15,7 +15,7 @@ function QuestieOptions.tabs.auto:Initialize()
     return {
         name = function() return l10n('Auto'); end,
         type = "group",
-        order = 15.1,
+        order = 4,
         childGroups = "tab",
         args = {
             autoModifier = {

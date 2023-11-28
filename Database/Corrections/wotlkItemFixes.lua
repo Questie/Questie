@@ -154,9 +154,6 @@ function QuestieWotlkItemFixes:Load()
         [33355] = {
             [itemKeys.npcDrops] = {},
         },
-        [33545] = {
-            [itemKeys.npcDrops] = {23931},
-        },
         [33558] = {
             [itemKeys.npcDrops] = {23967},
         },
@@ -172,6 +169,9 @@ function QuestieWotlkItemFixes:Load()
         [34076] = {
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [34112] = {
+            [itemKeys.npcDrops] = {24746},
+        },
         [34115] = {
             [itemKeys.npcDrops] = {24539},
         },
@@ -180,6 +180,9 @@ function QuestieWotlkItemFixes:Load()
         },
         [34118] = {
             [itemKeys.objectDrops] = {186944},
+        },
+        [34120] = {
+            [itemKeys.npcDrops] = {24747},
         },
         [34123] = {
             [itemKeys.objectDrops] = {186946},
@@ -528,6 +531,9 @@ function QuestieWotlkItemFixes:Load()
         [45817] = {
             [itemKeys.objectDrops] = {194314},
         },
+        [45857] = {
+            [itemKeys.npcDrops] = {32867,32927},
+        },
         [45897] = {
             [itemKeys.npcDrops] = {33288},
         },
@@ -553,6 +559,16 @@ function QuestieWotlkItemFixes:Load()
         },
         [50231] = {
             [itemKeys.npcDrops] = {36627},
+        },
+        [50274] = {
+            [itemKeys.npcDrops] = {36612,36855,36626,36627,36678,37970,37955,36853,36597},
+            [itemKeys.objectDrops] = {201873,202239,201959},
+        },
+        [51315] = {
+            [itemKeys.npcDrops] = {36597},
+        },
+        [51317] = {
+            [itemKeys.npcDrops] = {36597},
         },
 
         -- Boost quest items

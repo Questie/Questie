@@ -16,7 +16,7 @@ function QuestieOptions.tabs.tooltip:Initialize()
             tooltip_options = {
                 type = "header",
                 order = 1,
-                name = function() return l10n('Tooltip options'); end,
+                name = function() return l10n('Tooltip Options'); end,
             },
             enableTooltipsToggle = {
                 type = "toggle",

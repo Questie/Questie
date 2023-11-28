@@ -138,6 +138,7 @@ function QuestieOptionsDefaults:Load()
             objectiveCompleteSoundChoiceName = "ObjectiveDefault",
             soundOnObjectiveProgress = false,
             objectiveProgressSoundChoiceName = "ObjectiveProgress",
+            iconTheme = "questie",
 
             minimap = {
                 hide = false
@@ -146,7 +147,20 @@ function QuestieOptionsDefaults:Load()
             TrackerWidth = 0,
             TrackerHeight = 0,
 
-            townsfolkConfig = {},
+            townsfolkConfig = {
+                ["Repair"] = false,
+                ["Innkeeper"] = true,
+                ["Class Trainer"] = false,
+                ["Banker"] = false,
+                ["Spirit Healer"] = false,
+                ["Flight Master"] = true,
+                ["Battlemaster"] = false,
+                ["Weapon Master"] = false,
+                ["Mailbox"] = true,
+                ["Auctioneer"] = false,
+                ["Meeting Stones"] = true,
+                ["Reagents"] = false,
+            },
 
             -- Migration
             migrationVersion = 0,

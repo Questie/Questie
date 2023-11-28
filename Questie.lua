@@ -42,12 +42,11 @@ function Questie:OnDisable()
     end
 end
 
-function Questie:RefreshConfig(db, profile)
-    -- TODO: Migration here?
+function Questie:RefreshConfig(_, db, profileName)
     Questie:SetIcons()
     QuestieQuest:SmoothReset()
     TrackerBaseFrame:OnProfileChange()
-    print("Switched Profile!")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Switched Ace Profile!")
 end
 
 --- Colorize a string with a color code

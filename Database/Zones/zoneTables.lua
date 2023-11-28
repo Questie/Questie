@@ -181,6 +181,8 @@ ZoneDB.private.areaIdToUiMapId = {
     [4820] = 185, -- Halls of Reflection - Dungeon
     [4821] = 135, -- Utgarde Keep - Upper Level (fake ID for Utgarde Keep)
     [4830] = 190, -- Icecrown Citadel - Upper Spire (fake ID for ICC)
+    [4831] = 191, -- Icecrown Citadel - Upper Spire (fake ID for ICC)
+    [4832] = 189, -- Icecrown Citadel - Sindragosa (fake ID for ICC)
     [4987] = 200, -- The Ruby Sanctum - Raid
     --- These should not be needed from my limited testing
     -- [14284] = 114, -- Borean Tundra - Battleground
@@ -432,9 +434,9 @@ ZoneDB.private.uiMapIdToAreaId = {
     [186] = 4812, -- Icecrown Citadel - Raid
     [187] = 4812, -- Icecrown Citadel - Raid
     [188] = 4812, -- Icecrown Citadel - Raid
-    [189] = 4812, -- Icecrown Citadel - Raid
+    [189] = 4832, -- Icecrown Citadel - Sindragosa (fake ID for ICC)
     [190] = 4830, -- Icecrown Citadel - Uppe Spire (fake ID for ICC)
-    [191] = 4812, -- Icecrown Citadel - Raid
+    [191] = 4831, -- Icecrown Citadel - Queen Lana'thel (fake ID for ICC)
     [192] = 4812, -- Icecrown Citadel - Raid
     [193] = 4812, -- Icecrown Citadel - Raid
     [184] = 4813, -- Pit of Saron - Dungeon
@@ -518,15 +520,15 @@ ZoneDB.private.dungeons = {
 --- {"name", alternative areaId (a sub zone), parentId}
 ---@type table<AreaId, { [1]: Name, [2]: AreaId, [3]: AreaId }>
 ZoneDB.private.dungeonLocations = {
-    [206] = {{495, 57.3, 46.8}},
+    [206] = {{495, 58.8, 48.3}},
     [209] = {{130, 45, 68.7}},
     [491] = {{17, 42.3, 89.9}},
     [717] = {(Questie.IsWotlk and {1519, 52.4, 70}) or {1519, 40.5, 55.9}},
     [718] = {{17, 46, 36.5}},
-    [719] = {{331, 14.1, 14.4}},
+    [719] = {{331, 14.5, 14.2}},
     [721] = {{1, 24.4, 39.8}},
     [722] = {{17, 50.8, 92.8}},
-    [796] = {{85, 83, 34}},
+    [796] = {{85, 82.6, 33.8}},
     [1176] = {{440, 38.7, 20.1}},
     [1196] = {{495, 57.3, 46.8}},
     [1337] = {{3, 44.4, 12.2}, {3, 65.2, 43.5}},
@@ -540,7 +542,7 @@ ZoneDB.private.dungeonLocations = {
     [2017] = {{139, 27.2, 15.5}, {139, 43.5, 19.5}},
     [2057] = {{28, 69.7, 73.2}},
     [2100] = {{405, 29.5, 62.5}},
-    [2159] = {{15, 52.4, 76.4}},
+    [2159] = {{15, 52.6, 76.8}},
     [2257] = {Questie.IsWotlk and {1519, 72, 28} or {1519, 67.6, 4.1}, {1537, 84.1, 53.1}},
     [2366] = {{440, 65.7, 49.8}},
     [2367] = {{440, 65.7, 49.8}},
@@ -604,16 +606,17 @@ ZoneDB.private.dungeonLocations = {
 -- [dungeonZone] = parentZone
 ---@type table<AreaId, AreaId>
 ZoneDB.private.dungeonParentZones = {
-    [236] = 209,
-    [1717] = 491,
-    [2797] = 719,
     [133] = 721,
-    [1316] = 722,
+    [236] = 209,
     [978] = 1176,
-    [1517] = 1337,
+    [1316] = 722,
     [1417] = 1477,
+    [1517] = 1337,
+    [1585] = 1584,
+    [1717] = 491,
     [2279] = 2017,
     [2577] = 2557,
+    [2797] = 719,
 }
 
 --? If you want to add something overwrite the data after the table
@@ -2723,6 +2726,8 @@ ZoneDB.private.subZoneToParentZone = {
   [4824] = 4416, -- Gundrak - Upper Level (fake ID for Gundrak)
   [4825] = 4416, -- Gundrak - Lower Level (fake ID for Gundrak)
   [4830] = 4812, -- Upper Spire -> Icecrown Citadel (fake ID for ICC)
+  [4831] = 4812, -- Blood Queen Lana'thel -> Icecrown Citadel (fake ID for ICC)
+  [4832] = 4812, -- Sindragosa -> Icecrown Citadel (fake ID for ICC)
   [4859] = 4896, -- The Frozen Throne -> The Frozen Throne
   [4862] = 210, -- The Frozen Halls -> Icecrown
   [4889] = 4893, -- The Frost Queen's Lair -> The Frost Queen's Lair
@@ -2939,7 +2944,9 @@ ZoneDB.private.zoneIDs = {
     HROTHGARS_LANDING = 4742,
     ICECROWN_CITADEL = 4812,
     -- Fake IDS for ICC
+    ICECROWN_CITADEL_SINDRAGOSA = 4832, -- UiMapID 189
     ICECROWN_CITADEL_UPPER_SPIRE = 4830, -- UiMapID 190
+    ICECROWN_CITADEL_QUEEN_LANA_THEL = 4831, -- UiMapID 191
     -- Fake IDs for Ulduar
     THE_DESCENT_OF_MADNESS = 4659,
     THE_SPARK_OF_IMAGINATION = 4660,
