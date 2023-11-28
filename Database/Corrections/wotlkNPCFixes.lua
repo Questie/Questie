@@ -124,6 +124,10 @@ function QuestieWotlkNpcFixes:Load()
             [zoneIDs.DALARAN]={{48.96,44.53},{49.35,43.57},{49.78,44.62}},
             [zoneIDs.SHATTRATH_CITY]={{53.51,34.4},{53.32,35.34},{52.88,34.63}}},
         },
+        [15989] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.NAXXRAMAS,
+        },
         [16226] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{74.46,52.15}}},
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
@@ -189,7 +193,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
         [23931] = {
-            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55,57.6}}},
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{54.93,57.47}}},
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
         [23953] = {
@@ -290,15 +294,15 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.factionID] = 1064,
         },
         [24213] = {
-            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.00,57.43}}},
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.08,57.53}}},
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
         [24214] = {
-            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.00,57.43}}},
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.08,57.53}}},
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
         [24215] = {
-            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.00,57.43}}},
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.08,57.53}}},
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
         [24234] = { --"Junat the Wanderer"
@@ -344,6 +348,10 @@ function QuestieWotlkNpcFixes:Load()
         [24527] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{48.16,27.53}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [24640] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{65.01,39.94}}},
+            [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
         [24657] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{45.01,17.41}}},
@@ -1339,6 +1347,18 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questStarts] = {13500},
             [npcKeys.questEnds] = {13500},
         },
+        [32867] = {
+            [npcKeys.spawns] = {[zoneIDs.ULDUAR]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ULDUAR,
+        },
+        [32871] = {
+            [npcKeys.spawns] = {[zoneIDs.ULDUAR]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ULDUAR,
+        },
+        [32927] = {
+            [npcKeys.spawns] = {[zoneIDs.ULDUAR]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ULDUAR,
+        },
         [33220] = {
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{61.76,48.88}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
@@ -1410,7 +1430,7 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.ZANGARMARSH]={{67.85,51.08}},
                 [zoneIDs.BLADES_EDGE_MOUNTAINS]={{37.81,61.83}},
                 [zoneIDs.NETHERSTORM]={{34.01,64.32}},
-                [zoneIDs.HELLFIRE_PENINSULA]={{55.12,64.39}},
+                [zoneIDs.HELLFIRE_PENINSULA]={{55.12,63.39}},
                 [zoneIDs.THE_EXODAR]={{76.16,53.3}},
                 [zoneIDs.AZUREMYST_ISLE]={{51.53,52.05}},
                 [zoneIDs.BLOODMYST_ISLE]={{55.82,58.68}},

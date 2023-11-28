@@ -512,6 +512,9 @@ function QuestieTBCQuestFixes:Load()
         [8122] = {
             [questKeys.triggerEnd] = {"Hold Five Bases in Arathi Basin", {[zoneIDs.ARATHI_HIGHLANDS]={{73.2,30}}}},
         },
+        [8183] = {
+            [questKeys.startedBy] = {{15069},nil,{19802}},
+        },
         [8259] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
@@ -2412,7 +2415,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10942},
         },
         [10946] = {
-            [questKeys.triggerEnd] = {"Ruse of the Ashtongue", {[zoneIDs.NETHERSTORM]={{73.88,63.76}}}},
+            [questKeys.objectives] = {{{19514,"Ruse of the Ashtongue"}}},
         },
         [10950] = {
             [questKeys.questLevel] = -1,
@@ -2557,6 +2560,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11003] = {
             [questKeys.startedBy] = {{17257},nil,{33102,},},
+        },
+        [11007] = {
+            [questKeys.startedBy] = {{19622},nil,{32405}},
         },
         [11010] = {
             [questKeys.requiredClasses] = classIDs.WARLOCK + classIDs.ROGUE + classIDs.MAGE + classIDs.PRIEST + classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.SHAMAN,

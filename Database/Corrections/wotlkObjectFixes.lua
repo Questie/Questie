@@ -24,6 +24,10 @@ function QuestieWotlkObjectFixes:Load()
         [186419] = {
             [objectKeys.questStarts] = {4127},
         },
+        [186640] = {
+            [objectKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{54.93,57.47}}},
+            [objectKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
         [187674] = {
             [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{43,56.3},{43.1,56.8},{43.6,57.3},},},
             [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
@@ -249,6 +253,14 @@ function QuestieWotlkObjectFixes:Load()
         [194555] = {
             [objectKeys.spawns] = {[zoneIDs.THE_ARCHIVUM]={{15.6,90.3}},[zoneIDs.ULDUAR]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_ARCHIVUM,
+        },
+        [194821] = {
+            [objectKeys.spawns] = {[zoneIDs.ULDUAR]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.ULDUAR,
+        },
+        [194822] = {
+            [objectKeys.spawns] = {[zoneIDs.ULDUAR]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.ULDUAR,
         },
         [194957] = {
             [objectKeys.spawns] = {[zoneIDs.THE_SPARK_OF_IMAGINATION]={{43.7,40.9}},[zoneIDs.ULDUAR]={{-1,-1}}},

@@ -285,6 +285,11 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
         end)
     end
 
+    if Questie.IsSoD then
+        print("|cffffde7f" .. l10n("Welcome to Season of Discovery! Questie is being continuously updated with the new quests from this season, but it will take time. Be sure to update frequently to minimize errors.") .. "|r")
+        print("|cffffde7f" .. l10n("While playing Season of Discovery, Questie will notify you if it encounters a quest it doesn't yet know about. Please share this info with us on Discord or GitHub!") .. "|r")
+    end
+
     coYield()
     QuestieMenu:OnLogin()
 

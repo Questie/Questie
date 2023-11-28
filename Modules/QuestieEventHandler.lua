@@ -41,6 +41,8 @@ local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 ---@type QuestgiverFrame
 local QuestgiverFrame = QuestieLoader:ImportModule("QuestgiverFrame")
+---@type QuestieDebugOffer
+local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
@@ -79,7 +81,10 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("QUEST_FINISHED", QuestieAuto.QUEST_FINISHED)
     Questie:RegisterEvent("QUEST_ACCEPTED", QuestieAuto.QUEST_ACCEPTED)
-    Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL) -- When the quest is presented!
+    Questie:RegisterEvent("QUEST_DETAIL", function(...) -- When the quest is presented!
+        QuestieAuto.QUEST_DETAIL(...)
+        QuestieDebugOffer.QuestDialog(...)
+    end)
     Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
     Questie:RegisterEvent("GOSSIP_SHOW", function(...)
         QuestieAuto.GOSSIP_SHOW(...)
@@ -91,7 +96,10 @@ function QuestieEventHandler:RegisterLateEvents()
     end)
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
     Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED)               -- Called twice when the stopping to talk to an NPC
-    Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE)             -- When complete window shows
+    Questie:RegisterEvent("QUEST_COMPLETE", function(...)                           -- When complete window shows
+        QuestieAuto.QUEST_COMPLETE(...)
+        QuestieDebugOffer.QuestDialog(...)
+    end)
 
     -- UI Achievement Events
     if Questie.IsWotlk then
@@ -160,6 +168,11 @@ function QuestieEventHandler:RegisterLateEvents()
         end)
     end
 
+    -- Questie Debug Offer
+    if Questie.IsSoD then
+        Questie:RegisterEvent("LOOT_OPENED", QuestieDebugOffer.LootWindow)
+    end
+
     -- Questie Comms Events
 
     -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
@@ -170,7 +183,10 @@ function QuestieEventHandler:RegisterLateEvents()
     -- Nameplate / Target Frame Objective Events
     Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated)
     Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed)
-    Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
+    Questie:RegisterEvent("PLAYER_TARGET_CHANGED", function(...)
+        QuestieNameplate.DrawTargetFrame()
+        QuestieDebugOffer.NPCTarget()
+    end)
 
     -- quest announce
     Questie:RegisterEvent("CHAT_MSG_LOOT", function(_, text, notPlayerName, _, _, playerName)

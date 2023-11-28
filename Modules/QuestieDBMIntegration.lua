@@ -36,7 +36,8 @@ local function AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
                 icon == Questie.ICON_TYPE_PVPQUEST or
                 icon == Questie.ICON_TYPE_PVPQUEST_COMPLETE or
                 icon == Questie.ICON_TYPE_REPEATABLE or
-                icon == Questie.ICON_TYPE_REPEATABLE_COMPLETE) or
+                icon == Questie.ICON_TYPE_REPEATABLE_COMPLETE or
+                icon == Questie.ICON_TYPE_SODRUNE) or
             not Questie.db.profile.dbmHUDShowInteract and icon == Questie.ICON_TYPE_OBJECT or
             not Questie.db.profile.dbmHUDShowLoot and icon == Questie.ICON_TYPE_LOOT then
             return

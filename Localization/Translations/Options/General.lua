@@ -602,6 +602,30 @@ local generalOptionsLocales = {
         ["esES"] = "Activar descripciones emergentes del mundo",
         ["frFR"] = false,
     },
+    ["Welcome to Season of Discovery! Questie is being continuously updated with the new quests from this season, but it will take time. Be sure to update frequently to minimize errors."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Willkommen zur Season der Entdeckung! Questie wird kontinuierlich mit den neuen Quests dieser Saison aktualisiert, aber es wird einige Zeit dauern. Stell sicher, dass du häufig aktualisierst, um Fehler zu minimieren.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ["While playing Season of Discovery, Questie will notify you if it encounters a quest it doesn't yet know about. Please share this info with us on Discord or GitHub!"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Während du Season der Entdeckung spielst, wird Questie dich benachrichtigen, wenn es auf eine Quest stößt, die es noch nicht kennt. Bitte teile diese Informationen mit uns auf Discord oder GitHub!",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(generalOptionsLocales) do

@@ -52,7 +52,9 @@ end
 
 ---@param quest Quest
 local function _GetQuestIcon(quest)
-    if QuestieDB.IsActiveEventQuest(quest.Id) then
+    if Questie.IsSoD == true and QuestieDB.IsSoDRuneQuest(quest.Id) then
+        return Questie.ICON_TYPE_SODRUNE
+    elseif QuestieDB.IsActiveEventQuest(quest.Id) then
         return Questie.ICON_TYPE_EVENTQUEST
     end
     if QuestieDB.IsPvPQuest(quest.Id) then

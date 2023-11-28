@@ -175,7 +175,7 @@ function TrackerHeaderFrame.Initialize(baseFrame)
 
     headerFrame.trackedQuests = trackedQuests
 
-    if Questie.db.profile.trackerHeaderEnabled then
+    if Questie.db.profile.trackerHeaderEnabled or (not QuestieTracker:HasQuest()) then
         headerFrame:SetSize(1, Questie.db.profile.trackerFontSizeHeader) -- Width is updated later on
     else
         headerFrame:SetSize(1, 1)
@@ -194,7 +194,7 @@ function TrackerHeaderFrame:Update()
     local trackerFontSizeHeader = Questie.db.profile.trackerFontSizeHeader
     local trackerFontSizeZone = Questie.db.profile.trackerFontSizeZone
 
-    if Questie.db.profile.trackerHeaderEnabled then
+    if Questie.db.profile.trackerHeaderEnabled or (not QuestieTracker:HasQuest()) then
         headerFrame:ClearAllPoints()
         headerFrame.questieIcon.texture:SetWidth(trackerFontSizeHeader)
         headerFrame.questieIcon.texture:SetHeight(trackerFontSizeHeader)
@@ -243,7 +243,7 @@ function TrackerHeaderFrame:Update()
 
         local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
 
-        if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") and Questie.db.profile.autoMoveHeader then
+        if Questie.db.profile.moveHeaderToBottom then
             headerFrame.questieIcon:SetPoint("BOTTOMRIGHT", trackerBaseFrame, "BOTTOMRIGHT", -4, 8)
         else
             headerFrame.questieIcon:SetPoint("TOPRIGHT", trackerBaseFrame, "TOPRIGHT", -4, -8)
@@ -257,25 +257,15 @@ end
 
 function TrackerHeaderFrame.PositionTrackerHeaderFrame()
     local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
-    if Questie.db.profile.autoMoveHeader then
-        if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
-            -- Auto move tracker header to the bottom
-            headerFrame:SetPoint("BOTTOMLEFT", trackerBaseFrame, "BOTTOMLEFT", 0, 5)
-        else
-            -- Auto move tracker header to the top
-            headerFrame:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", 0, -10)
-        end
+    if Questie.db.profile.moveHeaderToBottom then
+        -- Move tracker header to the bottom
+        headerFrame:SetPoint("BOTTOMLEFT", trackerBaseFrame, "BOTTOMLEFT", 0, 5)
     else
         if Questie.db.char.isTrackerExpanded then
-            if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") and Questie.db.profile.alwaysShowTracker and (not QuestieTracker:HasQuest()) then
-                -- No Automove and Always Show Tracker. Move tracker header to the bottom
-                headerFrame:SetPoint("BOTTOMLEFT", trackerBaseFrame, "BOTTOMLEFT", 0, 5)
-            else
-                -- No Automove. Tracker header always up top
-                headerFrame:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", 0, -10)
-            end
+            -- Move tracker header to the top
+            headerFrame:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", 0, -10)
         else
-            -- Tracker minimized. Move header to the bottom
+            -- Tracker minimized. Move tracker header to the bottom
             headerFrame:SetPoint("BOTTOMLEFT", trackerBaseFrame, "BOTTOMLEFT", 0, 5)
         end
     end

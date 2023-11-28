@@ -2511,11 +2511,17 @@ function QuestieQuestFixes:Load()
         [7489] = {
             [questKeys.preQuestSingle] = {}, -- #1514
         },
+        [7490] = {
+            [questKeys.startedBy] = {{10184},nil,{18422}},
+        },
         [7492] = {
             [questKeys.startedBy] = {{10879,10880,10881},nil,nil}, -- #1350
         },
         [7494] = {
             [questKeys.startedBy] = {{2198,10877,10878},nil,nil}, -- #2489
+        },
+        [7495] = {
+            [questKeys.startedBy] = {{10184},nil,{18423}},
         },
         [7507] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
@@ -2531,6 +2537,9 @@ function QuestieQuestFixes:Load()
         },
         [7622] = {
             [questKeys.triggerEnd] = {"The Balance of Light and Shadow", {[zoneIDs.EASTERN_PLAGUELANDS]={{21.19,17.79}}}}, -- #2332
+        },
+        [7632] = {
+            [questKeys.startedBy] = {{12018},{179703},{18703}},
         },
         [7633] = {
             [questKeys.preQuestSingle] = {7632},
@@ -2586,6 +2595,12 @@ function QuestieQuestFixes:Load()
         },
         [7761] = {
             [questKeys.startedBy] = {{9046},nil,{18987}},
+        },
+        [7781] = {
+            [questKeys.startedBy] = {{11583},nil,{19003}},
+        },
+        [7783] = {
+            [questKeys.startedBy] = {{11583},nil,{19002}},
         },
         [7785] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.ROGUE,
@@ -2872,6 +2887,9 @@ function QuestieQuestFixes:Load()
         },
         [8438] = {
             [questKeys.zoneOrSort] = sortKeys.ARATHI_BASIN,
+        },
+        [8446] = {
+            [questKeys.startedBy] = {{14887,14888,14889,14890},nil,{20644}},
         },
         [8447] = {
             [questKeys.triggerEnd] = {"Waking Legends.",{[zoneIDs.MOONGLADE]={{40.0,48.6}}}},
@@ -3246,6 +3264,9 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.exclusiveTo] = {8767},
         },
+        [8791] = {
+            [questKeys.startedBy] = {{15339},nil,{21220}},
+        },
         [8792] = {
             [questKeys.requiredLevel] = 1,
         },
@@ -3270,6 +3291,9 @@ function QuestieQuestFixes:Load()
         },
         [8798] = {
             [questKeys.requiredSkill] = {202,250},
+        },
+        [8801] = {
+            [questKeys.startedBy] = {{15727},nil,{21221}},
         },
         [8804] = {
             [questKeys.specialFlags] = 1, -- #2401
@@ -3651,6 +3675,9 @@ function QuestieQuestFixes:Load()
         },
         [9118] = {
             [questKeys.specialFlags] = 1,
+        },
+        [9120] = {
+            [questKeys.startedBy] = {{15990},nil,{22520}},
         },
         [9124] = {
             [questKeys.requiredMinRep] = {529,3000},
