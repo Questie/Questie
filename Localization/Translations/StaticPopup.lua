@@ -78,16 +78,16 @@ local staticPopup = {
         ["esES"] = "Questie sólo soporta",
         ["frFR"] = false,
     },
-    ["WoW Classic (Era/Wrath/SoM)!"] = {
+    ["WoW Classic (Era/Wrath)!"] = {
         ["ptBR"] = false,
         ["ruRU"] = "'классические' версии WoW!",
         ["deDE"] = true,
         ["koKR"] = false,
-        ["esMX"] = "WoW Clásico (Era/Wrath/SoM)!",
+        ["esMX"] = "WoW Clásico (Era/Wrath)!",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = "魔獸世界經典版 (經典時期/巫妖王之怒)",
-        ["esES"] = "WoW Clásico (Era/Wrath/SoM)!",
+        ["esES"] = "WoW Clásico (Era/Wrath)!",
         ["frFR"] = false,
     },
     -------------------------------------------------------------------------------------------

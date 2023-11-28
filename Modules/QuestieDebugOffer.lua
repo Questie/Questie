@@ -238,7 +238,7 @@ end);
 
 ---@param popupText string --@A string containing the lines of text to be displayed in the popup
 ---@param discordURL string --@A string containing the URL to the Questie Discord
----@param index integer --@Integer containing the index of the DebugOffer in question
+---@param index number --@Integer containing the index of the DebugOffer in question
 local function _CreateOfferFrame(popupText, discordURL, index)
     if debugOpen[index] == true then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - An offer is already open, not creating new frame")
