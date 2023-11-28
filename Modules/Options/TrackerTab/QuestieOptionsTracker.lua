@@ -183,6 +183,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                             Questie.db.profile.trackerbindOpenQuestLog = key
                         end
                     },
+                    Space_Y = QuestieOptionsUtils:HorizontalSpacer(7.1, 0.1),
                     untrackQuest = {
                         type = "select",
                         order = 8,
@@ -214,7 +215,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 10,
                         name = function() return l10n('Padding Between Quests') end,
                         desc = function() return l10n('The amount of padding between Quests in the Questie Tracker.\n\nNOTE: Changing this setting while in Sizer Manual Mode will reset the Sizer back to Auto Mode') end,
-                        width = "double",
+                        width = 3,
                         min = 2,
                         max = 15,
                         step = 1,
@@ -587,7 +588,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 13,
                         name = function() return l10n('Tracker Height Ratio') end,
                         desc = function() return l10n('The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height.\n\nNOTE: This setting only applies while in Sizer Mode: Auto') end,
-                        width = "double",
+                        width = 3,
                         min = 20,
                         max = 100,
                         step = 1,
@@ -933,6 +934,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         type = "select",
                         dialogControl = 'LSM30_Font',
                         order = 9,
+                        width = 1.5,
                         values = {
                             ["None"] = "",
                             ["Outline"] = "OUTLINE",
