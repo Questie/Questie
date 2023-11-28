@@ -447,6 +447,18 @@ local debugMessagesLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["You can copy the data above"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Would you like to help us fix it?"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
