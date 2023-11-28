@@ -457,6 +457,8 @@ function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
         elseif (questType == 81 or questType == 83 or questType == 62 or questType == 1) then
             -- Dungeon or Legendary or Raid or Group(Elite)
             tip.type = "(" .. questTag .. ")";
+        elseif (Questie.IsSoD and QuestieDB.IsSoDRuneQuest(icon.data.Id)) then
+            tip.type = "(" .. l10n("Rune") .. ")";
         else
             tip.type = "(" .. l10n("Available") .. ")";
         end

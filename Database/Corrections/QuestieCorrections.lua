@@ -19,6 +19,8 @@ local QuestieNPCBlacklist = QuestieLoader:ImportModule("QuestieNPCBlacklist")
 local QuestieItemBlacklist = QuestieLoader:ImportModule("QuestieItemBlacklist")
 ---@type HardcoreBlacklist
 local HardcoreBlacklist = QuestieLoader:ImportModule("HardcoreBlacklist")
+---@type SeasonOfDiscovery
+local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
 
 ---@type QuestieQuestFixes
 local QuestieQuestFixes = QuestieLoader:ImportModule("QuestieQuestFixes")
@@ -72,6 +74,7 @@ QuestieCorrections.TBC_ONLY = 1 -- Hide only in TBC
 QuestieCorrections.CLASSIC_ONLY = 2 -- Hide only in Classic
 QuestieCorrections.WOTLK_ONLY = 3 -- Hide only in Wotlk
 QuestieCorrections.TBC_AND_WOTLK = 4 -- Hide in TBC and Wotlk
+QuestieCorrections.SOD_ONLY = 5 -- Hide when *not* Season of Discovery; use for SoD-only quests
 
 QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 
@@ -82,6 +85,7 @@ QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 local function filterExpansion(values)
     local isTBC = Questie.IsTBC
     local isWotlk = Questie.IsWotlk
+    local isSoD = Questie.IsSoD
     for k, v in pairs(values) do
         if v == QuestieCorrections.WOTLK_ONLY then
             if isWotlk then
@@ -107,124 +111,108 @@ local function filterExpansion(values)
             else
                 values[k] = nil
             end
+        elseif v == QuestieCorrections.SOD_ONLY then
+            if not isSoD then
+                values[k] = true
+            else
+                values[k] = nil
+            end
         end
     end
     return values
 end
 
-function QuestieCorrections:MinimalInit() -- db already compiled
-    for id, data in pairs(QuestieItemFixes:LoadFactionFixes()) do
-        for key, value in pairs(data) do
-            if not QuestieDB.itemDataOverrides[id] then
-                QuestieDB.itemDataOverrides[id] = {}
-            end
-            QuestieDB.itemDataOverrides[id][key] = value
-        end
-    end
-
-    for id, data in pairs(QuestieNPCFixes:LoadFactionFixes()) do
-        for key, value in pairs(data) do
-            if not QuestieDB.npcDataOverrides[id] then
-                QuestieDB.npcDataOverrides[id] = {}
-            end
-            QuestieDB.npcDataOverrides[id][key] = value
-        end
-    end
-
-    for id, data in pairs(QuestieObjectFixes:LoadFactionFixes()) do
-        for key, value in pairs(data) do
-            if not QuestieDB.objectDataOverrides[id] then
-                QuestieDB.objectDataOverrides[id] = {}
-            end
-            QuestieDB.objectDataOverrides[id][key] = value
-        end
-    end
-
-    for id, data in pairs(QuestieQuestFixes:LoadFactionFixes()) do
-        for key, value in pairs(data) do
-            if not QuestieDB.questDataOverrides[id] then
-                QuestieDB.questDataOverrides[id] = {}
-            end
-            QuestieDB.questDataOverrides[id][key] = value
-        end
-    end
-
-    if (Questie.IsTBC or Questie.IsWotlk) then
-        for id, data in pairs(QuestieTBCItemFixes:LoadFactionFixes()) do
-            for key, value in pairs(data) do
-                if not QuestieDB.itemDataOverrides[id] then
-                    QuestieDB.itemDataOverrides[id] = {}
+do
+    local type, assert = type, assert
+    --- Add runtime overrides for the database
+    ---@param override_table table<number, table<number, string|table|number>>
+    ---@param new_overrides table<number, table<number, string|table|number>>
+    local function addOverride(override_table, new_overrides)
+        assert(type(override_table) == "table", "Override table must be a table!")
+        assert(type(new_overrides) == "table", "New overrides must be a table!")
+        for id, data in pairs(new_overrides) do
+            assert(type(id) == "number", "Override id must be a number!")
+            assert(type(data) == "table", "Override data must be a table!")
+            -- If no override exist assign it
+            if not override_table[id] then
+                override_table[id] = data
+            else
+                -- Override already exists, merge the new data
+                for key, value in pairs(data) do
+                    override_table[id][key] = value
                 end
-                QuestieDB.itemDataOverrides[id][key] = value
             end
         end
+    end
 
-        for id, data in pairs(QuestieTBCNpcFixes:LoadFactionFixes()) do
-            for key, value in pairs(data) do
-                if not QuestieDB.npcDataOverrides[id] then
-                    QuestieDB.npcDataOverrides[id] = {}
+    function QuestieCorrections:MinimalInit() -- db already compiled
+
+        -- Classic Era Corrections
+        addOverride(QuestieDB.itemDataOverrides, QuestieItemFixes:LoadFactionFixes())
+        addOverride(QuestieDB.npcDataOverrides, QuestieNPCFixes:LoadFactionFixes())
+        addOverride(QuestieDB.objectDataOverrides, QuestieObjectFixes:LoadFactionFixes())
+        addOverride(QuestieDB.questDataOverrides, QuestieQuestFixes:LoadFactionFixes())
+
+        -- TBC Corrections
+        if (Questie.IsTBC or Questie.IsWotlk) then
+            addOverride(QuestieDB.itemDataOverrides, QuestieTBCItemFixes:LoadFactionFixes())
+            addOverride(QuestieDB.npcDataOverrides, QuestieTBCNpcFixes:LoadFactionFixes())
+            addOverride(QuestieDB.objectDataOverrides, QuestieTBCObjectFixes:LoadFactionFixes())
+        end
+
+        -- WOTLK Corrections
+        if (Questie.IsWotlk) then
+            addOverride(QuestieDB.npcDataOverrides, QuestieWotlkNpcFixes:LoadFactionFixes())
+        end
+
+        -- Season of Discovery Corrections
+        if Questie.IsSoD then
+            addOverride(QuestieDB.itemDataOverrides, SeasonOfDiscovery:LoadItems())
+            addOverride(QuestieDB.npcDataOverrides, SeasonOfDiscovery:LoadNPCs())
+            addOverride(QuestieDB.objectDataOverrides, SeasonOfDiscovery:LoadObjects())
+            addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadQuests())
+        end
+
+        QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
+        QuestieCorrections.questNPCBlacklist = filterExpansion(QuestieNPCBlacklist:Load())
+        QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load())
+
+        -- TBC Quel Danas Blacklist
+        if Questie.db.global.isleOfQuelDanasPhase == IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES then
+            for id, hide in pairs(IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase]) do
+                -- This has to be a nil-check, because the value could be false
+                if (QuestieCorrections.hiddenQuests[id] == nil) then
+                    QuestieCorrections.hiddenQuests[id] = hide
                 end
-                QuestieDB.npcDataOverrides[id][key] = value
             end
         end
 
-        for id, data in pairs(QuestieTBCObjectFixes:LoadFactionFixes()) do
-            for key, value in pairs(data) do
-                if not QuestieDB.objectDataOverrides[id] then
-                    QuestieDB.objectDataOverrides[id] = {}
+        -- Wotlk Blacklist
+        if (Questie.IsWotlk) then
+            -- We only add blacklist if no blacklist entry for the quest already exists
+            for id, hide in pairs(QuestieQuestBlacklist.LoadAutoBlacklistWotlk()) do
+                -- This has to be a nil-check, because the value could be false
+                if (QuestieCorrections.hiddenQuests[id] == nil) then
+                    QuestieCorrections.hiddenQuests[id] = hide
                 end
-                QuestieDB.objectDataOverrides[id][key] = value
             end
         end
-    end
 
-    if (Questie.IsWotlk) then
-        for id, data in pairs(QuestieWotlkNpcFixes:LoadFactionFixes()) do
-            for key, value in pairs(data) do
-                if not QuestieDB.npcDataOverrides[id] then
-                    QuestieDB.npcDataOverrides[id] = {}
-                end
-                QuestieDB.npcDataOverrides[id][key] = value
+        -- Hardcore Blacklist
+        if (Questie.IsHardcore) then
+            for id, _ in pairs(HardcoreBlacklist:Load()) do
+                QuestieCorrections.hiddenQuests[id] = true
             end
         end
-    end
 
-    QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
-    QuestieCorrections.questNPCBlacklist = filterExpansion(QuestieNPCBlacklist:Load())
-    QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load())
-
-    if Questie.db.global.isleOfQuelDanasPhase == IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES then
-        for id, hide in pairs(IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase]) do
-            -- This has to be a nil-check, because the value could be false
-            if (QuestieCorrections.hiddenQuests[id] == nil) then
-                QuestieCorrections.hiddenQuests[id] = hide
-            end
+        if Questie.db.profile.showEventQuests then
+            C_Timer.After(1, function()
+                 -- This is done with a delay because on startup the Blizzard API seems to be
+                 -- very slow and therefore the date calculation in QuestieEvents isn't done
+                 -- correctly.
+                QuestieEvent:Load()
+            end)
         end
-    end
-
-    if (Questie.IsWotlk) then
-        -- We only add blacklist if no blacklist entry for the quest already exists
-        for id, hide in pairs(QuestieQuestBlacklist.LoadAutoBlacklistWotlk()) do
-            -- This has to be a nil-check, because the value could be false
-            if (QuestieCorrections.hiddenQuests[id] == nil) then
-                QuestieCorrections.hiddenQuests[id] = hide
-            end
-        end
-    end
-
-    if (Questie.IsHardcore) then
-        for id, _ in pairs(HardcoreBlacklist:Load()) do
-            QuestieCorrections.hiddenQuests[id] = true
-        end
-    end
-
-    if Questie.db.profile.showEventQuests then
-        C_Timer.After(1, function()
-             -- This is done with a delay because on startup the Blizzard API seems to be
-             -- very slow and therefore the date calculation in QuestieEvents isn't done
-             -- correctly.
-            QuestieEvent:Load()
-        end)
     end
 end
 
@@ -281,7 +269,6 @@ function QuestieCorrections:Initialize(validationTables)
         _LoadCorrections("itemData", QuestieWotlkItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
         _LoadCorrections("objectData", QuestieWotlkObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
     end
-
 
     --- Corrections that apply to all versions
     _LoadCorrections("itemData", QuestieItemStartFixes:LoadAutomaticQuestStarts(), QuestieDB.itemKeysReversed, validationTables, true, true)

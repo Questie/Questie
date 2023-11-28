@@ -118,6 +118,7 @@ Modules\QuestieShutUp.lua
 Modules\Sounds.lua
 Modules\TaskQueue.lua
 Modules\QuestiePlayer.lua
+Modules\QuestieDebugOffer.lua
 Modules\WorldMapButton\WorldMapButton.lua
 Modules\WorldMapButton\QuestieWorldMapButtonTemplate.xml
 
