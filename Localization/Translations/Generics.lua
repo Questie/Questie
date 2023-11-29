@@ -451,11 +451,11 @@ local genericsLocales = {
         ["ruRU"] = false,
         ["deDE"] = "Schließen",
         ["koKR"] = false,
-        ["esMX"] = false,
+        ["esMX"] = "Despedir",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = false,
-        ["esES"] = false,
+        ["esES"] = "Despedir",
         ["frFR"] = false,
     },
 }
