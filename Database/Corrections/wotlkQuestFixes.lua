@@ -4963,6 +4963,9 @@ function QuestieWotlkQuestFixes:Load()
         [14421] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
+        [14444] = {
+            [questKeys.objectives] = {{{27990,"Ask Krasus about the hilt's origins"}}},
+        },
         [24216] = {
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
                 [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
@@ -5159,6 +5162,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24547] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}}, Questie.ICON_TYPE_SLAY, l10n("Slay 1000 enemies in Icecrown Citadel while Shadow's Edge is equipped"), 0}},
+        },
+        [24555] = {
+            [questKeys.objectives] = {{{27990,"Ask Krasus about the hilt's origins"}}},
         },
         [24579] = {
             [questKeys.exclusiveTo] = {24580,24581,24582,24583,24584,24585,24586,24587,24588,24589,24590},
