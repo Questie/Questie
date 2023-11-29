@@ -64,7 +64,7 @@ function QuestieDebugOffer.LootWindow()
             itemPresentInDB = true
         end
 
-        if itemID > 0 and itemPresentInDB == false then -- if ID not in our DB
+        if itemID > 0 and itemPresentInDB == false and (questItem == true or questStarts == true) then -- if ID not in our DB, and is a quest-related item
             Di = Di + 1
             DebugInformation[Di] = "Item not present in ItemDB!"
             DebugInformation[Di] = DebugInformation[Di] .. "\n\n|cFFAAAAAAItem ID:|r " .. itemID
@@ -153,7 +153,7 @@ function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker duri
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
                 Questie:Print(l10n("A quest in your quest log is missing from the Questie database and can't be tracked.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[" .. l10n("More Info") .. "]|h|r")
-                print(tostring(QuestieDB.IsSoDRuneQuest(questlogid)))
+                --print(tostring(QuestieDB.IsSoDRuneQuest(questlogid)))
             end
         end
     end
@@ -164,6 +164,10 @@ local timeoutDurationOverworld = 120 -- how many seconds to ignore re-passes out
 local timeoutDurationInstance = 600 -- how many seconds to ignore re-passes outside of instances
 -- Missing NPC ID when targeting
 function QuestieDebugOffer.NPCTarget()
+    local inInstance, _ = IsInInstance()
+    if inInstance == true then
+        return -- temporary override for SoD launch to not prompt NPC debug offers inside instances at all, to prevent BFD spam
+    end
     local targetGUID = UnitGUID(target)
     local unit_type = strsplit("-", tostring(targetGUID)) -- determine target type
     if unit_type == "Creature" then -- if target is an NPC
@@ -210,7 +214,6 @@ function QuestieDebugOffer.NPCTarget()
                 DebugInformation[Di] = DebugInformation[Di] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
                 Questie:Print(l10n("The NPC you just targeted is missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. Di .. "|h[" .. l10n("More Info") .. "]|h|r")
             end
-            local inInstance, _ = IsInInstance()
             if inInstance == false then
                 C_Timer.NewTimer (timeoutDurationOverworld, function() targetTimeout[npcID] = false end)
             else
