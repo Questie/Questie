@@ -4966,6 +4966,9 @@ function QuestieWotlkQuestFixes:Load()
         [14444] = {
             [questKeys.objectives] = {{{27990,"Ask Krasus about the hilt's origins"}}},
         },
+        [20438] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ask Shandy Glossgleam to lend you a tabard"), 0, {{"monster", 36856}}}},
+        },
         [24216] = {
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
                 [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
@@ -5165,6 +5168,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24555] = {
             [questKeys.objectives] = {{{27990,"Ask Krasus about the hilt's origins"}}},
+        },
+        [24556] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ask Shandy Glossgleam to lend you a tabard"), 0, {{"monster", 36856}}}},
         },
         [24579] = {
             [questKeys.exclusiveTo] = {24580,24581,24582,24583,24584,24585,24586,24587,24588,24589,24590},
