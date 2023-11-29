@@ -1,16 +1,147 @@
+---@class SeasonOfDiscovery
+local SeasonOfDiscovery = QuestieLoader:CreateModule("SeasonOfDiscovery")
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
-local currentPhase = 5 -- TODO: Use API function which hopefully will come in the future
+SeasonOfDiscovery.currentPhase = 1 -- TODO: Use API function which hopefully will come in the future
+
+local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
+    --[88] = true,
+    --[1234] = true,
+    --[5678] = true,
+}
+
+---@param questId number
+---@return boolean
+function QuestieDB.IsSoDRuneQuest(questId)
+    return runeQuestsInSoD[questId]
+end
+
+-- New Season of Discovery quests and corrections
+function SeasonOfDiscovery:LoadQuests()
+    local questKeys = QuestieDB.questKeys
+    local zoneIDs = ZoneDB.zoneIDs
+    local raceIDs = QuestieDB.raceKeys
+    local classIDs = QuestieDB.classKeys
+    local sortKeys = QuestieDB.sortKeys
+    local profKeys = QuestieProfessions.professionKeys
+    local specKeys = QuestieProfessions.specializationKeys
+
+    return {
+        -- Example from corrections
+        -- [65610] = {
+        --     [questKeys.name] = "Wish You Were Here",
+        --     [questKeys.startedBy] = { { 3363 }, nil, nil },
+        --     [questKeys.finishedBy] = { { 5875 }, nil },
+        --     [questKeys.requiredLevel] = 20,
+        --     [questKeys.questLevel] = -1,
+        --     [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        --     [questKeys.requiredClasses] = classIDs.WARLOCK,
+        --     [questKeys.objectivesText] = { "Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar." },
+        --     [questKeys.preQuestSingle] = { 65601 },
+        --     [questKeys.objectives] = { nil, nil, { { 190232 } }, nil, nil },
+        --     [questKeys.exclusiveTo] = { 65593 },
+        --     [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        -- },
+
+        --[88] = {
+        --    [questKeys.name] = "this is a test"
+        --}
+    }
+end
+
+-- New Season of Discovery NPCs and corrections
+function SeasonOfDiscovery:LoadNPCs()
+    local npcKeys = QuestieDB.npcKeys
+    local zoneIDs = ZoneDB.zoneIDs
+    local npcFlags = QuestieDB.npcFlags
+    local waypointPresets = QuestieDB.waypointPresets
+
+    return {
+        -- Example from corrections
+        -- [185333] = {
+        --     [npcKeys.name] = "Avelina Lilly",
+        --     [npcKeys.minLevel] = 22,
+        --     [npcKeys.maxLevel] = 22,
+        --     [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
+        --     [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{63.5,65.3}}},
+        -- },
+    }
+end
+
+-- New Season of Discovery items and corrections
+function SeasonOfDiscovery:LoadItems()
+    local itemKeys = QuestieDB.itemKeys
+    local itemClasses = QuestieDB.itemClasses
+
+    return {
+        -- Example from corrections
+        -- [3713] = {
+        --     [itemKeys.name] = "Soothing Spices",
+        --     [itemKeys.relatedQuests] = {555,1218},
+        --     [itemKeys.npcDrops] = {2381,4897},
+        --     [itemKeys.objectDrops] = {},
+        -- },
+    }
+end
+
+-- New Season of Discovery objects and corrections
+function SeasonOfDiscovery:LoadObjects()
+    local objectKeys = QuestieDB.objectKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
+    return {
+        -- Example from corrections
+        -- [500005] = {
+        --     [objectKeys.name] = "Ironforge City Fishing Location",
+        --     [objectKeys.questStarts] = {},
+        --     [objectKeys.questEnds] = {},
+        --     [objectKeys.spawns] = {[zoneIDs.IRONFORGE]={{46.9,14.5}}},
+        --     [objectKeys.zoneID] = zoneIDs.IRONFORGE
+        -- },
+    }
+end
 
 -- This function blacklists any quests in phases LATER than the currentPhase value
 -- so in Phase 1, quests in phases 2+ are blacklisted, in phase 2, phases 3+ are blacklisted, etc
 -- Phase 1 is omitted, because everything not in this list is supposed to be available in Phase 1
-local questsToBlacklistBySoMPhase = {
-    [1] = {}, -- Phase 1 - Regular Phase 1 + Dire Maul + Tier 0.5 quests (this is required for counting, but should stay empty)
-    [2] = { -- Phase 2 - World Bosses
+local questsToBlacklistBySoDPhase = {
+    [1] = { -- SoD Phase 1 - level cap 25 (this is required for counting, but should stay empty)
     },
-    [3] = { -- Phase 3 - BWL + Darkmoon Faire
+    [2] = { -- SoD Phase 2 - level cap 40
+    },
+    [3] = { -- SoD Phase 3 - level cap 50
+    },
+    [4] = { -- SoD Phase 4 - level cap 60
+    },
+    [5] = { -- SoD Phase 5
+    },
+    [6] = { -- SoD Phase 6
+    },
+    [7] = { -- SoD Phase 7
+    },
+    [8] = { -- SoD Phase 8
+    },
+    [9] = { -- SoD Phase 9
+    },
+    [10] = { -- SoD Phase 10
+    },
+    [11] = { -- Era Phase 1 - MC, Ony
+    },
+    [12] = { -- Era Phase 2 - World Bosses
+    },
+    [13] = { -- Era Phase 3 - BWL + Darkmoon Faire
         [7761] = true, -- Blackhand's Command BWL pre quest
         [7787] = true,
         -- Darkmoon Faire quests
@@ -64,7 +195,7 @@ local questsToBlacklistBySoMPhase = {
         [10941] = true,
         -----------------
     },
-    [4] = { -- Phase 4 - Zul'Gurub
+    [14] = { -- Era Phase 4 - Zul'Gurub
         [456] = true,
         [636] = true,
         [8411] = true,
@@ -183,7 +314,7 @@ local questsToBlacklistBySoMPhase = {
         [8287] = true,
         [8314] = true,
     },
-    [5] = { -- Phase 5 - AQ
+    [15] = { -- Era Phase 5 - AQ
         [8277] = true,
         [8280] = true,
         [8283] = true,
@@ -394,7 +525,7 @@ local questsToBlacklistBySoMPhase = {
         [8821] = true,
         [8819] = true,
     },
-    [6] = { --Phase 6 - Naxxramas
+    [16] = { -- Era Phase 6 - Naxxramas
         [9085] = true,
         [9142] = true,
         [9165] = true,
@@ -523,12 +654,67 @@ local questsToBlacklistBySoMPhase = {
         [9419] = true,
         [9416] = true,
     },
+    [17] = { -- Never appearing in Season of Discovery
+    -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
+    [909] = true,
+    [971] = true,
+    [1198] = true,
+    [1199] = true,
+    [1200] = true,
+    [1275] = true,
+    [6561] = true,
+    [6562] = true,
+    [6563] = true,
+    [6564] = true,
+    [6565] = true,
+    [6921] = true,
+    [6922] = true,
+
+    -- Original Gnomeregan quests (instance reworked to raid, new quest IDs)
+    [2841] = true,
+    [2842] = true,
+    [2843] = true,
+    [2904] = true,
+    [2922] = true,
+    [2923] = true,
+    [2924] = true,
+    [2925] = true,
+    [2926] = true,
+    [2927] = true,
+    [2928] = true,
+    [2929] = true,
+    [2930] = true,
+    [2931] = true,
+    [2945] = true,
+    [2947] = true,
+    [2949] = true,
+    [2951] = true,
+    [2952] = true,
+    [2953] = true,
+    [2962] = true,
+    [4601] = true,
+    [4602] = true,
+    [4603] = true,
+    [4604] = true,
+    [4605] = true,
+    [4606] = true,
+
+    -- Original Scarlet Monastery quests (instance reworked to raid, new quest IDs)
+    [1048] = true,
+    [1049] = true,
+    [1050] = true,
+    [1051] = true,
+    [1052] = true,
+    [1053] = true,
+    [1113] = true,
+    [1160] = true,
+    },
 }
 
 ---@return table<number, table<number, boolean>> @All quests that should be blacklisted separated by phase
-function QuestieQuestBlacklist:GetSoMQuestsToBlacklist()
-    for phase = 1, currentPhase do
-        questsToBlacklistBySoMPhase[phase] = {} -- empty table instead of nil to keep table size
+function QuestieQuestBlacklist:GetSoDQuestsToBlacklist()
+    for phase = 1, SeasonOfDiscovery.currentPhase do
+        questsToBlacklistBySoDPhase[phase] = {} -- empty table instead of nil to keep table size
     end
-    return questsToBlacklistBySoMPhase
+    return questsToBlacklistBySoDPhase
 end

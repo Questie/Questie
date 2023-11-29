@@ -1094,6 +1094,30 @@ local iconOptionsLocales = {
         ["esES"] = "Personalizado",
         ["frFR"] = false,
     },
+    ["Season of Discovery Runes"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Runen der Saison der Entdeckung",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ["When this is enabled, the locations of Season of Discovery Runes and Rune quests will be shown on the map/minimap."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Wenn aktiv, werden die Positionen der Runen der Saison der Entdeckung und Runen-Quests auf der Karte/Minikarte angezeigt.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(iconOptionsLocales) do

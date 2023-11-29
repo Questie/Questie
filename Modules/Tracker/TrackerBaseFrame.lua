@@ -254,9 +254,7 @@ function TrackerBaseFrame:Update()
             baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
         end
 
-        local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
-
-        if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") and Questie.db.profile.autoMoveHeader then
+        if Questie.db.profile.moveHeaderToBottom then
             -- Move Sizer to Top Right corner
             sizer:ClearAllPoints()
             sizer:SetPoint("TOPRIGHT", 0, 0)

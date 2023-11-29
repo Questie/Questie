@@ -6124,7 +6124,11 @@
         "TRACKER_SORT_MANUAL_UP",
         "TRACKER_SORT_MANUAL_TOP",
         "TRACKER_SORT_MANUAL_DOWN",
-        "TRACKER_SORT_MANUAL_BOTTOM"
+        "TRACKER_SORT_MANUAL_BOTTOM",
+        "LOCALE_enGB",
+        "LaunchURL",
+        "ENABLED_FOR_SOME",
+        "C_Macro"
     ],
     "Lua.workspace.ignoreDir": [
         "Database/TBC/**",

@@ -22,6 +22,8 @@ local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type SeasonOfDiscovery
+local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
 
 QuestieOptions.tabs.icons = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -270,6 +272,23 @@ function QuestieOptions.tabs.icons:Initialize()
                             Questie.db.profile.showAQWarEffortQuests = value
                             QuestieQuest:ToggleNotes(value)
                             QuestieQuest:SmoothReset()
+                        end,
+                    },
+                    showSoDRunes = {
+                        type = "toggle",
+                        order = 2.091,
+                        hidden = (not Questie.IsSoD),
+                        name = function() return l10n('Season of Discovery Runes'); end,
+                        desc = function() return l10n('When this is enabled, the locations of Season of Discovery Runes and Rune quests will be shown on the map/minimap.'); end,
+                        width = 1.595,
+                        disabled = function()
+                            if SeasonOfDiscovery.currentPhase == 1 then return true end;
+                            return (not Questie.db.profile.enabled);
+                            end,
+                        get = function(info) return Questie.db.profile.showSoDRunes end,
+                        set = function(info, value)
+                            Questie.db.profile.showSoDRunes = value
+                            QuestieQuest:ToggleNotes(value)
                         end,
                     },
                     townsfolk_options = {
