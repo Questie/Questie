@@ -67,7 +67,7 @@ function QuestieOptionsDefaults:Load()
             hideCompletedAchieveObjectives = true,
             showBlizzardQuestTimer = false,
             trackerHeaderEnabled = true,
-            moveHeaderToBottom = true,
+            moveHeaderToBottom = false,
             stickyDurabilityFrame = false,
             hideTrackerInCombat = false,
             hideTrackerInDungeons = true,
