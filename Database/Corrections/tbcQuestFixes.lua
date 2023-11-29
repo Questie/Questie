@@ -1133,7 +1133,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSkill] = {202,305},
         },
         [9645] = {
-            [questKeys.triggerEnd] = {"Journal Entry Read", {[zoneIDs.DEADWIND_PASS]={{46.57,70.49},{46.77,74.5}}}},
+            [questKeys.triggerEnd] = {"Journal Entry Read", {[3457]={{-1,-1}}}},
         },
         [9666] = {
             [questKeys.objectives] = {{{17701}},nil,nil,nil,{{{17701},17701,"Declaration of Power"}}},
