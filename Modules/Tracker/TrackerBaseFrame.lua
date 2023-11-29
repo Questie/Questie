@@ -450,8 +450,8 @@ function TrackerBaseFrame.OnResizeStart(frame, button)
         GameTooltip._SizerToolTip = nil
     end
 
-    if InCombatLockdown() or IsShiftKeyDown() or IsAltKeyDown() then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - In Combat or shift key or alt key detected! --> Exiting.")
+    if InCombatLockdown() or IsAltKeyDown() then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - In Combat or alt key detected! --> Exiting.") -- TODO: Why is the alt key a problem?
         return
     else
         if (IsControlKeyDown() and Questie.db.profile.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.profile.trackerLocked then
@@ -524,8 +524,8 @@ end
 
 ---@param button string @The mouse button that is pressed when resize stops
 function TrackerBaseFrame.OnResizeStop(frame, button)
-    if IsShiftKeyDown() or IsAltKeyDown() then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Shift key or alt key detected! --> Exiting.")
+    if IsAltKeyDown() then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Alt key detected! --> Exiting.") -- TODO: Why is the alt key a problem?
         return
     else
         if TrackerBaseFrame.isSizing ~= true or TrackerBaseFrame.isMoving == true then
