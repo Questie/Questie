@@ -632,3 +632,20 @@ function _QuestieWotlkItemFixes:InsertMissingItemIds()
     QuestieDB.itemData[211206] = {} -- Defiler's Medallion
     QuestieDB.itemData[211207] = {} -- Mysterious Artifact
 end
+
+-- This should allow manual fix for item availability
+function QuestieWotlkItemFixes:LoadFactionFixes()
+    local itemKeys = QuestieDB.itemKeys
+
+    local itemFixesHorde = {
+    }
+
+    local itemFixesAlliance = {
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return itemFixesHorde
+    else
+        return itemFixesAlliance
+    end
+end
