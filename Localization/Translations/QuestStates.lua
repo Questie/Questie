@@ -91,11 +91,11 @@ local questStateLocales = {
         ["ruRU"] = false,
         ["deDE"] = true,
         ["koKR"] = false,
-        ["esMX"] = false,
+        ["esMX"] = "Runa",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = false,
-        ["esES"] = false,
+        ["esES"] = "Runa",
         ["frFR"] = false,
     },
 }
