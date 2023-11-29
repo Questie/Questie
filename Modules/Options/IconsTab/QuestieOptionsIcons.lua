@@ -946,7 +946,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         width = 1.295,
                         name = function() return l10n('Complete repeatable quests') end,
                         desc = function() return l10n('The icon that is displayed for repeatable quests that can be handed in'); end,
-                        get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_REPEATABLE_COMPLETE) or "repeatable_complete"; end,
+                        get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_REPEATABLE_COMPLETE) or "complete"; end,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         set = function(input, key)
                             Questie.db.profile.ICON_REPEATABLE_COMPLETE = Questie.icons[key]
@@ -1001,7 +1001,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         width = 1.295,
                         name = function() return l10n('Complete event quests') end,
                         desc = function() return l10n('The icon that is displayed for event quests that can be handed in'); end,
-                        get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_EVENTQUEST_COMPLETE) or "eventquest_complete"; end,
+                        get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_EVENTQUEST_COMPLETE) or "complete"; end,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         set = function(input, key)
                             Questie.db.profile.ICON_EVENTQUEST_COMPLETE = Questie.icons[key]
@@ -1056,7 +1056,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         width = 1.295,
                         name = function() return l10n('Complete PvP quests') end,
                         desc = function() return l10n('The icon that is displayed for PvP quests that can be handed in'); end,
-                        get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_PVPQUEST_COMPLETE) or "pvpquest_complete"; end,
+                        get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_PVPQUEST_COMPLETE) or "complete"; end,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         set = function(input, key)
                             Questie.db.profile.ICON_PVPQUEST_COMPLETE = Questie.icons[key]
