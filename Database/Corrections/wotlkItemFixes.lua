@@ -638,9 +638,15 @@ function QuestieWotlkItemFixes:LoadFactionFixes()
     local itemKeys = QuestieDB.itemKeys
 
     local itemFixesHorde = {
+        [49698] = {
+            [itemKeys.npcDrops] = {36669},
+        },
     }
 
     local itemFixesAlliance = {
+        [49698] = {
+            [itemKeys.npcDrops] = {36670},
+        },
     }
 
     if UnitFactionGroup("Player") == "Horde" then
