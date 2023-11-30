@@ -1175,8 +1175,10 @@ function QuestieQuestBlacklist:Load()
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
 
+        [10985] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13429
         [10888] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13430
         [10901] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13431
+        [10445] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13432
         [6144] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 14349
         [6821] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
         [6822] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
@@ -1282,7 +1284,6 @@ function QuestieQuestBlacklist:Load()
         [9337] = QuestieCorrections.WOTLK_ONLY,
         [9341] = QuestieCorrections.WOTLK_ONLY,
         [9343] = QuestieCorrections.WOTLK_ONLY,
-        [10445] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13432 in wotlk
 
         -- Old Naxx quests (Naxx40 goes away in wotlk)
         [9120] = QuestieCorrections.WOTLK_ONLY, -- The Fall of Kel'Thuzad

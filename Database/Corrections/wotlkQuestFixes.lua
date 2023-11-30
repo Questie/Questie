@@ -450,8 +450,20 @@ function QuestieWotlkQuestFixes:Load()
         [10776] = {
             [questKeys.objectives] = {{{19823}},nil,{{31310}}},
         },
+        [10888] = {
+            [questKeys.exclusiveTo] = {13430},
+        },
         [10900] = {
             [questKeys.requiredMaxLevel] = 70,
+        },
+        [10901] = {
+            [questKeys.exclusiveTo] = {13431},
+        },
+        [10958] = {
+            [questKeys.preQuestSingle] = {10949},
+        },
+        [10985] = {
+            [questKeys.exclusiveTo] = {13429},
         },
         [11010] = {
             [questKeys.requiredClasses] = classIDs.WARLOCK + classIDs.ROGUE + classIDs.MAGE + classIDs.PRIEST + classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.SHAMAN + classIDs.DEATH_KNIGHT,
@@ -3475,7 +3487,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {14181,14182,14183},
         },
         [13429] = {
-            [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.",{[zoneIDs.SHADOWMOON_VALLEY]={{71.02,46.12,},},},},
+            [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.", {[zoneIDs.SHADOWMOON_VALLEY]={{71.05,46.11},{66.29,44.06}}}},
+            [questKeys.exclusiveTo] = {10985},
+            [questKeys.startedBy] = {{18528}},
+            [questKeys.finishedBy] = {{18528}},
+            [questKeys.preQuestSingle] = {10949},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Let Xi'ri know you're ready to battle"), 1, {{"monster", 18528}}}},
         },
         [13430] = {
             [questKeys.exclusiveTo] = {10888},
