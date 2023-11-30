@@ -102,7 +102,7 @@ end
 -- Missing questID when conversing
 function QuestieDebugOffer.QuestDialog()
     local questID = GetQuestID() -- obtain quest ID from dialog
-    if not questID > 0 then
+    if not (questID > 0) then
         return -- invalid data from API, abandon offer attempt
     end
     if QuestieDB.QueryQuestSingle(questID, "name") == nil then -- if ID not in our DB
