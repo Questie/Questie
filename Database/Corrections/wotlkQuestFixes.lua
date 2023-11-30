@@ -5187,6 +5187,10 @@ function QuestieWotlkQuestFixes:Load()
         [24461] = {
             [questKeys.sourceItemId] = 49723,
         },
+        [24535] = {
+            [questKeys.objectives] = {{{37205,"Thalorien's Blessing obtained"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Examine the remains"), 0, {{"monster", 37552}}}},
+        },
         [24536] = {
             [questKeys.objectives] = {{{3296}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Snagglebolt's Air Analyzer on perfumed guards"), 0, {{"monster", 3296}}}},
@@ -5205,6 +5209,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24559] = {
             [questKeys.sourceItemId] = 49723,
+        },
+        [24563] = {
+            [questKeys.objectives] = {{{37205,"Thalorien's Blessing obtained"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Examine the remains"), 0, {{"monster", 37552}}}},
         },
         [24579] = {
             [questKeys.exclusiveTo] = {24580,24581,24582,24583,24584,24585,24586,24587,24588,24589,24590},
