@@ -381,6 +381,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
+        [24847] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD] = {{71.54,69.51}}},
+            [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
         [24910] = {
             [npcKeys.spawns] = {
                 [zoneIDs.HOWLING_FJORD] = {{37.19,74.79}},
