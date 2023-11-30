@@ -419,9 +419,9 @@ local hordeTournamentMarkerQuests = {[13691] = true, [13693] = true, [13694] = t
 ---@param questId number
 function QuestieQuest:AcceptQuest(questId)
     local quest = QuestieDB.GetQuest(questId)
-    local complete = quest:IsComplete()
 
     if quest then
+        local complete = quest:IsComplete()
         -- If any of these flags exsist then this quest has already once been accepted and is probobly in a failed state
         if (quest.WasComplete or quest.isComplete or complete == 0 or complete == -1) and (QuestiePlayer.currentQuestlog[questId]) then
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: This quest was once accepted and needs to be reset.")
