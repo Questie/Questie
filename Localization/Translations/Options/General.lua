@@ -595,11 +595,11 @@ local generalOptionsLocales = {
         ["ruRU"] = false,
         ["deDE"] = "Welt-Tooltips aktivieren",
         ["koKR"] = false,
-        ["esMX"] = "Activar descripciones emergentes del mundo",
+        ["esMX"] = "Habilitar tooltips del mundo",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = false,
-        ["esES"] = "Activar descripciones emergentes del mundo",
+        ["esES"] = "Habilitar tooltips del mundo",
         ["frFR"] = false,
     },
     ["Welcome to Season of Discovery! Questie is being continuously updated with the new quests from this season, but it will take time. Be sure to update frequently to minimize errors."] = {
