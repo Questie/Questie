@@ -67,7 +67,12 @@ function QuestieDebugOffer.LootWindow()
             itemPresentInDB = true
         end
 
-        if itemID > 0 and itemPresentInDB == false and (questItem == true or questStarts == true) then -- if ID not in our DB, and is a quest-related item
+        local inInstance, _ = IsInInstance()
+
+        -- Required checks: Item ID is valid, and item is NOT present in DB
+        -- If in instance, item MUST be a queststarter OR a quest item
+        -- If not in instance, no additional check required
+        if itemID > 0 and itemPresentInDB == false and (((questItem == true or questStarts == true) and inInstance == true) or (inInstance == false)) then
             debugIndex = debugIndex + 1
             DebugInformation[debugIndex] = "Item not present in ItemDB!"
             DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n\n|cFFAAAAAAItem ID:|r " .. itemID
