@@ -872,7 +872,7 @@ end
 function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
     local quest = QuestieDB.GetQuest(questId)
     local sourceItem = true
-    if quest.sourceItemId > 0 then
+    if quest and quest.sourceItemId > 0 then
         for bag = -2, 4 do
             for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
                 local itemId = select(10, QuestieCompat.GetContainerItemInfo(bag, slot))
