@@ -5203,6 +5203,9 @@ function QuestieWotlkQuestFixes:Load()
         [24556] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ask Shandy Glossgleam to lend you a tabard"), 0, {{"monster", 36856}}}},
         },
+        [24559] = {
+            [questKeys.sourceItemId] = 49723,
+        },
         [24579] = {
             [questKeys.exclusiveTo] = {24580,24581,24582,24583,24584,24585,24586,24587,24588,24589,24590},
         },
