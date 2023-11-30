@@ -5184,6 +5184,9 @@ function QuestieWotlkQuestFixes:Load()
         [24431] = {
             [questKeys.specialFlags] = 1,
         },
+        [24461] = {
+            [questKeys.sourceItemId] = 49723,
+        },
         [24536] = {
             [questKeys.objectives] = {{{3296}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Snagglebolt's Air Analyzer on perfumed guards"), 0, {{"monster", 3296}}}},
