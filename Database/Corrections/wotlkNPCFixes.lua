@@ -1602,6 +1602,9 @@ function QuestieWotlkNpcFixes:Load()
         [35451] = {
             [npcKeys.spawns] = {[zoneIDs.TRIAL_OF_THE_CHAMPION]={{51,52.4},{-1,-1}}},
         },
+        [36494] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{67.67,54.94},{-1,-1}}},
+        },
         [36626] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{19.8,65.4}}},
         },
