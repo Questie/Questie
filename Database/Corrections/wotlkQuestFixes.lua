@@ -785,6 +785,9 @@ function QuestieWotlkQuestFixes:Load()
         [11466] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Olga"), 0, {{"monster", 24639}}}},
         },
+        [11467] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Search for treasure"), 0, {{"object", 186944}}}},
+        },
         [11468] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Send your Trained Rock Falcon after it"), 0, {{"monster", 24747}}}},
         },
