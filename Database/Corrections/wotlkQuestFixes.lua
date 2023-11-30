@@ -800,7 +800,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11472] = {
             [questKeys.objectives] = {{{24797,"Reef Bull led to a Reef Cow"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Lure Reef Bull with Tasty Reef Fish"), 0, {{"monster", 24786}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Lure Reef Bull with Tasty Reef Fish"), 0, {{"monster", 24786},{"monster", 24804}}}},
             [questKeys.reputationReward] = {{1073,500}},
         },
         [11475] = {
