@@ -287,7 +287,7 @@ local townsfolkLocales = {
         ["enUS"] = true,
         ["zhCN"] = "武器大师",
         ["zhTW"] = "武器大師",
-        ["esES"] = "Maestro de armas",
+        ["esES"] = "Maestro armero",
         ["frFR"] = "Maître d'armes",
     },
     ["Townsfolk"] = {
