@@ -192,6 +192,18 @@ function QuestieWotlkNpcFixes:Load()
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
+        [23921] = {
+            [npcKeys.name] = "Northeast Plague Tank",
+        },
+        [23922] = {
+            [npcKeys.name] = "Northwest Plague Tank",
+        },
+        [23923] = {
+            [npcKeys.name] = "Southwest Plague Tank",
+        },
+        [23924] = {
+            [npcKeys.name] = "Southeast Plague Tank",
+        },
         [23931] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{54.93,57.47}}},
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
