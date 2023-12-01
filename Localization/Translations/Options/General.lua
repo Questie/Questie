@@ -103,11 +103,11 @@ local generalOptionsLocales = {
         ["ruRU"] = "Автозавершение заданий",
         ["deDE"] = "Quests automatisch abgeben",
         ["koKR"] = "자동 완료",
-        ["esMX"] = "Completar misiones automáticamente",
+        ["esMX"] = "Completar automáticamente",
         ["enUS"] = true,
         ["zhCN"] = "自动完成",
         ["zhTW"] = "自動交回任務",
-        ["esES"] = "Completar misiones automáticamente",
+        ["esES"] = "Completar automáticamente",
         ["frFR"] = "Complétion automatique",
     },
     ["Enable or disable Questie auto-completing quests."] = {
