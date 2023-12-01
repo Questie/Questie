@@ -1624,6 +1624,9 @@ function QuestieWotlkNpcFixes:Load()
         [36494] = {
             [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{67.67,54.94},{-1,-1}}},
         },
+        [36502] = {
+            [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{43.3,12.2},{-1,-1}}},
+        },
         [36626] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{19.8,65.4}}},
         },
