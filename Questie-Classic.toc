@@ -74,6 +74,12 @@ Database\Corrections\classicNPCFixes.lua
 Database\Corrections\classicItemFixes.lua
 Database\Corrections\classicObjectFixes.lua
 
+# SoD Corrections
+Database\Corrections\sodQuestFixes.lua
+Database\Corrections\sodNPCFixes.lua
+Database\Corrections\sodItemFixes.lua
+Database\Corrections\sodObjectFixes.lua
+
 # Compiler
 Database\compiler.lua
 
