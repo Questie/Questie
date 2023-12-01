@@ -79,11 +79,11 @@ local generalOptionsLocales = {
         ["ruRU"] = "Автопринятие заданий",
         ["deDE"] = "Quests automatisch annehmen",
         ["koKR"] = "자동 퀘스트 수락",
-        ["esMX"] = "Aceptar misiones automáticamente",
+        ["esMX"] = "Aceptar misiones",
         ["enUS"] = true,
         ["zhCN"] = "自动接受任务",
         ["zhTW"] = "自動接受任務",
-        ["esES"] = "Aceptar misiones automáticamente",
+        ["esES"] = "Aceptar misiones",
         ["frFR"] = "Acceptation automatique des quêtes",
     },
     ["Enable or disable Questie auto-accepting quests."] = {
