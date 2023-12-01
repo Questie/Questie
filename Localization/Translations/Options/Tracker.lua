@@ -1377,11 +1377,11 @@ local trackerOptionsLocales = {
         ["ruRU"] = "Уровень непрозрачности фона трекера",
         ["deDE"] = "Das Alpha-Level des Tracker-Hintergrunds",
         ["koKR"] = "트래커 배경의 알파 수준",
-        ["esMX"] = "El nivel de transparencia del fondo del rastreador",
+        ["esMX"] = "La transparencia del fondo del rastreador",
         ["enUS"] = true,
         ["zhCN"] = "设置背景的透明度",
         ["zhTW"] = "任務清單背景的透明度，100% 是完全不透明。",
-        ["esES"] = "El nivel transparencia del fondo del rastreador",
+        ["esES"] = "La transparencia del fondo del rastreador",
         ["frFR"] = "Définis l'opacité de l'arrière-plan du suivi des quêtes Questie.",
     },
     ---------------------------------------------------------
