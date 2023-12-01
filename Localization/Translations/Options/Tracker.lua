@@ -733,11 +733,11 @@ local trackerOptionsLocales = {
         ["ruRU"] = "Минимализм",
         ["deDE"] = "Minimalistisch",
         ["koKR"] = false,
-        ["esMX"] = false,
+        ["esMX"] = "Minimalista",
         ["enUS"] = true,
         ["zhCN"] = "极简",
         ["zhTW"] = "極簡",
-        ["esES"] = false,
+        ["esES"] = "Minimalista",
         ["frFR"] = false,
     },
     ---------------------------------------------------------
