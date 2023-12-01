@@ -1641,6 +1641,14 @@ function QuestieWotlkNpcFixes:Load()
         [36678] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{13.4,53.4}}},
         },
+        [36774] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_UNDERBELLY]={{35.68,57.2}}},
+            [npcKeys.zoneID] = zoneIDs.THE_UNDERBELLY,
+        },
+        [36776] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_UNDERBELLY]={{64.18,15.6}}},
+            [npcKeys.zoneID] = zoneIDs.THE_UNDERBELLY,
+        },
         [36990] = {
             [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{40.5,77.8}}},
             [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
