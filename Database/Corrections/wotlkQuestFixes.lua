@@ -5201,6 +5201,14 @@ function QuestieWotlkQuestFixes:Load()
         [24547] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}}, Questie.ICON_TYPE_SLAY, l10n("Slay 1000 enemies in Icecrown Citadel while Shadow's Edge is equipped"), 0}},
         },
+        [24553] = {
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.ROGUE + classIDs.HUNTER + classIDs.DEATH_KNIGHT + classIDs.MAGE + classIDs.WARLOCK,
+            [questKeys.requiredSourceItems] = {49879},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Ask the warden to take you to the Sunwell"), 0, {{"monster", 37523}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("After restoring Quel'Delar, go back to Dalaran"), 0, {{"object", 194481}}},
+            },
+        },
         [24555] = {
             [questKeys.objectives] = {{{27990,"Ask Krasus about the hilt's origins"}}},
         },
@@ -5213,6 +5221,14 @@ function QuestieWotlkQuestFixes:Load()
         [24563] = {
             [questKeys.objectives] = {{{37205,"Thalorien's Blessing obtained"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Examine the remains"), 0, {{"monster", 37552}}}},
+        },
+        [24564] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD + raceIDs.ORC + raceIDs.TROLL + raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.ROGUE + classIDs.HUNTER + classIDs.DEATH_KNIGHT + classIDs.MAGE + classIDs.WARLOCK,
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Ask the warden to take you to the Sunwell"), 0, {{"monster", 37523}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("After restoring Quel'Delar, go back to Dalaran"), 0, {{"object", 194481}}},
+            },
         },
         [24579] = {
             [questKeys.exclusiveTo] = {24580,24581,24582,24583,24584,24585,24586,24587,24588,24589,24590},
@@ -5250,8 +5266,40 @@ function QuestieWotlkQuestFixes:Load()
         [24590] = {
             [questKeys.exclusiveTo] = {24579,24580,24581,24582,24583,24584,24585,24586,24587,24588,24589},
         },
+        [24594] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.ROGUE + classIDs.HUNTER + classIDs.DEATH_KNIGHT + classIDs.MAGE + classIDs.WARLOCK,
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Ask the warden to take you to the Sunwell"), 0, {{"monster", 37523}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("After restoring Quel'Delar, go back to Dalaran"), 0, {{"object", 194481}}},
+            },
+        },
+        [24595] = {
+            [questKeys.requiredClasses] = classIDs.DRUID + classIDs.PRIEST + classIDs.SHAMAN,
+            [questKeys.requiredSourceItems] = {49879},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Ask the warden to take you to the Sunwell"), 0, {{"monster", 37523}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("After restoring Quel'Delar, go back to Dalaran"), 0, {{"object", 194481}}},
+            },
+        },
+        [24596] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.DRUID + classIDs.PRIEST + classIDs.SHAMAN,
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Ask the warden to take you to the Sunwell"), 0, {{"monster", 37523}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("After restoring Quel'Delar, go back to Dalaran"), 0, {{"object", 194481}}},
+            },
+        },
         [24597] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [24598] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD + raceIDs.ORC + raceIDs.TROLL + raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.DRUID + classIDs.PRIEST + classIDs.SHAMAN,
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Ask the warden to take you to the Sunwell"), 0, {{"monster", 37523}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("After restoring Quel'Delar, go back to Dalaran"), 0, {{"object", 194481}}},
+            },
         },
         [24609] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,

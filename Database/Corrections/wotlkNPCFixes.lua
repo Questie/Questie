@@ -1664,6 +1664,10 @@ function QuestieWotlkNpcFixes:Load()
         [37214] = {
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{29.1,66.5},{28.8,66.2},{29.5,65.7},{28.8,65.7},{29.2,65.2}},[zoneIDs.DUROTAR]={{40.3,15.8},{40.1,15.5},{40.5,15.5},{40.5,15.2},{40.3,15.0}}}
         },
+        [37523] = {
+            [npcKeys.spawns] = {[zoneIDs.ISLE_OF_QUEL_DANAS]={{44.4,45.62},{44.11,45.6},{44.14,45.14},{44.4,45.15},{44.4,44.66},{44.15,44.64},{44.49,44.04},{44.77,44.07},{44.76,44.94},{43.78,44.9},{43.81,44.05},{44.05,44.03}}},
+            [npcKeys.zoneID] = zoneIDs.ISLE_OF_QUEL_DANAS,
+        },
         [37527] = {
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_QUEL_DANAS]={{44.52,45.5}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_QUEL_DANAS,

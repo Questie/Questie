@@ -250,6 +250,10 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{40.1,60.5},{43.5,54.9},{45,57},{41,54},{39,60},{46.1,61},{46.2,59.2}}},
             [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
+        [194481] = {
+            [objectKeys.spawns] = {[zoneIDs.SUNWELL_PLATEAU]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.SUNWELL_PLATEAU,
+        },
         [194555] = {
             [objectKeys.spawns] = {[zoneIDs.THE_ARCHIVUM]={{15.6,90.3}},[zoneIDs.ULDUAR]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_ARCHIVUM,
@@ -283,6 +287,10 @@ function QuestieWotlkObjectFixes:Load()
         },
         [201592] = {
             [objectKeys.spawns] = {[4813]={{45.76,43.09},{49.18,40.72},{63.89,51.99},{47.4,36.08},{48.26,38.37},{43.1,67.65},{45.82,76.61},{45.12,49.64},{45.51,40.91},{48.7,40.28},{62.34,57.16},{46.55,52.52},{37.62,79.09},{63.72,58.71},{62.55,48.93},{42.18,67.15},{56.28,39.67},{45.72,38.59},{43.46,77.04},{46.95,35.44},{41.91,65.83},{-1,-1}}},
+        },
+        [201794] = {
+            [objectKeys.spawns] = {[zoneIDs.SUNWELL_PLATEAU]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.SUNWELL_PLATEAU,
         },
         [201937] = {
             [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{75.1,20.5}}},
