@@ -5471,6 +5471,28 @@ function QuestieWotlkQuestFixes:Load()
         [24793] = {
             [questKeys.preQuestSingle] = {24576},
         },
+        [24795] = {
+            [questKeys.requiredClasses] = classIDs.DRUID + classIDs.PRIEST + classIDs.SHAMAN,
+        },
+        [24796] = {
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.ROGUE + classIDs.HUNTER + classIDs.DEATH_KNIGHT + classIDs.MAGE + classIDs.WARLOCK,
+        },
+        [24798] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.DRUID + classIDs.PRIEST + classIDs.SHAMAN,
+        },
+        [24799] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD + raceIDs.ORC + raceIDs.TROLL + raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.DRUID + classIDs.PRIEST + classIDs.SHAMAN,
+        },
+        [24800] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.ROGUE + classIDs.HUNTER + classIDs.DEATH_KNIGHT + classIDs.MAGE + classIDs.WARLOCK,
+        },
+        [24801] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD + raceIDs.ORC + raceIDs.TROLL + raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.ROGUE + classIDs.HUNTER + classIDs.DEATH_KNIGHT + classIDs.MAGE + classIDs.WARLOCK,
+        },
         [24803] = {
             [questKeys.specialFlags] = 1,
         },
