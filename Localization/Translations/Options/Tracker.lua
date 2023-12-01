@@ -1365,11 +1365,11 @@ local trackerOptionsLocales = {
         ["ruRU"] = "Непрозрачность фона",
         ["deDE"] = "Tracker Hintergrund Alpha",
         ["koKR"] = "트래커 배경 알파",
-        ["esMX"] = "Alfa del fondo del rastreador",
+        ["esMX"] = "Transparencia del fondo del rastreador",
         ["enUS"] = true,
         ["zhCN"] = "背景透明度",
         ["zhTW"] = "背景透明度",
-        ["esES"] = "Alfa del fondo del rastreador",
+        ["esES"] = "Transparencia del fondo del rastreador",
         ["frFR"] = "Opacité de l'arrière-plan",
     },
     ["The alpha level of the Questie Trackers backdrop. A setting of 100 percent is fully visible."] = {
