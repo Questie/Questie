@@ -1329,7 +1329,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [12157] = {
-            [questKeys.exclusiveTo] = {12171,12174,12235,12297},
+            [questKeys.exclusiveTo] = {12171,12235,12297},
         },
         [12159] = {
             [questKeys.objectives] = {{{26891,"Miner at Rest"}}},
@@ -1338,10 +1338,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{26616,"Blighted Elk's corpse cleansed"},{26643,"Rabid Grizzly's corpse cleansed"},},nil,nil,nil,},
         },
         [12171] = {
-            [questKeys.exclusiveTo] = {12174,12235,12297},
+            [questKeys.exclusiveTo] = {12235,12297},
         },
         [12174] = {
-            [questKeys.exclusiveTo] = {12235},
+            [questKeys.exclusiveTo] = {12235,12298},
         },
         [12180] = {
             [questKeys.preQuestSingle] = {12014},
@@ -1530,7 +1530,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12297] = {
             [questKeys.preQuestSingle] = {11250},
-            [questKeys.exclusiveTo] = {12157},
+            [questKeys.exclusiveTo] = {12171,12235},
+        },
+        [12298] = {
+            [questKeys.exclusiveTo] = {12174,12235},
         },
         [12301] = {
             [questKeys.triggerEnd] = {"The Forgotten Redeemed",{[zoneIDs.DRAGONBLIGHT]={{86.86,66.18,},},},},
