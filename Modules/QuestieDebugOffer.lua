@@ -222,12 +222,16 @@ function QuestieDebugOffer.QuestDialog()
         local rewardText = GetRewardText()
         local rewardXP = GetRewardXP()
 
+        local filteredQuestText = questText:gsub(GetUnitName(player), "<playername>") -- strip out player name from quest text
+        local filteredObjectiveText = objectiveText:gsub(GetUnitName(player), "<playername>") -- strip out player name from objective text
+        local filteredRewardText = rewardText:gsub(GetUnitName(player), "<playername>") -- strip out player name from reward text
+
         DebugInformation[debugIndex] = "Quest in dialog not present in QuestDB!"
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n\n|cFFAAAAAAQuest ID:|r " .. tostring(questID)
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
-        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(questText)
-        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(objectiveText)
-        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAReward Text:|r " .. tostring(rewardText)
+        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(filteredQuestText)
+        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(filteredObjectiveText)
+        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAReward Text:|r " .. tostring(filteredRewardText)
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAReward XP:|r " .. tostring(rewardXP)
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel(player)) .. " " .. string.upper(tostring(playerRace)) .. " " .. playerClass
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuestgiver:|r " .. tostring(UnitGUID(questnpc))
@@ -254,13 +258,16 @@ function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker duri
         for i=1, GetNumQuestLogEntries() do
             local questTitle, questLevel, suggestedGroup, _, _, _, frequency, questLogId = GetQuestLogTitle(i)
             local questText, objectiveText = GetQuestLogQuestText(i)
+
+            local filteredQuestText = questText:gsub(GetUnitName(player), "<playername>") -- strip out player name from quest text
+            local filteredObjectiveText = objectiveText:gsub(GetUnitName(player), "<playername>") -- strip out player name from objective text
             if questID == questLogId then
                 debugIndex = debugIndex + 1
                 DebugInformation[debugIndex] = "Quest in tracker not present in QuestDB!"
                 DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n\n|cFFAAAAAAQuest ID:|r " .. tostring(questLogId)
                 DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
-                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(questText)
-                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(objectiveText)
+                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(filteredQuestText)
+                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(filteredObjectiveText)
                 DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel(player)) .. " " .. string.upper(playerRace) .. " " .. playerClass
                 local mapID = GetBestMapForUnit(player)
                 local pos = GetPlayerMapPosition(mapID, player);
