@@ -40,7 +40,7 @@ local iconOptionsLocales = {
     },
     ["Allows to select which tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap."] = {
         ["ptBR"] = "Permite selecionar quais ícones de rastreamento (como Caixa de Correio, PNJ de Reparo) mostrar no mapa e minimapa.",
-        ["ruRU"] = "Позволяет выбрать, какие отслеживаемые значки (почтовый ящик, ремонт и проч.) отображать на карте и миникарте",
+        ["ruRU"] = "Позволяет выбрать, какие 'городские' значки (почтовый ящик, ремонт и проч.) отображать на карте и миникарте",
         ["deDE"] = "Ermöglicht das Konfigurieren der Tracking Icons (z.B. Briefkästen, Reparatur-NPCs) auf der Karte und Minimap.",
         ["koKR"] = "지도에 표시할 추적 아이콘(예: 우체통, 수리NPC)을 선택할 수 있습니다.",
         ["esMX"] = "Permite seleccionar qué iconos de seguimiento (como Buzón, PNJ de Reparación) se mostrarán en el mapa y el minimapa.",
@@ -52,7 +52,7 @@ local iconOptionsLocales = {
     },
     ["Allows to select which profession trainers to show on the map and minimap."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Позволяет выбрать, каких учителей профессий отображать на карте и миникарте",
         ["deDE"] = "Ermöglicht das Konfigurieren der Berufe-Lehrer auf der Karte und Minimap.",
         ["koKR"] = false,
         ["esMX"] = "Permite seleccionar qué instructores de profesión mostrar en el mapa y minimapa.",
@@ -64,7 +64,7 @@ local iconOptionsLocales = {
     },
     ["Allows to select which vendors to show on the map and minimap."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Позволяет выбрать, каких продавцов отображать на карте и миникарте",
         ["deDE"] = "Ermöglicht das Konfigurieren der Händler auf der Karte und Minimap.",
         ["koKR"] = false,
         ["esMX"] = "Permite seleccionar qué vendedores mostrar en el mapa y minimapa.",
@@ -724,7 +724,7 @@ local iconOptionsLocales = {
     },
     ["Event Quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Задания игровых событий",
+        ["ruRU"] = "Игровые события",
         ["deDE"] = "Event-Quests",
         ["koKR"] = false,
         ["esMX"] = "Misiones de evento",
@@ -844,7 +844,7 @@ local iconOptionsLocales = {
     },
     ["Icons"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значки",
         ["deDE"] = true,
         ["koKR"] = false,
         ["esMX"] = "Iconos",
@@ -856,7 +856,7 @@ local iconOptionsLocales = {
     },
     ["Icon Options"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Настройки значков",
         ["deDE"] = "Icon-Optionen",
         ["koKR"] = false,
         ["esMX"] = "Opciones de iconos",
@@ -868,7 +868,7 @@ local iconOptionsLocales = {
     },
     ["Show icons for..."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Отображать значки для...",
         ["deDE"] = "Zeige Icons für...",
         ["koKR"] = false,
         ["esMX"] = "Mostrar iconos para...",
@@ -880,7 +880,7 @@ local iconOptionsLocales = {
     },
     ["Available Normal Quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Обычные задания",
         ["deDE"] = "Verfügbare normale Quests",
         ["koKR"] = false,
         ["esMX"] = "Misiones normales disponibles",
@@ -892,7 +892,7 @@ local iconOptionsLocales = {
     },
     ["Available Event Quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Игровые события",
         ["deDE"] = "Verfügbare Event-Quests",
         ["koKR"] = false,
         ["esMX"] = "Misiones de eventos disponibles",
@@ -904,7 +904,7 @@ local iconOptionsLocales = {
     },
     ["Available Repeatable Quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Повторяемые задания",
         ["deDE"] = "Verfügbare Wiederholbare-Quests",
         ["koKR"] = false,
         ["esMX"] = "Misiones repitibles disponibles",
@@ -916,7 +916,7 @@ local iconOptionsLocales = {
     },
     ["Available PvP Quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "PVP-задания",
         ["deDE"] = "Verfügbare PvP-Quests",
         ["koKR"] = false,
         ["esMX"] = "Misiones de JcJ disponibles",
@@ -928,7 +928,7 @@ local iconOptionsLocales = {
     },
     ["Available Dungeon Quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Задания подземелий",
         ["deDE"] = "Verfügbare Dungeon-Quests",
         ["koKR"] = false,
         ["esMX"] = "Misiones de calabozo disponibles",
@@ -940,7 +940,7 @@ local iconOptionsLocales = {
     },
     ["Available Raid Quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Рейдовые задания",
         ["deDE"] = "Verfügbare Raid-Quests",
         ["koKR"] = false,
         ["esMX"] = "Misiones de banda disponibles",
@@ -952,7 +952,7 @@ local iconOptionsLocales = {
     },
     ["Icon Scales"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Размер значков",
         ["deDE"] = "Icon-Skalierung",
         ["koKR"] = false,
         ["esMX"] = "Escala de iconos",
@@ -964,7 +964,7 @@ local iconOptionsLocales = {
     },
     ["Map Icons"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "На карте мира",
         ["deDE"] = "Karten-Icons",
         ["koKR"] = false,
         ["esMX"] = "Iconos de mapa",
@@ -976,7 +976,7 @@ local iconOptionsLocales = {
     },
     ["Minimap Icons"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "На миникарте",
         ["deDE"] = "Minimap-Icons",
         ["koKR"] = false,
         ["esMX"] = "Iconos de minimapa",
@@ -988,7 +988,7 @@ local iconOptionsLocales = {
     },
     ["Quest Icons"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Задания",
         ["deDE"] = "Quest-Icons",
         ["koKR"] = false,
         ["esMX"] = "Objetivos de objeto",
@@ -1000,7 +1000,7 @@ local iconOptionsLocales = {
     },
     ["Icon Overrides"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Переназначение значков",
         ["deDE"] = "Icons überschreiben",
         ["koKR"] = false,
         ["esMX"] = "Misiones de JcJ",
@@ -1012,7 +1012,7 @@ local iconOptionsLocales = {
     },
     ["Hide Icons on Continent Map"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Скрыть на континенте",
         ["deDE"] = "Icons auf Kontinentkarte ausblenden",
         ["koKR"] = false,
         ["esMX"] = "Ocultar iconos en el mapa continental",
@@ -1024,7 +1024,7 @@ local iconOptionsLocales = {
     },
     ["Hide icons on the continent map, when not viewing a specific zone."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Скрывает значки на карте континента",
         ["deDE"] = "Blendet Icons auf der Kontinentkarte aus, wenn keine Zone ausgewählt ist.",
         ["koKR"] = false,
         ["esMX"] = "Oculta iconos en el mapa del continente cuando no estés viendo una zona específica.",
@@ -1036,7 +1036,7 @@ local iconOptionsLocales = {
     },
     ["Objective Icon Theme"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Стиль значков целей",
         ["deDE"] = "Ziel-Icon-Style",
         ["koKR"] = false,
         ["esMX"] = "Tema de icono de objetivo",
@@ -1048,7 +1048,7 @@ local iconOptionsLocales = {
     },
     ["Other Icons"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Другие значки",
         ["deDE"] = "Andere Icons",
         ["koKR"] = false,
         ["esMX"] = "Otros iconos",
@@ -1060,7 +1060,7 @@ local iconOptionsLocales = {
     },
     ["Profession Trainers"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Учителя профессий",
         ["deDE"] = "Berufe-Lehrer",
         ["koKR"] = false,
         ["esMX"] = "Entrenadores de profesión",
@@ -1072,7 +1072,7 @@ local iconOptionsLocales = {
     },
     ["Change between themes for objective icons."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Выбор стиля значков для целей заданий",
         ["deDE"] = "Wähle den Ziel-Icon-Style.",
         ["koKR"] = false,
         ["esMX"] = "Cambia entre temas para iconos de objetivos",
@@ -1084,7 +1084,7 @@ local iconOptionsLocales = {
     },
     ["Custom"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Пользовательский",
         ["deDE"] = "Benutzerdefiniert",
         ["koKR"] = false,
         ["esMX"] = "Personalizado",
@@ -1096,7 +1096,7 @@ local iconOptionsLocales = {
     },
     ["Season of Discovery Runes"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Руны Сезона Открытий",
         ["deDE"] = "Runen der Saison der Entdeckung",
         ["koKR"] = false,
         ["esMX"] = "Runas de la Temporada de descubrimiento",
@@ -1108,7 +1108,7 @@ local iconOptionsLocales = {
     },
     ["When this is enabled, the locations of Season of Discovery Runes and Rune quests will be shown on the map/minimap."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда включено, местоположения рун Сезона Открытий и рун заданий будут отображаться на карте мира и миникарте",
         ["deDE"] = "Wenn aktiv, werden die Positionen der Runen der Saison der Entdeckung und Runen-Quests auf der Karte/Minikarte angezeigt.",
         ["koKR"] = false,
         ["esMX"] = "Cuando esto esté habilitado, las ubicaciones de las runas de la Temporada de descubrimiento y las misiones de runas se mostrarán en el mapa/minimapa.",
