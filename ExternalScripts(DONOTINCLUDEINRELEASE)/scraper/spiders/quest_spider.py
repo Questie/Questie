@@ -1,7 +1,9 @@
 import re
 import scrapy
+from scrapy import signals
 
 from ids.quest_ids import QUEST_IDS
+from quest_formatter import Formatter
 
 
 class QuestSpider(scrapy.Spider):
@@ -29,3 +31,16 @@ class QuestSpider(scrapy.Spider):
                 result["end"] = re.search(r'End:.*?npc=(\d+)', script).group(1)
         if result:
             yield result
+
+    @classmethod
+    def from_crawler(cls, crawler, *args, **kwargs):
+        spider = super(QuestSpider, cls).from_crawler(crawler, *args, **kwargs)
+        crawler.signals.connect(spider.spider_closed, signal=signals.spider_closed)
+        return spider
+
+    def spider_closed(self, spider):
+        self.logger.info("Spider closed.")
+
+        f = Formatter()
+        f()
+
