@@ -506,6 +506,9 @@ function QuestieWotlkQuestFixes:Load()
         [11175] = {
             [questKeys.exclusiveTo] = {11176},
         },
+        [11231] = {
+            [questKeys.sourceItemId] = 33284,
+        },
         [11241] = {
             [questKeys.triggerEnd] = {"Rescue Apothecary Hanes",{[zoneIDs.HOWLING_FJORD]={{78.72,37.23,},},},},
         },
