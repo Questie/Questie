@@ -649,7 +649,7 @@ function QuestieOptions.tabs.icons:Initialize()
                 type = "group",
                 order = 16,
                 inline = true,
-                name = "Icon Overrides",
+                name = function() return l10n("Icon Overrides") end,
                 args = {
                     --usePfQuestIcons = {
                     --    type = "toggle",
