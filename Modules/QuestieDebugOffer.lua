@@ -146,7 +146,29 @@ local function filterItem(itemID, itemPresentInDB, questItem, questStarts, inIns
     return true
 end
 
--- itemID > 0 and itemPresentInDB == false and (((questItem == true or questStarts == true) and inInstance == true) or (inInstance == false))
+-- Appends character info, player coordinates, quest log, client version, questie version, and locale to the end of Debug Offers
+---@param input string --@String containing debug information input
+local function _AppendUniversalText(input)
+    local text = tostring(input)
+
+    text = text .. "\n|cFFAAAAAACharacter:|r Lvl " .. UnitLevel(player) .. " " .. string.upper(playerRace) .. " " .. playerClass
+
+    local mapID = GetBestMapForUnit(player)
+    local pos = GetPlayerMapPosition(mapID, player);
+    PosX = pos.x * 100
+    PosY = pos.y * 100
+    text = text .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. mapID .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
+
+    local questLog = ""
+    for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
+
+    text = text .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
+    text = text .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
+    text = text .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
+    text = text .. "\n|cFFAAAAAALocale:|r " .. GetLocale()
+
+    return text
+end
 
 -- Missing itemID when looting
 function QuestieDebugOffer.LootWindow()
@@ -155,6 +177,7 @@ function QuestieDebugOffer.LootWindow()
     for i=1, #lootInfo do
         local info = lootInfo[i]
         itemLink = GetLootSlotLink(i)
+        local debugContainer = GetLootSourceInfo(i) -- happens early in case the rest of the code is so slow that the container closes before we're ready
         local itemID = 0
         if itemLink then
             itemID = GetItemInfoFromHyperlink(GetLootSlotLink(i))
@@ -186,19 +209,8 @@ function QuestieDebugOffer.LootWindow()
             DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Item:|r " .. tostring(questItem)
             DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Starter:|r " .. tostring(questStarts)
             DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest ID:|r " .. questID
-            DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAACharacter:|r Lvl " .. UnitLevel(player) .. " " .. string.upper(playerRace) .. " " .. playerClass
-            local debugContainer = GetLootSourceInfo(i)
             DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAContainer:|r " .. debugContainer
-            local mapID = GetBestMapForUnit(player)
-            local pos = GetPlayerMapPosition(mapID, player);
-            PosX = pos.x * 100
-            PosY = pos.y * 100
-            DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. mapID .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
-            local questLog = ""
-            for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
-            DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
-            DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
-            DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
+            DebugInformation[debugIndex] = _AppendUniversalText(DebugInformation[debugIndex])
             Questie:Print(l10n("An item you just encountered is missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. debugIndex .. "|h[" .. l10n("More Info") .. "]|h|r")
 
         end
@@ -233,17 +245,8 @@ function QuestieDebugOffer.QuestDialog()
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(filteredObjectiveText)
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAReward Text:|r " .. tostring(filteredRewardText)
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAReward XP:|r " .. tostring(rewardXP)
-        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel(player)) .. " " .. string.upper(tostring(playerRace)) .. " " .. playerClass
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuestgiver:|r " .. tostring(UnitGUID(questnpc))
-        local mapID = GetBestMapForUnit(player)
-        local pos = GetPlayerMapPosition(mapID, player);
-        if pos then PosX = pos.x * 100; PosY = pos.y * 100 end
-        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
-        local questLog = ""
-        for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
-        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
-        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
-        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
+        DebugInformation[debugIndex] = _AppendUniversalText(DebugInformation[debugIndex])
         Questie:Print(l10n("A quest you just encountered is missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. debugIndex .. "|h[" .. l10n("More Info") .. "]|h|r")
     end
 end
@@ -268,17 +271,7 @@ function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker duri
                 DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
                 DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(filteredQuestText)
                 DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(filteredObjectiveText)
-                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel(player)) .. " " .. string.upper(playerRace) .. " " .. playerClass
-                local mapID = GetBestMapForUnit(player)
-                local pos = GetPlayerMapPosition(mapID, player);
-                PosX = pos.x * 100
-                PosY = pos.y * 100
-                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
-                local questLog = ""
-                for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
-                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
-                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
-                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
+                DebugInformation[debugIndex] = _AppendUniversalText(DebugInformation[debugIndex])
                 Questie:Print(l10n("A quest in your quest log is missing from the Questie database and can't be tracked.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. debugIndex .. "|h[" .. l10n("More Info") .. "]|h|r")
                 --print(tostring(QuestieDB.IsSoDRuneQuest(questlogid)))
             end
@@ -326,17 +319,7 @@ function QuestieDebugOffer.NPCTarget()
                 DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAANPC Level:|r " .. tostring(npcLevel)
                 DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAANPC Health, Max:|r " .. tostring(npcHealth) .. ", " .. tostring(npcHealthMax)
                 DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAANPC Allegiance:|r " .. tostring(npcStatus)
-                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAACharacter:|r Lvl " .. tostring(UnitLevel(player)) .. " " .. string.upper(playerRace) .. " " .. playerClass
-                local mapID = GetBestMapForUnit(player)
-                local pos = GetPlayerMapPosition(mapID, player);
-                PosX = pos.x * 100
-                PosY = pos.y * 100
-                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAPlayer Coords:|r  [" .. tostring(mapID) .. "]  " .. format("(%.3f, %.3f)", PosX, PosY)
-                local questLog = ""
-                for k in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do questLog = k .. ", " .. questLog end
-                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuestLog:|r " .. questLog
-                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAClient:|r " .. GetBuildInfo() .. " " .. gameType
-                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuestie:|r " .. QuestieLib:GetAddonVersionString()
+                DebugInformation[debugIndex] = _AppendUniversalText(DebugInformation[debugIndex])
                 Questie:Print(l10n("The NPC you just targeted is missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. debugIndex .. "|h[" .. l10n("More Info") .. "]|h|r")
             end
             if inInstance == false then
