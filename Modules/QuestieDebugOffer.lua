@@ -26,6 +26,9 @@ local target = "target"
 local player = "player"
 local questnpc = "questnpc"
 
+local _, playerRace = UnitRace(player)
+local playerClass = UnitClassBase(player)
+
 local gameType = ""
 if Questie.IsWotlk then
     gameType = "Wrath"
@@ -35,11 +38,117 @@ elseif Questie.IsEra then
     gameType = "Era"
 end
 
-local _, playerRace = UnitRace(player)
-local playerClass = UnitClassBase(player)
+-- determines what level is required to receive debug offers
+-- adjust as needed to cut down spam during major game releases
+-- entries on whitelist ignore this value
+local minLevelForDebugOffers = 10
+
+local itemBlacklist = {
+    210771, -- Waylaid Supplies 10-25
+    211315, -- Waylaid Supplies 10-25
+    211316, -- Waylaid Supplies 10-25
+    211317, -- Waylaid Supplies 10-25
+    211318, -- Waylaid Supplies 10-25
+    211319, -- Waylaid Supplies 10-25
+    211320, -- Waylaid Supplies 10-25
+    211321, -- Waylaid Supplies 10-25
+    211322, -- Waylaid Supplies 10-25
+    211323, -- Waylaid Supplies 10-25
+    211324, -- Waylaid Supplies 10-25
+    211325, -- Waylaid Supplies 10-25
+    211326, -- Waylaid Supplies 10-25
+    211327, -- Waylaid Supplies 10-25
+    211328, -- Waylaid Supplies 10-25
+    211329, -- Waylaid Supplies 10-25
+    211330, -- Waylaid Supplies 10-25
+    211331, -- Waylaid Supplies 10-25
+    211332, -- Waylaid Supplies 10-25
+    211819, -- Waylaid Supplies 10-25
+    211820, -- Waylaid Supplies 10-25
+    211821, -- Waylaid Supplies 10-25
+    211822, -- Waylaid Supplies 10-25
+    211823, -- Waylaid Supplies 10-25
+    211824, -- Waylaid Supplies 10-25
+    211825, -- Waylaid Supplies 10-25
+    211826, -- Waylaid Supplies 10-25
+    211827, -- Waylaid Supplies 10-25
+    211828, -- Waylaid Supplies 10-25
+    211829, -- Waylaid Supplies 10-25
+    211830, -- Waylaid Supplies 10-25
+    211831, -- Waylaid Supplies 10-25
+    211832, -- Waylaid Supplies 10-25
+    211833, -- Waylaid Supplies 10-25
+    211834, -- Waylaid Supplies 10-25
+    211835, -- Waylaid Supplies 10-25
+    211836, -- Waylaid Supplies 10-25
+    211837, -- Waylaid Supplies 10-25
+    211838, -- Waylaid Supplies 10-25
+    211933, -- Waylaid Supplies 10-25
+    211934, -- Waylaid Supplies 10-25
+    211935, -- Waylaid Supplies 10-25
+    203753, -- Mage encoded spell notes
+    203752, -- Mage encoded spell notes
+    208754, -- Mage encoded spell notes
+    208854, -- Mage encoded spell notes
+    203751, -- Mage encoded spell notes
+    209028, -- Mage encoded spell notes
+    210655, -- Mage encoded spell notes
+    210179, -- Mage encoded spell notes
+    211786, -- Mage encoded scrolls
+    211785, -- Mage encoded scrolls
+    211787, -- Mage encoded scrolls
+    211780, -- Mage encoded scrolls
+    211784, -- Mage encoded scrolls
+    211854, -- Mage encoded scrolls
+    211855, -- Mage encoded scrolls
+    211853, -- Mage encoded scrolls
+}
+
+local itemWhitelist = {
+    208609, -- glade flower for druid living seed
+    206469, -- prairie flower for druid living seed
+}
+
+-- determines whether to ignore an item
+---@param itemID integer
+---@param itemPresentInDB boolean
+---@param questItem boolean
+---@param questStarts boolean
+---@param inInstance boolean
+local function filterItem(itemID, itemPresentInDB, questItem, questStarts, inInstance)
+    -- return true if we should create debug offer, false if not
+    if itemID <= 0 or itemPresentInDB == true then -- if itemID invalid or item is in the DB, don't bother going further
+        return false
+    else
+        local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType,
+        itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID, bindType,
+        expacID, setID, isCraftingReagent = GetItemInfo(itemID)
+
+        if tContains(itemWhitelist, itemID) then -- if item is in our whitelist, we want it no matter what
+            return true
+        end
+        if UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
+            return false
+        end
+        if tContains(itemBlacklist, itemID) then -- if item is in our blacklist, ignore it
+            return false
+        end
+        if questItem == true or questStarts == true then -- if we know it's a quest item, we want it no matter what (barring blacklist)
+            return true
+        end
+        if inInstance == true then -- if we're in an instance, and it isn't a quest item, ignore it
+            return false
+        end
+        if bindType ~= 1 then -- if item is not BoP, then ignore it
+            return false
+        end
+    end
+    return true
+end
+
+-- itemID > 0 and itemPresentInDB == false and (((questItem == true or questStarts == true) and inInstance == true) or (inInstance == false))
 
 -- Missing itemID when looting
-
 function QuestieDebugOffer.LootWindow()
     local lootInfo = GetLootInfo()
 
@@ -69,10 +178,7 @@ function QuestieDebugOffer.LootWindow()
 
         local inInstance, _ = IsInInstance()
 
-        -- Required checks: Item ID is valid, and item is NOT present in DB
-        -- If in instance, item MUST be a queststarter OR a quest item
-        -- If not in instance, no additional check required
-        if itemID > 0 and itemPresentInDB == false and (((questItem == true or questStarts == true) and inInstance == true) or (inInstance == false)) then
+        if filterItem(itemID, itemPresentInDB, questItem, questStarts, inInstance) == true then
             debugIndex = debugIndex + 1
             DebugInformation[debugIndex] = "Item not present in ItemDB!"
             DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n\n|cFFAAAAAAItem ID:|r " .. itemID
@@ -104,6 +210,9 @@ function QuestieDebugOffer.QuestDialog()
     local questID = GetQuestID() -- obtain quest ID from dialog
     if questID <= 0 or questID == nil then
         return -- invalid data from API, abandon offer attempt
+    end
+    if UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
+        return
     end
     if QuestieDB.QueryQuestSingle(questID, "name") == nil then -- if ID not in our DB
         debugIndex = debugIndex + 1
@@ -138,6 +247,9 @@ end
 -- Missing questID when tracking
 ---@param questID number
 function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker during update
+    if UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
+        return
+    end
     if QuestieDB.QueryQuestSingle(questID, "name") == nil then -- if ID not in our DB
         for i=1, GetNumQuestLogEntries() do
             local questTitle, questLevel, suggestedGroup, _, _, _, frequency, questLogId = GetQuestLogTitle(i)
