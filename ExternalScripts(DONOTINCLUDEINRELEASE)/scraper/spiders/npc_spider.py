@@ -31,6 +31,14 @@ class NPCSpider(scrapy.Spider):
                 react_match = re.search(r'"react":\[(-?\d+),(-?\d+)]', script)
                 result["reactAlliance"] = react_match.group(1) if str(react_match) != "None" else "0"
                 result["reactHorde"] = react_match.group(2) if str(react_match) != "None" else "0"
+            if script.lstrip().startswith('var g_mapperData'):
+                pattern = re.compile(r'"coords":\[(\[.*?])],"uiMapId":(\d+)')
+                matches = pattern.findall(script)
+                spawns = []
+                for coords, ui_map_id in matches:
+                    spawns.append([int(ui_map_id), eval(coords)])
+                result["spawns"] = spawns
+
         if result:
             yield result
 
