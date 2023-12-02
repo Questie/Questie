@@ -292,7 +292,7 @@ local townsfolkLocales = {
     },
     ["Townsfolk"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Городские",
         ["deDE"] = "Stadtbewohner",
         ["koKR"] = false,
         ["esMX"] = "Ciudadanos",
