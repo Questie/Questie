@@ -76,7 +76,7 @@ local generalOptionsLocales = {
     },
     ["Auto Accept Quests"] = {
         ["ptBR"] = "Aceitar automaticamente missões",
-        ["ruRU"] = "Автопринятие заданий",
+        ["ruRU"] = "Вкл/выкл",
         ["deDE"] = "Quests automatisch annehmen",
         ["koKR"] = "자동 퀘스트 수락",
         ["esMX"] = "Aceptar misiones automáticamente",
@@ -100,7 +100,7 @@ local generalOptionsLocales = {
     },
     ["Auto Complete"] = {
         ["ptBR"] = "Autocompletar",
-        ["ruRU"] = "Автозавершение заданий",
+        ["ruRU"] = "Автозавершение",
         ["deDE"] = "Quests automatisch abgeben",
         ["koKR"] = "자동 완료",
         ["esMX"] = "Completar misiones automáticamente",
@@ -208,7 +208,7 @@ local generalOptionsLocales = {
     },
     ["Player level offset"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Смещение уровня игрока",
         ["deDE"] = "Spielerlevelabstand",
         ["koKR"] = false,
         ["esMX"] = "Compensación del nivel del jugador",
@@ -220,7 +220,7 @@ local generalOptionsLocales = {
     },
     ["Show only quests granting experience (Default)"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Задания, дающие опыт (по умолчанию)",
         ["deDE"] = "Zeige nur Quests an die Erfahrung gewähren (Standard)",
         ["koKR"] = false,
         ["esMX"] = "Mostrar sólo misiones que otorgan experiencia (predeterminado)",
@@ -232,7 +232,7 @@ local generalOptionsLocales = {
     },
     ["Show all low level quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Все задания",
         ["deDE"] = "Zeige alle niedrigstufigen Quests",
         ["koKR"] = false,
         ["esMX"] = "Mostrar todas las misiones de bajo nivel",
@@ -244,7 +244,7 @@ local generalOptionsLocales = {
     },
     ["Show quests to a set level below the player"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Задания с уровнем ниже уровня игрока",
         ["deDE"] = "Zeige Quests bis zu einem einstellbaren Level unter dem Spieler",
         ["koKR"] = false,
         ["esMX"] = "Mostrar misiones a un nivel establecido por debajo del jugador",
@@ -256,7 +256,7 @@ local generalOptionsLocales = {
     },
     ["Show quests between two set levels"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Задания между двумя заданными уровнями",
         ["deDE"] = "Zeige Quests zwischen zwei einstellbaren Leveln",
         ["koKR"] = false,
         ["esMX"] = "Mostrar misiones entre dos niveles establecidos",
@@ -268,7 +268,7 @@ local generalOptionsLocales = {
     },
     ["Which available quests should be displayed"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Отображение доступных заданий",
         ["deDE"] = "Welche verfügbaren Quests angezeigt werden sollen",
         ["koKR"] = false,
         ["esMX"] = "Qué misiones disponibles deberían mostrarse",
@@ -544,7 +544,7 @@ local generalOptionsLocales = {
     },
     ["Interface Options"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Опции интерфейса",
         ["deDE"] = "Interface-Einstellungen",
         ["koKR"] = false,
         ["esMX"] = "Opciones de interfaz",
@@ -556,7 +556,7 @@ local generalOptionsLocales = {
     },
     ["Sound Options"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Настройки звука",
         ["deDE"] = "Sound-Einstellungen",
         ["koKR"] = false,
         ["esMX"] = "Opciones de sonido",
@@ -568,7 +568,7 @@ local generalOptionsLocales = {
     },
     ["By default, Questie only shows quests that are relevant for your level. You can change this behavior below."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "По умолчанию Questie отображает задания, соответствующие вашему уровню. Это можно изменить ниже",
         ["deDE"] = "Standardmäßig zeigt Questie nur Quests an, die für dein Level relevant sind. Du kannst dieses Verhalten unten ändern.",
         ["koKR"] = false,
         ["esMX"] = "De forma predeterminada, Questie solo muestra misiones que son relevantes para tu nivel. Puedes cambiar este comportamiento a continuación.",
@@ -592,7 +592,7 @@ local generalOptionsLocales = {
     },
     ["Enable World Tooltips"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Информация о заданиях",
         ["deDE"] = "Welt-Tooltips aktivieren",
         ["koKR"] = false,
         ["esMX"] = "Habilitar tooltips del mundo",
@@ -604,7 +604,7 @@ local generalOptionsLocales = {
     },
     ["Welcome to Season of Discovery! Questie is being continuously updated with the new quests from this season, but it will take time. Be sure to update frequently to minimize errors."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Добро пожаловать в Сезон Открытий! Questie продолжает обновляться с новыми заданиями из данного сезона, но на это потребуется время. Обновляйте аддон почаще, чтоб минимизировать количество ошибок.",
         ["deDE"] = "Willkommen zur Season der Entdeckung! Questie wird kontinuierlich mit den neuen Quests dieser Saison aktualisiert, aber es wird einige Zeit dauern. Stell sicher, dass du häufig aktualisierst, um Fehler zu minimieren.",
         ["koKR"] = false,
         ["esMX"] = "¡Bienvenido a Temporada de descrubrimiento! Questie se actualiza continuamente con las nuevas misiones de esta temporada, pero llevará tiempo. Asegúrate de actualizar con frecuencia para minimizar errores.",
@@ -616,7 +616,7 @@ local generalOptionsLocales = {
     },
     ["While playing Season of Discovery, Questie will notify you if it encounters a quest it doesn't yet know about. Please share this info with us on Discord or GitHub!"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Questie во время игры в Сезон Открытий будет уведомлять о неизвестных аддону заданиях. Пожалуйста, поделитесь с нами этой информацией в нашем дискорде или на GitHub!",
         ["deDE"] = "Während du Season der Entdeckung spielst, wird Questie dich benachrichtigen, wenn es auf eine Quest stößt, die es noch nicht kennt. Bitte teile diese Informationen mit uns auf Discord oder GitHub!",
         ["koKR"] = false,
         ["esMX"] = "Mientras juegas Temporada de descubrimiento, Questie te notificará si encuentra una misión que aún no conoce. ¡Comparte esta información con nosotros en Discord o GitHub!",
