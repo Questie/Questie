@@ -304,6 +304,10 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{76.9,73.7}}},
             [objectKeys.zoneID] = zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE,
         },
+        [202336] = {
+            [objectKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{84,88.1},{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
+        },
 
         -- Below are fake objects
         [400001] = {
