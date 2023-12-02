@@ -128,23 +128,31 @@ local function filterItem(itemID, itemPresentInDB, questItem, questStarts, inIns
             return true
         end
         if UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Player does not meet level threshold for debug offers, ignoring")
             return false
         end
         if tContains(itemBlacklist, itemID) then -- if item is in our blacklist, ignore it
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Item is in item blacklist, ignoring")
             return false
         end
         if questItem == true or questStarts == true then -- if we know it's a quest item, we want it no matter what (barring blacklist)
             return true
         end
         if inInstance == true then -- if we're in an instance, and it isn't a quest item, ignore it
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Player looting item is in instance, ignoring")
             return false
         end
         if bindType ~= 1 then -- if item is not BoP, then ignore it
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Item is not BoP, ignoring")
             return false
         end
     end
     return true
 end
+
+local npcBlacklist = {
+    202093, -- Polymorphed Apprentice, for mage polymorph rune quest
+}
 
 -- Appends character info, player coordinates, quest log, client version, questie version, and locale to the end of Debug Offers
 ---@param input string --@String containing debug information input
@@ -221,9 +229,11 @@ end
 function QuestieDebugOffer.QuestDialog()
     local questID = GetQuestID() -- obtain quest ID from dialog
     if questID <= 0 or questID == nil then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Invalid quest ID from API, ignoring")
         return -- invalid data from API, abandon offer attempt
     end
     if UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Player does not meet level threshold for debug offers, ignoring")
         return
     end
     if QuestieDB.QueryQuestSingle(questID, "name") == nil then -- if ID not in our DB
@@ -255,6 +265,7 @@ end
 ---@param questID number
 function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker during update
     if UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Player does not meet level threshold for debug offers, ignoring")
         return
     end
     if QuestieDB.QueryQuestSingle(questID, "name") == nil then -- if ID not in our DB
@@ -285,20 +296,26 @@ local timeoutDurationInstance = 600 -- how many seconds to ignore re-passes outs
 -- Missing NPC ID when targeting
 function QuestieDebugOffer.NPCTarget()
     if UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Player does not meet level threshold for debug offers, ignoring")
         return
     end
     local inInstance, _ = IsInInstance()
-    if inInstance == true then
-        return -- temporary override for SoD launch to not prompt NPC debug offers inside instances at all, to prevent BFD spam
+    if inInstance == true then -- temporary override for SoD launch to not prompt NPC debug offers inside instances at all, to prevent BFD spam
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Player targeting NPC is in instance, ignoring")
+        return
     end
     local targetGUID = UnitGUID(target)
     local unit_type = strsplit("-", tostring(targetGUID)) -- determine target type
     if unit_type == "Creature" then -- if target is an NPC
         local npcID = tonumber(targetGUID:match("-(%d+)-%x+$"), 10) -- obtain NPC ID
         if targetTimeout[npcID] == true then -- if target was already targeted recently
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - NPC targeted was targeted recently, ignoring")
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Targeted NPC was targeted recently, ignoring")
             return
         else -- if target was NOT targeted recently
+            if tContains(npcBlacklist, npcID) then -- if NPC is in our blacklist, ignore it
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Targeted NPC is in NPC blacklist, ignoring")
+                return
+            end
             targetTimeout[npcID] = true
             if QuestieDB.QueryNPCSingle(npcID, "name") == nil then -- if ID not in our DB
                 debugIndex = debugIndex + 1
