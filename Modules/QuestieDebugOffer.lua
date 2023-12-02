@@ -284,6 +284,9 @@ local timeoutDurationOverworld = 120 -- how many seconds to ignore re-passes out
 local timeoutDurationInstance = 600 -- how many seconds to ignore re-passes outside of instances
 -- Missing NPC ID when targeting
 function QuestieDebugOffer.NPCTarget()
+    if UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
+        return
+    end
     local inInstance, _ = IsInInstance()
     if inInstance == true then
         return -- temporary override for SoD launch to not prompt NPC debug offers inside instances at all, to prevent BFD spam
