@@ -588,6 +588,9 @@ function QuestieWotlkQuestFixes:Load()
         [11319] = {
             [questKeys.objectives] = {{{23876,"Spores frozen"}}},
         },
+        [11322] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Meditate"), 0, {{"object", 186649}}}},
+        },
         [11332] = {
             [questKeys.sourceItemId] = 33634,
             [questKeys.preQuestSingle] = {11331},
