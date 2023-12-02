@@ -3,7 +3,7 @@ import scrapy
 from scrapy import signals
 
 from ids.quest_ids import QUEST_IDS
-from quest_formatter import Formatter
+from quest_formatter import QuestFormatter
 
 
 class QuestSpider(scrapy.Spider):
@@ -41,6 +41,6 @@ class QuestSpider(scrapy.Spider):
     def spider_closed(self, spider):
         self.logger.info("Spider closed.")
 
-        f = Formatter()
+        f = QuestFormatter()
         f()
 

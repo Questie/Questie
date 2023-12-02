@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 
-class Formatter:
+class QuestFormatter:
 
     def __call__(self, **kwargs):
         self.__format_quests()
@@ -27,7 +27,6 @@ class Formatter:
         print("Loading '{}'...".format(file_name))
         with Path(file_name).open("r", encoding="utf-8") as f:
             data = json.load(f)
-            # data.sort(key=lambda k: int(k["id"]))
         print("Data contains {} entries".format(len(data)))
         return data
 
@@ -75,5 +74,5 @@ class Formatter:
 
 
 if __name__ == '__main__':
-    formatter = Formatter()
+    formatter = QuestFormatter()
     formatter()
