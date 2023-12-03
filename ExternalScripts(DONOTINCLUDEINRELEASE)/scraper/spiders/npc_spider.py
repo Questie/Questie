@@ -28,8 +28,6 @@ class NPCSpider(scrapy.Spider):
                 result["minLevel"] = min_level_match.group(1) if str(min_level_match) != "None" else "0"
                 max_level_match = re.search(r'"maxlevel":(\d+)', script)
                 result["maxLevel"] = max_level_match.group(1) if str(max_level_match) != "None" else "0"
-                zone_id_match = re.search(r'"location":\[(\d+),', script)
-                result["zoneId"] = zone_id_match.group(1) if str(zone_id_match) != "None" else "0"  # TODO: This is not working
                 react_match = re.search(r'"react":\[(-?\d+),(-?\d+)]', script)
                 result["reactAlliance"] = react_match.group(1) if str(react_match) != "None" else "0"
                 result["reactHorde"] = react_match.group(2) if str(react_match) != "None" else "0"
@@ -39,6 +37,8 @@ class NPCSpider(scrapy.Spider):
                 spawns = []
                 for coords, ui_map_id in matches:
                     spawns.append([int(ui_map_id), coords])
+                    if "zoneId" not in result.keys():
+                        result["zoneId"] = ui_map_id
                 result["spawns"] = spawns
 
         if result:
