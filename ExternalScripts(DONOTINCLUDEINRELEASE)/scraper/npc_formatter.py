@@ -17,6 +17,7 @@ class NPCFormatter:
                 g.write("\t\t[npcKeys.minLevel] = {min_level},\n".format(min_level=item["minLevel"]))
                 g.write("\t\t[npcKeys.maxLevel] = {max_level},\n".format(max_level=item["maxLevel"]))
                 g.write("\t\t[npcKeys.zoneID] = {zone_id},\n".format(zone_id=item["zoneId"]))
+                g.write("\t\t[npcKeys.spawns] = {spawns},\n".format(spawns=self.__get_spawns(item["spawns"] if "spawns" in item else [])))
                 g.write("\t\t[npcKeys.friendlyToFaction] = \"{friendly_to}\",\n".format(friendly_to=self.__get_race_string(item["reactAlliance"], item["reactHorde"])))
                 g.write("\t},\n")
             g.write("}\n")
@@ -38,6 +39,22 @@ class NPCFormatter:
             friendly_to = "nil"
 
         return friendly_to
+
+    def __get_spawns(self, spawns) -> str:
+        spawns_string = ""
+        for spawn in spawns:
+            spawns_string += "\t\t\t[{}] = {{".format(spawn[0])
+            for coords in spawn[1]:
+                if isinstance(coords, int) or isinstance(coords, float):
+                    spawns_string += "{{{}}},".format(spawn)
+                else:
+                    spawns_string += "{{{}, {}}},".format(str(coords[0]), str(coords[1]))
+            spawns_string += "},\n"
+        if not spawns_string:
+            spawns_string = "nil"
+        else:
+            spawns_string = "{\n" + spawns_string + "\t\t}"
+        return spawns_string
 
 
 if __name__ == '__main__':
