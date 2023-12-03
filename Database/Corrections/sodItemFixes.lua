@@ -86,6 +86,18 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {386675},
             [itemKeys.vendors] = nil,
         },
+        [203993] = {
+            [itemKeys.name] = "Rune of Slaughter",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = {407734,404941,387466},
+            [itemKeys.vendors] = nil,
+        },
+        [204174] = {
+            [itemKeys.name] = "Rune of Precision",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = {386777},
+            [itemKeys.vendors] = nil,
+        },
         [204441] = {
             [itemKeys.name] = "Rune of Blood Frenzy",
             [itemKeys.npcDrops] = nil,
@@ -170,10 +182,22 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
         },
+        [205905] = {
+            [itemKeys.name] = "Memory of a Devout Champion",
+            [itemKeys.npcDrops] = {210537},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
         [205940] = {
             [itemKeys.name] = "Memory of a Dark Purpose",
             [itemKeys.npcDrops] = {3128,3129,208196,1211,327},
             [itemKeys.objectDrops] = {407734},
+            [itemKeys.vendors] = nil,
+        },
+        [205944] = {
+            [itemKeys.name] = "Reciprocal Epiphany",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
         },
         [205945] = {
@@ -186,6 +210,12 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.name] = "Prophecy of a Desecrated Citadel",
             [itemKeys.npcDrops] = {1124,3113,3118,3207,1536,474,3206,2003,1397,1535},
             [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [205951] = {
+            [itemKeys.name] = "Memory of a Troubled Acolyte",
+            [itemKeys.npcDrops] = {80},
+            [itemKeys.objectDrops] = {405633},
             [itemKeys.vendors] = nil,
         },
         [205961] = {
@@ -212,6 +242,12 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
         },
+        [206168] = {
+            [itemKeys.name] = "Rune of the Chimera",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = {405628},
+            [itemKeys.vendors] = nil,
+        },
         [206381] = {
             [itemKeys.name] = "Dyadic Icon",
             [itemKeys.npcDrops] = {2953,3124},
@@ -222,6 +258,12 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.name] = "Tempest Icon",
             [itemKeys.npcDrops] = {1972},
             [itemKeys.objectDrops] = {3642},
+            [itemKeys.vendors] = nil,
+        },
+        [206388] = {
+            [itemKeys.name] = "Sulfurous Icon",
+            [itemKeys.npcDrops] = {208275},
+            [itemKeys.objectDrops] = {404352},
             [itemKeys.vendors] = nil,
         },
         [206469] = {
@@ -275,6 +317,12 @@ function SeasonOfDiscovery:LoadItems()
         [207062] = {
             [itemKeys.name] = "Severed Centaur Head",
             [itemKeys.npcDrops] = {3120,3119},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [207098] = {
+            [itemKeys.name] = "Note from Ba'so",
+            [itemKeys.npcDrops] = {3195,3203,3198},
             [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
         },
@@ -386,6 +434,12 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
         },
+        [208160] = {
+            [itemKeys.name] = "Severed Wendigo Paw",
+            [itemKeys.npcDrops] = {1135,1134},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
         [208180] = {
             [itemKeys.name] = "Rabbit Musk",
             [itemKeys.npcDrops] = {1116,1117,1115},
@@ -401,6 +455,12 @@ function SeasonOfDiscovery:LoadItems()
         [208192] = {
             [itemKeys.name] = "Dun Morogh Pig Meat",
             [itemKeys.npcDrops] = {1689,1127,1126,1125},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [208205] = {
+            [itemKeys.name] = "Blackrat's Note",
+            [itemKeys.npcDrops] = {6123},
             [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
         },
@@ -470,9 +530,21 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
         },
+        [208610] = {
+            [itemKeys.name] = "Severed Owl Head",
+            [itemKeys.npcDrops] = {1995},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
         [208611] = {
             [itemKeys.name] = "Severed Tiger Head",
             [itemKeys.npcDrops] = {2042},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [208612] = {
+            [itemKeys.name] = "Severed Spider Head",
+            [itemKeys.npcDrops] = {1998},
             [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
         },
@@ -482,9 +554,27 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
         },
+        [208689] = {
+            [itemKeys.name] = "Ferocious Idol",
+            [itemKeys.npcDrops] = {117,1972,6788},
+            [itemKeys.objectDrops] = {152608},
+            [itemKeys.vendors] = nil,
+        },
         [208701] = {
             [itemKeys.name] = "Rune of Beast Mastery",
             [itemKeys.npcDrops] = {210533},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [208741] = {
+            [itemKeys.name] = "Rune of Endless Rage",
+            [itemKeys.npcDrops] = {519,209607,210451,391},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [208744] = {
+            [itemKeys.name] = "Rune of Shadowbolts",
+            [itemKeys.npcDrops] = {209958},
             [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
         },
@@ -518,9 +608,21 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
         },
+        [208777] = {
+            [itemKeys.name] = "Rune of the Sniper",
+            [itemKeys.npcDrops] = {210107,209797,210482},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
         [208823] = {
             [itemKeys.name] = "Offering Coin",
             [itemKeys.npcDrops] = {1175,1174},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [208843] = {
+            [itemKeys.name] = "Battle Totem",
+            [itemKeys.npcDrops] = {1179,1181},
             [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
         },
@@ -540,6 +642,12 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.name] = "Crab Treats",
             [itemKeys.npcDrops] = {2169,2171,2168,2167,2324},
             [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [209029] = {
+            [itemKeys.name] = "Message from Emily",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = {209031},
             [itemKeys.vendors] = nil,
         },
         [209041] = {
@@ -572,8 +680,44 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
         },
+        [209420] = {
+            [itemKeys.name] = "Gillsbane",
+            [itemKeys.npcDrops] = {589,590,504,95},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [209843] = {
+            [itemKeys.name] = "Nar'thalas Almanac, Vol. 74",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
         [209845] = {
             [itemKeys.name] = "Bewitchments and Glamours",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [209846] = {
+            [itemKeys.name] = "Secrets of the Dreamers",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [209847] = {
+            [itemKeys.name] = "Arcanic Systems Manual",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [209851] = {
+            [itemKeys.name] = "Fury of the Land",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [210044] = {
+            [itemKeys.name] = "Symbol of the First Owl",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -582,6 +726,36 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.name] = "Ataeric: On Arcane Curiosities",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = {410299},
+            [itemKeys.vendors] = nil,
+        },
+        [210187] = {
+            [itemKeys.name] = "Venture Co. Work Order",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [210253] = {
+            [itemKeys.name] = "Rot Totem",
+            [itemKeys.npcDrops] = {1773},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [210534] = {
+            [itemKeys.name] = "Idol of the Wild",
+            [itemKeys.npcDrops] = {11910,11912,11911},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [210589] = {
+            [itemKeys.name] = "Echo of the Ancestors",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [210763] = {
+            [itemKeys.name] = "Bough of Altek",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
         },
         [210771] = {
@@ -698,6 +872,30 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {404352},
             [itemKeys.vendors] = nil,
         },
+        [211482] = {
+            [itemKeys.name] = "Shatterspear Offering",
+            [itemKeys.npcDrops] = {2182,2181},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [211488] = {
+            [itemKeys.name] = "Rune of the Avenger",
+            [itemKeys.npcDrops] = {214456},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [211528] = {
+            [itemKeys.name] = "Dark Insight",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [211534] = {
+            [itemKeys.name] = "Primal Insight",
+            [itemKeys.npcDrops] = {3924},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
         [211779] = {
             [itemKeys.name] = "Comprehension Charm",
             [itemKeys.npcDrops] = nil,
@@ -737,6 +935,48 @@ function SeasonOfDiscovery:LoadItems()
         [211823] = {
             [itemKeys.name] = "Waylaid Supplies: Swiftthistle",
             [itemKeys.npcDrops] = {122,213,548,2071,2160,2182,2208,2261,3245,3277,3374,3385,3467,3816,3991,4416,5053,598,832},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [211824] = {
+            [itemKeys.name] = "Waylaid Supplies: Lesser Mana Potions",
+            [itemKeys.npcDrops] = {171,422,598,1167,2336,3256,3280,3471,4093,4416,1189,2235,3283},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [211830] = {
+            [itemKeys.name] = "Waylaid Supplies: Ornate Spyglasses",
+            [itemKeys.npcDrops] = {442,485,505,547,1914,1923,1940,2071,2165,2179,2244,2336,2339,3256,3261,3280,4093,4094,1165,1167,3283,3458},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [211831] = {
+            [itemKeys.name] = "Waylaid Supplies: Dark Leather Cloaks",
+            [itemKeys.npcDrops] = {122,485,548,1197,2102,2168,2180,2265,2338,3239,3263,3424,4005},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [211833] = {
+            [itemKeys.name] = "Waylaid Supplies: Gray Woolen Shirts",
+            [itemKeys.npcDrops] = {124,424,426,441,598,819,824,1194,2236,2237,2244,2336,3261,3278,3377,3394,3717,3721,4044,4096,4416,2339},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [211835] = {
+            [itemKeys.name] = "Waylaid Supplies: Smoked Sagefish",
+            [itemKeys.npcDrops] = {440,446,517,598,1189,1192,1205,2165,2170,2208,2323,2336,2354,3256,3260,3261,3286,3471,3725,4005,122,2235,3278,3282,3461,4416},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [211836] = {
+            [itemKeys.name] = "Waylaid Supplies: Smoked Bear Meat",
+            [itemKeys.npcDrops] = {824,832,2071,2338,3251,3252,3280,3385,3667,3712,4073,9456,9524,98,441,3256},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.vendors] = nil,
+        },
+        [211837] = {
+            [itemKeys.name] = "Waylaid Supplies: Goblin Deviled Clams",
+            [itemKeys.npcDrops] = {423,440,517,1083,1939,2235,3386,3445,3717,4005,4094,8886,122,547,3461},
             [itemKeys.objectDrops] = nil,
             [itemKeys.vendors] = nil,
         },
