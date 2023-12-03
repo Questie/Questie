@@ -43,6 +43,12 @@ class ItemSpider(scrapy.Spider):
                             if "vendors" not in result.keys():
                                 result["vendors"] = []
                             result["vendors"].append(int(sold_by))
+                    if list_view_name == "containedin":
+                        contained_in_pattern = re.compile(r'"id":(\d+)')
+                        for contained_in_object in contained_in_pattern.findall(match):
+                            if "objectDrops" not in result.keys():
+                                result["objectDrops"] = []
+                            result["objectDrops"].append(int(contained_in_object))
 
         if result:
             yield result
