@@ -18,7 +18,7 @@ class NPCFormatter:
                 g.write("        [npcKeys.maxLevel] = {max_level},\n".format(max_level=item["maxLevel"] if int(item["maxLevel"]) < 99 else 99))  # "Son of Arugal" has level 9999
                 g.write("        [npcKeys.zoneID] = {zone_id},\n".format(zone_id=item["zoneId"] if "zoneId" in item else 0))
                 g.write("        [npcKeys.spawns] = {spawns},\n".format(spawns=self.__get_spawns(item["spawns"] if "spawns" in item else [])))
-                g.write("        [npcKeys.friendlyToFaction] = {friendly_to},\n".format(friendly_to=self.__get_race_string(item["reactAlliance"], item["reactHorde"])))
+                g.write("        [npcKeys.friendlyToFaction] = \"{friendly_to}\",\n".format(friendly_to=self.__get_race_string(item["reactAlliance"], item["reactHorde"])))
                 g.write("    },\n")
             g.write("}\n")
 

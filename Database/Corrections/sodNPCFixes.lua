@@ -101,7 +101,7 @@ function SeasonOfDiscovery:LoadNPCs()
                 [141] = {{39.6, 37.4},{39.6, 37.6},{39.6, 69.4},{39.8, 69.6},{43.8, 76.8},{54.6, 66},{62.6, 71.8},},
                 [215] = {{37.8, 55},{40.4, 53.2},{40.6, 53},{45.6, 36.4},{51.8, 39.2},{60, 67.4},{60.2, 67.6},},
             },
-            [npcKeys.friendlyToFaction] = AH,
+            [npcKeys.friendlyToFaction] = "AH",
         },
         [203139] = {
             [npcKeys.name] = "Son of Arugal",
@@ -178,7 +178,7 @@ function SeasonOfDiscovery:LoadNPCs()
                 [141] = {{33.6, 35.6},},
                 [215] = {{60.2, 33.6},{60.4, 33.4},},
             },
-            [npcKeys.friendlyToFaction] = AH,
+            [npcKeys.friendlyToFaction] = "AH",
         },
         [204937] = {
             [npcKeys.name] = "Adventurer's Spirit",
@@ -192,7 +192,7 @@ function SeasonOfDiscovery:LoadNPCs()
                 [141] = {{33.4, 35.6},{33.6, 35.6},},
                 [215] = {{60.4, 33.4},{60.4, 33.6},},
             },
-            [npcKeys.friendlyToFaction] = AH,
+            [npcKeys.friendlyToFaction] = "AH",
         },
         [204989] = {
             [npcKeys.name] = "Wounded Adventurer",
