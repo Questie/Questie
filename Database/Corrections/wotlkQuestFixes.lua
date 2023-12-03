@@ -509,6 +509,9 @@ function QuestieWotlkQuestFixes:Load()
         [11231] = {
             [questKeys.sourceItemId] = 33284,
         },
+        [11238] = {
+            [questKeys.sourceItemId] = 33282,
+        },
         [11241] = {
             [questKeys.triggerEnd] = {"Rescue Apothecary Hanes",{[zoneIDs.HOWLING_FJORD]={{78.72,37.23,},},},},
         },
@@ -530,6 +533,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11257] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{23661,23662,23663,23664,23665,23666,23667,23668,23669,23670},23661,"Winterskorn Vrykul Dismembered"}}},
+        },
+        [11267] = {
+            [questKeys.sourceItemId] = 33282,
         },
         [11279] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Spray Proto-Drake Egg"), 0, {{"monster", 23777}}}},
