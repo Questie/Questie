@@ -18,7 +18,7 @@ class NPCFormatter:
                 g.write("\t\t[npcKeys.maxLevel] = {max_level},\n".format(max_level=item["maxLevel"]))
                 g.write("\t\t[npcKeys.zoneID] = {zone_id},\n".format(zone_id=item["zoneId"] if "zoneId" in item else 0))
                 g.write("\t\t[npcKeys.spawns] = {spawns},\n".format(spawns=self.__get_spawns(item["spawns"] if "spawns" in item else [])))
-                g.write("\t\t[npcKeys.friendlyToFaction] = \"{friendly_to}\",\n".format(friendly_to=self.__get_race_string(item["reactAlliance"], item["reactHorde"])))
+                g.write("\t\t[npcKeys.friendlyToFaction] = {friendly_to},\n".format(friendly_to=self.__get_race_string(item["reactAlliance"], item["reactHorde"])))
                 g.write("\t},\n")
             g.write("}\n")
 
