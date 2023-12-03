@@ -14,8 +14,8 @@ class NPCFormatter:
             for item in npc_input:
                 g.write("    [{id}] = {{\n".format(id=item["npcId"]))
                 g.write("        [npcKeys.name] = \"{name}\",\n".format(name=item["name"]))
-                g.write("        [npcKeys.minLevel] = {min_level},\n".format(min_level=item["minLevel"]))
-                g.write("        [npcKeys.maxLevel] = {max_level},\n".format(max_level=item["maxLevel"]))
+                g.write("        [npcKeys.minLevel] = {min_level},\n".format(min_level=item["minLevel"] if int(item["minLevel"]) < 99 else 99))  # "Son of Arugal" has level 9999
+                g.write("        [npcKeys.maxLevel] = {max_level},\n".format(max_level=item["maxLevel"] if int(item["maxLevel"]) < 99 else 99))  # "Son of Arugal" has level 9999
                 g.write("        [npcKeys.zoneID] = {zone_id},\n".format(zone_id=item["zoneId"] if "zoneId" in item else 0))
                 g.write("        [npcKeys.spawns] = {spawns},\n".format(spawns=self.__get_spawns(item["spawns"] if "spawns" in item else [])))
                 g.write("        [npcKeys.friendlyToFaction] = {friendly_to},\n".format(friendly_to=self.__get_race_string(item["reactAlliance"], item["reactHorde"])))
