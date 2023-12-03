@@ -44,11 +44,11 @@ class NPCFormatter:
         spawns_string = ""
         for spawn in spawns:
             spawns_string += "\t\t\t[{}] = {{".format(spawn[0])
-            for coords in spawn[1]:
-                if isinstance(coords, int) or isinstance(coords, float):
-                    spawns_string += "{{{}}},".format(spawn)
-                else:
-                    spawns_string += "{{{}, {}}},".format(str(coords[0]), str(coords[1]))
+            # coords_string has the format "[51.8,48.8],[53.4,47.4],[53.4,47.8],[53.6,47.2],[53.6,47.6]"
+            coords_string = spawn[1]
+            spawn_entries = json.loads("[" + coords_string + "]")
+            for entry in spawn_entries:
+                spawns_string += "{{{}, {}}},".format(entry[0], entry[1])
             spawns_string += "},\n"
         if not spawns_string:
             spawns_string = "nil"

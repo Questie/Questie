@@ -1,3 +1,4 @@
+import json
 import re
 import scrapy
 from scrapy import signals
@@ -15,6 +16,7 @@ class NPCSpider(scrapy.Spider):
     def __init__(self) -> None:
         super().__init__()
         self.start_urls = [self.base_url_classic.format(npc_id) for npc_id in NPC_IDS]
+        # self.start_urls = [self.base_url_classic.format(npc_id) for npc_id in [203079, 202060]]
 
     def parse(self, response):
         result = {}
@@ -27,7 +29,7 @@ class NPCSpider(scrapy.Spider):
                 max_level_match = re.search(r'"maxlevel":(\d+)', script)
                 result["maxLevel"] = max_level_match.group(1) if str(max_level_match) != "None" else "0"
                 zone_id_match = re.search(r'"location":\[(\d+),', script)
-                result["zoneId"] = zone_id_match.group(1) if str(zone_id_match) != "None" else "0"
+                result["zoneId"] = zone_id_match.group(1) if str(zone_id_match) != "None" else "0"  # TODO: This is not working
                 react_match = re.search(r'"react":\[(-?\d+),(-?\d+)]', script)
                 result["reactAlliance"] = react_match.group(1) if str(react_match) != "None" else "0"
                 result["reactHorde"] = react_match.group(2) if str(react_match) != "None" else "0"
@@ -36,7 +38,7 @@ class NPCSpider(scrapy.Spider):
                 matches = pattern.findall(script)
                 spawns = []
                 for coords, ui_map_id in matches:
-                    spawns.append([int(ui_map_id), eval(coords)])
+                    spawns.append([int(ui_map_id), coords])
                 result["spawns"] = spawns
 
         if result:
