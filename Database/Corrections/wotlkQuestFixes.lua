@@ -576,7 +576,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Use Grick's Bonesaw on corpses of Deranged Explorers"), 0, {{"monster", 23967}}}},
         },
         [11302] = {
-            [questKeys.preQuestSingle] = {11269,11329},
+            [questKeys.preQuestSingle] = {11284},
         },
         [11306] = {
             [questKeys.extraObjectives] = {
@@ -723,7 +723,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Secrets of Nifflevar Uncovered",{[zoneIDs.HOWLING_FJORD]={{69.04,54.79,},},},},
         },
         [11346] = {
-            [questKeys.preQuestSingle] = {11269,11329},
+            [questKeys.preQuestSingle] = {11284},
         },
         [11348] = {
             [questKeys.objectives] = {{{23725,"Test Rune of Command on normal Stone Giants"},{24334}}},
@@ -732,7 +732,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{23725,"Test Rune of Command on normal Stone Giants"},{24334}}},
         },
         [11355] = {
-            [questKeys.preQuestSingle] = {11269,11329},
+            [questKeys.preQuestSingle] = {11284},
             [questKeys.objectives] = {{{24329,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
         },
         [11358] = {
