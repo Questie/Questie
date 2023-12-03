@@ -12,6 +12,16 @@ function SeasonOfDiscovery:LoadNPCs()
     local waypointPresets = QuestieDB.waypointPresets
 
     return {
+        [185403] = {
+            [npcKeys.name] = "Cyriden Farseeker",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 331,
+            [npcKeys.spawns] = {
+                [331] = {{26.4, 22},},
+            },
+            [npcKeys.friendlyToFaction] = nil,
+        },
         [201854] = {
             [npcKeys.name] = "Cutty",
             [npcKeys.minLevel] = 8,
@@ -276,6 +286,16 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.friendlyToFaction] = nil,
         },
+        [207515] = {
+            [npcKeys.name] = "Lurkmane",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 215,
+            [npcKeys.spawns] = {
+                [215] = {{30.8, 61.6},{31, 60.6},},
+            },
+            [npcKeys.friendlyToFaction] = nil,
+        },
         [207577] = {
             [npcKeys.name] = "Lunar Stone",
             [npcKeys.minLevel] = 1,
@@ -522,6 +542,17 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.friendlyToFaction] = nil,
         },
+        [208876] = {
+            [npcKeys.name] = "Cut-throat Mugger",
+            [npcKeys.minLevel] = 10,
+            [npcKeys.maxLevel] = 10,
+            [npcKeys.zoneID] = 1519,
+            [npcKeys.spawns] = {
+                [1519] = {{59, 27.8},{61.4, 29.6},{61.8, 29.2},{62.4, 29.6},},
+                [1537] = {{50.6, 11.4},{52, 12.6},},
+            },
+            [npcKeys.friendlyToFaction] = nil,
+        },
         [208886] = {
             [npcKeys.name] = "Blackrat",
             [npcKeys.minLevel] = 8,
@@ -580,6 +611,24 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {
                 [1] = {{47.2, 53.4},{47.2, 53.6},},
             },
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [209511] = {
+            [npcKeys.name] = "Oasis Snapjaw Hatchling",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 17,
+            [npcKeys.spawns] = {
+                [17] = {{48.2, 40.2},},
+            },
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [209524] = {
+            [npcKeys.name] = "Patrolling Cheetah",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
         },
         [209608] = {
@@ -642,6 +691,14 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.friendlyToFaction] = nil,
         },
+        [209908] = {
+            [npcKeys.name] = "Heretic Idol",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+        },
         [209928] = {
             [npcKeys.name] = "Mowgh",
             [npcKeys.minLevel] = 8,
@@ -682,6 +739,14 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.friendlyToFaction] = nil,
         },
+        [210107] = {
+            [npcKeys.name] = "Kackle",
+            [npcKeys.minLevel] = 38,
+            [npcKeys.maxLevel] = 39,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+        },
         [210451] = {
             [npcKeys.name] = "Lady Sedorax",
             [npcKeys.minLevel] = 18,
@@ -710,6 +775,16 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
         },
+        [210487] = {
+            [npcKeys.name] = "Horror of the Deep",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 40,
+            [npcKeys.spawns] = {
+                [40] = {{26.2, 69.2},},
+            },
+            [npcKeys.friendlyToFaction] = nil,
+        },
         [210501] = {
             [npcKeys.name] = "Harvest Reaper Prototype",
             [npcKeys.minLevel] = 18,
@@ -717,6 +792,16 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = 40,
             [npcKeys.spawns] = {
                 [40] = {{35.4, 52.2},{45.2, 39.4},{45.6, 39},{50.6, 18.8},{52, 33.2},},
+            },
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [210533] = {
+            [npcKeys.name] = "Silverspur",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 40,
+            [npcKeys.spawns] = {
+                [40] = {{34.8, 38.4},{35, 39.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
         },
@@ -766,6 +851,14 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {
                 [406] = {{59.2, 62.6},},
             },
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [210995] = {
+            [npcKeys.name] = "Alonso",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
         },
         [211022] = {
@@ -824,6 +917,22 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
         },
+        [211269] = {
+            [npcKeys.name] = "Summoned Wisp",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [211279] = {
+            [npcKeys.name] = "Corrupt Spirit Beast",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+        },
         [211298] = {
             [npcKeys.name] = "Syrnoya",
             [npcKeys.minLevel] = 0,
@@ -832,6 +941,14 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {
                 [148] = {{37.6, 43.8},},
             },
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [211330] = {
+            [npcKeys.name] = "Suspicious Target",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
         },
         [211653] = {
@@ -844,6 +961,14 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.friendlyToFaction] = nil,
         },
+        [211736] = {
+            [npcKeys.name] = "Grizzled Protector",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+        },
         [211875] = {
             [npcKeys.name] = "Decayed Elemental",
             [npcKeys.minLevel] = 15,
@@ -852,6 +977,46 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {
                 [130] = {{45, 21.2},{45.4, 20.2},{45.6, 20.8},{45.6, 22},{46, 19.8},},
             },
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [212186] = {
+            [npcKeys.name] = "Grugimdern",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [212692] = {
+            [npcKeys.name] = "Bound Elemental",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [212694] = {
+            [npcKeys.name] = "Hirzek",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [212763] = {
+            [npcKeys.name] = "Sadistic Fiend",
+            [npcKeys.minLevel] = 19,
+            [npcKeys.maxLevel] = 19,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [212970] = {
+            [npcKeys.name] = "Felore Moonray",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
         },
         [213077] = {
@@ -940,6 +1105,32 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
         },
+        [214519] = {
+            [npcKeys.name] = "Incinerator Gar'im",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 44,
+            [npcKeys.spawns] = {
+                [44] = {{76.6, 84.2},{77.8, 86.2},},
+            },
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [214529] = {
+            [npcKeys.name] = "Brave Stonetorch",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [214530] = {
+            [npcKeys.name] = "Ardelle Dralta",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+        },
         [214876] = {
             [npcKeys.name] = "Davius Voidstar",
             [npcKeys.minLevel] = 0,
@@ -947,6 +1138,16 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = 148,
             [npcKeys.spawns] = {
                 [148] = {{36.8, 43.4},{37, 43.6},},
+            },
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [214954] = {
+            [npcKeys.name] = "Rix Xizzix",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 33,
+            [npcKeys.spawns] = {
+                [33] = {{28.4, 75.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
         },
@@ -988,6 +1189,30 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {
                 [1497] = {{49.4, 14.4},{50, 14.6},},
             },
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [215367] = {
+            [npcKeys.name] = "Dawnwatcher Selgorm",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [216665] = {
+            [npcKeys.name] = "Gnomeregan Evacuee",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+        },
+        [216667] = {
+            [npcKeys.name] = "Addled Leper",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
         },
     }
