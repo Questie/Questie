@@ -877,6 +877,21 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                 end
             end
         end
+        if objectives[6] then
+            print("objective 6")
+            for index, spellObjective in pairs(objectives[6]) do
+                print("objective 6: " .. tostring(spellObjective))
+                if spellObjective then
+                    print("objective 6: [" .. tostring(index) .. "] detected! id:" .. tostring(spellObjective[1]) .. " text: " .. tostring(spellObjective[2]))
+                    ---@type SpellObjective
+                    QO.ObjectiveData[#QO.ObjectiveData+1] = {
+                        Type = "spell",
+                        Id = spellObjective[1],
+                        Text = spellObjective[2]
+                    }
+                end
+            end
+        end
     end
 
     -- Events need to be added at the end of ObjectiveData

@@ -18,20 +18,18 @@ function SeasonOfDiscovery:LoadQuests()
 
     return {
         -- Example from corrections
-        -- [65610] = {
-        --     [questKeys.name] = "Wish You Were Here",
-        --     [questKeys.startedBy] = { { 3363 }, nil, nil },
-        --     [questKeys.finishedBy] = { { 5875 }, nil },
-        --     [questKeys.requiredLevel] = 20,
-        --     [questKeys.questLevel] = -1,
-        --     [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-        --     [questKeys.requiredClasses] = classIDs.WARLOCK,
-        --     [questKeys.objectivesText] = { "Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar." },
-        --     [questKeys.preQuestSingle] = { 65601 },
-        --     [questKeys.objectives] = { nil, nil, { { 190232 } }, nil, nil },
-        --     [questKeys.exclusiveTo] = { 65593 },
-        --     [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-        -- },
+        [77617] = {
+            [questKeys.name] = "Relics of the Light",
+            [questKeys.startedBy] = {{925}},
+            [questKeys.finishedBy] = {{925}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.questLevel] = 2,
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Recover the libram and follow its guidance to learn a new ability, then return to Brother Sammuel in Northshire."},
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410002}}},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
 
         --[88] = {
         --    [questKeys.name] = "this is a test"

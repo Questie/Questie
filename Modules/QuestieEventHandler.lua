@@ -75,6 +75,14 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterBucketEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", 2, _EventHandler.ChatMsgCompatFactionChange)
     Questie:RegisterEvent("CHAT_MSG_SYSTEM", _EventHandler.ChatMsgSystem)
 
+    -- Spell objectives
+    Questie:RegisterEvent("SPELLS_CHANGED", function()
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] SPELLS_CHANGED")
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
+    end)
+
     -- UI Quest Events
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("QUEST_FINISHED", QuestieAuto.QUEST_FINISHED)
