@@ -1128,6 +1128,12 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Dull Carving Knife near Drakuru"),0,{{"monster", 26423}}},
             },
         },
+        [11995] = {
+            [questKeys.exclusiveTo] = {12439},
+        },
+        [12000] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [12007] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering Zim'bo's Mojo"),0,{{"object", 400047}}}},
         },
@@ -1622,7 +1628,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectivesText] = {"Speak with Lord Devrestrasz at Wyrmrest Temple."},
         },
         [12439] = {
-            [questKeys.exclusiveTo] = {12000},
+            [questKeys.exclusiveTo] = {11995,12000},
         },
         [12446] = {
             [questKeys.specialFlags] = 1,
