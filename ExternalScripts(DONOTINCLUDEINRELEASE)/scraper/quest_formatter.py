@@ -12,15 +12,15 @@ class QuestFormatter:
         with Path("quest_data.lua").open("w", encoding="utf-8") as g:
             g.write("return {\n")
             for item in quest_input:
-                g.write("\t[{id}] = {{\n".format(id=item["questId"]))
-                g.write("\t\t[questKeys.name] = \"{name}\",\n".format(name=item["name"]))
-                g.write("\t\t[questKeys.startedBy] = {{{{{npc_start}}}}},\n".format(npc_start=item["start"]))
-                g.write("\t\t[questKeys.finishedBy] = {{{{{npc_end}}}}},\n".format(npc_end=item["end"]))
-                g.write("\t\t[questKeys.requiredLevel] = {reqLevel},\n".format(reqLevel=item["reqLevel"]))
-                g.write("\t\t[questKeys.questLevel] = {level},\n".format(level=item["level"]))
-                g.write("\t\t[questKeys.requiredRaces] = {reqRace},\n".format(reqRace=self.__get_race_string(item["reqRace"])))
-                g.write("\t\t[questKeys.requiredClasses] = {reqClass},\n".format(reqClass=self.__get_class_string(item["reqClass"])))
-                g.write("\t},\n")
+                g.write("    [{id}] = {{\n".format(id=item["questId"]))
+                g.write("        [questKeys.name] = \"{name}\",\n".format(name=item["name"]))
+                g.write("        [questKeys.startedBy] = {{{{{npc_start}}}}},\n".format(npc_start=item["start"]))
+                g.write("        [questKeys.finishedBy] = {{{{{npc_end}}}}},\n".format(npc_end=item["end"]))
+                g.write("        [questKeys.requiredLevel] = {reqLevel},\n".format(reqLevel=item["reqLevel"]))
+                g.write("        [questKeys.questLevel] = {level},\n".format(level=item["level"]))
+                g.write("        [questKeys.requiredRaces] = {reqRace},\n".format(reqRace=self.__get_race_string(item["reqRace"])))
+                g.write("        [questKeys.requiredClasses] = {reqClass},\n".format(reqClass=self.__get_class_string(item["reqClass"])))
+                g.write("    },\n")
             g.write("}\n")
 
     def __load_json_file(self, file_name: str):
