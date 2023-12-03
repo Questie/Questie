@@ -460,7 +460,10 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
         return
     end
 
-    local npcDrops, objectDrops, vendors = unpack(QuestieDB.QueryItem(itemId, {"npcDrops", "objectDrops", "vendors"}))
+    local sources = QuestieDB.QueryItem(itemId, {"npcDrops", "objectDrops", "vendors"})
+    local npcDrops = sources[1]
+    local objectDrops = sources[2]
+    local vendors = sources[3]
 
     local npcSpawnsHeading = AceGUI:Create("Heading")
     npcSpawnsHeading:SetText(l10n("NPCs"))
