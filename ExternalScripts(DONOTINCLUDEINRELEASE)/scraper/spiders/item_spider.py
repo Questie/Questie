@@ -31,7 +31,7 @@ class ItemSpider(scrapy.Spider):
 
                 for match in list_views_pattern.findall(script):
                     list_view_name = re.search(r'name: WH\.TERMS\.(.*?),', match).group(1)
-                    if list_view_name == "droppedby":
+                    if list_view_name == "droppedby" or list_view_name == "pickpocketedfrom":
                         dropped_by_pattern = re.compile(r'"id":(\d+)')
                         for dropped_by in dropped_by_pattern.findall(match):
                             if "npcDrops" not in result.keys():
