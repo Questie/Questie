@@ -3,6 +3,7 @@ from pathlib import Path
 
 from scrapy.crawler import CrawlerProcess
 
+from spiders.item_spider import ItemSpider
 from spiders.npc_spider import NPCSpider
 from spiders.quest_spider import QuestSpider
 
@@ -13,6 +14,7 @@ class Runner:
         self.logger = getLogger(__name__)
         Path("quest_data.json").unlink(missing_ok=True)
         Path("npc_data.json").unlink(missing_ok=True)
+        Path("item_data.json").unlink(missing_ok=True)
 
     def run(self) -> None:
         process = CrawlerProcess(settings={
@@ -20,7 +22,7 @@ class Runner:
             "FEED_EXPORT_ENCODING": "utf-8",
             "FEED_FORMAT": "json",
             "CONCURRENT_REQUESTS": 32,
-            "FEED_URI": "npc_data.json",
+            "FEED_URI": "item_data.json",
             "COOKIES_ENABLED": False
         })
 
@@ -29,7 +31,10 @@ class Runner:
         # process.crawl(QuestSpider)
         # process.settings.attributes["FEEDS"].value = "npc_data.json"
         # Path("npc_data.json").unlink(missing_ok=True)
-        process.crawl(NPCSpider)
+        # process.crawl(NPCSpider)
+        # process.settings.attributes["FEEDS"].value = "item_data.json"
+        # Path("item_data.json").unlink(missing_ok=True)
+        process.crawl(ItemSpider)
 
         process.start()
 
