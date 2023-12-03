@@ -12,14 +12,14 @@ class NPCFormatter:
         with Path("npc_data.lua").open("w", encoding="utf-8") as g:
             g.write("return {\n")
             for item in npc_input:
-                g.write("\t[{id}] = {{\n".format(id=item["npcId"]))
-                g.write("\t\t[npcKeys.name] = \"{name}\",\n".format(name=item["name"]))
-                g.write("\t\t[npcKeys.minLevel] = {min_level},\n".format(min_level=item["minLevel"]))
-                g.write("\t\t[npcKeys.maxLevel] = {max_level},\n".format(max_level=item["maxLevel"]))
-                g.write("\t\t[npcKeys.zoneID] = {zone_id},\n".format(zone_id=item["zoneId"] if "zoneId" in item else 0))
-                g.write("\t\t[npcKeys.spawns] = {spawns},\n".format(spawns=self.__get_spawns(item["spawns"] if "spawns" in item else [])))
-                g.write("\t\t[npcKeys.friendlyToFaction] = {friendly_to},\n".format(friendly_to=self.__get_race_string(item["reactAlliance"], item["reactHorde"])))
-                g.write("\t},\n")
+                g.write("    [{id}] = {{\n".format(id=item["npcId"]))
+                g.write("        [npcKeys.name] = \"{name}\",\n".format(name=item["name"]))
+                g.write("        [npcKeys.minLevel] = {min_level},\n".format(min_level=item["minLevel"]))
+                g.write("        [npcKeys.maxLevel] = {max_level},\n".format(max_level=item["maxLevel"]))
+                g.write("        [npcKeys.zoneID] = {zone_id},\n".format(zone_id=item["zoneId"] if "zoneId" in item else 0))
+                g.write("        [npcKeys.spawns] = {spawns},\n".format(spawns=self.__get_spawns(item["spawns"] if "spawns" in item else [])))
+                g.write("        [npcKeys.friendlyToFaction] = {friendly_to},\n".format(friendly_to=self.__get_race_string(item["reactAlliance"], item["reactHorde"])))
+                g.write("    },\n")
             g.write("}\n")
 
     def __load_json_file(self, file_name: str):
@@ -44,7 +44,7 @@ class NPCFormatter:
     def __get_spawns(self, spawns) -> str:
         spawns_string = ""
         for spawn in spawns:
-            spawns_string += "\t\t\t[{}] = {{".format(spawn[0])
+            spawns_string += "            [{}] = {{".format(spawn[0])
             # coords_string has the format "[51.8,48.8],[53.4,47.4],[53.4,47.8],[53.6,47.2],[53.6,47.6]"
             coords_string = spawn[1]
             spawn_entries = json.loads("[" + coords_string + "]")
@@ -54,7 +54,7 @@ class NPCFormatter:
         if not spawns_string:
             spawns_string = "nil"
         else:
-            spawns_string = "{\n" + spawns_string + "\t\t}"
+            spawns_string = "{\n" + spawns_string + "        }"
         return spawns_string
 
 
