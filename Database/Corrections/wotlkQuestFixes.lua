@@ -551,6 +551,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{24161,"Oric the Baleful's Corpse Impaled"},{24016,"Ulf the Bloodletter's Corpse Impaled"},{24162,"Gunnar Thorvardsson's Corpse Impaled"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Vrykul across the Forsaken blockade until they appear"), 0, {{"monster", 24015}}}},
         },
+        [11284] = {
+            [questKeys.sourceItemId] = 33352,
+        },
         [11286] = {
             [questKeys.preQuestSingle] = {},
         },
