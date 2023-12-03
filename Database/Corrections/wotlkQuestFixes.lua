@@ -1115,6 +1115,9 @@ function QuestieWotlkQuestFixes:Load()
                 {{[zoneIDs.BOREAN_TUNDRA]={{22,22.6}}}, Questie.ICON_TYPE_EVENT, l10n("Use Arcane Power Focus"),},
             },
         },
+        [11959] = {
+            [questKeys.objectives] = {{{26196,"Loguhn's Blood Smeared"}}},
+        },
         [11960] = {
             [questKeys.reputationReward] = {{1073,500}},
         },
