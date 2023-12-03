@@ -145,6 +145,12 @@ function QuestieWotlkItemFixes:Load()
         [33123] = {
             [itemKeys.npcDrops] = {},
         },
+        [33284] = {
+            [itemKeys.class] = 12,
+        },
+        [33290] = {
+            [itemKeys.class] = 12,
+        },
         [33330] = {
             [itemKeys.npcDrops] = {23954},
         },
@@ -156,9 +162,6 @@ function QuestieWotlkItemFixes:Load()
         },
         [33558] = {
             [itemKeys.npcDrops] = {23967},
-        },
-        [33628] = {
-            [itemKeys.objectDrops] = {186659,186660,186661},
         },
         [33634] = {
             [itemKeys.class] = itemClasses.QUEST,
@@ -615,15 +618,15 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.name] = 'Defiler\'s Medallion',
             [itemKeys.relatedQuests] = {78752},
             [itemKeys.class] = 12,
-            [itemKeys.npcDrops] = {23954,26723,26861,26632,29306,27978,28923,29120,29311,31134,35451,36502,36658,36954},
-            [itemKeys.objectDrops] = {193597,193603},
+            [itemKeys.npcDrops] = {23954,26723,26861,26632,29306,27978,28923,29120,29311,31134,35451,36502,36658},
+            [itemKeys.objectDrops] = {193597,193603,202336},
         },
         [211207] = {
             [itemKeys.name] = 'Mysterious Artifact',
             [itemKeys.relatedQuests] = {78753},
             [itemKeys.class] = 12,
-            [itemKeys.npcDrops] = {23954,26723,26861,26632,29306,27978,28923,29120,29311,31134,35451,36502,36658,36954},
-            [itemKeys.objectDrops] = {193597,193603},
+            [itemKeys.npcDrops] = {23954,26723,26861,26632,29306,27978,28923,29120,29311,31134,35451,36502,36658},
+            [itemKeys.objectDrops] = {193597,193603,202336},
         },
     }
 end

@@ -2136,6 +2136,7 @@ globals = {
     "TaxiNodeName",
     "TaxiNodePosition",
     "TaxiRequestEarlyLanding",
+    "tContains",
     "TimeoutResurrect",
     "ToggleAnimKitDisplay",
     "ToggleAutoRun",

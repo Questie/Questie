@@ -428,7 +428,7 @@ end
 -- Quest Item Button can be switched on and appear in the tracker.
 ---@param text string
 function QuestieTracker:QuestItemLooted(text)
-    local playerLoot = strmatch(text, "You receive ")
+    local playerLoot = strmatch(text, "You receive ") or strmatch(text, "You create")
     local itemId = tonumber(string.match(text, "item:(%d+)"))
 
     if playerLoot and itemId then

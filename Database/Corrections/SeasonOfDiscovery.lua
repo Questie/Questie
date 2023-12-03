@@ -10,6 +10,17 @@ local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist"
 
 SeasonOfDiscovery.currentPhase = 1 -- TODO: Use API function which hopefully will come in the future
 
+local maxLevel = GetMaxPlayerLevel()
+if maxLevel == 25 then
+    SeasonOfDiscovery.currentPhase = 1
+elseif maxLevel == 40 then
+    SeasonOfDiscovery.currentPhase = 2
+elseif maxLevel == 50 then
+    SeasonOfDiscovery.currentPhase = 3
+elseif maxLevel == 60 and SeasonOfDiscovery.currentPhase == 1 then
+    SeasonOfDiscovery.currentPhase = 4
+end
+
 local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
     --[88] = true,
     --[1234] = true,
