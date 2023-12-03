@@ -737,13 +737,13 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11355] = {
             [questKeys.preQuestSingle] = {11284},
-            [questKeys.objectives] = {{{24329,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
+            [questKeys.objectives] = {{{23725,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
         },
         [11358] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Rune Sample"), 0, {{"object", 186718},}}},
         },
         [11365] = {
-            [questKeys.objectives] = {{{24329,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
+            [questKeys.objectives] = {{{23725,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
         },
         [11366] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Rune Sample"), 0, {{"object", 186718},}}},
