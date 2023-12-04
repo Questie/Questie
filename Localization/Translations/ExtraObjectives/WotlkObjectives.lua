@@ -506,7 +506,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Talk to Wyrmbait and slay Icestorm"] = { -- 12467
+    ["Talk to Wyrmbait"] = { -- 12467
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -3039,6 +3039,18 @@ local wotlkObjectiveLocales = {
         ["zhCN"] = false,
     },
     ["Man the Chain Gun"] = { -- 12457
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
+    ["Destroy Icestorm"] = { -- 12467
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
