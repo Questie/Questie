@@ -320,7 +320,7 @@ function TrackerUtils:GetCompletionText(quest)
     if completionText then
         return completionText
     else
-        return nil
+        return quest.Description[1]:gsub("%.", "")
     end
 end
 
