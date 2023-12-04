@@ -509,6 +509,9 @@ function QuestieWotlkQuestFixes:Load()
         [11231] = {
             [questKeys.sourceItemId] = 33284,
         },
+        [11238] = {
+            [questKeys.sourceItemId] = 33282,
+        },
         [11241] = {
             [questKeys.triggerEnd] = {"Rescue Apothecary Hanes",{[zoneIDs.HOWLING_FJORD]={{78.72,37.23,},},},},
         },
@@ -531,6 +534,9 @@ function QuestieWotlkQuestFixes:Load()
         [11257] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{23661,23662,23663,23664,23665,23666,23667,23668,23669,23670},23661,"Winterskorn Vrykul Dismembered"}}},
         },
+        [11267] = {
+            [questKeys.sourceItemId] = 33282,
+        },
         [11279] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Spray Proto-Drake Egg"), 0, {{"monster", 23777}}}},
         },
@@ -544,6 +550,9 @@ function QuestieWotlkQuestFixes:Load()
         [11282] = {
             [questKeys.objectives] = {{{24161,"Oric the Baleful's Corpse Impaled"},{24016,"Ulf the Bloodletter's Corpse Impaled"},{24162,"Gunnar Thorvardsson's Corpse Impaled"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Vrykul across the Forsaken blockade until they appear"), 0, {{"monster", 24015}}}},
+        },
+        [11284] = {
+            [questKeys.sourceItemId] = 33352,
         },
         [11286] = {
             [questKeys.preQuestSingle] = {},
@@ -567,7 +576,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Use Grick's Bonesaw on corpses of Deranged Explorers"), 0, {{"monster", 23967}}}},
         },
         [11302] = {
-            [questKeys.preQuestSingle] = {11269,11329},
+            [questKeys.preQuestSingle] = {11284},
         },
         [11306] = {
             [questKeys.extraObjectives] = {
@@ -593,6 +602,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11322] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Meditate"), 0, {{"object", 186649}}}},
+        },
+        [11329] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Search for Northern Barbfish"), 0, {{"object", 186659}}}},
         },
         [11332] = {
             [questKeys.sourceItemId] = 33634,
@@ -711,23 +723,27 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Secrets of Nifflevar Uncovered",{[zoneIDs.HOWLING_FJORD]={{69.04,54.79,},},},},
         },
         [11346] = {
-            [questKeys.preQuestSingle] = {11269,11329},
+            [questKeys.preQuestSingle] = {11284},
+            [questKeys.sourceItemId] = 33778,
         },
         [11348] = {
             [questKeys.objectives] = {{{23725,"Test Rune of Command on normal Stone Giants"},{24334}}},
+        },
+        [11350] = {
+            [questKeys.sourceItemId] = 33778,
         },
         [11352] = {
             [questKeys.objectives] = {{{23725,"Test Rune of Command on normal Stone Giants"},{24334}}},
         },
         [11355] = {
-            [questKeys.preQuestSingle] = {11269,11329},
-            [questKeys.objectives] = {{{24329,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
+            [questKeys.preQuestSingle] = {11284},
+            [questKeys.objectives] = {{{23725,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
         },
         [11358] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Rune Sample"), 0, {{"object", 186718},}}},
         },
         [11365] = {
-            [questKeys.objectives] = {{{24329,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
+            [questKeys.objectives] = {{{23725,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
         },
         [11366] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Rune Sample"), 0, {{"object", 186718},}}},
@@ -1099,6 +1115,9 @@ function QuestieWotlkQuestFixes:Load()
                 {{[zoneIDs.BOREAN_TUNDRA]={{22,22.6}}}, Questie.ICON_TYPE_EVENT, l10n("Use Arcane Power Focus"),},
             },
         },
+        [11959] = {
+            [questKeys.objectives] = {{{26196,"Loguhn's Blood Smeared"}}},
+        },
         [11960] = {
             [questKeys.reputationReward] = {{1073,500}},
         },
@@ -1121,6 +1140,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Dull Carving Knife near Drakuru"),0,{{"monster", 26423}}},
             },
+        },
+        [11995] = {
+            [questKeys.exclusiveTo] = {12439},
+        },
+        [12000] = {
+            [questKeys.preQuestSingle] = {},
         },
         [12007] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering Zim'bo's Mojo"),0,{{"object", 400047}}}},
@@ -1152,7 +1177,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26458,26570,26582,26583},26612,}}},
         },
         [12032] = {
-            [questKeys.triggerEnd] = {"Oacha'noa's compulsion obeyed.",{[zoneIDs.DRAGONBLIGHT]={{34.09,84.01,},},},},
+            [questKeys.objectives] = {{{26648,"Oacha'noa's compulsion obeyed."}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Commune with Oacha'noa"),0,{{"object", 188422}}}},
         },
         [12033] = {
             [questKeys.preQuestSingle] = {11916},
@@ -1513,6 +1539,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{27209},nil,{37432}},
             [questKeys.preQuestSingle] = {12252},
         },
+        [12272] = {
+            [questKeys.preQuestSingle] = {12275},
+        },
         [12273] = {
             [questKeys.objectives] = {{{27237,},{27235,},{27234,},{27236,}}},
         },
@@ -1521,6 +1550,9 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Abbey Bell Rope"),1,{{"object", 188713}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("High Abbot spoken with"),2,{{"monster", 27245}}},
             },
+        },
+        [12277] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Mine Bomb here"),0,{{"object", 188711}}}},
         },
         [12284] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27475,27482,},27475,"Alliance units eliminated"}}},
@@ -1560,7 +1592,14 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Smoke Bomb"),0,{{"monster", 27570}}}},
         },
         [12321] = {
-            [questKeys.triggerEnd] = {"Righteous Sermon Heard",{[zoneIDs.DRAGONBLIGHT]={{76.73,47.4,},},},},
+            [questKeys.objectives] = {{{27577,"Righteous Sermon Heard"}}},
+        },
+        [12325] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Get a ride to Thorson's Post"),0,{{"monster", 27661}}}},
+        },
+        [12326] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Get in"),0,{{"monster", 27587}}}},
+            [questKeys.objectives] = {{{27607,"Plague Wagon Sabotaged"},{27588,"7th Legion Elite Safely Dropped Off"}}},
         },
         [12327] = {
             [questKeys.triggerEnd] = {"Vision from the Past",{[zoneIDs.SILVERPINE_FOREST]={{46.53,76.18,},},},},
@@ -1616,7 +1655,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectivesText] = {"Speak with Lord Devrestrasz at Wyrmrest Temple."},
         },
         [12439] = {
-            [questKeys.exclusiveTo] = {12000},
+            [questKeys.exclusiveTo] = {11995,12000},
         },
         [12446] = {
             [questKeys.specialFlags] = 1,
@@ -1627,6 +1666,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12456] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{64.6,77}}}, Questie.ICON_TYPE_EVENT, l10n("Use Skytalon Molts"),0}},
+        },
+        [12457] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Man the Chain Gun"),0,{{"monster", 27714}}},},
         },
         [12459] = {
             [questKeys.objectives] = {{{26841,nil},{27808,nil},{27122,nil},},nil,nil,nil,},
