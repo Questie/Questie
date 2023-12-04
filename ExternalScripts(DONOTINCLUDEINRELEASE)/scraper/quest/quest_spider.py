@@ -41,6 +41,6 @@ class QuestSpider(scrapy.Spider):
     def spider_closed(self, spider):
         self.logger.info("Spider closed.")
 
-        f = QuestFormatter()
-        f()
+        # f = QuestFormatter()
+        # f()
 

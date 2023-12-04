@@ -55,6 +55,6 @@ class NPCSpider(scrapy.Spider):
     def spider_closed(self, spider):
         self.logger.info("Spider closed.")
 
-        f = NPCFormatter()
-        f()
+        # f = NPCFormatter()
+        # f()
 

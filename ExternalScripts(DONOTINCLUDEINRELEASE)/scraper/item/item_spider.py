@@ -59,6 +59,6 @@ class ItemSpider(scrapy.Spider):
     def spider_closed(self, spider):
         self.logger.info("Spider closed.")
 
-        f = ItemFormatter()
-        f()
+        # f = ItemFormatter()
+        # f()
 
