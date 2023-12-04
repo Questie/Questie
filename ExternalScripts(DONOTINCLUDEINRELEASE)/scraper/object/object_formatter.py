@@ -13,9 +13,9 @@ class ObjectFormatter:
             g.write("return {\n")
             for item in object_input:
                 g.write("    [{id}] = {{\n".format(id=item["objectId"]))
-                g.write("        [itemKeys.name] = \"{name}\",\n".format(name=item["name"]))
-                g.write("        [npcKeys.zoneID] = {zone_id},\n".format(zone_id=item["zoneId"] if "zoneId" in item else 0))
-                g.write("        [npcKeys.spawns] = {spawns},\n".format(spawns=self.__get_spawns(item["spawns"] if "spawns" in item else [])))
+                g.write("        [objectKeys.name] = \"{name}\",\n".format(name=item["name"]))
+                g.write("        [objectKeys.zoneID] = {zone_id},\n".format(zone_id=item["zoneId"] if "zoneId" in item else 0))
+                g.write("        [objectKeys.spawns] = {spawns},\n".format(spawns=self.__get_spawns(item["spawns"] if "spawns" in item else [])))
                 g.write("    },\n")
             g.write("}\n")
 
