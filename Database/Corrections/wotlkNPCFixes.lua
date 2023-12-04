@@ -819,6 +819,10 @@ function QuestieWotlkNpcFixes:Load()
         [27744] = {
             [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{66.4,28},{62.1,31.1},{59.3,27.1},{57.8,32.2}},[4100]={{-1,-1}}},
         },
+        [27788] = {
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{87.15,51.78},{84.73,50.04}}},
+            [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
         [27871] = {
             [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
         },

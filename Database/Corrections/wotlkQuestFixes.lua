@@ -1667,6 +1667,9 @@ function QuestieWotlkQuestFixes:Load()
         [12456] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{64.6,77}}}, Questie.ICON_TYPE_EVENT, l10n("Use Skytalon Molts"),0}},
         },
+        [12457] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Man the Chain Gun"),0,{{"monster", 27714}}},},
+        },
         [12459] = {
             [questKeys.objectives] = {{{26841,nil},{27808,nil},{27122,nil},},nil,nil,nil,},
         },
