@@ -1,12 +1,9 @@
-import json
 import re
 import scrapy
 from scrapy import signals
 
-from ids.item_ids import ITEM_IDS
-from ids.npc_ids import NPC_IDS
-from item_formatter import ItemFormatter
-from npc_formatter import NPCFormatter
+from item.item_formatter import ItemFormatter
+from item.item_ids import ITEM_IDS
 
 
 class ItemSpider(scrapy.Spider):
@@ -62,6 +59,6 @@ class ItemSpider(scrapy.Spider):
     def spider_closed(self, spider):
         self.logger.info("Spider closed.")
 
-        # f = ItemFormatter()
-        # f()
+        f = ItemFormatter()
+        f()
 
