@@ -30,6 +30,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410002}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [77666] = {
+            [questKeys.name] = "Stolen Power",
+            [questKeys.startedBy] = {{460}},
+            [questKeys.finishedBy] = {{460}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.questLevel] = 2,
+            [questKeys.requiredRaces] = raceIDs.GNOME,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Recover the rune from the group of Troggs, southwest of Anvilmar, and use it to learn a new ability. Then, return to Alamar Grimm in Anvilmar."},
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403501}}},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
 
         --[88] = {
         --    [questKeys.name] = "this is a test"
