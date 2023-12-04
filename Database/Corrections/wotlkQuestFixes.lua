@@ -1177,7 +1177,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26458,26570,26582,26583},26612,}}},
         },
         [12032] = {
-            [questKeys.triggerEnd] = {"Oacha'noa's compulsion obeyed.",{[zoneIDs.DRAGONBLIGHT]={{34.09,84.01,},},},},
+            [questKeys.objectives] = {{{26648,"Oacha'noa's compulsion obeyed."}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Commune with Oacha'noa"),0,{{"object", 188422}}}},
         },
         [12033] = {
             [questKeys.preQuestSingle] = {11916},
