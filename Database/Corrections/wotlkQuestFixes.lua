@@ -1592,7 +1592,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Smoke Bomb"),0,{{"monster", 27570}}}},
         },
         [12321] = {
-            [questKeys.triggerEnd] = {"Righteous Sermon Heard",{[zoneIDs.DRAGONBLIGHT]={{76.73,47.4,},},},},
+            [questKeys.objectives] = {{{27577,"Righteous Sermon Heard"}}},
         },
         [12327] = {
             [questKeys.triggerEnd] = {"Vision from the Past",{[zoneIDs.SILVERPINE_FOREST]={{46.53,76.18,},},},},
