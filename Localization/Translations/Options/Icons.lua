@@ -1063,11 +1063,11 @@ local iconOptionsLocales = {
         ["ruRU"] = "Учителя профессий",
         ["deDE"] = "Berufe-Lehrer",
         ["koKR"] = false,
-        ["esMX"] = "Entrenadores de profesión",
+        ["esMX"] = "Instructores de profesión",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = false,
-        ["esES"] = "Entrenadores de profesión",
+        ["esES"] = "Instructores de profesión",
         ["frFR"] = false,
     },
     ["Change between themes for objective icons."] = {
