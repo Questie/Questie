@@ -1594,6 +1594,9 @@ function QuestieWotlkQuestFixes:Load()
         [12321] = {
             [questKeys.objectives] = {{{27577,"Righteous Sermon Heard"}}},
         },
+        [12325] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Get a ride to Thorson's Post"),0,{{"monster", 27661}}}},
+        },
         [12327] = {
             [questKeys.triggerEnd] = {"Vision from the Past",{[zoneIDs.SILVERPINE_FOREST]={{46.53,76.18,},},},},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Gossamer Potion"),0,{{"object", 189972}}}},
