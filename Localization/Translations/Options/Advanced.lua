@@ -316,7 +316,7 @@ local advancedOptionsLocales = {
     },
     ["Skip Validation"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Пропуск валидации",
         ["deDE"] = "Validierung überspringen",
         ["koKR"] = false,
         ["esMX"] = "Omitir validación",
@@ -328,7 +328,7 @@ local advancedOptionsLocales = {
     },
     ["Skip database validation upon recompile. Validation is only present with debug enabled in the first place."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Пропустить валидацию БД после перекомпиляции. Валидация имеется только при включенном режиме отладки",
         ["deDE"] = "Die Datenbank-Validierung beim Neukompilieren überspringen. Die Validierung findet nur bei aktivem Debugging statt.",
         ["koKR"] = false,
         ["esMX"] = "Omite la validación de la base de datos al volver a compilar. La validación solo está presente con la depuración activada.",
@@ -340,7 +340,7 @@ local advancedOptionsLocales = {
     },
     ["Quel'Danas Settings"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Настройки Кель'Данаса",
         ["deDE"] = "Quel'Danas Einstellungen",
         ["koKR"] = false,
         ["esMX"] = "Configuración de Quel'Danas",
@@ -352,7 +352,7 @@ local advancedOptionsLocales = {
     },
     ["Show Item IDs"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Показать ID предметов",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = "Mostrar ID de artículo",
@@ -364,7 +364,7 @@ local advancedOptionsLocales = {
     },
     ["When this is checked, the ID of items will shown in tooltips."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда это включено, в подсказках будут отображаться ID предметов",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = "Si está marcado, la identificación de los artículos se mostrará en los tooltips.",
@@ -376,7 +376,7 @@ local advancedOptionsLocales = {
     },
     ["Show Object IDs"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Показать ID объектов",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = "Mostrar ID de objeto",
@@ -388,7 +388,7 @@ local advancedOptionsLocales = {
     },
     ["When this is checked, the ID of objects will be shown in tooltips. These are guesses and only show the first matching ID in the QuestieDB."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда это включено, в подсказках будут отображаться ID объектов. Эти данные являются предполагаемыми, отображается только первый совпадающий ID в БД Questie",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = "Si está marcado, la identificación de los objetos se mostrará en los tooltips. Estas son conjeturas y solo muestran la primera identificación coincidente en QuestieDB.",
@@ -400,7 +400,7 @@ local advancedOptionsLocales = {
     },
     ["Show NPC IDs"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Показать ID NPC",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = "Mostrar ID de PNJ",
@@ -412,7 +412,7 @@ local advancedOptionsLocales = {
     },
     ["When this is checked, the ID of NPCs will be shown in tooltips."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда это включено, в подсказках будут отображаться ID NPC",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = "Si está marcado, la identificación de los PNJs se mostrará en los tooltips.",

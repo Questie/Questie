@@ -4,7 +4,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local trackerOptionsLocales = {
     ["Tracker"] = {
         ["ptBR"] = "Rastreador",
-        ["ruRU"] = "Трекер Questie",
+        ["ruRU"] = "Трекер",
         ["deDE"] = "Tracker",
         ["koKR"] = "추적기",
         ["esMX"] = "Rastreador",
@@ -230,7 +230,7 @@ local trackerOptionsLocales = {
     ---------------------------------------------------------
     ["Enable Tracker Header"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Вкл/выкл",
         ["deDE"] = "Tracker-Kopfzeile aktivieren",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -242,7 +242,7 @@ local trackerOptionsLocales = {
     },
     ["When this is enabled the Tracker Header with the number of active quests and the Questie Icon will be permanently visible.\n\nWhen this is disabled the Questie Icon will fade in while your mouse is over the Tracker."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда включено, заголовок трекера с числом активных заданий и значком Questie будет всегда виден.\n\nКогда выключено, значок Questie будет появляться при наведении мышью на трекер",
         ["deDE"] = "Wenn dies aktiviert ist sind die Tracker-Kopfzeile und das Questie Icon permanent sichtbar.\n\nWenn dies deaktiviert ist blendet sich das Questie Icon ein sobald die Maus über dem Tracker ist.",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -255,7 +255,7 @@ local trackerOptionsLocales = {
     ---------------------------------------------------------
     ["Show Tracker Header At The Bottom"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Заголовок трекера внизу",
         ["deDE"] = "Tracker-Kopfzeile unten anzeigen",
         ["koKR"] = false,
         ["esMX"] = "Mostrar encabezado del rastreador en la parte inferior",
@@ -267,7 +267,7 @@ local trackerOptionsLocales = {
     },
     ["When this is enabled the Tracker Header and/or the Questie Icon will be moved to the bottom of the Questie Tracker and the sizer to the top."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда включено, заголовок трекера и/или значок Questie будут перемещены в низ трекера, а сайзер будет перемещен наверх",
         ["deDE"] = "Wenn dies aktiviert ist wird die Tracker-Kopfzeile und/oder das Questie-Icon an den unteren und der Sizer an den oberen Rand des Questie-Tracker verschoben",
         ["koKR"] = false,
         ["esMX"] = "Cuando esto está habilitado, el encabezado del rastreador y/o el icono de Questie se moverán a la parte inferior del rastreador y el medidor a la parte superior.",
@@ -505,7 +505,7 @@ local trackerOptionsLocales = {
     ---------------------------------------------------------
     ["Show Header For Empty Tracker"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Отображать при пустом трекере",
         ["deDE"] = "Tracker-Kopfzeile für leeren Tracker anzeigen",
         ["koKR"] = false,
         ["esMX"] = "Mostrar encabezado para el rastreador vacío",
@@ -517,7 +517,7 @@ local trackerOptionsLocales = {
     },
     ["When this is enabled the Tracker Header will be visible even when no quests are being tracked versus the Tracker being hidden completely."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда включено, заголовок трекера будет виден, даже если в трекере нет отслеживаемых заданий",
         ["deDE"] = "Wenn dies aktiviert ist wird die Tracker-Kopfzeile angezeigt, selbst wenn keine Quests verfolgt werden anstatt, dass der Tracker komplett ausgeblendet wird.",
         ["koKR"] = false,
         ["esMX"] = "Cuando esto está habilitado, el encabezado del rastreador será visible incluso cuando no se estén rastreando misiones, en lugar de que el rastreador esté completamente oculto.",
@@ -1112,7 +1112,7 @@ local trackerOptionsLocales = {
     ---------------------------------------------------------
     ["Font Size for Active Quests Header"] = {
         ["ptBR"] = "Tamanho da fonte para missões ativas",
-        ["ruRU"] = "Размер шрифта заголовка 'Активные задания'",
+        ["ruRU"] = "Размер шрифта заголовка",
         ["deDE"] = "Schriftgröße für aktive Quests",
         ["koKR"] = "활성 퀘스트의 글꼴 크기",
         ["esMX"] = "Tamaño de fuente para misiones activas",
@@ -1124,7 +1124,7 @@ local trackerOptionsLocales = {
     },
     ["The font size used for the Active Quests Header."] = {
         ["ptBR"] = "O tamanho da fonte que o Missões ativas usa.",
-        ["ruRU"] = "Размер шрифта, используемого в заголовке трекера",
+        ["ruRU"] = "Размер шрифта, используемого в заголовке 'Активные задания'",
         ["deDE"] = "Die Schriftgröße die für aktive Quests verwendet wird.",
         ["koKR"] = "Active Quests에서 사용하는 글꼴 크기입니다.",
         ["esMX"] = "El tamaño de fuente que utiliza misiones activas.",
@@ -1337,7 +1337,7 @@ local trackerOptionsLocales = {
     ---------------------------------------------------------
     ["Outline for Zones, Titles, and Objectives"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Обводка шрифта",
+        ["ruRU"] = "Обводка шрифтов",
         ["deDE"] = "Konturen für Zonen, Titel und Ziele",
         ["koKR"] = false,
         ["esMX"] = "Contorno de zonas, títulos y objetivos",
@@ -1349,7 +1349,7 @@ local trackerOptionsLocales = {
     },
     ["The outline used for Quest Zones, Titles, and Objectives in the Questie Tracker."] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Обводка для шрифта названий игровых зон, названий заданий и целей",
+        ["ruRU"] = "Обводка для шрифтов названий игровых зон, названий заданий и целей",
         ["deDE"] = "Die Konturen die für Zonen, Titel und Ziele im Questie-Tracker verwendet werden.",
         ["koKR"] = false,
         ["esMX"] = "El contorno utilizado para las zonas de misiones, títulos y objetivos en el rastreador.",
@@ -1411,7 +1411,7 @@ local trackerOptionsLocales = {
     },
     ["Font Options"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Настройки шрифтов",
         ["deDE"] = "Schriftarten",
         ["koKR"] = false,
         ["esMX"] = "Opciones de fuente",
@@ -1423,7 +1423,7 @@ local trackerOptionsLocales = {
     },
     ["Quest Options"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Настройки заданий",
         ["deDE"] = "Quest-Einstellungen",
         ["koKR"] = false,
         ["esMX"] = "Opciones de misión",
@@ -1435,7 +1435,7 @@ local trackerOptionsLocales = {
     },
     ["Quest and Achievement Options"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Настройки заданий и достижений",
         ["deDE"] = "Quest- und Erfolg-Einstellungen",
         ["koKR"] = false,
         ["esMX"] = "Opciones de misión y logro",
@@ -1447,7 +1447,7 @@ local trackerOptionsLocales = {
     },
     ["Tracker Window Options"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Настройки окна трекера",
         ["deDE"] = "Tracker-Fenster-Einstellungen",
         ["koKR"] = false,
         ["esMX"] = "Opciones de la ventana del rastreador",
