@@ -36,6 +36,7 @@ class Runner:
         # process.crawl(NPCSpider)
         # process.settings.attributes["FEEDS"].value = "item/item_data.json"
         # Path("item/item_data.json").unlink(missing_ok=True)
+        process.crawl(ItemSpider)
 
         process.start()
 
