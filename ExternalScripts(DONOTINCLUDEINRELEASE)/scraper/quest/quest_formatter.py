@@ -27,13 +27,13 @@ class QuestFormatter:
         end_entry = item["end"]
         if end_entry == "nil":
             return "nil"
-        return "{{{{" + end_entry + "}}}}"
+        return "{{" + end_entry + "}}"
 
     def __get_start(self, item):
         start_entry = item["start"]
         if start_entry == "nil":
             return "nil"
-        return "{{{{" + start_entry + "}}}}"
+        return "{{" + start_entry + "}}"
 
     def __load_json_file(self, file_name: str):
         print("Loading '{}'...".format(file_name))
