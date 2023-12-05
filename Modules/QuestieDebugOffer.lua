@@ -10,6 +10,9 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:CreateModule("QuestLogCache")
 
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -21,7 +24,6 @@ local GetBestMapForUnit = C_Map.GetBestMapForUnit
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition
 local PosX = 0
 local PosY = 0
-local itemLink
 local target = "target"
 local player = "player"
 local questnpc = "questnpc"
@@ -109,45 +111,128 @@ local itemWhitelist = {
     206469, -- prairie flower for druid living seed
 }
 
--- determines whether to ignore an item
----@param itemID integer
----@param itemPresentInDB boolean
----@param questItem boolean
----@param questStarts boolean
----@param inInstance boolean
-local function filterItem(itemID, itemPresentInDB, questItem, questStarts, inInstance)
+local itemTripCodes = {
+    ['ItemWhitelisted'] = 0, -- itemID is whitelisted; we want all its data anyway
+    ['ItemMissingFromDB'] = 1, -- error when itemID is missing from DB entirely
+    ['StartQuestIDMismatch'] = 2, -- error when item quest start ID does not match Questie ItemDB
+    ['MissingDropFromNPC'] = 3, -- error when item dropped from npc (corpses) not matching ItemDB
+    ['MissingDropFromObject'] = 4, -- error when item dropped from object (chests in world) not matching ItemDB
+    ['MissingDropFromItem'] = 5, -- error when item dropped from item (lockboxes in inventory) not matching ItemDB
+    ['ContainerMissingFromNPCDB'] = 6, -- error when item's container is missing from NpcDB
+    ['ContainerMissingFromObjectDB'] = 7, -- error when item's container is missing from ObjectDB
+    ['ContainerMissingFromItemDB'] = 8, -- error when item's container is missing from ItemDB
+}
+
+-- determines whether to offer a debug offer for a looted item
+-- if we should create an offer, return an enumerated value from itemTripCodes
+-- if we should not create an offer, return nil
+---@param itemID integer -- ID of looted item
+---@param itemInfo table -- subset from GetLootInfo()
+local function filterItem(itemID, itemInfo, containerGUID)
     -- return true if we should create debug offer, false if not
-    if itemID <= 0 or itemPresentInDB == true then -- if itemID invalid or item is in the DB, don't bother going further
-        return false
+    if itemID <= 0 or itemID == nil then -- if itemID invalid don't bother going further
+        return nil
+    elseif itemID < 190000 then
+        -- temporary catch-all for any item added before SoD so we only get SoD reports;
+        -- OG chronoboon displacer was 184937 so safe to say any SoD items are higher than 190000
+        return nil
     else
+        if tContains(itemWhitelist, itemID) then -- if item is in our whitelist, we want it no matter what
+            return itemTripCodes.ItemWhitelisted
+        elseif tContains(itemBlacklist, itemID) then -- if item is in our blacklist, ignore it
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Item " .. itemID .. " is in debug offer item blacklist, ignoring")
+            return nil
+        elseif UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Player does not meet level threshold for debug offers, ignoring")
+            return nil
+        elseif QuestieCorrections.questItemBlacklist[itemID] then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Item " .. itemID .. " is in QuestieCorrections item blacklist, ignoring")
+            return nil
+        end
+
+        -- Proceeding with checks, so gather required info
+        local questItem, questStarts, questID = false, false, 0
+        if itemInfo.isQuestItem then
+            questItem = true
+        end
+        if itemInfo.questId then
+            questStarts = true
+            questID = itemInfo.questId
+        end
         local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType,
         itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID, bindType,
         expacID, setID, isCraftingReagent = GetItemInfo(itemID)
+        local containerID = tonumber(containerGUID:match("-(%d+)-%x+$"), 10)
+        local containerType = strsplit("-", containerGUID)
 
-        if tContains(itemWhitelist, itemID) then -- if item is in our whitelist, we want it no matter what
-            return true
+        -- Begin data checks.
+        -- We do basic comparisons at the top level so a laggy DB can't drag down our final determination;
+        -- Slow determinations can compound quickly the more items a container holds.
+
+        -- check if item is even in our DB
+        if itemID <= 0 or not QuestieDB.QueryItemSingle(itemID, "name") then
+            return itemTripCodes.ItemMissingFromDB
         end
-        if UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Player does not meet level threshold for debug offers, ignoring")
-            return false
+
+        -- check matching questID for quest start items
+        if questID > 0 then
+            if questID ~= QuestieDB.QueryItemSingle(itemID, "startQuest") then
+                return itemTripCodes.StartQuestIDMismatch
+            else
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - QuestID for " .. itemID .. " present but matches DB, ignoring")
+            end
+        else
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - QuestID value not present, ignoring")
         end
-        if tContains(itemBlacklist, itemID) then -- if item is in our blacklist, ignore it
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Item is in item blacklist, ignoring")
-            return false
-        end
-        if questItem == true or questStarts == true then -- if we know it's a quest item, we want it no matter what (barring blacklist)
-            return true
-        end
-        if inInstance == true then -- if we're in an instance, and it isn't a quest item, ignore it
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Player looting item is in instance, ignoring")
-            return false
-        end
-        if bindType ~= 1 then -- if item is not BoP, then ignore it
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Item is not BoP, ignoring")
-            return false
+
+        -- check loot source data
+        if containerType == "Creature" then -- if container is an NPC (corpse)
+            -- first check if creature is even in our DB
+            if not QuestieDB.QueryNPCSingle(containerID, "name") then
+                return itemTripCodes.ContainerMissingFromNPCDB
+            end
+
+            -- check if item can drop from this creature
+            local lootTable = QuestieDB.QueryItemSingle(itemID, "npcDrops")
+            if not lootTable or tContains(lootTable, containerID) == false then
+                return itemTripCodes.MissingDropFromNPC
+            else
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - NPC drop data for item " .. itemID .. " OK, ignoring")
+            end
+        elseif containerType == "GameObject" then -- if container is an object
+            -- first check if object is even in our DB
+            if not QuestieDB.QueryObjectSingle(containerID, "name") then
+                return itemTripCodes.ContainerMissingFromObjectDB
+            end
+
+            -- check if item can drop from this object
+            local lootTable = QuestieDB.QueryItemSingle(itemID, "objectDrops")
+            if lootTable then
+                if tContains(lootTable, containerID) == false then
+                    return itemTripCodes.MissingDropFromObject
+                else
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Object drop data for item " .. itemID .. " OK, ignoring")
+                end
+            end
+        elseif containerType == "Item" then -- if container is an item
+            -- first check if container item is even in our DB
+            if not QuestieDB.QueryItemSingle(containerID, "name") then
+                return itemTripCodes.ContainerMissingFromItemDB
+            end
+
+            -- check if item can drop from this container
+            local lootTable = QuestieDB.QueryItemSingle(itemID, "itemDrops")
+            if lootTable then
+                if tContains(lootTable, containerID) == false then
+                    return itemTripCodes.MissingDropFromItem
+                else
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - ItemSource drop data for item " .. itemID .. " OK, ignoring")
+                end
+            end
         end
     end
-    return true
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - No data mismatches found for " .. itemID .. ", ignoring")
+    return nil -- if no exceptions raised, we don't need to create a debug offer
 end
 
 local npcBlacklist = {
@@ -181,46 +266,54 @@ end
 -- Missing itemID when looting
 function QuestieDebugOffer.LootWindow()
     local lootInfo = GetLootInfo()
+    local debugContainer, _ = GetLootSourceInfo(1) -- happens early in case the rest of the code is so slow that the container closes before we're ready
+    local inInstance, _ = IsInInstance()
+    if inInstance == true then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemLoot - Player looting item is in instance, ignoring")
+        return -- temporary for SoD to reduce new raid loot triggering debug spam
+    end
 
     for i=1, #lootInfo do
-        local info = lootInfo[i]
-        itemLink = GetLootSlotLink(i)
-        local debugContainer = GetLootSourceInfo(i) -- happens early in case the rest of the code is so slow that the container closes before we're ready
+        local itemInfo = lootInfo[i]
+        local itemLink = GetLootSlotLink(i)
         local itemID = 0
         if itemLink then
-            itemID = GetItemInfoFromHyperlink(GetLootSlotLink(i))
+            itemID = GetItemInfoFromHyperlink(itemLink)
         end
 
-        local questItem = false
-        local questStarts = false
-        local questID = 0
-        if info.isQuestItem then
-            questItem = true
-        end
-        if info.questId then
-            questStarts = true
-            questID = info.questId
-        end
-
-        local itemPresentInDB = false
-        if itemID > 0 and QuestieDB.QueryItemSingle(itemID, "name") then
-            itemPresentInDB = true
-        end
-
-        local inInstance, _ = IsInInstance()
-
-        if filterItem(itemID, itemPresentInDB, questItem, questStarts, inInstance) == true then
+        local tripCode = filterItem(itemID, itemInfo, debugContainer)
+        if tripCode then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemLoot - Creating debug offer for item " .. itemID .. " reason " .. tripCode)
             debugIndex = debugIndex + 1
-            DebugInformation[debugIndex] = "Item not present in ItemDB!"
-            DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n\n|cFFAAAAAAItem ID:|r " .. itemID
+            if tripCode == itemTripCodes.ItemWhitelisted then
+                DebugInformation[debugIndex] = "ItemDB is missing some data about this item!"
+            elseif tripCode == itemTripCodes.ItemMissingFromDB then
+                DebugInformation[debugIndex] = "Item not present in ItemDB!"
+            elseif tripCode == itemTripCodes.StartQuestIDMismatch then
+                DebugInformation[debugIndex] = "Item's QuestID does not match ItemDB!"
+            elseif tripCode == itemTripCodes.MissingDropFromNPC then
+                DebugInformation[debugIndex] = "Item does not match ItemDB npcDrops!"
+            elseif tripCode == itemTripCodes.MissingDropFromObject then
+                DebugInformation[debugIndex] = "Item does not match ItemDB objectDrops!"
+            elseif tripCode == itemTripCodes.MissingDropFromItem then
+                DebugInformation[debugIndex] = "Item does not match ItemDB itemDrops!"
+            elseif tripCode == itemTripCodes.ContainerMissingFromNPCDB then
+                DebugInformation[debugIndex] = "Item's container is missing from NpcDB!"
+            elseif tripCode == itemTripCodes.ContainerMissingFromObjectDB then
+                DebugInformation[debugIndex] = "Item's container is missing from ObjectDB!"
+            elseif tripCode == itemTripCodes.ContainerMissingFromItemDB then
+                DebugInformation[debugIndex] = "Item's container is missing from ItemDB!"
+            else
+                DebugInformation[debugIndex] = "General data mismatch for item!"
+            end
+            DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n\n|cFFAAAAAAItem ID:|r " .. tostring(itemID)
             DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAItem Name:|r " .. itemLink
-            DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Item:|r " .. tostring(questItem)
-            DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Starter:|r " .. tostring(questStarts)
-            DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest ID:|r " .. questID
-            DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAContainer:|r " .. debugContainer
+            DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Item:|r " .. tostring(itemInfo.isQuestItem)
+            DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest ID:|r " .. tostring(itemInfo.questId)
+            DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAContainer:|r " .. tostring(debugContainer)
             DebugInformation[debugIndex] = _AppendUniversalText(DebugInformation[debugIndex])
-            Questie:Print(l10n("An item you just encountered is missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. debugIndex .. "|h[" .. l10n("More Info") .. "]|h|r")
-
+            Questie:Print(l10n("An item you just encountered has data missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. debugIndex .. "|h[" .. l10n("More Info") .. "]|h|r")
+            return -- we only want to show one debug offer per interaction, so break on the first one
         end
     end
 end
@@ -229,11 +322,11 @@ end
 function QuestieDebugOffer.QuestDialog()
     local questID = GetQuestID() -- obtain quest ID from dialog
     if questID <= 0 or questID == nil then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Invalid quest ID from API, ignoring")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - QuestDialog - Invalid quest ID from API, ignoring")
         return -- invalid data from API, abandon offer attempt
     end
     if UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Player does not meet level threshold for debug offers, ignoring")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - QuestDialog - Player does not meet level threshold for debug offers, ignoring")
         return
     end
     if QuestieDB.QueryQuestSingle(questID, "name") == nil then -- if ID not in our DB
@@ -265,7 +358,7 @@ end
 ---@param questID number
 function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker during update
     if UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Player does not meet level threshold for debug offers, ignoring")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - QuestTracking - Player does not meet level threshold for debug offers, ignoring")
         return
     end
     if QuestieDB.QueryQuestSingle(questID, "name") == nil then -- if ID not in our DB
@@ -296,12 +389,12 @@ local timeoutDurationInstance = 600 -- how many seconds to ignore re-passes outs
 -- Missing NPC ID when targeting
 function QuestieDebugOffer.NPCTarget()
     if UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Player does not meet level threshold for debug offers, ignoring")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - NPCTarget - Player does not meet level threshold for debug offers, ignoring")
         return
     end
     local inInstance, _ = IsInInstance()
     if inInstance == true then -- temporary override for SoD launch to not prompt NPC debug offers inside instances at all, to prevent BFD spam
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Player targeting NPC is in instance, ignoring")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - NPCTarget - Player targeting NPC is in instance, ignoring")
         return
     end
     local targetGUID = UnitGUID(target)
@@ -309,11 +402,11 @@ function QuestieDebugOffer.NPCTarget()
     if unit_type == "Creature" then -- if target is an NPC
         local npcID = tonumber(targetGUID:match("-(%d+)-%x+$"), 10) -- obtain NPC ID
         if targetTimeout[npcID] == true then -- if target was already targeted recently
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Targeted NPC was targeted recently, ignoring")
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - NPCTarget - Targeted NPC was targeted recently, ignoring")
             return
         else -- if target was NOT targeted recently
             if tContains(npcBlacklist, npcID) then -- if NPC is in our blacklist, ignore it
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - Targeted NPC is in NPC blacklist, ignoring")
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - NPCTarget - Targeted NPC is in NPC blacklist, ignoring")
                 return
             end
             targetTimeout[npcID] = true

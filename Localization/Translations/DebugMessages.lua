@@ -483,7 +483,7 @@ local debugMessagesLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["An item you just encountered is missing from the Questie database."] = {
+    ["An item you just encountered has data missing from the Questie database."] = {
         ["ptBR"] = false,
         ["ruRU"] = "Обнаруженный вами предмет отсутствует в БД Questie.",
         ["deDE"] = "Ein Gegenstand, den du gerade gefunden hast, fehlt in der Questie-Datenbank.",
