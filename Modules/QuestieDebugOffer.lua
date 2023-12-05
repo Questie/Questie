@@ -151,12 +151,8 @@ local function filterItem(itemID, itemInfo, containerGUID)
         end
 
         -- Proceeding with checks, so gather required info
-        local questItem, questStarts, questID = false, false, 0
-        if itemInfo.isQuestItem then
-            questItem = true
-        end
+        local questID = 0
         if itemInfo.questId then
-            questStarts = true
             questID = itemInfo.questId
         end
         local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType,
