@@ -1,12 +1,9 @@
-import json
 import re
 import scrapy
 from scrapy import signals
 
-from ids.item_ids import ITEM_IDS
-from ids.npc_ids import NPC_IDS
+from item.item_ids import ITEM_IDS
 from item_formatter import ItemFormatter
-from npc_formatter import NPCFormatter
 
 
 class ItemSpider(scrapy.Spider):

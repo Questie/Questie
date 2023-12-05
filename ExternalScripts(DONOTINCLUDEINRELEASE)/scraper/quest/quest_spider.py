@@ -2,7 +2,7 @@ import re
 import scrapy
 from scrapy import signals
 
-from ids.quest_ids import QUEST_IDS
+from quest.quest_ids import QUEST_IDS
 from quest_formatter import QuestFormatter
 
 
