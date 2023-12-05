@@ -1431,6 +1431,9 @@ function QuestieWotlkQuestFixes:Load()
         [12208] = {
             [questKeys.preQuestSingle] = {12412},
         },
+        [12210] = {
+            [questKeys.preQuestSingle] = {12212},
+        },
         [12211] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27202,27203,27206},27203,"Scarlet Onslaught corpses picked clean"}}},
         },
