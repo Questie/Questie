@@ -1202,6 +1202,9 @@ function QuestieWotlkQuestFixes:Load()
         [12039] = {
             [questKeys.preQuestSingle] = {12034},
         },
+        [12049] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Throw the Explosive Charges when it opens its mouth wide"),0,{{"monster", 26293}}}},
+        },
         [12050] = {
             [questKeys.preQuestGroup] = {12046,12047},
         },
@@ -1249,6 +1252,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12078] = {
             [questKeys.preQuestSingle] = {12077},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Sturdy Crates to capture the worm spawn"),0,{{"monster", 26359}}}},
         },
         [12079] = {
             [questKeys.preQuestSingle] = {12075},
@@ -1695,7 +1699,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{27383,"Thel'zan the Duskbringer Defeated"}}},
         },
         [12478] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Zelig's Scrying Orb"),0,{{"object", 190191}}},},
+            [questKeys.objectives] = {nil,{{190191,"Secrets of the Past Revealed"}}},
         },
         [12481] = {
             [questKeys.objectives] = {{{24238,"Bjorn Halgurdsson insulted"},{24238,"Bjorn Halgurdsson defeated"}}},
