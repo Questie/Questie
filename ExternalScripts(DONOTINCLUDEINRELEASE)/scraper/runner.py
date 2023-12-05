@@ -3,9 +3,9 @@ from pathlib import Path
 
 from scrapy.crawler import CrawlerProcess
 
-from spiders.item_spider import ItemSpider
-from spiders.npc_spider import NPCSpider
-from spiders.quest_spider import QuestSpider
+from item.item_spider import ItemSpider
+from npc.npc_spider import NPCSpider
+from quest.quest_spider import QuestSpider
 
 
 class Runner:
