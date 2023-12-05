@@ -26,14 +26,16 @@ class Runner:
             "COOKIES_ENABLED": False
         })
 
+        # TODO: Add Argument parser to select which spider to run
+
         # process.settings.attributes["FEED_URI"].value = "json"
-        # Path("quest_data.json").unlink(missing_ok=True)
+        # Path("quest/quest_data.json").unlink(missing_ok=True)
         process.crawl(QuestSpider)
-        # process.settings.attributes["FEEDS"].value = "npc_data.json"
-        # Path("npc_data.json").unlink(missing_ok=True)
+        # process.settings.attributes["FEEDS"].value = "npc/npc_data.json"
+        # Path("npc/npc_data.json").unlink(missing_ok=True)
         # process.crawl(NPCSpider)
-        # process.settings.attributes["FEEDS"].value = "item_data.json"
-        # Path("item_data.json").unlink(missing_ok=True)
+        # process.settings.attributes["FEEDS"].value = "item/item_data.json"
+        # Path("item/item_data.json").unlink(missing_ok=True)
         # process.crawl(ItemSpider)
 
         process.start()
