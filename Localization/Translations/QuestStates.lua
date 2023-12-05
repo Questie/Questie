@@ -88,7 +88,7 @@ local questStateLocales = {
     },
     ["Rune"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Руна",
         ["deDE"] = true,
         ["koKR"] = false,
         ["esMX"] = "Runa",

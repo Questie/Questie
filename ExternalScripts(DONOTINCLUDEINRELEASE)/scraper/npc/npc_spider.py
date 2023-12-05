@@ -1,4 +1,3 @@
-import json
 import re
 import scrapy
 from scrapy import signals

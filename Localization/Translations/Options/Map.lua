@@ -52,7 +52,7 @@ local mapOptionsLocales = {
     },
     ["Map Icons Glow"] = {
         ["ptBR"] = "Sempre visível atrás dos ícones do mapa",
-        ["ruRU"] = "Подсветка значков (карта мира)",
+        ["ruRU"] = "Подсветка значков",
         ["deDE"] = "Weltkarten-Icons immer leuchten lassen",
         ["koKR"] = "지도 아이콘 반짝임 사용",
         ["esMX"] = "Mostrar aura detrás de los iconos de mapa",
@@ -76,7 +76,7 @@ local mapOptionsLocales = {
     },
     ["Unique Map Icon Colors"] = {
         ["ptBR"] = "Cor diferente do ícone do mapa para cada missão",
-        ["ruRU"] = "Различные цветa значков (карта мира)",
+        ["ruRU"] = "Различные цветa значков",
         ["deDE"] = "Karten-Icons für jede Quest unterschiedlich färben",
         ["koKR"] = "각 퀘스트별 다른 아이콘 색상 사용",
         ["esMX"] = "Color de icono de mapa diferente para cada misión",
