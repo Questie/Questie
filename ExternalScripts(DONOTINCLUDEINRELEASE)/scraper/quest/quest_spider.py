@@ -2,8 +2,8 @@ import re
 import scrapy
 from scrapy import signals
 
+from quest.quest_formatter import QuestFormatter
 from quest.quest_ids import QUEST_IDS
-from quest_formatter import QuestFormatter
 
 
 class QuestSpider(scrapy.Spider):
