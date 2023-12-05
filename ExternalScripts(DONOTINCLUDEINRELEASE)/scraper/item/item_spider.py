@@ -2,8 +2,8 @@ import re
 import scrapy
 from scrapy import signals
 
+from item.item_formatter import ItemFormatter
 from item.item_ids import ITEM_IDS
-from item_formatter import ItemFormatter
 
 
 class ItemSpider(scrapy.Spider):

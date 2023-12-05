@@ -27,7 +27,8 @@ class QuestFormatter:
         print("Loading '{}'...".format(file_name))
         with Path(file_name).open("r", encoding="utf-8") as f:
             data = json.load(f)
-        print("Data contains {} entries".format(len(data)))
+        sorted_data = sorted(data, key=lambda x: x.get('questId', 0))
+        print("Data contains {} entries".format(len(sorted_data)))
         return data
 
     def __get_race_string(self, req_race: int) -> str:

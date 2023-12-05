@@ -2,8 +2,8 @@ import re
 import scrapy
 from scrapy import signals
 
+from quest.quest_formatter import QuestFormatter
 from quest.quest_ids import QUEST_IDS
-from quest_formatter import QuestFormatter
 
 
 class QuestSpider(scrapy.Spider):
@@ -22,13 +22,17 @@ class QuestSpider(scrapy.Spider):
             if script.startswith('//<![CDATA[\nWH.Gatherer.addData') and script.endswith('//]]>'):
                 result["questId"] = re.search(r'g_quests\[(\d+)\]', script).group(1)
                 result["name"] = re.search(r'"name":"([^"]+)"', script).group(1)
-                result["level"] = re.search(r'"level":(\d+)', script).group(1)
-                result["reqLevel"] = re.search(r'"reqlevel":(\d+)', script).group(1)
+                level_match = re.search(r'"level":(\d+)', script)
+                result["level"] = level_match.group(1) if level_match else 0
+                req_level_match = re.search(r'"reqlevel":(\d+)', script)
+                result["reqLevel"] = req_level_match.group(1) if req_level_match else 0
                 result["reqClass"] = re.search(r'"reqclass":(\d+)', script).group(1)
                 result["reqRace"] = re.search(r'"reqrace":(\d+)', script).group(1)
             if script.lstrip().startswith('WH.markup'):
-                result["start"] = re.search(r'Start:.*?npc=(\d+)', script).group(1)
-                result["end"] = re.search(r'End:.*?npc=(\d+)', script).group(1)
+                start_match = re.search(r'Start:.*?npc=(\d+)', script)
+                result["start"] = start_match.group(1) if start_match else "nil"
+                end_match = re.search(r'End:.*?npc=(\d+)', script)
+                result["end"] = end_match.group(1) if end_match else "nil"
         if result:
             yield result
 
@@ -41,6 +45,6 @@ class QuestSpider(scrapy.Spider):
     def spider_closed(self, spider):
         self.logger.info("Spider closed.")
 
-        f = QuestFormatter()
-        f()
+        # f = QuestFormatter()
+        # f()
 

@@ -2,8 +2,8 @@ import re
 import scrapy
 from scrapy import signals
 
+from npc.npc_formatter import NPCFormatter
 from npc.npc_ids import NPC_IDS
-from npc_formatter import NPCFormatter
 
 
 class NPCSpider(scrapy.Spider):
