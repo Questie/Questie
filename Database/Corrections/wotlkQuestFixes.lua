@@ -3404,6 +3404,9 @@ function QuestieWotlkQuestFixes:Load()
         [13368] = {
             [questKeys.preQuestSingle] = {13367},
         },
+        [13369] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Request a portal to Orgrimmar"), 0, {{"monster", 32346}}}},
+        },
         [13372] = {
             [questKeys.startedBy] = {{15989},nil,{44569}},
         },
@@ -3418,7 +3421,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13373},
         },
         [13377] = {
-            [questKeys.triggerEnd] = {"Assist King Varian Wrynn",{[zoneIDs.UNDERCITY]={{53.75,89.96,},},},},
+            [questKeys.objectives] = {{{32518,"Assist King Varian Wrynn"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Begin the assault!"), 0, {{"monster", 32401}}}},
         },
         [13379] = {
             [questKeys.preQuestSingle] = {13239},
