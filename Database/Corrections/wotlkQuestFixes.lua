@@ -1457,9 +1457,6 @@ function QuestieWotlkQuestFixes:Load()
         [12224] = {
             [questKeys.preQuestGroup] = {12221,12140,12072},
         },
-        [12227] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Anderhol's Slider Cider"),0,{{"object", 188666}}}},
-        },
         [12229] = {
             [questKeys.preQuestGroup] = {12207,12213},
         },
