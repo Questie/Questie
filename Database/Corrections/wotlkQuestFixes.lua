@@ -1563,6 +1563,9 @@ function QuestieWotlkQuestFixes:Load()
         [12289] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27456,27463},27456,"Horde units eliminated"}}},
         },
+        [12291] = {
+            [questKeys.objectives] = {{{27226,"Forgotten Peasant Questioned"},{27225,"Forgotten Rifleman Questioned"},{27224,"Forgotten Knight Questioned"},{27229,"Forgotten Footman Questioned"}}},
+        },
         [12296] = {
             [questKeys.objectives] = {{{27482,"Westfall Infantry Healed"}}},
         },
@@ -1574,7 +1577,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {12174,12235},
         },
         [12301] = {
-            [questKeys.triggerEnd] = {"The Forgotten Redeemed",{[zoneIDs.DRAGONBLIGHT]={{86.86,66.18,},},},},
+            [questKeys.objectives] = {nil,{{189304,"The Forgotten Redeemed"}}},
         },
         [12307] = {
             [questKeys.preQuestSingle] = {},
