@@ -27,9 +27,18 @@ class QuestFormatter:
         print("Loading '{}'...".format(file_name))
         with Path(file_name).open("r", encoding="utf-8") as f:
             data = json.load(f)
+        filtered_sorted_data = self.__sort_and_filter_data(data)
+        print("Data contains {} entries".format(len(filtered_sorted_data)))
+        return filtered_sorted_data
+
+    def __sort_and_filter_data(self, data):
         sorted_data = sorted(data, key=lambda x: x.get('questId', 0))
-        print("Data contains {} entries".format(len(sorted_data)))
-        return data
+        filtered_sorted_data = []
+        for x in sorted_data:
+            entry_name = x["name"]
+            if entry_name != "[Never used]" and entry_name.startswith("[DNT]") is False:
+                filtered_sorted_data.append(x)
+        return filtered_sorted_data
 
     def __get_race_string(self, req_race: int) -> str:
         if req_race == "0":
