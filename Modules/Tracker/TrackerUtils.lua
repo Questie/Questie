@@ -315,18 +315,12 @@ end
 ---@return string|nil completionText Quest Completion text string or nil
 function TrackerUtils:GetCompletionText(quest)
     local questIndex = GetQuestLogIndexByID(quest.Id)
-    local completionText
-
-    if Questie.IsWotlk then
-        completionText = GetQuestLogCompletionText(questIndex)
-    else
-        completionText = quest.Description[1]:gsub("%.", "")
-    end
+    local completionText = GetQuestLogCompletionText(questIndex)
 
     if completionText then
         return completionText
     else
-        return nil
+        return quest.Description[1]:gsub("%.", "")
     end
 end
 

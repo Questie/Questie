@@ -1041,7 +1041,7 @@ function QuestieDBCompiler:ValidateNPCs()
     end
 
     validator.stream:finished()
-    print(Questie.DEBUG_INFO, "Finished NPCs validation without issues!")
+    Questie:Debug(Questie.DEBUG_INFO, "Finished NPCs validation without issues!")
 end
 
 function QuestieDBCompiler:ValidateObjects()
@@ -1081,7 +1081,7 @@ function QuestieDBCompiler:ValidateObjects()
     end
 
     validator.stream:finished()
-    print(Questie.DEBUG_INFO, "Finished objects validation without issues!")
+    Questie:Debug(Questie.DEBUG_INFO, "Finished objects validation without issues!")
 end
 
 
@@ -1183,7 +1183,7 @@ function QuestieDBCompiler:ValidateItems()
     validator.stream:finished()
     obj.stream:finished()
     npc.stream:finished()
-    print(Questie.DEBUG_INFO, "Finished items validation without issues!")
+    Questie:Debug(Questie.DEBUG_INFO, "Finished items validation without issues!")
 end
 
 function QuestieDBCompiler:ValidateQuests()
@@ -1270,7 +1270,7 @@ function QuestieDBCompiler:ValidateQuests()
     end
 
     validator.stream:finished()
-    print(Questie.DEBUG_INFO, "Finished quests validation without issues!")
+    Questie:Debug(Questie.DEBUG_INFO, "Finished quests validation without issues!")
 end
 
 function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, overrides)
