@@ -27,6 +27,12 @@ class QuestFormatter:
         end_entry = item["end"]
         if end_entry == "nil":
             return "nil"
+        if isinstance(end_entry, list):
+            ret = "{{"
+            for entry in end_entry:
+                ret += entry + ","
+            ret += "}}"
+            return ret
         return "{{" + end_entry + "}}"
 
     def __get_start(self, item):

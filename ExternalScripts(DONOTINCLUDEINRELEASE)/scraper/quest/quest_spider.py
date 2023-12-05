@@ -31,10 +31,20 @@ class QuestSpider(scrapy.Spider):
             if script.lstrip().startswith('WH.markup'):
                 start_match = re.search(r'Start:.*?npc=(\d+)', script)
                 result["start"] = start_match.group(1) if start_match else "nil"
-                end_match = re.search(r'End:.*?npc=(\d+)', script)
-                result["end"] = end_match.group(1) if end_match else "nil"
+                result["end"] = self.__find_end(script)
         if result:
             yield result
+
+    def __find_end(self, script):
+        end_match = re.findall(r'End:.*?npc=(\d+)', script)
+
+        if end_match:
+            ret = []
+            for match in end_match:
+                ret.append(match)
+            return ret
+
+        return "nil"
 
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
