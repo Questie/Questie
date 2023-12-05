@@ -1655,6 +1655,9 @@ function QuestieWotlkQuestFixes:Load()
         [12431] = {
             [questKeys.objectives] = {{{27727,}}},
         },
+        [12432] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ride the rocket!"), 0, {{"monster", 27593}}}},
+        },
         [12434] = {
             [questKeys.specialFlags] = 1,
             [questKeys.preQuestSingle] = {12433},
@@ -1665,6 +1668,9 @@ function QuestieWotlkQuestFixes:Load()
         [12435] = { -- #4675
             [questKeys.name] = "Report to Lord Devrestrasz",
             [questKeys.objectivesText] = {"Speak with Lord Devrestrasz at Wyrmrest Temple."},
+        },
+        [12437] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ride the rocket!"), 0, {{"monster", 27593}}}},
         },
         [12439] = {
             [questKeys.exclusiveTo] = {11995,12000},

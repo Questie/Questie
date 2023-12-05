@@ -2256,8 +2256,8 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
 
         --! 3.4.0
         -- Northrend -> Grizzly Hills (10 -> 394)
-        [12432] = true, --* Riding the Red Rocket (https://www.wowhead.com/wotlk/quest=12432)
-        [12437] = true, --* Riding the Red Rocket (https://www.wowhead.com/wotlk/quest=12437)
+        --[12432] = true, --* Riding the Red Rocket (https://www.wowhead.com/wotlk/quest=12432)
+        --[12437] = true, --* Riding the Red Rocket (https://www.wowhead.com/wotlk/quest=12437)
 
         -- Dungeons -> The Slave Pens (2 -> 3717)
         --[13431] = true, --* The Cudgel of Kar'desh (https://www.wowhead.com/wotlk/quest=13431) -- it is still available in wotlk P3
