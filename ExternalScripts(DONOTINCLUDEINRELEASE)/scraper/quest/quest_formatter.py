@@ -14,14 +14,26 @@ class QuestFormatter:
             for item in quest_input:
                 g.write("    [{id}] = {{\n".format(id=item["questId"]))
                 g.write("        [questKeys.name] = \"{name}\",\n".format(name=item["name"]))
-                g.write("        [questKeys.startedBy] = {{{{{npc_start}}}}},\n".format(npc_start=item["start"]))
-                g.write("        [questKeys.finishedBy] = {{{{{npc_end}}}}},\n".format(npc_end=item["end"]))
+                g.write("        [questKeys.startedBy] = {npc_start},\n".format(npc_start=self.__get_start(item)))
+                g.write("        [questKeys.finishedBy] = {npc_end},\n".format(npc_end=self.__get_end(item)))
                 g.write("        [questKeys.requiredLevel] = {reqLevel},\n".format(reqLevel=item["reqLevel"]))
                 g.write("        [questKeys.questLevel] = {level},\n".format(level=item["level"]))
                 g.write("        [questKeys.requiredRaces] = {reqRace},\n".format(reqRace=self.__get_race_string(item["reqRace"])))
                 g.write("        [questKeys.requiredClasses] = {reqClass},\n".format(reqClass=self.__get_class_string(item["reqClass"])))
                 g.write("    },\n")
             g.write("}\n")
+
+    def __get_end(self, item):
+        end_entry = item["end"]
+        if end_entry == "nil":
+            return "nil"
+        return "{{{{" + end_entry + "}}}}"
+
+    def __get_start(self, item):
+        start_entry = item["start"]
+        if start_entry == "nil":
+            return "nil"
+        return "{{{{" + start_entry + "}}}}"
 
     def __load_json_file(self, file_name: str):
         print("Loading '{}'...".format(file_name))
