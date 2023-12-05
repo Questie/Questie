@@ -850,6 +850,10 @@ function QuestieWotlkNpcFixes:Load()
         [27978] = {
             [npcKeys.spawns] = {[zoneIDs.HALLS_OF_STONE_MAP]={{49.9,13.3}},[4264]={{-1,-1}}},
         },
+        [27996] = {
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{59.83,52.87}}},
+            [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
         [28012] = {
             [npcKeys.spawns] = {[zoneIDs.BAND_OF_ACCELERATION]={{46.1,19.1}},[zoneIDs.BAND_OF_ALIGNMENT]={{39.7,35.7}},[4228]={{-1,-1}}},
         },
