@@ -907,8 +907,8 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                     QO.ObjectiveData[#QO.ObjectiveData+1] = {
                         Type = "spell",
                         Id = spellObjective[1],
-                        ItemSourceId = 205230, -- TODO: Use spellObjective[2] once that field contains the itemId
-                        Text = spellObjective[2]
+                        Text = spellObjective[2],
+                        ItemSourceId = spellObjective[3],
                     }
                 end
             end
