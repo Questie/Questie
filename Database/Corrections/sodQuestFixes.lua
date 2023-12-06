@@ -82,5 +82,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401759,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [90004] = {
+            [questKeys.name] = "Fingers of Frost",
+            [questKeys.startedBy] = {{1132,1388,1271}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 11,
+            [questKeys.requiredRaces] = raceIDs.GNOME,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Kill him."},
+            [questKeys.requiredSpell] = -401765,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end
