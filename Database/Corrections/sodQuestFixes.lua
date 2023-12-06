@@ -13,28 +13,39 @@ function SeasonOfDiscovery:LoadQuests()
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
     local sortKeys = QuestieDB.sortKeys
+    local specialFlags = QuestieDB.specialFlags
     local profKeys = QuestieProfessions.professionKeys
     local specKeys = QuestieProfessions.specializationKeys
 
     return {
-        -- Example from corrections
-        -- [65610] = {
-        --     [questKeys.name] = "Wish You Were Here",
-        --     [questKeys.startedBy] = { { 3363 }, nil, nil },
-        --     [questKeys.finishedBy] = { { 5875 }, nil },
-        --     [questKeys.requiredLevel] = 20,
-        --     [questKeys.questLevel] = -1,
-        --     [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-        --     [questKeys.requiredClasses] = classIDs.WARLOCK,
-        --     [questKeys.objectivesText] = { "Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar." },
-        --     [questKeys.preQuestSingle] = { 65601 },
-        --     [questKeys.objectives] = { nil, nil, { { 190232 } }, nil, nil },
-        --     [questKeys.exclusiveTo] = { 65593 },
-        --     [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-        -- },
-
-        --[88] = {
-        --    [questKeys.name] = "this is a test"
-        --}
+        [78611] = {
+            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [78612] = {
+            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [78872] = {
+            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [79100] = {
+            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [79101] = {
+            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [79102] = {
+            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [79103] = {
+            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
     }
 end

@@ -132,6 +132,10 @@ QuestieDB.classKeys = {
     DRUID = 1024
 }
 
+QuestieDB.specialFlags = {
+    REPEATABLE = 1,
+}
+
 _QuestieDB.questCache = {}; -- stores quest objects so they dont need to be regenerated
 _QuestieDB.itemCache = {};
 _QuestieDB.npcCache = {};
