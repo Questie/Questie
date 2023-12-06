@@ -46,5 +46,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401757,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [90001] = {
+            [questKeys.name] = "Burnout",
+            [questKeys.startedBy] = {{208752}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 9,
+            [questKeys.requiredRaces] = raceIDs.GNOME,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Gather some Mage and Warlock friends and attack the Frozen Trogg with fire spells."},
+            [questKeys.requiredSpell] = -401759,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end

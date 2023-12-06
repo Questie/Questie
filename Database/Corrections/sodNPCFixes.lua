@@ -11,5 +11,11 @@ function SeasonOfDiscovery:LoadNPCs()
     local npcFlags = QuestieDB.npcFlags
     local waypointPresets = QuestieDB.waypointPresets
 
-    return {}
+    return {
+        [208752] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DUN_MOROGH] = {{69.2, 58.2}},
+            },
+        },
+    }
 end

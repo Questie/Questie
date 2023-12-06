@@ -23,6 +23,7 @@ end
 
 local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
     [90000] = true,
+    [90001] = true,
     --[88] = true,
     --[1234] = true,
     --[5678] = true,
