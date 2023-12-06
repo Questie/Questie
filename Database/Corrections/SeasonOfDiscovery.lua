@@ -30,6 +30,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90005] = true,
     [90006] = true,
     [90007] = true,
+    [90008] = true,
     --[88] = true,
     --[1234] = true,
     --[5678] = true,

@@ -130,5 +130,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401765,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [90008] = {
+            [questKeys.name] = "Regeneration",
+            [questKeys.startedBy] = {nil,{407983}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 14,
+            [questKeys.requiredRaces] = raceIDs.GNOME,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Search the hut for a Pile of Stolen Books."},
+            [questKeys.requiredSpell] = -401767,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end
