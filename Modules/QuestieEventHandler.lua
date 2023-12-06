@@ -81,6 +81,7 @@ function QuestieEventHandler:RegisterLateEvents()
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
+        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
     end)
 
     -- UI Quest Events
