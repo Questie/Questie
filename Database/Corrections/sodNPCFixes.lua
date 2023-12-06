@@ -12,6 +12,12 @@ function SeasonOfDiscovery:LoadNPCs()
     local waypointPresets = QuestieDB.waypointPresets
 
     return {
+        [202060] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.ELWYNN_FOREST] = {{76.8, 51.4}},
+                [zoneIDs.TIRISFAL_GLADES] = {{66.4, 40.2}},
+            },
+        },
         [208752] = {
             [npcKeys.spawns] = {
                 [zoneIDs.DUN_MOROGH] = {{69.2, 58.2}},
