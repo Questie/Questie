@@ -36,13 +36,13 @@ function SeasonOfDiscovery:LoadQuests()
         --- Fake rune quests
         [90000] = {
             [questKeys.name] = "Arcane Blast",
-            [questKeys.startedBy] = {{3711,3712,3713,3715,3717,3944}},
+            [questKeys.startedBy] = {nil,{450000}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.MAGE,
-            [questKeys.objectivesText] = {"Kill Wrathtail Naga to receive Naga Manuscript. Then cast Arcane Explosion next to three crystals you find along the shore."},
+            [questKeys.objectivesText] = {"Cast Arcane Explosion in the correct order next to the Arcane Shard. South to North."},
             [questKeys.requiredSpell] = -401757,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
