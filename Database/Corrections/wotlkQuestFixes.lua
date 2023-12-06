@@ -1137,9 +1137,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [11989] = {
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Dull Carving Knife near Drakuru"),0,{{"monster", 26423}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Dull Carving Knife near Drakuru"),0,{{"monster", 26423}}}},
         },
         [11995] = {
             [questKeys.exclusiveTo] = {12439},
@@ -1585,6 +1583,11 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12307] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [12308] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"),0,{{"monster", 27409}}}},
+            [questKeys.triggerEnd] = {"Escape from Silverbrook",{[zoneIDs.GRIZZLY_HILLS]={{32.37,59.14}}}},
+            [questKeys.objectives] = {},
         },
         [12316] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27500,27550},27550,"Horde killed in Venture Bay"}}},

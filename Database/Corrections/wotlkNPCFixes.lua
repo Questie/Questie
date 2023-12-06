@@ -771,6 +771,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{80.94,50.63}}},
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
+        [27409] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{26.24,31.11}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
         [27431] = {
             [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
         },
