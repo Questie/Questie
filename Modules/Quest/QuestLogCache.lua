@@ -166,20 +166,15 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                 local cachedObjectives = cachedQuest and cachedQuest.objectives or {}
 
                 local newObjectives, changedObjIds = GetNewObjectives(questId, cachedObjectives)
-                print("dumb0 " .. questId)
 
                 if newObjectives then
-                    print("dumb1 " .. questId)
                     if cachedQuest and (#cachedObjectives ~= #newObjectives) then
-                        print("dumb2 " .. questId)
                         Questie:Debug(Questie.DEBUG_CRITICAL, "Please report on Github or Discord! Number of the objectives of the quest changed. questId, oldNum, newNum", questId, #cachedObjectives, #newObjectives)
                         -- Number of the objectives changed?! Shouldn't be possible.
                         -- For now go as nothing in the quest changed.
                         cacheMiss = true
                     else
-                        print("dumb3 " .. questId)
                         if (not cachedQuest) or (cachedQuest.title ~= title) or (cachedQuest.questTag ~= questTag) or (cachedQuest.isComplete ~= isComplete) then
-                            print("dumb4 " .. questId)
                             -- Mark all objectives changed to force update those too.
                             -- changedObjIds is nil from GetObjectives() for quests not having objectives. This is easiest place to change it to {}.
 
