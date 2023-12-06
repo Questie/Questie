@@ -142,5 +142,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401767,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [90009] = {
+            [questKeys.name] = "Regeneration",
+            [questKeys.startedBy] = {nil,{152608,3642}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 14,
+            [questKeys.requiredRaces] = raceIDs.TROLL + raceIDs.UNDEAD,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Loot the Kolkar's Booty chest."},
+            [questKeys.requiredSpell] = -401767,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end
