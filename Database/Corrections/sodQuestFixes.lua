@@ -166,5 +166,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401767,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [90011] = {
+            [questKeys.name] = "Regeneration",
+            [questKeys.startedBy] = {{1867}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 14,
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Kill Dalaran Apprentice."},
+            [questKeys.requiredSpell] = -401767,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end
