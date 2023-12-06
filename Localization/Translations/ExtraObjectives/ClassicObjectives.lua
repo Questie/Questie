@@ -326,7 +326,7 @@ local classicObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Light the Unlit Torch near a fire and use the Burning Torch to set the Archaeoligst's Cart on fire."] = { -- 65602
+    ["Light the Unlit Torch near a fire and use the Burning Torch to set the Archaeologist's Cart on fire."] = { -- 65602
         ["ptBR"] = false,
         ["ruRU"] = "Зажгите Незажженный факел с помощью огня, затем используйте Зажженный Факел чтобы поджечь Телегу Археолога.",
         ["deDE"] = "Entzünde die Fackel an einem Feuer und nutze die brennende Fackel um die Lore des Archeologen Cart in brand zu stecken.",
