@@ -68,6 +68,12 @@ Database\Corrections\QuestieEvent.lua
 # Automatic General Corrections
 Database\Corrections\Automatic\itemStartFixes.lua
 
+# SoD base entries - the data in there is generated
+Database\Corrections\Automatic\sodBaseItems.lua
+Database\Corrections\Automatic\sodBaseNPCs.lua
+Database\Corrections\Automatic\sodBaseObjects.lua
+Database\Corrections\Automatic\sodBaseQuests.lua
+
 # Classic Corrections
 Database\Corrections\classicQuestFixes.lua
 Database\Corrections\classicNPCFixes.lua
