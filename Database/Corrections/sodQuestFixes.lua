@@ -70,5 +70,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401759,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [90003] = {
+            [questKeys.name] = "Burnout",
+            [questKeys.startedBy] = {{208275}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 9,
+            [questKeys.requiredRaces] = raceIDs.ORC,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Gather some Mage and Warlock friends and attack the Frozen Murloc with fire spells."},
+            [questKeys.requiredSpell] = -401759,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end
