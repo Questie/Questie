@@ -804,6 +804,16 @@ function QuestieWotlkNpcFixes:Load()
         [27447] = {
             [npcKeys.spawns] = {[zoneIDs.BAND_OF_ACCELERATION]={{46.1,19.1}},[4228]={{-1,-1}}},
         },
+        [27688] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{21.66,84.54}}},
+        },
+        [27702] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{9.45,78.42}}},
+        },
+        [27708] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{14.83,86.63}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
         [27715] = {
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
@@ -826,6 +836,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [27744] = {
             [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{66.4,28},{62.1,31.1},{59.3,27.1},{57.8,32.2}},[4100]={{-1,-1}}},
+        },
+        [27759] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{14.83,86.63}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
         [27788] = {
             [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{87.15,51.78},{84.73,50.04}}},

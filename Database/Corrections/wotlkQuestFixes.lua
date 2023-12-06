@@ -1588,15 +1588,16 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12316] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27500,27550},27550,"Horde killed in Venture Bay"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Get in the shredder if you have the key"),0,{{"monster", 27496}}}},
         },
         [12317] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27501,27549},27549,"Alliance killed in Venture Bay"}}},
         },
         [12323] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Smoke Bomb"),0,{{"monster", 27570}}}},
+            [questKeys.objectives] = {{{27570,"Venture Company Stragglers smoked out"}}},
         },
         [12324] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Smoke Bomb"),0,{{"monster", 27570}}}},
+            [questKeys.objectives] = {{{27570,"Venture Company Stragglers smoked out"}}},
         },
         [12321] = {
             [questKeys.objectives] = {{{27577,"Righteous Sermon Heard"}}},
@@ -1654,18 +1655,32 @@ function QuestieWotlkQuestFixes:Load()
         [12431] = {
             [questKeys.objectives] = {{{27727,}}},
         },
+        [12432] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ride the rocket!"), 0, {{"monster", 27593}}}},
+        },
         [12434] = {
             [questKeys.specialFlags] = 1,
+            [questKeys.preQuestSingle] = {12433},
+            [questKeys.startedBy] = {{27565}},
+            [questKeys.finishedBy] = {{27565}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [12435] = { -- #4675
             [questKeys.name] = "Report to Lord Devrestrasz",
             [questKeys.objectivesText] = {"Speak with Lord Devrestrasz at Wyrmrest Temple."},
+        },
+        [12437] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ride the rocket!"), 0, {{"monster", 27593}}}},
         },
         [12439] = {
             [questKeys.exclusiveTo] = {11995,12000},
         },
         [12446] = {
             [questKeys.specialFlags] = 1,
+            [questKeys.preQuestSingle] = {12443},
+            [questKeys.startedBy] = {{27495}},
+            [questKeys.finishedBy] = {{27495}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [12453] = {
             [questKeys.preQuestSingle] = {12412},
