@@ -23,24 +23,6 @@ class QuestFormatter:
                 g.write("    },\n")
             g.write("}\n")
 
-    def __get_end(self, item):
-        end_entry = item["end"]
-        if end_entry == "nil":
-            return "nil"
-        if isinstance(end_entry, list):
-            ret = "{{"
-            for entry in end_entry:
-                ret += entry + ","
-            ret += "}}"
-            return ret
-        return "{{" + end_entry + "}}"
-
-    def __get_start(self, item):
-        start_entry = item["start"]
-        if start_entry == "nil":
-            return "nil"
-        return "{{" + start_entry + "}}"
-
     def __load_json_file(self, file_name: str):
         print("Loading '{}'...".format(file_name))
         with Path(file_name).open("r", encoding="utf-8") as f:
@@ -57,6 +39,24 @@ class QuestFormatter:
             if entry_name != "[Never used]" and entry_name.startswith("[DNT]") is False:
                 filtered_sorted_data.append(x)
         return filtered_sorted_data
+
+    def __get_start(self, item):
+        start_entry = item["start"]
+        if start_entry == "nil":
+            return "nil"
+        return "{{" + start_entry + "}}"
+
+    def __get_end(self, item):
+        end_entry = item["end"]
+        if end_entry == "nil":
+            return "nil"
+        if isinstance(end_entry, list):
+            ret = "{{"
+            for entry in end_entry:
+                ret += entry + ","
+            ret += "}}"
+            return ret
+        return "{{" + end_entry + "}}"
 
     def __get_race_string(self, req_race: int) -> str:
         if req_race == "0":
