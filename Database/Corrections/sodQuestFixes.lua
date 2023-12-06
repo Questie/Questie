@@ -154,5 +154,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401767,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [90010] = {
+            [questKeys.name] = "Regeneration",
+            [questKeys.startedBy] = {{589}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 14,
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Kill Defias Pillager."},
+            [questKeys.requiredSpell] = -401767,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end
