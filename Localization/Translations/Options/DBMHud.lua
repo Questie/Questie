@@ -64,7 +64,7 @@ local dbmHudOptionsLocales = {
     },
     ["Toggles whether or not available/complete quest icons appear on HUD. (Default: %s)"] = {
         ["ptBR"] = "Alterna se os ícones de missão disponíveis/completos não aparecem ou não no HUD. (Por defeito: %s)",
-        ["ruRU"] = "Показать/скрыть значки доступных или выполненных заданий на HUD (по умолчанию: %s)",
+        ["ruRU"] = "Показать/скрыть значки доступных или выполненных заданий на DBM HUD (по умолчанию: %s)",
         ["deDE"] = "Schaltet ein, ob Icons für verfügbare/abgeschlossene Quests im HUD angezeigt werden oder nicht. (Standard: %s)",
         ["koKR"] = "수행가능/완료 퀘스트 아이콘을 HUD에 표시합니다. (기본값: %s)",
         ["esMX"] = "Alterna si los iconos de misiones disponibles / completas aparecen o no en HUD. (Por Defecto: %s)",
@@ -76,7 +76,7 @@ local dbmHudOptionsLocales = {
     },
     ["Show object interact icons"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значки объектов",
         ["deDE"] = "Objekt-Interaktions-Icons anzeigen",
         ["koKR"] = false,
         ["esMX"] = "Mostrar iconos de interacción de objetos",
@@ -100,7 +100,7 @@ local dbmHudOptionsLocales = {
     },
     ["Adjusts the fresh rate for HUD Icons which affects how often UI refreshes their position. (Default: %s)"] = {
         ["ptBR"] = "Ajusta a taxa de atualização dos ícones HUD, que afeta a frequência com que a interface do usuário atualiza sua posição. (Por defeito: %s)",
-        ["ruRU"] = "Регулирует частоту обновления значков HUD, которая влияет на то, как часто пользовательский интерфейс обновляет их позиции (по умолчанию: %s).\n\nТребуется выключить/включить HUD",
+        ["ruRU"] = "Регулирует частоту обновления значков DBM HUD, которая влияет на то, как часто пользовательский интерфейс обновляет их позиции (по умолчанию: %s)",
         ["deDE"] = "Passt die Aktualisierungsrate für HUD-Icons an, die sich darauf auswirkt, wie oft die Benutzeroberfläche ihre Position aktualisiert. (Standard: %s)",
         ["koKR"] = "HUD 아이콘의 위치를 새로 표시하는 주기를 설정합니다. (기본값: %s)",
         ["esMX"] = "Ajusta la frecuencia de actualización de los iconos de HUD que afecta la frecuencia con la que la interfaz de usuario actualiza su posición. (Por Defecto: %s)",
@@ -124,7 +124,7 @@ local dbmHudOptionsLocales = {
     },
     ["Adjusts the size of the icons that appear on the HUD. (Default: %s)"] = {
         ["ptBR"] = "Ajusta o tamanho dos ícones que aparecem no HUD. (Por defeito: %s)",
-        ["ruRU"] = "Регулирует размер значков, отображаемых на HUD (по умолчанию: %s)",
+        ["ruRU"] = "Регулирует размер значков, отображаемых на DBM HUD (по умолчанию: %s)",
         ["deDE"] = "Passt die Größe der Icons an, die auf dem HUD erscheinen. (Standard: %s)",
         ["koKR"] = "HUD에 표시될 아이콘의 크기를 설정합니다. (기본값: %s)",
         ["esMX"] = "Ajusta el tamaño de los iconos que aparecen en el HUD. (Por Defecto: %s)",
@@ -136,7 +136,7 @@ local dbmHudOptionsLocales = {
     },
     ["Toggles whether or not object (gear) icons appear on the DBM HUD. (Default: %s)"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Показать/скрыть значки объектов (снаряжения) на DMB HUD (по умолчанию: %s)",
         ["deDE"] = "Aktiviert/Deaktiviert, ob Objekt-Icons (Ausrüstung) im DBM-HUD angezeigt werden oder nicht.",
         ["koKR"] = false,
         ["esMX"] = "Alterna si los iconos de objetos (equipo) aparecen o no en el HUD de DBM. (Predeterminado: %s)",
@@ -172,7 +172,7 @@ local dbmHudOptionsLocales = {
     },
     ["Toggles whether or not loot icons appear on the DBM HUD. (Default: %s)"] = {
         ["ptBR"] = "Alterna se os ícones de saque aparecem ou não no HUD. (Por defeito: %s)",
-        ["ruRU"] = "Показать/скрыть значки добычи на HUD (по умолчанию: %s)",
+        ["ruRU"] = "Показать/скрыть значки добычи на DMB HUD (по умолчанию: %s)",
         ["deDE"] = "Aktiviert/Deaktivert die Anzeige von Beute-Icons im HUD. (Standard: %s)",
         ["koKR"] = "수집 아이콘을 HUD에 표시합니다. (기본값: %s)",
         ["esMX"] = "Alterna si los iconos de botín aparecen en HUD. (Por Defecto: %s)",
@@ -196,7 +196,7 @@ local dbmHudOptionsLocales = {
     },
     ["Changes the color of a HUD icon to red when you are near it."] = {
         ["ptBR"] = "Muda a cor de um ícone HUD para vermelho quando você está perto dele.",
-        ["ruRU"] = "Изменяет цвет значка HUD на красный, когда игрок находится рядом с ним",
+        ["ruRU"] = "Изменяет цвет значка DBM HUD на красный, когда игрок находится рядом с ним",
         ["deDE"] = "Ändert die Farbe eines HUD-Icons auf rot, wenn Sie sich in dessen Nähe befinden.",
         ["koKR"] = "근처에 다가가면 HUD 아이콘을 빨간색으로 표시합니다.",
         ["esMX"] = "Cambia el color de un icono de HUD a rojo cuando estás cerca de él.",
@@ -220,7 +220,7 @@ local dbmHudOptionsLocales = {
     },
     ["Toggles whether or not slay icons appear on the DBM HUD. (Default: %s)"] = {
         ["ptBR"] = "Alterna se os ícones slay aparecem ou não no HUD. (Por defeito: %s)",
-        ["ruRU"] = "Показать/скрыть значки убийств на HUD (по умолчанию: %s)",
+        ["ruRU"] = "Показать/скрыть значки убийств на DBM HUD (по умолчанию: %s)",
         ["deDE"] = "Aktiviert/Deaktiviert die Anzeige von Tötungs-Icons im HUD. (Standard: %s)",
         ["koKR"] = "처치 아이콘을 HUD에 표시합니다. (기본값: %s)",
         ["esMX"] = "Alterna si los iconos de matar aparecen en HUD. (Por Defecto: %s)",
@@ -244,7 +244,7 @@ local dbmHudOptionsLocales = {
     },
     ["Adjusts the zoom level for HUD Icons which affects how close in or how far out you see them. (Default: %s)"] = {
         ["ptBR"] = "Ajusta o nível de zoom dos ícones HUD, o que afeta a proximidade ou a distância que você os vê. (Por defeito: %s)",
-        ["ruRU"] = "Регулирует уровень масштабирования для значков HUD, который влияет на то, как близко или как далеко вы видите их (по умолчанию: %s)",
+        ["ruRU"] = "Регулирует уровень масштабирования для значков DBM HUD, который влияет на то, как близко или как далеко вы видите их (по умолчанию: %s)",
         ["deDE"] = "Stellt die Zoomstufe für HUD-Icons ein, die beeinflusst, wie nah oder wie weit entfernt sie zu sehen sind. (Standard: %s)",
         ["koKR"] = "가까운 거리면 커지고 먼 거리면 작아지는 HUD 아이콘의 확대 비율을 설정합니다. (기본값: %s)",
         ["esMX"] = "Ajusta el nivel de zoom para los iconos de HUD, lo que afecta la proximidad o la distancia a la que los ve. (Por Defecto: %s)",
@@ -256,7 +256,7 @@ local dbmHudOptionsLocales = {
     },
     ["The DBM HUD integrates with the addon DeadlyBossMods to show a radar of objective icons on your entire screen. Enabling this feature usually requires a /reload to take effect."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Оверлей DBM HUD интегрируется с аддоном DeadlyBossMods для отображения на вашем экране радара со значками целей. После включения настройки желательно перезагрузить интерфейс командой /reload",
         ["deDE"] = "Das DBM-HUD integriert sich in dem Addon DeadlyBossMods, um ein Radar mit Quest-Icons auf dem gesamten Bildschirm anzuzeigen. Die Aktivierung dieser Funktion erfordert normalerweise ein /reload",
         ["koKR"] = false,
         ["esMX"] = "El HUD de DBM se integra con el complemento DeadlyBossMods para mostrar un radar de iconos de objetivos en toda la pantalla. Al activar esta función generalmente requiere /recargar para tener efecto.",

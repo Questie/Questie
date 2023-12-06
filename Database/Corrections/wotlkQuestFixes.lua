@@ -1137,9 +1137,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [11989] = {
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Dull Carving Knife near Drakuru"),0,{{"monster", 26423}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Dull Carving Knife near Drakuru"),0,{{"monster", 26423}}}},
         },
         [11995] = {
             [questKeys.exclusiveTo] = {12439},
@@ -1202,6 +1200,9 @@ function QuestieWotlkQuestFixes:Load()
         [12039] = {
             [questKeys.preQuestSingle] = {12034},
         },
+        [12049] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Throw the Explosive Charges when it opens its mouth wide"),0,{{"monster", 26293}}}},
+        },
         [12050] = {
             [questKeys.preQuestGroup] = {12046,12047},
         },
@@ -1249,6 +1250,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12078] = {
             [questKeys.preQuestSingle] = {12077},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Sturdy Crates to capture the worm spawn"),0,{{"monster", 26359}}}},
         },
         [12079] = {
             [questKeys.preQuestSingle] = {12075},
@@ -1427,6 +1429,9 @@ function QuestieWotlkQuestFixes:Load()
         [12208] = {
             [questKeys.preQuestSingle] = {12412},
         },
+        [12210] = {
+            [questKeys.preQuestSingle] = {12212},
+        },
         [12211] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27202,27203,27206},27203,"Scarlet Onslaught corpses picked clean"}}},
         },
@@ -1449,9 +1454,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12224] = {
             [questKeys.preQuestGroup] = {12221,12140,12072},
-        },
-        [12227] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Anderhol's Slider Cider"),0,{{"object", 188666}}}},
         },
         [12229] = {
             [questKeys.preQuestGroup] = {12207,12213},
@@ -1563,6 +1565,9 @@ function QuestieWotlkQuestFixes:Load()
         [12289] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27456,27463},27456,"Horde units eliminated"}}},
         },
+        [12291] = {
+            [questKeys.objectives] = {{{27226,"Forgotten Peasant Questioned"},{27225,"Forgotten Rifleman Questioned"},{27224,"Forgotten Knight Questioned"},{27229,"Forgotten Footman Questioned"}}},
+        },
         [12296] = {
             [questKeys.objectives] = {{{27482,"Westfall Infantry Healed"}}},
         },
@@ -1574,22 +1579,28 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {12174,12235},
         },
         [12301] = {
-            [questKeys.triggerEnd] = {"The Forgotten Redeemed",{[zoneIDs.DRAGONBLIGHT]={{86.86,66.18,},},},},
+            [questKeys.objectives] = {nil,{{189304,"The Forgotten Redeemed"}}},
         },
         [12307] = {
             [questKeys.preQuestSingle] = {},
         },
+        [12308] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"),0,{{"monster", 27409}}}},
+            [questKeys.triggerEnd] = {"Escape from Silverbrook",{[zoneIDs.GRIZZLY_HILLS]={{32.37,59.14}}}},
+            [questKeys.objectives] = {},
+        },
         [12316] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27500,27550},27550,"Horde killed in Venture Bay"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Get in the shredder if you have the key"),0,{{"monster", 27496}}}},
         },
         [12317] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27501,27549},27549,"Alliance killed in Venture Bay"}}},
         },
         [12323] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Smoke Bomb"),0,{{"monster", 27570}}}},
+            [questKeys.objectives] = {{{27570,"Venture Company Stragglers smoked out"}}},
         },
         [12324] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Smoke Bomb"),0,{{"monster", 27570}}}},
+            [questKeys.objectives] = {{{27570,"Venture Company Stragglers smoked out"}}},
         },
         [12321] = {
             [questKeys.objectives] = {{{27577,"Righteous Sermon Heard"}}},
@@ -1647,18 +1658,32 @@ function QuestieWotlkQuestFixes:Load()
         [12431] = {
             [questKeys.objectives] = {{{27727,}}},
         },
+        [12432] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ride the rocket!"), 0, {{"monster", 27593}}}},
+        },
         [12434] = {
             [questKeys.specialFlags] = 1,
+            [questKeys.preQuestSingle] = {12433},
+            [questKeys.startedBy] = {{27565}},
+            [questKeys.finishedBy] = {{27565}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [12435] = { -- #4675
             [questKeys.name] = "Report to Lord Devrestrasz",
             [questKeys.objectivesText] = {"Speak with Lord Devrestrasz at Wyrmrest Temple."},
+        },
+        [12437] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ride the rocket!"), 0, {{"monster", 27593}}}},
         },
         [12439] = {
             [questKeys.exclusiveTo] = {11995,12000},
         },
         [12446] = {
             [questKeys.specialFlags] = 1,
+            [questKeys.preQuestSingle] = {12443},
+            [questKeys.startedBy] = {{27495}},
+            [questKeys.finishedBy] = {{27495}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [12453] = {
             [questKeys.preQuestSingle] = {12412},
@@ -1680,16 +1705,19 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [12467] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Wyrmbait and slay Icestorm"),0,{{"monster", 27843}}},},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Talk to Wyrmbait"),0,{{"monster", 27843}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Icestorm"),0,{{"monster", 26287}}},
+            },
         },
         [12470] = {
             [questKeys.triggerEnd] = {"Hourglass of Eternity protected",{[zoneIDs.DRAGONBLIGHT]={{71.57,38.91,},},},},
         },
         [12473] = {
-            [questKeys.triggerEnd] = {"Thel'zan the Duskbringer Defeated",{[zoneIDs.DRAGONBLIGHT]={{81.11,50.64,},},},},
+            [questKeys.objectives] = {{{27383,"Thel'zan the Duskbringer Defeated"}}},
         },
         [12478] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Zelig's Scrying Orb"),0,{{"object", 190191}}},},
+            [questKeys.objectives] = {nil,{{190191,"Secrets of the Past Revealed"}}},
         },
         [12481] = {
             [questKeys.objectives] = {{{24238,"Bjorn Halgurdsson insulted"},{24238,"Bjorn Halgurdsson defeated"}}},
@@ -1707,7 +1735,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{23872},nil,{38281}},
         },
         [12498] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Antiok's mount to make him vulnerable"),0,{{"monster", 28018}}},},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Slay Antiok's mount to make him vulnerable"),0,{{"monster", 28018}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Slay Grand Necrolord Antiok"),0,{{"monster", 28006}}},
+                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"),0,{{"monster", 27996}}},
+            },
         },
         [12500] = {
             [questKeys.preQuestSingle] = {12498},
@@ -2563,7 +2595,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13008] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{30273,30268,30274},30273,}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Talk to Wyrmbait and slay Icestorm"),0,{{"monster", 28674}}},},
         },
         [13010] = {
             [questKeys.objectives] = {{{30105}},nil,nil,{1119,3000}},
@@ -3398,6 +3429,9 @@ function QuestieWotlkQuestFixes:Load()
         [13368] = {
             [questKeys.preQuestSingle] = {13367},
         },
+        [13369] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Request a portal to Orgrimmar"), 0, {{"monster", 32346}}}},
+        },
         [13372] = {
             [questKeys.startedBy] = {{15989},nil,{44569}},
         },
@@ -3412,7 +3446,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13373},
         },
         [13377] = {
-            [questKeys.triggerEnd] = {"Assist King Varian Wrynn",{[zoneIDs.UNDERCITY]={{53.75,89.96,},},},},
+            [questKeys.objectives] = {{{32518,"Assist King Varian Wrynn"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Begin the assault!"), 0, {{"monster", 32401}}}},
         },
         [13379] = {
             [questKeys.preQuestSingle] = {13239},

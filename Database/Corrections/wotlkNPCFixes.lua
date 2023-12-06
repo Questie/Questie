@@ -551,6 +551,10 @@ function QuestieWotlkNpcFixes:Load()
         [26225] = {
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{85.4,33.34}}},
         },
+        [26287] = {
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{63.7,27.62}}},
+            [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
         [26401] = { -- Summer Scorchling
             [npcKeys.spawns] = {[3518]={{49.57,69.4}},[3521]={{68.73,51.95}},[3522]={{41.52,65.87}},[3519]={{54.01,55.57}},[3520]={{39.63,54.56}},[3523]={{31.16,62.65}},[141]={{55.0,60.41}},[405]={{66.19,17.1}},[15]={{61.87,40.5}},[45]={{49.94,44.79}},[33]={{33.94,73.56}},[267]={{50.45,47.45}},[11]={{13.5,46.97}},[12]={{43.48,62.5}},[44]={{26.08,59.25}},[47]={{14.41,50.01}},[40]={{55.86,53.39}},[1]={{46.69,46.85}},[38]={{32.59,41.1}},[10]={{73.77,54.5}},[4]={{59.3,16.88}},[1377]={{57.56,35.23}},[618]={{62.52,35.47}},[440]={{52.79,29.32}},[331]={{37.79,54.81}},[148]={{36.95,46.23}},[3483]={{62.2,58.25}},[67]={{41.42,86.75}},[2817]={{78.07,74.91}},[66]={{40.37,61.4}},[495]={{57.84,16.18}},[394]={{33.94,60.52}},[65]={{75.24,43.77}},[3537]={{55.15,19.92}},[3711]={{48.12,65.93}},[3524]={{44.4,52.48}},[3525]={{55.81,67.74}},[357]={{28.27,43.86}},[46]={{80.28,63.03}},[28]={{43.43,82.24}},},
         },
@@ -763,6 +767,14 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{52.62,24.06}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
+        [27383] = {
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{80.94,50.63}}},
+            [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
+        [27409] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{26.24,31.11}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
         [27431] = {
             [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
         },
@@ -796,6 +808,16 @@ function QuestieWotlkNpcFixes:Load()
         [27447] = {
             [npcKeys.spawns] = {[zoneIDs.BAND_OF_ACCELERATION]={{46.1,19.1}},[4228]={{-1,-1}}},
         },
+        [27688] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{21.66,84.54}}},
+        },
+        [27702] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{9.45,78.42}}},
+        },
+        [27708] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{14.83,86.63}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
         [27715] = {
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
@@ -819,9 +841,16 @@ function QuestieWotlkNpcFixes:Load()
         [27744] = {
             [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{66.4,28},{62.1,31.1},{59.3,27.1},{57.8,32.2}},[4100]={{-1,-1}}},
         },
+        [27759] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{14.83,86.63}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
         [27788] = {
             [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{87.15,51.78},{84.73,50.04}}},
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
+        [27843] = {
+            [npcKeys.waypoints] = {},
         },
         [27871] = {
             [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
@@ -838,6 +867,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [27978] = {
             [npcKeys.spawns] = {[zoneIDs.HALLS_OF_STONE_MAP]={{49.9,13.3}},[4264]={{-1,-1}}},
+        },
+        [27996] = {
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{59.83,52.87}}},
+            [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
         [28012] = {
             [npcKeys.spawns] = {[zoneIDs.BAND_OF_ACCELERATION]={{46.1,19.1}},[zoneIDs.BAND_OF_ALIGNMENT]={{39.7,35.7}},[4228]={{-1,-1}}},

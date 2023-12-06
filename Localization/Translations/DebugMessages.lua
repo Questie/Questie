@@ -425,7 +425,7 @@ local debugMessagesLocales = {
     -- Debug Offers
     ["Questie Debug Info"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Отладочная информация",
         ["deDE"] = "Questie Debug-Info",
         ["koKR"] = false,
         ["esMX"] = "Información de depuración de Questie",
@@ -437,7 +437,7 @@ local debugMessagesLocales = {
     },
     ["Please share this info with us on"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Пожалуйста, поделитесь с нами этой информацией",
         ["deDE"] = "Bitte teile diese Informationen mit uns auf",
         ["koKR"] = false,
         ["esMX"] = "Por favor comparte esta información con nosotros en",
@@ -449,7 +449,7 @@ local debugMessagesLocales = {
     },
     ["You can copy the data above"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Вы можете скопировать эти данные выше",
         ["deDE"] = "Du kannst die Daten oben kopieren",
         ["koKR"] = false,
         ["esMX"] = "Puedes copiar los datos de arriba",
@@ -461,7 +461,7 @@ local debugMessagesLocales = {
     },
     ["Would you like to help us fix it?"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Хотите ли вы помочь нам исправить это?",
         ["deDE"] = "Möchtest du uns dabei helfen, dies zu fixen?",
         ["koKR"] = false,
         ["esMX"] = "¿Quieres ayudarnos a solucionarlo?",
@@ -473,7 +473,7 @@ local debugMessagesLocales = {
     },
     ["More Info"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Больше информации",
         ["deDE"] = "Mehr Infos",
         ["koKR"] = false,
         ["esMX"] = "Más información",
@@ -483,9 +483,9 @@ local debugMessagesLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["An item you just encountered is missing from the Questie database."] = {
+    ["An item you just encountered has data missing from the Questie database."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Обнаруженный вами предмет отсутствует в БД Questie.",
         ["deDE"] = "Ein Gegenstand, den du gerade gefunden hast, fehlt in der Questie-Datenbank.",
         ["koKR"] = false,
         ["esMX"] = "Un objeto que acaba de encontrar falta en la base de datos de Questie.",
@@ -497,7 +497,7 @@ local debugMessagesLocales = {
     },
     ["A quest you just encountered is missing from the Questie database."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Обнаруженное вами задание отсутствует в БД Questie.",
         ["deDE"] = "Eine Quest, die du gerade gefunden hast, fehlt in der Questie-Datenbank.",
         ["koKR"] = false,
         ["esMX"] = "Una misión que acabas de encontrar no se encuentra en la base de datos de Questie.",
@@ -509,7 +509,7 @@ local debugMessagesLocales = {
     },
     ["A quest in your quest log is missing from the Questie database and can't be tracked."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Задание в вашем журнале отсутствует в БД Questie и не может быть отслежено.",
         ["deDE"] = "Eine Quest in deinem Questlog fehlt in der Questie-Datenbank und kann nicht verfolgt werden.",
         ["koKR"] = false,
         ["esMX"] = "Falta una misión en tu registro de misiones en la base de datos de Questie y no se puede rastrear.",
@@ -521,7 +521,7 @@ local debugMessagesLocales = {
     },
     ["The NPC you just targeted is missing from the Questie database."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "NPC, которого вы только что взяли в цель, отсутствует в БД Questie",
         ["deDE"] = "Der NPC, den du gerade anvisiert hast, fehlt in der Questie-Datenbank.",
         ["koKR"] = false,
         ["esMX"] = "El PNJ al que acabas de apuntar no se encuentra en la base de datos de Questie.",

@@ -176,6 +176,7 @@ Questie.icons = {
     ["object_mono"] = "Interface\\Addons\\Questie\\Icons\\object_mono.tga",
     ["route"] = "Interface\\Addons\\Questie\\Icons\\route.tga",
     ["slay_mono"] = "Interface\\Addons\\Questie\\Icons\\slay_mono.tga",
+    ["sod_rune"] = "Interface\\Addons\\Questie\\Icons\\sod_rune.tga",
     ["startend"] = "Interface\\Addons\\Questie\\Icons\\startend.tga",
     ["startendstart"] = "Interface\\Addons\\Questie\\Icons\\startendstart.tga",
     ["tracker_clean"] = "Interface\\Addons\\Questie\\Icons\\tracker_clean.tga",
@@ -227,29 +228,7 @@ function Questie:SetIcons()
     Questie.usedIcons[Questie.ICON_TYPE_PVPQUEST] = Questie.db.profile.ICON_PVPQUEST or Questie.icons["pvpquest"]
     Questie.usedIcons[Questie.ICON_TYPE_PVPQUEST_COMPLETE] = Questie.db.profile.ICON_PVPQUEST_COMPLETE or Questie.icons["complete"]
     Questie.usedIcons[Questie.ICON_TYPE_INTERACT] = Questie.db.profile.ICON_TYPE_INTERACT or Questie.icons["interact"]
-
-    if Questie.IsSoD == true then
-        local _, playerClass = UnitClass("player")
-        if playerClass == "DRUID" then
-            Questie.usedIcons[Questie.ICON_TYPE_SODRUNE] = "Interface\\Addons\\Questie\\Icons\\rune_druid.tga"
-        elseif playerClass == "HUNTER" then
-            Questie.usedIcons[Questie.ICON_TYPE_SODRUNE] = "Interface\\Addons\\Questie\\Icons\\rune_hunter.tga"
-        elseif playerClass == "MAGE" then
-            Questie.usedIcons[Questie.ICON_TYPE_SODRUNE] = "Interface\\Addons\\Questie\\Icons\\rune_mage.tga"
-        elseif playerClass == "PALADIN" then
-            Questie.usedIcons[Questie.ICON_TYPE_SODRUNE] = "Interface\\Addons\\Questie\\Icons\\rune_paladin.tga"
-        elseif playerClass == "PRIEST" then
-            Questie.usedIcons[Questie.ICON_TYPE_SODRUNE] = "Interface\\Addons\\Questie\\Icons\\rune_priest.tga"
-        elseif playerClass == "ROGUE" then
-            Questie.usedIcons[Questie.ICON_TYPE_SODRUNE] = "Interface\\Addons\\Questie\\Icons\\rune_rogue.tga"
-        elseif playerClass == "SHAMAN" then
-            Questie.usedIcons[Questie.ICON_TYPE_SODRUNE] = "Interface\\Addons\\Questie\\Icons\\rune_shaman.tga"
-        elseif playerClass == "WARLOCK" then
-            Questie.usedIcons[Questie.ICON_TYPE_SODRUNE] = "Interface\\Addons\\Questie\\Icons\\rune_warlock.tga"
-        elseif playerClass == "WARRIOR" then
-            Questie.usedIcons[Questie.ICON_TYPE_SODRUNE] = "Interface\\Addons\\Questie\\Icons\\rune_warrior.tga"
-        end
-    end
+    Questie.usedIcons[Questie.ICON_TYPE_SODRUNE] = Questie.icons["sod_rune"]
 end
 
 function Questie:GetIconNameFromPath(path)

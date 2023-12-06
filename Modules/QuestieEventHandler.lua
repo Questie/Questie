@@ -191,7 +191,7 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed)
     Questie:RegisterEvent("PLAYER_TARGET_CHANGED", function(...)
         QuestieNameplate.DrawTargetFrame()
-        if Questie.IsSoD then QuestieDebugOffer.NPCTarget() end;
+        --if Questie.IsSoD then QuestieDebugOffer.NPCTarget() end;
     end)
 
     -- quest announce
