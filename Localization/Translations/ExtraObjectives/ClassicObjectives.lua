@@ -142,7 +142,7 @@ local classicObjectiveLocales = {
         ["esMX"] = "Paso 3: obtén la Tarjeta perforada roja. Necesitas la Tarjeta perforada azul.",
         ["enUS"] = true,
         ["frFR"] = "Étape 3 : Obtenez la Carte Perforée Rouge. Vous aurez besoin de la Carte de Carte Perforée Bleue.",
-        ["esES"] = "Paso 3: obtén la Tarjeta perforada roja. Necesitas la Tarjeta perforada azul".,
+        ["esES"] = "Paso 3: obtén la Tarjeta perforada roja. Necesitas la Tarjeta perforada azul.",
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
