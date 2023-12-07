@@ -15,5 +15,33 @@ function SeasonOfDiscovery:LoadBaseQuests()
     local classIDs = QuestieDB.classKeys
     local sortKeys = QuestieDB.sortKeys
 
-    return {}
+    return {
+        [78265] = {
+            [questKeys.name] = "Fish Oil",
+            [questKeys.startedBy] = {{211653}},
+            [questKeys.finishedBy] = {{211653,}},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [78266] = {
+            [questKeys.name] = "Dark Iron Ordinance",
+            [questKeys.startedBy] = {{211653}},
+            [questKeys.finishedBy] = {{211653,}},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [78267] = {
+            [questKeys.name] = "Shredder Turbochargers",
+            [questKeys.startedBy] = {{211653}},
+            [questKeys.finishedBy] = {{211653,}},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+    }
 end

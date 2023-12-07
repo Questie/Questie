@@ -17,6 +17,15 @@ function SeasonOfDiscovery:LoadQuests()
     local specKeys = QuestieProfessions.specializationKeys
 
     return {
+        [78265] = {
+            [questKeys.objectivesText] = {"Bring 24 Fish Oil to Grizzby."},
+        },
+        [78266] = {
+            [questKeys.objectivesText] = {"Bring 20 Dark Iron Ordinance to Grizzby."},
+        },
+        [78267] = {
+            [questKeys.objectivesText] = {"Bring 16 Shredder Turbocharger to Grizzby."},
+        },
         [79091] = {
             [questKeys.name] = "Archmage Antonidas: The Unabridged Autobiography",
             [questKeys.startedBy] = {nil,{386691}},
@@ -437,6 +446,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.MAGE,
             [questKeys.objectivesText] = {"Defeat Scarlet Warrior."},
             [questKeys.requiredSpell] = -401768,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [90019] = {
+            [questKeys.name] = "Rewind Time",
+            [questKeys.startedBy] = {{211653}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestGroup] = {78265,78266,78267},
+            [questKeys.requiredSpell] = -401761,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
     }
