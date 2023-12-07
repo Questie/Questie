@@ -271,7 +271,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401765,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90006] = {
+        [90005] = {
             [questKeys.name] = "Fingers of Frost",
             [questKeys.startedBy] = {{3205,208196}},
             [questKeys.finishedBy] = nil,
@@ -283,7 +283,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401765,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90008] = {
+        [90006] = {
             [questKeys.name] = "Regeneration",
             [questKeys.startedBy] = {nil,{407983}},
             [questKeys.finishedBy] = nil,
@@ -295,7 +295,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401767,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90009] = {
+        [90007] = {
             [questKeys.name] = "Regeneration",
             [questKeys.startedBy] = {nil,{152608,3642}},
             [questKeys.finishedBy] = nil,
@@ -307,7 +307,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401767,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90010] = {
+        [90008] = {
             [questKeys.name] = "Regeneration",
             [questKeys.startedBy] = {{589}},
             [questKeys.finishedBy] = nil,
@@ -319,7 +319,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401767,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90011] = {
+        [90009] = {
             [questKeys.name] = "Regeneration",
             [questKeys.startedBy] = {{1867}},
             [questKeys.finishedBy] = nil,
@@ -331,7 +331,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401767,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90012] = {
+        [90010] = {
             [questKeys.name] = "Enlightenment",
             [questKeys.startedBy] = {{202093}},
             [questKeys.finishedBy] = nil,
@@ -343,7 +343,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415942,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90013] = {
+        [90011] = {
             [questKeys.name] = "Enlightenment",
             [questKeys.startedBy] = {{208712}},
             [questKeys.finishedBy] = nil,
@@ -355,7 +355,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415942,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90014] = {
+        [90012] = {
             [questKeys.name] = "Arcane Surge",
             [questKeys.startedBy] = {{213077,214099,214101,}},
             [questKeys.finishedBy] = nil,
@@ -367,7 +367,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425171,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90015] = {
+        [90013] = {
             [questKeys.name] = "Arcane Surge",
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = nil,
@@ -379,7 +379,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425171,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90016] = {
+        [90014] = {
             [questKeys.name] = "Mass Regeneration",
             [questKeys.startedBy] = {{212261},{411348}},
             [questKeys.finishedBy] = nil,
@@ -391,7 +391,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415939,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90017] = {
+        [90015] = {
             [questKeys.name] = "Living Flame",
             [questKeys.startedBy] = {{476}},
             [questKeys.finishedBy] = nil,
@@ -403,7 +403,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401768,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90018] = {
+        [90016] = {
             [questKeys.name] = "Living Flame",
             [questKeys.startedBy] = {{1124,1397}},
             [questKeys.finishedBy] = nil,
@@ -415,7 +415,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401768,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90019] = {
+        [90017] = {
             [questKeys.name] = "Living Flame",
             [questKeys.startedBy] = {{3197}},
             [questKeys.finishedBy] = nil,
@@ -427,7 +427,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401768,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90020] = {
+        [90018] = {
             [questKeys.name] = "Living Flame",
             [questKeys.startedBy] = {{1535}},
             [questKeys.finishedBy] = nil,
