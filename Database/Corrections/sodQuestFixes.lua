@@ -253,7 +253,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 9,
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.MAGE,
             [questKeys.objectivesText] = {"Gather some Mage and Warlock friends and attack the Frozen Makrura with fire spells."},
             [questKeys.requiredSpell] = -401759,
