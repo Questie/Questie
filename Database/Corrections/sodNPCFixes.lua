@@ -35,7 +35,7 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [211033] = {
             [npcKeys.spawns] = {
-                [zoneIDs.STORMWIND_CITY] = {{37.8,80.2}},
+                [zoneIDs.UNDERCITY] = {{37.8,80.2}},
             },
         },
         [213077] = {
