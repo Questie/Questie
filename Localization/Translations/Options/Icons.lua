@@ -415,11 +415,11 @@ local iconOptionsLocales = {
         ["ruRU"] = "Показать/скрыть местоположения заданий военной кампании Ан'Киража на карте мира и миникарте",
         ["deDE"] = "Aktiviert/Deaktiviert die Icons der AQ Kriegsanstrengungen Quests auf der Karte/Minimap.",
         ["koKR"] = "아이콘을 활성화시, 안퀴라즈 반납 퀘스트의 위치를 맵/미니맵에 표시합니다.",
-        ["esMX"] = "Cuando está habilitado las localizaciones de las misiones de la Guerra de Ahn'Qiraj mostrarán en el mapa/minimapa.",
+        ["esMX"] = "Cuando está habilitado, las ubicaciones de las misiones de la Guerra de Ahn'Qiraj mostrarán en el mapa/minimapa.",
         ["enUS"] = true,
         ["zhCN"] = "启用此功能后，安其拉战备任务的位置将显示在 世界地图/小地图上。",
         ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示安其拉之門戰火任務。",
-        ["esES"] = "Cuando está habilitado las localizaciones de las misiones de la Guerra de Ahn'Qiraj mostrarán en el mapa/minimapa.",
+        ["esES"] = "Cuando está habilitado, las ubicaciones de las misiones de la Guerra de Ahn'Qiraj mostrarán en el mapa/minimapa.",
         ["frFR"] = "Active l'affichage des quêtes de l'Effort de guerre d'Ahn'Qiraj sur la carte/mini-carte.",
     },
     ["Toggle pfQuest/ClassicCodex icon style"] = {
