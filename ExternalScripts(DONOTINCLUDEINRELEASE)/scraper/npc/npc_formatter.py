@@ -33,6 +33,7 @@ class NPCFormatter:
         with Path(file_name).open("r", encoding="utf-8") as f:
             data = json.load(f)
         sorted_data = sorted(data, key=lambda x: x.get('npcId', 0))
+        # TODO Filter "sic" quest ID
         print("Data contains {} entries".format(len(sorted_data)))
         return sorted_data
 
