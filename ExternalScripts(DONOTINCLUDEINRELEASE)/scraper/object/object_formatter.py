@@ -14,17 +14,17 @@ class ObjectFormatter:
             for item in object_input:
                 g.write("    [{id}] = {{\n".format(id=item["objectId"]))
                 g.write("        [objectKeys.name] = \"{name}\",\n".format(name=item["name"]))
-                g.write("        [objectKeys.zoneID] = {zone_id},\n".format(zone_id=self.__get_zone_id(item["zoneId"])))
-                g.write("        [objectKeys.spawns] = {spawns},\n".format(spawns=self.__get_spawns(item["spawns"])))
+                g.write("        [objectKeys.zoneID] = {zone_id},\n".format(zone_id=self.__get_zone_id(item)))
+                g.write("        [objectKeys.spawns] = {spawns},\n".format(spawns=self.__get_spawns(item)))
                 g.write("    },\n")
             g.write("}\n")
 
     def __get_zone_id(self, item):
-        return item if "zoneId" in item else 0
+        return item["zoneId"] if "zoneId" in item else 0
 
     def __get_spawns(self, spawns) -> str:
         spawns_string = ""
-        for spawn in spawns if spawns else []:
+        for spawn in spawns["spawns"] if "spawns" in spawns else []:
             spawns_string += "            [{}] = {{".format(spawn[0])
             # coords_string has the format "[51.8,48.8],[53.4,47.4],[53.4,47.8],[53.6,47.2],[53.6,47.6]"
             coords_string = spawn[1]
