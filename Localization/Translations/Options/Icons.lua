@@ -1111,11 +1111,11 @@ local iconOptionsLocales = {
         ["ruRU"] = "Когда включено, местоположения рун Сезона Открытий и рун заданий будут отображаться на карте мира и миникарте",
         ["deDE"] = "Wenn aktiv, werden die Positionen der Runen der Saison der Entdeckung und Runen-Quests auf der Karte/Minikarte angezeigt.",
         ["koKR"] = false,
-        ["esMX"] = "Cuando esto esté habilitado, las ubicaciones de las runas de la Temporada de descubrimiento y las misiones de runas se mostrarán en el mapa/minimapa.",
+        ["esMX"] = "Cuando está habilitado, las ubicaciones de las runas de la Temporada de descubrimiento y las misiones de runas se mostrarán en el mapa/minimapa.",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = false,
-        ["esES"] = "Cuando esto esté habilitado, las ubicaciones de las runas de la Temporada de descubrimiento y las misiones de runas se mostrarán en el mapa/minimapa.",
+        ["esES"] = "Cuando está habilitado, las ubicaciones de las runas de la Temporada de descubrimiento y las misiones de runas se mostrarán en el mapa/minimapa.",
         ["frFR"] = false,
     },
 }
