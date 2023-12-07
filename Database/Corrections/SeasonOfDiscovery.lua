@@ -80,6 +80,8 @@ end
 -- Phase 1 is omitted, because everything not in this list is supposed to be available in Phase 1
 local questsToBlacklistBySoDPhase = {
     [1] = { -- SoD Phase 1 - level cap 25 (this is required for counting, but should stay empty)
+        [90008] = true, -- Hiding Regeneration for now as there are too many icons
+        [90009] = true, -- Hiding Regeneration for now as there are too many icons
         [90010] = true, -- Hiding Enlightenment for now as there are too many icons
         [90011] = true, -- Hiding Enlightenment for now as there are too many icons
         [90015] = true, -- Hiding Living Flame for now as there are too many icons
