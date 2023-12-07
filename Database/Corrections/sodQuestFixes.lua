@@ -178,5 +178,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401767,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [90012] = {
+            [questKeys.name] = "Enlightenment",
+            [questKeys.startedBy] = {{202093}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 5,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Polymorph 6 irregular critters like Gazelle, Maggot and Larva to loot Azora Apprentice Notes."},
+            [questKeys.requiredSpell] = -415942,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end
