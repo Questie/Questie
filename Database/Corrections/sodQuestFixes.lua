@@ -190,5 +190,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415942,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [90013] = {
+            [questKeys.name] = "Enlightenment",
+            [questKeys.startedBy] = {{208712}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 5,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Polymorph 6 Odd Melon to loot Apothecary Notes."},
+            [questKeys.requiredSpell] = -415942,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end
