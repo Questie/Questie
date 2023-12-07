@@ -907,11 +907,11 @@ local iconOptionsLocales = {
         ["ruRU"] = "Повторяемые задания",
         ["deDE"] = "Verfügbare Wiederholbare-Quests",
         ["koKR"] = false,
-        ["esMX"] = "Misiones repitibles disponibles",
+        ["esMX"] = "Misiones repetibles disponibles",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = false,
-        ["esES"] = "Misiones repitibles disponibles",
+        ["esES"] = "Misiones repetibles disponibles",
         ["frFR"] = false,
     },
     ["Available PvP Quests"] = {
