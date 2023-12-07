@@ -22,6 +22,24 @@ elseif maxLevel == 60 and SeasonOfDiscovery.currentPhase == 1 then
 end
 
 local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
+    [79091] = true,
+    [79092] = true,
+    [79093] = true,
+    [79094] = true,
+    [79095] = true,
+    [79096] = true,
+    [79097] = true,
+    [78124] = true,
+    [78127] = true,
+    [78142] = true,
+    [78143] = true,
+    [78145] = true,
+    [78146] = true,
+    [78147] = true,
+    [78148] = true,
+    [78149] = true,
+
+    -- fake IDs
     [90000] = true,
     [90001] = true,
     [90002] = true,
@@ -36,9 +54,6 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90011] = true,
     [90012] = true,
     [90013] = true,
-    --[88] = true,
-    --[1234] = true,
-    --[5678] = true,
 }
 
 ---@param questId number

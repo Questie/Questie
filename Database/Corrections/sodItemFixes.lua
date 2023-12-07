@@ -7,5 +7,9 @@ function SeasonOfDiscovery:LoadItems()
     local itemKeys = QuestieDB.itemKeys
     local itemClasses = QuestieDB.itemClasses
 
-    return {}
+    return {
+        [209846] = {
+            [itemKeys.objectDrops] = {409692},
+        },
+    }
 end
