@@ -403,5 +403,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425171,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [90016] = {
+            [questKeys.name] = "Mass Regeneration",
+            [questKeys.startedBy] = {{212261},{411348}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Loot the Decrepit Phylactery from the Dusty Coffer in the eastern crypt. Then use it on the Slumbering Bones in the western crypt to summon the Awakened Lich."},
+            [questKeys.requiredSpell] = -415939,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end

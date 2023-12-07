@@ -58,5 +58,10 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DARNASSUS] = {{60,56.4}},
             },
         },
+        [212261] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{17,37.6}},
+            },
+        },
     }
 end
