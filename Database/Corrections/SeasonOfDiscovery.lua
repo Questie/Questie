@@ -43,6 +43,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [78149] = true,
 
     -- fake IDs
+    --- Mage runes
     [90000] = true,
     [90001] = true,
     [90002] = true,
@@ -65,6 +66,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90019] = true,
     [90020] = true,
     [90021] = true,
+    --- Mage runes end
 }
 
 ---@param questId number
@@ -78,6 +80,14 @@ end
 -- Phase 1 is omitted, because everything not in this list is supposed to be available in Phase 1
 local questsToBlacklistBySoDPhase = {
     [1] = { -- SoD Phase 1 - level cap 25 (this is required for counting, but should stay empty)
+        [90010] = true, -- Hiding Enlightenment for now as there are too many icons
+        [90011] = true, -- Hiding Enlightenment for now as there are too many icons
+        [90015] = true, -- Hiding Living Flame for now as there are too many icons
+        [90016] = true, -- Hiding Living Flame for now as there are too many icons
+        [90017] = true, -- Hiding Living Flame for now as there are too many icons
+        [90018] = true, -- Hiding Living Flame for now as there are too many icons
+        [90020] = true, -- Hiding Living Bomb for now as there are too many icons
+        [90021] = true, -- Hiding Living Bomb for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
     },
@@ -673,8 +683,11 @@ local questsToBlacklistBySoDPhase = {
 
 ---@return table<number, table<number, boolean>> @All quests that should be blacklisted separated by phase
 function QuestieQuestBlacklist:GetSoDQuestsToBlacklist()
-    for phase = 1, SeasonOfDiscovery.currentPhase do
-        questsToBlacklistBySoDPhase[phase] = {} -- empty table instead of nil to keep table size
+    -- Even if the first phase technically has no quests to blacklist, we use this be able to temporarily blacklist quests in P1
+    if SeasonOfDiscovery.currentPhase > 1 then
+        for phase = 1, SeasonOfDiscovery.currentPhase do
+            questsToBlacklistBySoDPhase[phase] = {} -- empty table instead of nil to keep table size
+        end
     end
     return questsToBlacklistBySoDPhase
 end
