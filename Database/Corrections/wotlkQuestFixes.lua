@@ -1629,6 +1629,10 @@ function QuestieWotlkQuestFixes:Load()
         [12412] = {
             [questKeys.preQuestSingle] = {12259},
         },
+        [12414] = {
+            [questKeys.objectives] = {{{26472,"Highland Mustangs returned"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring the mustangs to Squire Percy"), 0, {{"monster", 26377}}}},
+        },
         [12415] = {
             [questKeys.objectives] = {{{26472,}}},
         },
