@@ -16,7 +16,7 @@ class NPCFormatter:
                 g.write("        [npcKeys.name] = \"{name}\",\n".format(name=item["name"]))
                 g.write("        [npcKeys.minLevel] = {min_level},\n".format(min_level=self.__get_level(item["minLevel"])))
                 g.write("        [npcKeys.maxLevel] = {max_level},\n".format(max_level=self.__get_level(item["maxLevel"])))
-                g.write("        [npcKeys.zoneID] = {zone_id},\n".format(zone_id=self.__get_zone_id(item["zoneId"])))
+                g.write("        [npcKeys.zoneID] = {zone_id},\n".format(zone_id=self.__get_zone_id(item)))
                 g.write("        [npcKeys.spawns] = {spawns},\n".format(spawns=self.__get_spawns(item["spawns"] if "spawns" in item else [])))
                 g.write("        [npcKeys.friendlyToFaction] = {friendly_to},\n".format(friendly_to=self.__get_race_string(item["reactAlliance"], item["reactHorde"])))
                 g.write("    },\n")
@@ -26,7 +26,7 @@ class NPCFormatter:
         return item if int(item) < 99 else -1  # "Son of Arugal" has level 9999
 
     def __get_zone_id(self, item):
-        return item if "zoneId" in item else 0
+        return item["zoneId"] if "zoneId" in item else 0
 
     def __load_json_file(self, file_name: str):
         print("Loading '{}'...".format(file_name))
