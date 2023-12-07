@@ -63,6 +63,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90017] = true,
     [90018] = true,
     [90019] = true,
+    [90020] = true,
+    [90021] = true,
 }
 
 ---@param questId number

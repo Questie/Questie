@@ -99,6 +99,11 @@ function SeasonOfDiscovery:LoadQuests()
         [78267] = {
             [questKeys.objectivesText] = {"Bring 16 Shredder Turbocharger to Grizzby."},
         },
+        [78277] = {
+            [questKeys.objectivesText] = {"Complete the quest chain starting with Resting in Pieces to receive the Living Bomb rune."},
+            [questKeys.requiredSpell] = -415936,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
         [79091] = {
             [questKeys.startedBy] = {nil,{386691}},
             [questKeys.questLevel] = -1,
@@ -395,6 +400,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.MAGE,
             [questKeys.preQuestGroup] = {78265,78266,78267},
             [questKeys.requiredSpell] = -401761,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [90020] = {
+            [questKeys.name] = "Living Bomb",
+            [questKeys.startedBy] = {{1166}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 13,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Defeat Stonesplinter Seer."},
+            [questKeys.requiredSpell] = -415936,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [90021] = {
+            [questKeys.name] = "Living Bomb",
+            [questKeys.startedBy] = {nil,{407505}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Use Blink to reach each green dot."},
+            [questKeys.requiredSpell] = -415936,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
     }

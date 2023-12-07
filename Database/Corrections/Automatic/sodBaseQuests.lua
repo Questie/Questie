@@ -124,6 +124,15 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
         },
+        [78277] = {
+            [questKeys.name] = "A Token of Gratitude",
+            [questKeys.startedBy] = {{1498}},
+            [questKeys.finishedBy] = {{1498,}},
+            [questKeys.requiredLevel] = 12,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+        },
         [79091] = {
             [questKeys.name] = "Archmage Antonidas: The Unabridged Autobiography",
             [questKeys.startedBy] = {{211033}},
