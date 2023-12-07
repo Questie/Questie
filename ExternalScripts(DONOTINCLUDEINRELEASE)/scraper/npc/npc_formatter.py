@@ -23,7 +23,7 @@ class NPCFormatter:
             g.write("}\n")
 
     def __get_level(self, item):
-        return item if int(item) < 99 else -1  # "Son of Arugal" has level 9999
+        return item if int(item) < 99 else 99  # "Son of Arugal" has level 9999
 
     def __get_zone_id(self, item):
         return item["zoneId"] if "zoneId" in item else 0

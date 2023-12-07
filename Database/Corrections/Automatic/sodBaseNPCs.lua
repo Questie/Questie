@@ -120,8 +120,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [185320] = {
             [npcKeys.name] = "Unstable Chromatic Drake",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
@@ -588,8 +588,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [201722] = {
             [npcKeys.name] = "Ghamoo-ra",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
@@ -686,8 +686,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [202699] = {
             [npcKeys.name] = "Baron Aquanis",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
@@ -812,8 +812,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [204068] = {
             [npcKeys.name] = "Lady Sarevess",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
@@ -923,8 +923,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [204921] = {
             [npcKeys.name] = "Gelihast",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
@@ -1191,8 +1191,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [207356] = {
             [npcKeys.name] = "Lorgus Jett",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
@@ -1858,8 +1858,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [209678] = {
             [npcKeys.name] = "Twilight Lord Kelris",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
@@ -2507,8 +2507,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [212159] = {
             [npcKeys.name] = "Old Serra'kis",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = "AH",
@@ -2711,8 +2711,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [212707] = {
             [npcKeys.name] = "Larodar",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
                 [331] = {{51, 55},{51.2, 53.8},{51.6, 54.2},{51.6, 54.6},},
@@ -2751,8 +2751,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [212730] = {
             [npcKeys.name] = "Tojara",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
                 [331] = {{52.6, 54.6},{53, 54.4},{53.6, 54.2},{54.4, 54.8},{54.6, 54.8},{54.8, 55.6},},
@@ -2783,8 +2783,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [212801] = {
             [npcKeys.name] = "Jubei",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
                 [331] = {{20.2, 37.2},{21, 39},{21.4, 37},{21.6, 36.4},{22.2, 38.4},},
@@ -2793,8 +2793,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [212802] = {
             [npcKeys.name] = "Moogul the Sly",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
                 [331] = {{69.2, 63.2},{70.2, 62.8},{70.6, 62.8},},
@@ -2803,8 +2803,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [212803] = {
             [npcKeys.name] = "Ceredwyn",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
                 [331] = {{72.4, 71.8},{72.4, 72.6},{73, 74.4},{73.4, 73.4},{73.4, 74.6},{73.8, 73.8},{74, 73.4},},
@@ -2813,8 +2813,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [212804] = {
             [npcKeys.name] = "Centrius",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
                 [331] = {{27.2, 26.4},{27.8, 27.8},{28.6, 27.8},{29, 28.8},},
@@ -2843,8 +2843,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [212969] = {
             [npcKeys.name] = "Kazragore",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
                 [331] = {{39, 68.6},{39.2, 67.8},{39.4, 67.2},{39.6, 66.4},{39.6, 67.4},{39.6, 67.6},},
@@ -2853,8 +2853,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [212970] = {
             [npcKeys.name] = "Felore Moonray",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
                 [331] = {{59.8, 70.4},{59.8, 72.4},{60, 72.6},{60.2, 71.2},},
@@ -2873,8 +2873,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [213334] = {
             [npcKeys.name] = "Aku'mai",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
@@ -3480,8 +3480,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [216667] = {
             [npcKeys.name] = "Addled Leper",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
@@ -3536,8 +3536,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
         },
         [217049] = {
             [npcKeys.name] = "Mirror Image",
-            [npcKeys.minLevel] = -1,
-            [npcKeys.maxLevel] = -1,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
                 [331] = {{21.2, 37},{22, 38.2},{52.4, 54.6},{53.2, 54.6},{53.8, 54},{53.8, 54.6},{54.6, 54.4},{54.6, 55.4},{54.6, 55.6},{69.2, 63},{70.4, 63},},
