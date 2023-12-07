@@ -28,5 +28,35 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DUN_MOROGH] = {{69.2, 58.2}},
             },
         },
+        [213077] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{54.5,61.2}},
+            },
+        },
+        [214070] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR] = {{51.6,64.6}},
+            },
+        },
+        [214096] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.THUNDER_BLUFF] = {{39.8,53.4}},
+            },
+        },
+        [214098] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY] = {{64.6,38.2}},
+            },
+        },
+        [214099] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.IRONFORGE] = {{24.3,67.2}},
+            },
+        },
+        [214101] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DARNASSUS] = {{60,56.4}},
+            },
+        },
     }
 end
