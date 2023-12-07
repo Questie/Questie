@@ -28,6 +28,16 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DUN_MOROGH] = {{69.2, 58.2}},
             },
         },
+        [211022] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{73.4,33}},
+            },
+        },
+        [211033] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{37.8,80.2}},
+            },
+        },
         [213077] = {
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY] = {{54.5,61.2}},
