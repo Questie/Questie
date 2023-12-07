@@ -32,11 +32,13 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {
                 [zoneIDs.UNDERCITY] = {{73.4,33}},
             },
+            [npcKeys.friendlyToFaction] = "H",
         },
         [211033] = {
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY] = {{37.8,80.2}},
             },
+            [npcKeys.friendlyToFaction] = "A",
         },
         [213077] = {
             [npcKeys.spawns] = {
