@@ -174,7 +174,7 @@ function QuestieSlash.HandleCommands(input)
 
     if mainCommand == "doable" or mainCommand == "eligible" or mainCommand == "eligibility" then
         if not subCommand then
-            print(Questie:Colorize("[Questie] ", "yellow") .. "Usage: /questie eligiblity <questID>")
+            print(Questie:Colorize("[Questie] ", "yellow") .. "Usage: /questie " .. mainCommand .. " <questID>")
             do return end
         elseif QuestieDB.QueryQuestSingle(tonumber(subCommand), "name") == nil then
             print(Questie:Colorize("[Questie] ", "yellow") .. "Invalid quest ID")
