@@ -777,6 +777,7 @@ function QuestieWotlkNpcFixes:Load()
         },
         [27431] = {
             [npcKeys.spawns] = {[zoneIDs.DRAKTHARON_KEEP_LOWER_LEVEL]={{-1,-1}},[zoneIDs.DRAKTHARON_KEEP_UPPER_LEVEL]={{-1,-1}},[4196]={{-1,-1}}},
+            [npcKeys.waypoints] = {},
         },
         [27575] = { -- #4675
             [npcKeys.name] = "Lord Devrestrasz",
