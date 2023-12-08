@@ -154,7 +154,7 @@ function QuestieSlash.HandleCommands(input)
         if GetDailyQuestsCompleted then
             questCount = questCount - GetDailyQuestsCompleted() -- We don't care about daily quests
         end
-        SendChatMessage(l10n("has completed a total of %d quests", questCount), "EMOTE")
+        SendChatMessage(l10n("has completed a total of %d quests", questCount) .. "!", "EMOTE")
         return
     end
 
@@ -181,7 +181,7 @@ function QuestieSlash.HandleCommands(input)
             return
         end
 
-        QuestieDB.IsDoable(tonumber(subCommand), false, true)
+        Questie:Print("[Eligibility] " .. tostring(QuestieDB.IsDoable(tonumber(subCommand), false, true, false)))
 
         return
     end
