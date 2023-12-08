@@ -335,8 +335,8 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhTW"] = "拾取 %s 自動接受任務 %s!",
         ["deDE"] = "%s aufgehoben, das %s startet!",
-        ["esES"] = "Despojó %s que empieza %s!",
-        ["esMX"] = "Despojó %s que empieza %s!",
+        ["esES"] = "Despojó %s que inicia %s!",
+        ["esMX"] = "Despojó %s que inicia %s!",
     },
     ["You picked up %s which starts %s!"] = {
         ["ptBR"] = "Você pegou %s que começa %s!",
@@ -347,8 +347,8 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhTW"] = "你拾取 %s 自動接受任務 %s!",
         ["deDE"] = "Du hast %s aufgehoben, das %s startet!",
-        ["esES"] = "¡Despojas %s que empieza %s!",
-        ["esMX"] = "¡Despojas %s que empieza %s!",
+        ["esES"] = "¡Despojas %s que inicia %s!",
+        ["esMX"] = "¡Despojas %s que inicia %s!",
     },
     ["The '%s' world event is active!"] = {
         ["ptBR"] = "O evento mundial '%s' está ativo!",
