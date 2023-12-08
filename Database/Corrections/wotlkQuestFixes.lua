@@ -1340,6 +1340,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {12125,12126,12127},
         },
         [12137] = {
+            [questKeys.sourceItemId] = 36859,
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak with Gan'jo to return to life"),0,{{"monster", 26924}}},
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Snow of Eternal Slumber on ancient Drakkari spirits"),0,{{"monster", 26811},{"monster", 26812}}},
