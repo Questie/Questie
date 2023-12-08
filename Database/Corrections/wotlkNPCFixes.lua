@@ -268,7 +268,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.factionID] = 1064,
         },
         [24137] = {
-            [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP_LOWER_LEVEL]={{68,67.7}},[zoneIDs.UTGARDE_KEEP]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.UTGARDE_KEEP,
         },
         [24142] = { --"Camp Winterhoof Wind Rider"
@@ -958,9 +958,11 @@ function QuestieWotlkNpcFixes:Load()
         },
         [28921] = {
             [npcKeys.spawns] = {[zoneIDs.HADRONOXS_LAIR]={{43.3,59}},[4277]={{-1,-1}}},
+            [npcKeys.waypoints] = {},
         },
         [28922] = {
             [npcKeys.spawns] = {[zoneIDs.THE_GILDED_GATE]={{-1,-1}},[4277]={{-1,-1}}},
+            [npcKeys.waypoints] = {},
         },
         [28923] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TERRESTRIAL_WATCHTOWER]={{19.2,51.7}},[zoneIDs.HALLS_OF_LIGHTNING]={{-1,-1}}},
@@ -997,6 +999,7 @@ function QuestieWotlkNpcFixes:Load()
         },
         [29313] = {
             [npcKeys.spawns] = {[4415]={{60.99,25.06},{-1,-1}}},
+            [npcKeys.waypoints] = {},
         },
         [29335] = {
             [npcKeys.spawns] = {[zoneIDs.THE_GILDED_GATE]={{-1,-1}},[4277]={{-1,-1}}},
