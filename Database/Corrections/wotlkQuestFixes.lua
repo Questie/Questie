@@ -1774,7 +1774,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Plant the Argent Crusade Banner"), 0, {{"object", 190522}}}},
         },
         [12503] = {
-            [questKeys.preQuestSingle] = {12795},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28023,28026,28246,28669,28022},28022,"Scourge at The Argent Stand destroyed"}}},
         },
         [12506] = {
