@@ -91,7 +91,7 @@ function QuestieSearch:Search(rawQuery, searchType, queryType)
         return
     end
 
-    local sanitizedQuery = nil
+    local sanitizedQuery
     local strictSearch = false
     local stringFirst, stringLast = rawQuery:sub(1, 1), rawQuery:sub(-1)
     if (stringFirst == '"' or stringFirst == "'") and (stringLast == stringFirst) then
