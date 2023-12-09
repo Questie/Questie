@@ -132,7 +132,10 @@ function QuestieEvent:Load()
         end
     end
 
-    _LoadDarkmoonFaire()
+    -- TODO: Also handle WotLK which has a different starting schedule
+    if Questie.IsClassic then
+        _LoadDarkmoonFaire()
+    end
 
     -- Clear the quests to save memory
     QuestieEvent.eventQuests = nil
@@ -190,11 +193,12 @@ end
 _LoadDarkmoonFaire = function()
     local currentDate = C_DateAndTime.GetCurrentCalendarTime()
 
-    local isInMulgore = (currentDate.month % 2) == 0
-
     if (not _IsDarkmoonFaireActive(currentDate.monthDay)) then
         return
     end
+
+    -- TODO: Also handle Terrokar Forest starting with TBC
+    local isInMulgore = (currentDate.month % 2) == 0
 
     -- The faire is setting up right now or is already up
     local annoucingQuestId = 7905 -- Alliance announcement quest
