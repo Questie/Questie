@@ -1057,8 +1057,8 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [29895] = {
-            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{16.43,66.79}}},
-            [npcKeys.waypoints] = {[zoneIDs.ZUL_DRAK]={{{16.69,66.78},{18.68,66.8},{20.72,66.61},{21.98,66.82},{23.67,66.65},{25.18,66.75},{26.62,66.96},{28.6,66.48},{31.82,66.66},{30.45,66.6},{28.49,66.53},{25.93,66.93},{24.48,66.73},{22.76,66.75},{21.01,66.6},{18.55,66.86},{16.7,66.75},{16.31,66.75},{13.9,67.32},{13.45,67.33},{12.76,66.96},{13.45,66.28},{13.87,66.26},{16.07,66.7}}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{31.19,61.86}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
         },
         [29968] = { --"Hapanu Coldwind", "Poisons & Reagents"
             [npcKeys.friendlyToFaction] = "H",
