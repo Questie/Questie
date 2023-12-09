@@ -778,19 +778,17 @@ local function _AddSpellItemObjective(quest)
         local spellobjectives = QuestieDB.QueryQuestSingle(quest.Id, "objectives")[6]
 
         if spellobjectives then
-            local depthIndex, _ = pairs(spellobjectives)
+            local depthIndex = 1 -- TODO: What is better for this?
             local fakeObjective = {
                 Id = quest.Id,
                 IsSourceItem = true,
                 QuestData = quest,
                 Index = 1,
-                Needed = 1, -- quest.Objectives[depthIndex].Needed
-                Collected = 1, -- quest.Objectives[depthIndex].Collected
+                Needed = quest.Objectives[depthIndex].Needed,
+                Collected = quest.Objectives[depthIndex].Collected,
                 text = nil,
-                Description = "Help me BreakBB, you're my only hope!", -- quest.Objectives[depthIndex].Description
+                Description = quest.Objectives[depthIndex].Description,
             }
-
-            --DevTools_Dump(quest.Objectives[depthIndex].Description)
 
             QuestieTooltips:RegisterObjectiveTooltip(quest.Id, "i_" .. quest.SpellItemId, fakeObjective);
             return
@@ -858,7 +856,6 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
                 quest.LocalizedName = data.title
                 _AddSourceItemObjective(quest)
                 _AddRequiredSourceItemObjective(quest)
-                _AddSpellItemObjective(quest)
             else
                 QuestiePlayer.currentQuestlog[questId] = questId
             end
