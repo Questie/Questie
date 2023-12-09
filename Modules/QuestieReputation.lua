@@ -71,9 +71,10 @@ end
 ---@return boolean HasMaxFaction
 function QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
     local aboveMinRep = false -- the player has reached the min required reputation value
-    local belowMaxRep = false -- the player has not reached the max allowed reputation value
     local hasMinFaction = false
-    local hasMaxFaction = false
+    -- We assume "Neutral" reputation and change it if the player knows the faction
+    local belowMaxRep = true
+    local hasMaxFaction = true
 
     if requiredMinRep then
         local minFactionID = requiredMinRep[1]
@@ -92,10 +93,7 @@ function QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, required
         local maxFactionID = requiredMaxRep[1]
         local reqMaxValue = requiredMaxRep[2]
 
-        if not playerReputations[maxFactionID] then
-            hasMaxFaction = true
-            belowMaxRep = true -- If the player has not discovered the faction, we assume "Neutral" reputation
-        else
+        if playerReputations[maxFactionID] then
             hasMaxFaction = true
             belowMaxRep = playerReputations[maxFactionID][2] < reqMaxValue
         end
