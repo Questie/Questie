@@ -189,7 +189,6 @@ end
 --- https://classic.wowhead.com/guides/classic-darkmoon-faire#darkmoon-faire-location-and-schedule
 --- Darkmoon Faire starts its setup the first Friday of the month and will begin the following Monday.
 --- The faire ends the sunday after it has begun.
---- Sunday is the first weekday
 _LoadDarkmoonFaire = function()
     local currentDate = C_DateAndTime.GetCurrentCalendarTime()
 
@@ -201,12 +200,12 @@ _LoadDarkmoonFaire = function()
     local isInMulgore = (currentDate.month % 2) == 0
 
     -- The faire is setting up right now or is already up
-    local annoucingQuestId = 7905 -- Alliance announcement quest
+    local announcingQuestId = 7905 -- Alliance announcement quest
     if isInMulgore then
-        annoucingQuestId = 7926 -- Horde announcement quest
+        announcingQuestId = 7926 -- Horde announcement quest
     end
-    QuestieCorrections.hiddenQuests[annoucingQuestId] = nil
-    QuestieEvent.activeQuests[annoucingQuestId] = true
+    QuestieCorrections.hiddenQuests[announcingQuestId] = nil
+    QuestieEvent.activeQuests[announcingQuestId] = true
 
     for _, questData in pairs(QuestieEvent.eventQuests) do
         if questData[1] == "Darkmoon Faire" then
