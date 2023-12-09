@@ -2433,6 +2433,9 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Mount Frostbite to track scent"), 0, {{"monster", 29857}}},
             },
         },
+        [12916] = {
+            [questKeys.objectives] = {nil,{{400059,"Scourge Enclosure Blown Up"}}},
+        },
         [12919] = {
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Slay Scourge while riding Gymer"), 0, {{"monster", 29647}}},

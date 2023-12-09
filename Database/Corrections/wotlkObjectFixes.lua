@@ -678,5 +678,10 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{71.74,26.2}}},
             [objectKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
+        [400059] = {
+            [objectKeys.name] = "Scourge Enclosure",
+            [objectKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{19.94,56.12}}},
+            [objectKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
     }
 end
