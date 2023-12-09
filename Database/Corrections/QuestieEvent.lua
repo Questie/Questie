@@ -216,6 +216,8 @@ _LoadDarkmoonFaire = function()
             end
         end
     end
+
+    print(Questie:Colorize("[Questie]", "yellow"), l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
 end
 
 --- Checks wheather the current date is within the given date range

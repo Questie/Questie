@@ -92,7 +92,10 @@ function QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, required
         local maxFactionID = requiredMaxRep[1]
         local reqMaxValue = requiredMaxRep[2]
 
-        if playerReputations[maxFactionID] then
+        if not playerReputations[maxFactionID] then
+            hasMaxFaction = true
+            belowMaxRep = true -- If the player has not discovered the faction, we assume "Neutral" reputation
+        else
             hasMaxFaction = true
             belowMaxRep = playerReputations[maxFactionID][2] < reqMaxValue
         end
