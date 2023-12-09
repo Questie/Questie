@@ -86,6 +86,18 @@ local minimapIconLocales = {
         ["esES"] = "Misión trivial",
         ["frFR"] = "Quêtes de bas niveau",
     },
+    ["Questie will open after combat ends."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = "Questie abrirá cuando estés fuera de combate.",
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = "Questie abrirá cuando estés fuera de combate.",
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(minimapIconLocales) do

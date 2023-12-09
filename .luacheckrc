@@ -135,6 +135,8 @@ globals = {
     "C_AreaPoiInfo.GetAreaPOIForMap",
     "C_AreaPoiInfo.GetAreaPOIInfo",
     "C_AreaPoiInfo.IsAreaPOITimed",
+    "C_Calendar",
+    "C_Calendar.GetCurrentCalendarTime",
     "C_CharacterServices.AssignUpgradeDistribution",
     "C_CharacterServices.GetActiveCharacterUpgradeBoostType",
     "C_CharacterServices.GetActiveClassTrialBoostType",
@@ -2806,6 +2808,7 @@ globals = {
     "L_UIDROPDOWNMENU_MAXLEVELS",
     "VoiceOver",
     "VoiceOverFrame",
+    "QUESTIE_LOCALES_OVERRIDE",
     -----------------------------------------------------> Project Specific
     "Questie",
     "QuestieLoader",

@@ -22,7 +22,7 @@ class Runner:
             "FEED_EXPORT_ENCODING": "utf-8",
             "FEED_FORMAT": "json",
             "CONCURRENT_REQUESTS": 32,
-            "FEED_URI": "item/item_data.json",
+            "FEED_URI": "quest/quest_data.json",
             "COOKIES_ENABLED": False
         })
 
@@ -30,13 +30,13 @@ class Runner:
 
         # process.settings.attributes["FEED_URI"].value = "json"
         # Path("quest/quest_data.json").unlink(missing_ok=True)
-        # process.crawl(QuestSpider)
+        process.crawl(QuestSpider)
         # process.settings.attributes["FEEDS"].value = "npc/npc_data.json"
         # Path("npc/npc_data.json").unlink(missing_ok=True)
         # process.crawl(NPCSpider)
         # process.settings.attributes["FEEDS"].value = "item/item_data.json"
         # Path("item/item_data.json").unlink(missing_ok=True)
-        process.crawl(ItemSpider)
+        # process.crawl(ItemSpider)
 
         process.start()
 

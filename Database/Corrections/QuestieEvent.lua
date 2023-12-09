@@ -101,7 +101,7 @@ function QuestieEvent:Load()
         endMonth = tonumber(endMonth)
 
         if _WithinDates(startDay, startMonth, endDay, endMonth) and (eventCorrections[eventName] ~= false) then
-            print(Questie:Colorize("[Questie]", "yellow"), l10n("The '%s' world event is active!", eventName))
+            print(Questie:Colorize("[Questie]", "yellow"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n(eventName)))
             activeEvents[eventName] = true
         end
     end
@@ -132,72 +132,95 @@ function QuestieEvent:Load()
         end
     end
 
-    -- Darkmoon Faire is quite special because of its setup days where just two quests are available
-    -- ** Disable DMF fully now as Dates are calculated wrong **
-    --if Questie.IsEra then -- load DMF only on Era realms, not on TBC, not on SoM
-    --    _LoadDarkmoonFaire()
-    --end
+    -- TODO: Also handle WotLK which has a different starting schedule
+    if Questie.IsClassic then
+        _LoadDarkmoonFaire()
+    end
 
     -- Clear the quests to save memory
     QuestieEvent.eventQuests = nil
 end
 
----@param day number
----@param weekDay number
+---@param dayOfMonth number
 ---@return boolean
-_IsDarkmoonFaireActive = function(day, weekDay)
-    -- The 16 is the highest date the faire can possibly end
-    -- And on a Monday (weekDay == 2) the faire ended, when it's the second Monday after the first Friday of the month
-    if day > 16 or
-        (weekDay == 2 and day >= 11) or
-        (weekDay ~= 6 and (day - weekDay < 1)) or
-        (weekDay ~= 6 and (day - weekDay == 1)) or
-        (weekDay ~= 1 and (day - weekDay == 9)) then -- Sometimes the 1th is a Friday
-        return false
+_IsDarkmoonFaireActive = function(dayOfMonth)
+    local firstWeekday = C_Calendar.GetMonthInfo().firstWeekday
+
+    if firstWeekday == 1 then
+        -- The 1st is a Sunday
+        if dayOfMonth >= 9 and dayOfMonth < 15 then
+            return true
+        end
+    elseif firstWeekday == 2 then
+        -- The 1st is a Monday
+        if dayOfMonth >= 8 and dayOfMonth < 14 then
+            return true
+        end
+    elseif firstWeekday == 3 then
+        -- The 1st is a Tuesday
+        if dayOfMonth >= 7 and dayOfMonth < 13 then
+            return true
+        end
+    elseif firstWeekday == 4 then
+        -- The 1st is a Wednesday
+        if dayOfMonth >= 6 and dayOfMonth < 12 then
+            return true
+        end
+    elseif firstWeekday == 5 then
+        -- The 1st is a Thursday
+        if dayOfMonth >= 5 and dayOfMonth < 11 then
+            return true
+        end
+    elseif firstWeekday == 6 then
+        -- The 1st is a Friday
+        if dayOfMonth >= 4 and dayOfMonth < 10 then
+            return true
+        end
+    elseif firstWeekday == 7 then
+        -- The 1st is a Saturday
+        if dayOfMonth >= 10 and dayOfMonth < 16 then
+            return true
+        end
     end
 
-    return true
+    return false
 end
 
 --- https://classic.wowhead.com/guides/classic-darkmoon-faire#darkmoon-faire-location-and-schedule
 --- Darkmoon Faire starts its setup the first Friday of the month and will begin the following Monday.
 --- The faire ends the sunday after it has begun.
---- Sunday is the first weekday
 _LoadDarkmoonFaire = function()
-    local date = (C_DateAndTime.GetTodaysDate or C_DateAndTime.GetCurrentCalendarTime)()
-    local weekDay = date.weekDay or date.weekday -- lol come on
-    local day = date.day or date.monthDay
-    local month = date.month
+    local currentDate = C_DateAndTime.GetCurrentCalendarTime()
 
-    local isInMulgore = (month % 2) == 0
-
-    if (not _IsDarkmoonFaireActive(day, weekDay)) then
+    if (not _IsDarkmoonFaireActive(currentDate.monthDay)) then
         return
     end
 
+    -- TODO: Also handle Terrokar Forest starting with TBC
+    local isInMulgore = (currentDate.month % 2) == 0
+
     -- The faire is setting up right now or is already up
-    local annoucingQuestId = 7905 -- Alliance announcement quest
+    local announcingQuestId = 7905 -- Alliance announcement quest
     if isInMulgore then
-        annoucingQuestId = 7926 -- Horde announcement quest
+        announcingQuestId = 7926 -- Horde announcement quest
     end
-    QuestieCorrections.hiddenQuests[annoucingQuestId] = nil
-    QuestieEvent.activeQuests[annoucingQuestId] = true
+    QuestieCorrections.hiddenQuests[announcingQuestId] = nil
+    QuestieEvent.activeQuests[announcingQuestId] = true
 
-    if (weekDay >= 2 and day >= 5) or (weekDay == 1 and day >= 10 and day <= 16) then
-        -- The faire is up right now
-        for _, questData in pairs(QuestieEvent.eventQuests) do
-            if questData[1] == "Darkmoon Faire" then
-                local questId = questData[2]
-                QuestieCorrections.hiddenQuests[questId] = nil
-                QuestieEvent.activeQuests[questId] = true
+    for _, questData in pairs(QuestieEvent.eventQuests) do
+        if questData[1] == "Darkmoon Faire" then
+            local questId = questData[2]
+            QuestieCorrections.hiddenQuests[questId] = nil
+            QuestieEvent.activeQuests[questId] = true
 
-                -- Update the NPC spawns based on the place of the faire
-                for id, data in pairs(QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)) do
-                    QuestieDB.npcDataOverrides[id] = data
-                end
+            -- Update the NPC spawns based on the place of the faire
+            for id, data in pairs(QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)) do
+                QuestieDB.npcDataOverrides[id] = data
             end
         end
     end
+
+    print(Questie:Colorize("[Questie]", "yellow"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
 end
 
 --- Checks wheather the current date is within the given date range
