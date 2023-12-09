@@ -2653,9 +2653,15 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{14733},nil,nil},
             [questKeys.finishedBy] = {{14733},nil},
         },
+        [7905] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [7921] = { -- #1435
             [questKeys.startedBy] = {{14733},nil,nil},
             [questKeys.finishedBy] = {{14733},nil},
+        },
+        [7926] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [7937] = {
             [questKeys.specialFlags] = 1,
