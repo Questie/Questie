@@ -135,6 +135,8 @@ globals = {
     "C_AreaPoiInfo.GetAreaPOIForMap",
     "C_AreaPoiInfo.GetAreaPOIInfo",
     "C_AreaPoiInfo.IsAreaPOITimed",
+    "C_Calendar",
+    "C_Calendar.GetCurrentCalendarTime",
     "C_CharacterServices.AssignUpgradeDistribution",
     "C_CharacterServices.GetActiveCharacterUpgradeBoostType",
     "C_CharacterServices.GetActiveClassTrialBoostType",
