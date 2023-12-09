@@ -116,8 +116,6 @@ local questsToBlacklistBySoDPhase = {
         -----------------
     },
     [14] = { -- Era Phase 4 - Zul'Gurub
-        [456] = true,
-        [636] = true,
         [8411] = true,
         [8056] = true,
         [8057] = true,

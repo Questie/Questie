@@ -1139,6 +1139,10 @@ function QuestieWotlkQuestFixes:Load()
         [11989] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Dull Carving Knife near Drakuru"),0,{{"monster", 26423}}}},
         },
+        [11991] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Frozen Mojo"),0,{{"object", 188287}}}},
+            [questKeys.requiredSourceItems] = {35797,35799},
+        },
         [11995] = {
             [questKeys.exclusiveTo] = {12439},
         },
@@ -1147,6 +1151,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12007] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering Zim'bo's Mojo"),0,{{"object", 400047}}}},
+            [questKeys.requiredSourceItems] = {35797,35836},
         },
         [12014] = {
             [questKeys.sourceItemId] = 35837,
@@ -1241,6 +1246,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12067] = {
             [questKeys.startedBy] = {{26762},nil,{36756}},
+        },
+        [12068] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Sacred Mojo"),0,{{"object", 400058}}}},
+            [questKeys.requiredSourceItems] = {35797,36758},
         },
         [12069] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Free Roanauk Icemist"),0,{{"object", 188463}}}},
@@ -1481,8 +1490,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27315,27336,27345,27341},27315,"Helpless Villager Rescued"}}},
         },
         [12238] = {
-            [questKeys.sourceItemId] = 35797,
-            [questKeys.requiredSourceItems] = {},
+            [questKeys.requiredSourceItems] = {35797,38303},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Enduring Mojo"),0,{{"object", 190629}}}},
         },
         [12241] = {
             [questKeys.preQuestGroup] = {12229,12231},
@@ -1765,7 +1774,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Plant the Argent Crusade Banner"), 0, {{"object", 190522}}}},
         },
         [12503] = {
-            [questKeys.preQuestSingle] = {12795},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28023,28026,28246,28669,28022},28022,"Scourge at The Argent Stand destroyed"}}},
         },
         [12506] = {
@@ -2281,6 +2289,10 @@ function QuestieWotlkQuestFixes:Load()
                 {{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{38.8,38.4}}}, Questie.ICON_TYPE_EVENT, l10n("The Light of Dawn Uncovered"),},
             },
         },
+        [12802] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Desperate Mojo"),0,{{"object", 188358}}}},
+            [questKeys.requiredSourceItems] = {35797,36739,36743},
+        },
         [12803] = {
             [questKeys.requiredSpell] = 54197,
         },
@@ -2421,9 +2433,12 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Mount Frostbite to track scent"), 0, {{"monster", 29857}}},
             },
         },
+        [12916] = {
+            [questKeys.objectives] = {nil,{{400059,"Scourge Enclosure Blown Up"}}},
+        },
         [12919] = {
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Slay Scourge while riding Gymer"), 0, {{"monster", 29647}}},
+                {nil, Questie.ICON_TYPE_TALK, l10n("Let Gymer know you're ready"), 0, {{"monster", 29647}}},
                 {{[zoneIDs.ZUL_DRAK]={{26.71,57.29}}}, Questie.ICON_TYPE_EVENT, l10n("Slay Scourge while riding Gymer"),},
             },
         },
