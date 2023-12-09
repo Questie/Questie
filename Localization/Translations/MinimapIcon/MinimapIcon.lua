@@ -91,11 +91,11 @@ local minimapIconLocales = {
         ["ruRU"] = false,
         ["deDE"] = false,
         ["koKR"] = false,
-        ["esMX"] = false,
+        ["esMX"] = "Questie abrirá cuando estés fuera de combate.",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = false,
-        ["esES"] = false,
+        ["esES"] = "Questie abrirá cuando estés fuera de combate.",
         ["frFR"] = false,
     },
 }
