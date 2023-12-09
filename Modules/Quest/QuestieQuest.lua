@@ -772,6 +772,32 @@ local function _AddSourceItemObjective(quest)
     end
 end
 
+-- This checks and manually adds quest item tooltips for SpellItems
+local function _AddSpellItemObjective(quest)
+    if quest.SpellItemId then
+        local spellobjectives = QuestieDB.QueryQuestSingle(quest.Id, "objectives")[6]
+
+        if spellobjectives then
+            local depthIndex, _ = pairs(spellobjectives)
+            local fakeObjective = {
+                Id = quest.Id,
+                IsSourceItem = true,
+                QuestData = quest,
+                Index = 1,
+                Needed = 1, -- quest.Objectives[depthIndex].Needed
+                Collected = 1, -- quest.Objectives[depthIndex].Collected
+                text = nil,
+                Description = "Help me BreakBB, you're my only hope!", -- quest.Objectives[depthIndex].Description
+            }
+
+            --DevTools_Dump(quest.Objectives[depthIndex].Description)
+
+            QuestieTooltips:RegisterObjectiveTooltip(quest.Id, "i_" .. quest.SpellItemId, fakeObjective);
+            return
+        end
+    end
+end
+
 -- This checks and manually adds quest item tooltips for requiredSourceItems
 local function _AddRequiredSourceItemObjective(quest)
     if quest.requiredSourceItems then
@@ -832,6 +858,7 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
                 quest.LocalizedName = data.title
                 _AddSourceItemObjective(quest)
                 _AddRequiredSourceItemObjective(quest)
+                _AddSpellItemObjective(quest)
             else
                 QuestiePlayer.currentQuestlog[questId] = questId
             end
@@ -1408,6 +1435,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
         QuestieQuest:UpdateQuest(quest.Id)
         _AddSourceItemObjective(quest)
         _AddRequiredSourceItemObjective(quest)
+        _AddSpellItemObjective(quest)
 
         return
     end
@@ -1421,6 +1449,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     QuestieQuest:UpdateObjectiveNotes(quest)
     _AddSourceItemObjective(quest)
     _AddRequiredSourceItemObjective(quest)
+    _AddSpellItemObjective(quest)
 end
 
 ---@param quest Quest

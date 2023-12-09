@@ -76,6 +76,13 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("CHAT_MSG_SYSTEM", _EventHandler.ChatMsgSystem)
 
     -- Spell objectives
+    Questie:RegisterEvent("NEW_RECIPE_LEARNED", function() -- Needed for some spells that don't necessarily appear in the spellbook, but are definitely spells
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED")
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
+        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+    end)
     Questie:RegisterEvent("SPELLS_CHANGED", function()
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] SPELLS_CHANGED")
         QuestieCombatQueue:Queue(function()

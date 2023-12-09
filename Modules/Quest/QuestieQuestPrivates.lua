@@ -286,9 +286,6 @@ spell = function(spellId, objective, objectiveData)
 
     local itemSource = objectiveData.ItemSourceId
 
-    print("spellId", spellId)
-    print("itemSource", itemSource)
-
     return item(itemSource, objective)
 end
 
