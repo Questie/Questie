@@ -16,25 +16,68 @@ function SeasonOfDiscovery:LoadQuests()
     local profKeys = QuestieProfessions.professionKeys
     local specKeys = QuestieProfessions.specializationKeys
 
-    return {
-        -- Example from corrections
-        -- [65610] = {
-        --     [questKeys.name] = "Wish You Were Here",
-        --     [questKeys.startedBy] = { { 3363 }, nil, nil },
-        --     [questKeys.finishedBy] = { { 5875 }, nil },
-        --     [questKeys.requiredLevel] = 20,
-        --     [questKeys.questLevel] = -1,
-        --     [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-        --     [questKeys.requiredClasses] = classIDs.WARLOCK,
-        --     [questKeys.objectivesText] = { "Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar." },
-        --     [questKeys.preQuestSingle] = { 65601 },
-        --     [questKeys.objectives] = { nil, nil, { { 190232 } }, nil, nil },
-        --     [questKeys.exclusiveTo] = { 65593 },
-        --     [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-        -- },
+    -- TODO: reputation once data is more reliably confirmed
+    -- TODO: ZoneIDs, sort keys
 
-        --[88] = {
-        --    [questKeys.name] = "this is a test"
-        --}
+    return {
+        [78916] = { -- The Heart of the Void
+            [questKeys.startedBy] = {nil, nil, {209693}},
+            [questKeys.finishedBy] = {4783},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.sourceItemId] = {209693},
+        },
+        [78917] = { -- The Heart of the Void
+            [questKeys.startedBy] = {nil, nil, {211452}},
+            [questKeys.finishedBy] = {9087},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.sourceItemId] = {211452},
+        },
+        [78920] = { -- Baron Aquanis
+            [questKeys.startedBy] = {nil, nil, {211454}},
+            [questKeys.finishedBy] = {{12736}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [78921] = { -- Blackfathom Villainy
+            [questKeys.startedBy] = {{4787}},
+            [questKeys.finishedBy] = {{4783}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectives] = {nil,nil,{{5881}}},
+        },
+        [78922] = { -- Blackfathom Villainy
+            [questKeys.startedBy] = {{4787}},
+            [questKeys.finishedBy] = {{9087}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectives] = {nil,nil,{{5881}}},
+        },
+        [78923] = { -- Knowledge in the Deeps
+            [questKeys.startedBy] = {{2786}},
+            [questKeys.finishedBy] = {{2786}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectives] = {nil,nil,{{5881}}},
+        },
+        [78925] = { -- Twilight Falls
+            [questKeys.startedBy] = {{4784}},
+            [questKeys.finishedBy] = {{4784}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectives] = {nil,nil,{{5879}}},
+        },
+        [78926] = { -- Researching the Corruption
+            [questKeys.startedBy] = {{8997}},
+            [questKeys.finishedBy] = {{8997}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectives] = {nil,nil,{{5952}}},
+        },
+        [78927] = { -- Allegiance to the Old Gods
+            [questKeys.startedBy] = {{12736}},
+            [questKeys.finishedBy] = {{12736}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectives] = {{{207356}},nil,nil},
+        },
+        [79099] = { -- Baron Aquanis
+            [questKeys.startedBy] = {{214876}},
+            [questKeys.finishedBy] = {{214876}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectives] = {nil,nil,{{211818}}},
+        },
     }
 end

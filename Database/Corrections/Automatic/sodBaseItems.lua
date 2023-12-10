@@ -7,7 +7,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 --- Load the base quests for Season of Discovery
 --- These are generated, do NOT EDIT the data entries here.
---- If you want to edit a quest, do so in sodItemFixes.lua
+--- If you want to edit an item, do so in sodItemFixes.lua
 function SeasonOfDiscovery:LoadBaseItems()
     local itemKeys = QuestieDB.itemKeys
     local itemClasses = QuestieDB.itemClasses
