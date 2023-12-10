@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 
 
@@ -100,7 +101,11 @@ class QuestFormatter:
             return "classIDs.DRUID"
 
     def __get_objectives_text(self, item):
-        return "{\"" + item["objectivesText"] + "\"}" if "objectivesText" in item else "nil"
+        if "objectivesText" in item:
+            scripped_text = re.sub(r' A level .*', '', item["objectivesText"])
+            return "{\"" + scripped_text + "\"}"
+        else:
+            return "nil"
 
 
 if __name__ == '__main__':
