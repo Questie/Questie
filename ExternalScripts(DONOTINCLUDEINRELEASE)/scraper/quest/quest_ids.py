@@ -1,4 +1,7 @@
 # https://www.wowhead.com/classic/quests?filter=8;2;11500
+# r = []
+# document.getElementsByClassName("listview-cleartext").forEach(l => r.push(parseInt(l.href.substr(38, 6)))); r; // run for each page
+# [...new Set(r)].sort();
 QUEST_IDS = [
     60863,
     60864,
