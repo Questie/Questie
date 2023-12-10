@@ -20,6 +20,7 @@ class QuestFormatter:
                 g.write("        [questKeys.questLevel] = {level},\n".format(level=item["level"]))
                 g.write("        [questKeys.requiredRaces] = {reqRace},\n".format(reqRace=self.__get_race_string(item["reqRace"])))
                 g.write("        [questKeys.requiredClasses] = {reqClass},\n".format(reqClass=self.__get_class_string(item["reqClass"])))
+                g.write("        [questKeys.objectivesText] = {text},\n".format(text=self.__get_objectives_text(item)))
                 g.write("    },\n")
             g.write("}\n")
 
@@ -97,6 +98,9 @@ class QuestFormatter:
             return "classIDs.WARLOCK"
         if req_class == "1024":
             return "classIDs.DRUID"
+
+    def __get_objectives_text(self, item):
+        return "{\"" + item["objectivesText"] + "\"}" if "objectivesText" in item else "nil"
 
 
 if __name__ == '__main__':

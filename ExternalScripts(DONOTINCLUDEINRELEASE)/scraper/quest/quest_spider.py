@@ -29,6 +29,11 @@ class QuestSpider(scrapy.Spider):
             if script.lstrip().startswith('WH.markup'):
                 result["start"] = self.__match_start(re.search(r'Start:.*?npc=(\d+)', script))
                 result["end"] = self.__match_end(script)
+
+        objectives_text = response.xpath('//meta[@name="description"]/@content').get()
+        if objectives_text:
+            result["objectivesText"] = objectives_text.strip()
+
         if result:
             yield result
 
