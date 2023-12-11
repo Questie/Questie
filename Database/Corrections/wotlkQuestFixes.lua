@@ -2262,11 +2262,23 @@ function QuestieWotlkQuestFixes:Load()
             ---[questKeys.objectives] = {nil,nil,{{39748}},nil,{{{28079,28078},28078,"Frenzyheart Attacker"}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{65.60,59.48}}}, Questie.ICON_TYPE_EVENT, l10n("Charge the Dormant Polished Crystal at the exposed Lifeblood Pillar"),}},
         },
+        [12771] = {
+            [questKeys.preQuestSingle] = {12753},
+        },
         [12772] = {
             [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
         },
+        [12773] = {
+            [questKeys.preQuestSingle] = {12772},
+        },
+        [12774] = {
+            [questKeys.preQuestSingle] = {12775},
+        },
         [12775] = {
             [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
+        },
+        [12776] = {
+            [questKeys.preQuestSingle] = {12777},
         },
         [12777] = {
             [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
@@ -2282,6 +2294,18 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12784] = {
             [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}},
+        },
+        [12785] = {
+            [questKeys.preQuestSingle] = {12783},
+        },
+        [12786] = {
+            [questKeys.preQuestSingle] = {12784},
+        },
+        [12787] = {
+            [questKeys.preQuestSingle] = {12752},
+        },
+        [12788] = {
+            [questKeys.preQuestSingle] = {12782},
         },
         [12797] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.UN_GORO_CRATER]={{50.54,7.74,}}}, Questie.ICON_TYPE_EVENT, l10n("Travel through the Waygate"),}},
@@ -2311,11 +2335,17 @@ function QuestieWotlkQuestFixes:Load()
         [12808] = {
             [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
         },
+        [12809] = {
+            [questKeys.preQuestSingle] = {12808},
+        },
         [12810] = {
             [questKeys.objectives] = {{{29392,}}},
         },
         [12811] = {
             [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}},
+        },
+        [12812] = {
+            [questKeys.preQuestSingle] = {12811},
         },
         [12813] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{29329,29330,29333,29338},29398}}},
