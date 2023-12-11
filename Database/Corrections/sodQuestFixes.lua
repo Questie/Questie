@@ -58,7 +58,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{2786}},
             [questKeys.finishedBy] = {{2786}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectives] = {nil,nil,{{5881}}},
+            [questKeys.objectives] = {nil,nil,{{5359}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
         },
         [78925] = { -- Twilight Falls

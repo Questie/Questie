@@ -8,6 +8,9 @@ function SeasonOfDiscovery:LoadItems()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [5359] = { -- Lorgalis Manuscript
+            [itemKeys.relatedQuests] = {78923}, -- SoD Knowledge in the Deeps
+        },
         [5881] = { -- Head of Kelris
             [itemKeys.relatedQuests] = {78921,78922}, -- SoD Blackfathom Villainy A,H
             [itemKeys.npcDrops] = {209678}, -- now drops from raid version of npc
