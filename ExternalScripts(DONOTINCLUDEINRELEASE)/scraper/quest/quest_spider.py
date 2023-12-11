@@ -36,7 +36,9 @@ class QuestSpider(scrapy.Spider):
 
         item_objective = response.xpath('//a[@class="q1"]/@href').get()
         if item_objective:
-            result["itemObjective"] = re.search(r'item=(\d+)', item_objective).group(1)
+            item_provided = response.xpath('//a[@class="q1"]/following-sibling::text()').get()
+            if item_provided is None or item_provided.strip() != "(Provided)":
+                result["itemObjective"] = re.search(r'item=(\d+)', item_objective).group(1)
 
         spell_objective = response.xpath('//a[@class="q"]/@href').get()
         if spell_objective:
