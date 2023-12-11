@@ -6,7 +6,7 @@ local QuestXP = QuestieLoader:CreateModule("QuestXP")
 QuestXP.db = {}
 
 local floor = floor
-local UnitLevel, GetExpansionLevel = UnitLevel, GetExpansionLevel
+local UnitLevel = UnitLevel
 
 local globalXPMultiplier = 1
 
@@ -30,8 +30,7 @@ end
 ---@return XP experience
 local function getAdjustedXP(xp, qLevel, ignorePlayerLevel)
     local charLevel = UnitLevel("player")
-    local expansionLevel = GetExpansionLevel()
-    if (charLevel == 60 + 10 * expansionLevel) and (not ignorePlayerLevel) then -- 60 for classic, 70 for tbc and 80 for wotlk
+    if charLevel == GetMaxPlayerLevel() and (not ignorePlayerLevel) then
         return 0
     end
 

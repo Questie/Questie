@@ -41,6 +41,8 @@ local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 ---@type QuestgiverFrame
 local QuestgiverFrame = QuestieLoader:ImportModule("QuestgiverFrame")
+---@type QuestieDebugOffer
+local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
@@ -77,7 +79,10 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("QUEST_FINISHED", QuestieAuto.QUEST_FINISHED)
     Questie:RegisterEvent("QUEST_ACCEPTED", QuestieAuto.QUEST_ACCEPTED)
-    Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL) -- When the quest is presented!
+    Questie:RegisterEvent("QUEST_DETAIL", function(...) -- When the quest is presented!
+        QuestieAuto.QUEST_DETAIL(...)
+        if Questie.IsSoD then QuestieDebugOffer.QuestDialog(...) end;
+    end)
     Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
     Questie:RegisterEvent("GOSSIP_SHOW", function(...)
         QuestieAuto.GOSSIP_SHOW(...)
@@ -89,7 +94,10 @@ function QuestieEventHandler:RegisterLateEvents()
     end)
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
     Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED)               -- Called twice when the stopping to talk to an NPC
-    Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE)             -- When complete window shows
+    Questie:RegisterEvent("QUEST_COMPLETE", function(...)                           -- When complete window shows
+        QuestieAuto.QUEST_COMPLETE(...)
+        if Questie.IsSoD then QuestieDebugOffer.QuestDialog(...) end;
+    end)
 
     -- UI Achievement Events
     if Questie.IsWotlk then
@@ -158,6 +166,11 @@ function QuestieEventHandler:RegisterLateEvents()
         end)
     end
 
+    -- Questie Debug Offer
+    if Questie.IsSoD then
+        Questie:RegisterEvent("LOOT_OPENED", QuestieDebugOffer.LootWindow)
+    end
+
     -- Questie Comms Events
 
     -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
@@ -168,7 +181,10 @@ function QuestieEventHandler:RegisterLateEvents()
     -- Nameplate / Target Frame Objective Events
     Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated)
     Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed)
-    Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
+    Questie:RegisterEvent("PLAYER_TARGET_CHANGED", function(...)
+        QuestieNameplate.DrawTargetFrame()
+        --if Questie.IsSoD then QuestieDebugOffer.NPCTarget() end;
+    end)
 
     -- quest announce
     Questie:RegisterEvent("CHAT_MSG_LOOT", function(_, text, notPlayerName, _, _, playerName)
@@ -212,14 +228,14 @@ function _EventHandler:PlayerLogin()
         local replaceTypes = {
             ruRU = "%(%%%d$s%)", --ruRU "|3-6(%2$s) |3-6(%1$s)." ("Ваша репутация с %2$s теперь %1$s.
             zhTW = "%%s%(%%s%)", --zhTW "你在%2$s中的聲望達到了%1$s。"")
-            deDE = "'%%%d$s'",   --deDE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt."
+            deDE = "%%%d$s",     --deDE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt." or "Die Fraktion %2$s ist Euch gegenüber jetzt '%1$s' eingestellt."
             zhCNkoKR = "%%%d$s", --zhCN(zhTW?)/koKR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
             enPlus = "%%s",      -- European languages except (deDE)
         }
 
         if locale == "zhCN" or locale == "koKR" then                                                                                       --CN/KR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.zhCNkoKR, replaceString)
-        elseif locale == "deDE" then                                                                                                       --DE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt."
+        elseif locale == "deDE" then                                                                                                       --DE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt." or "Die Fraktion %2$s ist Euch gegenüber jetzt '%1$s' eingestellt."
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.deDE, replaceString) -- Germans are always special
         elseif locale == "zhTW" then                                                                                                       --TW "你的聲望已達到%s(%s)。", should we remove the parentheses?
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.zhTW, replaceString)
@@ -284,7 +300,7 @@ end
 --- Fires on MAP_EXPLORATION_UPDATED.
 function _EventHandler:MapExplorationUpdated()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] MAP_EXPLORATION_UPDATED")
-    if Questie.db.char.hideUnexploredMapIcons then
+    if Questie.db.profile.hideUnexploredMapIcons then
         QuestieMap.utils:MapExplorationUpdate()
     end
 
@@ -361,7 +377,7 @@ function _EventHandler:ModifierStateChanged(key, down)
         TrackerUtils:ShowVoiceOverPlayButtons()
     end
 
-    if Questie.db.global.trackerLocked then
+    if Questie.db.profile.trackerLocked then
         if QuestieTracker.started then
             -- This is a safety catch for race conditions to prevent the Tracker Sizer
             -- from becoming stuck to the mouse pointer when the player releases the
@@ -465,12 +481,12 @@ function _EventHandler:PlayerRegenDisabled()
 
     -- Let's make sure the frame exists - might be nil if player is in combat upon login
     if QuestieTracker then
-        if Questie.db.global.hideTrackerInCombat and Questie.db.char.isTrackerExpanded and (not trackerHiddenByCombat) then
+        if Questie.db.profile.hideTrackerInCombat and Questie.db.char.isTrackerExpanded and (not trackerHiddenByCombat) then
             trackerHiddenByCombat = true
             QuestieTracker:Collapse()
         end
 
-        if IsInInstance() and Questie.db.global.hideTrackerInDungeons then
+        if IsInInstance() and Questie.db.profile.hideTrackerInDungeons then
             QuestieTracker:Collapse()
         end
     end
@@ -494,8 +510,8 @@ end
 
 function _EventHandler:PlayerRegenEnabled()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
-    if Questie.db.global.hideTrackerInCombat and trackerHiddenByCombat then
-        if (not Questie.db.global.hideTrackerInDungeons) or (not IsInInstance()) then
+    if Questie.db.profile.hideTrackerInCombat and trackerHiddenByCombat then
+        if (not Questie.db.profile.hideTrackerInDungeons) or (not IsInInstance()) then
             trackerHiddenByCombat = false
             QuestieTracker:Expand()
         end

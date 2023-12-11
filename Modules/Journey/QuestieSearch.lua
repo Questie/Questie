@@ -30,7 +30,7 @@ end
 function QuestieSearch:ByName(query)
     _ResetResults()
     for _, type in pairs(QuestieSearch.types) do
-        QuestieSearch:Search(query, type)
+        QuestieSearch:Search(query, type, "chars")
     end
     return QuestieSearch.LastResult
 end
@@ -69,7 +69,7 @@ queryType   Which type of search to run, possible values:
             Optional. Default: "chars"
 --]]
 
-function QuestieSearch:Search(query, searchType, queryType)
+function QuestieSearch:Search(rawQuery, searchType, queryType)
     queryType = queryType or "chars"
 
     local databaseQueryHandle
@@ -91,38 +91,73 @@ function QuestieSearch:Search(query, searchType, queryType)
         return
     end
 
+    local sanitizedQuery
+    local strictSearch = false
+    if type(rawQuery) ~= "number" then
+        local stringFirst, stringLast = rawQuery:sub(1, 1), rawQuery:sub(-1)
+        if (stringFirst == '"' or stringFirst == "'") and (stringLast == stringFirst) then
+            strictSearch = true
+            sanitizedQuery = rawQuery:sub(2, -2)
+        else
+            sanitizedQuery = rawQuery
+        end
+    else
+        sanitizedQuery = rawQuery
+    end
+
     local searchCount = 0;
     local isTextSearch = queryType == "chars"
-    local isIdSearch = queryType == "int" and tonumber(query) ~= nil
+    local isIdSearch = queryType == "int" and tonumber(sanitizedQuery) ~= nil
 
     local lastResults = QuestieSearch.LastResult[searchType]
     if isTextSearch then
-        local queryToFind = string.lower(query)
-
+        local queryToFind = string.lower(sanitizedQuery)
         for id, _ in pairs(databaseKeys) do
             local name = databaseQueryHandle(id, "name") -- Some entries don't have a 'name' because of the way we load corrections
-            if name and string.find(string.lower(name), queryToFind) then
-                -- We have a search result or a favourite to display
-                searchCount = searchCount + 1;
-                QuestieSearch.LastResult[searchType][id] = true;
+            if strictSearch then
+                if name and (string.lower(name) == queryToFind) then -- strict search
+                    -- We have a search result or a favourite to display
+                    searchCount = searchCount + 1;
+                    QuestieSearch.LastResult[searchType][id] = true;
+                else
+                    -- This entry doesn't meet the search criteria, removed from the last results
+                    QuestieSearch.LastResult[searchType][id] = nil;
+                end
             else
-                -- This entry doesn't meet the search criteria, removed from the last results
-                QuestieSearch.LastResult[searchType][id] = nil;
+                if name and string.find(string.lower(name), queryToFind) then -- fuzzy search
+                    -- We have a search result or a favourite to display
+                    searchCount = searchCount + 1;
+                    QuestieSearch.LastResult[searchType][id] = true;
+                else
+                    -- This entry doesn't meet the search criteria, removed from the last results
+                    QuestieSearch.LastResult[searchType][id] = nil;
+                end
             end
         end
     elseif isIdSearch then
         for id, _ in pairs(databaseKeys) do
-            if string.find(tostring(id), query) then
-                -- We have a search result or a favourite to display
-                searchCount = searchCount + 1;
-                lastResults[id] = true;
+            if strictSearch then
+                if tostring(id) == sanitizedQuery then -- strict search
+                    -- We have a search result or a favourite to display
+                    searchCount = searchCount + 1;
+                    lastResults[id] = true;
+                else
+                    -- This entry doesn't meet the search criteria, removed from the last results
+                    lastResults[id] = nil;
+                end
             else
-                -- This entry doesn't meet the search criteria, removed from the last results
-                lastResults[id] = nil;
+                if string.find(tostring(id), sanitizedQuery) then -- fuzzy search
+                    -- We have a search result or a favourite to display
+                    searchCount = searchCount + 1;
+                    lastResults[id] = true;
+                else
+                    -- This entry doesn't meet the search criteria, removed from the last results
+                    lastResults[id] = nil;
+                end
             end
         end
     end
 
-    QuestieSearch.LastResult.query = query
+    QuestieSearch.LastResult.query = rawQuery
     return QuestieSearch.LastResult[searchType]
 end

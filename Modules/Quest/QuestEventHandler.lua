@@ -510,7 +510,7 @@ function _QuestEventHandler:ZoneChangedNewArea()
     if isInInstance then
         C_Timer.After(8, function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Entering Instance")
-            if Questie.db.global.hideTrackerInDungeons then
+            if Questie.db.profile.hideTrackerInDungeons then
                 trackerMinimizedByDungeon = true
 
                 QuestieCombatQueue:Queue(function()
@@ -523,7 +523,7 @@ function _QuestEventHandler:ZoneChangedNewArea()
     elseif (not Questie.db.char.isTrackerExpanded and not UnitIsGhost("player")) and trackerMinimizedByDungeon == true then
         C_Timer.After(8, function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance")
-            if Questie.db.global.hideTrackerInDungeons then
+            if Questie.db.profile.hideTrackerInDungeons then
                 trackerMinimizedByDungeon = false
 
                 QuestieCombatQueue:Queue(function()

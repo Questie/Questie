@@ -106,7 +106,7 @@ function QuestieLib:GetRGBForObjective(objective)
     end
 
     local float = objective.Collected / objective.Needed
-    local trackerColor = Questie.db.global.trackerColorObjectives
+    local trackerColor = Questie.db.profile.trackerColorObjectives
     if not trackerColor or trackerColor == "white" or trackerColor == "minimal" then
         -- White
         return "|cFFEEEEEE"
@@ -136,7 +136,7 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
         name = QuestieLib:GetQuestString(questId, name, level, blizzLike)
     end
 
-    if Questie.db.global.enableTooltipsQuestID then
+    if Questie.db.profile.enableTooltipsQuestID then
         name = name .. " (" .. questId .. ")"
     end
 

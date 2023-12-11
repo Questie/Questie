@@ -180,7 +180,7 @@ function _Qframe:OnClick(button)
                     QuestieMap:UnloadManualFrames(self.data.id)
                 end
             else
-                if Questie.db.global.trackerShowQuestLevel then
+                if Questie.db.profile.trackerShowQuestLevel then
                     ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.data.QuestData.level, self.data.QuestData.name, self.data.Id))
                 else
                     ChatEdit_InsertLink("[" .. self.data.QuestData.name .. " (" .. self.data.Id .. ")]")
@@ -239,7 +239,7 @@ function _Qframe:BaseOnShow()
     if data and data.Type and data.Type == "complete" then
         self:SetFrameLevel(self:GetFrameLevel() + 1)
     end
-    if ((self.miniMapIcon and Questie.db.global.alwaysGlowMinimap) or ((not self.miniMapIcon) and Questie.db.global.alwaysGlowMap)) and
+    if ((self.miniMapIcon and Questie.db.profile.alwaysGlowMinimap) or ((not self.miniMapIcon) and Questie.db.profile.alwaysGlowMap)) and
         data and data.ObjectiveData and
         data.ObjectiveData.Color and
         (data.Type and (data.Type ~= "available" and data.Type ~= "complete")
@@ -268,12 +268,12 @@ function _Qframe:UpdateTexture(texture)
     local alpha
 
     if (self.miniMapIcon) then
-        globalScale = Questie.db.global.globalMiniMapScale;
-        objectiveColor = Questie.db.global.questMinimapObjectiveColors;
+        globalScale = Questie.db.profile.globalMiniMapScale;
+        objectiveColor = Questie.db.profile.questMinimapObjectiveColors;
         alpha = 0;
     else
-        globalScale = Questie.db.global.globalScale;
-        objectiveColor = Questie.db.global.questObjectiveColors;
+        globalScale = Questie.db.profile.globalScale;
+        objectiveColor = Questie.db.profile.questObjectiveColors;
         alpha = 1;
     end
 
@@ -368,11 +368,19 @@ function _Qframe:FadeOut()
         self.faded = true
         if self.texture then
             local r, g, b = self.texture:GetVertexColor()
-            self.texture:SetVertexColor(r, g, b, Questie.db.global.iconFadeLevel)
+            self.texture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
         end
         if self.glowTexture then
             local r, g, b = self.glowTexture:GetVertexColor()
-            self.glowTexture:SetVertexColor(r, g, b, Questie.db.global.iconFadeLevel)
+            self.glowTexture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
+        end
+        if self.data.lineFrames then
+            for _, lineFrame in pairs(self.data.lineFrames) do
+                local line = lineFrame.line
+                if line then
+                    line:SetColorTexture(line.dR, line.dG, line.dB, Questie.db.global.iconFadeLevel)
+                end
+            end
         end
     end
 end
@@ -388,6 +396,14 @@ function _Qframe:FadeIn()
             local r, g, b = self.glowTexture:GetVertexColor()
             self.glowTexture:SetVertexColor(r, g, b, 1)
         end
+        if self.data.lineFrames then
+            for _, lineFrame in pairs(self.data.lineFrames) do
+                local line = lineFrame.line
+                if line then
+                    line:SetColorTexture(line.dR, line.dG, line.dB, line.dA)
+                end
+            end
+        end
     end
 end
 
@@ -400,6 +416,11 @@ function _Qframe:FakeHide()
             self.shouldBeShowing = true;
         end
         self:Hide();
+        if self.data.lineFrames then
+            for _, line in pairs(self.data.lineFrames) do
+                line:Hide()
+            end
+        end
         self._hide = self.Hide;
         self.Hide = function()
             self.shouldBeShowing = false;
@@ -418,6 +439,11 @@ function _Qframe:FakeShow()
         self._hide = nil
         if self.shouldBeShowing then
             self:Show();
+            if self.data.lineFrames then
+                for _, line in pairs(self.data.lineFrames) do
+                    line:Show()
+                end
+            end
         end
     end
 end
@@ -425,31 +451,43 @@ end
 ---Checks wheather the frame/icon should be hidden or not. Only for quest icons/frames.
 ---@return boolean @True if the frame/icon should be hidden and :FakeHide() should be called, false otherwise
 function _Qframe:ShouldBeHidden()
-    local questieGlobalDB = Questie.db.global
-    local questieCharDB = Questie.db.char
+    local profile = Questie.db.profile
     local data = self.data
     local iconType = data.Type -- v6.5.1 values: available, complete, manual, monster, object, item, event. This function is not called with manual.
     local questId = data.Id
 
-    if (not questieCharDB.enabled) -- all quest icons disabled
-        or ((not questieGlobalDB.enableMapIcons) and (not self.miniMapIcon))
-        or ((not questieGlobalDB.enableMiniMapIcons) and (self.miniMapIcon))
-        or ((not questieGlobalDB.enableTurnins) and iconType == "complete")
-        or ((not questieGlobalDB.enableAvailable) and iconType == "available")
-        or ((not questieGlobalDB.enableObjectives) and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item"))
-        or (Questie.db.char.hideUnexploredMapIcons and not QuestieMap.utils:IsExplored(self.UiMapID, self.x, self.y)) -- Hides unexplored map icons
-        or (Questie.db.char.hideUntrackedQuestsMapIcons and not QuestieQuest:ShouldShowQuestNotes(questId))           -- Hides untracked map icons
+    --investigate quest and cache results to minimize DB lookups
+    local repeatable = QuestieDB.IsRepeatable(questId)
+    local event = QuestieDB.IsActiveEventQuest(questId)
+    local dungeon = QuestieDB.IsDungeonQuest(questId)
+    local raid = QuestieDB.IsRaidQuest(questId)
+    local pvp = QuestieDB.IsPvPQuest(questId)
+    local normal = not (repeatable or event or dungeon or raid or pvp)
+    local rune = false
+    if Questie.IsSoD then
+        rune = QuestieDB.IsSoDRuneQuest(questId)
+    end
+
+    if (not profile.enabled) -- all quest icons disabled
+        or ((not profile.enableMapIcons) and (not self.miniMapIcon))
+        or ((not profile.enableMiniMapIcons) and (self.miniMapIcon))
+        or ((not profile.enableTurnins) and iconType == "complete")
+        or ((not profile.enableObjectives) and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item"))
+        or (profile.hideUnexploredMapIcons and not QuestieMap.utils:IsExplored(self.UiMapID, self.x, self.y)) -- Hides unexplored map icons
+        or (profile.hideUntrackedQuestsMapIcons and not QuestieQuest:ShouldShowQuestNotes(questId))           -- Hides untracked map icons
         or (data.ObjectiveData and data.ObjectiveData.HideIcons)
         or (data.QuestData and data.QuestData.HideIcons and iconType ~= "complete")
         -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).
         -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
         or (iconType == "available"
             and ((not DailyQuests:IsActiveDailyQuest(questId)) -- hide not-today-dailies
-                or ((not questieCharDB.showRepeatableQuests) and QuestieDB.IsRepeatable(questId))
-                or ((not questieCharDB.showEventQuests) and QuestieDB.IsActiveEventQuest(questId))
-                or ((not questieCharDB.showDungeonQuests) and QuestieDB.IsDungeonQuest(questId))
-                or ((not questieCharDB.showRaidQuests) and QuestieDB.IsRaidQuest(questId))
-                or ((not questieCharDB.showPvPQuests) and QuestieDB.IsPvPQuest(questId))
+                or ((not profile.enableAvailable) and normal)
+                or ((not profile.showRepeatableQuests) and repeatable)
+                or ((not profile.showEventQuests) and event)
+                or ((not profile.showDungeonQuests) and dungeon)
+                or ((not profile.showRaidQuests) and raid)
+                or ((not profile.showPvPQuests) and pvp)
+                or ((not profile.showSoDRunes) and rune)
             -- this quest group isn't loaded at all while disabled:
             -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId])
             )

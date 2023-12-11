@@ -315,18 +315,12 @@ end
 ---@return string|nil completionText Quest Completion text string or nil
 function TrackerUtils:GetCompletionText(quest)
     local questIndex = GetQuestLogIndexByID(quest.Id)
-    local completionText
-
-    if Questie.IsWotlk then
-        completionText = GetQuestLogCompletionText(questIndex)
-    else
-        completionText = quest.Description[1]:gsub("%.", "")
-    end
+    local completionText = GetQuestLogCompletionText(questIndex)
 
     if completionText then
         return completionText
     else
-        return nil
+        return quest.Description[1]:gsub("%.", "")
     end
 end
 
@@ -596,7 +590,7 @@ end
 local function _GetZoneName(zoneOrSort)
     if not zoneOrSort then return end
     local zoneName
-    local sortObj = Questie.db.global.trackerSortObjectives
+    local sortObj = Questie.db.profile.trackerSortObjectives
     if sortObj == "byZone" or sortObj == "byZonePlayerProximity" or sortObj == "byZonePlayerProximityReversed" then
         if (zoneOrSort) > 0 then
             -- Valid ZoneID
@@ -633,7 +627,7 @@ end
 function TrackerUtils:GetSortedQuestIds()
     local sortedQuestIds = {}
     local questDetails = {}
-    local sortObj = Questie.db.global.trackerSortObjectives
+    local sortObj = Questie.db.profile.trackerSortObjectives
     -- Update quest objectives
     for questId, quest in pairs(QuestiePlayer.currentQuestlog) do
         if quest then
@@ -997,11 +991,11 @@ function TrackerUtils:ShowVoiceOverPlayButtons()
                     TrackerLinePool.SetAllPlayButtonAlpha(1)
                     TrackerFadeTicker.Fade()
 
-                    if not Questie.db.global.trackerFadeMinMaxButtons then
+                    if not Questie.db.profile.trackerFadeMinMaxButtons then
                         TrackerLinePool.SetAllExpandQuestAlpha(0)
                     end
 
-                    if not Questie.db.global.trackerFadeQuestItemButtons then
+                    if not Questie.db.profile.trackerFadeQuestItemButtons then
                         TrackerLinePool.SetAllItemButtonAlpha(0)
                     end
                 end
@@ -1014,11 +1008,11 @@ function TrackerUtils:ShowVoiceOverPlayButtons()
                     TrackerFadeTicker.Fade()
                 end
 
-                if not Questie.db.global.trackerFadeMinMaxButtons then
+                if not Questie.db.profile.trackerFadeMinMaxButtons then
                     TrackerLinePool.SetAllExpandQuestAlpha(1)
                 end
 
-                if not Questie.db.global.trackerFadeQuestItemButtons then
+                if not Questie.db.profile.trackerFadeQuestItemButtons then
                     TrackerLinePool.SetAllItemButtonAlpha(1)
                 end
             end

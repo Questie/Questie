@@ -1,8 +1,8 @@
 ## Interface: 20504
-## Title: Questie|cFF00FF00 v8.10.11|r
+## Title: Questie|cFF00FF00 v9.1.0|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 8.10.11
+## Version: 9.1.0
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
@@ -112,7 +112,9 @@ Modules\QuestieShutUp.lua
 Modules\Sounds.lua
 Modules\TaskQueue.lua
 Modules\QuestiePlayer.lua
-Modules\WorldMapButton.lua
+Modules\QuestieDebugOffer.lua
+Modules\WorldMapButton\WorldMapButton.lua
+Modules\WorldMapButton\QuestieWorldMapButtonTemplate.xml
 
 # QuestLinks
 Modules\QuestLinks\ChatFilter.lua
@@ -189,14 +191,12 @@ Modules\Options\QuestieOptions.lua
 Modules\Options\QuestieOptionsDefaults.lua
 Modules\Options\QuestieOptionsUtils.lua
 Modules\Options\AdvancedTab\QuestieOptionsAdvanced.lua
+Modules\Options\AutoTab\QuestieOptionsAuto.lua
 Modules\Options\DBMTab\QuestieOptionsDBM.lua
 Modules\Options\GeneralTab\QuestieOptionsGeneral.lua
-Modules\Options\MapTab\QuestieOptionsMap.lua
-Modules\Options\MinimapTab\QuestieOptionsMinimap.lua
+Modules\Options\IconsTab\QuestieOptionsIcons.lua
 Modules\Options\NameplateTab\QuestieOptionsNameplate.lua
-Modules\Options\SocialTab\QuestieOptionsSocial.lua
 Modules\Options\TrackerTab\QuestieOptionsTracker.lua
-Modules\Options\TooltipTab\QuestieOptionsTooltip.lua
 
 # Cleanup
 Modules\QuestieCleanup.lua

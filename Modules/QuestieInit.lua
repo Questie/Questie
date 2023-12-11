@@ -106,17 +106,12 @@ end
 
 ---Run the validator
 local function runValidator()
-    if Questie.db.global.skipValidation then
-        -- TODO: We need a checkbox for this setting
-        return
-    end
-
     if type(QuestieDB.questData) == "string" or type(QuestieDB.npcData) == "string" or type(QuestieDB.objectData) == "string" or type(QuestieDB.itemData) == "string" then
         Questie:Error("Cannot run the validator on string data, load database first")
         return
     end
     -- Run validator
-    if Questie.db.global.debugEnabled then
+    if Questie.db.profile.debugEnabled then
         coYield()
         print("Validating NPCs...")
         QuestieDBCompiler:ValidateNPCs()
@@ -151,14 +146,22 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     Questie:SetIcons()
 
+    if QUESTIE_LOCALES_OVERRIDE ~= nil then
+        l10n:InitializeLocaleOverride()
+    end
+
     -- Set proper locale. Either default to client Locale or override based on user.
     if Questie.db.global.questieLocaleDiff then
         l10n:SetUILocale(Questie.db.global.questieLocale);
     else
-        l10n:SetUILocale(GetLocale());
+        if QUESTIE_LOCALES_OVERRIDE ~= nil then
+            l10n:SetUILocale(QUESTIE_LOCALES_OVERRIDE.locale);
+        else
+            l10n:SetUILocale(GetLocale());
+        end
     end
 
-    QuestieShutUp:ToggleFilters(Questie.db.global.questieShutUp)
+    QuestieShutUp:ToggleFilters(Questie.db.profile.questieShutUp)
 
     coYield()
     ZoneDB:Initialize()
@@ -175,7 +178,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     local dbCompiled = false
 
     -- Check if the DB needs to be recompiled
-    if (not Questie.db.global.dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion) or ((Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= Questie.db.global.dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
+    if (not Questie.db.global.dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion) or (l10n:GetUILocale() ~= Questie.db.global.dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
         print("\124cFFAAEEFF" .. l10n("Questie DB has updated!") .. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
         loadFullDatabase()
         QuestieDBCompiler:Compile()
@@ -201,9 +204,13 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     QuestieDB:Initialize()
 
     --? Only run the validator on recompile if debug is enabled, otherwise it's a waste of time.
-    if Questie.db.global.debugEnabled and dbCompiled then
-        runValidator()
-        print("\124cFF4DDBFF Load and Validation complete...")
+    if Questie.db.profile.debugEnabled and dbCompiled then
+        if Questie.db.profile.skipValidation ~= true then
+            runValidator()
+            print("\124cFF4DDBFF Load and Validation complete.")
+        else
+            print("\124cFF4DDBFF Validation skipped, load complete.")
+        end
     end
 
     QuestieCleanup:Run()
@@ -239,7 +246,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     coYield()
 
-    if Questie.db.global.dbmHUDEnable then
+    if Questie.db.profile.dbmHUDEnable then
         QuestieDBMIntegration:EnableHUD()
     end
     -- ** OLD ** Questie:ContinueInit() ** END **
@@ -269,8 +276,8 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     local dateToday = date("%y-%m-%d")
 
-    if Questie.db.char.showAQWarEffortQuests and ((not Questie.db.char.aqWarningPrintDate) or (Questie.db.char.aqWarningPrintDate < dateToday)) then
-        Questie.db.char.aqWarningPrintDate = dateToday
+    if Questie.db.profile.showAQWarEffortQuests and ((not Questie.db.profile.aqWarningPrintDate) or (Questie.db.profile.aqWarningPrintDate < dateToday)) then
+        Questie.db.profile.aqWarningPrintDate = dateToday
         C_Timer.After(2, function()
             print("|cffff0000-----------------------------|r")
             Questie:Print("|cffff0000The AQ War Effort quests are shown for you. If your server is done you can hide those quests in the General settings of Questie!|r");
@@ -284,23 +291,28 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
         end)
     end
 
+    if Questie.IsSoD then
+        print("|cffffde7f" .. l10n("Welcome to Season of Discovery! Questie is being continuously updated with the new quests from this season, but it will take time. Be sure to update frequently to minimize errors.") .. "|r")
+        print("|cffffde7f" .. l10n("While playing Season of Discovery, Questie will notify you if it encounters a quest it doesn't yet know about. Please share this info with us on Discord or GitHub!") .. "|r")
+    end
+
     coYield()
     QuestieMenu:OnLogin()
 
     coYield()
-    if Questie.db.global.debugEnabled then
+    if Questie.db.profile.debugEnabled then
         QuestieLoader:PopulateGlobals()
     end
 
     Questie.started = true
 
     if (Questie.IsWotlk or Questie.IsTBC) and QuestiePlayer.IsMaxLevel() then
-        local lastRequestWasYesterday = Questie.db.char.lastDailyRequestDate ~= date("%d-%m-%y"); -- Yesterday or some day before
-        local isPastDailyReset = Questie.db.char.lastDailyRequestResetTime < GetQuestResetTime();
+        local lastRequestWasYesterday = Questie.db.global.lastDailyRequestDate ~= date("%d-%m-%y"); -- Yesterday or some day before
+        local isPastDailyReset = Questie.db.global.lastDailyRequestResetTime < GetQuestResetTime();
 
         if lastRequestWasYesterday or isPastDailyReset then
-            Questie.db.char.lastDailyRequestDate = date("%d-%m-%y");
-            Questie.db.char.lastDailyRequestResetTime = GetQuestResetTime();
+            Questie.db.global.lastDailyRequestDate = date("%d-%m-%y");
+            Questie.db.global.lastDailyRequestResetTime = GetQuestResetTime();
         end
     end
 
@@ -345,7 +357,7 @@ end
 function QuestieInit:Init()
     ThreadLib.ThreadError(_QuestieInit.StartStageCoroutine, 0, l10n("Error during initialization!"))
 
-    if Questie.db.char.trackerEnabled then
+    if Questie.db.profile.trackerEnabled then
         -- This needs to be called ASAP otherwise tracked Achievements in the Blizzard WatchFrame shows upon login
         local WatchFrame = QuestTimerFrame or WatchFrame
 

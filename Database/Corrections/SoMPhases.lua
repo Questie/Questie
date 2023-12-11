@@ -3,6 +3,8 @@ local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist"
 
 local currentPhase = 5 -- TODO: Use API function which hopefully will come in the future
 
+-- This function blacklists any quests in phases LATER than the currentPhase value
+-- so in Phase 1, quests in phases 2+ are blacklisted, in phase 2, phases 3+ are blacklisted, etc
 -- Phase 1 is omitted, because everything not in this list is supposed to be available in Phase 1
 local questsToBlacklistBySoMPhase = {
     [1] = {}, -- Phase 1 - Regular Phase 1 + Dire Maul + Tier 0.5 quests (this is required for counting, but should stay empty)
@@ -63,8 +65,6 @@ local questsToBlacklistBySoMPhase = {
         -----------------
     },
     [4] = { -- Phase 4 - Zul'Gurub
-        [456] = true,
-        [636] = true,
         [8411] = true,
         [8056] = true,
         [8057] = true,

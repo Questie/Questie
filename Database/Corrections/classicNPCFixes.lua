@@ -2023,23 +2023,34 @@ function QuestieNPCFixes:Load()
         },
         [14887] = {
             [npcKeys.spawns] = {
-                [zoneIDs.DUSKWOOD] = {{46.64,48.08},{46.19,43.48}},
-                [zoneIDs.THE_HINTERLANDS] = {{63.04,27.03}},
-                [zoneIDs.ASHENVALE] = {{93.95,38.58}},
+                [zoneIDs.DUSKWOOD] = {{46.5,39.6}},
+                [zoneIDs.THE_HINTERLANDS] = {{63.2,24.4}},
+                [zoneIDs.ASHENVALE] = {{93.7,37.8}},
+                [zoneIDs.FERALAS] = {{51.6,11.1}},
             },
         },
         [14888] = {
             [npcKeys.spawns] = {
-                [zoneIDs.DUSKWOOD] = {{47.15,46.99}},
-                [zoneIDs.THE_HINTERLANDS] = {{62.77,25.23}},
-                [zoneIDs.ASHENVALE] = {{93.95,38.58}},
+                [zoneIDs.DUSKWOOD] = {{46.5,39.6}},
+                [zoneIDs.THE_HINTERLANDS] = {{63.2,24.4}},
+                [zoneIDs.ASHENVALE] = {{93.7,37.8}},
+                [zoneIDs.FERALAS] = {{51.6,11.1}},
+            },
+        },
+        [14889] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{46.5,39.6}},
+                [zoneIDs.THE_HINTERLANDS] = {{63.2,24.4}},
+                [zoneIDs.ASHENVALE] = {{93.7,37.8}},
+                [zoneIDs.FERALAS] = {{51.6,11.1}},
             },
         },
         [14890] = {
             [npcKeys.spawns] = {
-                [zoneIDs.DUSKWOOD] = {{46.94,45.87},{46.76,49.03}},
-                [zoneIDs.THE_HINTERLANDS] = {{63.04,27.03}},
-                [zoneIDs.ASHENVALE] = {{93.95,38.58}},
+                [zoneIDs.DUSKWOOD] = {{46.5,39.6}},
+                [zoneIDs.THE_HINTERLANDS] = {{63.2,24.4}},
+                [zoneIDs.ASHENVALE] = {{93.7,37.8}},
+                [zoneIDs.FERALAS] = {{51.6,11.1}},
             },
         },
         [14990] = {

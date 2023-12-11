@@ -44,7 +44,7 @@ function ZoneDB:Initialize()
     _ZoneDB:GenerateParentZoneToStartingZoneTable()
 
     -- Run tests if debug enabled
-    if Questie.db.global.debugEnabled then
+    if Questie.db.profile.debugEnabled then
         _ZoneDB:RunTests()
     end
 end
@@ -86,13 +86,13 @@ function ZoneDB:GetAreaIdByUiMapId(uiMapId)
             -- Print an error, but we still return the first one we found.
 
             -- Only print if debug is enabled.
-            if Questie.db.global.debugEnabled then
+            if Questie.db.profile.debugEnabled then
                 Questie:Error("[ZoneDB:GetAreaIdByUiMapId] : ", "UiMapId", uiMapId, "has multiple AreaIds:", foundId, areaId)
             end
         end
     end
     if foundId then -- debug --TechnoHunter adding debug print to report found AreaId
-        --if Questie.db.global.debugEnabled then
+        --if Questie.db.profile.debugEnabled then
             --local uiMapInfo = C_Map.GetMapInfo(uiMapId)
             --local foundName = C_Map.GetAreaInfo(foundId)
             --Questie:Debug(Questie.DEBUG_DEVELOP, "[ZoneDB:GetAreaIdByUiMapId] : ", "Found AreaId", foundName, ":", foundId, " for UiMapId", uiMapInfo.name, ":", uiMapId, "direct match")

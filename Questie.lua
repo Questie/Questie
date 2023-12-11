@@ -1,11 +1,3 @@
--- Global debug levels, see bottom of this file and `debugLevel` in QuestieOptionsAdvanced.lua for relevant code
--- When adding a new level here it MUST be assigned a number and name in `debugLevel.values` as well added to Questie:Debug below
-Questie.DEBUG_CRITICAL = "|cff00f2e6[CRITICAL]|r"
-Questie.DEBUG_ELEVATED = "|cffebf441[ELEVATED]|r"
-Questie.DEBUG_INFO = "|cff00bc32[INFO]|r"
-Questie.DEBUG_DEVELOP = "|cff7c83ff[DEVELOP]|r"
-Questie.DEBUG_SPAM = "|cffff8484[SPAM]|r"
-
 local band = bit.band
 
 -------------------------
@@ -14,7 +6,11 @@ local band = bit.band
 ---@type QuestieOptionsDefaults
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type QuestieEventHandler
-local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler");
+local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler")
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type TrackerBaseFrame
+local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
 
@@ -22,13 +18,18 @@ function Questie:OnInitialize()
     -- This has to happen OnInitialize to be available asap
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
 
+    -- These events basically all mean the same: The active profile changed.
+    Questie.db.RegisterCallback(Questie, "OnProfileChanged", "RefreshConfig")
+    Questie.db.RegisterCallback(Questie, "OnProfileCopied", "RefreshConfig")
+    Questie.db.RegisterCallback(Questie, "OnProfileReset", "RefreshConfig")
+
     QuestieEventHandler:RegisterEarlyEvents()
 end
 
 function Questie:OnEnable()
     if Questie.IsWotlk then
         -- Called when the addon is enabled
-        if (Questie.db.char.trackerEnabled and not Questie.db.global.showBlizzardQuestTimer) then
+        if (Questie.db.profile.trackerEnabled and not Questie.db.profile.showBlizzardQuestTimer) then
             WatchFrame:Hide()
         end
     end
@@ -39,6 +40,13 @@ function Questie:OnDisable()
         -- Called when the addon is disabled
         WatchFrame:Show()
     end
+end
+
+function Questie:RefreshConfig(_, db, profileName)
+    Questie:SetIcons()
+    QuestieQuest:SmoothReset()
+    TrackerBaseFrame:OnProfileChange()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Switched Ace Profile!")
 end
 
 --- Colorize a string with a color code
@@ -107,30 +115,36 @@ function Questie:Error(...)
 end
 
 function Questie:Warning(...)
-    if Questie.db.global.debugEnabled then -- prints regardless of "debugPrint" toggle
+    if Questie.db.profile.debugEnabled then -- prints regardless of "debugPrint" toggle
         Questie:Print("|cffffff00[WARNING]|r", ...)
     end
 end
 
-function Questie:Debug(...)
-    if (Questie.db.global.debugEnabled) then
-        local optionsDebugLevel = Questie.db.global.debugLevel
-        local msgDebugLevel = select(1, ...)
-        -- Exponents are defined by `debugLevel.values` in QuestieOptionsAdvanced.lua
-        -- DEBUG_CRITICAL = 0
-        -- DEBUG_ELEVATED = 1
-        -- DEBUG_INFO = 2
-        -- DEBUG_DEVELOP = 3
-        -- DEBUG_SPAM = 4
-        if ((band(optionsDebugLevel, 2 ^ 4) == 0) and (msgDebugLevel == Questie.DEBUG_SPAM)) then return; end
-        if ((band(optionsDebugLevel, 2 ^ 3) == 0) and (msgDebugLevel == Questie.DEBUG_DEVELOP)) then return; end
-        if ((band(optionsDebugLevel, 2 ^ 2) == 0) and (msgDebugLevel == Questie.DEBUG_INFO)) then return; end
-        if ((band(optionsDebugLevel, 2 ^ 1) == 0) and (msgDebugLevel == Questie.DEBUG_ELEVATED)) then return; end
-        if ((band(optionsDebugLevel, 2 ^ 0) == 0) and (msgDebugLevel == Questie.DEBUG_CRITICAL)) then return; end
+-- Global debug levels
+-- When adding a new level here it MUST be assigned a corresponding number and name in
+-- `debugLevel.values` of QuestieOptionsAdvanced.lua as well as text in Questie:Debug below
+Questie.DEBUG_CRITICAL = 2 ^ 0
+Questie.DEBUG_ELEVATED = 2 ^ 1
+Questie.DEBUG_INFO = 2 ^ 2
+Questie.DEBUG_DEVELOP = 2 ^ 3
+Questie.DEBUG_SPAM = 2 ^ 4
 
-        if Questie.db.global.debugEnabledPrint then
-            Questie:Print(...)
+function Questie:Debug(msgDebugLevel, ...)
+    if (Questie.db.profile.debugEnabled) then
+        local optionsDebugLevel = Questie.db.profile.debugLevel
+
+        if (band(optionsDebugLevel, msgDebugLevel) == 0) or (not Questie.db.profile.debugEnabledPrint) then
+            return
         end
+
+        local prefix = ""
+        if (band(msgDebugLevel, Questie.DEBUG_CRITICAL) ~= 0) then prefix = prefix.."|cff00f2e6[CRITICAL]|r" end
+        if (band(msgDebugLevel, Questie.DEBUG_ELEVATED) ~= 0) then prefix = prefix.."|cffebf441[ELEVATED]|r" end
+        if (band(msgDebugLevel, Questie.DEBUG_INFO) ~= 0) then prefix = prefix.."|cff00bc32[INFO]|r" end
+        if (band(msgDebugLevel, Questie.DEBUG_DEVELOP) ~= 0) then prefix = prefix.."|cff7c83ff[DEVELOP]|r" end
+        if (band(msgDebugLevel, Questie.DEBUG_SPAM) ~= 0) then prefix = prefix.."|cffff8484[SPAM]|r" end
+
+        Questie:Print(prefix, ...)
     end
 end
 
@@ -162,6 +176,7 @@ Questie.icons = {
     ["object_mono"] = "Interface\\Addons\\Questie\\Icons\\object_mono.tga",
     ["route"] = "Interface\\Addons\\Questie\\Icons\\route.tga",
     ["slay_mono"] = "Interface\\Addons\\Questie\\Icons\\slay_mono.tga",
+    ["sod_rune"] = "Interface\\Addons\\Questie\\Icons\\sod_rune.tga",
     ["startend"] = "Interface\\Addons\\Questie\\Icons\\startend.tga",
     ["startendstart"] = "Interface\\Addons\\Questie\\Icons\\startendstart.tga",
     ["tracker_clean"] = "Interface\\Addons\\Questie\\Icons\\tracker_clean.tga",
@@ -192,26 +207,28 @@ Questie.ICON_TYPE_EVENTQUEST_COMPLETE = 14
 Questie.ICON_TYPE_PVPQUEST = 15
 Questie.ICON_TYPE_PVPQUEST_COMPLETE = 16
 Questie.ICON_TYPE_INTERACT = 17
+Questie.ICON_TYPE_SODRUNE = 18
 
 -- Load icon pathes from SavedVariables or set the default ones
 function Questie:SetIcons()
-    Questie.usedIcons[Questie.ICON_TYPE_SLAY] = Questie.db.global.ICON_SLAY or Questie.icons["slay"]
-    Questie.usedIcons[Questie.ICON_TYPE_LOOT] = Questie.db.global.ICON_LOOT or Questie.icons["loot"]
-    Questie.usedIcons[Questie.ICON_TYPE_EVENT] = Questie.db.global.ICON_EVENT or Questie.icons["event"]
-    Questie.usedIcons[Questie.ICON_TYPE_OBJECT] = Questie.db.global.ICON_OBJECT or Questie.icons["object"]
-    Questie.usedIcons[Questie.ICON_TYPE_TALK] = Questie.db.global.ICON_TALK or Questie.icons["talk"]
-    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE] = Questie.db.global.ICON_AVAILABLE or Questie.icons["available"]
-    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE_GRAY] = Questie.db.global.ICON_AVAILABLE_GRAY or Questie.icons["available_gray"]
-    Questie.usedIcons[Questie.ICON_TYPE_COMPLETE] = Questie.db.global.ICON_COMPLETE or Questie.icons["complete"]
-    Questie.usedIcons[Questie.ICON_TYPE_INCOMPLETE] = Questie.db.global.ICON_INCOMPLETE or Questie.icons["incomplete"]
-    Questie.usedIcons[Questie.ICON_TYPE_GLOW] = Questie.db.global.ICON_GLOW or Questie.icons["glow"]
-    Questie.usedIcons[Questie.ICON_TYPE_REPEATABLE] = Questie.db.global.ICON_REPEATABLE or Questie.icons["repeatable"]
-    Questie.usedIcons[Questie.ICON_TYPE_REPEATABLE_COMPLETE] = Questie.db.global.ICON_REPEATABLE_COMPLETE or Questie.icons["complete"]
-    Questie.usedIcons[Questie.ICON_TYPE_EVENTQUEST] = Questie.db.global.ICON_EVENTQUEST or Questie.icons["eventquest"]
-    Questie.usedIcons[Questie.ICON_TYPE_EVENTQUEST_COMPLETE] = Questie.db.global.ICON_EVENTQUEST_COMPLETE or Questie.icons["complete"]
-    Questie.usedIcons[Questie.ICON_TYPE_PVPQUEST] = Questie.db.global.ICON_PVPQUEST or Questie.icons["pvpquest"]
-    Questie.usedIcons[Questie.ICON_TYPE_PVPQUEST_COMPLETE] = Questie.db.global.ICON_PVPQUEST_COMPLETE or Questie.icons["complete"]
-    Questie.usedIcons[Questie.ICON_TYPE_INTERACT] = Questie.db.global.ICON_TYPE_INTERACT or Questie.icons["interact"]
+    Questie.usedIcons[Questie.ICON_TYPE_SLAY] = Questie.db.profile.ICON_SLAY or Questie.icons["slay"]
+    Questie.usedIcons[Questie.ICON_TYPE_LOOT] = Questie.db.profile.ICON_LOOT or Questie.icons["loot"]
+    Questie.usedIcons[Questie.ICON_TYPE_EVENT] = Questie.db.profile.ICON_EVENT or Questie.icons["event"]
+    Questie.usedIcons[Questie.ICON_TYPE_OBJECT] = Questie.db.profile.ICON_OBJECT or Questie.icons["object"]
+    Questie.usedIcons[Questie.ICON_TYPE_TALK] = Questie.db.profile.ICON_TALK or Questie.icons["talk"]
+    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE] = Questie.db.profile.ICON_AVAILABLE or Questie.icons["available"]
+    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE_GRAY] = Questie.db.profile.ICON_AVAILABLE_GRAY or Questie.icons["available_gray"]
+    Questie.usedIcons[Questie.ICON_TYPE_COMPLETE] = Questie.db.profile.ICON_COMPLETE or Questie.icons["complete"]
+    Questie.usedIcons[Questie.ICON_TYPE_INCOMPLETE] = Questie.db.profile.ICON_INCOMPLETE or Questie.icons["incomplete"]
+    Questie.usedIcons[Questie.ICON_TYPE_GLOW] = Questie.db.profile.ICON_GLOW or Questie.icons["glow"]
+    Questie.usedIcons[Questie.ICON_TYPE_REPEATABLE] = Questie.db.profile.ICON_REPEATABLE or Questie.icons["repeatable"]
+    Questie.usedIcons[Questie.ICON_TYPE_REPEATABLE_COMPLETE] = Questie.db.profile.ICON_REPEATABLE_COMPLETE or Questie.icons["complete"]
+    Questie.usedIcons[Questie.ICON_TYPE_EVENTQUEST] = Questie.db.profile.ICON_EVENTQUEST or Questie.icons["eventquest"]
+    Questie.usedIcons[Questie.ICON_TYPE_EVENTQUEST_COMPLETE] = Questie.db.profile.ICON_EVENTQUEST_COMPLETE or Questie.icons["complete"]
+    Questie.usedIcons[Questie.ICON_TYPE_PVPQUEST] = Questie.db.profile.ICON_PVPQUEST or Questie.icons["pvpquest"]
+    Questie.usedIcons[Questie.ICON_TYPE_PVPQUEST_COMPLETE] = Questie.db.profile.ICON_PVPQUEST_COMPLETE or Questie.icons["complete"]
+    Questie.usedIcons[Questie.ICON_TYPE_INTERACT] = Questie.db.profile.ICON_TYPE_INTERACT or Questie.icons["interact"]
+    Questie.usedIcons[Questie.ICON_TYPE_SODRUNE] = Questie.icons["sod_rune"]
 end
 
 function Questie:GetIconNameFromPath(path)
@@ -219,6 +236,11 @@ function Questie:GetIconNameFromPath(path)
         if path == v then return k end
     end
 end
+
+Questie.LOWLEVEL_NONE = 1
+Questie.LOWLEVEL_ALL = 2
+Questie.LOWLEVEL_OFFSET = 3
+Questie.LOWLEVEL_RANGE = 4
 
 -- Start checking the game's cache.
 QuestieValidateGameCache.StartCheck()

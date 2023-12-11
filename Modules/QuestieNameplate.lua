@@ -24,7 +24,7 @@ end
 function QuestieNameplate:NameplateCreated(token)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateCreated]")
     -- if nameplates are disabled, don't create new nameplates.
-    if (not Questie.db.global.nameplateEnabled) then
+    if (not Questie.db.profile.nameplateEnabled) then
         return
     end
 
@@ -62,7 +62,7 @@ end
 function QuestieNameplate:NameplateDestroyed(token)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateDestroyed]")
 
-    if (not Questie.db.global.nameplateEnabled) then
+    if (not Questie.db.profile.nameplateEnabled) then
         return
     end
 
@@ -105,9 +105,9 @@ end
 
 function QuestieNameplate:RedrawIcons()
     for _, frame in pairs(npFrames) do
-        local iconScale = Questie.db.global.nameplateScale
+        local iconScale = Questie.db.profile.nameplateScale
 
-        frame:SetPoint("LEFT", Questie.db.global.nameplateX, Questie.db.global.nameplateY)
+        frame:SetPoint("LEFT", Questie.db.profile.nameplateX, Questie.db.profile.nameplateY)
         frame:SetWidth(16 * iconScale)
         frame:SetHeight(16 * iconScale)
     end
@@ -123,7 +123,7 @@ end
 function QuestieNameplate:DrawTargetFrame()
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:DrawTargetFrame]")
 
-    if (not Questie.db.global.nameplateTargetFrameEnabled) then
+    if (not Questie.db.profile.nameplateTargetFrameEnabled) then
         return
     end
 
@@ -171,14 +171,14 @@ function QuestieNameplate:HideCurrentTargetFrame()
 end
 
 function QuestieNameplate:RedrawFrameIcon()
-    if (not Questie.db.global.nameplateTargetFrameEnabled) or (not activeTargetFrame) then
+    if (not Questie.db.profile.nameplateTargetFrameEnabled) or (not activeTargetFrame) then
         return
     end
 
-    local iconScale = Questie.db.global.nameplateTargetFrameScale
+    local iconScale = Questie.db.profile.nameplateTargetFrameScale
     activeTargetFrame:SetWidth(16 * iconScale)
     activeTargetFrame:SetHeight(16 * iconScale)
-    activeTargetFrame:SetPoint("RIGHT", Questie.db.global.nameplateTargetFrameX, Questie.db.global.nameplateTargetFrameY)
+    activeTargetFrame:SetPoint("RIGHT", Questie.db.profile.nameplateTargetFrameX, Questie.db.profile.nameplateTargetFrameY)
 end
 
 
@@ -197,7 +197,7 @@ function _QuestieNameplate.GetFrame(guid)
         npFramesCount = npFramesCount + 1
     end
 
-    local iconScale = Questie.db.global.nameplateScale
+    local iconScale = Questie.db.profile.nameplateScale
 
     frame:SetFrameStrata("LOW")
     frame:SetFrameLevel(10)
@@ -205,7 +205,7 @@ function _QuestieNameplate.GetFrame(guid)
     frame:SetHeight(16 * iconScale)
     frame:EnableMouse(false)
     frame:SetParent(parent)
-    frame:SetPoint("LEFT", Questie.db.global.nameplateX, Questie.db.global.nameplateY)
+    frame:SetPoint("LEFT", Questie.db.profile.nameplateX, Questie.db.profile.nameplateY)
 
     frame.Icon = frame:CreateTexture(nil, "ARTWORK")
     frame.Icon:ClearAllPoints()
@@ -219,7 +219,7 @@ end
 function _QuestieNameplate.GetTargetFrameIconFrame()
     local frame = CreateFrame("Frame")
 
-    local iconScale = Questie.db.global.nameplateTargetFrameScale
+    local iconScale = Questie.db.profile.nameplateTargetFrameScale
     local strata = "MEDIUM"
 
     local targetFrame = TargetFrame -- Default Blizzard target frame
@@ -243,7 +243,7 @@ function _QuestieNameplate.GetTargetFrameIconFrame()
     frame:SetHeight(16 * iconScale)
     frame:EnableMouse(false)
 
-    frame:SetPoint("RIGHT", Questie.db.global.nameplateTargetFrameX, Questie.db.global.nameplateTargetFrameY)
+    frame:SetPoint("RIGHT", Questie.db.profile.nameplateTargetFrameX, Questie.db.profile.nameplateTargetFrameY)
 
     frame.Icon = frame:CreateTexture(nil, "ARTWORK")
     frame.Icon:ClearAllPoints()

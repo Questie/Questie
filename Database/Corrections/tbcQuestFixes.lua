@@ -236,6 +236,9 @@ function QuestieTBCQuestFixes:Load()
         [1805] = {
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
+        [1858] = {
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
+        },
         [1859] = {
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
         },
@@ -247,6 +250,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [1899] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [1963] = {
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
         },
         [1978] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
@@ -505,6 +511,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [8122] = {
             [questKeys.triggerEnd] = {"Hold Five Bases in Arathi Basin", {[zoneIDs.ARATHI_HIGHLANDS]={{73.2,30}}}},
+        },
+        [8183] = {
+            [questKeys.startedBy] = {{15069},nil,{19802}},
         },
         [8259] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1124,7 +1133,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSkill] = {202,305},
         },
         [9645] = {
-            [questKeys.triggerEnd] = {"Journal Entry Read", {[zoneIDs.DEADWIND_PASS]={{46.57,70.49},{46.77,74.5}}}},
+            [questKeys.triggerEnd] = {"Journal Entry Read", {[3457]={{-1,-1}}}},
         },
         [9666] = {
             [questKeys.objectives] = {{{17701}},nil,nil,nil,{{{17701},17701,"Declaration of Power"}}},
@@ -2406,7 +2415,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10942},
         },
         [10946] = {
-            [questKeys.triggerEnd] = {"Ruse of the Ashtongue", {[zoneIDs.NETHERSTORM]={{73.88,63.76}}}},
+            [questKeys.objectives] = {{{19514,"Ruse of the Ashtongue"}}},
         },
         [10950] = {
             [questKeys.questLevel] = -1,
@@ -2512,6 +2521,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10985] = {
             [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.", {[zoneIDs.SHADOWMOON_VALLEY]={{71.05,46.11},{66.29,44.06}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Let Xi'ri know you're ready to battle"), 1, {{"monster", 18528}}}},
         },
         [10987] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Use the Sparrowhawk Net to capture a Wild Sparrowhawk"), 0, {{"monster", 22979}}}},
@@ -2551,6 +2561,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11003] = {
             [questKeys.startedBy] = {{17257},nil,{33102,},},
+        },
+        [11007] = {
+            [questKeys.startedBy] = {{19622},nil,{32405}},
         },
         [11010] = {
             [questKeys.requiredClasses] = classIDs.WARLOCK + classIDs.ROGUE + classIDs.MAGE + classIDs.PRIEST + classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.SHAMAN,
@@ -4746,36 +4759,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{28126},nil},
             [questKeys.finishedBy] = {{28126},nil},
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.NIGHT_ELF + raceIDs.DRAENEI + raceIDs.TROLL + raceIDs.TAUREN + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
-        },
-        [12771] = {
-            [questKeys.preQuestSingle] = {12753},
-        },
-        [12773] = {
-            [questKeys.preQuestSingle] = {12772},
-        },
-        [12774] = {
-            [questKeys.preQuestSingle] = {12775},
-        },
-        [12776] = {
-            [questKeys.preQuestSingle] = {12777},
-        },
-        [12785] = {
-            [questKeys.preQuestSingle] = {12783},
-        },
-        [12786] = {
-            [questKeys.preQuestSingle] = {12784},
-        },
-        [12787] = {
-            [questKeys.preQuestSingle] = {12752},
-        },
-        [12788] = {
-            [questKeys.preQuestSingle] = {12782},
-        },
-        [12809] = {
-            [questKeys.preQuestSingle] = {12808},
-        },
-        [12812] = {
-            [questKeys.preQuestSingle] = {12811},
         },
 
         -- Below are quests that were not originally in TBC or in a different form

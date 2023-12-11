@@ -27,13 +27,13 @@ end
 function TrackerQuestTimers:Initialize()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerQuestTimers:Initialize]")
 
-    if QuestieTracker.started or (not Questie.db.char.trackerEnabled) then
+    if QuestieTracker.started or (not Questie.db.profile.trackerEnabled) then
         return
     end
 
     -- All Classic expansions
     WatchFrame:HookScript("OnShow", function()
-        if Questie.db.global.showBlizzardQuestTimer then
+        if Questie.db.profile.showBlizzardQuestTimer then
             TrackerQuestTimers:ShowBlizzardTimer()
         else
             TrackerQuestTimers:HideBlizzardTimer()
@@ -103,7 +103,7 @@ function TrackerQuestTimers:GetRemainingTime(quest, frame, clear)
     end
 
     if timeRemaining then
-        if Questie.db.global.showBlizzardQuestTimer then
+        if Questie.db.profile.showBlizzardQuestTimer then
             TrackerQuestTimers:ShowBlizzardTimer()
             quest.timedBlizzardQuest = true
             quest.trackTimedQuest = false
@@ -156,13 +156,13 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
 end
 
 function TrackerQuestTimers:UpdateTimerFrame()
-    if timer and (Questie.db.char.trackerEnabled and Questie.db.char.isTrackerExpanded and (QuestieTracker.disableHooks ~= true)) then
+    if timer and (Questie.db.profile.trackerEnabled and Questie.db.char.isTrackerExpanded and (QuestieTracker.disableHooks ~= true)) then
         local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(timer.questId)
         if timeRemainingString ~= nil then
             Questie:Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers:UpdateTimerFrame] - ", timeRemainingString)
-            timer.frame.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective), Questie.db.global.trackerFontSizeObjective, Questie.db.global.trackerFontOutline)
+            timer.frame.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), Questie.db.profile.trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
             timer.frame.label:SetText(Questie:Colorize(timeRemainingString, "blue"))
-            timer.frame:SetWidth(timer.frame.label:GetWidth() + ((34) - (18 - Questie.db.global.trackerFontSizeQuest)) + Questie.db.global.trackerFontSizeQuest)
+            timer.frame:SetWidth(timer.frame.label:GetWidth() + ((34) - (18 - Questie.db.profile.trackerFontSizeQuest)) + Questie.db.profile.trackerFontSizeQuest)
         else
             Questie:Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers] Quest Timer Expired!")
             return

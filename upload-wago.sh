@@ -28,7 +28,7 @@ response=$(curl -sS \
 
 http_status=$(echo "$response" | tail -n1)
 
-if [ "$http_status" -eq 200 ]; then
+if [ "$http_status" -eq 201 ]; then
   echo "Wago upload successful"
 else
   echo "Wago upload failed, HTTP-code: $http_status"

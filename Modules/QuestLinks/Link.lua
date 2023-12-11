@@ -70,7 +70,7 @@ end
 
 ---@return string
 function QuestieLink:GetQuestHyperLink(questId, senderGUID)
-    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.global.trackerShowQuestLevel, true, false)
+    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.trackerShowQuestLevel, true, false)
     local questLevel, _ = QuestieLib.GetTbcLevel(questId)
     local isRepeatable = QuestieDB.IsRepeatable(questId)
 
@@ -126,11 +126,11 @@ _AddQuestTitle = function(quest)
         titleColor = "blue"
     end
 
-    if Questie.db.global.trackerShowQuestLevel and Questie.db.global.enableTooltipsQuestID then
+    if Questie.db.profile.trackerShowQuestLevel and Questie.db.profile.enableTooltipsQuestID then
         _AddColoredTooltipLine(questLevel .. quest.name .. " (" .. quest.Id .. ")", titleColor)
-    elseif Questie.db.global.trackerShowQuestLevel and (not Questie.db.global.enableTooltipsQuestID) then
+    elseif Questie.db.profile.trackerShowQuestLevel and (not Questie.db.profile.enableTooltipsQuestID) then
         _AddColoredTooltipLine(questLevel .. quest.name, titleColor)
-    elseif Questie.db.global.enableTooltipsQuestID and (not Questie.db.global.trackerShowQuestLevel) then
+    elseif Questie.db.profile.enableTooltipsQuestID and (not Questie.db.profile.trackerShowQuestLevel) then
         _AddColoredTooltipLine(quest.name .. " (" .. quest.Id .. ")", titleColor)
     else
         _AddColoredTooltipLine(quest.name, titleColor)

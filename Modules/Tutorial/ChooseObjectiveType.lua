@@ -55,13 +55,8 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
     acceptOnlyQuestieButton:SetSize(140, 24)
     acceptOnlyQuestieButton:SetPoint("BOTTOMLEFT", 60, 15)
     acceptOnlyQuestieButton:SetScript("OnClick", function()
-        SetCVar("questPOI", "0") -- Disable the Blizzard quest objectives
-        if WorldMapQuestShowObjectives then
-            WorldMapQuestShowObjectives:SetChecked(false) -- Disable the checkbox for the Blizzard quest objectives
-        end
-        Questie.db.global.enableObjectives = true
         Questie.db.global.tutorialObjectiveTypeChosen = true
-        QuestieOptionsUtils.SetPfQuestIcons(nil, false)
+        QuestieOptionsUtils.ExecuteTheme(nil, 'questie')
         baseFrame:Hide()
     end)
 
@@ -70,13 +65,8 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
     acceptPfQuestButton:SetSize(140, 24)
     acceptPfQuestButton:SetPoint("BOTTOM", 0, 15)
     acceptPfQuestButton:SetScript("OnClick", function()
-        SetCVar("questPOI", "0") -- Disable the Blizzard quest objectives
-        if WorldMapQuestShowObjectives then
-            WorldMapQuestShowObjectives:SetChecked(false) -- Disable the checkbox for the Blizzard quest objectives
-        end
-        Questie.db.global.enableObjectives = true
         Questie.db.global.tutorialObjectiveTypeChosen = true
-        QuestieOptionsUtils.SetPfQuestIcons(nil, true)
+        QuestieOptionsUtils.ExecuteTheme(nil, 'pfquest')
         baseFrame:Hide()
     end)
 
@@ -85,13 +75,8 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
     acceptOnlyBlizzardButton:SetSize(140, 24)
     acceptOnlyBlizzardButton:SetPoint("BOTTOMRIGHT", -60, 15)
     acceptOnlyBlizzardButton:SetScript("OnClick", function()
-        SetCVar("questPOI", "1") -- Enable the Blizzard quest objectives
-        if WorldMapQuestShowObjectives then
-            WorldMapQuestShowObjectives:SetChecked(true) -- Enable the checkbox for the Blizzard quest objectives
-        end
-        Questie.db.global.enableObjectives = false
         Questie.db.global.tutorialObjectiveTypeChosen = true
-        QuestieOptionsUtils.SetPfQuestIcons(nil, false)
+        QuestieOptionsUtils.ExecuteTheme(nil, 'blizzard')
         baseFrame:Hide()
     end)
 end
