@@ -1100,6 +1100,42 @@ function QuestieWotlkNpcFixes:Load()
         [29999] = {
             [npcKeys.spawns] = {},
         },
+        [30014] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.09,57.27}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30017] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.72,56.13}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30019] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.85,56.82}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30020] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.8,56.77}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30022] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.8,56.78}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30023] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.96,57.2}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30024] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.85,56.82}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30025] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.85,56.82}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30026] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.85,56.82}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
         [30222] = {
             [npcKeys.spawns] = {},
         },

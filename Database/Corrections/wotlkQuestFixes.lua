@@ -2492,23 +2492,23 @@ function QuestieWotlkQuestFixes:Load()
         [12930] = {
             [questKeys.exclusiveTo] = {12929},
         },
-        [12932] = {
-            [questKeys.objectives] = {{{30014}}},
-            [questKeys.exclusiveTo] = {12954},
-            [questKeys.nextQuestInChain] = 9977, -- This is the version of the quest you get if you have NOT completed 9977
-            [questKeys.triggerEnd] = {"Yggdras Defeated",{[zoneIDs.ZUL_DRAK]={{47.93,56.85,},},},},
+        [12932] = { -- This is the version of the quest you get if you have NOT completed 9977
+            [questKeys.objectives] = {{{30014,"Yggdras Defeated"}}},
+            [questKeys.exclusiveTo] = {12954,9977},
+            [questKeys.nextQuestInChain] = 12933,
         },
         [12933] = {
-            [questKeys.triggerEnd] = {"Stinkbeard Defeated",{[zoneIDs.ZUL_DRAK]={{47.94,56.61,},},},},
+            [questKeys.objectives] = {{{30017,"Stinkbeard Defeated"}}},
+            [questKeys.preQuestSingle] = {12932,12954},
         },
         [12934] = {
-            [questKeys.triggerEnd] = {"Elemental Lord Defeated",{[zoneIDs.ZUL_DRAK]={{48.01,56.72,},},},},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{30019,30024,30025,30026},30019,"Elemental Lord Defeated"}}},
         },
         [12935] = {
-            [questKeys.triggerEnd] = {"Orinoko Tuskbreaker Defeated",{[zoneIDs.ZUL_DRAK]={{48,56.72,},},},},
+            [questKeys.objectives] = {{{30020,"Orinoko Tuskbreaker Defeated"}}},
         },
         [12936] = {
-            [questKeys.triggerEnd] = {"Korrak the Bloodrager Defeated",{[zoneIDs.ZUL_DRAK]={{48.04,56.75,},},},},
+            [questKeys.objectives] = {{{30023,"Korrak the Bloodrager Defeated"}}},
         },
         [12939] = {
             [questKeys.objectives] = {{{30037,}}},
@@ -2550,7 +2550,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [12948] = {
-            [questKeys.triggerEnd] = {"Vladof the Butcher Defeated",{[zoneIDs.ZUL_DRAK]={{47.98,56.74,},},},},
+            [questKeys.objectives] = {{{30022,"Vladof the Butcher Defeated"}}},
         },
         [12950] = {
             [questKeys.startedBy] = {nil,{400032}},
@@ -2563,10 +2563,10 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [12954] = {
-            [questKeys.objectives] = {{{30014}}},
+            [questKeys.objectives] = {{{30014,"Yggdras Defeated"}}},
             [questKeys.preQuestSingle] = {9977},
             [questKeys.exclusiveTo] = {12932},
-            [questKeys.triggerEnd] = {"Yggdras Defeated",{[zoneIDs.ZUL_DRAK]={{47.93,56.85,},},},},
+            [questKeys.nextQuestInChain] = 12933,
         },
         [12957] = {
             [questKeys.objectives] = {{{29384},{29369}}},
