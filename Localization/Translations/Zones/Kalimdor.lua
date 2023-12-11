@@ -266,17 +266,17 @@ local kalimdorLocales = {
         ["zhTW"] = "達納蘇斯",
         ["zhCN"] = "达纳苏斯",
     },
-    ["Auberdine"] = { -- town in Darkshore, used in SoD quest for some reason
-        ["ptBR"] = "Auberdine",
+    ["Auberdine"] = { -- town in Darkshore, used as zoneOrSort in SoD quest for some reason
+        ["ptBR"] = true, -- since this string is transcribed, not translated, latin languages are identical
         ["ruRU"] = "Аубердина",
-        ["deDE"] = "Auberdine",
-        ["koKR"] = "",
-        ["esMX"] = "Auberdine",
+        ["deDE"] = true,
+        ["koKR"] = "아우버다인",
+        ["esMX"] = true,
         ["enUS"] = true,
-        ["frFR"] = "Auberdine",
-        ["esES"] = "Auberdine",
-        ["zhTW"] = "",
-        ["zhCN"] = "",
+        ["frFR"] = true,
+        ["esES"] = true,
+        ["zhTW"] = "奥伯丁",
+        ["zhCN"] = "奥伯丁",
     },
 }
 
