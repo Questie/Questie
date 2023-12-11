@@ -34,6 +34,10 @@ class QuestSpider(scrapy.Spider):
         if objectives_text:
             result["objectivesText"] = objectives_text.strip()
 
+        item_objective = response.xpath('//a[@class="q1"]/@href').get()
+        if item_objective:
+            result["itemObjective"] = re.search(r'item=(\d+)', item_objective).group(1)
+
         if result:
             yield result
 
