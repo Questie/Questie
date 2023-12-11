@@ -1743,18 +1743,28 @@ do
                     if childQuests then
                         for _, childQuestId in pairs(childQuests) do
                             if (not Questie.db.char.complete[childQuestId]) and (not QuestiePlayer.currentQuestlog[childQuestId]) then
-                                QuestieDB.activeChildQuests[childQuestId] = true
-                                -- Draw them right away and skip all other irrelevant checks
-                                NewThread(function()
-                                    local quest = QuestieDB.GetQuest(childQuestId)
-                                    if (not quest.tagInfoWasCached) then
-                                        QuestieDB.GetQuestTagInfo(childQuestId) -- cache to load in the tooltip
-
-                                        quest.tagInfoWasCached = true
+                                local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(childQuestId, "exclusiveTo")
+                                local blockedByExclusiveTo = false
+                                for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
+                                    if QuestiePlayer.currentQuestlog[exclusiveToQuestId] or Questie.db.char.complete[exclusiveToQuestId] then
+                                        blockedByExclusiveTo = true
+                                        break
                                     end
+                                end
+                                if not blockedByExclusiveTo then
+                                    QuestieDB.activeChildQuests[childQuestId] = true
+                                    -- Draw them right away and skip all other irrelevant checks
+                                    NewThread(function()
+                                        local quest = QuestieDB.GetQuest(childQuestId)
+                                        if (not quest.tagInfoWasCached) then
+                                            QuestieDB.GetQuestTagInfo(childQuestId) -- cache to load in the tooltip
 
-                                    _QuestieQuest:DrawAvailableQuest(quest)
-                                end, 0)
+                                            quest.tagInfoWasCached = true
+                                        end
+
+                                        _QuestieQuest:DrawAvailableQuest(quest)
+                                    end, 0)
+                                end
                             end
                         end
                     end
