@@ -92,6 +92,10 @@ end
 UnitName = function()
     return "QuestieNPC"
 end
+UnitRace = function ()
+    return "Tauren"
+end
+
 LibStub = {
     NewLibrary = _EmptyDummyFunction,
     GetLibrary = _TableDummyFunction,
@@ -223,7 +227,11 @@ local function _CheckClassicDatabase(dataType)
         char = {
             showEventQuests = false
         },
-        global = {}
+        global = {
+            debugEnabled = false
+        },
+        profile = {
+        }
     }
     QuestieConfig = {}
 
@@ -242,14 +250,14 @@ local function _CheckClassicDatabase(dataType)
 
     Questie:SetIcons()
     QuestieLoader:ImportModule("ZoneDB"):Initialize()
-
+    QuestieCorrections.MinimalInit = _EmptyDummyFunction -- We don't want to load faction corrections etc
     QuestieCorrections:Initialize()
 
     -- printL("\27[33m  [3/4] " .. l10n("Deleting Gathering Nodes") .. "...\27[0m")
     -- QuestieDB.private:DeleteGatheringNodes()
 
-    printL("\27[33m  [4/4] " .. l10n("Optimizing waypoints") .. "...\27[0m")
-    QuestieCorrections:PreCompile()
+    -- printL("\27[33m  [4/4] " .. l10n("Optimizing waypoints") .. "...\27[0m")
+    -- QuestieCorrections:PreCompile()
 
     printL("\27[35m " .. "Creating Era folders" .. "...\27[0m")
     os.execute("mkdir -p ./.dockerfiles/Database/Quest/Era")
@@ -309,7 +317,11 @@ local function _CheckTBCDatabase(dataType)
         char = {
             showEventQuests = false
         },
-        global = {}
+        global = {
+            debugEnabled = false
+        },
+        profile = {
+        }
     }
     QuestieConfig = {}
 
@@ -328,14 +340,14 @@ local function _CheckTBCDatabase(dataType)
 
     Questie:SetIcons()
     QuestieLoader:ImportModule("ZoneDB"):Initialize()
-
+    QuestieCorrections.MinimalInit = _EmptyDummyFunction -- We don't want to load faction corrections etc
     QuestieCorrections:Initialize()
 
     -- printL("\27[33m  [3/4] " .. l10n("Deleting Gathering Nodes") .. "...\27[0m")
     -- QuestieDB.private:DeleteGatheringNodes()
 
-    printL("\27[33m  [4/4] " .. l10n("Optimizing waypoints") .. "...\27[0m")
-    QuestieCorrections:PreCompile()
+    -- printL("\27[33m  [4/4] " .. l10n("Optimizing waypoints") .. "...\27[0m")
+    -- QuestieCorrections:PreCompile()
 
     printL("\27[35m " .. "Creating TBC folders" .. "...\27[0m")
 
@@ -396,7 +408,11 @@ local function _CheckWotlkDatabase(dataType)
         char = {
             showEventQuests = false
         },
-        global = {}
+        global = {
+            debugEnabled = false
+        },
+        profile = {
+        }
     }
     QuestieConfig = {}
 
@@ -415,14 +431,14 @@ local function _CheckWotlkDatabase(dataType)
 
     Questie:SetIcons()
     QuestieLoader:ImportModule("ZoneDB"):Initialize()
-
+    QuestieCorrections.MinimalInit = _EmptyDummyFunction -- We don't want to load faction corrections etc
     QuestieCorrections:Initialize()
 
     -- printL("\27[33m  [3/4] " .. l10n("Deleting Gathering Nodes") .. "...\27[0m")
     -- QuestieDB.private:DeleteGatheringNodes()
 
-    printL("\27[33m  [4/4] " .. l10n("Optimizing waypoints") .. "...\27[0m")
-    QuestieCorrections:PreCompile()
+    -- printL("\27[33m  [4/4] " .. l10n("Optimizing waypoints") .. "...\27[0m")
+    -- QuestieCorrections:PreCompile()
 
     printL("\27[35m  " .. "Creating Wotlk folders" .. "...\27[0m")
 
