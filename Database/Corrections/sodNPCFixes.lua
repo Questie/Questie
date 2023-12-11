@@ -11,5 +11,12 @@ function SeasonOfDiscovery:LoadNPCs()
     local npcFlags = QuestieDB.npcFlags
     local waypointPresets = QuestieDB.waypointPresets
 
-    return {}
+    return {
+        [202699] = { -- Baron Aquanis
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}}
+        },
+        [209678] = { -- Twilight Lord Kelris
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}}
+        },
+    }
 end
