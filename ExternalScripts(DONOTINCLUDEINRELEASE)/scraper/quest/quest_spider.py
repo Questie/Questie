@@ -38,6 +38,10 @@ class QuestSpider(scrapy.Spider):
         if item_objective:
             result["itemObjective"] = re.search(r'item=(\d+)', item_objective).group(1)
 
+        spell_objective = response.xpath('//a[@class="q"]/@href').get()
+        if spell_objective:
+            result["spellObjective"] = re.search(r'spell=(\d+)', spell_objective).group(1)
+
         if result:
             yield result
 
