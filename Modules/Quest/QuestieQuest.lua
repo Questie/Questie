@@ -1744,14 +1744,14 @@ do
                         for _, childQuestId in pairs(childQuests) do
                             if (not Questie.db.char.complete[childQuestId]) and (not QuestiePlayer.currentQuestlog[childQuestId]) then
                                 local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(childQuestId, "exclusiveTo")
-                                local exclusiveToInQuestLog = false
+                                local blockedByExclusiveTo = false
                                 for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
-                                    if QuestiePlayer.currentQuestlog[exclusiveToQuestId] then
-                                        exclusiveToInQuestLog = true
+                                    if QuestiePlayer.currentQuestlog[exclusiveToQuestId] or Questie.db.char.complete[exclusiveToQuestId] then
+                                        blockedByExclusiveTo = true
                                         break
                                     end
                                 end
-                                if not exclusiveToInQuestLog then
+                                if not blockedByExclusiveTo then
                                     QuestieDB.activeChildQuests[childQuestId] = true
                                     -- Draw them right away and skip all other irrelevant checks
                                     NewThread(function()
