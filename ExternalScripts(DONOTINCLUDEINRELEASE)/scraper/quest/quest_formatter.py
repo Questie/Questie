@@ -103,10 +103,10 @@ class QuestFormatter:
 
     def __get_objectives_text(self, item):
         if "objectivesText" in item:
-            scripped_text = re.sub(r' A level .*', '', item["objectivesText"])
-            return "{\"" + scripped_text + "\"}"
-        else:
-            return "nil"
+            scripped_text = re.sub(r'A level .*', '', item["objectivesText"]).strip()
+            if scripped_text:
+                return "{\"" + scripped_text + "\"}"
+        return "nil"
 
     def __get_objectives(self, item):
         if "itemObjective" in item:
