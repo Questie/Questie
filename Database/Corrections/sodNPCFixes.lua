@@ -28,7 +28,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{64,39.2}}},
             [npcKeys.friendlyToFaction] = "H",
         },
-        [214098] = {
+        [214099] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{24.4,67.6}}},
             [npcKeys.friendlyToFaction] = "A",
         },
