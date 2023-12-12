@@ -215,10 +215,41 @@ function QuestieDB:Initialize()
     QuestieDB.QueryObject = QuestieDB._QueryObject
     QuestieDB.QueryItem = QuestieDB._QueryItem
 
-    QuestieDB.QueryQuestSingle = QuestieDB._QueryQuestSingle
-    QuestieDB.QueryNPCSingle = QuestieDB._QueryNPCSingle
-    QuestieDB.QueryObjectSingle = QuestieDB._QueryObjectSingle
-    QuestieDB.QueryItemSingle = QuestieDB._QueryItemSingle
+    local quest, npc, object, item = Quest, Npc, Object, Item
+    local QueryQuestSingleReplaceFunction        = function(id, value)
+        if quest[value] then
+            return quest[value](id)
+        end
+        return nil
+    end
+    local QueryNPCSingleReplaceFunction          = function(id, value)
+        if npc[value] then
+            return npc[value](id)
+        end
+        return nil
+    end
+    local QueryObjectSingleReplaceFunction       = function(id, value)
+        if object[value] then
+            return object[value](id)
+        end
+        return nil
+    end
+    local QueryItemSingleReplaceFunction         = function(id, value)
+        if item[value] then
+            return item[value](id)
+        end
+        return nil
+    end
+
+    QuestieDB.QueryQuestSingle                   = QuestieDB._QueryQuestSingle
+    QuestieDB.QueryNPCSingle                     = QuestieDB._QueryNPCSingle
+    QuestieDB.QueryObjectSingle                  = QuestieDB._QueryObjectSingle
+    QuestieDB.QueryItemSingle                    = QuestieDB._QueryItemSingle
+
+    QuestieDB.QueryQuestSingle                   = QueryQuestSingleReplaceFunction
+    QuestieDB.QueryNPCSingle                     = QueryNPCSingleReplaceFunction
+    QuestieDB.QueryObjectSingle                  = QueryObjectSingleReplaceFunction
+    QuestieDB.QueryItemSingle                    = QueryItemSingleReplaceFunction
 
     -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
     _QuestieDB.questCache = {};
