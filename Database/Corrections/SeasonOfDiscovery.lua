@@ -40,6 +40,8 @@ local questsToBlacklistBySoDPhase = {
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
+        [8370] = true, -- Conquering Arathi Basin
+        [8171] = true, -- The Battle for Arathi Basin!
     },
     [3] = { -- SoD Phase 3 - level cap 50
     },
