@@ -103,11 +103,11 @@ local tooltipsUILocales = {
         ["ruRU"] = "Начинает",
         ["deDE"] = "Gestarted von",
         ["koKR"] = "시작",
-        ["esMX"] = "Iniciada por",
+        ["esMX"] = "Iniciado por",
         ["enUS"] = true,
         ["zhCN"] = "任务开始于",
         ["zhTW"] = "任務開始於",
-        ["esES"] = "Iniciada por",
+        ["esES"] = "Iniciado por",
         ["frFR"] = "Début",
     },
     ["Ended by"] = {
