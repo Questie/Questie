@@ -1029,6 +1029,20 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                 end
             end
         end
+        if objectives[6] then
+            for index, spellObjective in pairs(objectives[6]) do
+                if spellObjective then
+                    ---@type SpellObjective
+                    QO.ObjectiveData[#QO.ObjectiveData+1] = {
+                        Type = "spell",
+                        Id = spellObjective[1],
+                        Text = spellObjective[2],
+                        ItemSourceId = spellObjective[3],
+                    }
+                    QO.SpellItemId = spellObjective[3]
+                end
+            end
+        end
     end
 
     -- Events need to be added at the end of ObjectiveData
