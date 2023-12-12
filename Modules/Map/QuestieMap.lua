@@ -395,7 +395,6 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
             if not ZoneDB:GetDungeonLocation(zone) and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                 if not manualIcons[zone] then
                     manualIcons[zone] = QuestieMap:DrawManualIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
-                    manualIcons[zone] = { waypoints[1][1][1], waypoints[1][1][2] }
                 end
                 QuestieMap:DrawWaypoints(manualIcons[zone], waypoints, zone)
             end
