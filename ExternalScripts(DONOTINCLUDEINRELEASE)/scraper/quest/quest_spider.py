@@ -29,6 +29,21 @@ class QuestSpider(scrapy.Spider):
             if script.lstrip().startswith('WH.markup'):
                 result["start"] = self.__match_start(re.search(r'Start:.*?npc=(\d+)', script))
                 result["end"] = self.__match_end(script)
+
+        objectives_text = response.xpath('//meta[@name="description"]/@content').get()
+        if objectives_text:
+            result["objectivesText"] = objectives_text.strip()
+
+        item_objective = response.xpath('//a[@class="q1"]/@href').get()
+        if item_objective:
+            item_provided = response.xpath('//a[@class="q1"]/following-sibling::text()').get()
+            if item_provided is None or item_provided.strip() != "(Provided)":
+                result["itemObjective"] = re.search(r'item=(\d+)', item_objective).group(1)
+
+        spell_objective = response.xpath('//a[@class="q"]/@href').get()
+        if spell_objective:
+            result["spellObjective"] = re.search(r'spell=(\d+)', spell_objective).group(1)
+
         if result:
             yield result
 

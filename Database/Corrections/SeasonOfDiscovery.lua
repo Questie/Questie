@@ -41,6 +41,7 @@ local questsToBlacklistBySoDPhase = {
     [1] = { -- SoD Phase 1 - level cap 25 (this is required for counting, but should stay empty)
     },
     [2] = { -- SoD Phase 2 - level cap 40
+        [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
     },
     [3] = { -- SoD Phase 3 - level cap 50
     },
@@ -117,8 +118,6 @@ local questsToBlacklistBySoDPhase = {
         -----------------
     },
     [14] = { -- Era Phase 4 - Zul'Gurub
-        [456] = true,
-        [636] = true,
         [8411] = true,
         [8056] = true,
         [8057] = true,

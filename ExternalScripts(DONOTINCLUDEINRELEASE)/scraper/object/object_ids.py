@@ -1,7 +1,8 @@
 # https://www.wowhead.com/classic/objects?filter=6;2;11500
+# r = []
+# document.getElementsByClassName("listview-cleartext").forEach(l => r.push(parseInt(l.href.substr(39, 6)))); r; // run for each page
+# [...new Set(r)].sort();
 OBJECT_IDS = [
-    # 205364, -- TODO: This is an item, not an object.
-    # 209031, -- TODO: This is an item, not an object.
     386675,
     386691,
     386759,

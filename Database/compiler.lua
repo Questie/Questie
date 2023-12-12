@@ -998,7 +998,7 @@ function QuestieDBCompiler:Compile()
     print("\124cFFAAEEFF"..l10n("Questie DB update complete!"))
 
     Questie.db.global.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
-    Questie.db.global.dbCompiledLang = (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale())
+    Questie.db.global.dbCompiledLang = l10n:GetUILocale()
     Questie.db.global.dbCompiledExpansion = WOW_PROJECT_ID
     Questie.db.global.dbIsCompiled = true
     Questie.db.global.dbCompiledCount = (Questie.db.global.dbCompiledCount or 0) + 1

@@ -333,16 +333,16 @@ function QuestieDebugOffer.QuestDialog()
         local rewardText = GetRewardText()
         local rewardXP = GetRewardXP()
 
-        local filteredQuestText = questText:gsub(GetUnitName(player), "<playername>") -- strip out player name from quest text
-        local filteredObjectiveText = objectiveText:gsub(GetUnitName(player), "<playername>") -- strip out player name from objective text
-        local filteredRewardText = rewardText:gsub(GetUnitName(player), "<playername>") -- strip out player name from reward text
+        if questText then questText = questText:gsub(GetUnitName(player), "<playername>") end -- strip out player name from quest text
+        if objectiveText then objectiveText = objectiveText:gsub(GetUnitName(player), "<playername>") end -- strip out player name from objective text
+        if rewardText then rewardText = rewardText:gsub(GetUnitName(player), "<playername>") end -- strip out player name from reward text
 
         DebugInformation[debugIndex] = "Quest in dialog not present in QuestDB!"
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n\n|cFFAAAAAAQuest ID:|r " .. tostring(questID)
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
-        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(filteredQuestText)
-        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(filteredObjectiveText)
-        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAReward Text:|r " .. tostring(filteredRewardText)
+        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(questText)
+        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(objectiveText)
+        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAReward Text:|r " .. tostring(rewardText)
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAReward XP:|r " .. tostring(rewardXP)
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuestgiver:|r " .. tostring(UnitGUID(questnpc))
         DebugInformation[debugIndex] = _AppendUniversalText(DebugInformation[debugIndex])
@@ -362,15 +362,16 @@ function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker duri
             local questTitle, questLevel, suggestedGroup, _, _, _, frequency, questLogId = GetQuestLogTitle(i)
             local questText, objectiveText = GetQuestLogQuestText(i)
 
-            local filteredQuestText = questText:gsub(GetUnitName(player), "<playername>") -- strip out player name from quest text
-            local filteredObjectiveText = objectiveText:gsub(GetUnitName(player), "<playername>") -- strip out player name from objective text
+            if questText then questText = questText:gsub(GetUnitName(player), "<playername>") end -- strip out player name from quest text
+            if objectiveText then objectiveText = objectiveText:gsub(GetUnitName(player), "<playername>") end -- strip out player name from objective text
+
             if questID == questLogId then
                 debugIndex = debugIndex + 1
                 DebugInformation[debugIndex] = "Quest in tracker not present in QuestDB!"
                 DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n\n|cFFAAAAAAQuest ID:|r " .. tostring(questLogId)
                 DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Name:|r " .. tostring(questTitle)
-                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(filteredQuestText)
-                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(filteredObjectiveText)
+                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuest Text:|r " .. tostring(questText)
+                DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(objectiveText)
                 DebugInformation[debugIndex] = _AppendUniversalText(DebugInformation[debugIndex])
                 Questie:Print(l10n("A quest in your quest log is missing from the Questie database and can't be tracked.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. debugIndex .. "|h[" .. l10n("More Info") .. "]|h|r")
                 --print(tostring(QuestieDB.IsSoDRuneQuest(questlogid)))
@@ -504,7 +505,7 @@ local function _CreateOfferFrame(popupText, discordURL, index)
 
     debugFrame.discordText = debugFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     debugFrame.discordText:SetPoint("TOP", debugFrame.dataEditBox, "BOTTOM", 0, -15)
-    debugFrame.discordText:SetText("|cFFAAAAAA" .. l10n("Please share this info with us on") .. "  |TInterface\\Addons\\Questie\\Icons\\discord.blp:16|t |cFF5765ECDiscord|r\n" .. "(" .. l10n("You can copy the data above" .. ")"))
+    debugFrame.discordText:SetText("|cFFAAAAAA" .. l10n("Please share this info with us on") .. "  |TInterface\\Addons\\Questie\\Icons\\discord.blp:16|t |cFF5765ECDiscord|r\n" .. "(" .. l10n("You can copy the data above") .. ")")
 
     debugFrame.discordLinkEditBox = CreateFrame("EditBox", nil, debugFrame, "InputBoxTemplate")
     debugFrame.discordLinkEditBox:SetSize(200, 20)

@@ -71,7 +71,7 @@ end
 ---@return boolean HasMaxFaction
 function QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
     local aboveMinRep = false -- the player has reached the min required reputation value
-    local belowMaxRep = false -- the player has not reached the max allowed reputation value
+    local belowMaxRep = false
     local hasMinFaction = false
     local hasMaxFaction = false
 
@@ -95,6 +95,9 @@ function QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, required
         if playerReputations[maxFactionID] then
             hasMaxFaction = true
             belowMaxRep = playerReputations[maxFactionID][2] < reqMaxValue
+        elseif maxFactionID == 909 then -- Darkmoon Faire
+            hasMaxFaction = true
+            belowMaxRep = true
         end
     else
         -- If requiredMaxRep is nil, we don't care about the reputation aka it fullfils it

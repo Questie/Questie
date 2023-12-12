@@ -23,7 +23,7 @@ class NPCFormatter:
             g.write("}\n")
 
     def __get_level(self, item):
-        return item if int(item) < 99 else -1  # "Son of Arugal" has level 9999
+        return item if int(item) < 99 else 99  # "Son of Arugal" has level 9999
 
     def __get_zone_id(self, item):
         return item if "zoneId" in item else 0
@@ -33,6 +33,7 @@ class NPCFormatter:
         with Path(file_name).open("r", encoding="utf-8") as f:
             data = json.load(f)
         sorted_data = sorted(data, key=lambda x: x.get('npcId', 0))
+        # TODO Filter "sic" quest ID
         print("Data contains {} entries".format(len(sorted_data)))
         return sorted_data
 
