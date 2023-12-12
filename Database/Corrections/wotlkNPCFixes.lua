@@ -981,6 +981,13 @@ function QuestieWotlkNpcFixes:Load()
         [28923] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TERRESTRIAL_WATCHTOWER]={{19.2,51.7}},[zoneIDs.HALLS_OF_LIGHTNING]={{-1,-1}}},
         },
+        [28931] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{29.34,45.13},{28.21,46.28},{27.44,44.6},{28.56,43.44}}},
+        },
+        [28948] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{27.21,42.32}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
         [29087] = {
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{53.93,34.3}}},
         },
@@ -1973,7 +1980,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.name] = "Maintain a Gallop for 8 seconds",
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
-        }
+        },
     }
 end
 
