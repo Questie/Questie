@@ -22,9 +22,8 @@ elseif maxLevel == 60 and SeasonOfDiscovery.currentPhase == 1 then
 end
 
 local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
-    --[88] = true,
-    --[1234] = true,
-    --[5678] = true,
+    [77617] = true,
+    [77666] = true,
 }
 
 ---@param questId number
@@ -40,6 +39,7 @@ local questsToBlacklistBySoDPhase = {
     [1] = { -- SoD Phase 1 - level cap 25 (this is required for counting, but should stay empty)
     },
     [2] = { -- SoD Phase 2 - level cap 40
+        [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
     },
     [3] = { -- SoD Phase 3 - level cap 50
     },

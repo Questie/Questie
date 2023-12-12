@@ -772,6 +772,30 @@ local function _AddSourceItemObjective(quest)
     end
 end
 
+-- This checks and manually adds quest item tooltips for SpellItems
+local function _AddSpellItemObjective(quest)
+    if quest.SpellItemId then
+        local spellobjectives = QuestieDB.QueryQuestSingle(quest.Id, "objectives")[6]
+
+        if spellobjectives then
+            local depthIndex = 1 -- TODO: What is better for this?
+            local fakeObjective = {
+                Id = quest.Id,
+                IsSourceItem = true,
+                QuestData = quest,
+                Index = 1,
+                Needed = quest.Objectives[depthIndex].Needed,
+                Collected = quest.Objectives[depthIndex].Collected,
+                text = nil,
+                Description = quest.Objectives[depthIndex].Description,
+            }
+
+            QuestieTooltips:RegisterObjectiveTooltip(quest.Id, "i_" .. quest.SpellItemId, fakeObjective);
+            return
+        end
+    end
+end
+
 -- This checks and manually adds quest item tooltips for requiredSourceItems
 local function _AddRequiredSourceItemObjective(quest)
     if quest.requiredSourceItems then
@@ -1408,6 +1432,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
         QuestieQuest:UpdateQuest(quest.Id)
         _AddSourceItemObjective(quest)
         _AddRequiredSourceItemObjective(quest)
+        _AddSpellItemObjective(quest)
 
         return
     end
@@ -1421,6 +1446,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     QuestieQuest:UpdateObjectiveNotes(quest)
     _AddSourceItemObjective(quest)
     _AddRequiredSourceItemObjective(quest)
+    _AddSpellItemObjective(quest)
 end
 
 ---@param quest Quest
@@ -1743,18 +1769,28 @@ do
                     if childQuests then
                         for _, childQuestId in pairs(childQuests) do
                             if (not Questie.db.char.complete[childQuestId]) and (not QuestiePlayer.currentQuestlog[childQuestId]) then
-                                QuestieDB.activeChildQuests[childQuestId] = true
-                                -- Draw them right away and skip all other irrelevant checks
-                                NewThread(function()
-                                    local quest = QuestieDB.GetQuest(childQuestId)
-                                    if (not quest.tagInfoWasCached) then
-                                        QuestieDB.GetQuestTagInfo(childQuestId) -- cache to load in the tooltip
-
-                                        quest.tagInfoWasCached = true
+                                local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(childQuestId, "exclusiveTo")
+                                local blockedByExclusiveTo = false
+                                for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
+                                    if QuestiePlayer.currentQuestlog[exclusiveToQuestId] or Questie.db.char.complete[exclusiveToQuestId] then
+                                        blockedByExclusiveTo = true
+                                        break
                                     end
+                                end
+                                if not blockedByExclusiveTo then
+                                    QuestieDB.activeChildQuests[childQuestId] = true
+                                    -- Draw them right away and skip all other irrelevant checks
+                                    NewThread(function()
+                                        local quest = QuestieDB.GetQuest(childQuestId)
+                                        if (not quest.tagInfoWasCached) then
+                                            QuestieDB.GetQuestTagInfo(childQuestId) -- cache to load in the tooltip
 
-                                    _QuestieQuest:DrawAvailableQuest(quest)
-                                end, 0)
+                                            quest.tagInfoWasCached = true
+                                        end
+
+                                        _QuestieQuest:DrawAvailableQuest(quest)
+                                    end, 0)
+                                end
                             end
                         end
                     end

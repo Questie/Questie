@@ -1,4 +1,7 @@
 # https://www.wowhead.com/classic/items?filter=82;2;11500
+# r = []
+# document.getElementsByClassName("listview-cleartext").forEach(l => r.push(parseInt(l.href.substr(37, 6)))); r; // run for each page
+# [...new Set(r)].sort();
 ITEM_IDS = [
     202251,
     202254,

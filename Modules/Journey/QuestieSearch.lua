@@ -93,10 +93,14 @@ function QuestieSearch:Search(rawQuery, searchType, queryType)
 
     local sanitizedQuery
     local strictSearch = false
-    local stringFirst, stringLast = rawQuery:sub(1, 1), rawQuery:sub(-1)
-    if (stringFirst == '"' or stringFirst == "'") and (stringLast == stringFirst) then
-        strictSearch = true
-        sanitizedQuery = rawQuery:sub(2, -2)
+    if type(rawQuery) ~= "number" then
+        local stringFirst, stringLast = rawQuery:sub(1, 1), rawQuery:sub(-1)
+        if (stringFirst == '"' or stringFirst == "'") and (stringLast == stringFirst) then
+            strictSearch = true
+            sanitizedQuery = rawQuery:sub(2, -2)
+        else
+            sanitizedQuery = rawQuery
+        end
     else
         sanitizedQuery = rawQuery
     end

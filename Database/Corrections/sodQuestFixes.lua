@@ -18,6 +18,16 @@ function SeasonOfDiscovery:LoadQuests()
     local specKeys = QuestieProfessions.specializationKeys
 
     return {
+        [77617] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410002, nil, 205420}}},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.requiredSpell] = -410002,
+        },
+        [77666] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.requiredSpell] = -403919,
+        },
         [78611] = {
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,

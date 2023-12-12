@@ -247,16 +247,17 @@ function QuestieTooltips:GetTooltip(key)
                         title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
                     }
                 end
-
                 if not QuestiePlayer.currentQuestlog[questId] then
                     QuestieTooltips.lookupByKey[key][k] = nil
                 else
                     tooltipData[questId].objectivesText = _InitObjectiveTexts(tooltipData[questId].objectivesText, objectiveIndex, playerName)
-
                     local text;
                     local color = QuestieLib:GetRGBForObjective(objective)
 
-                    if objective.Needed then
+                    if objective.Type == "spell" and objective.spawnList[tonumber(key:sub(3))].ItemId then
+                        text = "   " .. color .. tostring(QuestieDB.QueryItemSingle(objective.spawnList[tonumber(key:sub(3))].ItemId, "name"));
+                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
+                    elseif objective.Needed then
                         text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description);
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                     else
