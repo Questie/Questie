@@ -494,9 +494,10 @@ function DumpNpcs(npcsData, output)
         -- waypoints
         if npcData[8] and countTable(npcData[8]) > 0 then
             data = data .. "{"
-            for _, waypoint in pairs(npcData[8]) do
-                for zoneId, coords in pairs(waypoint) do
-                    data = data .. format("[%s] = {", zoneId)
+            for zoneId, waypoint in pairs(npcData[8]) do
+                data = data .. format("[%s] = {", zoneId)
+                for _, coords in pairs(waypoint) do
+                    data = data .. "{"
                     for _, coord in pairs(coords) do
                         data = data .. "{"
                         for _, value in pairs(coord) do
@@ -506,6 +507,7 @@ function DumpNpcs(npcsData, output)
                     end
                     data = data .. "},"
                 end
+                data = data .. "},"
             end
             data = data .. "},"
         else
