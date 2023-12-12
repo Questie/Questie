@@ -424,7 +424,7 @@ local debugMessagesLocales = {
     },
     ["Prints whether you are eligibile to do a quest"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Выводит информацию о том, можете ли выполнять задание",
+        ["ruRU"] = "Выводит информацию о том, можете ли вы выполнить задание",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
