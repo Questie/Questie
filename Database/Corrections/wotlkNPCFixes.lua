@@ -898,6 +898,9 @@ function QuestieWotlkNpcFixes:Load()
         [28083] = {
             [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{49.8,85},{51.6,86.2},{58,83.8},{58.8,85.6},},},
         },
+        [28118] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{41.39,73.83},{42.94,76.3},{44.57,79},{43.01,81.33},{41.45,78.86},{39.95,76.07}}},
+        },
         [28136] = {
             [npcKeys.spawns] = {},
         },
@@ -907,9 +910,16 @@ function QuestieWotlkNpcFixes:Load()
         [28148] = {
             [npcKeys.spawns] = {},
         },
+        [28203] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{41.53,61.04},{47.19,51.93},{49.18,62.25},{48.47,60.92},{41.09,62.01},{41.06,61.96},{47.89,66.69},{50.28,62.95},{41.21,55.06},{41.07,58.88},{46.51,60.48},{46.33,62.68},{42.62,57.98},{46.31,64.7},{44.8,52.73},{42.59,68.34},{43.8,56.65},{41.1,56.64},{45.18,60.78},{46.06,70.15},{42.3,55.0},{45.17,71.5},{43.6,52.29},{48.91,64.85},{42.4,56.71},{45.1,62.74},{45.03,56.7},{42.34,64.04},{42.34,66.46},{43.68,58.93},{43.5,54.65},{42.58,59.31},{42.45,60.62},{41.29,60.04}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
         [28314] = { --"Longrunner Nanik"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
+        },
+        [28318] = {
+            [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{44.22,34.85}}},
         },
         [28323] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{41.8,62.4},{42,62.8},{42.4,55.6},{42.4,58.2},{42.4,60},{42.6,57.8},{42.6,58.6},{42.6,61.2},{42.6,62.6},{42.8,55.8},{42.8,61.6},{43,60.4},{43,65.2},{43.4,65.6},{43.4,70},{43.6,65.4},{43.6,65.6},{43.8,60.8},{43.8,70.6},{44,57},{44.2,57.6},{44.2,63.4},{44.2,63.6},{44.4,55.2},{44.4,55.6},{44.6,55.4},{44.6,55.6},{44.6,63.4},{44.6,68},{44.8,68.6},{45.2,61},{45.6,61.4},{45.6,68.4},{47,65.6},{47.2,65},{49.4,64.2},{49.4,64.6},{49.6,64.2}}},
@@ -970,6 +980,9 @@ function QuestieWotlkNpcFixes:Load()
         },
         [28923] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TERRESTRIAL_WATCHTOWER]={{19.2,51.7}},[zoneIDs.HALLS_OF_LIGHTNING]={{-1,-1}}},
+        },
+        [29087] = {
+            [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{53.93,34.3}}},
         },
         [29117] = {
             [npcKeys.spawns] = {[zoneIDs.THE_GILDED_GATE]={{-1,-1}},[4277]={{-1,-1}}},
@@ -1086,6 +1099,42 @@ function QuestieWotlkNpcFixes:Load()
         },
         [29999] = {
             [npcKeys.spawns] = {},
+        },
+        [30014] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.09,57.27}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30017] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.72,56.13}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30019] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.85,56.82}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30020] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.8,56.77}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30022] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.8,56.78}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30023] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.96,57.2}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30024] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.85,56.82}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30025] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.85,56.82}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [30026] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.85,56.82}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
         },
         [30222] = {
             [npcKeys.spawns] = {},

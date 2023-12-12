@@ -54,7 +54,7 @@ local cache = {
 
 ---@class QuestLogCacheObjectiveData
 ---@field text string "Objective Text"
----@field type "monster"|"object"|"item"|"reputation"|"killcredit"|"event"
+---@field type "monster"|"object"|"item"|"reputation"|"killcredit"|"event"|"spell"
 ---@field finished boolean
 ---@field numFulfilled number
 ---@field numRequired number

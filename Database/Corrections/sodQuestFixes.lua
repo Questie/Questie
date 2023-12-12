@@ -13,6 +13,7 @@ function SeasonOfDiscovery:LoadQuests()
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
     local sortKeys = QuestieDB.sortKeys
+    local specialFlags = QuestieDB.specialFlags
     local profKeys = QuestieProfessions.professionKeys
     local specKeys = QuestieProfessions.specializationKeys
 
@@ -20,6 +21,28 @@ function SeasonOfDiscovery:LoadQuests()
     -- TODO: ZoneIDs, sort keys
 
     return {
+        [77617] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410002, nil, 205420}}},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.requiredSpell] = -410002,
+        },
+        [77666] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.requiredSpell] = -403919,
+        },
+        [78611] = {
+            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [78612] = {
+            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [78872] = {
+            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [78916] = { -- The Heart of the Void
             [questKeys.startedBy] = {nil, nil, {209693}},
             [questKeys.finishedBy] = {{4783}},
@@ -88,6 +111,23 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{211818}}},
             [questKeys.zoneOrSort] = zoneIDs.AUBERDINE,
+        },
+        [79100] = {
+            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [79101] = {
+            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [79102] = {
+            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [79103] = {
+            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
     }
 end

@@ -144,7 +144,11 @@ end
 ---@param dayOfMonth number
 ---@return boolean
 _IsDarkmoonFaireActive = function(dayOfMonth)
-    local firstWeekday = C_Calendar.GetMonthInfo().firstWeekday
+    local baseInfo = C_Calendar.GetMonthInfo() -- In Era+SoD this returns `GetMinDate` (November 2004)
+    local currentDate = C_DateAndTime.GetCurrentCalendarTime()
+    -- Calculate the offset in months from GetMinDate to make C_Calendar.GetMonthInfo return the correct month
+    local monthOffset = (currentDate.year - baseInfo.year) * 12 + (currentDate.month - baseInfo.month)
+    local firstWeekday = C_Calendar.GetMonthInfo(monthOffset).firstWeekday
 
     if firstWeekday == 1 then
         -- The 1st is a Sunday

@@ -1288,7 +1288,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
     handle.stream = stream
 
     if overrides then
-        ---@param id QuestId|ObjectId|ItemId|NpcId
+        ---@param id QuestId|ObjectId|ItemId|NpcId|SpellId
         ---@param key string
         ---@return any
         handle.QuerySingle = function(id, key)
@@ -1318,7 +1318,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             end
             return readers[types[key]](stream)
         end
-        ---@param id QuestId|ObjectId|ItemId|NpcId
+        ---@param id QuestId|ObjectId|ItemId|NpcId|SpellId
         ---@param keys string[]
         ---@return table|nil
         handle.Query = function(id, keys)
@@ -1372,7 +1372,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             end
             return ret -- do not unpack the returned table
         end
-        ---@param id QuestId|ObjectId|ItemId|NpcId
+        ---@param id QuestId|ObjectId|ItemId|NpcId|SpellId
         ---@param keys string[]
         ---@return table|nil
         handle.QueryValidator = function(id, keys)
@@ -1448,7 +1448,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             end
             return readers[types[key]](stream)
         end
-        ---@param id QuestId|ObjectId|ItemId|NpcId
+        ---@param id QuestId|ObjectId|ItemId|NpcId|SpellId
         ---@param keys string[]
         ---@return table|nil
         handle.Query = function(id, keys)
@@ -1477,7 +1477,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             end
             return ret -- do not unpack the returned table
         end
-        ---@param id QuestId|ObjectId|ItemId|NpcId
+        ---@param id QuestId|ObjectId|ItemId|NpcId|SpellId
         ---@param keys string[]
         ---@return table|nil
         handle.QueryValidator = function(id, keys)

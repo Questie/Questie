@@ -22,6 +22,7 @@ class QuestFormatter:
                 g.write("        [questKeys.requiredRaces] = {reqRace},\n".format(reqRace=self.__get_race_string(item["reqRace"])))
                 g.write("        [questKeys.requiredClasses] = {reqClass},\n".format(reqClass=self.__get_class_string(item["reqClass"])))
                 g.write("        [questKeys.objectivesText] = {text},\n".format(text=self.__get_objectives_text(item)))
+                g.write("        [questKeys.objectives] = {text},\n".format(text=self.__get_objectives(item)))
                 g.write("    },\n")
             g.write("}\n")
 
@@ -102,8 +103,16 @@ class QuestFormatter:
 
     def __get_objectives_text(self, item):
         if "objectivesText" in item:
-            scripped_text = re.sub(r' A level .*', '', item["objectivesText"])
-            return "{\"" + scripped_text + "\"}"
+            scripped_text = re.sub(r'A level .*', '', item["objectivesText"]).strip()
+            if scripped_text:
+                return "{\"" + scripped_text + "\"}"
+        return "nil"
+
+    def __get_objectives(self, item):
+        if "itemObjective" in item:
+            return "{{nil,nil,{" + item["itemObjective"] + "}}}"
+        elif "spellObjective" in item:
+            return "{{nil,nil,nil,nil,nil,{" + item["spellObjective"] + "}}}"
         else:
             return "nil"
 

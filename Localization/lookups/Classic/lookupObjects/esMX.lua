@@ -773,6 +773,7 @@ l10n.objectLookup["esMX"] = {
 [3311] = "Hoguera",
 [3314] = "Los Baldíos",
 [3315] = "Caldera en ebullición",
+[3499] = "Llave de oro bruñida",
 [3523] = "TEST Circle de Flame",
 [3524] = "La semilla del Demonio",
 [3525] = "El Altar de Fuego",
