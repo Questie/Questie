@@ -550,7 +550,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.exclusiveTo] = {78089},
             [questKeys.requiredSpell] = -410014,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
-        }
+        },
+        [90023] = {
+            [questKeys.name] = "Wild Strikes",
+            [questKeys.startedBy] = {{11910,11913,11912,11911}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 15,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Defeat Grimtotem Tauren."},
+            [questKeys.requiredSpell] = -410021,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 

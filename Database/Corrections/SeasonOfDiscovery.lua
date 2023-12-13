@@ -75,6 +75,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90021] = true,
     --- Mage runes end
     [90022] = true,
+    [90023] = true, -- Druid Wild Strikes
 }
 
 ---@param questId number
