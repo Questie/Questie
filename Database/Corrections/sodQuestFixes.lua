@@ -602,6 +602,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410010,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [90027] = {
+            [questKeys.name] = "Lone Wolf",
+            [questKeys.startedBy] = {{211653}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Buy the Lone Wolf rune from Grizzby."},
+            [questKeys.preQuestGroup] = {78265,78266,78267},
+            [questKeys.requiredSpell] = -410122,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 

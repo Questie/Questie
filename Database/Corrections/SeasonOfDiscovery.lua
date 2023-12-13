@@ -79,6 +79,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90024] = true, -- Druid Survival of the Fittest
     [90025] = true, -- Priest Serendipity
     [90026] = true, -- Paladin Divine Sacrifice
+    [90027] = true, -- Hunter Lone Wolf
 }
 
 ---@param questId number
