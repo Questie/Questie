@@ -21,10 +21,20 @@ function SeasonOfDiscovery:LoadQuests()
     -- TODO: ZoneIDs, sort keys
 
     return {
+        [77568] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410121, nil, 206168}}},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+            [questKeys.requiredSpell] = -410121,
+        },
         [77617] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410002, nil, 205420}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.requiredSpell] = -410002,
+        },
+        [77649] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410121, nil, 206168}}},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+            [questKeys.requiredSpell] = -410121,
         },
         [77666] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},

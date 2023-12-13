@@ -16,6 +16,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
     local sortKeys = QuestieDB.sortKeys
 
     return {
+        [77568] = {
+            [questKeys.name] = "A Hunter's Strength",
+            [questKeys.startedBy] = {{3596}},
+            [questKeys.finishedBy] = {{3596,}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.questLevel] = 2,
+            [questKeys.requiredRaces] = raceIDs.NIGHTELF,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Defeat Githyiss the Vile in Shadowthread Cave and recover the lost rune. Learn the rune, then report back to Ayanna Everstride in Shadowglen."},
+            [questKeys.objectives] = {{nil,nil,nil,nil,nil,{410121}}},
+        },
         [77617] = {
             [questKeys.name] = "Relics of the Light",
             [questKeys.startedBy] = {{925}},
@@ -26,6 +37,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Recover the libram and follow its guidance to learn a new ability, then return to Brother Sammuel in Northshire."},
             [questKeys.objectives] = {{nil,nil,nil,nil,nil,{410002}}},
+        },
+        [77649] = {
+            [questKeys.name] = "A Hunter's Strength",
+            [questKeys.startedBy] = {{3061}},
+            [questKeys.finishedBy] = {{3061,}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.questLevel] = 2,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Find the missing rune by slaying Bristleback Battleboars in Brambleblade Ravine. Use the rune to learn a new ability, then report back to Lanka Farshot in Camp Narache."},
+            [questKeys.objectives] = {{nil,nil,nil,nil,nil,{410121}}},
         },
         [77666] = {
             [questKeys.name] = "Stolen Power",
