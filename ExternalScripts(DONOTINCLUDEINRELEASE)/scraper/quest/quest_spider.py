@@ -29,6 +29,8 @@ class QuestSpider(scrapy.Spider):
             if script.lstrip().startswith('WH.markup'):
                 result["start"] = self.__match_start(re.search(r'Start:.*?npc=(\d+)', script))
                 result["end"] = self.__match_end(script)
+            if (("reqRace" not in result) or result["reqRace"] == "0") and script.startswith('//<![CDATA[\nvar g_mapperData'):
+                result["reqRace"] = self.__get_fallback_faction(script)
 
         objectives_text = response.xpath('//meta[@name="description"]/@content').get()
         if objectives_text:
@@ -64,6 +66,18 @@ class QuestSpider(scrapy.Spider):
             return ret
 
         return "nil"
+
+    def __get_fallback_faction(self, script):
+        react_alliance_match = re.search(r'"reactalliance":(\d+)', script)
+        react_horde_match = re.search(r'"reacthorde":(-?\d+)', script)
+        if react_alliance_match and react_horde_match:
+            react_alliance = react_alliance_match.group(1)
+            react_horde = react_horde_match.group(1)
+            if react_alliance == "1" and react_horde != "1":
+                return "77"
+            elif react_horde == "1" and react_alliance != "1":
+                return "178"
+        return "0"
 
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):

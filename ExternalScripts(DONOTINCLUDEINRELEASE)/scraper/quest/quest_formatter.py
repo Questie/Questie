@@ -76,8 +76,12 @@ class QuestFormatter:
             return "raceIDs.TAUREN"
         if req_race == "64":
             return "raceIDs.GNOME"
+        if req_race == "77":
+            return "raceIDs.ALL_ALLIANCE"
         if req_race == "128":
             return "raceIDs.TROLL"
+        if req_race == "178":
+            return "raceIDs.ALL_HORDE"
 
     def __get_class_string(self, req_class: int) -> str:
         if req_class == "0":
