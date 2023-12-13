@@ -41,6 +41,25 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.requiredSpell] = -403919,
         },
+        [78089] = {
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [78090] = {
+            [questKeys.preQuestSingle] = {78089},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [78091] = {
+            [questKeys.preQuestSingle] = {78090},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [78092] = {
+            [questKeys.preQuestSingle] = {78091},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [78093] = {
+            [questKeys.preQuestSingle] = {78092},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [78611] = {
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -139,5 +158,20 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+
+        --- Fake rune quests
+        [90022] = {
+            [questKeys.name] = "Divine Storm",
+            [questKeys.startedBy] = {nil,{409289}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Loot Althalaxx Orb on top of the tower then go to Maestra’s Post in Ashenvale and speak with Delgren the Purifier."},
+            [questKeys.exclusiveTo] = {78089},
+            [questKeys.requiredSpell] = -410014,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        }
     }
 end
