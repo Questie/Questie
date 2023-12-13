@@ -29,8 +29,51 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [78091] = true,
     [78092] = true,
     [78093] = true,
+    [78265] = true,
+    [78266] = true,
+    [78267] = true,
+    [79091] = true,
+    [79092] = true,
+    [79093] = true,
+    [79094] = true,
+    [79095] = true,
+    [79096] = true,
+    [79097] = true,
+    [78124] = true,
+    [78127] = true,
+    [78142] = true,
+    [78143] = true,
+    [78145] = true,
+    [78146] = true,
+    [78147] = true,
+    [78148] = true,
+    [78149] = true,
 
     -- fake IDs
+    --- Mage runes
+    [90000] = true,
+    [90001] = true,
+    [90002] = true,
+    [90003] = true,
+    [90004] = true,
+    [90005] = true,
+    [90006] = true,
+    [90007] = true,
+    [90008] = true,
+    [90009] = true,
+    [90010] = true,
+    [90011] = true,
+    [90012] = true,
+    [90013] = true,
+    [90014] = true,
+    [90015] = true,
+    [90016] = true,
+    [90017] = true,
+    [90018] = true,
+    [90019] = true,
+    [90020] = true,
+    [90021] = true,
+    --- Mage runes end
     [90022] = true,
 }
 
@@ -45,6 +88,16 @@ end
 -- Phase 1 is omitted, because everything not in this list is supposed to be available in Phase 1
 local questsToBlacklistBySoDPhase = {
     [1] = { -- SoD Phase 1 - level cap 25 (this is required for counting, but should stay empty)
+        [90008] = true, -- Hiding Regeneration for now as there are too many icons
+        [90009] = true, -- Hiding Regeneration for now as there are too many icons
+        [90010] = true, -- Hiding Enlightenment for now as there are too many icons
+        [90011] = true, -- Hiding Enlightenment for now as there are too many icons
+        [90015] = true, -- Hiding Living Flame for now as there are too many icons
+        [90016] = true, -- Hiding Living Flame for now as there are too many icons
+        [90017] = true, -- Hiding Living Flame for now as there are too many icons
+        [90018] = true, -- Hiding Living Flame for now as there are too many icons
+        [90020] = true, -- Hiding Living Bomb for now as there are too many icons
+        [90021] = true, -- Hiding Living Bomb for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
@@ -641,8 +694,11 @@ local questsToBlacklistBySoDPhase = {
 
 ---@return table<number, table<number, boolean>> @All quests that should be blacklisted separated by phase
 function QuestieQuestBlacklist:GetSoDQuestsToBlacklist()
-    for phase = 1, SeasonOfDiscovery.currentPhase do
-        questsToBlacklistBySoDPhase[phase] = {} -- empty table instead of nil to keep table size
+    -- Even if the first phase technically has no quests to blacklist, we use this be able to temporarily blacklist quests in P1
+    if SeasonOfDiscovery.currentPhase > 1 then
+        for phase = 1, SeasonOfDiscovery.currentPhase do
+            questsToBlacklistBySoDPhase[phase] = {} -- empty table instead of nil to keep table size
+        end
     end
     return questsToBlacklistBySoDPhase
 end

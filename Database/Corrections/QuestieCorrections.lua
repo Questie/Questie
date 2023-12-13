@@ -168,10 +168,7 @@ do
 
         -- Season of Discovery Corrections
         if Questie.IsSoD then
-            addOverride(QuestieDB.itemDataOverrides, SeasonOfDiscovery:LoadItems())
-            addOverride(QuestieDB.npcDataOverrides, SeasonOfDiscovery:LoadNPCs())
-            addOverride(QuestieDB.objectDataOverrides, SeasonOfDiscovery:LoadObjects())
-            addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadQuests())
+            addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadFactionQuestFixes())
         end
 
         QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())

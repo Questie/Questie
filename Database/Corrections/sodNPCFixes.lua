@@ -12,11 +12,44 @@ function SeasonOfDiscovery:LoadNPCs()
     local waypointPresets = QuestieDB.waypointPresets
 
     return {
+        [202060] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.ELWYNN_FOREST] = {{76.8, 51.4}},
+                [zoneIDs.TIRISFAL_GLADES] = {{66.4, 40.2}},
+            },
+        },
         [202699] = { -- Baron Aquanis
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}}
         },
+        [208275] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DUROTAR] = {{58.6, 45.6}},
+            },
+        },
+        [208752] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DUN_MOROGH] = {{69.2, 58.2}},
+            },
+        },
         [209678] = { -- Twilight Lord Kelris
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}}
+        },
+        [211022] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY] = {{73.4,33}},
+            },
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [211033] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{37.8,80.2}},
+            },
+            [npcKeys.friendlyToFaction] = "A",
+        },
+        [212261] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{17,37.6}},
+            },
         },
         [213077] = {
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{54.4,61.2}}},
