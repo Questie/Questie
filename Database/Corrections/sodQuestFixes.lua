@@ -563,6 +563,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410021,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90024] = {
+            [questKeys.name] = "Survival of the Fittest",
+            [questKeys.startedBy] = {{211653}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Buy the Survival of the Fittest rune from Grizzby."},
+            [questKeys.preQuestGroup] = {78265,78266,78267},
+            [questKeys.requiredSpell] = -416042,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 
