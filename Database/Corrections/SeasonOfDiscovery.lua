@@ -80,6 +80,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90025] = true, -- Priest Serendipity
     [90026] = true, -- Paladin Divine Sacrifice
     [90027] = true, -- Hunter Lone Wolf
+    [90028] = true, -- Warrior Warbringer
 }
 
 ---@param questId number

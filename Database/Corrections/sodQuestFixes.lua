@@ -615,6 +615,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410122,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90028] = {
+            [questKeys.name] = "Warbringer",
+            [questKeys.startedBy] = {{211653}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Buy the Warbringer rune from Grizzby."},
+            [questKeys.preQuestGroup] = {78265,78266,78267},
+            [questKeys.requiredSpell] = -425445,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
     }
 end
 
