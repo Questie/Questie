@@ -589,6 +589,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415995,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90026] = {
+            [questKeys.name] = "Divine Sacrifice",
+            [questKeys.startedBy] = {{211653}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Buy the Divine Sacrifice rune from Grizzby."},
+            [questKeys.preQuestGroup] = {78265,78266,78267},
+            [questKeys.requiredSpell] = -410010,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
     }
 end
 
