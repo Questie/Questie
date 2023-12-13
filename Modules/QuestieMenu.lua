@@ -663,11 +663,9 @@ function QuestieMenu:PopulateTownsfolk()
         classSpecificTownsfolk[class]["Class Trainer"] = newTrainers
     end
 
-    if playerClass == "HUNTER" then
-        classSpecificTownsfolk["HUNTER"]["Stable Master"] = townsfolkData["Stable Master"].data
-    elseif playerClass == "MAGE" then
-        classSpecificTownsfolk["MAGE"]["Portal Trainer"] = {4165,2485,2489,5958,5957,2492,16654,16755,19340,20791,27703,27705}
-    end
+    -- These are filtered later, when the player class does not match
+    classSpecificTownsfolk["HUNTER"]["Stable Master"] = townsfolkData["Stable Master"].data
+    classSpecificTownsfolk["MAGE"]["Portal Trainer"] = {4165,2485,2489,5958,5957,2492,16654,16755,19340,20791,27703,27705}
 
     factionSpecificTownsfolk["Horde"]["Spirit Healer"]  = townsfolkData["Spirit Healer"].data
     factionSpecificTownsfolk["Alliance"]["Spirit Healer"]  = townsfolkData["Spirit Healer"].data
