@@ -9,5 +9,11 @@ function SeasonOfDiscovery:LoadObjects()
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs
 
-    return {}
+    return {
+        [409289] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.DARKSHORE] = {{56.2, 26.4},},
+            },
+        },
+    }
 end
