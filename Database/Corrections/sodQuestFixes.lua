@@ -194,6 +194,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {{{207356}},nil,nil},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
         },
+        [79090] = { -- Repelling Invaders
+            [questKeys.startedBy] = {{211814}},
+            [questKeys.finishedBy] = {{212970}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Bring the Warsong Outrider Mark to Felore Moonray, Priestess of the Moon, at the Moonwell base in Ashenvale."},
+            [questKeys.objectives] = {{{207356}},nil,nil},
+            [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
+        },
         [79091] = {
             [questKeys.startedBy] = {{211033},{386691}},
             [questKeys.questLevel] = -1,
@@ -665,6 +673,16 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestGroup] = {78265,78266,78267},
             [questKeys.requiredSpell] = -410096,
             [questKeys.zoneOrSort] = sortKeys.Shaman,
+        },
+        [90032] = {
+            [questKeys.name] = "Lake Of Fire",
+            [questKeys.startedBy] = {{3537}},
+            [questKeys.finishedBy] = {{414658}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 1,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Buy Demolition Explosives from Zixil  for 5 gold and use it on the rubble in Durnholde Keep. Loots the chest that spawns from the Rubble"},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
     }
 end
