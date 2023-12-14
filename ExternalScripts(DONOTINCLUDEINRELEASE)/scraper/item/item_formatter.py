@@ -8,8 +8,8 @@ class ItemFormatter:
         self.__format()
 
     def __format(self) -> None:
-        npc_input = self.__load_json_file("item_data.json")
-        with Path("item_data.lua").open("w", encoding="utf-8") as g:
+        npc_input = self.__load_json_file("item/item_data.json")
+        with Path("item/item_data.lua").open("w", encoding="utf-8") as g:
             g.write("return {\n")
             for item in npc_input:
                 g.write("    [{id}] = {{\n".format(id=item["itemId"]))

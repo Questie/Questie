@@ -8,8 +8,8 @@ class ObjectFormatter:
         self.__format()
 
     def __format(self) -> None:
-        object_input = self.__load_json_file("object_data.json")
-        with Path("object_data.lua").open("w", encoding="utf-8") as g:
+        object_input = self.__load_json_file("object/object_data.json")
+        with Path("object/object_data.lua").open("w", encoding="utf-8") as g:
             g.write("return {\n")
             for item in object_input:
                 g.write("    [{id}] = {{\n".format(id=item["objectId"]))

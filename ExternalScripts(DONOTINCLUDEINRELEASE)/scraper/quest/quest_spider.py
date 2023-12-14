@@ -88,12 +88,10 @@ class QuestSpider(scrapy.Spider):
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
         spider = super(QuestSpider, cls).from_crawler(crawler, *args, **kwargs)
-        crawler.signals.connect(spider.spider_closed, signal=signals.spider_closed)
+        crawler.signals.connect(spider.spider_feed_closed, signal=signals.feed_exporter_closed)
         return spider
 
-    def spider_closed(self, spider):
-        self.logger.info("Spider closed.")
-
-        # f = QuestFormatter()
-        # f()
+    def spider_feed_closed(self):
+        f = QuestFormatter()
+        f()
 
