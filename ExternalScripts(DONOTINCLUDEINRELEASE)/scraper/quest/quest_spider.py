@@ -36,12 +36,7 @@ class QuestSpider(scrapy.Spider):
         if objectives_text:
             result["objectivesText"] = objectives_text.strip()
 
-        item_objective = response.xpath('//a[@class="q1"]/@href').get()
-        if item_objective:
-            item_selectors = response.xpath('//a[@class="q1"]')
-            item_provided = item_selectors[0].xpath('./following-sibling::text()').get()
-            if item_provided is None or item_provided.strip() != "(Provided)":
-                result["itemObjective"] = re.search(r'item=(\d+)', item_objective).group(1)
+        result["itemObjective"] = self.__match_item_objectives(response)
 
         spell_objective = response.xpath('//a[@class="q"]/@href').get()
         if spell_objective:
@@ -78,6 +73,17 @@ class QuestSpider(scrapy.Spider):
             elif react_horde == "1" and react_alliance != "1":
                 return "178"
         return "0"
+
+    def __match_item_objectives(self, response):
+        item_objective = []
+        item_objective_match = response.xpath('//a[@class="q1"]')
+        for item in item_objective_match:
+            item_provided = item.xpath('./following-sibling::text()').get()
+            if item_provided is None or item_provided.strip() != "(Provided)":
+                item_objective.append(re.search(r'item=(\d+)', item.xpath('./@href').get()).group(1))
+        if item_objective:
+            return item_objective
+        return None
 
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
