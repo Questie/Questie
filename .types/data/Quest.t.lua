@@ -42,17 +42,17 @@
 ---@class NpcObjective
 ---@field Type "monster"
 ---@field Id NpcId
----@field Text string
+---@field Text string?
 
 ---@class ObjectObjective
 ---@field Type "object"
 ---@field Id ObjectId
----@field Text string
+---@field Text string?
 
 ---@class ItemObjective
 ---@field Type "item"
 ---@field Id ItemId
----@field Text string
+---@field Text string?
 
 ---@class ReputationObjective
 ---@field Type "reputation"
