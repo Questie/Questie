@@ -194,14 +194,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {{{207356}},nil,nil},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
         },
-        [79090] = { -- Repelling Invaders
-            [questKeys.startedBy] = {{211814}},
-            [questKeys.finishedBy] = {{212970}},
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Bring the Warsong Outrider Mark to Felore Moonray, Priestess of the Moon, at the Moonwell base in Ashenvale."},
-            [questKeys.objectives] = {{{207356}},nil,nil},
-            [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
-        },
         [79091] = {
             [questKeys.startedBy] = {{211033},{386691}},
             [questKeys.questLevel] = -1,
