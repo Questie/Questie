@@ -678,9 +678,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
         [414658] = {
             [objectKeys.name] = "Rubble",
             [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = {
-            [10] = {{49.5, 34},},
-        },
+            [objectKeys.spawns] = nil,
         },
         [414663] = {
             [objectKeys.name] = "Shatterspear Idol",
