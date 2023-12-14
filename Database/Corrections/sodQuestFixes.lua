@@ -654,6 +654,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -424990,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90031] = {
+            [questKeys.name] = "Dual Wield Specialization",
+            [questKeys.startedBy] = {{211653}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.Shaman,
+            [questKeys.objectivesText] = {"Buy the Dual Wield Specialization rune from Grizzby."},
+            [questKeys.preQuestGroup] = {78265,78266,78267},
+            [questKeys.requiredSpell] = -410096,
+            [questKeys.zoneOrSort] = sortKeys.Shaman,
+        },
     }
 end
 

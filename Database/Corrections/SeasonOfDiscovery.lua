@@ -83,6 +83,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90028] = true, -- Warrior Warbringer
     [90029] = true, -- Warlock Demonic Pact
     [90030] = true, -- Rogue Main Gauche
+    [90031] = true, -- Shaman Dual Wield Specialization
 }
 
 ---@param questId number
