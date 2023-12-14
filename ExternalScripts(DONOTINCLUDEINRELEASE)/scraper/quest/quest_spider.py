@@ -25,11 +25,12 @@ class QuestSpider(scrapy.Spider):
                 result["level"] = self.__match_level(re.search(r'"level":(\d+)', script))
                 result["reqLevel"] = self.__match_level(re.search(r'"reqlevel":(\d+)', script))
                 result["reqClass"] = re.search(r'"reqclass":(\d+)', script).group(1)
-                result["reqRace"] = re.search(r'"reqrace":(\d+)', script).group(1)
+                if "reqRace" not in result:
+                    result["reqRace"] = re.search(r'"reqrace":(\d+)', script).group(1)
             if script.lstrip().startswith('WH.markup'):
                 result["start"] = self.__match_start(re.search(r'Start:.*?npc=(\d+)', script))
                 result["end"] = self.__match_end(script)
-            if (("reqRace" not in result) or result["reqRace"] == "0") and script.startswith('//<![CDATA[\nvar g_mapperData'):
+            if (("reqRace" not in result) or result["reqRace"] == "0") and script.strip().startswith('WH.markup.printHtml'):
                 result["reqRace"] = self.__get_fallback_faction(script)
 
         objectives_text = response.xpath('//meta[@name="description"]/@content').get()
@@ -65,15 +66,12 @@ class QuestSpider(scrapy.Spider):
         return "nil"
 
     def __get_fallback_faction(self, script):
-        react_alliance_match = re.search(r'"reactalliance":(\d+)', script)
-        react_horde_match = re.search(r'"reacthorde":(-?\d+)', script)
-        if react_alliance_match and react_horde_match:
-            react_alliance = react_alliance_match.group(1)
-            react_horde = react_horde_match.group(1)
-            if react_alliance == "1" and react_horde != "1":
-                return "77"
-            elif react_horde == "1" and react_alliance != "1":
-                return "178"
+        react_alliance_match = re.search(r']Alliance\[', script)
+        react_horde_match = re.search(r']Horde\[', script)
+        if react_alliance_match and (not react_horde_match):
+            return "77"
+        elif react_horde_match and (not react_alliance_match):
+            return "178"
         return "0"
 
     def __match_item_objectives(self, response):
