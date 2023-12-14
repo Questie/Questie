@@ -114,9 +114,9 @@ class QuestFormatter:
 
     def __get_objectives(self, item):
         if "itemObjective" in item:
-            return "{{nil,nil,{" + item["itemObjective"] + "}}}"
+            return "{nil,nil,{" + item["itemObjective"] + "}}"
         elif "spellObjective" in item:
-            return "{{nil,nil,nil,nil,nil,{" + item["spellObjective"] + "}}}"
+            return "{nil,nil,nil,nil,nil,{" + item["spellObjective"] + "}}"
         else:
             return "nil"
 
