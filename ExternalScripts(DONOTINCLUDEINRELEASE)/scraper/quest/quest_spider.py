@@ -25,23 +25,21 @@ class QuestSpider(scrapy.Spider):
                 result["level"] = self.__match_level(re.search(r'"level":(\d+)', script))
                 result["reqLevel"] = self.__match_level(re.search(r'"reqlevel":(\d+)', script))
                 result["reqClass"] = re.search(r'"reqclass":(\d+)', script).group(1)
-                result["reqRace"] = re.search(r'"reqrace":(\d+)', script).group(1)
+                if "reqRace" not in result:
+                    result["reqRace"] = re.search(r'"reqrace":(\d+)', script).group(1)
             if script.lstrip().startswith('WH.markup'):
                 result["start"] = self.__match_start(re.search(r'Start:.*?npc=(\d+)', script))
                 result["end"] = self.__match_end(script)
-            if (("reqRace" not in result) or result["reqRace"] == "0") and script.startswith('//<![CDATA[\nvar g_mapperData'):
+            if (("reqRace" not in result) or result["reqRace"] == "0") and script.strip().startswith('WH.markup.printHtml'):
                 result["reqRace"] = self.__get_fallback_faction(script)
 
         objectives_text = response.xpath('//meta[@name="description"]/@content').get()
         if objectives_text:
             result["objectivesText"] = objectives_text.strip()
 
-        item_objective = response.xpath('//a[@class="q1"]/@href').get()
-        if item_objective:
-            item_selectors = response.xpath('//a[@class="q1"]')
-            item_provided = item_selectors[0].xpath('./following-sibling::text()').get()
-            if item_provided is None or item_provided.strip() != "(Provided)":
-                result["itemObjective"] = re.search(r'item=(\d+)', item_objective).group(1)
+        item_objectives = self.__match_item_objectives(response)
+        if item_objectives:
+            result["itemObjective"] = item_objectives
 
         spell_objective = response.xpath('//a[@class="q"]/@href').get()
         if spell_objective:
@@ -68,26 +66,32 @@ class QuestSpider(scrapy.Spider):
         return "nil"
 
     def __get_fallback_faction(self, script):
-        react_alliance_match = re.search(r'"reactalliance":(\d+)', script)
-        react_horde_match = re.search(r'"reacthorde":(-?\d+)', script)
-        if react_alliance_match and react_horde_match:
-            react_alliance = react_alliance_match.group(1)
-            react_horde = react_horde_match.group(1)
-            if react_alliance == "1" and react_horde != "1":
-                return "77"
-            elif react_horde == "1" and react_alliance != "1":
-                return "178"
+        react_alliance_match = re.search(r']Alliance\[', script)
+        react_horde_match = re.search(r']Horde\[', script)
+        if react_alliance_match and (not react_horde_match):
+            return "77"
+        elif react_horde_match and (not react_alliance_match):
+            return "178"
         return "0"
+
+    def __match_item_objectives(self, response):
+        item_objective = []
+        item_objective_match = response.xpath('//a[@class="q1"]')
+        for item in item_objective_match:
+            item_provided = item.xpath('./following-sibling::text()').get()
+            if item_provided is None or item_provided.strip() != "(Provided)":
+                item_objective.append(re.search(r'item=(\d+)', item.xpath('./@href').get()).group(1))
+        if item_objective:
+            return item_objective
+        return None
 
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
         spider = super(QuestSpider, cls).from_crawler(crawler, *args, **kwargs)
-        crawler.signals.connect(spider.spider_closed, signal=signals.spider_closed)
+        crawler.signals.connect(spider.spider_feed_closed, signal=signals.feed_exporter_closed)
         return spider
 
-    def spider_closed(self, spider):
-        self.logger.info("Spider closed.")
-
-        # f = QuestFormatter()
-        # f()
+    def spider_feed_closed(self):
+        f = QuestFormatter()
+        f()
 

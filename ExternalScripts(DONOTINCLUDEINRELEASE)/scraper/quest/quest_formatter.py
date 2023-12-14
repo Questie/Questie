@@ -9,8 +9,8 @@ class QuestFormatter:
         self.__format_quests()
 
     def __format_quests(self) -> None:
-        quest_input = self.__load_json_file("quest_data.json")
-        with Path("quest_data.lua").open("w", encoding="utf-8") as g:
+        quest_input = self.__load_json_file("quest/quest_data.json")
+        with Path("quest/quest_data.lua").open("w", encoding="utf-8") as g:
             g.write("return {\n")
             for item in quest_input:
                 g.write("    [{id}] = {{\n".format(id=item["questId"]))
@@ -114,9 +114,9 @@ class QuestFormatter:
 
     def __get_objectives(self, item):
         if "itemObjective" in item:
-            return "{{nil,nil,{" + item["itemObjective"] + "}}}"
+            return "{nil,nil,{" + ",".join(item["itemObjective"]) + "}}"
         elif "spellObjective" in item:
-            return "{{nil,nil,nil,nil,nil,{" + item["spellObjective"] + "}}}"
+            return "{nil,nil,nil,nil,nil,{" + item["spellObjective"] + "}}"
         else:
             return "nil"
 

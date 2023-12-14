@@ -268,7 +268,6 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [79103] = {
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
-            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
 

@@ -8,8 +8,8 @@ class NPCFormatter:
         self.__format()
 
     def __format(self) -> None:
-        npc_input = self.__load_json_file("npc_data.json")
-        with Path("npc_data.lua").open("w", encoding="utf-8") as g:
+        npc_input = self.__load_json_file("npc/npc_data.json")
+        with Path("npc/npc_data.lua").open("w", encoding="utf-8") as g:
             g.write("return {\n")
             for item in npc_input:
                 g.write("    [{id}] = {{\n".format(id=item["npcId"]))
