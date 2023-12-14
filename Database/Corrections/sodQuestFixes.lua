@@ -673,7 +673,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 22,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Buy Demolition Explosives from Zixil  for 5 gold and use it on the rubble in Durnholde Keep. Loots the chest that spawns from the rubble"},
+            [questKeys.objectivesText] = {"Buy Demolition Explosives from Zixil for 5 gold and use it on the rubble in Durnholde Keep. Loot the chest that spawns from the rubble"},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
     }
