@@ -1,3 +1,4 @@
+---@meta
 -----------QUEST FUNCTIONS
 
 ---@param questLogIndex number
