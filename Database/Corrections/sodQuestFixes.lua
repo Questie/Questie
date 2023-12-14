@@ -628,6 +628,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425445,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90029] = {
+            [questKeys.name] = "Demonic Pact",
+            [questKeys.startedBy] = {{211653}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Buy the Demonic Pact rune from Grizzby."},
+            [questKeys.preQuestGroup] = {78265,78266,78267},
+            [questKeys.requiredSpell] = -425476,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
     }
 end
 
