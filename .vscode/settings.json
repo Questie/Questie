@@ -2780,7 +2780,7 @@
         "QuestieConfigFrame",
         "QuestieConfig",
         "QuestieCompat",
-        "QuestieWorldMapButtonMixin",,
+        "QuestieWorldMapButtonMixin",
         "MAX_PARTY_MEMBERS",
         "MAX_RAID_MEMBERS",
         "SecureHandlerSetFrameRef",
