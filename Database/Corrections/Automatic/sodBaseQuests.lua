@@ -258,6 +258,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Locate the Smokywood Pastures investigator that has gone missing in the snowy regions of the Alterac Mountains."},
             [questKeys.objectives] = nil,
         },
+        [79483] = {
+            [questKeys.name] = "Stolen Winter Veil Treats",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 25,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Locate the Smokywood Pastures investigator that has gone missing in the snowy regions of the Alterac Mountains."},
+            [questKeys.objectives] = nil,
+        },
         [79492] = {
             [questKeys.name] = "Metzen the Reindeer",
             [questKeys.startedBy] = nil,

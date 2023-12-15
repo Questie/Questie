@@ -145,6 +145,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
+        [79482] = {
+            [questKeys.startedBy] = {{13418}},
+            [questKeys.startedBy] = {{13636}},
+            [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
         [79492] = {
             [questKeys.startedBy] = {{13433}},
             [questKeys.finishedBy] = {{13433}},
