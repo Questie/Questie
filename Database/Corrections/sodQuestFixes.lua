@@ -810,6 +810,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400082,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90052] = {
+            [questKeys.name] = "Mind Sear",
+            [questKeys.startedBy] = {{213077,214099,214101,}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Reach Friendly with the Azeroth Commerce Authority, then buy the Mind Sear rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -415996,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [90053] = {
+            [questKeys.name] = "Mind Sear",
+            [questKeys.startedBy] = {{214070,214096,214098}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Reach Friendly with Durotar Supply and Logistics, then buy the Mind Sear rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -415996,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 

@@ -96,6 +96,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90049] = true, -- Skull Bash Horde
     [90050] = true, -- Just a Flesh Wound Alliance
     [90051] = true, -- Just a Flesh Wound Horde
+    [90052] = true, -- Mind Sear Alliance
+    [90053] = true, -- Mind Sear Horde
 }
 
 ---@param questId number
