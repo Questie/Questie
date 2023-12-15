@@ -85,7 +85,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90030] = true, -- Rogue Main Gauche
     [90031] = true, -- Shaman Dual Wield Specialization
     --- Warlock runes
-    [90032] = true,
+    [90032] = true,  -- Lake of Fire Start
+    [90033] = true,  -- Lake of Fire End
     --- Warlock runes end
 }
 

@@ -48,10 +48,12 @@ function SeasonOfDiscovery:LoadObjects()
             },
         },
         [414658] = {
+            [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
             [objectKeys.spawns] = {
                 [zoneIDs.HILLSBRAD_FOOTHILLS] = {{79.7, 40.9}},
             },
         },
+
         -- fake ID - no clue yet what the correct ones are
         [450000] = {
             [objectKeys.name] = "Arcane Shard",
