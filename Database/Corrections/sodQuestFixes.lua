@@ -666,6 +666,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410096,
             [questKeys.zoneOrSort] = sortKeys.Shaman,
         },
+        [90040] = {
+            [questKeys.name] = "Beacon of Light",
+            [questKeys.startedBy] = {{213077,214099,214101,}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Reach Friendly with the Azeroth Commerce Authority, then buy the Beacon of Light rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -409999,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [90041] = {
+            [questKeys.name] = "Beacon of Light",
+            [questKeys.startedBy] = {{214070,214096,214098}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Reach Friendly with Durotar Supply and Logistics, then buy the Beacon of Light rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -409999,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
     }
 end
 
