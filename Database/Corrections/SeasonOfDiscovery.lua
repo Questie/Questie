@@ -87,6 +87,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     --- Warlock runes
     [90032] = true,  -- Lake of Fire Start
     [90033] = true,  -- Lake of Fire End
+    [90034] = true,  -- Master Channeler Alliance
+    [90035] = true,  -- Master Channeler Alliance
+    [90036] = true,  -- Master Channeler Alliance
+    [90037] = true,  -- Master Channeler Horde
+    [90038] = true,  -- Master Channeler Horde
     --- Warlock runes end
 }
 
