@@ -786,6 +786,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416046,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90050] = {
+            [questKeys.name] = "Just a Flesh Wound",
+            [questKeys.startedBy] = {{213077,214099,214101,}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Reach Friendly with the Azeroth Commerce Authority, then buy the Just a Flesh Wound rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -400082,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
+        [90051] = {
+            [questKeys.name] = "Just a Flesh Wound",
+            [questKeys.startedBy] = {{214070,214096,214098}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Reach Friendly with Durotar Supply and Logistics, then buy the Just a Flesh Wound rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -400082,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 
