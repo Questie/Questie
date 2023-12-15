@@ -13,6 +13,7 @@ function SeasonOfDiscovery:LoadQuests()
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
     local sortKeys = QuestieDB.sortKeys
+    local questFlags = QuestieDB.questFlags
     local specialFlags = QuestieDB.specialFlags
     local profKeys = QuestieProfessions.professionKeys
     local specKeys = QuestieProfessions.specializationKeys
@@ -104,6 +105,16 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {{{207356}},nil,nil},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
+        },
+        [79090] = {
+            [questKeys.startedBy] = {{212727,212728,212729,212730,212801,212802}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+        },
+        [79098] = {
+            [questKeys.startedBy] = {{212699,212703,212706,212707,212803,212804}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
         },
         [79099] = { -- Baron Aquanis
             [questKeys.startedBy] = {{214876}},
