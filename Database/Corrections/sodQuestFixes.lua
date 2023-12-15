@@ -153,5 +153,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
+        [79495] = {
+            [questKeys.startedBy] = {{13418}},
+            [questKeys.finishedBy] = {{13418}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{21211}},
+            [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
     }
 end
