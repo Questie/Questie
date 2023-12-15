@@ -85,7 +85,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90030] = true, -- Rogue Main Gauche
     [90031] = true, -- Shaman Dual Wield Specialization
     [90040] = true, -- Beacon of Light Alliance
-    [90041] = true, -- Beacon of Light Horde
+    [90041] = true, -- Healing Rain Horde
     [90042] = true, -- Everlasting Affliction Alliance
     [90043] = true, -- Everlasting Affliction Horde
 }
