@@ -46,6 +46,8 @@ local questsToBlacklistBySoDPhase = {
     [3] = { -- SoD Phase 3 - level cap 50
     },
     [4] = { -- SoD Phase 4 - level cap 60
+        [8746] = true, -- Old "Metzen the Reindeer" quest
+        [8762] = true, -- Old "Metzen the Reindeer" quest
     },
     [5] = { -- SoD Phase 5
     },

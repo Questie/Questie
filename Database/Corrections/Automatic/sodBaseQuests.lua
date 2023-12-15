@@ -247,5 +247,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Do you have something for me?"},
             [questKeys.objectives] = nil,
         },
+        [79492] = {
+            [questKeys.name] = "Metzen the Reindeer",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 25,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Find Metzen the Reindeer.  Use the notes provided to you for clues as to where he is being held.When you find Metzen, have the Pouch of Reindeer Dust in your possession so you can sprinkle some of the dust on him; this should free Metzen from his bonds of captivity.Return the Pouch of Reindeer Dust to Wulmort Jinglepocket in Ironforge once Metzen is freed."},
+            [questKeys.objectives] = {nil,nil,{21211,21315}},
+        },
     }
 end
