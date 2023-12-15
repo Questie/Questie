@@ -46,8 +46,11 @@ local questsToBlacklistBySoDPhase = {
     [3] = { -- SoD Phase 3 - level cap 50
     },
     [4] = { -- SoD Phase 4 - level cap 60
+        -- These might not be re-added at level 60
         [6963] = true, -- Old "Stolen Winter Veil Treats" quest
+        [6983] = true, -- Old "You're a Mean One..." quest
         [7042] = true, -- Old "Stolen Winter Veil Treats" quest
+        [7043] = true, -- Old "You're a Mean One..." quest
         [8746] = true, -- Old "Metzen the Reindeer" quest
         [8762] = true, -- Old "Metzen the Reindeer" quest
     },
