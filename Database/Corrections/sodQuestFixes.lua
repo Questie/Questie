@@ -690,6 +690,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -409999,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [90042] = {
+            [questKeys.name] = "Everlasting Affliction",
+            [questKeys.startedBy] = {{213077,214099,214101,}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Reach Friendly with the Azeroth Commerce Authority, then buy the Everlasting Affliction rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -416008,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [90043] = {
+            [questKeys.name] = "Everlasting Affliction",
+            [questKeys.startedBy] = {{214070,214096,214098}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Reach Friendly with Durotar Supply and Logistics, then buy the Everlasting Affliction rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -416008,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
     }
 end
 
