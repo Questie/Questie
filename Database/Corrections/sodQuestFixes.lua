@@ -714,6 +714,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416008,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
+        [90044] = {
+            [questKeys.name] = "Serpent Spread",
+            [questKeys.startedBy] = {{213077,214099,214101,}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Reach Friendly with the Azeroth Commerce Authority, then buy the Serpent Spread rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -425760,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [90045] = {
+            [questKeys.name] = "Serpent Spread",
+            [questKeys.startedBy] = {{214070,214096,214098}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Reach Friendly with Durotar Supply and Logistics, then buy the Serpent Spread rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -425760,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
