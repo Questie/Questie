@@ -58,7 +58,7 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
     eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
     eventFrame:RegisterEvent("NEW_RECIPE_LEARNED") -- Spell objectives; Runes in SoD count as recipes because "Engraving" is a profession?
-    eventFrame:RegisterEvent("SPELLS_CHANGED") -- Spell objectives
+    --eventFrame:RegisterEvent("SPELLS_CHANGED") -- Spell objectives
 
     if Questie.IsWotlk then
         -- Quest Related Frames - Wrath Only

@@ -107,7 +107,9 @@ QuestieDB.questFlags = {
     UNUSED2 = 128,
     UNKNOWN = 256,
     HIDDEN_REWARDS = 512,
-    AUTO_REWARDED = 1024
+    AUTO_REWARDED = 1024,
+    DAILY = 4096,
+    WEEKLY = 32768,
 }
 
 -- temporary, until we remove the old db funcitons
