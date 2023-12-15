@@ -90,6 +90,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90043] = true, -- Everlasting Affliction Horde
     [90044] = true, -- Serpent Spread Alliance
     [90045] = true, -- Serpent Spread Horde
+    [90046] = true, -- Single-Minded Fury Alliance
+    [90047] = true, -- Single-Minded Fury Horde
 }
 
 ---@param questId number

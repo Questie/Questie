@@ -738,6 +738,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425760,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90046] = {
+            [questKeys.name] = "Single-Minded Fury",
+            [questKeys.startedBy] = {{213077,214099,214101,}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Reach Friendly with the Azeroth Commerce Authority, then buy the Single-Minded Fury rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -416003,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
+        [90047] = {
+            [questKeys.name] = "Single-Minded Fury",
+            [questKeys.startedBy] = {{214070,214096,214098}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Reach Friendly with Durotar Supply and Logistics, then buy the Single-Minded Fury rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -416003,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
     }
 end
 
