@@ -424,7 +424,7 @@ local debugMessagesLocales = {
     },
     ["Prints whether you are eligibile to do a quest"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Выводит информацию о том, можете ли вы выполнить задание",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -436,7 +436,7 @@ local debugMessagesLocales = {
     },
     ["Prints Questie and client version info"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Выводит информацию о версиях Questie и клиента",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,

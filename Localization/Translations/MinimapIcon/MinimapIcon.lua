@@ -88,7 +88,7 @@ local minimapIconLocales = {
     },
     ["Questie will open after combat ends."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Questie откроется по завершении боя.",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = "Questie abrirá cuando estés fuera de combate.",

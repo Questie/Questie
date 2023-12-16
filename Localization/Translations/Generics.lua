@@ -460,7 +460,7 @@ local genericsLocales = {
     },
     ["Doable"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Выполнимые",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
