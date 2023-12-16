@@ -118,7 +118,7 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [212970] = {
             [npcKeys.spawns] = {
-                [zoneIDs.ASHENVALE] = {{59.8, 72.4},{36.9,50.1}},
+                [zoneIDs.ASHENVALE] = {{59.8, 72.4}},
             },
         },
         [213077] = {
@@ -143,6 +143,16 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [214101] = {
             [npcKeys.spawns] = {[zoneIDs.DARNASSUS] = {{59.8,56.4}}},
+            [npcKeys.friendlyToFaction] = "A",
+        },
+        [217707] = {
+            [npcKeys.name] = "Felore Moonray",
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
+            [npcKeys.zoneID] = 331,
+            [npcKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{36.9,50.1}},
+            },
             [npcKeys.friendlyToFaction] = "A",
         },
     }

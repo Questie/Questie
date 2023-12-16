@@ -197,6 +197,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [79090] = {
             [questKeys.startedBy] = {{212727,212728,212729,212730,212801,212802}},
+            [questKeys.finishedBy] = {{212970,217707}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
