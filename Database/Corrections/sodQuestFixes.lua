@@ -983,7 +983,7 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
 
-    local objectFixesHorde = {
+    local questFixesHorde = {
         [78124] = {
             [questKeys.startedBy] = {{211022},{409496}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1029,14 +1029,35 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Collect 'Fury of the Land' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
         },
+        [78611] = {
+            [questKeys.finishedBy] = {{214070,214096,214098}},
+        },
+        [78612] = {
+            [questKeys.finishedBy] = {{214070,214096,214098}},
+        },
+        [78872] = {
+            [questKeys.finishedBy] = {{214070,214096,214098}},
+        },
         [79097] = {
             [questKeys.startedBy] = {{211022},{407566}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Collect 'Baxtan: On Destructive Magics' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
         },
+        [79100] = {
+            [questKeys.finishedBy] = {{214070,214096,214098}},
+        },
+        [79101] = {
+            [questKeys.finishedBy] = {{214070,214096,214098}},
+        },
+        [79102] = {
+            [questKeys.finishedBy] = {{214070,214096,214098}},
+        },
+        [79103] = {
+            [questKeys.finishedBy] = {{214070,214096,214098}},
+        },
     }
 
-    local objectFixesAlliance = {
+    local questFixesAlliance = {
         [78124] = {
             [questKeys.startedBy] = {{211033},{409496}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1082,16 +1103,37 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Collect 'Fury of the Land' and bring it to Garion Wendell in Stormwind. After ten books you will receive the Icy Veins rune."},
         },
+        [78611] = {
+            [questKeys.finishedBy] = {{213077,214099,214101}},
+        },
+        [78612] = {
+            [questKeys.finishedBy] = {{213077,214099,214101}},
+        },
+        [78872] = {
+            [questKeys.finishedBy] = {{213077,214099,214101}},
+        },
         [79097] = {
             [questKeys.startedBy] = {{211033},{407566}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Collect 'Baxtan: On Destructive Magics' and bring it to Garion Wendell in Stormwind. After ten books you will receive the Icy Veins rune."},
         },
+        [79100] = {
+            [questKeys.finishedBy] = {{213077,214099,214101}},
+        },
+        [79101] = {
+            [questKeys.finishedBy] = {{213077,214099,214101}},
+        },
+        [79102] = {
+            [questKeys.finishedBy] = {{213077,214099,214101}},
+        },
+        [79103] = {
+            [questKeys.finishedBy] = {{213077,214099,214101}},
+        },
     }
 
     if UnitFactionGroup("Player") == "Horde" then
-        return objectFixesHorde
+        return questFixesHorde
     else
-        return objectFixesAlliance
+        return questFixesAlliance
     end
 end
