@@ -47,6 +47,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.DUSKWOOD] = {{16.7, 28.4}},
             },
         },
+        [414658] = {
+            [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
+            [objectKeys.spawns] = {
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{79.7, 40.9}},
+            },
+        },
 
         -- fake ID - no clue yet what the correct ones are
         [450000] = {

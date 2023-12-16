@@ -84,6 +84,15 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90029] = true, -- Warlock Demonic Pact
     [90030] = true, -- Rogue Main Gauche
     [90031] = true, -- Shaman Dual Wield Specialization
+    --- Warlock runes
+    [90032] = true,  -- Lake of Fire Start
+    [90033] = true,  -- Lake of Fire End
+    [90034] = true,  -- Master Channeler Alliance
+    [90035] = true,  -- Master Channeler Alliance
+    [90036] = true,  -- Master Channeler Alliance
+    [90037] = true,  -- Master Channeler Horde
+    [90038] = true,  -- Master Channeler Horde
+    --- Warlock runes end
     [90040] = true, -- Beacon of Light Alliance
     [90041] = true, -- Healing Rain Horde
     [90042] = true, -- Everlasting Affliction Alliance
