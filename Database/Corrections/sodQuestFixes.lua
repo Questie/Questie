@@ -199,6 +199,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{212727,212728,212729,212730,212801,212802}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
         },
         [79091] = {
             [questKeys.startedBy] = {{211033},{386691}},
@@ -257,6 +258,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{212699,212703,212706,212707,212803,212804}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
         },
         [79099] = { -- Baron Aquanis
             [questKeys.startedBy] = {{214876}},
