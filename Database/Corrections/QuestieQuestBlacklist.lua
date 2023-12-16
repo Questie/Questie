@@ -1438,6 +1438,14 @@ function QuestieQuestBlacklist:Load()
         [26012] = true, -- Trouble at Wyrmrest
         [26013] = true, -- Assault on the Sanctum
 
+        ----- SoD -------------- SoD quests --------------- SoD -----
+        [79482] = true,
+        [79483] = true,
+        [79484] = true,
+        [79485] = true,
+        [79492] = true,
+        [79495] = true,
+
         --- Automatic Overrides (for when Wowhead data is wrong)
         [13134] = false, -- Spill Their Blood
         [13136] = false, -- Jagged Shards
