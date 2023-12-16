@@ -883,6 +883,8 @@ tinsert(QuestieEvent.eventQuests, {"Midsummer", 11971}) -- The Spinner of Summer
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 12012}) -- Inform the Elder
 
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 11528, "25/12", "2/1"}) -- A Winter Veil Gift
+tinsert(QuestieEvent.eventQuests, {"Winter Veil", 13203, "25/12", "2/1"}) -- A Winter Veil Gift
+tinsert(QuestieEvent.eventQuests, {"Winter Veil", 13966, "25/12", "2/1"}) -- A Winter Veil Gift
 
 --- Wotlk event quests
 

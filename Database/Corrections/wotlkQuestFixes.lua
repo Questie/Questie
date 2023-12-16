@@ -242,17 +242,17 @@ function QuestieWotlkQuestFixes:Load()
         [6185] = {
             [questKeys.triggerEnd] = {"The Blightcaller Uncovered", {[zoneIDs.EASTERN_PLAGUELANDS]={{23.4,67.8}}}},
         },
-        [6961] = {
-            [questKeys.exclusiveTo] = {6962},
+        [6963] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [7022] = {
-            [questKeys.exclusiveTo] = {7025},
+        [6983] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [7023] = {
-            [questKeys.exclusiveTo] = {7025},
+            [questKeys.startedBy] = {{13435,23010}},
         },
-        [7024] = {
-            [questKeys.exclusiveTo] = {6962},
+        [7042] = {
+            [questKeys.startedBy] = {{13433}},
         },
         [7641] = {
             [questKeys.preQuestSingle] = {7638,7670},
