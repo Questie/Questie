@@ -51,6 +51,14 @@ _QuestieAuto.disallowedNPC = {
     [19936] = true, -- Arazmodu (The Scale of Sands)
     [25112] = true, -- Anchorite Ayuri (Shattered Sun Offensive Charity NPC)
     [25163] = true, -- Anchorite Kairthos (Shattered Sun Offensive Title NPC)
+
+    -- SoD Waylaid supply officers
+    [213077] = true,
+    [214070] = true,
+    [214096] = true,
+    [214098] = true,
+    [214099] = true,
+    [214101] = true,
 }
 
 ---@see QuestieAutoPrivate
