@@ -18,6 +18,18 @@ function QuestieWotlkObjectFixes:Load()
                 [zoneIDs.TIRISFAL_GLADES]={{82.8,72.7},{83,71.4},{83,71.5}},
             },
         },
+        [180715] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_EXODAR]={{55.84,48.41}},
+                [zoneIDs.STORMWIND_CITY]={{62.13,69.51}},
+                [zoneIDs.IRONFORGE]={{37.41,70.19}},
+                [zoneIDs.SHATTRATH_CITY]={{50.42,46.09}},
+                [zoneIDs.ORGRIMMAR]={{53.57,67.17}},
+                [zoneIDs.THUNDER_BLUFF]={{42.78,54.3}},
+                [zoneIDs.UNDERCITY]={{67.33,38.0}},
+                [zoneIDs.SILVERMOON_CITY]={{62.53,80.89}},
+            },
+        },
         [180669] = {
             [objectKeys.spawns] = {[zoneIDs.AZSHARA] = {{65.82,54.77}}},
         },

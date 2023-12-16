@@ -8,6 +8,7 @@ function QuestieItemBlacklist:Load()
         [774] = true, -- malachite
         [785] = true, -- mageroyal
         [929] = true, -- Healing Potion
+        [1179] = true, -- ice cold milk
         [1206] = true, -- moss agate
         [1210] = true, -- shadowgem
         [1529] = true, -- jade

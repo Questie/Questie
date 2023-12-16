@@ -1701,7 +1701,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [13431] = {
-            [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{43.8,58.8}}},
+            [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{42.46,55.28}}},
             [npcKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
         },
         [13433] = {
@@ -1794,6 +1794,9 @@ function QuestieNPCFixes:Load()
         [13576] = {
             [npcKeys.spawns] = {[zoneIDs.ALTERAC_VALLEY]={{42.1,17.18}}},
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
+        },
+        [13602] = {
+            [npcKeys.spawns] = {[36]={{37.26,71.16},{29.92,61.01},{41.44,63.57},{31.62,50.84},{32.18,47.29},{30.05,64.27},{40.83,67.68},{39.61,62.91},{30.85,54.63},{45.11,63.02},{39.67,73.5},{34.34,67.9}}},
         },
         [13696] = {
             [npcKeys.zoneID] = zoneIDs.MARAUDON,
