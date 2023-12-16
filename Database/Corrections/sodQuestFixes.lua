@@ -281,6 +281,50 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [79482] = {
+            [questKeys.startedBy] = {{13433}},
+            [questKeys.startedBy] = {{13636}},
+            [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [79483] = {
+            [questKeys.startedBy] = {{13418}},
+            [questKeys.startedBy] = {{13636}},
+            [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [79484] = {
+            [questKeys.startedBy] = {{13636}},
+            [questKeys.startedBy] = {{13433}},
+            [questKeys.objectives] = {nil,nil,{{17662}}},
+            [questKeys.preQuestSingle] = {79482},
+            [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [79485] = {
+            [questKeys.startedBy] = {{13636}},
+            [questKeys.startedBy] = {{13418}},
+            [questKeys.objectives] = {nil,nil,{{17662}}},
+            [questKeys.preQuestSingle] = {79483},
+            [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [79492] = {
+            [questKeys.startedBy] = {{13433}},
+            [questKeys.finishedBy] = {{13433}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{{21211}}},
+            [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [79495] = {
+            [questKeys.startedBy] = {{13418}},
+            [questKeys.finishedBy] = {{13418}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{{21211}}},
+            [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
 
         --- Fake rune quests
         [90000] = {
