@@ -1030,12 +1030,15 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.objectivesText] = {"Collect 'Fury of the Land' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
         },
         [78611] = {
+            [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = {{214070,214096,214098}},
         },
         [78612] = {
+            [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = {{214070,214096,214098}},
         },
         [78872] = {
+            [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = {{214070,214096,214098}},
         },
         [79097] = {
@@ -1044,15 +1047,19 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.objectivesText] = {"Collect 'Baxtan: On Destructive Magics' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
         },
         [79100] = {
+            [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = {{214070,214096,214098}},
         },
         [79101] = {
+            [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = {{214070,214096,214098}},
         },
         [79102] = {
+            [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = {{214070,214096,214098}},
         },
         [79103] = {
+            [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = {{214070,214096,214098}},
         },
     }
@@ -1104,12 +1111,15 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.objectivesText] = {"Collect 'Fury of the Land' and bring it to Garion Wendell in Stormwind. After ten books you will receive the Icy Veins rune."},
         },
         [78611] = {
+            [questKeys.startedBy] = {{213077,214099,214101}},
             [questKeys.finishedBy] = {{213077,214099,214101}},
         },
         [78612] = {
+            [questKeys.startedBy] = {{213077,214099,214101}},
             [questKeys.finishedBy] = {{213077,214099,214101}},
         },
         [78872] = {
+            [questKeys.startedBy] = {{213077,214099,214101}},
             [questKeys.finishedBy] = {{213077,214099,214101}},
         },
         [79097] = {
@@ -1118,15 +1128,19 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.objectivesText] = {"Collect 'Baxtan: On Destructive Magics' and bring it to Garion Wendell in Stormwind. After ten books you will receive the Icy Veins rune."},
         },
         [79100] = {
+            [questKeys.startedBy] = {{213077,214099,214101}},
             [questKeys.finishedBy] = {{213077,214099,214101}},
         },
         [79101] = {
+            [questKeys.startedBy] = {{213077,214099,214101}},
             [questKeys.finishedBy] = {{213077,214099,214101}},
         },
         [79102] = {
+            [questKeys.startedBy] = {{213077,214099,214101}},
             [questKeys.finishedBy] = {{213077,214099,214101}},
         },
         [79103] = {
+            [questKeys.startedBy] = {{213077,214099,214101}},
             [questKeys.finishedBy] = {{213077,214099,214101}},
         },
     }
