@@ -1959,7 +1959,7 @@ function QuestieQuestFixes:Load()
         },
         [5678] = {
             [questKeys.name] = "Arcane Feedback",
-            [questKeys.startedBy] = {{376,5489,11406},nil,nil},
+            [questKeys.startedBy] = {{11401},nil,nil},
             [questKeys.finishedBy] = {{376},nil},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = 20,
