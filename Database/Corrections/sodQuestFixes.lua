@@ -976,6 +976,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415996,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90054] = {
+            [questKeys.name] = "Living Seed",
+            [questKeys.startedBy] = {{206248}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 7,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Loot 3 Glade Flower spread across the zone. Combine them to the Glade Crown, use it on the Wooden Effigy and defeat the Unleashed Nature Spirit Elite mob."},
+            [questKeys.requiredSpell] = -416050,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [90055] = {
+            [questKeys.name] = "Living Seed",
+            [questKeys.startedBy] = {{206248}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 7,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Loot 3 Prairie Flower spread across the zone. Combine them to the Prairie Crown, use it on the Wooden Effigy and defeat the Unleashed Nature Spirit Elite mob."},
+            [questKeys.requiredSpell] = -416050,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 
