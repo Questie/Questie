@@ -27,10 +27,20 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
             [questKeys.requiredSpell] = -410121,
         },
+        [77571] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410061, nil, 208414}}},
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+            [questKeys.requiredSpell] = -410061,
+        },
         [77617] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410002, nil, 205420}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.requiredSpell] = -410002,
+        },
+        [77648] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410061, nil, 208414}}},
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+            [questKeys.requiredSpell] = -410061,
         },
         [77649] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410121, nil, 206168}}},
