@@ -108,6 +108,10 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90068] = true,  -- Soul Siphon Elwynn Forest
     [90069] = true,  -- Soul Siphon Durotar
     [90070] = true,  -- Soul Siphon Tirisfal Galdes
+    [90071] = true,  -- Demonic Grace Dun Morogh
+    [90072] = true,  -- Demonic Grace Elwynn Forest
+    [90073] = true,  -- Demonic Grace Durotar
+    [90074] = true,  -- Demonic Grace Tirisfal Galdes
     --- Warlock runes end
     [90040] = true, -- Paladin Beacon of Light Alliance
     [90041] = true, -- Shaman Healing Rain Horde
