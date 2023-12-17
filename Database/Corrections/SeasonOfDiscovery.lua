@@ -91,6 +91,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90036] = true,  -- Master Channeler Alliance
     [90037] = true,  -- Master Channeler Horde
     [90038] = true,  -- Master Channeler Horde
+    [90054] = true,  -- Chaos Bolt Dun Morogh
+    [90055] = true,  -- Chaos Bolt Elwynn Forest
+    [90056] = true,  -- Chaos Bolt The Barrens
+    [90057] = true,  -- Chaos Bolt Tirisfal Glades
+
     --- Warlock runes end
     [90040] = true, -- Paladin Beacon of Light Alliance
     [90041] = true, -- Shaman Healing Rain Horde
