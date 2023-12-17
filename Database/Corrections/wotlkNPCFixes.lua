@@ -1913,7 +1913,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{44.2,55.8}},[zoneIDs.UNDERCITY]={{64.3,37.5}},[zoneIDs.SILVERMOON_CITY]={{64.4,70.3}}}
         },
         [38316] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{34.19,73.65},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{40.2,21.6},{-1,-1}}},
         },
         [38328] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{58.96,53.12}}}
@@ -1930,6 +1930,9 @@ function QuestieWotlkNpcFixes:Load()
         [38471] = {
             [npcKeys.questStarts] = {24869,24875},
             [npcKeys.questEnds] = {24869,24875},
+        },
+        [39509] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{40.2,21.9},{-1,-1}}},
         },
         [198875] = {
             [npcKeys.name] = "Thassarian",

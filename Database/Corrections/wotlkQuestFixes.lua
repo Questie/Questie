@@ -5655,69 +5655,153 @@ function QuestieWotlkQuestFixes:Load()
         [24815] = {
             [questKeys.requiredMinRep] = {1156,3000},
         },
-        [24819] = {
+        [24819] = { -- A Change of Heart - Destruction friendly - ormus
             [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
             [questKeys.requiredMinRep] = {1156,3000},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24815,24811},
+            [questKeys.exclusiveTo] = {24825,24826,24827,24828,25239},
         },
-        [24820] = {
+        [24820] = { -- A Change of Heart - Vengeance friendly - ormus
             [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
             [questKeys.requiredMinRep] = {1156,3000},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24815,24810},
+            [questKeys.exclusiveTo] = {24825,24826,24827,24828,25239},
         },
-        [24821] = {
+        [24821] = { -- A Change of Heart - Courage friendly - ormus
             [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
             [questKeys.requiredMinRep] = {1156,3000},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24815,24808},
+            [questKeys.exclusiveTo] = {24825,24826,24827,24828,25239},
         },
-        [24822] = {
+        [24822] = { -- A Change of Heart - Wisdom friendly - ormus
             [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
             [questKeys.requiredMinRep] = {1156,3000},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24815,24809},
+            [questKeys.exclusiveTo] = {24825,24826,24827,24828,25239},
         },
-        [24836] = {
-            [questKeys.startedBy] = {{38316}},
+        [24823] = { -- Path of Destruction - honored to revered
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24828,24811},
         },
-        [24837] = {
-            [questKeys.startedBy] = {{38316}},
+        [24825] = { -- Path of Wisdom - friendly to honored
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24815,24809},
         },
-        [24838] = {
-            [questKeys.startedBy] = {{38316}},
+        [24826] = { -- Path of Vengeance - friendly to honored
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24815,24810},
         },
-        [24839] = {
-            [questKeys.startedBy] = {{38316}},
+        [24827] = { -- Path of Courage - friendly to honored
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24815,24808},
         },
-        [24840] = {
-            [questKeys.startedBy] = {{38316}},
+        [24828] = { -- Path of Destruction - friendly to honored
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24815,24811},
         },
-        [24841] = {
-            [questKeys.startedBy] = {{38316}},
+        [24829] = { -- Path of Destruction - revered to exalted
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24823,24811},
         },
-        [24842] = {
-            [questKeys.startedBy] = {{38316}},
+        [24830] = { -- Path of Wisdom - honored to revered
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24825,24809},
         },
-        [24843] = {
-            [questKeys.startedBy] = {{38316}},
+        [24831] = { -- Path of Wisdom - revered to exalted
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24830,24809},
         },
-        [24844] = {
-            [questKeys.startedBy] = {{38316}},
+        [24832] = { -- Path of Vengeance - honored to revered
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24826,24810},
         },
-        [24845] = {
-            [questKeys.startedBy] = {{38316}},
+        [24833] = { -- Path of Vengeance - revered to exalted
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24832,24810},
         },
-        [24846] = {
-            [questKeys.startedBy] = {{38316}},
+        [24834] = { -- Path of Courage - honored to revered
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24827,24808},
         },
-        [24847] = {
-            [questKeys.startedBy] = {{38316}},
+        [24835] = { -- Path of Courage - revered to exalted
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24834,24808},
         },
-        [25246] = {
+        [24836] = { -- A Change of Heart - Destruction honored - ormus
             [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestGroup] = {24828,24811},
+            [questKeys.exclusiveTo] = {24823,24830,24832,24834,25240},
         },
-        [25247] = {
+        [24837] = { -- A Change of Heart - wisdom honored - ormus
             [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestGroup] = {24825,24809},
+            [questKeys.exclusiveTo] = {24823,24830,24832,24834,25240},
         },
-        [25248] = {
+        [24838] = { -- A Change of Heart - vengeance honored - ormus
             [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestGroup] = {24826,24810},
+            [questKeys.exclusiveTo] = {24823,24830,24832,24834,25240},
         },
-        [25249] = {
+        [24839] = { -- A Change of Heart - courage honored - ormus
             [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestGroup] = {24827,24808},
+            [questKeys.exclusiveTo] = {24823,24830,24832,24834,25240},
+        },
+        [24840] = { -- A Change of Heart - Destruction revered - ormus
+            [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestGroup] = {24823,24811},
+            [questKeys.exclusiveTo] = {24829,24831,24833,24835,25242},
+        },
+        [24841] = { -- A Change of Heart - Wisdom revered - ormus
+            [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestGroup] = {24830,24809},
+            [questKeys.exclusiveTo] = {24829,24831,24833,24835,25242},
+        },
+        [24842] = { -- A Change of Heart - Vengeance revered - ormus
+            [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestGroup] = {24832,24810},
+            [questKeys.exclusiveTo] = {24829,24831,24833,24835,25242},
+        },
+        [24843] = { -- A Change of Heart - Courage revered - ormus
+            [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestGroup] = {24834,24808},
+            [questKeys.exclusiveTo] = {24829,24831,24833,24835,25242},
+        },
+        [24844] = { -- A Change of Heart - Destruction exalted - ormus
+            [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestGroup] = {24829,24811},
+        },
+        [24845] = { -- A Change of Heart - Wisdom exalted - ormus
+            [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestGroup] = {24831,24809},
+        },
+        [24846] = { -- A Change of Heart - Vengeance exalted - ormus
+            [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestGroup] = {24833,24810},
+        },
+        [24847] = { -- A Change of Heart - Courage exalted - ormus
+            [questKeys.startedBy] = {{38316}},
+            [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestGroup] = {24835,24808},
         },
         [24857] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5752,6 +5836,36 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37120}},
             [questKeys.finishedBy] = {{37120}},
             [questKeys.preQuestSingle] = {24549},
+        },
+        [25239] = { -- Path of Might - friendly to honored
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24815,25238},
+        },
+        [25240] = { -- Path of Might - honored to revered
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25239,25238},
+        },
+        [25242] = { -- Path of Might - revered to exalted
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25240,25238},
+        },
+        [25246] = { -- A Change of Heart - might exalted - aronen
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25242,25238},
+        },
+        [25247] = { -- A Change of Heart - might friendly - aronen
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24815,25238},
+            [questKeys.requiredMinRep] = {1156,3000},
+            [questKeys.exclusiveTo] = {24825,24826,24827,24828,25239},
+        },
+        [25248] = { -- A Change of Heart - might honored - aronen
+            [questKeys.preQuestGroup] = {25238,25239},
+            [questKeys.exclusiveTo] = {24823,24830,24832,24834,25240},
+        },
+        [25249] = { -- A Change of Heart - might revered - aronen
+            [questKeys.preQuestGroup] = {25240,25238},
+            [questKeys.exclusiveTo] = {24823,24830,24832,24834,25240},
         },
 
         ----- Boosted character quests -----

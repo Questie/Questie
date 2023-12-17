@@ -1388,6 +1388,41 @@ function QuestieQuestBlacklist:Load()
         --[14140] = true, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14140) (Retail Data)
 
         --- Phase 4 Icecrown Citadel
+        --[24827] = true, -- "Path of Courage"
+        --[24834] = true, -- "Path of Courage"
+        --[24835] = true, -- "Path of Courage"
+        --[24828] = true, -- "Path of Destruction"
+        --[24823] = true, -- "Path of Destruction"
+        --[24829] = true, -- "Path of Destruction"
+        --[25239] = true, -- "Path of Might"
+        --[25240] = true, -- "Path of Might"
+        --[25242] = true, -- "Path of Might"
+        --[24826] = true, -- "Path of Vengeance"
+        --[24832] = true, -- "Path of Vengeance"
+        --[24833] = true, -- "Path of Vengeance"
+        --[24825] = true, -- "Path of Wisdom"
+        --[24830] = true, -- "Path of Wisdom"
+        --[24831] = true, -- "Path of Wisdom"
+        --[24819] = true, -- "A Change of Heart"
+        --[24820] = true, -- "A Change of Heart"
+        --[24821] = true, -- "A Change of Heart"
+        --[24822] = true, -- "A Change of Heart"
+        --[24836] = true, -- "A Change of Heart"
+        --[24837] = true, -- "A Change of Heart"
+        --[24838] = true, -- "A Change of Heart"
+        --[24839] = true, -- "A Change of Heart"
+        --[24840] = true, -- "A Change of Heart"
+        --[24841] = true, -- "A Change of Heart"
+        --[24842] = true, -- "A Change of Heart"
+        --[24843] = true, -- "A Change of Heart"
+        --[24844] = true, -- "A Change of Heart"
+        --[24845] = true, -- "A Change of Heart"
+        --[24846] = true, -- "A Change of Heart"
+        --[24847] = true, -- "A Change of Heart"
+        --[25246] = true, -- "A Change of Heart"
+        --[25247] = true, -- "A Change of Heart"
+        --[25248] = true, -- "A Change of Heart"
+        --[25249] = true, -- "A Change of Heart"
         --[24506] = true, -- Inside the Frozen Citadel (H)
         --[24510] = true, -- Inside the Frozen Citadel (A)
         --[24554] = true, -- The Battered Hilt (H)
@@ -1993,6 +2028,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         [24809] = true, --* Healer Ring Flag (https://www.wowhead.com/wotlk/quest=24809) (Retail Data)
         [24810] = true, --* Melee Ring Flag (https://www.wowhead.com/wotlk/quest=24810) (Retail Data)
         [24811] = true, --* Caster Ring Flag (https://www.wowhead.com/wotlk/quest=24811) (Retail Data)
+        [25238] = true, --* Strength Ring Flag (https://www.wowhead.com/wotlk/quest=25238) (Retail Data)
 
         -- Northrend -> Dalaran (10 -> 4395)
 --      [14457] = true, --* The Sunreaver Plan (https://www.wowhead.com/wotlk/quest=14457) (Retail Data)
@@ -2191,9 +2227,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
 
         --  ->  (0 -> 0)
         [25293] = true, --* The Missing (https://www.wowhead.com/wotlk/quest=25293) (Retail Data)
-
-        -- Northrend -> Icecrown (10 -> 210)
-        [25238] = true, --* Strength Ring Flag (https://www.wowhead.com/wotlk/quest=25238) (Retail Data)
 
         -- Northrend -> Tournament (10 -> -241)
         [13627] = true, --* Jack Me Some Lumber (https://www.wowhead.com/wotlk/quest=13627) (Retail Data)
