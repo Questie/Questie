@@ -108,6 +108,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90056] = true, -- Starsurge
     [90057] = true, -- Sunfire
     [90058] = true, -- Lifebloom
+    [90059] = true, -- Prayer of Mending
 }
 
 ---@param questId number
