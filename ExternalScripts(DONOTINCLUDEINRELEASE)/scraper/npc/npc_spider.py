@@ -15,7 +15,6 @@ class NPCSpider(scrapy.Spider):
     def __init__(self) -> None:
         super().__init__()
         self.start_urls = [self.base_url_classic.format(npc_id) for npc_id in NPC_IDS]
-        # self.start_urls = [self.base_url_classic.format(npc_id) for npc_id in [203079, 202060]]
 
     def parse(self, response):
         result = {}
@@ -32,6 +31,16 @@ class NPCSpider(scrapy.Spider):
                 result["reactHorde"] = react_match.group(2) if str(react_match) != "None" else "0"
             if script.lstrip().startswith('var g_mapperData'):
                 result["spawns"] = self.__match_spawns(result, script)
+
+        if "spawns" in result and (not result["spawns"]):
+            text = response.xpath("//div[contains(text(), 'This NPC can be found in')]").get()
+            zone_id_match = re.search(r"zone=(\d+)", text)
+            if zone_id_match:
+                zone_id = zone_id_match.group(1)
+                result["zoneId"] = zone_id
+                if (zone_id == "719" or  # Blackfathom Deeps
+                        zone_id == "209"):  # Shadowfang Keep
+                    result["spawns"] = [[zone_id, "[-1,-1]"]]
 
         if result:
             yield result

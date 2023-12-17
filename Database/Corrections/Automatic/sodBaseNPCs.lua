@@ -122,7 +122,7 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Unstable Chromatic Drake",
             [npcKeys.minLevel] = 99,
             [npcKeys.maxLevel] = 99,
-            [npcKeys.zoneID] = 0,
+            [npcKeys.zoneID] = 2677,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
         },
@@ -686,24 +686,30 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Fathom Elemental",
             [npcKeys.minLevel] = 26,
             [npcKeys.maxLevel] = 26,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [202839] = {
             [npcKeys.name] = "Riptide Elemental",
             [npcKeys.minLevel] = 26,
             [npcKeys.maxLevel] = 26,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [202840] = {
             [npcKeys.name] = "Torrent Elemental",
             [npcKeys.minLevel] = 26,
             [npcKeys.maxLevel] = 26,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [203079] = {
@@ -825,8 +831,10 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Blackfathom Elite",
             [npcKeys.minLevel] = 26,
             [npcKeys.maxLevel] = 26,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [204253] = {
@@ -877,8 +885,10 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Blackfathom Elite",
             [npcKeys.minLevel] = 26,
             [npcKeys.maxLevel] = 26,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [204675] = {
@@ -1063,8 +1073,10 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Blackfathom Tendril",
             [npcKeys.minLevel] = 27,
             [npcKeys.maxLevel] = 27,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [205729] = {
@@ -1191,40 +1203,50 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Blackfathom Tide Priestess",
             [npcKeys.minLevel] = 27,
             [npcKeys.maxLevel] = 27,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [207359] = {
             [npcKeys.name] = "Blackfathom Tide Priestess",
             [npcKeys.minLevel] = 27,
             [npcKeys.maxLevel] = 27,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [207367] = {
             [npcKeys.name] = "Blackfathom Tide Priestess",
             [npcKeys.minLevel] = 27,
             [npcKeys.maxLevel] = 27,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [207397] = {
             [npcKeys.name] = "Corrupted Windfury Totem",
             [npcKeys.minLevel] = 27,
             [npcKeys.maxLevel] = 27,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [207457] = {
             [npcKeys.name] = "Corrupted Lightning Shield Totem",
             [npcKeys.minLevel] = 27,
             [npcKeys.maxLevel] = 27,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [207515] = {
@@ -1257,8 +1279,10 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Corrupted Molten Fury Totem",
             [npcKeys.minLevel] = 27,
             [npcKeys.maxLevel] = 27,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [207577] = {
@@ -1779,8 +1803,10 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Blackfathom Elite",
             [npcKeys.minLevel] = 26,
             [npcKeys.maxLevel] = 26,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [209213] = {
@@ -1795,8 +1821,10 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Blackfathom Murloc",
             [npcKeys.minLevel] = 25,
             [npcKeys.maxLevel] = 25,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [209511] = {
@@ -1869,8 +1897,10 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Invading Nightmare",
             [npcKeys.minLevel] = 26,
             [npcKeys.maxLevel] = 26,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [209773] = {
@@ -1923,8 +1953,10 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Phantasmal Priestess",
             [npcKeys.minLevel] = 25,
             [npcKeys.maxLevel] = 25,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [209830] = {
@@ -2390,16 +2422,20 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Gefell",
             [npcKeys.minLevel] = 21,
             [npcKeys.maxLevel] = 22,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 209,
+            [npcKeys.spawns] = {
+                [209] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [211765] = {
             [npcKeys.name] = "Gemela",
             [npcKeys.minLevel] = 21,
             [npcKeys.maxLevel] = 22,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 209,
+            [npcKeys.spawns] = {
+                [209] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [211839] = {
@@ -2501,8 +2537,10 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Old Serra'kis",
             [npcKeys.minLevel] = 99,
             [npcKeys.maxLevel] = 99,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = "AH",
         },
         [212186] = {
@@ -2581,32 +2619,40 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Phantasmal Crustacean",
             [npcKeys.minLevel] = 25,
             [npcKeys.maxLevel] = 26,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [212461] = {
             [npcKeys.name] = "Phantasmal Servant",
             [npcKeys.minLevel] = 26,
             [npcKeys.maxLevel] = 26,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [212462] = {
             [npcKeys.name] = "Phantasmal Softshell",
             [npcKeys.minLevel] = 25,
             [npcKeys.maxLevel] = 25,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [212463] = {
             [npcKeys.name] = "Phantasmal Snapjaw",
             [npcKeys.minLevel] = 26,
             [npcKeys.maxLevel] = 27,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [212468] = {
@@ -2897,8 +2943,10 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Cleansing Elemental",
             [npcKeys.minLevel] = 27,
             [npcKeys.maxLevel] = 27,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [213452] = {
@@ -2979,8 +3027,10 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Corrosive Droplet",
             [npcKeys.minLevel] = 26,
             [npcKeys.maxLevel] = 26,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [214000] = {
@@ -3219,16 +3269,20 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Blackfathom Tide Priestess",
             [npcKeys.minLevel] = 26,
             [npcKeys.maxLevel] = 26,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [214612] = {
             [npcKeys.name] = "Aku'mai Fisher",
             [npcKeys.minLevel] = 25,
             [npcKeys.maxLevel] = 25,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [214658] = {
@@ -3373,8 +3427,10 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.name] = "Aku'mai Snapjaw",
             [npcKeys.minLevel] = 27,
             [npcKeys.maxLevel] = 27,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
         },
         [215367] = {
