@@ -55,7 +55,8 @@ function QuestieCoords:WriteCoords()
         end
     end
     -- if main map
-    if Questie.db.profile.mapCoordinatesEnabled and WorldMapFrame:IsVisible() then
+    local mapTitleText = GetMapTitleText()
+    if Questie.db.profile.mapCoordinatesEnabled and WorldMapFrame:IsVisible() and mapTitleText then
         -- get cursor position
         local curX, curY = GetCursorPosition();
 
@@ -78,7 +79,7 @@ function QuestieCoords:WriteCoords()
 
         worldmapCoordsText = worldmapCoordsText.."|  Player: "..format(precision.. " X , ".. precision .." Y", posX, posY);
         -- Add text to world map
-        GetMapTitleText():SetText(worldmapCoordsText)
+        mapTitleText:SetText(worldmapCoordsText)
     end
 end
 
