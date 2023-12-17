@@ -5850,11 +5850,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {25240,25238},
         },
         [25246] = { -- A Change of Heart - might exalted - aronen
-            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25242,25238},
         },
         [25247] = { -- A Change of Heart - might friendly - aronen
-            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24815,25238},
             [questKeys.requiredMinRep] = {1156,3000},
             [questKeys.exclusiveTo] = {24825,24826,24827,24828,25239},
