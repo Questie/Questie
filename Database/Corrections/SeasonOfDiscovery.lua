@@ -13,9 +13,11 @@ SeasonOfDiscovery.currentPhase = 1 -- TODO: Use API function which hopefully wil
 
 
 local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
+    [77568] = true,
     [77571] = true,
     [77617] = true,
     [77648] = true,
+    [77649] = true,
     [77666] = true,
     [78089] = true,
     [78090] = true,
@@ -34,6 +36,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [78265] = true,
     [78266] = true,
     [78267] = true,
+    [78277] = true,
     [79091] = true,
     [79092] = true,
     [79093] = true,
