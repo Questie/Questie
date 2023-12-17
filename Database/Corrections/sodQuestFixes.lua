@@ -1034,6 +1034,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416044,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90058] = {
+            [questKeys.name] = "Lifebloom",
+            [questKeys.startedBy] = {{204827}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 4,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Summon the Adventurer's Spirit with the help of a friend and defeat it."},
+            [questKeys.requiredSpell] = -410033,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 
