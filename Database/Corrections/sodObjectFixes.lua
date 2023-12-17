@@ -69,5 +69,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.ORGRIMMAR] = {{38.7,78.4}},
             },
         },
+        [450002] = {
+            [objectKeys.name] = "Medusa Statue",
+            [objectKeys.zoneID] = zoneIDs.WESTFALL,
+            [objectKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{26,70}},
+            },
+        },
     }
 end
