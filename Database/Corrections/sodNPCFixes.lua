@@ -151,6 +151,27 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {[zoneIDs.DARNASSUS] = {{59.8,56.4}}},
             [npcKeys.friendlyToFaction] = "A",
         },
+        [216902] = {
+            [npcKeys.minLevel] = 30,
+            [npcKeys.maxLevel] = 30,
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE]={{33.7,67.23}}},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
+            [npcKeys.friendlyToFaction] = "AH",
+        },
+        [216915] = {
+            [npcKeys.minLevel] = 35,
+            [npcKeys.maxLevel] = 35,
+            [npcKeys.spawns] = {[zoneIDs.ALTERAC_MOUNTAINS]={{35.43,72.45}}},
+            [npcKeys.zoneID] = zoneIDs.ALTERAC_MOUNTAINS,
+            [npcKeys.friendlyToFaction] = "AH",
+        },
+        [216924] = {
+            [npcKeys.minLevel] = 30,
+            [npcKeys.maxLevel] = 30,
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{53.3,66.47}}},
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
+            [npcKeys.friendlyToFaction] = "AH",
+        },
         [217707] = {
             [npcKeys.name] = "Felore Moonray",
             [npcKeys.minLevel] = 99,
