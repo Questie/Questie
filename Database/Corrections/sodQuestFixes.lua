@@ -1022,6 +1022,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -424718,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90057] = {
+            [questKeys.name] = "Sunfire",
+            [questKeys.startedBy] = {nil,{404433}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 4,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Cast Moonfire on all three Lunar Stones to spawn the Lunar Chest."},
+            [questKeys.requiredSpell] = -416044,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 
