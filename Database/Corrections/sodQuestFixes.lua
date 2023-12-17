@@ -1010,6 +1010,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416050,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90056] = {
+            [questKeys.name] = "Starsurge",
+            [questKeys.startedBy] = {{212186}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Accept the offer from Grugimdern to receive a Mushroom. Then eat the Mushroom at the pond and speak with Vodyanoi."},
+            [questKeys.requiredSpell] = -424718,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 

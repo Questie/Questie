@@ -105,6 +105,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90053] = true, -- Mind Sear Horde
     [90054] = true, -- Living Seed Alliance
     [90055] = true, -- Living Seed Horde
+    [90056] = true, -- Starsurge
 }
 
 ---@param questId number
