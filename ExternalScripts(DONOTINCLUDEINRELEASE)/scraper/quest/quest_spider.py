@@ -76,11 +76,13 @@ class QuestSpider(scrapy.Spider):
 
     def __match_item_objectives(self, response):
         item_objective = []
-        item_objective_match = response.xpath('//a[@class="q1"]')
-        for item in item_objective_match:
-            item_provided = item.xpath('./following-sibling::text()').get()
-            if item_provided is None or item_provided.strip() != "(Provided)":
-                item_objective.append(re.search(r'item=(\d+)', item.xpath('./@href').get()).group(1))
+
+        for i in range(1, 6):  # Sometimes the link class is q1, q2, q3, ...
+            item_objective_match = response.xpath('//a[@class="q{}"]'.format(i))
+            for item in item_objective_match:
+                item_provided = item.xpath('./following-sibling::text()').get()
+                if item_provided is None or item_provided.strip() != "(Provided)":
+                    item_objective.append(re.search(r'item=(\d+)', item.xpath('./@href').get()).group(1))
         if item_objective:
             return item_objective
         return None
