@@ -101,6 +101,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90061] = true,  -- Shadow Bolt Volley The Barrens start
     [90062] = true,  -- Shadow Bolt Volley The Barrens end
     [90063] = true,  -- Shadow Bolt Volley Silverpine Forest
+    [90064] = true,  -- Incinerate
     --- Warlock runes end
     [90040] = true, -- Paladin Beacon of Light Alliance
     [90041] = true, -- Shaman Healing Rain Horde
