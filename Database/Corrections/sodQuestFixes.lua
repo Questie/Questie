@@ -1076,6 +1076,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402848,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90060] = {
+            [questKeys.name] = "Ancestral Guidance",
+            [questKeys.startedBy] = {{204827}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 4,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Summon the Adventurer's Spirit with the help of a friend and defeat it."},
+            [questKeys.requiredSpell] = -410099,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 
