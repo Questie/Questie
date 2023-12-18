@@ -2064,7 +2064,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{28666,"Tour of Zul'Drak complete"}}},
         },
         [12665] = {
-            [questKeys.objectives] = {{{28672,"Quetz'lun's fate revealed."}}},
+            [questKeys.objectives] = {{{28671,"Quetz'lun's fate revealed."}}},
         },
         [12668] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28747,28748},28747,"Trolls killed near a Soul Font"}}},
@@ -2179,6 +2179,10 @@ function QuestieWotlkQuestFixes:Load()
                 {{[zoneIDs.ZUL_DRAK]={{28.38,44.85}}}, Questie.ICON_TYPE_EVENT, l10n("Take the teleporter to Drakuru's upper chamber")},
             },
         },
+        [12712] = {
+            [questKeys.sourceItemId] = 39313,
+            [questKeys.requiredSourceItems] = {39313,39314,39315,39316},
+        },
         [12713] = {
             [questKeys.objectives] = {nil,nil,{{40425,"Overlord Drakuru Defeated"}}},
             [questKeys.extraObjectives] = {
@@ -2193,7 +2197,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Equip Keleseth's Persuaders and persuade Scarlet Crusaders"), 0, {{"monster", 28610},{"monster", 28936},{"monster", 28939},{"monster", 28940},}}},
         },
         [12721] = {
-            [questKeys.triggerEnd] = {"Akali unfettered from his chains.",{[zoneIDs.ZUL_DRAK]={{78.64,25.11,},},},},
+            [questKeys.objectives] = {{{28952,"Akali unfettered from his chains."}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Release Akali from his chains"), 0, {{"object", 191018}}}},
         },
         [12723] = {
@@ -2205,7 +2209,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{26.51,35.63}}}, Questie.ICON_TYPE_EVENT, l10n("Use Drums of the Tempest at Stormwright's Shelf"),}},
         },
         [12730] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.ZUL_DRAK]={{77.61,36.64}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Prophet of Akali Convocation"),}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Prophet of Akali Convocation"), 0, {{"object", 191123}}}},
         },
         [12732] = {
             [questKeys.requiredMinRep] = {1104,9000},

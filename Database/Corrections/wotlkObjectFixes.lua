@@ -106,6 +106,9 @@ function QuestieWotlkObjectFixes:Load()
         [190663] = {
             [objectKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{30.6,46.7}},[4100]={{-1,-1}}},
         },
+        [190717] = {
+            [objectKeys.spawns] = {[zoneIDs.ZUL_DRAK] = {{71.2,62.2},{68.66,56.48},{73.33,62.91},{74.58,58.37},{74.99,62.63},{74.61,59.84},{73.84,61.03},{76.02,56.13},{71.41,56.52},{71.76,58.37},{75.72,59.72},{78.31,62.39},{69.33,58.32},{69.33,58.91}}},
+        },
         [190781] = {
             [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN] = {{33.56,74.96}}},
         },
