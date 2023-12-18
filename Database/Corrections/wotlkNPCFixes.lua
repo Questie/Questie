@@ -1824,6 +1824,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{42.5,11},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.FORGE_OF_SOULS,
         },
+        [37120] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{43.1,23},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
         [37158] = {
             [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{40.4,70.9},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
@@ -1919,6 +1923,11 @@ function QuestieWotlkNpcFixes:Load()
         [38065] = {
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{33.92,47.27},{34.07,47.27}}},
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
+        },
+        [38121] = {
+            [npcKeys.name] = "Soul Feast",
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
         [38161] = {
             [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{44.6,13.6}}},
