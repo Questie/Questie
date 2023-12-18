@@ -32,6 +32,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DRUID,
             [questKeys.requiredSpell] = -410061,
         },
+        [77574] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
+            [questKeys.requiredSpell] = -402862,
+        },
         [77585] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410094, nil, 206381}}},
             [questKeys.requiredRaces] = raceIDs.ORC,
@@ -49,6 +53,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.requiredSpell] = -410002,
         },
+        [77619] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
+            [questKeys.requiredSpell] = -402862,
+        },
+        [77642] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
+            [questKeys.requiredSpell] = -402862,
+        },
         [77648] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410061, nil, 208414}}},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
@@ -65,10 +77,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
             [questKeys.requiredSpell] = -410094,
         },
+        [77661] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
+            [questKeys.requiredSpell] = -402862,
+        },
         [77666] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.requiredSpell] = -403919,
+        },
+        [77670] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
+            [questKeys.requiredSpell] = -402862,
         },
         [78089] = {
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
