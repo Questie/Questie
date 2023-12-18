@@ -180,6 +180,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{12736}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
+            [questKeys.questFlags] = 62,
         },
         [78921] = { -- Blackfathom Villainy
             [questKeys.startedBy] = {{4787}},
@@ -187,6 +188,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{5881}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
+            [questKeys.questFlags] = 62,
         },
         [78922] = { -- Blackfathom Villainy
             [questKeys.startedBy] = {{4787}},
@@ -194,6 +196,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {nil,nil,{{5881}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
+            [questKeys.questFlags] = 62,
         },
         [78923] = { -- Knowledge in the Deeps
             [questKeys.startedBy] = {{2786}},
@@ -201,6 +204,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{5359}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
+            [questKeys.questFlags] = 62,
         },
         [78925] = { -- Twilight Falls
             [questKeys.startedBy] = {{4784}},
@@ -208,6 +212,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{5879}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
+            [questKeys.questFlags] = 62,
         },
         [78926] = { -- Researching the Corruption
             [questKeys.startedBy] = {{8997}},
@@ -215,6 +220,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{5952}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
+            [questKeys.questFlags] = 62,
         },
         [78927] = { -- Allegiance to the Old Gods
             [questKeys.startedBy] = {{12736}},
@@ -222,6 +228,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {{{207356}},nil,nil},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
+            [questKeys.questFlags] = 62,
         },
         [79090] = {
             [questKeys.startedBy] = {{212727,212728,212729,212730,212801,212802}},
@@ -295,6 +302,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{211818}}},
             [questKeys.zoneOrSort] = zoneIDs.AUBERDINE,
+            [questKeys.questFlags] = 62,
         },
         [79100] = {
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
