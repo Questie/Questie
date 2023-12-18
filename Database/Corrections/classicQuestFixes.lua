@@ -924,6 +924,9 @@ function QuestieQuestFixes:Load()
         [1599] = {
             [questKeys.exclusiveTo] = {1598}, -- #999
         },
+        [1618] = {
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING, 60},
+        },
         [1638] = {
             [questKeys.exclusiveTo] = {1666,1678,1680,1683,1686},
         },
