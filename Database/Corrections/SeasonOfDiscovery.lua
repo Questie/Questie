@@ -70,7 +70,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90020] = true,
     [90021] = true,
     --- Mage runes end
-    [90022] = true,
+    [90022] = true, -- Paladin Divine Storm
     [90023] = true, -- Druid Wild Strikes
     [90024] = true, -- Druid Survival of the Fittest
     [90025] = true, -- Priest Serendipity
@@ -89,26 +89,26 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90037] = true,  -- Master Channeler Horde
     [90038] = true,  -- Master Channeler Horde
     --- Warlock runes end
-    [90040] = true, -- Beacon of Light Alliance
-    [90041] = true, -- Healing Rain Horde
-    [90042] = true, -- Everlasting Affliction Alliance
-    [90043] = true, -- Everlasting Affliction Horde
-    [90044] = true, -- Serpent Spread Alliance
-    [90045] = true, -- Serpent Spread Horde
-    [90046] = true, -- Single-Minded Fury Alliance
-    [90047] = true, -- Single-Minded Fury Horde
-    [90048] = true, -- Skull Bash Alliance
-    [90049] = true, -- Skull Bash Horde
-    [90050] = true, -- Just a Flesh Wound Alliance
-    [90051] = true, -- Just a Flesh Wound Horde
-    [90052] = true, -- Mind Sear Alliance
-    [90053] = true, -- Mind Sear Horde
-    [90054] = true, -- Living Seed Alliance
-    [90055] = true, -- Living Seed Horde
-    [90056] = true, -- Starsurge
-    [90057] = true, -- Sunfire
-    [90058] = true, -- Lifebloom
-    [90059] = true, -- Prayer of Mending
+    [90040] = true, -- Paladin Beacon of Light Alliance
+    [90041] = true, -- Shaman Healing Rain Horde
+    [90042] = true, -- Warlock Everlasting Affliction Alliance
+    [90043] = true, -- Warlock Everlasting Affliction Horde
+    [90044] = true, -- Hunter Serpent Spread Alliance
+    [90045] = true, -- Hunter Serpent Spread Horde
+    [90046] = true, -- Warrior Single-Minded Fury Alliance
+    [90047] = true, -- Warrior Single-Minded Fury Horde
+    [90048] = true, -- Druid Skull Bash Alliance
+    [90049] = true, -- Druid Skull Bash Horde
+    [90050] = true, -- Rogue Just a Flesh Wound Alliance
+    [90051] = true, -- Rogue Just a Flesh Wound Horde
+    [90052] = true, -- Priest Mind Sear Alliance
+    [90053] = true, -- Priest Mind Sear Horde
+    [90054] = true, -- Druid Living Seed Alliance
+    [90055] = true, -- Druid Living Seed Horde
+    [90056] = true, -- Druid Starsurge
+    [90057] = true, -- Druid Sunfire
+    [90058] = true, -- Druid Lifebloom
+    [90059] = true, -- Priest Prayer of Mending
 }
 
 ---@param questId number
