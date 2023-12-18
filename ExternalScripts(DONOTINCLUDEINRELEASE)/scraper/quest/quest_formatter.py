@@ -117,7 +117,7 @@ class QuestFormatter:
             objectives = ["{" + i + "}" for i in item["itemObjective"]]
             return "{nil,nil,{" + ",".join(objectives) + "}}"
         elif "spellObjective" in item:
-            return "{nil,nil,nil,nil,nil,{" + item["spellObjective"] + "}}"
+            return "{nil,nil,nil,nil,nil,{{" + item["spellObjective"] + "}}}"
         else:
             return "nil"
 
