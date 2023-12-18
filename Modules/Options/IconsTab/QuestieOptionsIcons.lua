@@ -288,6 +288,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         set = function(info, value)
                             Questie.db.profile.showSoDRunes = value
                             QuestieQuest:ToggleNotes(value)
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                     townsfolk_options = {
