@@ -35,7 +35,7 @@ jobs:
         if: ${{ failure() }}
 
   validate-era-db:
-    needs: check
+    needs: lua-check
     runs-on: ubuntu-latest
 
     steps:
@@ -63,7 +63,7 @@ jobs:
         if: ${{ failure() }}
 
   validate-sod-db:
-    needs: check
+    needs: lua-check
     runs-on: ubuntu-latest
 
     steps:
@@ -91,7 +91,7 @@ jobs:
         if: ${{ failure() }}
 
   validate-tbc-db:
-    needs: check
+    needs: lua-check
     runs-on: ubuntu-latest
 
     steps:
@@ -119,7 +119,7 @@ jobs:
         if: ${{ failure() }}
 
   validate-wotlk-db:
-    needs: check
+    needs: lua-check
     runs-on: ubuntu-latest
 
     steps:
