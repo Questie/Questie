@@ -115,6 +115,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90060] = true, -- Shaman Ancestral Guidance
     [90061] = true, -- Hunter Aspect of the Lion
     [90062] = true, -- Hunter Master Marksman
+    [90063] = true, -- Hunter Cobra Strikes
 }
 
 ---@param questId number
