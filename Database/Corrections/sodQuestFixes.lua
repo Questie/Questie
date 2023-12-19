@@ -364,6 +364,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
+        [79590] = {
+            [questKeys.startedBy] = {{14832}},
+            [questKeys.finishedBy] = {{14832}},
+        },
 
         --- Fake rune quests
         [90000] = {
