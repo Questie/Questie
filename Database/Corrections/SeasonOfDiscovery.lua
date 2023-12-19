@@ -191,6 +191,14 @@ local questsToBlacklistBySoDPhase = {
         [7042] = true, -- Old "Stolen Winter Veil Treats" quest
         [7043] = true, -- Old "You're a Mean One..." quest
         [7045] = true, -- Old "A Smokywood Pastures Thank You!" quest
+        [7881] = true, -- Old "Carnival Boots"
+        [7882] = true, -- Old "Carnival Jerkins"
+        [7889] = true, -- Old "Coarse Weightstone"
+        [7890] = true, -- Old "Heavy Grinding Stone"
+        [7894] = true, -- Old "Copper Modulator"
+        [7895] = true, -- Old "Whirring Bronze Gizmo"
+        [7899] = true, -- Old "Small Furry Paws"
+        [7900] = true, -- Old "Torn Bear Pelts"
         [8746] = true, -- Old "Metzen the Reindeer" quest
         [8762] = true, -- Old "Metzen the Reindeer" quest
     },

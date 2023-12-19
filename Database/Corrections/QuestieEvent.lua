@@ -218,7 +218,7 @@ _LoadDarkmoonFaire = function()
     QuestieEvent.activeQuests[announcingQuestId] = true
 
     for _, questData in pairs(QuestieEvent.eventQuests) do
-        if questData[1] == "Darkmoon Faire" then
+        if questData[1] == "Darkmoon Faire" and ((not questData[5]) or (not Questie.IsSoD) or questData[5] ~= QuestieCorrections.HIDE_SOD) then
             local questId = questData[2]
             QuestieCorrections.hiddenQuests[questId] = nil
             QuestieEvent.activeQuests[questId] = true
@@ -517,9 +517,9 @@ tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7902}) -- Vibrant Plumes
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7903}) -- Evil Bat Eyes
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 8222}) -- Glowing Scorpid Blood
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7901}) -- Soft Bushy Tails
-tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7899}) -- Small Furry Paws
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7899, nil, nil, QuestieCorrections.HIDE_SOD}) -- Small Furry Paws
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7940}) -- 1200 Tickets - Orb of the Darkmoon
-tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7900}) -- Torn Bear Pelts
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7900, nil, nil, QuestieCorrections.HIDE_SOD}) -- Torn Bear Pelts
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7907}) -- Darkmoon Beast Deck
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7927}) -- Darkmoon Portals Deck
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7929}) -- Darkmoon Elementals Deck
@@ -529,7 +529,7 @@ tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 8223}) -- More Glowing Scor
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7934}) -- 50 Tickets - Darkmoon Storage Box
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7981}) -- 1200 Tickets - Amulet of the Darkmoon
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7943}) -- More Bat Eyes
-tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7894}) -- Copper Modulator
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7894, nil, nil, QuestieCorrections.HIDE_SOD}) -- Copper Modulator
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7933}) -- 40 Tickets - Greater Darkmoon Prize
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7898}) -- Thorium Widget
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7885}) -- Armor Kits
@@ -542,13 +542,13 @@ tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7893}) -- Rituals of Streng
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7891}) -- Green Iron Bracers
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7896}) -- Green Fireworks
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7884}) -- Crocolisk Boy and the Bearded Murloc
-tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7882}) -- Carnival Jerkins
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7882, nil, nil, QuestieCorrections.HIDE_SOD}) -- Carnival Jerkins
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7897}) -- Mechanical Repair Kits
-tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7895}) -- Whirring Bronze Gizmo
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7895, nil, nil, QuestieCorrections.HIDE_SOD}) -- Whirring Bronze Gizmo
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7941}) -- More Armor Kits
-tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7881}) -- Carnival Boots
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7881, nil, nil, QuestieCorrections.HIDE_SOD}) -- Carnival Boots
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7890}) -- Heavy Grinding Stone
-tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7889}) -- Coarse Weightstone
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7889, nil, nil, QuestieCorrections.HIDE_SOD}) -- Coarse Weightstone
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7945}) -- Your Fortune Awaits You...
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7935}) -- 10 Tickets - Last Month's Mutton
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7938}) -- Your Fortune Awaits You...
@@ -557,6 +557,15 @@ tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7932}) -- 12 Tickets - Less
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7930}) -- 5 Tickets - Darkmoon Flower
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7931}) -- 5 Tickets - Minor Darkmoon Prize
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7936}) -- 50 Tickets - Last Year's Mutton
+-- New SoD quests
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 79588}) -- Small Furry Paws
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 79589}) -- Torn Bear Pelts
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 79590}) -- Heavy Grinding Stone
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 79591}) -- Whirring Bronze Gizmo
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 79592}) -- Carnival Jerkins
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 79593}) -- Coarse Weightstone
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 79594}) -- Copper Modulator
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 79595}) -- Carnival Boots
 
 -- New TBC event quests
 
