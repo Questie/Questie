@@ -216,6 +216,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = 1,
             [questKeys.preQuestSingle] = {78681},
         },
+        [78702] = {
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.preQuestSingle] = {78684},
+        },
         [78872] = {
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,

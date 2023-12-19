@@ -419,6 +419,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Meet with Doan Karhan and the Mysterious Traveler in the Barrens."},
             [questKeys.objectives] = nil,
         },
+        [78702] = {
+            [questKeys.name] = "Raszel Ander",
+            [questKeys.startedBy] = {{6247}},
+            [questKeys.finishedBy] = {{6247,}},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 28,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Raszel was a friend... One I thought I had lost long ago, from a different time... We were young apprentices back then... Much has changed.The result of the ritual might have been a setback, but I believe we can still reform the weapon.Raszel and I have much to discuss, together we will come up with a plan. I'll send word once we know how to move forward.In the meantime, take this. It seems like something you might be interested in."},
+            [questKeys.objectives] = nil,
+        },
         [78872] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214101}},
