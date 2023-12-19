@@ -1153,6 +1153,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410115,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90062] = {
+            [questKeys.name] = "Master Marksman",
+            [questKeys.startedBy] = {{205692,208179,208975,209811}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 7,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Use Hunter's Mark on the Bush and defeat the Poacher."},
+            [questKeys.requiredSpell] = -410113,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
