@@ -13,6 +13,7 @@ SeasonOfDiscovery.currentPhase = 1 -- TODO: Use API function which hopefully wil
 
 
 local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
+    [1470]  = true, -- Warlock Metamorphosis Part 1
     [4763]  = true, -- Warlock Shadow Bolt Volley Darkshore
     [77568] = true,
     [77571] = true,
@@ -44,6 +45,10 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [78266] = true,
     [78267] = true,
     [78277] = true,
+    [78680] = true, -- Warlock Metamorphosis Part 2
+    [78681] = true, -- Warlock Metamorphosis Part 3
+    [78684] = true, -- Warlock Metamorphosis Part 4
+    [78702] = true, -- Warlock Metamorphosis Part 5
     [79091] = true,
     [79092] = true,
     [79093] = true,
