@@ -355,19 +355,19 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [79482] = {
             [questKeys.startedBy] = {{216902}},
-            [questKeys.startedBy] = {{216915}},
+            [questKeys.finishedBy] = {{216915}},
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79483] = {
             [questKeys.startedBy] = {{216924}},
-            [questKeys.startedBy] = {{216915}},
+            [questKeys.finishedBy] = {{216915}},
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79484] = {
             [questKeys.startedBy] = {{216915}},
-            [questKeys.startedBy] = {{216902}},
+            [questKeys.finishedBy] = {{216902}},
             [questKeys.objectives] = {nil,nil,{{17662}}},
             [questKeys.preQuestSingle] = {79482},
             [questKeys.questFlags] = questFlags.RAID,
@@ -375,7 +375,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [79485] = {
             [questKeys.startedBy] = {{216915}},
-            [questKeys.startedBy] = {{216924}},
+            [questKeys.finishedBy] = {{216924}},
             [questKeys.objectives] = {nil,nil,{{17662}}},
             [questKeys.preQuestSingle] = {79483},
             [questKeys.questFlags] = questFlags.RAID,
