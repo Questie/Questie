@@ -516,7 +516,7 @@ tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8828, "25/12", "2/1"}) -- Wint
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7902}) -- Vibrant Plumes
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7903}) -- Evil Bat Eyes
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 8222}) -- Glowing Scorpid Blood
-tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7901}) -- Soft Bushy Tails
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7901, nil, nil, QuestieCorrections.HIDE_SOD}) -- Soft Bushy Tails
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7899, nil, nil, QuestieCorrections.HIDE_SOD}) -- Small Furry Paws
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7940}) -- 1200 Tickets - Orb of the Darkmoon
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7900, nil, nil, QuestieCorrections.HIDE_SOD}) -- Torn Bear Pelts
@@ -524,7 +524,7 @@ tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7907}) -- Darkmoon Beast De
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7927}) -- Darkmoon Portals Deck
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7929}) -- Darkmoon Elementals Deck
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7928}) -- Darkmoon Warlords Deck
-tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7946}) -- Spawn of Jubjub
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7946, nil, nil, QuestieCorrections.HIDE_SOD}) -- Spawn of Jubjub
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 8223}) -- More Glowing Scorpid Blood
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7934}) -- 50 Tickets - Darkmoon Storage Box
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7981}) -- 1200 Tickets - Amulet of the Darkmoon
@@ -534,20 +534,20 @@ tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7933}) -- 40 Tickets - Grea
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7898}) -- Thorium Widget
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7885}) -- Armor Kits
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7942}) -- More Thorium Widgets
-tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7883}) -- The World's Largest Gnome!
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7883, nil, nil, QuestieCorrections.HIDE_SOD}) -- The World's Largest Gnome!
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7892}) -- Big Black Mace
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7937}) -- Your Fortune Awaits You...
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7939}) -- More Dense Grinding Stones
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7893}) -- Rituals of Strength
-tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7891}) -- Green Iron Bracers
-tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7896}) -- Green Fireworks
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7891, nil, nil, QuestieCorrections.HIDE_SOD}) -- Green Iron Bracers
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7896, nil, nil, QuestieCorrections.HIDE_SOD}) -- Green Fireworks
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7884}) -- Crocolisk Boy and the Bearded Murloc
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7882, nil, nil, QuestieCorrections.HIDE_SOD}) -- Carnival Jerkins
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7897}) -- Mechanical Repair Kits
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7895, nil, nil, QuestieCorrections.HIDE_SOD}) -- Whirring Bronze Gizmo
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7941}) -- More Armor Kits
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7881, nil, nil, QuestieCorrections.HIDE_SOD}) -- Carnival Boots
-tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7890}) -- Heavy Grinding Stone
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7890, nil, nil, QuestieCorrections.HIDE_SOD}) -- Heavy Grinding Stone
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7889, nil, nil, QuestieCorrections.HIDE_SOD}) -- Coarse Weightstone
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7945}) -- Your Fortune Awaits You...
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7935}) -- 10 Tickets - Last Month's Mutton

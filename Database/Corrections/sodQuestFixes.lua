@@ -469,6 +469,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
         },
         [79595] = {
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
         },
 
