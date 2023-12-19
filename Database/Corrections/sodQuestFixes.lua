@@ -202,6 +202,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Not much is known about the location of these shattered weapon fragments, save that they are both in the possession of once great mages held up in towers of importance. One is said to be located here to the north on Kalimdor, while the other is nestled near the heart of the Eastern Kingdoms.\n\nSee if the rumors are true... Search for the two missing halves of this weapon and bring them to me."},
             [questKeys.questFlags] = 1,
         },
+        [78681] = {
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.questFlags] = 1,
+            [questKeys.preQuestSingle] = {78680},
+        },
         [78872] = {
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,

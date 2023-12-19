@@ -397,6 +397,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Do you have something for me?"},
             [questKeys.objectives] = {nil,nil,{{211365}}},
         },
+        [78681] = {
+            [questKeys.name] = "The Conjuring",
+            [questKeys.startedBy] = {{6247}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 28,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Collect 10 Blood of the Legion and perform the ritual to summon Des'Altek to trap its soul once again."},
+            [questKeys.objectives] = {nil,nil,{{210966}}},
+        },
         [78872] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214101}},
