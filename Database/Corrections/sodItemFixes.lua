@@ -19,6 +19,12 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.relatedQuests] = {78926}, -- SoD Researching the Corruption
             [itemKeys.npcDrops] = {216660, 4788, 4789, 4803, 4802, 4805, 4807, 4799, 4798, 204645, 216662, 4831, 216659, 216661, 204068}, -- now drops from raid version of npc
         },
+        [206469] = {
+            [itemKeys.objectDrops] = {403718},
+        },
+        [208609] = {
+            [itemKeys.objectDrops] = {407247},
+        },
         [209693] = { -- Alliance Blackfathom Pearl
             [itemKeys.relatedQuests] = {78916},
             [itemKeys.startQuest] = 78916,

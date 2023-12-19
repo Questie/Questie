@@ -152,37 +152,37 @@ _IsDarkmoonFaireActive = function(dayOfMonth)
 
     if firstWeekday == 1 then
         -- The 1st is a Sunday
-        if dayOfMonth >= 9 and dayOfMonth < 15 then
+        if dayOfMonth >= 9 and dayOfMonth < 15 or (Questie.IsSoD and dayOfMonth >= 23 and dayOfMonth < 29) then
             return true
         end
     elseif firstWeekday == 2 then
         -- The 1st is a Monday
-        if dayOfMonth >= 8 and dayOfMonth < 14 then
+        if dayOfMonth >= 8 and dayOfMonth < 14 or (Questie.IsSoD and dayOfMonth >= 22 and dayOfMonth < 28) then
             return true
         end
     elseif firstWeekday == 3 then
         -- The 1st is a Tuesday
-        if dayOfMonth >= 7 and dayOfMonth < 13 then
+        if dayOfMonth >= 7 and dayOfMonth < 13 or (Questie.IsSoD and dayOfMonth >= 21 and dayOfMonth < 27) then
             return true
         end
     elseif firstWeekday == 4 then
         -- The 1st is a Wednesday
-        if dayOfMonth >= 6 and dayOfMonth < 12 then
+        if dayOfMonth >= 6 and dayOfMonth < 12 or (Questie.IsSoD and dayOfMonth >= 20 and dayOfMonth < 26) then
             return true
         end
     elseif firstWeekday == 5 then
         -- The 1st is a Thursday
-        if dayOfMonth >= 5 and dayOfMonth < 11 then
+        if dayOfMonth >= 5 and dayOfMonth < 11 or (Questie.IsSoD and dayOfMonth >= 19 and dayOfMonth < 25) then
             return true
         end
     elseif firstWeekday == 6 then
         -- The 1st is a Friday
-        if dayOfMonth >= 4 and dayOfMonth < 10 then
+        if dayOfMonth >= 4 and dayOfMonth < 10 or (Questie.IsSoD and dayOfMonth >= 18 and dayOfMonth < 24) then
             return true
         end
     elseif firstWeekday == 7 then
         -- The 1st is a Saturday
-        if dayOfMonth >= 10 and dayOfMonth < 16 then
+        if dayOfMonth >= 10 and dayOfMonth < 16 or (Questie.IsSoD and dayOfMonth >= 24 and dayOfMonth < 30) then
             return true
         end
     end
@@ -201,7 +201,13 @@ _LoadDarkmoonFaire = function()
     end
 
     -- TODO: Also handle Terrokar Forest starting with TBC
-    local isInMulgore = (currentDate.month % 2) == 0
+    local isInMulgore
+    if Questie.IsSoD then
+        -- The first event of a month is always in Mulgore, the second in Elwynn Forest
+        isInMulgore = currentDate.monthDay < 16
+    else
+        isInMulgore = (currentDate.month % 2) == 0
+    end
 
     -- The faire is setting up right now or is already up
     local announcingQuestId = 7905 -- Alliance announcement quest
@@ -491,6 +497,8 @@ tinsert(QuestieEvent.eventQuests, {"Winter Veil", 79482}) -- Stolen Winter Veil 
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 79483}) -- Stolen Winter Veil Treats
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 79484}) -- You're a Mean One...
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 79485}) -- You're a Mean One...
+tinsert(QuestieEvent.eventQuests, {"Winter Veil", 79486}) -- A Smokywood Pastures' Thank You!
+tinsert(QuestieEvent.eventQuests, {"Winter Veil", 79487}) -- A Smokywood Pastures' Thank You!
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 79492}) -- Metzen the Reindeer
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 79495}) -- Metzen the Reindeer
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8744, "25/12", "2/1"}) -- A Carefully Wrapped Present

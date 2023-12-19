@@ -141,6 +141,9 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90078] = true, -- Warlock Demonic Grace Elwynn Forest
     [90079] = true, -- Warlock Demonic Grace Durotar
     [90080] = true, -- Warlock Demonic Grace Tirisfal Galdes
+    [90081] = true, -- Hunter Aspect of the Lion
+    [90082] = true, -- Hunter Master Marksman
+    [90083] = true, -- Hunter Cobra Strikes
 }
 
 ---@param questId number
@@ -174,7 +177,9 @@ local questsToBlacklistBySoDPhase = {
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
         [8370] = true, -- Conquering Arathi Basin
+        [8374] = true, -- Conquering Arathi Basin
         [8171] = true, -- The Battle for Arathi Basin!
+        [8168] = true, -- The Battle for Arathi Basin!
     },
     [3] = { -- SoD Phase 3 - level cap 50
     },
@@ -182,8 +187,10 @@ local questsToBlacklistBySoDPhase = {
         -- These might not be re-added at level 60
         [6963] = true, -- Old "Stolen Winter Veil Treats" quest
         [6983] = true, -- Old "You're a Mean One..." quest
+        [6984] = true, -- Old "A Smokywood Pastures Thank You!" quest
         [7042] = true, -- Old "Stolen Winter Veil Treats" quest
         [7043] = true, -- Old "You're a Mean One..." quest
+        [7045] = true, -- Old "A Smokywood Pastures Thank You!" quest
         [8746] = true, -- Old "Metzen the Reindeer" quest
         [8762] = true, -- Old "Metzen the Reindeer" quest
     },

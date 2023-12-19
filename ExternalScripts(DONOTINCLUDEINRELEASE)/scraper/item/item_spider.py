@@ -46,6 +46,11 @@ class ItemSpider(scrapy.Spider):
                             if "objectDrops" not in result.keys():
                                 result["objectDrops"] = []
                             result["objectDrops"].append(int(contained_in_object))
+                    if list_view_name == "starts":
+                        starts_match = re.search(r'"id":(\d+)', match)
+                        if starts_match:
+                            starts = starts_match.group(1)  # an item can always only start one quest
+                            result["questStarts"] = int(starts)
 
         if result:
             yield result
