@@ -53,7 +53,7 @@ jobs:
       - name: Validate Era database
         run: |
           luarocks install bit32
-          lua cli.lua
+          lua cli/validate-era.lua
 
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1
@@ -81,7 +81,7 @@ jobs:
       - name: Validate SoD database
         run: |
           luarocks install bit32
-          lua cli.lua
+          lua cli/validate-sod.lua
 
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1
@@ -109,7 +109,7 @@ jobs:
       - name: Validate TBC database
         run: |
           luarocks install bit32
-          lua cli.lua
+          lua cli/validate-tbc.lua
 
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1
@@ -137,7 +137,7 @@ jobs:
       - name: Validate WotLK database
         run: |
           luarocks install bit32
-          lua cli.lua
+          lua cli/validate-wotlk.lua
 
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1
