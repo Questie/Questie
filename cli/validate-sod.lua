@@ -24,6 +24,9 @@ mod = function(a, b)
 end
 bit = require("bit32")
 hooksecurefunc = _EmptyDummyFunction
+GetBuildInfo = function()
+    return "1.15.0", "52409", "Dev 1 2023", 11500
+end
 GetAddOnInfo = function()
     return "Questie", "|cFFFFFFFFQuestie|r|cFF00FF00 v6.3.9 (TBC B2)|r", "A standalone Classic QuestHelper", true, "INSECURE", false
 end
@@ -41,13 +44,13 @@ UnitClass = function()
     return "Druid", "DRUID", 11
 end
 UnitLevel = function()
-    return 60
+    return 25
 end
 GetLocale = function()
     return "enUS"
 end
 GetQuestGreenRange = function()
-    return 10
+    return 7
 end
 UnitName = function()
     return "QuestieNPC"
@@ -93,8 +96,10 @@ C_Timer = {
     end
 }
 C_Seasons = {
-    HasActiveSeason = function() return false end,
+    HasActiveSeason = function() return true end,
+    GetActiveSeason = function() return 1 end, -- HC is 3
 }
+GetMaxPlayerLevel = function() return 25 end
 Enum = {
     SeasonID = {
         Hardcore = 3
@@ -154,15 +159,6 @@ local function _ErrorOrWarning(_, text, ...)
 end
 
 local function _CheckSoDDatabase()
-    GetBuildInfo = function()
-        return "1.15.0", "52409", "Dev 1 2023", 11500
-    end
-    C_Seasons = {
-        HasActiveSeason = function() return true end,
-        GetActiveSeason = function() return 1 end, -- HC is 3
-    }
-    GetMaxPlayerLevel = function() return 25 end
-
     print("\n\27[36mCompiling SoD database...\27[0m")
     loadTOC("Questie-Classic.toc")
 

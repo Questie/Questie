@@ -1,6 +1,6 @@
 require("cli.dump")
 
-WOW_PROJECT_ID = 2
+WOW_PROJECT_ID = 11
 WOW_PROJECT_CLASSIC = 2
 WOW_PROJECT_BURNING_CRUSADE_CLASSIC = 5
 WOW_PROJECT_WRATH_CLASSIC = 11
@@ -24,6 +24,9 @@ mod = function(a, b)
 end
 bit = require("bit32")
 hooksecurefunc = _EmptyDummyFunction
+GetBuildInfo = function()
+    return "3.4.0", "44644", "Jun 12 2022", 30400
+end
 GetAddOnInfo = function()
     return "Questie", "|cFFFFFFFFQuestie|r|cFF00FF00 v6.3.9 (TBC B2)|r", "A standalone Classic QuestHelper", true, "INSECURE", false
 end
@@ -95,11 +98,6 @@ C_Timer = {
 C_Seasons = {
     HasActiveSeason = function() return false end,
 }
-Enum = {
-    SeasonID = {
-        Hardcore = 3
-    }
-}
 
 ItemRefTooltip = {
     SetHyperlink = _EmptyDummyFunction,
@@ -154,11 +152,6 @@ local function _ErrorOrWarning(_, text, ...)
 end
 
 local function _CheckWotlkDatabase()
-    GetBuildInfo = function()
-        return "3.4.0", "44644", "Jun 12 2022", 30400
-    end
-    WOW_PROJECT_ID = 11
-
     print("\n\27[36mCompiling Wotlk database...\27[0m")
     loadTOC("Questie-WOTLKC.toc")
 
