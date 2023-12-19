@@ -1296,47 +1296,47 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
         [78124] = {
             [questKeys.startedBy] = {{211033},{409496}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Nar'thalas Almanac, Vol. 74' and bring it to Garion Wendell in Stormwind. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Nar'thalas Almanac, Vol. 74' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [78127] = {
             [questKeys.startedBy] = {{211033},{409501}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'The Dalaran Digest, Vol. 23' and bring it to Garion Wendell in Stormwind. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'The Dalaran Digest, Vol. 23' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [78142] = {
             [questKeys.startedBy] = {{211033},{409562}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Bewitchments and Glamours' and bring it to Garion Wendell in Stormwind. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Bewitchments and Glamours' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [78143] = {
             [questKeys.startedBy] = {{211033},{409692}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' and bring it to Garion Wendell in Stormwind. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [78145] = {
             [questKeys.startedBy] = {{211033},{409717}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Goaz Scrolls' and bring it to Garion Wendell in Stormwind. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Goaz Scrolls' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [78146] = {
             [questKeys.startedBy] = {{211033},{409496}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Nar'thalas Almanac, Vol. 74' and bring it to Garion Wendell in Stormwind. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Nar'thalas Almanac, Vol. 74' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [78147] = {
             [questKeys.startedBy] = {{211033},{409735}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Crimes Against Anatomy' and bring it to Garion Wendell in Stormwind. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Crimes Against Anatomy' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [78148] = {
             [questKeys.startedBy] = {{211033},{409731}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Runes of the Sorcerer-Kings' and bring it to Garion Wendell in Stormwind. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Runes of the Sorcerer-Kings' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [78149] = {
             [questKeys.startedBy] = {{211033},{409711}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Fury of the Land' and bring it to Garion Wendell in Stormwind. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Fury of the Land' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [78611] = {
             [questKeys.startedBy] = {{213077,214099,214101}},
@@ -1353,7 +1353,7 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
         [79097] = {
             [questKeys.startedBy] = {{211033},{407566}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Baxtan: On Destructive Magics' and bring it to Garion Wendell in Stormwind. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Baxtan: On Destructive Magics' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [79100] = {
             [questKeys.startedBy] = {{213077,214099,214101}},
