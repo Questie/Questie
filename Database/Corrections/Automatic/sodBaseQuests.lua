@@ -408,6 +408,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Collect 10 Blood of the Legion and perform the ritual to summon Des'Altek to trap its soul once again."},
             [questKeys.objectives] = {nil,nil,{{210966}}},
         },
+        [78684] = {
+            [questKeys.name] = "Mysterious Traveler",
+            [questKeys.startedBy] = {{213444}},
+            [questKeys.finishedBy] = {{6247,}},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 28,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Meet with Doan Karhan and the Mysterious Traveler in the Barrens."},
+            [questKeys.objectives] = nil,
+        },
         [78872] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214101}},
