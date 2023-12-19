@@ -15,6 +15,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.IRONFORGE] = {{76, 10.4}},
             },
         },
+        [407247] = {
+            [objectKeys.zoneID] = zoneIDs.TELDRASSIL,
+            [objectKeys.spawns] = {
+                [zoneIDs.TELDRASSIL] = {{57.06, 65.57},{58.05, 73.19},{59.63, 60.05},{61.09, 54.02},{63.88, 64.90},{64.89, 54.77},{65.64, 59.22},{66.56, 51.55},{67.36, 64.15},{69.56, 55.75}},
+            },
+        },
         [407505] = {
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
             [objectKeys.spawns] = {
