@@ -1141,6 +1141,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410099,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90061] = {
+            [questKeys.name] = "Aspect of the Lion",
+            [questKeys.startedBy] = {{211965}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Defeat him."},
+            [questKeys.requiredSpell] = -410115,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 

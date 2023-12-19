@@ -113,6 +113,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90058] = true, -- Druid Lifebloom
     [90059] = true, -- Priest Prayer of Mending
     [90060] = true, -- Shaman Ancestral Guidance
+    [90061] = true, -- Hunter Aspect of the Lion
 }
 
 ---@param questId number

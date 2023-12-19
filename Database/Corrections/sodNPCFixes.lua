@@ -52,6 +52,11 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.friendlyToFaction] = "A",
         },
+        [211965] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.WETLANDS] = {{46.6, 65.6}},
+            },
+        },
         [212261] = {
             [npcKeys.spawns] = {
                 [zoneIDs.DUSKWOOD] = {{17,37.6}},
