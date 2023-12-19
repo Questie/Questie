@@ -1791,11 +1791,17 @@ function QuestieWotlkNpcFixes:Load()
         [36502] = {
             [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{43.3,12.2},{-1,-1}}},
         },
+        [36597] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_THE_FROZEN_THRONE]={{49.8,52.7}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
+        },
+        [36612] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{39,59.8},{-1,-1}}},
+        },
         [36626] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{19.8,65.4}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{19.8,65.4}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
         },
         [36627] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{19.8,41.8}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{19.8,41.8}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
         },
         [36658] = {
             [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{44.2,26},{-1,-1}}},
@@ -1806,7 +1812,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
         },
         [36678] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{13.4,53.4}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{13.2,53.5}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
         },
         [36774] = {
             [npcKeys.spawns] = {[zoneIDs.THE_UNDERBELLY]={{35.68,57.2}}},
@@ -1815,6 +1821,14 @@ function QuestieWotlkNpcFixes:Load()
         [36776] = {
             [npcKeys.spawns] = {[zoneIDs.THE_UNDERBELLY]={{64.18,15.6}}},
             [npcKeys.zoneID] = zoneIDs.THE_UNDERBELLY,
+        },
+        [36853] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_SINDRAGOSA]={{36.6,23.3}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
+        [36855] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{39,86.6},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
         [36990] = {
             [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{40.5,77.8}}},
@@ -1887,8 +1901,11 @@ function QuestieWotlkNpcFixes:Load()
         [37917] = {
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{55.2,61.0},{55.3,62.0},{54.9,63.1},{54.6,62.3}},[zoneIDs.DARKSHORE]={{43.3,79.9},{43.2,79.9},{43.2,79.5},{42.7,79.5},{43.0,79.4}}}
         },
+        [37955] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_QUEEN_LANA_THEL]={{51.1,43.9}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
+        },
         [37970] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{51.8,14.1}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{51.8,14.1}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
         },
         [37984] = {
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{28.3,38.5},{28.6,38.2},{27.9,37.8},{28.6,37.4},{28.3,36.7}}},
@@ -1966,6 +1983,9 @@ function QuestieWotlkNpcFixes:Load()
         [38471] = {
             [npcKeys.questStarts] = {24869,24875},
             [npcKeys.questEnds] = {24869,24875},
+        },
+        [38858] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{36,20.7},{-1,-1}}},
         },
         [39509] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{40.2,21.9},{-1,-1}}},

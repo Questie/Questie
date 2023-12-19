@@ -341,13 +341,24 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SUNWELL_PLATEAU]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.SUNWELL_PLATEAU,
         },
+        [201873] = {
+            [objectKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}}, -- map id for gunships?
+            [objectKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
         [201937] = {
             [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{75.1,20.5}}},
             [objectKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
         [201959] = {
-            [objectKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{76.9,73.7}}},
+            [objectKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{76.7,73.7}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE,
+        },
+        [202239] = {
+            [objectKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_DEATHBRINGERS_RISE]={{71.3,30.7}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.ICECROWN_CITADEL_DEATHBRINGERS_RISE,
+        },
+        [202240] = {
+            [objectKeys.spawns] = {},
         },
         [202336] = {
             [objectKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{84,88.1},{-1,-1}}},
