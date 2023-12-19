@@ -42,6 +42,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
             [questKeys.requiredSpell] = -410094,
         },
+        [77586] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
+            [questKeys.requiredSpell] = -403919,
+        },
         [77587] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410094, nil, 206381}}},
             [questKeys.requiredRaces] = raceIDs.TROLL,
@@ -56,6 +60,10 @@ function SeasonOfDiscovery:LoadQuests()
         [77619] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
             [questKeys.requiredSpell] = -402862,
+        },
+        [77621] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
+            [questKeys.requiredSpell] = -403919,
         },
         [77642] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
