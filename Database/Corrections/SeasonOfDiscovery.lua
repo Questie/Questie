@@ -88,7 +88,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90033] = true, -- Warlock Lake of Fire End
     [90034] = true, -- Warlock Master Channeler Alliance
     [90035] = true, -- Warlock Master Channeler Alliance
-    [90036] = true, -- Warlock Master Channeler Alliance
+    [90036] = true, -- Warlock Master Channeler Westfall
     [90037] = true, -- Warlock Master Channeler Horde
     [90038] = true, -- Warlock Master Channeler Horde
     [90039] = true, -- Warlock Chaos Bolt Dun Morogh
@@ -156,6 +156,11 @@ local questsToBlacklistBySoDPhase = {
         [90018] = true, -- Hiding Living Flame for now as there are too many icons
         [90020] = true, -- Hiding Living Bomb for now as there are too many icons
         [90021] = true, -- Hiding Living Bomb for now as there are too many icons
+        [90036] = true, -- Hiding Warlock Master Channeler Westfall for now as there are too many icons
+        [90077] = true, -- Hiding Warlock Demonic Grace Dun Morogh for now as there are too many icons
+        [90078] = true, -- Hiding Warlock Demonic Grace Elwynn Forest for now as there are too many icons
+        [90079] = true, -- Hiding Warlock Demonic Grace Durotar for now as there are too many icons
+        [90080] = true, -- Hiding Warlock Demonic Grace Tirisfal Galdes for now as there are too many icons
 
     },
     [2] = { -- SoD Phase 2 - level cap 40
