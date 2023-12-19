@@ -181,6 +181,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Recover the rune from the group of Troggs, southwest of Anvilmar, and use it to learn a new ability. Then, return to Alamar Grimm in Anvilmar."},
             [questKeys.objectives] = nil,
         },
+        [77669] = {
+            [questKeys.name] = "The Scarlet Rune",
+            [questKeys.startedBy] = {{2122}},
+            [questKeys.finishedBy] = {{2122,}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.questLevel] = 2,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Pickpocket or kill Scarlet Converts to find a rune, then use it to learn a new ability. Afterwards, return to David Trias in Deathknell."},
+            [questKeys.objectives] = {nil,nil,{{400105}}},
+        },
         [77670] = {
             [questKeys.name] = "Meditation on Undeath",
             [questKeys.startedBy] = {{2123}},
