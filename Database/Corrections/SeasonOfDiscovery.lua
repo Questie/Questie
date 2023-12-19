@@ -13,6 +13,7 @@ SeasonOfDiscovery.currentPhase = 1 -- TODO: Use API function which hopefully wil
 
 
 local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
+    [4763]  = true, -- Warlock Shadow Bolt Volley Darkshore
     [77568] = true,
     [77571] = true,
     [77585] = true,
@@ -112,7 +113,6 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90078] = true,  -- Demonic Grace Elwynn Forest
     [90079] = true,  -- Demonic Grace Durotar
     [90080] = true,  -- Demonic Grace Tirisfal Galdes
-    [90081] = true,  -- Shadow Bolt Volley Darkshore
     --- Warlock runes end
     [90040] = true, -- Paladin Beacon of Light Alliance
     [90041] = true, -- Shaman Healing Rain Horde

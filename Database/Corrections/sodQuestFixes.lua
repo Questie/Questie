@@ -1385,31 +1385,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425477,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90081] = { -- Not sure if this one should just be a normal quest?
-            [questKeys.name] = "Shadow Bolt Volley",
-            [questKeys.startedBy] = {{3662}},
-            [questKeys.finishedBy] = nil,
-            [questKeys.requiredLevel] = 1,
-            [questKeys.questLevel] = 17,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Kill Delmanis The Corrupted during The Blackwood Corrupted Quest."},
-            [questKeys.requiredSpell] = -403936,
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-        },
-        [90082] = {
-            [questKeys.name] = "Demonic Grace",
-                                    --Frostmane Shadowcaster,Wendigos ,Wolfs                 ,Soboz
-            [questKeys.startedBy] = {{1124,1397             ,1134,1135,705,704,1131,1133,1138,204070}},
-            [questKeys.finishedBy] = nil,
-            [questKeys.requiredLevel] = 1,
-            [questKeys.questLevel] = 8,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Obtain Ominous Tome from Frostmane Shadowcaster in Troll cave west of Brewnall Village Loot Wendigo Blood from Wendigo mobs Loot Wolf Jawbone from Wolf mobs. Use the reagents on Shimmer Ridge and kill Soboz"},
-            [questKeys.requiredSpell] = -425477,
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-        },
     }
 end
 
