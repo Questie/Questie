@@ -32,6 +32,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DRUID,
             [questKeys.requiredSpell] = -410061,
         },
+        [77574] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
+            [questKeys.requiredSpell] = -402862,
+        },
         [77585] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410094, nil, 206381}}},
             [questKeys.requiredRaces] = raceIDs.ORC,
@@ -49,6 +53,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.requiredSpell] = -410002,
         },
+        [77619] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
+            [questKeys.requiredSpell] = -402862,
+        },
+        [77642] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
+            [questKeys.requiredSpell] = -402862,
+        },
         [77648] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410061, nil, 208414}}},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
@@ -65,10 +77,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
             [questKeys.requiredSpell] = -410094,
         },
+        [77661] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
+            [questKeys.requiredSpell] = -402862,
+        },
         [77666] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.requiredSpell] = -403919,
+        },
+        [77670] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
+            [questKeys.requiredSpell] = -402862,
         },
         [78089] = {
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
@@ -157,6 +177,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [78680] = {
+            [questKeys.name] = "Rumors Abound",
+            [questKeys.startedBy] = {{6247}},
+            [questKeys.finishedBy] = {{6247}},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.objectives] = {nil,nil,{{210765},{210763}}},
+            [questKeys.objectivesText] = {"Not much is known about the location of these shattered weapon fragments, save that they are both in the possession of once great mages held up in towers of importance. One is said to be located here to the north on Kalimdor, while the other is nestled near the heart of the Eastern Kingdoms.\n\nSee if the rumors are true... Search for the two missing halves of this weapon and bring them to me."},
+            [questKeys.questFlags] = 1,
+        },
         [78872] = {
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -180,6 +213,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{12736}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
+            [questKeys.questFlags] = 62,
         },
         [78921] = { -- Blackfathom Villainy
             [questKeys.startedBy] = {{4787}},
@@ -187,6 +221,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{5881}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
+            [questKeys.questFlags] = 62,
         },
         [78922] = { -- Blackfathom Villainy
             [questKeys.startedBy] = {{4787}},
@@ -194,6 +229,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {nil,nil,{{5881}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
+            [questKeys.questFlags] = 62,
         },
         [78923] = { -- Knowledge in the Deeps
             [questKeys.startedBy] = {{2786}},
@@ -201,6 +237,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{5359}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
+            [questKeys.questFlags] = 62,
         },
         [78925] = { -- Twilight Falls
             [questKeys.startedBy] = {{4784}},
@@ -208,6 +245,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{5879}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
+            [questKeys.questFlags] = 62,
         },
         [78926] = { -- Researching the Corruption
             [questKeys.startedBy] = {{8997}},
@@ -215,6 +253,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{5952}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
+            [questKeys.questFlags] = 62,
         },
         [78927] = { -- Allegiance to the Old Gods
             [questKeys.startedBy] = {{12736}},
@@ -222,6 +261,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {{{207356}},nil,nil},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
+            [questKeys.questFlags] = 62,
         },
         [79090] = {
             [questKeys.startedBy] = {{212727,212728,212729,212730,212801,212802}},
@@ -295,6 +335,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{211818}}},
             [questKeys.zoneOrSort] = zoneIDs.AUBERDINE,
+            [questKeys.questFlags] = 62,
         },
         [79100] = {
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
@@ -314,19 +355,19 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [79482] = {
             [questKeys.startedBy] = {{216902}},
-            [questKeys.startedBy] = {{216915}},
+            [questKeys.finishedBy] = {{216915}},
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79483] = {
             [questKeys.startedBy] = {{216924}},
-            [questKeys.startedBy] = {{216915}},
+            [questKeys.finishedBy] = {{216915}},
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79484] = {
             [questKeys.startedBy] = {{216915}},
-            [questKeys.startedBy] = {{216902}},
+            [questKeys.finishedBy] = {{216902}},
             [questKeys.objectives] = {nil,nil,{{17662}}},
             [questKeys.preQuestSingle] = {79482},
             [questKeys.questFlags] = questFlags.RAID,
@@ -334,7 +375,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [79485] = {
             [questKeys.startedBy] = {{216915}},
-            [questKeys.startedBy] = {{216924}},
+            [questKeys.finishedBy] = {{216924}},
             [questKeys.objectives] = {nil,nil,{{17662}}},
             [questKeys.preQuestSingle] = {79483},
             [questKeys.questFlags] = questFlags.RAID,
@@ -1099,6 +1140,42 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Summon the Adventurer's Spirit with the help of a friend and defeat it."},
             [questKeys.requiredSpell] = -410099,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [90061] = {
+            [questKeys.name] = "Aspect of the Lion",
+            [questKeys.startedBy] = {{211965}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Defeat him."},
+            [questKeys.requiredSpell] = -410115,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [90062] = {
+            [questKeys.name] = "Master Marksman",
+            [questKeys.startedBy] = {{205692,208179,208975,209811}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 7,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Use Hunter's Mark on the Bush and defeat the Poacher."},
+            [questKeys.requiredSpell] = -410113,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [90063] = {
+            [questKeys.name] = "Cobra Strikes",
+            [questKeys.startedBy] = {{205692,208179,208975,209811}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Use Hunter's Mark on the Bush and defeat the Poacher."},
+            [questKeys.requiredSpell] = -425759,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
     }
 end

@@ -18,8 +18,14 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TIRISFAL_GLADES] = {{66.4, 40.2}},
             },
         },
+        [204068] = { -- Lady Sarevess
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
+
+        },
         [202699] = { -- Baron Aquanis
-            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}}
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
         },
         [206248] = {
             [npcKeys.spawns] = {
@@ -38,7 +44,8 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [209678] = { -- Twilight Lord Kelris
-            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}}
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
         },
         [211022] = {
             [npcKeys.spawns] = {
@@ -51,6 +58,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.STORMWIND_CITY] = {{37.8,80.2}},
             },
             [npcKeys.friendlyToFaction] = "A",
+        },
+        [211965] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.WETLANDS] = {{46.6, 65.6}},
+            },
         },
         [212261] = {
             [npcKeys.spawns] = {
