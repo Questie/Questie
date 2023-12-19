@@ -4823,7 +4823,7 @@ local northrendLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "安卡罕特",
         ["zhCN"] = false,
     },
     ["Fjorn's Anvil"] = {

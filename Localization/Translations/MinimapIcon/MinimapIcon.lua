@@ -94,7 +94,7 @@ local minimapIconLocales = {
         ["esMX"] = "Questie abrirá cuando estés fuera de combate.",
         ["enUS"] = true,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "Questie 會在戰鬥結束後開啟。",
         ["esES"] = "Questie abrirá cuando estés fuera de combate.",
         ["frFR"] = false,
     },
