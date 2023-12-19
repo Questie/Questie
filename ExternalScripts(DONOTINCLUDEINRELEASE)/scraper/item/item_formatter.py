@@ -17,6 +17,7 @@ class ItemFormatter:
                 g.write("        [itemKeys.npcDrops] = {npc_drops},\n".format(npc_drops=self.__get_npc_drops(item)))
                 g.write("        [itemKeys.objectDrops] = {vendors},\n".format(vendors=self.__get_object_drops(item)))
                 g.write("        [itemKeys.vendors] = {vendors},\n".format(vendors=self.__get_vendors(item)))
+                g.write("        [itemKeys.startQuest] = {start_quest},\n".format(start_quest=(item["questStarts"]) if "questStarts" in item else "nil"))
                 g.write("    },\n")
             g.write("}\n")
     def __get_npc_drops(self, item):
