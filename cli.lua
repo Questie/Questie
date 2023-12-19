@@ -95,6 +95,11 @@ C_Timer = {
 C_Seasons = {
     HasActiveSeason = function() return false end,
 }
+Enum = {
+    SeasonID = {
+        Hardcore = 3
+    }
+}
 
 ItemRefTooltip = {
     SetHyperlink = _EmptyDummyFunction,
@@ -211,6 +216,77 @@ local function _CheckClassicDatabase()
     print("\n\27[32mClassic database compiled successfully\27[0m")
 end
 _CheckClassicDatabase()
+
+Questie = nil -- Reset for second test
+
+local function _CheckSoDDatabase()
+    GetBuildInfo = function()
+        return "1.15.0", "52409", "Dev 1 2023", 11500
+    end
+    C_Seasons = {
+        HasActiveSeason = function() return true end,
+        GetActiveSeason = function() return 1 end, -- HC is 3
+    }
+    GetMaxPlayerLevel = function() return 25 end
+
+    print("\n\27[36mCompiling SoD database...\27[0m")
+    loadTOC("Questie-Classic.toc")
+
+    Questie.Debug = _Debug
+    Questie.Error = _ErrorOrWarning
+    Questie.Warning = _ErrorOrWarning
+
+    Questie.db = {
+        char = {
+            showEventQuests = false
+        },
+        global = {},
+        profile = {}
+    }
+    QuestieConfig = {}
+
+    local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+    local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+    local l10n = QuestieLoader:ImportModule("l10n")
+
+    print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
+
+    QuestieDB.npcData = loadstring(QuestieDB.npcData)()
+    QuestieDB.objectData = loadstring(QuestieDB.objectData)()
+    QuestieDB.questData = loadstring(QuestieDB.questData)()
+    QuestieDB.itemData = loadstring(QuestieDB.itemData)()
+
+    print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
+
+    Questie:SetIcons()
+    QuestieLoader:ImportModule("ZoneDB"):Initialize()
+
+    QuestieCorrections:Initialize({
+        ["npcData"] = QuestieDB.npcData,
+        ["objectData"] = QuestieDB.objectData,
+        ["itemData"] = QuestieDB.itemData,
+        ["questData"] = QuestieDB.questData
+    })
+
+    local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
+
+    Questie.db.global.debugEnabled = true
+    QuestieDBCompiler:Compile(function() end)
+
+    QuestieDB:Initialize()
+
+    print("\n\27[36mValidating objects...\27[0m")
+    QuestieDBCompiler:ValidateObjects()
+    print("\n\27[36mValidating items...\27[0m")
+    QuestieDBCompiler:ValidateItems()
+    print("\n\27[36mValidating NPCs...\27[0m")
+    QuestieDBCompiler:ValidateNPCs()
+    print("\n\27[36mValidating quests...\27[0m")
+    QuestieDBCompiler:ValidateQuests()
+
+    print("\n\27[32mSoD database compiled successfully\27[0m")
+end
+_CheckSoDDatabase()
 
 Questie = nil -- Reset for second test
 
