@@ -192,6 +192,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Kneel in the graveyard to meditate on undeath, then use the rune to learn a new ability. Afterwards, return to Dark Cleric Duesten in the Deathknell chapel."},
             [questKeys.objectives] = {nil,nil,{{205951}}},
         },
+        [77672] = {
+            [questKeys.name] = "The Lost Rune",
+            [questKeys.startedBy] = {{2126}},
+            [questKeys.finishedBy] = {{2126,}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.questLevel] = 2,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Recover the rune from Night Web's Hollow and use it to learn a new ability, then return to Maximillion in Deathknell."},
+            [questKeys.objectives] = {nil,nil,nil,nil,nil,{{403919}}},
+        },
         [78089] = {
             [questKeys.name] = "Advice From Stormwind",
             [questKeys.startedBy] = {{3663}},

@@ -98,6 +98,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
             [questKeys.requiredSpell] = -402862,
         },
+        [77672] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
+            [questKeys.requiredSpell] = -403919,
+        },
         [78089] = {
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
