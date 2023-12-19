@@ -31,7 +31,7 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
                     end
                 end
 
-                if questId and QuestieDB.QuestPointers[questId] then
+                if questId and QuestieDB.questIDList[questId] then
                     if (not senderGUID) then
                         playerName = BNGetFriendInfoByID(bnSenderID)
                         senderGUID = bnSenderID

@@ -271,7 +271,7 @@ function QuestieLib.GetTbcLevel(questId, playerLevel)
             requiredLevel = level;
         end
     end
-    return questLevel, requiredLevel, QuestieDB.QueryQuestSingle(questId, "requiredMaxLevel");
+    return questLevel, requiredLevel, QuestieDB.QueryQuestSingle(questId, "requiredMaxLevel") or 0;
 end
 
 ---@param questId QuestId
@@ -368,7 +368,7 @@ function QuestieLib:CacheItemNames(questId)
     if (quest and quest.ObjectiveData) then
         for _, objectiveDB in pairs(quest.ObjectiveData) do
             if objectiveDB.Type == "item" then
-                if not ((QuestieDB.ItemPointers or QuestieDB.itemData)[objectiveDB.Id]) then
+                if not ((QuestieDB.itemIDList or QuestieDB.itemData)[objectiveDB.Id]) then
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieLib:CacheItemNames] Requesting item information for missing itemId:", objectiveDB.Id)
                     local item = Item:CreateFromItemID(objectiveDB.Id)
                     item:ContinueOnItemLoad(

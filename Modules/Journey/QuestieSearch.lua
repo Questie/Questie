@@ -77,16 +77,16 @@ function QuestieSearch:Search(rawQuery, searchType, queryType)
 
     if searchType == "npc" then
         databaseQueryHandle = QuestieDB.QueryNPCSingle
-        databaseKeys = QuestieDB.NPCPointers
+        databaseKeys = QuestieDB.npcIDList
     elseif searchType == "object" then
         databaseQueryHandle = QuestieDB.QueryObjectSingle
-        databaseKeys = QuestieDB.ObjectPointers
+        databaseKeys = QuestieDB.objectIDList
     elseif searchType == "item" then
         databaseQueryHandle = QuestieDB.QueryItemSingle
-        databaseKeys = QuestieDB.ItemPointers
+        databaseKeys = QuestieDB.itemIDList
     elseif searchType == "quest" then
         databaseQueryHandle = QuestieDB.QueryQuestSingle
-        databaseKeys = QuestieDB.QuestPointers
+        databaseKeys = QuestieDB.questIDList
     else
         return
     end

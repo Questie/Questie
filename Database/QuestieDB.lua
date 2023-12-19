@@ -167,6 +167,20 @@ QuestieDB.questDataOverrides = {}
 
 QuestieDB.activeChildQuests = {}
 
+QuestieDB.npcIDList = {}
+QuestieDB.questIDList = {}
+QuestieDB.objectIDList = {}
+QuestieDB.itemIDList = {}
+
+-- this function adds values to a table if the table lacks them
+---@param existing table -- existing data to append new pointers to
+---@param new table -- table of new pointers
+local function buildIDList(existing, new)
+    for key, _ in pairs(new) do
+        existing[key] = true
+    end
+end
+
 
 function QuestieDB:Initialize()
 
@@ -200,10 +214,19 @@ function QuestieDB:Initialize()
     QuestieDB._QueryObjectSingle = QuestieDB.QueryObject.QuerySingle
     QuestieDB._QueryItemSingle = QuestieDB.QueryItem.QuerySingle
 
-    QuestieDB.NPCPointers = QuestieDB.QueryNPC.pointers
-    QuestieDB.QuestPointers = QuestieDB.QueryQuest.pointers
-    QuestieDB.ObjectPointers = QuestieDB.QueryObject.pointers
-    QuestieDB.ItemPointers = QuestieDB.QueryItem.pointers
+    --QuestieDB.npcIDList = QuestieDB.QueryNPC.pointers
+    --QuestieDB.questIDList = QuestieDB.QueryQuest.pointers
+    --QuestieDB.objectIDList = QuestieDB.QueryObject.pointers
+    --QuestieDB.itemIDList = QuestieDB.QueryItem.pointers
+
+    buildIDList(QuestieDB.npcIDList, QuestieDB.QueryNPC.pointers)
+    buildIDList(QuestieDB.npcIDList, QuestieCorrections.editedNPCs)
+    buildIDList(QuestieDB.questIDList, QuestieDB.QueryQuest.pointers)
+    buildIDList(QuestieDB.questIDList, QuestieCorrections.editedQuests)
+    buildIDList(QuestieDB.objectIDList, QuestieDB.QueryObject.pointers)
+    buildIDList(QuestieDB.objectIDList, QuestieCorrections.editedObjects)
+    buildIDList(QuestieDB.itemIDList, QuestieDB.QueryItem.pointers)
+    buildIDList(QuestieDB.itemIDList, QuestieCorrections.editedItems)
 
     QuestieDB._QueryNPC = QuestieDB.QueryNPC.Query
     QuestieDB._QueryQuest = QuestieDB.QueryQuest.Query
@@ -936,7 +959,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
 
     ---@type FinishedBy
     local finishedBy = QO.finishedBy
-    if finishedBy[1] then
+    if finishedBy and finishedBy[1] then
         for _, id in pairs(finishedBy[1]) do
             if id then
                 QO.Finisher = {
@@ -948,7 +971,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             end
         end
     end
-    if finishedBy[2] then
+    if finishedBy and finishedBy[2] then
         for _, id in pairs(finishedBy[2]) do
             if id then
                 QO.Finisher = {
@@ -1246,7 +1269,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
     local zoneQuests = {};
     local alternativeZoneID = ZoneDB:GetAlternativeZoneId(zoneId)
     -- loop over all quests to populate a zone
-    for qid, _ in pairs(QuestieDB.QuestPointers or QuestieDB.questData) do
+    for qid, _ in pairs(QuestieDB.questIDList or QuestieDB.questData) do
         local quest = QuestieDB.GetQuest(qid);
         if quest then
             if quest.zoneOrSort > 0 then

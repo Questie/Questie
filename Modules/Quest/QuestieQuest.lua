@@ -618,7 +618,7 @@ function QuestieQuest:UpdateQuest(questId)
             -- Quest was somehow reset back to incomplete after being completed (quest.WasComplete == true).
             -- The "or" check looks for a sourceItemId then checks to see if it's NOT in the players bag.
             -- Player destroyed quest items? Or some other quest mechanic removed the needed quest item.
-            if quest and (quest.WasComplete or (quest.sourceItemId > 0 and QuestieQuest:CheckQuestSourceItem(questId) == false)) then
+            if quest and (quest.WasComplete or (quest.sourceItemId and quest.sourceItemId > 0 and QuestieQuest:CheckQuestSourceItem(questId) == false)) then
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest was once complete or Quest Item(s) were removed. Resetting quest.")
 
                 -- Reset quest objectives
@@ -690,7 +690,7 @@ function QuestieQuest:GetAllQuestIds()
     QuestiePlayer.currentQuestlog = {}
 
     for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
-        if (not QuestieDB.QuestPointers[questId]) then
+        if (not QuestieDB.questIDList[questId]) then
             if not Questie._sessionWarnings[questId] then
                 if not Questie.IsSoD then Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!", tostring(questId))) end
                 Questie._sessionWarnings[questId] = true
@@ -843,7 +843,7 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
     QuestiePlayer.currentQuestlog = {}
 
     for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
-        if (not QuestieDB.QuestPointers[questId]) then
+        if (not QuestieDB.questIDList[questId]) then
             if not Questie._sessionWarnings[questId] then
                 if not Questie.IsSoD then Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!", tostring(questId))) end
                 Questie._sessionWarnings[questId] = true
@@ -896,7 +896,7 @@ end
 function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
     local quest = QuestieDB.GetQuest(questId)
     local sourceItem = true
-    if quest and quest.sourceItemId > 0 then
+    if quest and quest.sourceItemId and quest.sourceItemId > 0 then
         for bag = -2, 4 do
             for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
                 local itemId = select(10, QuestieCompat.GetContainerItemInfo(bag, slot))
@@ -1732,7 +1732,7 @@ do
         -- Localize the variable for speeeeed
         local debugEnabled = Questie.db.profile.debugEnabled
 
-        local data = QuestieDB.QuestPointers or QuestieDB.questData
+        local data = QuestieDB.questIDList or QuestieDB.questData
 
         local playerLevel = QuestiePlayer.GetPlayerLevel()
         local minLevel = playerLevel - GetQuestGreenRange("player")

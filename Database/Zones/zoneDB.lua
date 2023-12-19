@@ -159,7 +159,7 @@ do
     function ZoneDB:GetZonesWithQuests(yield)
         local count = 0
 
-        for questId in pairs(QuestieDB.QuestPointers) do
+        for questId in pairs(QuestieDB.questIDList) do
             if (not QuestieCorrections.hiddenQuests[questId]) then
                 if QuestiePlayer.HasRequiredRace(QuestieDB.QueryQuestSingle(questId, "requiredRaces"))
                     and QuestiePlayer.HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses")) then
@@ -172,7 +172,7 @@ do
                             zoneMap[zoneOrSort] = {}
                         end
                         zoneMap[zoneOrSort][questId] = true
-                    elseif zoneOrSort > 0 then
+                    elseif zoneOrSort and zoneOrSort > 0 then
                         local parentZoneId = ZoneDB:GetParentZoneId(zoneOrSort)
 
                         if parentZoneId then

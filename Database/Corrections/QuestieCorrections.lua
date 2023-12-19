@@ -78,6 +78,11 @@ QuestieCorrections.SOD_ONLY = 5 -- Hide when *not* Season of Discovery; use for 
 
 QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 
+QuestieCorrections.editedItems = {}
+QuestieCorrections.editedNPCs = {}
+QuestieCorrections.editedObjects = {}
+QuestieCorrections.editedQuests = {}
+
 -- this function filters a table of values, if the value is TBC_ONLY or CLASSIC_ONLY, set it to true or nil if that case is met
 ---@generic T
 ---@param values T
@@ -127,7 +132,8 @@ do
     --- Add runtime overrides for the database
     ---@param override_table table<number, table<number, string|table|number>>
     ---@param new_overrides table<number, table<number, string|table|number>>
-    local function addOverride(override_table, new_overrides)
+    ---@param pointer_table table<number, table<number, string|table|number>>
+    local function addOverride(override_table, new_overrides, pointer_table)
         assert(type(override_table) == "table", "Override table must be a table!")
         assert(type(new_overrides) == "table", "New overrides must be a table!")
         for id, data in pairs(new_overrides) do
@@ -136,6 +142,9 @@ do
             -- If no override exist assign it
             if not override_table[id] then
                 override_table[id] = data
+                if not pointer_table[id] then
+                    pointer_table[id] = true
+                end
             else
                 -- Override already exists, merge the new data
                 for key, value in pairs(data) do
@@ -148,32 +157,35 @@ do
     function QuestieCorrections:MinimalInit() -- db already compiled
 
         -- Classic Era Corrections
-        addOverride(QuestieDB.itemDataOverrides, QuestieItemFixes:LoadFactionFixes())
-        addOverride(QuestieDB.npcDataOverrides, QuestieNPCFixes:LoadFactionFixes())
-        addOverride(QuestieDB.objectDataOverrides, QuestieObjectFixes:LoadFactionFixes())
-        addOverride(QuestieDB.questDataOverrides, QuestieQuestFixes:LoadFactionFixes())
+        addOverride(QuestieDB.itemDataOverrides, QuestieItemFixes:LoadFactionFixes(), QuestieCorrections.editedItems)
+        addOverride(QuestieDB.npcDataOverrides, QuestieNPCFixes:LoadFactionFixes(), QuestieCorrections.editedNPCs)
+        addOverride(QuestieDB.objectDataOverrides, QuestieObjectFixes:LoadFactionFixes(), QuestieCorrections.editedObjects)
+        addOverride(QuestieDB.questDataOverrides, QuestieQuestFixes:LoadFactionFixes(), QuestieCorrections.editedQuests)
 
         -- TBC Corrections
         if (Questie.IsTBC or Questie.IsWotlk) then
-            addOverride(QuestieDB.itemDataOverrides, QuestieTBCItemFixes:LoadFactionFixes())
-            addOverride(QuestieDB.npcDataOverrides, QuestieTBCNpcFixes:LoadFactionFixes())
-            addOverride(QuestieDB.objectDataOverrides, QuestieTBCObjectFixes:LoadFactionFixes())
+            addOverride(QuestieDB.itemDataOverrides, QuestieTBCItemFixes:LoadFactionFixes(), QuestieCorrections.editedItems)
+            addOverride(QuestieDB.npcDataOverrides, QuestieTBCNpcFixes:LoadFactionFixes(), QuestieCorrections.editedNPCs)
+            addOverride(QuestieDB.objectDataOverrides, QuestieTBCObjectFixes:LoadFactionFixes(), QuestieCorrections.editedObjects)
         end
 
         -- WOTLK Corrections
         if (Questie.IsWotlk) then
-            addOverride(QuestieDB.npcDataOverrides, QuestieWotlkNpcFixes:LoadFactionFixes())
-            addOverride(QuestieDB.itemDataOverrides, QuestieWotlkItemFixes:LoadFactionFixes())
+            addOverride(QuestieDB.npcDataOverrides, QuestieWotlkNpcFixes:LoadFactionFixes(), QuestieCorrections.editedNPCs)
+            addOverride(QuestieDB.itemDataOverrides, QuestieWotlkItemFixes:LoadFactionFixes(), QuestieCorrections.editedItems)
         end
 
         -- Season of Discovery Corrections
-        if Questie.IsSoD then
-            -- TODO: Why is this needed at all? Something is off. Only faction fixes should be needed!!
-            addOverride(QuestieDB.itemDataOverrides, SeasonOfDiscovery:LoadItems())
-            addOverride(QuestieDB.npcDataOverrides, SeasonOfDiscovery:LoadNPCs())
-            addOverride(QuestieDB.objectDataOverrides, SeasonOfDiscovery:LoadObjects())
-            addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadQuests())
-            addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadFactionQuestFixes())
+        if (Questie.IsSoD) then
+            addOverride(QuestieDB.itemDataOverrides, SeasonOfDiscovery:LoadBaseItems(), QuestieCorrections.editedItems)
+            addOverride(QuestieDB.itemDataOverrides, SeasonOfDiscovery:LoadItems(), QuestieCorrections.editedItems)
+            addOverride(QuestieDB.npcDataOverrides, SeasonOfDiscovery:LoadBaseNPCs(), QuestieCorrections.editedNPCs)
+            addOverride(QuestieDB.npcDataOverrides, SeasonOfDiscovery:LoadNPCs(), QuestieCorrections.editedNPCs)
+            addOverride(QuestieDB.objectDataOverrides, SeasonOfDiscovery:LoadBaseObjects(), QuestieCorrections.editedObjects)
+            addOverride(QuestieDB.objectDataOverrides, SeasonOfDiscovery:LoadObjects(), QuestieCorrections.editedObjects)
+            addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadBaseQuests(), QuestieCorrections.editedQuests)
+            addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadQuests(), QuestieCorrections.editedQuests)
+            addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadFactionQuestFixes(), QuestieCorrections.editedQuests)
         end
 
         QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
@@ -274,14 +286,15 @@ function QuestieCorrections:Initialize(validationTables)
     end
 
     if Questie.IsSoD then
-        _LoadCorrections("questData", SeasonOfDiscovery:LoadBaseQuests(), QuestieDB.questKeysReversed, validationTables)
-        _LoadCorrections("questData", SeasonOfDiscovery:LoadQuests(), QuestieDB.questKeysReversed, validationTables)
-        _LoadCorrections("npcData", SeasonOfDiscovery:LoadBaseNPCs(), QuestieDB.npcKeysReversed, validationTables)
-        _LoadCorrections("npcData", SeasonOfDiscovery:LoadNPCs(), QuestieDB.npcKeysReversed, validationTables)
-        _LoadCorrections("itemData", SeasonOfDiscovery:LoadBaseItems(), QuestieDB.itemKeysReversed, validationTables)
-        _LoadCorrections("itemData", SeasonOfDiscovery:LoadItems(), QuestieDB.itemKeysReversed, validationTables)
-        _LoadCorrections("objectData", SeasonOfDiscovery:LoadBaseObjects(), QuestieDB.objectKeysReversed, validationTables)
-        _LoadCorrections("objectData", SeasonOfDiscovery:LoadObjects(), QuestieDB.objectKeysReversed, validationTables)
+        -- SoD additions are hotloaded, not compiled
+        --_LoadCorrections("questData", SeasonOfDiscovery:LoadBaseQuests(), QuestieDB.questKeysReversed, validationTables)
+        --_LoadCorrections("questData", SeasonOfDiscovery:LoadQuests(), QuestieDB.questKeysReversed, validationTables)
+        --_LoadCorrections("npcData", SeasonOfDiscovery:LoadBaseNPCs(), QuestieDB.npcKeysReversed, validationTables)
+        --_LoadCorrections("npcData", SeasonOfDiscovery:LoadNPCs(), QuestieDB.npcKeysReversed, validationTables)
+        --_LoadCorrections("itemData", SeasonOfDiscovery:LoadBaseItems(), QuestieDB.itemKeysReversed, validationTables)
+        --_LoadCorrections("itemData", SeasonOfDiscovery:LoadItems(), QuestieDB.itemKeysReversed, validationTables)
+        --_LoadCorrections("objectData", SeasonOfDiscovery:LoadBaseObjects(), QuestieDB.objectKeysReversed, validationTables)
+        --_LoadCorrections("objectData", SeasonOfDiscovery:LoadObjects(), QuestieDB.objectKeysReversed, validationTables)
     end
 
     --- Corrections that apply to all versions
