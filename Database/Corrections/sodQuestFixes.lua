@@ -44,6 +44,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [77586] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.requiredSpell] = -403919,
         },
         [77587] = {
@@ -63,6 +64,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [77621] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.requiredSpell] = -403919,
         },
         [77642] = {
@@ -100,6 +102,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [77672] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.requiredSpell] = -403919,
         },
         [78089] = {
