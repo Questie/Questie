@@ -34,6 +34,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [77574] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.requiredSpell] = -402862,
         },
         [77585] = {
@@ -55,10 +56,12 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [77619] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.requiredSpell] = -402862,
         },
         [77642] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.requiredSpell] = -402862,
         },
         [77648] = {
@@ -79,6 +82,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [77661] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.requiredSpell] = -402862,
         },
         [77666] = {
@@ -88,6 +92,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [77670] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.requiredSpell] = -402862,
         },
         [78089] = {
@@ -405,9 +410,31 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
+        [79588] = {
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+        },
+        [79589] = {
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+        },
         [79590] = {
             [questKeys.startedBy] = {{14832}},
             [questKeys.finishedBy] = {{14832}},
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+        },
+        [79591] = {
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+        },
+        [79592] = {
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+        },
+        [79593] = {
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+        },
+        [79594] = {
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+        },
+        [79595] = {
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
         },
 
         --- Fake rune quests
