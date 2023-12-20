@@ -283,13 +283,13 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78121] = {
             [questKeys.name] = "Wrangling a Wild Wyvern",
             [questKeys.startedBy] = {{210845}},
-            [questKeys.finishedBy] = {{210845}},
+            [questKeys.finishedBy] = {{210845,}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.HUNTER,
             [questKeys.objectivesText] = {"Follow Jixo Madrocket, and watch him tame a Wyvern."},
-            [questKeys.objectives] = {nil,{78121}}
+            [questKeys.objectives] = nil,
         },
         [78124] = {
             [questKeys.name] = "Nar'thalas Almanac",
