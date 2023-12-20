@@ -278,6 +278,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.HUNTER,
             [questKeys.objectivesText] = {"Bring a Hypnotic Crystal and a Gnarled Wand of Wild Magic to Jixo Madrocket in the Stonetalon Mountains."},
+            [questKeys.objectives] = {nil,nil,{{209838},{209840}}},
         },
         [78124] = {
             [questKeys.name] = "Nar'thalas Almanac",
