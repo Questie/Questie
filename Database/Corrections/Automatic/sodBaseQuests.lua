@@ -269,6 +269,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Return the Orb Shards to Delgren."},
             [questKeys.objectives] = nil,
         },
+        [78114] = {
+            [questKeys.name] = "Wild Wyvern Wrangling",
+            [questKeys.startedBy] = {{210845}},
+            [questKeys.finishedBy] = {{210845}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Bring a Hypnotic Crystal and a Gnarled Wand of Wild Magic to Jixo Madrocket in the Stonetalon Mountains."},
+        },
         [78124] = {
             [questKeys.name] = "Nar'thalas Almanac",
             [questKeys.startedBy] = {{211033}},
