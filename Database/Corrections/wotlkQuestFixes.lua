@@ -1946,6 +1946,7 @@ function QuestieWotlkQuestFixes:Load()
         [12605] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12556,12558,12569},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Break the egg"), 0, {{"monster", 28408}}}},
         },
         [12606] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28415,28413},28415}}},

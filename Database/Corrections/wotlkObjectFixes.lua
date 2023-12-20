@@ -342,7 +342,7 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.SUNWELL_PLATEAU,
         },
         [201873] = {
-            [objectKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}}, -- map id for gunships?
+            [objectKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
         [201937] = {
