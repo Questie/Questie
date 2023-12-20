@@ -204,12 +204,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415936,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [78287] = {
-            [questKeys.objectivesText] = {"Take the Arms Shipment to Master Wood in Stormwind City."},
-        },
-        [78297] = {
-            [questKeys.objectivesText] = {"Return the Signed Procurement Contract to Grizzby in Ratchet."},
-        },
         [78611] = {
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
