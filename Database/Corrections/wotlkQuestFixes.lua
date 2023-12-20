@@ -2019,6 +2019,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {12629},
             [questKeys.nextQuestInChain] = 12649,
         },
+        [12644] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Begin the distillation process"), 0, {{"monster", 28566}}}},
+        },
         [12648] = {
             [questKeys.preQuestSingle] = {12629},
             [questKeys.preQuestGroup] = {},
