@@ -1480,6 +1480,14 @@ function QuestieQuestBlacklist:Load()
         [79485] = true,
         [79492] = true,
         [79495] = true,
+        [79588] = true, -- Small Furry Paws
+        [79589] = true, -- Torn Bear Pelts
+        [79590] = true, -- Heavy Grinding Stone
+        [79591] = true, -- Whirring Bronze Gizmo
+        [79592] = true, -- Carnival Jerkins
+        [79593] = true, -- Coarse Weightstone
+        [79594] = true, -- Copper Modulator
+        [79595] = true, -- Carnival Boots
 
         --- Automatic Overrides (for when Wowhead data is wrong)
         [13134] = false, -- Spill Their Blood

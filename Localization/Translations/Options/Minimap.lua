@@ -190,7 +190,7 @@ local minimapOptionsLocales = {
         ["esMX"] = "Coordenadas de minimapa",
         ["enUS"] = true,
         ["zhCN"] = "小地图座标",
-        ["zhTW"] = "小地圖坐標",
+        ["zhTW"] = "顯示小地圖坐標",
         ["esES"] = "Coordenadas de minimapa",
         ["frFR"] = "Coordonnées",
     },

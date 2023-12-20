@@ -1946,6 +1946,7 @@ function QuestieWotlkQuestFixes:Load()
         [12605] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12556,12558,12569},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Break the egg"), 0, {{"monster", 28408}}}},
         },
         [12606] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28415,28413},28415}}},
@@ -1993,7 +1994,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12634] = {
             [questKeys.preQuestGroup] = {12520,12549},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Pull Sturdy Vines to reveal fruit"), 0, {{"object", 190622}}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Pull Sturdy Vines to reveal fruit"), 0, {{"object", 190622}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Ask for a spare fruit"), 0, {{"monster", 28604}}},
+            },
         },
         [12637] = {
             [questKeys.preQuestSingle] = {12631},
@@ -2016,6 +2020,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {12629},
             [questKeys.nextQuestInChain] = 12649,
         },
+        [12644] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Begin the distillation process"), 0, {{"monster", 28566}}}},
+        },
         [12648] = {
             [questKeys.preQuestSingle] = {12629},
             [questKeys.preQuestGroup] = {},
@@ -2029,6 +2036,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.nextQuestInChain] = 12661,
         },
         [12651] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12558,12556,12592},
             [questKeys.exclusiveTo] = {12654},
             [questKeys.nextQuestInChain] = 12654,
@@ -5635,13 +5643,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {24549},
         },
         [24749] = {
-            [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Unholy power then slay Putricide.", {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{13.4,53.4}}}},
+            [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Unholy power then slay Putricide.", {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{13.4,53.4}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}}},
         },
         [24756] = {
-            [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Blood then defeat Lana'thel.", {[zoneIDs.ICECROWN_CITADEL_QUEEN_LANA_THEL]={{51.3,44.1}}}},
+            [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Blood then defeat Lana'thel.", {[zoneIDs.ICECROWN_CITADEL_QUEEN_LANA_THEL]={{51.3,44.1}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}}},
         },
         [24757] = {
-            [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Frost then slay Sindragosa.", {[zoneIDs.ICECROWN_CITADEL_SINDRAGOSA]={{36.7,23.1}}}},
+            [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Frost then slay Sindragosa.", {[zoneIDs.ICECROWN_CITADEL_SINDRAGOSA]={{36.7,23.1}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}}},
         },
         [24792] = {
             [questKeys.preQuestSingle] = {24657},
@@ -5837,7 +5845,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{38017}},
         },
         [24873] = {
-            [questKeys.triggerEnd] = {"Return with two strains of Blight", {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{54,67.4}}}},
+            [questKeys.triggerEnd] = {"Return with two strains of Blight", {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{54,67.4}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}}},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Rotface after getting hit by Slime Spray"), 0, {{"monster", 36627}}},
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Festergut after getting hit by Gaseous Blight"), 0, {{"monster", 36626}}},

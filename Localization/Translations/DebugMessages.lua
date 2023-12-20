@@ -274,7 +274,7 @@ local debugMessagesLocales = {
         ["esMX"] = "Iniciando ciudadanos",
         ["enUS"] = true,
         ["zhCN"] = "初始化镇民",
-        ["zhTW"] = "正在初始化鄉民",
+        ["zhTW"] = "正在初始化村民",
         ["esES"] = "Iniciando ciudadanos",
         ["frFR"] = false,
     },
@@ -430,7 +430,7 @@ local debugMessagesLocales = {
         ["esMX"] = "Imprime si eres elegible para hacer una misión.",
         ["enUS"] = true,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "顯示你是否符合做任務的條件",
         ["esES"] = false,
         ["frFR"] = false,
     },
@@ -442,7 +442,7 @@ local debugMessagesLocales = {
         ["esMX"] = "Imprime la información de la versión del cliente y Questie",
         ["enUS"] = true,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "顯示 Questie 和遊戲版本資訊",
         ["esES"] = "Imprime la información de la versión del cliente y Questie",
         ["frFR"] = false,
     },
@@ -456,7 +456,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = "Información de depuración de Questie",
-        ["zhTW"] = false,
+        ["zhTW"] = "Questie 除錯資訊",
         ["zhCN"] = false,
     },
     ["Please share this info with us on"] = {
@@ -468,7 +468,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = "Por favor comparte esta información con nosotros en",
-        ["zhTW"] = false,
+        ["zhTW"] = "請將此資訊分享給我們，在",
         ["zhCN"] = false,
     },
     ["You can copy the data above"] = {
@@ -480,7 +480,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = "Puedes copiar los datos de arriba",
-        ["zhTW"] = false,
+        ["zhTW"] = "你可以複製上方的資料",
         ["zhCN"] = false,
     },
     ["Would you like to help us fix it?"] = {
@@ -492,7 +492,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = "¿Quieres ayudarnos a solucionarlo?",
-        ["zhTW"] = false,
+        ["zhTW"] = "是否願意協助我們修正?",
         ["zhCN"] = false,
     },
     ["More Info"] = {
@@ -504,7 +504,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = "Más información",
-        ["zhTW"] = false,
+        ["zhTW"] = "更多資訊",
         ["zhCN"] = false,
     },
     ["An item you just encountered has data missing from the Questie database."] = {
@@ -516,7 +516,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = "Un objeto que acaba de encontrar falta en la base de datos de Questie.",
-        ["zhTW"] = false,
+        ["zhTW"] = "Questie 資料庫中缺少你剛才遇到的物品的資料。",
         ["zhCN"] = false,
     },
     ["A quest you just encountered is missing from the Questie database."] = {
@@ -528,7 +528,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = "Una misión que acabas de encontrar no se encuentra en la base de datos de Questie.",
-        ["zhTW"] = false,
+        ["zhTW"] = "你剛才遇到的任務是 Questie 資料庫中所缺少的。",
         ["zhCN"] = false,
     },
     ["A quest in your quest log is missing from the Questie database and can't be tracked."] = {
@@ -540,7 +540,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = "Falta una misión en tu registro de misiones en la base de datos de Questie y no se puede rastrear.",
-        ["zhTW"] = false,
+        ["zhTW"] = "任務日誌中的任務是 Questie 資料庫中所缺少的，無法追蹤任務。",
         ["zhCN"] = false,
     },
     ["The NPC you just targeted is missing from the Questie database."] = {
@@ -552,7 +552,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = "El PNJ al que acabas de apuntar no se encuentra en la base de datos de Questie.",
-        ["zhTW"] = false,
+        ["zhTW"] = "你剛才選為目標的 NPC 是 Questie 資料庫中所缺少的。",
         ["zhCN"] = false,
     },
     -- End Debug Offers

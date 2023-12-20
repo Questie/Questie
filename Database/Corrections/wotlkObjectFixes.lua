@@ -341,13 +341,24 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SUNWELL_PLATEAU]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.SUNWELL_PLATEAU,
         },
+        [201873] = {
+            [objectKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
         [201937] = {
             [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{75.1,20.5}}},
             [objectKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
         [201959] = {
-            [objectKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{76.9,73.7}}},
+            [objectKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{76.7,73.7}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE,
+        },
+        [202239] = {
+            [objectKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_DEATHBRINGERS_RISE]={{71.3,30.7}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.ICECROWN_CITADEL_DEATHBRINGERS_RISE,
+        },
+        [202240] = {
+            [objectKeys.spawns] = {},
         },
         [202336] = {
             [objectKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{84,88.1},{-1,-1}}},
@@ -703,4 +714,34 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.ZUL_DRAK,
         },
     }
+end
+
+-- This should allow manual fix for object availability
+function QuestieWotlkObjectFixes:LoadFactionFixes()
+    local objectKeys = QuestieDB.objectKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
+    local objectFixesHorde = {
+        [201873] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.ICECROWN_CITADEL_RAMPART_OF_SKULLS]={{47.9,77.3}},
+                [zoneIDs.ICECROWN_CITADEL]={{-1,-1}},
+            },
+        },
+    }
+
+    local objectFixesAlliance = {
+        [201873] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.ICECROWN_CITADEL_RAMPART_OF_SKULLS]={{42.55,76.8}},
+                [zoneIDs.ICECROWN_CITADEL]={{-1,-1}},
+            },
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return objectFixesHorde
+    else
+        return objectFixesAlliance
+    end
 end

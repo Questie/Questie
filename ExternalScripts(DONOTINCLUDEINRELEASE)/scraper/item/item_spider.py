@@ -27,25 +27,31 @@ class ItemSpider(scrapy.Spider):
                 list_views_pattern = re.compile(r'new Listview\((.*?)}\)', re.DOTALL)
 
                 for match in list_views_pattern.findall(script):
-                    list_view_name = re.search(r'name: WH\.TERMS\.(.*?),', match).group(1)
-                    if list_view_name == "droppedby" or list_view_name == "pickpocketedfrom":
+                    list_view_name = re.search(r'id: \'(.*?)\',', match).group(1)
+                    if list_view_name == "dropped-by" or list_view_name == "pick-pocketed-from":
                         dropped_by_pattern = re.compile(r'"id":(\d+)')
                         for dropped_by in dropped_by_pattern.findall(match):
                             if "npcDrops" not in result.keys():
                                 result["npcDrops"] = []
                             result["npcDrops"].append(int(dropped_by))
-                    if list_view_name == "soldby":
+                    if list_view_name == "sold-by":
                         sold_by_pattern = re.compile(r'"id":(\d+)')
                         for sold_by in sold_by_pattern.findall(match):
                             if "vendors" not in result.keys():
                                 result["vendors"] = []
                             result["vendors"].append(int(sold_by))
-                    if list_view_name == "containedin":
-                        contained_in_pattern = re.compile(r'"id":(\d+)')
-                        for contained_in_object in contained_in_pattern.findall(match):
+                    if list_view_name == "contained-in-object":
+                        contained_in_object_pattern = re.compile(r'"id":(\d+)')
+                        for contained_in_object in contained_in_object_pattern.findall(match):
                             if "objectDrops" not in result.keys():
                                 result["objectDrops"] = []
                             result["objectDrops"].append(int(contained_in_object))
+                    if list_view_name == "contained-in-item":
+                        contained_in_item_pattern = re.compile(r'"id":(\d+)')
+                        for contained_in_item in contained_in_item_pattern.findall(match):
+                            if "itemDrops" not in result.keys():
+                                result["itemDrops"] = []
+                            result["itemDrops"].append(int(contained_in_item))
                     if list_view_name == "starts":
                         starts_match = re.search(r'"id":(\d+)', match)
                         if starts_match:

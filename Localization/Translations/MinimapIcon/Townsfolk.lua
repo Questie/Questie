@@ -298,7 +298,7 @@ local townsfolkLocales = {
         ["esMX"] = "Ciudadanos",
         ["enUS"] = true,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "村民",
         ["esES"] = "Ciudadanos",
         ["frFR"] = false,
     },
