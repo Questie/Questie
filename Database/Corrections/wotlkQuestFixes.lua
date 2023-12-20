@@ -1993,7 +1993,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12634] = {
             [questKeys.preQuestGroup] = {12520,12549},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Pull Sturdy Vines to reveal fruit"), 0, {{"object", 190622}}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Pull Sturdy Vines to reveal fruit"), 0, {{"object", 190622}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Ask for a spare fruit"), 0, {{"monster", 28604}}},
+            },
         },
         [12637] = {
             [questKeys.preQuestSingle] = {12631},
