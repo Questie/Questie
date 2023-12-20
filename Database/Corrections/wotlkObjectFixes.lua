@@ -719,11 +719,24 @@ end
 -- This should allow manual fix for object availability
 function QuestieWotlkObjectFixes:LoadFactionFixes()
     local objectKeys = QuestieDB.objectKeys
+    local zoneIDs = ZoneDB.zoneIDs
 
     local objectFixesHorde = {
+        [201873] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.ICECROWN_CITADEL_RAMPART_OF_SKULLS]={{47.9,77.3}},
+                [zoneIDs.ICECROWN_CITADEL]={{-1,-1}},
+            },
+        },
     }
 
     local objectFixesAlliance = {
+        [201873] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.ICECROWN_CITADEL_RAMPART_OF_SKULLS]={{42.55,76.8}},
+                [zoneIDs.ICECROWN_CITADEL]={{-1,-1}},
+            },
+        },
     }
 
     if UnitFactionGroup("Player") == "Horde" then
