@@ -175,7 +175,11 @@ function QuestieDB:Initialize()
         button1 = l10n("Recompile Database"),
         button2 = l10n("Don't show again"),
         OnAccept = function()
-            Questie.db.global.dbIsCompiled = false
+            if Questie.IsSoD then
+                Questie.db.global.sod.dbIsCompiled = false
+            else
+                Questie.db.global.dbIsCompiled = false
+            end
             ReloadUI()
         end,
         OnDecline = function()
@@ -190,10 +194,20 @@ function QuestieDB:Initialize()
         preferredIndex = 3
     }
 
-    QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(Questie.db.global.npcBin, Questie.db.global.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder), QuestieDB.npcKeys, QuestieDB.npcDataOverrides)
-    QuestieDB.QueryQuest = QuestieDBCompiler:GetDBHandle(Questie.db.global.questBin, Questie.db.global.questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder), QuestieDB.questKeys, QuestieDB.questDataOverrides)
-    QuestieDB.QueryObject = QuestieDBCompiler:GetDBHandle(Questie.db.global.objBin, Questie.db.global.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder), QuestieDB.objectKeys, QuestieDB.objectDataOverrides)
-    QuestieDB.QueryItem = QuestieDBCompiler:GetDBHandle(Questie.db.global.itemBin, Questie.db.global.itemPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder), QuestieDB.itemKeys, QuestieDB.itemDataOverrides)
+    -- For now we store both, the SoD database and the Era/HC database
+    local npcBin = Questie.IsSoD and Questie.db.global.sod.npcBin or Questie.db.global.npcBin
+    local npcPtrs = Questie.IsSoD and Questie.db.global.sod.npcPtrs or Questie.db.global.npcPtrs
+    local questBin = Questie.IsSoD and Questie.db.global.sod.questBin or Questie.db.global.questBin
+    local questPtrs = Questie.IsSoD and Questie.db.global.sod.questPtrs or Questie.db.global.questPtrs
+    local objBin = Questie.IsSoD and Questie.db.global.sod.objBin or Questie.db.global.objBin
+    local objPtrs = Questie.IsSoD and Questie.db.global.sod.objPtrs or Questie.db.global.objPtrs
+    local itemBin = Questie.IsSoD and Questie.db.global.sod.itemBin or Questie.db.global.itemBin
+    local itemPtrs = Questie.IsSoD and Questie.db.global.sod.itemPtrs or Questie.db.global.itemPtrs
+
+    QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(npcBin, npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder), QuestieDB.npcKeys, QuestieDB.npcDataOverrides)
+    QuestieDB.QueryQuest = QuestieDBCompiler:GetDBHandle(questBin, questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder), QuestieDB.questKeys, QuestieDB.questDataOverrides)
+    QuestieDB.QueryObject = QuestieDBCompiler:GetDBHandle(objBin, objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder), QuestieDB.objectKeys, QuestieDB.objectDataOverrides)
+    QuestieDB.QueryItem = QuestieDBCompiler:GetDBHandle(itemBin, itemPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder), QuestieDB.itemKeys, QuestieDB.itemDataOverrides)
 
     QuestieDB._QueryQuestSingle = QuestieDB.QueryQuest.QuerySingle
     QuestieDB._QueryNPCSingle = QuestieDB.QueryNPC.QuerySingle

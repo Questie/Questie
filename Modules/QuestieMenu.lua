@@ -314,7 +314,14 @@ function QuestieMenu:Show(hideDelay)
     end})
 
     if Questie.db.profile.debugEnabled then -- add recompile db & reload buttons when debugging is enabled
-        tinsert(menuTable, { text= l10n('Recompile Database'), func=function() Questie.db.global.dbIsCompiled = false; ReloadUI() end})
+        tinsert(menuTable, { text= l10n('Recompile Database'), func=function()
+            if Questie.IsSoD then
+                Questie.db.global.sod.dbIsCompiled = false
+            else
+                Questie.db.global.dbIsCompiled = false
+            end
+            ReloadUI()
+        end})
         tinsert(menuTable, { text= l10n('Reload UI'), func=function() ReloadUI() end})
     end
 
