@@ -280,6 +280,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring a Hypnotic Crystal and a Gnarled Wand of Wild Magic to Jixo Madrocket in the Stonetalon Mountains."},
             [questKeys.objectives] = {nil,nil,{{209838},{209840}}},
         },
+        [78121] = {
+            [questKeys.name] = "Wrangling a Wild Wyvern",
+            [questKeys.startedBy] = {{210845}},
+            [questKeys.finishedBy] = {{210845}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Follow Jixo Madrocket, and watch him tame a Wyvern."},
+            [questKeys.objectives] = {nil,{78121}}
+        },
         [78124] = {
             [questKeys.name] = "Nar'thalas Almanac",
             [questKeys.startedBy] = {{211033}},

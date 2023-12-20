@@ -140,6 +140,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410111,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [78121] = {
+            [questKeys.questLevel] = 22,
+            [questKeys.requiredSpell] = -410111,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [78124] = {
             [questKeys.questLevel] = -1,
             [questKeys.requiredSpell] = -425170,
