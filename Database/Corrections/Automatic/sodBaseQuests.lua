@@ -190,7 +190,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.ROGUE,
             [questKeys.objectivesText] = {"Pickpocket or kill Scarlet Converts to find a rune, then use it to learn a new ability. Afterwards, return to David Trias in Deathknell."},
-            [questKeys.objectives] = {nil,nil,{{400105}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,nil,{{400105}}},
         },
         [77670] = {
             [questKeys.name] = "Meditation on Undeath",
