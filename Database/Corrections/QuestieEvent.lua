@@ -144,8 +144,9 @@ end
 ---@param dayOfMonth number
 ---@return boolean
 _IsDarkmoonFaireActive = function(dayOfMonth)
-    local C_Calendar = C_Calendar
     if C_Calendar == nil then
+        -- This is a band aid fix for private servers which do not support the `C_Calendar` API.
+        -- They won't see Darkmoon Faire quests, but that's the price to pay.
         return false
     end
     local baseInfo = C_Calendar.GetMonthInfo() -- In Era+SoD this returns `GetMinDate` (November 2004)
