@@ -144,6 +144,9 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90081] = true, -- Hunter Aspect of the Lion
     [90082] = true, -- Hunter Master Marksman
     [90083] = true, -- Hunter Cobra Strikes
+    [90084] = true, -- Priest Void Plague Alliance
+    [90085] = true, -- Priest Void Plague Alliance 2
+    [90086] = true, -- Priest Void Plague Horde
 }
 
 ---@param questId number
