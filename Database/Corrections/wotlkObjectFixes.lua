@@ -109,6 +109,10 @@ function QuestieWotlkObjectFixes:Load()
         [190717] = {
             [objectKeys.spawns] = {[zoneIDs.ZUL_DRAK] = {{71.2,62.2},{68.66,56.48},{73.33,62.91},{74.58,58.37},{74.99,62.63},{74.61,59.84},{73.84,61.03},{76.02,56.13},{71.41,56.52},{71.76,58.37},{75.72,59.72},{78.31,62.39},{69.33,58.32},{69.33,58.91}}},
         },
+        [190777] = {
+            [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN] = {{72.1,57.44}}},
+            [objectKeys.zoneID] = zoneIDs.SHOLAZAR_BASIN,
+        },
         [190781] = {
             [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN] = {{33.56,74.96}}},
         },
@@ -363,6 +367,11 @@ function QuestieWotlkObjectFixes:Load()
         [202336] = {
             [objectKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{84,88.1},{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
+        },
+        [300213] = {
+            [objectKeys.name] = "Mistwhisper Weather Shrine",
+            [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{45.4,37.23}}},
+            [objectKeys.zoneID] = zoneIDs.SHOLAZAR_BASIN,
         },
 
         -- Below are fake objects
