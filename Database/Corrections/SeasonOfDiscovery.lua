@@ -181,7 +181,7 @@ local questsToBlacklistBySoDPhase = {
         [90078] = true, -- Hiding Warlock Demonic Grace Elwynn Forest for now as there are too many icons
         [90079] = true, -- Hiding Warlock Demonic Grace Durotar for now as there are too many icons
         [90080] = true, -- Hiding Warlock Demonic Grace Tirisfal Galdes for now as there are too many icons
-
+        [210187] = true, -- Hiding Rogue Deadly Brew Pre-req for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
