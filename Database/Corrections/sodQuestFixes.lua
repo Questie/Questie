@@ -1476,7 +1476,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 8,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.PRIEST,
-            [questKeys.objectivesText] = {"Defeat him"},
+            [questKeys.objectivesText] = {"Defeat him."},
             [questKeys.requiredSpell] = -425216,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
