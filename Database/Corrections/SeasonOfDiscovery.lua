@@ -144,6 +144,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90081] = true, -- Hunter Aspect of the Lion
     [90082] = true, -- Hunter Master Marksman
     [90083] = true, -- Hunter Cobra Strikes
+    [90084] = true, -- Priest Void Plague Alliance
+    [90085] = true, -- Priest Void Plague Alliance 2
+    [90086] = true, -- Priest Void Plague Horde
+    [90087] = true, -- Priest Shared Pain Alliance
+    [90088] = true, -- Priest Shared Pain Horde
 }
 
 ---@param questId number
@@ -172,6 +177,10 @@ local questsToBlacklistBySoDPhase = {
         [90078] = true, -- Hiding Warlock Demonic Grace Elwynn Forest for now as there are too many icons
         [90079] = true, -- Hiding Warlock Demonic Grace Durotar for now as there are too many icons
         [90080] = true, -- Hiding Warlock Demonic Grace Tirisfal Galdes for now as there are too many icons
+        [90084] = true, -- Hiding Priest Void Plague Alliance
+        [90086] = true, -- Hiding Priest Void Plague Horde
+        [90087] = true, -- Hiding Priest Shared Pain Alliance
+        [90088] = true, -- Hiding Priest Shared Pain Horde
 
     },
     [2] = { -- SoD Phase 2 - level cap 40
