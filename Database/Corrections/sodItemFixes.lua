@@ -32,6 +32,14 @@ function SeasonOfDiscovery:LoadItems()
         [209846] = {
             [itemKeys.objectDrops] = {409692},
         },
+        [210187] = {
+            [itemKeys.name] = "Venture Co. Work Order",
+            [itemKeys.npcDrops] = {3988,4070,3992,3993},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = {78270},
+        },
         [211452] = { -- Horde Blackfathom Pearl
             [itemKeys.relatedQuests] = {78917},
             [itemKeys.startQuest] = 78917,

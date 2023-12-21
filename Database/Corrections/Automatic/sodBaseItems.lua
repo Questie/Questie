@@ -2821,14 +2821,6 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
-        [210187] = {
-            [itemKeys.name] = "Venture Co. Work Order",
-            [itemKeys.npcDrops] = {3988,4070,3992,3993},
-            [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
-            [itemKeys.startQuest] = {78270},
-        },
         [210188] = {
             [itemKeys.name] = "Shredded Work Order",
             [itemKeys.npcDrops] = {4070,3988},
