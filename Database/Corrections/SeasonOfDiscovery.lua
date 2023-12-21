@@ -177,6 +177,10 @@ local questsToBlacklistBySoDPhase = {
         [90078] = true, -- Hiding Warlock Demonic Grace Elwynn Forest for now as there are too many icons
         [90079] = true, -- Hiding Warlock Demonic Grace Durotar for now as there are too many icons
         [90080] = true, -- Hiding Warlock Demonic Grace Tirisfal Galdes for now as there are too many icons
+        [90084] = true, -- Hiding Priest Void Plague Alliance
+        [90086] = true, -- Hiding Priest Void Plague Horde
+        [90087] = true, -- Hiding Priest Shared Pain Alliance
+        [90088] = true, -- Hiding Priest Shared Pain Horde
 
     },
     [2] = { -- SoD Phase 2 - level cap 40
