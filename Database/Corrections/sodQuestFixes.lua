@@ -1488,7 +1488,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 8,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.PRIEST,
-            [questKeys.objectivesText] = {"Loot Gnarlpine Cache in Ban'ethil Barrow Den"},
+            [questKeys.objectivesText] = {"Loot Gnarlpine Cache in Ban'ethil Barrow Den."},
             [questKeys.requiredSpell] = -425216,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
