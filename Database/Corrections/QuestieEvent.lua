@@ -144,6 +144,10 @@ end
 ---@param dayOfMonth number
 ---@return boolean
 _IsDarkmoonFaireActive = function(dayOfMonth)
+    local C_Calendar = C_Calendar
+    if C_Calendar == nil then
+        return false
+    end
     local baseInfo = C_Calendar.GetMonthInfo() -- In Era+SoD this returns `GetMinDate` (November 2004)
     local currentDate = C_DateAndTime.GetCurrentCalendarTime()
     -- Calculate the offset in months from GetMinDate to make C_Calendar.GetMonthInfo return the correct month
