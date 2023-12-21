@@ -1504,6 +1504,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425216,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90087] = {
+            [questKeys.name] = "Shared Pain",
+            [questKeys.startedBy] = {{6124,40,2038}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 6,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Defeat him"},
+            [questKeys.requiredSpell] = -402854,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [90088] = {
+            [questKeys.name] = "Shared Pain",
+            [questKeys.startedBy] = {{13157,3204,1934}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 6,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Defeat him"},
+            [questKeys.requiredSpell] = -402854,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 

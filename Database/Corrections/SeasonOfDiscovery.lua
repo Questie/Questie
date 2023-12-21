@@ -147,6 +147,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90084] = true, -- Priest Void Plague Alliance
     [90085] = true, -- Priest Void Plague Alliance 2
     [90086] = true, -- Priest Void Plague Horde
+    [90087] = true, -- Priest Shared Pain Alliance
+    [90088] = true, -- Priest Shared Pain Horde
 }
 
 ---@param questId number
