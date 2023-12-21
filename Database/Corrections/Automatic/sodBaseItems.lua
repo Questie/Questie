@@ -2827,7 +2827,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
-            [itemKeys.startQuest] = nil,
+            [itemKeys.startQuest] = {78270},
         },
         [210188] = {
             [itemKeys.name] = "Shredded Work Order",

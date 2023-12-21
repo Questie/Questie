@@ -520,6 +520,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
         },
+        [78270] = {
+            [questKeys.name] = "Goblin Lockpicks",
+            [questKeys.startedBy] = {{210187}},
+            [questKeys.finishedBy] = {{4086}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 23,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Find The Horn of Xelthos inside of Shadowfang Keep. Then, return it to C's dead drop near Pyrewood Village."},
+            [questKeys.objectives] = nil,
+        },
         [78277] = {
             [questKeys.name] = "A Token of Gratitude",
             [questKeys.startedBy] = {{1498}},
