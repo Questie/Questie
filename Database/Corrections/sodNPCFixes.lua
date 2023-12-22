@@ -69,6 +69,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DUSKWOOD] = {{17,37.6}},
             },
         },
+        [212694] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{43.2,78.6}},
+            },
+        },
         [212699] = {
             [npcKeys.spawns] = {
                 [zoneIDs.ASHENVALE] = {{28.6, 27.4},{51.2, 55.6},{59, 72.4},{73.6, 74.4}},

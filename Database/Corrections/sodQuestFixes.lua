@@ -221,6 +221,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {78288},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
+        [78506] = {
+            [questKeys.preQuestSingle] = {78920},
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [78537] = {
+            [questKeys.preQuestSingle] = {78506},
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [78575] = {
+            [questKeys.objectives] = {{212694}},
+            [questKeys.preQuestSingle] = {78537},
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
         [78611] = {
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
