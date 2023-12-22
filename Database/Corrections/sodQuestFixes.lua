@@ -22,6 +22,19 @@ function SeasonOfDiscovery:LoadQuests()
     -- TODO: ZoneIDs, sort keys
 
     return {
+        [76156] = {
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [76160] = {
+            [questKeys.objectives] = {nil,nil,{{206175}}},
+            [questKeys.preQuestSingle] = {76156},
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [76240] = {
+            [questKeys.objectives] = {nil,nil,{{206345}}},
+            [questKeys.preQuestSingle] = {76160},
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
         [77568] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410121, nil, 206168}}},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,

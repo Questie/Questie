@@ -16,6 +16,39 @@ function SeasonOfDiscovery:LoadBaseQuests()
     local sortKeys = QuestieDB.sortKeys
 
     return {
+        [76156] = {
+            [questKeys.name] = "Stalk With The Earthmother",
+            [questKeys.startedBy] = {{205729}},
+            [questKeys.finishedBy] = {{205729,}},
+            [questKeys.requiredLevel] = 4,
+            [questKeys.questLevel] = 6,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Sneak into the Venture Company mine southeast of Thunder Bluff and collect 5 Seaforium Mining Charges from carts of blasting supplies, then return them to Boarton Shadetotem in Thunder Bluff."},
+            [questKeys.objectives] = {nil,nil,{{206157}}},
+        },
+        [76160] = {
+            [questKeys.name] = "Stalk With The Earthmother",
+            [questKeys.startedBy] = {{205729}},
+            [questKeys.finishedBy] = {{205729,}},
+            [questKeys.requiredLevel] = 4,
+            [questKeys.questLevel] = 6,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Gather 8 Windfury Cones north of Thunder Bluff, use them with the Mortar and Pestle, then return to Boarton Shadetotem in Thunder Bluff with the result."},
+            [questKeys.objectives] = {nil,nil,{{206175},{206176}}},
+        },
+        [76240] = {
+            [questKeys.name] = "Stalk With The Earthmother",
+            [questKeys.startedBy] = {{205729}},
+            [questKeys.finishedBy] = {{205729,}},
+            [questKeys.requiredLevel] = 4,
+            [questKeys.questLevel] = 6,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Buy or catch a Raw Brilliant Smallfish, then use the Knife Set to fillet it in front of Boarton Shadetotem in Thunder Bluff."},
+            [questKeys.objectives] = {nil,nil,{{206345},{206344}}},
+        },
         [77568] = {
             [questKeys.name] = "A Hunter's Strength",
             [questKeys.startedBy] = {{3596}},
