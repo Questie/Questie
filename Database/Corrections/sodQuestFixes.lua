@@ -205,6 +205,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [78192] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.objectives] = {{{3732},{3733}}},
+        },
+        [78193] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.preQuestSingle] = {78192},
+        },
         [78265] = {
             [questKeys.objectivesText] = {"Bring 24 Fish Oil to Grizzby."},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
