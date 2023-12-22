@@ -291,7 +291,7 @@ local townsfolkLocales = {
         ["frFR"] = "Maître d'armes",
     },
     ["Townsfolk"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Cidadãos",
         ["ruRU"] = "Городские",
         ["deDE"] = "Stadtbewohner",
         ["koKR"] = false,
@@ -300,7 +300,7 @@ local townsfolkLocales = {
         ["zhCN"] = false,
         ["zhTW"] = "村民",
         ["esES"] = "Ciudadanos",
-        ["frFR"] = false,
+        ["frFR"] = "Citoyens",
     },
 
 
