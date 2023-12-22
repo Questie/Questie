@@ -220,6 +220,16 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.preQuestSingle] = {78194},
         },
+        [78196] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.finishedBy] = {{211229}},
+        },
+        [78197] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.preQuestSingle] = {78196},
+            [questKeys.startedBy] = {{211229}},
+          --[questKeys.finishedBy] = {{??}}, Turn-in still missing. Cannot find any info online.
+        },
         [78198] = {
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
