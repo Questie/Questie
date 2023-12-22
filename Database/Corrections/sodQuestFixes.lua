@@ -192,12 +192,15 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [78265] = {
             [questKeys.objectivesText] = {"Bring 24 Fish Oil to Grizzby."},
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
         [78266] = {
             [questKeys.objectivesText] = {"Bring 20 Dark Iron Ordinance to Grizzby."},
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
         [78267] = {
             [questKeys.objectivesText] = {"Bring 16 Shredder Turbocharger to Grizzby."},
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
         [78277] = {
             [questKeys.objectivesText] = {"Complete the quest chain starting with Resting in Pieces to receive the Living Bomb rune."},
