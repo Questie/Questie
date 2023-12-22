@@ -208,35 +208,43 @@ function SeasonOfDiscovery:LoadQuests()
         [78192] = {
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.objectives] = {{{3732},{3733}}},
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
         [78193] = {
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.preQuestSingle] = {78192},
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
         [78194] = {
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.requiredRaces] = raceIDs.DWARF + raceIDs.HUMAN,
         },
         [78195] = {
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.preQuestSingle] = {78194},
+            [questKeys.requiredRaces] = raceIDs.DWARF + raceIDs.HUMAN,
         },
         [78196] = {
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.finishedBy] = {{211229}},
+            [questKeys.requiredRaces] = raceIDs.TROLL,
         },
         [78197] = {
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.preQuestSingle] = {78196},
             [questKeys.startedBy] = {{211229}},
+            [questKeys.requiredRaces] = raceIDs.TROLL,
           --[questKeys.finishedBy] = {{??}}, Turn-in still missing. Cannot find any info online.
         },
         [78198] = {
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
         [78199] = {
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.preQuestSingle] = {78198},
             [questKeys.finishedBy] = {nil,{410168}},
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
         [78265] = {
             [questKeys.objectivesText] = {"Bring 24 Fish Oil to Grizzby."},
