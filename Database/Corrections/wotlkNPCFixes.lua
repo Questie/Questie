@@ -1381,6 +1381,9 @@ function QuestieWotlkNpcFixes:Load()
         [30997] = {
             [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{31.9,44.6}},[4100]={{-1,-1}}},
         },
+        [31054] = {
+            [npcKeys.spawns] = {[zoneIDs.WINTERGRASP]={{72.66,31.67},{43.73,17.01}}},
+        },
         [31104] = {
             [npcKeys.spawns] = {[zoneIDs.AHNKAHET_MAP]={{81.37,61.1},{82.39,60.19}},[4494]={{-1,-1}}},
         },

@@ -54,9 +54,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{68,156561}},
         },
         [236] = {
-            [questKeys.startedBy] = {{31108}},
             [questKeys.finishedBy] = {{31108}},
-            [questKeys.exclusiveTo] = {13154,13156,},
+            [questKeys.exclusiveTo] = {13153,13154,13156,13195,13196,13197,13198},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [403] = {
             [questKeys.startedBy] = {nil,{269}},
@@ -3040,15 +3040,21 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle]= {},
             [questKeys.preQuestGroup] = {13134,13138,13140},
         },
+        [13153] = {
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {236,13154,13156,13195,13196,13197,13198},
+        },
         [13154] = {
-            [questKeys.exclusiveTo] = {236,13156,},
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {236,13153,13156,13195,13196,13197,13198},
         },
         [13155] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13172,13174},
         },
         [13156] = {
-            [questKeys.exclusiveTo] = {236,13154,},
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {236,13153,13154,13195,13196,13197,13198},
         },
         [13160] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Seize Control of a Lithe Stalker"), 0, {{"object", 193424}}}},
@@ -3080,6 +3086,22 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13169,13170,13171},
         },
+        [13177] = {
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {13179},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{30739,39019},39019,"Horde members slain"}}},
+        },
+        [13178] = {
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {13180},
+        },
+        [13179] = {
+            [questKeys.exclusiveTo] = {13177},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{30739,39019},39019,"Horde members slain"}}},
+        },
+        [13180] = {
+            [questKeys.exclusiveTo] = {13178},
+        },
         [13181] = {
             [questKeys.triggerEnd] = {"Victory in Lake Wintergrasp", {[zoneIDs.DALARAN]={{33,67.2}}}},
         },
@@ -3097,14 +3119,46 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,{{193057,"Ahn'kahar Watcher Corpse Burned"}}},
         },
         [13191] = {
+            [questKeys.startedBy] = {},
             [questKeys.finishedBy] = {{31106}},
-            [questKeys.exclusiveTo] = {13193,13194,},
+            [questKeys.exclusiveTo] = {13192,13193,13194,13199,13200,13201,13202},
+        },
+        [13192] = {
+            [questKeys.exclusiveTo] = {13191,13193,13194,13199,13200,13201,13202},
         },
         [13193] = {
-            [questKeys.exclusiveTo] = {13191,13194,},
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {13191,13192,13194,13199,13200,13201,13202},
         },
         [13194] = {
-            [questKeys.exclusiveTo] = {13191,13193,},
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {13191,13192,13193,13199,13200,13201,13202},
+        },
+        [13195] = {
+            [questKeys.exclusiveTo] = {236,13153,13154,13156,13196,13197,13198},
+        },
+        [13196] = {
+            [questKeys.exclusiveTo] = {236,13153,13154,13156,13195,13197,13198},
+        },
+        [13197] = {
+            [questKeys.finishedBy] = {{31108}},
+            [questKeys.exclusiveTo] = {236,13153,13154,13156,13195,13196,13198},
+        },
+        [13198] = {
+            [questKeys.exclusiveTo] = {236,13153,13154,13156,13195,13196,13197},
+        },
+        [13199] = {
+            [questKeys.exclusiveTo] = {13191,13192,13193,13194,13200,13201,13202},
+        },
+        [13200] = {
+            [questKeys.finishedBy] = {{31106}},
+            [questKeys.exclusiveTo] = {13191,13192,13193,13194,13199,13201,13202},
+        },
+        [13201] = {
+            [questKeys.exclusiveTo] = {13191,13192,13193,13194,13199,13200,13202},
+        },
+        [13202] = {
+            [questKeys.exclusiveTo] = {13191,13192,13193,13194,13199,13200,13201},
         },
         [13204] = {
             [questKeys.startedBy] = {{30329},nil,{43512}},
