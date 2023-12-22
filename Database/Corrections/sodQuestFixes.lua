@@ -279,6 +279,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [78909] = {
+            [questKeys.requiredSourceItems] = {211419},
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+        },
         [78916] = { -- The Heart of the Void
             [questKeys.startedBy] = {nil, nil, {209693}},
             [questKeys.finishedBy] = {{4783}},
