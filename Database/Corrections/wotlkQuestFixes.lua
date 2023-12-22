@@ -54,9 +54,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{68,156561}},
         },
         [236] = {
-            [questKeys.startedBy] = {{31108}},
             [questKeys.finishedBy] = {{31108}},
-            [questKeys.exclusiveTo] = {13154,13156,},
+            [questKeys.exclusiveTo] = {13153,13154,13156,13195,13196,13197,13198},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [403] = {
             [questKeys.startedBy] = {nil,{269}},
@@ -1808,26 +1808,49 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {38380},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Feed with Zul'Drak Rat"), 0, {{"monster", 28145}}}},
         },
+        [12529] = {
+            [questKeys.requiredSourceItems] = {38619},
+        },
         [12530] = {
+            [questKeys.requiredSourceItems] = {38619,38467},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Softknuckle Poker on Softknuckles"), 0, {{"monster", 28127}}}},
         },
+        [12531] = {
+            [questKeys.requiredSourceItems] = {38621},
+        },
         [12532] = {
+            [questKeys.requiredSourceItems] = {38621,38689},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12533,12534},
         },
         [12533] = {
+            [questKeys.requiredSourceItems] = {38621},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12529,12530},
         },
         [12534] = {
+            [questKeys.requiredSourceItems] = {38621},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12529,12530},
         },
         [12536] = {
+            [questKeys.requiredSourceItems] = {38512},
             [questKeys.triggerEnd] = {"Travel to Mistwhisper Refuge.",{[zoneIDs.SHOLAZAR_BASIN]={{46.31,39.88,},},},},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Captive Crocolisk"), 0, {{"monster", 28298}}}},
         },
         [12537] = {
-            [questKeys.triggerEnd] = {"Sabotage the Mistwhisper Weather Shrine",{[zoneIDs.SHOLAZAR_BASIN]={{45.23,37.1,},},},},
+            [questKeys.requiredSourceItems] = {38510,38512},
+            [questKeys.objectives] = {nil,{{190502,"Sabotage the Mistwhisper Weather Shrine"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Skyreach Crystal Clusters"), 0, {{"object", 300213}}}},
+        },
+        [12538] = {
+            [questKeys.requiredSourceItems] = {38512},
+        },
+        [12539] = {
+            [questKeys.requiredSourceItems] = {38512},
+        },
+        [12540] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Injured Rainspeaker Oracle"), 0, {{"monster", 28217}}}},
         },
         [12541] = {
             [questKeys.extraObjectives] = {
@@ -1875,19 +1898,44 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sandfern Disguise near the fallen log"), 0, {{"object", 190545}}}},
         },
         [12570] = {
-            [questKeys.triggerEnd] = {"Escort the Injured Rainspeaker Oracle to Rainspaker Canopy",{[zoneIDs.SHOLAZAR_BASIN]={{53.59,56.76,},},},},
+            [questKeys.triggerEnd] = {"Escort the Injured Rainspeaker Oracle to Rainspaker Canopy",{[zoneIDs.SHOLAZAR_BASIN]={{52.79,59.36}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the escort"), 0, {{"monster", 28217}}}},
+        },
+        [12571] = {
+            [questKeys.requiredSourceItems] = {38622},
+        },
+        [12572] = {
+            [questKeys.requiredSourceItems] = {38622},
         },
         [12573] = {
-            [questKeys.triggerEnd] = {"Extend Peace Offering to Shaman Vekjik",{[zoneIDs.SHOLAZAR_BASIN]={{51.34,64.67,},},},},
+            [questKeys.sourceItemId] = 38622,
+            [questKeys.requiredSourceItems] = {38622,40364},
+            [questKeys.objectives] = {{{28315,"Extend Peace Offering to Shaman Vekjik"}}},
+        },
+        [12574] = {
+            [questKeys.requiredSourceItems] = {38623},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {12572,12573},
+        },
+        [12575] = {
+            [questKeys.requiredSourceItems] = {38623},
+        },
+        [12576] = {
+            [questKeys.requiredSourceItems] = {38623},
         },
         [12577] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12575,12576},
         },
         [12578] = {
+            [questKeys.requiredSourceItems] = {38624},
             [questKeys.triggerEnd] = {"Travel to Mosswalker Village.",{[zoneIDs.SHOLAZAR_BASIN]={{75.07,51.88,},},},},
         },
+        [12579] = {
+            [questKeys.requiredSourceItems] = {38624},
+        },
         [12580] = {
+            [questKeys.requiredSourceItems] = {38624},
             [questKeys.objectives] = {{{28113,"Mosswalker Victims Rescued"}}},
         },
         [12584] = {
@@ -2269,6 +2317,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Venture Co. Explosive on dead Stonewatcher"),0,{{"monster", 28877}}}},
         },
         [12759] = {
+            [questKeys.sourceItemId] = 39697,
             [questKeys.requiredMinRep] = {1104,9000},
         },
         [12760] = {
@@ -2991,15 +3040,21 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle]= {},
             [questKeys.preQuestGroup] = {13134,13138,13140},
         },
+        [13153] = {
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {236,13154,13156,13195,13196,13197,13198},
+        },
         [13154] = {
-            [questKeys.exclusiveTo] = {236,13156,},
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {236,13153,13156,13195,13196,13197,13198},
         },
         [13155] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13172,13174},
         },
         [13156] = {
-            [questKeys.exclusiveTo] = {236,13154,},
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {236,13153,13154,13195,13196,13197,13198},
         },
         [13160] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Seize Control of a Lithe Stalker"), 0, {{"object", 193424}}}},
@@ -3031,6 +3086,22 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13169,13170,13171},
         },
+        [13177] = {
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {13179},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{30739,39019},39019,"Horde members slain"}}},
+        },
+        [13178] = {
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {13180},
+        },
+        [13179] = {
+            [questKeys.exclusiveTo] = {13177},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{30739,39019},39019,"Horde members slain"}}},
+        },
+        [13180] = {
+            [questKeys.exclusiveTo] = {13178},
+        },
         [13181] = {
             [questKeys.triggerEnd] = {"Victory in Lake Wintergrasp", {[zoneIDs.DALARAN]={{33,67.2}}}},
         },
@@ -3048,14 +3119,46 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,{{193057,"Ahn'kahar Watcher Corpse Burned"}}},
         },
         [13191] = {
+            [questKeys.startedBy] = {},
             [questKeys.finishedBy] = {{31106}},
-            [questKeys.exclusiveTo] = {13193,13194,},
+            [questKeys.exclusiveTo] = {13192,13193,13194,13199,13200,13201,13202},
+        },
+        [13192] = {
+            [questKeys.exclusiveTo] = {13191,13193,13194,13199,13200,13201,13202},
         },
         [13193] = {
-            [questKeys.exclusiveTo] = {13191,13194,},
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {13191,13192,13194,13199,13200,13201,13202},
         },
         [13194] = {
-            [questKeys.exclusiveTo] = {13191,13193,},
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {13191,13192,13193,13199,13200,13201,13202},
+        },
+        [13195] = {
+            [questKeys.exclusiveTo] = {236,13153,13154,13156,13196,13197,13198},
+        },
+        [13196] = {
+            [questKeys.exclusiveTo] = {236,13153,13154,13156,13195,13197,13198},
+        },
+        [13197] = {
+            [questKeys.finishedBy] = {{31108}},
+            [questKeys.exclusiveTo] = {236,13153,13154,13156,13195,13196,13198},
+        },
+        [13198] = {
+            [questKeys.exclusiveTo] = {236,13153,13154,13156,13195,13196,13197},
+        },
+        [13199] = {
+            [questKeys.exclusiveTo] = {13191,13192,13193,13194,13200,13201,13202},
+        },
+        [13200] = {
+            [questKeys.finishedBy] = {{31106}},
+            [questKeys.exclusiveTo] = {13191,13192,13193,13194,13199,13201,13202},
+        },
+        [13201] = {
+            [questKeys.exclusiveTo] = {13191,13192,13193,13194,13199,13200,13202},
+        },
+        [13202] = {
+            [questKeys.exclusiveTo] = {13191,13192,13193,13194,13199,13200,13201},
         },
         [13204] = {
             [questKeys.startedBy] = {{30329},nil,{43512}},

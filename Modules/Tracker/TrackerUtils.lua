@@ -314,8 +314,11 @@ end
 ---@param quest table Quest Table
 ---@return string|nil completionText Quest Completion text string or nil
 function TrackerUtils:GetCompletionText(quest)
-    local questIndex = GetQuestLogIndexByID(quest.Id)
-    local completionText = GetQuestLogCompletionText(questIndex)
+    local completionText
+    if GetQuestLogCompletionText then
+        local questIndex = GetQuestLogIndexByID(quest.Id)
+        completionText = GetQuestLogCompletionText(questIndex)
+    end
 
     if completionText then
         return completionText

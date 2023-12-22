@@ -192,17 +192,47 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [78265] = {
             [questKeys.objectivesText] = {"Bring 24 Fish Oil to Grizzby."},
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
         [78266] = {
             [questKeys.objectivesText] = {"Bring 20 Dark Iron Ordinance to Grizzby."},
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
         [78267] = {
             [questKeys.objectivesText] = {"Bring 16 Shredder Turbocharger to Grizzby."},
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
         [78277] = {
             [questKeys.objectivesText] = {"Complete the quest chain starting with Resting in Pieces to receive the Living Bomb rune."},
             [questKeys.requiredSpell] = -415936,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [78287] = {
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+        },
+        [78288] = {
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+        },
+        [78297] = {
+            [questKeys.preQuestSingle] = {78287},
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+        },
+        [78304] = {
+            [questKeys.preQuestSingle] = {78288},
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+        },
+        [78506] = {
+            [questKeys.preQuestSingle] = {78920},
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [78537] = {
+            [questKeys.preQuestSingle] = {78506},
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [78575] = {
+            [questKeys.objectives] = {{212694}},
+            [questKeys.preQuestSingle] = {78537},
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [78611] = {
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
