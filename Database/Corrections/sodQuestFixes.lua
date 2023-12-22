@@ -207,7 +207,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [78192] = {
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
-            [questKeys.objectives] = {{{3732},{3733}}},
+            [questKeys.objectives] = {{{3733},{3732}}},
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
         [78193] = {
