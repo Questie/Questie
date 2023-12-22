@@ -6137,7 +6137,6 @@
         "Database/Wotlk/**",
         "Localization/lookups/**",
         "Localization/Translations/**",
-        "cli.lua",
         ".types/.SubModules/BlizzardInterfaceCode/**",
         ".types/.SubModules/EmmyLua/**",
         ".vscode",
@@ -6156,7 +6155,6 @@
     "search.exclude": {
         ".github/**": true,
         ".vscode/**": true,
-        "cli.lua": true,
         "README.md": true
     },
     "files.exclude": {
