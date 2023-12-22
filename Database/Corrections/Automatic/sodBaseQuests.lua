@@ -421,7 +421,6 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [78297] = {
             [questKeys.name] = "You've Got Yourself A Deal",
-            [questKeys.preQuestSingle] = {{78287}},
             [questKeys.startedBy] = {{8383}},
             [questKeys.finishedBy] = {{211653}},
             [questKeys.requiredLevel] = 20,

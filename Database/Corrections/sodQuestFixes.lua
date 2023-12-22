@@ -204,6 +204,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415936,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [78297] = {
+            [questKeys.preQuestSingle] = {78287},
+        },
         [78611] = {
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
