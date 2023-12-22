@@ -5939,28 +5939,79 @@ function QuestieWotlkQuestFixes:Load()
         [24857] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [24869] = {
-            [questKeys.startedBy] = {{34871}},
-            [questKeys.finishedBy] = {{34871}},
+        [24869] = { -- 10man
+            [questKeys.startedBy] = {{38471}},
+            [questKeys.finishedBy] = {{38471}},
+            [questKeys.exclusiveTo] = {24870,24871,24872,24873,24874},
         },
-        [24872] = {
+        [24870] = { -- 10man
+            [questKeys.startedBy] = {{38491}},
+            [questKeys.finishedBy] = {{38491}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.exclusiveTo] = {24869,24872,24873,24874},
+        },
+        [24871] = { -- 10man
+            [questKeys.startedBy] = {{38492}},
+            [questKeys.finishedBy] = {{38492}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.exclusiveTo] = {24869,24872,24873,24874},
+        },
+        [24872] = { -- 10man
             [questKeys.startedBy] = {{38589}},
             [questKeys.finishedBy] = {{38017}},
+            [questKeys.exclusiveTo] = {24869,24870,24871,24873,24874},
         },
-        [24873] = {
-            [questKeys.triggerEnd] = {"Return with two strains of Blight", {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{54,67.4}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}}},
+        [24873] = { -- 10man
+            [questKeys.startedBy] = {{38501}},
+            [questKeys.finishedBy] = {{38501}},
+            [questKeys.objectives] = {{{38501,"Return with two strains of Blight"}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Rotface after getting hit by Slime Spray"), 0, {{"monster", 36627}}},
-                {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Festergut after getting hit by Gaseous Blight"), 0, {{"monster", 36626}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Get hit by Slime Spray to get the Green Blight strain"), 0, {{"monster", 36627}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Get hit by Gaseous Blight to get the Orange Blight strain"), 0, {{"monster", 36626}}},
             },
+            [questKeys.exclusiveTo] = {24869,24870,24871,24872,24874},
         },
-        [24875] = {
-            [questKeys.startedBy] = {{34871}},
-            [questKeys.finishedBy] = {{34871}},
+        [24874] = { -- 10man
+            [questKeys.startedBy] = {{38551}},
+            [questKeys.finishedBy] = {{38558}},
+            [questKeys.exclusiveTo] = {24869,24870,24871,24872,24873},
         },
-        [24880] = {
+        [24875] = { -- 25man
+            [questKeys.startedBy] = {{38471}},
+            [questKeys.finishedBy] = {{38471}},
+            [questKeys.exclusiveTo] = {24876,24877,24878,24879,24880},
+        },
+        [24876] = { -- 25man
+            [questKeys.startedBy] = {{38492}},
+            [questKeys.finishedBy] = {{38492}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.exclusiveTo] = {24875,24878,24879,24880},
+        },
+        [24877] = { -- 25man
+            [questKeys.startedBy] = {{38491}},
+            [questKeys.finishedBy] = {{38491}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.exclusiveTo] = {24875,24878,24879,24880},
+        },
+        [24878] = { -- 25man
+            [questKeys.startedBy] = {{38501}},
+            [questKeys.finishedBy] = {{38501}},
+            [questKeys.objectives] = {{{38501,"Return with two strains of Blight"}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Get hit by Slime Spray to get the Green Blight strain"), 0, {{"monster", 36627}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Get hit by Gaseous Blight to get the Orange Blight strain"), 0, {{"monster", 36626}}},
+            },
+            [questKeys.exclusiveTo] = {24875,24876,24877,24879,24880},
+        },
+        [24879] = { -- 25man
+            [questKeys.startedBy] = {{38551}},
+            [questKeys.finishedBy] = {{38558}},
+            [questKeys.exclusiveTo] = {24875,24876,24877,24878,24880},
+        },
+        [24880] = { -- 25man
             [questKeys.startedBy] = {{38589}},
             [questKeys.finishedBy] = {{38017}},
+            [questKeys.exclusiveTo] = {24875,24876,24877,24878,24879},
         },
         [24914] = {
             [questKeys.preQuestSingle] = {24549},

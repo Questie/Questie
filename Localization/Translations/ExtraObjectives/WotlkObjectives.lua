@@ -2678,7 +2678,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Defeat Rotface after getting hit by Slime Spray"] = { -- 24873
+    ["Get hit by Slime Spray to get the Green Blight strain"] = { -- 24873
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -2690,7 +2690,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Defeat Festergut after getting hit by Gaseous Blight"] = { -- 24873
+    ["Get hit by Gaseous Blight to get the Orange Blight strain"] = { -- 24873
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
