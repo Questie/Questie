@@ -204,8 +204,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415936,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [78287] = {
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+        },
+        [78288] = {
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+        },
         [78297] = {
             [questKeys.preQuestSingle] = {78287},
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+        },
+        [78304] = {
+            [questKeys.preQuestSingle] = {78288},
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
         [78611] = {
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
