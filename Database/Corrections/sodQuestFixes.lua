@@ -226,7 +226,6 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [78196] = {
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
-            [questKeys.finishedBy] = {{211229}},
             [questKeys.requiredRaces] = raceIDs.TROLL,
         },
         [78197] = {
