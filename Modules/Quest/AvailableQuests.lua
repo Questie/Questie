@@ -99,6 +99,7 @@ local function _CalculateAvailableQuests()
     local showRaidQuests = Questie.db.profile.showRaidQuests
     local showPvPQuests = Questie.db.profile.showPvPQuests
     local showAQWarEffortQuests = Questie.db.profile.showAQWarEffortQuests
+    local showSoDRunes = Questie.db.profile.showSoDRunes
 
     local autoBlacklist = QuestieDB.autoBlacklist
     local hiddenQuests = QuestieCorrections.hiddenQuests
@@ -129,10 +130,20 @@ local function _CalculateAvailableQuests()
             if childQuests then
                 for _, childQuestId in pairs(childQuests) do
                     if (not completedQuests[childQuestId]) and (not currentQuestlog[childQuestId]) then
-                        QuestieDB.activeChildQuests[childQuestId] = true
-                        availableQuests[childQuestId] = true
-                        -- Draw them right away and skip all other irrelevant checks
-                        _DrawAvailableQuest(childQuestId)
+                        local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(childQuestId, "exclusiveTo")
+                        local blockedByExclusiveTo = false
+                        for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
+                            if QuestiePlayer.currentQuestlog[exclusiveToQuestId] or Questie.db.char.complete[exclusiveToQuestId] then
+                                blockedByExclusiveTo = true
+                                break
+                            end
+                        end
+                        if (not blockedByExclusiveTo) then
+                            QuestieDB.activeChildQuests[childQuestId] = true
+                            availableQuests[childQuestId] = true
+                            -- Draw them right away and skip all other irrelevant checks
+                            _DrawAvailableQuest(childQuestId)
+                        end
                     end
                 end
             end
@@ -147,7 +158,8 @@ local function _CalculateAvailableQuests()
             ((not showDungeonQuests) and QuestieDB.IsDungeonQuest(questId)) or    -- Don't show dungeon quests if option is disabled
             ((not showRaidQuests) and QuestieDB.IsRaidQuest(questId)) or          -- Don't show raid quests if option is disabled
             ((not showAQWarEffortQuests) and aqWarEffortQuests[questId]) or       -- Don't show AQ War Effort quests if the option disabled
-            (Questie.IsClassic and currentIsleOfQuelDanasQuests[questId])         -- Don't show Isle quests for Classic
+            (Questie.IsClassic and currentIsleOfQuelDanasQuests[questId]) or      -- Don't show Isle quests for Classic
+            ((not showSoDRunes) and Questie.IsSoD and QuestieDB.IsSoDRuneQuest(questId)) -- Don't show SoD Rune quests with the option disabled
         ) then
             return
         end

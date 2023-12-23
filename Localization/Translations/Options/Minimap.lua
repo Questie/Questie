@@ -28,7 +28,7 @@ local minimapOptionsLocales = {
     },
     ["Minimap Icons Glow"] = {
         ["ptBR"] = "Sempre visível atrás dos ícones do mini-mapa",
-        ["ruRU"] = "Подсветка значков(миникарта)",
+        ["ruRU"] = "Подсветка значков",
         ["deDE"] = "Minimap-Icons immer leuchten lassen",
         ["koKR"] = "미니맵 아이콘 반짝임 사용",
         ["esMX"] = "Mostrar aura detrás de los iconos de minimapa",
@@ -40,7 +40,7 @@ local minimapOptionsLocales = {
     },
     ["Unique Minimap Icon Colors"] = {
             ["ptBR"] = false,
-            ["ruRU"] = "Различные цвета значков(миникарта)",
+            ["ruRU"] = "Различные цвета значков",
             ["deDE"] = "Minimap-Icons für jede Quest unterschiedlich färben",
             ["koKR"] = false,
             ["esMX"] = "Colores únicos del icono del minimapa",
@@ -190,7 +190,7 @@ local minimapOptionsLocales = {
         ["esMX"] = "Coordenadas de minimapa",
         ["enUS"] = true,
         ["zhCN"] = "小地图座标",
-        ["zhTW"] = "小地圖坐標",
+        ["zhTW"] = "顯示小地圖坐標",
         ["esES"] = "Coordenadas de minimapa",
         ["frFR"] = "Coordonnées",
     },

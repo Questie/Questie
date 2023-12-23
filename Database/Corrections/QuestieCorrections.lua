@@ -75,6 +75,7 @@ QuestieCorrections.CLASSIC_ONLY = 2 -- Hide only in Classic
 QuestieCorrections.WOTLK_ONLY = 3 -- Hide only in Wotlk
 QuestieCorrections.TBC_AND_WOTLK = 4 -- Hide in TBC and Wotlk
 QuestieCorrections.SOD_ONLY = 5 -- Hide when *not* Season of Discovery; use for SoD-only quests
+QuestieCorrections.HIDE_SOD = 6 -- Hide when Season of Discovery; use to hide quests that are not available in SoD
 
 QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 
@@ -113,6 +114,12 @@ local function filterExpansion(values)
             end
         elseif v == QuestieCorrections.SOD_ONLY then
             if not isSoD then
+                values[k] = true
+            else
+                values[k] = nil
+            end
+        elseif v == QuestieCorrections.HIDE_SOD then
+            if isSoD then
                 values[k] = true
             else
                 values[k] = nil
@@ -163,14 +170,18 @@ do
         -- WOTLK Corrections
         if (Questie.IsWotlk) then
             addOverride(QuestieDB.npcDataOverrides, QuestieWotlkNpcFixes:LoadFactionFixes())
+            addOverride(QuestieDB.itemDataOverrides, QuestieWotlkItemFixes:LoadFactionFixes())
+            addOverride(QuestieDB.objectDataOverrides, QuestieWotlkObjectFixes:LoadFactionFixes())
         end
 
         -- Season of Discovery Corrections
         if Questie.IsSoD then
+            -- TODO: Why is this needed at all? Something is off. Only faction fixes should be needed!!
             addOverride(QuestieDB.itemDataOverrides, SeasonOfDiscovery:LoadItems())
             addOverride(QuestieDB.npcDataOverrides, SeasonOfDiscovery:LoadNPCs())
             addOverride(QuestieDB.objectDataOverrides, SeasonOfDiscovery:LoadObjects())
             addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadQuests())
+            addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadFactionQuestFixes())
         end
 
         QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
@@ -268,6 +279,17 @@ function QuestieCorrections:Initialize(validationTables)
         _LoadCorrections("npcData", QuestieWotlkNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
         _LoadCorrections("itemData", QuestieWotlkItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
         _LoadCorrections("objectData", QuestieWotlkObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
+    end
+
+    if Questie.IsSoD then
+        _LoadCorrections("questData", SeasonOfDiscovery:LoadBaseQuests(), QuestieDB.questKeysReversed, validationTables)
+        _LoadCorrections("questData", SeasonOfDiscovery:LoadQuests(), QuestieDB.questKeysReversed, validationTables)
+        _LoadCorrections("npcData", SeasonOfDiscovery:LoadBaseNPCs(), QuestieDB.npcKeysReversed, validationTables)
+        _LoadCorrections("npcData", SeasonOfDiscovery:LoadNPCs(), QuestieDB.npcKeysReversed, validationTables)
+        _LoadCorrections("itemData", SeasonOfDiscovery:LoadBaseItems(), QuestieDB.itemKeysReversed, validationTables)
+        _LoadCorrections("itemData", SeasonOfDiscovery:LoadItems(), QuestieDB.itemKeysReversed, validationTables)
+        _LoadCorrections("objectData", SeasonOfDiscovery:LoadBaseObjects(), QuestieDB.objectKeysReversed, validationTables)
+        _LoadCorrections("objectData", SeasonOfDiscovery:LoadObjects(), QuestieDB.objectKeysReversed, validationTables)
     end
 
     --- Corrections that apply to all versions

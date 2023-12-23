@@ -5,21 +5,154 @@ local SeasonOfDiscovery = QuestieLoader:CreateModule("SeasonOfDiscovery")
 -------------------------
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
----@type QuestieProfessions
-local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
----@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
 SeasonOfDiscovery.currentPhase = 1 -- TODO: Use API function which hopefully will come in the future
 
+
+
 local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
-    --[88] = true,
-    --[1234] = true,
-    --[5678] = true,
+    [1470]  = true, -- Warlock Metamorphosis Part 1
+    [4763]  = true, -- Warlock Shadow Bolt Volley Darkshore
+    [76156] = true, -- Shaman Lava Lash Part 1
+    [76160] = true, -- Shaman Lava Lash Part 2
+    [76240] = true, -- Shaman Lava Lash Part 3
+    [77568] = true,
+    [77571] = true,
+    [77585] = true,
+    [77586] = true,
+    [77587] = true,
+    [77617] = true,
+    [77621] = true,
+    [77648] = true,
+    [77649] = true,
+    [77652] = true,
+    [77666] = true,
+    [77672] = true,
+    [77669] = true, -- Horde Undead Rogue Shadowstrike
+    [78089] = true,
+    [78090] = true,
+    [78091] = true,
+    [78092] = true,
+    [78093] = true,
+    [78114] = true, -- Hunter Kill Command Part 1
+    [78121] = true, -- Hunter Kill Command Part 2
+    [78124] = true,
+    [78127] = true,
+    [78142] = true,
+    [78143] = true,
+    [78145] = true,
+    [78146] = true,
+    [78147] = true,
+    [78148] = true,
+    [78149] = true,
+    [78265] = true,
+    [78266] = true,
+    [78267] = true,
+    [78277] = true,
+    [78506] = true, -- Shaman Earth Shield Part 1
+    [78537] = true, -- Shaman Earth Shield Part 2
+    [78575] = true, -- Shaman Earth Shield Part 3
+    [78680] = true, -- Warlock Metamorphosis Part 2
+    [78681] = true, -- Warlock Metamorphosis Part 3
+    [78684] = true, -- Warlock Metamorphosis Part 4
+    [78702] = true, -- Warlock Metamorphosis Part 5
+    [79091] = true,
+    [79092] = true,
+    [79093] = true,
+    [79094] = true,
+    [79095] = true,
+    [79096] = true,
+    [79097] = true,
+
+    -- fake IDs
+    --- Mage runes
+    [90000] = true,
+    [90001] = true,
+    [90002] = true,
+    [90003] = true,
+    [90004] = true,
+    [90005] = true,
+    [90006] = true,
+    [90007] = true,
+    [90008] = true,
+    [90009] = true,
+    [90010] = true,
+    [90011] = true,
+    [90012] = true,
+    [90013] = true,
+    [90014] = true,
+    [90015] = true,
+    [90016] = true,
+    [90017] = true,
+    [90018] = true,
+    [90019] = true,
+    [90020] = true,
+    [90021] = true,
+    --- Mage runes end
+    [90022] = true, -- Paladin Divine Storm
+    [90023] = true, -- Druid Wild Strikes
+    [90024] = true, -- Druid Survival of the Fittest
+    [90025] = true, -- Priest Serendipity
+    [90026] = true, -- Paladin Divine Sacrifice
+    [90027] = true, -- Hunter Lone Wolf
+    [90028] = true, -- Warrior Warbringer
+    [90029] = true, -- Warlock Demonic Pact
+    [90030] = true, -- Rogue Main Gauche
+    [90031] = true, -- Shaman Dual Wield Specialization
+    [90032] = true, -- Warlock Lake of Fire Start
+    [90033] = true, -- Warlock Lake of Fire End
+    [90034] = true, -- Warlock Master Channeler Alliance
+    [90035] = true, -- Warlock Master Channeler Alliance
+    [90036] = true, -- Warlock Master Channeler Westfall
+    [90037] = true, -- Warlock Master Channeler Horde
+    [90038] = true, -- Warlock Master Channeler Horde
+    [90039] = true, -- Warlock Chaos Bolt Dun Morogh
+    [90040] = true, -- Paladin Beacon of Light Alliance
+    [90041] = true, -- Shaman Healing Rain Horde
+    [90042] = true, -- Warlock Everlasting Affliction Alliance
+    [90043] = true, -- Warlock Everlasting Affliction Horde
+    [90044] = true, -- Hunter Serpent Spread Alliance
+    [90045] = true, -- Hunter Serpent Spread Horde
+    [90046] = true, -- Warrior Single-Minded Fury Alliance
+    [90047] = true, -- Warrior Single-Minded Fury Horde
+    [90048] = true, -- Druid Skull Bash Alliance
+    [90049] = true, -- Druid Skull Bash Horde
+    [90050] = true, -- Rogue Just a Flesh Wound Alliance
+    [90051] = true, -- Rogue Just a Flesh Wound Horde
+    [90052] = true, -- Priest Mind Sear Alliance
+    [90053] = true, -- Priest Mind Sear Horde
+    [90054] = true, -- Druid Living Seed Alliance
+    [90055] = true, -- Druid Living Seed Horde
+    [90056] = true, -- Druid Starsurge
+    [90057] = true, -- Druid Sunfire
+    [90058] = true, -- Druid Lifebloom
+    [90059] = true, -- Priest Prayer of Mending
+    [90060] = true, -- Shaman Ancestral Guidance
+    [90061] = true, -- Warlock Chaos Bolt Elwynn Forest
+    [90062] = true, -- Warlock Chaos Bolt The Barrens
+    [90063] = true, -- Warlock Chaos Bolt Tirisfal Glades
+    [90064] = true, -- Warlock Shadow Bolt Volley Loch Modan
+    [90065] = true, -- Warlock Shadow Bolt Volley Westfall start
+    [90066] = true, -- Warlock Shadow Bolt Volley Westfall end
+    [90067] = true, -- Warlock Shadow Bolt Volley The Barrens start
+    [90068] = true, -- Warlock Shadow Bolt Volley The Barrens end
+    [90069] = true, -- Warlock Shadow Bolt Volley Silverpine Forest
+    [90070] = true, -- Warlock Incinerate
+    [90071] = true, -- Warlock Demonic Tactics Alliance
+    [90072] = true, -- Warlock Demonic Tactics Horde
+    [90073] = true, -- Warlock Soul Siphon Dun Morogh
+    [90074] = true, -- Warlock Soul Siphon Elwynn Forest
+    [90075] = true, -- Warlock Soul Siphon Durotar
+    [90076] = true, -- Warlock Soul Siphon Tirisfal Galdes
+    [90077] = true, -- Warlock Demonic Grace Dun Morogh
+    [90078] = true, -- Warlock Demonic Grace Elwynn Forest
+    [90079] = true, -- Warlock Demonic Grace Durotar
+    [90080] = true, -- Warlock Demonic Grace Tirisfal Galdes
+    [90081] = true, -- Hunter Aspect of the Lion
+    [90082] = true, -- Hunter Master Marksman
+    [90083] = true, -- Hunter Cobra Strikes
 }
 
 ---@param questId number
@@ -28,102 +161,55 @@ function QuestieDB.IsSoDRuneQuest(questId)
     return runeQuestsInSoD[questId]
 end
 
--- New Season of Discovery quests and corrections
-function SeasonOfDiscovery:LoadQuests()
-    local questKeys = QuestieDB.questKeys
-    local zoneIDs = ZoneDB.zoneIDs
-    local raceIDs = QuestieDB.raceKeys
-    local classIDs = QuestieDB.classKeys
-    local sortKeys = QuestieDB.sortKeys
-    local profKeys = QuestieProfessions.professionKeys
-    local specKeys = QuestieProfessions.specializationKeys
-
-    return {
-        -- Example from corrections
-        -- [65610] = {
-        --     [questKeys.name] = "Wish You Were Here",
-        --     [questKeys.startedBy] = { { 3363 }, nil, nil },
-        --     [questKeys.finishedBy] = { { 5875 }, nil },
-        --     [questKeys.requiredLevel] = 20,
-        --     [questKeys.questLevel] = -1,
-        --     [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-        --     [questKeys.requiredClasses] = classIDs.WARLOCK,
-        --     [questKeys.objectivesText] = { "Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar." },
-        --     [questKeys.preQuestSingle] = { 65601 },
-        --     [questKeys.objectives] = { nil, nil, { { 190232 } }, nil, nil },
-        --     [questKeys.exclusiveTo] = { 65593 },
-        --     [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-        -- },
-
-        --[88] = {
-        --    [questKeys.name] = "this is a test"
-        --}
-    }
-end
-
--- New Season of Discovery NPCs and corrections
-function SeasonOfDiscovery:LoadNPCs()
-    local npcKeys = QuestieDB.npcKeys
-    local zoneIDs = ZoneDB.zoneIDs
-    local npcFlags = QuestieDB.npcFlags
-    local waypointPresets = QuestieDB.waypointPresets
-
-    return {
-        -- Example from corrections
-        -- [185333] = {
-        --     [npcKeys.name] = "Avelina Lilly",
-        --     [npcKeys.minLevel] = 22,
-        --     [npcKeys.maxLevel] = 22,
-        --     [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
-        --     [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{63.5,65.3}}},
-        -- },
-    }
-end
-
--- New Season of Discovery items and corrections
-function SeasonOfDiscovery:LoadItems()
-    local itemKeys = QuestieDB.itemKeys
-    local itemClasses = QuestieDB.itemClasses
-
-    return {
-        -- Example from corrections
-        -- [3713] = {
-        --     [itemKeys.name] = "Soothing Spices",
-        --     [itemKeys.relatedQuests] = {555,1218},
-        --     [itemKeys.npcDrops] = {2381,4897},
-        --     [itemKeys.objectDrops] = {},
-        -- },
-    }
-end
-
--- New Season of Discovery objects and corrections
-function SeasonOfDiscovery:LoadObjects()
-    local objectKeys = QuestieDB.objectKeys
-    local zoneIDs = ZoneDB.zoneIDs
-
-    return {
-        -- Example from corrections
-        -- [500005] = {
-        --     [objectKeys.name] = "Ironforge City Fishing Location",
-        --     [objectKeys.questStarts] = {},
-        --     [objectKeys.questEnds] = {},
-        --     [objectKeys.spawns] = {[zoneIDs.IRONFORGE]={{46.9,14.5}}},
-        --     [objectKeys.zoneID] = zoneIDs.IRONFORGE
-        -- },
-    }
-end
-
 -- This function blacklists any quests in phases LATER than the currentPhase value
 -- so in Phase 1, quests in phases 2+ are blacklisted, in phase 2, phases 3+ are blacklisted, etc
 -- Phase 1 is omitted, because everything not in this list is supposed to be available in Phase 1
 local questsToBlacklistBySoDPhase = {
     [1] = { -- SoD Phase 1 - level cap 25 (this is required for counting, but should stay empty)
+        [90008] = true, -- Hiding Regeneration for now as there are too many icons
+        [90009] = true, -- Hiding Regeneration for now as there are too many icons
+        [90010] = true, -- Hiding Enlightenment for now as there are too many icons
+        [90011] = true, -- Hiding Enlightenment for now as there are too many icons
+        [90015] = true, -- Hiding Living Flame for now as there are too many icons
+        [90016] = true, -- Hiding Living Flame for now as there are too many icons
+        [90017] = true, -- Hiding Living Flame for now as there are too many icons
+        [90018] = true, -- Hiding Living Flame for now as there are too many icons
+        [90020] = true, -- Hiding Living Bomb for now as there are too many icons
+        [90021] = true, -- Hiding Living Bomb for now as there are too many icons
+        [90036] = true, -- Hiding Warlock Master Channeler Westfall for now as there are too many icons
+        [90077] = true, -- Hiding Warlock Demonic Grace Dun Morogh for now as there are too many icons
+        [90078] = true, -- Hiding Warlock Demonic Grace Elwynn Forest for now as there are too many icons
+        [90079] = true, -- Hiding Warlock Demonic Grace Durotar for now as there are too many icons
+        [90080] = true, -- Hiding Warlock Demonic Grace Tirisfal Galdes for now as there are too many icons
+
     },
     [2] = { -- SoD Phase 2 - level cap 40
+        [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
+        [8370] = true, -- Conquering Arathi Basin
+        [8374] = true, -- Conquering Arathi Basin
+        [8171] = true, -- The Battle for Arathi Basin!
+        [8168] = true, -- The Battle for Arathi Basin!
     },
     [3] = { -- SoD Phase 3 - level cap 50
     },
     [4] = { -- SoD Phase 4 - level cap 60
+        -- These might not be re-added at level 60
+        [6963] = true, -- Old "Stolen Winter Veil Treats" quest
+        [6983] = true, -- Old "You're a Mean One..." quest
+        [6984] = true, -- Old "A Smokywood Pastures Thank You!" quest
+        [7042] = true, -- Old "Stolen Winter Veil Treats" quest
+        [7043] = true, -- Old "You're a Mean One..." quest
+        [7045] = true, -- Old "A Smokywood Pastures Thank You!" quest
+        [7881] = true, -- Old "Carnival Boots"
+        [7882] = true, -- Old "Carnival Jerkins"
+        [7889] = true, -- Old "Coarse Weightstone"
+        [7890] = true, -- Old "Heavy Grinding Stone"
+        [7894] = true, -- Old "Copper Modulator"
+        [7895] = true, -- Old "Whirring Bronze Gizmo"
+        [7899] = true, -- Old "Small Furry Paws"
+        [7900] = true, -- Old "Torn Bear Pelts"
+        [8746] = true, -- Old "Metzen the Reindeer" quest
+        [8762] = true, -- Old "Metzen the Reindeer" quest
     },
     [5] = { -- SoD Phase 5
     },
@@ -196,8 +282,6 @@ local questsToBlacklistBySoDPhase = {
         -----------------
     },
     [14] = { -- Era Phase 4 - Zul'Gurub
-        [456] = true,
-        [636] = true,
         [8411] = true,
         [8056] = true,
         [8057] = true,
@@ -663,9 +747,6 @@ local questsToBlacklistBySoDPhase = {
     [1200] = true,
     [1275] = true,
     [6561] = true,
-    [6562] = true,
-    [6563] = true,
-    [6564] = true,
     [6565] = true,
     [6921] = true,
     [6922] = true,
@@ -713,8 +794,29 @@ local questsToBlacklistBySoDPhase = {
 
 ---@return table<number, table<number, boolean>> @All quests that should be blacklisted separated by phase
 function QuestieQuestBlacklist:GetSoDQuestsToBlacklist()
-    for phase = 1, SeasonOfDiscovery.currentPhase do
-        questsToBlacklistBySoDPhase[phase] = {} -- empty table instead of nil to keep table size
+    -- "automatic" phase detection for the first few phases;
+    -- gets called slightly later into init because if GetMaxPlayerLevel() is called too
+    -- early after initial login (not reloads), the game returns 60 even in early phases
+    local maxLevel = GetMaxPlayerLevel()
+    local phaseChanged = true
+    if maxLevel == 25 then
+        SeasonOfDiscovery.currentPhase = 1
+    elseif maxLevel == 40 then
+        SeasonOfDiscovery.currentPhase = 2
+    elseif maxLevel == 50 then
+        SeasonOfDiscovery.currentPhase = 3
+    elseif maxLevel == 60 and SeasonOfDiscovery.currentPhase < 4 then
+        SeasonOfDiscovery.currentPhase = 4
+    else
+        phaseChanged = false
+        Questie:Debug(Questie.DEBUG_INFO, "[SeasonOfDiscovery] Automatic phase detection failed, phase remains as " .. tostring(SeasonOfDiscovery.currentPhase))
+    end
+    if phaseChanged == true then Questie:Debug(Questie.DEBUG_INFO, "[SeasonOfDiscovery] Phase automatically detected as " .. tostring(SeasonOfDiscovery.currentPhase)) end
+    -- Even if the first phase technically has no quests to blacklist, we use this be able to temporarily blacklist quests in P1
+    if SeasonOfDiscovery.currentPhase > 1 then
+        for phase = 1, SeasonOfDiscovery.currentPhase do
+            questsToBlacklistBySoDPhase[phase] = {} -- empty table instead of nil to keep table size
+        end
     end
     return questsToBlacklistBySoDPhase
 end

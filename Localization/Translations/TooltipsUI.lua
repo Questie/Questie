@@ -103,11 +103,11 @@ local tooltipsUILocales = {
         ["ruRU"] = "Начинает",
         ["deDE"] = "Gestarted von",
         ["koKR"] = "시작",
-        ["esMX"] = "Empezada por",
+        ["esMX"] = "Iniciado por",
         ["enUS"] = true,
         ["zhCN"] = "任务开始于",
         ["zhTW"] = "任務開始於",
-        ["esES"] = "Empezada por",
+        ["esES"] = "Iniciado por",
         ["frFR"] = "Début",
     },
     ["Ended by"] = {
@@ -127,11 +127,11 @@ local tooltipsUILocales = {
         ["ruRU"] = "Выполнено:",
         ["deDE"] = "Abgeschlossen am",
         ["koKR"] = "완료",
-        ["esMX"] = "Terminada el:",
+        ["esMX"] = "Completada el:",
         ["enUS"] = true,
         ["zhCN"] = "完成于:",
         ["zhTW"] = "已完成:",
-        ["esES"] = "Terminada el:",
+        ["esES"] = "Completada el:",
         ["frFR"] = "Complété le:",
     }
 }

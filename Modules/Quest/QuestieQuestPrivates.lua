@@ -53,7 +53,7 @@ end
 ---@class SpawnListEvent : SpawnListBase
 ---@field Id number The ID of the Event (Is this even used?)
 
-local killcredit, monster, object, event, item
+local killcredit, monster, object, event, item, spell
 
 ---@type table<"killcredit"|"monster"|"object"|"event"|"item", function>
 _QuestieQuest.objectiveSpawnListCallTable = {}
@@ -270,8 +270,28 @@ item = function(itemId, objective)
     return ret
 end
 
+---comment
+---@param spellId number
+---@param objective any
+---@return table<ItemId, SpawnListItem>?
+spell = function(spellId, objective, objectiveData)
+    if (not spellId) then
+        Questie:Error(
+            "Corrupted objective data handed to objectiveSpawnListCallTable['spell']:",
+            "'" .. objective.Description .. "' -",
+            "Please report this error on Discord or GitHub."
+        )
+        return nil
+    end
+
+    local itemSource = objectiveData.ItemSourceId
+
+    return item(itemSource, objective)
+end
+
 _QuestieQuest.objectiveSpawnListCallTable["killcredit"] = killcredit
 _QuestieQuest.objectiveSpawnListCallTable["monster"] = monster
 _QuestieQuest.objectiveSpawnListCallTable["object"] = object
 _QuestieQuest.objectiveSpawnListCallTable["event"] = event
 _QuestieQuest.objectiveSpawnListCallTable["item"] = item
+_QuestieQuest.objectiveSpawnListCallTable["spell"] = spell

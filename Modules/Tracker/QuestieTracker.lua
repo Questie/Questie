@@ -75,9 +75,12 @@ local trackerBaseFrame, trackerHeaderFrame, trackerQuestFrame
 local QuestLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
 
 function QuestieTracker.Initialize()
-    if QuestieTracker.started or (not Questie.db.profile.trackerEnabled) then
+    if QuestieTracker.started then
+        -- The Tracker was already initialized, so we don't need to do it again.
         return
     end
+
+    -- These values might also be accessed by other modules, so we need to make sure they exist. Even when the Tracker is disabled
     if (not Questie.db.char.TrackerHiddenQuests) then
         Questie.db.char.TrackerHiddenQuests = {}
     end
@@ -110,6 +113,11 @@ function QuestieTracker.Initialize()
     end
     if (not Questie.db.profile.trackerSetpoint) then
         Questie.db.profile.trackerSetpoint = "TOPLEFT"
+    end
+
+    if (not Questie.db.profile.trackerEnabled) then
+        -- The Tracker is disabled, no need to continue
+        return
     end
 
     -- Initialize tracker frames
@@ -420,7 +428,7 @@ end
 -- Quest Item Button can be switched on and appear in the tracker.
 ---@param text string
 function QuestieTracker:QuestItemLooted(text)
-    local playerLoot = strmatch(text, "You receive ")
+    local playerLoot = strmatch(text, "You receive ") or strmatch(text, "You create")
     local itemId = tonumber(string.match(text, "item:(%d+)"))
 
     if playerLoot and itemId then

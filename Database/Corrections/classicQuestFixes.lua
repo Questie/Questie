@@ -924,6 +924,9 @@ function QuestieQuestFixes:Load()
         [1599] = {
             [questKeys.exclusiveTo] = {1598}, -- #999
         },
+        [1618] = {
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING, 60},
+        },
         [1638] = {
             [questKeys.exclusiveTo] = {1666,1678,1680,1683,1686},
         },
@@ -1959,7 +1962,7 @@ function QuestieQuestFixes:Load()
         },
         [5678] = {
             [questKeys.name] = "Arcane Feedback",
-            [questKeys.startedBy] = {{376,5489,11406},nil,nil},
+            [questKeys.startedBy] = {{11401},nil,nil},
             [questKeys.finishedBy] = {{376},nil},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = 20,
@@ -2356,12 +2359,18 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {7021,7024},
             [questKeys.nextQuestInChain] = 6962,
         },
+        [6962] = {
+            [questKeys.objectivesText] = {"Bring 5 Gingerbread Cookies and an Ice Cold Milk to Greatfather Winter in Orgrimmar."},
+        },
         [6981] = {
             [questKeys.startedBy] = {{3654},nil,{10441}},
             [questKeys.objectives] = {{{3442,"Speak with someone in Ratchet about the Glowing Shard"}},nil,nil,nil},
         },
         [6982] = {
             [questKeys.questLevel] = 55,
+        },
+        [6984] = {
+            [questKeys.name] = "A Smokywood Pastures' Thank You!",
         },
         [6985] = {
             [questKeys.questLevel] = 55,
@@ -2397,6 +2406,15 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Ram Collared and Returned", {
                 [zoneIDs.ALTERAC_MOUNTAINS]={{34.58,74.94}}},
             },
+        },
+        [7042] = {
+            [questKeys.finishedBy] = {{13636}},
+        },
+        [7043] = {
+            [questKeys.objectivesText] = {"Locate and return the Stolen Treats to Wulmort Jinglepocket in Ironforge. It was last thought to be in the possession of the Abominable Greench, found somewhere in the snowy regions of the Alterac Mountains."},
+        },
+        [7045] = {
+            [questKeys.name] = "A Smokywood Pastures' Thank You!",
         },
         [7046] = {
             [questKeys.triggerEnd] = {"Create the Scepter of Celebras", {[zoneIDs.DESOLACE]={{35.97,64.41}}}},
@@ -2653,9 +2671,15 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{14733},nil,nil},
             [questKeys.finishedBy] = {{14733},nil},
         },
+        [7905] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [7921] = { -- #1435
             [questKeys.startedBy] = {{14733},nil,nil},
             [questKeys.finishedBy] = {{14733},nil},
+        },
+        [7926] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [7937] = {
             [questKeys.specialFlags] = 1,
@@ -3209,6 +3233,9 @@ function QuestieQuestFixes:Load()
         [8737] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Templar using a full Twilight set."),0,{{"object", 180456},{"object", 180518},{"object", 180529},{"object", 180544},{"object", 180549},{"object", 180564},}}},
         },
+        [8746] = {
+            [questKeys.requiredSourceItems] = {21314},
+        },
         [8747] = {
             [questKeys.exclusiveTo] = {8752,8753,8754,8755,8756,8757,8758,8759,8760,8761}, --protector neutral
         },
@@ -3253,6 +3280,9 @@ function QuestieQuestFixes:Load()
         },
         [8761] = {
             [questKeys.exclusiveTo] = {8747,8748,8749,8750,8751,8752,8753,8754,8755,8756}, --invoker exalted
+        },
+        [8762] = {
+            [questKeys.requiredSourceItems] = {21314},
         },
         [8767] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3859,7 +3889,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Retrieve the Wooden Figurine and bring it to Gakin the Darkbinder in the Mage Quarter of Stormwind."},
             [questKeys.objectives] = {nil,nil,{{190309}},nil,nil},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{26.7,22.5}}}, Questie.ICON_TYPE_EVENT, l10n("Light the Unlit Torch near a fire and use the Burning Torch to set the Archaeoligst's Cart on fire."),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{26.7,22.5}}}, Questie.ICON_TYPE_EVENT, l10n("Light the Unlit Torch near a fire and use the Burning Torch to set the Archaeologist's Cart on fire."),}},
         },
         [65603] = {
             [questKeys.name] = "The Binding",
