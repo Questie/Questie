@@ -452,7 +452,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78196] = {
             [questKeys.name] = "Secrets of Undeath",
             [questKeys.startedBy] = {{211229}},
-            [questKeys.finishedBy] = nil,
+            [questKeys.finishedBy] = {{211229,}},
             [questKeys.requiredLevel] = 18,
             [questKeys.questLevel] = 22,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
