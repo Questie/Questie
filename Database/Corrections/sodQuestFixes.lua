@@ -282,6 +282,7 @@ function SeasonOfDiscovery:LoadQuests()
         [78909] = {
             [questKeys.requiredSourceItems] = {211419},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+            [questKeys.questFlags] = questFlags.RAID,
         },
         [78916] = { -- The Heart of the Void
             [questKeys.startedBy] = {nil, nil, {209693}},
