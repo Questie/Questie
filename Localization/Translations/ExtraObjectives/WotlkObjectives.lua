@@ -134,7 +134,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "使用幻境药水",
     },
-    ["Get in Brann Bronzebeard Flying Machine"] = { -- 12973
+    ["Get in Brann's Flying Machine"] = { -- 12973
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Spring in Brann Bronzebarts Flugmaschine",

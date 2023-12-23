@@ -1238,10 +1238,14 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [30082] = {
-            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{38.2,61.6},},},
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{38.2,61.6}}},
         },
         [30120] = {
-            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{76.8,63},{77,62.2},{77.6,62.6},}},
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{76.8,63},{77,62.2},{77.6,62.6}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [30134] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{39.62,56.45}}},
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [30137] = {
@@ -1352,7 +1356,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [30382] = {
-            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{39.4,56.4},},},
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{39.56,56.35},},},
         },
         [30390] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{71.37,48.79}}},
@@ -1360,6 +1364,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [30399] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{35.93,31.51}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [30405] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{30.12,73.87}}},
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [30414] = {
