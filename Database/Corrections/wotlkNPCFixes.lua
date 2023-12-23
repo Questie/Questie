@@ -1113,11 +1113,23 @@ function QuestieWotlkNpcFixes:Load()
         [29573] = {
             [npcKeys.spawns] = {[zoneIDs.GUNDRAK_UPPER_LEVEL]={{46.5,65.3}},[4416]={{-1,-1}}},
         },
+        [29579] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{30.1,73.9}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
         [29595] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{63.24,62.52},{61.48,61.4},{63.0,60.41},{63.84,58.29},{62.76,60.93},{65.35,62.54},{59.82,60.46},{61.29,59.34},{57.85,61.98},{59.23,59.01},{58.58,60.81},},},
         },
         [29597] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{60.55,60.22},{57.78,62.32},{60.8,58.67},{60.74,61.13},{59.01,61.85},{59.66,60.87},{58.57,62.99},{59.88,59.07},{58.15,63.85},{58.58,59.45},{56.69,64.95},{56.85,63.18},},},
+        },
+        [29650] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{29.61,74.07}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [29677] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{36.4,64.2}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [29762] = { --"Hyeyoung Parka", "Wind Rider Master"
             [npcKeys.friendlyToFaction] = "H",
@@ -1133,12 +1145,22 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{64.4,55.6},{61.2,46.8},{58.8,41},{57.6,37.4},{55.8,37.8},{56.6,43.4},{58.6,47.2},{61.2,53.6},{62.8,57.4},{64.4,55.6}}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [29806] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{37.76,46.54}}},
+        },
+        [29811] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{37.68,66.75},{38.49,77.19},{31.65,64.53},{34.56,64.64},{36.43,77.3},{38.26,73.22}}},
+        },
         [29821] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{32.50,63.37},},},
         },
         [29840] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{42.56,20.81},},},
             [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{42.56,20.81},{42.80,20.02},{43.36,19.23},{44.32,18.80},{45.28,19.23},{45.84,20.02},{46.08,20.81},{46.15,21.54},{46.08,22.27},{45.84,23.06},{45.28,23.85},{44.32,24.28},{43.36,23.85},{42.80,23.06}}}},
+        },
+        [29854] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{33.39,73.52},{33.21,73.63},{32.73,73.86},{32.39,73.84},{32.41,74.32},{32.63,74.87},{33.55,74.88},{33.77,74.42},{33.9,73.64},{32.66,71.97},{33.81,72.63}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [29872] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{28.38,44.85},},},
@@ -1211,9 +1233,6 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.85,56.82}}},
             [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
         },
-        [30222] = {
-            [npcKeys.spawns] = {},
-        },
         [30053] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{41.8,65.8},{42,63.4},{42,65},{42.4,63.8},{42.4,66.8},{42.6,63.8},{42.6,66.4},{42.8,65},{43,67.4},{43.2,67.6},{43.6,67.6},{43.8,67},{44,66.4}}},
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
@@ -1240,6 +1259,9 @@ function QuestieWotlkNpcFixes:Load()
         [30210] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{64.21,59.21},},},
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [30222] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{56.91,65.11},{56.72,63.79},{57.48,63.05},{57.85,65.01}}},
         },
         [30236] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{85.2,75.8},{85.8,76.6},{85.8,78},{86,74.8},},},
@@ -1272,8 +1294,11 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [30300] = {
-            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{26.4,36.6},{26.6,41},{27.2,36.8},{27.2,43},{27.4,42},{27.4,44.4},{27.4,44.6},{27.4,45.6},{27.6,44.4},{27.6,45.4},{27.8,42.4},{27.8,42.8},{27.8,46.4},{28,47.2},{28.2,47.6},{28.4,48.6},{28.6,47.2},{28.6,48.4},{28.6,48.8},{29.6,48.4}}},
-            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+            [npcKeys.minLevel] = 80,
+            [npcKeys.maxLevel] = 80,
+            [npcKeys.minLevelHealth] = 315000,
+            [npcKeys.maxLevelHealth] = 315000,
+            [npcKeys.waypoints] = {[zoneIDs.STORM_PEAKS]={{{28.84,47.95},{28.62,47.50},{28.35,46.90},{28.13,46.25},{27.91,45.61},{27.69,44.95},{27.50,44.29},{27.35,43.60},{27.20,42.90},{27.16,42.75}}}},
         },
         [30301] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{26.2,35.8},{27.2,35.8}}},
@@ -1299,6 +1324,15 @@ function QuestieWotlkNpcFixes:Load()
         [30329] = {
             [npcKeys.spawns] = {[zoneIDs.AHNKAHET_MAP]={{65.9,60.7},{65.9,65.7},{69,71.6},{70.9,75.3},{61.4,72.9},{59.2,80.3}},[4494]={{-1,-1}}},
         },
+        [30340] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{54.74,60.65}}},
+        },
+        [30341] = {
+            [npcKeys.minLevel] = 80,
+            [npcKeys.maxLevel] = 80,
+            [npcKeys.minLevelHealth] = 50400,
+            [npcKeys.maxLevelHealth] = 50400,
+        },
         [30344] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.4,55.6}}},
             [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{64.4,55.6},{61.2,46.8},{58.8,41},{57.6,37.4},{55.8,37.8},{56.6,43.4},{58.6,47.2},{61.2,53.6},{62.8,57.4},{64.4,55.6}}}},
@@ -1322,6 +1356,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [30390] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{71.37,48.79}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [30399] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{35.93,31.51}}},
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [30414] = {

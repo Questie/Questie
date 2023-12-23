@@ -2435,8 +2435,10 @@ function QuestieWotlkQuestFixes:Load()
         [12821] = {
             [questKeys.name] = "Cell Block Tango",
             [questKeys.triggerEnd] = {"Garm Teleporter Activated",{[zoneIDs.STORM_PEAKS]={{50.7,81.9,},},},},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Activate the teleporter"), 0, {{"object", 191574}}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12820,12828,12832},
+            [questKeys.sourceItemId] = 40731,
         },
         [12823] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place Hardpacked Explosive Bundle at Frostgut's Altar"), 0, {{"object", 191842}}}},
@@ -2452,6 +2454,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12832] = {
             [questKeys.triggerEnd] = {"Escort the Injured Goblin Miner to K3.",{[zoneIDs.STORM_PEAKS]={{40.2,79,},},},},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the escort"), 0, {{"monster", 29434}}}},
         },
         [12838] = {
             [questKeys.preQuestSingle] = {12807},
@@ -2470,10 +2473,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{29621,}}},
         },
         [12855] = {
+            [questKeys.requiredSourceItems] = {40971,41430},
             [questKeys.preQuestSingle] = {12854},
-            [questKeys.extraObjectives] = {
-                {{[zoneIDs.STORM_PEAKS]={{36.4,64.2}}}, Questie.ICON_TYPE_EVENT, l10n("Use Frosthound's Collar at the Abandoned Camp"),},
-            },
+            [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS]={{36.4,64.2}}}, Questie.ICON_TYPE_EVENT, l10n("Use Frosthound's Collar at the Abandoned Camp")}},
         },
         [12856] = {
             [questKeys.objectives] = {{{29639,"Rescued Brunnhildar Prisoners"},{29708,"Freed Proto-Drakes"}}},
@@ -2481,18 +2483,33 @@ function QuestieWotlkQuestFixes:Load()
                 {{[zoneIDs.STORM_PEAKS]={{62.00,59.50}}}, Questie.ICON_TYPE_EVENT, l10n("Fly freed Proto-Drakes to safety while carrying rescued Brunnhildar Prisoners"),},
             },
         },
+        [12858] = {
+            [questKeys.sourceItemId] = 40971,
+            [questKeys.requiredSourceItems] = {40971,41130},
+        },
+        [12860] = {
+            [questKeys.requiredSourceItems] = {40971,41179},
+            [questKeys.objectives] = {{{29746,"Hidden Data gathered"}}},
+        },
         [12862] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Ricket for transportation"), 0, {{"monster", 29428}}}},
         },
         [12864] = {
-            [questKeys.triggerEnd] = {"Locate Missing Scout",{[zoneIDs.STORM_PEAKS]={{37.68,66.75},{38.49,77.19},{31.65,64.53},{34.56,64.64},{36.43,77.3},},},},
+            [questKeys.objectives] = {{{29811,"Locate Missing Scout"}}},
         },
         [12865] = {
-            [questKeys.objectives] = {{{30013,"Stormcrest Eagles fed"}}},
+            [questKeys.objectives] = {{{29854,"Stormcrest Eagles fed"}}},
             [questKeys.preQuestSingle] = {12863},
         },
         [12869] = {
-            [questKeys.preQuestSingle] = {12867,13417},
+            [questKeys.preQuestGroup] = {12867,13417},
+        },
+        [12871] = {
+            [questKeys.requiredSourceItems] = {40971,41258},
+            [questKeys.preQuestSingle] = {12872},
+        },
+        [12872] = {
+            [questKeys.requiredSourceItems] = {40971,44704},
         },
         [12874] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Fjorlin Frostbrow"), 0, {{"monster", 29732}}}},
@@ -2501,6 +2518,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12874},
         },
         [12885] = {
+            [questKeys.preQuestSingle] = {12872},
             [questKeys.nextQuestInChain] = 12930,
         },
         [12886] = {
@@ -2548,9 +2566,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12917},
         },
         [12924] = {
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Speak to King Jokkum about Thorim's armor"), 0, {{"monster", 30105}}},
-            },
+            [questKeys.objectives] = {{{30099,"Fjorn's Anvil Brought to Dun Niffelem"}}},
         },
         [12925] = {
             [questKeys.preQuestSingle] = {12905},
@@ -2699,6 +2715,9 @@ function QuestieWotlkQuestFixes:Load()
         [12996] = {
             [questKeys.objectives] = {{{29352,"Kirgaraak Defeated"}}},
         },
+        [12998] = {
+            [questKeys.objectives] = {nil,{{192181,"Attempt to secure the Heart of the Storm"}}},
+        },
         [13001] = {
             [questKeys.name] = "Forging Hodir's Spear",
             [questKeys.requiredMinRep] = {1119,9000},
@@ -2729,9 +2748,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13011] = {
             [questKeys.name] = "Culling Jorcuttar",
+            [questKeys.objectivesText] = {"King Jokkum in Dun Niffelem wants you to slay Jorcuttar in Hibernal Cavern."},
             [questKeys.requiredMinRep] = {1119,3000},
             [questKeys.requiredSourceItems] = {42733},
-            [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS]={{53.1,61.2}}}, Questie.ICON_TYPE_EVENT, l10n("Place Icemaw Bear Flank"), 0}}
+            [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS]={{54.71,60.79}}}, Questie.ICON_TYPE_EVENT, l10n("Place Icemaw Bear Flank"), 0}}
         },
         [13012] = {
             [questKeys.startedBy] = {{30348}},
@@ -2866,7 +2886,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13047] = {
             [questKeys.preQuestGroup] = {13035,13005},
-            [questKeys.triggerEnd] = {"Witness the Reckoning",{[zoneIDs.STORM_PEAKS]={{36,31.4,},},},},
+            [questKeys.objectives] = {{{30399,"Witness the Reckoning"}}},
         },
         [13048] = {
             [questKeys.objectives] = {{{80000}}},
@@ -3707,6 +3727,9 @@ function QuestieWotlkQuestFixes:Load()
         [13411] = {
             [questKeys.preQuestSingle] = {10124},
         },
+        [13415] = {
+            [questKeys.requiredSourceItems] = {41197,40971},
+        },
         [13420] = {
             [questKeys.startedBy] = {nil,{193997},{44725}},
             [questKeys.requiredMinRep] = {1119,3000},
@@ -4070,7 +4093,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{29327,"Female Frost Leopards recovered"},{29319,"Female Icepaw Bears recovered"},},nil,nil,nil,},
         },
         [13559] = {
-            [questKeys.requiredMinRep] = {1119,3000},
+            [questKeys.preQuestSingle] = {12924},
         },
         [13592] = { -- HUMAN A Valiant's Field Training
             [questKeys.preQuestSingle] = {13684,13593},

@@ -122,6 +122,9 @@ function QuestieWotlkObjectFixes:Load()
         [191349] = {
             [objectKeys.spawns] = {[zoneIDs.BAND_OF_ALIGNMENT]={{47.6,85.9}},[4228]={{-1,-1}}},
         },
+        [191761] = {
+            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{37.54,46.9}}},
+        },
         [192124] = {
             [objectKeys.spawns] = {},
         },
