@@ -234,7 +234,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {78196},
             [questKeys.startedBy] = {{211229}},
             [questKeys.requiredRaces] = raceIDs.TROLL,
-          --[questKeys.finishedBy] = {{??}}, Turn-in still missing. Cannot find any info online.
         },
         [78198] = {
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
