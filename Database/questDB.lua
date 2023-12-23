@@ -112,6 +112,10 @@ QuestieDB.questFlags = {
     WEEKLY = 32768,
 }
 
+QuestieDB.factionIDs = {
+    DARKMOON_FAIRE = 909,
+}
+
 -- temporary, until we remove the old db funcitons
 QuestieDB._questAdapterQueryOrder = {}
 for key, id in pairs(QuestieDB.questKeys) do

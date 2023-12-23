@@ -36,6 +36,7 @@ function QuestieQuestFixes:Load()
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
     local sortKeys = QuestieDB.sortKeys
+    local factionIDs = QuestieDB.factionIDs
     local profKeys = QuestieProfessions.professionKeys
     local specKeys = QuestieProfessions.specializationKeys
 
@@ -2659,6 +2660,9 @@ function QuestieQuestFixes:Load()
         [7868] = {
             [questKeys.zoneOrSort] = 3277,
         },
+        [7882] = {
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,100}},
+        },
         [7886] = { -- #1435
             [questKeys.startedBy] = {{14733},nil,nil},
             [questKeys.finishedBy] = {{14733},nil},
@@ -2671,8 +2675,21 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{14733},nil,nil},
             [questKeys.finishedBy] = {{14733},nil},
         },
+        [7890] = {
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,100}},
+        },
+        [7891] = {
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,100}},
+        },
+        [7892] = {
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,100}},
+        },
+        [7897] = {
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,100}},
+        },
         [7905] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,50}},
         },
         [7921] = { -- #1435
             [questKeys.startedBy] = {{14733},nil,nil},
@@ -2681,11 +2698,28 @@ function QuestieQuestFixes:Load()
         [7926] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [7927] = {
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,150}},
+        },
+        [7929] = {
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,150}},
+        },
         [7937] = {
             [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,50}},
         },
         [7938] = {
             [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,50}},
+        },
+        [7942] = {
+            [questKeys.reputationReward] = {},
+        },
+        [7943] = {
+            [questKeys.reputationReward] = {},
+        },
+        [7944] = {
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,50}},
         },
         [7945] = {
             [questKeys.specialFlags] = 1,

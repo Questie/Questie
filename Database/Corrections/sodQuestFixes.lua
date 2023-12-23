@@ -15,6 +15,7 @@ function SeasonOfDiscovery:LoadQuests()
     local sortKeys = QuestieDB.sortKeys
     local questFlags = QuestieDB.questFlags
     local specialFlags = QuestieDB.specialFlags
+    local factionIDs = QuestieDB.factionIDs
     local profKeys = QuestieProfessions.professionKeys
     local specKeys = QuestieProfessions.specializationKeys
 
@@ -506,31 +507,47 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79588] = {
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 500},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [79589] = {
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1100},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [79590] = {
             [questKeys.startedBy] = {{14832}},
             [questKeys.finishedBy] = {{14832}},
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1100},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 250}},
         },
         [79591] = {
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1100},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [79592] = {
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1100},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 250}},
         },
         [79593] = {
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 500},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [79594] = {
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 500},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [79595] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 500},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
 
         --- Fake rune quests
