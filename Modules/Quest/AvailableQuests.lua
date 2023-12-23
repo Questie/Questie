@@ -158,7 +158,7 @@ local function _CalculateAvailableQuests()
             ((not showDungeonQuests) and QuestieDB.IsDungeonQuest(questId)) or    -- Don't show dungeon quests if option is disabled
             ((not showRaidQuests) and QuestieDB.IsRaidQuest(questId)) or          -- Don't show raid quests if option is disabled
             ((not showAQWarEffortQuests) and aqWarEffortQuests[questId]) or       -- Don't show AQ War Effort quests if the option disabled
-            (Questie.IsClassic and currentIsleOfQuelDanasQuests[questId]) or      -- Don't show Isle quests for Classic
+            (Questie.IsClassic and ((not currentIsleOfQuelDanasQuests) or currentIsleOfQuelDanasQuests[questId])) or      -- Don't show Isle quests for Classic
             ((not showSoDRunes) and Questie.IsSoD and QuestieDB.IsSoDRuneQuest(questId)) -- Don't show SoD Rune quests with the option disabled
         ) then
             return
