@@ -486,7 +486,11 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
     local text = iconData.ObjectiveData.Description
     local color = QuestieLib:GetRGBForObjective(iconData.ObjectiveData)
     if iconData.ObjectiveData.Needed then
-        text = color .. tostring(iconData.ObjectiveData.Collected) .. "/" .. tostring(iconData.ObjectiveData.Needed) .. " " .. text
+        if iconData.ObjectiveData.Type == "spell" and iconData.ObjectiveData.spawnList[iconData.ObjectiveTargetId].ItemId then
+            text = color .. tostring(QuestieDB.QueryItemSingle(iconData.ObjectiveData.spawnList[iconData.ObjectiveTargetId].ItemId, "name"))
+        else
+            text = color .. tostring(iconData.ObjectiveData.Collected) .. "/" .. tostring(iconData.ObjectiveData.Needed) .. " " .. text
+        end
     end
     if QuestieComms then
         local anotherPlayer = false;

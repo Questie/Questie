@@ -371,6 +371,7 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     }
     data.ManualTooltipData.disableShiftToRemove = disableShiftToRemove
 
+    local manualIcons = {}
     -- draw the notes
     for zone, spawns in pairs(npc.spawns) do
         if (zone ~= nil and spawns ~= nil) and ((not excludeDungeon) or (not ZoneDB.IsDungeonZone(zone))) then
@@ -381,10 +382,21 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
                     for _, value in ipairs(dungeonLocation) do
                         QuestieMap:DrawManualIcon(data, value[1], value[2], value[3], typ)
                     end
-                    -- world spawn
+                -- world spawn
                 else
-                    QuestieMap:DrawManualIcon(data, zone, coords[1], coords[2], typ)
+                    manualIcons[zone] = QuestieMap:DrawManualIcon(data, zone, coords[1], coords[2], typ)
                 end
+            end
+        end
+    end
+    -- draw waypoints
+    if npc.waypoints then
+        for zone, waypoints in pairs(npc.waypoints) do
+            if not ZoneDB:GetDungeonLocation(zone) and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
+                if not manualIcons[zone] then
+                    manualIcons[zone] = QuestieMap:DrawManualIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
+                end
+                QuestieMap:DrawWaypoints(manualIcons[zone], waypoints, zone)
             end
         end
     end

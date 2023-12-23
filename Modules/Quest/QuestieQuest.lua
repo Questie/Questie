@@ -419,9 +419,9 @@ local hordeTournamentMarkerQuests = {[13691] = true, [13693] = true, [13694] = t
 ---@param questId number
 function QuestieQuest:AcceptQuest(questId)
     local quest = QuestieDB.GetQuest(questId)
-    local complete = quest:IsComplete()
 
     if quest then
+        local complete = quest:IsComplete()
         -- If any of these flags exsist then this quest has already once been accepted and is probobly in a failed state
         if (quest.WasComplete or quest.isComplete or complete == 0 or complete == -1) and (QuestiePlayer.currentQuestlog[questId]) then
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: This quest was once accepted and needs to be reset.")
@@ -772,6 +772,30 @@ local function _AddSourceItemObjective(quest)
     end
 end
 
+-- This checks and manually adds quest item tooltips for SpellItems
+local function _AddSpellItemObjective(quest)
+    if quest.SpellItemId then
+        local spellobjectives = QuestieDB.QueryQuestSingle(quest.Id, "objectives")[6]
+
+        if spellobjectives then
+            local depthIndex = 1 -- TODO: What is better for this?
+            local fakeObjective = {
+                Id = quest.Id,
+                IsSourceItem = true,
+                QuestData = quest,
+                Index = 1,
+                Needed = quest.Objectives[depthIndex].Needed,
+                Collected = quest.Objectives[depthIndex].Collected,
+                text = nil,
+                Description = quest.Objectives[depthIndex].Description,
+            }
+
+            QuestieTooltips:RegisterObjectiveTooltip(quest.Id, "i_" .. quest.SpellItemId, fakeObjective);
+            return
+        end
+    end
+end
+
 -- This checks and manually adds quest item tooltips for requiredSourceItems
 local function _AddRequiredSourceItemObjective(quest)
     if quest.requiredSourceItems then
@@ -872,7 +896,7 @@ end
 function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
     local quest = QuestieDB.GetQuest(questId)
     local sourceItem = true
-    if quest.sourceItemId > 0 then
+    if quest and quest.sourceItemId > 0 then
         for bag = -2, 4 do
             for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
                 local itemId = select(10, QuestieCompat.GetContainerItemInfo(bag, slot))
@@ -1408,6 +1432,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
         QuestieQuest:UpdateQuest(quest.Id)
         _AddSourceItemObjective(quest)
         _AddRequiredSourceItemObjective(quest)
+        _AddSpellItemObjective(quest)
 
         return
     end
@@ -1421,6 +1446,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     QuestieQuest:UpdateObjectiveNotes(quest)
     _AddSourceItemObjective(quest)
     _AddRequiredSourceItemObjective(quest)
+    _AddSpellItemObjective(quest)
 end
 
 ---@param quest Quest
@@ -1743,18 +1769,28 @@ do
                     if childQuests then
                         for _, childQuestId in pairs(childQuests) do
                             if (not Questie.db.char.complete[childQuestId]) and (not QuestiePlayer.currentQuestlog[childQuestId]) then
-                                QuestieDB.activeChildQuests[childQuestId] = true
-                                -- Draw them right away and skip all other irrelevant checks
-                                NewThread(function()
-                                    local quest = QuestieDB.GetQuest(childQuestId)
-                                    if (not quest.tagInfoWasCached) then
-                                        QuestieDB.GetQuestTagInfo(childQuestId) -- cache to load in the tooltip
-
-                                        quest.tagInfoWasCached = true
+                                local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(childQuestId, "exclusiveTo")
+                                local blockedByExclusiveTo = false
+                                for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
+                                    if QuestiePlayer.currentQuestlog[exclusiveToQuestId] or Questie.db.char.complete[exclusiveToQuestId] then
+                                        blockedByExclusiveTo = true
+                                        break
                                     end
+                                end
+                                if not blockedByExclusiveTo then
+                                    QuestieDB.activeChildQuests[childQuestId] = true
+                                    -- Draw them right away and skip all other irrelevant checks
+                                    NewThread(function()
+                                        local quest = QuestieDB.GetQuest(childQuestId)
+                                        if (not quest.tagInfoWasCached) then
+                                            QuestieDB.GetQuestTagInfo(childQuestId) -- cache to load in the tooltip
 
-                                    _QuestieQuest:DrawAvailableQuest(quest)
-                                end, 0)
+                                            quest.tagInfoWasCached = true
+                                        end
+
+                                        _QuestieQuest:DrawAvailableQuest(quest)
+                                    end, 0)
+                                end
                             end
                         end
                     end
@@ -1769,7 +1805,8 @@ do
                         (showRaidQuests or (not QuestieDB.IsRaidQuest(questId))) and                              -- Show Raid quests only with the option enabled
                         (showPvPQuests or (not QuestieDB.IsPvPQuest(questId))) and                                -- Show PvP quests only with the option enabled
                         (showAQWarEffortQuests or (not QuestieQuestBlacklist.AQWarEffortQuests[questId])) and     -- Don't show AQ War Effort quests with the option enabled
-                        ((not Questie.IsWotlk) or (not IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase][questId]))
+                        ((not Questie.IsWotlk) or (not IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase][questId])) and
+                        ((not Questie.IsSoD) or (not QuestieDB.IsSoDRuneQuest(questId)) or Questie.db.profile.showSoDRunes) -- Don't show SoD Rune quests with the option disabled
                     ) then
                     if QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel) and QuestieDB.IsDoable(questId, debugEnabled) then
                         QuestieQuest.availableQuests[questId] = true

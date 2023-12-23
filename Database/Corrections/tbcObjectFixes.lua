@@ -685,6 +685,11 @@ function QuestieTBCObjectFixes:LoadFactionFixes()
                 [zoneIDs.EVERSONG_WOODS]={{47.58,46.24}},
             },
         },
+        [187236] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR]={{52.43,69.27}},
+            },
+        },
     }
 
     local objectFixesAlliance = {
@@ -693,6 +698,11 @@ function QuestieTBCObjectFixes:LoadFactionFixes()
                 [zoneIDs.ELWYNN_FOREST]={{42.5,65.8}},
                 [zoneIDs.DUN_MOROGH]={{46.4,52.2}},
                 [zoneIDs.AZUREMYST_ISLE]={{48.99,51.02}},
+            },
+        },
+        [187236] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.IRONFORGE]={{33.71,65.85}},
             },
         },
     }

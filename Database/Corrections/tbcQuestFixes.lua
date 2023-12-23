@@ -2521,6 +2521,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10985] = {
             [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.", {[zoneIDs.SHADOWMOON_VALLEY]={{71.05,46.11},{66.29,44.06}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Let Xi'ri know you're ready to battle"), 1, {{"monster", 18528}}}},
         },
         [10987] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Use the Sparrowhawk Net to capture a Wild Sparrowhawk"), 0, {{"monster", 22979}}}},
@@ -4758,36 +4759,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{28126},nil},
             [questKeys.finishedBy] = {{28126},nil},
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.NIGHT_ELF + raceIDs.DRAENEI + raceIDs.TROLL + raceIDs.TAUREN + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
-        },
-        [12771] = {
-            [questKeys.preQuestSingle] = {12753},
-        },
-        [12773] = {
-            [questKeys.preQuestSingle] = {12772},
-        },
-        [12774] = {
-            [questKeys.preQuestSingle] = {12775},
-        },
-        [12776] = {
-            [questKeys.preQuestSingle] = {12777},
-        },
-        [12785] = {
-            [questKeys.preQuestSingle] = {12783},
-        },
-        [12786] = {
-            [questKeys.preQuestSingle] = {12784},
-        },
-        [12787] = {
-            [questKeys.preQuestSingle] = {12752},
-        },
-        [12788] = {
-            [questKeys.preQuestSingle] = {12782},
-        },
-        [12809] = {
-            [questKeys.preQuestSingle] = {12808},
-        },
-        [12812] = {
-            [questKeys.preQuestSingle] = {12811},
         },
 
         -- Below are quests that were not originally in TBC or in a different form

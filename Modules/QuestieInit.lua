@@ -146,11 +146,19 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     Questie:SetIcons()
 
+    if QUESTIE_LOCALES_OVERRIDE ~= nil then
+        l10n:InitializeLocaleOverride()
+    end
+
     -- Set proper locale. Either default to client Locale or override based on user.
     if Questie.db.global.questieLocaleDiff then
         l10n:SetUILocale(Questie.db.global.questieLocale);
     else
-        l10n:SetUILocale(GetLocale());
+        if QUESTIE_LOCALES_OVERRIDE ~= nil then
+            l10n:SetUILocale(QUESTIE_LOCALES_OVERRIDE.locale);
+        else
+            l10n:SetUILocale(GetLocale());
+        end
     end
 
     QuestieShutUp:ToggleFilters(Questie.db.profile.questieShutUp)
@@ -170,7 +178,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     local dbCompiled = false
 
     -- Check if the DB needs to be recompiled
-    if (not Questie.db.global.dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion) or ((Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= Questie.db.global.dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
+    if (not Questie.db.global.dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion) or (l10n:GetUILocale() ~= Questie.db.global.dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
         print("\124cFFAAEEFF" .. l10n("Questie DB has updated!") .. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
         loadFullDatabase()
         QuestieDBCompiler:Compile()

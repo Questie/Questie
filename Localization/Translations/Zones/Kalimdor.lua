@@ -266,6 +266,18 @@ local kalimdorLocales = {
         ["zhTW"] = "達納蘇斯",
         ["zhCN"] = "达纳苏斯",
     },
+    ["Auberdine"] = { -- town in Darkshore, used as zoneOrSort in SoD quest for some reason
+        ["ptBR"] = true, -- since this string is transcribed, not translated, latin languages are identical
+        ["ruRU"] = "Аубердина",
+        ["deDE"] = true,
+        ["koKR"] = "아우버다인",
+        ["esMX"] = true,
+        ["enUS"] = true,
+        ["frFR"] = true,
+        ["esES"] = true,
+        ["zhTW"] = "奥伯丁",
+        ["zhCN"] = "奥伯丁",
+    },
 }
 
 for k, v in pairs(kalimdorLocales) do

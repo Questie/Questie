@@ -75,13 +75,25 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterBucketEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", 2, _EventHandler.ChatMsgCompatFactionChange)
     Questie:RegisterEvent("CHAT_MSG_SYSTEM", _EventHandler.ChatMsgSystem)
 
+    -- Spell objectives
+    Questie:RegisterEvent("NEW_RECIPE_LEARNED", function() -- Needed for some spells that don't necessarily appear in the spellbook, but are definitely spells
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED")
+        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+    end)
+
+    -- TODO: This seems to fire constantly with the "Way of Earth" Shaman rune. Do we even need it?
+    --Questie:RegisterEvent("SPELLS_CHANGED", function() -- Ensures map icon eligibility updates for quests with RequireSpell
+    --    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] SPELLS_CHANGED")
+    --    QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+    --end)
+
     -- UI Quest Events
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("QUEST_FINISHED", QuestieAuto.QUEST_FINISHED)
     Questie:RegisterEvent("QUEST_ACCEPTED", QuestieAuto.QUEST_ACCEPTED)
     Questie:RegisterEvent("QUEST_DETAIL", function(...) -- When the quest is presented!
         QuestieAuto.QUEST_DETAIL(...)
-        QuestieDebugOffer.QuestDialog(...)
+        if Questie.IsSoD then QuestieDebugOffer.QuestDialog(...) end;
     end)
     Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
     Questie:RegisterEvent("GOSSIP_SHOW", function(...)
@@ -96,7 +108,7 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED)               -- Called twice when the stopping to talk to an NPC
     Questie:RegisterEvent("QUEST_COMPLETE", function(...)                           -- When complete window shows
         QuestieAuto.QUEST_COMPLETE(...)
-        QuestieDebugOffer.QuestDialog(...)
+        if Questie.IsSoD then QuestieDebugOffer.QuestDialog(...) end;
     end)
 
     -- UI Achievement Events
@@ -183,7 +195,7 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed)
     Questie:RegisterEvent("PLAYER_TARGET_CHANGED", function(...)
         QuestieNameplate.DrawTargetFrame()
-        QuestieDebugOffer.NPCTarget()
+        --if Questie.IsSoD then QuestieDebugOffer.NPCTarget() end;
     end)
 
     -- quest announce
@@ -228,14 +240,14 @@ function _EventHandler:PlayerLogin()
         local replaceTypes = {
             ruRU = "%(%%%d$s%)", --ruRU "|3-6(%2$s) |3-6(%1$s)." ("Ваша репутация с %2$s теперь %1$s.
             zhTW = "%%s%(%%s%)", --zhTW "你在%2$s中的聲望達到了%1$s。"")
-            deDE = "'%%%d$s'",   --deDE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt."
+            deDE = "%%%d$s",     --deDE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt." or "Die Fraktion %2$s ist Euch gegenüber jetzt '%1$s' eingestellt."
             zhCNkoKR = "%%%d$s", --zhCN(zhTW?)/koKR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
             enPlus = "%%s",      -- European languages except (deDE)
         }
 
         if locale == "zhCN" or locale == "koKR" then                                                                                       --CN/KR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.zhCNkoKR, replaceString)
-        elseif locale == "deDE" then                                                                                                       --DE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt."
+        elseif locale == "deDE" then                                                                                                       --DE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt." or "Die Fraktion %2$s ist Euch gegenüber jetzt '%1$s' eingestellt."
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.deDE, replaceString) -- Germans are always special
         elseif locale == "zhTW" then                                                                                                       --TW "你的聲望已達到%s(%s)。", should we remove the parentheses?
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.zhTW, replaceString)

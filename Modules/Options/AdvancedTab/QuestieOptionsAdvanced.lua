@@ -18,6 +18,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
+local _GetLanguages
 
 function QuestieOptions.tabs.advanced:Initialize()
     -- This needs to be called inside of the Init process for l10n to be fully loaded
@@ -102,13 +103,13 @@ function QuestieOptions.tabs.advanced:Initialize()
                     QuestieOptionsUtils.DetermineTheme()
                 end,
             },
-            quelDanasSpacer1 = QuestieOptionsUtils:Spacer(1.45),
-            --Spacer_A = QuestieOptionsUtils:Spacer(1.45, (not Questie.IsTBC)),
+            quelDanasSpacer1 = QuestieOptionsUtils:Spacer(1.45, (not Questie.IsTBC)),
             npcrules_group = {
                 type = "group",
                 order = 1.5,
                 inline = true,
                 width = 0.5,
+                hidden = (not Questie.IsTBC),
                 name = function() return l10n("Quel'Danas Settings"); end,
                 disabled = function() return not Questie.db.profile.autoaccept end,
                 args = {
@@ -116,7 +117,6 @@ function QuestieOptions.tabs.advanced:Initialize()
                         type = "select",
                         order = 1.3,
                         width = 1.5,
-                        --hidden = (not Questie.IsTBC),
                         values = IsleOfQuelDanas.localizedPhaseNames,
                         style = 'dropdown',
                         name = function() return l10n("Isle of Quel'Danas Phase") end,
@@ -141,7 +141,6 @@ function QuestieOptions.tabs.advanced:Initialize()
                     isleOfQuelDanasPhaseReminder = {
                         type = "toggle",
                         order = 1.5,
-                        --hidden = (not Questie.IsTBC),
                         name = function() return l10n('Disable Phase reminder'); end,
                         desc = function() return l10n("Enable or disable the reminder on login to set the Isle of Quel'Danas phase"); end,
                         disabled = function() return (not Questie.IsWotlk) end,
@@ -163,19 +162,7 @@ function QuestieOptions.tabs.advanced:Initialize()
             locale_dropdown = {
                 type = "select",
                 order = 3.1,
-                values = {
-                    ['auto'] = l10n('Automatic'),
-                    ['enUS'] = 'English',
-                    ['esES'] = 'Español',
-                    ['esMX'] = 'Español (México)',
-                    ['ptBR'] = 'Português',
-                    ['frFR'] = 'Français',
-                    ['deDE'] = 'Deutsch',
-                    ['ruRU'] = 'Русский',
-                    ['zhCN'] = '简体中文',
-                    ['zhTW'] = '正體中文',
-                    ['koKR'] = '한국어',
-                },
+                values = _GetLanguages(),
                 style = 'dropdown',
                 name = function() return l10n('Select UI Locale'); end,
                 get = function()
@@ -186,20 +173,25 @@ function QuestieOptions.tabs.advanced:Initialize()
                     end
                 end,
                 set = function(_, lang)
+                    local previousLocale = Questie.db.global.questieLocale
                     if lang == 'auto' then
                         local clientLocale = GetLocale()
+                        if QUESTIE_LOCALES_OVERRIDE ~= nil then
+                            clientLocale = QUESTIE_LOCALES_OVERRIDE.locale
+                        end
                         l10n:SetUILocale(clientLocale)
                         Questie.db.global.questieLocale = clientLocale
                         Questie.db.global.questieLocaleDiff = false
-                        Questie.db.global.dbIsCompiled = nil -- recompile db with new lang
-                        StaticPopup_Show("QUESTIE_LANG_CHANGED_RELOAD")
-                        return
+                    else
+                        l10n:SetUILocale(lang);
+                        Questie.db.global.questieLocale = lang;
+                        Questie.db.global.questieLocaleDiff = true;
                     end
-                    l10n:SetUILocale(lang);
-                    Questie.db.global.questieLocale = lang;
-                    Questie.db.global.questieLocaleDiff = true;
-                    Questie.db.global.dbIsCompiled = nil -- recompile db with new lang
-                    StaticPopup_Show("QUESTIE_LANG_CHANGED_RELOAD")
+
+                    if previousLocale ~= Questie.db.global.questieLocale then
+                        Questie.db.global.dbIsCompiled = nil -- recompile db with new lang if locale changed
+                        StaticPopup_Show("QUESTIE_LANG_CHANGED_RELOAD")
+                    end
                 end,
             },
             Spacer_C = QuestieOptionsUtils:Spacer(3.9),
@@ -292,11 +284,48 @@ function QuestieOptions.tabs.advanced:Initialize()
                     Questie.db.profile.bugWorkarounds = value
                 end
             },
-            showQuestIDs = {
+            showItemIDs = {
                 type = "toggle",
                 order = 5.02,
+                name = function() return l10n('Show Item IDs'); end,
+                desc = function() return l10n('When this is checked, the ID of items will shown in tooltips.'); end,
+                disabled = function() return (not Questie.db.profile.enableTooltips); end,
+                width = "full",
+                get = function() return Questie.db.profile.enableTooltipsItemID; end,
+                set = function (_, value)
+                    Questie.db.profile.enableTooltipsItemID = value
+                end
+            },
+            showNPCIDs = {
+                type = "toggle",
+                order = 5.03,
+                name = function() return l10n('Show NPC IDs'); end,
+                desc = function() return l10n('When this is checked, the ID of NPCs will be shown in tooltips.'); end,
+                disabled = function() return (not Questie.db.profile.enableTooltips); end,
+                width = "full",
+                get = function() return Questie.db.profile.enableTooltipsNPCID; end,
+                set = function (_, value)
+                    Questie.db.profile.enableTooltipsNPCID = value
+                end
+            },
+            showObjectIDs = {
+                type = "toggle",
+                order = 5.04,
+                name = function() return l10n('Show Object IDs'); end,
+                desc = function() return l10n('When this is checked, the ID of objects will be shown in tooltips. These are guesses and only show the first matching ID in the QuestieDB.'); end,
+                disabled = function() return (not Questie.db.profile.enableTooltips); end,
+                width = "full",
+                get = function() return Questie.db.profile.enableTooltipsObjectID; end,
+                set = function (_, value)
+                    Questie.db.profile.enableTooltipsObjectID = value
+                end
+            },
+            showQuestIDs = {
+                type = "toggle",
+                order = 5.05,
                 name = function() return l10n('Show Quest IDs'); end,
-                desc = function() return l10n('When this is checked, the ID of quests will show in the tooltips and the tracker.'); end,
+                desc = function() return l10n('When this is checked, the ID of quests will show in tooltips and the tracker.'); end,
+                disabled = function() return (not Questie.db.profile.enableTooltips); end,
                 width = "full",
                 get = function() return Questie.db.profile.enableTooltipsQuestID; end,
                 set = function (_, value)
@@ -306,7 +335,7 @@ function QuestieOptions.tabs.advanced:Initialize()
             },
             debugEnabled = {
                 type = "toggle",
-                order = 5.03,
+                order = 5.06,
                 name = function() return l10n('Enable Debug'); end,
                 desc = function() return l10n('Enable or disable debug functionality.'); end,
                 width = "full",
@@ -320,7 +349,7 @@ function QuestieOptions.tabs.advanced:Initialize()
             },
             skipValidation = {
                 type = "toggle",
-                order = 5.04,
+                order = 5.07,
                 name = function() return l10n('Skip Validation'); end,
                 desc = function() return l10n('Skip database validation upon recompile. Validation is only present with debug enabled in the first place.'); end,
                 width = "full",
@@ -332,7 +361,7 @@ function QuestieOptions.tabs.advanced:Initialize()
             },
             debugEnabledPrint = {
                 type = "toggle",
-                order = 5.06,
+                order = 5.08,
                 disabled = function() return not Questie.db.profile.debugEnabled; end,
                 name = function() return l10n('Enable Debug').."-PRINT" end,
                 desc = function() return l10n('Enable or disable debug functionality.').."-PRINT" end,
@@ -351,7 +380,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                     [3] = "DEBUG_DEVELOP",
                     [4] = "DEBUG_SPAM",
                 },
-                order = 5.07,
+                order = 5.09,
                 name = function() return l10n('Debug level to print'); end,
                 width = "normal",
                 disabled = function() return not (Questie.db.profile.debugEnabledPrint and Questie.db.profile.debugEnabled); end,
@@ -375,4 +404,24 @@ function QuestieOptions.tabs.advanced:Initialize()
             },
         },
     }
+end
+
+_GetLanguages = function()
+    local languages = {
+        ['auto'] = l10n('Automatic'),
+        ['enUS'] = 'English',
+        ['esES'] = 'Español',
+        ['esMX'] = 'Español (México)',
+        ['ptBR'] = 'Português',
+        ['frFR'] = 'Français',
+        ['deDE'] = 'Deutsch',
+        ['ruRU'] = 'Русский',
+        ['zhCN'] = '简体中文',
+        ['zhTW'] = '正體中文',
+        ['koKR'] = '한국어',
+    }
+    if QUESTIE_LOCALES_OVERRIDE ~= nil then
+        languages[QUESTIE_LOCALES_OVERRIDE.locale] = QUESTIE_LOCALES_OVERRIDE.localeName
+    end
+    return languages
 end

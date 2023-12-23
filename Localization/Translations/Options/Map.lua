@@ -31,11 +31,11 @@ local mapOptionsLocales = {
         ["ruRU"] = "Кнопка Questie",
         ["deDE"] = "Zeige Questie-Button an der Weltkarte",
         ["koKR"] = "Questie 지도 버튼 표시",
-        ["esMX"] = "Mostrar el botón de Questie en el mapa",
+        ["esMX"] = "Mostrar botón de Questie en el mapa",
         ["enUS"] = true,
         ["zhCN"] = "大地图显示Questie按钮",
         ["zhTW"] = "顯示大地圖的任務圖示按鈕",
-        ["esES"] = "Mostrar el botón de Questie en el mapa",
+        ["esES"] = "Mostrar botón de Questie en el mapa",
         ["frFR"] = "Afficher le bouton Questie sur la carte",
     },
     ["Enable or disable the Show/Hide Questie Button on Map (May fix some Map Addon interactions)."] = {
@@ -52,7 +52,7 @@ local mapOptionsLocales = {
     },
     ["Map Icons Glow"] = {
         ["ptBR"] = "Sempre visível atrás dos ícones do mapa",
-        ["ruRU"] = "Подсветка значков (карта мира)",
+        ["ruRU"] = "Подсветка значков",
         ["deDE"] = "Weltkarten-Icons immer leuchten lassen",
         ["koKR"] = "지도 아이콘 반짝임 사용",
         ["esMX"] = "Mostrar aura detrás de los iconos de mapa",
@@ -76,7 +76,7 @@ local mapOptionsLocales = {
     },
     ["Unique Map Icon Colors"] = {
         ["ptBR"] = "Cor diferente do ícone do mapa para cada missão",
-        ["ruRU"] = "Различные цветa значков (карта мира)",
+        ["ruRU"] = "Различные цветa значков",
         ["deDE"] = "Karten-Icons für jede Quest unterschiedlich färben",
         ["koKR"] = "각 퀘스트별 다른 아이콘 색상 사용",
         ["esMX"] = "Color de icono de mapa diferente para cada misión",

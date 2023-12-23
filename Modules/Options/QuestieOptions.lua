@@ -49,11 +49,11 @@ function QuestieOptions:Initialize()
     configFrame:Hide()
     coroutine.yield()
 
-    local journeyButton = AceGUI:Create("Button")
+    local journeyButton = CreateFrame("Button", nil, configFrame.frame, "UIPanelButtonTemplate")
     journeyButton:SetWidth(140)
     journeyButton:SetPoint("TOPRIGHT", configFrame.frame, "TOPRIGHT", -50, -13)
     journeyButton:SetText(l10n('My Journey'))
-    journeyButton:SetCallback("OnClick", function()
+    journeyButton:SetScript("OnClick", function()
         QuestieCombatQueue:Queue(function()
             QuestieJourney:ToggleJourneyWindow()
             QuestieOptions:OpenConfigWindow()
@@ -63,7 +63,6 @@ function QuestieOptions:Initialize()
     configFrame:Hide()
     coroutine.yield()
 
-    configFrame:AddChild(journeyButton)
     QuestieConfigFrame = configFrame
     table.insert(UISpecialFrames, "QuestieConfigFrame")
 

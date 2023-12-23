@@ -374,6 +374,14 @@ function _Qframe:FadeOut()
             local r, g, b = self.glowTexture:GetVertexColor()
             self.glowTexture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
         end
+        if self.data.lineFrames then
+            for _, lineFrame in pairs(self.data.lineFrames) do
+                local line = lineFrame.line
+                if line then
+                    line:SetColorTexture(line.dR, line.dG, line.dB, Questie.db.global.iconFadeLevel)
+                end
+            end
+        end
     end
 end
 
@@ -388,6 +396,14 @@ function _Qframe:FadeIn()
             local r, g, b = self.glowTexture:GetVertexColor()
             self.glowTexture:SetVertexColor(r, g, b, 1)
         end
+        if self.data.lineFrames then
+            for _, lineFrame in pairs(self.data.lineFrames) do
+                local line = lineFrame.line
+                if line then
+                    line:SetColorTexture(line.dR, line.dG, line.dB, line.dA)
+                end
+            end
+        end
     end
 end
 
@@ -400,6 +416,11 @@ function _Qframe:FakeHide()
             self.shouldBeShowing = true;
         end
         self:Hide();
+        if self.data.lineFrames then
+            for _, line in pairs(self.data.lineFrames) do
+                line:Hide()
+            end
+        end
         self._hide = self.Hide;
         self.Hide = function()
             self.shouldBeShowing = false;
@@ -418,6 +439,11 @@ function _Qframe:FakeShow()
         self._hide = nil
         if self.shouldBeShowing then
             self:Show();
+            if self.data.lineFrames then
+                for _, line in pairs(self.data.lineFrames) do
+                    line:Show()
+                end
+            end
         end
     end
 end
@@ -437,10 +463,6 @@ function _Qframe:ShouldBeHidden()
     local raid = QuestieDB.IsRaidQuest(questId)
     local pvp = QuestieDB.IsPvPQuest(questId)
     local normal = not (repeatable or event or dungeon or raid or pvp)
-    local rune = false
-    if Questie.IsSoD then
-        rune = QuestieDB.IsSoDRuneQuest(questId)
-    end
 
     if (not profile.enabled) -- all quest icons disabled
         or ((not profile.enableMapIcons) and (not self.miniMapIcon))
@@ -461,7 +483,6 @@ function _Qframe:ShouldBeHidden()
                 or ((not profile.showDungeonQuests) and dungeon)
                 or ((not profile.showRaidQuests) and raid)
                 or ((not profile.showPvPQuests) and pvp)
-                or ((not profile.showSoDRunes) and rune)
             -- this quest group isn't loaded at all while disabled:
             -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId])
             )

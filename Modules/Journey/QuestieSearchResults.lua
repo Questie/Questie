@@ -223,6 +223,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     if (reqRaces ~= "") then
         QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Race"), "yellow") .. ": " .. reqRaces)
     end
+    QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Doable"), "yellow") .. ": " .. tostring(QuestieDB.IsDoable(id, false, true, true)))
 
     -- objectives text
     if objectivesText then
@@ -460,7 +461,10 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
         return
     end
 
-    local npcDrops, objectDrops, vendors = unpack(QuestieDB.QueryItem(itemId, {"npcDrops", "objectDrops", "vendors"}))
+    local sources = QuestieDB.QueryItem(itemId, {"npcDrops", "objectDrops", "vendors"})
+    local npcDrops = sources[1]
+    local objectDrops = sources[2]
+    local vendors = sources[3]
 
     local npcSpawnsHeading = AceGUI:Create("Heading")
     npcSpawnsHeading:SetText(l10n("NPCs"))

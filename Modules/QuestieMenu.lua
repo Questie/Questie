@@ -663,11 +663,9 @@ function QuestieMenu:PopulateTownsfolk()
         classSpecificTownsfolk[class]["Class Trainer"] = newTrainers
     end
 
-    if playerClass == "HUNTER" then
-        classSpecificTownsfolk["HUNTER"]["Stable Master"] = townsfolkData["Stable Master"].data
-    elseif playerClass == "MAGE" then
-        classSpecificTownsfolk["MAGE"]["Portal Trainer"] = {4165,2485,2489,5958,5957,2492,16654,16755,19340,20791,27703,27705}
-    end
+    -- These are filtered later, when the player class does not match
+    classSpecificTownsfolk["HUNTER"]["Stable Master"] = townsfolkData["Stable Master"].data
+    classSpecificTownsfolk["MAGE"]["Portal Trainer"] = {4165,2485,2489,5958,5957,2492,16654,16755,19340,20791,27703,27705}
 
     factionSpecificTownsfolk["Horde"]["Spirit Healer"]  = townsfolkData["Spirit Healer"].data
     factionSpecificTownsfolk["Alliance"]["Spirit Healer"]  = townsfolkData["Spirit Healer"].data
@@ -782,6 +780,9 @@ function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries he
         ["DRUID"] = {17034,17026,17035,17021,17038,17036,17037}
     }
     reagents = reagents[playerClass]
+    if Questie.IsSoD then
+        table.insert(reagents, 212160) -- In SoD the Chronoboon Displacer is sold by reagent vendors
+    end
 
     -- populate vendor IDs from db
     if #reagents > 0 then
