@@ -63,7 +63,7 @@ local myJourneyLocales = {
         ["frFR"] = "Il est temps d'embarquer pour votre premier voyage !",
     },
     ["Congratulations! You reached %s !"] = {
-        ["ptBR"] = "Parabéns! Você alcançou %s!",
+        ["ptBR"] = "Parabéns, você atingiu o %s!",
         ["ruRU"] = "Поздравляем! Ваш уровень - %s!",
         ["deDE"] = "Herzlichen Glückwunsch! Du hast Level %s erreicht!",
         ["koKR"] = "축하합니다! %s 레벨을 달성했습니다!",
@@ -72,7 +72,7 @@ local myJourneyLocales = {
         ["zhCN"] = "恭喜你达到了%s！",
         ["zhTW"] = "恭喜! 已達到 %s !",
         ["esES"] = "¡Enhorabuena! ¡Has alcanzado el %s!",
-        ["frFR"] = "Félicitations ! Vous avez atteint %s !",
+        ["frFR"] = "Félicitations, vous avez atteint le %s !",
     },
     ["You Accepted the quest %s"] = {
         ["ptBR"] = "Você aceitou a missão %s",
@@ -99,7 +99,7 @@ local myJourneyLocales = {
         ["frFR"] = "Quête %s : %s",
     },
     ["Level %s"] = {
-        ["ptBR"] = "Nível %s",
+        ["ptBR"] = "nível %s",
         ["ruRU"] = "Уровень %s",
         ["deDE"] = "Level %s",
         ["koKR"] = "%s 레벨",
@@ -108,7 +108,7 @@ local myJourneyLocales = {
         ["zhCN"] = "等级%s",
         ["zhTW"] = "等級 %s",
         ["esES"] = "nivel %s",
-        ["frFR"] = "Niveau %s",
+        ["frFR"] = "niveau %s",
     },
     ["You Reached Level %s"] = {
         ["ptBR"] = "Você atingiu o nível %s",
