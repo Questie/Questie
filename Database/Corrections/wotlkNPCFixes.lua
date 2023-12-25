@@ -1141,8 +1141,8 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [29799] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.4,55.6}}},
-            [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{64.4,55.6},{61.2,46.8},{58.8,41},{57.6,37.4},{55.8,37.8},{56.6,43.4},{58.6,47.2},{61.2,53.6},{62.8,57.4},{64.4,55.6}}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{63.59,52.34}}},
+            [npcKeys.waypoints] = waypointPresets.THE_SKYBREAKER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [29806] = {
@@ -1309,8 +1309,8 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [30302] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.4,55.6}}},
-            [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{64.4,55.6},{61.2,46.8},{58.8,41},{57.6,37.4},{55.8,37.8},{56.6,43.4},{58.6,47.2},{61.2,53.6},{62.8,57.4},{64.4,55.6}}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{63.59,52.34}}},
+            [npcKeys.waypoints] = waypointPresets.THE_SKYBREAKER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [30315] = {
@@ -1338,13 +1338,13 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.maxLevelHealth] = 50400,
         },
         [30344] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.4,55.6}}},
-            [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{64.4,55.6},{61.2,46.8},{58.8,41},{57.6,37.4},{55.8,37.8},{56.6,43.4},{58.6,47.2},{61.2,53.6},{62.8,57.4},{64.4,55.6}}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{63.59,52.34}}},
+            [npcKeys.waypoints] = waypointPresets.THE_SKYBREAKER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [30345] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.4,55.6}}},
-            [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{64.4,55.6},{61.2,46.8},{58.8,41},{57.6,37.4},{55.8,37.8},{56.6,43.4},{58.6,47.2},{61.2,53.6},{62.8,57.4},{64.4,55.6}}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{63.59,52.34}}},
+            [npcKeys.waypoints] = waypointPresets.THE_SKYBREAKER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [30374] = {
@@ -1421,6 +1421,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{54.15,71.18}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [30989] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{80.38,71.06}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [30996] = {
             [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_VILLAGE]={{-1,-1}}},
         },
@@ -1461,8 +1465,8 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [31259] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.4,55.6}}},
-            [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{64.4,55.6},{61.2,46.8},{58.8,41},{57.6,37.4},{55.8,37.8},{56.6,43.4},{58.6,47.2},{61.2,53.6},{62.8,57.4},{64.4,55.6}}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{63.59,52.34}}},
+            [npcKeys.waypoints] = waypointPresets.THE_SKYBREAKER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [31261] = {
@@ -1517,6 +1521,11 @@ function QuestieWotlkNpcFixes:Load()
         [32301] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.78,28.41}}},
             [npcKeys.waypoints] = waypointPresets.ORGRIMS_HAMMER,
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32302] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{63.59,52.34}}},
+            [npcKeys.waypoints] = waypointPresets.THE_SKYBREAKER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [32370] = {
