@@ -1397,17 +1397,17 @@ QuestieDB.waypointPresets = {
 
 
 local questsWithTooManyStarters = {
-    [90008] = true, -- Regeneration
-    [90009] = true, -- Regeneration
-    [90010] = true, -- Enlightenment
-    [90011] = true, -- Enlightenment
-    [90015] = true, -- Living Flame
-    [90016] = true, -- Living Flame
-    [90017] = true, -- Living Flame
-    [90018] = true, -- Living Flame
-    [90020] = true, -- Living Bomb
-    [90021] = true, -- Living Bomb
-    [90023] = true, -- Wild Strikes
+    [90008] = true, -- Regeneration Rune
+    [90009] = true, -- Regeneration Rune
+    [90010] = true, -- Enlightenment Rune
+    [90011] = true, -- Enlightenment Rune
+    [90015] = true, -- Living Flame Rune
+    [90016] = true, -- Living Flame Rune
+    [90017] = true, -- Living Flame Rune
+    [90018] = true, -- Living Flame Rune
+    [90020] = true, -- Living Bomb Rune
+    [90021] = true, -- Living Bomb Rune
+    [90023] = true, -- Wild Strikes Rune
     [90036] = true, -- Warlock Master Channeler Westfall
     [90077] = true, -- Warlock Demonic Grace Dun Morogh
     [90078] = true, -- Warlock Demonic Grace Elwynn Forest
@@ -1415,6 +1415,9 @@ local questsWithTooManyStarters = {
     [90080] = true, -- Warlock Demonic Grace Tirisfal Galdes
 }
 
+--- Some quests have too many starter NPCs, which flood the map with icons.
+--- This function returns true if the quest is marked too have too many starters.
+--- For these quests, no icons will be added to the map, but the NPC tooltips will still be shown.
 ---@param questId number
 ---@return boolean
 function QuestieDB.TooManyStarters(questId)
