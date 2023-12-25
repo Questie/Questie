@@ -1397,21 +1397,21 @@ QuestieDB.waypointPresets = {
 
 
 local questsWithTooManyStarters = {
-    [90008] = true, -- Hiding Regeneration for now as there are too many icons
-    [90009] = true, -- Hiding Regeneration for now as there are too many icons
-    [90010] = true, -- Hiding Enlightenment for now as there are too many icons
-    [90011] = true, -- Hiding Enlightenment for now as there are too many icons
-    [90015] = true, -- Hiding Living Flame for now as there are too many icons
-    [90016] = true, -- Hiding Living Flame for now as there are too many icons
-    [90017] = true, -- Hiding Living Flame for now as there are too many icons
-    [90018] = true, -- Hiding Living Flame for now as there are too many icons
-    [90020] = true, -- Hiding Living Bomb for now as there are too many icons
-    [90021] = true, -- Hiding Living Bomb for now as there are too many icons
-    [90036] = true, -- Hiding Warlock Master Channeler Westfall for now as there are too many icons
-    [90077] = true, -- Hiding Warlock Demonic Grace Dun Morogh for now as there are too many icons
-    [90078] = true, -- Hiding Warlock Demonic Grace Elwynn Forest for now as there are too many icons
-    [90079] = true, -- Hiding Warlock Demonic Grace Durotar for now as there are too many icons
-    [90080] = true, -- Hiding Warlock Demonic Grace Tirisfal Galdes for now as there are too many icons
+    [90008] = true, -- Regeneration
+    [90009] = true, -- Regeneration
+    [90010] = true, -- Enlightenment
+    [90011] = true, -- Enlightenment
+    [90015] = true, -- Living Flame
+    [90016] = true, -- Living Flame
+    [90017] = true, -- Living Flame
+    [90018] = true, -- Living Flame
+    [90020] = true, -- Living Bomb
+    [90021] = true, -- Living Bomb
+    [90036] = true, -- Warlock Master Channeler Westfall
+    [90077] = true, -- Warlock Demonic Grace Dun Morogh
+    [90078] = true, -- Warlock Demonic Grace Elwynn Forest
+    [90079] = true, -- Warlock Demonic Grace Durotar
+    [90080] = true, -- Warlock Demonic Grace Tirisfal Galdes
 }
 
 ---@param questId number
