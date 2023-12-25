@@ -166,22 +166,6 @@ end
 -- Phase 1 is omitted, because everything not in this list is supposed to be available in Phase 1
 local questsToBlacklistBySoDPhase = {
     [1] = { -- SoD Phase 1 - level cap 25 (this is required for counting, but should stay empty)
-        [90008] = true, -- Hiding Regeneration for now as there are too many icons
-        [90009] = true, -- Hiding Regeneration for now as there are too many icons
-        [90010] = true, -- Hiding Enlightenment for now as there are too many icons
-        [90011] = true, -- Hiding Enlightenment for now as there are too many icons
-        [90015] = true, -- Hiding Living Flame for now as there are too many icons
-        [90016] = true, -- Hiding Living Flame for now as there are too many icons
-        [90017] = true, -- Hiding Living Flame for now as there are too many icons
-        [90018] = true, -- Hiding Living Flame for now as there are too many icons
-        [90020] = true, -- Hiding Living Bomb for now as there are too many icons
-        [90021] = true, -- Hiding Living Bomb for now as there are too many icons
-        [90036] = true, -- Hiding Warlock Master Channeler Westfall for now as there are too many icons
-        [90077] = true, -- Hiding Warlock Demonic Grace Dun Morogh for now as there are too many icons
-        [90078] = true, -- Hiding Warlock Demonic Grace Elwynn Forest for now as there are too many icons
-        [90079] = true, -- Hiding Warlock Demonic Grace Durotar for now as there are too many icons
-        [90080] = true, -- Hiding Warlock Demonic Grace Tirisfal Galdes for now as there are too many icons
-
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
