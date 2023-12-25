@@ -7,11 +7,11 @@ local questStateLocales = {
         ["ruRU"] = "Выполнено",
         ["deDE"] = "Abgeschlossen",
         ["koKR"] = "성공",
-        ["esMX"] = "Completa",
+        ["esMX"] = "Completo",
         ["enUS"] = true,
         ["zhCN"] = "完成",
         ["zhTW"] = "完成",
-        ["esES"] = "Completa",
+        ["esES"] = "Completo",
         ["frFR"] = "Terminée",
     },
     ["Failed"] = {
