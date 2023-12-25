@@ -876,7 +876,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 15,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.DRUID,
-            [questKeys.objectivesText] = {"Defeat Grimtotem Tauren."},
+            [questKeys.objectivesText] = {"Defeat Grimtotem Tauren to receive Idol of the Wild and follow its guidance."},
             [questKeys.requiredSpell] = -410021,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
