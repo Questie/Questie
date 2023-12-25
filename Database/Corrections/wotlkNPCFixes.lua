@@ -1494,8 +1494,40 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{54,43}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [31701] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{62.47,51.24},{62.46,51.19},{62.42,51.07},{62.44,51.03},{62.49,51.1},{62.83,51.51},{62.86,51.53},{62.83,51.72},{62.83,51.56},{62.82,51.03}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [31721] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{65.24,48.06},{63.41,47.54},{63.83,52.82},{63.61,50.59},{66.45,50.46},{68.89,46.2},{65.28,53.84}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [31773] = {
+            [npcKeys.name] = "Plague Cauldron",
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{62.26,63.37},{60.84,63.39},{61.55,63.96}}},
+        },
         [31839] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{54,36.6}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32154] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{65.02,53.96},{65.8,53.75},{66.59,53.87},{67.06,54.76},{67.61,55.6},{67.25,56.24},{66.39,56.37},{65.73,56.77},{65.24,56.57},{67.2,53.2},{67.4,54.2},{65.4,55.2}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32179] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{61.02,39.65},{60.96,43.39},{57.94,44.49},{56.8,42.09},{57.51,38.21},{56.73,39.28},{57.14,36.67},{57.52,41.85}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32182] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{61.04,40.03},{55.19,38.73},{55.03,38.69},{61.38,43.29},{61.02,43.03},{57.58,38.69},{56.9,44.09},{56.97,44.12},{58.1,41.36},{58.16,41.4},{59.33,39.41},{57.2,36.44},{56.0,35.54},{56.13,35.67},{55.96,40.56},{57.36,36.13},{60.45,38.9},{57.84,44.6},{57.87,44.09},{56.76,42.48},{59.48,39.48},{57.58,38.52},{56.68,38.97},{56.74,39.2},{57.87,41.66},{57.64,41.81},{57.21,42.71}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32183] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{60.81,43.45},{57.5,36.68},{56.88,42.81},{61.04,42.58},{57.22,36.38},{60.61,39.48},{60.46,38.85},{57.63,44.03},{57.91,43.94},{57.52,38.34},{57.46,38.38},{56.84,39.36},{56.76,39.11},{57.47,41.88},{57.71,41.75},{56.7,42.06}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32188] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{60.98,39.02},{61.61,42.27},{60.57,43.51},{60.06,44.64},{60.19,45.02},{61.08,38.54},{64.6,39.69}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [32195] = {
@@ -1514,8 +1546,23 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{51,33}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [32222] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{57.47,62.96},{52.76,57.45},{56.8,50.65},{59.21,58.41}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32227] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{62.57,50.7}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [32239] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{44.4,76.2}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32297] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{52.51,29.43},{52.61,29.4},{52.55,29.28},{52.9,29.01},{53.03,29.47},{53.25,29.28},{53.31,29.53},{53.32,29.75},{53.31,30.01},{53.31,30.11},{53.28,30.34},{53.32,30.66},{53.31,30.97},{52.61,31},{52.65,30.82},{52.51,30.85},{52.87,30.49},{52.88,30.2},{52.88,29.94},{52.77,30.04},{52.76,30.42},{50.9,30.41},{50.53,30.79},{50.88,30.23},{51.01,30.28},{50.55,29.4},{50.95,28.96},{52.76,31.15}}},
+        },
+        [32300] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{51.93,28.89}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [32301] = {
@@ -1542,6 +1589,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [32430] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{54,36.9}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32444] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{53.95,42.93}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [32497] = {
