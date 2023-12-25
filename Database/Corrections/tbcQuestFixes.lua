@@ -2618,6 +2618,18 @@ function QuestieTBCQuestFixes:Load()
         [11030] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Purchase 1 Unstable Flask of the Beast for the cost of 10 Apexis Shards"), 0, {{"object", 185920}}}},
         },
+        [11031] = {
+            [questKeys.preQuestSingle] = {10725},
+        },
+        [11032] = {
+            [questKeys.preQuestSingle] = {10728},
+        },
+        [11033] = {
+            [questKeys.preQuestSingle] = {10727},
+        },
+        [11034] = {
+            [questKeys.preQuestSingle] = {10726},
+        },
         [11035] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
