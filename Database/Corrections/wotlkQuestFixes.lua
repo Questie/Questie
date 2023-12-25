@@ -3024,7 +3024,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13136},
         },
         [13141] = {
-            [questKeys.triggerEnd] = {"Battle for Crusaders' Pinnacle",{[zoneIDs.ICECROWN]={{80.06,71.81,},},},},
+            [questKeys.objectives] = {{{30989,"Battle for Crusaders' Pinnacle"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Plant the Blessed Banner of the Crusade"), 0, {{"object", 193003}}}},
         },
         [13142] = {
             [questKeys.extraObjectives] = {
