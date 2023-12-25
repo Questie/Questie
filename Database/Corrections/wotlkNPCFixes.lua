@@ -2095,11 +2095,11 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
         [38551] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{49.5,39.7}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{50.1,39.5}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
         [38558] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_QUEEN_LANA_THEL]={{51.1,31.9}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_QUEEN_LANA_THEL]={{48.8,35.7}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
         [38589] = {

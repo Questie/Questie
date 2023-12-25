@@ -2540,6 +2540,11 @@ function QuestieWotlkQuestFixes:Load()
         [12893] = {
             [questKeys.objectives] = {{{29769},{29770},{29840}}},
         },
+        [12896] = {
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Tamper with General's Weapon Rack to summon General Lightsbane"), 0, {{"object", 191778},{"object", 191779}}},
+            },
+        },
         [12897] = {
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Tamper with General's Weapon Rack to summon General Lightsbane"), 0, {{"object", 191778},{"object", 191779}}},
@@ -2953,7 +2958,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13106] = {
             [questKeys.preQuestSingle] = {12896,12897},
-            [questKeys.exclusiveTo] = {12898,12899},
         },
         [13109] = {
             [questKeys.preQuestSingle] = {13047},
@@ -3729,6 +3733,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13415] = {
             [questKeys.requiredSourceItems] = {41197,40971},
+        },
+        [13418] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a ride to the ship"), 1, {{"monster", 31081}}}},
         },
         [13420] = {
             [questKeys.startedBy] = {nil,{193997},{44725}},

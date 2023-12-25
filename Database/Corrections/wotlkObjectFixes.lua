@@ -119,6 +119,10 @@ function QuestieWotlkObjectFixes:Load()
         [191092] = {
             [objectKeys.spawns] = {[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE] = {{63.12,68.33}}},
         },
+        [191179] = {
+            [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN] = {{17.58,51.25},{23.34,37.24},{26.7,33.46},{26.23,35.68}}},
+            [objectKeys.zoneID] = zoneIDs.SHOLAZAR_BASIN,
+        },
         [191349] = {
             [objectKeys.spawns] = {[zoneIDs.BAND_OF_ALIGNMENT]={{47.6,85.9}},[4228]={{-1,-1}}},
         },
