@@ -1407,6 +1407,7 @@ local questsWithTooManyStarters = {
     [90018] = true, -- Living Flame
     [90020] = true, -- Living Bomb
     [90021] = true, -- Living Bomb
+    [90023] = true, -- Wild Strikes
     [90036] = true, -- Warlock Master Channeler Westfall
     [90077] = true, -- Warlock Demonic Grace Dun Morogh
     [90078] = true, -- Warlock Demonic Grace Elwynn Forest
