@@ -21,9 +21,11 @@ QuestieCorrections.killCreditObjectiveFirst[12762] = true
 QuestieCorrections.killCreditObjectiveFirst[12919] = true
 QuestieCorrections.killCreditObjectiveFirst[13086] = true
 QuestieCorrections.killCreditObjectiveFirst[13373] = true
+QuestieCorrections.killCreditObjectiveFirst[13376] = true
 QuestieCorrections.killCreditObjectiveFirst[13380] = true
 QuestieCorrections.killCreditObjectiveFirst[13382] = true
 QuestieCorrections.killCreditObjectiveFirst[13404] = true
+QuestieCorrections.killCreditObjectiveFirst[13406] = true
 
 function QuestieWotlkQuestFixes:Load()
     _QuestieWotlkQuestFixes:InsertMissingQuestIds()
@@ -2467,6 +2469,9 @@ function QuestieWotlkQuestFixes:Load()
         [12842] = {
             [questKeys.triggerEnd] = {"Weapon emblazoned",{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{47.28,31.36},{47.82,27.42},{50.43,28.17},},},},
         },
+        [12847] = {
+            [questKeys.triggerEnd] = {"Arete's Gate summoned",{[zoneIDs.ICECROWN]={{9.53,47.01}}}},
+        },
         [12851] = {
             [questKeys.name] = "Bearly Hanging On",
             [questKeys.objectives] = {{{29358},{29351}}},
@@ -2872,8 +2877,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13042] = {
             [questKeys.preQuestSingle] = {12999},
+            [questKeys.objectives] = {{{30409,"Information beaten out of Apprentice Osterkilgr"},{30409}}},
         },
         [13043] = {
+            [questKeys.preQuestSingle] = {12999},
             [questKeys.startedBy] = {{30409},nil,{42772}},
             [questKeys.requiredSourceItems] = {},
             [questKeys.extraObjectives] = {
@@ -2917,6 +2924,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13059] = {
             [questKeys.objectives] = {nil,{{192560}},nil,nil,{{{30475},32821,}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Volgur"), 0, {{"monster", 30483}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Brita"), 0, {{"monster", 30484}}},
+            },
         },
         [13060] = {
             [questKeys.extraObjectives] = {
@@ -3069,6 +3080,8 @@ function QuestieWotlkQuestFixes:Load()
         [13152] = {
             [questKeys.preQuestSingle]= {},
             [questKeys.preQuestGroup] = {13134,13138,13140},
+            [questKeys.objectives] = {{{30993,"Patches freed"},{30992,"Help Patches kill Doctor Sabnok"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Free Patches"), 0, {{"object", 193025}}}},
         },
         [13153] = {
             [questKeys.startedBy] = {},
@@ -3264,13 +3277,11 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13233] = {
             [questKeys.triggerEnd] = {"Kill horde players in Icecrown", {[zoneIDs.ICECROWN]={{60.9,41.3}}}},
-            --[questKeys.objectives] = {{{30344,}}},
             [questKeys.preQuestSingle] = {13231},
         },
         [13234] = {
             [questKeys.preQuestSingle] = {13228},
             [questKeys.triggerEnd] = {"Kill alliance players in Icecrown", {[zoneIDs.ICECROWN]={{60.9,41.3}}}},
-            [questKeys.objectives] = {{{30824,}}},
         },
         [13235] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Margrave Dhakar to fight Morbidus"), 0, {{"monster", 31306}}}},
@@ -3659,7 +3670,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13359},
         },
         [13361] = {
-            [questKeys.objectives] = {{{32588,"The Prince's Destiny"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{31395,32587,32588},32588,"The Prince's Destiny"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Pick it up"), 0, {{"object", 193980},{"object", 194023},{"object", 194024}}}},
         },
         [13363] = {
@@ -3724,6 +3735,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13225,12898},
         },
+        [13390] = {
+            [questKeys.startedBy] = {{31237},{193195}},
+        },
         [13394] = {
             [questKeys.preQuestSingle] = {13393},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Board Refurbished Demolisher"), 0, {{"monster", 32370}}}},
@@ -3735,7 +3749,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13396},
         },
         [13400] = {
-            [questKeys.objectives] = {{{32588,"The Prince's Destiny"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{31395,32587,32588},32588,"The Prince's Destiny"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Pick it up"), 0, {{"object", 193980},{"object", 194023},{"object", 194024}}}},
         },
         [13403] = {

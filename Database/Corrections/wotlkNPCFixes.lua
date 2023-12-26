@@ -1107,6 +1107,10 @@ function QuestieWotlkNpcFixes:Load()
         [29503] = {
             [npcKeys.waypoints] = {[zoneIDs.STORM_PEAKS] = {{{77.4,62.8},{77.2,63.8},{76.15,63.9}}}},
         },
+        [29560] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN] = {{9.53,47.01}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [29563] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{54.79,60.36}}},
         },
@@ -1425,6 +1429,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{80.38,71.06}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [30992] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{35.82,67.16}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [30996] = {
             [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_VILLAGE]={{-1,-1}}},
         },
@@ -1456,6 +1464,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{30.9,29.3}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [31235] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{35.6,66.73}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [31237] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{53.8,86.9}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
@@ -1482,8 +1494,16 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{30.9,29.3}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [31283] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{54.44,86.13}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [31306] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{29.8,61.2}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [31395] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{48.2,72.97}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [31440] = {
@@ -1599,8 +1619,20 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{49.2,73.2}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [32587] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{49.82,73.53}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32588] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{49.27,74.1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [32593] = {
             [npcKeys.spawns] = {[zoneIDs.THE_GILDED_GATE]={{-1,-1}},[4277]={{-1,-1}}},
+        },
+        [32648] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{42.9,78.71}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [32663] = {
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{16.37,48.26}}},
