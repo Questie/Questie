@@ -206,6 +206,45 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [78192] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.objectives] = {{{3733},{3732}}},
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
+        [78193] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.preQuestSingle] = {78192},
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
+        [78194] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.requiredRaces] = raceIDs.DWARF + raceIDs.HUMAN,
+        },
+        [78195] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.preQuestSingle] = {78194},
+            [questKeys.requiredRaces] = raceIDs.DWARF + raceIDs.HUMAN,
+        },
+        [78196] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.requiredRaces] = raceIDs.TROLL,
+        },
+        [78197] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.preQuestSingle] = {78196},
+            [questKeys.startedBy] = {{211229}},
+            [questKeys.requiredRaces] = raceIDs.TROLL,
+        },
+        [78198] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [78199] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.preQuestSingle] = {78198},
+            [questKeys.finishedBy] = {nil,{410168}},
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
         [78265] = {
             [questKeys.objectivesText] = {"Bring 24 Fish Oil to Grizzby."},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
