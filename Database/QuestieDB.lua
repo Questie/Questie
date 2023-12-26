@@ -94,6 +94,7 @@ local questTagCorrections = {
     [12437] = {41, "PvP"},
     [12443] = {41, "PvP"},
     [12446] = {41, "PvP"},
+    [90014] = {1, "Elite"},
     [90054] = {1, "Elite"},
 }
 
