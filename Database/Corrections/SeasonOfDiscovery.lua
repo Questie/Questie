@@ -190,7 +190,6 @@ local questsToBlacklistBySoDPhase = {
         [7890] = true, -- Old "Heavy Grinding Stone"
         [7894] = true, -- Old "Copper Modulator"
         [7895] = true, -- Old "Whirring Bronze Gizmo"
-        [7895] = true, -- Old "Whirring Bronze Gizmo"
         [7899] = true, -- Old "Small Furry Paws"
         [7900] = true, -- Old "Torn Bear Pelts"
         [8746] = true, -- Old "Metzen the Reindeer" quest
