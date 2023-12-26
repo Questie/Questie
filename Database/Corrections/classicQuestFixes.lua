@@ -2557,6 +2557,9 @@ function QuestieQuestFixes:Load()
         [7622] = {
             [questKeys.triggerEnd] = {"The Balance of Light and Shadow", {[zoneIDs.EASTERN_PLAGUELANDS]={{21.19,17.79}}}}, -- #2332
         },
+        [7631] = {
+            [questKeys.requiredSourceItems] = {18663,18629,18670,18818},
+        },
         [7632] = {
             [questKeys.startedBy] = {{12018},{179703},{18703}},
         },
