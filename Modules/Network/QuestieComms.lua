@@ -529,12 +529,12 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
                 end
             else
                 local questType = data.questTag
-                local entry = {}
-                entry.questId = questId
-                entry.questType = questType
-                entry.zoneOrSort = QuestieDB.QueryQuestSingle(questId, "zoneOrSort")
-                entry.isSoloQuest = not (questType == "Dungeon" or questType == "Raid" or questType == "Group" or questType == "Elite" or questType == "PVP")
-
+                local entry = {
+                    questId = questId,
+                    questType = questType,
+                    zoneOrSort = QuestieDB.QueryQuestSingle(questId, "zoneOrSort"),
+                    isSoloQuest = not (questType == "Dungeon" or questType == "Raid" or questType == "Group" or questType == "Elite" or questType == "PVP"),
+                }
 
                 if entry.zoneOrSort > 0 then
                     entry.UiMapId = ZoneDB:GetUiMapIdByAreaId(entry.zoneOrSort)
@@ -576,8 +576,9 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
             if string.len(QuestieSerializer:Serialize(rawQuestList)) > 200 then--extra space for packet metadata and CTL stuff
                 rawQuestList[quest.id] = nil
                 tinsert(blocks, rawQuestList)
-                rawQuestList = {}
-                rawQuestList[quest.id] = quest
+                rawQuestList = {
+                    [quest.id] = quest
+                }
                 entryCount = 1
                 blockCount = blockCount + 1
             end
@@ -685,7 +686,6 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
         local entryCount = 0
         local blockCount = 2 -- the extra tick allows checking tremove() == nil to set _isBroadcasting=false
         local offset = 2
-
 
         for _, entry in pairs(sorted) do
             --print("[CommsSendOrder][Block " .. (blockCount - 1) .. "] " .. QuestieDB.QueryQuestSingle(entry.questId, "name"))
@@ -1069,12 +1069,14 @@ function _QuestieComms:CreatePacket(messageId)
     for k,v in pairs(_QuestieComms.packets[messageId]) do
         pkt[k] = v
     end
-    pkt.data = {}
-    -- Set messageId
+
     local major, minor, patch = QuestieLib:GetAddonVersionInfo();
-    pkt.data.ver = major.."."..minor.."."..patch;
-    pkt.data.msgVer = commMessageVersion;
-    pkt.data.msgId = messageId
+    -- Set messageId
+    pkt.data = {
+        ver = major.."."..minor.."."..patch,
+        msgVer = commMessageVersion,
+        msgId = messageId,
+    }
     -- Some messages initialize
     if pkt.init then
         pkt:init()
