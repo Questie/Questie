@@ -956,6 +956,7 @@ function QuestieQuestFixes:Load()
             [questKeys.childQuests] = {1442,1655},
         },
         [1655] = {
+            [questKeys.specialFlags] = 1,
             [questKeys.parentQuest] = 1654,
         },
         [1661] = {
