@@ -153,6 +153,10 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90081] = true, -- Hunter Aspect of the Lion
     [90082] = true, -- Hunter Master Marksman
     [90083] = true, -- Hunter Cobra Strikes
+    [90084] = true, -- Rogue Blade Dance Darkshore
+    [90085] = true, -- Rogue Blade Dance Loch Modan
+    [90086] = true, -- Rogue Blade Dance Westfall
+    [90087] = true, -- Rogue Blade Dance The Barrens
 }
 
 ---@param questId number
@@ -181,6 +185,7 @@ local questsToBlacklistBySoDPhase = {
         [90078] = true, -- Hiding Warlock Demonic Grace Elwynn Forest for now as there are too many icons
         [90079] = true, -- Hiding Warlock Demonic Grace Durotar for now as there are too many icons
         [90080] = true, -- Hiding Warlock Demonic Grace Tirisfal Galdes for now as there are too many icons
+        [90085] = true, -- Hiding Loch Modan verion of Blade Dance
 
     },
     [2] = { -- SoD Phase 2 - level cap 40
