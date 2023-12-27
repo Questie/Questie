@@ -539,7 +539,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 23,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.ROGUE,
-            [questKeys.objectivesText] = {"Find The Horn of Xelthos inside of Shadowfang Keep. Then, return it to C's dead drop near Pyrewood Village."},
+            [questKeys.objectivesText] = {"Find work order from pickpocketing Venture Co. Mobs in Stonetalon Mountains."},
             [questKeys.objectives] = nil,
         },
         [78277] = {
