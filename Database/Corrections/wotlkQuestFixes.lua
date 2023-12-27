@@ -2589,8 +2589,8 @@ function QuestieWotlkQuestFixes:Load()
         [12927] = {
             [questKeys.objectives] = {{{29746}}},
         },
-        [12930] = {
-            [questKeys.exclusiveTo] = {12929},
+        [12929] = {
+            [questKeys.exclusiveTo] = {12930},
         },
         [12932] = { -- This is the version of the quest you get if you have NOT completed 9977
             [questKeys.objectives] = {{{30014,"Yggdras Defeated"}}},
@@ -2974,6 +2974,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13106] = {
             [questKeys.preQuestSingle] = {12896,12897},
+            [questKeys.exclusiveTo] = {13119,13120},
         },
         [13109] = {
             [questKeys.preQuestSingle] = {13047},
