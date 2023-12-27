@@ -1451,6 +1451,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Kill Incinerator Gar'im"},
             [questKeys.requiredSpell] = -416015,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.questFlags] = 1,
         },
         [90071] = {
             [questKeys.name] = "Demonic Tactics",
