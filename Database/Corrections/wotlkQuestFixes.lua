@@ -5583,6 +5583,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37120}},
             [questKeys.finishedBy] = {nil,{201742}},
             [questKeys.nextQuestInChain] = 24743,
+            [questKeys.requiredMinRep] = {1156,3000},
         },
         [24547] = {
             [questKeys.startedBy] = {{37120}},
