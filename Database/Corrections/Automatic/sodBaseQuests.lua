@@ -493,6 +493,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Travel to the Echo Isles and use the offering at Bwonsamdi's shrine."},
             [questKeys.objectives] = nil,
         },
+        [78261] = {
+            [questKeys.name] = "The Horn of Xelthos",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 23,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Find The Horn of Xelthos inside of Shadowfang Keep. Then, return it to C's dead drop near Pyrewood Village. You must complete the job alone."},
+            [questKeys.objectives] = {nil,nil,{{210183}}},
+        },
         [78265] = {
             [questKeys.name] = "Fish Oil",
             [questKeys.startedBy] = {{211653}},
