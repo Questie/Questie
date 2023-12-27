@@ -32,9 +32,6 @@ function SeasonOfDiscovery:LoadItems()
         [209846] = {
             [itemKeys.objectDrops] = {409692},
         },
-        [210187] = {
-            [itemKeys.startQuest] = {78270},
-        },
         [211452] = { -- Horde Blackfathom Pearl
             [itemKeys.relatedQuests] = {78917},
             [itemKeys.startQuest] = 78917,
