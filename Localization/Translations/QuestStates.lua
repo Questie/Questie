@@ -87,7 +87,7 @@ local questStateLocales = {
         ["frFR"] = "JcJ",
     },
     ["Rune"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Runa",
         ["ruRU"] = "Руна",
         ["deDE"] = true,
         ["koKR"] = false,
@@ -96,7 +96,7 @@ local questStateLocales = {
         ["zhCN"] = false,
         ["zhTW"] = "符文",
         ["esES"] = "Runa",
-        ["frFR"] = false,
+        ["frFR"] = true,
     },
 }
 
