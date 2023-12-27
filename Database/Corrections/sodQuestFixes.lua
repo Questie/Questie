@@ -259,6 +259,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [78270] = {
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.parentQuest] = 78261,
         },
         [78277] = {
             [questKeys.objectivesText] = {"Complete the quest chain starting with Resting in Pieces to receive the Living Bomb rune."},
