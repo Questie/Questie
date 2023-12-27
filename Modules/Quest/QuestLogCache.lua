@@ -169,10 +169,8 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
 
                 if newObjectives then
                     if cachedQuest and (#cachedObjectives ~= #newObjectives) then
-                        Questie:Debug(Questie.DEBUG_CRITICAL, "Please report on Github or Discord! Number of the objectives of the quest changed. questId, oldNum, newNum", questId, #cachedObjectives, #newObjectives)
-                        -- Number of the objectives changed?! Shouldn't be possible.
-                        -- For now go as nothing in the quest changed.
-                        cacheMiss = true
+                        -- Quest was cached before and now the objectives are different. This only happens after a loading screen, while the API returns
+                        -- invalid data. We just skip this case.
                     else
                         if (not cachedQuest) or (cachedQuest.title ~= title) or (cachedQuest.questTag ~= questTag) or (cachedQuest.isComplete ~= isComplete) then
                             -- Mark all objectives changed to force update those too.
