@@ -539,7 +539,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 23,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.ROGUE,
-            [questKeys.objectivesText] = {"Find work order from pickpocketing Venture Co. Mobs in Stonetalon Mountains."},
+            [questKeys.objectivesText] = {"Pickpocket the work order from Venture Co. Operators in Windshear Crag"},
             [questKeys.objectives] = nil,
         },
         [78277] = {

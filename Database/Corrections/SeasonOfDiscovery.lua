@@ -50,6 +50,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [78265] = true,
     [78266] = true,
     [78267] = true,
+    [78270] = true, 
     [78277] = true,
     [78506] = true, -- Shaman Earth Shield Part 1
     [78537] = true, -- Shaman Earth Shield Part 2
@@ -65,6 +66,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79095] = true,
     [79096] = true,
     [79097] = true,
+
 
     -- fake IDs
     --- Mage runes
