@@ -1004,7 +1004,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Buy Demolition Explosives from Zixil for 5 gold."},
+            [questKeys.objectivesText] = {"Buy Demolition Explosives from Zixil for 1 gold."},
             [questKeys.requiredSpell] = -403937,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
@@ -1463,6 +1463,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Kill Incinerator Gar'im"},
             [questKeys.requiredSpell] = -416015,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.questFlags] = 1,
         },
         [90071] = {
             [questKeys.name] = "Demonic Tactics",
