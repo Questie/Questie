@@ -168,10 +168,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                 local newObjectives, changedObjIds = GetNewObjectives(questId, cachedObjectives)
 
                 if newObjectives then
-                    if cachedQuest and (#cachedObjectives ~= #newObjectives) then
-                        -- Quest was cached before and now the objectives are different. This only happens after a loading screen, while the API returns
-                        -- invalid data. We just skip this case.
-                    else
+                    if (not cachedQuest) or (#cachedObjectives == #newObjectives) then
                         if (not cachedQuest) or (cachedQuest.title ~= title) or (cachedQuest.questTag ~= questTag) or (cachedQuest.isComplete ~= isComplete) then
                             -- Mark all objectives changed to force update those too.
                             -- changedObjIds is nil from GetObjectives() for quests not having objectives. This is easiest place to change it to {}.
