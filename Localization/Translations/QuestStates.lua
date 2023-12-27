@@ -43,11 +43,11 @@ local questStateLocales = {
         ["ruRU"] = "Активно",
         ["deDE"] = "Aktiv",
         ["koKR"] = "활성화",
-        ["esMX"] = "Activa",
+        ["esMX"] = "Activo",
         ["enUS"] = true,
         ["zhCN"] = "已有",
         ["zhTW"] = "已有",
-        ["esES"] = "Activa",
+        ["esES"] = "Activo",
         ["frFR"] = "Activée",
     },
     ["Event"] = {
