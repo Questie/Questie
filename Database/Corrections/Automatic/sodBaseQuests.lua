@@ -497,7 +497,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.name] = "The Horn of Xelthos",
             [questKeys.startedBy] = nil,
             [questKeys.finishedBy] = nil,
-            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 23,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.ROGUE,
