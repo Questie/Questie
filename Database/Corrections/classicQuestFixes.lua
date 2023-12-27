@@ -3323,12 +3323,14 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {21314},
         },
         [8767] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.exclusiveTo] = {8788},
         },
         [8788] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.exclusiveTo] = {8767},
         },
         [8791] = {
             [questKeys.startedBy] = {{15339},nil,{21220}},
