@@ -1695,7 +1695,7 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
         [78143] = {
             [questKeys.startedBy] = {{211022},{409692}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' located just outside the Wailing Cavern dungeon and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
         },
         [78145] = {
             [questKeys.startedBy] = {{211022},{409717}},
@@ -1776,7 +1776,7 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
         [78143] = {
             [questKeys.startedBy] = {{211033},{409692}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' located just outside the Wailing Cavern dungeon and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [78145] = {
             [questKeys.startedBy] = {{211033},{409717}},
