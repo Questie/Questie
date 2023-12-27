@@ -26,6 +26,7 @@ function QuestieTBCQuestFixes:Load()
     local classIDs = QuestieDB.classKeys
     local zoneIDs = ZoneDB.zoneIDs
     local sortKeys = QuestieDB.sortKeys
+    local questFlags = QuestieDB.questFlags
     local profKeys = QuestieProfessions.professionKeys
     local specKeys = QuestieProfessions.specializationKeys
 
@@ -4809,7 +4810,7 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.ASHENVALE] = {{61.8,83.8}},
             }},
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
-            [questKeys.questFlags] = 64,
+            [questKeys.questFlags] = questFlags.RAID,
             [questKeys.specialFlags] = 1,
         },
         -- Blood Elf Paladin Epic Mount quest
