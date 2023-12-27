@@ -533,7 +533,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [78270] = {
             [questKeys.name] = "Goblin Lockpicks",
-            [questKeys.startedBy] = {{3988, 4070, 3992, 3993}},
+            [questKeys.startedBy] = nil,
             [questKeys.finishedBy] = {{4086}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 23,
