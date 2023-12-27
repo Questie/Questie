@@ -261,6 +261,8 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
         [78270] = {
+            [questKeys.startedBy] = {{4086}},
+            [questKeys.objectivesText] = {"Pickpocket the work order from Venture Co. Operators in Windshear Crag"},
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
             [questKeys.parentQuest] = 78261,
         },
