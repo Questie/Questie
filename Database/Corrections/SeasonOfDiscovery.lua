@@ -68,7 +68,6 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79096] = true,
     [79097] = true,
 
-
     -- fake IDs
     --- Mage runes
     [90000] = true,
