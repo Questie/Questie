@@ -168,7 +168,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                 local newObjectives, changedObjIds = GetNewObjectives(questId, cachedObjectives)
 
                 if newObjectives then
-                    if (not cachedQuest) or (#cachedObjectives == #newObjectives and
+                    if (not cachedQuest) or (#cachedObjectives == #newObjectives and #cachedObjectives > 0 and
                         (cachedQuest.title ~= title or cachedQuest.questTag ~= questTag or cachedQuest.isComplete ~= isComplete)) then
                         -- Mark all objectives changed to force update those too.
 
