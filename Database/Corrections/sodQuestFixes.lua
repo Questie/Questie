@@ -245,6 +245,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {nil,{410168}},
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
+        [78261] = {
+            [questKeys.childQuests] = {78270},
+        },
         [78265] = {
             [questKeys.objectivesText] = {"Bring 24 Fish Oil to Grizzby."},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
