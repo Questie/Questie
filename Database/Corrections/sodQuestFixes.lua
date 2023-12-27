@@ -245,6 +245,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {nil,{410168}},
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
+        [78261] = {
+            [questKeys.startedBy] = {nil,{410369}},
+            [questKeys.finishedBy] = {nil,{410369}},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.childQuests] = {78270},
+        },
         [78265] = {
             [questKeys.objectivesText] = {"Bring 24 Fish Oil to Grizzby."},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
@@ -256,6 +262,12 @@ function SeasonOfDiscovery:LoadQuests()
         [78267] = {
             [questKeys.objectivesText] = {"Bring 16 Shredder Turbocharger to Grizzby."},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+        },
+        [78270] = {
+            [questKeys.startedBy] = {{4086}},
+            [questKeys.objectivesText] = {"Pickpocket the work order from Venture Co. Operators in Windshear Crag"},
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.parentQuest] = 78261,
         },
         [78277] = {
             [questKeys.objectivesText] = {"Complete the quest chain starting with Resting in Pieces to receive the Living Bomb rune."},

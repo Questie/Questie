@@ -47,9 +47,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [78147] = true, -- Mage Icy Veins
     [78148] = true, -- Mage Icy Veins
     [78149] = true, -- Mage Icy Veins
+    [78261] = true, -- Rogue Deadly Brew Part 2
     [78265] = true, -- Grizzby prequest for multiple runes
     [78266] = true, -- Grizzby prequest for multiple runes
     [78267] = true, -- Grizzby prequest for multiple runes
+    [78270] = true, -- Rogue Deadly Brew Part 3
     [78277] = true, -- Mage Horde Living Bomb
     [78506] = true, -- Shaman Earth Shield Part 1
     [78537] = true, -- Shaman Earth Shield Part 2
@@ -186,7 +188,6 @@ local questsToBlacklistBySoDPhase = {
         [90079] = true, -- Hiding Warlock Demonic Grace Durotar for now as there are too many icons
         [90080] = true, -- Hiding Warlock Demonic Grace Tirisfal Galdes for now as there are too many icons
         [90085] = true, -- Hiding Loch Modan verion of Blade Dance
-
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
