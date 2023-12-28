@@ -1444,7 +1444,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90069] = {
             [questKeys.name] = "Shadow Bolt Volley",
-            [questKeys.startedBy] = {{1974,1973,300031}},
+            [questKeys.startedBy] = {{1974,1973,300032}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 18,
@@ -1636,7 +1636,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90085] = {
             [questKeys.name] = "Blade Dance",
-            [questKeys.startedBy] = {{1169,300029}},
+            [questKeys.startedBy] = {{1169,300033}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 18,

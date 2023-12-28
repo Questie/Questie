@@ -25,7 +25,6 @@ function SeasonOfDiscovery:LoadNPCs()
         [204068] = { -- Lady Sarevess
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
-
         },
         [204070] = {
             [npcKeys.spawns] = {
@@ -518,15 +517,6 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.ELWYNN_FOREST] = {{47.2,80.3}},
             },
         },
-        [300029] = { -- 90085
-            [npcKeys.name] = "Dark Iron Insurgent",
-            [npcKeys.minLevel] = 1,
-            [npcKeys.maxLevel] = 1,
-            [npcKeys.zoneID] = zoneIDs.LOCH_MODAN,
-            [npcKeys.spawns] = {
-                [zoneIDs.LOCH_MODAN] = {{58.95,13.51}},
-            },
-        },
         [300030] = { -- 968
             [npcKeys.name] = "Twilight Member",
             [npcKeys.minLevel] = 17,
@@ -545,13 +535,22 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DARKSHORE] = {{56.2,26.8}},
             },
         },
-        [300031] = { -- 90069
+        [300032] = { -- 90069
             [npcKeys.name] = "Ravenclaw Member",
             [npcKeys.minLevel] = 16,
             [npcKeys.maxLevel] = 17,
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {
                 [zoneIDs.SILVERPINE_FOREST] = {{58.9,71.7}},
+            },
+        },
+        [300033] = { -- 90085
+            [npcKeys.name] = "Dark Iron Insurgent",
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.zoneID] = zoneIDs.LOCH_MODAN,
+            [npcKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{58.95,13.51}},
             },
         },
     }
