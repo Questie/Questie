@@ -170,7 +170,9 @@ local function _CheckSoDDatabase()
         char = {
             showEventQuests = false
         },
-        global = {},
+        global = {
+            sod = {}
+        },
         profile = {}
     }
     QuestieConfig = {}
