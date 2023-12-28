@@ -108,6 +108,10 @@ function QuestieQuestFixes:Load()
         [165] = {
             [questKeys.exclusiveTo] = {148}, --#1173
         },
+        [178] = {
+            [questKeys.startedBy] = {{429,431,432,433,434,568,579,703,947,300035},nil,{1962}},
+            [questKeys.objectivesText] = {"Bring the Faded Shadowhide Pendant to Theocritus the Mage. NOTE: This is a very rare drop!"},
+        },
         [201] = {
             [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.65,10.59}}}},
         },

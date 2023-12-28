@@ -1429,6 +1429,7 @@ QuestieDB.waypointPresets = {
 
 
 local questsWithTooManyStarters = {
+    [178] = true, -- Theocritus' Retrieval
     [968] = true, -- The Powers Below
     [1480] = true, -- The Corruptor
     [90008] = true, -- Mage Regeneration Rune
