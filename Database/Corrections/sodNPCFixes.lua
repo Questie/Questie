@@ -261,6 +261,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.WESTFALL] = {{51.2, 46.8},{51.6, 55.6}},
             },
         },
+        [210845] = { -- Jixo Madrocket
+            [npcKeys.spawns] = {
+                [zoneIDs.STONETALON_MOUNTAINS] = {{59.2, 62.4}},
+            },
+        },
         [210995] = { -- Alonso
             [npcKeys.spawns] = {
                 [zoneIDs.ASHENVALE] = {{43.4, 70.4}},
