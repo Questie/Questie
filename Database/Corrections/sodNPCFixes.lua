@@ -65,6 +65,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.LOCH_MODAN] = {{72.6, 68.8}},
             },
         },
+        [209958] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{72.6, 68.8}},
+            },
+        },
         [211022] = {
             [npcKeys.spawns] = {
                 [zoneIDs.UNDERCITY] = {{73.4,33}},
