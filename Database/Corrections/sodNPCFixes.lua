@@ -303,6 +303,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.SILVERPINE_FOREST] = {},
             },
         },
+        [211951] = { -- Koartul
+            [npcKeys.spawns] = {
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{60.8,31.8}},
+            },
+        },
         [211965] = { -- Carrodin
             [npcKeys.spawns] = {
                 [zoneIDs.WETLANDS] = {{46.6, 65.6}},
