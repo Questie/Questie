@@ -38,6 +38,9 @@ function QuestieNPCFixes:Load()
         [446] = {
             [npcKeys.waypoints] = {},
         },
+        [448] = {
+            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{25.02,92.9}}},
+        },
         [580] = {
             [npcKeys.waypoints] = {},
         },
