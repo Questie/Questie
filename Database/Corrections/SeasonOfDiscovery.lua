@@ -47,6 +47,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [78147] = true, -- Mage Icy Veins
     [78148] = true, -- Mage Icy Veins
     [78149] = true, -- Mage Icy Veins
+    [78229] = true, -- Druid Wild Growth
     [78261] = true, -- Rogue Deadly Brew Part 2
     [78265] = true, -- Grizzby prequest for multiple runes
     [78266] = true, -- Grizzby prequest for multiple runes

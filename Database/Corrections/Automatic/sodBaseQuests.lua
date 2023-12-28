@@ -493,6 +493,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Travel to the Echo Isles and use the offering at Bwonsamdi's shrine."},
             [questKeys.objectives] = nil,
         },
+        [78229] = {
+            [questKeys.name] = "Trial of The Owls"
+            [questKeys.startedBy] = {{12042}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Bring symbols of the three owls to Loganaar in Moonglade."},
+            [questKeys.objectives] = {nil,nil,{{210044, 210043, 210026}}},
+        },
         [78261] = {
             [questKeys.name] = "The Horn of Xelthos",
             [questKeys.startedBy] = nil,

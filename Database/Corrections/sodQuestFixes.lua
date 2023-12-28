@@ -245,6 +245,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {nil,{410168}},
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
+        [78229] = {
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
         [78261] = {
             [questKeys.startedBy] = {nil,{410369}},
             [questKeys.finishedBy] = {nil,{410369}},
