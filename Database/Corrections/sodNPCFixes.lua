@@ -437,6 +437,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.REDRIDGE_MOUNTAINS] = {{35.4,8.6},{64.2,45.8},{77.4,69.4}},
             },
         },
+        [214519] = { -- Incinerator Gar'im
+            [npcKeys.spawns] = {
+                [zoneIDs.REDRIDGE_MOUNTAINS] = {{77.6, 85.8}},
+            },
+        },
         [216902] = { -- Wulmort Jinglepocket
             [npcKeys.spawns] = {
                 [zoneIDs.IRONFORGE] = {{33.7,67.23}},
