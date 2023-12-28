@@ -231,6 +231,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TELDRASSIL] = {{48.0, 31.6}},
             },
         },
+        [209954] = { -- Dead Acolyte
+            [npcKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{72.6, 68.8}},
+            },
+        },
         [210107] = { -- Kackle
             [npcKeys.spawns] = {
                 [zoneIDs.LOCH_MODAN] = {{55.0, 55.4}},
