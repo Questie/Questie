@@ -206,6 +206,51 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [78192] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.objectives] = {{{3733},{3732}}},
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
+        [78193] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.preQuestSingle] = {78192},
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
+        [78194] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.requiredRaces] = raceIDs.DWARF + raceIDs.HUMAN,
+        },
+        [78195] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.preQuestSingle] = {78194},
+            [questKeys.requiredRaces] = raceIDs.DWARF + raceIDs.HUMAN,
+        },
+        [78196] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.requiredRaces] = raceIDs.TROLL,
+        },
+        [78197] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.preQuestSingle] = {78196},
+            [questKeys.startedBy] = {{211229}},
+            [questKeys.requiredRaces] = raceIDs.TROLL,
+        },
+        [78198] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [78199] = {
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.preQuestSingle] = {78198},
+            [questKeys.finishedBy] = {nil,{410168}},
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [78261] = {
+            [questKeys.startedBy] = {nil,{410369}},
+            [questKeys.finishedBy] = {nil,{410369}},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.childQuests] = {78270},
+        },
         [78265] = {
             [questKeys.objectivesText] = {"Bring 24 Fish Oil to Grizzby."},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
@@ -217,6 +262,12 @@ function SeasonOfDiscovery:LoadQuests()
         [78267] = {
             [questKeys.objectivesText] = {"Bring 16 Shredder Turbocharger to Grizzby."},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+        },
+        [78270] = {
+            [questKeys.startedBy] = {{4086}},
+            [questKeys.objectivesText] = {"Pickpocket the work order from Venture Co. Operators in Windshear Crag"},
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.parentQuest] = 78261,
         },
         [78277] = {
             [questKeys.objectivesText] = {"Complete the quest chain starting with Resting in Pieces to receive the Living Bomb rune."},
@@ -245,9 +296,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {78506},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [78561] = {
+            [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {78537},
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
         [78575] = {
             [questKeys.objectives] = {{{212694}}},
-            [questKeys.preQuestSingle] = {78537},
+            [questKeys.preQuestSingle] = {78561},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [78611] = {
@@ -269,21 +325,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.objectives] = {nil,nil,{{210765},{210763}}},
             [questKeys.objectivesText] = {"Not much is known about the location of these shattered weapon fragments, save that they are both in the possession of once great mages held up in towers of importance. One is said to be located here to the north on Kalimdor, while the other is nestled near the heart of the Eastern Kingdoms.\n\nSee if the rumors are true... Search for the two missing halves of this weapon and bring them to me."},
-            [questKeys.questFlags] = 1,
             [questKeys.preQuestSingle] = {1740},
         },
         [78681] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.questFlags] = 1,
             [questKeys.preQuestSingle] = {78680},
         },
         [78684] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.questFlags] = 1,
             [questKeys.preQuestSingle] = {78681},
         },
         [78702] = {
@@ -314,7 +367,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{12736}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
-            [questKeys.questFlags] = 62,
+            [questKeys.questFlags] = questFlags.RAID,
         },
         [78921] = { -- Blackfathom Villainy
             [questKeys.startedBy] = {{4787}},
@@ -322,7 +375,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{5881}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
-            [questKeys.questFlags] = 62,
+            [questKeys.questFlags] = questFlags.RAID,
         },
         [78922] = { -- Blackfathom Villainy
             [questKeys.startedBy] = {{4787}},
@@ -330,7 +383,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {nil,nil,{{5881}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
-            [questKeys.questFlags] = 62,
+            [questKeys.questFlags] = questFlags.RAID,
         },
         [78923] = { -- Knowledge in the Deeps
             [questKeys.startedBy] = {{2786}},
@@ -338,7 +391,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{5359}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
-            [questKeys.questFlags] = 62,
+            [questKeys.questFlags] = questFlags.RAID,
         },
         [78925] = { -- Twilight Falls
             [questKeys.startedBy] = {{4784}},
@@ -346,7 +399,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{5879}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
-            [questKeys.questFlags] = 62,
+            [questKeys.questFlags] = questFlags.RAID,
         },
         [78926] = { -- Researching the Corruption
             [questKeys.startedBy] = {{8997}},
@@ -354,7 +407,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{5952}}},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
-            [questKeys.questFlags] = 62,
+            [questKeys.questFlags] = questFlags.RAID,
         },
         [78927] = { -- Allegiance to the Old Gods
             [questKeys.startedBy] = {{12736}},
@@ -362,7 +415,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {{{207356}},nil,nil},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
-            [questKeys.questFlags] = 62,
+            [questKeys.questFlags] = questFlags.RAID,
         },
         [79090] = {
             [questKeys.startedBy] = {{212727,212728,212729,212730,212801,212802}},
@@ -436,7 +489,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{211818}}},
             [questKeys.zoneOrSort] = zoneIDs.AUBERDINE,
-            [questKeys.questFlags] = 62,
+            [questKeys.questFlags] = questFlags.RAID,
         },
         [79100] = {
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
@@ -953,7 +1006,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Buy Demolition Explosives from Zixil for 5 gold."},
+            [questKeys.objectivesText] = {"Buy Demolition Explosives from Zixil for 1 gold."},
             [questKeys.requiredSpell] = -403937,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
@@ -1573,6 +1626,54 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425759,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90084] = {
+            [questKeys.name] = "Blade Dance",
+            [questKeys.startedBy] = {nil,{408718}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 16,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Defeat Naga in the Cliffspring River cave to receive Cliffspring Key. Use the key to open the chest."},
+            [questKeys.requiredSpell] = -400099,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
+        [90085] = {
+            [questKeys.name] = "Blade Dance",
+            [questKeys.startedBy] = {{1169}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 18,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Pickpocket Dark Iron dwarfs to receive Dark Iron Lockbox and pick it."},
+            [questKeys.requiredSpell] = -400099,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
+        [90086] = {
+            [questKeys.name] = "Blade Dance",
+            [questKeys.startedBy] = {nil,{414532}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 14,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Pickpocket Defias to receive a Discreet Envelope which contains the Equipment Stash Key. Use the key to open the chest."},
+            [questKeys.requiredSpell] = -400099,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
+        [90087] = {
+            [questKeys.name] = "Blade Dance",
+            [questKeys.startedBy] = {nil,{407454}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 14,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Pickpocket Southsea pirates to receive Buccaneer's Matchbox. Use it to blow up some crates and loot the rune from the spawning chest."},
+            [questKeys.requiredSpell] = -400099,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 
@@ -1599,7 +1700,7 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
         [78143] = {
             [questKeys.startedBy] = {{211022},{409692}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' located just outside the Wailing Cavern dungeon and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
         },
         [78145] = {
             [questKeys.startedBy] = {{211022},{409717}},
@@ -1680,7 +1781,7 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
         [78143] = {
             [questKeys.startedBy] = {{211033},{409692}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' located just outside the Wailing Cavern dungeon and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [78145] = {
             [questKeys.startedBy] = {{211033},{409717}},

@@ -21,7 +21,11 @@ QuestieCorrections.killCreditObjectiveFirst[12762] = true
 QuestieCorrections.killCreditObjectiveFirst[12919] = true
 QuestieCorrections.killCreditObjectiveFirst[13086] = true
 QuestieCorrections.killCreditObjectiveFirst[13373] = true
+QuestieCorrections.killCreditObjectiveFirst[13376] = true
 QuestieCorrections.killCreditObjectiveFirst[13380] = true
+QuestieCorrections.killCreditObjectiveFirst[13382] = true
+QuestieCorrections.killCreditObjectiveFirst[13404] = true
+QuestieCorrections.killCreditObjectiveFirst[13406] = true
 
 function QuestieWotlkQuestFixes:Load()
     _QuestieWotlkQuestFixes:InsertMissingQuestIds()
@@ -866,6 +870,9 @@ function QuestieWotlkQuestFixes:Load()
         [11495] = {
             [questKeys.objectives] = {{{24847,"Thundering Cave investigated"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Put on the Golem suit"),0,{{"object", 186958}}}},
+        },
+        [11528] = {
+            [questKeys.exclusiveTo] = {13203,13966},
         },
         [11529] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{37.2,74.8}}}, Questie.ICON_TYPE_OBJECT, l10n("Use The Big Gun at the front of the ship to slay Sorlof"),0,{{"monster", 24992}}}},
@@ -2462,6 +2469,9 @@ function QuestieWotlkQuestFixes:Load()
         [12842] = {
             [questKeys.triggerEnd] = {"Weapon emblazoned",{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{47.28,31.36},{47.82,27.42},{50.43,28.17},},},},
         },
+        [12847] = {
+            [questKeys.triggerEnd] = {"Arete's Gate summoned",{[zoneIDs.ICECROWN]={{9.53,47.01}}}},
+        },
         [12851] = {
             [questKeys.name] = "Bearly Hanging On",
             [questKeys.objectives] = {{{29358},{29351}}},
@@ -2579,8 +2589,8 @@ function QuestieWotlkQuestFixes:Load()
         [12927] = {
             [questKeys.objectives] = {{{29746}}},
         },
-        [12930] = {
-            [questKeys.exclusiveTo] = {12929},
+        [12929] = {
+            [questKeys.exclusiveTo] = {12930},
         },
         [12932] = { -- This is the version of the quest you get if you have NOT completed 9977
             [questKeys.objectives] = {{{30014,"Yggdras Defeated"}}},
@@ -2867,8 +2877,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13042] = {
             [questKeys.preQuestSingle] = {12999},
+            [questKeys.objectives] = {{{30409,"Information beaten out of Apprentice Osterkilgr"},{30409}}},
         },
         [13043] = {
+            [questKeys.preQuestSingle] = {12999},
             [questKeys.startedBy] = {{30409},nil,{42772}},
             [questKeys.requiredSourceItems] = {},
             [questKeys.extraObjectives] = {
@@ -2912,6 +2924,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13059] = {
             [questKeys.objectives] = {nil,{{192560}},nil,nil,{{{30475},32821,}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Volgur"), 0, {{"monster", 30483}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Brita"), 0, {{"monster", 30484}}},
+            },
         },
         [13060] = {
             [questKeys.extraObjectives] = {
@@ -2958,6 +2974,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13106] = {
             [questKeys.preQuestSingle] = {12896,12897},
+            [questKeys.exclusiveTo] = {13119,13120},
         },
         [13109] = {
             [questKeys.preQuestSingle] = {13047},
@@ -3064,6 +3081,8 @@ function QuestieWotlkQuestFixes:Load()
         [13152] = {
             [questKeys.preQuestSingle]= {},
             [questKeys.preQuestGroup] = {13134,13138,13140},
+            [questKeys.objectives] = {{{30993,"Patches freed"},{30992,"Help Patches kill Doctor Sabnok"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Free Patches"), 0, {{"object", 193025}}}},
         },
         [13153] = {
             [questKeys.startedBy] = {},
@@ -3185,6 +3204,9 @@ function QuestieWotlkQuestFixes:Load()
         [13202] = {
             [questKeys.exclusiveTo] = {13191,13192,13193,13194,13199,13200,13201},
         },
+        [13203] = {
+            [questKeys.exclusiveTo] = {11528,13966},
+        },
         [13204] = {
             [questKeys.startedBy] = {{30329},nil,{43512}},
         },
@@ -3250,16 +3272,17 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13225},
         },
         [13232] = {
+            [questKeys.objectives] = {{{31304,"Dying Soldiers Slain"}}},
             [questKeys.parentQuest] = 13231,
             [questKeys.preQuestSingle] = {13231},
         },
         [13233] = {
-            [questKeys.objectives] = {{{30344,}}},
+            [questKeys.triggerEnd] = {"Kill horde players in Icecrown", {[zoneIDs.ICECROWN]={{60.9,41.3}}}},
             [questKeys.preQuestSingle] = {13231},
         },
         [13234] = {
             [questKeys.preQuestSingle] = {13228},
-            [questKeys.objectives] = {{{30824,}}},
+            [questKeys.triggerEnd] = {"Kill alliance players in Icecrown", {[zoneIDs.ICECROWN]={{60.9,41.3}}}},
         },
         [13235] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Margrave Dhakar to fight Morbidus"), 0, {{"monster", 31306}}}},
@@ -3272,6 +3295,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13239] = {
             [questKeys.preQuestSingle] = {13238},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{31137,31583},31137,"Field Tests Conducted"}}},
         },
         [13240] = {
             [questKeys.startedBy] = {{31439},nil,nil},
@@ -3365,6 +3389,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13261] = {
             [questKeys.preQuestSingle] = {13239},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{31137,31583},31137,"Field Tests Conducted"}}},
         },
         [13264] = {
             [questKeys.objectives] = {{{31142,"Icy Ghouls Exploded"},{31147,"Vicious Geists Exploded"},{31205,"Risen Alliance Soldiers Exploded"}}},
@@ -3396,21 +3421,32 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13277},
         },
         [13279] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Pustulant Spinal Fluid"), 0, {{"object", 193580}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Pustulant Spinal Fluid"), 0, {{"monster", 31773}}}},
+            [questKeys.objectives] = {{{31773,"Plague Cauldron Neutralized"}}},
         },
         [13280] = {
             [questKeys.preQuestSingle] = {13296},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Plant Alliance Battle Standard"), 0, {{"object", 193565}}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Plant Alliance Battle Standard"), 0, {{"object", 193565}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Get in the Jumpbot"), 0, {{"monster", 31736}}},
+            },
         },
         [13281] = {
+            [questKeys.sourceItemId] = 44010,
             [questKeys.preQuestSingle] = {13279},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Pustulant Spinal Fluid"), 0, {{"monster", 31773}}}},
+            [questKeys.objectives] = {{{31773,"Plague Cauldron Neutralized"}}},
         },
         [13283] = {
             [questKeys.preQuestSingle] = {13293},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Plant Horde Battle Standard"), 0, {{"object", 193565}}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Plant Horde Battle Standard"), 0, {{"object", 193565}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Get in the Jumpbot"), 0, {{"monster", 31770}}},
+            },
         },
         [13284] = {
             [questKeys.preQuestSingle] = {13341},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{31701,31737},31701,"Alliance troops escorted to Ymirheim"}}},
         },
         [13286] = {
             [questKeys.preQuestSingle] = {13231},
@@ -3426,8 +3462,12 @@ function QuestieWotlkQuestFixes:Load()
         [13290] = {
             [questKeys.preQuestSingle] = {13231},
         },
+        [13291] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{31137,31583},31137,"Field Tests Conducted"}}},
+        },
         [13292] = {
             [questKeys.preQuestSingle] = {13291},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{31137,31583},31137,"Frostbrood Skytalons Destroyed"}}},
         },
         [13293] = {
             [questKeys.preQuestSingle] = {13224},
@@ -3435,11 +3475,18 @@ function QuestieWotlkQuestFixes:Load()
         [13294] = {
             [questKeys.preQuestSingle] = {13287},
         },
+        [13295] = {
+            [questKeys.objectives] = {{{31773,"Plague Cauldron Neutralized"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Pustulant Spinal Fluid"), 0, {{"monster", 31773}}}},
+        },
         [13296] = {
             [questKeys.preQuestSingle] = {13225},
         },
         [13297] = {
+            [questKeys.sourceItemId] = 44010,
             [questKeys.preQuestSingle] = {13295},
+            [questKeys.objectives] = {{{31773,"Plague Cauldron Neutralized"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Pustulant Spinal Fluid"), 0, {{"monster", 31773}}}},
         },
         [13298] = {
             [questKeys.preQuestSingle] = {13294},
@@ -3470,6 +3517,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13309] = {
             [questKeys.preQuestSingle] = {13341},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Hop on the turret"), 0, {{"monster", 32227}}}},
+            [questKeys.objectives] = {{{32222,"Skybreaker Infiltrators dropped"}}},
         },
         [13310] = {
             [questKeys.preQuestSingle] = {13340},
@@ -3509,6 +3558,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13323] = {
             [questKeys.preQuestSingle] = {13318},
+            [questKeys.objectives] = {{{32236,"Dark Subjugator dragged and dropped"}}},
         },
         [13328] = {
             [questKeys.preQuestSingle] = {13329},
@@ -3541,6 +3591,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13337] = {
             [questKeys.preQuestGroup] = {13332,13346},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Rune of Distortion near Grimkor's Orb to summon Grimkor the Wicked"), 0, {{"object", 193622}}}},
         },
         [13338] = {
             [questKeys.preQuestSingle] = {13335},
@@ -3568,16 +3619,20 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
         },
         [13345] = {
+            [questKeys.sourceItemId] = 44459,
             [questKeys.preQuestSingle] = {13318},
         },
         [13346] = {
-            [questKeys.preQuestSingle] = {13345},
+            [questKeys.sourceItemId] = 44476,
+            [questKeys.requiredSourceItems] = {44477,44479,44478,44476,44480},
         },
         [13347] = {
             [questKeys.preQuestSingle] = {12499},
         },
         [13350] = {
             [questKeys.preQuestSingle] = {13346},
+            [questKeys.sourceItemId] = 44476,
+            [questKeys.requiredSourceItems] = {44477,44479,44478,44476,44480},
         },
         [13351] = {
             [questKeys.preQuestSingle] = {13264},
@@ -3616,7 +3671,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13359},
         },
         [13361] = {
-            [questKeys.objectives] = {{{32588,"The Prince's Destiny"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{31395,32587,32588},32588,"The Prince's Destiny"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Pick it up"), 0, {{"object", 193980},{"object", 194023},{"object", 194024}}}},
         },
         [13363] = {
@@ -3631,10 +3686,17 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
         },
         [13366] = {
+            [questKeys.sourceItemId] = 44459,
             [questKeys.preQuestSingle] = {13352},
+        },
+        [13367] = {
+            [questKeys.sourceItemId] = 44476,
+            [questKeys.requiredSourceItems] = {44477,44479,44478,44476,44480},
         },
         [13368] = {
             [questKeys.preQuestSingle] = {13367},
+            [questKeys.sourceItemId] = 44476,
+            [questKeys.requiredSourceItems] = {44477,44479,44478,44476,44480},
         },
         [13369] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Request a portal to Orgrimmar"), 0, {{"monster", 32346}}}},
@@ -3643,7 +3705,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{15989},nil,{44569}},
         },
         [13373] = {
-            [questKeys.objectives] = {{{32769},{32771}},nil,nil,nil,{{{32770,32772},32770}}},
+            [questKeys.objectives] = {{{32179},{32188}},nil,nil,nil,{{{32182,32183},32182}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Rizzy Ratchwiggle"), 0, {{"monster", 31839}}}},
         },
         [13375] = {
@@ -3660,14 +3722,22 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13239},
         },
         [13380] = {
-            [questKeys.objectives] = {{{32769},{32771}},nil,nil,nil,{{{32770,32772},32770}}},
+            [questKeys.objectives] = {{{32179},{32188}},nil,nil,nil,{{{32182,32183},32182}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Karen No"), 0, {{"monster", 31648}}}},
         },
         [13382] = {
             [questKeys.preQuestSingle] = {13380},
+            [questKeys.objectives] = {{{32188},{32154},{31721}},nil,nil,nil,{{{32182,32183},32182}}},
         },
         [13383] = {
             [questKeys.preQuestSingle] = {13291},
+        },
+        [13386] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {13225,12898},
+        },
+        [13390] = {
+            [questKeys.startedBy] = {{31237},{193195}},
         },
         [13394] = {
             [questKeys.preQuestSingle] = {13393},
@@ -3680,7 +3750,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13396},
         },
         [13400] = {
-            [questKeys.objectives] = {{{32588,"The Prince's Destiny"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{31395,32587,32588},32588,"The Prince's Destiny"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Pick it up"), 0, {{"object", 193980},{"object", 194023},{"object", 194024}}}},
         },
         [13403] = {
@@ -3688,6 +3758,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13404] = {
             [questKeys.preQuestSingle] = {13380},
+            [questKeys.objectives] = {{{32179},{32188}},nil,nil,nil,{{{32182,32183},32182}}},
         },
         [13405] = {
             [questKeys.triggerEnd] = {"Victory in Strand of the Ancients", {
@@ -3703,7 +3774,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13406] = {
             [questKeys.preQuestSingle] = {13373},
-            [questKeys.objectives] = {{{32769},{32771}},nil,nil,nil,{{{32770,32772},32770}}},
+            [questKeys.objectives] = {{{32179},{32188}},nil,nil,nil,{{{32182,32183},32182}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Rizzy Ratchwiggle"), 1, {{"monster", 31839}}}},
         },
         [13407] = {
@@ -4967,6 +5038,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13938},
             [questKeys.exclusiveTo] = {13926},
         },
+        [13966] = {
+            [questKeys.exclusiveTo] = {11528,13203},
+        },
         [14016] = {
             [questKeys.specialFlags] = nil,
             [questKeys.questFlags] = 128,
@@ -5509,6 +5583,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37120}},
             [questKeys.finishedBy] = {nil,{201742}},
             [questKeys.nextQuestInChain] = 24743,
+            [questKeys.requiredMinRep] = {1156,3000},
         },
         [24547] = {
             [questKeys.startedBy] = {{37120}},

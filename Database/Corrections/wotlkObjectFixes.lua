@@ -166,7 +166,7 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL] = {{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{-1,-1}},[1196] = {{-1,-1}}},
         },
         [193004] = {
-            [objectKeys.spawns] = {[zoneIDs.ICECROWN] = {{59.35,71.77}}},
+            [objectKeys.spawns] = {[zoneIDs.ICECROWN] = {{57.85,74.37},{59.35,71.77},{58.08,70.64}}},
         },
         [193051] = {
             [objectKeys.spawns] = {[zoneIDs.THE_GILDED_GATE] = {{-1,-1}},[zoneIDs.HADRONOXS_LAIR] = {{-1,-1}},[4277] = {{-1,-1}}},

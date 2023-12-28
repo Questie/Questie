@@ -47,13 +47,16 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [78147] = true, -- Mage Icy Veins
     [78148] = true, -- Mage Icy Veins
     [78149] = true, -- Mage Icy Veins
+    [78261] = true, -- Rogue Deadly Brew Part 2
     [78265] = true, -- Grizzby prequest for multiple runes
     [78266] = true, -- Grizzby prequest for multiple runes
     [78267] = true, -- Grizzby prequest for multiple runes
+    [78270] = true, -- Rogue Deadly Brew Part 3
     [78277] = true, -- Mage Horde Living Bomb
     [78506] = true, -- Shaman Earth Shield Part 1
     [78537] = true, -- Shaman Earth Shield Part 2
-    [78575] = true, -- Shaman Earth Shield Part 3
+    [78561] = true, -- Shaman Earth Shield Part 3
+    [78575] = true, -- Shaman Earth Shield Part 4
     [78680] = true, -- Warlock Metamorphosis Part 2
     [78681] = true, -- Warlock Metamorphosis Part 3
     [78684] = true, -- Warlock Metamorphosis Part 4
@@ -153,6 +156,10 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90081] = true, -- Hunter Aspect of the Lion
     [90082] = true, -- Hunter Master Marksman
     [90083] = true, -- Hunter Cobra Strikes
+    [90084] = true, -- Rogue Blade Dance Darkshore
+    [90085] = true, -- Rogue Blade Dance Loch Modan
+    [90086] = true, -- Rogue Blade Dance Westfall
+    [90087] = true, -- Rogue Blade Dance The Barrens
 }
 
 ---@param questId number
