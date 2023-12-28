@@ -69,6 +69,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.ELWYNN_FOREST] = {{61.8, 47.6}},
             },
         },
+        [204503] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.ELWYNN_FOREST] = {{56.4, 57.8}},
+            },
+        },
         [202699] = { -- Baron Aquanis
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
