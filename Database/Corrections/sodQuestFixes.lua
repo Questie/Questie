@@ -1545,7 +1545,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 8,
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Obtain Ominous Tome from Frostmane Shadowcaster in Troll cave west of Brewnall Village Loot Wendigo Blood from Wendigo mobs Loot Wolf Jawbone from Wolf mobs. Use the reagents on Shimmer Ridge and kill Soboz"},
             [questKeys.requiredSpell] = -425477,
