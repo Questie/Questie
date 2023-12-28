@@ -1631,7 +1631,42 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
             if (npc ~= nil and npc.spawns ~= nil) then
                 QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc, "m_" .. npc.id)
 
-                if (not QuestieDB.TooManyStarters(quest.Id)) then
+                if QuestieDB.TooManyStarters(quest.Id) then
+                    if npc.id >= 300000 then -- fake NPCs used for quests with too many startes
+                        for npcZone, spawns in pairs(npc.spawns) do
+                            local coords
+                            for spawnIndex = 1, #spawns do
+                                coords = spawns[spawnIndex]
+                                local data = {
+                                    Id = quest.Id,
+                                    Icon = _QuestieQuest:GetQuestIcon(quest),
+                                    GetIconScale = _GetIconScaleForAvailable,
+                                    IconScale = _GetIconScaleForAvailable(),
+                                    Type = "available",
+                                    QuestData = quest,
+                                    Name = npc.name,
+                                    IsObjectiveNote = false,
+                                }
+                                if (coords[1] == -1 or coords[2] == -1) then
+                                    local dungeonLocation = ZoneDB:GetDungeonLocation(npcZone)
+                                    if dungeonLocation ~= nil then
+                                        for _, value in ipairs(dungeonLocation) do
+                                            local zone = value[1];
+                                            local x = value[2];
+                                            local y = value[3];
+
+                                            QuestieMap:DrawWorldIcon(data, zone, x, y)
+                                        end
+                                    end
+                                else
+                                    local x = coords[1];
+                                    local y = coords[2];
+                                    QuestieMap:DrawWorldIcon(data, npcZone, x, y)
+                                end
+                            end
+                        end
+                    end
+                else
                     --Questie:Debug(Questie.DEBUG_DEVELOP, "Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
                     local starterIcons = {}
                     local starterLocs = {}

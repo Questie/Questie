@@ -199,5 +199,15 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.friendlyToFaction] = "A",
         },
+        -- fake NPCs used for quests with too many starters
+        [300000] = { -- 90008
+            [npcKeys.name] = "Defias Pillager",
+            [npcKeys.minLevel] = 14,
+            [npcKeys.maxLevel] = 15,
+            [npcKeys.zoneID] = zoneIDs.WESTFALL,
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{31.4,45},{38.1,57.2},{42.9,67.7}},
+            },
+        },
     }
 end
