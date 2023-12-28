@@ -23,6 +23,14 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
 
         },
+        [204070] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DUN_MOROGH] = {{42.2, 35.4}},
+                [zoneIDs.DUROTAR] = {{67.4, 87.8}},
+                [zoneIDs.UNDERCITY] = {{22.8, 42.8}},
+                [zoneIDs.STORMWIND_CITY] = {{25.6, 78}},
+            },
+        },
         [202699] = { -- Baron Aquanis
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
