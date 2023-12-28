@@ -18,6 +18,10 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TIRISFAL_GLADES] = {{66.4, 40.2}},
             },
         },
+        [202699] = { -- Baron Aquanis
+            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
+        },
         [204068] = { -- Lady Sarevess
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
@@ -35,10 +39,6 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {
                 [zoneIDs.ELWYNN_FOREST] = {{56.4, 57.8}},
             },
-        },
-        [202699] = { -- Baron Aquanis
-            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
-            [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
         },
         [206248] = {
             [npcKeys.spawns] = {
