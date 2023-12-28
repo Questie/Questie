@@ -608,7 +608,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.name] = "Arcane Blast",
             [questKeys.startedBy] = {nil,{450000}},
             [questKeys.finishedBy] = nil,
-            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredLevel] = 14,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.MAGE,
