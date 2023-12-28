@@ -92,6 +92,11 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.friendlyToFaction] = "A",
         },
+        [211951] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{60.8,31.8}},
+            },
+        },
         [211965] = {
             [npcKeys.spawns] = {
                 [zoneIDs.WETLANDS] = {{46.6, 65.6}},
