@@ -186,6 +186,11 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {[zoneIDs.DARNASSUS] = {{59.8,56.4}}},
             [npcKeys.friendlyToFaction] = "A",
         },
+        [214519] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.REDRIDGE_MOUNTAINS] = {{77.6, 85.8}},
+            },
+        },
         [216902] = {
             [npcKeys.minLevel] = 30,
             [npcKeys.maxLevel] = 30,
