@@ -554,6 +554,8 @@ function _QuestEventHandler:OnEvent(event, ...)
             event = "VENDOR_CLOSED"
         elseif eventType == 17 then
             event = "MAIL_CLOSED"
+        elseif eventType == 21 then
+            event = "AUCTION_HOUSE_CLOSED"
         else
             -- Unknown event which we will simply ignore
             return
