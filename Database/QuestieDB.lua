@@ -1438,7 +1438,6 @@ local questsWithTooManyStarters = {
     [90017] = true, -- Living Flame Rune
     [90018] = true, -- Living Flame Rune
     [90020] = true, -- Living Bomb Rune
-    [90021] = true, -- Living Bomb Rune
     [90023] = true, -- Wild Strikes Rune
     [90036] = true, -- Warlock Master Channeler Westfall
     [90077] = true, -- Warlock Demonic Grace Dun Morogh
