@@ -1602,7 +1602,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.name] = "Master Marksman",
             [questKeys.startedBy] = {{205692,208179,208975,209811}},
             [questKeys.finishedBy] = nil,
-            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredLevel] = 6,
             [questKeys.questLevel] = 7,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.HUNTER,
