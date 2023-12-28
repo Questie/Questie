@@ -1048,7 +1048,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90036] = {
             [questKeys.name] = "Master Channeler",
-            [questKeys.startedBy] = {{114,480,832}},
+            [questKeys.startedBy] = {{114,480,832,210501}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 10,
