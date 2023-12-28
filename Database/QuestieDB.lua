@@ -1429,22 +1429,22 @@ QuestieDB.waypointPresets = {
 
 
 local questsWithTooManyStarters = {
-    [90008] = true, -- Regeneration Rune
-    [90009] = true, -- Regeneration Rune
-    [90010] = true, -- Enlightenment Rune
-    [90011] = true, -- Enlightenment Rune
-    [90015] = true, -- Living Flame Rune
-    [90016] = true, -- Living Flame Rune
-    [90017] = true, -- Living Flame Rune
-    [90018] = true, -- Living Flame Rune
-    [90020] = true, -- Living Bomb Rune
-    [90023] = true, -- Wild Strikes Rune
+    [90008] = true, -- Mage Regeneration Rune
+    [90009] = true, -- Mage Regeneration Rune
+    [90010] = true, -- Mage Enlightenment Rune
+    [90011] = true, -- Mage Enlightenment Rune
+    [90015] = true, -- Mage Living Flame Rune
+    [90016] = true, -- Mage Living Flame Rune
+    [90017] = true, -- Mage Living Flame Rune
+    [90018] = true, -- Mage Living Flame Rune
+    [90020] = true, -- Mage Living Bomb Rune
+    [90023] = true, -- Druid Wild Strikes Rune
     [90036] = true, -- Warlock Master Channeler Westfall
     [90077] = true, -- Warlock Demonic Grace Dun Morogh
     [90078] = true, -- Warlock Demonic Grace Elwynn Forest
     [90079] = true, -- Warlock Demonic Grace Durotar
     [90080] = true, -- Warlock Demonic Grace Tirisfal Galdes
-    [90085] = true, -- Loch Modan verion of Blade Dance
+    [90085] = true, -- Rogue Blade Dance Loch Modan
 }
 
 --- Some quests have too many starter NPCs, which flood the map with icons.
