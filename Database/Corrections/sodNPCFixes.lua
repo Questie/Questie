@@ -56,6 +56,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DUN_MOROGH] = {{69.2, 58.2}},
             },
         },
+        [208927] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES] = {{76.4, 44.8}},
+            },
+        },
         [209678] = { -- Twilight Lord Kelris
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
