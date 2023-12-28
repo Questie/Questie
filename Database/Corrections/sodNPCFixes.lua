@@ -553,5 +553,14 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.LOCH_MODAN] = {{58.95,13.51}},
             },
         },
+        [300034] = { -- 1480 - This fix is also in classicNPCFixes
+            [npcKeys.name] = "Burning Blade Member",
+            [npcKeys.minLevel] = 30,
+            [npcKeys.maxLevel] = 31,
+            [npcKeys.zoneID] = zoneIDs.DESOLACE,
+            [npcKeys.spawns] = {
+                [zoneIDs.DESOLACE] = {{56.6,30.6}},
+            },
+        },
     }
 end

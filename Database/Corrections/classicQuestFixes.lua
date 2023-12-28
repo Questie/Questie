@@ -861,6 +861,9 @@ function QuestieQuestFixes:Load()
         [1479] = {
             [questKeys.triggerEnd] = {"Go to the bank in Darnassus, otherwise known as the Bough of the Eternals.", {[zoneIDs.DARNASSUS]={{41.31,43.54}}}},
         },
+        [1480] = {
+            [questKeys.startedBy] = {{4663,4664,4665,4666,4667,4668,4705,13019,300033},nil,{20310}},
+        },
         [1483] = {
             [questKeys.exclusiveTo] = {1093},
         },

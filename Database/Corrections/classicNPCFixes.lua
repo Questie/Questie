@@ -2570,6 +2570,16 @@ function QuestieNPCFixes:Load()
             [npcKeys.minLevel] = 20,
             [npcKeys.maxLevel] = 20,
         },
+        -- fake NPCs used for quests with too many starters
+        [300034] = { -- 1480 - This fix is also in sodNPCFixes
+            [npcKeys.name] = "Burning Blade Member",
+            [npcKeys.minLevel] = 30,
+            [npcKeys.maxLevel] = 31,
+            [npcKeys.zoneID] = zoneIDs.DESOLACE,
+            [npcKeys.spawns] = {
+                [zoneIDs.DESOLACE] = {{56.6,30.6}},
+            },
+        },
     }
 end
 
