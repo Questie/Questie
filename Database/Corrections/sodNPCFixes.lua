@@ -46,6 +46,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.MULGORE] = {{37.4, 49.6}},
             },
         },
+        [208196] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES] = {{25.4, 48.4}},
+            },
+        },
         [208275] = {
             [npcKeys.spawns] = {
                 [zoneIDs.DUROTAR] = {{58.6, 45.6}},
