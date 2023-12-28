@@ -511,5 +511,14 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DARKSHORE] = {{38.9,86.7}},
             },
         },
+        [300031] = { -- 90035
+            [npcKeys.name] = "Dark Strand Fanatic",
+            [npcKeys.minLevel] = 16,
+            [npcKeys.maxLevel] = 17,
+            [npcKeys.zoneID] = zoneIDs.DARKSHORE,
+            [npcKeys.spawns] = {
+                [zoneIDs.DARKSHORE] = {{56.2,26.8}},
+            },
+        },
     }
 end

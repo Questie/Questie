@@ -1440,6 +1440,7 @@ local questsWithTooManyStarters = {
     [90018] = true, -- Mage Living Flame Rune
     [90020] = true, -- Mage Living Bomb Rune
     [90023] = true, -- Druid Wild Strikes Rune
+    [90035] = true, -- Warlock Master Channeler Darkshore
     [90036] = true, -- Warlock Master Channeler Westfall
     [90077] = true, -- Warlock Demonic Grace Dun Morogh
     [90078] = true, -- Warlock Demonic Grace Elwynn Forest
