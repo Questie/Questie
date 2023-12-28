@@ -502,5 +502,14 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.LOCH_MODAN] = {{58.95,13.51}},
             },
         },
+        [300030] = { -- 968
+            [npcKeys.name] = "Twilight Member",
+            [npcKeys.minLevel] = 17,
+            [npcKeys.maxLevel] = 17,
+            [npcKeys.zoneID] = zoneIDs.DARKSHORE,
+            [npcKeys.spawns] = {
+                [zoneIDs.DARKSHORE] = {{38.9,86.7}},
+            },
+        },
     }
 end

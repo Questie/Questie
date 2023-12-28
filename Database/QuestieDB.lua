@@ -1429,6 +1429,7 @@ QuestieDB.waypointPresets = {
 
 
 local questsWithTooManyStarters = {
+    [968] = true, -- The Powers Below
     [90008] = true, -- Mage Regeneration Rune
     [90009] = true, -- Mage Regeneration Rune
     [90010] = true, -- Mage Enlightenment Rune
