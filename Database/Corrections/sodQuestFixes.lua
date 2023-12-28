@@ -1624,7 +1624,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90084] = {
             [questKeys.name] = "Blade Dance",
-            [questKeys.startedBy] = {nil,{408718}},
+            [questKeys.startedBy] = {nil,{414532}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 16,
@@ -1648,7 +1648,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90086] = {
             [questKeys.name] = "Blade Dance",
-            [questKeys.startedBy] = {nil,{414532}},
+            [questKeys.startedBy] = {nil,{408718}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 14,
