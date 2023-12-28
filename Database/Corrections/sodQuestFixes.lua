@@ -1444,7 +1444,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90069] = {
             [questKeys.name] = "Shadow Bolt Volley",
-            [questKeys.startedBy] = {{1974,1973}},
+            [questKeys.startedBy] = {{1974,1973,300031}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 18,

@@ -525,5 +525,14 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DARKSHORE] = {{56.2,26.8}},
             },
         },
+        [300031] = { -- 90069
+            [npcKeys.name] = "Ravenclaw Member",
+            [npcKeys.minLevel] = 16,
+            [npcKeys.maxLevel] = 17,
+            [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
+            [npcKeys.spawns] = {
+                [zoneIDs.SILVERPINE_FOREST] = {{58.9,71.7}},
+            },
+        },
     }
 end

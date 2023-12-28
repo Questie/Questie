@@ -1442,6 +1442,7 @@ local questsWithTooManyStarters = {
     [90023] = true, -- Druid Wild Strikes Rune
     [90035] = true, -- Warlock Master Channeler Darkshore
     [90036] = true, -- Warlock Master Channeler Westfall
+    [90069] = true, -- Warlock Shadow Bolt Volley Silverpine Forest
     [90077] = true, -- Warlock Demonic Grace Dun Morogh
     [90078] = true, -- Warlock Demonic Grace Elwynn Forest
     [90079] = true, -- Warlock Demonic Grace Durotar
