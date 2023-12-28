@@ -302,7 +302,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [78575] = {
             [questKeys.objectives] = {{{212694}}},
-            [questKeys.preQuestSingle] = {78537},
+            [questKeys.preQuestSingle] = {78561},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [78611] = {
