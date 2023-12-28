@@ -26,6 +26,7 @@ function QuestieTBCQuestFixes:Load()
     local classIDs = QuestieDB.classKeys
     local zoneIDs = ZoneDB.zoneIDs
     local sortKeys = QuestieDB.sortKeys
+    local questFlags = QuestieDB.questFlags
     local profKeys = QuestieProfessions.professionKeys
     local specKeys = QuestieProfessions.specializationKeys
 
@@ -2618,6 +2619,18 @@ function QuestieTBCQuestFixes:Load()
         [11030] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Purchase 1 Unstable Flask of the Beast for the cost of 10 Apexis Shards"), 0, {{"object", 185920}}}},
         },
+        [11031] = {
+            [questKeys.preQuestSingle] = {10725},
+        },
+        [11032] = {
+            [questKeys.preQuestSingle] = {10728},
+        },
+        [11033] = {
+            [questKeys.preQuestSingle] = {10727},
+        },
+        [11034] = {
+            [questKeys.preQuestSingle] = {10726},
+        },
         [11035] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
@@ -4797,7 +4810,7 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.ASHENVALE] = {{61.8,83.8}},
             }},
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
-            [questKeys.questFlags] = 64,
+            [questKeys.questFlags] = questFlags.RAID,
             [questKeys.specialFlags] = 1,
         },
         -- Blood Elf Paladin Epic Mount quest

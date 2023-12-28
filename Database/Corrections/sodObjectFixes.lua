@@ -27,10 +27,22 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.TELDRASSIL] = {{57.06, 65.57},{58.05, 73.19},{59.63, 60.05},{61.09, 54.02},{63.88, 64.90},{64.89, 54.77},{65.64, 59.22},{66.56, 51.55},{67.36, 64.15},{69.56, 55.75}},
             },
         },
+        [407454] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{61.78,45.8}},
+            },
+        },
         [407505] = {
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
             [objectKeys.spawns] = {
                 [zoneIDs.THE_BARRENS] = {{45,79}},
+            },
+        },
+        [408718] = {
+            [objectKeys.zoneID] = zoneIDs.WESTFALL,
+            [objectKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{40.8,80.24}},
             },
         },
         [409289] = {
@@ -46,7 +58,7 @@ function SeasonOfDiscovery:LoadObjects()
         [409692] = {
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
             [objectKeys.spawns] = {
-                [zoneIDs.THE_BARRENS] = {{52.83, 54.71}},
+                [zoneIDs.THE_BARRENS] = {{49.3,33.5}},
             },
         },
         [409731] = {

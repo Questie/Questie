@@ -529,12 +529,12 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
                 end
             else
                 local questType = data.questTag
-                local entry = {}
-                entry.questId = questId
-                entry.questType = questType
-                entry.zoneOrSort = QuestieDB.QueryQuestSingle(questId, "zoneOrSort")
-                entry.isSoloQuest = not (questType == "Dungeon" or questType == "Raid" or questType == "Group" or questType == "Elite" or questType == "PVP")
-
+                local entry = {
+                    questId = questId,
+                    questType = questType,
+                    zoneOrSort = QuestieDB.QueryQuestSingle(questId, "zoneOrSort"),
+                    isSoloQuest = not (questType == "Dungeon" or questType == "Raid" or questType == "Group" or questType == "Elite" or questType == "PVP"),
+                }
 
                 if entry.zoneOrSort > 0 then
                     entry.UiMapId = ZoneDB:GetUiMapIdByAreaId(entry.zoneOrSort)
@@ -576,8 +576,9 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
             if string.len(QuestieSerializer:Serialize(rawQuestList)) > 200 then--extra space for packet metadata and CTL stuff
                 rawQuestList[quest.id] = nil
                 tinsert(blocks, rawQuestList)
-                rawQuestList = {}
-                rawQuestList[quest.id] = quest
+                rawQuestList = {
+                    [quest.id] = quest
+                }
                 entryCount = 1
                 blockCount = blockCount + 1
             end
@@ -645,12 +646,12 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
                 end
             else
                 local questType = data.questTag
-                local entry = {}
-                entry.questId = questId
-                entry.questType = questType
-                entry.zoneOrSort = QuestieDB.QueryQuestSingle(questId, "zoneOrSort")
-                entry.isSoloQuest = not (questType == "Dungeon" or questType == "Raid" or questType == "Group" or questType == "Elite" or questType == "PVP")
-
+                local entry = {
+                    questId = questId,
+                    questType = questType,
+                    zoneOrSort = QuestieDB.QueryQuestSingle(questId, "zoneOrSort"),
+                    isSoloQuest = not (questType == "Dungeon" or questType == "Raid" or questType == "Group" or questType == "Elite" or questType == "PVP"),
+                }
 
                 if entry.zoneOrSort > 0 then
                     entry.UiMapId = ZoneDB:GetUiMapIdByAreaId(entry.zoneOrSort)
@@ -685,7 +686,6 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
         local entryCount = 0
         local blockCount = 2 -- the extra tick allows checking tremove() == nil to set _isBroadcasting=false
         local offset = 2
-
 
         for _, entry in pairs(sorted) do
             --print("[CommsSendOrder][Block " .. (blockCount - 1) .. "] " .. QuestieDB.QueryQuestSingle(entry.questId, "name"))
@@ -782,12 +782,13 @@ function QuestieComms:CreateQuestDataPacket(questId)
     if questObject and next(questObject.Objectives) then
         for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
             if questObject.Objectives[objectiveIndex] then
-                quest.objectives[objectiveIndex] = {};
-                quest.objectives[objectiveIndex].id = questObject.Objectives[objectiveIndex].Id;--[_QuestieComms.idLookup["id"]] = questObject.Objectives[objectiveIndex].Id;
-                quest.objectives[objectiveIndex].typ = string.sub(objective.type, 1, 1);-- Get the first char only.--[_QuestieComms.idLookup["type"]] = string.sub(objective.type, 1, 1);-- Get the first char only.
-                quest.objectives[objectiveIndex].fin = objective.finished;--[_QuestieComms.idLookup["finished"]] = objective.finished;
-                quest.objectives[objectiveIndex].ful = objective.numFulfilled;--[_QuestieComms.idLookup["fulfilled"]] = objective.numFulfilled;
-                quest.objectives[objectiveIndex].req = objective.numRequired;--[_QuestieComms.idLookup["required"]] = objective.numRequired;
+                quest.objectives[objectiveIndex] = {
+                    id = questObject.Objectives[objectiveIndex].Id,
+                    typ = string.sub(objective.type, 1, 1),
+                    fin = objective.finished,
+                    ful = objective.numFulfilled,
+                    req = objective.numRequired,
+                }
             else
                 Questie:Error(l10n("Missing objective data for quest "), tostring(questId), " ", tostring(objectiveIndex))
             end
@@ -815,16 +816,16 @@ function QuestieComms:InsertQuestDataPacket(questPacket, playerName)
             local objectives = {}
             for objectiveIndex, objectiveData in pairs(questPacket.objectives) do
                 --This is to check that all the data we require exist.
-                objectives[objectiveIndex] = {};
-                objectives[objectiveIndex].index = objectiveIndex;
-                objectives[objectiveIndex].id = objectiveData.id--[_QuestieComms.idLookup["id"]];
-                objectives[objectiveIndex].type = objectiveData.typ--[_QuestieComms.idLookup["type"]];
-                objectives[objectiveIndex].finished = objectiveData.fin--[_QuestieComms.idLookup["finished"]];
-                objectives[objectiveIndex].fulfilled = objectiveData.ful--[_QuestieComms.idLookup["fulfilled"]];
-                objectives[objectiveIndex].required = objectiveData.req--[_QuestieComms.idLookup["required"]];
+                objectives[objectiveIndex] = {
+                    index = objectiveIndex,
+                    id = objectiveData.id,
+                    type = objectiveData.typ,
+                    finished = objectiveData.fin,
+                    fulfilled = objectiveData.ful,
+                    required = objectiveData.req,
+                }
             end
             QuestieComms.remoteQuestLogs[questPacket.id][playerName] = objectives;
-
 
             --Write to tooltip data
             QuestieComms.data:RegisterTooltip(questPacket.id, playerName, objectives);
@@ -1068,12 +1069,14 @@ function _QuestieComms:CreatePacket(messageId)
     for k,v in pairs(_QuestieComms.packets[messageId]) do
         pkt[k] = v
     end
-    pkt.data = {}
-    -- Set messageId
+
     local major, minor, patch = QuestieLib:GetAddonVersionInfo();
-    pkt.data.ver = major.."."..minor.."."..patch;
-    pkt.data.msgVer = commMessageVersion;
-    pkt.data.msgId = messageId
+    -- Set messageId
+    pkt.data = {
+        ver = major.."."..minor.."."..patch,
+        msgVer = commMessageVersion,
+        msgId = messageId,
+    }
     -- Some messages initialize
     if pkt.init then
         pkt:init()

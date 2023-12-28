@@ -109,14 +109,25 @@ function QuestieWotlkObjectFixes:Load()
         [190717] = {
             [objectKeys.spawns] = {[zoneIDs.ZUL_DRAK] = {{71.2,62.2},{68.66,56.48},{73.33,62.91},{74.58,58.37},{74.99,62.63},{74.61,59.84},{73.84,61.03},{76.02,56.13},{71.41,56.52},{71.76,58.37},{75.72,59.72},{78.31,62.39},{69.33,58.32},{69.33,58.91}}},
         },
+        [190777] = {
+            [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN] = {{72.1,57.44}}},
+            [objectKeys.zoneID] = zoneIDs.SHOLAZAR_BASIN,
+        },
         [190781] = {
             [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN] = {{33.56,74.96}}},
         },
         [191092] = {
             [objectKeys.spawns] = {[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE] = {{63.12,68.33}}},
         },
+        [191179] = {
+            [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN] = {{17.58,51.25},{23.34,37.24},{26.7,33.46},{26.23,35.68}}},
+            [objectKeys.zoneID] = zoneIDs.SHOLAZAR_BASIN,
+        },
         [191349] = {
             [objectKeys.spawns] = {[zoneIDs.BAND_OF_ALIGNMENT]={{47.6,85.9}},[4228]={{-1,-1}}},
+        },
+        [191761] = {
+            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{37.54,46.9}}},
         },
         [192124] = {
             [objectKeys.spawns] = {},
@@ -155,7 +166,7 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL] = {{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL] = {{-1,-1}},[1196] = {{-1,-1}}},
         },
         [193004] = {
-            [objectKeys.spawns] = {[zoneIDs.ICECROWN] = {{59.35,71.77}}},
+            [objectKeys.spawns] = {[zoneIDs.ICECROWN] = {{57.85,74.37},{59.35,71.77},{58.08,70.64}}},
         },
         [193051] = {
             [objectKeys.spawns] = {[zoneIDs.THE_GILDED_GATE] = {{-1,-1}},[zoneIDs.HADRONOXS_LAIR] = {{-1,-1}},[4277] = {{-1,-1}}},
@@ -363,6 +374,11 @@ function QuestieWotlkObjectFixes:Load()
         [202336] = {
             [objectKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{84,88.1},{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
+        },
+        [300213] = {
+            [objectKeys.name] = "Mistwhisper Weather Shrine",
+            [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{45.4,37.23}}},
+            [objectKeys.zoneID] = zoneIDs.SHOLAZAR_BASIN,
         },
 
         -- Below are fake objects

@@ -907,8 +907,13 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
         for _=0,Questie.db.profile.debugEnabled and TICKS_PER_YIELD_DEBUG or (entriesPerTick or TICKS_PER_YIELD) do
             index = index + 1
             if index == count then
-                Questie.db.global[databaseKey.."Bin"] = stream:Save()
-                Questie.db.global[databaseKey.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
+                if Questie.IsSoD then
+                    Questie.db.global.sod[databaseKey.."Bin"] = stream:Save()
+                    Questie.db.global.sod[databaseKey.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
+                else
+                    Questie.db.global[databaseKey.."Bin"] = stream:Save()
+                    Questie.db.global[databaseKey.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
+                end
                 stream:finished() -- relief memory pressure
                 return
             end
@@ -997,11 +1002,19 @@ function QuestieDBCompiler:Compile()
     QuestieDBCompiler:CompileItems()
     print("\124cFFAAEEFF"..l10n("Questie DB update complete!"))
 
-    Questie.db.global.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
-    Questie.db.global.dbCompiledLang = l10n:GetUILocale()
     Questie.db.global.dbCompiledExpansion = WOW_PROJECT_ID
-    Questie.db.global.dbIsCompiled = true
-    Questie.db.global.dbCompiledCount = (Questie.db.global.dbCompiledCount or 0) + 1
+
+    if Questie.IsSoD then
+        Questie.db.global.sod.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
+        Questie.db.global.sod.dbCompiledLang = l10n:GetUILocale()
+        Questie.db.global.sod.dbIsCompiled = true
+        Questie.db.global.sod.dbCompiledCount = (Questie.db.global.sod.dbCompiledCount or 0) + 1
+    else
+        Questie.db.global.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
+        Questie.db.global.dbCompiledLang = l10n:GetUILocale()
+        Questie.db.global.dbIsCompiled = true
+        Questie.db.global.dbCompiledCount = (Questie.db.global.dbCompiledCount or 0) + 1
+    end
 end
 
 function QuestieDBCompiler:ValidateNPCs()
