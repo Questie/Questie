@@ -494,7 +494,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectives] = nil,
         },
         [78229] = {
-            [questKeys.name] = "Trial of The Owls"
+            [questKeys.name] = "Trial of The Owls",
             [questKeys.startedBy] = {{12042}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
