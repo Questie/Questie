@@ -617,6 +617,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring an Elixir of Water Breathing and an Elixir of Wisdom to Je'neu Sancrea at Zoram'gar Outpost, Ashenvale."},
             [questKeys.objectives] = {nil,nil,{{5996},{3383}}},
         },
+        [78561] = {
+            [questKeys.name] = "Elixir of Insight",
+            [questKeys.startedBy] = {{12736}},
+            [questKeys.finishedBy] = {{12736,}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Drink the Elixir of Insight near the bonfire at Zoram'gar Outpost, and witness the vision it grants you."},
+            [questKeys.objectives] = {nil,nil,{{210712}}},
+        },
         [78575] = {
             [questKeys.name] = "Hirzek",
             [questKeys.startedBy] = {{12736}},
