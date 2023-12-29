@@ -20,7 +20,11 @@ class NPCSpider(scrapy.Spider):
         result = {}
         for script in response.xpath('//script/text()').extract():
             if script.startswith('//<![CDATA[\nWH.Gatherer.addData'):
-                result["npcId"] = response.url.split("/")[-2][4:]
+                npc_id = response.url.split("/")[-2][4:]
+                if npc_id == "sic":
+                    # Handle an invalid case
+                    return
+                result["npcId"] = npc_id
                 result["name"] = re.search(r'"name":"([^"]+)"', script).group(1)
                 min_level_match = re.search(r'"minlevel":(\d+)', script)
                 result["minLevel"] = min_level_match.group(1) if str(min_level_match) != "None" else "0"

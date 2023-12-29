@@ -50,7 +50,7 @@ class ObjectSpider(scrapy.Spider):
     def __match_dungeon_spawns(self, response):
         spawns = []
         zone_id = None
-        text = response.xpath("//div[contains(text(), 'This NPC can be found in')]").get()
+        text = response.xpath("//div[contains(text(), 'This object can be found in')]").get()
         zone_id_match = re.search(r"zone=(\d+)", text)
         zone_name_match = re.search(r"Shadowfang Keep|Blackfathom Deeps", text)
         if zone_id_match:
