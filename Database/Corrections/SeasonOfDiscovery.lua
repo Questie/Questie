@@ -47,9 +47,6 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [78147] = true, -- Mage Icy Veins
     [78148] = true, -- Mage Icy Veins
     [78149] = true, -- Mage Icy Veins
-    [78226] = true, -- Fake Druid Wild Growth prequest 1
-    [78227] = true, -- Fake Druid Wild Growth prequest 2
-    [78228] = true, -- Fake Druid Wild Growth prequest 3
     [78229] = true, -- Druid Wild Growth
     [78261] = true, -- Rogue Deadly Brew Part 2
     [78265] = true, -- Grizzby prequest for multiple runes
@@ -164,6 +161,9 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90085] = true, -- Rogue Blade Dance Loch Modan
     [90086] = true, -- Rogue Blade Dance Westfall
     [90087] = true, -- Rogue Blade Dance The Barrens
+    [90088] = true, -- Druid Wild Growth Ashenvale
+    [90089] = true, -- Druid Wild Growth Duskwood
+    [90090] = true, -- Druid Wild Growth Hillsbrad Foothills
 }
 
 ---@param questId number
