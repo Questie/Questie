@@ -1681,7 +1681,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90088] = {
             [questKeys.name] = "First Trial of The Owls",
-            [questKeys.startedBy] = {{210044}},
+            [questKeys.startedBy] = {nil,{410020}},
             [questKeys.finishedBy] = {{12042}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
