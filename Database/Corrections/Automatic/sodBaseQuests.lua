@@ -502,7 +502,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.requiredSpell] = -410028,
-            [questKeys.objectivesText] = {"To start this quest, bring 1 symbol of the owl to Loganaar in Moonglade."},
+            [questKeys.objectivesText] = {"Bring symbols of the three owls to Loganaar in Moonglade."},
         },
         [78261] = {
             [questKeys.name] = "The Horn of Xelthos",
