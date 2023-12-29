@@ -33,23 +33,11 @@ class NPCSpider(scrapy.Spider):
                 result["spawns"] = self.__match_spawns(result, script)
 
         if "spawns" in result and (not result["spawns"]):
-            text = response.xpath("//div[contains(text(), 'This NPC can be found in')]").get()
-            zone_id_match = re.search(r"zone=(\d+)", text)
-            zone_name_match = re.search(r"Shadowfang Keep|Blackfathom Deeps", text)
-            if zone_id_match:
-                zone_id = zone_id_match.group(1)
+            spawns, zone_id = self.__match_dungeon_spawns(response)
+            if spawns:
+                result["spawns"] = spawns
+            if zone_id:
                 result["zoneId"] = zone_id
-                if (zone_id == "719" or  # Blackfathom Deeps
-                        zone_id == "209"):  # Shadowfang Keep
-                    result["spawns"] = [[zone_id, "[-1,-1]"]]
-            elif zone_name_match:
-                zone_name = zone_name_match.group(0)
-                if zone_name == "Blackfathom Deeps":
-                    result["zoneId"] = "719"
-                    result["spawns"] = [["719", "[-1,-1]"]]
-                elif zone_name == "Shadowfang Keep":
-                    result["zoneId"] = "209"
-                    result["spawns"] = [["209", "[-1,-1]"]]
 
         if result:
             yield result
@@ -65,6 +53,27 @@ class NPCSpider(scrapy.Spider):
             if "zoneId" not in result.keys():
                 result["zoneId"] = zone_id
         return spawns
+
+    def __match_dungeon_spawns(self, response):
+        spawns = []
+        zone_id = None
+        text = response.xpath("//div[contains(text(), 'This NPC can be found in')]").get()
+        zone_id_match = re.search(r"zone=(\d+)", text)
+        zone_name_match = re.search(r"Shadowfang Keep|Blackfathom Deeps", text)
+        if zone_id_match:
+            zone_id = zone_id_match.group(1)
+            if (zone_id == "719" or  # Blackfathom Deeps
+                    zone_id == "209"):  # Shadowfang Keep
+                spawns = [[zone_id, "[-1,-1]"]]
+        elif zone_name_match:
+            zone_name = zone_name_match.group(0)
+            if zone_name == "Blackfathom Deeps":
+                zone_id = "719"
+                spawns = [["719", "[-1,-1]"]]
+            elif zone_name == "Shadowfang Keep":
+                zone_id = "209"
+                spawns = [["209", "[-1,-1]"]]
+        return spawns, zone_id
 
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
