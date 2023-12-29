@@ -165,6 +165,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90089] = true, -- Druid Wild Growth Duskwood
     [90090] = true, -- Druid Wild Growth Hillsbrad Foothills
     [90091] = true, -- Warrior Flagellation
+    [90092] = true, -- Warrior Blood Frenzy
 }
 
 ---@param questId number

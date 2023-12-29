@@ -1727,6 +1727,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403480,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90092] = {
+            [questKeys.name] = "Blood Frenzy",
+            [questKeys.startedBy] = {{203079}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 7,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Defeat him."},
+            [questKeys.requiredSpell] = -403474,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
     }
 end
 

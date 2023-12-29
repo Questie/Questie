@@ -18,6 +18,15 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TIRISFAL_GLADES] = {{66.4, 40.2}},
             },
         },
+        [203079] = {
+            [npcKeys.spawns] = {
+                [1] = {{51.8, 48.8}},
+                [12] = {{24.6, 75.2},{38.6, 75.2}},
+                [14] = {{36, 47.4},{41, 49.4},{55.8, 38.4},{56.6, 26.6}},
+                [141] = {{39.6, 37.6},{39.8, 69.4},{43.8, 77},{54.8, 66},{62.6, 71.8}},
+                [215] = {{40.4, 53.2},{45.6, 36.4},{60.2, 67.4}},
+            },
+        },
         [204068] = { -- Lady Sarevess
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
