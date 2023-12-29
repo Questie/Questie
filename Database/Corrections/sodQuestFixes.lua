@@ -1680,8 +1680,8 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90088] = {
             [questKeys.name] = "First Trial of The Owls",
-            [questKeys.startedBy] = {{410020}},
-            [questKeys.finishedBy] = {{12042,}},
+            [questKeys.startedBy] = {{210044}},
+            [questKeys.finishedBy] = {{12042}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1692,8 +1692,8 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90089] = {
             [questKeys.name] = "Second Trial of The Owls",
-            [questKeys.startedBy] = {{410089,211200}},
-            [questKeys.finishedBy] = {{12042,}},
+            [questKeys.startedBy] = {{210043}},
+            [questKeys.finishedBy] = {{12042}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1704,8 +1704,8 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90090] = {
             [questKeys.name] = "Third Trial of The Owls",
-            [questKeys.startedBy] = {{409942,409949}},
-            [questKeys.finishedBy] = {{12042,}},
+            [questKeys.startedBy] = {{210026}},
+            [questKeys.finishedBy] = {{12042}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
