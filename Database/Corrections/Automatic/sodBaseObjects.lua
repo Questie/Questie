@@ -15,8 +15,9 @@ function SeasonOfDiscovery:LoadBaseObjects()
     return {
         [386675] = {
             [objectKeys.name] = "Buried Treasure",
-            [objectKeys.zoneID] = 14,
+            [objectKeys.zoneID] = 12,
             [objectKeys.spawns] = {
+                [12] = {{80.3, 79.1},},
                 [14] = {{62.1, 94.8},},
                 [85] = {{52.9, 54},},
                 [141] = {{55.3, 90.8},},
@@ -26,7 +27,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Library Book",
             [objectKeys.zoneID] = 1537,
             [objectKeys.spawns] = {
-                [1537] = {{76, 10.4},{76.3, 10.8},},
+                [1537] = {{75.6, 10.4},{75.7, 10.5},},
             },
         },
         [386759] = {
@@ -40,7 +41,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Dusty Chest",
             [objectKeys.zoneID] = 1519,
             [objectKeys.spawns] = {
-                [1519] = {{61.4, 28.9},{61.9, 29.2},},
+                [1519] = {{61.4, 28.9},{61.9, 29.3},},
             },
         },
         [387446] = {
@@ -69,11 +70,11 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.zoneID] = 1,
             [objectKeys.spawns] = {
                 [1] = {{53.3, 47.2},{53.4, 47.7},{53.5, 47.6},{54, 47.4},},
-                [12] = {{22.1, 73.8},{22.3, 73.1},{22.5, 73.2},{25.4, 69.6},{25.5, 70.1},{29.8, 74.8},{29.9, 73.3},{35.9, 80.8},{36.1, 80.4},{38, 75.4},{38.1, 75.5},{38.6, 75.6},{38.7, 75.1},{40.6, 74.4},{40.6, 74.7},},
-                [14] = {{35.9, 47.8},{40.9, 49},{41, 49.5},{41.5, 49},{55.1, 39.5},{55.9, 38.3},{56, 38.5},{56.2, 27.7},{56.3, 26.9},{56.7, 21.4},{56.7, 21.6},},
+                [12] = {{22.1, 73.8},{22.3, 73.1},{22.5, 73.2},{25.4, 69.6},{25.5, 70.1},{29.8, 74.8},{30.3, 73.1},{30.5, 73.9},{35.6, 83.7},{36.1, 80.4},{36.3, 80.7},{38, 75.4},{38.1, 75.5},{38.6, 75.6},{38.7, 75.1},{40.6, 74.4},{40.6, 74.7},},
+                [14] = {{35.9, 47.8},{40.9, 49},{41, 49.5},{41.5, 49},{55.1, 39.5},{55.9, 38.3},{56, 38.5},{56.2, 27.7},{56.3, 26.9},{56.7, 21.4},{56.7, 21.5},},
                 [85] = {{79.4, 64.6},{79.8, 65.2},{79.9, 65.5},},
-                [141] = {{39.8, 37.8},{39.8, 69.7},{43.8, 76.9},{62.6, 71.9},},
-                [215] = {{37.9, 54.7},{40.7, 53.1},{40.7, 53.8},{45.5, 37.1},{52, 39.2},{60.2, 67.3},},
+                [141] = {{39.8, 37.8},{39.8, 69.7},{43.8, 76.9},{54.7, 66},{62.6, 71.9},},
+                [215] = {{37.9, 54.7},{40.7, 53.1},{40.7, 53.8},{45.5, 37.1},{52, 39.2},{60.3, 67.4},},
             },
         },
         [397987] = {
@@ -144,14 +145,14 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Waterlogged Stashbox",
             [objectKeys.zoneID] = 14,
             [objectKeys.spawns] = {
-                [14] = {{42.9, 54.5},{43, 54.4},},
+                [14] = {{43, 54.4},{43, 54.5},},
             },
         },
         [404830] = {
             [objectKeys.name] = "Dusty Chest",
             [objectKeys.zoneID] = 1637,
             [objectKeys.spawns] = {
-                [1637] = {{56, 44.7},},
+                [1637] = {{55.9, 44.7},},
             },
         },
         [404846] = {
@@ -192,7 +193,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Shipwreck Cache",
             [objectKeys.zoneID] = 85,
             [objectKeys.spawns] = {
-                [85] = {{66.6, 24.4},{66.6, 24.6},},
+                [85] = {{66.6, 24.4},{66.7, 24.6},},
             },
         },
         [405628] = {
@@ -389,7 +390,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Empty Trophy Display",
             [objectKeys.zoneID] = 38,
             [objectKeys.spawns] = {
-                [38] = {{83.6, 65.4},},
+                [38] = {{83.6, 65.4},{83.6, 65.5},},
             },
         },
         [407983] = {
@@ -520,7 +521,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Scrolls",
             [objectKeys.zoneID] = 38,
             [objectKeys.spawns] = {
-                [38] = {{77.4, 14.1},{77.5, 14.1},},
+                [38] = {{77.4, 14},{77.5, 14.1},},
             },
         },
         [409735] = {
@@ -539,8 +540,10 @@ function SeasonOfDiscovery:LoadBaseObjects()
         },
         [409758] = {
             [objectKeys.name] = "Discarded Helm",
-            [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = nil,
+            [objectKeys.zoneID] = 209,
+            [objectKeys.spawns] = {
+                [209] = {{-1, -1},},
+            },
         },
         [409942] = {
             [objectKeys.name] = "Twin Owl Statue",
@@ -561,7 +564,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Carved Stone",
             [objectKeys.zoneID] = 10,
             [objectKeys.spawns] = {
-                [10] = {{49.5, 34},},
+                [10] = {{49.4, 34},{49.5, 34},},
             },
         },
         [410082] = {
@@ -604,8 +607,10 @@ function SeasonOfDiscovery:LoadBaseObjects()
         },
         [410528] = {
             [objectKeys.name] = "Ornamented Chest",
-            [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = nil,
+            [objectKeys.zoneID] = 209,
+            [objectKeys.spawns] = {
+                [209] = {{-1, -1},},
+            },
         },
         [410779] = {
             [objectKeys.name] = "Offering Box",
@@ -616,7 +621,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Rusty Safe",
             [objectKeys.zoneID] = 28,
             [objectKeys.spawns] = {
-                [28] = {{59.4, 84.5},},
+                [28] = {{59.4, 84.4},{59.4, 84.6},},
             },
         },
         [411328] = {
@@ -628,7 +633,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Dusty Coffer",
             [objectKeys.zoneID] = 10,
             [objectKeys.spawns] = {
-                [10] = {{26, 30.9},},
+                [10] = {{26, 31},},
             },
         },
         [411358] = {
@@ -645,7 +650,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Prophecy of a King's Demise",
             [objectKeys.zoneID] = 130,
             [objectKeys.spawns] = {
-                [130] = {{65.8, 23.6},},
+                [130] = {{65.8, 23.4},{65.8, 23.5},},
             },
         },
         [411710] = {
@@ -659,7 +664,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Bough of Altek",
             [objectKeys.zoneID] = 148,
             [objectKeys.spawns] = {
-                [148] = {{56.2, 26.5},{56.3, 26.4},},
+                [148] = {{56.2, 26.4},{56.2, 26.5},},
             },
         },
         [412224] = {
@@ -716,8 +721,10 @@ function SeasonOfDiscovery:LoadBaseObjects()
         },
         [415614] = {
             [objectKeys.name] = "Mysterious Formulae",
-            [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = nil,
+            [objectKeys.zoneID] = 719,
+            [objectKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
         },
     }
 end
