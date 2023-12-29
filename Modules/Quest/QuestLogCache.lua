@@ -168,48 +168,42 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                 local newObjectives, changedObjIds = GetNewObjectives(questId, cachedObjectives)
 
                 if newObjectives then
-                    if cachedQuest and (#cachedObjectives ~= #newObjectives) then
-                        Questie:Debug(Questie.DEBUG_CRITICAL, "Please report on Github or Discord! Number of the objectives of the quest changed. questId, oldNum, newNum", questId, #cachedObjectives, #newObjectives)
-                        -- Number of the objectives changed?! Shouldn't be possible.
-                        -- For now go as nothing in the quest changed.
-                        cacheMiss = true
-                    else
-                        if (not cachedQuest) or (cachedQuest.title ~= title) or (cachedQuest.questTag ~= questTag) or (cachedQuest.isComplete ~= isComplete) then
-                            -- Mark all objectives changed to force update those too.
-                            -- changedObjIds is nil from GetObjectives() for quests not having objectives. This is easiest place to change it to {}.
+                    if (not cachedQuest) or (#cachedObjectives == #newObjectives and #cachedObjectives > 0 and
+                        (cachedQuest.title ~= title or cachedQuest.questTag ~= questTag or cachedQuest.isComplete ~= isComplete)) then
+                        -- Mark all objectives changed to force update those too.
 
-                            changedObjIds = {}
+                        -- changedObjIds is nil from GetObjectives() for quests not having objectives. This is easiest place to change it to {}.
+                        changedObjIds = {}
+                        for i=1, #newObjectives do
+                            changedObjIds[i] = i
+                        end
+
+                        if isComplete == 1 then
+                            -- Set all objectives finished if whole quest isComplete.
+                            -- Because of: Game API returns "event" type objectives as unfinished while whole quest isComplete.
+
+                            local o
                             for i=1, #newObjectives do
-                                changedObjIds[i] = i
-                            end
-
-                            if isComplete == 1 then
-                                -- Set all objectives finished if whole quest isComplete.
-                                -- Because of: Game API returns "event" type objectives as unfinished while whole quest isComplete.
-
-                                local o
-                                for i=1, #newObjectives do
-                                    o = newObjectives[i]
-                                    o.finished = true
-                                    o.numFulfilled = o.numRequired
-                                end
+                                o = newObjectives[i]
+                                o.finished = true
+                                o.numFulfilled = o.numRequired
                             end
                         end
+                    end
 
-                        if cachedQuest and (not cachedQuest.isComplete) and isComplete == 1 then
-                            Sounds.PlayQuestComplete()
-                        end
+                    if cachedQuest and (not cachedQuest.isComplete) and isComplete == 1 then
+                        Sounds.PlayQuestComplete()
+                    end
 
-                        if changedObjIds then
-                            -- Save to cache
-                            cache[questId] = {
-                                title = title,
-                                questTag = questTag,
-                                isComplete = isComplete,
-                                objectives = newObjectives,
-                            }
-                            changes[questId] = changedObjIds
-                        end
+                    if changedObjIds then
+                        -- Save to cache
+                        cache[questId] = {
+                            title = title,
+                            questTag = questTag,
+                            isComplete = isComplete,
+                            objectives = newObjectives,
+                        }
+                        changes[questId] = changedObjIds
                     end
                 else
                     cacheMiss = true
