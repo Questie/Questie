@@ -248,7 +248,7 @@ function SeasonOfDiscovery:LoadQuests()
         [78229] = {
             [questKeys.preQuestGroup] = {90088,90089,90090},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
-            [questKeys.objectivesText] = {"To start this quest, bring 1 symbol of the owl to Loganaar in Moonglade. You need to bring at least 1 symbol, but you can bring all three at once."},
+            [questKeys.objectivesText] = {"Bring symbols of the three owls to Loganaar in Moonglade. NOTE: To accept this quest, you need to bring at least one symbol, but you can also bring all three at once."},
         },
         [78261] = {
             [questKeys.startedBy] = {nil,{410369}},
