@@ -91,6 +91,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.DUSKWOOD] = {{49.5, 33.8}},
             },
         },
+        [411328] = {
+            [objectKeys.zoneID] = zoneIDs.DUSKWOOD,
+            [objectKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{17,37.6}},
+            },
+        },
         [414658] = {
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
             [objectKeys.spawns] = {

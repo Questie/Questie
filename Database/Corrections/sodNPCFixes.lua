@@ -70,9 +70,7 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [212261] = {
-            [npcKeys.spawns] = {
-                [zoneIDs.DUSKWOOD] = {{17,37.6}},
-            },
+            [npcKeys.spawns] = {},
         },
         [212694] = {
             [npcKeys.spawns] = {
