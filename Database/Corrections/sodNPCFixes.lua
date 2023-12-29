@@ -42,9 +42,19 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.MULGORE] = {{37.4, 49.6}},
             },
         },
+        [207515] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.MULGORE] = {{30.6, 61.2}},
+            },
+        },
         [208275] = {
             [npcKeys.spawns] = {
                 [zoneIDs.DUROTAR] = {{58.6, 45.6}},
+            },
+        },
+        [208638] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DUN_MOROGH] = {{35.4,37.4},{30.4,41.2}},
             },
         },
         [208752] = {

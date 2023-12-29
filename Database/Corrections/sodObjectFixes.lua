@@ -39,6 +39,11 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.THE_BARRENS] = {{45,79}},
             },
         },
+        [407734] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.TELDRASSIL] = {{44.1, 61.2}},
+            },
+        },
         [408718] = {
             [objectKeys.zoneID] = zoneIDs.WESTFALL,
             [objectKeys.spawns] = {
