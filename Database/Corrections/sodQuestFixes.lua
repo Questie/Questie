@@ -1688,7 +1688,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.requiredSpell] = -410028,
-            [questKeys.objectivesText] = {"Click the owl statue to collect 1 symbol of the owl to start the Trial of The Owls quest chain."},
+            [questKeys.objectivesText] = {"Click the Owl Statue to start the the first trial. If you succeed you'll receive the Symbol of the First Owl."},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
         [90089] = {
