@@ -168,6 +168,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90092] = true, -- Warrior Blood Frenzy
     [90093] = true, -- Warrior Furious Thunder
     [90094] = true, -- Warrior Consumed By Rage
+    [90095] = true, -- Hunter Explosive Shot
 }
 
 ---@param questId number

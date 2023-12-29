@@ -1763,6 +1763,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425446,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90095] = {
+            [questKeys.name] = "Explosive Shot",
+            [questKeys.startedBy] = {{208638,207515,327,448,1271,1388,3204,3281,3205,3058,6113,208196},{407734}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 8,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Defeat him."},
+            [questKeys.requiredSpell] = -410123,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
