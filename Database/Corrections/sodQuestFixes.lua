@@ -1751,6 +1751,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403476,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90094] = {
+            [questKeys.name] = "Consumed By Rage",
+            [questKeys.startedBy] = {{211965}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Defeat him."},
+            [questKeys.requiredSpell] = -425446,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
     }
 end
 
