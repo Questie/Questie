@@ -760,6 +760,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Do you have something for me?"},
             [questKeys.objectives] = {nil,nil,{{211365}}},
         },
+        [78680] = {
+            [questKeys.name] = "Rumors Abound",
+            [questKeys.startedBy] = {{6247}},
+            [questKeys.finishedBy] = {{6247,}},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Not much is known about the location of these shattered weapon fragments, save that they are both in the possession of once great mages held up in towers of importance. One is said to be located here to the north on Kalimdor, while the other is nestled near the heart of the Eastern Kingdoms.See if the rumors are true... Search for the two missing halves of this weapon and bring them to me."},
+            [questKeys.objectives] = {nil,nil,{{210765},{210763}}},
+        },
         [78681] = {
             [questKeys.name] = "The Conjuring",
             [questKeys.startedBy] = {{6247}},
