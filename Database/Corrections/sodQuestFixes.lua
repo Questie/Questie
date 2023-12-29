@@ -1700,7 +1700,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.requiredSpell] = -410028,
-            [questKeys.objectivesText] = {"Click the owl statue to see Agon, kill him and collect 1 symbol of the owl to start the Trial of The Owls quest chain."},
+            [questKeys.objectivesText] = {"Click the Owl Statue to become able to see Agon. Defeat him and collect the Symbol of the Second Owl."},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
         [90090] = {
