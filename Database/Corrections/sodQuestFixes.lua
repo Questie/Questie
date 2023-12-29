@@ -1852,9 +1852,9 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' located just outside the Wailing Cavern dungeon and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
         },
         [78145] = {
-            [questKeys.startedBy] = {{211022},{409717}},
+            [questKeys.startedBy] = {{211022},{409700}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Goaz Scrolls' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Arcanic Systems Manual' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
         },
         [78146] = {
             [questKeys.startedBy] = {{211022},{409496}},
@@ -1933,9 +1933,9 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' located just outside the Wailing Cavern dungeon and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [78145] = {
-            [questKeys.startedBy] = {{211033},{409717}},
+            [questKeys.startedBy] = {{211033},{409700}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Goaz Scrolls' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Arcanic Systems Manual' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [78146] = {
             [questKeys.startedBy] = {{211033},{409496}},
