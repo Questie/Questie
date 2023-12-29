@@ -53,6 +53,16 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.requiredSpell] = -402862,
         },
+        [77575] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403470, nil, 204806}}},
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+            [questKeys.requiredSpell] = -403470,
+        },
+        [77582] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403470, nil, 204806}}},
+            [questKeys.requiredRaces] = raceIDs.ORC,
+            [questKeys.requiredSpell] = -403470,
+        },
         [77585] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410094, nil, 206381}}},
             [questKeys.requiredRaces] = raceIDs.ORC,
@@ -69,6 +79,16 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.TROLL,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
             [questKeys.requiredSpell] = -410094,
+        },
+        [77588] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403470, nil, 204806}}},
+            [questKeys.requiredRaces] = raceIDs.TROLL,
+            [questKeys.requiredSpell] = -403470,
+        },
+        [77616] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403470, nil, 204806}}},
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
+            [questKeys.requiredSpell] = -403470,
         },
         [77617] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410002, nil, 205420}}},
@@ -100,11 +120,26 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
             [questKeys.requiredSpell] = -410121,
         },
+        [77651] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403470, nil, 204806}}},
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.requiredSpell] = -403470,
+        },
         [77652] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410094, nil, 206381}}},
             [questKeys.requiredRaces] = raceIDs.TAUREN,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
             [questKeys.requiredSpell] = -410094,
+        },
+        [77655] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403470, nil, 204806}}},
+            [questKeys.requiredRaces] = raceIDs.DWARF,
+            [questKeys.requiredSpell] = -403470,
+        },
+        [77656] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403470, nil, 204806}}},
+            [questKeys.requiredRaces] = raceIDs.GNOME,
+            [questKeys.requiredSpell] = -403470,
         },
         [77661] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
@@ -115,6 +150,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.requiredSpell] = -403919,
+        },
+        [77668] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403470, nil, 204806}}},
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+            [questKeys.requiredSpell] = -403470,
         },
         [77669] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410002, nil, 205420}}},
