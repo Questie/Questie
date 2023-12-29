@@ -35,12 +35,21 @@ class NPCSpider(scrapy.Spider):
         if "spawns" in result and (not result["spawns"]):
             text = response.xpath("//div[contains(text(), 'This NPC can be found in')]").get()
             zone_id_match = re.search(r"zone=(\d+)", text)
+            zone_name_match = re.search(r"Shadowfang Keep|Blackfathom Deeps", text)
             if zone_id_match:
                 zone_id = zone_id_match.group(1)
                 result["zoneId"] = zone_id
                 if (zone_id == "719" or  # Blackfathom Deeps
                         zone_id == "209"):  # Shadowfang Keep
                     result["spawns"] = [[zone_id, "[-1,-1]"]]
+            elif zone_name_match:
+                zone_name = zone_name_match.group(0)
+                if zone_name == "Blackfathom Deeps":
+                    result["zoneId"] = "719"
+                    result["spawns"] = [["719", "[-1,-1]"]]
+                elif zone_name == "Shadowfang Keep":
+                    result["zoneId"] = "209"
+                    result["spawns"] = [["209", "[-1,-1]"]]
 
         if result:
             yield result
