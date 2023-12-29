@@ -33,6 +33,17 @@ class NPCSpider(scrapy.Spider):
                 react_match = re.search(r'"react":\[(-?\d+),(-?\d+)]', script)
                 result["reactAlliance"] = react_match.group(1) if str(react_match) != "None" else "0"
                 result["reactHorde"] = react_match.group(2) if str(react_match) != "None" else "0"
+
+                list_views_pattern = re.compile(r'new Listview\((.*?)}\)', re.DOTALL)
+                for match in list_views_pattern.findall(script):
+                    list_view_id_match = re.search(r'id: \'(.*?)\',', match)
+                    if list_view_id_match:  # some seem to have a Listview but without IDs, so we need to test for None here
+                        list_view_name = list_view_id_match.group(1)
+                        if list_view_name == "starts":
+                            result["questStarts"] = self.__get_ids_from_listview(match)
+                        if list_view_name == "ends":
+                            result["questEnds"] = self.__get_ids_from_listview(match)
+
             if script.lstrip().startswith('var g_mapperData'):
                 result["spawns"] = self.__match_spawns(result, script)
 
@@ -78,6 +89,13 @@ class NPCSpider(scrapy.Spider):
                 zone_id = "209"
                 spawns = [["209", "[-1,-1]"]]
         return spawns, zone_id
+
+    def __get_ids_from_listview(self, text):
+        pattern = re.compile(r'"id":(\d+)')
+        ids = []
+        for match in pattern.findall(text):
+            ids.append(match)
+        return ids
 
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
