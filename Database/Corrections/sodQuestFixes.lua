@@ -245,17 +245,8 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {nil,{410168}},
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
-        [78226] = {
-            [questKeys.zoneOrSort] = sortKeys.DRUID,
-        },
-        [78227] = {
-            [questKeys.zoneOrSort] = sortKeys.DRUID,
-        },
-        [78228] = {
-            [questKeys.zoneOrSort] = sortKeys.DRUID,
-        },
         [78229] = {
-            [questKeys.preQuestGroup] = {78226,78227,78228},
+            [questKeys.preQuestGroup] = {90088,90089,90090},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
         [78261] = {
@@ -1686,6 +1677,42 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Pickpocket Southsea pirates to receive Buccaneer's Matchbox. Use it to blow up some crates and loot the rune from the spawning chest."},
             [questKeys.requiredSpell] = -400099,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
+        [90088] = {
+            [questKeys.name] = "First Trial of The Owls",
+            [questKeys.startedBy] = {{410020}},
+            [questKeys.finishedBy] = {{12042,}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.requiredSpell] = -410028,
+            [questKeys.objectivesText] = {"Click the owl statue to collect 1 symbol of the owl to start the Trial of The Owls quest chain."},
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [90089] = {
+            [questKeys.name] = "Second Trial of The Owls",
+            [questKeys.startedBy] = {{410089,211200}},
+            [questKeys.finishedBy] = {{12042,}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.requiredSpell] = -410028,
+            [questKeys.objectivesText] = {"Click the owl statue to see Agon, kill him and collect 1 symbol of the owl to start the Trial of The Owls quest chain."},
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [90090] = {
+            [questKeys.name] = "Third Trial of The Owls",
+            [questKeys.startedBy] = {{409942,409949}},
+            [questKeys.finishedBy] = {{12042,}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.requiredSpell] = -410028,
+            [questKeys.objectivesText] = {"Click 1 symbol of the owl to start, and click the other in 2 minutes. You may need to use aquatic form."},
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
     }
 end

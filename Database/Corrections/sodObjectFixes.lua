@@ -71,6 +71,26 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.DUSKWOOD] = {{16.7, 28.4}},
             },
         },
+        [409942] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{36.9, 76.1}},
+            },
+        },
+        [409949] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{54.0, 83.0}},
+            },
+        },
+        [410020] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{87.0, 43.2}},
+            },
+        },
+        [410089] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{49.5, 33.8}},
+            },
+        },
         [414658] = {
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
             [objectKeys.spawns] = {
