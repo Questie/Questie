@@ -262,6 +262,7 @@ function QuestieQuestFixes:Load()
         },
         [518] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.reputationReward] = {{factionIDs.UNDERCITY,100}}
         },
         [522] = {
             [questKeys.startedBy] = {{2434},nil,{3668}},
