@@ -1715,6 +1715,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Click one of the Twin Owl Statues and reach the other in two minutes. You need to use Aquatic Form to make it in time. If you succeed you'll receive the Symbol of the Third Owl."},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90091] = {
+            [questKeys.name] = "Flagellation",
+            [questKeys.startedBy] = {{212261},{411328,411348}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Loot the Decrepit Phylactery from the Dusty Coffer in the eastern crypt. Then use it on the Slumbering Bones in the western crypt to summon the Awakened Lich."},
+            [questKeys.requiredSpell] = -403480,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
     }
 end
 
