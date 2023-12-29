@@ -1712,7 +1712,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.requiredSpell] = -410028,
-            [questKeys.objectivesText] = {"Click 1 symbol of the owl to start, and click the other in 2 minutes. You may need to use aquatic form."},
+            [questKeys.objectivesText] = {"Click one of the Twin Owl Statues and reach the other in two minutes. You need to use Aquatic Form to make it in time. If you succeed you'll receive the Symbol of the Third Owl."},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
     }
