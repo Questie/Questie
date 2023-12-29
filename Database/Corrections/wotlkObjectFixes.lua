@@ -116,6 +116,9 @@ function QuestieWotlkObjectFixes:Load()
         [190781] = {
             [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN] = {{33.56,74.96}}},
         },
+        [190782] = {
+            [objectKeys.name] = "Altar of Kartak",
+        },
         [191092] = {
             [objectKeys.spawns] = {[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE] = {{63.12,68.33}}},
         },

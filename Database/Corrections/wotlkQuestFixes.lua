@@ -2217,6 +2217,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1104,9000},
         },
         [12703] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the blood at the Shrine of Kartak"), 0, {{"object", 190782}}}},
             [questKeys.requiredMinRep] = {1104,9000},
         },
         [12704] = {
