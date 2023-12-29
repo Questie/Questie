@@ -2225,6 +2225,7 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Talk to High-Oracle Soo-say to retrieve a Gorloc companion"), 0, {{"monster", 28027}}},
             },
             [questKeys.requiredMinRep] = {1105,9000},
+            [questKeys.requiredSourceItems] = {38622,38623,38624},
         },
         [12705] = {
             [questKeys.extraObjectives] = {
@@ -2336,8 +2337,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12762] = {
             [questKeys.requiredMinRep] = {1105,9000},
-            ---[questKeys.objectives] = {nil,nil,{{39748}},nil,{{{28079,28078},28078,"Frenzyheart Attacker"}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{65.60,59.48}}}, Questie.ICON_TYPE_EVENT, l10n("Charge the Dormant Polished Crystal at the exposed Lifeblood Pillar"),}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Charge the Dormant Polished Crystal at the exposed Lifeblood Pillar"),2,{{"object", 300224}}}},
         },
         [12771] = {
             [questKeys.preQuestSingle] = {12753},

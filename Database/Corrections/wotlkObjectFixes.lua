@@ -383,6 +383,11 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{45.4,37.23}}},
             [objectKeys.zoneID] = zoneIDs.SHOLAZAR_BASIN,
         },
+        [300224] = {
+            [objectKeys.name] = "Exposed Lifeblood Pillar Crystal",
+            [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{65.52,59.74}}},
+            [objectKeys.zoneID] = zoneIDs.SHOLAZAR_BASIN,
+        },
 
         -- Below are fake objects
         [400001] = {
