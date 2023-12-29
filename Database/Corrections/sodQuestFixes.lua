@@ -1857,9 +1857,9 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.objectivesText] = {"Collect 'Arcanic Systems Manual' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
         },
         [78146] = {
-            [questKeys.startedBy] = {{211022},{409496}},
+            [questKeys.startedBy] = {{211022},{409717}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Nar'thalas Almanac, Vol. 74' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Goaz Scrolls' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
         },
         [78147] = {
             [questKeys.startedBy] = {{211022},{409735}},
@@ -1938,9 +1938,9 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.objectivesText] = {"Collect 'Arcanic Systems Manual' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [78146] = {
-            [questKeys.startedBy] = {{211033},{409496}},
+            [questKeys.startedBy] = {{211033},{409717}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Nar'thalas Almanac, Vol. 74' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Goaz Scrolls' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
         },
         [78147] = {
             [questKeys.startedBy] = {{211033},{409735}},
