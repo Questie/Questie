@@ -24,6 +24,7 @@ function QuestieTBCQuestFixes:Load()
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
+    local factionIDs = QuestieDB.factionIDs
     local zoneIDs = ZoneDB.zoneIDs
     local sortKeys = QuestieDB.sortKeys
     local questFlags = QuestieDB.questFlags
@@ -473,12 +474,12 @@ function QuestieTBCQuestFixes:Load()
         [7792] = {
             [questKeys.startedBy] = {{20604},nil,nil},
             [questKeys.finishedBy] = {{20604},nil},
-            [questKeys.reputationReward] = {{930,350}},
+            [questKeys.reputationReward] = {{factionIDs.EXODAR,350}},
         },
         [7798] = {
             [questKeys.startedBy] = {{20604},nil,nil},
             [questKeys.finishedBy] = {{20604},nil},
-            [questKeys.reputationReward] = {{930,350}},
+            [questKeys.reputationReward] = {{factionIDs.EXODAR,350}},
         },
         [7800] = {
             [questKeys.preQuestGroup] = {7799,10352,10354},
@@ -1013,7 +1014,7 @@ function QuestieTBCQuestFixes:Load()
         [9491] = {
             [questKeys.preQuestSingle] = {},
         },
-        [9494] = { 
+        [9494] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Gather a Fel Ember using Grand Warlock's Amulet"), 0, {{"object", 181679}}}},
         },
         [9498] = {
@@ -1769,12 +1770,12 @@ function QuestieTBCQuestFixes:Load()
         [10352] = {
             [questKeys.startedBy] = {{14725},nil,nil},
             [questKeys.finishedBy] = {{14725},nil},
-            [questKeys.reputationReward] = {{69,350}},
+            [questKeys.reputationReward] = {{factionIDs.DARNASSUS,350}},
         },
         [10354] = {
             [questKeys.startedBy] = {{14725},nil,nil},
             [questKeys.finishedBy] = {{14725},nil},
-            [questKeys.reputationReward] = {{69,350}},
+            [questKeys.reputationReward] = {{factionIDs.DARNASSUS,350}},
         },
         [10357] = {
             [questKeys.preQuestGroup] = {7792,7798,10356},

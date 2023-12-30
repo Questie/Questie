@@ -35,6 +35,7 @@ function QuestieWotlkQuestFixes:Load()
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
+    local factionIDs = QuestieDB.factionIDs
     local zoneIDs = ZoneDB.zoneIDs
     local sortKeys = QuestieDB.sortKeys
     local profKeys = QuestieProfessions.professionKeys
@@ -847,7 +848,7 @@ function QuestieWotlkQuestFixes:Load()
         [11472] = {
             [questKeys.objectives] = {{{24797,"Reef Bull led to a Reef Cow"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Lure Reef Bull with Tasty Reef Fish"), 0, {{"monster", 24786},{"monster", 24804}}}},
-            [questKeys.reputationReward] = {{1073,500}},
+            [questKeys.reputationReward] = {{factionIDs.THE_KALUAK,500}},
         },
         [11475] = {
             [questKeys.preQuestSingle] = {11244},
@@ -1110,7 +1111,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
         },
         [11945] = {
-            [questKeys.reputationReward] = {{1073,500}},
+            [questKeys.reputationReward] = {{factionIDs.THE_KALUAK,500}},
         },
         [11956] = {
             [questKeys.extraObjectives] = {
@@ -1128,7 +1129,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{26196,"Loguhn's Blood Smeared"}}},
         },
         [11960] = {
-            [questKeys.reputationReward] = {{1073,500}},
+            [questKeys.reputationReward] = {{factionIDs.THE_KALUAK,500}},
         },
         [11969] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Raelorasz' Spark"),0,{{"object", 194151}}}},
@@ -6403,7 +6404,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
-            [questKeys.reputationReward] = {{1090,75}},
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [78753] = {
             [questKeys.name] = "Proof of Demise: Threats to Azeroth",
@@ -6417,7 +6418,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
-            [questKeys.reputationReward] = {{1090,75}},
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
     }
 end
