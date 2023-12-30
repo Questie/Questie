@@ -467,6 +467,26 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [79077] = { -- Sharing the Faith (Stormwind)
+            [questKeys.objectives] = {{{215062}}},
+            [questKeys.requiredRaces] = raceIDs.DWARF + raceIDs.HUMAN,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [79078] = { -- Sharing the Faith (Darnassus)
+            [questKeys.objectives] = {{{215095}}},
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [79079] = { -- Sharing the Faith (Orgrimmar)
+            [questKeys.objectives] = {{{215096}}},
+            [questKeys.requiredRaces] = raceIDs.TROLL,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [79080] = { -- Sharing the Faith (Undercity)
+            [questKeys.objectives] = {{{215098}}},
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [79090] = {
             [questKeys.startedBy] = {{212727,212728,212729,212730,212801,212802}},
             [questKeys.finishedBy] = {{212970,217707}},
