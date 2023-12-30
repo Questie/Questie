@@ -1436,6 +1436,7 @@ local questsWithTooManyStarters = {
     [178] = true, -- Theocritus' Retrieval
     [968] = true, -- The Powers Below
     [1480] = true, -- The Corruptor
+    [4451] = true, -- The Key to Freedom
     [90008] = true, -- Mage Regeneration Rune
     [90009] = true, -- Mage Regeneration Rune
     [90010] = true, -- Mage Enlightenment Rune

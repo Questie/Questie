@@ -2601,6 +2601,15 @@ function QuestieNPCFixes:Load()
                 [zoneIDs.WESTFALL] = {{34.4,83.1},{28.1,70.2},{27.1,48.8},{32.4,25.6},{47,10.7}},
             },
         },
+        [300037] = { -- 4451 - This fix is also in sodNPCFixes
+            [npcKeys.name] = "Dark Iron Member",
+            [npcKeys.minLevel] = 47,
+            [npcKeys.maxLevel] = 48,
+            [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
+            [npcKeys.spawns] = {
+                [zoneIDs.SEARING_GORGE] = {{33.5,53.5},{36.5,60.4},{44.4,62.1},{49.7,55.6},{41.1,49.9}},
+            },
+        },
     }
 end
 
