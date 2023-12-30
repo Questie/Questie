@@ -16,6 +16,8 @@ class ObjectFormatter:
                 g.write("        [objectKeys.name] = \"{name}\",\n".format(name=item["name"]))
                 g.write("        [objectKeys.zoneID] = {zone_id},\n".format(zone_id=self.__get_zone_id(item)))
                 g.write("        [objectKeys.spawns] = {spawns},\n".format(spawns=self.__get_spawns(item)))
+                g.write("        [objectKeys.questStarts] = {quest_starts},\n".format(quest_starts=self.__get_quest_starts(item)))
+                g.write("        [objectKeys.questEnds] = {quest_ends},\n".format(quest_ends=self.__get_quest_ends(item)))
                 g.write("    },\n")
             g.write("}\n")
 
@@ -37,6 +39,16 @@ class ObjectFormatter:
         else:
             spawns_string = "{\n" + spawns_string + "        }"
         return spawns_string
+
+    def __get_quest_starts(self, item):
+        if "questStarts" in item:
+            return "{" + ",".join(item["questStarts"]) + "}"
+        return "nil"
+
+    def __get_quest_ends(self, item):
+        if "questEnds" in item:
+            return "{" + ",".join(item["questEnds"]) + "}"
+        return "nil"
 
     def __load_json_file(self, file_name: str):
         print("Loading '{}'...".format(file_name))

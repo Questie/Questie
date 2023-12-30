@@ -177,8 +177,19 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     local dbCompiled = false
 
+    local dbIsCompiled, dbCompiledOnVersion, dbCompiledLang
+    if Questie.IsSoD then
+        dbIsCompiled = Questie.db.global.sod.dbIsCompiled or false
+        dbCompiledOnVersion = Questie.db.global.sod.dbCompiledOnVersion
+        dbCompiledLang = Questie.db.global.sod.dbCompiledLang
+    else
+        dbIsCompiled = Questie.db.global.dbIsCompiled or false
+        dbCompiledOnVersion = Questie.db.global.dbCompiledOnVersion
+        dbCompiledLang = Questie.db.global.dbCompiledLang
+    end
+
     -- Check if the DB needs to be recompiled
-    if (not Questie.db.global.dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion) or (l10n:GetUILocale() ~= Questie.db.global.dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
+    if (not dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= dbCompiledOnVersion) or (l10n:GetUILocale() ~= dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
         print("\124cFFAAEEFF" .. l10n("Questie DB has updated!") .. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
         loadFullDatabase()
         QuestieDBCompiler:Compile()
@@ -194,8 +205,10 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         coYield()
     end
 
-    if (not Questie.db.char.townsfolk) or (Questie.db.global.dbCompiledCount ~= Questie.db.char.townsfolkVersion) or (Questie.db.char.townsfolkClass ~= UnitClass("player")) then
-        Questie.db.char.townsfolkVersion = Questie.db.global.dbCompiledCount
+    local dbCompiledCount = Questie.IsSoD and Questie.db.global.sod.dbCompiledCount or Questie.db.global.dbCompiledCount
+
+    if (not Questie.db.char.townsfolk) or (dbCompiledCount ~= Questie.db.char.townsfolkVersion) or (Questie.db.char.townsfolkClass ~= UnitClass("player")) then
+        Questie.db.char.townsfolkVersion = dbCompiledCount
         coYield()
         QuestieMenu:BuildCharacterTownsfolk()
     end

@@ -20,6 +20,9 @@ function QuestieItemFixes:Load()
         [858] = {
             [itemKeys.vendors] = {844,958,1257,1453,2140,2380,2480,2481,2812,3548,3658,3956,4226,5178,8157,8177,8178,14847},
         },
+        [910] = {
+            [itemKeys.objectDrops] = {1560},
+        },
         [929] = {
             [itemKeys.vendors] = {1307,1453,1457,2481,2805,3134,3534,3956,4083,4878,8305,13476},
             [itemKeys.relatedQuests] = {715},
@@ -366,7 +369,7 @@ function QuestieItemFixes:Load()
             [itemKeys.class] = itemClasses.QUEST,
         },
         [5445] = {
-            [itemKeys.npcDrops] = {3943,10559},
+            [itemKeys.npcDrops] = {3943},
             [itemKeys.relatedQuests] = {1009},
         },
         [5455] = {

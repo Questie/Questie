@@ -1107,17 +1107,33 @@ function QuestieWotlkNpcFixes:Load()
         [29503] = {
             [npcKeys.waypoints] = {[zoneIDs.STORM_PEAKS] = {{{77.4,62.8},{77.2,63.8},{76.15,63.9}}}},
         },
+        [29560] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN] = {{9.53,47.01}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [29563] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{54.79,60.36}}},
         },
         [29573] = {
             [npcKeys.spawns] = {[zoneIDs.GUNDRAK_UPPER_LEVEL]={{46.5,65.3}},[4416]={{-1,-1}}},
         },
+        [29579] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{30.1,73.9}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
         [29595] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{63.24,62.52},{61.48,61.4},{63.0,60.41},{63.84,58.29},{62.76,60.93},{65.35,62.54},{59.82,60.46},{61.29,59.34},{57.85,61.98},{59.23,59.01},{58.58,60.81},},},
         },
         [29597] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{60.55,60.22},{57.78,62.32},{60.8,58.67},{60.74,61.13},{59.01,61.85},{59.66,60.87},{58.57,62.99},{59.88,59.07},{58.15,63.85},{58.58,59.45},{56.69,64.95},{56.85,63.18},},},
+        },
+        [29650] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{29.61,74.07}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [29677] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{36.4,64.2}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [29762] = { --"Hyeyoung Parka", "Wind Rider Master"
             [npcKeys.friendlyToFaction] = "H",
@@ -1129,9 +1145,15 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [29799] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.4,55.6}}},
-            [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{64.4,55.6},{61.2,46.8},{58.8,41},{57.6,37.4},{55.8,37.8},{56.6,43.4},{58.6,47.2},{61.2,53.6},{62.8,57.4},{64.4,55.6}}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{63.59,52.34}}},
+            [npcKeys.waypoints] = waypointPresets.THE_SKYBREAKER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [29806] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{37.76,46.54}}},
+        },
+        [29811] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{37.68,66.75},{38.49,77.19},{31.65,64.53},{34.56,64.64},{36.43,77.3},{38.26,73.22}}},
         },
         [29821] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{32.50,63.37},},},
@@ -1139,6 +1161,10 @@ function QuestieWotlkNpcFixes:Load()
         [29840] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{42.56,20.81},},},
             [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{42.56,20.81},{42.80,20.02},{43.36,19.23},{44.32,18.80},{45.28,19.23},{45.84,20.02},{46.08,20.81},{46.15,21.54},{46.08,22.27},{45.84,23.06},{45.28,23.85},{44.32,24.28},{43.36,23.85},{42.80,23.06}}}},
+        },
+        [29854] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{33.39,73.52},{33.21,73.63},{32.73,73.86},{32.39,73.84},{32.41,74.32},{32.63,74.87},{33.55,74.88},{33.77,74.42},{33.9,73.64},{32.66,71.97},{33.81,72.63}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [29872] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{28.38,44.85},},},
@@ -1211,18 +1237,19 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{47.85,56.82}}},
             [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
         },
-        [30222] = {
-            [npcKeys.spawns] = {},
-        },
         [30053] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{41.8,65.8},{42,63.4},{42,65},{42.4,63.8},{42.4,66.8},{42.6,63.8},{42.6,66.4},{42.8,65},{43,67.4},{43.2,67.6},{43.6,67.6},{43.8,67},{44,66.4}}},
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [30082] = {
-            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{38.2,61.6},},},
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{38.2,61.6}}},
         },
         [30120] = {
-            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{76.8,63},{77,62.2},{77.6,62.6},}},
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{76.8,63},{77,62.2},{77.6,62.6}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [30134] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{39.62,56.45}}},
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [30137] = {
@@ -1240,6 +1267,9 @@ function QuestieWotlkNpcFixes:Load()
         [30210] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{64.21,59.21},},},
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [30222] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{56.91,65.11},{56.72,63.79},{57.48,63.05},{57.85,65.01}}},
         },
         [30236] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{85.2,75.8},{85.8,76.6},{85.8,78},{86,74.8},},},
@@ -1272,16 +1302,19 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [30300] = {
-            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{26.4,36.6},{26.6,41},{27.2,36.8},{27.2,43},{27.4,42},{27.4,44.4},{27.4,44.6},{27.4,45.6},{27.6,44.4},{27.6,45.4},{27.8,42.4},{27.8,42.8},{27.8,46.4},{28,47.2},{28.2,47.6},{28.4,48.6},{28.6,47.2},{28.6,48.4},{28.6,48.8},{29.6,48.4}}},
-            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+            [npcKeys.minLevel] = 80,
+            [npcKeys.maxLevel] = 80,
+            [npcKeys.minLevelHealth] = 315000,
+            [npcKeys.maxLevelHealth] = 315000,
+            [npcKeys.waypoints] = {[zoneIDs.STORM_PEAKS]={{{28.84,47.95},{28.62,47.50},{28.35,46.90},{28.13,46.25},{27.91,45.61},{27.69,44.95},{27.50,44.29},{27.35,43.60},{27.20,42.90},{27.16,42.75}}}},
         },
         [30301] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{26.2,35.8},{27.2,35.8}}},
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [30302] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.4,55.6}}},
-            [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{64.4,55.6},{61.2,46.8},{58.8,41},{57.6,37.4},{55.8,37.8},{56.6,43.4},{58.6,47.2},{61.2,53.6},{62.8,57.4},{64.4,55.6}}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{63.59,52.34}}},
+            [npcKeys.waypoints] = waypointPresets.THE_SKYBREAKER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [30315] = {
@@ -1299,14 +1332,23 @@ function QuestieWotlkNpcFixes:Load()
         [30329] = {
             [npcKeys.spawns] = {[zoneIDs.AHNKAHET_MAP]={{65.9,60.7},{65.9,65.7},{69,71.6},{70.9,75.3},{61.4,72.9},{59.2,80.3}},[4494]={{-1,-1}}},
         },
+        [30340] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{54.74,60.65}}},
+        },
+        [30341] = {
+            [npcKeys.minLevel] = 80,
+            [npcKeys.maxLevel] = 80,
+            [npcKeys.minLevelHealth] = 50400,
+            [npcKeys.maxLevelHealth] = 50400,
+        },
         [30344] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.4,55.6}}},
-            [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{64.4,55.6},{61.2,46.8},{58.8,41},{57.6,37.4},{55.8,37.8},{56.6,43.4},{58.6,47.2},{61.2,53.6},{62.8,57.4},{64.4,55.6}}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{63.59,52.34}}},
+            [npcKeys.waypoints] = waypointPresets.THE_SKYBREAKER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [30345] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.4,55.6}}},
-            [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{64.4,55.6},{61.2,46.8},{58.8,41},{57.6,37.4},{55.8,37.8},{56.6,43.4},{58.6,47.2},{61.2,53.6},{62.8,57.4},{64.4,55.6}}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{63.59,52.34}}},
+            [npcKeys.waypoints] = waypointPresets.THE_SKYBREAKER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [30374] = {
@@ -1318,10 +1360,18 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [30382] = {
-            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{39.4,56.4},},},
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{39.56,56.35},},},
         },
         [30390] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{71.37,48.79}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [30399] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{35.93,31.51}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [30405] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{30.12,73.87}}},
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [30414] = {
@@ -1375,6 +1425,14 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{54.15,71.18}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [30989] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{80.38,71.06}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [30992] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{35.82,67.16}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [30996] = {
             [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_VILLAGE]={{-1,-1}}},
         },
@@ -1406,6 +1464,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{30.9,29.3}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [31235] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{35.6,66.73}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [31237] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{53.8,86.9}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
@@ -1415,8 +1477,8 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [31259] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.4,55.6}}},
-            [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{64.4,55.6},{61.2,46.8},{58.8,41},{57.6,37.4},{55.8,37.8},{56.6,43.4},{58.6,47.2},{61.2,53.6},{62.8,57.4},{64.4,55.6}}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{63.59,52.34}}},
+            [npcKeys.waypoints] = waypointPresets.THE_SKYBREAKER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [31261] = {
@@ -1432,8 +1494,16 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{30.9,29.3}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [31283] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{54.44,86.13}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [31306] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{29.8,61.2}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [31395] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{48.2,72.97}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [31440] = {
@@ -1444,8 +1514,40 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{54,43}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [31701] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{62.47,51.24},{62.46,51.19},{62.42,51.07},{62.44,51.03},{62.49,51.1},{62.83,51.51},{62.86,51.53},{62.83,51.72},{62.83,51.56},{62.82,51.03}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [31721] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{65.24,48.06},{63.41,47.54},{63.83,52.82},{63.61,50.59},{66.45,50.46},{68.89,46.2},{65.28,53.84}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [31773] = {
+            [npcKeys.name] = "Plague Cauldron",
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{62.26,63.37},{60.84,63.39},{61.55,63.96}}},
+        },
         [31839] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{54,36.6}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32154] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{65.02,53.96},{65.8,53.75},{66.59,53.87},{67.06,54.76},{67.61,55.6},{67.25,56.24},{66.39,56.37},{65.73,56.77},{65.24,56.57},{67.2,53.2},{67.4,54.2},{65.4,55.2}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32179] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{61.02,39.65},{60.96,43.39},{57.94,44.49},{56.8,42.09},{57.51,38.21},{56.73,39.28},{57.14,36.67},{57.52,41.85}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32182] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{61.04,40.03},{55.19,38.73},{55.03,38.69},{61.38,43.29},{61.02,43.03},{57.58,38.69},{56.9,44.09},{56.97,44.12},{58.1,41.36},{58.16,41.4},{59.33,39.41},{57.2,36.44},{56.0,35.54},{56.13,35.67},{55.96,40.56},{57.36,36.13},{60.45,38.9},{57.84,44.6},{57.87,44.09},{56.76,42.48},{59.48,39.48},{57.58,38.52},{56.68,38.97},{56.74,39.2},{57.87,41.66},{57.64,41.81},{57.21,42.71}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32183] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{60.81,43.45},{57.5,36.68},{56.88,42.81},{61.04,42.58},{57.22,36.38},{60.61,39.48},{60.46,38.85},{57.63,44.03},{57.91,43.94},{57.52,38.34},{57.46,38.38},{56.84,39.36},{56.76,39.11},{57.47,41.88},{57.71,41.75},{56.7,42.06}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32188] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{60.98,39.02},{61.61,42.27},{60.57,43.51},{60.06,44.64},{60.19,45.02},{61.08,38.54},{64.6,39.69}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [32195] = {
@@ -1464,13 +1566,33 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{51,33}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [32222] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{57.47,62.96},{52.76,57.45},{56.8,50.65},{59.21,58.41}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32227] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{62.57,50.7}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [32239] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{44.4,76.2}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32297] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{52.51,29.43},{52.61,29.4},{52.55,29.28},{52.9,29.01},{53.03,29.47},{53.25,29.28},{53.31,29.53},{53.32,29.75},{53.31,30.01},{53.31,30.11},{53.28,30.34},{53.32,30.66},{53.31,30.97},{52.61,31},{52.65,30.82},{52.51,30.85},{52.87,30.49},{52.88,30.2},{52.88,29.94},{52.77,30.04},{52.76,30.42},{50.9,30.41},{50.53,30.79},{50.88,30.23},{51.01,30.28},{50.55,29.4},{50.95,28.96},{52.76,31.15}}},
+        },
+        [32300] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{51.93,28.89}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [32301] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.78,28.41}}},
             [npcKeys.waypoints] = waypointPresets.ORGRIMS_HAMMER,
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32302] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{63.59,52.34}}},
+            [npcKeys.waypoints] = waypointPresets.THE_SKYBREAKER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [32370] = {
@@ -1489,12 +1611,28 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{54,36.9}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [32444] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{53.95,42.93}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [32497] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{49.2,73.2}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [32587] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{49.82,73.53}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32588] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{49.27,74.1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [32593] = {
             [npcKeys.spawns] = {[zoneIDs.THE_GILDED_GATE]={{-1,-1}},[4277]={{-1,-1}}},
+        },
+        [32648] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{42.9,78.71}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [32663] = {
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{16.37,48.26}}},
@@ -1822,6 +1960,9 @@ function QuestieWotlkNpcFixes:Load()
         [36494] = {
             [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{67.67,54.94},{-1,-1}}},
         },
+        [36497] = {
+            [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{43.4,50},{-1,-1}}},
+        },
         [36502] = {
             [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{43.3,12.2},{-1,-1}}},
         },
@@ -1841,8 +1982,32 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{44.2,26},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
         },
+        [36764] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{59.37,60.48},{45.33,58.72},{43.77,66.77},{55.92,65.86},{55.84,39.13},{56.22,64.93},{58.71,60.9},{55.55,43.2},{53.46,65.12},{47.55,61.06},{41.77,65.25},{52.89,64.84},{49.63,69.36},{61.14,59.63},{60.06,49.25},{55.16,65.87},{55.64,63.33},{62.08,59.4},{54.38,36.42},{60.94,49.22},{55.5,38.28},{55.82,41.31},{60.23,60.09},{54.38,65.36},{50.54,68.04},{58.8,48.69},{48.83,69.23},{61.78,49.56},{38.6,66.65},{37.5,69},{34,70.5},{33.8,68.9},{34.3,65.9},{33.5,63.7},{34.8,61.5},{36.7,61.1},{40.3,55.9},{41,58.1},{42.2,59.5},{42.8,60.5},{45.3,55.8},{43.8,56.7},{42.3,54.5},{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [36765] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{59.37,60.48},{45.33,58.72},{43.77,66.77},{55.92,65.86},{55.84,39.13},{56.22,64.93},{58.71,60.9},{55.55,43.2},{53.46,65.12},{47.55,61.06},{41.77,65.25},{52.89,64.84},{49.63,69.36},{61.14,59.63},{60.06,49.25},{55.16,65.87},{55.64,63.33},{62.08,59.4},{54.38,36.42},{60.94,49.22},{55.5,38.28},{55.82,41.31},{60.23,60.09},{54.38,65.36},{50.54,68.04},{58.8,48.69},{48.83,69.23},{61.78,49.56},{38.6,66.65},{37.5,69},{34,70.5},{33.8,68.9},{34.3,65.9},{33.5,63.7},{34.8,61.5},{36.7,61.1},{40.3,55.9},{41,58.1},{42.2,59.5},{42.8,60.5},{45.3,55.8},{43.8,56.7},{42.3,54.5},{-1,-1}}},
+        },
+        [36766] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{59.37,60.48},{45.33,58.72},{43.77,66.77},{55.92,65.86},{55.84,39.13},{56.22,64.93},{58.71,60.9},{55.55,43.2},{53.46,65.12},{47.55,61.06},{41.77,65.25},{52.89,64.84},{49.63,69.36},{61.14,59.63},{60.06,49.25},{55.16,65.87},{55.64,63.33},{62.08,59.4},{54.38,36.42},{60.94,49.22},{55.5,38.28},{55.82,41.31},{60.23,60.09},{54.38,65.36},{50.54,68.04},{58.8,48.69},{48.83,69.23},{61.78,49.56},{38.6,66.65},{37.5,69},{34,70.5},{33.8,68.9},{34.3,65.9},{33.5,63.7},{34.8,61.5},{36.7,61.1},{40.3,55.9},{41,58.1},{42.2,59.5},{42.8,60.5},{45.3,55.8},{43.8,56.7},{42.3,54.5},{-1,-1}}},
+        },
+        [36767] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{59.37,60.48},{45.33,58.72},{43.77,66.77},{55.92,65.86},{55.84,39.13},{56.22,64.93},{58.71,60.9},{55.55,43.2},{53.46,65.12},{47.55,61.06},{41.77,65.25},{52.89,64.84},{49.63,69.36},{61.14,59.63},{60.06,49.25},{55.16,65.87},{55.64,63.33},{62.08,59.4},{54.38,36.42},{60.94,49.22},{55.5,38.28},{55.82,41.31},{60.23,60.09},{54.38,65.36},{50.54,68.04},{58.8,48.69},{48.83,69.23},{61.78,49.56},{38.6,66.65},{37.5,69},{34,70.5},{33.8,68.9},{34.3,65.9},{33.5,63.7},{34.8,61.5},{36.7,61.1},{40.3,55.9},{41,58.1},{42.2,59.5},{42.8,60.5},{45.3,55.8},{43.8,56.7},{42.3,54.5},{-1,-1}}},
+        },
         [36770] = {
-            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{46.9,65.3},{50.1,62.8},{54.5,62.2},{59.1,59.7}}},
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{59.37,60.48},{45.33,58.72},{43.77,66.77},{55.92,65.86},{55.84,39.13},{56.22,64.93},{58.71,60.9},{55.55,43.2},{53.46,65.12},{47.55,61.06},{41.77,65.25},{52.89,64.84},{49.63,69.36},{61.14,59.63},{60.06,49.25},{55.16,65.87},{55.64,63.33},{62.08,59.4},{54.38,36.42},{60.94,49.22},{55.5,38.28},{55.82,41.31},{60.23,60.09},{54.38,65.36},{50.54,68.04},{58.8,48.69},{48.83,69.23},{61.78,49.56},{38.6,66.65},{37.5,69},{34,70.5},{33.8,68.9},{34.3,65.9},{33.5,63.7},{34.8,61.5},{36.7,61.1},{40.3,55.9},{41,58.1},{42.2,59.5},{42.8,60.5},{45.3,55.8},{43.8,56.7},{42.3,54.5},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
+        },
+        [36771] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{59.37,60.48},{45.33,58.72},{43.77,66.77},{55.92,65.86},{55.84,39.13},{56.22,64.93},{58.71,60.9},{55.55,43.2},{53.46,65.12},{47.55,61.06},{41.77,65.25},{52.89,64.84},{49.63,69.36},{61.14,59.63},{60.06,49.25},{55.16,65.87},{55.64,63.33},{62.08,59.4},{54.38,36.42},{60.94,49.22},{55.5,38.28},{55.82,41.31},{60.23,60.09},{54.38,65.36},{50.54,68.04},{58.8,48.69},{48.83,69.23},{61.78,49.56},{38.6,66.65},{37.5,69},{34,70.5},{33.8,68.9},{34.3,65.9},{33.5,63.7},{34.8,61.5},{36.7,61.1},{40.3,55.9},{41,58.1},{42.2,59.5},{42.8,60.5},{45.3,55.8},{43.8,56.7},{42.3,54.5},{-1,-1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [36772] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{59.37,60.48},{45.33,58.72},{43.77,66.77},{55.92,65.86},{55.84,39.13},{56.22,64.93},{58.71,60.9},{55.55,43.2},{53.46,65.12},{47.55,61.06},{41.77,65.25},{52.89,64.84},{49.63,69.36},{61.14,59.63},{60.06,49.25},{55.16,65.87},{55.64,63.33},{62.08,59.4},{54.38,36.42},{60.94,49.22},{55.5,38.28},{55.82,41.31},{60.23,60.09},{54.38,65.36},{50.54,68.04},{58.8,48.69},{48.83,69.23},{61.78,49.56},{38.6,66.65},{37.5,69},{34,70.5},{33.8,68.9},{34.3,65.9},{33.5,63.7},{34.8,61.5},{36.7,61.1},{40.3,55.9},{41,58.1},{42.2,59.5},{42.8,60.5},{45.3,55.8},{43.8,56.7},{42.3,54.5},{-1,-1}}},
+        },
+        [36773] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{59.37,60.48},{45.33,58.72},{43.77,66.77},{55.92,65.86},{55.84,39.13},{56.22,64.93},{58.71,60.9},{55.55,43.2},{53.46,65.12},{47.55,61.06},{41.77,65.25},{52.89,64.84},{49.63,69.36},{61.14,59.63},{60.06,49.25},{55.16,65.87},{55.64,63.33},{62.08,59.4},{54.38,36.42},{60.94,49.22},{55.5,38.28},{55.82,41.31},{60.23,60.09},{54.38,65.36},{50.54,68.04},{58.8,48.69},{48.83,69.23},{61.78,49.56},{38.6,66.65},{37.5,69},{34,70.5},{33.8,68.9},{34.3,65.9},{33.5,63.7},{34.8,61.5},{36.7,61.1},{40.3,55.9},{41,58.1},{42.2,59.5},{42.8,60.5},{45.3,55.8},{43.8,56.7},{42.3,54.5},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
         },
         [36678] = {
@@ -1865,7 +2030,11 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
         [36990] = {
-            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{40.5,77.8}}},
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{40.8,79.7},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
+        },
+        [36993] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{40.8,79.7},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
         },
         [37094] = {
@@ -1908,7 +2077,11 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
         },
         [37596] = {
-            [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{68.3,90.9}}},
+            [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{64,91},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.FORGE_OF_SOULS,
+        },
+        [37597] = {
+            [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{64,91},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.FORGE_OF_SOULS,
         },
         [37671] = {
@@ -1923,7 +2096,11 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{27.43,34.83}},[zoneIDs.DUROTAR]={{50.63,13.13}}}
         },
         [37223] = {
-            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{44.5,76.5}}},
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{44.5,76.5},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
+        },
+        [37591] = {
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{65.7,54.8},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
         },
         [37776] = {
@@ -1980,12 +2157,16 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
+        [38160] = {
+            [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{44.6,13.6},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.FORGE_OF_SOULS,
+        },
         [38161] = {
-            [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{44.6,13.6}}},
+            [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{44.6,13.6},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.FORGE_OF_SOULS,
         },
         [38189] = {
-            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{43.5,22.7}}},
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{43.5,22.7},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
         },
         [38293] = {
@@ -2049,11 +2230,11 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
         [38551] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{49.5,39.7}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{50.1,39.5}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
         [38558] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_QUEEN_LANA_THEL]={{51.1,31.9}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_QUEEN_LANA_THEL]={{48.8,35.7}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
         [38589] = {

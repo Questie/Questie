@@ -19,8 +19,20 @@ class NPCFormatter:
                 g.write("        [npcKeys.zoneID] = {zone_id},\n".format(zone_id=self.__get_zone_id(item)))
                 g.write("        [npcKeys.spawns] = {spawns},\n".format(spawns=self.__get_spawns(item["spawns"] if "spawns" in item else [])))
                 g.write("        [npcKeys.friendlyToFaction] = {friendly_to},\n".format(friendly_to=self.__get_race_string(item["reactAlliance"], item["reactHorde"])))
+                g.write("        [npcKeys.questStarts] = {quest_starts},\n".format(quest_starts=self.__get_quest_starts(item)))
+                g.write("        [npcKeys.questEnds] = {quest_ends},\n".format(quest_ends=self.__get_quest_ends(item)))
                 g.write("    },\n")
             g.write("}\n")
+
+    def __get_quest_starts(self, item):
+        if "questStarts" in item:
+            return "{" + ",".join(item["questStarts"]) + "}"
+        return "nil"
+
+    def __get_quest_ends(self, item):
+        if "questEnds" in item:
+            return "{" + ",".join(item["questEnds"]) + "}"
+        return "nil"
 
     def __get_level(self, item):
         return item if int(item) < 99 else 99  # "Son of Arugal" has level 9999

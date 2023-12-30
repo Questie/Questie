@@ -53,6 +53,7 @@ l10n.itemLookup["esMX"] = {
 [1261] = "Orbe de medianoche",
 [1262] = "Barril de cerveza Cebatruenos",
 [1274] = "Lúpulos",
+[1307] = "Planificación de recogida de oro",
 [1309] = "Caja de herramientas de Olento",
 [1349] = "Cajón de Abercrombie",
 [1381] = "Un mensaje misterioso",
