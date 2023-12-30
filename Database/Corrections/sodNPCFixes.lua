@@ -18,6 +18,20 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TIRISFAL_GLADES] = {{66.4, 40.2}},
             },
         },
+        [203079] = {
+            [npcKeys.spawns] = {
+                [1] = {{53.5, 47.5}},
+                [12] = {{24.6, 75.2},{38.6, 75.2}},
+                [14] = {{36, 47.4},{41, 49.4},{55.8, 38.4},{56.6, 26.6}},
+                [141] = {{39.6, 37.6},{39.8, 69.4},{43.8, 77},{54.8, 66},{62.6, 71.8}},
+                [215] = {{40.4, 53.2},{45.6, 36.4},{60.2, 67.4}},
+            },
+        },
+        [203226] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{69.6, 50.6}},
+            },
+        },
         [202699] = { -- Baron Aquanis
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
@@ -45,6 +59,16 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.MULGORE] = {{37.4, 49.6}},
             },
         },
+        [207515] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.MULGORE] = {{30.6, 61.2}},
+            },
+        },
+        [207957] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DUROTAR] = {{53, 43.4}},
+            },
+        },
         [208196] = {
             [npcKeys.spawns] = {
                 [zoneIDs.TIRISFAL_GLADES] = {{25.4, 48.4}},
@@ -55,6 +79,21 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DUROTAR] = {{58.6, 45.6}},
             },
         },
+        [208619] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES] = {{47.2, 71.2}},
+            },
+        },
+        [208638] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DUN_MOROGH] = {{35.4,37.4},{30.4,41.2}},
+            },
+        },
+        [208652] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DUN_MOROGH] = {{46.4, 53.2}},
+            },
+        },
         [208752] = {
             [npcKeys.spawns] = {
                 [zoneIDs.DUN_MOROGH] = {{69.2, 58.2}},
@@ -63,6 +102,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [208927] = {
             [npcKeys.spawns] = {
                 [zoneIDs.TIRISFAL_GLADES] = {{76.4, 44.8}},
+            },
+        },
+        [209608] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DARNASSUS] = {{63.4, 22}},
             },
         },
         [209678] = { -- Twilight Lord Kelris
@@ -82,6 +126,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [210845] = {
             [npcKeys.spawns] = {
                 [zoneIDs.STONETALON_MOUNTAINS] = {{59.2, 62.4}},
+            },
+        },
+        [210995] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{43.4, 70.4}},
             },
         },
         [211022] = {
@@ -106,10 +155,13 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.WETLANDS] = {{46.6, 65.6}},
             },
         },
-        [212261] = {
+        [211200] = {
             [npcKeys.spawns] = {
-                [zoneIDs.DUSKWOOD] = {{17,37.6}},
+                [zoneIDs.DUSKWOOD] = {{65.1, 23.7}},
             },
+        },
+        [212261] = {
+            [npcKeys.spawns] = {},
         },
         [212694] = {
             [npcKeys.spawns] = {
@@ -216,34 +268,20 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [216902] = {
-            [npcKeys.minLevel] = 30,
-            [npcKeys.maxLevel] = 30,
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE]={{33.7,67.23}}},
-            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
             [npcKeys.friendlyToFaction] = "AH",
         },
         [216915] = {
-            [npcKeys.minLevel] = 35,
-            [npcKeys.maxLevel] = 35,
             [npcKeys.spawns] = {[zoneIDs.ALTERAC_MOUNTAINS]={{35.43,72.45}}},
-            [npcKeys.zoneID] = zoneIDs.ALTERAC_MOUNTAINS,
-            [npcKeys.friendlyToFaction] = "AH",
         },
         [216924] = {
-            [npcKeys.minLevel] = 30,
-            [npcKeys.maxLevel] = 30,
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{53.3,66.47}}},
-            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
             [npcKeys.friendlyToFaction] = "AH",
         },
+        [217706] = {
+            [npcKeys.friendlyToFaction] = "H",
+        },
         [217707] = {
-            [npcKeys.name] = "Felore Moonray",
-            [npcKeys.minLevel] = 99,
-            [npcKeys.maxLevel] = 99,
-            [npcKeys.zoneID] = 331,
-            [npcKeys.spawns] = {
-                [zoneIDs.ASHENVALE] = {{36.9,50.1}},
-            },
             [npcKeys.friendlyToFaction] = "A",
         },
         -- fake NPCs used for quests with too many starters
