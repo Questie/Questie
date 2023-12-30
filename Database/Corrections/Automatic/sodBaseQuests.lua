@@ -815,6 +815,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Do you have something for me?"},
             [questKeys.objectives] = {nil,nil,{{211367}}},
         },
+        [78909] = {
+            [questKeys.name] = "Shifting Scale Talisman",
+            [questKeys.startedBy] = {{214208}},
+            [questKeys.finishedBy] = {{214208,}},
+            [questKeys.requiredLevel] = 25,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring N'ora Anyheart the following materials alongside the Handful of Shifting Scales to complete the talisman: A satchel of Strange Dust, five Greater Magic Essence, 2 Small Glimmering Shards and five gold pieces."},
+            [questKeys.objectives] = {nil,nil,{{10940},{10939},{211419},{10978}}},
+        },
         [78916] = {
             [questKeys.name] = "The Heart of the Void",
             [questKeys.startedBy] = nil,

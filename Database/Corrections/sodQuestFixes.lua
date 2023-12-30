@@ -393,6 +393,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [78909] = {
+            [questKeys.objectivesText] = {"Tip: You need to loot Handful of Shifting Scales from Old Serra'kis in Blackfathom Deeps before you can start this quest.","","Bring N'ora Anyheart the following materials alongside the Handful of Shifting Scales to complete the talisman: A satchel of Strange Dust, five Greater Magic Essence, 2 Small Glimmering Shards and five gold pieces."},
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
         [78916] = { -- The Heart of the Void
             [questKeys.startedBy] = {nil, nil, {209693}},
             [questKeys.finishedBy] = {{4783}},
