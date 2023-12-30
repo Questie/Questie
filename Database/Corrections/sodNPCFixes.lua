@@ -27,6 +27,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [215] = {{40.4, 53.2},{45.6, 36.4},{60.2, 67.4}},
             },
         },
+        [203226] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{69.6, 50.6}},
+            },
+        },
         [204068] = { -- Lady Sarevess
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
@@ -47,9 +52,19 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.MULGORE] = {{30.6, 61.2}},
             },
         },
+        [207957] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DUROTAR] = {{53, 43.4}},
+            },
+        },
         [208275] = {
             [npcKeys.spawns] = {
                 [zoneIDs.DUROTAR] = {{58.6, 45.6}},
+            },
+        },
+        [208619] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES] = {{47.2, 71.2}},
             },
         },
         [208638] = {
@@ -57,9 +72,19 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DUN_MOROGH] = {{35.4,37.4},{30.4,41.2}},
             },
         },
+        [208652] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DUN_MOROGH] = {{46.4, 53.2}},
+            },
+        },
         [208752] = {
             [npcKeys.spawns] = {
                 [zoneIDs.DUN_MOROGH] = {{69.2, 58.2}},
+            },
+        },
+        [209608] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DARNASSUS] = {{63.4, 22}},
             },
         },
         [209678] = { -- Twilight Lord Kelris
