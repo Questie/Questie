@@ -280,7 +280,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [78909] = {
-            [questKeys.requiredSourceItems] = {211419},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
             [questKeys.questFlags] = questFlags.RAID,
         },
