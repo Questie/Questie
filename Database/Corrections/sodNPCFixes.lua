@@ -609,5 +609,14 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.REDRIDGE_MOUNTAINS] = {{78.1,39}},
             },
         },
+        [300036] = { -- 136 - This fix is also in classicNPCFixes
+            [npcKeys.name] = "Murloc",
+            [npcKeys.minLevel] = 11,
+            [npcKeys.maxLevel] = 17,
+            [npcKeys.zoneID] = zoneIDs.WESTFALL,
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{34.4,83.1},{28.1,70.2},{27.1,48.8},{32.4,25.6},{47,10.7}},
+            },
+        },
     }
 end

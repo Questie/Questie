@@ -1432,6 +1432,7 @@ QuestieDB.waypointPresets = {
 
 
 local questsWithTooManyStarters = {
+    [136] = true, -- Captain Sander's Hidden Treasure
     [178] = true, -- Theocritus' Retrieval
     [968] = true, -- The Powers Below
     [1480] = true, -- The Corruptor
@@ -1456,7 +1457,7 @@ local questsWithTooManyStarters = {
 }
 
 --- Some quests have too many starter NPCs, which flood the map with icons.
---- This function returns true if the quest is marked too have too many starters.
+--- This function returns true if the quest is marked to have too many starters.
 --- For these quests, no icons will be added to the map, but the NPC tooltips will still be shown.
 ---@param questId number
 ---@return boolean

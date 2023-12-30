@@ -2583,13 +2583,22 @@ function QuestieNPCFixes:Load()
                 [zoneIDs.DESOLACE] = {{56.6,30.6}},
             },
         },
-        [300035] = { -- 178 - This fix is also in classicNPCFixes
+        [300035] = { -- 178 - This fix is also in sodNPCFixes
             [npcKeys.name] = "Shadowhide Gnoll",
             [npcKeys.minLevel] = 23,
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = zoneIDs.REDRIDGE_MOUNTAINS,
             [npcKeys.spawns] = {
                 [zoneIDs.REDRIDGE_MOUNTAINS] = {{78.1,39}},
+            },
+        },
+        [300036] = { -- 136 - This fix is also in sodNPCFixes
+            [npcKeys.name] = "Murloc",
+            [npcKeys.minLevel] = 11,
+            [npcKeys.maxLevel] = 17,
+            [npcKeys.zoneID] = zoneIDs.WESTFALL,
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{34.4,83.1},{28.1,70.2},{27.1,48.8},{32.4,25.6},{47,10.7}},
             },
         },
     }
