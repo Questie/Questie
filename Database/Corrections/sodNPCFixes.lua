@@ -32,6 +32,16 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.STORMWIND_CITY] = {{69.6, 50.6}},
             },
         },
+        [203475] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{22.4, 64.4}},
+            },
+        },
+        [203478] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{22.6, 54.2}},
+            },
+        },
         [204068] = { -- Lady Sarevess
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
@@ -52,9 +62,24 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.MULGORE] = {{30.6, 61.2}},
             },
         },
+        [207743] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.THUNDER_BLUFF] = {{28.6, 18.2}},
+            },
+        },
+        [207754] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.THUNDER_BLUFF] = {{26.6,19.8}},
+            },
+        },
         [207957] = {
             [npcKeys.spawns] = {
                 [zoneIDs.DUROTAR] = {{53, 43.4}},
+            },
+        },
+        [208023] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR] = {{58.8, 53.6}},
             },
         },
         [208275] = {
@@ -82,6 +107,16 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DUN_MOROGH] = {{69.2, 58.2}},
             },
         },
+        [208919] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES] = {{61.6, 51.4}},
+            },
+        },
+        [209004] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.IRONFORGE] = {{71.2, 73.2}},
+            },
+        },
         [209608] = {
             [npcKeys.spawns] = {
                 [zoneIDs.DARNASSUS] = {{63.4, 22}},
@@ -90,6 +125,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [209678] = { -- Twilight Lord Kelris
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
+        },
+        [209872] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.TELDRASSIL] = {{56.6, 57.8}},
+            },
         },
         [210995] = {
             [npcKeys.spawns] = {

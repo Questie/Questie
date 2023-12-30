@@ -192,6 +192,12 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90103] = true, -- Warrior Devastate
     [90104] = true, -- Warrior Devastate
     [90105] = true, -- Warrior Devastate
+    [90106] = true, -- Warrior Frenzied Assault
+    [90107] = true, -- Warrior Frenzied Assault
+    [90108] = true, -- Warrior Frenzied Assault
+    [90109] = true, -- Warrior Frenzied Assault
+    [90110] = true, -- Warrior Frenzied Assault
+    [90111] = true, -- Warrior Frenzied Assault
 }
 
 ---@param questId number
