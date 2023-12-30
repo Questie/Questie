@@ -3325,12 +3325,12 @@ function QuestieQuestFixes:Load()
         },
         [8767] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.WARRIOR + classIDs.HUNTER + classIDs.PALADIN,
             [questKeys.exclusiveTo] = {8788},
         },
         [8788] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST + classIDs.WARLOCK + classIDs.MAGE + classIDs.SHAMAN + classIDs.DRUID,
             [questKeys.exclusiveTo] = {8767},
         },
         [8791] = {

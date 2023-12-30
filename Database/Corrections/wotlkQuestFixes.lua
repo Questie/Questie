@@ -317,6 +317,9 @@ function QuestieWotlkQuestFixes:Load()
         [8762] = {
             [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{{21211}}},
         },
+        [8767] = {
+            [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.WARRIOR + classIDs.HUNTER + classIDs.PALADIN + classIDs.DEATH_KNIGHT,
+        },
         [8892] = {
             [questKeys.preQuestSingle] = {},
         },
