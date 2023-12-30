@@ -280,6 +280,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [78909] = {
+            [questKeys.objectivesText] = {"Tip: You need to loot Handful of Shifting Scales from Old Serra'kis in Blackfathom Deeps before you can start this quest.\n\nBring N'ora Anyheart the following materials alongside the Handful of Shifting Scales to complete the talisman: A satchel of Strange Dust, five Greater Magic Essence, 2 Small Glimmering Shards and five gold pieces."},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
             [questKeys.questFlags] = questFlags.RAID,
         },
