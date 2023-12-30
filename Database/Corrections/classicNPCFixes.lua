@@ -2573,43 +2573,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.minLevel] = 20,
             [npcKeys.maxLevel] = 20,
         },
-        -- fake NPCs used for quests with too many starters
-        [300034] = { -- 1480 - This fix is also in sodNPCFixes
-            [npcKeys.name] = "Burning Blade Member",
-            [npcKeys.minLevel] = 30,
-            [npcKeys.maxLevel] = 31,
-            [npcKeys.zoneID] = zoneIDs.DESOLACE,
-            [npcKeys.spawns] = {
-                [zoneIDs.DESOLACE] = {{56.6,30.6}},
-            },
-        },
-        [300035] = { -- 178 - This fix is also in sodNPCFixes
-            [npcKeys.name] = "Shadowhide Gnoll",
-            [npcKeys.minLevel] = 23,
-            [npcKeys.maxLevel] = 25,
-            [npcKeys.zoneID] = zoneIDs.REDRIDGE_MOUNTAINS,
-            [npcKeys.spawns] = {
-                [zoneIDs.REDRIDGE_MOUNTAINS] = {{78.1,39}},
-            },
-        },
-        [300036] = { -- 136 - This fix is also in sodNPCFixes
-            [npcKeys.name] = "Murloc",
-            [npcKeys.minLevel] = 11,
-            [npcKeys.maxLevel] = 17,
-            [npcKeys.zoneID] = zoneIDs.WESTFALL,
-            [npcKeys.spawns] = {
-                [zoneIDs.WESTFALL] = {{34.4,83.1},{28.1,70.2},{27.1,48.8},{32.4,25.6},{47,10.7}},
-            },
-        },
-        [300037] = { -- 4451 - This fix is also in sodNPCFixes
-            [npcKeys.name] = "Dark Iron Member",
-            [npcKeys.minLevel] = 47,
-            [npcKeys.maxLevel] = 48,
-            [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
-            [npcKeys.spawns] = {
-                [zoneIDs.SEARING_GORGE] = {{33.5,53.5},{36.5,60.4},{44.4,62.1},{49.7,55.6},{41.1,49.9}},
-            },
-        },
     }
 end
 
