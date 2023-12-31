@@ -514,8 +514,8 @@ tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8788, "25/12", "2/1"}) -- A Ge
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8803, "25/12", "2/1"}) -- A Festive Gift
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8827, "25/12", "2/1"}) -- Winter's Presents
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8828, "25/12", "2/1"}) -- Winter's Presents
-tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8860, "31/12", "2/1"}) -- Winter's Presents
-tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8861, "31/12", "2/1"}) -- Winter's Presents
+tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8860, "31/12", "1/1"}) -- New Year Celebrations!
+tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8861, "31/12", "1/1"}) -- New Year Celebrations!
 
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7902}) -- Vibrant Plumes
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7903}) -- Evil Bat Eyes
