@@ -269,6 +269,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find the lost rune carried by a Frostmane troll in Coldridge Valley. Use it to learn a new ability, then report back to Thran Khorman in Anvilmar."},
             [questKeys.objectives] = {nil,nil,nil,nil,nil,{{403470}}},
         },
+        [77660] = {
+            [questKeys.name] = "Trek Through the Caves",
+            [questKeys.startedBy] = {{895}},
+            [questKeys.finishedBy] = {{895,}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.questLevel] = 2,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Recover the stolen rune from the cave of Frostmane trolls in Coldridge Valley. Use the rune to learn a new ability, then report back to Thorgas Grimson in Anvilmar."},
+            [questKeys.objectives] = {nil,nil,nil,nil,nil,{{410121}}},
+        },
         [77661] = {
             [questKeys.name] = "Meditation on the Light",
             [questKeys.startedBy] = {{837}},
