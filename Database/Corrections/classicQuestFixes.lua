@@ -776,6 +776,7 @@ function QuestieQuestFixes:Load()
         },
         [1361] = {
             [questKeys.exclusiveTo] = {1362},
+            [questKeys.startedBy] = {{2229,4485}},
         },
         [1364] = {
             [questKeys.preQuestSingle] = {1363}, -- #1674
