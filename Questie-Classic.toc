@@ -67,6 +67,7 @@ Database\Corrections\QuestieEvent.lua
 
 # Automatic General Corrections
 Database\Corrections\Automatic\itemStartFixes.lua
+Database\Corrections\Automatic\classicQuestReputationFixes.lua
 
 # SoD base entries - the data in there is generated
 Database\Corrections\Automatic\sodBaseItems.lua
