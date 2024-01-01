@@ -170,7 +170,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403470,
         },
         [77669] = {
-            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410002, nil, 205420}}},
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{400105, nil, 205420}}},
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
             [questKeys.requiredSpell] = -400105,
