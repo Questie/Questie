@@ -1,3 +1,4 @@
+import logging
 import re
 import scrapy
 from scrapy import signals
@@ -17,14 +18,22 @@ class QuestSpider(scrapy.Spider):
         self.start_urls = [self.base_url_classic.format(quest_id) for quest_id in QUEST_IDS]
 
     def parse(self, response):
+        if response.url.startswith('https://www.wowhead.com/classic/quests?notFound='):
+            questID = re.search(r'https://www.wowhead.com/classic/quests\?notFound=(\d+)', response.url).group(1)
+            logging.warning('\x1b[31;20mQuest with ID {questID} not found\x1b[0m'.format(questID=questID))
+            return None
+
         result = {}
         for script in response.xpath('//script/text()').extract():
-            if script.startswith('//<![CDATA[\nWH.Gatherer.addData') and script.endswith('//]]>'):
+            if script.startswith('//<![CDATA[\nWH.Gatherer.addData') and script.find('$.extend(g_quests') >= 0 and script.endswith('//]]>'):
                 result["questId"] = re.search(r'g_quests\[(\d+)]', script).group(1)
                 result["name"] = re.search(r'"name":"([^"]+)"', script).group(1)
                 result["level"] = self.__match_level(re.search(r'"level":(\d+)', script))
                 result["reqLevel"] = self.__match_level(re.search(r'"reqlevel":(\d+)', script))
                 result["reqClass"] = re.search(r'"reqclass":(\d+)', script).group(1)
+                repRewardsMatch = re.search(r'"reprewards":\[(\[\d+,\d+\](,\[\d+,\d+\])*)\]', script)
+                if repRewardsMatch:
+                    result["repRewards"] = repRewardsMatch.group(1).rstrip(']').lstrip('[').replace('],[', ',').split(',')
                 if "reqRace" not in result:
                     result["reqRace"] = re.search(r'"reqrace":(\d+)', script).group(1)
             if script.lstrip().startswith('WH.markup'):
