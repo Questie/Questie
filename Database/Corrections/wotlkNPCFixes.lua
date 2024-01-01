@@ -103,7 +103,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {
                 [zoneIDs.ORGRIMMAR]={{79.6,30.21},{36.94,65.36}},
                 [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
+                [zoneIDs.UNDERCITY]={{53.78,87.73}},
                 [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
                 [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
                 [zoneIDs.DALARAN]={{58.19,20.59}},
