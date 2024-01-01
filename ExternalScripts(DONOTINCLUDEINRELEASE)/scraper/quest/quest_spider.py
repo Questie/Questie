@@ -31,6 +31,7 @@ class QuestSpider(scrapy.Spider):
                 result["level"] = self.__match_level(re.search(r'"level":(\d+)', script))
                 result["reqLevel"] = self.__match_level(re.search(r'"reqlevel":(\d+)', script))
                 result["reqClass"] = re.search(r'"reqclass":(\d+)', script).group(1)
+                # "reprewards":[[<factionId>,<value>],[<factionId2>,<value2>],...]
                 repRewardsMatch = re.search(r'"reprewards":\[(\[\d+,\d+\](,\[\d+,\d+\])*)\]', script)
                 if repRewardsMatch:
                     result["repRewards"] = repRewardsMatch.group(1).rstrip(']').lstrip('[').replace('],[', ',').split(',')
