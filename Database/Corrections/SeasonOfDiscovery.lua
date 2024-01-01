@@ -20,6 +20,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [76240] = true, -- Shaman Lava Lash Part 3
     [77568] = true, -- Hunter Rune of Chimera
     [77571] = true, -- Druid Fury of Stormrage
+    [77573] = true, -- Rogue Shadowstrike Alliance Teldrassil
     [77574] = true, -- Priest Penance
     [77575] = true, -- Warrior Victory Rush
     [77582] = true, -- Warrior Victory Rush

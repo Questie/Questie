@@ -71,6 +71,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Recover the relic from the grellkin in Shadowglen. Follow the relic's guidance to learn a new ability, then report back to Mardant Strongoak."},
             [questKeys.objectives] = {nil,nil,nil,nil,nil,{{410061}}},
         },
+        [77573] = {
+            [questKeys.name] = "Second-Story Work",
+            [questKeys.startedBy] = {{3594}},
+            [questKeys.finishedBy] = {{3594,}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.questLevel] = 2,
+            [questKeys.requiredRaces] = raceIDs.NIGHTELF,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Retrieve the rune from the hidden idol, then use it to learn a new ability. Afterwards, return to Frahun Shadewhisper."},
+            [questKeys.objectives] = {nil,nil,nil,nil,nil,{{400105}}},
+        },
         [77574] = {
             [questKeys.name] = "Meditation on Elune",
             [questKeys.startedBy] = {{3595}},
