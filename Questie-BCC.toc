@@ -65,6 +65,7 @@ Database\Corrections\QuestieEvent.lua
 
 # Automatic General Corrections
 Database\Corrections\Automatic\itemStartFixes.lua
+Database\Corrections\Automatic\classicQuestReputationFixes.lua
 
 # Classic Corrections
 Database\Corrections\classicQuestFixes.lua
