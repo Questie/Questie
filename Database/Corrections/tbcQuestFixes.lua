@@ -5316,9 +5316,15 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
     local raceIDs = QuestieDB.raceKeys
 
     local questFixesHorde = {
+        [2861] = {
+            [questKeys.startedBy] = {{4568,5885,16651}}
+        },
     }
 
     local questFixesAlliance = {
+        [2861] = {
+            [questKeys.startedBy] = {{5144,5497,17514}}
+        },
     }
 
     if UnitFactionGroup("Player") == "Horde" then
