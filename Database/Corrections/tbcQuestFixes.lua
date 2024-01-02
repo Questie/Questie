@@ -5310,3 +5310,20 @@ function _QuestieTBCQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[12408] = {} -- Candy Bucket
     QuestieDB.questData[12409] = {} -- Candy Bucket
 end
+
+function QuestieTBCQuestFixes:LoadFactionFixes()
+    local questKeys = QuestieDB.questKeys
+    local raceIDs = QuestieDB.raceKeys
+
+    local questFixesHorde = {
+    }
+
+    local questFixesAlliance = {
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return questFixesHorde
+    else
+        return questFixesAlliance
+    end
+end
