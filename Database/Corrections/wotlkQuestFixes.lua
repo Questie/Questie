@@ -5590,9 +5590,17 @@ function QuestieWotlkQuestFixes:Load()
         [24499] = {
             [questKeys.objectives] = {{{36497},{36502}}},
         },
+        [24500] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.finishedBy] = {{36955}},
+            [questKeys.objectives] = {{{36955,"Find Jaina Proudmoore"},{36954,"Escape the Lich King"}}},
+        },
         [24507] = {
             [questKeys.objectives] = {{{36494}},nil,nil,nil,{{{36770,36771,36772,36773},36770,"Horde Slaves freed"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Free the slave"), 1, {{"object", 202168}}}},
+        },
+        [24510] = {
+            [questKeys.reputationReward] = {{1050,25}},
         },
         [24511] = {
             [questKeys.objectives] = {{{36497},{36502}}},
@@ -5888,6 +5896,9 @@ function QuestieWotlkQuestFixes:Load()
         [24710] = {
             [questKeys.preQuestSingle] = {24498},
         },
+        [24711] = {
+            [questKeys.preQuestSingle] = {24710},
+        },
         [24743] = {
             [questKeys.startedBy] = {{37120}},
             [questKeys.finishedBy] = {{37120}},
@@ -5945,6 +5956,11 @@ function QuestieWotlkQuestFixes:Load()
         [24801] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD + raceIDs.ORC + raceIDs.TROLL + raceIDs.TAUREN,
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.ROGUE + classIDs.HUNTER + classIDs.DEATH_KNIGHT + classIDs.MAGE + classIDs.WARLOCK,
+        },
+        [24802] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.finishedBy] = {{37554}},
+            [questKeys.objectives] = {{{37554,"Find Sylvanas Windrunner"},{36954,"Escape the Lich King"}}},
         },
         [24803] = {
             [questKeys.specialFlags] = 1,

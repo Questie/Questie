@@ -2032,6 +2032,16 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{39,86.6},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
+        [36954] = {
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{55.9,51.4},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.HALLS_OF_REFLECTION]={{{9.7,27},{73.6,73.2},{13.4,21.7},{16,19.2},{18,18.6},{20.2,19.4},{22.7,23.1},{25.3,26},{29.4,29.3},{35.1,33.2},{37.7,35.1},{49.1,44.8},{55.9,51.4},{60.1,57.6},{64.3,62.9},{69.2,68.3},{40.7,37.6},{43.7,40.4},{46.1,42.5},{52.2,48.3},{31.5,31},{27.1,27.6}}}},
+            [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
+        },
+        [36955] = {
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{73.1,73.2},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.HALLS_OF_REFLECTION]={{{10.4,28},{13.4,21.7},{16,19.2},{18,18.6},{20.2,19.4},{22.7,23.1},{25.3,26},{29.4,29.3},{35.1,33.2},{42.1,38.4},{49.1,44.8},{55.9,51.4},{60.1,57.6},{64.3,62.9},{69.2,68.3},{73.1,73.2}}}},
+            [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
+        },
         [36990] = {
             [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{40.8,79.7},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
@@ -2063,6 +2073,14 @@ function QuestieWotlkNpcFixes:Load()
         [37214] = {
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{29.1,66.5},{28.8,66.2},{29.5,65.7},{28.8,65.7},{29.2,65.2}},[zoneIDs.DUROTAR]={{40.3,15.8},{40.1,15.5},{40.5,15.5},{40.5,15.2},{40.3,15.0}}}
         },
+        [37221] = {
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{45,76.2},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
+        },
+        [37223] = {
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{45.3,76.7},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
+        },
         [37523] = {
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_QUEL_DANAS]={{44.4,45.62},{44.11,45.6},{44.14,45.14},{44.4,45.15},{44.4,44.66},{44.15,44.64},{44.49,44.04},{44.77,44.07},{44.76,44.94},{43.78,44.9},{43.81,44.05},{44.05,44.03}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_QUEL_DANAS,
@@ -2075,8 +2093,17 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_QUEL_DANAS]={{53,80}}},
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_QUEL_DANAS,
         },
+        [37554] = {
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{73.1,73.2},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.HALLS_OF_REFLECTION]={{{10.4,28},{13.4,21.7},{16,19.2},{18,18.6},{20.2,19.4},{22.7,23.1},{25.3,26},{29.4,29.3},{35.1,33.2},{42.1,38.4},{49.1,44.8},{55.9,51.4},{60.1,57.6},{64.3,62.9},{69.2,68.3},{73.1,73.2}}}},
+            [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
+        },
+        [37591] = {
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{65.7,54.8},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
+        },
         [37592] = {
-            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{66,54.8}}},
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{65.7,54.8},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
         },
         [37596] = {
@@ -2097,14 +2124,6 @@ function QuestieWotlkNpcFixes:Load()
         },
         [37715] = {
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{27.43,34.83}},[zoneIDs.DUROTAR]={{50.63,13.13}}}
-        },
-        [37223] = {
-            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{44.5,76.5},{-1,-1}}},
-            [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
-        },
-        [37591] = {
-            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{65.7,54.8},{-1,-1}}},
-            [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
         },
         [37776] = {
             [npcKeys.waypoints] = {[zoneIDs.DALARAN]={{{45.96,76.74},{45.19,76.29},{44.96,75.11},{45.14,73.88},{45.35,72.66},{45.60,71.45},{45.97,70.31},{46.35,69.18},{46.72,68.05},{47.10,66.92},{47.47,65.78},{47.67,64.55},{47.77,63.30},{47.75,62.04},{47.28,61.02},{46.49,60.94},{46.32,61.13}}}},
@@ -2168,8 +2187,12 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{44.6,13.6},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.FORGE_OF_SOULS,
         },
+        [38188] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{39.6,16.1},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
+        },
         [38189] = {
-            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{43.5,22.7},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{39.6,16.1},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
         },
         [38293] = {
