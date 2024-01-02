@@ -831,6 +831,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Rescue Dalinda Malem", {[zoneIDs.DESOLACE]={{58.27,30.91}}}},
         },
         [1442] = {
+            [questKeys.specialFlags] = 1,
             [questKeys.parentQuest] = 1654,
         },
         [1447] = {
