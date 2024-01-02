@@ -544,7 +544,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {},
         },
         [189] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [190] = {
             [questKeys.reputationReward] = {},
@@ -580,7 +580,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{72,75}},
         },
         [201] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,50},{87,-250}},
         },
         [202] = {
             [questKeys.reputationReward] = {{72,100}},
@@ -604,10 +604,10 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {},
         },
         [209] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [210] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,50},{87,-250}},
         },
         [211] = {
             [questKeys.reputationReward] = {{469,150},{529,150}},
@@ -616,7 +616,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{72,200}},
         },
         [213] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [214] = {
             [questKeys.reputationReward] = {{72,100}},
@@ -994,7 +994,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{72,50}},
         },
         [348] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,200},{87,-1000}},
         },
         [349] = {
             [questKeys.reputationReward] = {},
@@ -1003,7 +1003,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {},
         },
         [351] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [353] = {
             [questKeys.reputationReward] = {{47,100}},
@@ -1390,7 +1390,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{72,100}},
         },
         [485] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [486] = {
             [questKeys.reputationReward] = {{69,150}},
@@ -1648,22 +1648,22 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{72,100}},
         },
         [575] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [576] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,150},{87,-750}},
         },
         [577] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [578] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [579] = {
             [questKeys.reputationReward] = {},
         },
         [580] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [581] = {
             [questKeys.reputationReward] = {{530,100}},
@@ -1684,7 +1684,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{530,100}},
         },
         [587] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [588] = {
             [questKeys.reputationReward] = {{530,25}},
@@ -1708,61 +1708,61 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {},
         },
         [595] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,75},{87,-375}},
         },
         [596] = {
             [questKeys.reputationReward] = {{530,100}},
         },
         [597] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,75},{87,-375}},
         },
         [598] = {
             [questKeys.reputationReward] = {{530,100}},
         },
         [599] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,25},{87,-125}},
         },
         [600] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [601] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [602] = {
             [questKeys.reputationReward] = {{72,50}},
         },
         [603] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,50},{87,-250}},
         },
         [604] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [605] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [606] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,25},{87,-125}},
         },
         [607] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,75},{87,-375}},
         },
         [608] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,150},{87,-750}},
         },
         [609] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [610] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [611] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,150},{87,-750}},
         },
         [613] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,150},{87,-750}},
         },
         [614] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,75},{87,-375}},
         },
         [615] = {
             [questKeys.reputationReward] = {},
@@ -1771,22 +1771,22 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {},
         },
         [617] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [618] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,200},{87,-1000}},
         },
         [619] = {
             [questKeys.reputationReward] = {},
         },
         [621] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [622] = {
             [questKeys.reputationReward] = {{72,100}},
         },
         [623] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,150},{87,-750}},
         },
         [624] = {
             [questKeys.reputationReward] = {},
@@ -1798,10 +1798,10 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {},
         },
         [627] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,75},{87,-375}},
         },
         [628] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [629] = {
             [questKeys.reputationReward] = {{530,100}},
@@ -1861,7 +1861,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{47,150}},
         },
         [648] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,150},{87,-750}},
         },
         [649] = {
             [questKeys.reputationReward] = {},
@@ -1903,31 +1903,31 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{72,150}},
         },
         [662] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [663] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,25},{87,-125}},
         },
         [664] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [665] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [666] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,150},{87,-750}},
         },
         [667] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,150},{87,-750}},
         },
         [668] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,50},{87,-250}},
         },
         [669] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [670] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [671] = {
             [questKeys.reputationReward] = {{530,100}},
@@ -2026,13 +2026,13 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{76,25}},
         },
         [703] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,75},{87,-375}},
         },
         [704] = {
             [questKeys.reputationReward] = {{47,100}},
         },
         [705] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,150},{87,-750}},
         },
         [706] = {
             [questKeys.reputationReward] = {{47,100}},
@@ -2377,7 +2377,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{76,100},{530,100},{470,100}},
         },
         [836] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,150},{87,-750}},
         },
         [837] = {
             [questKeys.reputationReward] = {{76,75},{530,75}},
@@ -2932,7 +2932,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{69,150}},
         },
         [1036] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{87,25},{21,-125}},
         },
         [1037] = {
             [questKeys.reputationReward] = {{69,25}},
@@ -3328,13 +3328,13 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{54,100}},
         },
         [1180] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{470,25},{21,25},{87,-125}},
         },
         [1181] = {
             [questKeys.reputationReward] = {},
         },
         [1182] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [1183] = {
             [questKeys.reputationReward] = {},
@@ -3598,10 +3598,10 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{76,150}},
         },
         [1367] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{92,-500},{93,100}},
         },
         [1368] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{93,-500},{92,100}},
         },
         [1369] = {
             [questKeys.reputationReward] = {},
@@ -3631,7 +3631,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {},
         },
         [1382] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{93,-500},{92,100}},
         },
         [1383] = {
             [questKeys.reputationReward] = {{68,150}},
@@ -3640,7 +3640,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {},
         },
         [1385] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{93,100},{92,-500}},
         },
         [1386] = {
             [questKeys.reputationReward] = {},
@@ -4696,7 +4696,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{69,10}},
         },
         [2418] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,150},{87,-750}},
         },
         [2438] = {
             [questKeys.reputationReward] = {{69,75}},
@@ -4912,10 +4912,10 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {},
         },
         [2766] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [2767] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,150},{87,-750}},
         },
         [2768] = {
             [questKeys.reputationReward] = {{369,200}},
@@ -5740,7 +5740,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{68,100}},
         },
         [3601] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,150},{87,-750}},
         },
         [3602] = {
             [questKeys.reputationReward] = {},
@@ -5830,7 +5830,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{47,10}},
         },
         [3721] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,200},{87,-1000}},
         },
         [3741] = {
             [questKeys.reputationReward] = {{72,100}},
@@ -6553,7 +6553,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {},
         },
         [4621] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{87,200},{21,-1000}},
         },
         [4641] = {
             [questKeys.reputationReward] = {{76,50},{530,50}},
@@ -6850,7 +6850,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {},
         },
         [4981] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,100},{87,-500}},
         },
         [4982] = {
             [questKeys.reputationReward] = {},
@@ -7486,7 +7486,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {},
         },
         [5534] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,150},{87,-750}},
         },
         [5535] = {
             [questKeys.reputationReward] = {},
@@ -10000,7 +10000,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {},
         },
         [8249] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{349,50},{70,-250}},
         },
         [8250] = {
             [questKeys.reputationReward] = {},
@@ -10735,16 +10735,16 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {},
         },
         [8551] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,75},{87,-375}},
         },
         [8552] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,50},{87,-250}},
         },
         [8553] = {
             [questKeys.reputationReward] = {},
         },
         [8554] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{21,200},{87,-1000}},
         },
         [8555] = {
             [questKeys.reputationReward] = {{910,10}},
@@ -12616,7 +12616,7 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{910,200},{529,200}},
         },
         [9272] = {
-            [questKeys.reputationReward] = {},
+            [questKeys.reputationReward] = {{87,10},{21,-500}},
         },
         [9292] = {
             [questKeys.reputationReward] = {},
