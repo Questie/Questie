@@ -34,7 +34,10 @@ class QuestSpider(scrapy.Spider):
                 # "reprewards":[[<factionId>,<value>],[<factionId2>,<value2>],...]
                 repRewardsMatch = re.search(r'"reprewards":\[(\[\d+,-?\d+\](,\[\d+,-?\d+\])*)\]', script)
                 if repRewardsMatch:
-                    result["repRewards"] = repRewardsMatch.group(1).rstrip(']').lstrip('[').replace('],[', ',').split(',')
+                    result["repRewards"] = self.__normalize_reputation(
+                        result["questId"],
+                        repRewardsMatch.group(1).rstrip(']').lstrip('[').replace('],[', ',').split(',')
+                    )
                 if "reqRace" not in result:
                     result["reqRace"] = re.search(r'"reqrace":(\d+)', script).group(1)
             if script.lstrip().startswith('WH.markup'):
@@ -57,6 +60,21 @@ class QuestSpider(scrapy.Spider):
 
         if result:
             yield result
+
+    def __normalize_reputation(self, questID, reputationRewards):
+        i = 0
+        normalized_reputations = []
+        while i < len(reputationRewards):
+            reward = (reputationRewards[i], reputationRewards[i + 1])
+            # if we already have the same reputation reward from the same faction, ignore it
+            if any(item[0] == reward[0] for item in normalized_reputations):
+                existing_reward = next(item for item in normalized_reputations if item[0] == reward[0])
+                logging.info("Quest with ID {questID} has multiple reputations rewards for the same faction: {reward1} vs. {reward2}. Ignoring.".format(questID=questID, reward1=reward, reward2=existing_reward))
+            else:
+                normalized_reputations.append(reward)
+            i = i + 2
+
+        return normalized_reputations
 
     def __match_level(self, level_match):
         return level_match.group(1) if level_match else 0

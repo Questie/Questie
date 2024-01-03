@@ -48,11 +48,10 @@ class ClassicQuestFormatter:
 
     def __get_reputation_rewards(self, item) -> str:
         if "repRewards" in item:
-            i = 0
             rewards = []
-            while i < len(item["repRewards"]):
-                rewards.append("{" + item["repRewards"][i] + "," + item["repRewards"][i + 1] + "}")
-                i = i + 2
+            for reward in item["repRewards"]:
+                rewards.append("{" + reward[0] + "," + reward[1] + "}")
+
             return "{" + ",".join(rewards) + "}"
         else:
             return "{}"
