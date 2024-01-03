@@ -70,6 +70,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
             [questKeys.requiredSpell] = -403470,
         },
+        [77584] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410121, nil, 206168}}},
+            [questKeys.requiredRaces] = raceIDs.ORC,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+            [questKeys.requiredSpell] = -410121,
+        },
         [77585] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410094, nil, 206381}}},
             [questKeys.requiredRaces] = raceIDs.ORC,

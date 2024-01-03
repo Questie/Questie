@@ -24,6 +24,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [77574] = true, -- Priest Penance
     [77575] = true, -- Warrior Victory Rush
     [77582] = true, -- Warrior Victory Rush
+    [77584] = true, -- Hunter Chimera Shot
     [77585] = true, -- Priest Penance
     [77586] = true, -- Shaman Overload
     [77587] = true, -- Warlock Haunt
