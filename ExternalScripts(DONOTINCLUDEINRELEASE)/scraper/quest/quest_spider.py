@@ -5,6 +5,7 @@ from scrapy import signals
 
 from quest.quest_formatter import QuestFormatter
 from quest.quest_ids import QUEST_IDS
+from quest.factions_ignore import FACTIONS_IGNORE_LIST
 
 
 class QuestSpider(scrapy.Spider):
@@ -66,13 +67,17 @@ class QuestSpider(scrapy.Spider):
         normalized_reputations = []
         while i < len(reputationRewards):
             reward = (reputationRewards[i], reputationRewards[i + 1])
+            i = i + 2
+
+            if int(reward[0]) in FACTIONS_IGNORE_LIST:
+                continue
+
             # if we already have the same reputation reward from the same faction, ignore it
             if any(item[0] == reward[0] for item in normalized_reputations):
                 existing_reward = next(item for item in normalized_reputations if item[0] == reward[0])
                 logging.info("Quest with ID {questID} has multiple reputations rewards for the same faction: {reward1} vs. {reward2}. Ignoring.".format(questID=questID, reward1=reward, reward2=existing_reward))
             else:
                 normalized_reputations.append(reward)
-            i = i + 2
 
         return normalized_reputations
 

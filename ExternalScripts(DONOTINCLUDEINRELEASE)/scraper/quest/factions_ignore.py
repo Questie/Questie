@@ -1,0 +1,3 @@
+FACTIONS_IGNORE_LIST = [
+    893
+]

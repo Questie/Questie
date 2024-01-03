@@ -9292,10 +9292,10 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{68,150}},
         },
         [7815] = {
-            [questKeys.reputationReward] = {{893,100}},
+            [questKeys.reputationReward] = {},
         },
         [7816] = {
-            [questKeys.reputationReward] = {{893,100}},
+            [questKeys.reputationReward] = {},
         },
         [7817] = {
             [questKeys.reputationReward] = {{68,150}},
@@ -9331,13 +9331,13 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {{76,150}},
         },
         [7828] = {
-            [questKeys.reputationReward] = {{893,100}},
+            [questKeys.reputationReward] = {},
         },
         [7829] = {
-            [questKeys.reputationReward] = {{893,100}},
+            [questKeys.reputationReward] = {},
         },
         [7830] = {
-            [questKeys.reputationReward] = {{893,100}},
+            [questKeys.reputationReward] = {},
         },
         [7831] = {
             [questKeys.reputationReward] = {{76,150}},
@@ -9364,46 +9364,46 @@ function QuestieClassicQuestReputationFixes:Load()
             [questKeys.reputationReward] = {},
         },
         [7839] = {
-            [questKeys.reputationReward] = {{893,100}},
+            [questKeys.reputationReward] = {},
         },
         [7840] = {
-            [questKeys.reputationReward] = {{893,100}},
+            [questKeys.reputationReward] = {},
         },
         [7841] = {
-            [questKeys.reputationReward] = {{893,100}},
+            [questKeys.reputationReward] = {},
         },
         [7842] = {
-            [questKeys.reputationReward] = {{893,150}},
+            [questKeys.reputationReward] = {},
         },
         [7843] = {
-            [questKeys.reputationReward] = {{893,200}},
+            [questKeys.reputationReward] = {},
         },
         [7844] = {
-            [questKeys.reputationReward] = {{893,100}},
+            [questKeys.reputationReward] = {},
         },
         [7845] = {
-            [questKeys.reputationReward] = {{893,150}},
+            [questKeys.reputationReward] = {},
         },
         [7846] = {
-            [questKeys.reputationReward] = {{893,200}},
+            [questKeys.reputationReward] = {},
         },
         [7847] = {
-            [questKeys.reputationReward] = {{893,200}},
+            [questKeys.reputationReward] = {},
         },
         [7848] = {
             [questKeys.reputationReward] = {},
         },
         [7849] = {
-            [questKeys.reputationReward] = {{893,150}},
+            [questKeys.reputationReward] = {},
         },
         [7850] = {
-            [questKeys.reputationReward] = {{893,150}},
+            [questKeys.reputationReward] = {},
         },
         [7861] = {
-            [questKeys.reputationReward] = {{893,200}},
+            [questKeys.reputationReward] = {},
         },
         [7862] = {
-            [questKeys.reputationReward] = {{893,200}},
+            [questKeys.reputationReward] = {},
         },
         [7863] = {
             [questKeys.reputationReward] = {{890,10}},
