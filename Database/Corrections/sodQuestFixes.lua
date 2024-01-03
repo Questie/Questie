@@ -48,6 +48,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DRUID,
             [questKeys.requiredSpell] = -410061,
         },
+        [77573] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{400105, nil, 204795}}},
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.requiredSpell] = -400105,
+        },
         [77574] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
@@ -171,7 +176,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403470,
         },
         [77669] = {
-            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410002, nil, 205420}}},
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{400105, nil, 205420}}},
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
             [questKeys.requiredSpell] = -400105,

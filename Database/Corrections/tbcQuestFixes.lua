@@ -476,13 +476,42 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{20604},nil},
             [questKeys.reputationReward] = {{factionIDs.EXODAR,350}},
         },
+        [7795] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {7791,7793,7794},
+        },
         [7798] = {
             [questKeys.startedBy] = {{20604},nil,nil},
             [questKeys.finishedBy] = {{20604},nil},
             [questKeys.reputationReward] = {{factionIDs.EXODAR,350}},
         },
         [7800] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {7799,10352,10354},
+        },
+        [7805] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {7802,7803,7804},
+        },
+        [7811] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {7807,7808,7809},
+        },
+        [7818] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {7813,7814,7817},
+        },
+        [7823] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {7820,7821,7822},
+        },
+        [7824] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {7826,7827,7831},
+        },
+        [7836] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {7833,7834,7835},
         },
         [7863] = {
             [questKeys.requiredMinRep] = {890,3000},
@@ -5280,4 +5309,27 @@ function _QuestieTBCQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[12407] = {} -- Candy Bucket
     QuestieDB.questData[12408] = {} -- Candy Bucket
     QuestieDB.questData[12409] = {} -- Candy Bucket
+end
+
+function QuestieTBCQuestFixes:LoadFactionFixes()
+    local questKeys = QuestieDB.questKeys
+    local raceIDs = QuestieDB.raceKeys
+
+    local questFixesHorde = {
+        [2861] = {
+            [questKeys.startedBy] = {{4568,5885,16651}}
+        },
+    }
+
+    local questFixesAlliance = {
+        [2861] = {
+            [questKeys.startedBy] = {{5144,5497,17514}}
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return questFixesHorde
+    else
+        return questFixesAlliance
+    end
 end

@@ -831,6 +831,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Rescue Dalinda Malem", {[zoneIDs.DESOLACE]={{58.27,30.91}}}},
         },
         [1442] = {
+            [questKeys.specialFlags] = 1,
             [questKeys.parentQuest] = 1654,
         },
         [1447] = {
@@ -978,7 +979,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1681}, -- #1724
         },
         [1681] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1678},
         },
         [1684] = {
             [questKeys.startedBy] = {{2151,3598,3657},nil,nil},
@@ -2635,9 +2636,6 @@ function QuestieQuestFixes:Load()
         },
         [7787] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.ROGUE,
-        },
-        [7795] = {
-            [questKeys.preQuestSingle] = {7794},
         },
         [7816] = {
             [questKeys.preQuestSingle] = {}, -- #2247
