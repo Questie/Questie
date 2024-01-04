@@ -115,11 +115,11 @@ local tooltipsUILocales = {
         ["ruRU"] = "Завершает",
         ["deDE"] = "Beendet von",
         ["koKR"] = "끝",
-        ["esMX"] = "Terminada por",
+        ["esMX"] = "Terminado por",
         ["enUS"] = true,
         ["zhCN"] = "任务结束于",
         ["zhTW"] = "任務結束於",
-        ["esES"] = "Terminada por",
+        ["esES"] = "Terminado por",
         ["frFR"] = "Fin",
     },
     ["Completed on:"] = {
@@ -127,11 +127,11 @@ local tooltipsUILocales = {
         ["ruRU"] = "Выполнено:",
         ["deDE"] = "Abgeschlossen am",
         ["koKR"] = "완료",
-        ["esMX"] = "Completada el:",
+        ["esMX"] = "Completado el:",
         ["enUS"] = true,
         ["zhCN"] = "完成于:",
         ["zhTW"] = "已完成:",
-        ["esES"] = "Completada el:",
+        ["esES"] = "Completado el:",
         ["frFR"] = "Complété le:",
     }
 }
