@@ -210,15 +210,98 @@ function QuestieDB:Initialize()
     QuestieDB._QueryObject = QuestieDB.QueryObject.Query
     QuestieDB._QueryItem = QuestieDB.QueryItem.Query
 
-    QuestieDB.QueryNPC = QuestieDB._QueryNPC
-    QuestieDB.QueryQuest = QuestieDB._QueryQuest
-    QuestieDB.QueryObject = QuestieDB._QueryObject
-    QuestieDB.QueryItem = QuestieDB._QueryItem
-
+    ---@diagnostic disable-next-line: undefined-global
+    assert(type(LibQuestieDB) == "function", "LibQuestieDB is not loaded, Questie requires the addon QuestieDB!")
     ---@diagnostic disable-next-line: undefined-global
     local LibQuestieDB                           = LibQuestieDB()
-
+    QuestieDB.LibQuestieDB = LibQuestieDB
     local quest, npc, object, item               = LibQuestieDB.Quest, LibQuestieDB.Npc, LibQuestieDB.Object, LibQuestieDB.Item
+    assert(type(quest) == "table", "LibQuestieDB.Quest is not a table!")
+    assert(type(npc) == "table", "LibQuestieDB.Npc is not a table!")
+    assert(type(object) == "table", "LibQuestieDB.Object is not a table!")
+    assert(type(item) == "table", "LibQuestieDB.Item is not a table!")
+
+    local QueryQuestReplaceFunction = function(id, tbl)
+        local retTable = {}
+        for i=1, #tbl do
+            local value = tbl[i]
+            if quest[value] then
+                retTable[i] = quest[value](id)
+                -- retTable[i] = quest[value](id) or 1337
+                -- if retTable[i] == 1337 then
+                --     retTable[i] = nil
+                -- end
+            end
+        end
+        return retTable
+    end
+    local QueryNPCReplaceFunction = function(id, tbl)
+        local retTable = {}
+        for i = 1, #tbl do
+            local value = tbl[i]
+            if npc[value] then
+                retTable[i] = npc[value](id)
+                -- retTable[i] = npc[value](id) or 1337
+                -- if retTable[i] == 1337 then
+                --     retTable[i] = nil
+                -- end
+            end
+        end
+        return retTable
+    end
+    local QueryObjectReplaceFunction = function(id, tbl)
+        local retTable = {}
+        for i = 1, #tbl do
+            local value = tbl[i]
+            if object[value] then
+                retTable[i] = object[value](id)
+                -- retTable[i] = object[value](id) or 1337
+                -- if retTable[i] == 1337 then
+                --     retTable[i] = nil
+                -- end
+            end
+        end
+        return retTable
+    end
+    local QueryItemReplaceFunction = function(id, tbl)
+        local retTable = {}
+        for i = 1, #tbl do
+            local value = tbl[i]
+            if item[value] then
+                retTable[i] = item[value](id)
+                -- retTable[i] = item[value](id) or 1337
+                -- if retTable[i] == 1337 then
+                --     retTable[i] = nil
+                -- end
+            end
+        end
+        return retTable
+    end
+
+
+    -- QuestieDB.QueryNPC = QuestieDB._QueryNPC
+    -- QuestieDB.QueryQuest = QuestieDB._QueryQuest
+    -- QuestieDB.QueryObject = QuestieDB._QueryObject
+    -- QuestieDB.QueryItem = QuestieDB._QueryItem
+
+    QuestieDB.QueryNPC = QueryNPCReplaceFunction
+    QuestieDB.QueryQuest = QueryQuestReplaceFunction
+    QuestieDB.QueryObject = QueryObjectReplaceFunction
+    QuestieDB.QueryItem = QueryItemReplaceFunction
+    -- QuestieDB.QQueryNPC = QueryNPCReplaceFunction
+    -- QuestieDB.QQueryQuest = QueryQuestReplaceFunction
+    -- QuestieDB.QQueryObject = QueryObjectReplaceFunction
+    -- QuestieDB.QQueryItem = QueryItemReplaceFunction
+    --[[
+    /dump QuestieDB.QueryQuest(12, QuestieDB._questAdapterQueryOrder)
+    /dump QuestieDB.QQueryQuest(12, QuestieDB._questAdapterQueryOrder)
+    /dump QuestieDB.QueryObject(276, QuestieDB._objectAdapterQueryOrder)
+    /dump QuestieDB.QQueryObject(276, QuestieDB._objectAdapterQueryOrder)
+    /dump QuestieDB.QueryItem(25, QuestieDB._itemAdapterQueryOrder)
+    /dump QuestieDB.QQueryItem(25, QuestieDB._itemAdapterQueryOrder)
+    ]]
+
+
     local QueryQuestSingleReplaceFunction        = function(id, value)
         if quest[value] then
             return quest[value](id)
@@ -244,10 +327,10 @@ function QuestieDB:Initialize()
         return nil
     end
 
-    QuestieDB.QueryQuestSingle                   = QuestieDB._QueryQuestSingle
-    QuestieDB.QueryNPCSingle                     = QuestieDB._QueryNPCSingle
-    QuestieDB.QueryObjectSingle                  = QuestieDB._QueryObjectSingle
-    QuestieDB.QueryItemSingle                    = QuestieDB._QueryItemSingle
+    -- QuestieDB.QueryQuestSingle                   = QuestieDB._QueryQuestSingle
+    -- QuestieDB.QueryNPCSingle                     = QuestieDB._QueryNPCSingle
+    -- QuestieDB.QueryObjectSingle                  = QuestieDB._QueryObjectSingle
+    -- QuestieDB.QueryItemSingle                    = QuestieDB._QueryItemSingle
 
     QuestieDB.QueryQuestSingle                   = QueryQuestSingleReplaceFunction
     QuestieDB.QueryNPCSingle                     = QueryNPCSingleReplaceFunction
