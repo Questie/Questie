@@ -135,7 +135,7 @@ QuestieInit.Stages = {}
 
 QuestieInit.Stages[1] = function() -- run as a coroutine
     Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting the real init.")
-
+    QuestieLoader:ImportModule("Profiler"):Start()
     --? This was moved here because the lag that it creates is much less noticable here, while still initalizing correctly.
     Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting QuestieOptions.Initialize Thread.")
     ThreadLib.ThreadSimple(QuestieOptions.Initialize, 0)
