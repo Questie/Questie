@@ -18,6 +18,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 -- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
+local JourneyInitializd = false
+
 local tinsert = table.insert
 
 QuestieJourney.continents = {}
@@ -47,21 +49,23 @@ QuestieJourney.questCategoryKeys = {
 
 
 function QuestieJourney:Initialize()
-    local continents = {}
-    for id, name in pairs(l10n.continentLookup) do
-        if not (name == "Outland" and Questie.IsClassic) and not (name == "Northrend" and (Questie.IsClassic or Questie.IsTBC)) then
-            continents[id] = l10n(name)
+    if not JourneyInitializd then
+        local continents = {}
+        for id, name in pairs(l10n.continentLookup) do
+            if not (name == "Outland" and Questie.IsClassic) and not (name == "Northrend" and (Questie.IsClassic or Questie.IsTBC)) then
+                continents[id] = l10n(name)
+            end
         end
-    end
-    coroutine.yield()
-    continents[QuestieJourney.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
+        continents[QuestieJourney.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
 
-    coroutine.yield()
-    self.continents = continents
-    self.zoneMap = ZoneDB:GetZonesWithQuests(true)
-    self.zones = ZoneDB:GetRelevantZones()
-    coroutine.yield()
-    self:BuildMainFrame()
+
+        self.continents = continents
+        self.zoneMap = ZoneDB:GetZonesWithQuests(false)
+        self.zones = ZoneDB:GetRelevantZones()
+
+        self:BuildMainFrame()
+        JourneyInitializd = true
+    end
 end
 
 function QuestieJourney:BuildMainFrame()
@@ -125,6 +129,8 @@ function QuestieJourney:IsShown()
 end
 
 function QuestieJourney:ToggleJourneyWindow()
+    -- Initialize the journey window if it hasn't been already
+    QuestieJourney:Initialize()
     -- There are ways to toggle this function before the frame has been created
     if QuestieJourneyFrame then
         if (not isWindowShown) then

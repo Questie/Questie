@@ -222,7 +222,6 @@ QuestieInit.Stages[2] = function()
     l10n:PostBoot()
     QuestiePlayer:Initialize()
     coYield()
-    QuestieJourney:Initialize()
 
     -- Continue to the next Init Stage once Game Cache's Questlog is good
     while not QuestieValidateGameCache:IsCacheGood() do

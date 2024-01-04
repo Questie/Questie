@@ -159,7 +159,9 @@ do
     function ZoneDB:GetZonesWithQuests(yield)
         local count = 0
 
-        for questId in pairs(QuestieDB.QuestPointers) do
+        local questIds = QuestieDB.LibQuestieDB.Quest.GetAllIds()
+        for questIdIndex = 1, #questIds do
+            local questId = questIds[questIdIndex]
             if (not QuestieCorrections.hiddenQuests[questId]) then
                 if QuestiePlayer.HasRequiredRace(QuestieDB.QueryQuestSingle(questId, "requiredRaces"))
                     and QuestiePlayer.HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses")) then
