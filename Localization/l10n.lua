@@ -96,10 +96,12 @@ end
 
 --Must be run in a coroutine as it yields
 function l10n:PostBoot()
-
     local count = 0
+
+    local questIds = QuestieDB.LibQuestieDB.Quest.GetAllIds()
     -- Create {['name'] = {ID, },} table for lookup of possible object IDs by name
-    for id in pairs(QuestieDB.ObjectPointers) do
+    for questIdIndex = 1, #questIds do
+        local id = questIds[questIdIndex]
         local name = QuestieDB.QueryObjectSingle(id, "name")
         if name then -- We (meaning me, BreakBB) introduced Fake IDs for objects to show additional locations, so we need to check this
             local entry = l10n.objectNameLookup[name]

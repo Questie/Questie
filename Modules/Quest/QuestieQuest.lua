@@ -1727,12 +1727,12 @@ do
     local timer
 
     local function CalculateAvailableQuests()
-        local questsPerYield = 24
+        local questsPerYield = 32
 
         -- Localize the variable for speeeeed
         local debugEnabled = Questie.db.profile.debugEnabled
 
-        local data = QuestieDB.QuestPointers or QuestieDB.questData
+        local questIds = QuestieDB.LibQuestieDB.Quest.GetAllIds()
 
         local playerLevel = QuestiePlayer.GetPlayerLevel()
         local minLevel = playerLevel - GetQuestGreenRange("player")
@@ -1757,19 +1757,22 @@ do
         local hidden = Questie.db.char.hidden
 
         QuestieDB.activeChildQuests = {} -- Reset here so we don't need to keep track in the quest event system
+        local QuestDB = QuestieDB.LibQuestieDB.Quest
 
         local questCount = 0
-        for questId in pairs(data) do
+        for questIdIndex = 1, #questIds do
+        -- for _, questId in pairs(questIds) do
+            local questId = questIds[questIdIndex]
             --? Quick exit through autoBlacklist if IsDoable has blacklisted it.
             if (not autoBlacklist[questId]) then
 
                 if QuestiePlayer.currentQuestlog[questId] then
                     -- Mark all child quests as active when the parent quest is in the quest log
-                    local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
+                    local childQuests = QuestDB.childQuests(questId)
                     if childQuests then
                         for _, childQuestId in pairs(childQuests) do
                             if (not Questie.db.char.complete[childQuestId]) and (not QuestiePlayer.currentQuestlog[childQuestId]) then
-                                local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(childQuestId, "exclusiveTo")
+                                local childQuestExclusiveTo = QuestDB.exclusiveTo(childQuestId)
                                 local blockedByExclusiveTo = false
                                 for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
                                     if QuestiePlayer.currentQuestlog[exclusiveToQuestId] or Questie.db.char.complete[exclusiveToQuestId] then
