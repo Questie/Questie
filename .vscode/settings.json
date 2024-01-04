@@ -6141,13 +6141,16 @@
         ".types/.SubModules/BlizzardInterfaceCode/**",
         ".types/.SubModules/EmmyLua/**",
         ".vscode",
-        "!wow-ui-source-classic"
+        "!wow-ui-source-classic",
+        ".git",
+        "**/_data/**",
     ],
 
     "Lua.workspace.library": [
-        ".\\.types\\.SubModules\\BlizzardInterfaceCode",
-        ".\\.types\\.SubModules\\vscode-wow-api\\EmmyLua\\API",
-        ".\\.types\\.SubModules\\vscode-wow-api\\EmmyLua\\Optional",
+      ".\\.types\\.SubModules\\BlizzardInterfaceCode",
+      ".\\.types\\.SubModules\\vscode-wow-api\\EmmyLua\\API",
+      ".\\.types\\.SubModules\\vscode-wow-api\\EmmyLua\\Optional",
+      "../QuestieDB",
     ],
 
     "Lua.workspace.preloadFileSize": 3000,
@@ -6166,7 +6169,9 @@
         "Libs/Ace*": true,
         "Libs/CallbackHandler-1.0": true,
         "Libs/Lib*": true,
-        "releases": true
+        "releases": true,
+        "**/.git": true,
+        "**/.cache": true,
     },
 
     // Removes trailing whitespaces
