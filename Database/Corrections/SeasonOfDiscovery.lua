@@ -70,6 +70,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [78267] = true, -- Grizzby prequest for multiple runes
     [78270] = true, -- Rogue Deadly Brew Part 3
     [78277] = true, -- Mage Horde Living Bomb
+    [78307] = true, -- Rogue Deadly Brew Part 3
     [78506] = true, -- Shaman Earth Shield Part 1
     [78537] = true, -- Shaman Earth Shield Part 2
     [78561] = true, -- Shaman Earth Shield Part 3

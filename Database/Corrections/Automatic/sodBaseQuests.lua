@@ -727,6 +727,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Return the Signed Procurement Contract to Grizzby in Ratchet."},
             [questKeys.objectives] = nil,
         },
+        [78307] = {
+            [questKeys.name] = "The Horn of Xelthos",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{410369,}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 23,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Log"},
+            [questKeys.objectives] = {nil,nil,{{203994}}},
+        },
         [78506] = {
             [questKeys.name] = "Elemental Distress",
             [questKeys.startedBy] = {{12736}},
