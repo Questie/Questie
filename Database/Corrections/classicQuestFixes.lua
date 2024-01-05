@@ -967,6 +967,7 @@ function QuestieQuestFixes:Load()
         },
         [1666] = {
             [questKeys.preQuestSingle] = {1639,1678,1683},
+            [questKeys.exclusiveTo] = {1680,1686},
         },
         [1678] = {
             [questKeys.exclusiveTo] = {1639},
@@ -976,7 +977,7 @@ function QuestieQuestFixes:Load()
         },
         [1680] = {
             [questKeys.preQuestSingle] = {1639,1678,1683},
-            [questKeys.exclusiveTo] = {1681}, -- #1724
+            [questKeys.exclusiveTo] = {1666,1686},
         },
         [1681] = {
             [questKeys.preQuestSingle] = {1678},
@@ -987,6 +988,7 @@ function QuestieQuestFixes:Load()
         },
         [1686] = {
             [questKeys.preQuestSingle] = {1639,1678,1683},
+            [questKeys.exclusiveTo] = {1666,1680},
         },
         [1687] = {
             [questKeys.triggerEnd] = {"Go to the Westfall Lighthouse.", {[zoneIDs.WESTFALL]={{30.41,85.61}}}},
