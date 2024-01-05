@@ -1247,6 +1247,7 @@ l10n.objectLookup["esMX"] = {
 [19878] = "Cajón con piezas",
 [19879] = "Gema de alma roja",
 [19897] = "Barril de cerveza de tontos",
+[19901] = "Círculo de Encarcelamiento",    
 [19903] = "Filón de indurio",
 [19904] = "Barril de tabaco de Mok'Morokk",
 [19905] = "Grog de Mok'Morokk",
