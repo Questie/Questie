@@ -1652,6 +1652,7 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{10299}},
         },
         [4743] = {
+            [questKeys.requiredSourceItems] = {12339,12300,12323},
             [questKeys.startedBy] = {{10299}},
             [questKeys.finishedBy] = {{10299}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy."), 0, {{"monster", 10321}}},

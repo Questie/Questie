@@ -1047,7 +1047,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Gather a Fel Ember using Grand Warlock's Amulet"), 0, {{"object", 181679}}}},
         },
         [9498] = {
-            [questKeys.preQuestSingle] = {10123},
+            [questKeys.preQuestSingle] = {10124},
+        },
+        [9499] = {
+            [questKeys.preQuestSingle] = {10124},
         },
         [9500] = {
             [questKeys.questLevel] = -1,
@@ -1610,9 +1613,11 @@ function QuestieTBCQuestFixes:Load()
         },
         [10129] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Brack"), 0, {{"monster", 19401}}}},
+            [questKeys.objectives] = {nil,{{183350,"Gateway Murketh Destroyed"},{183351,"Gateway Shaadraz Destroyed"}}},
         },
         [10146] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Dabir'ee"), 0, {{"monster", 19409}}}},
+            [questKeys.objectives] = {nil,{{183350,"Gateway Murketh Destroyed"},{183351,"Gateway Shaadraz Destroyed"}}},
         },
         [10162] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Brack"), 0, {{"monster", 19401}}}},
@@ -1675,6 +1680,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10240] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Activate the rune"), 0, {{"object", 183947}}}},
+        },
+        [10242] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a ride to Spinebreaker Post"), 0, {{"monster", 19401}}}},
         },
         [10243] = {
             [questKeys.preQuestSingle] = {10241},
