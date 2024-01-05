@@ -149,8 +149,24 @@ function QuestieWotlkNpcFixes:Load()
             [zoneIDs.DALARAN]={{48.96,44.53},{49.35,43.57},{49.78,44.62}},
             [zoneIDs.SHATTRATH_CITY]={{53.51,34.4},{53.32,35.34},{52.88,34.63}}},
         },
+        [15954] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS_PLAGUE_QUARTER] = {{34.7,56.5}},[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.NAXXRAMAS,
+        },
+        [15956] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS_ARACHNID_QUARTER] = {{30.7,46.9}},[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.NAXXRAMAS,
+        },
         [15989] = {
-            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS_FROSTWYRM_LAIR] = {{56.6,67.4}},[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.NAXXRAMAS,
+        },
+        [16061] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS_MILITARY_QUARTER] = {{42.7,45.8}},[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.NAXXRAMAS,
+        },
+        [16028] = {
+            [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS_CONSTRUCT_QUARTER] = {{54,42}},[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.NAXXRAMAS,
         },
         [16226] = {
@@ -1038,6 +1054,12 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_TERRESTRIAL_WATCHTOWER]={{40.1,66.5},{45,82.6},{40.2,84},{45.1,68.1},{32.7,75.8},{33.2,75.8},{51.2,75.8},{51.9,75.8}},[zoneIDs.HALLS_OF_LIGHTNING]={{-1,-1}}},
             [npcKeys.waypoints] = {[zoneIDs.THE_TERRESTRIAL_WATCHTOWER]={{{32.7,75.8},{32.9,72.2},{34.2,70.4},{36.2,69.4},{39.1,70.4},{40.7,72.2},{41.3,74.9},{40.7,77.8},{39.1,80.3},{36.4,81.1},{34.5,80.7},{32.9,78.8},{32.7,75.8}},{{51.2,75.8},{51.1,78.8},{49.5,80.1},{47.8,80.7},{45.6,80.3},{44.3,77.6},{43.8,75.3},{44.3,72.5},{45.8,70.8},{47.8,69.8},{49.8,70.6},{50.8,72.2},{51.2,75.8}}}},
         },
+        [28859] = {
+            [npcKeys.spawns] = {[4500]={{45.68,61.39},{-1,-1}}},
+        },
+        [28860] = {
+            [npcKeys.spawns] = {[4493]={{50.07,47.75},{-1,-1}}},
+        },
         [28912] = {
             [npcKeys.waypoints] = {},
         },
@@ -1716,6 +1738,18 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ULDUAR]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.ULDUAR,
         },
+        [33113] = {
+            [npcKeys.spawns] = {[zoneIDs.ULDUAR]={{49.3,39},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ULDUAR,
+        },
+        [33118] = {
+            [npcKeys.spawns] = {[zoneIDs.ULDUAR]={{36.64,26.56},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ULDUAR,
+        },
+        [33186] = {
+            [npcKeys.spawns] = {[zoneIDs.ULDUAR]={{54.4,26.8},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ULDUAR,
+        },
         [33220] = {
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{61.76,48.88}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
@@ -1726,6 +1760,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [33288] = {
             [npcKeys.spawns] = {[zoneIDs.THE_DESCENT_OF_MADNESS]={{68,40.2}},[zoneIDs.ULDUAR]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ULDUAR,
+        },
+        [33293] = {
+            [npcKeys.spawns] = {[zoneIDs.ULDUAR]={{48.6,14.5},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.ULDUAR,
         },
         [33308] = {
@@ -1916,6 +1954,10 @@ function QuestieWotlkNpcFixes:Load()
         [34768] = {
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY]={{65.24,14.23}}},
             [npcKeys.zoneID] = zoneIDs.UNDERCITY,
+        },
+        [34780] = {
+            [npcKeys.spawns] = {[zoneIDs.TRIAL_OF_THE_CRUSADER]={{51.1,52.7},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.TRIAL_OF_THE_CRUSADER,
         },
         [34920] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{42.65,58.43},{42.25,60.1},{43.36,60.69},{43.4,57.84},{42.94,56.95},{43.22,55.94},{42.52,55.01},{43.09,54.6},{41.51,53.56},{41.19,52.62},{40.67,53.31},{40.06,52.53},{39.38,53.79},{38.55,53.96},{38.46,55.05},{37.61,56.07},{38.38,58.33},{37.73,59.86},{38.57,61.28},{38.87,60.57},{39.23,61.41},{40.61,60.33},{41.53,60.01},{42.24,60.09},{43.36,60.69},{44.68,59.4},{45.55,59.06},{45.47,60.13},{45.06,60.94},{45.15,61.93},{44.54,61.9},{46,61.18},{46.5,62.41},{46.08,63.36},{46.7,64.01},{47.35,62.49},{47.72,61.55},{46.88,59.91},{46.29,58.52},{45.85,57.6},{45.92,57.02},{45.77,55.82},{42.4,53.88},{43.38,59.28},{43.82,61.93},{46.69,60.7},{45.03,56.98},{45.15,55.61},{45.03,56.96},{43.9,56.55},{43.38,59.28},{44.27,61.01},{46.82,63.05},{44.34,58.48},{46.56,62.92},{38.21,62.04},{38.03,58.85},{37.67,57.9},{38.13,57.05},{39.95,61.25},{38.84,59.57},{40.56,62.92}}},
