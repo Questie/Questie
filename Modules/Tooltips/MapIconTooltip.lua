@@ -255,50 +255,50 @@ function MapIconTooltip:Show()
                             self:AddLine(line, 0.86, 0.86, 0.86);
                         end
                     end
+                end
 
-                    if reputationReward and next(reputationReward) then
-                        local rewardTable = {}
-                        local factionId, factionName
-                        local rewardValue
-                        local aldorPenalty, scryersPenalty
-                        for _, rewardPair in pairs(reputationReward) do
-                            factionId = rewardPair[1]
+                if shift and reputationReward and next(reputationReward) then
+                    local rewardTable = {}
+                    local factionId, factionName
+                    local rewardValue
+                    local aldorPenalty, scryersPenalty
+                    for _, rewardPair in pairs(reputationReward) do
+                        factionId = rewardPair[1]
 
-                            if factionId == 935 and playerIsHonoredWithShaTar and (scryersPenalty or aldorPenalty) then
-                                -- Quests for Aldor and Scryers gives reputation to the Sha'tar but only before being Honored
-                                -- with the Sha'tar
-                                break
-                            end
-
-                            factionName = select(1, GetFactionInfoByID(factionId))
-                            if factionName then
-                                rewardValue = rewardPair[2]
-
-                                if playerIsHuman and rewardValue > 0 then
-                                    -- Humans get 10% more reputation
-                                    rewardValue = math.floor(rewardValue * 1.1)
-                                end
-
-                                if factionId == 932 then     -- Aldor
-                                    scryersPenalty = 0 - math.floor(rewardValue * 1.1)
-                                elseif factionId == 934 then -- Scryers
-                                    aldorPenalty = 0 - math.floor(rewardValue * 1.1)
-                                end
-
-                                rewardTable[#rewardTable + 1] = (rewardValue > 0 and "+" or "") .. rewardValue .. " " .. factionName
-                            end
+                        if factionId == 935 and playerIsHonoredWithShaTar and (scryersPenalty or aldorPenalty) then
+                            -- Quests for Aldor and Scryers gives reputation to the Sha'tar but only before being Honored
+                            -- with the Sha'tar
+                            break
                         end
 
-                        if aldorPenalty then
-                            factionName = select(1, GetFactionInfoByID(932))
-                            rewardTable[#rewardTable + 1] = aldorPenalty .. " " .. factionName
-                        elseif scryersPenalty then
-                            factionName = select(1, GetFactionInfoByID(934))
-                            rewardTable[#rewardTable + 1] = scryersPenalty .. " " .. factionName
-                        end
+                        factionName = select(1, GetFactionInfoByID(factionId))
+                        if factionName then
+                            rewardValue = rewardPair[2]
 
-                        self:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(table.concat(rewardTable, " / "), "reputationBlue"), 1, 1, 1, 1, 1, 0)
+                            if playerIsHuman and rewardValue > 0 then
+                                -- Humans get 10% more reputation
+                                rewardValue = math.floor(rewardValue * 1.1)
+                            end
+
+                            if factionId == 932 then     -- Aldor
+                                scryersPenalty = 0 - math.floor(rewardValue * 1.1)
+                            elseif factionId == 934 then -- Scryers
+                                aldorPenalty = 0 - math.floor(rewardValue * 1.1)
+                            end
+
+                            rewardTable[#rewardTable + 1] = (rewardValue > 0 and "+" or "") .. rewardValue .. " " .. factionName
+                        end
                     end
+
+                    if aldorPenalty then
+                        factionName = select(1, GetFactionInfoByID(932))
+                        rewardTable[#rewardTable + 1] = aldorPenalty .. " " .. factionName
+                    elseif scryersPenalty then
+                        factionName = select(1, GetFactionInfoByID(934))
+                        rewardTable[#rewardTable + 1] = scryersPenalty .. " " .. factionName
+                    end
+
+                    self:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(table.concat(rewardTable, " / "), "reputationBlue"), 1, 1, 1, 1, 1, 0)
                 end
             end
         end
