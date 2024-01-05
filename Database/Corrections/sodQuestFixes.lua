@@ -245,6 +245,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [78144] = {
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredSpell] = -425444,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
         [78145] = {
             [questKeys.questLevel] = -1,
             [questKeys.requiredSpell] = -425170,

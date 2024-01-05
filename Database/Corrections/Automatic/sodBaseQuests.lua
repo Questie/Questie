@@ -481,6 +481,15 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.MAGE,
         },
+        [78144] = {
+            [questKeys.name] = "Alonso the Dragonslayer",
+            [questKeys.startedBy] = {{210995}},
+            [questKeys.finishedBy] = {{210995,}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+        },
         [78145] = {
             [questKeys.name] = "Arcanic Systems Manual",
             [questKeys.startedBy] = {{211033}},

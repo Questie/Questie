@@ -58,6 +58,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [78127] = true, -- Mage Icy Veins
     [78142] = true, -- Mage Icy Veins
     [78143] = true, -- Mage Icy Veins
+    [78144] = true, -- Warrior Raging Blows
     [78145] = true, -- Mage Icy Veins
     [78146] = true, -- Mage Icy Veins
     [78147] = true, -- Mage Icy Veins
