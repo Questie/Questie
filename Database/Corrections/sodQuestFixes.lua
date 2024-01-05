@@ -70,12 +70,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
             [questKeys.requiredSpell] = -403470,
         },
-        [77584] = {
-            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410121, nil, 206168}}},
-            [questKeys.requiredRaces] = raceIDs.ORC,
-            [questKeys.zoneOrSort] = sortKeys.HUNTER,
-            [questKeys.requiredSpell] = -410121,
-        },
         [77585] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410094, nil, 206381}}},
             [questKeys.requiredRaces] = raceIDs.ORC,
@@ -360,7 +354,8 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [78307] = {
             [questKeys.preQuestSingle] = {78261},
-            [questKeys.zoneOrSort] = zoneIDs.SILVERPINE_FOREST,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.requiredSpell] = -400080,
         },
         [78506] = {
             [questKeys.preQuestSingle] = {78920},
