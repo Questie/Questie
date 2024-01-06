@@ -749,6 +749,7 @@ l10n.objectLookup["esMX"] = {
 [3236] = "Caja de herramientas gnoma",
 [3237] = "Lanza Negra encarcelado",
 [3238] = "Barril vacío de Chen",
+[3239] = "Cofre de Benedict",
 [3240] = "Huevos de colazote",
 [3246] = "Hoguera",
 [3249] = "Hoguera",
