@@ -462,6 +462,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.objectivesText] = {"The shield of the Dragonslayer is rumored to be held by an Orcish warlord. He stole it while raiding a settlement."},
         },
+        [78134] = {
+            [questKeys.name] = "Dragonslayer's Lance"
+            [questKeys.startedBy] = {{210995}},
+            [questKeys.finishedBy] = {{210995,}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"The lance of the Dragonslayer has changed hands many times. Every now and then, rumor spreads of it appearing in black market arms deals. Perhaps the lance's current unsavory proprietor would be willing to part with it; for a price."},
+        },
         [78142] = {
             [questKeys.name] = "Bewitchments and Glamours",
             [questKeys.startedBy] = {{211033}},
