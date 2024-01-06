@@ -242,8 +242,8 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78134] = {
-            [questKeys.startedBy] = {nil,{409754}},
-            [questKeys.objectivesText] = {"Retrieve the Dragonslayer's Shield and bring it to Alonso in Ashenvale."},
+            [questKeys.startedBy] = {{3180}},
+            [questKeys.objectivesText] = {"Retrieve the Dragonslayer's Lance and bring it to Alonso in Ashenvale."},
             [questKeys.requiredSpell] = -425444,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
