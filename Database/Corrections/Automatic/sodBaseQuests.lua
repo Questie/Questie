@@ -452,6 +452,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.MAGE,
         },
+        [78133] = {
+            [questKeys.name] = "Dragonslayer's Shield"
+            [questKeys.startedBy] = {{210995}},
+            [questKeys.finishedBy] = {{210995,}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"The shield of the Dragonslayer is rumored to be held by an Orcish warlord. He stole it while raiding a settlement."},
+        },
         [78142] = {
             [questKeys.name] = "Bewitchments and Glamours",
             [questKeys.startedBy] = {{211033}},

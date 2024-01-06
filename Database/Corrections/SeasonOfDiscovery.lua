@@ -55,6 +55,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [78121] = true, -- Hunter Kill Command Part 2
     [78124] = true, -- Mage Icy Veins
     [78127] = true, -- Mage Icy Veins
+    [78133] = true, -- Warrior Raging Blows
     [78142] = true, -- Mage Icy Veins
     [78143] = true, -- Mage Icy Veins
     [78144] = true, -- Warrior Raging Blows
