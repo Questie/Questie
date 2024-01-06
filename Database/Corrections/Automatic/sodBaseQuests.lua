@@ -453,7 +453,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.requiredClasses] = classIDs.MAGE,
         },
         [78132] = {
-            [questKeys.name] = "Dragonslayer's Helm"
+            [questKeys.name] = "Dragonslayer's Helm",
             [questKeys.startedBy] = {{210995}},
             [questKeys.finishedBy] = {{210995,}},
             [questKeys.requiredLevel] = 1,
@@ -463,7 +463,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"The helm of the Dragonslayer once belonged to a great commander who fell in battle. It is said his tormented soul still haunts the site of his passing."},
         },
         [78133] = {
-            [questKeys.name] = "Dragonslayer's Shield"
+            [questKeys.name] = "Dragonslayer's Shield",
             [questKeys.startedBy] = {{210995}},
             [questKeys.finishedBy] = {{210995,}},
             [questKeys.requiredLevel] = 1,
@@ -473,7 +473,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"The shield of the Dragonslayer is rumored to be held by an Orcish warlord. He stole it while raiding a settlement."},
         },
         [78134] = {
-            [questKeys.name] = "Dragonslayer's Lance"
+            [questKeys.name] = "Dragonslayer's Lance",
             [questKeys.startedBy] = {{210995}},
             [questKeys.finishedBy] = {{210995,}},
             [questKeys.requiredLevel] = 1,
