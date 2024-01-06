@@ -452,6 +452,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.MAGE,
         },
+        [78132] = {
+            [questKeys.name] = "Dragonslayer's Helm"
+            [questKeys.startedBy] = {{210995}},
+            [questKeys.finishedBy] = {{210995,}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"The helm of the Dragonslayer once belonged to a great commander who fell in battle. It is said his tormented soul still haunts the site of his passing."},
+        },
         [78133] = {
             [questKeys.name] = "Dragonslayer's Shield"
             [questKeys.startedBy] = {{210995}},

@@ -229,6 +229,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [78132] = {
+            [questKeys.startedBy] = {nil,{409758}},
+            [questKeys.objectivesText] = {"Retrieve the Dragonslayer's Helm and bring it to Alonso in Ashenvale."},
+            [questKeys.requiredSpell] = -425444,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
         [78133] = {
             [questKeys.startedBy] = {nil,{409754}},
             [questKeys.objectivesText] = {"Retrieve the Dragonslayer's Shield and bring it to Alonso in Ashenvale."},
@@ -1868,18 +1874,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Defeat him."},
             [questKeys.requiredSpell] = -410123,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
-        },
-        [90099] = {
-            [questKeys.name] = "Raging Blows",
-            [questKeys.startedBy] = {nil,{409758}},
-            [questKeys.finishedBy] = nil,
-            [questKeys.requiredLevel] = 1,
-            [questKeys.questLevel] = 25,
-            [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.requiredClasses] = classIDs.WARRIOR,
-            [questKeys.objectivesText] = {"Retrieve the Dragonslayer's Helm and bring it to Alonso in Ashenvale."},
-            [questKeys.requiredSpell] = -425444,
-            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [90100] = {
             [questKeys.name] = "Devastate",
