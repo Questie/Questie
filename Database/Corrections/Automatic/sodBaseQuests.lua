@@ -478,6 +478,8 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Accompany Alonso to slay the dragon."},
+            [questKeys.objectives] = nil,
         },
         [78145] = {
             [questKeys.name] = "Arcanic Systems Manual",
