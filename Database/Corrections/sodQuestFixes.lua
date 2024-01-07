@@ -358,6 +358,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {78288},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
+        [78307] = {
+            [questKeys.preQuestSingle] = {78261},
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.requiredSpell] = -400080,
+        },
         [78506] = {
             [questKeys.preQuestSingle] = {78920},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
