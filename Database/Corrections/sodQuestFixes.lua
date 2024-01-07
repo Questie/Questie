@@ -230,19 +230,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78132] = {
-            [questKeys.startedBy] = {nil,{409758}},
+            [questKeys.objectives] = {nil,nil,{{209872}}},
             [questKeys.objectivesText] = {"Retrieve the Dragonslayer's Helm and bring it to Alonso in Ashenvale."},
             [questKeys.requiredSpell] = -425444,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78133] = {
-            [questKeys.startedBy] = {nil,{409754}},
+            [questKeys.objectives] = {nil,nil,{{209873}}},
             [questKeys.objectivesText] = {"Retrieve the Dragonslayer's Shield and bring it to Alonso in Ashenvale."},
             [questKeys.requiredSpell] = -425444,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78134] = {
-            [questKeys.startedBy] = {{3180}},
+            [questKeys.objectives] = {nil,nil,{{209874}}},
             [questKeys.objectivesText] = {"Retrieve the Dragonslayer's Lance and bring it to Alonso in Ashenvale."},
             [questKeys.requiredSpell] = -425444,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
