@@ -116,6 +116,9 @@ function QuestieWotlkObjectFixes:Load()
         [190781] = {
             [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN] = {{33.56,74.96}}},
         },
+        [190782] = {
+            [objectKeys.name] = "Altar of Kartak",
+        },
         [191092] = {
             [objectKeys.spawns] = {[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE] = {{63.12,68.33}}},
         },
@@ -364,6 +367,9 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{76.7,73.7}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE,
         },
+        [202168] = {
+            [objectKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{59.37,60.48},{45.33,58.72},{43.77,66.77},{55.92,65.86},{55.84,39.13},{56.22,64.93},{58.71,60.9},{55.55,43.2},{53.46,65.12},{47.55,61.06},{41.77,65.25},{52.89,64.84},{49.63,69.36},{61.14,59.63},{60.06,49.25},{55.16,65.87},{55.64,63.33},{62.08,59.4},{54.38,36.42},{60.94,49.22},{55.5,38.28},{55.82,41.31},{60.23,60.09},{54.38,65.36},{50.54,68.04},{58.8,48.69},{48.83,69.23},{61.78,49.56},{38.6,66.65},{37.5,69},{34,70.5},{33.8,68.9},{34.3,65.9},{33.5,63.7},{34.8,61.5},{36.7,61.1},{40.3,55.9},{41,58.1},{42.2,59.5},{42.8,60.5},{45.3,55.8},{43.8,56.7},{42.3,54.5}}},
+        },
         [202239] = {
             [objectKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_DEATHBRINGERS_RISE]={{71.3,30.7}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.ICECROWN_CITADEL_DEATHBRINGERS_RISE,
@@ -378,6 +384,11 @@ function QuestieWotlkObjectFixes:Load()
         [300213] = {
             [objectKeys.name] = "Mistwhisper Weather Shrine",
             [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{45.4,37.23}}},
+            [objectKeys.zoneID] = zoneIDs.SHOLAZAR_BASIN,
+        },
+        [300224] = {
+            [objectKeys.name] = "Exposed Lifeblood Pillar Crystal",
+            [objectKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{65.52,59.74}}},
             [objectKeys.zoneID] = zoneIDs.SHOLAZAR_BASIN,
         },
 

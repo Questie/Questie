@@ -24,6 +24,7 @@ function QuestieTBCQuestFixes:Load()
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
+    local factionIDs = QuestieDB.factionIDs
     local zoneIDs = ZoneDB.zoneIDs
     local sortKeys = QuestieDB.sortKeys
     local questFlags = QuestieDB.questFlags
@@ -473,15 +474,44 @@ function QuestieTBCQuestFixes:Load()
         [7792] = {
             [questKeys.startedBy] = {{20604},nil,nil},
             [questKeys.finishedBy] = {{20604},nil},
-            [questKeys.reputationReward] = {{930,350}},
+            [questKeys.reputationReward] = {{factionIDs.EXODAR,350}},
+        },
+        [7795] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {7791,7793,7794},
         },
         [7798] = {
             [questKeys.startedBy] = {{20604},nil,nil},
             [questKeys.finishedBy] = {{20604},nil},
-            [questKeys.reputationReward] = {{930,350}},
+            [questKeys.reputationReward] = {{factionIDs.EXODAR,350}},
         },
         [7800] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {7799,10352,10354},
+        },
+        [7805] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {7802,7803,7804},
+        },
+        [7811] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {7807,7808,7809},
+        },
+        [7818] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {7813,7814,7817},
+        },
+        [7823] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {7820,7821,7822},
+        },
+        [7824] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {7826,7827,7831},
+        },
+        [7836] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {7833,7834,7835},
         },
         [7863] = {
             [questKeys.requiredMinRep] = {890,3000},
@@ -1013,11 +1043,14 @@ function QuestieTBCQuestFixes:Load()
         [9491] = {
             [questKeys.preQuestSingle] = {},
         },
-        [9494] = { 
+        [9494] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Gather a Fel Ember using Grand Warlock's Amulet"), 0, {{"object", 181679}}}},
         },
         [9498] = {
-            [questKeys.preQuestSingle] = {10123},
+            [questKeys.preQuestSingle] = {10124},
+        },
+        [9499] = {
+            [questKeys.preQuestSingle] = {10124},
         },
         [9500] = {
             [questKeys.questLevel] = -1,
@@ -1580,9 +1613,11 @@ function QuestieTBCQuestFixes:Load()
         },
         [10129] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Brack"), 0, {{"monster", 19401}}}},
+            [questKeys.objectives] = {nil,{{183350,"Gateway Murketh Destroyed"},{183351,"Gateway Shaadraz Destroyed"}}},
         },
         [10146] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Dabir'ee"), 0, {{"monster", 19409}}}},
+            [questKeys.objectives] = {nil,{{183350,"Gateway Murketh Destroyed"},{183351,"Gateway Shaadraz Destroyed"}}},
         },
         [10162] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Brack"), 0, {{"monster", 19401}}}},
@@ -1645,6 +1680,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10240] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Activate the rune"), 0, {{"object", 183947}}}},
+        },
+        [10242] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a ride to Spinebreaker Post"), 0, {{"monster", 19401}}}},
         },
         [10243] = {
             [questKeys.preQuestSingle] = {10241},
@@ -1769,12 +1807,12 @@ function QuestieTBCQuestFixes:Load()
         [10352] = {
             [questKeys.startedBy] = {{14725},nil,nil},
             [questKeys.finishedBy] = {{14725},nil},
-            [questKeys.reputationReward] = {{69,350}},
+            [questKeys.reputationReward] = {{factionIDs.DARNASSUS,350}},
         },
         [10354] = {
             [questKeys.startedBy] = {{14725},nil,nil},
             [questKeys.finishedBy] = {{14725},nil},
-            [questKeys.reputationReward] = {{69,350}},
+            [questKeys.reputationReward] = {{factionIDs.DARNASSUS,350}},
         },
         [10357] = {
             [questKeys.preQuestGroup] = {7792,7798,10356},
@@ -5279,4 +5317,27 @@ function _QuestieTBCQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[12407] = {} -- Candy Bucket
     QuestieDB.questData[12408] = {} -- Candy Bucket
     QuestieDB.questData[12409] = {} -- Candy Bucket
+end
+
+function QuestieTBCQuestFixes:LoadFactionFixes()
+    local questKeys = QuestieDB.questKeys
+    local raceIDs = QuestieDB.raceKeys
+
+    local questFixesHorde = {
+        [2861] = {
+            [questKeys.startedBy] = {{4568,5885,16651}}
+        },
+    }
+
+    local questFixesAlliance = {
+        [2861] = {
+            [questKeys.startedBy] = {{5144,5497,17514}}
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return questFixesHorde
+    else
+        return questFixesAlliance
+    end
 end

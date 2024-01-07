@@ -21,6 +21,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [169106] = {
             [npcKeys.name] = "Shea Dorrisist",
@@ -29,6 +31,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [173338] = {
             [npcKeys.name] = "Invisible Bunny",
@@ -37,6 +41,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [176552] = {
             [npcKeys.name] = "Orgrimmar",
@@ -45,6 +51,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [176553] = {
             [npcKeys.name] = "Stormwind",
@@ -53,6 +61,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [176663] = {
             [npcKeys.name] = "Call for Help Trigger",
@@ -61,6 +71,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [176721] = {
             [npcKeys.name] = "Dummy",
@@ -69,6 +81,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [177063] = {
             [npcKeys.name] = "Spellcaster Dummy",
@@ -77,6 +91,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [183709] = {
             [npcKeys.name] = "Season 01 Controller - Era",
@@ -85,6 +101,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [183713] = {
             [npcKeys.name] = "Season 02 Controller - Fresh Start",
@@ -93,6 +111,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [184314] = {
             [npcKeys.name] = "Beta Vendor and Raid Teleporter",
@@ -101,6 +121,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [184383] = {
             [npcKeys.name] = "Sulfuron Harbinger",
@@ -109,6 +131,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185273] = {
             [npcKeys.name] = "Firemaw Trigger",
@@ -117,6 +141,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185320] = {
             [npcKeys.name] = "Unstable Chromatic Drake",
@@ -125,6 +151,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 2677,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185331] = {
             [npcKeys.name] = "Avelina Lilly Projection",
@@ -133,6 +161,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185332] = {
             [npcKeys.name] = "Isaac Pearson Projection",
@@ -141,6 +171,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185336] = {
             [npcKeys.name] = "Jezelle's Incubus",
@@ -151,6 +183,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [1497] = {{77.4, 13.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185342] = {
             [npcKeys.name] = "Ruby Breath Trigger",
@@ -159,6 +193,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185371] = {
             [npcKeys.name] = "Emerald Breath Trigger",
@@ -167,6 +203,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185378] = {
             [npcKeys.name] = "Azure Breath Trigger",
@@ -175,6 +213,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185379] = {
             [npcKeys.name] = "Obsidian Breath Trigger",
@@ -183,6 +223,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185380] = {
             [npcKeys.name] = "Bronze Breath Trigger",
@@ -191,6 +233,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185536] = {
             [npcKeys.name] = "Suppression Device Trigger",
@@ -199,6 +243,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185585] = {
             [npcKeys.name] = "Flame Patch",
@@ -207,6 +253,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185590] = {
             [npcKeys.name] = "Dream Fog",
@@ -215,6 +263,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185605] = {
             [npcKeys.name] = "Chromatic Drakonid Spawner",
@@ -223,6 +273,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185631] = {
             [npcKeys.name] = "Corrupted Weapon",
@@ -231,6 +283,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185650] = {
             [npcKeys.name] = "Dream Breath Trigger",
@@ -239,6 +293,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185658] = {
             [npcKeys.name] = "Corrupted Weapon",
@@ -247,6 +303,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185746] = {
             [npcKeys.name] = "Bouncing Bolt",
@@ -255,6 +313,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185760] = {
             [npcKeys.name] = "Nightmare Brambles",
@@ -263,6 +323,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185859] = {
             [npcKeys.name] = "Wing Buffet Trigger",
@@ -271,6 +333,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [185868] = {
             [npcKeys.name] = "[DNT] Electricity Visual Trigger",
@@ -279,6 +343,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [186130] = {
             [npcKeys.name] = "[DNT] Ebonroc and Flamegor Controller",
@@ -287,6 +353,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [186348] = {
             [npcKeys.name] = "The Prophet Skeram",
@@ -295,6 +363,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [186506] = {
             [npcKeys.name] = "[DNT] Frost Tomb",
@@ -303,6 +373,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187162] = {
             [npcKeys.name] = "Eye of C'Thun",
@@ -311,6 +383,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187237] = {
             [npcKeys.name] = "Stalker",
@@ -319,6 +393,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187274] = {
             [npcKeys.name] = "Stalker",
@@ -327,6 +403,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187309] = {
             [npcKeys.name] = "Eye of C'Thun",
@@ -335,6 +413,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187327] = {
             [npcKeys.name] = "Claw Tentacle",
@@ -343,6 +423,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187345] = {
             [npcKeys.name] = "Eye Tentacle",
@@ -351,6 +433,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187346] = {
             [npcKeys.name] = "Giant Claw Tentacle",
@@ -359,6 +443,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187383] = {
             [npcKeys.name] = "AQ40 Bonus Difficulty Trigger",
@@ -367,6 +453,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187564] = {
             [npcKeys.name] = "AQ40 Bonus Difficulty Indicator",
@@ -375,6 +463,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187664] = {
             [npcKeys.name] = "Fungal Spore Cluster",
@@ -383,6 +473,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187724] = {
             [npcKeys.name] = "Mad Scientist",
@@ -391,6 +483,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187725] = {
             [npcKeys.name] = "Deathknight Captain",
@@ -399,6 +493,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187728] = {
             [npcKeys.name] = "Necropolis Acolyte",
@@ -407,6 +503,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187729] = {
             [npcKeys.name] = "Patchwork Golem",
@@ -415,6 +513,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187798] = {
             [npcKeys.name] = "Corrupted Weapon",
@@ -423,6 +523,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187801] = {
             [npcKeys.name] = "Corrupted Weapon",
@@ -431,6 +533,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187832] = {
             [npcKeys.name] = "Skeletal Hitching Post",
@@ -439,6 +543,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187978] = {
             [npcKeys.name] = "Thaddius Mechanic Stalker",
@@ -447,6 +553,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [187993] = {
             [npcKeys.name] = "Plagued Ghoul",
@@ -455,6 +563,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [188018] = {
             [npcKeys.name] = "Dread Stalker",
@@ -463,6 +573,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [188109] = {
             [npcKeys.name] = "Tentacle Portal",
@@ -471,6 +583,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [188110] = {
             [npcKeys.name] = "Tentacle Portal",
@@ -479,6 +593,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [188111] = {
             [npcKeys.name] = "Tentacle Portal",
@@ -487,6 +603,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [188119] = {
             [npcKeys.name] = "Claw Tentacle",
@@ -495,6 +613,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [188131] = {
             [npcKeys.name] = "Giant Claw Tentacle",
@@ -503,6 +623,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [188134] = {
             [npcKeys.name] = "Eye Tentacle",
@@ -511,6 +633,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [188147] = {
             [npcKeys.name] = "Tentacle Portal",
@@ -519,6 +643,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [188148] = {
             [npcKeys.name] = "Tentacle Portal",
@@ -527,6 +653,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [188170] = {
             [npcKeys.name] = "Giant Tentacle Portal",
@@ -535,6 +663,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [188178] = {
             [npcKeys.name] = "Tentacle Portal",
@@ -543,6 +673,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [188182] = {
             [npcKeys.name] = "Tentacle Portal",
@@ -551,6 +683,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [188183] = {
             [npcKeys.name] = "Giant Tentacle Portal",
@@ -559,6 +693,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [189047] = {
             [npcKeys.name] = "[DNT] Quick Sand",
@@ -567,6 +703,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [200571] = {
             [npcKeys.name] = "Artificer Terothordius",
@@ -575,6 +713,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [201722] = {
             [npcKeys.name] = "Ghamoo-ra",
@@ -583,6 +723,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [201854] = {
             [npcKeys.name] = "Cutty",
@@ -593,6 +735,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [12] = {{49.8, 52},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [201933] = {
             [npcKeys.name] = "Spellfrost Orb",
@@ -601,6 +745,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [202060] = {
             [npcKeys.name] = "Frozen Murloc",
@@ -612,6 +758,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [85] = {{66.2, 40},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [202079] = {
             [npcKeys.name] = "Shadowfiend",
@@ -620,6 +768,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [202093] = {
             [npcKeys.name] = "Polymorphed Apprentice",
@@ -627,9 +777,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 1,
             [npcKeys.zoneID] = 12,
             [npcKeys.spawns] = {
-                [12] = {{28.2, 83},{28.4, 82.4},{28.6, 82.2},{28.6, 82.8},{29.4, 83.6},{29.6, 83.4},{29.6, 84},{29.6, 84.6},{30.8, 90.2},{31, 90.6},{31.2, 68.4},{31.2, 69},{31.2, 87},{31.6, 90},{34.4, 83.2},{34.8, 82.2},{35, 82.8},{37.2, 77.6},{37.4, 77.2},{37.6, 77.6},{38, 77},{38.2, 76.4},{38.6, 76},{40.4, 89.4},{40.4, 90},{40.6, 87.6},{40.8, 89.4},{40.8, 89.8},{44.2, 56.4},{44.4, 57},{44.4, 57.6},{44.6, 56.8},{44.6, 57.6},{44.8, 56.2},{45.8, 87},{46, 86.4},{46.2, 70.8},{46.4, 69.4},{46.4, 70.2},{46.6, 70.4},{46.8, 70.6},{48.4, 52.4},{48.4, 54.2},{48.4, 54.8},{48.4, 81.4},{48.6, 51.4},{48.6, 53.6},{48.6, 55},{48.8, 51.8},{48.8, 53.4},{49, 81.2},{49.2, 81.6},{49.4, 73.4},{49.4, 73.6},{49.8, 73.4},{50, 73.6},{51.4, 84},{56.2, 80.4},{56.2, 80.6},{56.6, 80.4},{56.6, 81},{58.4, 59.8},{58.8, 58.8},{58.8, 60},{61.4, 76.8},{61.6, 77},{62, 77.6},{62.4, 63.2},{62.4, 63.6},{62.8, 63.8},{63, 62.4},{63.2, 63},{63.6, 62.8},{65.4, 42.4},{65.6, 42.4},{65.8, 41.2},{67, 82.6},{67.2, 81.2},{67.2, 81.8},{68.8, 74.6},{69.4, 76.2},{70, 75.4},{70, 75.6},{70.2, 64.2},{70.4, 63.4},{70.6, 63.2},{70.6, 63.6},{73.8, 40.2},{74, 41},{77.4, 39.4},{77.4, 40},{77.6, 39.4},{77.6, 39.6},{79.2, 79.8},{79.4, 64},{79.4, 65.6},{79.4, 78.4},{79.4, 78.8},{79.6, 64.2},{79.6, 79},{79.8, 64.6},{80.4, 49.8},{80.4, 50.6},{80.6, 50.4},{80.8, 49.4},{80.8, 50.6},{82.4, 71},{82.4, 86.8},{82.6, 86.2},{82.8, 70.6},{83.2, 70.2},{83.4, 86.8},{83.6, 82.8},{83.8, 84.6},{84, 84},{85.2, 66},{85.8, 65.4},{85.8, 66},{85.8, 67.2},{86.6, 65.6},{86.8, 82.2},{86.8, 82.6},{87.6, 82.2},{90.2, 77.2},{90.4, 77.6},{90.6, 77.2},},
+                [12] = {{28.2, 82.8},{28.4, 82.4},{28.6, 83.2},{28.8, 82.4},{29.4, 83.6},{29.6, 83.2},{29.6, 84},{29.6, 84.6},{30.4, 90.4},{30.4, 90.6},{30.8, 90.2},{31, 90.6},{31.2, 68.4},{31.2, 68.8},{31.2, 87},{31.6, 90},{34.4, 83.2},{34.6, 83.2},{34.8, 82.2},{34.8, 84},{37.2, 77.6},{37.4, 77.2},{37.6, 77.6},{38, 77},{38.2, 76.4},{38.6, 76},{40.4, 82.8},{40.4, 89.4},{40.4, 90},{40.6, 87.6},{40.6, 89.4},{40.8, 89.8},{44.4, 56.4},{44.4, 57},{44.4, 57.6},{44.6, 56.8},{44.6, 57.6},{44.8, 56.2},{45.8, 87},{46, 86.4},{46.2, 70.8},{46.4, 69.4},{46.4, 70.2},{46.6, 70.4},{46.6, 70.8},{48.4, 52.4},{48.4, 52.8},{48.4, 54.2},{48.4, 54.8},{48.4, 81.4},{48.6, 51.4},{48.6, 52.6},{48.6, 53.6},{48.6, 55},{48.6, 81.2},{48.8, 51.8},{49, 81.6},{49.2, 72.8},{49.4, 73.6},{49.8, 73.4},{49.8, 73.6},{51.4, 84},{56, 80.8},{56.2, 81.6},{56.4, 80.2},{56.6, 80.4},{56.6, 80.8},{58.4, 59.8},{58.8, 60},{59, 59},{61.4, 77.4},{61.6, 77},{61.8, 77.6},{62.4, 63.2},{62.4, 63.6},{62.8, 63.8},{63, 62.4},{63.2, 63},{63.6, 62.8},{65.4, 42.4},{65.6, 42.4},{65.6, 42.8},{65.8, 41.2},{67, 82.6},{67.2, 81.2},{67.2, 81.8},{68.8, 74.6},{69.4, 76.2},{69.8, 75.8},{70, 75.4},{70.2, 63.4},{70.2, 64.2},{70.6, 63.2},{70.6, 63.6},{73.4, 41.2},{73.8, 40.4},{74, 41},{77.4, 39.4},{77.4, 40},{77.6, 39.4},{77.6, 39.6},{78.4, 75.2},{79.2, 79.8},{79.4, 64.2},{79.4, 65.6},{79.4, 78.4},{79.4, 78.8},{79.6, 64.2},{79.6, 79},{79.8, 64.6},{80, 65.8},{80.4, 49.8},{80.4, 50.6},{80.6, 50.4},{80.8, 49.4},{80.8, 50.6},{82.4, 70.8},{82.4, 86},{82.4, 86.8},{82.6, 86.2},{82.8, 70.6},{83, 70.4},{83.4, 83.4},{83.4, 86.8},{83.6, 82.8},{83.8, 84.6},{84, 84},{85.4, 66},{85.8, 65.4},{85.8, 67.2},{86, 65.6},{86.6, 65.6},{86.8, 82.6},{87, 82.2},{87.6, 82.2},{90.2, 77.2},{90.4, 77.6},{90.6, 77.2},{90.6, 77.8},{90.8, 76.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [202116] = {
             [npcKeys.name] = "Cut-throat Mugger",
@@ -638,9 +790,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 1519,
             [npcKeys.spawns] = {
                 [1519] = {{57.4, 28.8},{61.4, 29.2},{61.8, 29.2},{63.2, 29.6},},
-                [1537] = {{51.4, 10.6},{51.4, 11.8},{51.8, 12.4},{51.8, 12.8},{52.6, 9.6},},
+                [1537] = {{49.2, 12.6},{51.4, 10.6},{51.4, 11.8},{51.8, 12.4},{51.8, 12.8},{52, 10.6},{52.6, 9.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [202387] = {
             [npcKeys.name] = "Eye of the Void",
@@ -649,6 +803,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [202390] = {
             [npcKeys.name] = "Homunculus",
@@ -657,6 +813,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [202391] = {
             [npcKeys.name] = "Homunculus",
@@ -665,6 +823,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [202392] = {
             [npcKeys.name] = "Homunculus",
@@ -673,6 +833,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [202699] = {
             [npcKeys.name] = "Baron Aquanis",
@@ -681,6 +843,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [202838] = {
             [npcKeys.name] = "Fathom Elemental",
@@ -691,6 +855,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [202839] = {
             [npcKeys.name] = "Riptide Elemental",
@@ -701,6 +867,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [202840] = {
             [npcKeys.name] = "Torrent Elemental",
@@ -711,6 +879,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [203079] = {
             [npcKeys.name] = "Wandering Swordsman",
@@ -718,21 +888,25 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 7,
             [npcKeys.zoneID] = 1,
             [npcKeys.spawns] = {
-                [1] = {{51.8, 48.8},{53.4, 47.4},{53.4, 47.8},{53.6, 47.6},{53.8, 47.2},},
-                [12] = {{22.2, 73.2},{22.2, 73.6},{22.4, 72.4},{22.6, 73.2},{24.2, 71},{24.4, 69.4},{24.6, 75.2},{25, 69.4},{25.2, 70},{25.2, 70.6},{25.6, 69.6},{25.6, 74.2},{26.2, 72.2},{29.8, 74.8},{29.8, 76.4},{30.2, 73.2},{30.2, 73.6},{30.6, 74.2},{35.6, 79.2},{36.2, 80.2},{36.2, 80.6},{36.2, 82.4},{37.6, 78.6},{38.4, 75.4},{38.4, 75.6},{38.4, 76.8},{38.6, 75.2},{38.6, 75.6},{38.8, 74.4},{39.8, 75.2},{40.6, 74.4},{40.8, 74.6},{41.6, 76.6},},
-                [14] = {{36, 47.4},{36, 48},{37, 46.8},{41, 49.4},{41.2, 49.6},{55, 39.4},{55.8, 38.4},{56, 38.6},{56.4, 27},{56.6, 26.6},{56.8, 21.4},{56.8, 21.6},},
+                [1] = {{50.2, 49},{51.8, 48.8},{53.4, 47.4},{53.4, 47.8},{53.6, 47.4},{53.6, 47.6},},
+                [12] = {{22.2, 73.2},{22.2, 73.6},{22.4, 72.4},{23, 73.2},{24, 75.2},{24.2, 71},{24.4, 69.4},{24.6, 75.2},{25.2, 70},{25.2, 70.6},{25.4, 69.2},{25.6, 69.6},{25.6, 74.2},{26.2, 72.2},{28.8, 72.2},{29.8, 74.8},{29.8, 76.4},{30.2, 73.2},{30.2, 73.6},{30.6, 73.4},{30.6, 74.2},{35.6, 79.2},{35.6, 83.6},{36, 80.4},{36.2, 80.6},{36.2, 82.4},{36.6, 79.8},{36.8, 83.4},{37, 80.8},{37.6, 78.6},{38.4, 75.4},{38.4, 75.6},{38.4, 76.8},{38.6, 75.4},{38.6, 75.6},{38.8, 74.4},{39.8, 75.2},{40.4, 73.6},{40.6, 74.4},{40.8, 74.6},{41.6, 76.6},},
+                [14] = {{36, 47.4},{36, 47.8},{37, 46.8},{41, 49.4},{41.2, 49.6},{41.8, 48.8},{55, 39.4},{55.8, 27.8},{56, 38.2},{56, 38.6},{56.2, 27.2},{56.4, 21.4},{56.6, 21.4},{56.6, 26.6},{56.6, 37.4},{56.8, 21.6},},
                 [141] = {{39.6, 37.6},{39.8, 37.4},{39.8, 69.4},{39.8, 69.6},{43.8, 77},{54.8, 66},{62.6, 71.8},},
-                [215] = {{37.8, 55},{40.4, 53.2},{40.6, 53},{40.6, 53.8},{45.4, 36.4},{45.4, 37},{45.6, 36.4},{51.8, 39.2},{60.2, 67.4},{60.2, 67.6},},
+                [215] = {{38, 55},{40.4, 53.2},{40.6, 53},{40.6, 53.8},{45.4, 36.4},{45.4, 37},{45.6, 36.4},{46, 37.2},{51.8, 39.2},{60.2, 67.4},{60.2, 67.6},},
             },
             [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [203138] = {
             [npcKeys.name] = "Anvilrage Overseer",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
+            [npcKeys.minLevel] = 48,
+            [npcKeys.maxLevel] = 49,
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [203139] = {
             [npcKeys.name] = "Son of Arugal",
@@ -740,9 +914,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 130,
             [npcKeys.spawns] = {
-                [130] = {{35.4, 19.2},{36, 18.2},{36.2, 19.8},{36.4, 15.2},{36.4, 20.6},{36.6, 15.6},{37, 16.8},{37.4, 15.4},{37.6, 15.8},{37.8, 25.8},{38, 14.2},{38, 28},{38.2, 16.8},{38.4, 14.8},{38.6, 27.2},{39, 17.2},{39.2, 15.2},{39.2, 16.4},{39.2, 26},{39.8, 15.4},{39.8, 18},{40, 16.4},{40, 28.2},{40.2, 30.8},{40.4, 16.6},{40.4, 29.2},{41, 19.4},{41, 19.6},{41.2, 29.4},{41.4, 29.6},{41.6, 18.2},{41.6, 21.6},{41.8, 20},{42.2, 20.8},{42.4, 30.2},{42.6, 21.4},{43, 22},{43, 29.6},{43.6, 19},{43.6, 21.4},{43.6, 21.8},{43.6, 28},{44.2, 29.2},{44.2, 78.4},{44.4, 18.2},{44.4, 19.8},{45, 29},{45, 29.8},{45.2, 17},{45.4, 19},{45.4, 28.2},{45.4, 34.2},{45.6, 29.2},{45.6, 83.4},{45.8, 21.4},{46, 79},{46.4, 26.2},{46.4, 27.6},{46.4, 32.2},{46.4, 33.6},{46.4, 84.2},{46.8, 33.4},{47, 20.6},{47, 83.6},{47.2, 32.2},{47.2, 83.4},{47.4, 34.2},{47.4, 34.8},{47.6, 31.8},{47.6, 33.6},{47.8, 31.4},{47.8, 32.8},{48, 34.8},{48.2, 26},{48.2, 38.4},{48.4, 20.8},{48.6, 31.6},{48.6, 34.8},{48.8, 31},{49, 26.2},{49.2, 20.8},{49.2, 25.4},{49.4, 36.4},{49.8, 76.4},{49.8, 79.2},{49.8, 83.2},{50.6, 34.8},{51, 78.4},{51.6, 76.4},{51.6, 77.8},{52.2, 77.4},{52.6, 76.2},{53.2, 76.8},},
+                [130] = {{35.4, 19.2},{35.6, 18.8},{36, 18.2},{36.2, 19.8},{36.2, 22.2},{36.4, 15.2},{36.4, 20.6},{36.6, 15.6},{37.4, 15.4},{37.4, 16.8},{37.6, 15.8},{38, 14.2},{38, 28},{38.2, 16.8},{38.4, 14.8},{38.4, 25.6},{39, 17.2},{39.2, 15.2},{39.2, 16.4},{39.2, 26},{39.2, 27.2},{39.8, 15.4},{39.8, 18},{39.8, 27},{39.8, 31},{40, 16.4},{40, 28.2},{40.4, 16.6},{40.4, 29.2},{41, 19.4},{41, 19.6},{41.2, 29.4},{41.4, 29.6},{41.6, 18.2},{41.6, 21.6},{41.8, 20},{42.2, 20.8},{42.4, 30.2},{42.6, 21.4},{42.6, 28.6},{43, 22},{43.4, 30.4},{43.6, 19},{43.6, 21.4},{43.6, 21.8},{43.6, 28},{43.6, 29.6},{44.2, 29},{44.2, 78.4},{44.4, 18.2},{44.4, 19.8},{45, 29},{45, 29.8},{45, 81.6},{45.2, 17},{45.4, 19},{45.4, 28.2},{45.4, 34.2},{45.6, 29.2},{45.6, 83.4},{45.8, 21.4},{46, 27.4},{46, 79},{46.4, 26.2},{46.4, 27.6},{46.4, 32.2},{46.4, 33.6},{46.4, 84.2},{46.8, 33.4},{47, 17.8},{47, 20.6},{47, 26.8},{47, 83.8},{47.2, 19.8},{47.2, 32.2},{47.2, 83.4},{47.4, 34.2},{47.4, 34.6},{47.6, 33.4},{47.6, 33.6},{47.8, 31.4},{48, 34.8},{48.2, 26},{48.2, 38.4},{48.4, 20.8},{48.4, 25.4},{48.4, 32.4},{48.6, 31.6},{48.6, 34.8},{48.8, 26.6},{48.8, 31},{49, 18.8},{49, 26.2},{49.2, 20.8},{49.2, 22.6},{49.2, 25.4},{49.2, 33.2},{49.4, 36.4},{49.6, 23.4},{49.8, 17.2},{49.8, 76.4},{49.8, 79.2},{49.8, 83.2},{50, 25},{50.4, 36.6},{50.6, 34.8},{50.6, 35.8},{51, 78.4},{51.6, 76.4},{51.6, 77.8},{52, 72},{52.2, 77.4},{52.6, 76.2},{52.8, 74.2},{53.4, 76.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [203147] = {
             [npcKeys.name] = "Whirlpool",
@@ -751,14 +927,20 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [203218] = {
             [npcKeys.name] = "Giant Whirlpool",
             [npcKeys.minLevel] = 0,
             [npcKeys.maxLevel] = 0,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.zoneID] = 719,
+            [npcKeys.spawns] = {
+                [719] = {{-1, -1},},
+            },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [203226] = {
             [npcKeys.name] = "Viktoria Woods",
@@ -766,9 +948,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 30,
             [npcKeys.zoneID] = 1519,
             [npcKeys.spawns] = {
-                [1519] = {{69.4, 50},{69.4, 50.6},{69.6, 50.6},{69.8, 50},},
+                [1519] = {{69.4, 50},{69.6, 50.6},{69.8, 50},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [203279] = {
             [npcKeys.name] = "Riptide Essence",
@@ -777,6 +961,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [203475] = {
             [npcKeys.name] = "Liv Bradford",
@@ -784,9 +970,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 30,
             [npcKeys.zoneID] = 1519,
             [npcKeys.spawns] = {
-                [1519] = {{22.4, 63.4},{22.4, 64.4},{22.4, 64.6},{22.6, 64.2},{22.6, 64.6},},
+                [1519] = {{22.4, 63.4},{22.4, 64.4},{22.4, 64.6},{22.6, 63.4},{22.6, 64.2},{22.6, 64.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [203478] = {
             [npcKeys.name] = "Stuart",
@@ -794,9 +982,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 10,
             [npcKeys.zoneID] = 1519,
             [npcKeys.spawns] = {
-                [1519] = {{21.2, 61},{21.4, 58.6},{21.4, 60.2},{21.4, 61.8},{21.4, 62.6},{21.4, 63.6},{21.6, 62.6},{21.8, 57.6},{21.8, 62.4},{22, 53.8},{22, 58.6},{22, 65.2},{22.2, 63.6},{22.6, 54.2},{23, 56.4},{23.2, 53.2},{29.4, 51},},
+                [1519] = {{19.8, 57.4},{20.6, 57.6},{21.2, 61},{21.4, 57.4},{21.4, 58.6},{21.4, 60.2},{21.4, 61.8},{21.4, 62.6},{21.4, 63.6},{21.6, 62.6},{21.8, 57.6},{21.8, 60.2},{21.8, 62.4},{22, 53.8},{22, 56.6},{22, 58.6},{22, 65.2},{22.2, 60.8},{22.2, 63.6},{22.4, 55.6},{22.6, 54.2},{23, 56.4},{23, 63},{23.2, 53.2},{29.4, 51},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [203694] = {
             [npcKeys.name] = "Riding Lobster (Dead)",
@@ -805,6 +995,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204068] = {
             [npcKeys.name] = "Lady Sarevess",
@@ -813,6 +1005,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204070] = {
             [npcKeys.name] = "Soboz",
@@ -821,11 +1015,13 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 1,
             [npcKeys.spawns] = {
                 [1] = {{41.2, 36.2},{42, 36.6},{42.2, 35.4},{42.2, 35.6},{42.8, 35.8},},
-                [14] = {{67.4, 87.8},{67.4, 89.2},{67.6, 87.8},{67.8, 88.6},},
-                [1497] = {{22.2, 42.6},{22.8, 42.8},{23, 38.4},{23.2, 41.2},{23.2, 42.2},{23.6, 37.4},{23.6, 38.4},{23.6, 39.4},{24, 39.6},{24, 41.4},{24, 41.6},},
-                [1519] = {{24.8, 77.8},{25, 77.4},{25.6, 78},{25.8, 76.2},},
+                [14] = {{67.4, 87.8},{67.4, 89.2},{67.6, 87.4},{67.6, 87.8},{67.8, 88.6},},
+                [1497] = {{22.2, 42.6},{22.6, 43.2},{23, 38.4},{23.2, 41.2},{23.2, 42.2},{23.6, 37.4},{23.6, 38.4},{23.8, 39.4},{24, 39.6},{24, 41.4},{24, 41.6},{24.6, 40.6},},
+                [1519] = {{25, 77.4},{25, 77.6},{25.6, 78},{25.8, 76.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204091] = {
             [npcKeys.name] = "Blackfathom Elite",
@@ -836,6 +1032,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204253] = {
             [npcKeys.name] = "Blackfathom Elite Spawner",
@@ -844,6 +1042,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204256] = {
             [npcKeys.name] = "Damien Kane",
@@ -854,6 +1054,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [12] = {{44, 66.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204346] = {
             [npcKeys.name] = "Treant",
@@ -862,6 +1064,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204503] = {
             [npcKeys.name] = "Dead Acolyte",
@@ -872,6 +1076,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [12] = {{56.4, 57.4},{56.4, 57.8},{56.6, 57.4},{56.6, 57.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204545] = {
             [npcKeys.name] = "Tim's Stalker 01",
@@ -880,6 +1086,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204645] = {
             [npcKeys.name] = "Blackfathom Elite",
@@ -890,6 +1098,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204675] = {
             [npcKeys.name] = "Rune Scrying Stalker",
@@ -898,6 +1108,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204758] = {
             [npcKeys.name] = "Exploded Corpse",
@@ -906,6 +1118,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204827] = {
             [npcKeys.name] = "Adventurer's Remains",
@@ -916,10 +1130,12 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [1] = {{43, 49.4},{43, 49.6},},
                 [12] = {{52.2, 84.4},{52.2, 84.6},},
                 [14] = {{48, 79.4},{48, 79.6},},
-                [141] = {{33.6, 35.6},},
+                [141] = {{33.6, 35.4},{33.6, 35.6},},
                 [215] = {{60.4, 33.4},{60.4, 33.6},},
             },
             [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204921] = {
             [npcKeys.name] = "Gelihast",
@@ -928,6 +1144,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204937] = {
             [npcKeys.name] = "Adventurer's Spirit",
@@ -942,6 +1160,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [215] = {{60.2, 33.4},{60.4, 33.6},},
             },
             [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204940] = {
             [npcKeys.name] = "Puddle",
@@ -950,6 +1170,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204960] = {
             [npcKeys.name] = "Chomp",
@@ -958,6 +1180,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204961] = {
             [npcKeys.name] = "Snarly",
@@ -966,6 +1190,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204962] = {
             [npcKeys.name] = "Tidelurker Mrrglrlr",
@@ -974,6 +1200,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [204989] = {
             [npcKeys.name] = "Wounded Adventurer",
@@ -984,6 +1212,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [12] = {{61.8, 47},{61.8, 47.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [205153] = {
             [npcKeys.name] = "Ada Gelhardt",
@@ -991,9 +1221,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 10,
             [npcKeys.zoneID] = 10,
             [npcKeys.spawns] = {
-                [10] = {{4.2, 28.6},{4.4, 28.2},{4.6, 27.4},{4.6, 28.2},{4.6, 28.6},},
+                [10] = {{3.4, 26.6},{4.2, 28.6},{4.4, 28.2},{4.6, 27.4},{4.6, 28.2},{4.6, 28.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [205278] = {
             [npcKeys.name] = "Brother Romulus",
@@ -1001,9 +1233,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 30,
             [npcKeys.zoneID] = 1519,
             [npcKeys.spawns] = {
-                [1519] = {{38.2, 28.2},{38.4, 29},{38.6, 27.4},{38.6, 28.4},{38.6, 28.8},},
+                [1519] = {{38.2, 28.2},{38.2, 29},{38.4, 27.4},{38.6, 27.4},{38.6, 28.4},{38.6, 28.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [205382] = {
             [npcKeys.name] = "Mokwa",
@@ -1011,9 +1245,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 7,
             [npcKeys.zoneID] = 215,
             [npcKeys.spawns] = {
-                [215] = {{35, 57.6},{35.4, 57.2},{35.6, 56.8},{35.6, 57.6},{36.6, 56.6},{37.8, 55.6},{37.8, 56.8},},
+                [215] = {{35, 57.6},{35.2, 57.2},{35.6, 57.6},{35.8, 57.2},{36.6, 56.6},{37.8, 55.6},{37.8, 56.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [205383] = {
             [npcKeys.name] = "Hunter's Vision",
@@ -1022,6 +1258,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [205422] = {
             [npcKeys.name] = "Hunter's Vision",
@@ -1030,6 +1268,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [205423] = {
             [npcKeys.name] = "Hunter's Vision",
@@ -1038,6 +1278,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [205635] = {
             [npcKeys.name] = "Takoda Sunmane",
@@ -1045,9 +1287,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 8,
             [npcKeys.zoneID] = 215,
             [npcKeys.spawns] = {
-                [215] = {{46.2, 60.2},},
+                [215] = {{46.2, 60.2},{46.2, 60.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [205692] = {
             [npcKeys.name] = "Rustling Bush",
@@ -1058,16 +1302,20 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [215] = {{58.8, 54.2},{59, 54.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [205700] = {
             [npcKeys.name] = "Venture Co. Poacher",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
+            [npcKeys.minLevel] = 6,
+            [npcKeys.maxLevel] = 6,
             [npcKeys.zoneID] = 215,
             [npcKeys.spawns] = {
                 [215] = {{58.2, 54},{58.6, 54.8},{58.8, 54.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [205724] = {
             [npcKeys.name] = "Blackfathom Tendril",
@@ -1078,6 +1326,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [205729] = {
             [npcKeys.name] = "Boarton Shadetotem",
@@ -1085,9 +1335,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 4,
             [npcKeys.zoneID] = 1638,
             [npcKeys.spawns] = {
-                [1638] = {{39.4, 64.4},{39.4, 65.2},{39.4, 66.4},{39.4, 66.6},{39.6, 64.4},{39.6, 65.4},{39.6, 65.8},},
+                [1638] = {{39.4, 64.4},{39.4, 65.2},{39.4, 66.2},{39.4, 66.6},{39.6, 64.4},{39.6, 65.4},{39.6, 65.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = {76156,76160,76240},
+            [npcKeys.questEnds] = {76156,76160,76240},
         },
         [205733] = {
             [npcKeys.name] = "Blackfathom Pearl",
@@ -1096,6 +1348,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [205765] = {
             [npcKeys.name] = "Murloc Egg",
@@ -1104,6 +1358,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [205767] = {
             [npcKeys.name] = "Void Murloc",
@@ -1112,6 +1368,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [205805] = {
             [npcKeys.name] = "Water Elemental",
@@ -1120,6 +1378,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [206152] = {
             [npcKeys.name] = "SoD Test Dummy 25",
@@ -1128,6 +1388,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [206153] = {
             [npcKeys.name] = "SoD Test Dummy 26",
@@ -1136,6 +1398,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [206154] = {
             [npcKeys.name] = "SoD Test Dummy 27",
@@ -1144,6 +1408,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [206155] = {
             [npcKeys.name] = "SoD Test Dummy 28",
@@ -1152,6 +1418,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [206217] = {
             [npcKeys.name] = "Bubble Beam Stalker",
@@ -1160,6 +1428,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [206245] = {
             [npcKeys.name] = "Unleashed Nature Spirit",
@@ -1167,10 +1437,12 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 7,
             [npcKeys.zoneID] = 141,
             [npcKeys.spawns] = {
-                [141] = {{66.4, 57.6},{67, 58},{67, 58.6},},
-                [215] = {{37.2, 49.8},{37.4, 49.4},{37.8, 49.4},{37.8, 49.6},},
+                [141] = {{66.4, 57.6},{67, 56.8},{67, 58},{67, 58.6},},
+                [215] = {{37.2, 49.8},{37.4, 49.4},{37.6, 49.6},{37.8, 49.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [206248] = {
             [npcKeys.name] = "Wooden Effigy",
@@ -1179,9 +1451,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 141,
             [npcKeys.spawns] = {
                 [141] = {{66.8, 58},},
-                [215] = {{37.4, 49.4},{37.4, 49.6},{37.6, 49.6},{37.8, 49.4},},
+                [215] = {{37.4, 49.4},{37.4, 49.6},{37.8, 49.4},{37.8, 49.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207010] = {
             [npcKeys.name] = "Telemachus",
@@ -1190,6 +1464,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207356] = {
             [npcKeys.name] = "Lorgus Jett",
@@ -1198,6 +1474,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207358] = {
             [npcKeys.name] = "Blackfathom Tide Priestess",
@@ -1208,6 +1486,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207359] = {
             [npcKeys.name] = "Blackfathom Tide Priestess",
@@ -1218,6 +1498,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207367] = {
             [npcKeys.name] = "Blackfathom Tide Priestess",
@@ -1228,6 +1510,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207397] = {
             [npcKeys.name] = "Corrupted Windfury Totem",
@@ -1238,6 +1522,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207457] = {
             [npcKeys.name] = "Corrupted Lightning Shield Totem",
@@ -1248,16 +1534,20 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207515] = {
             [npcKeys.name] = "Lurkmane",
-            [npcKeys.minLevel] = 7,
+            [npcKeys.minLevel] = 6,
             [npcKeys.maxLevel] = 7,
             [npcKeys.zoneID] = 215,
             [npcKeys.spawns] = {
-                [215] = {{30.6, 61.2},{30.8, 61.6},},
+                [215] = {{30.6, 61.4},{30.8, 61.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207520] = {
             [npcKeys.name] = "Invisible Stalker",
@@ -1266,6 +1556,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207527] = {
             [npcKeys.name] = "Corrupted Molten Fury",
@@ -1274,6 +1566,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207576] = {
             [npcKeys.name] = "Corrupted Molten Fury Totem",
@@ -1284,6 +1578,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207577] = {
             [npcKeys.name] = "Lunar Stone",
@@ -1292,9 +1588,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 141,
             [npcKeys.spawns] = {
                 [141] = {{52.8, 79.8},},
-                [215] = {{35, 69.4},{35.2, 69.6},{35.4, 68.2},{35.4, 70.6},{35.6, 70.4},{35.6, 70.6},{35.8, 68},},
+                [215] = {{35, 69.4},{35.2, 69.6},{35.4, 68.2},{35.4, 70.6},{35.6, 70.4},{35.6, 70.6},{35.8, 68.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207588] = {
             [npcKeys.name] = "Mulgore Lunar Stone Invisible Stalker",
@@ -1303,6 +1601,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207637] = {
             [npcKeys.name] = "Vateya Timberhoof",
@@ -1313,6 +1613,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [215] = {{46.4, 61.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207743] = {
             [npcKeys.name] = "Netali Proudwind",
@@ -1320,9 +1622,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 30,
             [npcKeys.zoneID] = 1638,
             [npcKeys.spawns] = {
-                [1638] = {{28.2, 19},{28.4, 18.2},{28.6, 18.2},{28.6, 18.6},},
+                [1638] = {{28.4, 18.2},{28.4, 19.2},{28.6, 18.2},{28.8, 19.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207754] = {
             [npcKeys.name] = "Mooart",
@@ -1330,9 +1634,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 10,
             [npcKeys.zoneID] = 1638,
             [npcKeys.spawns] = {
-                [1638] = {{26.4, 18.4},{26.4, 18.8},{26.4, 20},{26.6, 19.8},{27, 18},{27, 18.8},{28, 21.4},{28.2, 22.4},},
+                [1638] = {{26.4, 18.4},{26.4, 18.8},{26.4, 20},{26.6, 19},{26.6, 19.8},{27, 18.4},{28, 21.4},{28.2, 22.4},{28.6, 23.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [207957] = {
             [npcKeys.name] = "Vahi Bonesplitter",
@@ -1343,6 +1649,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [14] = {{53, 43.4},{53, 43.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208023] = {
             [npcKeys.name] = "Gru'ark",
@@ -1350,9 +1658,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 10,
             [npcKeys.zoneID] = 1637,
             [npcKeys.spawns] = {
-                [1637] = {{49.6, 65},{55.8, 57},{57, 44.6},{57.6, 55.4},{57.6, 57},{58, 48.4},{58, 48.8},{58.2, 50.2},{58.2, 51.2},{58.4, 52},{58.4, 52.6},{58.4, 56.2},{58.6, 51.4},{58.6, 51.8},{58.6, 53.8},{58.8, 53.4},{61.4, 44.4},},
+                [1637] = {{49.6, 65},{55.8, 57},{57, 44.6},{57.6, 55.4},{57.6, 57},{58, 48.4},{58, 48.8},{58.2, 50.2},{58.2, 51.2},{58.2, 54.4},{58.4, 52},{58.4, 52.6},{58.4, 56.2},{58.6, 51.4},{58.6, 51.8},{58.8, 53.4},{58.8, 53.6},{61.4, 44.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208036] = {
             [npcKeys.name] = "Ba'so",
@@ -1363,6 +1673,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [14] = {{51.8, 58.6},{52, 58.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208071] = {
             [npcKeys.name] = "Back-alley Mugger",
@@ -1373,6 +1685,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [1637] = {{55.8, 44.6},{56.2, 42.8},{56.4, 43.6},{58.8, 50.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208124] = {
             [npcKeys.name] = "Raluk",
@@ -1380,9 +1694,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 7,
             [npcKeys.zoneID] = 14,
             [npcKeys.spawns] = {
-                [14] = {{67.6, 73},{67.8, 68.8},{68.4, 71.4},{68.4, 71.6},{68.6, 71.4},{68.6, 71.6},{71, 72},},
+                [14] = {{67.6, 73},{67.8, 68.8},{68.4, 71.4},{68.4, 71.6},{68.4, 74.2},{68.6, 71.4},{68.6, 71.6},{71, 72},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208127] = {
             [npcKeys.name] = "Hunter's Vision",
@@ -1391,6 +1707,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208128] = {
             [npcKeys.name] = "Hunter's Vision",
@@ -1399,6 +1717,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208158] = {
             [npcKeys.name] = "Hunter's Vision",
@@ -1407,6 +1727,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208179] = {
             [npcKeys.name] = "Rustling Bush",
@@ -1417,6 +1739,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [14] = {{40.4, 52},{40.6, 52},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208180] = {
             [npcKeys.name] = "Razormane Poacher",
@@ -1424,10 +1748,12 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 8,
             [npcKeys.zoneID] = 1,
             [npcKeys.spawns] = {
-                [1] = {{28.8, 49.4},{28.8, 49.8},{29.6, 50.6},},
-                [14] = {{40.2, 51.4},{40.4, 52},{40.6, 51.4},{40.6, 52},{40.6, 52.6},{41.8, 51},},
+                [1] = {{28.8, 49.8},{29, 49.4},{29.6, 50.6},},
+                [14] = {{40.4, 51.4},{40.4, 52},{40.6, 51.4},{40.6, 52},{40.6, 52.6},{41.6, 51},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208184] = {
             [npcKeys.name] = "Razzil",
@@ -1438,6 +1764,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [14] = {{52.2, 44},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208196] = {
             [npcKeys.name] = "Gillgar",
@@ -1445,9 +1773,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 7,
             [npcKeys.zoneID] = 85,
             [npcKeys.spawns] = {
-                [85] = {{25.4, 47.4},{25.4, 48.4},{25.4, 48.8},{25.6, 48.2},{25.6, 48.6},{26.2, 47},{26.4, 46.4},{26.6, 46.8},{27.2, 46.4},{27.6, 46.4},{29, 46.6},{29.8, 46},},
+                [85] = {{25.4, 47.4},{25.4, 48.4},{25.4, 48.8},{25.6, 48.2},{25.6, 48.6},{26.2, 47.4},{26.4, 46.4},{26.6, 46.8},{27.2, 46.4},{27.6, 46.4},{29, 46.6},{29.6, 46.6},{29.8, 46},{31, 48},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208226] = {
             [npcKeys.name] = "Darmak Bloodhowl",
@@ -1458,6 +1788,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [14] = {{54.4, 41.4},{54.6, 41.4},{54.6, 41.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208275] = {
             [npcKeys.name] = "Frozen Makrura",
@@ -1468,6 +1800,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [14] = {{58.6, 45.4},{58.6, 45.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208307] = {
             [npcKeys.name] = "Serpent Loa",
@@ -1479,6 +1813,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [17] = {{51.4, 29.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208309] = {
             [npcKeys.name] = "Loa Altar",
@@ -1490,6 +1826,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [17] = {{51.4, 29.4},{51.6, 29.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208518] = {
             [npcKeys.name] = "Gaeriyan",
@@ -1500,6 +1838,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [440] = {{54, 23.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208546] = {
             [npcKeys.name] = "Brazier of Embersight",
@@ -1508,6 +1848,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208565] = {
             [npcKeys.name] = "Altar of the Light",
@@ -1516,11 +1858,13 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 1,
             [npcKeys.spawns] = {
                 [1] = {{28.8, 66.4},{28.8, 66.6},},
-                [38] = {{37.4, 46.2},{37.6, 46.2},},
+                [38] = {{37.4, 46.2},},
                 [40] = {{52.6, 52.4},{52.8, 52.8},},
-                [1537] = {{31.2, 19},{31.2, 21.4},{31.4, 20.4},{31.4, 21.6},{32, 18.2},{32, 20.4},{32, 20.6},{32.2, 21.8},{32.6, 21.4},{32.6, 21.6},{32.8, 19},{32.8, 20},},
+                [1537] = {{31.4, 21.6},{32.2, 20.6},{32.2, 21.8},{32.6, 21.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208619] = {
             [npcKeys.name] = "Dorac Graves",
@@ -1528,9 +1872,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 50,
             [npcKeys.zoneID] = 1497,
             [npcKeys.spawns] = {
-                [1497] = {{47.2, 70.4},{47.4, 70.8},{47.8, 70.2},{47.8, 71.6},{48, 69.4},{48, 70.6},{48.6, 71.6},},
+                [1497] = {{47.2, 70.4},{47.2, 71.2},{47.8, 70.2},{47.8, 71.6},{48, 70.6},{48.4, 69.4},{48.6, 71.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208638] = {
             [npcKeys.name] = "Fyodi",
@@ -1538,9 +1884,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 7,
             [npcKeys.zoneID] = 1,
             [npcKeys.spawns] = {
-                [1] = {{28.4, 42.8},{28.4, 43.6},{28.6, 43.8},{28.8, 38.4},{28.8, 44.8},{29.4, 39},{29.4, 42.6},{29.6, 38.4},{29.6, 42.2},{29.6, 42.8},{30, 39},{30.2, 43.6},{30.4, 36.6},{30.4, 40.4},{30.4, 41.2},{30.6, 39.4},{30.8, 39.6},{31.6, 40},{32.2, 36},{32.2, 37.6},{32.6, 36.8},{33.2, 35.2},{33.2, 35.6},{33.4, 37.6},{33.6, 35},{33.6, 36},{33.8, 34},{33.8, 37.2},{35, 37.4},{35.2, 32.8},{35.2, 34.2},{35.2, 35},{35.4, 36.4},{35.8, 33.8},{35.8, 36.4},{35.8, 37},{36.6, 36.6},{37.6, 35.2},},
+                [1] = {{28.4, 38.6},{28.4, 42.8},{28.4, 43.6},{28.4, 44.6},{28.6, 43.8},{28.8, 40.2},{28.8, 42.4},{28.8, 44.8},{29, 42.8},{29.2, 38.4},{29.4, 39},{29.6, 38.4},{29.6, 42.2},{29.6, 42.8},{30, 39},{30.2, 43.6},{30.4, 36.6},{30.4, 40.4},{30.4, 41.2},{30.6, 37.4},{30.6, 39.4},{30.8, 39.6},{31.6, 40},{32.2, 36},{32.2, 37.6},{32.4, 37.2},{32.6, 36.8},{33.2, 35.2},{33.2, 35.8},{33.4, 34},{33.4, 37.6},{33.6, 35.2},{33.6, 36},{33.8, 34},{33.8, 37.2},{34.6, 36.4},{35, 37.4},{35.2, 32.8},{35.2, 34.2},{35.2, 35},{35.4, 38},{35.8, 33.8},{35.8, 36.4},{35.8, 37},{36.6, 36.6},{37.6, 35.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208652] = {
             [npcKeys.name] = "Junni Steelpass",
@@ -1548,9 +1896,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 30,
             [npcKeys.zoneID] = 1,
             [npcKeys.spawns] = {
-                [1] = {{46.4, 53.2},{46.4, 53.6},{46.6, 53.2},{46.6, 53.6},},
+                [1] = {{46.4, 53.2},{46.6, 53.4},{46.6, 53.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208682] = {
             [npcKeys.name] = "Denton Bleakway",
@@ -1558,9 +1908,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 10,
             [npcKeys.zoneID] = 1497,
             [npcKeys.spawns] = {
-                [1497] = {{83.4, 25.4},{83.4, 26},{83.4, 26.6},{83.4, 27.6},{83.6, 26.2},{83.8, 27.4},{84, 25.2},},
+                [1497] = {{83.2, 26.6},{83.4, 25.4},{83.4, 25.8},{83.4, 27.6},{83.8, 27.4},{84, 25.2},{84, 26},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208711] = {
             [npcKeys.name] = "Toby",
@@ -1571,6 +1923,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [1] = {{63.4, 50.2},{63.6, 50.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208712] = {
             [npcKeys.name] = "Odd Melon",
@@ -1578,9 +1932,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 1,
             [npcKeys.zoneID] = 85,
             [npcKeys.spawns] = {
-                [85] = {{30, 47.2},{33.4, 49.4},{33.4, 49.6},{33.6, 49.4},{33.6, 49.8},{34.8, 51.2},{35.4, 49.2},{35.6, 49},{36.4, 50.8},{36.8, 51},{40.2, 42.2},{44, 38.6},{44.2, 38.4},{44.6, 28.4},{44.8, 28.6},{45.4, 33.4},{47, 50.4},{47.2, 28.8},{47.2, 50.8},{49.4, 46.2},{49.4, 46.8},{49.6, 59.2},{49.8, 46.4},{49.8, 46.6},{49.8, 50.4},{50, 59.6},{50.2, 50.8},{50.4, 31},{50.4, 61.8},{50.6, 31},{51.4, 57.2},{51.6, 57.2},{51.6, 57.6},{52.2, 30.2},{52.6, 30},{52.8, 57.8},{53.6, 58.2},{53.8, 28},{53.8, 58.6},{53.8, 59.8},{54, 56.4},{54, 56.8},{57.2, 40.4},{57.4, 40.6},{58.2, 35.6},{58.4, 35.4},{58.6, 35.2},{58.8, 58.2},{59.8, 33.2},{60, 37},{65.6, 63},{71.4, 34},{71.8, 50.8},{72, 50.2},{74.8, 61.6},{75.2, 61.2},{75.8, 59.6},{76, 59.2},{76.4, 51.2},{76.4, 61.4},{76.4, 61.6},{76.6, 61.4},{76.6, 61.6},},
+                [85] = {{30.2, 47.2},{33.4, 49.4},{33.4, 49.6},{33.6, 49.4},{33.6, 49.8},{34.8, 51.2},{35.4, 49.2},{35.6, 49},{36.4, 50.8},{36.8, 51},{40, 42.2},{44, 38.6},{44.2, 38.4},{44.8, 28.2},{44.8, 28.6},{45.4, 33.4},{47.2, 28.8},{47.2, 50.2},{47.2, 50.8},{49.4, 46.2},{49.4, 46.8},{49.6, 46.4},{49.6, 46.6},{49.8, 50.4},{49.8, 59.4},{50, 59.8},{50.2, 50.8},{50.4, 31},{50.4, 61.8},{50.8, 31},{51.4, 57.2},{51.6, 57.2},{51.6, 57.6},{52.2, 30.2},{52.6, 30},{53, 57.6},{53.8, 28},{53.8, 58.6},{53.8, 59.8},{54, 56.4},{54, 56.8},{54, 58.2},{57.2, 40.4},{57.4, 40.6},{58.4, 35.4},{58.4, 35.6},{58.6, 35.2},{58.8, 58.4},{58.8, 58.6},{59.8, 33},{60, 37},{65.6, 63},{71.4, 34},{71.8, 50.6},{72.2, 50.4},{75, 61.2},{75, 61.6},{76, 59.4},{76, 59.6},{76.2, 51.6},{76.4, 51.2},{76.4, 61.4},{76.4, 61.6},{76.6, 61.4},{76.6, 61.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208752] = {
             [npcKeys.name] = "Frozen Trogg",
@@ -1588,9 +1944,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 9,
             [npcKeys.zoneID] = 1,
             [npcKeys.spawns] = {
-                [1] = {{69.2, 58.2},{69.2, 58.6},{69.6, 58.2},},
+                [1] = {{69.2, 58.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208758] = {
             [npcKeys.name] = "Junior Apothecary",
@@ -1599,6 +1957,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208802] = {
             [npcKeys.name] = "Wounded Adventurer",
@@ -1609,6 +1969,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [1] = {{25.4, 43},{25.4, 43.6},{25.6, 43.4},{25.6, 43.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208809] = {
             [npcKeys.name] = "Hunter's Vision",
@@ -1617,6 +1979,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208810] = {
             [npcKeys.name] = "Hunter's Vision",
@@ -1625,6 +1989,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208811] = {
             [npcKeys.name] = "Hunter's Vision",
@@ -1633,6 +1999,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208812] = {
             [npcKeys.name] = "Jorul",
@@ -1640,9 +2008,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 8,
             [npcKeys.zoneID] = 1,
             [npcKeys.spawns] = {
-                [1] = {{35.8, 42.6},{36.6, 40.4},{37, 41},{37.2, 42.4},{37.4, 43},{37.6, 41.4},{37.8, 42.4},{38.4, 43.4},{38.4, 43.6},{38.6, 43.4},},
+                [1] = {{35.8, 42.6},{36.4, 40.4},{36.6, 40.4},{37, 41},{37.4, 42},{37.4, 43},{37.6, 41.4},{37.8, 42.4},{38.4, 43.4},{38.4, 43.6},{38.6, 43.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208841] = {
             [npcKeys.name] = "Reverent Blacksmith",
@@ -1651,6 +2021,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208842] = {
             [npcKeys.name] = "The Gardener",
@@ -1659,6 +2031,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208843] = {
             [npcKeys.name] = "Abominable Snowman",
@@ -1667,6 +2041,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208844] = {
             [npcKeys.name] = "Crimson Emissary",
@@ -1675,6 +2051,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208845] = {
             [npcKeys.name] = "Par'kourc",
@@ -1683,6 +2061,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208846] = {
             [npcKeys.name] = "Sun Admirer",
@@ -1691,6 +2071,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208847] = {
             [npcKeys.name] = "Bloodrend Bandagethief",
@@ -1699,6 +2081,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208875] = {
             [npcKeys.name] = "Back-alley Mugger",
@@ -1706,9 +2090,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 0,
             [npcKeys.zoneID] = 1637,
             [npcKeys.spawns] = {
-                [1637] = {{55.8, 44.6},{56.2, 42.8},{58.4, 49.6},},
+                [1637] = {{55.8, 44.6},{56.2, 42.8},{56.2, 44.2},{58.4, 49.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208876] = {
             [npcKeys.name] = "Cut-throat Mugger",
@@ -1716,10 +2102,12 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 10,
             [npcKeys.zoneID] = 1519,
             [npcKeys.spawns] = {
-                [1519] = {{59, 27.8},{61.4, 29.6},{61.8, 29},{62.4, 29.6},{62.8, 29.6},{63.2, 29.2},},
-                [1537] = {{50.6, 10.2},{50.6, 11.4},{51, 12.2},{51.8, 12.4},{52, 12.6},{52.8, 10.4},{56.8, 12.2},},
+                [1519] = {{59, 27.8},{61.4, 29.6},{61.8, 29.2},{62.4, 29.6},{62.8, 29.6},{63.2, 29.2},},
+                [1537] = {{50.2, 11.6},{50.6, 10.2},{51, 12.2},{51.4, 11},{51.8, 12.4},{52, 12.6},{52.8, 10.4},{57, 12},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208886] = {
             [npcKeys.name] = "Blackrat",
@@ -1730,6 +2118,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [1] = {{57.2, 45.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208919] = {
             [npcKeys.name] = "Blueheart",
@@ -1737,9 +2127,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 10,
             [npcKeys.zoneID] = 85,
             [npcKeys.spawns] = {
-                [85] = {{59.8, 51.8},{61.2, 53.6},{61.4, 53},{61.6, 51.4},{61.6, 52.8},{61.8, 51.6},},
+                [85] = {{59.8, 51.8},{61, 53.2},{61.2, 53.6},{61.6, 51.4},{61.6, 52.8},{61.8, 51.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208920] = {
             [npcKeys.name] = "Penny Hawkins",
@@ -1750,6 +2142,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [85] = {{61.8, 52},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208927] = {
             [npcKeys.name] = "Dead Acolyte",
@@ -1760,6 +2154,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [85] = {{76.4, 44.8},{76.6, 44.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208974] = {
             [npcKeys.name] = "Dark Iron Poacher",
@@ -1768,6 +2164,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [208975] = {
             [npcKeys.name] = "Rustling Bush",
@@ -1778,6 +2176,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [1] = {{28.8, 49.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209002] = {
             [npcKeys.name] = "Gaklik Voidtwist",
@@ -1788,6 +2188,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [1] = {{47.2, 53.4},{47.2, 53.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209004] = {
             [npcKeys.name] = "Bruart",
@@ -1795,9 +2197,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 10,
             [npcKeys.zoneID] = 1537,
             [npcKeys.spawns] = {
-                [1537] = {{60.8, 70.4},{63.6, 73},{65.2, 74.2},{65.4, 77},{66.4, 69.6},{66.6, 73.4},{66.8, 75.2},{67.2, 77.8},{67.6, 74.8},{68, 67.4},{68.8, 71.8},{70.2, 72.8},{70.8, 72.4},{70.8, 75},{71.2, 73.2},{71.2, 75.8},{72, 75.2},{72, 75.6},{72.2, 73.8},{72.4, 76.6},{72.6, 76},{72.8, 75.2},},
+                [1537] = {{60.8, 70.4},{63.6, 73},{65.2, 74.2},{65.4, 77},{66.4, 69.6},{66.6, 73.4},{66.8, 75.2},{67, 71.6},{67.2, 77.8},{67.6, 73},{67.6, 74.8},{68, 67.4},{68.8, 71.8},{69.8, 72},{70, 74.4},{70.2, 72.8},{70.8, 72.4},{71.2, 73.2},{71.2, 74.8},{71.2, 75.8},{72, 75.2},{72, 76},{72.2, 74},{72.2, 76.8},{72.6, 74},{72.6, 76},{73.2, 74.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209209] = {
             [npcKeys.name] = "Blackfathom Elite",
@@ -1808,6 +2212,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209213] = {
             [npcKeys.name] = "Murloc Spawner",
@@ -1816,6 +2222,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209214] = {
             [npcKeys.name] = "Blackfathom Murloc",
@@ -1826,6 +2234,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209511] = {
             [npcKeys.name] = "Oasis Snapjaw Hatchling",
@@ -1836,6 +2246,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [17] = {{48.2, 40.2},{55.8, 42.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209524] = {
             [npcKeys.name] = "Patrolling Cheetah",
@@ -1843,9 +2255,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 18,
             [npcKeys.zoneID] = 17,
             [npcKeys.spawns] = {
-                [17] = {{43.2, 56.6},{43.4, 56.4},{43.6, 56.6},{44, 56.2},{44.4, 55.2},{44.6, 55.6},{44.8, 55.2},},
+                [17] = {{43.2, 56.6},{43.4, 56.4},{43.6, 56.6},{44.2, 56},{44.4, 55.4},{44.6, 55},{44.8, 55.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209548] = {
             [npcKeys.name] = "Mannequin",
@@ -1854,6 +2268,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209607] = {
             [npcKeys.name] = "Lieutenant Stonebrew",
@@ -1864,6 +2280,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [17] = {{61.4, 54.8},{62.4, 56.2},{62.6, 56.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209608] = {
             [npcKeys.name] = "Delwynna",
@@ -1871,9 +2289,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 35,
             [npcKeys.zoneID] = 1657,
             [npcKeys.spawns] = {
-                [1657] = {{63.2, 22.6},{63.4, 20.6},{63.4, 21.8},{64, 21.2},{64, 22},},
+                [1657] = {{63.2, 23.2},{63.4, 20.6},{63.4, 22},{63.6, 20.6},{63.6, 22},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209678] = {
             [npcKeys.name] = "Twilight Lord Kelris",
@@ -1882,6 +2302,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209742] = {
             [npcKeys.name] = "Desert Mirage",
@@ -1889,9 +2311,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 15,
             [npcKeys.zoneID] = 17,
             [npcKeys.spawns] = {
-                [17] = {{54.4, 36},{54.8, 35.8},{55, 35.4},{55.8, 34},{57.4, 35.8},{57.4, 38.4},{57.4, 38.6},{57.6, 35.8},{57.6, 38.4},{57.8, 38.8},{58.8, 37.4},{58.8, 37.6},},
+                [17] = {{54.4, 36},{54.8, 35.8},{55, 35.4},{55.8, 34},{57.4, 35.8},{57.4, 38.4},{57.4, 38.6},{57.6, 35.8},{57.6, 38.4},{57.6, 38.6},{58.8, 37.4},{58.8, 37.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209758] = {
             [npcKeys.name] = "Invading Nightmare",
@@ -1902,6 +2326,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209773] = {
             [npcKeys.name] = "Dream Copy",
@@ -1910,6 +2336,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209797] = {
             [npcKeys.name] = "Bruuz",
@@ -1917,9 +2345,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 20,
             [npcKeys.zoneID] = 17,
             [npcKeys.spawns] = {
-                [17] = {{63.2, 38.6},{63.6, 38.4},{64.4, 39},{64.4, 39.6},{65.2, 39.4},{65.2, 39.6},},
+                [17] = {{63.2, 38.6},{63.6, 38.4},{64.4, 39},{64.4, 39.6},{64.8, 39.2},{64.8, 39.8},{65, 37.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209806] = {
             [npcKeys.name] = "Waterfall Test",
@@ -1928,6 +2358,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209811] = {
             [npcKeys.name] = "Rustling Bush",
@@ -1935,9 +2367,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 1,
             [npcKeys.zoneID] = 141,
             [npcKeys.spawns] = {
-                [141] = {{46.4, 46.2},{46.6, 46.2},},
+                [141] = {{46.4, 46.2},{46.6, 46.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209812] = {
             [npcKeys.name] = "Fallenroot Poacher",
@@ -1945,9 +2379,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 9,
             [npcKeys.zoneID] = 141,
             [npcKeys.spawns] = {
-                [141] = {{46.2, 45.4},{46.2, 48.2},{46.2, 49},{46.4, 46.2},{46.4, 46.8},{46.6, 45.4},{46.6, 46.2},{46.6, 46.6},{47.4, 50.2},{47.6, 44.4},{47.6, 50.2},{48, 51},},
+                [141] = {{45.4, 49.4},{46, 47.8},{46.2, 45.4},{46.2, 49},{46.4, 46.2},{46.4, 46.8},{46.6, 45.4},{46.6, 46.2},{46.6, 46.6},{46.8, 43.6},{46.8, 49.4},{47.4, 50.2},{47.6, 44.4},{47.6, 50.2},{48, 51},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209815] = {
             [npcKeys.name] = "Phantasmal Priestess",
@@ -1958,6 +2394,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209830] = {
             [npcKeys.name] = "Phantasmal Statue",
@@ -1966,6 +2404,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209872] = {
             [npcKeys.name] = "Syllart",
@@ -1973,20 +2413,24 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 10,
             [npcKeys.zoneID] = 141,
             [npcKeys.spawns] = {
-                [141] = {{56.2, 59.4},{56.2, 59.6},{56.4, 58.4},{56.6, 57.8},{56.8, 58.8},},
+                [141] = {{56.2, 59.4},{56.2, 59.6},{56.4, 58.4},{56.6, 57.8},{56.8, 58.8},{57.2, 60.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209889] = {
             [npcKeys.name] = "Barebones",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
+            [npcKeys.minLevel] = 63,
+            [npcKeys.maxLevel] = 63,
             [npcKeys.zoneID] = 1519,
             [npcKeys.spawns] = {
-                [1519] = {{56, 60.8},{56, 61.6},{56.6, 61.2},},
+                [1519] = {{56, 60.4},{56, 61.6},{56.2, 60.8},{56.6, 61.2},},
                 [1637] = {{51.8, 75.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209908] = {
             [npcKeys.name] = "Heretic Idol",
@@ -1997,6 +2441,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [38] = {{71.8, 27},{71.8, 27.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209928] = {
             [npcKeys.name] = "Mowgh",
@@ -2004,9 +2450,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 8,
             [npcKeys.zoneID] = 141,
             [npcKeys.spawns] = {
-                [141] = {{46.8, 33.6},{47.4, 32.4},{47.4, 32.8},{47.6, 32.6},{48.2, 31.4},{48.2, 31.6},},
+                [141] = {{46.4, 33.8},{46.8, 33.6},{47.4, 32.4},{47.4, 32.8},{47.6, 32.6},{48.2, 31.4},{48.2, 31.6},{48.6, 31.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209939] = {
             [npcKeys.name] = "Hunter's Vision",
@@ -2015,6 +2463,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209940] = {
             [npcKeys.name] = "Hunter's Vision",
@@ -2023,6 +2473,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209941] = {
             [npcKeys.name] = "Hunter's Vision",
@@ -2031,6 +2483,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209948] = {
             [npcKeys.name] = "Relaeron",
@@ -2038,9 +2492,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 30,
             [npcKeys.zoneID] = 1657,
             [npcKeys.spawns] = {
-                [1657] = {{38.6, 7.6},{39.2, 9},{39.4, 9.8},{39.8, 9.4},},
+                [1657] = {{39, 8},{39.2, 9},{39.4, 10},{39.8, 9.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209949] = {
             [npcKeys.name] = "Sickly Deer",
@@ -2048,9 +2504,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 5,
             [npcKeys.zoneID] = 1657,
             [npcKeys.spawns] = {
-                [1657] = {{39.2, 8.4},{39.2, 9},{39.6, 9.2},},
+                [1657] = {{39.2, 8.4},{39.2, 9},{39.4, 10.2},{39.6, 9.2},{39.6, 9.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209954] = {
             [npcKeys.name] = "Demonic Remains",
@@ -2061,6 +2519,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [38] = {{72.4, 68.4},{72.4, 68.6},{72.6, 68.4},{72.6, 68.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [209958] = {
             [npcKeys.name] = "Graix",
@@ -2068,9 +2528,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 18,
             [npcKeys.zoneID] = 38,
             [npcKeys.spawns] = {
-                [38] = {{71.2, 68.2},{72.4, 68.4},{72.4, 68.8},{72.6, 68.6},},
+                [38] = {{71.2, 68.2},{72.4, 68.4},{72.4, 68.8},{72.6, 67.8},{72.6, 68.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210006] = {
             [npcKeys.name] = "Battle Totem",
@@ -2079,6 +2541,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210107] = {
             [npcKeys.name] = "Kackle",
@@ -2086,9 +2550,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 16,
             [npcKeys.zoneID] = 38,
             [npcKeys.spawns] = {
-                [38] = {{52.8, 56.8},{53.2, 55.4},{53.4, 55.8},{53.8, 54.4},{54, 56},{54.2, 56.8},{54.4, 55.2},{54.6, 52.2},{54.8, 54.2},{54.8, 54.6},{55, 55.8},{55.4, 53},{55.6, 52.2},{55.6, 55},{55.8, 53.2},{55.8, 54.4},{57.2, 64.4},},
+                [38] = {{50.2, 53.8},{52.8, 56.8},{53, 54},{53.2, 55.4},{53.4, 53.4},{53.4, 55.8},{53.8, 55.8},{54.2, 53.2},{54.2, 54},{54.2, 55.2},{54.2, 56.8},{54.6, 52.2},{54.6, 55.6},{54.8, 56.6},{55, 52.6},{55, 54.4},{55, 55.4},{55.6, 52.2},{55.6, 54.4},{55.6, 55},{55.6, 57},{55.8, 53.2},{57.2, 64.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210451] = {
             [npcKeys.name] = "Lady Sedorax",
@@ -2096,9 +2562,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 18,
             [npcKeys.zoneID] = 148,
             [npcKeys.spawns] = {
-                [148] = {{54.8, 31.6},{55, 32.6},{55, 35.4},{55.2, 33.8},{55.4, 36.2},{55.4, 36.6},{55.6, 35.2},{55.6, 36.4},{55.6, 36.6},{55.8, 34.2},},
+                [148] = {{54.8, 31.6},{55, 32.6},{55, 35.4},{55.2, 33.8},{55.4, 36},{55.4, 36.6},{55.6, 35.2},{55.6, 36.4},{55.6, 36.6},{55.8, 34.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210482] = {
             [npcKeys.name] = "Paxnozz",
@@ -2106,19 +2574,23 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 20,
             [npcKeys.zoneID] = 148,
             [npcKeys.spawns] = {
-                [148] = {{46.4, 14.4},{46.6, 13.8},{46.8, 17.2},{47.4, 14.8},{47.4, 16.2},{47.6, 13.6},{48, 13.4},{48, 18},{48.2, 15.6},{48.4, 14.6},{48.4, 16.6},{48.6, 16.6},{48.8, 15.6},{49, 11.8},{49, 14.8},{49.2, 12.8},{49.4, 14.2},{49.6, 12},{49.8, 14.4},{50, 14.6},{50.2, 12.6},{50.4, 11.4},{51, 13.6},{51.8, 15.6},{52.4, 17.4},},
+                [148] = {{46.4, 14.4},{46.6, 13.8},{46.8, 17.2},{47.4, 14.8},{47.4, 16.2},{47.6, 13.6},{47.8, 14.8},{48, 13.4},{48, 18},{48.2, 15.8},{48.4, 16.6},{48.6, 16.6},{48.8, 15.6},{49, 11.8},{49, 14.8},{49.2, 12.8},{49.4, 14.2},{49.6, 12},{50, 13.6},{50, 14.6},{50.2, 12.6},{50.4, 11.4},{50.6, 12.6},{51, 13.6},{51.8, 13.2},{51.8, 15.6},{52.4, 17.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210483] = {
             [npcKeys.name] = "Aggressive Squashling",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
+            [npcKeys.minLevel] = 16,
+            [npcKeys.maxLevel] = 16,
             [npcKeys.zoneID] = 40,
             [npcKeys.spawns] = {
-                [40] = {{36.6, 48.8},{43.2, 34.2},{43.6, 33.8},{43.8, 38},{44.2, 32.4},{50.4, 19.8},{50.6, 18.8},},
+                [40] = {{36.6, 48.8},{43.2, 34.2},{43.6, 33.8},{43.8, 33.4},{43.8, 38},{44.2, 32.4},{48.8, 22},{50.2, 24},{50.4, 19.8},{50.6, 18.8},{51.4, 24.8},{54.8, 35.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210487] = {
             [npcKeys.name] = "Horror of the Deep",
@@ -2126,9 +2598,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 20,
             [npcKeys.zoneID] = 40,
             [npcKeys.spawns] = {
-                [40] = {{26, 69.6},{26.2, 68},{26.2, 69.2},{26.8, 66.2},{26.8, 68},{26.8, 69.8},{27, 68.8},},
+                [40] = {{25.2, 65.6},{25.2, 69},{26, 69.4},{26, 69.6},{26.2, 66.6},{26.2, 68},{26.8, 66.2},{26.8, 68},{26.8, 69.8},{27.2, 68.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210501] = {
             [npcKeys.name] = "Harvest Reaper Prototype",
@@ -2136,9 +2610,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 18,
             [npcKeys.zoneID] = 40,
             [npcKeys.spawns] = {
-                [40] = {{35.4, 52.2},{35.6, 52.2},{44.4, 39.2},{45, 40.8},{45.2, 39.6},{45.4, 38.8},{45.6, 39},{49.6, 36.6},{50, 19},{50.2, 17.4},{50.2, 18.4},{50.6, 18.8},{51.4, 33.4},{51.8, 34},{52.2, 32.4},{52.4, 32.6},{52.8, 33},{61.2, 57.4},{61.4, 58.2},{61.4, 58.8},},
+                [40] = {{35.2, 51.4},{35.4, 52.2},{35.6, 52.2},{44.4, 39.2},{45, 40.8},{45.2, 39.6},{45.4, 38.8},{45.6, 39},{49.6, 36.6},{50, 18.8},{50.2, 17.4},{50.4, 18.4},{50.6, 18.4},{50.6, 18.8},{50.8, 20.4},{51.4, 33.4},{51.8, 34},{52.2, 32.4},{52.4, 32.6},{52.8, 33},{52.8, 33.8},{61.2, 57.4},{61.4, 58.2},{61.4, 58.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210528] = {
             [npcKeys.name] = "Terrified Soul",
@@ -2147,6 +2623,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210533] = {
             [npcKeys.name] = "Silverspur",
@@ -2154,9 +2632,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 14,
             [npcKeys.zoneID] = 40,
             [npcKeys.spawns] = {
-                [40] = {{33.6, 40.8},{34.8, 38.6},{35, 38.4},{35, 39.6},{35.6, 38.4},},
+                [40] = {{33.6, 40.8},{34.4, 37.2},{34.8, 38.6},{35, 38.4},{35, 39.6},{35.6, 38.4},{36, 38.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210537] = {
             [npcKeys.name] = "Undying Laborer",
@@ -2164,9 +2644,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 15,
             [npcKeys.zoneID] = 40,
             [npcKeys.spawns] = {
-                [40] = {{28.8, 49.2},{29, 50.2},{29.4, 46.4},{29.6, 50.6},{29.8, 46},{29.8, 46.6},{30, 49.6},{30.4, 45.4},{30.6, 46},{30.8, 43},{31, 45.2},{31.4, 44.2},{31.6, 44},{31.8, 45},{32, 43.4},{32.2, 42.4},{32.6, 43.2},{34.8, 41.6},{35.2, 40.8},{37.8, 45.4},{43.4, 26.8},{43.8, 25.2},{44.4, 27},{44.4, 29.4},{44.6, 20.2},{44.6, 24.2},{44.6, 24.8},{44.8, 27.4},{45, 22.8},{45, 26},{45.2, 18.6},{45.2, 31.2},{45.4, 18.2},{45.4, 21.2},{45.4, 21.6},{45.4, 28},{45.6, 20.4},{45.6, 21.2},{45.6, 21.8},{45.8, 27.4},{45.8, 36.4},{46, 18.4},{46, 18.6},{46, 26.4},{46.2, 28.2},{46.6, 27.4},{46.8, 29.6},{47.6, 33.6},{50.6, 29.2},{53.4, 27.6},{54.4, 29.6},{55.2, 31.4},{55.8, 47.6},},
+                [40] = {{28.8, 49.2},{29.2, 41.4},{29.2, 50.2},{29.4, 46.4},{29.6, 50.2},{29.6, 50.6},{29.8, 46},{29.8, 46.6},{30.2, 49.2},{30.4, 42.6},{30.4, 45.4},{30.6, 46},{30.6, 48.2},{30.8, 43},{31, 45.2},{31.4, 44},{31.6, 44},{31.8, 45},{32, 43.4},{32.2, 42.4},{32.6, 43.2},{34.8, 41.6},{35.2, 40.8},{37.8, 45.4},{43.4, 26.8},{43.8, 25.2},{44.4, 24},{44.4, 27},{44.4, 29.4},{44.6, 20.2},{44.6, 24.2},{44.6, 24.8},{45, 22.8},{45, 26},{45.2, 18.6},{45.2, 26.6},{45.2, 31.2},{45.4, 18.2},{45.4, 21.2},{45.4, 21.6},{45.4, 28},{45.6, 20.4},{45.6, 21.2},{45.6, 21.8},{45.8, 27.4},{45.8, 36.4},{46, 18.4},{46, 26.4},{46.2, 18.8},{46.2, 28.2},{46.6, 19.4},{46.6, 27.4},{46.8, 29.6},{47.6, 33.6},{50.4, 28.2},{50.6, 29.2},{53.4, 27.6},{54.4, 29.6},{55.2, 31.4},{55.8, 47.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210549] = {
             [npcKeys.name] = "Defias Scout",
@@ -2174,9 +2656,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 15,
             [npcKeys.zoneID] = 40,
             [npcKeys.spawns] = {
-                [40] = {{50.2, 48.2},{50.2, 48.6},{50.4, 47.4},{50.6, 47.6},{51, 47},{51.4, 55.4},{51.4, 55.6},{51.6, 55.2},{51.6, 55.6},},
+                [40] = {{50.2, 48.2},{50.2, 48.6},{50.4, 47.4},{50.4, 56.2},{50.6, 47.6},{50.8, 54.4},{51, 47},{51, 55},{51.4, 55.6},{51.6, 55.4},{51.6, 55.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210697] = {
             [npcKeys.name] = "Captain Namier",
@@ -2184,9 +2668,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 20,
             [npcKeys.zoneID] = 130,
             [npcKeys.spawns] = {
-                [130] = {{36.6, 26.6},{37.4, 27.8},{37.8, 29.6},{38, 28},{38, 28.6},{38.6, 28.6},},
+                [130] = {{36.6, 26.6},{37.4, 27.8},{37.6, 29},{38, 29.6},{38.2, 28.4},{38.4, 30.6},{38.6, 28.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210750] = {
             [npcKeys.name] = "M'grrgl",
@@ -2195,6 +2681,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210802] = {
             [npcKeys.name] = "Webbed Victim",
@@ -2205,6 +2693,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [130] = {{34.8, 7.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210845] = {
             [npcKeys.name] = "Jixo Madrocket",
@@ -2215,6 +2705,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [406] = {{59.2, 62.4},{59.2, 62.6},{60.6, 62.2},},
             },
             [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = {78114,78121},
+            [npcKeys.questEnds] = {78114,78121},
         },
         [210887] = {
             [npcKeys.name] = "Unsuspecting Pridewing",
@@ -2222,9 +2714,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 20,
             [npcKeys.zoneID] = 406,
             [npcKeys.spawns] = {
-                [406] = {{60.4, 62},{60.6, 62.4},},
+                [406] = {{60.4, 62.2},{60.6, 62.4},{60.6, 62.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210901] = {
             [npcKeys.name] = "Stonetalon Wyvern stalker",
@@ -2233,6 +2727,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [210995] = {
             [npcKeys.name] = "Alonso",
@@ -2240,9 +2736,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 20,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{42, 69},{42.4, 70},{43.4, 70.4},{43.4, 70.6},{43.6, 70.2},{43.6, 70.6},},
+                [331] = {{42, 69.2},{42.4, 70},{43.4, 70.4},{43.4, 70.6},{43.6, 70.4},},
             },
             [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = {78132,78133,78134,78144},
+            [npcKeys.questEnds] = {78132,78133,78134,78144},
         },
         [211022] = {
             [npcKeys.name] = "Owen Thadd",
@@ -2250,9 +2748,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 40,
             [npcKeys.zoneID] = 1497,
             [npcKeys.spawns] = {
-                [1497] = {{73.4, 33},{73.6, 33},{73.8, 32.2},},
+                [1497] = {{73.2, 33.6},{73.4, 33},{73.6, 33},{73.6, 33.6},{73.8, 32.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = {79094,79095,79096},
+            [npcKeys.questEnds] = {78124,78127,78142,78143,78145,78146,78147,78148,78149,78150,79094,79095,79096,79097},
         },
         [211033] = {
             [npcKeys.name] = "Garion Wendell",
@@ -2260,9 +2760,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 60,
             [npcKeys.zoneID] = 1519,
             [npcKeys.spawns] = {
-                [1519] = {{37.8, 80.2},{37.8, 81},},
+                [1519] = {{37.6, 81},{37.8, 80.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = {78124,78127,78142,78143,78145,78146,78147,78148,78149,78150,79091,79092,79093,79097},
+            [npcKeys.questEnds] = {78124,78127,78142,78143,78145,78146,78147,78148,78149,78150,79091,79092,79093,79097},
         },
         [211042] = {
             [npcKeys.name] = "Green Dragon Whelp",
@@ -2273,6 +2775,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [331] = {{42, 69.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211043] = {
             [npcKeys.name] = "Alonso",
@@ -2281,6 +2785,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211146] = {
             [npcKeys.name] = "Lost Adventurer",
@@ -2288,9 +2794,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 16,
             [npcKeys.zoneID] = 130,
             [npcKeys.spawns] = {
-                [130] = {{34.2, 9.4},{34.4, 8.4},{35, 7.8},},
+                [130] = {{34.2, 9.4},{34.4, 8.4},{35, 7.8},{35.4, 11.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211183] = {
             [npcKeys.name] = "John Lakeman",
@@ -2299,6 +2807,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211188] = {
             [npcKeys.name] = "Maethra Slagheart",
@@ -2306,9 +2816,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 50,
             [npcKeys.zoneID] = 1657,
             [npcKeys.spawns] = {
-                [1657] = {{37.8, 88.8},{38, 88},{38, 89.6},{38.6, 88.8},{38.6, 89.6},},
+                [1657] = {{38, 88},{38, 89.6},{38.2, 89.2},{38.6, 88.8},{38.6, 89.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = {78192,78193},
+            [npcKeys.questEnds] = {78192},
         },
         [211200] = {
             [npcKeys.name] = "Agon",
@@ -2316,9 +2828,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 10,
             [npcKeys.spawns] = {
-                [10] = {{59.8, 31.6},{60.6, 25.8},{60.8, 29.2},{61.2, 30.8},{61.4, 30},{61.6, 28.8},{61.6, 29.6},{61.8, 27.6},{63.4, 25},{63.4, 29},{63.6, 31.4},{64, 34},{64.4, 33.2},{64.4, 35.6},{64.8, 24},{64.8, 25},{64.8, 34.4},{64.8, 35.6},{65, 32.4},{65.2, 34.8},{65.4, 26},{65.6, 26.4},{65.6, 34.8},{66, 23.6},{66.6, 29},{66.6, 30.6},{66.8, 28.4},{66.8, 29.8},{67.6, 30.2},{67.6, 31.2},{68, 31.6},{69.4, 32.6},},
+                [10] = {{59.8, 31.6},{60, 30.6},{60.6, 25.8},{60.8, 29.2},{60.8, 32.4},{61, 30.6},{61.2, 30},{61.6, 28.8},{61.6, 29.6},{61.8, 27.6},{62, 31.2},{62.8, 35.8},{63.4, 25},{63.4, 29},{63.6, 31.4},{64, 32.4},{64, 34},{64.4, 23.6},{64.4, 24.6},{64.4, 26.4},{64.4, 33.2},{64.4, 35.6},{64.6, 34.6},{64.8, 24},{64.8, 25},{64.8, 34.4},{65, 32.4},{65.2, 27.8},{65.2, 35.6},{65.4, 26},{65.4, 26.8},{65.6, 24},{65.6, 26.4},{65.6, 34.8},{66.4, 27.8},{66.6, 30.6},{66.8, 28.4},{66.8, 29.8},{67.2, 29.4},{67.6, 30.2},{67.6, 31.2},{68, 31.6},{69.4, 32.6},{69.6, 29.4},{70.8, 31.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211225] = {
             [npcKeys.name] = "Baj'ura",
@@ -2326,19 +2840,23 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 20,
             [npcKeys.zoneID] = 1497,
             [npcKeys.spawns] = {
-                [1497] = {{46, 20},{46.4, 19.4},{46.4, 20.6},{47.2, 19.4},{47.2, 19.6},{47.8, 19.2},},
+                [1497] = {{46.4, 19.4},{46.4, 20.2},{46.4, 20.6},{47.2, 19.4},{47.2, 19.6},{47.8, 19.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = {78198,78199},
+            [npcKeys.questEnds] = {78198},
         },
         [211229] = {
             [npcKeys.name] = "Dietrich Praice",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
+            [npcKeys.minLevel] = 60,
+            [npcKeys.maxLevel] = 60,
             [npcKeys.zoneID] = 1637,
             [npcKeys.spawns] = {
-                [1637] = {{35.4, 88},{35.6, 87.8},},
+                [1637] = {{35, 87.8},{35.6, 87.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = {78196},
+            [npcKeys.questEnds] = {78196},
         },
         [211269] = {
             [npcKeys.name] = "Summoned Wisp",
@@ -2348,7 +2866,9 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.spawns] = {
                 [331] = {{86.6, 43.6},{86.8, 43.4},},
             },
-            [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211274] = {
             [npcKeys.name] = "Ashenvale Wisp Target",
@@ -2357,6 +2877,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211279] = {
             [npcKeys.name] = "Corrupt Spirit Beast",
@@ -2367,6 +2889,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [331] = {{86.4, 44},{86.8, 43.4},{86.8, 43.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211298] = {
             [npcKeys.name] = "Syrnoya",
@@ -2377,6 +2901,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [148] = {{37.6, 43.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = {78195},
         },
         [211330] = {
             [npcKeys.name] = "Suspicious Target",
@@ -2387,6 +2913,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [130] = {{65.8, 11.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211338] = {
             [npcKeys.name] = "Vile Fin Hunter",
@@ -2397,6 +2925,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [130] = {{65.8, 11.2},{65.8, 11.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211653] = {
             [npcKeys.name] = "Grizzby",
@@ -2407,6 +2937,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [17] = {{61.8, 39.4},},
             },
             [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = {78265,78266,78267,78287,78288},
+            [npcKeys.questEnds] = {78265,78266,78267,78297,78304},
         },
         [211736] = {
             [npcKeys.name] = "Grizzled Protector",
@@ -2414,9 +2946,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 16,
             [npcKeys.zoneID] = 130,
             [npcKeys.spawns] = {
-                [130] = {{36.6, 16},{36.6, 17.2},{37.8, 15.6},{39.4, 15.2},{41.6, 19.6},{44, 51.6},{44.2, 16.6},{48.2, 20.8},{48.6, 21.6},{49.8, 22.4},{50.4, 16.2},{50.4, 38.2},{50.6, 36.6},{50.8, 35.4},{51, 15.8},{51.6, 38.8},{52, 51.2},{52.6, 47.4},{53.2, 20.2},{53.4, 59},{53.8, 45.8},{54.6, 40.4},{55, 41.2},},
+                [130] = {{36.6, 16},{36.6, 17.2},{37.8, 15.6},{39.4, 15.2},{40.6, 18},{41.6, 19.6},{44, 51.6},{44.2, 16.6},{44.6, 48.8},{45, 24.6},{47.2, 19},{48, 22.6},{48.2, 20.8},{48.6, 21.4},{49.4, 21.6},{49.8, 22.4},{50.4, 16.2},{50.4, 38.2},{50.6, 36.6},{50.8, 35.4},{51, 15.8},{51, 38.6},{51.2, 19.2},{51.2, 41.2},{51.6, 38.8},{52, 51.2},{52.6, 20.6},{52.6, 47.4},{53.2, 20.2},{53.4, 59},{53.8, 45.8},{54, 39.8},{54, 44.2},{54.6, 40.4},{55, 41.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211764] = {
             [npcKeys.name] = "Gefell",
@@ -2427,6 +2961,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [209] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211765] = {
             [npcKeys.name] = "Gemela",
@@ -2437,6 +2973,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [209] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211839] = {
             [npcKeys.name] = "Test Boss",
@@ -2445,6 +2983,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211875] = {
             [npcKeys.name] = "Decayed Elemental",
@@ -2452,10 +2992,12 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 15,
             [npcKeys.zoneID] = 130,
             [npcKeys.spawns] = {
-                [130] = {{44.4, 21.8},{44.4, 42},{44.8, 22},{45.2, 21},{45.4, 20.2},{45.6, 22.6},{45.8, 21.2},{46, 19.8},{46, 22.2},{47, 19.2},{47.2, 20.4},{55.4, 15.6},},
+                [130] = {{44.4, 21.8},{44.4, 42},{45, 21.6},{45, 22.6},{45.2, 21},{45.4, 20},{45.6, 22.6},{45.8, 21.2},{46, 19.8},{46, 22.2},{47, 19.2},{47.2, 20.4},{55.4, 15.6},},
                 [1637] = {{37, 76.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211941] = {
             [npcKeys.name] = "Dream Stalker",
@@ -2464,6 +3006,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211951] = {
             [npcKeys.name] = "Koartul",
@@ -2471,9 +3015,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 267,
             [npcKeys.spawns] = {
-                [267] = {{52.4, 39},{57.2, 22.8},{59, 23.4},{59, 34.6},{59.2, 38.6},{59.4, 32.8},{59.4, 40.2},{60.2, 33},{60.2, 33.6},{60.8, 25},{60.8, 25.6},{60.8, 35.2},{61, 33.2},{61.4, 33.6},{62, 33},{62.2, 31.4},{62.2, 34.6},{62.4, 34.4},{62.6, 34},{64, 33.8},{64.6, 32.8},},
+                [267] = {{52.4, 39},{57.2, 22.8},{59, 23.4},{59, 34.6},{59.2, 38.6},{59.4, 32.8},{59.4, 40.2},{60.2, 33},{60.2, 34},{60.4, 20.4},{60.4, 26},{60.4, 28},{60.6, 25.8},{60.6, 26.6},{60.8, 25},{60.8, 35.2},{61, 30},{61, 33.2},{61.4, 30.8},{61.4, 34},{61.6, 33.6},{62, 33},{62.2, 31.4},{62.2, 34.6},{62.6, 34},{64, 33.8},{64.6, 32.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211952] = {
             [npcKeys.name] = "Omni Diffusion Armor",
@@ -2482,6 +3028,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211953] = {
             [npcKeys.name] = "Bulky Protective Ironweave",
@@ -2490,6 +3038,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211954] = {
             [npcKeys.name] = "Electrostatic Discharge Shielding",
@@ -2498,6 +3048,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211955] = {
             [npcKeys.name] = "Auxiliary Anti-Tamper Mechanism",
@@ -2506,6 +3058,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211956] = {
             [npcKeys.name] = "Scarimous the Wandering",
@@ -2514,6 +3068,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211965] = {
             [npcKeys.name] = "Carrodin",
@@ -2521,9 +3077,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 11,
             [npcKeys.spawns] = {
-                [11] = {{46.4, 65},{46.6, 65.6},{46.8, 63.4},{47.2, 64.4},{47.2, 64.8},{47.6, 63.2},{47.6, 64},{47.6, 64.8},},
+                [11] = {{46.4, 64.8},{46.4, 65.6},{46.6, 65.6},{46.8, 62.6},{47.2, 64.4},{47.2, 64.8},{47.6, 63.2},{47.6, 64},{47.6, 64.8},{47.6, 65.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [211967] = {
             [npcKeys.name] = "Leech Stalker Corpse",
@@ -2532,6 +3090,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212159] = {
             [npcKeys.name] = "Old Serra'kis",
@@ -2542,6 +3102,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212186] = {
             [npcKeys.name] = "Grugimdern",
@@ -2552,6 +3114,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [11] = {{36.8, 15.2},},
             },
             [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212209] = {
             [npcKeys.name] = "Vodyanoi",
@@ -2562,6 +3126,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [11] = {{31.2, 18.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212252] = {
             [npcKeys.name] = "Harvest Golem V000-A",
@@ -2570,6 +3136,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212261] = {
             [npcKeys.name] = "Awakened Lich",
@@ -2580,6 +3148,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [10] = {{16, 37.4},{17.4, 37.4},{17.4, 37.6},{17.6, 37.4},{17.8, 38},{18, 38.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212330] = {
             [npcKeys.name] = "Explrgl",
@@ -2588,6 +3158,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212333] = {
             [npcKeys.name] = "Blackfathom Tendril",
@@ -2596,6 +3168,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212334] = {
             [npcKeys.name] = "Dead Twilight Cultist",
@@ -2606,6 +3180,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [331] = {{17.2, 26.4},{17.2, 26.6},},
             },
             [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212443] = {
             [npcKeys.name] = "Nightmare Stalker",
@@ -2614,6 +3190,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212458] = {
             [npcKeys.name] = "Phantasmal Crustacean",
@@ -2624,6 +3202,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212461] = {
             [npcKeys.name] = "Phantasmal Servant",
@@ -2634,6 +3214,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212462] = {
             [npcKeys.name] = "Phantasmal Softshell",
@@ -2644,6 +3226,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212463] = {
             [npcKeys.name] = "Phantasmal Snapjaw",
@@ -2654,6 +3238,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212468] = {
             [npcKeys.name] = "Invading Nightmare",
@@ -2662,16 +3248,20 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212598] = {
             [npcKeys.name] = "Recke Grinnes",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
+            [npcKeys.minLevel] = 16,
+            [npcKeys.maxLevel] = 16,
             [npcKeys.zoneID] = 130,
             [npcKeys.spawns] = {
                 [130] = {{66.2, 31},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212667] = {
             [npcKeys.name] = "Fettered Elemental",
@@ -2680,6 +3270,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212674] = {
             [npcKeys.name] = "Death's Head Shaman",
@@ -2688,6 +3280,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212678] = {
             [npcKeys.name] = "Earth Elemental",
@@ -2696,6 +3290,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212692] = {
             [npcKeys.name] = "Bound Elemental",
@@ -2703,10 +3299,12 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 21,
             [npcKeys.zoneID] = 17,
             [npcKeys.spawns] = {
-                [17] = {{42.2, 80.8},{43, 78.6},{43.2, 78.4},{43.6, 78.4},{43.6, 78.6},{44, 91.2},{44.2, 80.2},{44.8, 76.8},{45, 79.6},{45.2, 63.8},{45.2, 74.2},{45.8, 80.4},{46, 69},{47.6, 81.6},{47.8, 83.8},},
+                [17] = {{41.4, 79.8},{42.2, 80.8},{43, 78.6},{43.2, 78.4},{43.2, 81.4},{43.6, 78.4},{43.6, 78.6},{44, 91.2},{44.2, 80.2},{44.8, 76.8},{44.8, 77.8},{45, 79.6},{45.2, 63.8},{45.2, 74.2},{45.8, 80.4},{45.8, 82.8},{46, 69},{46, 74},{46, 76.4},{46, 76.6},{47.6, 81.6},{47.8, 83.8},},
                 [400] = {{31.6, 23.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212694] = {
             [npcKeys.name] = "Hirzek",
@@ -2714,9 +3312,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 17,
             [npcKeys.spawns] = {
-                [17] = {{43, 78.4},{43.2, 78.6},{43.6, 78.4},{43.6, 78.8},{44.2, 91},{46, 74.2},},
+                [17] = {{41.8, 79.4},{43.2, 78.4},{43.2, 78.6},{43.6, 78.4},{43.6, 78.8},{44.2, 91},{44.6, 75.8},{45.4, 83.8},{46, 74.2},{46, 81.6},{46.2, 76.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212699] = {
             [npcKeys.name] = "Silverwing Archer",
@@ -2724,9 +3324,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{25.8, 27.2},{26.4, 28},{27.4, 27.4},{27.4, 27.6},{28, 26.4},{28.2, 27.4},{28.2, 29.6},{28.4, 28.2},{28.4, 28.8},{28.6, 28.4},{28.6, 28.8},{28.6, 29.6},{28.8, 26.4},{29.2, 27.4},{50.4, 54.4},{50.4, 55.4},{50.4, 55.8},{51.2, 55.8},{51.2, 56.6},{51.4, 54.4},{51.4, 54.8},{51.6, 54.4},{51.6, 54.6},{51.6, 55.6},{51.6, 57},{52.6, 54.2},{53, 54.6},{58.2, 72.2},{59.2, 72.6},{59.4, 68.6},{59.4, 72},{59.4, 74},{59.6, 68.6},{59.8, 70.2},{59.8, 71.6},{60, 71.4},{60, 72.6},{60.6, 71},{60.8, 71.6},{71.2, 72.8},{72, 69.2},{72.2, 70.6},{72.4, 72.4},{72.4, 73.4},{72.4, 73.6},{72.8, 72.4},{73, 73.2},{73.2, 74.6},{73.4, 73.6},{73.6, 72.8},{73.8, 73.8},{74, 74.8},},
+                [331] = {{25.8, 27.2},{26.4, 28},{27.4, 27.4},{27.4, 27.8},{28, 26.4},{28.2, 27.4},{28.2, 28.8},{28.2, 29.6},{28.4, 28.4},{28.6, 28.4},{28.6, 28.8},{28.6, 29.6},{28.8, 26.4},{29, 27.2},{29, 32.6},{29.2, 30.6},{50.4, 54.4},{50.4, 55.4},{50.4, 55.8},{50.4, 57.8},{50.8, 55.4},{51, 58},{51.2, 55.8},{51.2, 56.6},{51.4, 53.4},{51.4, 54.4},{51.6, 54.6},{51.6, 55.6},{51.6, 57},{51.8, 54.4},{51.8, 58.2},{53.2, 54.4},{53.2, 54.6},{53.8, 54.2},{53.8, 54.8},{56.4, 57},{58.2, 72.2},{58.8, 72.6},{59, 70.8},{59.2, 70},{59.2, 73.6},{59.4, 68.6},{59.4, 72.2},{59.6, 68.6},{59.8, 70.2},{59.8, 71.6},{60, 71.4},{60, 72.6},{60.4, 73.6},{60.6, 71.4},{60.6, 73.6},{60.8, 71.6},{71.2, 69.2},{71.2, 72.8},{72, 69.2},{72.2, 70.6},{72.4, 72.2},{72.4, 73.4},{72.4, 73.6},{72.6, 71.4},{72.8, 72.4},{72.8, 73.2},{73, 74.6},{73.2, 73.6},{73.6, 72.8},{73.8, 73.8},{74, 74.8},},
             },
             [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212703] = {
             [npcKeys.name] = "Silverwing Dryad",
@@ -2734,9 +3336,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{27.2, 27.6},{28.2, 28.6},{28.4, 27.4},{28.4, 28.2},{28.6, 26.4},{28.6, 28.2},{28.8, 27},{28.8, 29},{29, 29.8},{29.6, 29},{51, 56.6},{51.2, 55.4},{51.2, 55.6},{51.4, 54.4},{51.6, 54.4},{51.6, 55.6},{51.8, 55},{51.8, 56.6},{52.6, 58},{52.8, 54.4},{53.2, 54.8},{58.4, 72.2},{59.2, 72.8},{59.4, 68.6},{59.4, 72.4},{59.8, 72.4},{60, 71},{60, 72.6},{60.2, 70.2},{60.6, 71},{61.2, 72.2},{69.8, 70.6},{72.2, 72.4},{72.4, 72.8},{72.8, 72.4},{73, 73.2},{73.2, 73.6},{74, 73.4},{74, 74},},
+                [331] = {{27.2, 27.6},{28, 26.4},{28.2, 28.6},{28.4, 27},{28.4, 28.2},{28.6, 26.2},{28.6, 28.2},{28.6, 28.8},{28.6, 32.6},{28.8, 27},{29.2, 30},{29.6, 29},{50, 56.2},{51.2, 55.4},{51.2, 55.6},{51.4, 54.4},{51.4, 56.6},{51.4, 57.6},{51.6, 53.4},{51.6, 54.4},{51.6, 55.6},{51.8, 55},{51.8, 56.6},{52.6, 58},{53.2, 54.8},{53.4, 54.2},{54, 54},{54.4, 54.8},{55, 59.6},{56.2, 55.4},{56.4, 57.8},{58.4, 72.2},{59.2, 70.4},{59.2, 72.8},{59.4, 68.6},{59.4, 72.4},{60, 70.4},{60, 71},{60, 71.8},{60, 72.6},{60.4, 73.6},{60.6, 71.2},{60.8, 71.6},{69.8, 70.6},{72.2, 72.6},{72.4, 71.2},{72.4, 72},{72.6, 71.2},{72.8, 72.4},{73, 73.2},{73, 74.6},{73.4, 73.6},{74, 73.4},{74, 74},{74.8, 72.8},{75, 72},},
             },
             [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212706] = {
             [npcKeys.name] = "Silverwing Druid",
@@ -2744,9 +3348,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{27, 27.8},{27.4, 26.8},{28, 26.4},{28.2, 27.4},{28.4, 28.4},{28.4, 28.6},{28.6, 26.2},{28.6, 28.2},{28.6, 28.8},{28.8, 27},{30.2, 25.8},{50.4, 55.8},{50.8, 57.6},{51.2, 56.2},{51.2, 56.8},{51.4, 54.4},{51.4, 54.6},{51.6, 54.2},{51.6, 54.8},{51.6, 55.6},{53, 54.8},{59, 72.8},{59.2, 72},{59.2, 73.6},{59.6, 68.6},{59.8, 71.8},{60, 70.4},{60, 70.8},{60, 72.6},{60.6, 71.2},{60.8, 70},{61, 71.6},{71.2, 68.2},{72.4, 66.6},{72.4, 71.4},{72.4, 72},{72.4, 73},{72.6, 70.6},{72.8, 72.4},{72.8, 72.8},{73.2, 73.6},{74, 73.4},{74, 74.2},{74.6, 74},},
+                [331] = {{27, 27.8},{27.2, 26.4},{27.4, 26.8},{27.8, 30.6},{28, 26.4},{28, 26.8},{28.2, 29.6},{28.4, 28.4},{28.4, 28.6},{28.6, 26.2},{28.6, 27.8},{28.6, 28.8},{28.8, 30.2},{28.8, 32.8},{29, 27},{30.2, 25.8},{49.8, 56.8},{50.2, 55.4},{50.4, 55.8},{50.6, 60.8},{51.2, 55.4},{51.2, 56.2},{51.4, 54.4},{51.4, 56.6},{51.4, 57.6},{51.6, 53.4},{51.6, 54.4},{51.6, 54.6},{51.6, 55.6},{51.6, 57.4},{52.8, 58.4},{53, 54.8},{53.2, 54.4},{53.8, 54.2},{54.4, 55},{59, 70.2},{59, 72.6},{59.2, 73.6},{59.4, 72},{59.6, 68.6},{59.8, 71.8},{60, 70.4},{60, 70.8},{60, 72.6},{60.4, 73.6},{60.6, 69.4},{60.6, 70.4},{60.6, 71},{60.6, 73.4},{61, 71.6},{61.4, 74},{71.2, 68.2},{72, 66.8},{72.2, 72},{72.4, 71.4},{72.4, 73},{72.4, 73.8},{72.6, 70.6},{72.8, 72.4},{72.8, 73},{73.2, 73.6},{73.8, 74},{74, 73.4},{74.6, 74},},
             },
             [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212707] = {
             [npcKeys.name] = "Larodar",
@@ -2754,9 +3360,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{46, 56},{50.4, 51.2},{50.4, 54.4},{50.4, 54.8},{51.2, 55.6},{51.2, 56.8},{51.4, 54.4},{51.4, 54.6},{51.4, 57.8},{51.6, 53.2},{51.6, 54.2},{51.6, 54.8},{51.6, 55.6},{51.6, 56.6},{52.4, 58.2},{52.6, 54.6},{52.8, 58.4},{53, 54.4},{53.4, 58.8},{53.8, 59},{54.2, 54.6},{55.2, 55.4},{55.2, 59.8},{56.2, 54.8},{56.2, 55.6},},
+                [331] = {{46, 56},{47, 56},{48.6, 56.6},{49.6, 56.6},{50, 57.6},{50.4, 51.2},{50.4, 54.4},{50.4, 54.8},{50.4, 55.8},{50.8, 50.6},{50.8, 52.6},{51, 51.8},{51.2, 54.2},{51.2, 58.6},{51.2, 61.6},{51.4, 54.8},{51.4, 55.6},{51.4, 56.6},{51.4, 57.8},{51.4, 60.4},{51.6, 53.2},{51.6, 54.6},{51.6, 55.6},{51.6, 57.4},{51.6, 60.2},{51.8, 54.2},{52.4, 58.2},{52.6, 58.2},{53, 54.4},{53.2, 54.6},{53.4, 58.8},{53.8, 54.6},{53.8, 59},{54.2, 54.4},{54.4, 53.4},{54.6, 59.4},{55, 54.4},{55, 55},{55.2, 59.8},{56, 55.2},{56, 55.6},},
             },
             [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212727] = {
             [npcKeys.name] = "Warsong Grunt",
@@ -2764,9 +3372,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{20, 37.6},{20.2, 35.6},{20.4, 36.8},{21.2, 38},{21.4, 36.4},{21.4, 37},{21.4, 38.8},{21.6, 36.4},{21.6, 37},{21.6, 40.2},{22, 35.4},{22, 37.8},{22.2, 38.8},{22.6, 35.6},{22.8, 34.8},{23.2, 38.2},{37.4, 67.6},{38.2, 67.8},{38.4, 67.2},{38.4, 68.6},{38.6, 66.8},{38.6, 68.6},{39, 66.4},{39, 67.6},{39.4, 65.2},{39.6, 66.4},{39.6, 66.6},{39.8, 65},{39.8, 67.6},{39.8, 69.6},{40, 69.4},{41.2, 65.8},{41.2, 67},{52, 54.4},{52.4, 54.6},{53, 54.6},{53.2, 54.4},{54, 53.4},{54, 54.6},{54.2, 54.4},{54.8, 55},{55, 54.2},{55.4, 55.6},{55.6, 55.4},{56, 55.6},{57, 56},{67.6, 62.2},{68.4, 63.4},{69.4, 62.4},{69.4, 63},{69.4, 63.6},{69.6, 63},{69.8, 63.6},{70.2, 62.2},{70.6, 63.2},},
+                [331] = {{20, 38.2},{20.2, 35.6},{20.4, 36.8},{21.2, 36.6},{21.2, 37.8},{21.2, 38.6},{21.4, 36.4},{21.6, 36.4},{21.8, 37.2},{21.8, 37.6},{22, 35.4},{22, 39.8},{22.2, 38.8},{22.6, 35.6},{22.8, 34.8},{23, 38.6},{23.2, 38.2},{37, 66.2},{37.4, 66.6},{37.4, 67.6},{38.2, 67.8},{38.4, 67.2},{38.4, 68.6},{38.8, 66.4},{39, 67.8},{39, 69},{39.4, 65.2},{39.4, 66.8},{39.6, 65.4},{39.6, 66.4},{39.6, 66.6},{39.6, 67.6},{39.6, 69.2},{39.8, 69.6},{41.2, 65.8},{41.2, 67},{51.2, 55.2},{51.4, 53.6},{52.4, 54.4},{52.4, 54.6},{53, 54.6},{53.4, 54},{54, 53.4},{54, 54.8},{54.2, 54},{54.6, 54.2},{55.4, 55.4},{55.4, 55.6},{55.6, 55.4},{55.8, 55.6},{57, 56},{58.2, 55.6},{61.4, 57},{67.4, 64.4},{67.6, 64.6},{68.4, 62.4},{68.4, 63.4},{68.4, 63.8},{69, 63.6},{69.2, 62.4},{69.2, 64.6},{69.4, 62.8},{69.6, 63},{69.8, 63.6},{70.2, 62.2},{70.6, 63.2},},
             },
             [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212728] = {
             [npcKeys.name] = "Warsong Raider",
@@ -2774,9 +3384,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{20, 37.4},{20.4, 35.6},{21, 38.6},{21.2, 36.4},{21.4, 36.6},{21.4, 37.8},{21.6, 36.4},{21.6, 38.6},{21.8, 37.4},{22, 35.4},{22, 37.8},{22.6, 38},{22.8, 35.2},{37, 68},{38.4, 67.2},{38.4, 67.8},{38.8, 69},{39, 66.4},{39, 66.8},{39, 67.8},{39.4, 65.2},{39.6, 64.8},{39.6, 66.4},{39.6, 66.6},{40, 67.8},{40.6, 66.2},{41.6, 65.4},{51.4, 54.4},{51.4, 54.6},{51.8, 54.6},{52, 53.8},{52.6, 54.4},{53, 54.6},{53.6, 54.6},{53.8, 54.4},{54.2, 53.2},{54.4, 55.6},{54.6, 54},{55.2, 53.2},{55.4, 55.2},{55.4, 55.6},{55.6, 55.2},{55.8, 55.6},{67.8, 62.4},{68.4, 63.6},{68.6, 63.6},{69.4, 63},{69.6, 63},{69.8, 63.6},{70.4, 62.4},{70.6, 62.4},{70.6, 62.8},{71.2, 63.8},},
+                [331] = {{20.2, 35.4},{20.2, 36.2},{20.2, 37},{20.2, 37.6},{21.2, 37.2},{21.2, 38.6},{21.4, 36.4},{21.4, 38.2},{21.6, 36.4},{21.6, 36.6},{21.6, 38.6},{22, 35.2},{22, 37.8},{22.6, 35.8},{22.6, 38},{22.8, 35.2},{22.8, 38.6},{36, 64.8},{37, 68},{37.4, 66.4},{38.2, 67.8},{38.4, 67.2},{38.4, 68.6},{38.8, 69},{39, 67},{39, 67.8},{39.4, 65.4},{39.4, 65.8},{39.6, 65},{39.6, 66.4},{39.6, 66.6},{39.6, 67.8},{39.6, 68.6},{39.8, 64.4},{40.2, 69.6},{40.6, 66.2},{41.6, 65.4},{51.2, 55.2},{51.4, 54.4},{51.6, 54.4},{51.8, 53.4},{52.4, 54.6},{53, 54.4},{53.4, 54.6},{54.2, 53.2},{54.2, 54.2},{54.4, 54.8},{54.4, 55.6},{54.6, 53.4},{54.6, 54},{54.8, 55.6},{55.2, 55.2},{55.6, 55.2},{56.2, 55.6},{57, 55.8},{57.8, 56.2},{67.4, 64.4},{67.8, 62.4},{68.4, 63.6},{68.6, 63.6},{69.2, 62.4},{69.4, 63},{69.6, 63},{69.6, 63.6},{70.4, 62.4},{70.6, 62.4},{70.6, 62.8},{71.2, 63.8},},
             },
             [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212729] = {
             [npcKeys.name] = "Warsong Shaman",
@@ -2784,9 +3396,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{20.2, 36.8},{20.4, 36.2},{20.4, 37.6},{21.2, 36.4},{21.2, 36.6},{21.4, 38},{21.6, 36.4},{21.6, 38.6},{21.8, 37.4},{21.8, 37.6},{38.2, 67.8},{38.4, 67.2},{38.8, 66.4},{39, 67.4},{39, 68},{39, 68.8},{39.6, 66.2},{39.6, 67.2},{39.6, 67.6},{39.8, 65.4},{51.8, 54.4},{52.2, 54.6},{53, 54.4},{53, 54.6},{53.6, 54.2},{53.6, 54.6},{54.4, 53.4},{54.6, 53.8},{54.6, 55.6},{54.8, 55.2},{55.6, 55},{68.4, 62.6},{69.2, 63.6},{69.4, 62.8},{69.6, 62.8},{69.6, 63.6},{70, 62},{70.6, 63.6},{70.8, 62.4},{70.8, 63.2},},
+                [331] = {{20.2, 36.8},{20.4, 36.2},{20.4, 37.6},{21, 38},{21.2, 36.6},{21.4, 36.4},{21.4, 38.6},{21.8, 36.2},{21.8, 37.4},{21.8, 37.6},{22, 38.6},{37, 66.2},{38.2, 67.8},{38.4, 67.2},{39, 66.4},{39, 67.4},{39, 68},{39.2, 68.8},{39.4, 65.4},{39.6, 64.4},{39.6, 65.4},{39.6, 66.2},{39.6, 67},{39.6, 67.8},{51.4, 54},{51.4, 54.6},{51.8, 54.4},{52.2, 54.6},{53, 54.4},{53, 54.6},{53.6, 54.2},{54.2, 53.2},{54.2, 54.6},{54.6, 53.2},{54.6, 54},{54.6, 55.6},{54.8, 55},{55.6, 55},{55.8, 59.4},{56, 55.6},{56.8, 56},{58.2, 56},{68, 62.4},{68.4, 62.6},{68.4, 63.8},{69.2, 63.6},{69.4, 62.8},{69.6, 62.8},{69.6, 63.6},{70, 62.2},{70.6, 63.2},{70.6, 63.6},{70.8, 62.4},},
             },
             [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212730] = {
             [npcKeys.name] = "Tojara",
@@ -2794,9 +3408,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{50.2, 54.2},{50.4, 54.6},{51, 53.2},{51, 55.6},{51.4, 54.2},{51.4, 55},{51.6, 53.8},{51.6, 54.6},{52.2, 53.2},{53, 54.4},{53.4, 54.6},{53.8, 54.4},{53.8, 54.6},{54.2, 52.2},{54.2, 53.2},{54.6, 53.4},{54.8, 54.4},{54.8, 54.8},{55, 55.6},{55.8, 55.4},{55.8, 55.8},{57.4, 55.8},},
+                [331] = {{49.4, 57},{49.6, 56.8},{50, 52.4},{50, 56.2},{50.2, 54.2},{50.4, 53.4},{50.4, 54.6},{51, 52.4},{51.2, 56},{51.2, 56.6},{51.4, 53.2},{51.4, 54.2},{51.4, 55},{51.6, 53.4},{51.6, 54},{51.6, 54.6},{52, 57.8},{53, 54.4},{53.2, 54.6},{53.6, 54.6},{54.2, 51.2},{54.2, 52.2},{54.2, 53.2},{54.2, 54},{54.6, 51.4},{54.6, 53.4},{54.6, 54},{54.8, 55},{54.8, 55.6},{55.6, 55.4},{55.6, 55.6},{56.2, 59.4},{56.6, 53},{56.8, 56},{57.8, 56},{58.6, 56.4},},
             },
             [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212753] = {
             [npcKeys.name] = "Tortured Soul",
@@ -2804,12 +3420,14 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 20,
             [npcKeys.zoneID] = 17,
             [npcKeys.spawns] = {
-                [17] = {{45, 58.6},},
+                [17] = {{45, 58.6},{63, 56.8},},
                 [44] = {{76.4, 84.2},},
-                [130] = {{44.2, 40.2},{44.4, 42},{44.8, 42.4},{45, 40.6},{46, 39.6},{46.4, 83.8},{49, 38.2},{53.8, 71.6},{56.8, 70.6},{57.6, 71.4},{58, 71.8},{59.4, 70.4},{59.4, 70.8},{59.8, 75.4},{60.4, 72.4},{60.4, 73.6},{65.8, 80},},
+                [130] = {{44.2, 40.2},{44.4, 42},{44.8, 42.4},{45, 40.6},{46, 39.6},{46.4, 83.8},{47.4, 83.8},{49, 38.2},{53.8, 71.6},{56.8, 70.6},{57.6, 71.4},{58, 71.8},{58.6, 72},{59.4, 70.2},{59.4, 70.8},{59.8, 75.4},{60.4, 72.4},{60.4, 73.6},{60.6, 72.4},{60.6, 72.6},{62, 72.6},{62.6, 73.8},{63.6, 75.2},{65.8, 80},},
                 [1497] = {{66.8, 43.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212763] = {
             [npcKeys.name] = "Sadistic Fiend",
@@ -2817,9 +3435,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 19,
             [npcKeys.zoneID] = 130,
             [npcKeys.spawns] = {
-                [130] = {{58.2, 45.2},},
+                [130] = {{57, 45.8},{57.4, 44.8},{58.2, 45.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212801] = {
             [npcKeys.name] = "Jubei",
@@ -2827,9 +3447,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{20.4, 36.4},{20.4, 37},{21.2, 38.6},{21.4, 36.4},{21.4, 37.2},{21.4, 38.2},{21.6, 37.4},{21.6, 37.6},{21.8, 36.4},{22, 38.6},{22.6, 38.4},},
+                [331] = {{20.2, 35.4},{20.4, 36.4},{20.4, 37},{20.4, 38.2},{20.6, 35.4},{21.2, 36.4},{21.2, 38.6},{21.4, 37.2},{21.4, 37.8},{21.6, 36.4},{21.6, 37.4},{21.6, 37.6},{22, 35.4},{22, 38.6},{22.6, 36},{22.6, 38.4},{22.6, 38.6},},
             },
             [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212802] = {
             [npcKeys.name] = "Moogul the Sly",
@@ -2837,9 +3459,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{68.4, 63.2},{68.4, 63.8},{68.6, 65},{69, 63.6},{69.4, 63},{69.6, 63},{69.6, 63.6},{70, 62.4},{70.8, 62.8},{71.4, 63.6},},
+                [331] = {{68.4, 63.4},{68.4, 63.8},{69.2, 63.6},{69.4, 63.2},{69.6, 63.2},{69.6, 63.6},{70, 62.4},},
             },
             [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212803] = {
             [npcKeys.name] = "Ceredwyn",
@@ -2847,9 +3471,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{72.4, 72.2},{72.4, 73},{72.6, 72.4},{73, 73.2},{73.2, 73.6},{73.4, 74.6},{74, 73.4},{74, 74},{74, 74.6},{74.6, 73.4},{74.6, 74},},
+                [331] = {{72.4, 71.4},{72.4, 72.2},{72.4, 73},{72.6, 71.4},{72.6, 72.4},{73, 73.2},{73.2, 73.6},{73.4, 74.6},{73.8, 73.8},{74, 73.4},{74, 74.6},{74.6, 73.4},{74.6, 74},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212804] = {
             [npcKeys.name] = "Centrius",
@@ -2857,19 +3483,23 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{27.2, 26.4},{27.4, 26.8},{27.4, 27.8},{28, 26.4},{28.2, 27.4},{28.4, 28.4},{28.4, 28.8},{28.4, 29.6},{28.6, 28.4},{28.6, 28.8},{28.6, 29.8},{28.8, 26.2},{29, 27.4},},
+                [331] = {{27.4, 26},{27.4, 26.8},{27.4, 27.6},{27.8, 26.4},{28.2, 27.2},{28.4, 28.4},{28.4, 28.8},{28.4, 29.6},{28.6, 26.6},{28.6, 28.2},{28.6, 28.6},{28.6, 29.6},{28.8, 26.2},{29.6, 27.2},},
             },
             [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212809] = {
             [npcKeys.name] = "Wailing Spirit",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
+            [npcKeys.minLevel] = 20,
+            [npcKeys.maxLevel] = 20,
             [npcKeys.zoneID] = 130,
             [npcKeys.spawns] = {
-                [130] = {{57.2, 70.4},{57.4, 71},{57.6, 71},{58, 71.8},},
+                [130] = {{57.2, 70.4},{57.4, 71},{57.6, 71},{58, 71.8},{60.2, 74.4},{60.6, 72.4},{60.6, 73.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212837] = {
             [npcKeys.name] = "Primordial Anomaly",
@@ -2877,9 +3507,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 406,
             [npcKeys.spawns] = {
-                [406] = {{27, 64},{27.6, 63},{27.8, 64.4},{28.4, 64.8},{28.4, 65.6},{28.4, 72.2},{28.6, 62},{28.6, 66},{28.6, 71.2},{28.8, 65.2},{29, 73},{29, 73.8},{29.2, 71.8},{29.6, 63.6},{29.6, 72},{32.6, 67.6},{33, 68.8},{33, 70},{33.2, 66.6},{33.6, 69.2},{33.8, 70},{35, 72.2},{36.4, 72.6},{36.6, 73},{37, 72.2},{37.4, 71.2},},
+                [406] = {{27, 64},{27.4, 67.2},{27.6, 63},{28, 65.8},{28.4, 63.6},{28.4, 64.6},{28.4, 72.2},{28.6, 62},{28.6, 63.2},{28.6, 65.2},{28.6, 66},{28.6, 71.2},{29, 73},{29, 73.8},{29.2, 71.8},{29.6, 63.6},{29.6, 72},{32.6, 67.6},{33.2, 66.6},{33.2, 69.6},{33.2, 71.2},{33.4, 69.4},{33.6, 69.2},{33.8, 70},{35, 72.2},{36.4, 72.6},{36.8, 71.4},{36.8, 72.6},{37, 72.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [212969] = {
             [npcKeys.name] = "Kazragore",
@@ -2887,9 +3519,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{37.4, 66.6},{38.2, 68},{38.4, 66.8},{38.4, 68.6},{38.8, 66.4},{39, 67.4},{39, 68.6},{39.2, 67.8},{39.6, 66.6},{39.6, 67.6},{39.8, 65.4},{39.8, 66.2},{39.8, 69.4},{39.8, 69.6},{40.6, 66.4},},
+                [331] = {{37.4, 66.6},{38.2, 66.4},{38.4, 66.8},{38.4, 67.6},{38.4, 68.6},{38.8, 66.4},{39, 67.4},{39, 68.6},{39.2, 65.2},{39.2, 67.8},{39.6, 66.4},{39.6, 66.6},{39.6, 67.6},{39.8, 65.4},{39.8, 69.4},{39.8, 69.6},{40.6, 66.4},},
             },
             [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = {79098},
         },
         [212970] = {
             [npcKeys.name] = "Felore Moonray",
@@ -2897,9 +3531,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{59.2, 70.4},{59.2, 71},{59.4, 72},{59.4, 72.6},{59.4, 73.8},{59.4, 75.2},{59.6, 73.8},{60, 70.2},{60, 71.4},{60, 72},{60, 72.6},{60, 75.2},{60.6, 70.6},},
+                [331] = {{59.4, 72.6},{60, 71.4},{60, 71.8},{60, 72.6},{60.2, 70.4},},
             },
             [npcKeys.friendlyToFaction] = "A",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = {79090},
         },
         [213077] = {
             [npcKeys.name] = "Elaine Compton",
@@ -2907,9 +3543,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 30,
             [npcKeys.zoneID] = 1519,
             [npcKeys.spawns] = {
-                [1519] = {{54.4, 60.2},{54.4, 60.8},{54.6, 61.2},{54.8, 62},},
+                [1519] = {{54.4, 60.8},{54.6, 61.2},{54.8, 62},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = {78611,78612,78872,79100,79101,79102,79103},
         },
         [213334] = {
             [npcKeys.name] = "Aku'mai",
@@ -2918,6 +3556,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [213444] = {
             [npcKeys.name] = "Mysterious Traveler",
@@ -2928,6 +3568,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [331] = {{79, 80.2},},
             },
             [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = {78684},
+            [npcKeys.questEnds] = nil,
         },
         [213445] = {
             [npcKeys.name] = "Raszel Ander",
@@ -2938,6 +3580,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [17] = {{49.2, 57.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [213451] = {
             [npcKeys.name] = "Cleansing Elemental",
@@ -2948,6 +3592,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [213452] = {
             [npcKeys.name] = "Corrosion Elemental",
@@ -2956,6 +3602,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [213540] = {
             [npcKeys.name] = "Mysterious Traveler",
@@ -2966,6 +3614,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [17] = {{49.2, 57.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [213595] = {
             [npcKeys.name] = "Void Elemental",
@@ -2974,6 +3624,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [213659] = {
             [npcKeys.name] = "Dark Ritual Portal",
@@ -2982,6 +3634,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [213708] = {
             [npcKeys.name] = "Legion Hound",
@@ -2989,9 +3643,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{79, 80.4},},
+                [331] = {{79, 80.4},{79, 80.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [213709] = {
             [npcKeys.name] = "Mannoroc Lasher",
@@ -3002,6 +3658,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [331] = {{79, 80.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [213710] = {
             [npcKeys.name] = "Felguard",
@@ -3012,6 +3670,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [331] = {{79, 80.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [213711] = {
             [npcKeys.name] = "Searing Infernal",
@@ -3022,6 +3682,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [331] = {{79, 80.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [213994] = {
             [npcKeys.name] = "Corrosive Droplet",
@@ -3032,6 +3694,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214000] = {
             [npcKeys.name] = "Corrosive Pool Stalker",
@@ -3040,6 +3704,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214070] = {
             [npcKeys.name] = "Jornah",
@@ -3050,6 +3716,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [1637] = {{51.4, 63.8},{51.6, 63.8},{51.6, 64.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = {78611,78612,78872,79100,79101,79102,79103},
         },
         [214096] = {
             [npcKeys.name] = "Dokimi",
@@ -3060,6 +3728,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [1638] = {{39.4, 53.4},{39.4, 53.6},{39.6, 53.4},{39.6, 53.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = {78611,78612,78872,79100,79101,79102,79103},
         },
         [214098] = {
             [npcKeys.name] = "Gishah",
@@ -3067,9 +3737,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 30,
             [npcKeys.zoneID] = 1497,
             [npcKeys.spawns] = {
-                [1497] = {{63.8, 37.2},{64, 39.2},{64.4, 38.4},{64.8, 38.2},{65.4, 38.8},{65.6, 38.4},{65.6, 38.6},},
+                [1497] = {{64, 39.2},{64.4, 38.4},{64.8, 38.2},{65.4, 38.6},{65.6, 38.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = {78611,78612,78872,79100,79101,79102,79103},
         },
         [214099] = {
             [npcKeys.name] = "Tamelyn Aldridge",
@@ -3080,6 +3752,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [1537] = {{24, 65.8},{24.4, 67.4},{24.4, 67.6},{24.6, 67.4},{24.6, 67.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = {78611,78612,78872,79100,79101,79102,79103},
         },
         [214101] = {
             [npcKeys.name] = "Marcy Baker",
@@ -3090,6 +3764,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [1657] = {{59.2, 56.6},{59.4, 56},{59.8, 56.4},{59.8, 56.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = {78611,78612,78872,79100,79101,79102,79103},
+            [npcKeys.questEnds] = {78611,78612,78872,79100,79101,79102,79103},
         },
         [214129] = {
             [npcKeys.name] = "Venture Co. Light Shredder",
@@ -3097,9 +3773,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 21,
             [npcKeys.zoneID] = 406,
             [npcKeys.spawns] = {
-                [406] = {{59, 53.8},{59.2, 54.6},{59.4, 51},{59.8, 51.4},{59.8, 51.6},{60, 53.4},{60, 54.4},{60, 55},{60.2, 50.4},{60.2, 55.6},{60.6, 51},{60.6, 55.2},{61.4, 52.4},{61.4, 52.8},{62, 53},{62, 53.8},{62.2, 52.2},{62.4, 55.2},{62.6, 52},{62.6, 52.8},{65.8, 46.4},{65.8, 57.8},{66.4, 46.6},{66.4, 47.6},{66.6, 47.4},{66.6, 47.6},{66.6, 54.8},{67.2, 58},{67.4, 57.4},{67.6, 57.4},{67.6, 57.8},{68.2, 47.6},{68.4, 47.4},{68.4, 48.6},{68.6, 47.8},{68.6, 54.4},{68.6, 57.8},{68.8, 48.6},{68.8, 57.4},{69, 47.2},{69.2, 49.8},{69.4, 55.2},{69.8, 47.6},{70, 55.8},{70.2, 49.6},{70.2, 54.2},{70.2, 55.2},{70.4, 40.8},{70.4, 41.8},{70.4, 42.8},{70.4, 48.6},{70.6, 41.4},{70.6, 42.6},{70.6, 55},{70.8, 42},{70.8, 48.2},{70.8, 49.2},{70.8, 49.6},{70.8, 55.8},{71, 50.8},{71.8, 52},{72.2, 50.2},{72.4, 53},{72.4, 53.6},{72.6, 53},{72.8, 52.4},{72.8, 53.6},{73, 44.8},{73, 51.4},{73.2, 55.6},{74.8, 52.8},},
+                [406] = {{59, 53.8},{59.2, 54.6},{59.4, 51},{59.4, 52.8},{59.8, 51},{59.8, 51.6},{60, 52.6},{60, 54.4},{60, 55.2},{60.2, 50.4},{60.2, 55.6},{60.6, 51},{60.6, 55.2},{61.4, 52.4},{61.4, 52.8},{61.4, 53.6},{62, 53},{62, 53.8},{62.2, 52.2},{62.4, 55.2},{62.6, 52},{62.6, 52.8},{65.8, 46.4},{65.8, 57.8},{66.2, 49},{66.4, 46.6},{66.4, 47.8},{66.6, 47.4},{66.6, 47.6},{66.6, 54.8},{66.8, 48.6},{67.2, 46.4},{67.4, 56.2},{67.4, 57.4},{67.4, 57.6},{67.6, 57.4},{67.6, 57.6},{67.8, 55.8},{68.2, 47.4},{68.4, 47.8},{68.4, 48.6},{68.6, 47.4},{68.6, 48},{68.6, 54.4},{68.6, 57.8},{68.8, 48.6},{68.8, 57.4},{69.2, 49.8},{69.4, 55.2},{69.8, 47.6},{70, 56},{70.2, 55.2},{70.4, 41.2},{70.4, 41.8},{70.4, 42.6},{70.4, 48.6},{70.4, 49.6},{70.4, 54.4},{70.6, 41.4},{70.6, 42.6},{70.6, 55.2},{70.6, 56},{70.8, 42},{70.8, 48.2},{70.8, 49.2},{71, 49.8},{71, 50.8},{71.6, 49},{72.2, 50.2},{72.4, 52},{72.4, 53.2},{72.4, 53.6},{72.6, 52.4},{72.6, 52.8},{72.8, 53.6},{73, 44.8},{73, 51.4},{73.2, 55.6},{74.8, 52.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214133] = {
             [npcKeys.name] = "Breath Stalker",
@@ -3108,6 +3786,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214190] = {
             [npcKeys.name] = "Blackfathom Pearl",
@@ -3116,6 +3796,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214208] = {
             [npcKeys.name] = "N'ora Anyheart",
@@ -3126,6 +3808,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [17] = {{62, 39.4},},
             },
             [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = {78909},
+            [npcKeys.questEnds] = {78909},
         },
         [214212] = {
             [npcKeys.name] = "Shadowy Figure",
@@ -3133,9 +3817,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 63,
             [npcKeys.zoneID] = 36,
             [npcKeys.spawns] = {
-                [36] = {{88.4, 73.4},{88.4, 73.6},{88.6, 73.4},{88.6, 73.6},},
+                [36] = {{88.4, 73.4},{88.6, 73.4},{88.6, 73.6},},
             },
             [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214254] = {
             [npcKeys.name] = "Pool of Shadow Stalker",
@@ -3144,6 +3830,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214440] = {
             [npcKeys.name] = "Demolition Explosives",
@@ -3152,6 +3840,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214456] = {
             [npcKeys.name] = "Dro'zem the Blasphemous",
@@ -3159,9 +3849,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 23,
             [npcKeys.zoneID] = 44,
             [npcKeys.spawns] = {
-                [44] = {{32.6, 6.8},{33.4, 7.8},{34.4, 6.8},{34.4, 7.6},{34.8, 7.6},{35, 7.2},{35.2, 8.8},{35.6, 8.2},{35.8, 6.8},{36.6, 7.6},{38.6, 13.8},{39.6, 14.4},{57.4, 41.4},{61.4, 45.2},{61.8, 41.8},{62, 44.2},{62, 44.8},{62.4, 43.4},{62.6, 42},{62.6, 44.2},{62.8, 43.4},{63.6, 42.8},{64, 42},{64.2, 45},{64.2, 45.8},{64.6, 46.6},{65, 48.4},{65.2, 42.6},{71.6, 79.2},{71.8, 80.8},{72.6, 81},{73.6, 79.6},{74.4, 81.6},{74.6, 73.6},{74.6, 76.8},{74.6, 78.6},{75.2, 73.2},{75.2, 79.8},{75.2, 82},{75.2, 82.8},{75.2, 83.6},{75.4, 77.8},{75.4, 80.6},{75.6, 79.2},{75.8, 79.6},{75.8, 82},{75.8, 83.6},{76, 77.4},{76.2, 72},{76.2, 83.4},{77, 73.8},{77.2, 79.8},{77.4, 69.4},{77.4, 71.4},{77.4, 71.6},{77.4, 75},{77.6, 70.6},{77.6, 74},{77.8, 67},{77.8, 70.2},{78, 72.4},{78.2, 63.6},{78.2, 68.2},{78.2, 69.4},{78.4, 72.8},{78.6, 68},{78.6, 69.2},{78.6, 69.6},{78.6, 70.6},{78.6, 72.2},{79.8, 70.6},{80, 70},{80.2, 67.6},},
+                [44] = {{32.6, 6.8},{33.4, 7.8},{34.4, 6.8},{34.4, 7.6},{34.6, 7.4},{34.6, 7.6},{34.8, 10},{35.4, 8.6},{35.6, 8.2},{35.8, 6.8},{35.8, 9},{36.4, 9.6},{36.6, 7.6},{38.6, 13.8},{39.6, 14.4},{57.4, 41.4},{59.8, 40.4},{60.8, 44},{61.4, 45.2},{61.4, 48},{62, 44.8},{62.2, 42.2},{62.4, 43.4},{62.4, 43.6},{62.6, 42},{62.6, 43.2},{62.6, 44.4},{62.6, 44.6},{63.4, 41.4},{63.6, 42.8},{64, 42},{64.2, 45},{64.2, 45.8},{64.6, 46.6},{64.8, 40.2},{65, 48.4},{65.2, 42.6},{71.6, 79.2},{71.8, 80.8},{72.6, 81},{73.6, 79.6},{74.4, 82.2},{74.6, 73.6},{74.6, 76.8},{74.6, 78.6},{75.2, 73.2},{75.2, 79.8},{75.2, 82},{75.2, 82.8},{75.2, 83.6},{75.4, 77.8},{75.4, 81},{75.6, 79.2},{75.8, 78.2},{75.8, 79.6},{75.8, 81.8},{75.8, 82.8},{75.8, 83.6},{76, 77.4},{76.2, 72},{77, 70},{77, 73.8},{77.2, 79.8},{77.4, 69.4},{77.4, 71.4},{77.4, 71.6},{77.4, 75},{77.6, 70.6},{77.6, 74},{77.8, 67},{77.8, 70.2},{78, 72.4},{78.2, 63.6},{78.2, 68.2},{78.4, 69.2},{78.4, 72.8},{78.6, 68},{78.6, 69.2},{78.6, 69.6},{78.6, 70.6},{78.6, 72},{78.8, 67.4},{79.8, 70.6},{79.8, 72.4},{80, 70},{80.2, 67.6},{80.2, 68.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214458] = {
             [npcKeys.name] = "Baron Aquanis",
@@ -3170,6 +3862,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214468] = {
             [npcKeys.name] = "Ghamoo-ra",
@@ -3178,6 +3872,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214469] = {
             [npcKeys.name] = "Lady Sarevess",
@@ -3186,6 +3882,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214519] = {
             [npcKeys.name] = "Incinerator Gar'im",
@@ -3193,9 +3891,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 23,
             [npcKeys.zoneID] = 44,
             [npcKeys.spawns] = {
-                [44] = {{74, 82.2},{74.6, 83.4},{75.2, 84.4},{76.4, 83.4},{76.4, 84},{76.6, 83},{76.6, 84.4},{76.8, 82.2},{77.2, 76.4},{77.4, 85.4},{77.4, 85.8},{77.6, 85.8},{77.6, 86.6},},
+                [44] = {{74, 82.2},{74.6, 83.4},{75.2, 84.4},{75.8, 82},{75.8, 84.6},{76.4, 83.4},{76.4, 84},{76.6, 83},{76.6, 84.2},{76.8, 82.2},{77.2, 76.4},{77.4, 85.4},{77.4, 85.8},{77.6, 85.8},{77.6, 86.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214523] = {
             [npcKeys.name] = "Blackfathom Elite",
@@ -3204,6 +3904,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214524] = {
             [npcKeys.name] = "Gelihast",
@@ -3212,6 +3914,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214525] = {
             [npcKeys.name] = "Lorgus Jett",
@@ -3220,6 +3924,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214526] = {
             [npcKeys.name] = "Twilight Lord Kelris",
@@ -3228,6 +3934,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214527] = {
             [npcKeys.name] = "Aku'mai",
@@ -3236,6 +3944,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214528] = {
             [npcKeys.name] = "Boss Dummy",
@@ -3244,6 +3954,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214529] = {
             [npcKeys.name] = "Brave Stonetorch",
@@ -3251,9 +3963,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 267,
             [npcKeys.spawns] = {
-                [267] = {{66, 19.2},},
+                [267] = {{65.8, 19.6},{66, 19.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214530] = {
             [npcKeys.name] = "Ardelle Dralta",
@@ -3264,6 +3978,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [267] = {{51, 58.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214603] = {
             [npcKeys.name] = "Blackfathom Tide Priestess",
@@ -3274,6 +3990,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214612] = {
             [npcKeys.name] = "Aku'mai Fisher",
@@ -3284,6 +4002,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214658] = {
             [npcKeys.name] = "Ashenvale Arcane Shard Stalker",
@@ -3292,6 +4012,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214695] = {
             [npcKeys.name] = "Peon",
@@ -3300,6 +4022,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214830] = {
             [npcKeys.name] = "Wisp",
@@ -3308,6 +4032,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214837] = {
             [npcKeys.name] = "Cheddar",
@@ -3316,6 +4042,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214876] = {
             [npcKeys.name] = "Davius Voidstar",
@@ -3326,6 +4054,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [148] = {{36.8, 43.4},{36.8, 43.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = {79099},
+            [npcKeys.questEnds] = {79099},
         },
         [214914] = {
             [npcKeys.name] = "Blackfathom Pearl",
@@ -3334,6 +4064,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [214954] = {
             [npcKeys.name] = "Rix Xizzix",
@@ -3344,6 +4076,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [33] = {{28.4, 75.6},},
             },
             [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [215062] = {
             [npcKeys.name] = "Supplicant",
@@ -3351,9 +4085,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 5,
             [npcKeys.zoneID] = 1519,
             [npcKeys.spawns] = {
-                [1519] = {{39.2, 29.6},{39.4, 28.4},{39.4, 29},{39.6, 28.4},{39.6, 29.2},{40, 29.6},},
+                [1519] = {{39.4, 28.4},{39.4, 29},{39.4, 30.4},{39.6, 28.4},{39.6, 29.2},{40, 29.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [215068] = {
             [npcKeys.name] = "[DNT] Kill Credit - Priest - Meditation Sharing Tutorial",
@@ -3362,6 +4098,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [215072] = {
             [npcKeys.name] = "Loa Altar",
@@ -3369,21 +4107,25 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 1,
             [npcKeys.zoneID] = 36,
             [npcKeys.spawns] = {
-                [36] = {{79.8, 66.8},{80, 67.8},},
+                [36] = {{79.8, 67},{80, 67.8},},
                 [331] = {{11.8, 35.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [215081] = {
             [npcKeys.name] = "Bat Loa",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
+            [npcKeys.minLevel] = 60,
+            [npcKeys.maxLevel] = 60,
             [npcKeys.zoneID] = 36,
             [npcKeys.spawns] = {
                 [36] = {{79.8, 67},},
                 [331] = {{11.8, 35.4},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [215095] = {
             [npcKeys.name] = "Supplicant",
@@ -3391,9 +4133,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 5,
             [npcKeys.zoneID] = 1657,
             [npcKeys.spawns] = {
-                [1657] = {{39.4, 86.8},{39.8, 86},{40, 88.6},{40.2, 87.4},{40.4, 87.8},{40.6, 88.4},},
+                [1657] = {{39.4, 87.2},{39.4, 87.8},{39.8, 86},{40, 86.8},{40, 88.6},{40.4, 87.8},{40.6, 88.4},{40.8, 86.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [215096] = {
             [npcKeys.name] = "Supplicant",
@@ -3401,9 +4145,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 5,
             [npcKeys.zoneID] = 1637,
             [npcKeys.spawns] = {
-                [1637] = {{35.4, 86.4},{35.4, 87.6},{35.6, 87.2},{35.8, 86.2},},
+                [1637] = {{35.4, 86.4},{35.4, 87.6},{35.6, 87.6},{35.8, 86.2},{35.8, 87},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [215097] = {
             [npcKeys.name] = "Supplicant",
@@ -3412,6 +4158,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [215098] = {
             [npcKeys.name] = "Supplicant",
@@ -3419,9 +4167,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 5,
             [npcKeys.zoneID] = 1497,
             [npcKeys.spawns] = {
-                [1497] = {{48.2, 14.6},{49.4, 14.4},{49.4, 15},{49.4, 15.6},{49.6, 14.8},{49.6, 16},{50.2, 14.4},},
+                [1497] = {{48.2, 14.6},{49.4, 14.4},{49.4, 15},{49.4, 15.6},{49.6, 16},{50.2, 14.4},{50.2, 14.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [215108] = {
             [npcKeys.name] = "Aku'mai Snapjaw",
@@ -3432,6 +4182,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [719] = {{-1, -1},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [215367] = {
             [npcKeys.name] = "Dawnwatcher Selgorm",
@@ -3442,6 +4194,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [1657] = {{55.6, 23.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [215369] = {
             [npcKeys.name] = "Bashana Runetotem",
@@ -3449,9 +4203,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 0,
             [npcKeys.zoneID] = 1638,
             [npcKeys.spawns] = {
-                [1638] = {{70, 33.6},{70.8, 32.4},{70.8, 33.2},},
+                [1638] = {{70, 33.4},{70, 33.6},{70.8, 32.4},{70.8, 32.6},{70.8, 33.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216126] = {
             [npcKeys.name] = "Invisible Stalker",
@@ -3460,6 +4216,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216620] = {
             [npcKeys.name] = "Unkillable Test Dummy",
@@ -3468,6 +4226,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216659] = {
             [npcKeys.name] = "Fallenroot Satyr",
@@ -3475,9 +4235,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{13.4, 9.2},{13.4, 10},{13.4, 12.2},{13.4, 13.2},{13.6, 11.8},{13.6, 13.4},{13.8, 10},{13.8, 11.2},{14.4, 9.4},{14.6, 9.8},{15, 10.6},{15.6, 11.2},{16.2, 11.6},{16.6, 11},{16.6, 11.8},},
+                [331] = {{13.4, 9.2},{13.4, 10},{13.4, 12.2},{13.4, 13.2},{13.6, 11.8},{13.6, 13.4},{13.6, 13.6},{13.8, 10.2},{13.8, 11.2},{14.4, 9.4},{14.6, 9.4},{14.8, 10.4},{15, 10.6},{15.6, 11.2},{16.2, 11.6},{16.6, 11},{16.6, 11.8},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216660] = {
             [npcKeys.name] = "Fallenroot Rogue",
@@ -3485,9 +4247,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{13.2, 13},{14.4, 9.4},{14.4, 9.6},{14.6, 10},{15.2, 10.8},{15.6, 11.2},{16.2, 11.6},{16.6, 11},{16.6, 11.8},},
+                [331] = {{13.2, 13},{14.4, 9.4},{14.4, 9.6},{14.6, 10},{15.2, 10.8},{15.8, 11.4},{16.2, 11.6},{16.6, 11},{16.6, 11.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216661] = {
             [npcKeys.name] = "Blackfathom Tide Priestess",
@@ -3495,9 +4259,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{12.4, 10},{12.6, 10},{13.2, 9.4},{13.2, 12.8},{13.4, 12.2},{13.6, 11.8},{13.6, 13.2},{13.8, 10.2},{13.8, 11.2},{14, 13.8},{14.4, 9.4},{14.6, 8.4},{14.6, 8.6},{14.8, 10.2},{15, 10.6},{16, 11.4},{16.4, 11.6},{16.6, 11.6},{16.8, 11.2},{17.6, 11},},
+                [331] = {{12.6, 10},{13.2, 9.4},{13.4, 12.2},{13.4, 13.2},{13.6, 11.8},{13.6, 13.4},{13.8, 10},{13.8, 11.2},{14.2, 9.2},{14.6, 8.6},{14.6, 10},{15, 10.6},{15.8, 11.4},{16.4, 11.6},{16.8, 11.2},{17.6, 11},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216662] = {
             [npcKeys.name] = "Blackfathom Oracle",
@@ -3505,9 +4271,11 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 25,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{12.4, 9.8},{12.8, 10},{13.2, 12.6},{13.4, 9.4},{13.4, 12},{13.6, 9.6},{13.6, 12},{13.6, 13.4},{13.8, 10.6},{14, 13.8},{14.2, 9.2},{14.6, 8.8},{14.6, 9.8},{15, 10.6},{15.8, 11.4},{16.4, 11.6},{16.6, 10.4},{16.6, 11},{16.6, 11.6},{17.6, 11},},
+                [331] = {{12.8, 10},{13.4, 9.4},{13.6, 9.6},{13.6, 12},{13.8, 10.6},{14.4, 9.4},{14.6, 10},{15.2, 10.8},{15.8, 11.4},{16.4, 11.6},{16.6, 11},{16.6, 11.6},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216664] = {
             [npcKeys.name] = "Sprok",
@@ -3516,6 +4284,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216665] = {
             [npcKeys.name] = "Gnomeregan Evacuee",
@@ -3526,6 +4296,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
                 [1] = {{24.4, 40.2},},
             },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216666] = {
             [npcKeys.name] = "Techbot",
@@ -3534,6 +4306,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216667] = {
             [npcKeys.name] = "Addled Leper",
@@ -3542,6 +4316,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216668] = {
             [npcKeys.name] = "Irradiated Invader",
@@ -3550,6 +4326,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216669] = {
             [npcKeys.name] = "Caverndeep Pillager",
@@ -3558,6 +4336,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216670] = {
             [npcKeys.name] = "Caverndeep Looter",
@@ -3566,6 +4346,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216671] = {
             [npcKeys.name] = "Caverndeep Invader",
@@ -3574,6 +4356,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216672] = {
             [npcKeys.name] = "Namdo Bizzfizzle",
@@ -3582,38 +4366,56 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216902] = {
             [npcKeys.name] = "Wulmort Jinglepocket",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.minLevel] = 30,
+            [npcKeys.maxLevel] = 30,
+            [npcKeys.zoneID] = 1537,
+            [npcKeys.spawns] = {
+                [1537] = {{33.4, 65.4},{33.4, 65.6},{33.4, 67},{33.4, 67.6},{33.6, 66.8},},
+            },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = {7022,79482,79486,79492},
+            [npcKeys.questEnds] = {79484,79492},
         },
         [216915] = {
             [npcKeys.name] = "Strange Snowman",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
-            [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.minLevel] = 35,
+            [npcKeys.maxLevel] = 35,
+            [npcKeys.zoneID] = 36,
+            [npcKeys.spawns] = {
+                [36] = {{35.4, 72.4},{35.4, 72.6},{35.6, 72.4},{35.6, 72.6},},
+            },
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.questStarts] = {79484,79485},
+            [npcKeys.questEnds] = {79482,79483},
         },
         [216924] = {
             [npcKeys.name] = "Kaymard Copperpinch",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.minLevel] = 30,
+            [npcKeys.maxLevel] = 30,
+            [npcKeys.zoneID] = 1637,
+            [npcKeys.spawns] = {
+                [1637] = {{53.2, 66.4},{53.2, 66.6},},
+            },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = {6961,79483,79487,79495},
+            [npcKeys.questEnds] = {79485,79495},
         },
         [216931] = {
             [npcKeys.name] = "The Abominable Greench",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
+            [npcKeys.zoneID] = 36,
+            [npcKeys.spawns] = {
+                [36] = {{28.4, 62.6},{28.6, 51.6},{28.6, 62.6},{28.8, 56.2},{28.8, 61.4},{29.2, 57},{29.4, 64},{29.6, 59.8},{29.8, 63.4},{30, 51.4},{30, 55.6},{30, 62},{30.4, 54.6},{30.4, 64.4},{30.8, 47.2},{30.8, 65.4},{30.8, 65.6},{30.8, 66.8},{31, 70.6},{31.6, 51.4},{31.6, 66.2},{31.8, 61.4},{31.8, 70.6},{32, 66.8},{32, 70},{32.2, 48.6},{32.4, 67.8},{32.6, 47.8},{32.6, 50.6},{32.8, 71},{33, 70.4},{33.4, 49.2},{33.6, 72.2},{33.8, 69.6},{34, 70.8},{34.2, 69.4},{34.6, 71},{35.2, 74.8},{37.6, 69.4},{38.2, 74},{38.6, 72.4},{39, 70.2},{39.2, 66},{39.2, 70.6},{39.4, 68.6},{39.6, 64.4},{40.2, 73.8},{40.4, 65.4},{40.4, 73.4},{40.6, 69.8},{40.6, 74.8},{40.6, 80},{41.4, 69.4},{41.8, 69.2},{43, 67.4},{44.4, 64},},
+            },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [216937] = {
             [npcKeys.name] = "Jubei",
@@ -3622,6 +4424,8 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.zoneID] = 0,
             [npcKeys.spawns] = nil,
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [217049] = {
             [npcKeys.name] = "Mirror Image",
@@ -3629,25 +4433,35 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 99,
             [npcKeys.zoneID] = 331,
             [npcKeys.spawns] = {
-                [331] = {{20, 36.2},{20.2, 37.2},{21.2, 36.4},{21.2, 37},{21.2, 38.6},{21.4, 37.6},{21.6, 36.4},{21.6, 37.4},{21.8, 37.8},{21.8, 38.6},{25.2, 37.4},{25.4, 39.4},{26.8, 44},{50, 56.2},{50.2, 49.6},{51.4, 52.4},{51.4, 54.4},{51.4, 55},{52.4, 54.2},{52.4, 54.6},{53.2, 54.4},{53.2, 54.6},{53.8, 54},{53.8, 54.6},{54.2, 53.4},{54.4, 52.4},{54.6, 53.6},{54.6, 55},{54.6, 55.6},{55.6, 55},{55.6, 55.6},{56.4, 57.6},{64.8, 65.2},{65, 59.8},{67.4, 62.4},{68.4, 63.8},{68.6, 64.6},{68.8, 63.6},{69, 62},{69.2, 63},{69.6, 62.8},{69.8, 64.2},{70, 62},},
+                [331] = {{20, 36.2},{20.4, 37},{21.2, 36.4},{21.2, 38.6},{21.4, 36.8},{21.4, 37.6},{21.6, 36.4},{21.6, 37.4},{21.8, 37.8},{21.8, 38.6},{22.6, 38.2},{22.6, 38.8},{24.4, 38},{25.2, 37.4},{25.4, 39.4},{25.6, 39.4},{25.6, 40.4},{25.8, 41},{26.8, 44},{49.8, 56.6},{50, 56.2},{50.2, 49.6},{50.2, 53},{50.4, 54.6},{51.4, 52.4},{51.4, 53.4},{51.4, 54.4},{51.4, 54.6},{51.4, 56},{51.6, 54},{51.6, 54.6},{52, 53.4},{52.4, 57.8},{53.2, 54.4},{53.2, 54.6},{53.8, 54.6},{54.2, 53.2},{54.2, 53.8},{54.4, 52.4},{54.4, 55.6},{54.6, 54},{54.8, 53.4},{54.8, 55},{55, 50.8},{55.2, 55.6},{55.6, 55},{55.6, 55.6},{56.4, 49.4},{56.4, 56.8},{56.4, 57.6},{56.8, 55.8},{60.2, 69.6},{61, 55.6},{61.6, 58},{62.8, 54.2},{63.4, 54.6},{63.8, 67.2},{64, 56.8},{64.2, 56.4},{64.4, 65.8},{64.8, 60.6},{64.8, 65.2},{64.8, 66.8},{65, 59.2},{65.4, 60.4},{65.6, 64.8},{65.8, 64.4},{66.4, 61.2},{66.4, 62},{66.6, 63.8},{66.6, 64.8},{67, 62},{67, 63.4},{67.6, 62.2},{67.6, 64.6},{68.4, 62.8},{68.4, 63.8},{68.6, 64.6},{68.8, 62.2},{69, 63.6},{69.2, 63},{69.6, 63.2},{69.6, 63.6},{69.8, 61.4},{70.4, 62},{70.6, 63},},
             },
             [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
         },
         [217706] = {
             [npcKeys.name] = "Kazragore",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
+            [npcKeys.zoneID] = 331,
+            [npcKeys.spawns] = {
+                [331] = {{74, 60.4},{74, 60.6},},
+            },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = {79098},
         },
         [217707] = {
             [npcKeys.name] = "Felore Moonray",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
-            [npcKeys.zoneID] = 0,
-            [npcKeys.spawns] = nil,
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
+            [npcKeys.zoneID] = 331,
+            [npcKeys.spawns] = {
+                [331] = {{36.8, 49.8},},
+            },
             [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = {79090},
         },
     }
 end

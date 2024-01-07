@@ -26,6 +26,8 @@ QuestieCorrections.killCreditObjectiveFirst[13380] = true
 QuestieCorrections.killCreditObjectiveFirst[13382] = true
 QuestieCorrections.killCreditObjectiveFirst[13404] = true
 QuestieCorrections.killCreditObjectiveFirst[13406] = true
+QuestieCorrections.killCreditObjectiveFirst[24498] = true
+QuestieCorrections.killCreditObjectiveFirst[24507] = true
 
 function QuestieWotlkQuestFixes:Load()
     _QuestieWotlkQuestFixes:InsertMissingQuestIds()
@@ -33,6 +35,7 @@ function QuestieWotlkQuestFixes:Load()
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
+    local factionIDs = QuestieDB.factionIDs
     local zoneIDs = ZoneDB.zoneIDs
     local sortKeys = QuestieDB.sortKeys
     local profKeys = QuestieProfessions.professionKeys
@@ -127,6 +130,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [1284] = {
             [questKeys.preQuestSingle] = {11123},
+        },
+        [1361] = {
+            [questKeys.startedBy] = {{2229,4485,10540}},
         },
         [1468] = {
             [questKeys.questLevel] = -1,
@@ -246,6 +252,14 @@ function QuestieWotlkQuestFixes:Load()
         [6185] = {
             [questKeys.triggerEnd] = {"The Blightcaller Uncovered", {[zoneIDs.EASTERN_PLAGUELANDS]={{23.4,67.8}}}},
         },
+        [6521] = {
+            [questKeys.startedBy] = {{36273}},
+            [questKeys.finishedBy] = {{36273}},
+        },
+        [6522] = {
+            [questKeys.startedBy] = {{4421},nil,{17008}},
+            [questKeys.finishedBy] = {{36273}},
+        },
         [6963] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
@@ -264,9 +278,6 @@ function QuestieWotlkQuestFixes:Load()
         [7643] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {7642,7648},
-        },
-        [7800] = {
-            [questKeys.preQuestSingle] = {},
         },
         [8149] = {
             [questKeys.objectives] = {nil,{{180204,"Place a tribute at Uther's Tomb"}}},
@@ -314,6 +325,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [8762] = {
             [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{{21211}}},
+        },
+        [8767] = {
+            [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.WARRIOR + classIDs.HUNTER + classIDs.PALADIN + classIDs.DEATH_KNIGHT,
         },
         [8892] = {
             [questKeys.preQuestSingle] = {},
@@ -845,7 +859,7 @@ function QuestieWotlkQuestFixes:Load()
         [11472] = {
             [questKeys.objectives] = {{{24797,"Reef Bull led to a Reef Cow"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Lure Reef Bull with Tasty Reef Fish"), 0, {{"monster", 24786},{"monster", 24804}}}},
-            [questKeys.reputationReward] = {{1073,500}},
+            [questKeys.reputationReward] = {{factionIDs.THE_KALUAK,500}},
         },
         [11475] = {
             [questKeys.preQuestSingle] = {11244},
@@ -1108,7 +1122,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
         },
         [11945] = {
-            [questKeys.reputationReward] = {{1073,500}},
+            [questKeys.reputationReward] = {{factionIDs.THE_KALUAK,500}},
         },
         [11956] = {
             [questKeys.extraObjectives] = {
@@ -1126,7 +1140,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{26196,"Loguhn's Blood Smeared"}}},
         },
         [11960] = {
-            [questKeys.reputationReward] = {{1073,500}},
+            [questKeys.reputationReward] = {{factionIDs.THE_KALUAK,500}},
         },
         [11969] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Raelorasz' Spark"),0,{{"object", 194151}}}},
@@ -2217,6 +2231,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1104,9000},
         },
         [12703] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the blood at the Shrine of Kartak"), 0, {{"object", 190782}}}},
             [questKeys.requiredMinRep] = {1104,9000},
         },
         [12704] = {
@@ -2224,6 +2239,7 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Talk to High-Oracle Soo-say to retrieve a Gorloc companion"), 0, {{"monster", 28027}}},
             },
             [questKeys.requiredMinRep] = {1105,9000},
+            [questKeys.requiredSourceItems] = {38622,38623,38624},
         },
         [12705] = {
             [questKeys.extraObjectives] = {
@@ -2335,8 +2351,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12762] = {
             [questKeys.requiredMinRep] = {1105,9000},
-            ---[questKeys.objectives] = {nil,nil,{{39748}},nil,{{{28079,28078},28078,"Frenzyheart Attacker"}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{65.60,59.48}}}, Questie.ICON_TYPE_EVENT, l10n("Charge the Dormant Polished Crystal at the exposed Lifeblood Pillar"),}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Charge the Dormant Polished Crystal at the exposed Lifeblood Pillar"),2,{{"object", 300224}}}},
         },
         [12771] = {
             [questKeys.preQuestSingle] = {12753},
@@ -5567,6 +5582,29 @@ function QuestieWotlkQuestFixes:Load()
         [24461] = {
             [questKeys.sourceItemId] = 49723,
         },
+        [24498] = {
+            [questKeys.objectives] = {{{36494}},nil,nil,nil,{{{36764,36765,36766,36767},36764,"Alliance Slaves freed"}}},
+            [questKeys.preQuestSingle] = {24683},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Free the slave"), 1, {{"object", 202168}}}},
+        },
+        [24499] = {
+            [questKeys.objectives] = {{{36497},{36502}}},
+        },
+        [24500] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.finishedBy] = {{36955}},
+            [questKeys.objectives] = {{{36955,"Find Jaina Proudmoore"},{36954,"Escape the Lich King"}}},
+        },
+        [24507] = {
+            [questKeys.objectives] = {{{36494}},nil,nil,nil,{{{36770,36771,36772,36773},36770,"Horde Slaves freed"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Free the slave"), 1, {{"object", 202168}}}},
+        },
+        [24510] = {
+            [questKeys.reputationReward] = {{1050,25}},
+        },
+        [24511] = {
+            [questKeys.objectives] = {{{36497},{36502}}},
+        },
         [24535] = {
             [questKeys.objectives] = {{{37205,"Thalorien's Blessing obtained"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Examine the remains"), 0, {{"monster", 37552}}}},
@@ -5589,6 +5627,18 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37120}},
             [questKeys.finishedBy] = {{37120}},
             [questKeys.preQuestSingle] = {24743},
+        },
+        [24548] = {
+            [questKeys.startedBy] = {{37120}},
+            [questKeys.finishedBy] = {{37120}},
+            [questKeys.preQuestSingle] = {24757},
+            [questKeys.nextQuestInChain] = 24549,
+        },
+        [24549] = {
+            [questKeys.startedBy] = {{37120}},
+            [questKeys.finishedBy] = {{37120}},
+            [questKeys.preQuestSingle] = {24548},
+            [questKeys.nextQuestInChain] = 24748,
         },
         [24553] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.ROGUE + classIDs.HUNTER + classIDs.DEATH_KNIGHT + classIDs.MAGE + classIDs.WARLOCK,
@@ -5840,6 +5890,15 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24662, 24663, 24664, 24665},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400057}}}},
         },
+        [24683] = {
+            [questKeys.preQuestSingle] = {24499},
+        },
+        [24710] = {
+            [questKeys.preQuestSingle] = {24498},
+        },
+        [24711] = {
+            [questKeys.preQuestSingle] = {24710},
+        },
         [24743] = {
             [questKeys.startedBy] = {{37120}},
             [questKeys.finishedBy] = {{37120}},
@@ -5852,13 +5911,23 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {24549},
         },
         [24749] = {
-            [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Unholy power then slay Putricide.", {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{13.4,53.4}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}}},
+            [questKeys.preQuestSingle] = {24547},
+            [questKeys.startedBy] = {{37120}},
+            [questKeys.finishedBy] = {{37120}},
+            [questKeys.objectives] = {{{36678,"Infuse Shadow's Edge with Unholy power then slay Putricide."}}},
         },
         [24756] = {
-            [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Blood then defeat Lana'thel.", {[zoneIDs.ICECROWN_CITADEL_QUEEN_LANA_THEL]={{51.3,44.1}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}}},
+            [questKeys.preQuestSingle] = {24749},
+            [questKeys.startedBy] = {{37120}},
+            [questKeys.finishedBy] = {{37120}},
+            [questKeys.objectives] = {{{37955,"Infuse Shadow's Edge with Blood then defeat Lana'thel."}}},
         },
         [24757] = {
-            [questKeys.triggerEnd] = {"Infuse Shadow's Edge with Frost then slay Sindragosa.", {[zoneIDs.ICECROWN_CITADEL_SINDRAGOSA]={{36.7,23.1}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}}},
+            [questKeys.preQuestSingle] = {24756},
+            [questKeys.nextQuestInChain] = 24548,
+            [questKeys.startedBy] = {{37120}},
+            [questKeys.finishedBy] = {{37120}},
+            [questKeys.objectives] = {{{36853,"Infuse Shadow's Edge with Frost then slay Sindragosa."}}},
         },
         [24792] = {
             [questKeys.preQuestSingle] = {24657},
@@ -5887,6 +5956,11 @@ function QuestieWotlkQuestFixes:Load()
         [24801] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD + raceIDs.ORC + raceIDs.TROLL + raceIDs.TAUREN,
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.ROGUE + classIDs.HUNTER + classIDs.DEATH_KNIGHT + classIDs.MAGE + classIDs.WARLOCK,
+        },
+        [24802] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.finishedBy] = {{37554}},
+            [questKeys.objectives] = {{{37554,"Find Sylvanas Windrunner"},{36954,"Escape the Lich King"}}},
         },
         [24803] = {
             [questKeys.specialFlags] = 1,
@@ -6357,7 +6431,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
-            [questKeys.reputationReward] = {{1090,75}},
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [78753] = {
             [questKeys.name] = "Proof of Demise: Threats to Azeroth",
@@ -6371,7 +6445,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
-            [questKeys.reputationReward] = {{1090,75}},
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
     }
 end

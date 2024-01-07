@@ -449,6 +449,14 @@ function QuestieTBCNpcFixes:Load()
         [18817] = {
             [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{41.2,44.2}}},
         },
+        [18849] = {
+            [npcKeys.name] = "Eastern Cannon",
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{60.7,51.78}}},
+        },
+        [19008] = {
+            [npcKeys.name] = "Western Cannon",
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{54.79,53.33}}},
+        },
         [19305] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{13.64,39.12}}},
         },
