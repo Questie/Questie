@@ -151,6 +151,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DARKSHORE] = {{55.4, 36.6}},
             },
         },
+        [210537] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{44.9,24},{31.5,45}},
+            },
+        },
         [210995] = {
             [npcKeys.spawns] = {
                 [zoneIDs.ASHENVALE] = {{43.4, 70.4}},

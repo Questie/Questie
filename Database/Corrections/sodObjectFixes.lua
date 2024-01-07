@@ -67,6 +67,11 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.TELDRASSIL] = {{44.1, 61.2}},
             },
         },
+        [407844] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{35.8, 49.5}},
+            },
+        },
         [408718] = {
             [objectKeys.zoneID] = zoneIDs.WESTFALL,
             [objectKeys.spawns] = {

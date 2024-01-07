@@ -2106,6 +2106,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410015,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [90118] = {
+            [questKeys.name] = "Horn of Lordaeron",
+            [questKeys.startedBy] = {nil,{407844}},
+            [questKeys.finishedBy] = {nil,{407844}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 4,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Receive the Libram of Blessings in the basement of the tavern, equip it and follow its guidance."},
+            [questKeys.requiredSpell] = -425618,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [90119] = {
+            [questKeys.name] = "Horn of Lordaeron",
+            [questKeys.startedBy] = {{210537}},
+            [questKeys.finishedBy] = {{210537}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 15,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Defeat the Undying Laborer in the mine and finish him with holy damage to receive the Libram of Blessings. Then equip it and follow its guidance."},
+            [questKeys.requiredSpell] = -425618,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
     }
 end
 

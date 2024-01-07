@@ -213,6 +213,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90115] = true, -- Warrior Endless Rage The Barrens
     [90116] = true, -- Warrior Endless Rage Silverpine Forest
     [90117] = true, -- Paladin Seal of Martyrdom
+    [90118] = true, -- Paladin Seal of Martyrdom
+    [90119] = true, -- Paladin Seal of Martyrdom
 }
 
 ---@param questId number
