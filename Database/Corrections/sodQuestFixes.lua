@@ -344,6 +344,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Bring symbols of the three owls to Loganaar in Moonglade. NOTE: To accept this quest, you need to bring at least one symbol, but you can also bring all three at once."},
         },
         [78261] = {
+            [questKeys.zoneOrSort] = zoneIDs.SHADOWFANG_KEEP,
             [questKeys.startedBy] = {nil,{410369}},
             [questKeys.finishedBy] = {nil,{410369}},
             [questKeys.requiredLevel] = 20,
