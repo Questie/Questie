@@ -2142,6 +2142,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425619,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [90121] = {
+            [questKeys.name] = "Inspiration Exemplar",
+            [questKeys.startedBy] = {{204827}},
+            [questKeys.finishedBy] = {{204827}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 4,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Summon the Adventurer's Spirit with the help of a friend and defeat it."},
+            [questKeys.requiredSpell] = -410011,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
     }
 end
 
