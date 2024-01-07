@@ -17,12 +17,13 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local WatchFrame = QuestWatchFrame or WatchFrame
 local baseFrame, sizer, sizerSetPoint, sizerSetPointY, sizerLine1, sizerLine2, sizerLine3
-local mouseLookTicker
 local updateTimer
 
 TrackerBaseFrame.IsInitialized = false
 TrackerBaseFrame.isSizing = false
 TrackerBaseFrame.isMoving = false
+
+local _OnEnter, _SetSizerTooltip
 
 function TrackerBaseFrame.Initialize()
     baseFrame = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
@@ -70,68 +71,7 @@ function TrackerBaseFrame.Initialize()
     sizer:SetScript("OnMouseDown", TrackerBaseFrame.OnResizeStart)
     sizer:SetScript("OnMouseUp", TrackerBaseFrame.OnResizeStop)
 
-    sizer:SetScript("OnEnter", function(self)
-        if InCombatLockdown() then
-            if GameTooltip:IsShown() then
-                GameTooltip:Hide()
-                return
-            end
-        end
-
-        -- Set Sizer mode
-        local trackerSizeMode
-        if Questie.db.profile.TrackerHeight == 0 then
-            trackerSizeMode = Questie:Colorize(l10n("Auto"), "green")
-        else
-            trackerSizeMode = Questie:Colorize(l10n("Manual"), "orange")
-        end
-
-        -- Set initial tooltip
-        if not Questie.db.profile.sizerHidden then
-            GameTooltip._owner = self
-            GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-            if IsShiftKeyDown() then
-                GameTooltip:ClearLines()
-                GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. ": ", "white") .. trackerSizeMode)
-                GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") .. ": ", "gray") .. l10n("Resize Tracker (Manual)"))
-                GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") .. ": ", "gray") .. l10n("Reset Sizer (Auto)"))
-                GameTooltip:AddLine(" ")
-                GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold") .. ": ", "gray") .. l10n("Resize while Locked"))
-                GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Right Click") .. ": ", "gray") .. l10n("Reset while Locked"))
-                GameTooltip:AddLine(" ")
-                GameTooltip:AddLine(Questie:Colorize(l10n("NOTE") .. ": ", "red") .. l10n("The Tracker Height Ratio\nis ignored while in Manual mode"))
-                GameTooltip:Show()
-            else
-                GameTooltip:ClearLines()
-                GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. ": ", "white") .. trackerSizeMode)
-                GameTooltip:AddLine(Questie:Colorize("(" .. l10n("Hold Shift") .. ")", "gray"))
-                GameTooltip:Show()
-            end
-
-            -- Update tooltip
-            GameTooltip._SizerToolTip = function()
-                if IsShiftKeyDown() then
-                    GameTooltip:ClearLines()
-                    GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. ": ", "white") .. trackerSizeMode)
-                    GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") .. ": ", "gray") .. l10n("Resize Tracker (Manual)"))
-                    GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") .. ": ", "gray") .. l10n("Reset Sizer (Auto)"))
-                    GameTooltip:AddLine(" ")
-                    GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold") .. ": ", "gray") .. l10n("Resize while Locked"))
-                    GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Right Click") .. ": ", "gray") .. l10n("Reset while Locked"))
-                    GameTooltip:AddLine(" ")
-                    GameTooltip:AddLine(Questie:Colorize(l10n("NOTE") .. ": ", "red") .. l10n("The Tracker Height Ratio\nis ignored while in Manual mode"))
-                    GameTooltip:Show()
-                else
-                    GameTooltip:ClearLines()
-                    GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. ": ", "white") .. trackerSizeMode)
-                    GameTooltip:AddLine(Questie:Colorize("(" .. l10n("Hold Shift") .. ")", "gray"))
-                    GameTooltip:Show()
-                end
-            end
-        end
-
-        TrackerFadeTicker.Unfade(self)
-    end)
+    sizer:SetScript("OnEnter", _OnEnter)
 
     sizer:SetScript("OnLeave", function(self)
         if GameTooltip:IsShown() then
@@ -450,8 +390,8 @@ function TrackerBaseFrame.OnResizeStart(frame, button)
         GameTooltip._SizerToolTip = nil
     end
 
-    if InCombatLockdown() or IsShiftKeyDown() or IsAltKeyDown() then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - In Combat or shift key or alt key detected! --> Exiting.")
+    if InCombatLockdown() or IsAltKeyDown() then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - In Combat or alt key detected! --> Exiting.") -- TODO: Why is the alt key a problem?
         return
     else
         if (IsControlKeyDown() and Questie.db.profile.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.profile.trackerLocked then
@@ -524,8 +464,8 @@ end
 
 ---@param button string @The mouse button that is pressed when resize stops
 function TrackerBaseFrame.OnResizeStop(frame, button)
-    if IsShiftKeyDown() or IsAltKeyDown() then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Shift key or alt key detected! --> Exiting.")
+    if IsAltKeyDown() then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Alt key detected! --> Exiting.") -- TODO: Why is the alt key a problem?
         return
     else
         if TrackerBaseFrame.isSizing ~= true or TrackerBaseFrame.isMoving == true then
@@ -586,5 +526,56 @@ function TrackerBaseFrame:OnProfileChange()
         end)
     else
         _UpdateTrackerPosition()
+    end
+end
+
+_OnEnter = function(self)
+    if InCombatLockdown() then
+        if GameTooltip:IsShown() then
+            GameTooltip:Hide()
+            return
+        end
+    end
+
+    -- Set initial tooltip
+    if not Questie.db.profile.sizerHidden then
+        GameTooltip._owner = self
+        GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+        _SetSizerTooltip()
+
+        -- Update tooltip
+        GameTooltip._SizerToolTip = _SetSizerTooltip
+    end
+
+    TrackerFadeTicker.Unfade(self)
+end
+
+_SetSizerTooltip = function()
+    -- Set Sizer mode
+    local trackerSizeMode
+    if Questie.db.profile.TrackerHeight == 0 then
+        trackerSizeMode = Questie:Colorize(l10n("Auto"), "green")
+    else
+        trackerSizeMode = Questie:Colorize(l10n("Manual"), "orange")
+    end
+
+    if IsShiftKeyDown() then
+        GameTooltip:ClearLines()
+        GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. ": ", "white") .. trackerSizeMode)
+        if Questie.db.profile.trackerLocked then
+            GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold") .. ": ", "gray") .. l10n("Resize Tracker"))
+            GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Right Click") .. ": ", "gray") .. l10n("Reset Sizer"))
+        else
+            GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") .. ": ", "gray") .. l10n("Resize Tracker"))
+            GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") .. ": ", "gray") .. l10n("Reset Sizer"))
+        end
+        GameTooltip:AddLine(" ")
+        GameTooltip:AddLine(Questie:Colorize(l10n("NOTE") .. ": ", "red") .. l10n("The Tracker Height Ratio\nis ignored while in Manual mode"))
+        GameTooltip:Show()
+    else
+        GameTooltip:ClearLines()
+        GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. ": ", "white") .. trackerSizeMode)
+        GameTooltip:AddLine(Questie:Colorize("(" .. l10n("Hold Shift") .. ")", "gray"))
+        GameTooltip:Show()
     end
 end
