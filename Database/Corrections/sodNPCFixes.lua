@@ -47,6 +47,15 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
 
         },
+        [204827] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DUN_MOROGH] = {{43, 49.4}},
+                [zoneIDs.ELWYNN_FOREST] = {{52.2, 84.4}},
+                [zoneIDs.DUROTAR] = {{48, 79.4}},
+                [zoneIDs.TELDRASSIL] = {{33.6, 35.4}},
+                [zoneIDs.MULGORE] = {{60.4, 33.4}},
+            },
+        },
         [204989] = {
             [npcKeys.spawns] = {
                 [zoneIDs.ELWYNN_FOREST] = {{61.8, 47.6}},
