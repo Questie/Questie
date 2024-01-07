@@ -225,6 +225,9 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90127] = true, -- Druid Mangle Teldrassil
     [90128] = true, -- Druid Lacerate Loch Modan
     [90129] = true, -- Druid Lacerate The Barrens
+    [90130] = true, -- Druid Savage Roar Darkshore
+    [90131] = true, -- Druid Savage Roar The Barrens
+    [90132] = true, -- Druid Savage Roar Loch Modan
 }
 
 ---@param questId number

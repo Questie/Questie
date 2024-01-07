@@ -95,6 +95,11 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.LOCH_MODAN] = {{36.8, 91.4}},
             },
         },
+        [408004] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{71.7, 21.4}},
+            },
+        },
         [408718] = {
             [objectKeys.zoneID] = zoneIDs.WESTFALL,
             [objectKeys.spawns] = {
