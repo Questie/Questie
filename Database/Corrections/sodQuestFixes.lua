@@ -2130,6 +2130,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425618,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [90120] = {
+            [questKeys.name] = "Aegis",
+            [questKeys.startedBy] = {{204989,208802}},
+            [questKeys.finishedBy] = {{204989,208802}},
+            [questKeys.requiredLevel] = 8,
+            [questKeys.questLevel] = 8,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Cast Purify on the Wounded Adventurer and talk to him afterwards."},
+            [questKeys.requiredSpell] = -425619,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
     }
 end
 

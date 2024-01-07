@@ -215,6 +215,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90117] = true, -- Paladin Seal of Martyrdom
     [90118] = true, -- Paladin Seal of Martyrdom
     [90119] = true, -- Paladin Seal of Martyrdom
+    [90120] = true, -- Paladin Aegis
 }
 
 ---@param questId number
