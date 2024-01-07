@@ -300,6 +300,11 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {[zoneIDs.DARNASSUS] = {{59.8,56.4}}},
             [npcKeys.friendlyToFaction] = "A",
         },
+        [214456] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.REDRIDGE_MOUNTAINS] = {{35.4,8.6},{64.2,45.8},{77.4,69.4}},
+            },
+        },
         [216902] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE]={{33.7,67.23}}},
             [npcKeys.friendlyToFaction] = "AH",

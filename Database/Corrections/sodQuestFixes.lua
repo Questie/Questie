@@ -2154,6 +2154,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410011,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [90122] = {
+            [questKeys.name] = "Avenger's Shield",
+            [questKeys.startedBy] = {{214456}},
+            [questKeys.finishedBy] = {{214456}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 23,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Defeat him."},
+            [questKeys.requiredSpell] = -410008,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
     }
 end
 
