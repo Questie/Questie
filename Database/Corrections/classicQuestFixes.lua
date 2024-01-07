@@ -2082,12 +2082,11 @@ function QuestieQuestFixes:Load()
         [5928] = {
             [questKeys.startedBy] = {{3064},nil,nil},
         },
-        -----------------------
         [5929] = {
-            [questKeys.triggerEnd] = {"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear.", {[zoneIDs.MOONGLADE]={{39.25,27.73}}}},
+            [questKeys.objectives] = {{{11956,"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear."}}},
         },
         [5930] = {
-            [questKeys.triggerEnd] = {"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear.", {[zoneIDs.MOONGLADE]={{39.25,27.73}}}},
+            [questKeys.objectives] = {{{11956,"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear."}}},
         },
         [5931] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Silva Fil'naveth to fly back to Darnassus"), 0, {{"monster", 11800}}}},
