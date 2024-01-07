@@ -21,6 +21,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.STORMWIND_CITY] = {{33,24.7}},
             },
         },
+        [403041] = {
+            [objectKeys.zoneID] = zoneIDs.MULGORE,
+            [objectKeys.spawns] = {
+                [zoneIDs.MULGORE] = {{63.8,44.1}},
+            },
+        },
         [403718] = {
             [objectKeys.zoneID] = zoneIDs.MULGORE,
             [objectKeys.spawns] = {
