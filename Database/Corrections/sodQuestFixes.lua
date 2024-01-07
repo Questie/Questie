@@ -70,6 +70,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
             [questKeys.requiredSpell] = -403470,
         },
+        [77584] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410121, nil, 206168}}},
+            [questKeys.requiredRaces] = raceIDs.ORC,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+            [questKeys.requiredSpell] = -410121,
+        },
         [77585] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410094, nil, 206381}}},
             [questKeys.requiredRaces] = raceIDs.ORC,
@@ -230,19 +236,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78132] = {
-            [questKeys.startedBy] = {nil,{409758}},
+            [questKeys.objectives] = {nil,nil,{{209872}}},
             [questKeys.objectivesText] = {"Retrieve the Dragonslayer's Helm and bring it to Alonso in Ashenvale."},
             [questKeys.requiredSpell] = -425444,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78133] = {
-            [questKeys.startedBy] = {nil,{409754}},
+            [questKeys.objectives] = {nil,nil,{{209873}}},
             [questKeys.objectivesText] = {"Retrieve the Dragonslayer's Shield and bring it to Alonso in Ashenvale."},
             [questKeys.requiredSpell] = -425444,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78134] = {
-            [questKeys.startedBy] = {{3180}},
+            [questKeys.objectives] = {nil,nil,{{209874}}},
             [questKeys.objectivesText] = {"Retrieve the Dragonslayer's Lance and bring it to Alonso in Ashenvale."},
             [questKeys.requiredSpell] = -425444,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
@@ -375,6 +381,11 @@ function SeasonOfDiscovery:LoadQuests()
         [78304] = {
             [questKeys.preQuestSingle] = {78288},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+        },
+        [78307] = {
+            [questKeys.preQuestSingle] = {78261},
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.requiredSpell] = -400080,
         },
         [78506] = {
             [questKeys.preQuestSingle] = {78920},
