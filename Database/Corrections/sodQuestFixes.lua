@@ -2202,6 +2202,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425621,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [90126] = {
+            [questKeys.name] = "Hand of Reckoning",
+            [questKeys.startedBy] = {nil,{407850}},
+            [questKeys.finishedBy] = {nil,{407850}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 15,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Retrieve the Libram of Justice deep inside the Stonesplitter Valley cave, equip it and follow its guidance."},
+            [questKeys.requiredSpell] = -410001,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
     }
 end
 
