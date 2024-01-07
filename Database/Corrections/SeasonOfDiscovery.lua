@@ -221,7 +221,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90123] = true, -- Paladin Rebuke
     [90124] = true, -- Paladin Rebuke
     [90125] = true, -- Paladin Rebuke
-    [90125] = true, -- Paladin Rebuke
+    [90126] = true, -- Paladin Hand of Reckoning
 }
 
 ---@param questId number
