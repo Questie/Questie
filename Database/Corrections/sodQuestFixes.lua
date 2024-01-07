@@ -1800,7 +1800,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.requiredSpell] = -410028,
-            [questKeys.objectivesText] = {"Click the Owl Statue to become able to see Agon who is east of the grove. Defeat him and collect the Symbol of the Second Owl."},
+            [questKeys.objectivesText] = {"Click the Owl Statue to become able to see Agon who is east of the grove, near the worgen camp. Defeat him and collect the Symbol of the Second Owl."},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
         [90090] = {
