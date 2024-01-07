@@ -197,7 +197,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.requiredSpell] = -403919,
         },
+        [78088] = {
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [78089] = {
+            [questKeys.preQuestSingle] = {78088},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [78090] = {
