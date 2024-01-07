@@ -368,6 +368,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Recover the rune from Night Web's Hollow and use it to learn a new ability, then return to Maximillion in Deathknell."},
             [questKeys.objectives] = {nil,nil,nil,nil,nil,{{403919}}},
         },
+        [78088] = {
+            [questNames.name] = "A Strange Artifact",
+            [questNames.startedBy] = {{3663}},
+            [questNames.finishedBy] = {{3663,}},
+            [questNames.requiredLevel] = 1,
+            [questNames.questLevel] = 25,
+            [questNames.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questNames.requiredClasses] = classIDs.PALADIN,
+            [questNames.objectivesText] = {"Did you find something in the tower?"},
+            [questNames.objectives] = nil,
+        },
         [78089] = {
             [questKeys.name] = "Advice From Stormwind",
             [questKeys.startedBy] = {{3663}},
