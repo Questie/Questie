@@ -207,6 +207,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90109] = true, -- Warrior Frenzied Assault
     [90110] = true, -- Warrior Frenzied Assault
     [90111] = true, -- Warrior Frenzied Assault
+    [90112] = true, -- Warrior Endless Rage Westfall
+    [90113] = true, -- Warrior Endless Rage Darkshore
+    [90114] = true, -- Warrior Endless Rage Loch Modan
+    [90115] = true, -- Warrior Endless Rage The Barrens
+    [90116] = true, -- Warrior Endless Rage Silverpine Forest
 }
 
 ---@param questId number

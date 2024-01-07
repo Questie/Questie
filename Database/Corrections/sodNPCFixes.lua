@@ -117,6 +117,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.IRONFORGE] = {{71.2, 73.2}},
             },
         },
+        [209607] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {},
+            },
+        },
         [209608] = {
             [npcKeys.spawns] = {
                 [zoneIDs.DARNASSUS] = {{63.4, 22}},
@@ -129,6 +134,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [209872] = {
             [npcKeys.spawns] = {
                 [zoneIDs.TELDRASSIL] = {{56.6, 57.8}},
+            },
+        },
+        [210451] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DARKSHORE] = {{55.4, 36.6}},
             },
         },
         [210995] = {
@@ -147,6 +157,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.STORMWIND_CITY] = {{37.8,80.2}},
             },
             [npcKeys.friendlyToFaction] = "A",
+        },
+        [211146] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.SILVERPINE_FOREST] = {},
+            },
         },
         [211965] = {
             [npcKeys.spawns] = {
