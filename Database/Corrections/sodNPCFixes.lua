@@ -51,6 +51,16 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
         },
+        [205153] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{4.4, 28.2}},
+            },
+        },
+        [205278] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{38.4, 27.4}},
+            },
+        },
         [206248] = {
             [npcKeys.spawns] = {
                 [zoneIDs.TELDRASSIL] = {{66.8, 58}},

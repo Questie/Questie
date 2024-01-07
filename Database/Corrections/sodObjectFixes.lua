@@ -15,6 +15,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.IRONFORGE] = {{76, 10.4}},
             },
         },
+        [402215] = {
+            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+            [objectKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{33,24.7}},
+            },
+        },
         [403718] = {
             [objectKeys.zoneID] = zoneIDs.MULGORE,
             [objectKeys.spawns] = {

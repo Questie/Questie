@@ -2094,6 +2094,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403489,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90117] = {
+            [questKeys.name] = "Seal of Martyrdom",
+            [questKeys.startedBy] = {{205278,205153},{402215}},
+            [questKeys.finishedBy] = {{205153}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 10,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"First talk to Brother Romulus in Stormwind Cathedral. Then head to the stairs right next to Brother Romulus and find the Charred Note. At last challenge Ada Gelhardt and defeat her."},
+            [questKeys.requiredSpell] = -410015,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
     }
 end
 
