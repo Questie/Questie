@@ -38,6 +38,18 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.TIRISFAL_GLADES] = {{24.7, 59.4}},
             },
         },
+        [407117] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{44,22}},
+            },
+        },
+        [407120] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{48,40}},
+            },
+        },
         [407247] = {
             [objectKeys.zoneID] = zoneIDs.TELDRASSIL,
             [objectKeys.spawns] = {

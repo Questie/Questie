@@ -223,6 +223,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90125] = true, -- Paladin Rebuke
     [90126] = true, -- Paladin Hand of Reckoning
     [90127] = true, -- Druid Mangle Teldrassil
+    [90128] = true, -- Druid Lacerate Loch Modan
+    [90129] = true, -- Druid Lacerate The Barrens
 }
 
 ---@param questId number

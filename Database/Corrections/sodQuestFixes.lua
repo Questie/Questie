@@ -2226,6 +2226,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410025,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90128] = {
+            [questKeys.name] = "Lacerate",
+            [questKeys.startedBy] = {{1684}},
+            [questKeys.finishedBy] = {{1224}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 20,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Buy Rainbow Fin Albacore Chum and feed a Young Threshadon in The Loch."},
+            [questKeys.requiredSpell] = -416049,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [90129] = {
+            [questKeys.name] = "Lacerate",
+            [questKeys.startedBy] = {nil,{407117,407120}},
+            [questKeys.finishedBy] = {{407120}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 15,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Pickup the Abandoned Snapjaw Egg in the Forgotten Pools and place it in the Empty Snapjaw Nest in the Lushwater Oasis."},
+            [questKeys.requiredSpell] = -416049,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 
