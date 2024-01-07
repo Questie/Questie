@@ -218,6 +218,9 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90120] = true, -- Paladin Aegis
     [90121] = true, -- Paladin Inspiration Exemplar
     [90122] = true, -- Paladin Avenger's Shield
+    [90123] = true, -- Paladin Rebuke
+    [90124] = true, -- Paladin Rebuke
+    [90125] = true, -- Paladin Rebuke
 }
 
 ---@param questId number
