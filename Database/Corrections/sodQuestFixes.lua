@@ -2286,6 +2286,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410023,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90133] = {
+            [questKeys.name] = "Slaughter from the Shadows",
+            [questKeys.startedBy] = {nil,{387466}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 8,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Loot the Rusty Lockbox for the rune."},
+            [questKeys.requiredSpell] = -424992,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 
