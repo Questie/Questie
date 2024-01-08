@@ -348,6 +348,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {nil,{410369}},
             [questKeys.requiredLevel] = 20,
             [questKeys.childQuests] = {78270},
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
         [78265] = {
             [questKeys.objectivesText] = {"Bring 24 Fish Oil to Grizzby."},
@@ -2344,6 +2345,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.ROGUE,
             [questKeys.objectivesText] = {"Pickpocket Scarlet, Tirisfal Farmers, Murlocs and Gnolls for map pieces. Collect all 4, and combine them. Follow the location of the treasure map and loot the treasure chest."},
             [questKeys.requiredSpell] = -400095,
+        },
+        [90138] = {
+            [questKeys.name] = "Slaughter from the Shadows",
+            [questKeys.startedBy] = {nil,{387466,407734,404941}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 8,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Loot the Lockbox for the rune."},
+            [questKeys.requiredSpell] = -424992,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
     }

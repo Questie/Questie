@@ -233,6 +233,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90135] = true, -- Rogue Quick Draw Teldrassil
     [90136] = true, -- Rogue Quick Draw Durotar
     [90137] = true, -- Rogue Quick Draw Tirisfal Glades
+    [90138] = true, -- Rogue Slaughter from the Shadows Elwynn Forest, Dun Morogh, Durotar
 }
 
 ---@param questId number
