@@ -228,6 +228,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90130] = true, -- Druid Savage Roar Darkshore
     [90131] = true, -- Druid Savage Roar The Barrens
     [90132] = true, -- Druid Savage Roar Loch Modan
+    [90133] = true, -- Rogue Quick Draw Dun Morogh
+    [90134] = true, -- Rogue Quick Draw Elwynn Forest
+    [90135] = true, -- Rogue Quick Draw Teldrassil
+    [90136] = true, -- Rogue Quick Draw Durotar
+    [90137] = true, -- Rogue Quick Draw Tirisfal Glades
 }
 
 ---@param questId number
