@@ -228,6 +228,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90130] = true, -- Druid Savage Roar Darkshore
     [90131] = true, -- Druid Savage Roar The Barrens
     [90132] = true, -- Druid Savage Roar Loch Modan
+    [90133] = true, -- Rogue Slaughter from the Shadows Elwynn Forest, Dun Morogh, Durotar
 }
 
 ---@param questId number
