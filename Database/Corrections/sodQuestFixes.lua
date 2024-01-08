@@ -2288,7 +2288,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90133] = {
             [questKeys.name] = "Quick Draw",
-            [questKeys.startedBy] = {nil,{1124,1122,946,1397,706,1123,1121,1116,1718,724,707,1115,1211,6123}},
+            [questKeys.startedBy] = {{1124,1122,946,1397,706,1123,1121,1116,1718,724,707,1115,1211,6123}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 5,
@@ -2300,7 +2300,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90134] = {
             [questKeys.name] = "Quick Draw",
-            [questKeys.startedBy] = {nil,{40,475,257,6866,116,38,474,46,478}},
+            [questKeys.startedBy] = {{40,475,257,6866,116,38,474,46,478}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 5,
@@ -2312,7 +2312,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90135] = {
             [questKeys.name] = "Quick Draw",
-            [questKeys.startedBy] = {nil,{2022,2027,2029,2030,2025,2010,2152,2009,2011,2013,2012,2019,2021,2015,2020,2018,2017,2005,2002,2004,2003}},
+            [questKeys.startedBy] = {{2022,2027,2029,2030,2025,2010,2152,2009,2011,2013,2012,2019,2021,2015,2020,2018,2017,2005,2002,2004,2003}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 5,
@@ -2324,7 +2324,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90136] = {
             [questKeys.name] = "Quick Draw",
-            [questKeys.startedBy] = {nil,{3129,2128,3196,3195,3199,3197,3198,3111,3114,3113,3112,3206,3207}},
+            [questKeys.startedBy] = {{3129,2128,3196,3195,3199,3197,3198,3111,3114,3113,3112,3206,3207}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 5,
@@ -2336,7 +2336,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90137] = {
             [questKeys.name] = "Quick Draw",
-            [questKeys.startedBy] = {nil,{1535,1536,1538,1540,1537,1539,1935,1934,1545,1543,1544,1941,1675,1674}},
+            [questKeys.startedBy] = {{1535,1536,1538,1540,1537,1539,1935,1934,1545,1543,1544,1941,1675,1674}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 5,
