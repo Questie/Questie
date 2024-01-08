@@ -348,6 +348,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {nil,{410369}},
             [questKeys.requiredLevel] = 20,
             [questKeys.childQuests] = {78270},
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
         [78265] = {
             [questKeys.objectivesText] = {"Bring 24 Fish Oil to Grizzby."},
