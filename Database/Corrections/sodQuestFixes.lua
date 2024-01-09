@@ -2412,6 +2412,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425443,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90143] = {
+            [questKeys.name] = "Quick Strike",
+            [questKeys.startedBy] = {{212598,1944,1939,1772,1773,1940,1942}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 10,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Find the body of Recke Grinnes, loot him to get Rot Bane, equip it and it will give you the Rot Bane buff. Kill Rot Hide Gnolls until one drops the rune."},
+            [questKeys.requiredSpell] = -425443,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
     }
 end
 
