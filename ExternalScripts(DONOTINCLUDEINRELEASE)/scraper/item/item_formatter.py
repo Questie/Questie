@@ -22,16 +22,32 @@ class ItemFormatter:
                 g.write("    },\n")
             g.write("}\n")
     def __get_npc_drops(self, item):
-        return "{" + ",".join(map(str, item["npcDrops"])) + "}" if "npcDrops" in item else "nil"
+        if "npcDrops" in item:
+            npc_drops = map(str, sorted(set(item["npcDrops"])))
+            return "{" + ",".join(npc_drops) + "}"
+        else:
+            return "nil"
 
     def __get_object_drops(self, item):
-        return "{" + ",".join(map(str, item["objectDrops"])) + "}" if "objectDrops" in item else "nil"
+        if "objectDrops" in item:
+            object_drops = map(str, sorted(set(item["objectDrops"])))
+            return "{" + ",".join(object_drops) + "}"
+        else:
+            return "nil"
 
     def __get_item_drops(self, item):
-        return "{" + ",".join(map(str, item["itemDrops"])) + "}" if "itemDrops" in item else "nil"
+        if "itemDrops" in item:
+            item_drops = map(str, sorted(set(item["itemDrops"])))
+            return "{" + ",".join(item_drops) + "}"
+        else:
+            return "nil"
 
     def __get_vendors(self, item):
-        return "{" + ",".join(map(str, item["vendors"])) + "}" if "vendors" in item else "nil"
+        if "vendors" in item:
+            vendors = map(str, sorted(set(item["vendors"])))
+            return "{" + ",".join(vendors) + "}"
+        else:
+            return "nil"
 
     def __load_json_file(self, file_name: str):
         print("Loading '{}'...".format(file_name))

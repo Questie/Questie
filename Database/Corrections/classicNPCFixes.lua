@@ -38,6 +38,9 @@ function QuestieNPCFixes:Load()
         [446] = {
             [npcKeys.waypoints] = {},
         },
+        [448] = {
+            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{25.02,92.9}}},
+        },
         [580] = {
             [npcKeys.waypoints] = {},
         },
@@ -135,6 +138,11 @@ function QuestieNPCFixes:Load()
         },
         [1516] = {
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{35.06,60.85}}},
+        },
+        [1721] = {
+            [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{73.34,50.7}}},
+            [npcKeys.waypoints] = {[zoneIDs.STORMWIND_CITY]={{{70.26,40.3},{70.93,41.1},{71.47,42.0},{72.18,43.06},{72.69,43.74},{73.02,44.76},{73.28,45.54},{73.22,46.21},{73.57,46.53},{73.57,46.53},{72.85,46.81},{72.47,48.95},{72.47,49.72},{73.34,50.7},{72.57,49.9},{71.26,49.69},{68.81,48.66},{66.63,44.9},{65.69,43.28},{66.57,41.67},{68.1,39.87},{68.76,39.44},{69.25,40.16},{69.25,40.16},{69.8,39.55},{70.26,40.3}}}},
         },
         [1755] = {
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
@@ -354,6 +362,9 @@ function QuestieNPCFixes:Load()
         [3140] = {
             [npcKeys.waypoints] = {[zoneIDs.DUROTAR]={{{54.2,73.2},{54.4,74.2},{54.4,75},{54,76.2},{54.4,75},{54.4,74.2},{54.2,73.2}}}},
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{54.4,75}}},
+        },
+        [3204] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{52.61,8.82}}},
         },
         [3237] = {
             [npcKeys.waypoints] = {},

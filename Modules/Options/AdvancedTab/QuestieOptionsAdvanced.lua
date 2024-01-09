@@ -189,7 +189,11 @@ function QuestieOptions.tabs.advanced:Initialize()
                     end
 
                     if previousLocale ~= Questie.db.global.questieLocale then
-                        Questie.db.global.dbIsCompiled = nil -- recompile db with new lang if locale changed
+                        if Questie.IsSoD then
+                            Questie.db.global.sod.dbIsCompiled = nil -- recompile db with new lang if locale changed
+                        else
+                            Questie.db.global.dbIsCompiled = nil -- recompile db with new lang if locale changed
+                        end
                         StaticPopup_Show("QUESTIE_LANG_CHANGED_RELOAD")
                     end
                 end,
@@ -231,7 +235,11 @@ function QuestieOptions.tabs.advanced:Initialize()
 
                     Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide;
 
-                    Questie.db.global.dbIsCompiled = false
+                    if Questie.IsSoD then
+                        Questie.db.global.sod.dbIsCompiled = false
+                    else
+                        Questie.db.global.dbIsCompiled = false
+                    end
 
                     Questie.db.char.hidden = nil
                     Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies;
@@ -247,7 +255,11 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n('Recompile Database'); end,
                 desc = function() return l10n('Forces a recompile of the Questie database. This will also reload the UI.'); end,
                 func = function (_, _)
-                    Questie.db.global.dbIsCompiled = false
+                    if Questie.IsSoD then
+                        Questie.db.global.sod.dbIsCompiled = false
+                    else
+                        Questie.db.global.dbIsCompiled = false
+                    end
                     ReloadUI()
                 end,
             },
@@ -411,7 +423,7 @@ _GetLanguages = function()
         ['auto'] = l10n('Automatic'),
         ['enUS'] = 'English',
         ['esES'] = 'Español',
-        ['esMX'] = 'Español (México)',
+        ['esMX'] = 'Español (América Latina)',
         ['ptBR'] = 'Português',
         ['frFR'] = 'Français',
         ['deDE'] = 'Deutsch',

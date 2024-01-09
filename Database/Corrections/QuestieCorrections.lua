@@ -24,6 +24,8 @@ local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
 
 ---@type QuestieQuestFixes
 local QuestieQuestFixes = QuestieLoader:ImportModule("QuestieQuestFixes")
+---@type QuestieClassicQuestReputationFixes
+local QuestieClassicQuestReputationFixes = QuestieLoader:ImportModule("QuestieClassicQuestReputationFixes")
 ---@type QuestieNPCFixes
 local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
 ---@type QuestieItemFixes
@@ -76,6 +78,7 @@ QuestieCorrections.WOTLK_ONLY = 3 -- Hide only in Wotlk
 QuestieCorrections.TBC_AND_WOTLK = 4 -- Hide in TBC and Wotlk
 QuestieCorrections.SOD_ONLY = 5 -- Hide when *not* Season of Discovery; use for SoD-only quests
 QuestieCorrections.HIDE_SOD = 6 -- Hide when Season of Discovery; use to hide quests that are not available in SoD
+QuestieCorrections.CLASSIC_AND_TBC = 7 -- Hide in both Classic and TBC
 
 QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 
@@ -84,6 +87,7 @@ QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 ---@param values T
 ---@return T
 local function filterExpansion(values)
+    local isClassic = Questie.IsClassic
     local isTBC = Questie.IsTBC
     local isWotlk = Questie.IsWotlk
     local isSoD = Questie.IsSoD
@@ -120,6 +124,12 @@ local function filterExpansion(values)
             end
         elseif v == QuestieCorrections.HIDE_SOD then
             if isSoD then
+                values[k] = true
+            else
+                values[k] = nil
+            end
+        elseif v == QuestieCorrections.CLASSIC_AND_TBC then
+            if isClassic or isTBC then
                 values[k] = true
             else
                 values[k] = nil
@@ -165,6 +175,7 @@ do
             addOverride(QuestieDB.itemDataOverrides, QuestieTBCItemFixes:LoadFactionFixes())
             addOverride(QuestieDB.npcDataOverrides, QuestieTBCNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, QuestieTBCObjectFixes:LoadFactionFixes())
+            addOverride(QuestieDB.questDataOverrides, QuestieTBCQuestFixes:LoadFactionFixes())
         end
 
         -- WOTLK Corrections
@@ -230,7 +241,7 @@ end
 ---@param databaseTableName string The name of the QuestieDB field that should be manipulated (e.g. "itemData", "questData")
 ---@param corrections table All corrections for the given databaseTableName (e.g. all quest corrections)
 ---@param reversedKeys table The reverted QuestieDB keys for the given databaseTableName (e.g. QuestieDB.questKeys)
----@param validationTables table Only used by the cli.lua script to validate the corrections against the original database values and find irrelevant corrections
+---@param validationTables table Only used by the CI validation scripts to validate the corrections against the original database values and find irrelevant corrections
 ---@param noOverwrites true? Do not overwrite existing values
 ---@param noNewEntries true? Do not create new entries in the database
 local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, validationTables, noOverwrites, noNewEntries)
@@ -258,9 +269,12 @@ local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, 
     end
 end
 
----@param validationTables table? Only used by the cli.lua script to validate the corrections against the original database values and find irrelevant corrections
+---@param validationTables table? Only used by the CI validation scripts to validate the corrections against the original database values and find irrelevant corrections
 function QuestieCorrections:Initialize(validationTables)
+    QuestieQuestFixes:LoadMissingQuests()
+
     -- Classic Corrections
+    _LoadCorrections("questData", QuestieClassicQuestReputationFixes:Load(), QuestieDB.questKeysReversed, validationTables)
     _LoadCorrections("questData", QuestieQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
     _LoadCorrections("npcData", QuestieNPCFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
     _LoadCorrections("itemData", QuestieItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)

@@ -15,10 +15,39 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.IRONFORGE] = {{76, 10.4}},
             },
         },
+        [402215] = {
+            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+            [objectKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{33,24.7}},
+            },
+        },
+        [403041] = {
+            [objectKeys.zoneID] = zoneIDs.MULGORE,
+            [objectKeys.spawns] = {
+                [zoneIDs.MULGORE] = {{63.8,44.1}},
+            },
+        },
         [403718] = {
             [objectKeys.zoneID] = zoneIDs.MULGORE,
             [objectKeys.spawns] = {
                 [zoneIDs.MULGORE] = {{37.81, 65.45},{38.17, 57.14},{39.85, 51.63},{41.39, 63.2},{45.01, 46.77},{50.97, 46.03},{51.77, 67.3},{53.29, 63.13},{54.31, 58.05},{58.41, 66.64},{58.85, 51.32}},
+            },
+        },
+        [406736] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES] = {{24.7, 59.4}},
+            },
+        },
+        [407117] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{44,22}},
+            },
+        },
+        [407120] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{48,40}},
             },
         },
         [407247] = {
@@ -27,10 +56,54 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.TELDRASSIL] = {{57.06, 65.57},{58.05, 73.19},{59.63, 60.05},{61.09, 54.02},{63.88, 64.90},{64.89, 54.77},{65.64, 59.22},{66.56, 51.55},{67.36, 64.15},{69.56, 55.75}},
             },
         },
+        [407289] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{52.2,31.1}},
+            },
+        },
+        [407291] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{62.55,56.31}},
+            },
+        },
+        [407454] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{61.78,45.8}},
+            },
+        },
         [407505] = {
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
             [objectKeys.spawns] = {
                 [zoneIDs.THE_BARRENS] = {{45,79}},
+            },
+        },
+        [407734] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.TELDRASSIL] = {{44.1, 61.2}},
+            },
+        },
+        [407844] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{35.8, 49.5}},
+            },
+        },
+        [407850] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{36.8, 91.4}},
+            },
+        },
+        [408004] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{71.7, 21.4}},
+            },
+        },
+        [408718] = {
+            [objectKeys.zoneID] = zoneIDs.WESTFALL,
+            [objectKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{40.8,80.24}},
             },
         },
         [409289] = {
@@ -46,7 +119,7 @@ function SeasonOfDiscovery:LoadObjects()
         [409692] = {
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
             [objectKeys.spawns] = {
-                [zoneIDs.THE_BARRENS] = {{52.83, 54.71}},
+                [zoneIDs.THE_BARRENS] = {{49.3,33.5}},
             },
         },
         [409731] = {
@@ -57,6 +130,32 @@ function SeasonOfDiscovery:LoadObjects()
         [409735] = {
             [objectKeys.spawns] = {
                 [zoneIDs.DUSKWOOD] = {{16.7, 28.4}},
+            },
+        },
+        [409942] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{36.9, 76.1}},
+            },
+        },
+        [409949] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{54.0, 83.0}},
+            },
+        },
+        [410020] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{87.0, 43.2}},
+            },
+        },
+        [410089] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{49.5, 33.8}},
+            },
+        },
+        [411328] = {
+            [objectKeys.zoneID] = zoneIDs.DUSKWOOD,
+            [objectKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{17,37.6}},
             },
         },
         [414658] = {

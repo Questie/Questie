@@ -60,16 +60,7 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("NEW_RECIPE_LEARNED") -- Spell objectives; Runes in SoD count as recipes because "Engraving" is a profession?
     --eventFrame:RegisterEvent("SPELLS_CHANGED") -- Spell objectives
 
-    if Questie.IsWotlk then
-        -- Quest Related Frames - Wrath Only
-        eventFrame:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE")
-    else
-        -- Quest Related Frames - Era Only
-        eventFrame:RegisterEvent("TRADE_CLOSED")
-        eventFrame:RegisterEvent("MERCHANT_CLOSED")
-        eventFrame:RegisterEvent("BANKFRAME_CLOSED")
-        eventFrame:RegisterEvent("MAIL_CLOSED")
-    end
+    eventFrame:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE")
 
     eventFrame:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
     eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
@@ -466,10 +457,6 @@ local lastTimeQuestRelatedFrameClosedEvent = -1
 --- Blizzard does not fire any event when quest items are received or retrieved from sources other than looting.
 --- So we hook events which fires once or twice after closing certain frames and do a full quest log check.
 function _QuestEventHandler:QuestRelatedFrameClosed(event)
-    if event == "PLAYER_INTERACTION_MANAGER_FRAME_HIDE" then
-        return
-    end
-
     local now = GetTime()
     -- Don't do update if event fired twice
     if lastTimeQuestRelatedFrameClosedEvent ~= now then
@@ -554,7 +541,6 @@ function _QuestEventHandler:OnEvent(event, ...)
     elseif event == "ZONE_CHANGED_NEW_AREA" then
         _QuestEventHandler:ZoneChangedNewArea()
     elseif event == "PLAYER_INTERACTION_MANAGER_FRAME_HIDE" then
-        -- PLAYER_INTERACTION_MANAGER_FRAME_HIDE needs to be first because some of the Era events still fire
         local eventType = select(1, ...)
         if eventType == 1 then
             event = "TRADE_CLOSED"
@@ -568,11 +554,12 @@ function _QuestEventHandler:OnEvent(event, ...)
             event = "VENDOR_CLOSED"
         elseif eventType == 17 then
             event = "MAIL_CLOSED"
+        elseif eventType == 21 then
+            event = "AUCTION_HOUSE_CLOSED"
+        else
+            -- Unknown event which we will simply ignore
+            return
         end
-        _QuestEventHandler:QuestRelatedFrameClosed(event)
-
-        -- PLAYER_INTERACTION_MANAGER_FRAME_HIDE doesn't exsist in Era so the Wrath stuff won't conflict
-    elseif event == "TRADE_CLOSED" or "MERCHANT_CLOSED" or "BANKFRAME_CLOSED" or "MAIL_CLOSED" then
         _QuestEventHandler:QuestRelatedFrameClosed(event)
     elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
         _QuestEventHandler:ReputationChange()

@@ -35,7 +35,7 @@ class QuestFormatter:
         return filtered_sorted_data
 
     def __sort_and_filter_data(self, data):
-        sorted_data = sorted(data, key=lambda x: x.get('questId', 0))
+        sorted_data = sorted(data, key=lambda x: int(x.get('questId', 0)))
         filtered_sorted_data = []
         for x in sorted_data:
             entry_name = x["name"]
