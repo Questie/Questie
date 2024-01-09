@@ -157,8 +157,15 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [209678] = { -- Twilight Lord Kelris
-            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.BLACKFATHOM_DEEPS] = {{-1, -1}},
+            },
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
+        },
+        [209797] = { -- Bruuz
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{64.8, 39.8}},
+            },
         },
         [209872] = { -- Syllart
             [npcKeys.spawns] = {
@@ -168,6 +175,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [210451] = { -- Lady Sedorax
             [npcKeys.spawns] = {
                 [zoneIDs.DARKSHORE] = {{55.4, 36.6}},
+            },
+        },
+        [210482] = { -- Paxnozz
+            [npcKeys.spawns] = {
+                [zoneIDs.DARKSHORE] = {{47.8, 16.0}},
             },
         },
         [210537] = { -- Undying Laborer
