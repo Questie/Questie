@@ -240,6 +240,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90142] = true, -- Warrior Quick Strike The Barrens
     [90143] = true, -- Warrior Quick Strike Silverpine Forest
     [90144] = true, -- Druid Savage Roar Westfall
+    [90145] = true, -- Druid Lacerate Darkshore
 }
 
 ---@param questId number
@@ -278,6 +279,7 @@ local questsToBlacklistBySoDPhase = {
         [90140] = true, -- Hiding Warrior Quick Strike Westfall for now as there are too many icons
         [90143] = true, -- Hiding Warrior Quick Strike Silverpine Forest for now as there are too many icons
         [90144] = true, -- Hiding Druid Savage Roar Westfall for now as there are too many icons
+        [90145] = true, -- Hiding Druid Lacerate Darkshore for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
