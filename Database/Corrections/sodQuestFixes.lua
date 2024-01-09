@@ -2378,7 +2378,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.WARRIOR,
-            [questKeys.objectivesText] = {"Kill Defias for Gillsbane. Then kill Murlocs for Soul of the Sea. Take it to the Idol of the Deep, and interact with it. Kill the Horror of the Deep, and loot the rune."},
+            [questKeys.objectivesText] = {"Kill Defias for Gillsbane, equip it and then kill Murlocs to receive Soul of the Sea. Take it to the Idol of the Deep to summon Horror of the Deep and defeat it."},
             [questKeys.requiredSpell] = -425443,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
