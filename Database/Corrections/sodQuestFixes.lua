@@ -2418,6 +2418,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425443,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90144] = {
+            [questKeys.name] = "Hand of Reckoning",
+            [questKeys.startedBy] = {{846,572,7050}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 22,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Kill Ghouls, Defias Drones or the rare Leprithus until they drop the Libram of Justice, equip it and follow its guidance."},
+            [questKeys.requiredSpell] = -410001,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
     }
 end
 
