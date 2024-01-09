@@ -2223,7 +2223,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 10,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.DRUID,
-            [questKeys.objectivesText] = {"Defeat him."},
+            [questKeys.objectivesText] = {"Defeat him to receive the Idol of Ursine Rage drops, equip it and follow its guidance."},
             [questKeys.requiredSpell] = -410025,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
@@ -2453,6 +2453,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Kill Defias until one drops the Libram of Banishment, equip the libram and follow its guidance."},
             [questKeys.requiredSpell] = -416037,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [90146] = {
+            [questKeys.name] = "Mangle",
+            [questKeys.startedBy] = {{3566,2960}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 10,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Kill Flatland Prowlers or Prairie Wolf Alphas until the Idol of Ursine Rage drops. Equip it and follow its guidance."},
+            [questKeys.requiredSpell] = -410025,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
     }
 end
