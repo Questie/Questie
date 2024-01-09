@@ -2442,7 +2442,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416049,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90146] = {
+        [90147] = {
             [questKeys.name] = "Exorcist",
             [questKeys.startedBy] = {{215,909,910}},
             [questKeys.finishedBy] = nil,
