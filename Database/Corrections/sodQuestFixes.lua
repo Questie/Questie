@@ -2418,6 +2418,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425443,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90144] = {
+            [questKeys.name] = "Savage Roar",
+            [questKeys.startedBy] = {{452,124,117,501,1426,123,453,125,500,1065,98}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 20,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Kill Riverpaw Gnolls until one drops the Ferocious Idol, equip the idol and follow its guidance."},
+            [questKeys.requiredSpell] = -410023,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 
