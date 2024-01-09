@@ -2418,7 +2418,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425443,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90144] = {
+        [90146] = {
             [questKeys.name] = "Hand of Reckoning",
             [questKeys.startedBy] = {{846,572,7050}},
             [questKeys.finishedBy] = nil,
