@@ -113,7 +113,12 @@ QuestieDB.questFlags = {
 }
 
 QuestieDB.factionIDs = {
+    UNDERCITY = 68,
+    DARNASSUS = 69,
     DARKMOON_FAIRE = 909,
+    EXODAR = 930,
+    THE_KALUAK = 1073,
+    KIRIN_TOR = 1090,
 }
 
 -- temporary, until we remove the old db funcitons

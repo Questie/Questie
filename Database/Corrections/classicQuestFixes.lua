@@ -262,6 +262,7 @@ function QuestieQuestFixes:Load()
         },
         [518] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.reputationReward] = {{factionIDs.UNDERCITY,100}}
         },
         [522] = {
             [questKeys.startedBy] = {{2434},nil,{3668}},
@@ -775,6 +776,7 @@ function QuestieQuestFixes:Load()
         },
         [1361] = {
             [questKeys.exclusiveTo] = {1362},
+            [questKeys.startedBy] = {{2229,4485}},
         },
         [1364] = {
             [questKeys.preQuestSingle] = {1363}, -- #1674
@@ -829,6 +831,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Rescue Dalinda Malem", {[zoneIDs.DESOLACE]={{58.27,30.91}}}},
         },
         [1442] = {
+            [questKeys.specialFlags] = 1,
             [questKeys.parentQuest] = 1654,
         },
         [1447] = {
@@ -932,10 +935,12 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1666,1678,1680,1683,1686},
         },
         [1639] = {
-            [questKeys.exclusiveTo] = {1678},
+            [questKeys.exclusiveTo] = {1678,1683},
+            [questKeys.preQuestSingle] = {1638,1679,1684},
         },
         [1640] = {
             [questKeys.triggerEnd] = {"Beat Bartleby", {[zoneIDs.STORMWIND_CITY]={{73.7,36.85}}}},
+            [questKeys.preQuestSingle] = {1638,1679,1684},
         },
         [1641] = { -- This is repeatable giving an item starting 1642
             [questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000,3681},
@@ -962,28 +967,21 @@ function QuestieQuestFixes:Load()
         [1661] = {
             [questKeys.exclusiveTo] = {4485,4486},
         },
-        [1666] = {
-            [questKeys.preQuestSingle] = {1639,1678,1683},
-        },
         [1678] = {
-            [questKeys.exclusiveTo] = {1639},
+            [questKeys.preQuestSingle] = {1638,1679,1684},
         },
         [1679] = {
             [questKeys.exclusiveTo] = {1639,1666,1680,1683,1686}, -- #1724
         },
-        [1680] = {
-            [questKeys.preQuestSingle] = {1639,1678,1683},
-            [questKeys.exclusiveTo] = {1681}, -- #1724
-        },
         [1681] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1678},
+        },
+        [1683] = {
+            [questKeys.preQuestSingle] = {1638,1679,1684},
         },
         [1684] = {
             [questKeys.startedBy] = {{2151,3598,3657},nil,nil},
             [questKeys.exclusiveTo] = {1639,1666,1678,1686,1680},
-        },
-        [1686] = {
-            [questKeys.preQuestSingle] = {1639,1678,1683},
         },
         [1687] = {
             [questKeys.triggerEnd] = {"Go to the Westfall Lighthouse.", {[zoneIDs.WESTFALL]={{30.41,85.61}}}},
@@ -1649,6 +1647,7 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{10299}},
         },
         [4743] = {
+            [questKeys.requiredSourceItems] = {12339,12300,12323},
             [questKeys.startedBy] = {{10299}},
             [questKeys.finishedBy] = {{10299}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy."), 0, {{"monster", 10321}}},
@@ -2083,12 +2082,11 @@ function QuestieQuestFixes:Load()
         [5928] = {
             [questKeys.startedBy] = {{3064},nil,nil},
         },
-        -----------------------
         [5929] = {
-            [questKeys.triggerEnd] = {"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear.", {[zoneIDs.MOONGLADE]={{39.25,27.73}}}},
+            [questKeys.objectives] = {{{11956,"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear."}}},
         },
         [5930] = {
-            [questKeys.triggerEnd] = {"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear.", {[zoneIDs.MOONGLADE]={{39.25,27.73}}}},
+            [questKeys.objectives] = {{{11956,"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear."}}},
         },
         [5931] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Silva Fil'naveth to fly back to Darnassus"), 0, {{"monster", 11800}}}},
@@ -2633,9 +2631,6 @@ function QuestieQuestFixes:Load()
         },
         [7787] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.ROGUE,
-        },
-        [7795] = {
-            [questKeys.preQuestSingle] = {7794},
         },
         [7816] = {
             [questKeys.preQuestSingle] = {}, -- #2247
@@ -3324,12 +3319,12 @@ function QuestieQuestFixes:Load()
         },
         [8767] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.WARRIOR + classIDs.HUNTER + classIDs.PALADIN,
             [questKeys.exclusiveTo] = {8788},
         },
         [8788] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST + classIDs.WARLOCK + classIDs.MAGE + classIDs.SHAMAN + classIDs.DRUID,
             [questKeys.exclusiveTo] = {8767},
         },
         [8791] = {

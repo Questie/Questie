@@ -201,7 +201,9 @@ function QuestieQuest:ClearAllNotes()
             return
         end
 
-        quest.Objectives = {}
+        for _, s in pairs(quest.Objectives) do
+            s.AlreadySpawned = {}
+        end
 
         if next(quest.SpecialObjectives) then
             for _, s in pairs(quest.SpecialObjectives) do

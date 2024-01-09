@@ -76,6 +76,7 @@ QuestieCorrections.WOTLK_ONLY = 3 -- Hide only in Wotlk
 QuestieCorrections.TBC_AND_WOTLK = 4 -- Hide in TBC and Wotlk
 QuestieCorrections.SOD_ONLY = 5 -- Hide when *not* Season of Discovery; use for SoD-only quests
 QuestieCorrections.HIDE_SOD = 6 -- Hide when Season of Discovery; use to hide quests that are not available in SoD
+QuestieCorrections.CLASSIC_AND_TBC = 7 -- Hide in both Classic and TBC
 
 QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 
@@ -84,6 +85,7 @@ QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 ---@param values T
 ---@return T
 local function filterExpansion(values)
+    local isClassic = Questie.IsClassic
     local isTBC = Questie.IsTBC
     local isWotlk = Questie.IsWotlk
     local isSoD = Questie.IsSoD
@@ -120,6 +122,12 @@ local function filterExpansion(values)
             end
         elseif v == QuestieCorrections.HIDE_SOD then
             if isSoD then
+                values[k] = true
+            else
+                values[k] = nil
+            end
+        elseif v == QuestieCorrections.CLASSIC_AND_TBC then
+            if isClassic or isTBC then
                 values[k] = true
             else
                 values[k] = nil
@@ -165,6 +173,7 @@ do
             addOverride(QuestieDB.itemDataOverrides, QuestieTBCItemFixes:LoadFactionFixes())
             addOverride(QuestieDB.npcDataOverrides, QuestieTBCNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, QuestieTBCObjectFixes:LoadFactionFixes())
+            addOverride(QuestieDB.questDataOverrides, QuestieTBCQuestFixes:LoadFactionFixes())
         end
 
         -- WOTLK Corrections

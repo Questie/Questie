@@ -38,6 +38,9 @@ function QuestieNPCFixes:Load()
         [446] = {
             [npcKeys.waypoints] = {},
         },
+        [448] = {
+            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{25.02,92.9}}},
+        },
         [580] = {
             [npcKeys.waypoints] = {},
         },
@@ -359,6 +362,9 @@ function QuestieNPCFixes:Load()
         [3140] = {
             [npcKeys.waypoints] = {[zoneIDs.DUROTAR]={{{54.2,73.2},{54.4,74.2},{54.4,75},{54,76.2},{54.4,75},{54.4,74.2},{54.2,73.2}}}},
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{54.4,75}}},
+        },
+        [3204] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{52.61,8.82}}},
         },
         [3237] = {
             [npcKeys.waypoints] = {},
