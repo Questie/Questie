@@ -2430,17 +2430,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410025,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-
-        [questKeys.name] = "Mangle",
-            [questKeys.startedBy] = {{7318}},
-            [questKeys.finishedBy] = {{7318}},
-            [questKeys.requiredLevel] = 1,
-            [questKeys.questLevel] = 10,
-            [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.requiredClasses] = classIDs.DRUID,
-            [questKeys.objectivesText] = {"Defeat him."},
-            [questKeys.requiredSpell] = -410025,
-            [questKeys.zoneOrSort] = sortKeys.DRUID,
     }
 end
 
