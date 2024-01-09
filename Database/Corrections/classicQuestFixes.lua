@@ -15,7 +15,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 -- Further information on how to use this can be found at the wiki
 -- https://github.com/Questie/Questie/wiki/Corrections
 
-function QuestieQuestFixes:Load()
+function QuestieQuestFixes:LoadMissingQuests()
     QuestieDB.questData[5640] = {} -- Desperate Prayer
     QuestieDB.questData[5678] = {} -- Arcane Feedback
 
@@ -30,7 +30,9 @@ function QuestieQuestFixes:Load()
     QuestieDB.questData[65603] = {} -- The Binding
     QuestieDB.questData[65604] = {} -- The Binding
     QuestieDB.questData[65610] = {} -- Wish You Were Here
+end
 
+function QuestieQuestFixes:Load()
     local questKeys = QuestieDB.questKeys
     local zoneIDs = ZoneDB.zoneIDs
     local raceIDs = QuestieDB.raceKeys
@@ -262,7 +264,6 @@ function QuestieQuestFixes:Load()
         },
         [518] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.reputationReward] = {{factionIDs.UNDERCITY,100}}
         },
         [522] = {
             [questKeys.startedBy] = {{2434},nil,{3668}},
@@ -2082,12 +2083,11 @@ function QuestieQuestFixes:Load()
         [5928] = {
             [questKeys.startedBy] = {{3064},nil,nil},
         },
-        -----------------------
         [5929] = {
-            [questKeys.triggerEnd] = {"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear.", {[zoneIDs.MOONGLADE]={{39.25,27.73}}}},
+            [questKeys.objectives] = {{{11956,"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear."}}},
         },
         [5930] = {
-            [questKeys.triggerEnd] = {"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear.", {[zoneIDs.MOONGLADE]={{39.25,27.73}}}},
+            [questKeys.objectives] = {{{11956,"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear."}}},
         },
         [5931] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Silva Fil'naveth to fly back to Darnassus"), 0, {{"monster", 11800}}}},
@@ -2660,9 +2660,6 @@ function QuestieQuestFixes:Load()
         [7868] = {
             [questKeys.zoneOrSort] = 3277,
         },
-        [7882] = {
-            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,100}},
-        },
         [7886] = { -- #1435
             [questKeys.startedBy] = {{14733},nil,nil},
             [questKeys.finishedBy] = {{14733},nil},
@@ -2675,21 +2672,8 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{14733},nil,nil},
             [questKeys.finishedBy] = {{14733},nil},
         },
-        [7890] = {
-            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,100}},
-        },
-        [7891] = {
-            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,100}},
-        },
-        [7892] = {
-            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,100}},
-        },
-        [7897] = {
-            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,100}},
-        },
         [7905] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,50}},
         },
         [7921] = { -- #1435
             [questKeys.startedBy] = {{14733},nil,nil},
@@ -2698,28 +2682,11 @@ function QuestieQuestFixes:Load()
         [7926] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [7927] = {
-            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,150}},
-        },
-        [7929] = {
-            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,150}},
-        },
         [7937] = {
             [questKeys.specialFlags] = 1,
-            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,50}},
         },
         [7938] = {
             [questKeys.specialFlags] = 1,
-            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,50}},
-        },
-        [7942] = {
-            [questKeys.reputationReward] = {},
-        },
-        [7943] = {
-            [questKeys.reputationReward] = {},
-        },
-        [7944] = {
-            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,50}},
         },
         [7945] = {
             [questKeys.specialFlags] = 1,

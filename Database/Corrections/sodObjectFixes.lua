@@ -15,6 +15,18 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.IRONFORGE] = {{76, 10.4}},
             },
         },
+        [402215] = {
+            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+            [objectKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{33,24.7}},
+            },
+        },
+        [403041] = {
+            [objectKeys.zoneID] = zoneIDs.MULGORE,
+            [objectKeys.spawns] = {
+                [zoneIDs.MULGORE] = {{63.8,44.1}},
+            },
+        },
         [403718] = {
             [objectKeys.zoneID] = zoneIDs.MULGORE,
             [objectKeys.spawns] = {
@@ -26,10 +38,34 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.TIRISFAL_GLADES] = {{24.7, 59.4}},
             },
         },
+        [407117] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{44,22}},
+            },
+        },
+        [407120] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{48,40}},
+            },
+        },
         [407247] = {
             [objectKeys.zoneID] = zoneIDs.TELDRASSIL,
             [objectKeys.spawns] = {
                 [zoneIDs.TELDRASSIL] = {{57.06, 65.57},{58.05, 73.19},{59.63, 60.05},{61.09, 54.02},{63.88, 64.90},{64.89, 54.77},{65.64, 59.22},{66.56, 51.55},{67.36, 64.15},{69.56, 55.75}},
+            },
+        },
+        [407289] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{52.2,31.1}},
+            },
+        },
+        [407291] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{62.55,56.31}},
             },
         },
         [407454] = {
@@ -47,6 +83,21 @@ function SeasonOfDiscovery:LoadObjects()
         [407734] = {
             [objectKeys.spawns] = {
                 [zoneIDs.TELDRASSIL] = {{44.1, 61.2}},
+            },
+        },
+        [407844] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{35.8, 49.5}},
+            },
+        },
+        [407850] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{36.8, 91.4}},
+            },
+        },
+        [408004] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{71.7, 21.4}},
             },
         },
         [408718] = {
