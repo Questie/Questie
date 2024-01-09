@@ -1,6 +1,6 @@
 require("cli.dump")
 
-WOW_PROJECT_ID = 2
+WOW_PROJECT_ID = 5
 WOW_PROJECT_CLASSIC = 2
 WOW_PROJECT_BURNING_CRUSADE_CLASSIC = 5
 WOW_PROJECT_WRATH_CLASSIC = 11
@@ -24,6 +24,10 @@ mod = function(a, b)
 end
 bit = require("bit32")
 hooksecurefunc = _EmptyDummyFunction
+
+GetBuildInfo = function()
+    return "2.5.1", "38644", "May 11 2021", 20501
+end
 GetAddOnInfo = function()
     return "Questie", "|cFFFFFFFFQuestie|r|cFF00FF00 v6.3.9 (TBC B2)|r", "A standalone Classic QuestHelper", true, "INSECURE", false
 end
@@ -148,78 +152,7 @@ local function _ErrorOrWarning(_, text, ...)
     io.stderr:write(tostring(text) .. "\n")
 end
 
-local function _CheckClassicDatabase()
-    GetBuildInfo = function()
-        return "1.14.3", "44403", "Jun 27 2022", 11403
-    end
-
-    print("\n\27[36mCompiling Classic database...\27[0m")
-    loadTOC("Questie-Classic.toc")
-
-    Questie.Debug = _Debug
-    Questie.Error = _ErrorOrWarning
-    Questie.Warning = _ErrorOrWarning
-
-    Questie.db = {
-        char = {
-            showEventQuests = false
-        },
-        global = {},
-        profile = {}
-    }
-    QuestieConfig = {}
-
-    local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-    local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
-    local l10n = QuestieLoader:ImportModule("l10n")
-
-    print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
-
-    QuestieDB.npcData = loadstring(QuestieDB.npcData)()
-    QuestieDB.objectData = loadstring(QuestieDB.objectData)()
-    QuestieDB.questData = loadstring(QuestieDB.questData)()
-    QuestieDB.itemData = loadstring(QuestieDB.itemData)()
-
-    print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
-
-    Questie:SetIcons()
-    QuestieLoader:ImportModule("ZoneDB"):Initialize()
-
-    QuestieCorrections:Initialize({
-        ["npcData"] = QuestieDB.npcData,
-        ["objectData"] = QuestieDB.objectData,
-        ["itemData"] = QuestieDB.itemData,
-        ["questData"] = QuestieDB.questData
-    })
-
-    local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
-
-    Questie.db.global.debugEnabled = true
-    QuestieDBCompiler:Compile(function() end)
-
-    QuestieDB:Initialize()
-
-    print("\n\27[36mValidating objects...\27[0m")
-    QuestieDBCompiler:ValidateObjects()
-    print("\n\27[36mValidating items...\27[0m")
-    QuestieDBCompiler:ValidateItems()
-    print("\n\27[36mValidating NPCs...\27[0m")
-    QuestieDBCompiler:ValidateNPCs()
-    print("\n\27[36mValidating quests...\27[0m")
-    QuestieDBCompiler:ValidateQuests()
-
-    print("\n\27[32mClassic database compiled successfully\27[0m")
-end
-_CheckClassicDatabase()
-
-Questie = nil -- Reset for second test
-
 local function _CheckTBCDatabase()
-    GetBuildInfo = function()
-        return "2.5.1", "38644", "May 11 2021", 20501
-    end
-    WOW_PROJECT_ID = 5
-
     print("\n\27[36mCompiling TBC database...\27[0m")
     loadTOC("Questie-BCC.toc")
 
@@ -276,76 +209,5 @@ local function _CheckTBCDatabase()
 
     print("\n\27[32mTBC database compiled successfully\27[0m\n")
 end
+
 _CheckTBCDatabase()
-
-Questie = nil -- Reset for thrid test
-
-local function _CheckWotlkDatabase()
-    GetBuildInfo = function()
-        return "3.4.0", "44644", "Jun 12 2022", 30400
-    end
-    WOW_PROJECT_ID = 11
-
-    print("\n\27[36mCompiling Wotlk database...\27[0m")
-    loadTOC("Questie-WOTLKC.toc")
-
-    Questie.Debug = _Debug
-    Questie.Error = _ErrorOrWarning
-    Questie.Warning = _ErrorOrWarning
-
-    Questie.db = {
-        char = {
-            showEventQuests = false
-        },
-        global = {},
-        profile = {}
-    }
-    QuestieConfig = {}
-
-    local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-    local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
-    local l10n = QuestieLoader:ImportModule("l10n")
-
-    print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
-
-    QuestieDB.npcData = loadstring(QuestieDB.npcData)()
-    QuestieDB.objectData = loadstring(QuestieDB.objectData)()
-    QuestieDB.questData = loadstring(QuestieDB.questData)()
-    QuestieDB.itemData = loadstring(QuestieDB.itemData)()
-
-    print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
-
-    Questie:SetIcons()
-    QuestieLoader:ImportModule("ZoneDB"):Initialize()
-
-    QuestieCorrections:Initialize({
-        ["npcData"] = QuestieDB.npcData,
-        ["objectData"] = QuestieDB.objectData,
-        ["itemData"] = QuestieDB.itemData,
-        ["questData"] = QuestieDB.questData
-    })
-
-    local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
-
-    Questie.db.global.debugEnabled = true
-    QuestieDBCompiler:Compile(function() end)
-
-    QuestieDB:Initialize()
-
-    print("\n\27[36mValidating objects...\27[0m")
-    QuestieDBCompiler:ValidateObjects()
-    print("\n\27[36mValidating items...\27[0m")
-    QuestieDBCompiler:ValidateItems()
-    print("\n\27[36mValidating NPCs...\27[0m")
-    QuestieDBCompiler:ValidateNPCs()
-    print("\n\27[36mValidating quests...\27[0m")
-    QuestieDBCompiler:ValidateQuests()
-
-    print("\n\27[32mWotlk database compiled successfully\27[0m\n")
-end
---? It is REALLLY slow and designed to be run through docker otherwise you have to change the path.
--- local profiler = require("cli/profiler")
--- profiler.start()
-_CheckWotlkDatabase()
--- profiler.stop()
--- profiler.report("/code/profiler.log")
