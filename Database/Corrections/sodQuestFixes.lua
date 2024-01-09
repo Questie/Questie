@@ -2387,11 +2387,8 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90141] = {
             [questKeys.name] = "Quick Strike",
-            [questKeys.startedBy] = {
-                ['objectStart'] = {408802},
-                ['creatureStart'] = {210482},
-            },
-            [questKeys.finishedBy] = nil,
+            [questKeys.startedBy] = {nil,{408802}},
+            [questKeys.finishedBy] = {210482},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 10,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2402,8 +2399,8 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90142] = {
             [questKeys.name] = "Quick Strike",
-            [questKeys.startedBy] = {{3497,209797}},
-            [questKeys.finishedBy] = nil,
+            [questKeys.startedBy] = {{3497}},
+            [questKeys.finishedBy] = {209797},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 10,
             [questKeys.requiredRaces] = raceIDs.NONE,
