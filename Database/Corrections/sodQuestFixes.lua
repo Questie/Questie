@@ -2449,7 +2449,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 10,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.DRUID,
-            [questKeys.objectivesText] = {"Kill Flatland Prowlers or Prairie Wolf Alphas until one drops the idol, equip it and do as it says."},
+            [questKeys.objectivesText] = {"Kill Flatland Prowlers or Prairie Wolf Alphas until the Idol of Ursine Rage drops. Equip it and follow its guidance."},
             [questKeys.requiredSpell] = -410025,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
