@@ -241,7 +241,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90143] = true, -- Warrior Quick Strike Silverpine Forest
     [90144] = true, -- Druid Savage Roar Westfall
     [90145] = true, -- Druid Lacerate Darkshore
-    [90147] = true, -- Druid Mangle Mulgore
+    [90146] = true, -- Druid Mangle Mulgore
     [90147] = true, -- Paladin Exorcist Duskwood
 }
 
