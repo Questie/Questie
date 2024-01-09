@@ -2449,7 +2449,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 22,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PALADIN,
-            [questKeys.objectivesText] = {"Kill Ghouls, Defias Drones or the rare Leprithus until they drop the Libram of Justice, equip it and follow its guidance."},
+            [questKeys.objectivesText] = {"Kill Ghouls, Defias Drones or the rare Leprithus until the Libram of Justice drops, equip it and follow its guidance."},
             [questKeys.requiredSpell] = -410001,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
