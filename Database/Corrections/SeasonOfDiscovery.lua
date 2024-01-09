@@ -275,8 +275,6 @@ local questsToBlacklistBySoDPhase = {
         [90137] = true, -- Hiding Rogue Quick Draw Tirisfal Glades for now as there are too many icons
         [90139] = true, -- Hiding Warrior Quick Strike Loch Modan for now as there are too many icons
         [90140] = true, -- Hiding Warrior Quick Strike Westfall for now as there are too many icons
-        [90141] = true, -- Hiding Warrior Quick Strike Darkshore for now as there are too many icons
-        [90142] = true, -- Hiding Warrior Quick Strike The Barrens for now as there are too many icons
         [90143] = true, -- Hiding Warrior Quick Strike Silverpine Forest for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
