@@ -2418,6 +2418,29 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425443,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90144] = {
+            [questKeys.name] = "Mangle",
+            [questKeys.startedBy] = {{3566,2960}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 10,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Kill Flatland Prowlers or Prairie Wolf Alphas until one drops the idol, equip it and do as it says."},
+            [questKeys.requiredSpell] = -410025,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+
+        [questKeys.name] = "Mangle",
+            [questKeys.startedBy] = {{7318}},
+            [questKeys.finishedBy] = {{7318}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 10,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Defeat him."},
+            [questKeys.requiredSpell] = -410025,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
     }
 end
 
