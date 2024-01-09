@@ -2358,6 +2358,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -424992,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90139] = {
+            [questKeys.name] = "Slaughter from the Shadows",
+            [questKeys.startedBy] = {{1161,1162,1163,1164}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 10,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Kill Troggs for the Skull-Shaped Geode. Then get hit by a Skullthumper's stun and use the geode to loot the rune."},
+            [questKeys.requiredSpell] = -425443,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
     }
 end
 
