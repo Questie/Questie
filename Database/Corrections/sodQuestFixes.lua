@@ -2418,6 +2418,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425443,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90144] = {
+            [questKeys.name] = "Lacerate",
+            [questKeys.startedBy] = {{2167,2324,2171,2168,2169,2170,2234}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 15,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Kill Furlbogs until Crab Treats drop, use them to feed a Young Reef Crawler and receive the rune."},
+            [questKeys.requiredSpell] = -416049,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 
