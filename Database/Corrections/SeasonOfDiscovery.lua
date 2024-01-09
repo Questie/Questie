@@ -235,6 +235,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90137] = true, -- Rogue Quick Draw Tirisfal Glades
     [90138] = true, -- Rogue Slaughter from the Shadows Elwynn Forest, Dun Morogh, Durotar
     [90139] = true, -- Warrior Quick Strike Loch Modan
+    [90140] = true, -- Warrior Quick Strike Elwynn Forest
 }
 
 ---@param questId number
@@ -270,6 +271,7 @@ local questsToBlacklistBySoDPhase = {
         [90136] = true, -- Hiding Rogue Quick Draw Durotar for now as there are too many icons
         [90137] = true, -- Hiding Rogue Quick Draw Tirisfal Glades for now as there are too many icons
         [90139] = true, -- Hiding Warrior Quick Strike Loch Modan for now as there are too many icons
+        [90140] = true, -- Hiding Warrior Quick Strike Elwynn Forest for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
