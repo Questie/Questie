@@ -2440,6 +2440,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.objectivesText] = {"Kill Furlbogs until Crab Treats drop, use them to feed a Young Reef Crawler and receive the rune."},
             [questKeys.requiredSpell] = -416049,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [90146] = {
+            [questKeys.name] = "Exorcist",
+            [questKeys.startedBy] = {{215,909,910}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Kill Defias until one drops the Libram of Banishment, equip the libram and follow its guidance."},
+            [questKeys.requiredSpell] = -416037,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
     }
 end
