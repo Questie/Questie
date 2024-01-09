@@ -2372,10 +2372,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90140] = {
             [questKeys.name] = "Quick Strike",
-            [questKeys.startedBy] = {
-                ['objectStart'] = {408799},
-                ['creatureStart'] = {504,95,449,590,589,121,285,46,732,735,210487},
-            },
+            [questKeys.startedBy] = {{504,95,449,590,589,121,285,46,732,735},{408799}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 10,
