@@ -9,7 +9,7 @@ on:
   pull_request:
 
 jobs:
-  check:
+  lua-check:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,13 +27,117 @@ jobs:
           files: Database Localization Modules Questie.lua
           args: "--no-color -q"
 
+      - name: Send CI failure to Discord
+        uses: nebularg/actions-discord-webhook@v1
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+        if: ${{ failure() }}
+
+  validate-era-db:
+    needs: lua-check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
+
+      - name: Install Lua
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "5.1"
+
       - name: Install Luarocks
         uses: leafo/gh-actions-luarocks@v4
 
-      - name: Validate Questie database
+      - name: Validate Era database
         run: |
           luarocks install bit32
-          lua cli.lua
+          lua cli/validate-era.lua
+
+      - name: Send CI failure to Discord
+        uses: nebularg/actions-discord-webhook@v1
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+        if: ${{ failure() }}
+
+  validate-sod-db:
+    needs: lua-check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
+
+      - name: Install Lua
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "5.1"
+
+      - name: Install Luarocks
+        uses: leafo/gh-actions-luarocks@v4
+
+      - name: Validate SoD database
+        run: |
+          luarocks install bit32
+          lua cli/validate-sod.lua
+
+      - name: Send CI failure to Discord
+        uses: nebularg/actions-discord-webhook@v1
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+        if: ${{ failure() }}
+
+  validate-tbc-db:
+    needs: lua-check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
+
+      - name: Install Lua
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "5.1"
+
+      - name: Install Luarocks
+        uses: leafo/gh-actions-luarocks@v4
+
+      - name: Validate TBC database
+        run: |
+          luarocks install bit32
+          lua cli/validate-tbc.lua
+
+      - name: Send CI failure to Discord
+        uses: nebularg/actions-discord-webhook@v1
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+        if: ${{ failure() }}
+
+  validate-wotlk-db:
+    needs: lua-check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
+
+      - name: Install Lua
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "5.1"
+
+      - name: Install Luarocks
+        uses: leafo/gh-actions-luarocks@v4
+
+      - name: Validate WotLK database
+        run: |
+          luarocks install bit32
+          lua cli/validate-wotlk.lua
 
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1
@@ -43,7 +147,8 @@ jobs:
         if: ${{ failure() }}
 
   publish:
-    needs: check
+    needs: [
+      validate-era-db, validate-sod-db, validate-tbc-db, validate-wotlk-db]
     if: startsWith(github.ref, 'refs/tags/v')
 
     runs-on: ubuntu-latest

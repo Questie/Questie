@@ -239,6 +239,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90141] = true, -- Warrior Quick Strike Darkshore
     [90142] = true, -- Warrior Quick Strike The Barrens
     [90143] = true, -- Warrior Quick Strike Silverpine Forest
+    [90144] = true, -- Druid Savage Roar Westfall
+    [90145] = true, -- Druid Lacerate Darkshore
     [90146] = true, -- Paladin Hand of Reckoning Westfall
 }
 
@@ -268,7 +270,7 @@ local questsToBlacklistBySoDPhase = {
         [90078] = true, -- Hiding Warlock Demonic Grace Elwynn Forest for now as there are too many icons
         [90079] = true, -- Hiding Warlock Demonic Grace Durotar for now as there are too many icons
         [90080] = true, -- Hiding Warlock Demonic Grace Tirisfal Galdes for now as there are too many icons
-        [90085] = true, -- Hiding Loch Modan verion of Blade Dance
+        [90085] = true, -- Hiding Loch Modan verion of Blade Dance for now as there are too many icons
         [90133] = true, -- Hiding Rogue Quick Draw Dun Morogh for now as there are too many icons
         [90134] = true, -- Hiding Rogue Quick Draw Elwynn Forest for now as there are too many icons
         [90135] = true, -- Hiding Rogue Quick Draw Teldrassil for now as there are too many icons
@@ -277,6 +279,8 @@ local questsToBlacklistBySoDPhase = {
         [90139] = true, -- Hiding Warrior Quick Strike Loch Modan for now as there are too many icons
         [90140] = true, -- Hiding Warrior Quick Strike Westfall for now as there are too many icons
         [90143] = true, -- Hiding Warrior Quick Strike Silverpine Forest for now as there are too many icons
+        [90144] = true, -- Hiding Druid Savage Roar Westfall for now as there are too many icons
+        [90145] = true, -- Hiding Druid Lacerate Darkshore for now as there are too many icons
         [90146] = true, -- Hiding Paladin Hand of Reckoning Westfall for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
