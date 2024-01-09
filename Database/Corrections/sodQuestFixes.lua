@@ -2223,7 +2223,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 10,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.DRUID,
-            [questKeys.objectivesText] = {"Defeat him."},
+            [questKeys.objectivesText] = {"Defeat him to receive the Idol of Ursine Rage drops, equip it and follow its guidance."},
             [questKeys.requiredSpell] = -410025,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
