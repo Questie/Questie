@@ -79,6 +79,9 @@ function QuestieTBCObjectFixes:Load()
         [185033] = {
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{66.39,44.08}}},
         },
+        [185144] = {
+            [objectKeys.name] = "Bleeding Hollow Forge",
+        },
         [185200] = {
             [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.12,19.37}}},
         },

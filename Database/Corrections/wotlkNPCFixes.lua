@@ -1122,8 +1122,17 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_GILDED_GATE]={{-1,-1}},[4277]={{-1,-1}}},
             [npcKeys.waypoints] = {},
         },
+        [29339] = {
+            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY]={{52.69,19.86}}},
+        },
         [29340] = {
             [npcKeys.spawns] = {[zoneIDs.THE_GILDED_GATE]={{-1,-1}},[4277]={{-1,-1}}},
+        },
+        [29346] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{31.64,37.38}}},
+        },
+        [29348] = {
+            [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{69.84,31.31}}},
         },
         [29456] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{19.74,47.93},},},

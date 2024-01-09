@@ -2419,6 +2419,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [90144] = {
+            [questKeys.name] = "Savage Roar",
+            [questKeys.startedBy] = {{452,124,117,501,1426,123,453,125,500,1065,98}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 20,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Kill Riverpaw Gnolls until one drops the Ferocious Idol, equip the idol and follow its guidance."},
+            [questKeys.requiredSpell] = -410023,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [90145] = {
             [questKeys.name] = "Lacerate",
             [questKeys.startedBy] = {{2167,2324,2171,2168,2169,2170,2234}},
             [questKeys.finishedBy] = nil,
@@ -2428,7 +2440,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.objectivesText] = {"Kill Furlbogs until Crab Treats drop, use them to feed a Young Reef Crawler and receive the rune."},
             [questKeys.requiredSpell] = -416049,
-            [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
     }
 end
