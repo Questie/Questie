@@ -1421,7 +1421,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90057] = {
             [questKeys.name] = "Sunfire",
-            [questKeys.startedBy] = {nil,{404433}},
+            [questKeys.startedBy] = {{207577},{404433}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 4,
@@ -2464,18 +2464,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Kill Ghouls, Defias Drones or the rare Leprithus until the Libram of Justice drops, equip it and follow its guidance."},
             [questKeys.requiredSpell] = -410001,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
-        },
-        [90148] = {
-            [questKeys.name] = "Sunfire",
-            [questKeys.startedBy] = {{207577}},
-            [questKeys.finishedBy] = nil,
-            [questKeys.requiredLevel] = 1,
-            [questKeys.questLevel] = 5,
-            [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.requiredClasses] = classIDs.DRUID,
-            [questKeys.objectivesText] = {"Cast Moonfire on each Lunar Stone, and a Lunar Chest will appear, open it and loot the rune."},
-            [questKeys.requiredSpell] = -416044,
-            [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
     }
 end
