@@ -285,7 +285,6 @@ local questsToBlacklistBySoDPhase = {
         [90145] = true, -- Hiding Druid Lacerate Darkshore for now as there are too many icons
         [90146] = true, -- Hiding Druid Mangle Mulgore for now as there are too many icons
         [90147] = true, -- Hiding Paladin Hand of Reckoning Westfall for now as there are too many icons
-        [90150] = true, -- Hiding Hunter Sniper Training Darkshore for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
