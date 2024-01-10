@@ -69,6 +69,12 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local tinsert = table.insert
 local _WithinDates, _LoadDarkmoonFaire, _IsDarkmoonFaireActive, _IsDarkmoonFaireActiveEra, _IsDarkmoonFaireActiveSoD
 
+local DMF_LOCATIONS = {
+    NONE = 0,
+    MULGORE = 1,
+    ELWYNN_FOREST = 2,
+}
+
 function QuestieEvent:Load()
     local year = date("%y")
 
@@ -164,40 +170,42 @@ _IsDarkmoonFaireActiveEra = function(dayOfMonth)
     local monthOffset = (currentDate.year - baseInfo.year) * 12 + (currentDate.month - baseInfo.month)
     local firstWeekday = C_Calendar.GetMonthInfo(monthOffset).firstWeekday
 
+    local eventLocation = (currentDate.month % 2) == 0 and DMF_LOCATIONS.MULGORE or DMF_LOCATIONS.ELWYNN_FOREST
+
     if firstWeekday == 1 then
         -- The 1st is a Sunday
         if dayOfMonth >= 9 and dayOfMonth < 15 then
-            return true
+            return eventLocation
         end
     elseif firstWeekday == 2 then
         -- The 1st is a Monday
         if dayOfMonth >= 8 and dayOfMonth < 14 then
-            return true
+            return eventLocation
         end
     elseif firstWeekday == 3 then
         -- The 1st is a Tuesday
         if dayOfMonth >= 7 and dayOfMonth < 13 then
-            return true
+            return eventLocation
         end
     elseif firstWeekday == 4 then
         -- The 1st is a Wednesday
         if dayOfMonth >= 6 and dayOfMonth < 12 then
-            return true
+            return eventLocation
         end
     elseif firstWeekday == 5 then
         -- The 1st is a Thursday
         if dayOfMonth >= 5 and dayOfMonth < 11 then
-            return true
+            return eventLocation
         end
     elseif firstWeekday == 6 then
         -- The 1st is a Friday
         if dayOfMonth >= 4 and dayOfMonth < 10 then
-            return true
+            return eventLocation
         end
     elseif firstWeekday == 7 then
         -- The 1st is a Saturday
         if dayOfMonth >= 10 and dayOfMonth < 16 then
-            return true
+            return eventLocation
         end
     end
 
@@ -215,7 +223,19 @@ _IsDarkmoonFaireActiveSoD = function(currentDate)
 
     local positionInCurrentCycle = timeSinceStart % (eventDuration * 2) -- * 2 because the event repeats every two weeks
 
-    return positionInCurrentCycle < eventDuration
+    local isEventActive = positionInCurrentCycle < eventDuration
+
+    if (not isEventActive) then
+        return DMF_LOCATIONS.NONE
+    end
+
+    local weeksSinceStart = math.floor(timeSinceStart / eventDuration)
+
+    if weeksSinceStart % 4 == 0 then
+        return DMF_LOCATIONS.MULGORE
+    else
+        return DMF_LOCATIONS.ELWYNN_FOREST
+    end
 end
 
 __TEST = function()
@@ -347,18 +367,13 @@ end
 _LoadDarkmoonFaire = function()
     local currentDate = C_DateAndTime.GetCurrentCalendarTime()
 
-    if (not _IsDarkmoonFaireActive(currentDate)) then
+    local eventLocation = _IsDarkmoonFaireActive(currentDate)
+    if (eventLocation == DMF_LOCATIONS.NONE) then
         return
     end
 
     -- TODO: Also handle Terrokar Forest starting with TBC
-    local isInMulgore
-    if Questie.IsSoD then
-        -- The first event of a month is always in Mulgore, the second in Elwynn Forest
-        isInMulgore = currentDate.monthDay < 16
-    else
-        isInMulgore = (currentDate.month % 2) == 0
-    end
+    local isInMulgore = eventLocation == DMF_LOCATIONS.MULGORE
 
     -- The faire is setting up right now or is already up
     local announcingQuestId = 7905 -- Alliance announcement quest
