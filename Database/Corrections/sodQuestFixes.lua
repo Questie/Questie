@@ -2474,7 +2474,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.HUNTER,
             [questKeys.objectivesText] = {"Loot the Gnarled Harpoon, and use it on Paxnozz to weaken it, kill it and loot the rune."},
-            [questKeys.requiredSpell] = -410115,
+            [questKeys.requiredSpell] = -416091,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
     }
