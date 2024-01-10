@@ -2474,7 +2474,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.HUNTER,
             [questKeys.objectivesText] = {"Kill Defias Scouts until the rune drops."},
-            [questKeys.requiredSpell] = -410001,
+            [questKeys.requiredSpell] = -416091,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
     }
