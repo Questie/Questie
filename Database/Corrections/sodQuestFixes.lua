@@ -2465,6 +2465,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410001,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [90152] = {
+            [questKeys.name] = "Sniper Training",
+            [questKeys.startedBy] = {{210107}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 15,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill Kackle and loot the rune."},
+            [questKeys.requiredSpell] = -416091,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
