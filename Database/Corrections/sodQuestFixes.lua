@@ -2465,6 +2465,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410001,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [90151] = {
+            [questKeys.name] = "Sniper Training",
+            [questKeys.startedBy] = {{210549}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 15,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill Defias Scouts until the rune drops."},
+            [questKeys.requiredSpell] = -410001,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
