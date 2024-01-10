@@ -2455,6 +2455,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
         [90147] = {
+            [questKeys.name] = "Hand of Reckoning",
+            [questKeys.startedBy] = {{846,572,7050}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 22,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Kill Ghouls, Defias Drones or the rare Leprithus until the Libram of Justice drops, equip it and follow its guidance."},
+            [questKeys.requiredSpell] = -410001,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [90148] = {
             [questKeys.name] = "Exorcist",
             [questKeys.startedBy] = {{215,909,910}},
             [questKeys.finishedBy] = nil,
@@ -2464,7 +2476,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Kill Defias until one drops the Libram of Banishment, equip the libram and follow its guidance."},
             [questKeys.requiredSpell] = -416037,
-            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
     }
 end
