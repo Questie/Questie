@@ -2465,6 +2465,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410001,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [90149] = {
+            [questKeys.name] = "Heart of the Lion",
+            [questKeys.startedBy] = {{211965}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill Carrodin in the cave, and loot the rune."},
+            [questKeys.requiredSpell] = -410115,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 

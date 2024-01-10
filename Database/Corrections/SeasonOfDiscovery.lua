@@ -243,6 +243,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90145] = true, -- Druid Lacerate Darkshore
     [90146] = true, -- Druid Mangle Mulgore
     [90147] = true, -- Paladin Hand of Reckoning Westfall
+    [90149] = true, -- Hunter Heart of the Lion Wetlands
 }
 
 ---@param questId number
