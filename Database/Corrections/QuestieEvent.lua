@@ -149,29 +149,31 @@ end
 
 ---@param dayOfMonth number
 ---@return boolean
-_GetDarkmoonFaireLocation = function(currentDate)
+_GetDarkmoonFaireLocation = function()
     if C_Calendar == nil then
         -- This is a band aid fix for private servers which do not support the `C_Calendar` API.
         -- They won't see Darkmoon Faire quests, but that's the price to pay.
         return false
     end
 
+    local currentDate = C_DateAndTime.GetCurrentCalendarTime()
+
     if Questie.IsSoD then
         return _GetDarkmoonFaireLocationSoD(currentDate)
     else
-        return _GetDarkmoonFaireLocationEra(currentDate.monthDay)
+        return _GetDarkmoonFaireLocationEra(currentDate)
     end
 end
 
-_GetDarkmoonFaireLocationEra = function(dayOfMonth)
+_GetDarkmoonFaireLocationEra = function(currentDate)
     local baseInfo = C_Calendar.GetMonthInfo() -- In Era+SoD this returns `GetMinDate` (November 2004)
-    local currentDate = C_DateAndTime.GetCurrentCalendarTime()
     -- Calculate the offset in months from GetMinDate to make C_Calendar.GetMonthInfo return the correct month
     local monthOffset = (currentDate.year - baseInfo.year) * 12 + (currentDate.month - baseInfo.month)
     local firstWeekday = C_Calendar.GetMonthInfo(monthOffset).firstWeekday
 
     local eventLocation = (currentDate.month % 2) == 0 and DMF_LOCATIONS.MULGORE or DMF_LOCATIONS.ELWYNN_FOREST
 
+    local dayOfMonth = currentDate.monthDay
     if firstWeekday == 1 then
         -- The 1st is a Sunday
         if dayOfMonth >= 9 and dayOfMonth < 15 then
@@ -242,9 +244,7 @@ end
 --- Darkmoon Faire starts its setup the first Friday of the month and will begin the following Monday.
 --- The faire ends the sunday after it has begun.
 _LoadDarkmoonFaire = function()
-    local currentDate = C_DateAndTime.GetCurrentCalendarTime()
-
-    local eventLocation = _GetDarkmoonFaireLocation(currentDate)
+    local eventLocation = _GetDarkmoonFaireLocation()
     if (eventLocation == DMF_LOCATIONS.NONE) then
         return
     end
