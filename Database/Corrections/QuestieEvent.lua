@@ -67,7 +67,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 
 local tinsert = table.insert
-local _WithinDates, _LoadDarkmoonFaire, _IsDarkmoonFaireActive
+local _WithinDates, _LoadDarkmoonFaire, _IsDarkmoonFaireActive, _IsDarkmoonFaireActiveEra, _IsDarkmoonFaireActiveSoD
 
 function QuestieEvent:Load()
     local year = date("%y")
@@ -143,12 +143,21 @@ end
 
 ---@param dayOfMonth number
 ---@return boolean
-_IsDarkmoonFaireActive = function(dayOfMonth)
+_IsDarkmoonFaireActive = function(currentDate)
     if C_Calendar == nil then
         -- This is a band aid fix for private servers which do not support the `C_Calendar` API.
         -- They won't see Darkmoon Faire quests, but that's the price to pay.
         return false
     end
+
+    if Questie.IsSoD then
+        return _IsDarkmoonFaireActiveSoD(currentDate)
+    else
+        return _IsDarkmoonFaireActiveEra(currentDate.monthDay)
+    end
+end
+
+_IsDarkmoonFaireActiveEra = function(dayOfMonth)
     local baseInfo = C_Calendar.GetMonthInfo() -- In Era+SoD this returns `GetMinDate` (November 2004)
     local currentDate = C_DateAndTime.GetCurrentCalendarTime()
     -- Calculate the offset in months from GetMinDate to make C_Calendar.GetMonthInfo return the correct month
@@ -157,42 +166,179 @@ _IsDarkmoonFaireActive = function(dayOfMonth)
 
     if firstWeekday == 1 then
         -- The 1st is a Sunday
-        if dayOfMonth >= 9 and dayOfMonth < 15 or (Questie.IsSoD and dayOfMonth >= 23 and dayOfMonth < 29) then
+        if dayOfMonth >= 9 and dayOfMonth < 15 then
             return true
         end
     elseif firstWeekday == 2 then
         -- The 1st is a Monday
-        if dayOfMonth >= 8 and dayOfMonth < 14 or (Questie.IsSoD and dayOfMonth >= 22 and dayOfMonth < 28) then
+        if dayOfMonth >= 8 and dayOfMonth < 14 then
             return true
         end
     elseif firstWeekday == 3 then
         -- The 1st is a Tuesday
-        if dayOfMonth >= 7 and dayOfMonth < 13 or (Questie.IsSoD and dayOfMonth >= 21 and dayOfMonth < 27) then
+        if dayOfMonth >= 7 and dayOfMonth < 13 then
             return true
         end
     elseif firstWeekday == 4 then
         -- The 1st is a Wednesday
-        if dayOfMonth >= 6 and dayOfMonth < 12 or (Questie.IsSoD and dayOfMonth >= 20 and dayOfMonth < 26) then
+        if dayOfMonth >= 6 and dayOfMonth < 12 then
             return true
         end
     elseif firstWeekday == 5 then
         -- The 1st is a Thursday
-        if dayOfMonth >= 5 and dayOfMonth < 11 or (Questie.IsSoD and dayOfMonth >= 19 and dayOfMonth < 25) then
+        if dayOfMonth >= 5 and dayOfMonth < 11 then
             return true
         end
     elseif firstWeekday == 6 then
         -- The 1st is a Friday
-        if dayOfMonth >= 4 and dayOfMonth < 10 or (Questie.IsSoD and dayOfMonth >= 18 and dayOfMonth < 24) then
+        if dayOfMonth >= 4 and dayOfMonth < 10 then
             return true
         end
     elseif firstWeekday == 7 then
         -- The 1st is a Saturday
-        if dayOfMonth >= 10 and dayOfMonth < 16 or (Questie.IsSoD and dayOfMonth >= 24 and dayOfMonth < 30) then
+        if dayOfMonth >= 10 and dayOfMonth < 16 then
             return true
         end
     end
 
     return false
+end
+
+-- DMF in SoD is every second week, starting on the 4th of December 2023
+_IsDarkmoonFaireActiveSoD = function(currentDate)
+    local initialStartDate = time({year=2023, month=12, day=4, hour=0, min=1}) -- The first time DMF started in SoD
+    local initialEndDate = time({year=2023, month=12, day=10, hour=23, min=59}) -- The first time DMF ended in SoD
+    currentDate = time({ year = currentDate.year, month = currentDate.month, day = currentDate.day, hour = 0, min = 1 })
+
+    local eventDuration = initialEndDate - initialStartDate
+    local timeSinceStart = currentDate - initialStartDate
+
+    local positionInCurrentCycle = timeSinceStart % (eventDuration * 2) -- * 2 because the event repeats every two weeks
+
+    return positionInCurrentCycle < eventDuration
+end
+
+__TEST = function()
+    local currentDate = {year=2023, month=12, day=4}
+    print("correct for date 04.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2023, month=12, day=5}
+    print("correct for date 05.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2023, month=12, day=6}
+    print("correct for date 06.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2023, month=12, day=7}
+    print("correct for date 07.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2023, month=12, day=8}
+    print("correct for date 08.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2023, month=12, day=9}
+    print("correct for date 09.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2023, month=12, day=10}
+    print("correct for date 10.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2023, month=12, day=11}
+    print("correct for date 11.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2023, month=12, day=12}
+    print("correct for date 12.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2023, month=12, day=13}
+    print("correct for date 13.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2023, month=12, day=14}
+    print("correct for date 14.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2023, month=12, day=15}
+    print("correct for date 15.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2023, month=12, day=16}
+    print("correct for date 16.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2023, month=12, day=17}
+    print("correct for date 17.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2023, month=12, day=18}
+    print("correct for date 18.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.ELWYNN_FOREST)
+    currentDate = {year=2023, month=12, day=19}
+    print("correct for date 19.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.ELWYNN_FOREST)
+    currentDate = {year=2023, month=12, day=20}
+    print("correct for date 20.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.ELWYNN_FOREST)
+    currentDate = {year=2023, month=12, day=21}
+    print("correct for date 21.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.ELWYNN_FOREST)
+    currentDate = {year=2023, month=12, day=22}
+    print("correct for date 22.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.ELWYNN_FOREST)
+    currentDate = {year=2023, month=12, day=23}
+    print("correct for date 23.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.ELWYNN_FOREST)
+    currentDate = {year=2023, month=12, day=24}
+    print("correct for date 24.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.ELWYNN_FOREST)
+    currentDate = {year=2023, month=12, day=25}
+    print("correct for date 25.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2023, month=12, day=26}
+    print("correct for date 26.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2023, month=12, day=27}
+    print("correct for date 27.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2023, month=12, day=28}
+    print("correct for date 28.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2023, month=12, day=29}
+    print("correct for date 29.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2023, month=12, day=30}
+    print("correct for date 30.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2023, month=12, day=31}
+    print("correct for date 31.12.2023:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2024, month=1, day=1}
+    print("correct for date 01.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2024, month=1, day=2}
+    print("correct for date 02.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2024, month=1, day=3}
+    print("correct for date 03.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2024, month=1, day=4}
+    print("correct for date 04.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2024, month=1, day=5}
+    print("correct for date 05.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2024, month=1, day=6}
+    print("correct for date 06.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2024, month=1, day=7}
+    print("correct for date 07.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2024, month=1, day=8}
+    print("correct for date 08.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2024, month=1, day=9}
+    print("correct for date 09.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2024, month=1, day=10}
+    print("correct for date 10.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2024, month=1, day=11}
+    print("correct for date 11.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2024, month=1, day=12}
+    print("correct for date 12.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2024, month=1, day=13}
+    print("correct for date 13.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2024, month=1, day=14}
+    print("correct for date 14.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2024, month=1, day=15}
+    print("correct for date 15.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.ELWYNN_FOREST)
+    currentDate = {year=2024, month=1, day=16}
+    print("correct for date 16.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.ELWYNN_FOREST)
+    currentDate = {year=2024, month=1, day=17}
+    print("correct for date 17.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.ELWYNN_FOREST)
+    currentDate = {year=2024, month=1, day=18}
+    print("correct for date 18.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.ELWYNN_FOREST)
+    currentDate = {year=2024, month=1, day=19}
+    print("correct for date 19.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.ELWYNN_FOREST)
+    currentDate = {year=2024, month=1, day=20}
+    print("correct for date 20.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.ELWYNN_FOREST)
+    currentDate = {year=2024, month=1, day=21}
+    print("correct for date 21.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.ELWYNN_FOREST)
+    currentDate = {year=2024, month=1, day=22}
+    print("correct for date 22.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2024, month=1, day=23}
+    print("correct for date 23.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2024, month=1, day=24}
+    print("correct for date 24.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2024, month=1, day=25}
+    print("correct for date 25.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2024, month=1, day=26}
+    print("correct for date 26.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2024, month=1, day=27}
+    print("correct for date 27.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2024, month=1, day=28}
+    print("correct for date 28.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.NONE)
+    currentDate = {year=2024, month=1, day=29}
+    print("correct for date 29.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2024, month=1, day=30}
+    print("correct for date 30.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2024, month=1, day=31}
+    print("correct for date 31.01.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
+    currentDate = {year=2024, month=2, day=1}
+    print("correct for date 01.02.2024:", _IsDarkmoonFaireActiveSoD(currentDate) == DMF_LOCATIONS.MULGORE)
 end
 
 --- https://classic.wowhead.com/guides/classic-darkmoon-faire#darkmoon-faire-location-and-schedule
@@ -201,7 +347,7 @@ end
 _LoadDarkmoonFaire = function()
     local currentDate = C_DateAndTime.GetCurrentCalendarTime()
 
-    if (not _IsDarkmoonFaireActive(currentDate.monthDay)) then
+    if (not _IsDarkmoonFaireActive(currentDate)) then
         return
     end
 
