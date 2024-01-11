@@ -30,7 +30,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [77587] = true, -- Shaman Overload
     [77588] = true, -- Warrior Victory Rush
     [77616] = true, -- Warrior Victory Rush
-    [77617] = true, -- Paladin Crusader Strike
+    [77617] = true, -- Paladin Crusader Strike Elwynn Forest
     [77619] = true, -- Priest Penance
     [77621] = true, -- Warlock Haunt
     [77642] = true, -- Priest Penance
@@ -40,6 +40,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [77652] = true, -- Shaman Overload
     [77655] = true, -- Warrior Victory Rush
     [77656] = true, -- Warrior Victory Rush
+    [77657] = true, -- Paladin Crusader Strike Dun Morogh
     [77660] = true, -- Hunter Chimera Shot
     [77661] = true, -- Priest Penance
     [77666] = true, -- Warlock Haunt
@@ -243,6 +244,9 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90145] = true, -- Druid Lacerate Darkshore
     [90146] = true, -- Druid Mangle Mulgore
     [90147] = true, -- Paladin Hand of Reckoning Westfall
+    [90148] = true, -- Paladin Exorcist Duskwood
+    [90149] = true, -- Hunter Heart of the Lion Wetlands
+    [90150] = true, -- Hunter Sniper Training Darkshore
     [90153] = true, -- Hunter Sniper Training The Barrens
 }
 
@@ -285,6 +289,7 @@ local questsToBlacklistBySoDPhase = {
         [90145] = true, -- Hiding Druid Lacerate Darkshore for now as there are too many icons
         [90146] = true, -- Hiding Druid Mangle Mulgore for now as there are too many icons
         [90147] = true, -- Hiding Paladin Hand of Reckoning Westfall for now as there are too many icons
+        [90148] = true, -- Hiding Paladin Exorcist Duskwood for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
