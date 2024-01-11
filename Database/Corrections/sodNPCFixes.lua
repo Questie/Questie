@@ -88,6 +88,7 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [207577] = { -- Lunar Stone
             [npcKeys.spawns] = {
+                [zoneIDs.TELDRASSIL] = {{52.8, 79.8}},
                 [zoneIDs.MULGORE] = {{35.2, 69.6}},
             },
         },
