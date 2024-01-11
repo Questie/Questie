@@ -159,6 +159,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
             [questKeys.requiredSpell] = -403470,
         },
+        [77657] = {
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410002, nil, 205420}}},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.requiredSpell] = -410002,
+        },
         [77660] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410121, nil, 206168}}},
             [questKeys.requiredRaces] = raceIDs.DWARF,
