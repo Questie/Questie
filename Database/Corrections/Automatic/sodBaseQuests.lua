@@ -203,6 +203,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Slay kobolds in Echo Ridge Mine to receive a memory. Kneel within Northshire Abbey to meditate on the light, then use the memory to learn a new ability. Afterwards, return to Priestess Anetta."},
             [questKeys.objectives] = {nil,nil,nil,nil,nil,{{402862}}},
         },
+        [77620] = {
+            [questKeys.name] = "Spell Research",
+            [questKeys.startedBy] = {{198}},
+            [questKeys.finishedBy] = {{198,}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.questLevel] = 2,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Recover research notes from the Defias bandits and use them to learn a new spell, then return to Khelden Bremen in Northshire."},
+            [questKeys.objectives] = {nil,nil,nil,nil,nil,{{401760}}},
+        },
         [77621] = {
             [questKeys.name] = "Stolen Power",
             [questKeys.startedBy] = {{459}},
