@@ -2531,6 +2531,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416091,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90153] = {
+            [questKeys.name] = "Sniper Training",
+            [questKeys.startedBy] = {{3497,209797}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 20,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Purchase a Fishing Harpoon from Kilxx, and use it on Bruuz to weaken it, kill it and loot the rune."},
+            [questKeys.requiredSpell] = -416091,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 

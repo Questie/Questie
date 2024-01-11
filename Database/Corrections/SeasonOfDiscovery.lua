@@ -249,6 +249,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90150] = true, -- Hunter Sniper Training Darkshore
     [90151] = true, -- Hunter Sniper Training Westfall
     [90152] = true, -- Hunter Sniper Training Loch Modan
+    [90153] = true, -- Hunter Sniper Training The Barrens
 }
 
 ---@param questId number
