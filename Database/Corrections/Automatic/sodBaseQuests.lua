@@ -291,6 +291,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find the lost rune carried by a Frostmane troll in Coldridge Valley. Use it to learn a new ability, then report back to Thran Khorman in Anvilmar."},
             [questKeys.objectives] = {nil,nil,nil,nil,nil,{{403470}}},
         },
+        [77657] = {
+            [questKeys.name] = "Relics of the Light",
+            [questKeys.startedBy] = {{926}},
+            [questKeys.finishedBy] = {{926,}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.questLevel] = 2,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Recover the stolen libram carried by a Frostmane troll in Coldridge Valley. Follow its guidance to learn a new ability, then return to Bromos Grummner in Anvilmar."},
+            [questKeys.objectives] = {nil,nil,nil,nil,nil,{{410002}}},
+        },
         [77660] = {
             [questKeys.name] = "Trek Through the Caves",
             [questKeys.startedBy] = {{895}},

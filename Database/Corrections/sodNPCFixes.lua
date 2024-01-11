@@ -192,6 +192,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.WESTFALL] = {{44.9,24},{31.5,45}},
             },
         },
+        [210549] = { -- Defias Scout
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{51.2, 46.8},{51.6, 55.6}},
+            },
+        },
         [210995] = { -- Alonso
             [npcKeys.spawns] = {
                 [zoneIDs.ASHENVALE] = {{43.4, 70.4}},
