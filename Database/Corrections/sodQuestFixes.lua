@@ -1431,7 +1431,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90057] = {
             [questKeys.name] = "Sunfire",
-            [questKeys.startedBy] = {nil,{404433}},
+            [questKeys.startedBy] = {{207577},{404433}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 4,
