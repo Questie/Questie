@@ -2490,6 +2490,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410115,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90150] = {
+            [questKeys.name] = "Sniper Training",
+            [questKeys.startedBy] = {{210482},{408802}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 20,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Loot the Gnarled Harpoon, and use it on Paxnozz to weaken it, kill it and loot the rune."},
+            [questKeys.requiredSpell] = -416091,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
