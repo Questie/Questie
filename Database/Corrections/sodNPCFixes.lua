@@ -172,6 +172,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TELDRASSIL] = {{56.6, 57.8}},
             },
         },
+        [210107] = { -- Kackle
+            [npcKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{55.0, 55.4}},
+            },
+        },
         [210451] = { -- Lady Sedorax
             [npcKeys.spawns] = {
                 [zoneIDs.DARKSHORE] = {{55.4, 36.6}},
@@ -185,6 +190,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [210537] = { -- Undying Laborer
             [npcKeys.spawns] = {
                 [zoneIDs.WESTFALL] = {{44.9,24},{31.5,45}},
+            },
+        },
+        [210549] = { -- Defias Scout
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{51.2, 46.8},{51.6, 55.6}},
             },
         },
         [210995] = { -- Alonso
