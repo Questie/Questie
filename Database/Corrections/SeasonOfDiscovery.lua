@@ -247,6 +247,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90148] = true, -- Paladin Exorcist Duskwood
     [90149] = true, -- Hunter Heart of the Lion Wetlands
     [90150] = true, -- Hunter Sniper Training Darkshore
+    [90151] = true, -- Hunter Sniper Training Westfall
 }
 
 ---@param questId number

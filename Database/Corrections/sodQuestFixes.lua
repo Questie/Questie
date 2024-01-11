@@ -2507,6 +2507,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416091,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90151] = {
+            [questKeys.name] = "Sniper Training",
+            [questKeys.startedBy] = {{210549}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 15,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Mark a Defias Scout with Hunter's Mark, and kill them whilst they are marked until the rune drops."},
+            [questKeys.requiredSpell] = -416091,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
