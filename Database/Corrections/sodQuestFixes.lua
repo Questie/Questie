@@ -2476,6 +2476,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Kill Defias until one drops the Libram of Banishment, equip the libram and follow its guidance."},
             [questKeys.requiredSpell] = -416037,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [90149] = {
+            [questKeys.name] = "Heart of the Lion",
+            [questKeys.startedBy] = {{211965}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill Carrodin in the cave, and loot the rune."},
+            [questKeys.requiredSpell] = -410115,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
     }
 end
