@@ -2473,7 +2473,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 15,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.HUNTER,
-            [questKeys.objectivesText] = {"Kill Defias Scouts until the rune drops."},
+            [questKeys.objectivesText] = {"Mark a Defias Scout with Hunter's Mark, and kill them whilst they are marked until the rune drops."},
             [questKeys.requiredSpell] = -416091,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
