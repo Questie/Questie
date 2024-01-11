@@ -1081,6 +1081,15 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{27.21,42.32}}},
             [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
         },
+        [29018] = {
+            [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{49,63}}},
+        },
+        [29033] = {
+            [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{43,42}}},
+        },
+        [29034] = {
+            [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{46,74}}},
+        },
         [29087] = {
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{53.93,34.3}}},
         },
