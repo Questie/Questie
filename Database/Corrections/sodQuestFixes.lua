@@ -2550,7 +2550,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90154] = {
             [questKeys.name] = "Lacerate",
-            [questKeys.startedBy] = {{95,504,481,590,589,122,121,449,831,830,1216,1236}},
+            [questKeys.startedBy] = {{95,504,481,590,589,122,121,449,831,830,1216,1236,210483}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 16,
