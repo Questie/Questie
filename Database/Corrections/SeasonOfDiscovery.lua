@@ -35,6 +35,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [77620] = true, -- Mage Ice Lance Elwynn Forest
     [77621] = true, -- Warlock Haunt
     [77642] = true, -- Priest Penance
+    [77643] = true, -- Mage Ice Lance Durotar
     [77648] = true, -- Druid Fury of Stormrage Horde
     [77649] = true, -- Hunter Chimera Shot
     [77651] = true, -- Warrior Victory Rush

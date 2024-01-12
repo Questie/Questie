@@ -236,6 +236,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Kneel at the Loa Altar in Sen'jin Village. Commune with the Loa spirit, then use the memory to learn a new ability. Afterwards, return to Ken'jai  in the Valley of Trails."},
             [questKeys.objectives] = {nil,nil,{{205951}}},
         },
+        [77643] = {
+            [questKeys.name] = "Spell Research",
+            [questKeys.startedBy] = {{5884}},
+            [questKeys.finishedBy] = {{5884,}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.questLevel] = 2,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Find the stolen spell notes inside the Burning Blade Coven, then use them to learn a new ability. Afterwards, return to Mai'ah in the Valley of Trails."},
+            [questKeys.objectives] = {nil,nil,nil,nil,nil,{{401760}}},
+        },
         [77648] = {
             [questKeys.name] = "Relics of the Tauren",
             [questKeys.startedBy] = {{3060}},

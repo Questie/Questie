@@ -131,6 +131,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.requiredSpell] = -402862,
         },
+        [77643] = {
+            [questKeys.objectives] = {nil, {{404695}}, nil, nil, nil, {{401760, nil, 203751}}},
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+            [questKeys.requiredSpell] = -401760,
+        },
         [77648] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410061, nil, 208414}}},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
