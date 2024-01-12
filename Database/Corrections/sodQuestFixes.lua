@@ -2607,7 +2607,7 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.objectivesText] = {"Collect 'Fury of the Land' and bring it to Owen Thadd in Undercity."},
         },
         [78150] = {
-            [questkeys.startedBy] = {{211022}},
+            [questKeys.startedBy] = {{211022}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"You will need to hand in 10 books to receive the rune, however you can hand 1 in at any time."},
         },
@@ -2693,7 +2693,7 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.objectivesText] = {"Collect 'Fury of the Land' and bring it to Garion Wendell in Stormwind."},
         },
         [78150] = {
-            [questkeys.startedBy] = {{211033}},
+            [questKeys.startedBy] = {{211033}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"You will need to hand in 10 books to receive the rune, however you can hand 1 in at any time."},
         },

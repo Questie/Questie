@@ -1203,7 +1203,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79094] = {
             [questKeys.name] = "The Lessons of Ta'zo",
             [questKeys.startedBy] = {{211022}},
-            [questKeys.finishedBy] = nill,
+            [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1212,7 +1212,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79095] = {
             [questKeys.name] = "The Apothecary's Metaphysical Primer",
             [questKeys.startedBy] = {{211022}},
-            [questKeys.finishedBy] = nill,
+            [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1221,7 +1221,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79096] = {
             [questKeys.name] = "Ataeric: On Arcane Curiosities",
             [questKeys.startedBy] = {{211022}},
-            [questKeys.finishedBy] = nill,
+            [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
