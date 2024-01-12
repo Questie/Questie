@@ -2333,6 +2333,13 @@ function QuestieWotlkNpcFixes:Load()
         [39509] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{40.2,21.9},{-1,-1}}},
         },
+        [39863] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_RUBY_SANCTUM]={{49.3,53.9},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_RUBY_SANCTUM,
+        },
+        [40429] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_RUBY_SANCTUM]={{74.42,54.5},{-1,-1}}},
+        },
         [198875] = {
             [npcKeys.name] = "Thassarian",
             [npcKeys.minLevel] = 72,
