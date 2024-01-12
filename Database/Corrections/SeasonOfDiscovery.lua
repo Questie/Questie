@@ -276,6 +276,7 @@ local questsToBlacklistBySoDPhase = {
         [90018] = true, -- Hiding Living Flame for now as there are too many icons
         [90020] = true, -- Hiding Living Bomb for now as there are too many icons
         [90021] = true, -- Hiding Living Bomb for now as there are too many icons
+        [90023] = true, -- Hiding Wild Strikes for now as there are too many icons
         [90036] = true, -- Hiding Warlock Master Channeler Westfall for now as there are too many icons
         [90077] = true, -- Hiding Warlock Demonic Grace Dun Morogh for now as there are too many icons
         [90078] = true, -- Hiding Warlock Demonic Grace Elwynn Forest for now as there are too many icons
