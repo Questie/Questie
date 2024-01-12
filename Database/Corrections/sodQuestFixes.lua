@@ -30,6 +30,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.SHAMAN,
             [questKeys.objectives] = {nil,nil,{{206175}}},
             [questKeys.preQuestSingle] = {76156},
+            [questKeys.requiredSourceItems] = {206170},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [76240] = {
