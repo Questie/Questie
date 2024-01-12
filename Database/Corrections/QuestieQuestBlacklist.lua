@@ -27,7 +27,6 @@ function QuestieQuestBlacklist:Load()
         [4603] = true, -- Duplicate of 2953
         [4604] = true, -- Duplicate of 2953
         [8856] = true, -- Duplicate of 8497
-        [64143] = true, -- Duplicate of 9735
         [13053] = true, -- Removed
         [11402] = true, -- GM Island quest
         [11189] = true, -- Removed
