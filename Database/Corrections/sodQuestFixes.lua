@@ -310,6 +310,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [78150] = {
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredSpell] = -425170,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
         [78192] = {
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.objectives] = {{{3733},{3732}}},
@@ -2570,49 +2575,54 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
 
     local questFixesHorde = {
         [78124] = {
-            [questKeys.startedBy] = {{211022},{409496}},
+            [questKeys.startedBy] = {nil,{409496}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Nar'thalas Almanac, Vol. 74' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Nar'thalas Almanac, Vol. 74' and bring it to Owen Thadd in Undercity."},
         },
         [78127] = {
-            [questKeys.startedBy] = {{211022},{409501}},
+            [questKeys.startedBy] = {nil,{409501}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'The Dalaran Digest, Vol. 23' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'The Dalaran Digest, Vol. 23' and bring it to Owen Thadd in Undercity."},
         },
         [78142] = {
-            [questKeys.startedBy] = {{211022},{409562}},
+            [questKeys.startedBy] = {nil,{409562}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Bewitchments and Glamours' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Bewitchments and Glamours' and bring it to Owen Thadd in Undercity."},
         },
         [78143] = {
-            [questKeys.startedBy] = {{211022},{409692}},
+            [questKeys.startedBy] = {nil,{409692}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' located just outside the Wailing Cavern dungeon and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' located just outside the Wailing Cavern dungeon and bring it to Owen Thadd in Undercity."},
         },
         [78145] = {
-            [questKeys.startedBy] = {{211022},{409700}},
+            [questKeys.startedBy] = {nil,{409700}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Arcanic Systems Manual' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Arcanic Systems Manual' and bring it to Owen Thadd in Undercity."},
         },
         [78146] = {
-            [questKeys.startedBy] = {{211022},{409717}},
+            [questKeys.startedBy] = {nil,{409717}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Goaz Scrolls' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Goaz Scrolls' and bring it to Owen Thadd in Undercity."},
         },
         [78147] = {
-            [questKeys.startedBy] = {{211022},{409735}},
+            [questKeys.startedBy] = {nil,{409735}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Crimes Against Anatomy' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Crimes Against Anatomy' and bring it to Owen Thadd in Undercity."},
         },
         [78148] = {
-            [questKeys.startedBy] = {{211022},{409731}},
+            [questKeys.startedBy] = {nil,{409731}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Runes of the Sorcerer-Kings' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Runes of the Sorcerer-Kings' and bring it to Owen Thadd in Undercity."},
         },
         [78149] = {
-            [questKeys.startedBy] = {{211022},{409711}},
+            [questKeys.startedBy] = {nil,{409711}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Fury of the Land' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Fury of the Land' and bring it to Owen Thadd in Undercity."},
+        },
+        [78150] = {
+            [questKeys.startedBy] = {{211022}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"You will need to hand in 10 books to receive the rune, however you can hand 1 in at any time."},
         },
         [78611] = {
             [questKeys.startedBy] = {{214070,214096,214098}},
@@ -2627,9 +2637,9 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.finishedBy] = {{214070,214096,214098}},
         },
         [79097] = {
-            [questKeys.startedBy] = {{211022},{407566}},
+            [questKeys.startedBy] = {nil,{407566}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Baxtan: On Destructive Magics' and bring it to Owen Thadd in Undercity. After ten books you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Baxtan: On Destructive Magics' and bring it to Owen Thadd in Undercity."},
         },
         [79100] = {
             [questKeys.startedBy] = {{214070,214096,214098}},
@@ -2651,49 +2661,54 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
 
     local questFixesAlliance = {
         [78124] = {
-            [questKeys.startedBy] = {{211033},{409496}},
+            [questKeys.startedBy] = {nil,{409496}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Nar'thalas Almanac, Vol. 74' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Nar'thalas Almanac, Vol. 74' and bring it to Garion Wendell in Stormwind."},
         },
         [78127] = {
-            [questKeys.startedBy] = {{211033},{409501}},
+            [questKeys.startedBy] = {nil,{409501}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'The Dalaran Digest, Vol. 23' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'The Dalaran Digest, Vol. 23' and bring it to Garion Wendell in Stormwind."},
         },
         [78142] = {
-            [questKeys.startedBy] = {{211033},{409562}},
+            [questKeys.startedBy] = {nil,{409562}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Bewitchments and Glamours' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Bewitchments and Glamours' and bring it to Garion Wendell in Stormwind."},
         },
         [78143] = {
-            [questKeys.startedBy] = {{211033},{409692}},
+            [questKeys.startedBy] = {nil,{409692}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' located just outside the Wailing Cavern dungeon and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Secrets of the Dreamers' located just outside the Wailing Cavern dungeon and bring it to Garion Wendell in Stormwind."},
         },
         [78145] = {
-            [questKeys.startedBy] = {{211033},{409700}},
+            [questKeys.startedBy] = {nil,{409700}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Arcanic Systems Manual' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Arcanic Systems Manual' and bring it to Garion Wendell in Stormwind."},
         },
         [78146] = {
-            [questKeys.startedBy] = {{211033},{409717}},
+            [questKeys.startedBy] = {nil,{409717}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Goaz Scrolls' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Goaz Scrolls' and bring it to Garion Wendell in Stormwind."},
         },
         [78147] = {
-            [questKeys.startedBy] = {{211033},{409735}},
+            [questKeys.startedBy] = {nil,{409735}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Crimes Against Anatomy' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Crimes Against Anatomy' and bring it to Garion Wendell in Stormwind."},
         },
         [78148] = {
-            [questKeys.startedBy] = {{211033},{409731}},
+            [questKeys.startedBy] = {nil,{409731}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Runes of the Sorcerer-Kings' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Runes of the Sorcerer-Kings' and bring it to Garion Wendell in Stormwind."},
         },
         [78149] = {
-            [questKeys.startedBy] = {{211033},{409711}},
+            [questKeys.startedBy] = {nil,{409711}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Fury of the Land' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Fury of the Land' and bring it to Garion Wendell in Stormwind."},
+        },
+        [78150] = {
+            [questKeys.startedBy] = {{211033}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"You will need to hand in 10 books to receive the rune, however you can hand 1 in at any time."},
         },
         [78611] = {
             [questKeys.startedBy] = {{213077,214099,214101}},
@@ -2708,9 +2723,9 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.finishedBy] = {{213077,214099,214101}},
         },
         [79097] = {
-            [questKeys.startedBy] = {{211033},{407566}},
+            [questKeys.startedBy] = {nil,{407566}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Baxtan: On Destructive Magics' and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Baxtan: On Destructive Magics' and bring it to Garion Wendell in Stormwind."},
         },
         [79100] = {
             [questKeys.startedBy] = {{213077,214099,214101}},

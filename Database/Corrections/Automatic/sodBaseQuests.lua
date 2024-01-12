@@ -600,6 +600,15 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.MAGE,
         },
+        [78150] = {
+            [questKeys.name] = "Friend of the Library",
+            [questKeys.startedBy] = {{211033,211022,}},
+            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 20,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+        },
         [78192] = {
             [questKeys.name] = "Secrets of the Light",
             [questKeys.startedBy] = {{211188}},
