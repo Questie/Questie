@@ -14,7 +14,6 @@ exclude_files = {
     "Libs/",
     "releases/",
     ".luacheckrc",
-    "cli.lua",
     "**/.luarocks/**/", -- Created by the GitHub Action
     "**/.install/**/",  -- Created by the GitHub Action
 }

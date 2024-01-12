@@ -367,6 +367,26 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_BLACK_MORASS] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_BLACK_MORASS,
         },
+        [17910] = {
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.STRATHOLME,
+        },
+        [17911] = {
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.STRATHOLME,
+        },
+        [17912] = {
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.STRATHOLME,
+        },
+        [17913] = {
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.STRATHOLME,
+        },
+        [17914] = {
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.STRATHOLME,
+        },
         [17923] = {
             [npcKeys.waypoints] = {[zoneIDs.ZANGARMARSH] = {{{19,62.4},{19,63.5},{19.2,64.6}}}},
         },

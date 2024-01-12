@@ -27,7 +27,6 @@ function QuestieQuestBlacklist:Load()
         [4603] = true, -- Duplicate of 2953
         [4604] = true, -- Duplicate of 2953
         [8856] = true, -- Duplicate of 8497
-        [64143] = true, -- Duplicate of 9735
         [13053] = true, -- Removed
         [11402] = true, -- GM Island quest
         [11189] = true, -- Removed
@@ -1027,13 +1026,6 @@ function QuestieQuestBlacklist:Load()
         [9278] = true, -- Welcome!
         --[9681] = true, -- Replaced with [A Study in Power (64319)] changed in wotlk again. 64319+63866 only present in SWP patch
         --[9684] = true, -- Replaced with [Claiming the Light (63866)] changed in wotlk again. 64319+63866 only present in SWP patch
-        [9721] = true, -- Replaced with [A Summons from Lady Liadrin (64139)]
-        [9722] = true, -- Replaced with [The Master's Path (64140)]
-        [9723] = true, -- Replaced with [A Gesture of Commitment (64141)]
-        [9725] = true, -- Replaced with [A Demonstration of Loyalty (64142)]
-        [9735] = true, -- Replaced with [True Masters of the Light (64143)]
-        [9736] = true, -- Replaced with [True Masters of the Light (64144)]
-        [9737] = true, -- Replaced with [True Masters of the Light  (64145)]
         [9926] = true, -- FLAG Shadow Council/Warmaul Questline
         [10048] = true, -- A Handful of Magic Dust BETA
         [10049] = true, -- A Handful of Magic Dust BETA
@@ -1057,6 +1049,13 @@ function QuestieQuestBlacklist:Load()
         [64063] = true, -- Boosted character quest
         [64064] = true, -- Boosted character quest
         [64128] = true, -- Boosted character quest
+        [64139] = true, -- Horde pala mount quest chain
+        [64140] = true, -- Horde pala mount quest chain
+        [64141] = true, -- Horde pala mount quest chain
+        [64142] = true, -- Horde pala mount quest chain
+        [64143] = true, -- Horde pala mount quest chain
+        [64144] = true, -- Horde pala mount quest chain
+        [64145] = true, -- Horde pala mount quest chain
         [64217] = true, -- Boosted character quest
         [64845] = QuestieCorrections.TBC_AND_WOTLK, -- Alliance War Effort
         [70395] = true, -- First quest for boosted characters. Blocked to not show for others
@@ -1462,8 +1461,8 @@ function QuestieQuestBlacklist:Load()
         --[24590] = true,
 
         --- Phase 5 Ruby Sanctum
-        [26012] = true, -- Trouble at Wyrmrest
-        [26013] = true, -- Assault on the Sanctum
+        --[26012] = true, -- Trouble at Wyrmrest
+        --[26013] = true, -- Assault on the Sanctum
 
         ----- SoD -------------- SoD quests --------------- SoD -----
         [79482] = true,
