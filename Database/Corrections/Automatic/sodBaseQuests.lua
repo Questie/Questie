@@ -1230,7 +1230,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79097] = {
             [questKeys.name] = "Baxtan: On Destructive Magics",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211033,}},
+            [questKeys.finishedBy] = {{211022,211033,}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
