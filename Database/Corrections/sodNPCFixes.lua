@@ -194,9 +194,7 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [210483] = { -- Aggressive Squashling
-            [npcKeys.spawns] = {
-                [zoneIDs.WESTFALL] = {},
-            },
+            [npcKeys.spawns] = {},
         },
         [210537] = { -- Undying Laborer
             [npcKeys.spawns] = {
