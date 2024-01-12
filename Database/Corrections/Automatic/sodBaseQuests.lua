@@ -379,6 +379,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Kneel in the graveyard to meditate on undeath, then use the rune to learn a new ability. Afterwards, return to Dark Cleric Duesten in the Deathknell chapel."},
             [questKeys.objectives] = {nil,nil,{{205951}}},
         },
+        [77671] = {
+            [questKeys.name] = "Spell Research",
+            [questKeys.startedBy] = {{2124}},
+            [questKeys.finishedBy] = {{2124,}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.questLevel] = 2,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Kill Scarlet Initiates to find spell notes and use them to learn a new ability, then return to Isabella in Deathknell."},
+            [questKeys.objectives] = {nil,nil,nil,nil,nil,{{401760}}},
+        },
         [77672] = {
             [questKeys.name] = "The Lost Rune",
             [questKeys.startedBy] = {{2126}},

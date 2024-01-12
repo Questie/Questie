@@ -48,6 +48,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [77668] = true, -- Warrior Victory Rush
     [77669] = true, -- Horde Undead Rogue Shadowstrike
     [77670] = true, -- Priest Penance
+    [77671] = true, -- Mage Ice Lance Tirisfal Glades
     [77672] = true, -- Warlock Haunt
     [78088] = true, -- Paladin Divine Storm
     [78089] = true, -- Paladin Divine Storm
