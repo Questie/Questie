@@ -2350,6 +2350,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1104,9000},
         },
         [12761] = {
+            [questKeys.sourceItemId] = 39693,
             [questKeys.requiredMinRep] = {1105,9000},
         },
         [12762] = {

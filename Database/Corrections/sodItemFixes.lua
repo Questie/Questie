@@ -25,6 +25,9 @@ function SeasonOfDiscovery:LoadItems()
         [206157] = {
             [itemKeys.objectDrops] = {403041},
         },
+        [206170] = {
+            [itemKeys.objectDrops] = {403105},
+        },
         [206469] = {
             [itemKeys.objectDrops] = {403718},
         },

@@ -1886,10 +1886,10 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "在斯克提斯寻找召唤法阵中的徽记堆，用10张迷失卷轴召唤并击杀一个泰罗克仇敌的后裔",
     },
-    ["Use the Extinguishing Mixture near the eternal flame in the Alonsus Chapel to remove the Light's protection."] = { -- 64145
+    ["Use the Extinguishing Mixture near the eternal flame"] = { -- 64145
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["deDE"] = "Benutze das Löschgemisch in der Nähe der ewigen Flamme in der Alonsus-Kapelle, um den Schutz des Lichts aufzuheben.",
+        ["deDE"] = "Benutze das Löschgemisch in der Nähe der ewigen Flamme",
         ["koKR"] = false,
         ["esMX"] = false,
         ["enUS"] = true,

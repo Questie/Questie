@@ -86,6 +86,12 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.MULGORE] = {{30.6, 61.2}},
             },
         },
+        [207577] = { -- Lunar Stone
+            [npcKeys.spawns] = {
+                [zoneIDs.TELDRASSIL] = {{52.8, 79.8}},
+                [zoneIDs.MULGORE] = {{35.2, 69.6}},
+            },
+        },
         [207743] = { -- Netali Proudwind
             [npcKeys.spawns] = {
                 [zoneIDs.THUNDER_BLUFF] = {{28.6, 18.2}},
@@ -172,6 +178,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TELDRASSIL] = {{56.6, 57.8}},
             },
         },
+        [210107] = { -- Kackle
+            [npcKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{55.0, 55.4}},
+            },
+        },
         [210451] = { -- Lady Sedorax
             [npcKeys.spawns] = {
                 [zoneIDs.DARKSHORE] = {{55.4, 36.6}},
@@ -182,9 +193,17 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DARKSHORE] = {{47.8, 16.0}},
             },
         },
+        [210483] = { -- Aggressive Squashling
+            [npcKeys.spawns] = {},
+        },
         [210537] = { -- Undying Laborer
             [npcKeys.spawns] = {
                 [zoneIDs.WESTFALL] = {{44.9,24},{31.5,45}},
+            },
+        },
+        [210549] = { -- Defias Scout
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{51.2, 46.8},{51.6, 55.6}},
             },
         },
         [210995] = { -- Alonso

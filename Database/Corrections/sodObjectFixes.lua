@@ -27,6 +27,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.MULGORE] = {{63.8,44.1}},
             },
         },
+        [403105] = {
+            [objectKeys.zoneID] = zoneIDs.MULGORE,
+            [objectKeys.spawns] = {
+                [zoneIDs.MULGORE] = {{31.2,22.8},{31,26.4},{32.4,27.6},{35,13.6},{38.2,9},{39.6,7},{51,7.2},{55.2,12},{55.8,16}},
+            },
+        },
         [403718] = {
             [objectKeys.zoneID] = zoneIDs.MULGORE,
             [objectKeys.spawns] = {
