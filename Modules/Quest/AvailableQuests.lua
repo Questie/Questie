@@ -106,7 +106,7 @@ local function _CalculateAvailableQuests()
     local hidden = Questie.db.char.hidden
 
     local currentQuestlog = QuestiePlayer.currentQuestlog
-    local currentIsleOfQuelDanasQuests = IsleOfQuelDanas.quests[Questie.db.profile.isleOfQuelDanasPhase]
+    local currentIsleOfQuelDanasQuests = IsleOfQuelDanas.quests[Questie.db.profile.isleOfQuelDanasPhase] or {}
     local aqWarEffortQuests = QuestieQuestBlacklist.AQWarEffortQuests
 
     QuestieDB.activeChildQuests = {} -- Reset here so we don't need to keep track in the quest event system
@@ -153,13 +153,13 @@ local function _CalculateAvailableQuests()
         end
 
         if (
-            ((not showRepeatableQuests) and QuestieDB.IsRepeatable(questId)) or   -- Don't show repeatable quests if option is disabled
-            ((not showPvPQuests) and QuestieDB.IsPvPQuest(questId)) or            -- Don't show PvP quests if option is disabled
-            ((not showDungeonQuests) and QuestieDB.IsDungeonQuest(questId)) or    -- Don't show dungeon quests if option is disabled
-            ((not showRaidQuests) and QuestieDB.IsRaidQuest(questId)) or          -- Don't show raid quests if option is disabled
-            ((not showAQWarEffortQuests) and aqWarEffortQuests[questId]) or       -- Don't show AQ War Effort quests if the option disabled
-            (Questie.IsClassic and ((not currentIsleOfQuelDanasQuests) or currentIsleOfQuelDanasQuests[questId])) or      -- Don't show Isle quests for Classic
-            ((not showSoDRunes) and Questie.IsSoD and QuestieDB.IsSoDRuneQuest(questId)) -- Don't show SoD Rune quests with the option disabled
+            ((not showRepeatableQuests) and QuestieDB.IsRepeatable(questId)) or             -- Don't show repeatable quests if option is disabled
+            ((not showPvPQuests) and QuestieDB.IsPvPQuest(questId)) or                      -- Don't show PvP quests if option is disabled
+            ((not showDungeonQuests) and QuestieDB.IsDungeonQuest(questId)) or              -- Don't show dungeon quests if option is disabled
+            ((not showRaidQuests) and QuestieDB.IsRaidQuest(questId)) or                    -- Don't show raid quests if option is disabled
+            ((not showAQWarEffortQuests) and aqWarEffortQuests[questId]) or                 -- Don't show AQ War Effort quests if the option disabled
+            (Questie.IsClassic and currentIsleOfQuelDanasQuests[questId]) or                -- Don't show Isle of Quel'Danas quests for Era/HC/SoX
+            ((not showSoDRunes) and Questie.IsSoD and QuestieDB.IsSoDRuneQuest(questId))    -- Don't show SoD Rune quests with the option disabled
         ) then
             return
         end
