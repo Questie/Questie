@@ -242,7 +242,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.finishedBy] = {{5884,}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.MAGE,
             [questKeys.objectivesText] = {"Find the stolen spell notes inside the Burning Blade Coven, then use them to learn a new ability. Afterwards, return to Mai'ah in the Valley of Trails."},
             [questKeys.objectives] = {nil,nil,nil,nil,nil,{{401760}}},
