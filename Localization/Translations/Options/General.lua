@@ -607,11 +607,11 @@ local generalOptionsLocales = {
         ["ruRU"] = "Добро пожаловать в Сезон Открытий! Questie продолжает обновляться с новыми заданиями из данного сезона, но на это потребуется время. Обновляйте аддон почаще, чтоб минимизировать количество ошибок.",
         ["deDE"] = "Willkommen zur Season der Entdeckung! Questie wird kontinuierlich mit den neuen Quests dieser Saison aktualisiert, aber es wird einige Zeit dauern. Stell sicher, dass du häufig aktualisierst, um Fehler zu minimieren.",
         ["koKR"] = false,
-        ["esMX"] = "¡Bienvenido a Temporada de descrubrimiento! Questie se actualiza continuamente con las nuevas misiones de esta temporada, pero llevará tiempo. Asegúrate de actualizar con frecuencia para minimizar errores.",
+        ["esMX"] = "¡Bienvenido a Temporada de descubrimiento! Questie se actualiza continuamente con las nuevas misiones de esta temporada, pero llevará tiempo. Asegúrate de actualizar con frecuencia para minimizar errores.",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = "歡迎來到探索賽季! Questie 正在不斷更新本賽季的新任務，但這需要時間。請務必經常更新以盡量減少錯誤。",
-        ["esES"] = "¡Bienvenido a Temporada de descrubrimiento! Questie se actualiza continuamente con las nuevas misiones de esta temporada, pero llevará tiempo. Asegúrate de actualizar con frecuencia para minimizar errores.",
+        ["esES"] = "¡Bienvenido a Temporada de descubrimiento! Questie se actualiza continuamente con las nuevas misiones de esta temporada, pero llevará tiempo. Asegúrate de actualizar con frecuencia para minimizar errores.",
         ["frFR"] = false,
     },
     ["While playing Season of Discovery, Questie will notify you if it encounters a quest it doesn't yet know about. Please share this info with us on Discord or GitHub!"] = {
