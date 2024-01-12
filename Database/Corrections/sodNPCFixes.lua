@@ -193,6 +193,9 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DARKSHORE] = {{47.8, 16.0}},
             },
         },
+        [210483] = { -- Aggressive Squashling
+            [npcKeys.spawns] = {},
+        },
         [210537] = { -- Undying Laborer
             [npcKeys.spawns] = {
                 [zoneIDs.WESTFALL] = {{44.9,24},{31.5,45}},

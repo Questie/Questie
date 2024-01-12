@@ -2549,6 +2549,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416091,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90154] = {
+            [questKeys.name] = "Lacerate",
+            [questKeys.startedBy] = {{95,504,481,590,589,122,121,449,831,830,1216,1236,210483}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 16,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Kill Defias for Magic Pumpkin Seeds, Crabs for Fishy Bonemeal and Kobolds for Fertile Soil Sample, then go to any farmland in Westfall, and use the seeds to spawn Aggressive Squashling, kill it and loot the rune."},
+            [questKeys.requiredSpell] = -416049,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 

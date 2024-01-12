@@ -251,6 +251,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90151] = true, -- Hunter Sniper Training Westfall
     [90152] = true, -- Hunter Sniper Training Loch Modan
     [90153] = true, -- Hunter Sniper Training The Barrens
+    [90154] = true, -- Druid Lacerate Westfall
 }
 
 ---@param questId number
@@ -293,6 +294,7 @@ local questsToBlacklistBySoDPhase = {
         [90146] = true, -- Hiding Druid Mangle Mulgore for now as there are too many icons
         [90147] = true, -- Hiding Paladin Hand of Reckoning Westfall for now as there are too many icons
         [90148] = true, -- Hiding Paladin Exorcist Duskwood for now as there are too many icons
+        [90154] = true, -- Hiding Druid Lacerate Westfall for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
