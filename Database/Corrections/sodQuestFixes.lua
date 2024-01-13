@@ -2585,7 +2585,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PRIEST,
             [questKeys.objectivesText] = {"Kill Thislefur for Primal Insight, then go up in to the tree, and use it whilst near the Thislefur Dreamcatcher, and receive the rune."},
-            [questKeys.requiredSpell] = -415739,
+            [questKeys.requiredSpell] = -415997,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
     }
