@@ -2576,6 +2576,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416049,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90162] = {
+            [questKeys.name] = "Twisted Faith",
+            [questKeys.startedBy] = {{1174,1175,1177},nil,{208823}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 12,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Kobolds until a Offering Coin drops, then go to the first left turn near the cave entrance and go to the well, use the coin near the well to receive the rune."},
+            [questKeys.requiredSpell] = -425215,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
