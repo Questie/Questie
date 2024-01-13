@@ -255,6 +255,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90152] = true, -- Hunter Sniper Training Loch Modan
     [90153] = true, -- Hunter Sniper Training The Barrens
     [90154] = true, -- Druid Lacerate Westfall
+    [90157] = true, -- Priest Void Plague Teldrassil
 }
 
 ---@param questId number

@@ -2576,6 +2576,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416049,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90157] = {
+            [questKeys.name] = "Void Plague",
+            [questKeys.startedBy] = {nil,{407734}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 8,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Find the Gnarlpine Cache at the bottom of the Ben'ethil Barrow Den and loot if for the rune."},
+            [questKeys.requiredSpell] = -425216,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
