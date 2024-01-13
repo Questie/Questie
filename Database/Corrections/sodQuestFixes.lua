@@ -191,6 +191,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.requiredSpell] = -403919,
         },
+        [77667] = {
+            [questKeys.objectives] = {nil, {{405633}}, nil, nil, nil, {{401760, nil, 203751}}},
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+            [questKeys.requiredSpell] = -401760,
+        },
         [77668] = {
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403470, nil, 204806}}},
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
