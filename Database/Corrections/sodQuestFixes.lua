@@ -2576,6 +2576,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416049,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90161] = {
+            [questKeys.name] = "Strength of Soul",
+            [questKeys.startedBy] = {{3924,3750,3922,3748},{450003},{211534}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 23,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Thislefur for Primal Insight, then go up in to the tree, and use it whilst near the Thislefur Dreamcatcher, and receive the rune."},
+            [questKeys.requiredSpell] = -415739,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
