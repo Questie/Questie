@@ -2576,6 +2576,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416049,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90158] = {
+            [questKeys.name] = "Void Plague",
+            [questKeys.startedBy] = {{3128,2129}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 8,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Kul Tiras and loot the rune."},
+            [questKeys.requiredSpell] = -425216,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
