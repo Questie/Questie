@@ -357,6 +357,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Recover the rune from the group of Troggs, southwest of Anvilmar, and use it to learn a new ability. Then, return to Alamar Grimm in Anvilmar."},
             [questKeys.objectives] = nil,
         },
+        [77667] = {
+            [questKeys.name] = "Spell Research",
+            [questKeys.startedBy] = {{944}},
+            [questKeys.finishedBy] = {{944,}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.questLevel] = 2,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Find the stolen spell notes at the trogg camp to the southwest of Anvilmar, then use them to learn a new ability. Afterwards, return to Marryk Nurribit in Anvilmar."},
+            [questKeys.objectives] = {nil,nil,nil,nil,nil,{{401760}}},
+        },
         [77668] = {
             [questKeys.name] = "The Lost Rune",
             [questKeys.startedBy] = {{2119}},
