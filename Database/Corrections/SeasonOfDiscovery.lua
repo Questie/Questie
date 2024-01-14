@@ -47,6 +47,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [77661] = true, -- Priest Penance
     [77666] = true, -- Warlock Haunt
     [77668] = true, -- Warrior Victory Rush
+    [77667] = true, -- Mage Ice Lance Dun Morogh
     [77669] = true, -- Horde Undead Rogue Shadowstrike
     [77670] = true, -- Priest Penance
     [77671] = true, -- Mage Ice Lance Tirisfal Glades
@@ -255,6 +256,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90152] = true, -- Hunter Sniper Training Loch Modan
     [90153] = true, -- Hunter Sniper Training The Barrens
     [90154] = true, -- Druid Lacerate Westfall
+    [90155] = true, -- Priest Void Plague Dun Morogh
+    [90156] = true, -- Priest Void Plague Elwynn Forest
     [90157] = true, -- Priest Void Plague Teldrassil
 }
 
@@ -300,6 +303,7 @@ local questsToBlacklistBySoDPhase = {
         [90148] = true, -- Hiding Paladin Exorcist Duskwood for now as there are too many icons
         [90154] = true, -- Hiding Druid Lacerate Westfall for now as there are too many icons
         [90157] = true, -- Hiding Priest Void Plague Teldrassil for now as there are too many icons
+        [90155] = true, -- Hiding Priest Void Plague Dun Morogh for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
