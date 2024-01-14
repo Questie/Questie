@@ -306,6 +306,7 @@ local questsToBlacklistBySoDPhase = {
         [90154] = true, -- Hiding Druid Lacerate Westfall for now as there are too many icons
         [90155] = true, -- Hiding Priest Void Plague Dun Morogh for now as there are too many icons
         [90158] = true, -- Hiding Priest Void Plague Durotar for now as there are too many icons
+        [90161] = true, -- Hiding Priest Strength of Soul for now as there are too many icons
         [90162] = true, -- Hiding Priest Twisted Faith Loch Modan for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
