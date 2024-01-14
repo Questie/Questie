@@ -112,6 +112,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.ORGRIMMAR] = {{58.8, 53.6}},
             },
         },
+        [208196] = { -- Gillgar
+            [npcKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES] = {{28.4, 46.8}},
+            },
+        },
         [208275] = { -- Frozen Makrura
             [npcKeys.spawns] = {
                 [zoneIDs.DUROTAR] = {{58.6, 45.6}},

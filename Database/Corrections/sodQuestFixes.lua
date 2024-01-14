@@ -2629,6 +2629,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425216,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90159] = {
+            [questKeys.name] = "Void Plague",
+            [questKeys.startedBy] = {{208196}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 7,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Gillgar and loot the rune."},
+            [questKeys.requiredSpell] = -425216,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [90162] = {
             [questKeys.name] = "Twisted Faith",
             [questKeys.startedBy] = {{1174,1175,1177},nil,{208823}},
