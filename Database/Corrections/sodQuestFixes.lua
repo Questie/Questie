@@ -2576,6 +2576,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416049,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90166] = {
+            [questKeys.name] = "Twisted Faith",
+            [questKeys.startedBy] = {{212809}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 20,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Wailing Spirit, and loot the rune."},
+            [questKeys.requiredSpell] = -425215,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
