@@ -2576,6 +2576,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416049,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90164] = {
+            [questKeys.name] = "Twisted Faith",
+            [questKeys.startedBy] = {{2181,2182,2183},{414663},{211482}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 16,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Nagas for Shatterspear Offering, then go to the Shatterspear Idol, and use the offering to receive the rune."},
+            [questKeys.requiredSpell] = -425215,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
