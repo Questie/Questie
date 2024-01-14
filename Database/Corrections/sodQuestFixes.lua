@@ -2653,6 +2653,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425215,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90165] = {
+            [questKeys.name] = "Twisted Faith",
+            [questKeys.startedBy] = {{3268,3267,3266,3265,3457}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 12,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Quillboars until Helping Hand drops. You then need to use Rank 1 Ressurection on someone for the hand to open, then click it to receive the rune."},
+            [questKeys.requiredSpell] = -425215,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
