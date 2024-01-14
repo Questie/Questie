@@ -47,6 +47,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [77661] = true, -- Priest Penance
     [77666] = true, -- Warlock Haunt
     [77668] = true, -- Warrior Victory Rush
+    [77667] = true, -- Mage Ice Lance Dun Morogh
     [77669] = true, -- Horde Undead Rogue Shadowstrike
     [77670] = true, -- Priest Penance
     [77671] = true, -- Mage Ice Lance Tirisfal Glades
@@ -255,6 +256,12 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90152] = true, -- Hunter Sniper Training Loch Modan
     [90153] = true, -- Hunter Sniper Training The Barrens
     [90154] = true, -- Druid Lacerate Westfall
+    [90155] = true, -- Priest Void Plague Dun Morogh
+    [90156] = true, -- Priest Void Plague Elwynn Forest
+    [90158] = true, -- Priest Void Plague Durotar
+    [90162] = true, -- Priest Twisted Faith Loch Modan
+    [90163] = true, -- Priest Twisted Faith Westfall
+    [90164] = true, -- Priest Twisted Faith Darkshore
     [90165] = true, -- Priest Twisted Faith The Barrens
 }
 
@@ -299,6 +306,10 @@ local questsToBlacklistBySoDPhase = {
         [90147] = true, -- Hiding Paladin Hand of Reckoning Westfall for now as there are too many icons
         [90148] = true, -- Hiding Paladin Exorcist Duskwood for now as there are too many icons
         [90154] = true, -- Hiding Druid Lacerate Westfall for now as there are too many icons
+        [90155] = true, -- Hiding Priest Void Plague Dun Morogh for now as there are too many icons
+        [90158] = true, -- Hiding Priest Void Plague Durotar for now as there are too many icons
+        [90162] = true, -- Hiding Priest Twisted Faith Loch Modan for now as there are too many icons
+        [90164] = true, -- Hiding Priest Twisted Faith Darkshore for now as there are too many icons
         [90165] = true, -- Hiding Priest Twisted Faith The Barrens for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
