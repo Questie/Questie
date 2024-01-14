@@ -2581,6 +2581,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416049,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90155] = {
+            [questKeys.name] = "Void Plague",
+            [questKeys.startedBy] = {{1211}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 8,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Leper Gnomes and loot the rune."},
+            [questKeys.requiredSpell] = -425216,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [90156] = {
             [questKeys.name] = "Void Plague",
             [questKeys.startedBy] = {{327}},
