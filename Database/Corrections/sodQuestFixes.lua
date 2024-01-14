@@ -2576,6 +2576,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416049,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90163] = {
+            [questKeys.name] = "Twisted Faith",
+            [questKeys.startedBy] = {{210537}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 15,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill the Undying Laborer with holy damage to receive the rune."},
+            [questKeys.requiredSpell] = -425215,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
