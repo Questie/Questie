@@ -193,5 +193,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.WESTFALL] = {{26,70}},
             },
         },
+        [450003] = {
+            [objectKeys.name] = "Thistlefur Dreamcatcher",
+            [objectKeys.zoneID] = zoneIDs.ASHENVALE,
+            [objectKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{38,26}},
+            },
+        },
     }
 end

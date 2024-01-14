@@ -2641,6 +2641,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425216,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90161] = {
+            [questKeys.name] = "Strength of Soul",
+            [questKeys.startedBy] = {{3924,3750,3922,3748,450003}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 23,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Thislefur for Primal Insight, then go up in to the tree, and use it whilst near the Thislefur Dreamcatcher with two Meditation buffs active, and receive the rune."},
+            [questKeys.requiredSpell] = -415997,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [90162] = {
             [questKeys.name] = "Twisted Faith",
             [questKeys.startedBy] = {{1174,1175,1177},nil,{208823}},
