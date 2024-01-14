@@ -112,6 +112,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.ORGRIMMAR] = {{58.8, 53.6}},
             },
         },
+        [208196] = { -- Gillgar
+            [npcKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES] = {{28.4, 46.8}},
+            },
+        },
         [208275] = { -- Frozen Makrura
             [npcKeys.spawns] = {
                 [zoneIDs.DUROTAR] = {{58.6, 45.6}},
@@ -306,6 +311,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.ASHENVALE] = {{28.6, 27.8}},
             },
         },
+        [212809] = { -- Wailing Spirit
+            [npcKeys.spawns] = {
+                [zoneIDs.SILVERPINE_FOREST] = {{59.6,71.4}},
+            },
+        },
         [212969] = { -- Kazragore
             [npcKeys.spawns] = {
                 [zoneIDs.ASHENVALE] = {{39.4, 67.2},{73.8,61.9}},
@@ -317,27 +327,39 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [213077] = { -- Elaine Compton
-            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{54.4,61.2}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{54.4,61.2}},
+            },
             [npcKeys.friendlyToFaction] = "A",
         },
         [214070] = { -- Jornah
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{51.4,63.8}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR] = {{51.4,63.8}},
+            },
             [npcKeys.friendlyToFaction] = "H",
         },
         [214096] = { -- Dokimi
-            [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF] = {{39.2,53.4}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.THUNDER_BLUFF] = {{39.2,53.4}},
+            },
             [npcKeys.friendlyToFaction] = "H",
         },
         [214098] = { -- Gishah
-            [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{64,39.2}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY] = {{64,39.2}},
+            },
             [npcKeys.friendlyToFaction] = "H",
         },
         [214099] = { -- Tamelyn Aldridge
-            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{24.4,67.6}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.IRONFORGE] = {{24.4,67.6}},
+            },
             [npcKeys.friendlyToFaction] = "A",
         },
         [214101] = { -- Marcy Baker
-            [npcKeys.spawns] = {[zoneIDs.DARNASSUS] = {{59.8,56.4}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.DARNASSUS] = {{59.8,56.4}},
+            },
             [npcKeys.friendlyToFaction] = "A",
         },
         [214456] = { -- Dro'zem the Blasphemous
@@ -346,14 +368,20 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [216902] = { -- Wulmort Jinglepocket
-            [npcKeys.spawns] = {[zoneIDs.IRONFORGE]={{33.7,67.23}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.IRONFORGE] = {{33.7,67.23}},
+            },
             [npcKeys.friendlyToFaction] = "AH",
         },
         [216915] = { -- Strange Snowman
-            [npcKeys.spawns] = {[zoneIDs.ALTERAC_MOUNTAINS]={{35.43,72.45}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ALTERAC_MOUNTAINS]={{35.43,72.45}},
+            },
         },
         [216924] = { -- Kaymard Copperpinch
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{53.3,66.47}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR] = {{53.3,66.47}},
+            },
             [npcKeys.friendlyToFaction] = "AH",
         },
         [217706] = { -- Kazragore
