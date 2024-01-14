@@ -2619,7 +2619,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90161] = {
             [questKeys.name] = "Strength of Soul",
-            [questKeys.startedBy] = {{3924,3750,3922,3748},{450003},{211534}},
+            [questKeys.startedBy] = {{3924,3750,3922,3748,450003}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 23,
