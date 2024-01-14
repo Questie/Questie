@@ -260,6 +260,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90156] = true, -- Priest Void Plague Elwynn Forest
     [90158] = true, -- Priest Void Plague Durotar
     [90162] = true, -- Priest Twisted Faith Loch Modan
+    [90163] = true, -- Priest Twisted Faith Westfall
 }
 
 ---@param questId number
