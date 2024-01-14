@@ -1099,11 +1099,11 @@ local iconOptionsLocales = {
         ["ruRU"] = "Руны Сезона Открытий",
         ["deDE"] = "Runen der Saison der Entdeckung",
         ["koKR"] = false,
-        ["esMX"] = "Runas de la Temporada de descubrimiento",
+        ["esMX"] = "Runas de Temporada de descubrimiento",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = "探索賽季符文",
-        ["esES"] = "Runas de la Temporada de descubrimiento",
+        ["esES"] = "Runas de Temporada de descubrimiento",
         ["frFR"] = false,
     },
     ["When this is enabled, the locations of Season of Discovery Runes and Rune quests will be shown on the map/minimap."] = {
