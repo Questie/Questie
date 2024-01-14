@@ -263,6 +263,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90163] = true, -- Priest Twisted Faith Westfall
     [90164] = true, -- Priest Twisted Faith Darkshore
     [90165] = true, -- Priest Twisted Faith The Barrens
+    [90166] = true, -- Priest Twisted Faith Silverpine Forest
 }
 
 ---@param questId number
