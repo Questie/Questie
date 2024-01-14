@@ -258,6 +258,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90154] = true, -- Druid Lacerate Westfall
     [90155] = true, -- Priest Void Plague Dun Morogh
     [90156] = true, -- Priest Void Plague Elwynn Forest
+    [90158] = true, -- Priest Void Plague Durotar
 }
 
 ---@param questId number
@@ -302,6 +303,7 @@ local questsToBlacklistBySoDPhase = {
         [90148] = true, -- Hiding Paladin Exorcist Duskwood for now as there are too many icons
         [90154] = true, -- Hiding Druid Lacerate Westfall for now as there are too many icons
         [90155] = true, -- Hiding Priest Void Plague Dun Morogh for now as there are too many icons
+        [90158] = true, -- Hiding Priest Void Plague Durotar for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
