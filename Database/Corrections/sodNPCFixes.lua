@@ -183,6 +183,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TELDRASSIL] = {{56.6, 57.8}},
             },
         },
+        [209928] = { -- Mowgh
+            [npcKeys.spawns] = {
+                [zoneIDs.TELDRASSIL] = {{48.0, 31.6}},
+            },
+        },
         [210107] = { -- Kackle
             [npcKeys.spawns] = {
                 [zoneIDs.LOCH_MODAN] = {{55.0, 55.4}},

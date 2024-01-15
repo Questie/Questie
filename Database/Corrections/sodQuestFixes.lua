@@ -2713,6 +2713,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425215,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90168] = {
+            [questKeys.name] = "Flanking Strike",
+            [questKeys.startedBy] = {{209928,1997,1995,1996}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 8,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill Strigid Birds for Teldrassil Bird Meat, then use the meat east of the river near The Oracle Glade, to summon Mowgh which you must kill and then loot the rune."},
+            [questKeys.requiredSpell] = -425762,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
