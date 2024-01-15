@@ -2713,6 +2713,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425215,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90169] = {
+            [questKeys.name] = "Power Word: Barrier",
+            [questKeys.startedBy] = {{436}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 22,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Blackrock Shadowcasters and then loot the rune. You will need to have two mediation buffs to use it."},
+            [questKeys.requiredSpell] = -425213,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
