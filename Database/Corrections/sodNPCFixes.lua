@@ -147,6 +147,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.ELWYNN_FOREST] = {{25.4, 43.6}},
             },
         },
+        [208812] = { -- Jorul
+            [npcKeys.spawns] = {
+                [zoneIDs.DUN_MOROGH] = {{37.8, 42.4}},
+            },
+        },
         [208919] = { -- Blueheart
             [npcKeys.spawns] = {
                 [zoneIDs.TIRISFAL_GLADES] = {{61.6, 51.4}},

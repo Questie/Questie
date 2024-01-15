@@ -2713,6 +2713,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425215,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90167] = {
+            [questKeys.name] = "Flanking Strike",
+            [questKeys.startedBy] = {{208812,208638,1125,1126,1127,1689}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 7,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill Boars for Dun Morogh Pig Meat, then use the meat east of the lake near Brewnall Village, to summon Jorul which you must kill and then loot the rune."},
+            [questKeys.requiredSpell] = -425762,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [90168] = {
             [questKeys.name] = "Flanking Strike",
             [questKeys.startedBy] = {{209928,1997,1995,1996}},
