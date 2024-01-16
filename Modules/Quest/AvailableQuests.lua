@@ -170,10 +170,9 @@ local function _CalculateAvailableQuests()
         ) then
             --If the quests are not within level range we want to unload them
             --(This is for when people level up or change settings etc)
-            -- TODO: Is still necessary?
-            QuestieMap:UnloadQuestFrames(questId)
 
             if availableQuests[questId] then
+                QuestieMap:UnloadQuestFrames(questId)
                 QuestieTooltips:RemoveQuest(questId)
             end
             return
@@ -219,7 +218,7 @@ function AvailableQuests.CalculateAndDrawAll(callback)
     if timer then
         timer:Cancel()
     end
-    timer = ThreadLib.Thread(_CalculateAvailableQuests, 0, "Error in CalculateAndDrawAll", callback)
+    timer = ThreadLib.Thread(_CalculateAvailableQuests, 0, "Error in AvailableQuests.CalculateAndDrawAll", callback)
 end
 
 --Draw a single available quest, it is used by the CalculateAndDrawAll function.
