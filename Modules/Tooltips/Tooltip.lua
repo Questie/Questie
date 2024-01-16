@@ -52,8 +52,9 @@ end
 
 ---@param questId number
 ---@param name string The name of the object or NPC the tooltip should show on
+---@param starterId number The ID of the object or NPC the tooltip should show on
 ---@param key string @Either m_<npcId> or o_<objectId>
-function QuestieTooltips:RegisterQuestStartTooltip(questId, name, key)
+function QuestieTooltips:RegisterQuestStartTooltip(questId, name, starterId, key)
     if not QuestieTooltips.lookupByKey[key] then
         QuestieTooltips.lookupByKey[key] = {};
     end
@@ -63,8 +64,9 @@ function QuestieTooltips:RegisterQuestStartTooltip(questId, name, key)
     local tooltip = {
         questId = questId,
         name = name,
+        starterId = starterId,
     };
-    QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. name] = tooltip
+    QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. name .. " " .. starterId] = tooltip
     tinsert(QuestieTooltips.lookupKeysByQuestId[questId], key)
 end
 
@@ -121,7 +123,7 @@ function QuestieTooltips:RemoveQuest(questId)
                 QuestieTooltips.lookupByKey[key][tostring(tooltipData.questId) .. " " .. tooltipData.objective.Index] = nil
                 totalRemoved = totalRemoved + 1
             elseif (tooltipData.questId == questId and tooltipData.name) then
-                QuestieTooltips.lookupByKey[key][tostring(tooltipData.questId) .. " " .. tooltipData.name] = nil
+                QuestieTooltips.lookupByKey[key][tostring(tooltipData.questId) .. " " .. tooltipData.name .. " " .. tooltipData.starterId] = nil
                 totalRemoved = totalRemoved + 1
             end
             totalCount = totalCount + 1
