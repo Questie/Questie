@@ -295,6 +295,7 @@ local questsToBlacklistBySoDPhase = {
         [90018] = true, -- Hiding Living Flame for now as there are too many icons
         [90020] = true, -- Hiding Living Bomb for now as there are too many icons
         [90021] = true, -- Hiding Living Bomb for now as there are too many icons
+        [90023] = true, -- Hiding Druid Wild Strikes for now as there are too many icons
         [90036] = true, -- Hiding Warlock Master Channeler Westfall for now as there are too many icons
         [90085] = true, -- Hiding Loch Modan verion of Blade Dance for now as there are too many icons
         [90139] = true, -- Hiding Warrior Quick Strike Loch Modan for now as there are too many icons
