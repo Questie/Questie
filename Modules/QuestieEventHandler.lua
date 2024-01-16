@@ -80,13 +80,13 @@ function QuestieEventHandler:RegisterLateEvents()
     -- Spell objectives
     Questie:RegisterEvent("NEW_RECIPE_LEARNED", function() -- Needed for some spells that don't necessarily appear in the spellbook, but are definitely spells
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED")
-        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+       AvailableQuests.CalculateAndDrawAll()
     end)
 
     -- TODO: This seems to fire constantly with the "Way of Earth" Shaman rune. Do we even need it?
     --Questie:RegisterEvent("SPELLS_CHANGED", function() -- Ensures map icon eligibility updates for quests with RequireSpell
     --    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] SPELLS_CHANGED")
-    --    QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+    --    AvailableQuests.CalculateAndDrawAll()
     --end)
 
     -- UI Quest Events
