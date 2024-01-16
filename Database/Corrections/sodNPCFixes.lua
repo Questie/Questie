@@ -162,6 +162,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.IRONFORGE] = {{71.2, 73.2}},
             },
         },
+        [209524] = { -- Patrolling Cheetah
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{44.4, 55.4}},
+            },
+        },
         [209607] = { -- Lieutenant Stonebrew
             [npcKeys.spawns] = {
                 [zoneIDs.THE_BARRENS] = {},

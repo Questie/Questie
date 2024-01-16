@@ -2761,6 +2761,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410110,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90176] = {
+            [questKeys.name] = "Beast Mastery",
+            [questKeys.startedBy] = {{209524}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 18,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill Patrolling Cheetah. You will need to drop a trap in its path to remove the speed buff, once the buff is removed, kill it to receive the rune
+            [questKeys.requiredSpell] = -410110,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 

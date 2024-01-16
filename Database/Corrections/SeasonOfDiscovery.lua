@@ -271,6 +271,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90168] = true, -- Hunter Flanking Strike Teldrassil
     [90169] = true, -- Priest Power Word: Barrier Redridge Mountains
     [90175] = true, -- Hunter Beast Mastery Silverpine Forest
+    [90176] = true, -- Hunter Beast Mastery The Barrens
 }
 
 ---@param questId number
