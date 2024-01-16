@@ -10,6 +10,15 @@ function SeasonOfDiscovery:LoadObjects()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
+        [386675] = {
+            [objectKeys.spawns] = {
+                [1] = {{46.96,43.73}},
+                [12] = {{80.3, 79.1}},
+                [14] = {{62.1, 94.8}},
+                [85] = {{52.9, 54}},
+                [141] = {{55.3, 90.8}},
+            },
+        },
         [386691] = {
             [objectKeys.spawns] = {
                 [zoneIDs.IRONFORGE] = {{76, 10.4}},
