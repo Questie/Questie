@@ -1461,8 +1461,8 @@ function QuestieQuestBlacklist:Load()
         --[24590] = true,
 
         --- Phase 5 Ruby Sanctum
-        [26012] = true, -- Trouble at Wyrmrest
-        [26013] = true, -- Assault on the Sanctum
+        --[26012] = true, -- Trouble at Wyrmrest
+        --[26013] = true, -- Assault on the Sanctum
 
         ----- SoD -------------- SoD quests --------------- SoD -----
         [79482] = true,
