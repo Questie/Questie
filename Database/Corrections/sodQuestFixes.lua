@@ -2789,7 +2789,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 14,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.HUNTER,
-            [questKeys.objectivesText] = {"Kill Goretusks for Goretusk Haunch, then use the haunch north of Gold Coast Quarry, to summon Silverspur which you must kill and then loot the rune."},
             [questKeys.objectivesText] = {"Loot the Empty Trophy Display next to Daryl the Youngling to receive the rune."},
             [questKeys.requiredSpell] = -410110,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
