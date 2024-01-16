@@ -2749,6 +2749,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425213,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90175] = {
+            [questKeys.name] = "Beast Mastery",
+            [questKeys.startedBy] = {{1778,211736}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 16,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill Ferocious Grizzled Bears until a Grizzled Protector spawns. Kill it to receive the rune."},
+            [questKeys.requiredSpell] = -410110,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
