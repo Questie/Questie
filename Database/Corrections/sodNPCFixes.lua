@@ -83,6 +83,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.STORMWIND_CITY] = {{38.4, 27.4}},
             },
         },
+        [205382] = { -- Mokwa
+            [npcKeys.spawns] = {
+                [zoneIDs.MULGORE] = {{35.8, 57.2}},
+            },
+        },
         [206248] = { -- Wooden Effigy
             [npcKeys.spawns] = {
                 [zoneIDs.TELDRASSIL] = {{66.8, 58}},

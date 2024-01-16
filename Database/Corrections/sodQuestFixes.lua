@@ -2757,6 +2757,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425762,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90171] = {
+            [questKeys.name] = "Flanking Strike",
+            [questKeys.startedBy] = {{205382}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 8,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill Swoops and Plainstriders for Mulgore Bird Meat, then use the meat east of Bloodhoof Village, to summon Mokwa which you must kill and then loot the rune."},
+            [questKeys.requiredSpell] = -425762,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [90174] = {
             [questKeys.name] = "Beast Mastery",
             [questKeys.startedBy] = {nil,{407918}},
