@@ -47,6 +47,14 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
 
         },
+        [204070] = { -- Soboz
+            [npcKeys.spawns] = {
+                [1] = {{42, 36.6}},
+                [14] = {{67.4, 89.2}},
+                [1497] = {{24.6, 40.6}},
+                [1519] = {{25, 77.6}},
+            },
+        },
         [204827] = { -- Adventurer's Remains
             [npcKeys.spawns] = {
                 [zoneIDs.DUN_MOROGH] = {{43, 49.4}},
@@ -73,6 +81,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [205278] = { -- Brother Romulus
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY] = {{38.4, 27.4}},
+            },
+        },
+        [205382] = { -- Mokwa
+            [npcKeys.spawns] = {
+                [zoneIDs.MULGORE] = {{35.8, 57.2}},
             },
         },
         [206248] = { -- Wooden Effigy
@@ -110,6 +123,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [208023] = { -- Gru'ark
             [npcKeys.spawns] = {
                 [zoneIDs.ORGRIMMAR] = {{58.8, 53.6}},
+            },
+        },
+        [208124] = { -- Raluk
+            [npcKeys.spawns] = {
+                [zoneIDs.DUROTAR] = {{68.6, 71.6}},
             },
         },
         [208196] = { -- Gillgar
@@ -162,6 +180,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.IRONFORGE] = {{71.2, 73.2}},
             },
         },
+        [209524] = { -- Patrolling Cheetah
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{44.4, 55.4}},
+            },
+        },
         [209607] = { -- Lieutenant Stonebrew
             [npcKeys.spawns] = {
                 [zoneIDs.THE_BARRENS] = {},
@@ -209,7 +232,9 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [210483] = { -- Aggressive Squashling
-            [npcKeys.spawns] = {},
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{51.2,22.3},{54,31.8},{44.6,35.2},{38.4,52.5},{62.5,61.1}}
+            },
         },
         [210533] = {
             [npcKeys.spawns] = { -- Silverspur
@@ -244,6 +269,11 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.friendlyToFaction] = "A",
         },
         [211146] = { -- Lost Adventurer
+            [npcKeys.spawns] = {
+                [zoneIDs.SILVERPINE_FOREST] = {},
+            },
+        },
+        [211736] = { -- Grizzled Protector
             [npcKeys.spawns] = {
                 [zoneIDs.SILVERPINE_FOREST] = {},
             },
