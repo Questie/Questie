@@ -35,50 +35,51 @@ local availableQuests = {}
 
 local dungeons = ZoneDB:GetDungeons()
 
-local _AddStarter
+local _CalculateAvailableQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable
 
+---@param callback function | nil
+function AvailableQuests.CalculateAndDrawAll(callback)
+    Questie:Debug(Questie.DEBUG_INFO, "[AvailableQuests.CalculateAndDrawAll]")
 
----@param questId number
-local function _DrawAvailableQuest(questId)
-    NewThread(function()
-        local quest = QuestieDB.GetQuest(questId)
-        if (not quest.tagInfoWasCached) then
-            QuestieDB.GetQuestTagInfo(questId) -- cache to load in the tooltip
-
-            quest.tagInfoWasCached = true
-        end
-
-        AvailableQuests.DrawAvailableQuest(quest)
-    end, 0)
+    --? Cancel the previously running timer to not have multiple running at the same time
+    if timer then
+        timer:Cancel()
+    end
+    timer = ThreadLib.Thread(_CalculateAvailableQuests, 0, "Error in AvailableQuests.CalculateAndDrawAll", callback)
 end
 
+--Draw a single available quest, it is used by the CalculateAndDrawAll function.
 ---@param quest Quest
-local function _GetQuestIcon(quest)
-    if Questie.IsSoD == true and QuestieDB.IsSoDRuneQuest(quest.Id) then
-        return Questie.ICON_TYPE_SODRUNE
-    elseif QuestieDB.IsActiveEventQuest(quest.Id) then
-        return Questie.ICON_TYPE_EVENTQUEST
+function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
+    --? Some quests can be started by both an NPC and a GameObject
+
+    if quest.Starts["GameObject"] then
+        local gameObjects = quest.Starts["GameObject"]
+        for i = 1, #gameObjects do
+            local obj = QuestieDB:GetObject(gameObjects[i])
+
+            _AddStarter(obj, quest, "o_" .. obj.id)
+        end
     end
-    if QuestieDB.IsPvPQuest(quest.Id) then
-        return Questie.ICON_TYPE_PVPQUEST
+    if (quest.Starts["NPC"]) then
+        local npcs = quest.Starts["NPC"]
+        for i = 1, #npcs do
+            local npc = QuestieDB:GetNPC(npcs[i])
+
+            _AddStarter(npc, quest, "m_" .. npc.id)
+        end
     end
-    if quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
-        return Questie.ICON_TYPE_AVAILABLE_GRAY
-    end
-    if quest.IsRepeatable then
-        return Questie.ICON_TYPE_REPEATABLE
-    end
-    if (QuestieDB.IsTrivial(quest.level)) then
-        return Questie.ICON_TYPE_AVAILABLE_GRAY
-    end
-    return Questie.ICON_TYPE_AVAILABLE
 end
 
-local function _GetIconScaleForAvailable()
-    return Questie.db.profile.availableScale or 1.3
+function AvailableQuests.UnloadUndoable()
+    for questId, _ in pairs(availableQuests) do
+        if (not QuestieDB.IsDoable(questId)) then
+            QuestieMap:UnloadQuestFrames(questId)
+        end
+    end
 end
 
-local function _CalculateAvailableQuests()
+_CalculateAvailableQuests = function()
     -- Localize the variables for speeeeed
     local debugEnabled = Questie.db.profile.debugEnabled
 
@@ -212,38 +213,40 @@ local function _CalculateAvailableQuests()
     end
 end
 
----@param callback function | nil
-function AvailableQuests.CalculateAndDrawAll(callback)
-    Questie:Debug(Questie.DEBUG_INFO, "[AvailableQuests.CalculateAndDrawAll]")
+---@param questId number
+_DrawAvailableQuest = function(questId)
+    NewThread(function()
+        local quest = QuestieDB.GetQuest(questId)
+        if (not quest.tagInfoWasCached) then
+            QuestieDB.GetQuestTagInfo(questId) -- cache to load in the tooltip
 
-    --? Cancel the previously running timer to not have multiple running at the same time
-    if timer then
-        timer:Cancel()
-    end
-    timer = ThreadLib.Thread(_CalculateAvailableQuests, 0, "Error in AvailableQuests.CalculateAndDrawAll", callback)
+            quest.tagInfoWasCached = true
+        end
+
+        AvailableQuests.DrawAvailableQuest(quest)
+    end, 0)
 end
 
---Draw a single available quest, it is used by the CalculateAndDrawAll function.
 ---@param quest Quest
-function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
-    --? Some quests can be started by both an NPC and a GameObject
-
-    if quest.Starts["GameObject"] then
-        local gameObjects = quest.Starts["GameObject"]
-        for i = 1, #gameObjects do
-            local obj = QuestieDB:GetObject(gameObjects[i])
-
-            _AddStarter(obj, quest, "o_" .. obj.id)
-        end
+_GetQuestIcon = function(quest)
+    if Questie.IsSoD == true and QuestieDB.IsSoDRuneQuest(quest.Id) then
+        return Questie.ICON_TYPE_SODRUNE
+    elseif QuestieDB.IsActiveEventQuest(quest.Id) then
+        return Questie.ICON_TYPE_EVENTQUEST
     end
-    if (quest.Starts["NPC"]) then
-        local npcs = quest.Starts["NPC"]
-        for i = 1, #npcs do
-            local npc = QuestieDB:GetNPC(npcs[i])
-
-            _AddStarter(npc, quest, "m_" .. npc.id)
-        end
+    if QuestieDB.IsPvPQuest(quest.Id) then
+        return Questie.ICON_TYPE_PVPQUEST
     end
+    if quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
+        return Questie.ICON_TYPE_AVAILABLE_GRAY
+    end
+    if quest.IsRepeatable then
+        return Questie.ICON_TYPE_REPEATABLE
+    end
+    if (QuestieDB.IsTrivial(quest.level)) then
+        return Questie.ICON_TYPE_AVAILABLE_GRAY
+    end
+    return Questie.ICON_TYPE_AVAILABLE
 end
 
 ---@param starter table Either an object or an NPC
@@ -319,10 +322,6 @@ _AddStarter = function(starter, quest, tooltipKey)
     end
 end
 
-function AvailableQuests.UnloadUndoable()
-    for questId, _ in pairs(availableQuests) do
-        if (not QuestieDB.IsDoable(questId)) then
-            QuestieMap:UnloadQuestFrames(questId)
-        end
-    end
-end 
+_GetIconScaleForAvailable = function()
+    return Questie.db.profile.availableScale or 1.3
+end
