@@ -243,6 +243,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.SILVERPINE_FOREST] = {},
             },
         },
+        [211736] = { -- Grizzled Protector
+            [npcKeys.spawns] = {
+                [zoneIDs.SILVERPINE_FOREST] = {},
+            },
+        },
         [211965] = { -- Carrodin
             [npcKeys.spawns] = {
                 [zoneIDs.WETLANDS] = {{46.6, 65.6}},
