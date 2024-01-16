@@ -47,6 +47,14 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
 
         },
+        [204070] = { -- Soboz
+            [npcKeys.spawns] = {
+                [1] = {{42, 36.6}},
+                [14] = {{67.4, 89.2}},
+                [1497] = {{24.6, 40.6}},
+                [1519] = {{25, 77.6}},
+            },
+        },
         [204827] = { -- Adventurer's Remains
             [npcKeys.spawns] = {
                 [zoneIDs.DUN_MOROGH] = {{43, 49.4}},
@@ -214,7 +222,9 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [210483] = { -- Aggressive Squashling
-            [npcKeys.spawns] = {},
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{51.2,22.3},{54,31.8},{44.6,35.2},{38.4,52.5},{62.5,61.1}}
+            },
         },
         [210537] = { -- Undying Laborer
             [npcKeys.spawns] = {
