@@ -2736,7 +2736,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Kill Strigid Birds for Teldrassil Bird Meat, then use the meat east of the river near The Oracle Glade, to summon Mowgh which you must kill and then loot the rune."},
             [questKeys.requiredSpell] = -425762,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
-        },     
+        },
         [90169] = {
             [questKeys.name] = "Power Word: Barrier",
             [questKeys.startedBy] = {{436}},
