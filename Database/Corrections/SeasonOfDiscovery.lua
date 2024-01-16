@@ -308,7 +308,6 @@ local questsToBlacklistBySoDPhase = {
         [90157] = true, -- Hiding Priest Void Plague Teldrassil for now as there are too many icons
         [90155] = true, -- Hiding Priest Void Plague Dun Morogh for now as there are too many icons
         [90158] = true, -- Hiding Priest Void Plague Durotar for now as there are too many icons
-        [90162] = true, -- Hiding Priest Twisted Faith Loch Modan for now as there are too many icons
         [90165] = true, -- Hiding Priest Twisted Faith The Barrens for now as there are too many icons
         [90169] = true, -- Hiding Priest Power Word: Barrier Redridge Mountains for now as there are too many icons
         [90175] = true, -- Hiding Hunter Beast Mastery Silverpine Forest for now as there are too many icons

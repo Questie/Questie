@@ -209,5 +209,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.ASHENVALE] = {{38,26}},
             },
         },
+        [450004] = {
+            [objectKeys.name] = "Wishing Well",
+            [objectKeys.zoneID] = zoneIDs.LOCH_MODAN,
+            [objectKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{36.4,19.6}},
+            },
+        },
     }
 end

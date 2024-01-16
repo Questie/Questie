@@ -2651,7 +2651,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90162] = {
             [questKeys.name] = "Twisted Faith",
-            [questKeys.startedBy] = {{1174,1175,1177},nil,{208823}},
+            [questKeys.startedBy] = {nil,{450004}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 12,
