@@ -250,16 +250,56 @@ end
 ---@param quest Quest
 ---@param tooltipKey string the tooltip key. For objects it's "o_<ID>", for NPCs it's "m_<ID>"
 _AddStarters = function(starter, quest, tooltipKey)
-    if (starter and starter.spawns) then
-        QuestieTooltips:RegisterQuestStartTooltip(quest.Id, starter, tooltipKey)
+    if (not starter) or (not starter.spawns) then
+        return
+    end
 
-        local starterIcons = {}
-        local starterLocs = {}
-        for zone, spawns in pairs(starter.spawns) do
-            if (zone and spawns) then
-                local coords
-                for spawnIndex = 1, #spawns do
-                    coords = spawns[spawnIndex]
+    QuestieTooltips:RegisterQuestStartTooltip(quest.Id, starter, tooltipKey)
+
+    local starterIcons = {}
+    local starterLocs = {}
+    for zone, spawns in pairs(starter.spawns) do
+        if (zone and spawns) then
+            local coords
+            for spawnIndex = 1, #spawns do
+                coords = spawns[spawnIndex]
+                local data = {
+                    Id = quest.Id,
+                    Icon = _GetQuestIcon(quest),
+                    GetIconScale = _GetIconScaleForAvailable,
+                    IconScale = _GetIconScaleForAvailable(),
+                    Type = "available",
+                    QuestData = quest,
+                    Name = starter.name,
+                    IsObjectiveNote = false,
+                }
+
+                if (coords[1] == -1 or coords[2] == -1) then
+                    local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
+                    if dungeonLocation then
+                        for _, value in ipairs(dungeonLocation) do
+                            QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                        end
+                    end
+                else
+                    local icon = QuestieMap:DrawWorldIcon(data, zone, coords[1], coords[2])
+                    if starter.waypoints then
+                        -- This is only relevant for waypoint drawing
+                        starterIcons[zone] = icon
+                        if not starterLocs[zone] then
+                            starterLocs[zone] = { coords[1], coords[2] }
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    -- Only for NPCs since objects do not move
+    if starter.waypoints then
+        for zone, waypoints in pairs(starter.waypoints) do
+            if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
+                if not starterIcons[zone] then
                     local data = {
                         Id = quest.Id,
                         Icon = _GetQuestIcon(quest),
@@ -270,48 +310,10 @@ _AddStarters = function(starter, quest, tooltipKey)
                         Name = starter.name,
                         IsObjectiveNote = false,
                     }
-
-                    if (coords[1] == -1 or coords[2] == -1) then
-                        local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
-                        if dungeonLocation then
-                            for _, value in ipairs(dungeonLocation) do
-                                QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-                            end
-                        end
-                    else
-                        local icon = QuestieMap:DrawWorldIcon(data, zone, coords[1], coords[2])
-                        if starter.waypoints then
-                            -- This is only relevant for waypoint drawing
-                            starterIcons[zone] = icon
-                            if not starterLocs[zone] then
-                                starterLocs[zone] = { coords[1], coords[2] }
-                            end
-                        end
-                    end
+                    starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
+                    starterLocs[zone] = { waypoints[1][1][1], waypoints[1][1][2] }
                 end
-            end
-        end
-
-        -- Only for NPCs since objects do not move
-        if starter.waypoints then
-            for zone, waypoints in pairs(starter.waypoints) do
-                if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
-                    if not starterIcons[zone] then
-                        local data = {
-                            Id = quest.Id,
-                            Icon = _GetQuestIcon(quest),
-                            GetIconScale = _GetIconScaleForAvailable,
-                            IconScale = _GetIconScaleForAvailable(),
-                            Type = "available",
-                            QuestData = quest,
-                            Name = starter.name,
-                            IsObjectiveNote = false,
-                        }
-                        starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
-                        starterLocs[zone] = { waypoints[1][1][1], waypoints[1][1][2] }
-                    end
-                    QuestieMap:DrawWaypoints(starterIcons[zone], waypoints, zone)
-                end
+                QuestieMap:DrawWaypoints(starterIcons[zone], waypoints, zone)
             end
         end
     end
