@@ -985,7 +985,7 @@ function QuestieQuest:AddFinisher(quest)
                 end
             end
 
-            QuestieTooltips:RegisterQuestStartTooltip(questId, finisher, key)
+            QuestieTooltips:RegisterQuestStartTooltip(questId, finisher.name, key)
 
             local finisherIcons = {}
             local finisherLocs = {}

@@ -254,7 +254,7 @@ _AddStarter = function(starter, quest, tooltipKey)
         return
     end
 
-    QuestieTooltips:RegisterQuestStartTooltip(quest.Id, starter, tooltipKey)
+    QuestieTooltips:RegisterQuestStartTooltip(quest.Id, starter.name, tooltipKey)
 
     local starterIcons = {}
     local starterLocs = {}
