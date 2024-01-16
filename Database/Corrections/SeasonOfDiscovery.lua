@@ -269,6 +269,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90166] = true, -- Priest Twisted Faith Silverpine Forest
     [90167] = true, -- Hunter Flanking Strike Dun Morogh
     [90168] = true, -- Hunter Flanking Strike Teldrassil
+    [90171] = true, -- Hunter Flanking Strike Mulgore
 }
 
 ---@param questId number
@@ -321,6 +322,7 @@ local questsToBlacklistBySoDPhase = {
         [90165] = true, -- Hiding Priest Twisted Faith The Barrens for now as there are too many icons
         [90167] = true, -- Hiding Hunter Flanking Strike Dun Morogh for now as there are too many icons
         [90168] = true, -- Hiding Hunter Flanking Strike Teldrassil for now as there are too many icons
+        [90171] = true, -- Hiding Hunter Flanking Strike Mulgore for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
