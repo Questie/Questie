@@ -269,6 +269,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90166] = true, -- Priest Twisted Faith Silverpine Forest
     [90167] = true, -- Hunter Flanking Strike Dun Morogh
     [90168] = true, -- Hunter Flanking Strike Teldrassil
+    [90169] = true, -- Priest Power Word: Barrier Redridge Mountains
     [90175] = true, -- Hunter Beast Mastery Silverpine Forest
 }
 
@@ -322,6 +323,7 @@ local questsToBlacklistBySoDPhase = {
         [90165] = true, -- Hiding Priest Twisted Faith The Barrens for now as there are too many icons
         [90167] = true, -- Hiding Hunter Flanking Strike Dun Morogh for now as there are too many icons
         [90168] = true, -- Hiding Hunter Flanking Strike Teldrassil for now as there are too many icons
+        [90169] = true, -- Hiding Priest Power Word: Barrier Redridge Mountains for now as there are too many icons
         [90175] = true, -- Hiding Hunter Beast Mastery Silverpine Forest for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
