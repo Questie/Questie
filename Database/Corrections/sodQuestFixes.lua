@@ -2739,7 +2739,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90172] = {
             [questKeys.name] = "Beast Mastery",
-            [questKeys.startedBy] = {{210533,454,157}},
+            [questKeys.startedBy] = {{210533}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 14,
