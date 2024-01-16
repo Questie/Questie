@@ -35,7 +35,7 @@ local availableQuests = {}
 
 local dungeons = ZoneDB:GetDungeons()
 
-local _AddStarters
+local _AddStarter
 
 
 ---@param questId number
@@ -233,7 +233,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
         for i = 1, #gameObjects do
             local obj = QuestieDB:GetObject(gameObjects[i])
 
-            _AddStarters(obj, quest, "o_" .. obj.id)
+            _AddStarter(obj, quest, "o_" .. obj.id)
         end
     end
     if (quest.Starts["NPC"]) then
@@ -241,7 +241,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
         for i = 1, #npcs do
             local npc = QuestieDB:GetNPC(npcs[i])
 
-            _AddStarters(npc, quest, "m_" .. npc.id)
+            _AddStarter(npc, quest, "m_" .. npc.id)
         end
     end
 end
@@ -249,7 +249,7 @@ end
 ---@param starter table Either an object or an NPC
 ---@param quest Quest
 ---@param tooltipKey string the tooltip key. For objects it's "o_<ID>", for NPCs it's "m_<ID>"
-_AddStarters = function(starter, quest, tooltipKey)
+_AddStarter = function(starter, quest, tooltipKey)
     if (not starter) or (not starter.spawns) then
         return
     end
