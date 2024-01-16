@@ -2439,7 +2439,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90143] = {
             [questKeys.name] = "Quick Strike",
-            [questKeys.startedBy] = {{212598,1944,1939,1772,1773,1940,1942}},
+            [questKeys.startedBy] = {{212598}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 14,

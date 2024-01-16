@@ -308,7 +308,6 @@ local questsToBlacklistBySoDPhase = {
         [90137] = true, -- Hiding Rogue Quick Draw Tirisfal Glades for now as there are too many icons
         [90139] = true, -- Hiding Warrior Quick Strike Loch Modan for now as there are too many icons
         [90140] = true, -- Hiding Warrior Quick Strike Westfall for now as there are too many icons
-        [90143] = true, -- Hiding Warrior Quick Strike Silverpine Forest for now as there are too many icons
         [90144] = true, -- Hiding Druid Savage Roar Westfall for now as there are too many icons
         [90145] = true, -- Hiding Druid Lacerate Darkshore for now as there are too many icons
         [90146] = true, -- Hiding Druid Mangle Mulgore for now as there are too many icons
