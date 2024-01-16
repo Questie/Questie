@@ -101,6 +101,11 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.LOCH_MODAN] = {{36.8, 91.4}},
             },
         },
+        [407918] = { -- Empty Trophy Display
+            [objectKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{83.6, 65.5}},
+            },
+        },
         [408004] = {
             [objectKeys.spawns] = {
                 [zoneIDs.LOCH_MODAN] = {{71.7, 21.4}},
