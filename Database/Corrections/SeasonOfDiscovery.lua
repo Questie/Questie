@@ -305,7 +305,6 @@ local questsToBlacklistBySoDPhase = {
         [90146] = true, -- Hiding Druid Mangle Mulgore for now as there are too many icons
         [90147] = true, -- Hiding Paladin Hand of Reckoning Westfall for now as there are too many icons
         [90148] = true, -- Hiding Paladin Exorcist Duskwood for now as there are too many icons
-        [90154] = true, -- Hiding Druid Lacerate Westfall for now as there are too many icons
         [90157] = true, -- Hiding Priest Void Plague Teldrassil for now as there are too many icons
         [90155] = true, -- Hiding Priest Void Plague Dun Morogh for now as there are too many icons
         [90158] = true, -- Hiding Priest Void Plague Durotar for now as there are too many icons
