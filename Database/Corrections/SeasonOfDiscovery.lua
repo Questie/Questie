@@ -322,7 +322,6 @@ local questsToBlacklistBySoDPhase = {
         [90165] = true, -- Hiding Priest Twisted Faith The Barrens for now as there are too many icons
         [90167] = true, -- Hiding Hunter Flanking Strike Dun Morogh for now as there are too many icons
         [90168] = true, -- Hiding Hunter Flanking Strike Teldrassil for now as there are too many icons
-        [90172] = true, -- Hiding Hunter Beast Mastery Westfall for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
