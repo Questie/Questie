@@ -2737,6 +2737,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425762,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90172] = {
+            [questKeys.name] = "Beast Mastery",
+            [questKeys.startedBy] = {{210533,454,157}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 14,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill Goretusks for Goretusk Haunch, then use the haunch north of Gold Coast Quarry, to summon Silverspur which you must kill and then loot the rune."},
+            [questKeys.requiredSpell] = -410110,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 

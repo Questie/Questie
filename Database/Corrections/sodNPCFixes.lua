@@ -211,6 +211,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [210483] = { -- Aggressive Squashling
             [npcKeys.spawns] = {},
         },
+        [210533] = {
+            [npcKeys.spawns] = { -- Silverspur
+                [zoneIDs.WESTFALL] = {{35.6, 38.4}},
+            },
+        },
         [210537] = { -- Undying Laborer
             [npcKeys.spawns] = {
                 [zoneIDs.WESTFALL] = {{44.9,24},{31.5,45}},
