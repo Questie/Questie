@@ -2737,6 +2737,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425762,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90173] = {
+            [questKeys.name] = "Beast Mastery",
+            [questKeys.startedBy] = {{2170,2171,2169,2168,2324,2167,2234}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 14,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill Furbolgs for Crab Treats, then use them on a Young Reef Crawler on the beach to receive the rune."},
+            [questKeys.requiredSpell] = -410110,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
