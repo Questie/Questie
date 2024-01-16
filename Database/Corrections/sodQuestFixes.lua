@@ -2749,6 +2749,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425213,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90174] = {
+            [questKeys.name] = "Beast Mastery",
+            [questKeys.startedBy] = {nil,{407918}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 14,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Loot the Empty Trophy Display next to Daryl the Youngling to receive the rune."},
+            [questKeys.requiredSpell] = -410110,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [90175] = {
             [questKeys.name] = "Beast Mastery",
             [questKeys.startedBy] = {{1778,211736}},
