@@ -2737,6 +2737,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425762,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90170] = {
+            [questKeys.name] = "Flanking Strike",
+            [questKeys.startedBy] = {{208124,3099,3100,3225}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 8,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill Boars for Durotar Pig Meat, then use the meat on the most northern island of The Echo Isles, to summon Raluk which you must kill and then loot the rune."},
+            [questKeys.requiredSpell] = -425762,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
