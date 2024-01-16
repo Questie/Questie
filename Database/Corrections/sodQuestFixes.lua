@@ -2715,7 +2715,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90167] = {
             [questKeys.name] = "Flanking Strike",
-            [questKeys.startedBy] = {{208812,208638,1125,1126,1127,1689}},
+            [questKeys.startedBy] = {{208812}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 7,
@@ -2727,7 +2727,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90168] = {
             [questKeys.name] = "Flanking Strike",
-            [questKeys.startedBy] = {{209928,1997,1995,1996}},
+            [questKeys.startedBy] = {{209928}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 8,

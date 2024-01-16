@@ -322,8 +322,6 @@ local questsToBlacklistBySoDPhase = {
         [90162] = true, -- Hiding Priest Twisted Faith Loch Modan for now as there are too many icons
         [90164] = true, -- Hiding Priest Twisted Faith Darkshore for now as there are too many icons
         [90165] = true, -- Hiding Priest Twisted Faith The Barrens for now as there are too many icons
-        [90167] = true, -- Hiding Hunter Flanking Strike Dun Morogh for now as there are too many icons
-        [90168] = true, -- Hiding Hunter Flanking Strike Teldrassil for now as there are too many icons
         [90169] = true, -- Hiding Priest Power Word: Barrier Redridge Mountains for now as there are too many icons
         [90175] = true, -- Hiding Hunter Beast Mastery Silverpine Forest for now as there are too many icons
     },
