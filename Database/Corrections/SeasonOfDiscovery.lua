@@ -269,6 +269,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90166] = true, -- Priest Twisted Faith Silverpine Forest
     [90167] = true, -- Hunter Flanking Strike Dun Morogh
     [90168] = true, -- Hunter Flanking Strike Teldrassil
+    [90176] = true, -- Hunter Beast Mastery The Barrens
 }
 
 ---@param questId number
