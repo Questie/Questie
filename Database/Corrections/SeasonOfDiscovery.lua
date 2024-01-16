@@ -317,7 +317,6 @@ local questsToBlacklistBySoDPhase = {
         [90157] = true, -- Hiding Priest Void Plague Teldrassil for now as there are too many icons
         [90155] = true, -- Hiding Priest Void Plague Dun Morogh for now as there are too many icons
         [90158] = true, -- Hiding Priest Void Plague Durotar for now as there are too many icons
-        [90161] = true, -- Hiding Priest Strength of Soul for now as there are too many icons
         [90162] = true, -- Hiding Priest Twisted Faith Loch Modan for now as there are too many icons
         [90164] = true, -- Hiding Priest Twisted Faith Darkshore for now as there are too many icons
         [90165] = true, -- Hiding Priest Twisted Faith The Barrens for now as there are too many icons
