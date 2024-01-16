@@ -162,6 +162,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.IRONFORGE] = {{71.2, 73.2}},
             },
         },
+        [209524] = { -- Patrolling Cheetah
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{44.4, 55.4}},
+            },
+        },
         [209607] = { -- Lieutenant Stonebrew
             [npcKeys.spawns] = {
                 [zoneIDs.THE_BARRENS] = {},
@@ -239,6 +244,11 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.friendlyToFaction] = "A",
         },
         [211146] = { -- Lost Adventurer
+            [npcKeys.spawns] = {
+                [zoneIDs.SILVERPINE_FOREST] = {},
+            },
+        },
+        [211736] = { -- Grizzled Protector
             [npcKeys.spawns] = {
                 [zoneIDs.SILVERPINE_FOREST] = {},
             },
