@@ -47,6 +47,14 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
 
         },
+        [204070] = { -- Soboz
+            [npcKeys.spawns] = {
+                [1] = {{42, 36.6}},
+                [14] = {{67.4, 89.2}},
+                [1497] = {{24.6, 40.6}},
+                [1519] = {{25, 77.6}},
+            },
+        },
         [204827] = { -- Adventurer's Remains
             [npcKeys.spawns] = {
                 [zoneIDs.DUN_MOROGH] = {{43, 49.4}},
