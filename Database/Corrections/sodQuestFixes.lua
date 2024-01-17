@@ -2835,7 +2835,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 11,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PRIEST,
             [questKeys.objectivesText] = {"Kill Captain Beld to receive the rune."},
             [questKeys.requiredSpell] = -402854,
