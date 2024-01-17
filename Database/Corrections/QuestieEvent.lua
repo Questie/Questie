@@ -211,7 +211,7 @@ _GetDarkmoonFaireLocationEra = function(currentDate)
         end
     end
 
-    return false
+    return DMF_LOCATIONS.NONE
 end
 
 -- DMF in SoD is every second week, starting on the 4th of December 2023
