@@ -83,6 +83,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.THE_BARRENS] = {{62.55,56.31}},
             },
         },
+        [407453] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{61.81,45.84}},
+            },
+        },
         [407454] = {
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
             [objectKeys.spawns] = {
