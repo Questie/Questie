@@ -236,6 +236,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.WESTFALL] = {{51.2,22.3},{54,31.8},{44.6,35.2},{38.4,52.5},{62.5,61.1}}
             },
         },
+        [210533] = {
+            [npcKeys.spawns] = { -- Silverspur
+                [zoneIDs.WESTFALL] = {{35.6, 38.4}},
+            },
+        },
         [210537] = { -- Undying Laborer
             [npcKeys.spawns] = {
                 [zoneIDs.WESTFALL] = {{44.9,24},{31.5,45}},
