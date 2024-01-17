@@ -2829,6 +2829,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410110,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90177] = {
+            [questKeys.name] = "Shared Pain",
+            [questKeys.startedBy] = {{6124}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 11,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Captain Beld to receive the rune."},
+            [questKeys.requiredSpell] = -402854,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 

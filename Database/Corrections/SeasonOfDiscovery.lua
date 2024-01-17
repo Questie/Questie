@@ -277,6 +277,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90174] = true, -- Hunter Beast Mastery Loch Modan
     [90175] = true, -- Hunter Beast Mastery Silverpine Forest
     [90176] = true, -- Hunter Beast Mastery The Barrens
+    [90177] = true, -- Priest Shared Pain Dun Morogh
 }
 
 ---@param questId number
