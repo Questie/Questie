@@ -136,7 +136,7 @@ _CalculateAvailableQuests = function()
                         local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(childQuestId, "exclusiveTo")
                         local blockedByExclusiveTo = false
                         for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
-                            if QuestiePlayer.currentQuestlog[exclusiveToQuestId] or Questie.db.char.complete[exclusiveToQuestId] then
+                            if QuestiePlayer.currentQuestlog[exclusiveToQuestId] or completedQuests[exclusiveToQuestId] then
                                 blockedByExclusiveTo = true
                                 break
                             end
