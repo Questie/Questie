@@ -74,6 +74,7 @@ local questTagCorrections = {
     [8406] = {41, "PvP"},
     [8407] = {41, "PvP"},
     [8408] = {41, "PvP"},
+    [12170] = {41, "PvP"},
     [12244] = {41, "PvP"},
     [12268] = {41, "PvP"},
     [12270] = {41, "PvP"},
@@ -113,6 +114,8 @@ local questTagCorrections = {
     [90159] = {1, "Elite"},
     [90163] = {1, "Elite"},
     [90166] = {1, "Elite"},
+    [90169] = {1, "Elite"},
+    [90175] = {1, "Elite"},
 }
 
 -- race bitmask data, for easy access
