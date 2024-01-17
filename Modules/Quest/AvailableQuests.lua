@@ -35,7 +35,7 @@ local availableQuests = {}
 
 local dungeons = ZoneDB:GetDungeons()
 
-local _CalculateAvailableQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable
+local _CalculateAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable
 
 ---@param callback function | nil
 function AvailableQuests.CalculateAndDrawAll(callback)
@@ -128,28 +128,8 @@ _CalculateAvailableQuests = function()
         end
 
         if currentQuestlog[questId] then
-            -- Mark all child quests as active when the parent quest is in the quest log
-            local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
-            if childQuests then
-                for _, childQuestId in pairs(childQuests) do
-                    if (not completedQuests[childQuestId]) and (not currentQuestlog[childQuestId]) then
-                        local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(childQuestId, "exclusiveTo")
-                        local blockedByExclusiveTo = false
-                        for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
-                            if QuestiePlayer.currentQuestlog[exclusiveToQuestId] or completedQuests[exclusiveToQuestId] then
-                                blockedByExclusiveTo = true
-                                break
-                            end
-                        end
-                        if (not blockedByExclusiveTo) then
-                            QuestieDB.activeChildQuests[childQuestId] = true
-                            availableQuests[childQuestId] = true
-                            -- Draw them right away and skip all other irrelevant checks
-                            _DrawAvailableQuest(childQuestId)
-                        end
-                    end
-                end
-            end
+            _DrawChildQuests(questId, currentQuestlog, completedQuests)
+
             if QuestieDB.IsComplete(questId) ~= -1 then -- The quest in the quest log is not failed, so we don't show it as available
                 return
             end
@@ -209,6 +189,36 @@ _CalculateAvailableQuests = function()
         if questCount > QUESTS_PER_YIELD then
             questCount = 0
             yield()
+        end
+    end
+end
+
+--- Mark all child quests as active when the parent quest is in the quest log
+---@param questId number
+---@param currentQuestlog table<number, boolean>
+---@param completedQuests table<number, boolean>
+_DrawChildQuests = function(questId, currentQuestlog, completedQuests)
+    local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
+    if (not childQuests) then
+        return
+    end
+
+    for _, childQuestId in pairs(childQuests) do
+        if (not completedQuests[childQuestId]) and (not currentQuestlog[childQuestId]) then
+            local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(childQuestId, "exclusiveTo")
+            local blockedByExclusiveTo = false
+            for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
+                if QuestiePlayer.currentQuestlog[exclusiveToQuestId] or completedQuests[exclusiveToQuestId] then
+                    blockedByExclusiveTo = true
+                    break
+                end
+            end
+            if (not blockedByExclusiveTo) then
+                QuestieDB.activeChildQuests[childQuestId] = true
+                availableQuests[childQuestId] = true
+                -- Draw them right away and skip all other irrelevant checks
+                _DrawAvailableQuest(childQuestId)
+            end
         end
     end
 end
