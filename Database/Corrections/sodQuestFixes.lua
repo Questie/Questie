@@ -2829,6 +2829,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410110,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90178] = {
+            [questKeys.name] = "Shared Pain",
+            [questKeys.startedBy] = {{40}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 6,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Kobold Miners to receive the rune."},
+            [questKeys.requiredSpell] = -402854,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
