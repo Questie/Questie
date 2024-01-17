@@ -273,6 +273,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90170] = true, -- Hunter Flanking Strike Durotar
     [90171] = true, -- Hunter Flanking Strike Mulgore
     [90172] = true, -- Hunter Beast Mastery Westfall
+    [90173] = true, -- Hunter Beast Mastery Darkshore
     [90174] = true, -- Hunter Beast Mastery Loch Modan
     [90175] = true, -- Hunter Beast Mastery Silverpine Forest
     [90176] = true, -- Hunter Beast Mastery The Barrens
@@ -314,6 +315,7 @@ local questsToBlacklistBySoDPhase = {
         [90158] = true, -- Hiding Priest Void Plague Durotar for now as there are too many icons
         [90165] = true, -- Hiding Priest Twisted Faith The Barrens for now as there are too many icons
         [90169] = true, -- Hiding Priest Power Word: Barrier Redridge Mountains for now as there are too many icons
+        [90173] = true, -- Hiding Hunter Beast Mastery Darkshore for now as there are too many icons
         [90175] = true, -- Hiding Hunter Beast Mastery Silverpine Forest for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
