@@ -2243,7 +2243,7 @@ function QuestieQuestFixes:Load()
         },
         [6382] = {
             [questKeys.preQuestSingle] = {882},
-            [questKeys.exclusiveTo] = {235,742},
+            [questKeys.exclusiveTo] = {235,742,6383},
         },
         [6383] = {
             [questKeys.preQuestSingle] = {},
