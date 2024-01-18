@@ -12,12 +12,6 @@ function SeasonOfDiscovery:LoadNPCs()
     local waypointPresets = QuestieDB.waypointPresets
 
     return {
-        [13157] = { -- Makasgar
-            [npcKeys.name] = "Makasgar",
-            [npcKeys.spawns] = {
-                [zoneIDs.DUROTAR] = {{62.0, 66.2}},
-            },
-        },
         [202060] = { -- Frozen Murloc
             [npcKeys.spawns] = {
                 [zoneIDs.ELWYNN_FOREST] = {{76.8, 51.4}},
