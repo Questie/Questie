@@ -27,14 +27,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [76160] = {
-            [questKeys.requiredClasses] = classIDs.SHAMAN,
             [questKeys.objectives] = {nil,nil,{{206175}}},
             [questKeys.preQuestSingle] = {76156},
             [questKeys.requiredSourceItems] = {206170},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [76240] = {
-            [questKeys.requiredClasses] = classIDs.SHAMAN,
             [questKeys.objectives] = {nil,nil,{{206345}}},
             [questKeys.preQuestSingle] = {76160},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
@@ -266,21 +264,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78132] = {
-            [questKeys.objectives] = {nil,nil,{{209872}}},
-            [questKeys.objectivesText] = {"Retrieve the Dragonslayer's Helm and bring it to Alonso in Ashenvale."},
-            [questKeys.requiredSpell] = -425444,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78133] = {
-            [questKeys.objectives] = {nil,nil,{{209873}}},
-            [questKeys.objectivesText] = {"Retrieve the Dragonslayer's Shield and bring it to Alonso in Ashenvale."},
-            [questKeys.requiredSpell] = -425444,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78134] = {
-            [questKeys.objectives] = {nil,nil,{{209874}}},
-            [questKeys.objectivesText] = {"Retrieve the Dragonslayer's Lance and bring it to Alonso in Ashenvale."},
-            [questKeys.requiredSpell] = -425444,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78142] = {
@@ -326,8 +315,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78150] = {
-            [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78192] = {
@@ -382,19 +369,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
         [78265] = {
-            [questKeys.objectivesText] = {"Bring 24 Fish Oil to Grizzby."},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
         [78266] = {
-            [questKeys.objectivesText] = {"Bring 20 Dark Iron Ordinance to Grizzby."},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
         [78267] = {
-            [questKeys.objectivesText] = {"Bring 16 Shredder Turbocharger to Grizzby."},
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
         [78270] = {
-            [questKeys.startedBy] = {{4086}},
             [questKeys.objectivesText] = {"Pickpocket the work order from Venture Co. Operators in Windshear Crag"},
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
             [questKeys.parentQuest] = 78261,
@@ -419,9 +402,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
         [78307] = {
+            [questKeys.finishedBy] = {{410369,}},
+            [questKeys.objectives] = {nil,nil,{{203994}}},
             [questKeys.preQuestSingle] = {78261},
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
-            [questKeys.requiredSpell] = -400080,
         },
         [78506] = {
             [questKeys.preQuestSingle] = {78920},
@@ -666,23 +650,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79483] = {
-            [questKeys.startedBy] = {{216924}},
-            [questKeys.finishedBy] = {{216915}},
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79484] = {
-            [questKeys.startedBy] = {{216915}},
-            [questKeys.finishedBy] = {{216902}},
-            [questKeys.objectives] = {nil,nil,{{17662}}},
             [questKeys.preQuestSingle] = {79482},
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79485] = {
-            [questKeys.startedBy] = {{216915}},
-            [questKeys.finishedBy] = {{216924}},
-            [questKeys.objectives] = {nil,nil,{{17662}}},
             [questKeys.preQuestSingle] = {79483},
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
@@ -696,17 +672,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79492] = {
-            [questKeys.startedBy] = {{216902}},
-            [questKeys.finishedBy] = {{216902}},
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{{21211}}},
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79495] = {
-            [questKeys.startedBy] = {{216924}},
-            [questKeys.finishedBy] = {{216924}},
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{{21211}}},
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
@@ -722,8 +692,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [79590] = {
-            [questKeys.startedBy] = {{14832}},
-            [questKeys.finishedBy] = {{14832}},
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1100},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 250}},
@@ -739,6 +707,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 250}},
         },
         [79593] = {
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 500},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
