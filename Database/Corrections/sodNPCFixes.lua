@@ -431,6 +431,9 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [217706] = { -- Kazragore
             [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{74.0, 60.6}},
+            },
         },
         [217707] = { -- Felore Moonray
             [npcKeys.friendlyToFaction] = "A",
