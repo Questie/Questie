@@ -280,6 +280,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90177] = true, -- Priest Shared Pain Dun Morogh
     [90178] = true, -- Priest Shared Pain Elwynn Forest
     [90179] = true, -- Priest Shared Pain Teldrassil
+    [90180] = true, -- Priest Shared Pain Durotar
     [90181] = true, -- Priest Shared Pain Tirisfal Glades
 }
 
