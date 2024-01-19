@@ -284,6 +284,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90181] = true, -- Priest Shared Pain Tirisfal Glades
     [90182] = true, -- Priest Homunculi Dun Morogh
     [90183] = true, -- Priest Homunculi Elwynn Forest
+    [90184] = true, -- Priest Homunculi Teldrassil
 }
 
 ---@param questId number
@@ -328,6 +329,7 @@ local questsToBlacklistBySoDPhase = {
         [90181] = true, -- Hiding Priest Shared Pain Tirisfal Glades for now as there are too many icons
         [90182] = true, -- Hiding Priest Homunculi Dun Morogh for now as there are too many icons
         [90183] = true, -- Hiding Priest Homunculi Elwynn Forest for now as there are too many icons
+        [90184] = true, -- Hiding Priest Homunculi Teldrassil for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
