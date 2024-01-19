@@ -2834,6 +2834,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402854,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90184] = {
+            [questKeys.name] = "Main Gauche",
+            [questKeys.startedBy] = {{211653}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Buy the Main Gauche rune from Grizzby."},
+            [questKeys.preQuestGroup] = {78265,78266,78267},
+            [questKeys.requiredSpell] = -424990,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 
