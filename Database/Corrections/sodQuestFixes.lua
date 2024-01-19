@@ -2846,6 +2846,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402854,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90181] = {
+            [questKeys.name] = "Shared Pain",
+            [questKeys.startedBy] = {{1934}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 6,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Tirisfal Farmers to receive the rune."},
+            [questKeys.requiredSpell] = -402854,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
