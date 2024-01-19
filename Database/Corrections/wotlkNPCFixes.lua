@@ -545,6 +545,10 @@ function QuestieWotlkNpcFixes:Load()
         [25938] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{33.4,30.53},},},
         },
+        [25969] = {
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{61.08,40.07},{59.59,39.21},{60.85,33.6},{61.12,30.14},{61.66,35.96},{63.38,37.0}}},
+            [npcKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
+        },
         [25975] = {
             [npcKeys.spawns] = {
                 [zoneIDs.TELDRASSIL]={{56.56,92.09}},
@@ -693,6 +697,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [26670] = {
             [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_KEEP]={{-1,-1}}},
+        },
+        [26678] = {
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{25.24,41.16}}},
+            [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
         [26691] = {
             [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_LOWER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL]={{-1,-1}},[zoneIDs.UTGARDE_KEEP]={{-1,-1}}},
@@ -908,6 +916,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [27788] = {
             [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{87.15,51.78},{84.73,50.04}}},
+            [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
+        [27840] = {
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{71.71,39.21}}},
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
         [27843] = {
@@ -1656,6 +1668,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.waypoints] = waypointPresets.THE_SKYBREAKER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [32327] = {
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{71.71,39.21}}},
+            [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
         [32370] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{68.05,51.83}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
@@ -2111,13 +2127,13 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
         [36954] = {
-            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{55.9,51.4},{-1,-1}}},
-            [npcKeys.waypoints] = {[zoneIDs.HALLS_OF_REFLECTION]={{{9.7,27},{73.6,73.2},{13.4,21.7},{16,19.2},{18,18.6},{20.2,19.4},{22.7,23.1},{25.3,26},{29.4,29.3},{35.1,33.2},{37.7,35.1},{49.1,44.8},{55.9,51.4},{60.1,57.6},{64.3,62.9},{69.2,68.3},{40.7,37.6},{43.7,40.4},{46.1,42.5},{52.2,48.3},{31.5,31},{27.1,27.6}}}},
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{73.6,73.2},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.HALLS_OF_REFLECTION]={{{73.6,73.2},{69.2,68.3},{64.3,62.9},{60.1,57.6},{55.9,51.4},{52.2,48.3},{49.1,44.8},{46.1,42.5},{43.7,40.4},{40.7,37.6},{37.7,35.1},{35.1,33.2},{31.5,31},{29.4,29.3},{27.1,27.6},{25.3,26},{22.7,23.1},{20.2,19.4},{18,18.6},{16,19.2},{13.4,21.7},{9.7,27}}}},
             [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
         },
         [36955] = {
-            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{73.1,73.2},{-1,-1}}},
-            [npcKeys.waypoints] = {[zoneIDs.HALLS_OF_REFLECTION]={{{10.4,28},{13.4,21.7},{16,19.2},{18,18.6},{20.2,19.4},{22.7,23.1},{25.3,26},{29.4,29.3},{35.1,33.2},{42.1,38.4},{49.1,44.8},{55.9,51.4},{60.1,57.6},{64.3,62.9},{69.2,68.3},{73.1,73.2}}}},
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{75.8,76.6},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.HALLS_OF_REFLECTION]={{{75.8,76.6},{73.1,73.2},{69.2,68.3},{64.3,62.9},{60.1,57.6},{55.9,51.4},{49.1,44.8},{42.1,38.4},{35.1,33.2},{29.4,29.3},{25.3,26},{22.7,23.1},{20.2,19.4},{18,18.6},{16,19.2},{13.4,21.7},{10.4,28}}}},
             [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
         },
         [36990] = {
@@ -2172,8 +2188,8 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_QUEL_DANAS,
         },
         [37554] = {
-            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{73.1,73.2},{-1,-1}}},
-            [npcKeys.waypoints] = {[zoneIDs.HALLS_OF_REFLECTION]={{{10.4,28},{13.4,21.7},{16,19.2},{18,18.6},{20.2,19.4},{22.7,23.1},{25.3,26},{29.4,29.3},{35.1,33.2},{42.1,38.4},{49.1,44.8},{55.9,51.4},{60.1,57.6},{64.3,62.9},{69.2,68.3},{73.1,73.2}}}},
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{75.8,76.6},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.HALLS_OF_REFLECTION]={{{75.8,76.6},{73.1,73.2},{69.2,68.3},{64.3,62.9},{60.1,57.6},{55.9,51.4},{49.1,44.8},{42.1,38.4},{35.1,33.2},{29.4,29.3},{25.3,26},{22.7,23.1},{20.2,19.4},{18,18.6},{16,19.2},{13.4,21.7},{10.4,28}}}},
             [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
         },
         [37591] = {
@@ -2181,7 +2197,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
         },
         [37592] = {
-            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{65.7,54.8},{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{65.7,54.8},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
         },
         [37596] = {

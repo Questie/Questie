@@ -1011,6 +1011,9 @@ function QuestieWotlkQuestFixes:Load()
         [11673] = {
             [questKeys.triggerEnd] = {"Bonker Togglevolt escorted to safety.",{[zoneIDs.BOREAN_TUNDRA]={{53.84,13.85,},},},},
         },
+        [11677] = {
+            [questKeys.objectives] = {nil,{{187879,"Plague Cauldron Neutralized"}}},
+        },
         [11686] = {
             [questKeys.objectives] = {nil,{{191697,"Scout Warsong Granary"},{191698,"Scout Torp's Farm"},{191699,"Scout Warsong Slaughterhouse"}}},
         },
@@ -1092,7 +1095,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11881] = {
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_EVENT, l10n("Use Jenny's Whistle near a crashed flying machine"),0,{{"monster", 25845},{"monster", 25846},{"monster", 25847}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Use Jenny's Whistle near a crashed flying machine"),0,{{"object", 188019}}},
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Return Jenny to safety without losing cargo"),0,{{"monster", 25849},}},
             },
         },
@@ -1103,7 +1106,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {11595,11596,11597},
         },
         [11890] = {
-            [questKeys.triggerEnd] = {"Fizzcrank Pumping Station environs inspected.",{[zoneIDs.BOREAN_TUNDRA]={{65.17,25.2,},},},},
+            [questKeys.triggerEnd] = {"Fizzcrank Pumping Station environs inspected.",{[zoneIDs.BOREAN_TUNDRA]={{64.38,23.81}}}},
         },
         [11893] = {
             [questKeys.objectives] = {{{24601}}},
@@ -1153,6 +1156,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11919] = {
             [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring the captured drake to Raelorasz"),0,{{"monster", 26117}}}},
         },
         [11930] = {
             [questKeys.triggerEnd] = {"Secure Passage to Dragonblight",{[zoneIDs.DRAGONBLIGHT]={{10.29,53.83,},},},},
@@ -1162,9 +1166,16 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11940] = {
             [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring the captured drake to Raelorasz"),0,{{"monster", 26117}}}},
         },
         [11945] = {
             [questKeys.reputationReward] = {{factionIDs.THE_KALUAK,500}},
+        },
+        [11946] = {
+            [questKeys.requiredSourceItems] = {35671},
+        },
+        [11951] = {
+            [questKeys.requiredSourceItems] = {35671},
         },
         [11956] = {
             [questKeys.extraObjectives] = {
@@ -1173,6 +1184,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [11957] = {
+            [questKeys.requiredSourceItems] = {35671,35690},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Talk to Keristrasza"),0,{{"monster", 26206}}},
                 {{[zoneIDs.BOREAN_TUNDRA]={{22,22.6}}}, Questie.ICON_TYPE_EVENT, l10n("Use Arcane Power Focus"),},
@@ -1183,6 +1195,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11960] = {
             [questKeys.reputationReward] = {{factionIDs.THE_KALUAK,500}},
+        },
+        [11967] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Keristrasza"),0,{{"monster", 26206}}}},
         },
         [11969] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Raelorasz' Spark"),0,{{"object", 194151}}}},
@@ -1281,7 +1296,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {12046,12047},
         },
         [12053] = {
-            [questKeys.triggerEnd] = {"Warsong Battle Standard Defended",{[zoneIDs.DRAGONBLIGHT]={{25.09,41.97,},},},},
+            [questKeys.objectives] = {{{26678,"Warsong Battle Standard Defended"}}},
         },
         [12055] = {
             [questKeys.startedBy] = {{26349},nil,{36742}},
@@ -1398,6 +1413,9 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Ring the gong outside Drakil'jin to summon Warlord Jin'arrak"),0,{{"object", 188510}}},
             },
         },
+        [12124] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a drake to the top of the temple"),1,{{"monster", 26443}}}},
+        },
         [12125] = {
             [questKeys.objectives] = {{{26411}},nil,{{36828}}},
         },
@@ -1435,6 +1453,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12150] = {
             [questKeys.objectives] = {{{27003,}}},
+        },
+        [12151] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{57.09,76.26}}}, Questie.ICON_TYPE_EVENT, l10n("Blow the horn"),0}},
         },
         [12152] = {
             [questKeys.extraObjectives] = {
@@ -1754,6 +1775,7 @@ function QuestieWotlkQuestFixes:Load()
         [12435] = { -- #4675
             [questKeys.name] = "Report to Lord Devrestrasz",
             [questKeys.objectivesText] = {"Speak with Lord Devrestrasz at Wyrmrest Temple."},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a drake to the middle of the temple"), 0, {{"monster", 26949}}}},
         },
         [12437] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ride the rocket!"), 0, {{"monster", 27593}}}},
@@ -1797,7 +1819,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [12470] = {
-            [questKeys.triggerEnd] = {"Hourglass of Eternity protected",{[zoneIDs.DRAGONBLIGHT]={{71.57,38.91,},},},},
+            [questKeys.objectives] = {{{27840,"Hourglass of Eternity protected"}}},
         },
         [12473] = {
             [questKeys.objectives] = {{{27383,"Thel'zan the Duskbringer Defeated"}}},
@@ -1927,6 +1949,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12544] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Soo-rahm's Incense"), 0, {{"object", 190507}}}},
+        },
+        [12545] = {
+            [questKeys.preQuestSingle] = {},
         },
         [12548] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{40.35,83.08,}}}, Questie.ICON_TYPE_EVENT, l10n("Travel through the Waygate"),}},
@@ -3672,7 +3697,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
         },
         [13343] = {
-            [questKeys.triggerEnd] = {"Hourglass of Eternity protected from the Infinite Dragonflight.",{[zoneIDs.DRAGONBLIGHT]={{71.74,39.17,},},},},
+            [questKeys.objectives] = {{{32327,"Hourglass of Eternity protected from the Infinite Dragonflight."}}},
         },
         [13344] = {
             [questKeys.objectives] = {{{32316}}},
@@ -3863,6 +3888,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13411] = {
             [questKeys.preQuestSingle] = {10124},
+        },
+        [13413] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 1, {{"monster", 32548}}}},
+        },
+        [13414] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 1, {{"monster", 32548}}}},
         },
         [13415] = {
             [questKeys.requiredSourceItems] = {41197,40971},
