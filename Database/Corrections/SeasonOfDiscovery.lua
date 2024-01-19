@@ -280,6 +280,10 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90177] = true, -- Priest Shared Pain Dun Morogh
     [90178] = true, -- Priest Shared Pain Elwynn Forest
     [90179] = true, -- Priest Shared Pain Teldrassil
+    [90180] = true, -- Priest Shared Pain Durotar
+    [90181] = true, -- Priest Shared Pain Tirisfal Glades
+    [90182] = true, -- Priest Homunculi Dun Morogh
+    [90183] = true, -- Priest Homunculi Elwynn Forest
     [90184] = true, -- Priest Homunculi Teldrassil
 }
 
@@ -322,6 +326,9 @@ local questsToBlacklistBySoDPhase = {
         [90173] = true, -- Hiding Hunter Beast Mastery Darkshore for now as there are too many icons
         [90175] = true, -- Hiding Hunter Beast Mastery Silverpine Forest for now as there are too many icons
         [90178] = true, -- Hiding Priest Shared Pain Elwynn Forest for now as there are too many icons
+        [90181] = true, -- Hiding Priest Shared Pain Tirisfal Glades for now as there are too many icons
+        [90182] = true, -- Hiding Priest Homunculi Dun Morogh for now as there are too many icons
+        [90183] = true, -- Hiding Priest Homunculi Elwynn Forest for now as there are too many icons
         [90184] = true, -- Hiding Priest Homunculi Teldrassil for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
