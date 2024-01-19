@@ -2834,6 +2834,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402854,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90184] = {
+            [questKeys.name] = "Homunculi",
+            [questKeys.startedBy] = {{2002,2003,2004,2005}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 6,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Grells to receive the rune."},
+            [questKeys.requiredSpell] = -402852,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
