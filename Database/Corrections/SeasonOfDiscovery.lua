@@ -280,6 +280,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90177] = true, -- Priest Shared Pain Dun Morogh
     [90178] = true, -- Priest Shared Pain Elwynn Forest
     [90179] = true, -- Priest Shared Pain Teldrassil
+    [90182] = true, -- Priest Homunculi Dun Morogh
 }
 
 ---@param questId number
@@ -321,6 +322,7 @@ local questsToBlacklistBySoDPhase = {
         [90173] = true, -- Hiding Hunter Beast Mastery Darkshore for now as there are too many icons
         [90175] = true, -- Hiding Hunter Beast Mastery Silverpine Forest for now as there are too many icons
         [90178] = true, -- Hiding Priest Shared Pain Elwynn Forest for now as there are too many icons
+        [90182] = true, -- Hiding Priest Homunculi Dun Morogh for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
