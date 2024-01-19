@@ -2858,6 +2858,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402854,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90182] = {
+            [questKeys.name] = "Homunculi",
+            [questKeys.startedBy] = {{1124,1397}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 8,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Frostmane Seers and Shadowcasters to receive the rune."},
+            [questKeys.requiredSpell] = -402852,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
