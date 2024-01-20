@@ -2925,6 +2925,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402852,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90187] = {
+            [questKeys.name] = "Shadow Word: Death",
+            [questKeys.startedBy] = {{572}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 19,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Leprithus to receive the rune."},
+            [questKeys.requiredSpell] = -402849,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 

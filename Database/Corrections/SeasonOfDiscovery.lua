@@ -290,6 +290,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90182] = true, -- Priest Homunculi Dun Morogh
     [90183] = true, -- Priest Homunculi Elwynn Forest
     [90184] = true, -- Priest Homunculi Teldrassil
+    [90187] = true, -- Priest Shadow Word: Death Westfall
 }
 
 ---@param questId number
@@ -335,6 +336,7 @@ local questsToBlacklistBySoDPhase = {
         [90182] = true, -- Hiding Priest Homunculi Dun Morogh for now as there are too many icons
         [90183] = true, -- Hiding Priest Homunculi Elwynn Forest for now as there are too many icons
         [90184] = true, -- Hiding Priest Homunculi Teldrassil for now as there are too many icons
+        [90187] = true, -- Hiding Priest Shadow Word: Death Westfall for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
