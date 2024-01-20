@@ -17,7 +17,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Buried Treasure",
             [objectKeys.zoneID] = 12,
             [objectKeys.spawns] = {
-                [12] = {{80.3, 79.1},},
+                [12] = {{80.3, 79.3},},
                 [14] = {{62.1, 94.8},},
                 [85] = {{52.9, 54},},
                 [141] = {{55.3, 90.8},},
@@ -47,7 +47,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Dusty Chest",
             [objectKeys.zoneID] = 1519,
             [objectKeys.spawns] = {
-                [1519] = {{61.4, 28.9},{61.9, 29.3},},
+                [1519] = {{61.4, 28.9},{61.7, 29.6},{61.9, 29.3},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -74,7 +74,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Defias Stashbox",
             [objectKeys.zoneID] = 12,
             [objectKeys.spawns] = {
-                [12] = {{52.4, 52},{52.6, 51.8},},
+                [12] = {{52.6, 51.8},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -84,11 +84,11 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.zoneID] = 1,
             [objectKeys.spawns] = {
                 [1] = {{53.3, 47.2},{53.4, 47.7},{53.5, 47.6},{54, 47.4},},
-                [12] = {{22.1, 73.8},{22.3, 73.1},{22.5, 73.2},{25.4, 69.6},{25.5, 70.1},{29.8, 74.8},{30.3, 73.1},{30.5, 73.9},{35.6, 83.7},{36.1, 80.4},{36.3, 80.7},{38, 75.4},{38.1, 75.5},{38.6, 75.6},{38.7, 75.1},{40.6, 74.4},{40.6, 74.7},},
-                [14] = {{35.9, 47.8},{40.9, 49},{41, 49.5},{41.5, 49},{55.1, 39.5},{55.9, 38.3},{56, 38.5},{56.2, 27.7},{56.3, 26.9},{56.7, 21.4},{56.7, 21.5},},
+                [12] = {{22.1, 73.8},{22.3, 73.1},{22.5, 73.2},{22.7, 73.5},{23.5, 74.9},{25.1, 69.9},{25.5, 70.1},{29.8, 74.8},{30.4, 72.9},{30.5, 73.9},{30.5, 75.4},{35.6, 83.7},{36, 80.6},{36.1, 80.4},{38.1, 75.1},{38.1, 75.5},{38.5, 76.2},{38.7, 75.1},{40, 72.7},{40.6, 74.4},{40.6, 74.7},},
+                [14] = {{35.9, 47.8},{36.1, 47.4},{40.9, 49.3},{41, 49.5},{41.5, 49},{55.1, 39.5},{56, 38.1},{56, 38.5},{56.2, 27.7},{56.4, 21.7},{56.4, 26.7},{56.5, 26.9},{56.7, 21.6},{56.8, 21.2},},
                 [85] = {{79.4, 64.6},{79.8, 65.2},{79.9, 65.5},},
                 [141] = {{39.8, 37.8},{39.8, 69.7},{43.8, 76.9},{54.7, 66},{62.6, 71.9},},
-                [215] = {{37.9, 54.7},{40.7, 53.1},{40.7, 53.8},{45.5, 37.1},{52, 39.2},{60.3, 67.4},},
+                [215] = {{38.3, 55.1},{40.7, 53.1},{40.7, 53.8},{45.5, 36.3},{45.5, 37.1},{52, 39.2},{52.7, 40.6},{60.2, 67.6},{60.3, 67.4},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -174,7 +174,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.zoneID] = 141,
             [objectKeys.spawns] = {
                 [141] = {{52.8, 78.8},},
-                [215] = {{35.7, 69.6},},
+                [215] = {{35.7, 69.5},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -281,7 +281,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Apothecary Society Primer",
             [objectKeys.zoneID] = 85,
             [objectKeys.spawns] = {
-                [85] = {{59.4, 52.3},{59.5, 52.3},},
+                [85] = {{59.4, 52.3},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -311,7 +311,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Dusty Chest",
             [objectKeys.zoneID] = 1537,
             [objectKeys.spawns] = {
-                [1537] = {{51.9, 12.8},},
+                [1537] = {{51.9, 12.8},{52, 13.6},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -501,7 +501,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Sunken Reliquary",
             [objectKeys.zoneID] = 38,
             [objectKeys.spawns] = {
-                [38] = {{36.8, 91.4},{36.8, 91.6},},
+                [38] = {{36.8, 91.6},{36.9, 91.4},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -602,7 +602,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Spear of Mannoroth",
             [objectKeys.zoneID] = 331,
             [objectKeys.spawns] = {
-                [331] = {{89.4, 77.1},{89.5, 76.9},},
+                [331] = {{89.4, 77.1},{89.5, 77},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = {78092},
@@ -681,7 +681,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Scrolls",
             [objectKeys.zoneID] = 38,
             [objectKeys.spawns] = {
-                [38] = {{77.4, 14},{77.5, 14.1},},
+                [38] = {{77.4, 14.1},{77.5, 14.1},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -690,7 +690,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Spellbook",
             [objectKeys.zoneID] = 10,
             [objectKeys.spawns] = {
-                [10] = {{16.5, 28.4},{16.7, 28.5},},
+                [10] = {{16.5, 28.4},{16.6, 28.5},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -813,7 +813,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Rusty Safe",
             [objectKeys.zoneID] = 28,
             [objectKeys.spawns] = {
-                [28] = {{59.4, 84.4},{59.4, 84.6},},
+                [28] = {{59.4, 84.4},{59.4, 84.6},{59.5, 84.5},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -861,7 +861,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Demonic Reliquary",
             [objectKeys.zoneID] = 44,
             [objectKeys.spawns] = {
-                [44] = {{80.2, 49.4},{80.2, 49.5},},
+                [44] = {{80.1, 49.5},{80.2, 49.4},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -870,7 +870,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Bough of Altek",
             [objectKeys.zoneID] = 148,
             [objectKeys.spawns] = {
-                [148] = {{56.2, 26.4},{56.2, 26.5},},
+                [148] = {{56.2, 26.4},{56.3, 26.5},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -897,7 +897,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Lighthouse Stash",
             [objectKeys.zoneID] = 148,
             [objectKeys.spawns] = {
-                [148] = {{32.8, 37.1},},
+                [148] = {{32.7, 37.1},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
