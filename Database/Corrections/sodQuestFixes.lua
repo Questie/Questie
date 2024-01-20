@@ -2925,6 +2925,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402852,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90186] = {
+            [questKeys.name] = "Homunculi",
+            [questKeys.startedBy] = {{1535,1536}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 6,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Scarlet Warriors and Missionaries to receive the rune."},
+            [questKeys.requiredSpell] = -402852,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
