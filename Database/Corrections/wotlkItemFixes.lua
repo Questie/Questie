@@ -163,8 +163,17 @@ function QuestieWotlkItemFixes:Load()
         [33558] = {
             [itemKeys.npcDrops] = {23967},
         },
+        [33621] = {
+            [itemKeys.class] = 12,
+        },
         [33634] = {
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [34023] = {
+            [itemKeys.class] = 12,
+        },
+        [34024] = {
+            [itemKeys.class] = 12,
         },
         [34070] = {
             [itemKeys.npcDrops] = {},
@@ -223,6 +232,9 @@ function QuestieWotlkItemFixes:Load()
         [34842] = {
             [itemKeys.npcDrops] = {25342,25343},
         },
+        [34908] = {
+            [itemKeys.class] = 12,
+        },
         [34909] = {
             [itemKeys.npcDrops] = {},
         },
@@ -238,11 +250,17 @@ function QuestieWotlkItemFixes:Load()
         [35126] = {
             [itemKeys.npcDrops] = {25841},
         },
+        [35222] = {
+            [itemKeys.npcDrops] = {25843},
+        },
         [35234] = {
             [itemKeys.npcDrops] = {},
         },
         [35276] = {
             [itemKeys.npcDrops] = {25841},
+        },
+        [35289] = {
+            [itemKeys.objectDrops] = {188086},
         },
         [35490] = {
             [itemKeys.npcDrops] = {26792},
@@ -276,6 +294,7 @@ function QuestieWotlkItemFixes:Load()
         },
         [35783] = {
             [itemKeys.npcDrops] = {26477},
+            [itemKeys.itemDrops] = {35792},
         },
         [35795] = {
             [itemKeys.npcDrops] = {},
@@ -301,6 +320,9 @@ function QuestieWotlkItemFixes:Load()
         [36759] = {
             [itemKeys.npcDrops] = {26608},
         },
+        [36760] = {
+            [itemKeys.class] = 12,
+        },
         [36765] = {
             [itemKeys.npcDrops] = {26809},
         },
@@ -312,6 +334,9 @@ function QuestieWotlkItemFixes:Load()
         },
         [36772] = {
             [itemKeys.objectDrops] = {190510},
+        },
+        [36803] = {
+            [itemKeys.npcDrops] = {},
         },
         [36852] = {
             [itemKeys.npcDrops] = {},

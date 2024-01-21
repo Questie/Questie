@@ -211,8 +211,9 @@ local function filterItem(itemID, itemInfo, containerGUID)
                 end
             end
         elseif containerType == "Item" then -- if container is an item
-            -- first check if container item is even in our DB
-            if not QuestieDB.QueryItemSingle(containerID, "name") then
+            -- first check if container item is even in our DB.
+            -- There were many reports for a containerID == 0, which does not help us as ContainerMissingFromItemDB report.
+            if containerID > 0 and (not QuestieDB.QueryItemSingle(containerID, "name")) then
                 return itemTripCodes.ContainerMissingFromItemDB
             end
 

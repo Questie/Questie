@@ -67,7 +67,13 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 
 local tinsert = table.insert
-local _WithinDates, _LoadDarkmoonFaire, _IsDarkmoonFaireActive
+local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD
+
+local DMF_LOCATIONS = {
+    NONE = 0,
+    MULGORE = 1,
+    ELWYNN_FOREST = 2,
+}
 
 function QuestieEvent:Load()
     local year = date("%y")
@@ -143,76 +149,108 @@ end
 
 ---@param dayOfMonth number
 ---@return boolean
-_IsDarkmoonFaireActive = function(dayOfMonth)
+_GetDarkmoonFaireLocation = function()
     if C_Calendar == nil then
         -- This is a band aid fix for private servers which do not support the `C_Calendar` API.
         -- They won't see Darkmoon Faire quests, but that's the price to pay.
         return false
     end
-    local baseInfo = C_Calendar.GetMonthInfo() -- In Era+SoD this returns `GetMinDate` (November 2004)
+
     local currentDate = C_DateAndTime.GetCurrentCalendarTime()
+
+    if Questie.IsSoD then
+        return _GetDarkmoonFaireLocationSoD(currentDate)
+    else
+        return _GetDarkmoonFaireLocationEra(currentDate)
+    end
+end
+
+_GetDarkmoonFaireLocationEra = function(currentDate)
+    local baseInfo = C_Calendar.GetMonthInfo() -- In Era+SoD this returns `GetMinDate` (November 2004)
     -- Calculate the offset in months from GetMinDate to make C_Calendar.GetMonthInfo return the correct month
     local monthOffset = (currentDate.year - baseInfo.year) * 12 + (currentDate.month - baseInfo.month)
     local firstWeekday = C_Calendar.GetMonthInfo(monthOffset).firstWeekday
 
+    local eventLocation = (currentDate.month % 2) == 0 and DMF_LOCATIONS.MULGORE or DMF_LOCATIONS.ELWYNN_FOREST
+
+    local dayOfMonth = currentDate.monthDay
     if firstWeekday == 1 then
         -- The 1st is a Sunday
-        if dayOfMonth >= 9 and dayOfMonth < 15 or (Questie.IsSoD and dayOfMonth >= 23 and dayOfMonth < 29) then
-            return true
+        if dayOfMonth >= 9 and dayOfMonth < 15 then
+            return eventLocation
         end
     elseif firstWeekday == 2 then
         -- The 1st is a Monday
-        if dayOfMonth >= 8 and dayOfMonth < 14 or (Questie.IsSoD and dayOfMonth >= 22 and dayOfMonth < 28) then
-            return true
+        if dayOfMonth >= 8 and dayOfMonth < 14 then
+            return eventLocation
         end
     elseif firstWeekday == 3 then
         -- The 1st is a Tuesday
-        if dayOfMonth >= 7 and dayOfMonth < 13 or (Questie.IsSoD and dayOfMonth >= 21 and dayOfMonth < 27) then
-            return true
+        if dayOfMonth >= 7 and dayOfMonth < 13 then
+            return eventLocation
         end
     elseif firstWeekday == 4 then
         -- The 1st is a Wednesday
-        if dayOfMonth >= 6 and dayOfMonth < 12 or (Questie.IsSoD and dayOfMonth >= 20 and dayOfMonth < 26) then
-            return true
+        if dayOfMonth >= 6 and dayOfMonth < 12 then
+            return eventLocation
         end
     elseif firstWeekday == 5 then
         -- The 1st is a Thursday
-        if dayOfMonth >= 5 and dayOfMonth < 11 or (Questie.IsSoD and dayOfMonth >= 19 and dayOfMonth < 25) then
-            return true
+        if dayOfMonth >= 5 and dayOfMonth < 11 then
+            return eventLocation
         end
     elseif firstWeekday == 6 then
         -- The 1st is a Friday
-        if dayOfMonth >= 4 and dayOfMonth < 10 or (Questie.IsSoD and dayOfMonth >= 18 and dayOfMonth < 24) then
-            return true
+        if dayOfMonth >= 4 and dayOfMonth < 10 then
+            return eventLocation
         end
     elseif firstWeekday == 7 then
         -- The 1st is a Saturday
-        if dayOfMonth >= 10 and dayOfMonth < 16 or (Questie.IsSoD and dayOfMonth >= 24 and dayOfMonth < 30) then
-            return true
+        if dayOfMonth >= 10 and dayOfMonth < 16 then
+            return eventLocation
         end
     end
 
-    return false
+    return DMF_LOCATIONS.NONE
+end
+
+-- DMF in SoD is every second week, starting on the 4th of December 2023
+_GetDarkmoonFaireLocationSoD = function(currentDate)
+    local initialStartDate = time({year=2023, month=12, day=4, hour=0, min=1}) -- The first time DMF started in SoD
+    local initialEndDate = time({year=2023, month=12, day=10, hour=23, min=59}) -- The first time DMF ended in SoD
+    currentDate = time({ year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = 0, min = 1 })
+
+    local eventDuration = initialEndDate - initialStartDate
+    local timeSinceStart = currentDate - initialStartDate
+
+    local positionInCurrentCycle = timeSinceStart % (eventDuration * 2) -- * 2 because the event repeats every two weeks
+
+    local isEventActive = positionInCurrentCycle < eventDuration
+
+    if (not isEventActive) then
+        return DMF_LOCATIONS.NONE
+    end
+
+    local weeksSinceStart = math.floor(timeSinceStart / eventDuration)
+
+    if weeksSinceStart % 4 == 0 then
+        return DMF_LOCATIONS.MULGORE
+    else
+        return DMF_LOCATIONS.ELWYNN_FOREST
+    end
 end
 
 --- https://classic.wowhead.com/guides/classic-darkmoon-faire#darkmoon-faire-location-and-schedule
 --- Darkmoon Faire starts its setup the first Friday of the month and will begin the following Monday.
 --- The faire ends the sunday after it has begun.
 _LoadDarkmoonFaire = function()
-    local currentDate = C_DateAndTime.GetCurrentCalendarTime()
-
-    if (not _IsDarkmoonFaireActive(currentDate.monthDay)) then
+    local eventLocation = _GetDarkmoonFaireLocation()
+    if (eventLocation == DMF_LOCATIONS.NONE) then
         return
     end
 
     -- TODO: Also handle Terrokar Forest starting with TBC
-    local isInMulgore
-    if Questie.IsSoD then
-        -- The first event of a month is always in Mulgore, the second in Elwynn Forest
-        isInMulgore = currentDate.monthDay < 16
-    else
-        isInMulgore = (currentDate.month % 2) == 0
-    end
+    local isInMulgore = eventLocation == DMF_LOCATIONS.MULGORE
 
     -- The faire is setting up right now or is already up
     local announcingQuestId = 7905 -- Alliance announcement quest
@@ -514,9 +552,8 @@ tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8788, "25/12", "2/1"}) -- A Ge
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8803, "25/12", "2/1"}) -- A Festive Gift
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8827, "25/12", "2/1"}) -- Winter's Presents
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8828, "25/12", "2/1"}) -- Winter's Presents
-
--- tinsert(QuestieEvent.eventQuests, {"-1006", 8861}) --New Year Celebrations!
--- tinsert(QuestieEvent.eventQuests, {"-1006", 8860}) --New Year Celebrations!
+tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8860, "31/12", "1/1"}) -- New Year Celebrations!
+tinsert(QuestieEvent.eventQuests, {"Winter Veil", 8861, "31/12", "1/1"}) -- New Year Celebrations!
 
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7902}) -- Vibrant Plumes
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7903}) -- Evil Bat Eyes

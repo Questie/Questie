@@ -22,6 +22,12 @@ function SeasonOfDiscovery:LoadItems()
         [204806] = {
             [itemKeys.npcDrops] = {706,946,1986},
         },
+        [206157] = {
+            [itemKeys.objectDrops] = {403041},
+        },
+        [206170] = {
+            [itemKeys.objectDrops] = {403105},
+        },
         [206469] = {
             [itemKeys.objectDrops] = {403718},
         },
@@ -29,7 +35,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {407247},
         },
         [208771] = {
-            [itemKeys.objectDrops] = {408718,414532},
+            [itemKeys.objectDrops] = {407453,408718,414532},
         },
         [209693] = { -- Alliance Blackfathom Pearl
             [itemKeys.relatedQuests] = {78916},
@@ -42,7 +48,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {409942,409949},
         },
         [210044] = {
-            [itemKeys.objectDrops] = {410020},
+            [itemKeys.objectDrops] = {410220},
         },
         [211452] = { -- Horde Blackfathom Pearl
             [itemKeys.relatedQuests] = {78917},

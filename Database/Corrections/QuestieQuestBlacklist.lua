@@ -9,7 +9,7 @@ function QuestieQuestBlacklist:Load()
         [7462] = true, -- Duplicate of 7877. See #1583
         [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
         [5658] = true, -- Touch of Weakness of Father Lankester -- See #1603
-        [2358] = true, -- Horns of Nez'ra is not in the game at this point. See #921
+        [2358] = QuestieCorrections.CLASSIC_AND_TBC, -- See #921
         [787] = true, -- The New Horde is not in the game. See #830
         [6606] = true, -- Quest is not in the game. See #1338
         [6072] = true, -- Ayanna Everstride doesn't start "Hunter's Path" (this quest is most likely simply not in the game) #700
@@ -27,7 +27,6 @@ function QuestieQuestBlacklist:Load()
         [4603] = true, -- Duplicate of 2953
         [4604] = true, -- Duplicate of 2953
         [8856] = true, -- Duplicate of 8497
-        [64143] = true, -- Duplicate of 9735
         [13053] = true, -- Removed
         [11402] = true, -- GM Island quest
         [11189] = true, -- Removed
@@ -1027,13 +1026,6 @@ function QuestieQuestBlacklist:Load()
         [9278] = true, -- Welcome!
         --[9681] = true, -- Replaced with [A Study in Power (64319)] changed in wotlk again. 64319+63866 only present in SWP patch
         --[9684] = true, -- Replaced with [Claiming the Light (63866)] changed in wotlk again. 64319+63866 only present in SWP patch
-        [9721] = true, -- Replaced with [A Summons from Lady Liadrin (64139)]
-        [9722] = true, -- Replaced with [The Master's Path (64140)]
-        [9723] = true, -- Replaced with [A Gesture of Commitment (64141)]
-        [9725] = true, -- Replaced with [A Demonstration of Loyalty (64142)]
-        [9735] = true, -- Replaced with [True Masters of the Light (64143)]
-        [9736] = true, -- Replaced with [True Masters of the Light (64144)]
-        [9737] = true, -- Replaced with [True Masters of the Light  (64145)]
         [9926] = true, -- FLAG Shadow Council/Warmaul Questline
         [10048] = true, -- A Handful of Magic Dust BETA
         [10049] = true, -- A Handful of Magic Dust BETA
@@ -1057,6 +1049,13 @@ function QuestieQuestBlacklist:Load()
         [64063] = true, -- Boosted character quest
         [64064] = true, -- Boosted character quest
         [64128] = true, -- Boosted character quest
+        [64139] = true, -- Horde pala mount quest chain
+        [64140] = true, -- Horde pala mount quest chain
+        [64141] = true, -- Horde pala mount quest chain
+        [64142] = true, -- Horde pala mount quest chain
+        [64143] = true, -- Horde pala mount quest chain
+        [64144] = true, -- Horde pala mount quest chain
+        [64145] = true, -- Horde pala mount quest chain
         [64217] = true, -- Boosted character quest
         [64845] = QuestieCorrections.TBC_AND_WOTLK, -- Alliance War Effort
         [70395] = true, -- First quest for boosted characters. Blocked to not show for others
@@ -1226,7 +1225,7 @@ function QuestieQuestBlacklist:Load()
         [13374] = true, -- Not in the game
         [13381] = true, -- Not in the game
         [13908] = true, -- Not in the game
-        [11585] = true, -- Duplicate of 11586
+        [11586] = true, -- Duplicate of 11585 (not entirely a duplicate but this is the easiest way to hide multiple quests)
         [11595] = true, -- Duplicate of 11596 and 11597 (not entirely a duplicate but this is the easiest way to hide multiple quests)
         [11597] = true, -- Duplicate of 11595 and 11596 (not entirely a duplicate but this is the easiest way to hide multiple quests)
         [12021] = true, -- Duplicate of 12067 and 12085 (not entirely a duplicate but this is the easiest way to hide multiple quests)
@@ -1462,8 +1461,8 @@ function QuestieQuestBlacklist:Load()
         --[24590] = true,
 
         --- Phase 5 Ruby Sanctum
-        [26012] = true, -- Trouble at Wyrmrest
-        [26013] = true, -- Assault on the Sanctum
+        --[26012] = true, -- Trouble at Wyrmrest
+        --[26013] = true, -- Assault on the Sanctum
 
         ----- SoD -------------- SoD quests --------------- SoD -----
         [79482] = true,
@@ -2180,16 +2179,16 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
 
         --! 3.3.2
         -- Raids -> Icecrown Citadel (3 -> 4812)
-        [24869] = true, --* Deprogramming (https://www.wowhead.com/wotlk/quest=24869)
-        [24870] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24870)
-        [24871] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24871)
-        [24873] = true, --* Residue Rendezvous (https://www.wowhead.com/wotlk/quest=24873)
-        [24874] = true, --* Blood Quickening (https://www.wowhead.com/wotlk/quest=24874)
-        [24875] = true, --* Deprogramming (https://www.wowhead.com/wotlk/quest=24875)
-        [24876] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24876)
-        [24877] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24877)
-        [24878] = true, --* Residue Rendezvous (https://www.wowhead.com/wotlk/quest=24878)
-        [24879] = true, --* Blood Quickening (https://www.wowhead.com/wotlk/quest=24879)
+        --[24869] = true, --* Deprogramming (https://www.wowhead.com/wotlk/quest=24869)
+        --[24870] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24870)
+        --[24871] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24871)
+        --[24873] = true, --* Residue Rendezvous (https://www.wowhead.com/wotlk/quest=24873)
+        --[24874] = true, --* Blood Quickening (https://www.wowhead.com/wotlk/quest=24874)
+        --[24875] = true, --* Deprogramming (https://www.wowhead.com/wotlk/quest=24875)
+        --[24876] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24876)
+        --[24877] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24877)
+        --[24878] = true, --* Residue Rendezvous (https://www.wowhead.com/wotlk/quest=24878)
+        --[24879] = true, --* Blood Quickening (https://www.wowhead.com/wotlk/quest=24879)
 
         -- World Events -> Love Is In The Air (9 -> -1004)
         [24541] = true, --* Pilfering Perfume (https://www.wowhead.com/wotlk/quest=24541) (Retail Data)

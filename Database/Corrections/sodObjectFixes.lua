@@ -10,9 +10,36 @@ function SeasonOfDiscovery:LoadObjects()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
+        [386675] = {
+            [objectKeys.spawns] = {
+                [1] = {{46.96,43.73}},
+                [12] = {{80.3, 79.1}},
+                [14] = {{62.1, 94.8}},
+                [85] = {{52.9, 54}},
+                [141] = {{55.3, 90.8}},
+            },
+        },
         [386691] = {
             [objectKeys.spawns] = {
                 [zoneIDs.IRONFORGE] = {{76, 10.4}},
+            },
+        },
+        [402215] = {
+            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+            [objectKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{33,24.7}},
+            },
+        },
+        [403041] = {
+            [objectKeys.zoneID] = zoneIDs.MULGORE,
+            [objectKeys.spawns] = {
+                [zoneIDs.MULGORE] = {{63.8,44.1}},
+            },
+        },
+        [403105] = {
+            [objectKeys.zoneID] = zoneIDs.MULGORE,
+            [objectKeys.spawns] = {
+                [zoneIDs.MULGORE] = {{31.2,22.8},{31,26.4},{32.4,27.6},{35,13.6},{38.2,9},{39.6,7},{51,7.2},{55.2,12},{55.8,16}},
             },
         },
         [403718] = {
@@ -26,10 +53,40 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.TIRISFAL_GLADES] = {{24.7, 59.4}},
             },
         },
+        [407117] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{44,22}},
+            },
+        },
+        [407120] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{48,40}},
+            },
+        },
         [407247] = {
             [objectKeys.zoneID] = zoneIDs.TELDRASSIL,
             [objectKeys.spawns] = {
                 [zoneIDs.TELDRASSIL] = {{57.06, 65.57},{58.05, 73.19},{59.63, 60.05},{61.09, 54.02},{63.88, 64.90},{64.89, 54.77},{65.64, 59.22},{66.56, 51.55},{67.36, 64.15},{69.56, 55.75}},
+            },
+        },
+        [407289] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{52.2,31.1}},
+            },
+        },
+        [407291] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{62.55,56.31}},
+            },
+        },
+        [407453] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{61.81,45.84}},
             },
         },
         [407454] = {
@@ -47,6 +104,26 @@ function SeasonOfDiscovery:LoadObjects()
         [407734] = {
             [objectKeys.spawns] = {
                 [zoneIDs.TELDRASSIL] = {{44.1, 61.2}},
+            },
+        },
+        [407844] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{35.8, 49.5}},
+            },
+        },
+        [407850] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{36.8, 91.4}},
+            },
+        },
+        [407918] = { -- Empty Trophy Display
+            [objectKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{83.6, 65.5}},
+            },
+        },
+        [408004] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{71.7, 21.4}},
             },
         },
         [408718] = {
@@ -134,6 +211,20 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.zoneID] = zoneIDs.WESTFALL,
             [objectKeys.spawns] = {
                 [zoneIDs.WESTFALL] = {{26,70}},
+            },
+        },
+        [450003] = {
+            [objectKeys.name] = "Thistlefur Dreamcatcher",
+            [objectKeys.zoneID] = zoneIDs.ASHENVALE,
+            [objectKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{38,26}},
+            },
+        },
+        [450004] = {
+            [objectKeys.name] = "Wishing Well",
+            [objectKeys.zoneID] = zoneIDs.LOCH_MODAN,
+            [objectKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{36.4,19.6}},
             },
         },
     }
