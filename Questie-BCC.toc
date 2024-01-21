@@ -79,9 +79,6 @@ Database\Corrections\tbcNPCFixes.lua
 Database\Corrections\tbcItemFixes.lua
 Database\Corrections\tbcObjectFixes.lua
 
-# Fake data
-Database\Corrections\fakeNPCs.lua
-
 # Compiler
 Database\compiler.lua
 

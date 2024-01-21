@@ -96,7 +96,7 @@ function QuestieQuestFixes:Load()
             [questKeys.name] = "Thunderbrew",
         },
         [136] = {
-            [questKeys.startedBy] = {{513,515,126,171,456,127,517,458,391,300036},nil,{1357}},
+            [questKeys.startedBy] = {{513,515,126,171,456,127,517,458,391},nil,{1357}},
         },
         [148] = {
             [questKeys.preQuestSingle] = {}, -- #1173
@@ -114,7 +114,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {148}, --#1173
         },
         [178] = {
-            [questKeys.startedBy] = {{429,431,432,433,434,568,579,703,947,300035},nil,{1962}},
+            [questKeys.startedBy] = {{429,431,432,433,434,568,579,703,947},nil,{1962}},
             [questKeys.objectivesText] = {"Bring the Faded Shadowhide Pendant to Theocritus the Mage. NOTE: This is a very rare drop!"},
         },
         [201] = {
@@ -873,7 +873,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Go to the bank in Darnassus, otherwise known as the Bough of the Eternals.", {[zoneIDs.DARNASSUS]={{41.31,43.54}}}},
         },
         [1480] = {
-            [questKeys.startedBy] = {{4663,4664,4665,4666,4667,4668,4705,13019,300034},nil,{20310}},
+            [questKeys.startedBy] = {{4663,4664,4665,4666,4667,4668,4705,13019},nil,{20310}},
         },
         [1483] = {
             [questKeys.exclusiveTo] = {1093},
@@ -1581,7 +1581,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {4342},
         },
         [4451] = {
-            [questKeys.startedBy] = {{8566,5840,5844,5846,15692,8504,300037},nil,{11818}},
+            [questKeys.startedBy] = {{8566,5840,5844,5846,15692,8504},nil,{11818}},
         },
         [4485] = {
             [questKeys.startedBy] = {{6179},nil,nil},

@@ -85,9 +85,6 @@ Database\Corrections\wotlkNPCFixes.lua
 Database\Corrections\wotlkItemFixes.lua
 Database\Corrections\wotlkObjectFixes.lua
 
-# Fake data
-Database\Corrections\fakeNPCs.lua
-
 # Compiler
 Database\compiler.lua
 

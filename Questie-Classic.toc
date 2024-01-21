@@ -87,9 +87,6 @@ Database\Corrections\sodNPCFixes.lua
 Database\Corrections\sodItemFixes.lua
 Database\Corrections\sodObjectFixes.lua
 
-# Fake data
-Database\Corrections\fakeNPCs.lua
-
 # Compiler
 Database\compiler.lua
 

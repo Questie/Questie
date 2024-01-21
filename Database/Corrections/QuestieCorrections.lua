@@ -309,9 +309,6 @@ function QuestieCorrections:Initialize(validationTables)
         _LoadCorrections("objectData", SeasonOfDiscovery:LoadObjects(), QuestieDB.objectKeysReversed, validationTables)
     end
 
-    -- Loading fake data which is used to manually show certain quests/NPCs
-    _LoadCorrections("npcData", FakeData:LoadNPCs(), QuestieDB.npcKeysReversed, validationTables)
-
     --- Corrections that apply to all versions
     _LoadCorrections("itemData", QuestieItemStartFixes:LoadAutomaticQuestStarts(), QuestieDB.itemKeysReversed, validationTables, true, true)
 

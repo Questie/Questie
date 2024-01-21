@@ -854,7 +854,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90008] = {
             [questKeys.name] = "Regeneration",
-            [questKeys.startedBy] = {{589,300000}},
+            [questKeys.startedBy] = {{589}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 14,
@@ -866,7 +866,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90009] = {
             [questKeys.name] = "Regeneration",
-            [questKeys.startedBy] = {{1867,300001}},
+            [questKeys.startedBy] = {{1867}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 14,
@@ -878,7 +878,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90010] = {
             [questKeys.name] = "Enlightenment",
-            [questKeys.startedBy] = {{202093,300002}},
+            [questKeys.startedBy] = {{202093}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 8,
             [questKeys.questLevel] = 8,
@@ -890,7 +890,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90011] = {
             [questKeys.name] = "Enlightenment",
-            [questKeys.startedBy] = {{208712,300003}},
+            [questKeys.startedBy] = {{208712}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 8,
             [questKeys.questLevel] = 8,
@@ -938,7 +938,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90015] = {
             [questKeys.name] = "Living Flame",
-            [questKeys.startedBy] = {{476,300004}},
+            [questKeys.startedBy] = {{476}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 6,
@@ -950,7 +950,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90016] = {
             [questKeys.name] = "Living Flame",
-            [questKeys.startedBy] = {{1124,1397,300005,300014}},
+            [questKeys.startedBy] = {{1124,1397}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 9,
@@ -962,7 +962,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90017] = {
             [questKeys.name] = "Living Flame",
-            [questKeys.startedBy] = {{3197,300006}},
+            [questKeys.startedBy] = {{3197}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 9,
@@ -974,7 +974,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90018] = {
             [questKeys.name] = "Living Flame",
-            [questKeys.startedBy] = {{1535,300007}},
+            [questKeys.startedBy] = {{1535}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 6,
@@ -999,7 +999,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90020] = {
             [questKeys.name] = "Living Bomb",
-            [questKeys.startedBy] = {{1166,300008}},
+            [questKeys.startedBy] = {{1166}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 13,
@@ -1036,7 +1036,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90023] = {
             [questKeys.name] = "Wild Strikes",
-            [questKeys.startedBy] = {{11910,11913,11912,11911,300009}},
+            [questKeys.startedBy] = {{11910,11913,11912,11911}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 15,
@@ -1188,7 +1188,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90035] = {
             [questKeys.name] = "Master Channeler",
-            [questKeys.startedBy] = {{2336,300031}},
+            [questKeys.startedBy] = {{2336}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 10,
@@ -1200,7 +1200,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90036] = {
             [questKeys.name] = "Master Channeler",
-            [questKeys.startedBy] = {{114,480,832,210501,300010,300011,300012}},
+            [questKeys.startedBy] = {{114,480,832,210501}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 10,
@@ -1596,7 +1596,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90069] = {
             [questKeys.name] = "Shadow Bolt Volley",
-            [questKeys.startedBy] = {{1974,1973,300032}},
+            [questKeys.startedBy] = {{1974,1973}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 18,
@@ -1788,7 +1788,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90085] = {
             [questKeys.name] = "Blade Dance",
-            [questKeys.startedBy] = {{1169,300033}},
+            [questKeys.startedBy] = {{1169}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 18,
