@@ -2925,6 +2925,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402852,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90188] = {
+            [questKeys.name] = "Shadow Word: Death",
+            [questKeys.startedBy] = {{209742}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 15,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Cast Dispel on Desert Mirage to receive the rune."},
+            [questKeys.requiredSpell] = -402849,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 

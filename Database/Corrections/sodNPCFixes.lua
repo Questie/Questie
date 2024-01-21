@@ -201,6 +201,11 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
         },
+        [209742] = { -- Desert Mirage
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{57.6, 35.8}},
+            },
+        },
         [209797] = { -- Bruuz
             [npcKeys.spawns] = {
                 [zoneIDs.THE_BARRENS] = {{64.8, 39.8}},
