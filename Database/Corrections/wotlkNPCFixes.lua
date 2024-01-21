@@ -775,6 +775,9 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
+        [26860] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{20.7,64.17}}},
+        },
         [26861] = {
             [npcKeys.spawns] = {[zoneIDs.UTGARDE_PINNACLE_UPPER_LEVEL] = {{40.9,53.4}},[1196] = {{-1,-1}}},
         },
@@ -804,6 +807,9 @@ function QuestieWotlkNpcFixes:Load()
         [26996] = { --"Awan Iceborn", "Grand Master Leatherworker"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
+        },
+        [27102] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{20.91,64.02}}},
         },
         [27126] = { --"Camp Oneqwah Brave"
             [npcKeys.friendlyToFaction] = "H",
@@ -1511,6 +1517,9 @@ function QuestieWotlkNpcFixes:Load()
         },
         [30997] = {
             [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_CITY]={{31.9,44.6}},[4100]={{-1,-1}}},
+        },
+        [31024] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_CULLING_OF_STRATHOLME_VILLAGE]={{83.8,59.9}},[4100]={{-1,-1}}},
         },
         [31054] = {
             [npcKeys.spawns] = {[zoneIDs.WINTERGRASP]={{72.66,31.67},{43.73,17.01}}},
