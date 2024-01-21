@@ -1440,7 +1440,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90056] = {
             [questKeys.name] = "Starsurge",
-            [questKeys.startedBy] = {{212186}},
+            [questKeys.startedBy] = {{212186,212209}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
