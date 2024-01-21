@@ -51,9 +51,6 @@ local QuestieWotlkItemFixes = QuestieLoader:ImportModule("QuestieWotlkItemFixes"
 ---@type QuestieWotlkObjectFixes
 local QuestieWotlkObjectFixes = QuestieLoader:ImportModule("QuestieWotlkObjectFixes")
 
----@type FakeData
-local FakeData = QuestieLoader:ImportModule("FakeData")
-
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 
