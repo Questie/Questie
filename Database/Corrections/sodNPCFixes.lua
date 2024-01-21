@@ -72,10 +72,6 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.ELWYNN_FOREST] = {{61.8, 47.6}},
             },
         },
-        [204068] = { -- Lady Sarevess
-            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
-            [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
-        },
         [204503] = { -- Dead Acolyte
             [npcKeys.spawns] = {
                 [zoneIDs.ELWYNN_FOREST] = {{56.4, 57.8}},
