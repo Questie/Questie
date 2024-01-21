@@ -295,12 +295,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78132] = {
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78133] = {
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78134] = {
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78142] = {
