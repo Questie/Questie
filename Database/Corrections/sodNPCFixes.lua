@@ -42,11 +42,6 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.STORMWIND_CITY] = {{22.6, 54.2}},
             },
         },
-        [204068] = { -- Lady Sarevess
-            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
-            [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
-
-        },
         [204070] = { -- Soboz
             [npcKeys.spawns] = {
                 [1] = {{42, 36.6}},
