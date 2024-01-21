@@ -19,9 +19,12 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local GetQuestGreenRange = GetQuestGreenRange
 local yield = coroutine.yield
+local tinsert = table.insert
 local NewThread = ThreadLib.ThreadSimple
 
 local QUESTS_PER_YIELD = 24
@@ -35,7 +38,7 @@ local availableQuests = {}
 
 local dungeons = ZoneDB:GetDungeons()
 
-local _CalculateAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable
+local _CalculateAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
 
 ---@param callback function | nil
 function AvailableQuests.CalculateAndDrawAll(callback)
@@ -271,41 +274,41 @@ _AddStarter = function(starter, quest, tooltipKey)
 
     local starterIcons = {}
     local starterLocs = {}
+    local alreadyAddedSpawns = {}
     for zone, spawns in pairs(starter.spawns) do
         if (zone and spawns) then
             local coords
             for spawnIndex = 1, #spawns do
-                if spawnIndex > 3 then
-                    -- Only draw the first 3 spawns
-                    break
-                end
                 coords = spawns[spawnIndex]
-                local data = {
-                    Id = quest.Id,
-                    Icon = _GetQuestIcon(quest),
-                    GetIconScale = _GetIconScaleForAvailable,
-                    IconScale = _GetIconScaleForAvailable(),
-                    Type = "available",
-                    QuestData = quest,
-                    Name = starter.name,
-                    IsObjectiveNote = false,
-                }
+                if _HasProperDistanceToAlreadyAddedSpawns(coords, alreadyAddedSpawns) then
+                    local data = {
+                        Id = quest.Id,
+                        Icon = _GetQuestIcon(quest),
+                        GetIconScale = _GetIconScaleForAvailable,
+                        IconScale = _GetIconScaleForAvailable(),
+                        Type = "available",
+                        QuestData = quest,
+                        Name = starter.name,
+                        IsObjectiveNote = false,
+                    }
 
-                if (coords[1] == -1 or coords[2] == -1) then
-                    local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
-                    if dungeonLocation then
-                        for _, value in ipairs(dungeonLocation) do
-                            QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                    if (coords[1] == -1 or coords[2] == -1) then
+                        local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
+                        if dungeonLocation then
+                            for _, value in ipairs(dungeonLocation) do
+                                QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                            end
                         end
-                    end
-                else
-                    local icon = QuestieMap:DrawWorldIcon(data, zone, coords[1], coords[2])
-                    if starter.waypoints then
-                        -- This is only relevant for waypoint drawing
-                        starterIcons[zone] = icon
-                        if not starterLocs[zone] then
-                            starterLocs[zone] = { coords[1], coords[2] }
+                    else
+                        local icon = QuestieMap:DrawWorldIcon(data, zone, coords[1], coords[2])
+                        if starter.waypoints then
+                            -- This is only relevant for waypoint drawing
+                            starterIcons[zone] = icon
+                            if not starterLocs[zone] then
+                                starterLocs[zone] = { coords[1], coords[2] }
+                            end
                         end
+                        tinsert(alreadyAddedSpawns, coords)
                     end
                 end
             end
@@ -334,6 +337,16 @@ _AddStarter = function(starter, quest, tooltipKey)
             end
         end
     end
+end
+
+_HasProperDistanceToAlreadyAddedSpawns = function(coords, alreadyAddedSpawns)
+    for _, alreadyAdded in pairs(alreadyAddedSpawns) do
+        local distance = QuestieLib.GetSpawnDistance(alreadyAdded, coords)
+        if distance < 30 then -- 30 seems like a good distance
+            return false
+        end
+    end
+    return true
 end
 
 _GetIconScaleForAvailable = function()
