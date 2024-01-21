@@ -275,6 +275,10 @@ _AddStarter = function(starter, quest, tooltipKey)
         if (zone and spawns) then
             local coords
             for spawnIndex = 1, #spawns do
+                if spawnIndex > 3 then
+                    -- Only draw the first 3 spawns
+                    break
+                end
                 coords = spawns[spawnIndex]
                 local data = {
                     Id = quest.Id,
