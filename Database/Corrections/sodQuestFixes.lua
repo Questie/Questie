@@ -295,12 +295,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78132] = {
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78133] = {
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78134] = {
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78142] = {
@@ -2639,7 +2642,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90161] = {
             [questKeys.name] = "Strength of Soul",
-            [questKeys.startedBy] = {{450003}},
+            [questKeys.startedBy] = {nil,{450003}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 23,
