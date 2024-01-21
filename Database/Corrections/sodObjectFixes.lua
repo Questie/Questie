@@ -132,6 +132,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.WESTFALL] = {{40.8,80.24}},
             },
         },
+        [408799] = {
+            [objectKeys.zoneID] = zoneIDs.WESTFALL,
+            [objectKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{26,69.5}},
+            },
+        },
         [409289] = {
             [objectKeys.spawns] = {
                 [zoneIDs.DARKSHORE] = {{56.2, 26.4},},
