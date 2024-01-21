@@ -43,6 +43,8 @@ local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 local QuestgiverFrame = QuestieLoader:ImportModule("QuestgiverFrame")
 ---@type QuestieDebugOffer
 local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
+---@type AvailableQuests
+local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
@@ -78,13 +80,13 @@ function QuestieEventHandler:RegisterLateEvents()
     -- Spell objectives
     Questie:RegisterEvent("NEW_RECIPE_LEARNED", function() -- Needed for some spells that don't necessarily appear in the spellbook, but are definitely spells
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED")
-        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+        AvailableQuests.CalculateAndDrawAll()
     end)
 
     -- TODO: This seems to fire constantly with the "Way of Earth" Shaman rune. Do we even need it?
     --Questie:RegisterEvent("SPELLS_CHANGED", function() -- Ensures map icon eligibility updates for quests with RequireSpell
     --    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] SPELLS_CHANGED")
-    --    QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+    --    AvailableQuests.CalculateAndDrawAll()
     --end)
 
     -- UI Quest Events
@@ -335,7 +337,7 @@ function _EventHandler:PlayerLevelUp(level)
     C_Timer.After(3, function()
         QuestiePlayer:SetPlayerLevel(level)
 
-        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+        AvailableQuests.CalculateAndDrawAll()
     end)
 
     QuestieJourney:PlayerLevelUp(level)
@@ -423,7 +425,7 @@ function _EventHandler:ChatMsgSkill()
     -- This needs to be done to draw new quests that just came available
     local isProfUpdate, isNewProfession = QuestieProfessions:Update()
     if isProfUpdate or isNewProfession then
-        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+        AvailableQuests.CalculateAndDrawAll()
     end
 
     -- Skill based Achievement updates
@@ -443,7 +445,7 @@ function _EventHandler:ChatMsgCompatFactionChange()
             QuestieTracker:Update()
         end)
 
-        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+        AvailableQuests.CalculateAndDrawAll()
     end
 end
 

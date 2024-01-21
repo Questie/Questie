@@ -100,10 +100,6 @@ function QuestieOptions:SetProfileValue(info, value)
     Questie.db.profile[info[#info]] = value
 end
 
-function QuestieOptions:AvailableQuestRedraw()
-    QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
-end
-
 function QuestieOptions:ClusterRedraw()
     Questie:Debug(Questie.DEBUG_INFO, "Clustering changed, redrawing!")
     --Redraw clusters here
