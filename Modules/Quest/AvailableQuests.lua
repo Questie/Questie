@@ -280,7 +280,7 @@ _AddStarter = function(starter, quest, tooltipKey)
             local coords
             for spawnIndex = 1, #spawns do
                 coords = spawns[spawnIndex]
-                if _HasProperDistanceToAlreadyAddedSpawns(coords, alreadyAddedSpawns) then
+                if #spawns == 1 or _HasProperDistanceToAlreadyAddedSpawns(coords, alreadyAddedSpawns) then
                     local data = {
                         Id = quest.Id,
                         Icon = _GetQuestIcon(quest),
