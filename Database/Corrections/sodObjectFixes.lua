@@ -229,24 +229,22 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.ASHENVALE] = {{36.4,19.6}},
             },
         },
-
-        -- Fake Rune Objects
-        [900000] = {
+        [450005] = {
             [objectKeys.spawns] = { -- Elwynn Forest Buried Treasure
                 [12] = {{80.3, 79.1}},
             },
         },
-        [900001] = {
+        [450006] = {
             [objectKeys.spawns] = { -- Durotar Buried Treasure
                 [14] = {{62.1, 94.8}},
             },
         },
-        [900002] = {
+        [450007] = {
             [objectKeys.spawns] = { -- Tirisfal Glades Buried Treasure
                 [85] = {{52.9, 54}},
             },
         },
-        [900003] = {
+        [450008] = {
             [objectKeys.spawns] = { -- Teldrassil Buried Treasure
                 [141] = {{55.3, 90.8}},
             },
