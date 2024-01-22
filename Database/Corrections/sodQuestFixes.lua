@@ -2964,6 +2964,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402849,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90188] = {
+            [questKeys.name] = "Shadow Word: Death",
+            [questKeys.startedBy] = {{209742}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 18,
+            [questKeys.questLevel] = 15,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Cast Dispel on Desert Mirage to receive the rune."},
+            [questKeys.requiredSpell] = -402849,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [90189] = {
             [questKeys.name] = "Shadow Word: Death",
             [questKeys.startedBy] = {{209908}},
@@ -2974,6 +2986,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.PRIEST,
             [questKeys.objectivesText] = {"Kneel at the Heretic Idol and receive the rune."},
             [questKeys.requiredSpell] = -402849,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [90191] = {
             [questKeys.name] = "Shadow Word: Death",
