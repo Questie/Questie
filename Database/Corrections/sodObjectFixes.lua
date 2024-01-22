@@ -249,5 +249,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [141] = {{55.3, 90.8}},
             },
         },
+        [450009] = {
+            [objectKeys.name] = "Secluded Grave",
+            [objectKeys.zoneID] = zoneIDs.DUSKWOOD,
+            [objectKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{90.9,30.5}},
+            },
+        },
     }
 end
