@@ -233,5 +233,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.ASHENVALE] = {{36.4,19.6}},
             },
         },
+        [450005] = {
+            [objectKeys.name] = "Secluded Grave",
+            [objectKeys.zoneID] = zoneIDs.DUSKWOOD,
+            [objectKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{90.9,30.5}},
+            },
+        },
     }
 end

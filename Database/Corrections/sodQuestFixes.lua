@@ -2928,6 +2928,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402852,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90192] = {
+            [questKeys.name] = "Circle of Healing",
+            [questKeys.startedBy] = {{215,909,910},{450005}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 24,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Loot Dark Insight from Defias, then use it on the Secluded Grave north east of Darkshire and receive the rune."},
+            [questKeys.requiredSpell] = -402859,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
