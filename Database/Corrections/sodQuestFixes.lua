@@ -2929,7 +2929,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [90194] = {
-            [questKeys.name] = "Circle of Healing",
+            [questKeys.name] = "Between the Eyes",
             [questKeys.startedBy] = {nil,{386777}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
