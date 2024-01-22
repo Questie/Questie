@@ -295,12 +295,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78132] = {
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78133] = {
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78134] = {
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [78142] = {
@@ -1440,7 +1443,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90056] = {
             [questKeys.name] = "Starsurge",
-            [questKeys.startedBy] = {{212186}},
+            [questKeys.startedBy] = {{212186,212209}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
@@ -2328,7 +2331,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90134] = {
             [questKeys.name] = "Quick Draw",
-            [questKeys.startedBy] = {nil,{386675}},
+            [questKeys.startedBy] = {nil,{450005}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 5,
@@ -2340,7 +2343,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90135] = {
             [questKeys.name] = "Quick Draw",
-            [questKeys.startedBy] = {nil,{386675}},
+            [questKeys.startedBy] = {nil,{450008}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 5,
@@ -2352,7 +2355,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90136] = {
             [questKeys.name] = "Quick Draw",
-            [questKeys.startedBy] = {nil,{386675}},
+            [questKeys.startedBy] = {nil,{450006}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 5,
@@ -2364,7 +2367,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90137] = {
             [questKeys.name] = "Quick Draw",
-            [questKeys.startedBy] = {nil,{386675}},
+            [questKeys.startedBy] = {nil,{450007}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 5,
@@ -2639,7 +2642,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90161] = {
             [questKeys.name] = "Strength of Soul",
-            [questKeys.startedBy] = {{450003}},
+            [questKeys.startedBy] = {nil,{450003}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 23,
@@ -2925,6 +2928,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402852,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90185] = {
+            [questKeys.name] = "Homunculi",
+            [questKeys.startedBy] = {{3206}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 8,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Voodoo Trolls to receive the rune."},
+            [questKeys.requiredSpell] = -402852,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [90186] = {
+            [questKeys.name] = "Homunculi",
+            [questKeys.startedBy] = {{1535,1536}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 6,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Scarlet Warriors and Missionaries to receive the rune."},
+            [questKeys.requiredSpell] = -402852,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [90189] = {
             [questKeys.name] = "Shadow Word: Death",
             [questKeys.startedBy] = {{209908}},
@@ -2935,7 +2962,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.PRIEST,
             [questKeys.objectivesText] = {"Kneel at the Heretic Idol and receive the rune."},
             [questKeys.requiredSpell] = -402849,
-            [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
     }
 end
