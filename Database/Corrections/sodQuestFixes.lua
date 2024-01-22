@@ -2331,7 +2331,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90134] = {
             [questKeys.name] = "Quick Draw",
-            [questKeys.startedBy] = {nil,{386675}},
+            [questKeys.startedBy] = {nil,{900000}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 5,
@@ -2343,7 +2343,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90135] = {
             [questKeys.name] = "Quick Draw",
-            [questKeys.startedBy] = {nil,{386675}},
+            [questKeys.startedBy] = {nil,{900003}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 5,
@@ -2355,7 +2355,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90136] = {
             [questKeys.name] = "Quick Draw",
-            [questKeys.startedBy] = {nil,{386675}},
+            [questKeys.startedBy] = {nil,{900001}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 5,
@@ -2367,7 +2367,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90137] = {
             [questKeys.name] = "Quick Draw",
-            [questKeys.startedBy] = {nil,{386675}},
+            [questKeys.startedBy] = {nil,{900002}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 5,
