@@ -10,13 +10,9 @@ function SeasonOfDiscovery:LoadObjects()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
-        [386675] = {
+        [386675] = { -- Dun Morogh Buried Treasure
             [objectKeys.spawns] = {
                 [1] = {{46.96,43.73}},
-                [12] = {{80.3, 79.1}},
-                [14] = {{62.1, 94.8}},
-                [85] = {{52.9, 54}},
-                [141] = {{55.3, 90.8}},
             },
         },
         [386691] = {
@@ -234,6 +230,26 @@ function SeasonOfDiscovery:LoadObjects()
             },
         },
         [450005] = {
+            [objectKeys.spawns] = { -- Elwynn Forest Buried Treasure
+                [12] = {{80.3, 79.1}},
+            },
+        },
+        [450006] = {
+            [objectKeys.spawns] = { -- Durotar Buried Treasure
+                [14] = {{62.1, 94.8}},
+            },
+        },
+        [450007] = {
+            [objectKeys.spawns] = { -- Tirisfal Glades Buried Treasure
+                [85] = {{52.9, 54}},
+            },
+        },
+        [450008] = {
+            [objectKeys.spawns] = { -- Teldrassil Buried Treasure
+                [141] = {{55.3, 90.8}},
+            },
+        },
+        [450009] = {
             [objectKeys.name] = "Secluded Grave",
             [objectKeys.zoneID] = zoneIDs.DUSKWOOD,
             [objectKeys.spawns] = {
