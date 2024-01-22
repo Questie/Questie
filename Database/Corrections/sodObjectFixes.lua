@@ -233,5 +233,10 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.ASHENVALE] = {{36.4,19.6}},
             },
         },
+        [450009] = {
+            [objectKeys.spawns] = { -- Ironforge Dusty Chest
+                [1537] = {{52.0,13.6}},
+            },
+        },
     }
 end
