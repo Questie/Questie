@@ -2987,6 +2987,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402859,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90195] = {
+            [questKeys.name] = "Between the Eyes",
+            [questKeys.startedBy] = {nil,{404830}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 10,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Loot the Dusty Chest and receive the rune."},
+            [questKeys.requiredSpell] = -400081,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 

@@ -295,6 +295,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90189] = true, -- Priest Shadow Word: Death Loch Modan
     [90191] = true, -- Priest Shadow Word: Death Darkshore
     [90192] = true, -- Priest Circle of Healing Duskwood
+    [90195] = true, -- Rogue Between the Eyes Orgrimmar
 }
 
 ---@param questId number
