@@ -2929,7 +2929,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.name] = "Shadow Word: Death",
             [questKeys.startedBy] = {{209742}},
             [questKeys.finishedBy] = nil,
-            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredLevel] = 18,
             [questKeys.questLevel] = 15,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PRIEST,
