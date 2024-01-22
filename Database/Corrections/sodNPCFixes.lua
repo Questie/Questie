@@ -211,6 +211,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TELDRASSIL] = {{56.6, 57.8}},
             },
         },
+        [209908] = { -- Heretic Idol
+            [npcKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{71.8, 27.0}},
+            },
+        },
         [209928] = { -- Mowgh
             [npcKeys.spawns] = {
                 [zoneIDs.TELDRASSIL] = {{48.0, 31.6}},
