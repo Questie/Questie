@@ -292,6 +292,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90184] = true, -- Priest Homunculi Teldrassil
     [90185] = true, -- Priest Homunculi Durotar
     [90186] = true, -- Priest Homunculi Tirisfal Glades
+    [90187] = true, -- Priest Shadow Word: Death Westfall
     [90189] = true, -- Priest Shadow Word: Death Loch Modan
     [90191] = true, -- Priest Shadow Word: Death Darkshore
     [90192] = true, -- Priest Circle of Healing Duskwood
