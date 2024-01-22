@@ -2930,7 +2930,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90193] = {
             [questKeys.name] = "Circle of Healing",
-            [questKeys.startedBy] = {nil,{450009}},
+            [questKeys.startedBy] = {nil,{405946}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 10,
