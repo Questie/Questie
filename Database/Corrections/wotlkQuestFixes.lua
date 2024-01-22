@@ -1458,6 +1458,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{57.09,76.26}}}, Questie.ICON_TYPE_EVENT, l10n("Blow the horn"),0}},
         },
         [12152] = {
+            [questKeys.requiredSourceItems] = {36870,36873,37063},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Place the Infused Drakkari Offering at the gongs outside Drakil'jin"),0,{{"object", 188510}}},
             },
@@ -1467,6 +1468,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12159] = {
             [questKeys.objectives] = {{{26891,"Miner at Rest"}}},
+        },
+        [12165] = {
+            [questKeys.sourceItemId] = 36849,
         },
         [12166] = {
             [questKeys.objectives] = {{{26616,"Blighted Elk's corpse cleansed"},{26643,"Rabid Grizzly's corpse cleansed"},},nil,nil,nil,},
@@ -1533,7 +1537,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12212},
         },
         [12211] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{27202,27203,27206},27203,"Scarlet Onslaught corpses picked clean"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{27202,27203,27206,27207,27209,27210,27211,27232,27233,27234,27235,27236,27237,27246,27247},27203,"Scarlet Onslaught corpses picked clean"}}},
         },
         [12213] = {
             [questKeys.preQuestSingle] = {12413},
@@ -1577,6 +1581,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {35797,38303},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Enduring Mojo"),0,{{"object", 190629}}}},
         },
+        [12240] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{68.29,74.29}}}, Questie.ICON_TYPE_EVENT, l10n("Release the termites"),0}},
+        },
         [12241] = {
             [questKeys.preQuestGroup] = {12229,12231},
         },
@@ -1593,6 +1600,9 @@ function QuestieWotlkQuestFixes:Load()
         [12249] = {
             [questKeys.objectives] = {{{26633,}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Tur Ragepaw to summon Ursoc"),0,{{"monster", 27328}}}},
+        },
+        [12252] = {
+            [questKeys.objectives] = {{{27209,"Torturer LeCraft fully questioned"},{27209}}}
         },
         [12255] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ride Flamebringer"),0,{{"monster", 27292}}}},
@@ -1639,7 +1649,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12271] = {
             [questKeys.startedBy] = {{27209},nil,{37432}},
-            [questKeys.preQuestSingle] = {12252},
+            [questKeys.preQuestSingle] = {12245},
         },
         [12272] = {
             [questKeys.preQuestSingle] = {12275},
@@ -1648,10 +1658,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{27237,},{27235,},{27234,},{27236,}}},
         },
         [12274] = {
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Abbey Bell Rope"),1,{{"object", 188713}}},
-                {nil, Questie.ICON_TYPE_TALK, l10n("High Abbot spoken with"),2,{{"monster", 27245}}},
-            },
+            [questKeys.objectives] = {nil,{{188713,"Abbey bell rung"}},nil,nil,{{{27245},27245,"High Abbot spoken with"}}},
         },
         [12277] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Mine Bomb here"),0,{{"object", 188711}}}},
@@ -3483,6 +3490,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13265] = {
             [questKeys.requiredSpell] = -59390,
+        },
+        [13267] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Begin the assault!"), 0, {{"monster", 31650}}}},
         },
         [13268] = {
             [questKeys.requiredSpell] = -59390,

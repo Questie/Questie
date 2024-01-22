@@ -23,6 +23,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type AvailableQuests
+local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -285,7 +287,7 @@ function QuestieMenu:Show(hideDelay)
         else
             Questie.db.profile.lowLevelStyle = Questie.LOWLEVEL_ALL
         end
-        QuestieOptions.AvailableQuestRedraw()
+        AvailableQuests.CalculateAndDrawAll()
     end, icon=QuestieLib.AddonPath.."Icons\\available_gray.blp", notCheckable=false, checked=Questie.db.profile.lowLevelStyle==Questie.LOWLEVEL_ALL, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, { text= l10n("Objective"), func = function()
         local value = not Questie.db.profile.enableObjectives

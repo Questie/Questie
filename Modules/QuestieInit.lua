@@ -75,6 +75,8 @@ local QuestXP = QuestieLoader:ImportModule("QuestXP")
 local Tutorial = QuestieLoader:ImportModule("Tutorial")
 ---@type WorldMapButton
 local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
+---@type AvailableQuests
+local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
 local coYield = coroutine.yield
 
@@ -331,7 +333,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     -- We do this last because it will run for a while and we don't want to block the rest of the init
     coYield()
-    QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+    AvailableQuests.CalculateAndDrawAll()
 
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Questie init done.")
 end
