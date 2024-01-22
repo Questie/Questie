@@ -290,6 +290,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90182] = true, -- Priest Homunculi Dun Morogh
     [90183] = true, -- Priest Homunculi Elwynn Forest
     [90184] = true, -- Priest Homunculi Teldrassil
+    [90197] = true, -- Rogue Between the Eyes Teldrassil
 }
 
 ---@param questId number
