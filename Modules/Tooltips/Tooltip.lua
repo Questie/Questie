@@ -51,9 +51,10 @@ function QuestieTooltips:RegisterObjectiveTooltip(questId, key, objective)
 end
 
 ---@param questId number
----@param npc table
+---@param name string The name of the object or NPC the tooltip should show on
+---@param starterId number The ID of the object or NPC the tooltip should show on
 ---@param key string @Either m_<npcId> or o_<objectId>
-function QuestieTooltips:RegisterQuestStartTooltip(questId, npc, key)
+function QuestieTooltips:RegisterQuestStartTooltip(questId, name, starterId, key)
     if not QuestieTooltips.lookupByKey[key] then
         QuestieTooltips.lookupByKey[key] = {};
     end
@@ -62,9 +63,10 @@ function QuestieTooltips:RegisterQuestStartTooltip(questId, npc, key)
     end
     local tooltip = {
         questId = questId,
-        npc = npc,
+        name = name,
+        starterId = starterId,
     };
-    QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. npc.name] = tooltip
+    QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. name .. " " .. starterId] = tooltip
     tinsert(QuestieTooltips.lookupKeysByQuestId[questId], key)
 end
 
@@ -120,8 +122,8 @@ function QuestieTooltips:RemoveQuest(questId)
             if (tooltipData.questId == questId and tooltipData.objective) then
                 QuestieTooltips.lookupByKey[key][tostring(tooltipData.questId) .. " " .. tooltipData.objective.Index] = nil
                 totalRemoved = totalRemoved + 1
-            elseif (tooltipData.questId == questId and tooltipData.npc) then
-                QuestieTooltips.lookupByKey[key][tostring(tooltipData.questId) .. " " .. tooltipData.npc.name] = nil
+            elseif (tooltipData.questId == questId and tooltipData.name) then
+                QuestieTooltips.lookupByKey[key][tostring(tooltipData.questId) .. " " .. tooltipData.name .. " " .. tooltipData.starterId] = nil
                 totalRemoved = totalRemoved + 1
             end
             totalCount = totalCount + 1
@@ -228,7 +230,7 @@ function QuestieTooltips:GetTooltip(key)
     if QuestieTooltips.lookupByKey[key] then
         local playerName = UnitName("player")
         for k, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
-            if tooltip.npc then
+            if tooltip.name then
                 if Questie.db.profile.showQuestsInNpcTooltip then
                     local questString = QuestieLib:GetColoredQuestName(tooltip.questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
                     tinsert(tooltipLines, questString)

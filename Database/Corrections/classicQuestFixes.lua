@@ -1131,6 +1131,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #1825
             [questKeys.exclusiveTo] = {2281}, -- #1817
         },
+        [2318] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [2358] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
