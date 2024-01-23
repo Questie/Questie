@@ -11,12 +11,9 @@ function SeasonOfDiscovery:LoadObjects()
 
     return {
         [386675] = {
+            [objectKeys.zoneID] = zoneIDs.DUN_MOROGH,
             [objectKeys.spawns] = {
-                [1] = {{46.96,43.73}},
-                [12] = {{80.3, 79.1}},
-                [14] = {{62.1, 94.8}},
-                [85] = {{52.9, 54}},
-                [141] = {{55.3, 90.8}},
+                [zoneIDs.DUN_MOROGH] = {{46.96,43.73}},
             },
         },
         [386691] = {
@@ -237,6 +234,41 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.zoneID] = zoneIDs.LOCH_MODAN,
             [objectKeys.spawns] = {
                 [zoneIDs.ASHENVALE] = {{36.4,19.6}},
+            },
+        },
+        [450005] = {
+            [objectKeys.name] = "Buried Treasure",
+            [objectKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
+            [objectKeys.spawns] = {
+                [zoneIDs.ELWYNN_FOREST] = {{80.3, 79.1}},
+            },
+        },
+        [450006] = {
+            [objectKeys.name] = "Buried Treasure",
+            [objectKeys.zoneID] = zoneIDs.DUROTAR,
+            [objectKeys.spawns] = {
+                [zoneIDs.DUROTAR] = {{62.1, 94.8}},
+            },
+        },
+        [450007] = {
+            [objectKeys.name] = "Buried Treasure",
+            [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
+            [objectKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES] = {{52.9, 54}},
+            },
+        },
+        [450008] = {
+            [objectKeys.name] = "Buried Treasure",
+            [objectKeys.zoneID] = zoneIDs.TELDRASSIL,
+            [objectKeys.spawns] = {
+                [zoneIDs.TELDRASSIL] = {{55.3, 90.8}},
+            },
+        },
+        [450009] = {
+            [objectKeys.name] = "Secluded Grave",
+            [objectKeys.zoneID] = zoneIDs.DUSKWOOD,
+            [objectKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{90.9,30.5}},
             },
         },
     }
