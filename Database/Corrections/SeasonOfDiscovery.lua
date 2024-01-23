@@ -299,6 +299,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90192] = true, -- Priest Circle of Healing Duskwood
     [90195] = true, -- Rogue Between the Eyes Orgrimmar
     [90197] = true, -- Rogue Between the Eyes Teldrassil
+    [90199] = true, -- Rogue Mutilate Teldrassil
 }
 
 ---@param questId number
