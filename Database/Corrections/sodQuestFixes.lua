@@ -3038,7 +3038,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90200] = {
             [questKeys.name] = "Mutilate",
-            [questKeys.startedBy] = {{6123}},
+            [questKeys.startedBy] = {{6123,208886}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 9,
