@@ -2622,7 +2622,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12885] = {
             [questKeys.preQuestSingle] = {12872},
-            [questKeys.nextQuestInChain] = 12930,
+            [questKeys.exclusiveTo] = {12930},
+            [questKeys.sourceItemId] = 40971,
         },
         [12886] = {
             [questKeys.objectives] = {{{29694}}},
@@ -2657,9 +2658,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
         },
         [12910] = {
+            [questKeys.sourceItemId] = 40971,
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Mount Frostbite to track scent"), 0, {{"monster", 29857}}},
             },
+        },
+        [12913] = {
+            [questKeys.sourceItemId] = 40971,
         },
         [12916] = {
             [questKeys.objectives] = {nil,{{400059,"Scourge Enclosure Blown Up"}}},
@@ -2679,11 +2684,21 @@ function QuestieWotlkQuestFixes:Load()
         [12925] = {
             [questKeys.preQuestSingle] = {12905},
         },
+        [12926] = {
+            [questKeys.sourceItemId] = 40971,
+            [questKeys.requiredSourceItems] = {40971,41130},
+        },
         [12927] = {
-            [questKeys.objectives] = {{{29746}}},
+            [questKeys.requiredSourceItems] = {40971,41179},
+            [questKeys.objectives] = {{{29746,"Hidden Data gathered"}}},
+        },
+        [12928] = {
+            [questKeys.requiredSourceItems] = {40971,44704},
         },
         [12929] = {
+            [questKeys.preQuestSingle] = {12928},
             [questKeys.exclusiveTo] = {12930},
+            [questKeys.sourceItemId] = 40971,
         },
         [12932] = { -- This is the version of the quest you get if you have NOT completed 9977
             [questKeys.objectives] = {{{30014,"Yggdras Defeated"}}},
@@ -3506,6 +3521,13 @@ function QuestieWotlkQuestFixes:Load()
         [13272] = {
             [questKeys.requiredSpell] = -59390,
         },
+        [13273] = {
+            [questKeys.preQuestSingle] = {12928},
+            [questKeys.sourceItemId] = 40971,
+        },
+        [13274] = {
+            [questKeys.sourceItemId] = 40971,
+        },
         [13276] = {
             [questKeys.objectives] = {{{31142,"Icy Ghouls Exploded"},{31147,"Vicious Geists Exploded"},{31205,"Risen Alliance Soldiers Exploded"}}},
             [questKeys.preQuestSingle] = {13264},
@@ -3543,6 +3565,10 @@ function QuestieWotlkQuestFixes:Load()
         [13284] = {
             [questKeys.preQuestSingle] = {13341},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{31701,31737},31701,"Alliance troops escorted to Ymirheim"}}},
+        },
+        [13285] = {
+            [questKeys.sourceItemId] = 40971,
+            [questKeys.requiredSourceItems] = {},
         },
         [13286] = {
             [questKeys.preQuestSingle] = {13231},
@@ -3906,6 +3932,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 1, {{"monster", 32548}}}},
         },
         [13415] = {
+            [questKeys.requiredSourceItems] = {41197,40971},
+        },
+        [13416] = {
             [questKeys.requiredSourceItems] = {41197,40971},
         },
         [13418] = {
