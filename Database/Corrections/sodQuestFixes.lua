@@ -3020,7 +3020,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 10,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.ROGUE,
-            [questKeys.objectivesText] = {"Loot the Dusty Chest and receive the rune."},
+            [questKeys.objectivesText] = {"Loot the Dusty Chest, two level 10 mobs will spawn, kill them and receive the rune."},
             [questKeys.requiredSpell] = -400081,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         [90195] = {
@@ -3031,7 +3031,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 10,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.ROGUE,
-            [questKeys.objectivesText] = {"Loot the Dusty Chest, two level 10 mobs will spawn, kill them and receive the rune."},
+            [questKeys.objectivesText] = {"Loot the Dusty Chest and receive the rune."},
             [questKeys.requiredSpell] = -400081,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
