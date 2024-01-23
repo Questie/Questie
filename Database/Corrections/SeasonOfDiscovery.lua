@@ -290,6 +290,15 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90182] = true, -- Priest Homunculi Dun Morogh
     [90183] = true, -- Priest Homunculi Elwynn Forest
     [90184] = true, -- Priest Homunculi Teldrassil
+    [90185] = true, -- Priest Homunculi Durotar
+    [90186] = true, -- Priest Homunculi Tirisfal Glades
+    [90187] = true, -- Priest Shadow Word: Death Westfall
+    [90188] = true, -- Priest Shadow Word: Death The Barrens
+    [90189] = true, -- Priest Shadow Word: Death Loch Modan
+    [90191] = true, -- Priest Shadow Word: Death Darkshore
+    [90192] = true, -- Priest Circle of Healing Duskwood
+    [90195] = true, -- Rogue Between the Eyes Orgrimmar
+    [90197] = true, -- Rogue Between the Eyes Teldrassil
     [90198] = true, -- Rogue Envenom Hillsbrad Foothills
 }
 
@@ -336,6 +345,9 @@ local questsToBlacklistBySoDPhase = {
         [90182] = true, -- Hiding Priest Homunculi Dun Morogh for now as there are too many icons
         [90183] = true, -- Hiding Priest Homunculi Elwynn Forest for now as there are too many icons
         [90184] = true, -- Hiding Priest Homunculi Teldrassil for now as there are too many icons
+        [90185] = true, -- Hiding Priest Homunculi Durotar for now as there are too many icons
+        [90186] = true, -- Hiding Priest Homunculi Tirisfal Glades for now as there are too many icons
+        [90192] = true, -- Hiding Priest Circle of Healing Duskwood for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
