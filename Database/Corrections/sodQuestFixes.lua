@@ -3023,6 +3023,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Loot the Dusty Chest, two level 10 mobs will spawn, kill them and receive the rune."},
             [questKeys.requiredSpell] = -400081,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
         [90195] = {
             [questKeys.name] = "Between the Eyes",
             [questKeys.startedBy] = {nil,{404830}},
