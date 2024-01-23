@@ -3036,6 +3036,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400081,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90202] = {
+            [questKeys.name] = "Shamanistic Rage",
+            [questKeys.startedBy] = {{212837}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Kill the Primordial Anomaly which can spawn around The Charred Vale. It shifts forms so you must use different schools of magic to kill it. Loot it to receive the rune."},
+            [questKeys.requiredSpell] = -425343,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 

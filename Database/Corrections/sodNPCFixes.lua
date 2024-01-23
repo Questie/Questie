@@ -371,6 +371,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.SILVERPINE_FOREST] = {{59.6,71.4}},
             },
         },
+        [212837] = { -- Primordial Anomaly
+            [npcKeys.spawns] = {
+                [zoneIDs.STONETALON_MOUNTAINS] = {{32.6, 67.6}},
+            },
+        },
         [212969] = { -- Kazragore
             [npcKeys.spawns] = {
                 [zoneIDs.ASHENVALE] = {{39.4, 67.2}},
