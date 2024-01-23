@@ -2930,7 +2930,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90196] = {
             [questKeys.name] = "Between the Eyes",
-            [questKeys.startedBy] = {{1543,1544},{405201}},
+            [questKeys.startedBy] = {nil,{405201}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 7,

@@ -44,6 +44,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.MULGORE] = {{37.81, 65.45},{38.17, 57.14},{39.85, 51.63},{41.39, 63.2},{45.01, 46.77},{50.97, 46.03},{51.77, 67.3},{53.29, 63.13},{54.31, 58.05},{58.41, 66.64},{58.85, 51.32}},
             },
         },
+        [405201] = { -- Shipwreck Cache Tirisfal Glades
+            [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
+            [objectKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES] = {{66.7, 24.6}},
+            },
+        },
         [406736] = {
             [objectKeys.spawns] = {
                 [zoneIDs.TIRISFAL_GLADES] = {{24.7, 59.4}},
