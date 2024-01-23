@@ -3036,6 +3036,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400081,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90203] = {
+            [questKeys.name] = "Way of Earth",
+            [questKeys.startedBy] = {{209742}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 12,
+            [questKeys.questLevel] = 15,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Cast Purge on Desert Mirage to receive the rune."},
+            [questKeys.requiredSpell] = -410107,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 
