@@ -3116,7 +3116,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 9,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.ROGUE,
-            [questKeys.objectivesText] = {"Kill Dark Iron Spies until Blackrats Note drops, then hand it in to Blackrat to receive the rune."},
+            [questKeys.objectivesText] = {"Kill Dark Iron Spies until Blackrats Note drops, then hand it in to Blackrat at Misty Pine Refuge to receive the rune."},
             [questKeys.requiredSpell] = -400094,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
