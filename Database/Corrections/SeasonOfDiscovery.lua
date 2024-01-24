@@ -308,6 +308,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90200] = true, -- Rogue Mutilate Dun Morogh
     [90201] = true, -- Rogue Shiv Duskwood
     [90202] = true, -- Shaman Shamanistic Rage Stonetalon Mountains
+    [90203] = true, -- Shaman Way of Earth The Barrens
 }
 
 ---@param questId number
