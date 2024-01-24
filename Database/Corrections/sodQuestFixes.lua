@@ -3060,6 +3060,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400081,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90196] = {
+            [questKeys.name] = "Between the Eyes",
+            [questKeys.startedBy] = {nil,{405201}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 7,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Pickpocket the Shipwreck Cache Key from nearby Vile Fin Murlocs, and use it on the Shipwreck Cache next to the ship and receive the rune."},
+            [questKeys.requiredSpell] = -400081,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
         [90197] = {
             [questKeys.name] = "Between the Eyes",
             [questKeys.startedBy] = {nil,{407352}},

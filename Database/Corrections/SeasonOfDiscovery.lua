@@ -301,6 +301,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90193] = true, -- Rogue Between the Eyes Ironforge
     [90194] = true, -- Rogue Between the Eyes Stormwind
     [90195] = true, -- Rogue Between the Eyes Orgrimmar
+    [90196] = true, -- Rogue Between the Eyes Tirisfal Glades
     [90197] = true, -- Rogue Between the Eyes Teldrassil
 }
 
