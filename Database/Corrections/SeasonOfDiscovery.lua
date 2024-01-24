@@ -295,10 +295,17 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90187] = true, -- Priest Shadow Word: Death Westfall
     [90188] = true, -- Priest Shadow Word: Death The Barrens
     [90189] = true, -- Priest Shadow Word: Death Loch Modan
+    [90190] = true, -- Priest Shadow Word: Death Silverpine Forest
     [90191] = true, -- Priest Shadow Word: Death Darkshore
     [90192] = true, -- Priest Circle of Healing Duskwood
+    [90193] = true, -- Rogue Between the Eyes Ironforge
+    [90194] = true, -- Rogue Between the Eyes Stormwind
     [90195] = true, -- Rogue Between the Eyes Orgrimmar
+    [90196] = true, -- Rogue Between the Eyes Tirisfal Glades
     [90197] = true, -- Rogue Between the Eyes Teldrassil
+    [90198] = true, -- Rogue Envenom Hillsbrad Foothills
+    [90199] = true, -- Rogue Mutilate Teldrassil
+    [90200] = true, -- Rogue Mutilate Dun Morogh
     [90201] = true, -- Rogue Shiv Duskwood
 }
 
@@ -348,6 +355,7 @@ local questsToBlacklistBySoDPhase = {
         [90185] = true, -- Hiding Priest Homunculi Durotar for now as there are too many icons
         [90186] = true, -- Hiding Priest Homunculi Tirisfal Glades for now as there are too many icons
         [90192] = true, -- Hiding Priest Circle of Healing Duskwood for now as there are too many icons
+        [90200] = true, -- Hiding Rogue Mutilate Dun Morogh for now as there are too many icons
         [90201] = true, -- Hiding Rogue Shiv Duskwood for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
