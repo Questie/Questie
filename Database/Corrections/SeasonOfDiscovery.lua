@@ -304,6 +304,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90196] = true, -- Rogue Between the Eyes Tirisfal Glades
     [90197] = true, -- Rogue Between the Eyes Teldrassil
     [90198] = true, -- Rogue Envenom Hillsbrad Foothills
+    [90199] = true, -- Rogue Mutilate Teldrassil
 }
 
 ---@param questId number

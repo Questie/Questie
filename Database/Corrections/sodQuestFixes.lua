@@ -3096,6 +3096,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400102,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90199] = {
+            [questKeys.name] = "Mutilate",
+            [questKeys.startedBy] = {{2038}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 8,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Kill Lord Melanas and loot the rune."},
+            [questKeys.requiredSpell] = -400094,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 
