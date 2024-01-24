@@ -3036,6 +3036,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400081,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90203] = {
+            [questKeys.name] = "Way of Earth",
+            [questKeys.startedBy] = {{1773}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 15,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Kill Rot Hide Mystics until a Rot Totem drops, use it to spawn a level 15 elite. Kill it to receieve the rune."},
+            [questKeys.requiredSpell] = -410107,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 
