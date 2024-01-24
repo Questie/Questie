@@ -305,6 +305,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90197] = true, -- Rogue Between the Eyes Teldrassil
     [90198] = true, -- Rogue Envenom Hillsbrad Foothills
     [90199] = true, -- Rogue Mutilate Teldrassil
+    [90200] = true, -- Rogue Mutilate Dun Morogh
 }
 
 ---@param questId number
@@ -353,6 +354,7 @@ local questsToBlacklistBySoDPhase = {
         [90185] = true, -- Hiding Priest Homunculi Durotar for now as there are too many icons
         [90186] = true, -- Hiding Priest Homunculi Tirisfal Glades for now as there are too many icons
         [90192] = true, -- Hiding Priest Circle of Healing Duskwood for now as there are too many icons
+        [90200] = true, -- Hiding Rogue Mutilate Dun Morogh for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
