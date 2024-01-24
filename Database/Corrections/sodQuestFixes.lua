@@ -3036,6 +3036,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400081,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90194] = {
+            [questKeys.name] = "Between the Eyes",
+            [questKeys.startedBy] = {nil,{386777}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 10,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Loot the Dusty Chest, two level 10 mobs will spawn, kill them and receive the rune."},
+            [questKeys.requiredSpell] = -400081,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
         [90195] = {
             [questKeys.name] = "Between the Eyes",
             [questKeys.startedBy] = {nil,{404830}},
