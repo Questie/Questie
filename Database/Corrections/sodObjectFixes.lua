@@ -51,6 +51,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.MULGORE] = {{37.81, 65.45},{38.17, 57.14},{39.85, 51.63},{41.39, 63.2},{45.01, 46.77},{50.97, 46.03},{51.77, 67.3},{53.29, 63.13},{54.31, 58.05},{58.41, 66.64},{58.85, 51.32}},
             },
         },
+        [405946] = {
+            [objectKeys.zoneID] = zoneIDs.IRONFORGE,
+            [objectKeys.spawns] = {
+                [zoneIDs.IRONFORGE] = {{52.0, 13.6}},
+            },
+        },
         [406736] = {
             [objectKeys.spawns] = {
                 [zoneIDs.TIRISFAL_GLADES] = {{24.7, 59.4}},
@@ -191,6 +197,11 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.zoneID] = zoneIDs.DUSKWOOD,
             [objectKeys.spawns] = {
                 [zoneIDs.DUSKWOOD] = {{17,37.6}},
+            },
+        },
+        [411674] = { -- Prophecy of a King's Demise
+            [objectKeys.spawns] = {
+                [130] = {{65.8, 23.4}},
             },
         },
         [414658] = {
