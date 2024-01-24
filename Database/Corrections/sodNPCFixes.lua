@@ -210,6 +210,11 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
         },
+        [209742] = { -- Desert Mirage
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{57.6, 35.8}},
+            },
+        },
         [209797] = { -- Bruuz
             [npcKeys.spawns] = {
                 [zoneIDs.THE_BARRENS] = {{64.8, 39.8}},
@@ -218,6 +223,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [209872] = { -- Syllart
             [npcKeys.spawns] = {
                 [zoneIDs.TELDRASSIL] = {{56.6, 57.8}},
+            },
+        },
+        [209908] = { -- Heretic Idol
+            [npcKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{71.8, 27.0}},
             },
         },
         [209928] = { -- Mowgh

@@ -1141,6 +1141,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #1825
             [questKeys.exclusiveTo] = {2281}, -- #1817
         },
+        [2318] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [2358] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -3722,6 +3725,9 @@ function QuestieQuestFixes:Load()
         },
         [9120] = {
             [questKeys.startedBy] = {{15990},nil,{22520}},
+        },
+        [9121] = {
+            [questKeys.requiredMinRep] = {529,0},
         },
         [9124] = {
             [questKeys.requiredMinRep] = {529,3000},
