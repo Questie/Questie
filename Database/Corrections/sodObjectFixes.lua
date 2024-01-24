@@ -22,7 +22,6 @@ function SeasonOfDiscovery:LoadObjects()
             },
         },
         [386777] = { -- Dusty Chest Stormwind
-            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
             [objectKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY] = {{61.9, 29.3}},
             },
