@@ -3084,6 +3084,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400081,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90198] = {
+            [questKeys.name] = "Envenom",
+            [questKeys.startedBy] = {{3536},{410847}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Buy a Hot Tip from Kris Legace, and use it on the Rusty Safe under the waterfall in Western Plaguelands to receive the rune."},
+            [questKeys.requiredSpell] = -400102,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 

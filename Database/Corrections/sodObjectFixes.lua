@@ -197,6 +197,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.DUSKWOOD] = {{49.5, 33.8}},
             },
         },
+        [410847] = { -- Rusty Safe Western Plaguelands
+            [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.WESTERN_PLAGUELANDS] = {{59.5, 84.5}},
+            },
+        },
         [411328] = {
             [objectKeys.zoneID] = zoneIDs.DUSKWOOD,
             [objectKeys.spawns] = {
