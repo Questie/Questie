@@ -21,6 +21,11 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.IRONFORGE] = {{76, 10.4}},
             },
         },
+        [386777] = { -- Dusty Chest Stormwind
+            [objectKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{61.9, 29.3}},
+            },
+        },
         [402215] = {
             [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
             [objectKeys.spawns] = {
@@ -43,6 +48,17 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.zoneID] = zoneIDs.MULGORE,
             [objectKeys.spawns] = {
                 [zoneIDs.MULGORE] = {{37.81, 65.45},{38.17, 57.14},{39.85, 51.63},{41.39, 63.2},{45.01, 46.77},{50.97, 46.03},{51.77, 67.3},{53.29, 63.13},{54.31, 58.05},{58.41, 66.64},{58.85, 51.32}},
+            },
+        },
+        [405201] = { -- Shipwreck Cache Tirisfal Glades
+            [objectKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES] = {{66.7, 24.6}},
+            },
+        },
+        [405946] = {
+            [objectKeys.zoneID] = zoneIDs.IRONFORGE,
+            [objectKeys.spawns] = {
+                [zoneIDs.IRONFORGE] = {{52.0, 13.6}},
             },
         },
         [406736] = {
@@ -181,10 +197,21 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.DUSKWOOD] = {{49.5, 33.8}},
             },
         },
+        [410847] = { -- Rusty Safe Western Plaguelands
+            [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.WESTERN_PLAGUELANDS] = {{59.5, 84.5}},
+            },
+        },
         [411328] = {
             [objectKeys.zoneID] = zoneIDs.DUSKWOOD,
             [objectKeys.spawns] = {
                 [zoneIDs.DUSKWOOD] = {{17,37.6}},
+            },
+        },
+        [411674] = { -- Prophecy of a King's Demise
+            [objectKeys.spawns] = {
+                [130] = {{65.8, 23.4}},
             },
         },
         [414658] = {

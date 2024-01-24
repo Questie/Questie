@@ -295,10 +295,15 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90187] = true, -- Priest Shadow Word: Death Westfall
     [90188] = true, -- Priest Shadow Word: Death The Barrens
     [90189] = true, -- Priest Shadow Word: Death Loch Modan
+    [90190] = true, -- Priest Shadow Word: Death Silverpine Forest
     [90191] = true, -- Priest Shadow Word: Death Darkshore
     [90192] = true, -- Priest Circle of Healing Duskwood
+    [90193] = true, -- Rogue Between the Eyes Ironforge
+    [90194] = true, -- Rogue Between the Eyes Stormwind
     [90195] = true, -- Rogue Between the Eyes Orgrimmar
+    [90196] = true, -- Rogue Between the Eyes Tirisfal Glades
     [90197] = true, -- Rogue Between the Eyes Teldrassil
+    [90198] = true, -- Rogue Envenom Hillsbrad Foothills
     [90199] = true, -- Rogue Mutilate Teldrassil
 }
 
