@@ -292,5 +292,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.DUSKWOOD] = {{90.9,30.5}},
             },
         },
+        [450010] = {
+            [objectKeys.name] = "Raven Hill Statue",
+            [objectKeys.zoneID] = zoneIDs.DUSKWOOD,
+            [objectKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{19.9,45.5}},
+            },
+        },
     }
 end

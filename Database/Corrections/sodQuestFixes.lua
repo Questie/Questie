@@ -3120,6 +3120,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400094,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90201] = {
+            [questKeys.name] = "Shiv",
+            [questKeys.startedBy] = {{215,909,910},{450010}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Kill Defias until Engraved Gold Ring drops, then go to the statue in the middle of Raven Hill and /kneel in front of it to receive the rune."},
+            [questKeys.requiredSpell] = -424988,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 
