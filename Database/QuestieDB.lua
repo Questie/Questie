@@ -121,6 +121,7 @@ local questTagCorrections = {
     [90166] = {1, "Elite"},
     [90169] = {1, "Elite"},
     [90175] = {1, "Elite"},
+    [90190] = {1, "Elite"},
     [90202] = {1, "Elite"},
 }
 

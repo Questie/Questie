@@ -69,6 +69,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.ELWYNN_FOREST] = {{61.8, 47.6}},
             },
         },
+        [204503] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.ELWYNN_FOREST] = {{56.4, 57.8}},
+            },
+        },
         [202699] = { -- Baron Aquanis
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
@@ -226,6 +231,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TELDRASSIL] = {{48.0, 31.6}},
             },
         },
+        [209954] = { -- Dead Acolyte
+            [npcKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{72.6, 68.8}},
+            },
+        },
         [210107] = { -- Kackle
             [npcKeys.spawns] = {
                 [zoneIDs.LOCH_MODAN] = {{55.0, 55.4}},
@@ -261,6 +271,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.WESTFALL] = {{51.2, 46.8},{51.6, 55.6}},
             },
         },
+        [210845] = { -- Jixo Madrocket
+            [npcKeys.spawns] = {
+                [zoneIDs.STONETALON_MOUNTAINS] = {{59.2, 62.4}},
+            },
+        },
         [210995] = { -- Alonso
             [npcKeys.spawns] = {
                 [zoneIDs.ASHENVALE] = {{43.4, 70.4}},
@@ -286,6 +301,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [211736] = { -- Grizzled Protector
             [npcKeys.spawns] = {
                 [zoneIDs.SILVERPINE_FOREST] = {},
+            },
+        },
+        [211951] = { -- Koartul
+            [npcKeys.spawns] = {
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{60.8,31.8}},
             },
         },
         [211965] = { -- Carrodin
@@ -425,6 +445,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [214456] = { -- Dro'zem the Blasphemous
             [npcKeys.spawns] = {
                 [zoneIDs.REDRIDGE_MOUNTAINS] = {{35.4,8.6},{64.2,45.8},{77.4,69.4}},
+            },
+        },
+        [214519] = { -- Incinerator Gar'im
+            [npcKeys.spawns] = {
+                [zoneIDs.REDRIDGE_MOUNTAINS] = {{77.6, 85.8}},
             },
         },
         [216902] = { -- Wulmort Jinglepocket
