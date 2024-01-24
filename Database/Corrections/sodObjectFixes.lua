@@ -51,7 +51,6 @@ function SeasonOfDiscovery:LoadObjects()
             },
         },
         [405201] = { -- Shipwreck Cache Tirisfal Glades
-            [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
             [objectKeys.spawns] = {
                 [zoneIDs.TIRISFAL_GLADES] = {{66.7, 24.6}},
             },
