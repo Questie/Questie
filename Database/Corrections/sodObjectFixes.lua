@@ -21,6 +21,11 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.IRONFORGE] = {{76, 10.4}},
             },
         },
+        [386777] = { -- Dusty Chest Stormwind
+            [objectKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{61.9, 29.3}},
+            },
+        },
         [402215] = {
             [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
             [objectKeys.spawns] = {
@@ -49,6 +54,12 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
             [objectKeys.spawns] = {
                 [zoneIDs.TIRISFAL_GLADES] = {{66.7, 24.6}},
+            },
+        },
+        [405946] = {
+            [objectKeys.zoneID] = zoneIDs.IRONFORGE,
+            [objectKeys.spawns] = {
+                [zoneIDs.IRONFORGE] = {{52.0, 13.6}},
             },
         },
         [406736] = {
@@ -191,6 +202,11 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.zoneID] = zoneIDs.DUSKWOOD,
             [objectKeys.spawns] = {
                 [zoneIDs.DUSKWOOD] = {{17,37.6}},
+            },
+        },
+        [411674] = { -- Prophecy of a King's Demise
+            [objectKeys.spawns] = {
+                [130] = {{65.8, 23.4}},
             },
         },
         [414658] = {
