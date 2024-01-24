@@ -2988,6 +2988,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402849,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90190] = {
+            [questKeys.name] = "Shadow Word: Death",
+            [questKeys.startedBy] = {nil,{411674}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Loot the Prophecy of a King's Demise on the table next to Thule Ravenclaw and receive the rune."},
+            [questKeys.requiredSpell] = -402849,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [90191] = {
             [questKeys.name] = "Shadow Word: Death",
             [questKeys.startedBy] = {nil,{414646}},

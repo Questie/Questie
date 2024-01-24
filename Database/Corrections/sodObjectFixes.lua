@@ -187,6 +187,11 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.DUSKWOOD] = {{17,37.6}},
             },
         },
+        [411674] = { -- Prophecy of a King's Demise
+            [objectKeys.spawns] = {
+                [130] = {{65.8, 23.4}},
+            },
+        },
         [414658] = {
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
             [objectKeys.spawns] = {
