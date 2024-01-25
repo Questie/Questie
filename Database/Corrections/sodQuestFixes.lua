@@ -3168,6 +3168,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410107,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90205] = {
+            [questKeys.name] = "Lava Burst",
+            [questKeys.startedBy] = {{2373}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Kill Mudsnout Shamans until Kajaric Icon drops, equip it and follow its instructions to receieve the rune."},
+            [questKeys.requiredSpell] = -410095,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
         [90206] = {
             [questKeys.name] = "Carve",
             [questKeys.startedBy] = {{1115,1116,1117,1118,208711}},
