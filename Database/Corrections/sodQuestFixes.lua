@@ -845,7 +845,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90007] = {
             [questKeys.name] = "Regeneration",
-            [questKeys.startedBy] = {nil,{152608,3642}},
+            [questKeys.startedBy] = {nil,{152608,152618,3642}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 14,
