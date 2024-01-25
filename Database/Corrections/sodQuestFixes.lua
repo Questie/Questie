@@ -3168,6 +3168,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410107,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90216] = {
+            [questKeys.name] = "Molten Blast",
+            [questKeys.startedBy] = {{208275}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 9,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Use fire spells to get 5 stacks of debuff on the Frozen Makura then loot it and equip the Icon and follow its instructions to receive the rune."},
+            [questKeys.requiredSpell] = -425344,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [90217] = {
+            [questKeys.name] = "Molten Blast",
+            [questKeys.startedBy] = {{2989,2990},{404352}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 9,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Kill Bael'dun Dwarves until Artifact Storage Key drops, use it on the Artifact Storage. Equip the Icon and follow its instructions to receive the rune."},
+            [questKeys.requiredSpell] = -425344,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 
