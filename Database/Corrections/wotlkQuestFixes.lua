@@ -2820,6 +2820,9 @@ function QuestieWotlkQuestFixes:Load()
         [12981] = {
             [questKeys.preQuestSingle] = {12967},
         },
+        [12982] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{30186,30194,30195,30196},30186,"Ebon Blade Prisoners set free"}}},
+        },
         [12985] = {
             [questKeys.requiredMinRep] = {1119,3000},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Diamond Tipped Pick on the corpses of Dead Iron Giants"), 0, {{"monster", 29914},{"monster", 30163}}}},
@@ -3619,6 +3622,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13301] = {
             [questKeys.preQuestSingle] = {13340},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{31832,31833},31832,"Horde troops escorted to Ymirheim"}}},
         },
         [13302] = {
             [questKeys.objectives] = {{{31397,"Saronite Mine Slave rescued"}}},
@@ -3644,6 +3648,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13310] = {
             [questKeys.preQuestSingle] = {13340},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Hop on the turret"), 0, {{"monster", 31884}}}},
+            [questKeys.objectives] = {{{31882,"Skybreaker Infiltrators dropped"}}},
         },
         [13312] = {
             [questKeys.preQuestGroup] = {13306,13367},
@@ -3835,6 +3841,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13376] = {
             [questKeys.preQuestSingle] = {13373},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Rizzy Ratchwiggle"), 1, {{"monster", 31839}}}},
+            [questKeys.objectives] = {{{32188},{32154},{31721}},nil,nil,nil,{{{32182,32183},32182}}},
         },
         [13377] = {
             [questKeys.objectives] = {{{32518,"Assist King Varian Wrynn"}}},
