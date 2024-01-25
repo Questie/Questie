@@ -160,6 +160,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DUN_MOROGH] = {{46.4, 53.2}},
             },
         },
+        [208711] = { -- Toby
+            [npcKeys.spawns] = {
+                [zoneIDs.DUN_MOROGH] = {{63.6, 50.2}},
+            },
+        },
         [208752] = { -- Frozen Trogg
             [npcKeys.spawns] = {
                 [zoneIDs.DUN_MOROGH] = {{69.2, 58.2}},
