@@ -310,6 +310,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90202] = true, -- Shaman Shamanistic Rage Stonetalon Mountains
     [90203] = true, -- Shaman Way of Earth The Barrens
     [90204] = true, -- Shaman Way of Earth Silverpine Forest
+    [90209] = true, -- Rogue Saber Slash Darkshore
+    [90210] = true, -- Rogue Saber Slash Loch Modan
+    [90211] = true, -- Rogue Saber Slash Westfall
+    [90212] = true, -- Rogue Saber Slash The Barrens
+    [90213] = true, -- Rogue Saber Slash Silverpine Forest
 }
 
 ---@param questId number
