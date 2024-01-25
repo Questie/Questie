@@ -845,7 +845,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90007] = {
             [questKeys.name] = "Regeneration",
-            [questKeys.startedBy] = {nil,{152608,3642}},
+            [questKeys.startedBy] = {nil,{152608,152618,3642}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 14,
@@ -3166,6 +3166,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.SHAMAN,
             [questKeys.objectivesText] = {"Kill Rot Hide Mystics until a Rot Totem drops, use it to spawn a level 15 elite. Kill it to receieve the rune."},
             [questKeys.requiredSpell] = -410107,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [90205] = {
+            [questKeys.name] = "Lava Burst",
+            [questKeys.startedBy] = {{2373}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 25,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Kill Mudsnout Shamans until Kajaric Icon drops, equip it and follow its instructions to receieve the rune."},
+            [questKeys.requiredSpell] = -410095,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [90214] = {
