@@ -3180,7 +3180,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410097,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90214] = {
+        [90215] = {
             [questKeys.name] = "Water Shield",
             [questKeys.startedBy] = {{1972}},
             [questKeys.finishedBy] = nil,

@@ -311,7 +311,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90203] = true, -- Shaman Way of Earth The Barrens
     [90204] = true, -- Shaman Way of Earth Silverpine Forest
     [90214] = true, -- Shaman Water Shield The Barrens
-    [90214] = true, -- Shaman Water Shield Silverpine Forest
+    [90215] = true, -- Shaman Water Shield Silverpine Forest
 }
 
 ---@param questId number
