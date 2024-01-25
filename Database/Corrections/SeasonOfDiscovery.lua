@@ -363,7 +363,6 @@ local questsToBlacklistBySoDPhase = {
         [90200] = true, -- Hiding Rogue Mutilate Dun Morogh for now as there are too many icons
         [90201] = true, -- Hiding Rogue Shiv Duskwood for now as there are too many icons
         [90204] = true, -- Hiding Shaman Way of Earth Silverpine Forest for now as there are too many icons
-        [90214] = true, -- Hiding Shaman Water Shield The Barrens for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?

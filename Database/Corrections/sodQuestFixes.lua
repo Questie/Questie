@@ -3170,7 +3170,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90214] = {
             [questKeys.name] = "Water Shield",
-            [questKeys.startedBy] = {{3272,3273,3394},{3642}},
+            [questKeys.startedBy] = {nil,{152608,152618,3642}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 14,
