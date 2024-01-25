@@ -315,6 +315,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90207] = true, -- Hunter Carve Teldrassil
     [90208] = true, -- Hunter Carve Durotar
     [90209] = true, -- Hunter Carve Mulgore
+    [90210] = true, -- Rogue Saber Slash Loch Modan
+    [90211] = true, -- Rogue Saber Slash Westfall
+    [90212] = true, -- Rogue Saber Slash The Barrens
+    [90213] = true, -- Rogue Saber Slash Silverpine Forest
+    [90214] = true, -- Rogue Saber Slash Darkshore
 }
 
 ---@param questId number
