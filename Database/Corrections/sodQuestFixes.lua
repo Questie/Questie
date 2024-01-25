@@ -3168,6 +3168,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410107,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90214] = {
+            [questKeys.name] = "Water Shield",
+            [questKeys.startedBy] = {{3272,3273,3394},{3642}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 14,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Kill Kolkar Centaurs until Kolkar Booty Key drops, then use it on Kolkars' Booty and equip the Icon, follow its instructions to receive the rune."},
+            [questKeys.requiredSpell] = -410097,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [90214] = {
+            [questKeys.name] = "Water Shield",
+            [questKeys.startedBy] = {{1972}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 15,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Kill Grimson the Pale and equip the Icon, follow its instructions to receive the rune."},
+            [questKeys.requiredSpell] = -410097,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 
