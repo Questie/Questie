@@ -40,6 +40,9 @@ function SeasonOfDiscovery:LoadItems()
         [208771] = {
             [itemKeys.objectDrops] = {407453,408718,414532},
         },
+        [208772] = {
+            [itemKeys.objectDrops] = {407457,407731,409131,414624},
+        },
         [209693] = { -- Alliance Blackfathom Pearl
             [itemKeys.relatedQuests] = {78916},
             [itemKeys.startQuest] = 78916,
