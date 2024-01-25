@@ -236,6 +236,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TELDRASSIL] = {{48.0, 31.6}},
             },
         },
+        [209948] = { -- Relaeron
+            [npcKeys.spawns] = {
+                [zoneIDs.DARNASSUS] = {{39.2, 9.0}},
+            },
+        },
         [209954] = { -- Dead Acolyte
             [npcKeys.spawns] = {
                 [zoneIDs.LOCH_MODAN] = {{72.6, 68.8}},
