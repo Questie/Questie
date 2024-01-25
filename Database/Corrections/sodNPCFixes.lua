@@ -160,6 +160,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DUN_MOROGH] = {{46.4, 53.2}},
             },
         },
+        [208711] = { -- Toby
+            [npcKeys.spawns] = {
+                [zoneIDs.DUN_MOROGH] = {{63.6, 50.2}},
+            },
+        },
         [208752] = { -- Frozen Trogg
             [npcKeys.spawns] = {
                 [zoneIDs.DUN_MOROGH] = {{69.2, 58.2}},
@@ -229,6 +234,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [209928] = { -- Mowgh
             [npcKeys.spawns] = {
                 [zoneIDs.TELDRASSIL] = {{48.0, 31.6}},
+            },
+        },
+        [209948] = { -- Relaeron
+            [npcKeys.spawns] = {
+                [zoneIDs.DARNASSUS] = {{39.2, 9.0}},
             },
         },
         [209954] = { -- Dead Acolyte

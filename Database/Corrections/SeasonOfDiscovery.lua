@@ -311,11 +311,15 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90203] = true, -- Shaman Way of Earth The Barrens
     [90204] = true, -- Shaman Way of Earth Silverpine Forest
     [90205] = true, -- Shaman Lava Burst Hillsbrad Foothills
-    [90209] = true, -- Rogue Saber Slash Darkshore
+    [90206] = true, -- Hunter Carve Dun Morogh
+    [90207] = true, -- Hunter Carve Teldrassil
+    [90208] = true, -- Hunter Carve Durotar
+    [90209] = true, -- Hunter Carve Mulgore
     [90210] = true, -- Rogue Saber Slash Loch Modan
     [90211] = true, -- Rogue Saber Slash Westfall
     [90212] = true, -- Rogue Saber Slash The Barrens
     [90213] = true, -- Rogue Saber Slash Silverpine Forest
+    [90214] = true, -- Rogue Saber Slash Darkshore
 }
 
 ---@param questId number
@@ -368,6 +372,10 @@ local questsToBlacklistBySoDPhase = {
         [90201] = true, -- Hiding Rogue Shiv Duskwood for now as there are too many icons
         [90204] = true, -- Hiding Shaman Way of Earth Silverpine Forest for now as there are too many icons
         [90205] = true, -- Hiding Shaman Lava Burst Hillsbrad Foothills for now as there are too many icons
+        [90206] = true, -- Hiding Hunter Carve Dun Morogh for now as there are too many icons
+        [90207] = true, -- Hiding Hunter Carve Teldrassil for now as there are too many icons
+        [90208] = true, -- Hiding Hunter Carve Durotar for now as there are too many icons
+        [90209] = true, -- Hiding Hunter Carve Mulgore for now as there are too many icons
     },
     [2] = { -- SoD Phase 2 - level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
