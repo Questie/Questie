@@ -322,6 +322,9 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90214] = true, -- Rogue Saber Slash Darkshore
     [90215] = true, -- Shaman Water Shield Silverpine Forest
     [90216] = true, -- Shaman Water Shield The Barrens
+    [90219] = true, -- Shaman Shield Mastery Durotar Orc
+    [90220] = true, -- Shaman Shield Mastery Durotar Troll
+    [90221] = true, -- Shaman Shield Mastery Mulgore Tauren
 }
 
 ---@param questId number
