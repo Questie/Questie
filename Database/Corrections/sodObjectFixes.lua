@@ -114,10 +114,22 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.THE_BARRENS] = {{61.78,45.8}},
             },
         },
+        [407457] = {
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [objectKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{61.3, 54.1}},
+            },
+        },
         [407505] = {
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
             [objectKeys.spawns] = {
                 [zoneIDs.THE_BARRENS] = {{45,79}},
+            },
+        },
+        [407731] = {
+            [objectKeys.zoneID] = zoneIDs.LOCH_MODAN,
+            [objectKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{46.5, 12.7}},
             },
         },
         [407734] = {
