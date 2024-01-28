@@ -590,6 +590,18 @@ local classicObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Combine the Pendant halves at the Shrine of Remulos."] = { -- 8150
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Kombiniere die Anhängerhälften am Schrein von Remulos.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(classicObjectiveLocales) do
