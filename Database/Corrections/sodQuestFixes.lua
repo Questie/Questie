@@ -3326,7 +3326,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90218] = {
             [questKeys.name] = "Shield Mastery",
-            [questKeys.startedBy] = {nil,{450011}},
+            [questKeys.startedBy] = {nil,{450012}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 5,
