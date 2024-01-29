@@ -317,5 +317,19 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.DUSKWOOD] = {{19.9,45.5}},
             },
         },
+        [450011] = {
+            [objectKeys.name] = "Galvanic Icon",
+            [objectKeys.zoneID] = zoneIDs.DUROTAR,
+            [objectKeys.spawns] = {
+                [zoneIDs.DUROTAR] = {{38.01, 35.53},{53.36, 50.48},{51.78, 56.39},{36.95, 45.53},{56.53, 28.37},{39.43, 50.06}},
+            },
+        },
+        [450012] = {
+            [objectKeys.name] = "Galvanic Icon",
+            [objectKeys.zoneID] = zoneIDs.MULGORE,
+            [objectKeys.spawns] = {
+                [zoneIDs.MULGORE] = {{54.07, 55.82},{36.3, 9.8},{37.5, 52.5},{41.65, 55.98},{37.99, 60.04}},
+            },
+        },
     }
 end
