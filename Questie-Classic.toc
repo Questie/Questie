@@ -197,6 +197,10 @@ Modules\Tracker\TrackerQuestFrame.lua
 Modules\Tracker\TrackerQuestTimers.lua
 Modules\Tracker\TrackerLinePool.lua
 
+# Tutorial
+Modules\Tutorial\ShowRunes.lua
+Modules\Tutorial\Tutorial.lua
+
 Modules\QuestieDBMIntegration.lua
 Modules\QuestieSlash.lua
 
