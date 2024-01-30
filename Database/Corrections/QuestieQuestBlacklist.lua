@@ -1225,7 +1225,7 @@ function QuestieQuestBlacklist:Load()
         [13374] = true, -- Not in the game
         [13381] = true, -- Not in the game
         [13908] = true, -- Not in the game
-        [11585] = true, -- Duplicate of 11586
+        [11586] = true, -- Duplicate of 11585 (not entirely a duplicate but this is the easiest way to hide multiple quests)
         [11595] = true, -- Duplicate of 11596 and 11597 (not entirely a duplicate but this is the easiest way to hide multiple quests)
         [11597] = true, -- Duplicate of 11595 and 11596 (not entirely a duplicate but this is the easiest way to hide multiple quests)
         [12021] = true, -- Duplicate of 12067 and 12085 (not entirely a duplicate but this is the easiest way to hide multiple quests)
@@ -2179,16 +2179,16 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
 
         --! 3.3.2
         -- Raids -> Icecrown Citadel (3 -> 4812)
-        [24869] = true, --* Deprogramming (https://www.wowhead.com/wotlk/quest=24869)
-        [24870] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24870)
-        [24871] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24871)
-        [24873] = true, --* Residue Rendezvous (https://www.wowhead.com/wotlk/quest=24873)
-        [24874] = true, --* Blood Quickening (https://www.wowhead.com/wotlk/quest=24874)
-        [24875] = true, --* Deprogramming (https://www.wowhead.com/wotlk/quest=24875)
-        [24876] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24876)
-        [24877] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24877)
-        [24878] = true, --* Residue Rendezvous (https://www.wowhead.com/wotlk/quest=24878)
-        [24879] = true, --* Blood Quickening (https://www.wowhead.com/wotlk/quest=24879)
+        --[24869] = true, --* Deprogramming (https://www.wowhead.com/wotlk/quest=24869)
+        --[24870] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24870)
+        --[24871] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24871)
+        --[24873] = true, --* Residue Rendezvous (https://www.wowhead.com/wotlk/quest=24873)
+        --[24874] = true, --* Blood Quickening (https://www.wowhead.com/wotlk/quest=24874)
+        --[24875] = true, --* Deprogramming (https://www.wowhead.com/wotlk/quest=24875)
+        --[24876] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24876)
+        --[24877] = true, --* Securing the Ramparts (https://www.wowhead.com/wotlk/quest=24877)
+        --[24878] = true, --* Residue Rendezvous (https://www.wowhead.com/wotlk/quest=24878)
+        --[24879] = true, --* Blood Quickening (https://www.wowhead.com/wotlk/quest=24879)
 
         -- World Events -> Love Is In The Air (9 -> -1004)
         [24541] = true, --* Pilfering Perfume (https://www.wowhead.com/wotlk/quest=24541) (Retail Data)

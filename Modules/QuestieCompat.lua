@@ -42,15 +42,6 @@ end
 ---@param minHeight number The minimum height the object can be resized to.
 ---@param maxWidth number The maximum width the object can be resized to.
 ---@param maxHeight number The maximum height the object can be resized to.
----[SetMinResize Documentation](https://wowpedia.fandom.com/wiki/API_Frame_SetMinResize)
----[SetMaxResize Documentation](https://wowpedia.fandom.com/wiki/API_Frame_SetMaxResize)
----[SetResizeBounds Documentation](https://wowpedia.fandom.com/wiki/API_Frame_SetMinResize)
----Specifies the minimum [and maximum] width and height that the object can be resized to.
----@param frame frame
----@param minWidth number The minimum width the object can be resized to.
----@param minHeight number The minimum height the object can be resized to.
----@param maxWidth number The maximum width the object can be resized to.
----@param maxHeight number The maximum height the object can be resized to.
 function QuestieCompat.SetResizeBounds(frame, minWidth, minHeight, maxWidth, maxHeight)
     if frame.SetResizeBounds then
         frame:SetResizeBounds(minWidth, minHeight, maxWidth, maxHeight)

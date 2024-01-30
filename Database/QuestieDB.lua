@@ -38,6 +38,11 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieQuestPrivate
 local _QuestieQuest = QuestieQuest.private
 
+--- A list of quests that will never be available, used to quickly skip quests.
+---@alias AutoBlacklistString "rep"|"skill"|"race"|"class"
+---@type table<number, AutoBlacklistString>
+QuestieDB.autoBlacklist = {}
+
 local tinsert = table.insert
 local bitband = bit.band
 
@@ -74,6 +79,7 @@ local questTagCorrections = {
     [8406] = {41, "PvP"},
     [8407] = {41, "PvP"},
     [8408] = {41, "PvP"},
+    [12170] = {41, "PvP"},
     [12244] = {41, "PvP"},
     [12268] = {41, "PvP"},
     [12270] = {41, "PvP"},
@@ -110,6 +116,14 @@ local questTagCorrections = {
     [90122] = {1, "Elite"},
     [90151] = {1, "Elite"},
     [90152] = {1, "Elite"},
+    [90159] = {1, "Elite"},
+    [90163] = {1, "Elite"},
+    [90166] = {1, "Elite"},
+    [90169] = {1, "Elite"},
+    [90175] = {1, "Elite"},
+    [90190] = {1, "Elite"},
+    [90202] = {1, "Elite"},
+    [90204] = {1, "Elite"},
 }
 
 -- race bitmask data, for easy access
@@ -613,7 +627,7 @@ function QuestieDB.IsDoable(questId, debugPrint, returnText, returnBrief)
 
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
     if (requiredRaces and not checkRace[requiredRaces]) then
-        QuestieQuest.autoBlacklist[questId] = "race"
+        QuestieDB.autoBlacklist[questId] = "race"
         local msg = "Race requirement not fulfilled for quest " .. questId
         if not returnText then
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] " .. msg) end
@@ -644,7 +658,7 @@ function QuestieDB.IsDoable(questId, debugPrint, returnText, returnBrief)
 
     local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
     if (requiredClasses and not checkClass[requiredClasses]) then
-        QuestieQuest.autoBlacklist[questId] = "class"
+        QuestieDB.autoBlacklist[questId] = "class"
         local msg = "Class requirement not fulfilled for quest " .. questId
         if not returnText then
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] " .. msg) end
@@ -663,7 +677,7 @@ function QuestieDB.IsDoable(questId, debugPrint, returnText, returnBrief)
         if (not ((aboveMinRep and hasMinFaction) and (belowMaxRep and hasMaxFaction))) then
             --- If we haven't got the faction for min or max we blacklist it
             if not hasMinFaction or not hasMaxFaction then -- or not belowMaxRep -- This is something we could have done, but would break if you rep downwards
-                QuestieQuest.autoBlacklist[questId] = "rep"
+                QuestieDB.autoBlacklist[questId] = "rep"
             end
 
             local msg = "Player does not meet reputation requirements for quest " .. questId
@@ -684,7 +698,7 @@ function QuestieDB.IsDoable(questId, debugPrint, returnText, returnBrief)
         if (not (hasProfession and hasSkillLevel)) then
             --? We haven't got the profession so we blacklist it.
             if(not hasProfession) then
-                QuestieQuest.autoBlacklist[questId] = "skill"
+                QuestieDB.autoBlacklist[questId] = "skill"
             end
 
             local msg = "Player does not meet profession requirements for quest " .. questId

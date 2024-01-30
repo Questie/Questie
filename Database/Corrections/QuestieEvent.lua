@@ -211,14 +211,14 @@ _GetDarkmoonFaireLocationEra = function(currentDate)
         end
     end
 
-    return false
+    return DMF_LOCATIONS.NONE
 end
 
 -- DMF in SoD is every second week, starting on the 4th of December 2023
 _GetDarkmoonFaireLocationSoD = function(currentDate)
     local initialStartDate = time({year=2023, month=12, day=4, hour=0, min=1}) -- The first time DMF started in SoD
     local initialEndDate = time({year=2023, month=12, day=10, hour=23, min=59}) -- The first time DMF ended in SoD
-    currentDate = time({ year = currentDate.year, month = currentDate.month, day = currentDate.day, hour = 0, min = 1 })
+    currentDate = time({ year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = 0, min = 1 })
 
     local eventDuration = initialEndDate - initialStartDate
     local timeSinceStart = currentDate - initialStartDate

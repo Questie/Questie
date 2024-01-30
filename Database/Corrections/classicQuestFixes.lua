@@ -77,6 +77,9 @@ function QuestieQuestFixes:Load()
         [29] = {
             [questKeys.triggerEnd] = {"Complete the Trial of the Lake.", {[zoneIDs.MOONGLADE]={{36.17,41.67}}}},
         },
+        [30] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.MOONGLADE]={{36.5,41.7}}}, Questie.ICON_TYPE_EVENT, l10n("Combine the Pendant halves at the Shrine of Remulos.")}},
+        },
         [33] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -130,6 +133,9 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
             [questKeys.exclusiveTo] = {253}, --#2173
             [questKeys.preQuestSingle] = {252},
+        },
+        [272] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.MOONGLADE]={{36.5,41.7}}}, Questie.ICON_TYPE_EVENT, l10n("Combine the Pendant halves at the Shrine of Remulos.")}},
         },
         [273] = {
             [questKeys.triggerEnd] = {"Find Huldar, Miran, and Saean",{[zoneIDs.LOCH_MODAN]={{51.16, 68.96}}}},
@@ -1130,6 +1136,9 @@ function QuestieQuestFixes:Load()
         [2300] = {
             [questKeys.preQuestSingle] = {}, -- #1825
             [questKeys.exclusiveTo] = {2281}, -- #1817
+        },
+        [2318] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [2358] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2243,7 +2252,7 @@ function QuestieQuestFixes:Load()
         },
         [6382] = {
             [questKeys.preQuestSingle] = {882},
-            [questKeys.exclusiveTo] = {235,742},
+            [questKeys.exclusiveTo] = {235,742,6383},
         },
         [6383] = {
             [questKeys.preQuestSingle] = {},
@@ -3709,6 +3718,9 @@ function QuestieQuestFixes:Load()
         },
         [9120] = {
             [questKeys.startedBy] = {{15990},nil,{22520}},
+        },
+        [9121] = {
+            [questKeys.requiredMinRep] = {529,0},
         },
         [9124] = {
             [questKeys.requiredMinRep] = {529,3000},

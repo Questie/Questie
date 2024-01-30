@@ -2403,6 +2403,12 @@ function QuestieTBCQuestFixes:Load()
         [10887] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.TEROKKAR_FOREST]={{33.77,51.61}}}, Questie.ICON_TYPE_EVENT, l10n("Help Akuno find his way to the Refugee Caravan in Terokkar Forest.")}},
         },
+        [10891] = {
+            [questKeys.requiredSpell] = -16663,
+        },
+        [10892] = {
+            [questKeys.requiredSpell] = -16663,
+        },
         [10896] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Rotting Forest-Ragers and Infested Root-Walkers to spawn Wood Mites"), 0, {{"monster", 22307}, {"monster", 22095}}}},
         },
@@ -2572,10 +2578,15 @@ function QuestieTBCQuestFixes:Load()
         },
         [10976] = {
             [questKeys.requiredMinRep] = {933,21000},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 185001}}}},
         },
         [10977] = {
-            [questKeys.triggerEnd] = {"Mana-Tombs Stasis Chamber Investigated", {[zoneIDs.TEROKKAR_FOREST]={{39.63,57.54}}}},
+            [questKeys.objectives] = {nil,{{185002,"Mana-Tombs Stasis Chamber Investigated"}}},
             [questKeys.requiredMinRep] = {933,21000},
+        },
+        [10981] = {
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.exclusiveTo] = {10982},
         },
         [10984] = {
             [questKeys.exclusiveTo] = {10983,10989,11057},
