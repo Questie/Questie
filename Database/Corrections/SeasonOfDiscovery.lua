@@ -295,10 +295,37 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90187] = true, -- Priest Shadow Word: Death Westfall
     [90188] = true, -- Priest Shadow Word: Death The Barrens
     [90189] = true, -- Priest Shadow Word: Death Loch Modan
+    [90190] = true, -- Priest Shadow Word: Death Silverpine Forest
     [90191] = true, -- Priest Shadow Word: Death Darkshore
     [90192] = true, -- Priest Circle of Healing Duskwood
+    [90193] = true, -- Rogue Between the Eyes Ironforge
+    [90194] = true, -- Rogue Between the Eyes Stormwind
     [90195] = true, -- Rogue Between the Eyes Orgrimmar
+    [90196] = true, -- Rogue Between the Eyes Tirisfal Glades
     [90197] = true, -- Rogue Between the Eyes Teldrassil
+    [90198] = true, -- Rogue Envenom Hillsbrad Foothills
+    [90199] = true, -- Rogue Mutilate Teldrassil
+    [90200] = true, -- Rogue Mutilate Dun Morogh
+    [90201] = true, -- Rogue Shiv Duskwood
+    [90202] = true, -- Shaman Shamanistic Rage Stonetalon Mountains
+    [90203] = true, -- Shaman Way of Earth The Barrens
+    [90204] = true, -- Shaman Way of Earth Silverpine Forest
+    [90205] = true, -- Shaman Lava Burst Hillsbrad Foothills
+    [90206] = true, -- Hunter Carve Dun Morogh
+    [90207] = true, -- Hunter Carve Teldrassil
+    [90208] = true, -- Hunter Carve Durotar
+    [90209] = true, -- Hunter Carve Mulgore
+    [90210] = true, -- Rogue Saber Slash Loch Modan
+    [90211] = true, -- Rogue Saber Slash Westfall
+    [90212] = true, -- Rogue Saber Slash The Barrens
+    [90213] = true, -- Rogue Saber Slash Silverpine Forest
+    [90214] = true, -- Rogue Saber Slash Darkshore
+    [90215] = true, -- Shaman Water Shield Silverpine Forest
+    [90216] = true, -- Shaman Water Shield The Barrens
+    [90217] = true, -- Shaman Shield Mastery Durotar Orc & Troll
+    [90218] = true, -- Shaman Shield Mastery Mulgore Tauren
+    [90219] = true, -- Shaman Molten Blast Durotar
+    [90220] = true, -- Shaman Molten Blast Mulgore
 }
 
 ---@param questId number
