@@ -18,6 +18,10 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TIRISFAL_GLADES] = {{66.4, 40.2}},
             },
         },
+        [202699] = { -- Baron Aquanis
+            [npcKeys.spawns] = { [zoneIDs.BLACKFATHOM_DEEPS] = { { -1, -1 } } },
+            [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
+        },
         [203079] = { -- Wandering Swordsman
             [npcKeys.spawns] = {
                 [1] = {{53.5, 47.5}},
@@ -45,7 +49,6 @@ function SeasonOfDiscovery:LoadNPCs()
         [204068] = { -- Lady Sarevess
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
-
         },
         [204070] = { -- Soboz
             [npcKeys.spawns] = {
@@ -69,14 +72,10 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.ELWYNN_FOREST] = {{61.8, 47.6}},
             },
         },
-        [204503] = {
+        [204503] = { -- Dead Acolyte
             [npcKeys.spawns] = {
                 [zoneIDs.ELWYNN_FOREST] = {{56.4, 57.8}},
             },
-        },
-        [202699] = { -- Baron Aquanis
-            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
-            [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
         },
         [205153] = { -- Ada Gelhardt
             [npcKeys.spawns] = {
@@ -185,6 +184,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TIRISFAL_GLADES] = {{61.6, 51.4}},
             },
         },
+        [208927] = { -- Dead Acolyte
+            [npcKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES] = {{76.4, 44.8}},
+            },
+        },
         [209004] = { -- Bruart
             [npcKeys.spawns] = {
                 [zoneIDs.IRONFORGE] = {{71.2, 73.2}},
@@ -241,7 +245,12 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DARNASSUS] = {{39.2, 9.0}},
             },
         },
-        [209954] = { -- Dead Acolyte
+        [209954] = { -- Demonic Remains
+            [npcKeys.spawns] = {
+                [zoneIDs.LOCH_MODAN] = {{72.6, 68.8}},
+            },
+        },
+        [209958] = { -- Graix
             [npcKeys.spawns] = {
                 [zoneIDs.LOCH_MODAN] = {{72.6, 68.8}},
             },

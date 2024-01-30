@@ -98,6 +98,9 @@ function QuestieQuestFixes:Load()
         [117] = {
             [questKeys.name] = "Thunderbrew",
         },
+        [136] = {
+            [questKeys.startedBy] = {{513,515,126,171,456,127,517,458,391},nil,{1357}},
+        },
         [148] = {
             [questKeys.preQuestSingle] = {}, -- #1173
         },
@@ -112,6 +115,10 @@ function QuestieQuestFixes:Load()
         },
         [165] = {
             [questKeys.exclusiveTo] = {148}, --#1173
+        },
+        [178] = {
+            [questKeys.startedBy] = {{429,431,432,433,434,568,579,703,947},nil,{1962}},
+            [questKeys.objectivesText] = {"Bring the Faded Shadowhide Pendant to Theocritus the Mage. NOTE: This is a very rare drop!"},
         },
         [201] = {
             [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.65,10.59}}}},
@@ -572,7 +579,7 @@ function QuestieQuestFixes:Load()
             [questKeys.parentQuest] = 950, -- workaround, can't mimic ingame 100%
         },
         [968] = {
-            [questKeys.startedBy] = {{2338,2339},nil,{5352}}, -- temp correction for item start
+            [questKeys.startedBy] = {{2338,2339},nil,{5352}},
         },
         [976] = {
             [questKeys.triggerEnd] = {"Protect Feero Ironhand", {[zoneIDs.DARKSHORE]={{43.54,94.39}}}},
@@ -870,6 +877,9 @@ function QuestieQuestFixes:Load()
         },
         [1479] = {
             [questKeys.triggerEnd] = {"Go to the bank in Darnassus, otherwise known as the Bough of the Eternals.", {[zoneIDs.DARNASSUS]={{41.31,43.54}}}},
+        },
+        [1480] = {
+            [questKeys.startedBy] = {{4663,4664,4665,4666,4667,4668,4705,13019},nil,{20310}},
         },
         [1483] = {
             [questKeys.exclusiveTo] = {1093},
@@ -1578,6 +1588,9 @@ function QuestieQuestFixes:Load()
         },
         [4361] = {
             [questKeys.preQuestSingle] = {4342},
+        },
+        [4451] = {
+            [questKeys.startedBy] = {{8566,5840,5844,5846,15692,8504},nil,{11818}},
         },
         [4485] = {
             [questKeys.startedBy] = {{6179},nil,nil},
