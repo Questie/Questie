@@ -374,7 +374,7 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     if npc.subName == "Weapon Master" then
         local skills = weaponMasterSkills[data.id]
         if skills then
-            data.ManualToolTipData.Title = data.ManualToolTipData.Title .. "\n Trains The Following Skills:"
+            data.ManualTooltipData.Title = data.ManualTooltipData.Title .. "\n Trains The Following Skills:"
             for _, skill in ipairs(skills) do
                 data.ManualTooltipData.Title = data.ManualTooltipData.Title .. "\n - " .. skill
             end
