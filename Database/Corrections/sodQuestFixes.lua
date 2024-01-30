@@ -1742,7 +1742,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [90081] = {
-            [questKeys.name] = "Aspect of the Lion",
+            [questKeys.name] = "Heart of the Lion",
             [questKeys.startedBy] = {{211965}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
@@ -2507,18 +2507,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Kill Defias until one drops the Libram of Banishment, equip the libram and follow its guidance."},
             [questKeys.requiredSpell] = -416037,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
-        },
-        [90149] = {
-            [questKeys.name] = "Heart of the Lion",
-            [questKeys.startedBy] = {{211965}},
-            [questKeys.finishedBy] = nil,
-            [questKeys.requiredLevel] = 1,
-            [questKeys.questLevel] = 25,
-            [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.requiredClasses] = classIDs.HUNTER,
-            [questKeys.objectivesText] = {"Kill Carrodin in the cave, and loot the rune."},
-            [questKeys.requiredSpell] = -410115,
-            [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [90150] = {
             [questKeys.name] = "Sniper Training",
