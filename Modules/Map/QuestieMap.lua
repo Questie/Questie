@@ -370,7 +370,17 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
         [11868] = {"Bows", "Daggers", "Fist Weapons", "One-Handed Axes", "Thrown", "Two-Handed Axes"},
         [11869] = {"Guns", "One-Handed Maces", "Staves", "Two-Handed Maces"},
         [11870] = {"Crossbows", "Daggers", "One-Handed Swords", "Polearms", "Two-Handed Swords"},
+
     }
+    local isTBC = Questie.IsTBC
+    local isWotlk = Questie.IsWotlk
+    if isTBC or isWotlk then
+        -- Blood Elf Starting Area Weapon Trainers
+        weaponMasterSkills[16621] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"},
+        weaponMasterSkills[17005] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"},
+        -- Draenei Starting Area Weapon Trainers
+        weaponMasterSkills[16773] = {"Crossbows", "Daggers", "One-Handed Maces", "One-Handed Swords", "Two-Handed Maces", "Two-Handed Swords"},
+    end
     if npc.subName == "Weapon Master" then
         local skills = weaponMasterSkills[data.id]
         if skills then
