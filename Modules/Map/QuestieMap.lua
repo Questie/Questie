@@ -332,6 +332,27 @@ function QuestieMap.ProcessQueue()
     end
 end
 
+local weaponMasterSkills = {
+    -- Alliance Weapon Trainers
+    [11865] = {"Fist Weapons", "Guns", "One-Handed Axes", "One-Handed Maces", "Two-Handed Axes", "Two-Handed Maces"},
+    [11866] = {"Bows", "Daggers", "Fist Weapons", "Staves", "Thrown"},
+    [11867] = {"Crossbows", "Daggers", "One-Handed Swords", "Polearms", "Staves", "Two-Handed Swords"},
+    [13084] = {"Crossbows", "Daggers", "Thrown"},
+    -- Horde Weapon Trainers
+    [2704] = {"Bows", "One-Handed Axes", "Staves", "Thrown", "Two-Handed Axes"},
+    [11868] = {"Bows", "Daggers", "Fist Weapons", "One-Handed Axes", "Thrown", "Two-Handed Axes"},
+    [11869] = {"Guns", "One-Handed Maces", "Staves", "Two-Handed Maces"},
+    [11870] = {"Crossbows", "Daggers", "One-Handed Swords", "Polearms", "Two-Handed Swords"},
+
+}
+local function appendSkillsToTitle(title, skills)
+    title = title .. "\n Trains The Following Skills:"
+    for _, skill in ipairs(skills) do
+        title = title .. "\n - " .. skill
+    end
+    return title
+end
+
 -- Show NPC on map
 -- This function does the same for manualFrames as similar functions in
 -- QuestieQuest do for questIdFrames
@@ -359,19 +380,6 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     data.IsObjectiveNote = false
     data.ManualTooltipData = {}
     data.ManualTooltipData.Title = title or (npc.name .. " (" .. l10n("NPC") .. ")")
-    local weaponMasterSkills = {
-        -- Alliance Weapon Trainers
-        [11865] = {"Fist Weapons", "Guns", "One-Handed Axes", "One-Handed Maces", "Two-Handed Axes", "Two-Handed Maces"},
-        [11866] = {"Bows", "Daggers", "Fist Weapons", "Staves", "Thrown"},
-        [11867] = {"Crossbows", "Daggers", "One-Handed Swords", "Polearms", "Staves", "Two-Handed Swords"},
-        [13084] = {"Crossbows", "Daggers", "Thrown"},
-        -- Horde Weapon Trainers
-        [2704] = {"Bows", "One-Handed Axes", "Staves", "Thrown", "Two-Handed Axes"},
-        [11868] = {"Bows", "Daggers", "Fist Weapons", "One-Handed Axes", "Thrown", "Two-Handed Axes"},
-        [11869] = {"Guns", "One-Handed Maces", "Staves", "Two-Handed Maces"},
-        [11870] = {"Crossbows", "Daggers", "One-Handed Swords", "Polearms", "Two-Handed Swords"},
-
-    }
     local isTBC = Questie.IsTBC
     local isWotlk = Questie.IsWotlk
     if isTBC or isWotlk then
@@ -384,10 +392,7 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     if npc.subName == "Weapon Master" then
         local skills = weaponMasterSkills[data.id]
         if skills then
-            data.ManualTooltipData.Title = data.ManualTooltipData.Title .. "\n Trains The Following Skills:"
-            for _, skill in ipairs(skills) do
-                data.ManualTooltipData.Title = data.ManualTooltipData.Title .. "\n - " .. skill
-            end
+            data.ManualTooltipData.Title = appendSkillsToTitle(data.ManualTooltipData.Title, skills)
         end
     end
     local level = tostring(npc.minLevel)
