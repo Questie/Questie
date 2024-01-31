@@ -2802,6 +2802,7 @@ globals = {
     "SUFUnittarget",
     "ElvUF_Target",
     "AzeriteUnitFrameTarget",
+    "GwTargetUnitFrame",
     "PitBull4_Frames_Target",
     "UIDROPDOWNMENU_MAXLEVELS",
     "L_UIDROPDOWNMENU_MAXLEVELS",
