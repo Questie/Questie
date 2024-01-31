@@ -346,7 +346,6 @@ local weaponMasterSkills = {
 
 }
 local function appendSkillsToTitle(title, skills)
-    title = title .. "\n Trains The Following Skills:"
     for _, skill in ipairs(skills) do
         title = title .. "\n - " .. skill
     end
