@@ -376,10 +376,10 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     local isWotlk = Questie.IsWotlk
     if isTBC or isWotlk then
         -- Blood Elf Starting Area Weapon Trainers
-        weaponMasterSkills[16621] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"},
-        weaponMasterSkills[17005] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"},
+        weaponMasterSkills[16621] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"}
+        weaponMasterSkills[17005] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"}
         -- Draenei Starting Area Weapon Trainers
-        weaponMasterSkills[16773] = {"Crossbows", "Daggers", "One-Handed Maces", "One-Handed Swords", "Two-Handed Maces", "Two-Handed Swords"},
+        weaponMasterSkills[16773] = {"Crossbows", "Daggers", "One-Handed Maces", "One-Handed Swords", "Two-Handed Maces", "Two-Handed Swords"}
     end
     if npc.subName == "Weapon Master" then
         local skills = weaponMasterSkills[data.id]
