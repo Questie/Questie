@@ -64,7 +64,7 @@ local tutorialLocals = {
     },
     ["Questie can show you the locations of Phase 1 runes for your class.\n\n"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Questie может отображать местоположение рун 1-й фазы для вашего класса.\n\n",
         ["deDE"] = "Questie kann die Orte der Runen aus Phase 1 für deine Klasse anzeigen.\n\n",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -76,7 +76,7 @@ local tutorialLocals = {
     },
     ["Rune locations are marked with the following symbol"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Местоположения рун отмечены следующим символом:",
         ["deDE"] = "Runenstandorte sind mit dem folgenden Symbol markiert",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -88,7 +88,7 @@ local tutorialLocals = {
     },
     ["Please choose if you want to see them or not:\n"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Пожалуйста, выберите, хотите вы их видеть или нет\n",
         ["deDE"] = "Bitte wähle, ob sie angezeigt werden sollen oder nicht:\n",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -100,7 +100,7 @@ local tutorialLocals = {
     },
     ["(This can always be changed in the Icons tab of the settings)"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "(это всегда может быть изменено в настройках на вкладке Значки)",
         ["deDE"] = "(Dies kann immer im Reiter Icons der Einstellungen geändert werden)",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -112,7 +112,7 @@ local tutorialLocals = {
     },
     ["Yes, show runes"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Показывать руны",
         ["deDE"] = "Ja, zeige Runen",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -124,7 +124,7 @@ local tutorialLocals = {
     },
     ["No, hide runes"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Скрыть руны",
         ["deDE"] = "Nein, nicht zeigen",
         ["koKR"] = false,
         ["esMX"] = false,
