@@ -107,8 +107,9 @@ local itemBlacklist = {
 }
 
 local itemWhitelist = {
-    208609, -- glade flower for druid living seed
-    206469, -- prairie flower for druid living seed
+    -- TODO: Add distance check for these
+    --208609, -- glade flower for druid living seed
+    --206469, -- prairie flower for druid living seed
 }
 
 local itemTripCodes = {
