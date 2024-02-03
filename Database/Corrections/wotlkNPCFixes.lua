@@ -153,7 +153,7 @@ function QuestieWotlkNpcFixes:Load()
             [zoneIDs.SHATTRATH_CITY]={{53.51,34.4},{53.32,35.34},{52.88,34.63}}},
         },
         [15895] = {
-            [npcKeys.spawns] = {[1657]={{33.89,13.87}},[1497]={{65.62,36.0}},[1637]={{41.66,31.98}},[1638]={{71.12,28.2}},[1537]={{28.85,16.23}},[1519]={{23.22,53.24}}, -- original data
+            [npcKeys.spawns] = {[1657]={{33.89,13.87}},[1497]={{65.62,36.0}},[1637]={{41.66,31.98}},[1638]={{71.12,28.2}},[1537]={{28.85,16.23}},[1519]={{37.65,65.63}}, -- original data
                                [zoneIDs.THE_EXODAR]={{74,57.5}}, -- correction
                                [zoneIDs.SILVERMOON_CITY]={{73.1,82.6}},
                                [zoneIDs.SHATTRATH_CITY]={{53.29,33.1},{48.14,36.87}},
@@ -3015,6 +3015,17 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
     local zoneIDs = ZoneDB.zoneIDs
 
     local npcFixesHorde = {
+        [15898] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR]={{41.27,32.36}},
+                [zoneIDs.THUNDER_BLUFF]={{70.56,27.83}},
+                [zoneIDs.UNDERCITY]={{66.45,36.02}},
+                [zoneIDs.MOONGLADE]={{36.58,58.1},{36.3,58.53}},
+                [zoneIDs.SHATTRATH_CITY]={{52.63,33.25},{48.64,36.29}},
+                [zoneIDs.SILVERMOON_CITY]={{73.1,82.6}},
+                [zoneIDs.DALARAN]={{47.93,43.32}},
+            },
+        },
         [26221] = {
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY]={{66.9,13.53}},[zoneIDs.ORGRIMMAR]={{46.44,38.69}},[zoneIDs.THUNDER_BLUFF]={{22.16,23.98}},[zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},[zoneIDs.SILVERMOON_CITY]={{68.67,42.94}}},
         },
@@ -3087,6 +3098,17 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
     }
 
     local npcFixesAlliance = {
+        [15898] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY]={{37.32,64.04}},
+                [zoneIDs.IRONFORGE]={{29.92,14.21}},
+                [zoneIDs.DARNASSUS]={{31.56,13.69}},
+                [zoneIDs.MOONGLADE]={{36.58,58.1},{36.3,58.53}},
+                [zoneIDs.SHATTRATH_CITY]={{52.63,33.25},{48.64,36.29}},
+                [zoneIDs.THE_EXODAR]={{74,57.5}},
+                [zoneIDs.DALARAN]={{47.93,43.32}},
+            },
+        },
         [26221] = {
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{56.1,92.16}},[zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},[zoneIDs.IRONFORGE]={{65.14,27.71}},[zoneIDs.STORMWIND_CITY]={{49.32,72.3}},[zoneIDs.THE_EXODAR]={{43.27,26.26}}},
         },
