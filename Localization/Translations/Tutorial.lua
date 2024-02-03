@@ -72,7 +72,7 @@ local tutorialLocals = {
         ["zhCN"] = false,
         ["zhTW"] = false,
         ["esES"] = false,
-        ["frFR"] = false,
+        ["frFR"] = "Questie peut vous indiquer la position des runes de la Phase 1 pour votre classe.\n\n",
     },
     ["Rune locations are marked with the following symbol"] = {
         ["ptBR"] = false,
@@ -84,7 +84,7 @@ local tutorialLocals = {
         ["zhCN"] = false,
         ["zhTW"] = false,
         ["esES"] = false,
-        ["frFR"] = false,
+        ["frFR"] = "La position des runes est indiquée par le symbole suivant",
     },
     ["Please choose if you want to see them or not:\n"] = {
         ["ptBR"] = false,
@@ -96,7 +96,7 @@ local tutorialLocals = {
         ["zhCN"] = false,
         ["zhTW"] = false,
         ["esES"] = false,
-        ["frFR"] = false,
+        ["frFR"] = "Choisissez si vous voulez les voir ou non:\n",
     },
     ["(This can always be changed in the Icons tab of the settings)"] = {
         ["ptBR"] = false,
@@ -108,7 +108,7 @@ local tutorialLocals = {
         ["zhCN"] = false,
         ["zhTW"] = false,
         ["esES"] = false,
-        ["frFR"] = false,
+        ["frFR"] = "(Ce choix peut être changé à nouveau dans l'onglet Icones des réglages)",
     },
     ["Yes, show runes"] = {
         ["ptBR"] = false,
@@ -120,7 +120,7 @@ local tutorialLocals = {
         ["zhCN"] = false,
         ["zhTW"] = false,
         ["esES"] = false,
-        ["frFR"] = false,
+        ["frFR"] = "Oui, montrez les runes",
     },
     ["No, hide runes"] = {
         ["ptBR"] = false,
@@ -132,7 +132,7 @@ local tutorialLocals = {
         ["zhCN"] = false,
         ["zhTW"] = false,
         ["esES"] = false,
-        ["frFR"] = false,
+        ["frFR"] = "Non, masquez les runes",
     },
 }
 
