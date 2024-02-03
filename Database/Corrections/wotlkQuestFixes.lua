@@ -3049,6 +3049,18 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Listen to Thorim's history"), 0, {{"monster", 29445}}},
             },
         },
+        [13065] = {
+            [questKeys.startedBy] = {{30537}},
+            [questKeys.finishedBy] = {{30537}},
+        },
+        [13066] = {
+            [questKeys.startedBy] = {{30535}},
+            [questKeys.finishedBy] = {{30535}},
+        },
+        [13067] = {
+            [questKeys.startedBy] = {{30538}},
+            [questKeys.finishedBy] = {{30538}},
+        },
         [13068] = {
             [questKeys.preQuestSingle] = {13141},
         },

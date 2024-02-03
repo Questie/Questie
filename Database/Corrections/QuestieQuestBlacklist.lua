@@ -726,6 +726,9 @@ function QuestieQuestBlacklist:Load()
         [13031] = true,
         [13032] = true,
         [13033] = true,
+        [13065] = true,
+        [13066] = true,
+        [13067] = true,
 
 
         -- End of Wotlk event quests
