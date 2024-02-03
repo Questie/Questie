@@ -301,8 +301,8 @@ function QuestieOptions.tabs.general:Initialize()
                                 QuestieCoords.ResetMapText();
                             end
                         end,
-                    },			
-					Spacer_Range = QuestieOptionsUtils:Spacer(5.56),
+                    },
+                    Spacer_Range = QuestieOptionsUtils:Spacer(5.56),
                     mapCoordinatePrecision = {
                         type = "range",
                         order = 5.6,

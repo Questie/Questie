@@ -26,7 +26,7 @@ function QuestieOptionsDefaults:Load()
             nameplateEnabled = true,
             minimapCoordinatesEnabled = false,
             mapCoordinatesEnabled = true,
-			miniWorldMapCoordinatesEnabled = false,
+            miniWorldMapCoordinatesEnabled = false,
             mapCoordinatePrecision = 1,
             dbmHUDEnable = false,
             dbmHUDShowAlert = true,
