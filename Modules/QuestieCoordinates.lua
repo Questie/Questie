@@ -132,5 +132,5 @@ end
 
 function QuestieCoords:ResetMapText()
     GetMapTitleText():SetText(WORLD_MAP);
-    GetMiniWorldMapTitleText():SetText(WORLD_MAP);
+	GetMiniWorldMapTitleText():SetText(GetZoneText());
 end
