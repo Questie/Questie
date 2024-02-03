@@ -32,10 +32,10 @@ function Tutorial.ShowRunes()
     titleText:SetPoint("TOP", 0, -10)
 
     local customText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    customText:SetText(l10n(
-        "Questie can show you the locations of Phase 1 runes for your class.\n\n" ..
-        "Rune locations are marked with the following symbol"
-    ))
+    customText:SetText(
+        l10n("Questie can show you the locations of Phase 1 runes for your class.\n\n") ..
+        l10n("Rune locations are marked with the following symbol")
+    )
     customText:SetPoint("TOP", 0, -35)
 
     local showRunesIcon = baseFrame:CreateTexture(nil, "OVERLAY")
@@ -44,10 +44,10 @@ function Tutorial.ShowRunes()
     showRunesIcon:SetPoint("TOP", 0, -85)
 
     local chooseText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    chooseText:SetText(l10n(
-        "Please choose if you want to see them or not:\n" ..
-        "(This can always be changed in the Icons tab of the settings)"
-    ))
+    chooseText:SetText(
+        l10n("Please choose if you want to see them or not:\n") ..
+        l10n("(This can always be changed in the Icons tab of the settings)")
+    )
     chooseText:SetPoint("TOP", 0, -125)
 
     local showRunesButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
