@@ -8,7 +8,7 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@return Frame
 function Tutorial.ShowRunes()
     local baseFrame = CreateFrame("Frame", "QuestieTutorialShowRunes", UIParent, BackdropTemplateMixin and "BackdropTemplate")
-    baseFrame:SetSize(460, 200)
+    baseFrame:SetSize(500, 200)
     baseFrame:SetPoint("CENTER", 0, 50)
     baseFrame:SetFrameStrata("HIGH")
     baseFrame:EnableMouse(true)
