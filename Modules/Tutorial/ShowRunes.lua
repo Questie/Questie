@@ -38,10 +38,10 @@ function Tutorial.ShowRunes()
     ))
     customText:SetPoint("TOP", 0, -35)
 
-    local showRunesImage = baseFrame:CreateTexture(nil, "OVERLAY")
-    showRunesImage:SetTexture("Interface\\Addons\\Questie\\Icons\\sod_rune.blp")
-    showRunesImage:SetSize(30, 30)
-    showRunesImage:SetPoint("TOP", 0, -85)
+    local showRunesIcon = baseFrame:CreateTexture(nil, "OVERLAY")
+    showRunesIcon:SetTexture("Interface\\Addons\\Questie\\Icons\\sod_rune.blp")
+    showRunesIcon:SetSize(30, 30)
+    showRunesIcon:SetPoint("TOP", 0, -85)
 
     local chooseText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     chooseText:SetText(l10n(
