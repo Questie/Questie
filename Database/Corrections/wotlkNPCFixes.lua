@@ -144,20 +144,33 @@ function QuestieWotlkNpcFixes:Load()
         [15576] = {
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{26.5,76.5}}},
         },
+        [15891] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR]={{50.98,70.57}},
+                [zoneIDs.UNDERCITY]={{66.74,43.39}},
+                [zoneIDs.THUNDER_BLUFF]={{38.37,63.42}},
+            },
+        },
         [15892] = {
             [npcKeys.spawns] = {
-            [zoneIDs.STORMWIND_CITY]={{61.73,75.73}},
-            [zoneIDs.IRONFORGE]={{30.4,61.4},{30.4,61.6},{30.6,17.8},{30.6,61.4},{30.8,61.8},{31.2,63.2},{31.6,62.8}},
-            [zoneIDs.DARNASSUS]={{42.16,43.97},{32.2,12.2}},
-            [zoneIDs.DALARAN]={{48.96,44.53},{49.35,43.57},{49.78,44.62}},
-            [zoneIDs.SHATTRATH_CITY]={{53.51,34.4},{53.32,35.34},{52.88,34.63}}},
+                [zoneIDs.STORMWIND_CITY]={{61.73,75.73}},
+                [zoneIDs.IRONFORGE]={{30.92,61.59}},
+                [zoneIDs.DARNASSUS]={{42.15,43.99}},
+            },
         },
         [15895] = {
-            [npcKeys.spawns] = {[1657]={{33.89,13.87}},[1497]={{65.62,36.0}},[1637]={{41.66,31.98}},[1638]={{71.12,28.2}},[1537]={{28.85,16.23}},[1519]={{37.65,65.63}}, -- original data
-                               [zoneIDs.THE_EXODAR]={{74,57.5}}, -- correction
-                               [zoneIDs.SILVERMOON_CITY]={{73.1,82.6}},
-                               [zoneIDs.SHATTRATH_CITY]={{53.29,33.1},{48.14,36.87}},
-                               [zoneIDs.DALARAN]={{47.65,43.76}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.DARNASSUS]={{32.59,12}},
+                [zoneIDs.UNDERCITY]={{65.62,36.0}},
+                [zoneIDs.ORGRIMMAR]={{41.66,31.98}},
+                [zoneIDs.THUNDER_BLUFF]={{71.12,28.2}},
+                [zoneIDs.IRONFORGE]={{28.85,16.23}},
+                [zoneIDs.STORMWIND_CITY]={{37.65,65.63}},
+                [zoneIDs.THE_EXODAR]={{74.02,57.47}},
+                [zoneIDs.SILVERMOON_CITY]={{73.1,82.6}},
+                [zoneIDs.SHATTRATH_CITY]={{53.29,33.1},{48.14,36.87}},
+                [zoneIDs.DALARAN]={{47.65,43.76}},
+            },
         },
         [15954] = {
             [npcKeys.spawns] = {[zoneIDs.NAXXRAMAS_PLAGUE_QUARTER] = {{34.7,56.5}},[zoneIDs.NAXXRAMAS] = {{-1,-1}}},
@@ -3022,7 +3035,7 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
                 [zoneIDs.UNDERCITY]={{66.45,36.02}},
                 [zoneIDs.MOONGLADE]={{36.58,58.1},{36.3,58.53}},
                 [zoneIDs.SHATTRATH_CITY]={{52.63,33.25},{48.64,36.29}},
-                [zoneIDs.SILVERMOON_CITY]={{73.1,82.6}},
+                [zoneIDs.SILVERMOON_CITY]={{73.41,82.17}},
                 [zoneIDs.DALARAN]={{47.93,43.32}},
             },
         },
@@ -3102,10 +3115,10 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY]={{37.32,64.04}},
                 [zoneIDs.IRONFORGE]={{29.92,14.21}},
-                [zoneIDs.DARNASSUS]={{31.56,13.69}},
+                [zoneIDs.DARNASSUS]={{34.57,12.8}},
                 [zoneIDs.MOONGLADE]={{36.58,58.1},{36.3,58.53}},
                 [zoneIDs.SHATTRATH_CITY]={{52.63,33.25},{48.64,36.29}},
-                [zoneIDs.THE_EXODAR]={{74,57.5}},
+                [zoneIDs.THE_EXODAR]={{74.02,58.23}},
                 [zoneIDs.DALARAN]={{47.93,43.32}},
             },
         },

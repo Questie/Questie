@@ -333,6 +333,19 @@ function QuestieWotlkQuestFixes:Load()
         [8767] = {
             [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.WARRIOR + classIDs.HUNTER + classIDs.PALADIN + classIDs.DEATH_KNIGHT,
         },
+        [8871] = {
+            [questKeys.startedBy] = {},
+        },
+        [8872] = {
+            [questKeys.startedBy] = {},
+        },
+        [8874] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.startedBy] = {},
+        },
+        [8875] = {
+            [questKeys.startedBy] = {},
+        },
         [8892] = {
             [questKeys.preQuestSingle] = {},
         },
