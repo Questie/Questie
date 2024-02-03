@@ -34,7 +34,7 @@ function Tutorial.ShowRunes()
     local customText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     customText:SetText(
         l10n("Questie can show you the locations of Phase 1 runes for your class.\n\n") ..
-        l10n("Rune locations are marked with the following symbol")
+        l10n("Rune locations are marked with the following symbol:")
     )
     customText:SetPoint("TOP", 0, -35)
 
@@ -45,7 +45,7 @@ function Tutorial.ShowRunes()
 
     local chooseText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     chooseText:SetText(
-        l10n("Please choose if you want to see them or not:\n") ..
+        l10n("Please choose if you want to see them or not\n") ..
         l10n("(This can always be changed in the Icons tab of the settings)")
     )
     chooseText:SetPoint("TOP", 0, -125)
