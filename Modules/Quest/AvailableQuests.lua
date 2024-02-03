@@ -274,8 +274,8 @@ _AddStarter = function(starter, quest, tooltipKey)
 
     local starterIcons = {}
     local starterLocs = {}
-    local alreadyAddedSpawns = {}
     for zone, spawns in pairs(starter.spawns) do
+        local alreadyAddedSpawns = {}
         if (zone and spawns) then
             local coords
             for spawnIndex = 1, #spawns do
