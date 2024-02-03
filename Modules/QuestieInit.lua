@@ -202,10 +202,8 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         QuestieCorrections:MinimalInit()
     end
 
-    if Questie.IsWotlk then
-        Tutorial.Initialize()
-        coYield()
-    end
+    Tutorial.Initialize()
+    coYield()
 
     local dbCompiledCount = Questie.IsSoD and Questie.db.global.sod.dbCompiledCount or Questie.db.global.dbCompiledCount
 
