@@ -378,9 +378,7 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     data.IsObjectiveNote = false
     data.ManualTooltipData = {}
     data.ManualTooltipData.Title = title or (npc.name .. " (" .. l10n("NPC") .. ")")
-    local isTBC = Questie.IsTBC
-    local isWotlk = Questie.IsWotlk
-    if isTBC or isWotlk then
+    if Questie.IsTBC or Questie.IsWotlk then
         -- Blood Elf Starting Area Weapon Trainers
         weaponMasterSkills[16621] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"}
         weaponMasterSkills[17005] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"}
