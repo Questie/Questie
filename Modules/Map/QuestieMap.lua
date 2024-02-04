@@ -343,7 +343,6 @@ local weaponMasterSkills = {
     [11868] = {"Bows", "Daggers", "Fist Weapons", "One-Handed Axes", "Thrown", "Two-Handed Axes"},
     [11869] = {"Guns", "One-Handed Maces", "Staves", "Two-Handed Maces"},
     [11870] = {"Crossbows", "Daggers", "One-Handed Swords", "Polearms", "Two-Handed Swords"},
-
 }
 local function appendSkillsToTitle(title, skills)
     for _, skill in ipairs(skills) do
