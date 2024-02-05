@@ -328,27 +328,7 @@ function QuestieMap.ProcessQueue()
         minimapDrawCall[2]._loaded = true
         if minimapDrawCall[2]._needsUnload then
             minimapDrawCall[2]:Unload()
-        end
-    end
-end
-
-local weaponMasterSkills = {
-    -- Alliance Weapon Trainers
-    [11865] = {"Fist Weapons", "Guns", "One-Handed Axes", "One-Handed Maces", "Two-Handed Axes", "Two-Handed Maces"},
-    [11866] = {"Bows", "Daggers", "Fist Weapons", "Staves", "Thrown"},
-    [11867] = {"Crossbows", "Daggers", "One-Handed Swords", "Polearms", "Staves", "Two-Handed Swords"},
-    [13084] = {"Crossbows", "Daggers", "Thrown"},
-    -- Horde Weapon Trainers
-    [2704] = {"Bows", "One-Handed Axes", "Staves", "Thrown", "Two-Handed Axes"},
-    [11868] = {"Bows", "Daggers", "Fist Weapons", "One-Handed Axes", "Thrown", "Two-Handed Axes"},
-    [11869] = {"Guns", "One-Handed Maces", "Staves", "Two-Handed Maces"},
-    [11870] = {"Crossbows", "Daggers", "One-Handed Swords", "Polearms", "Two-Handed Swords"},
-}
-local function appendSkillsToTitle(title, skills)
-    for _, skill in ipairs(skills) do
-        title = title .. "\n - " .. l10n(skill)
-    end
-    return title
+        end  
 end
 
 -- Show NPC on map
@@ -378,17 +358,18 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     data.IsObjectiveNote = false
     data.ManualTooltipData = {}
     data.ManualTooltipData.Title = title or (npc.name .. " (" .. l10n("NPC") .. ")")
+    local WeaponMasterSkills = require("WeaponMasterSkills")
     if Questie.IsTBC or Questie.IsWotlk then
         -- Blood Elf Starting Area Weapon Trainers
-        weaponMasterSkills[16621] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"}
-        weaponMasterSkills[17005] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"}
+        WeaponMasterSkills.data[16621] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"}
+        WeaponMasterSkills.data[17005] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"}
         -- Draenei Starting Area Weapon Trainers
-        weaponMasterSkills[16773] = {"Crossbows", "Daggers", "One-Handed Maces", "One-Handed Swords", "Two-Handed Maces", "Two-Handed Swords"}
+        WeaponMasterSkills.data[16773] = {"Crossbows", "Daggers", "One-Handed Maces", "One-Handed Swords", "Two-Handed Maces", "Two-Handed Swords"}
     end
     if npc.subName == "Weapon Master" then
-        local skills = weaponMasterSkills[data.id]
+        local skills = WeaponMasterSkills.data[data.id]
         if skills then
-            data.ManualTooltipData.Title = appendSkillsToTitle(data.ManualTooltipData.Title, skills)
+            data.ManualTooltipData.Title = WeaponMasterSkills.appendSkillsToTitle(data.ManualTooltipData.Title, skills)
         end
     end
     local level = tostring(npc.minLevel)
