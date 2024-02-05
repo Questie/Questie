@@ -5539,6 +5539,10 @@ function QuestieWotlkQuestFixes:Load()
         [14444] = {
             [questKeys.objectives] = {{{27990,"Ask Krasus about the hilt's origins"}}},
         },
+        [14483] = {
+            [questKeys.startedBy] = {{36296},nil,{49641}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [20438] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ask Shandy Glossgleam to lend you a tabard"), 0, {{"monster", 36856}}}},
         },
@@ -5765,6 +5769,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Snagglebolt's Air Analyzer on perfumed guards"), 0, {{"monster", 3296}}}},
         },
         [24541] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Grab the package"), 0, {{"monster", 37671}}}},
             [questKeys.sourceItemId] = 49867,
         },
         [24545] = {
@@ -5928,6 +5933,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24645, 24647, 24648, 24649, 24650, 24651, 24652},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400048}}}},
+            [questKeys.objectives] = {nil,{{400048,"Chemical Wagon Destroyed"}},nil,nil,{{{37214},37214}}},
+            [questKeys.requiredMaxLevel] = 13,
         },
         [24645] = {
             [questKeys.preQuestSingle] = {24576},
@@ -5935,6 +5942,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24647, 24648, 24649, 24650, 24651, 24652},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400049}}}},
+            [questKeys.objectives] = {nil,{{400049,"Chemical Wagon Destroyed"}},nil,nil,{{{37917},37917}}},
+            [questKeys.requiredMaxLevel] = 22,
         },
         [24647] = {
             [questKeys.preQuestSingle] = {24576},
@@ -5942,6 +5951,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24645, 24648, 24649, 24650, 24651, 24652},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400052}}}},
+            [questKeys.objectives] = {nil,{{400052,"Chemical Wagon Destroyed"}},nil,nil,{{{37984},37984}}},
+            [questKeys.requiredMaxLevel] = 31,
         },
         [24648] = {
             [questKeys.preQuestSingle] = {24576},
@@ -5949,6 +5960,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24649, 24650, 24651, 24652},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400053}}}},
+            [questKeys.objectives] = {nil,{{400053,"Chemical Wagon Destroyed"}},nil,nil,{{{38006},38006}}},
+            [questKeys.requiredMaxLevel] = 40,
         },
         [24649] = {
             [questKeys.preQuestSingle] = {24576},
@@ -5956,6 +5969,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24648, 24650, 24651, 24652},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400054}}}},
+            [questKeys.objectives] = {nil,{{400054,"Chemical Wagon Destroyed"}},nil,nil,{{{38016},38016}}},
+            [questKeys.requiredMaxLevel] = 50,
         },
         [24650] = {
             [questKeys.preQuestSingle] = {24576},
@@ -5963,6 +5978,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24648, 24649, 24651, 24652},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400055}}}},
+            [questKeys.objectives] = {nil,{{400055,"Chemical Wagon Destroyed"}},nil,nil,{{{38023},38023}}},
+            [questKeys.requiredMaxLevel] = 60,
         },
         [24651] = {
             [questKeys.preQuestSingle] = {24576},
@@ -5970,6 +5987,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24648, 24649, 24650, 24652},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400056}}}},
+            [questKeys.objectives] = {nil,{{400056,"Chemical Wagon Destroyed"}},nil,nil,{{{38030},38030}}},
+            [questKeys.requiredMaxLevel] = 70,
         },
         [24652] = {
             [questKeys.preQuestSingle] = {24576},
@@ -5977,12 +5996,14 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24648, 24649, 24650, 24651},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400057}}}},
+            [questKeys.objectives] = {nil,{{400057,"Chemical Wagon Destroyed"}},nil,nil,{{{38032},38032}}},
         },
         [24655] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{68,1976},1976}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Snagglebolt's Air Analyzer on perfumed guards"), 0, {{"monster", 68},{"monster", 1976}}}},
         },
         [24656] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Grab the package"), 0, {{"monster", 38065}}}},
             [questKeys.sourceItemId] = 49867,
         },
         [24658] = {
@@ -5991,6 +6012,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24659, 24660, 24662, 24663, 24664, 24665, 24666},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400050}}}},
+            [questKeys.objectives] = {nil,{{400050,"Chemical Wagon Destroyed"}},nil,nil,{{{37214},37214}}},
+            [questKeys.requiredMaxLevel] = 13,
         },
         [24659] = {
             [questKeys.preQuestSingle] = {24657},
@@ -5998,6 +6021,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24660, 24662, 24663, 24664, 24665, 24666},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400051}}}},
+            [questKeys.objectives] = {nil,{{400051,"Chemical Wagon Destroyed"}},nil,nil,{{{37917},37917}}},
+            [questKeys.requiredMaxLevel] = 22,
         },
         [24660] = {
             [questKeys.preQuestSingle] = {24657},
@@ -6005,6 +6030,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24659, 24662, 24663, 24664, 24665, 24666},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400052}}}},
+            [questKeys.objectives] = {nil,{{400052,"Chemical Wagon Destroyed"}},nil,nil,{{{37984},37984}}},
+            [questKeys.requiredMaxLevel] = 31,
         },
         [24662] = {
             [questKeys.preQuestSingle] = {24657},
@@ -6012,6 +6039,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24663, 24664, 24665, 24666},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400053}}}},
+            [questKeys.objectives] = {nil,{{400053,"Chemical Wagon Destroyed"}},nil,nil,{{{38006},38006}}},
+            [questKeys.requiredMaxLevel] = 40,
         },
         [24663] = {
             [questKeys.preQuestSingle] = {24657},
@@ -6019,6 +6048,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24662, 24664, 24665, 24666},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400054}}}},
+            [questKeys.objectives] = {nil,{{400054,"Chemical Wagon Destroyed"}},nil,nil,{{{38016},38016}}},
+            [questKeys.requiredMaxLevel] = 50,
         },
         [24664] = {
             [questKeys.preQuestSingle] = {24657},
@@ -6026,6 +6057,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24662, 24663, 24665, 24666},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400055}}}},
+            [questKeys.objectives] = {nil,{{400055,"Chemical Wagon Destroyed"}},nil,nil,{{{38023},38023}}},
+            [questKeys.requiredMaxLevel] = 60,
         },
         [24665] = {
             [questKeys.preQuestSingle] = {24657},
@@ -6033,6 +6066,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24662, 24663, 24664, 24666},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400056}}}},
+            [questKeys.objectives] = {nil,{{400056,"Chemical Wagon Destroyed"}},nil,nil,{{{38030},38030}}},
+            [questKeys.requiredMaxLevel] = 70,
         },
         [24666] = {
             [questKeys.preQuestSingle] = {24657},
@@ -6040,6 +6075,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24662, 24663, 24664, 24665},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400057}}}},
+            [questKeys.objectives] = {nil,{{400057,"Chemical Wagon Destroyed"}},nil,nil,{{{38032},38032}}},
         },
         [24683] = {
             [questKeys.preQuestSingle] = {24499},
@@ -6055,6 +6091,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{37120}},
             [questKeys.preQuestSingle] = {24545},
             [questKeys.nextQuestInChain] = 24547,
+        },
+        [24745] = {
+            [questKeys.startedBy] = {{36296},nil,{50320}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [24748] = {
             [questKeys.startedBy] = {{37120}},

@@ -2278,7 +2278,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.FORGE_OF_SOULS,
         },
         [37671] = {
-            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{47.7,11.9},{47.8,11.7},{47.6,11.8}}},
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{47.73,11.83},{47.81,11.73},{47.66,11.75}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
         },
         [37675] = {
@@ -2334,7 +2334,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{66.6,38.6}},},
         },
         [38065] = {
-            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{33.92,47.27},{34.07,47.27}}},
+            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{33.92,47.27},{34.07,47.27}},[zoneIDs.STORMWIND_CITY]={{78.96,89.18}}},
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
         [38121] = {
@@ -2374,15 +2374,6 @@ function QuestieWotlkNpcFixes:Load()
         },
         [38328] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{58.96,53.12}}}
-        },
-        [38340] = {
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{49,68.96}}}
-        },
-        [38341] = {
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{54.26,63.77}}}
-        },
-        [38342] = {
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{47.21,54.09}}}
         },
         [38471] = {
             [npcKeys.questStarts] = {24869,24875},
@@ -3108,6 +3099,21 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{74.14,10.52},{74.7,9.72},{74.15,9.14},{73.76,9.69}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [37214] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{40.3,15.8},{40.1,15.5},{40.5,15.5},{40.5,15.2},{40.3,15.0}}},
+        },
+        [37917] = {
+            [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{55.2,61.0},{55.3,62.0},{54.9,63.1},{54.6,62.3}}},
+        },
+        [38340] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{49,68.96}}}
+        },
+        [38341] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{54.26,63.77}}}
+        },
+        [38342] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{47.21,54.09}}}
+        },
     }
 
     local npcFixesAlliance = {
@@ -3193,6 +3199,21 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
         [35071] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{66.87,8.97},{66.36,8.08},{67.31,8.2},{66.92,7.55}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [37214] = {
+            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{29.1,66.5},{28.8,66.2},{29.5,65.7},{28.8,65.7},{29.2,65.2}}},
+        },
+        [37917] = {
+            [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{43.3,79.9},{43.2,79.9},{43.2,79.5},{42.7,79.5},{43.0,79.4}}},
+        },
+        [38340] = {
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{63.08,78.86}}},
+        },
+        [38341] = {
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{60.81,70.03}}},
+        },
+        [38342] = {
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{61.33,65.64}}},
         },
     }
 

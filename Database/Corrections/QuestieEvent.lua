@@ -315,7 +315,7 @@ QuestieEvent.eventDates = {
         startDate = "3/2",
         endDate = "24/2"
     },
-    ["Love is in the Air"] = {startDate = "06/2", endDate = "20/2"},
+    ["Love is in the Air"] = {startDate = "05/2", endDate = "19/2"},
     ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!!
         startDate = "31/3",
         endDate = "6/4"
@@ -964,6 +964,7 @@ tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13480}) -- The Great Egg Hunt
 tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13502}) -- A Tisket, a Tasket, a Noblegarden Basket
 tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13503}) -- A Tisket, a Tasket, a Noblegarden Basket
 
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 14483}) -- Something is in the Air (and it Ain't Love)
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 14488}) -- You've Been Served
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24597}) -- A Gift for the King of Stormwind
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24609}) -- A Gift for the Lord of Ironforge
@@ -980,6 +981,7 @@ tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24536}) -- Something St
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24655}) -- Something Stinks
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24541}) -- Pilfering Perfume
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24656}) -- Pilfering Perfume
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24745}) -- Something is in the Air (and it Ain't Love)
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24804}) -- Uncommon Scents
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24805}) -- Uncommon Scents
 
@@ -1004,21 +1006,21 @@ tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24851}) -- Hot On The T
 -- instead of the level 5 one. Users can only tell the difference if they're watching quest IDs.
 -- TODO: If we implement maxLevel, these hacky workarounds should be implemented properly.
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24638}) -- Crushing the Crown (Durotar)
---tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24645}) -- Crushing the Crown (Ambermill)
---tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24647}) -- Crushing the Crown (Hillsbrad H)
---tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24648}) -- Crushing the Crown (Theramore H)
---tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24649}) -- Crushing the Crown (Aerie Peak H)
---tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24650}) -- Crushing the Crown (Everlook H)
---tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24651}) -- Crushing the Crown (Shattrath H)
---tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24652}) -- Crushing the Crown (Crystalsong H)
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24645}) -- Crushing the Crown (Ambermill)
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24647}) -- Crushing the Crown (Hillsbrad H)
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24648}) -- Crushing the Crown (Theramore H)
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24649}) -- Crushing the Crown (Aerie Peak H)
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24650}) -- Crushing the Crown (Everlook H)
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24651}) -- Crushing the Crown (Shattrath H)
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24652}) -- Crushing the Crown (Crystalsong H)
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24658}) -- Crushing the Crown (Elwynn)
---tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24659}) -- Crushing the Crown (Darkshore)
---tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24660}) -- Crushing the Crown (Hillsbrad A)
---tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24662}) -- Crushing the Crown (Theramore A)
---tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24663}) -- Crushing the Crown (Aerie Peak A)
---tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24664}) -- Crushing the Crown (Everlook A)
---tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24665}) -- Crushing the Crown (Shattrath A)
---tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24666}) -- Crushing the Crown (Crystalsong A)
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24659}) -- Crushing the Crown (Darkshore)
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24660}) -- Crushing the Crown (Hillsbrad A)
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24662}) -- Crushing the Crown (Theramore A)
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24663}) -- Crushing the Crown (Aerie Peak A)
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24664}) -- Crushing the Crown (Everlook A)
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24665}) -- Crushing the Crown (Shattrath A)
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24666}) -- Crushing the Crown (Crystalsong A)
 
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13926}) -- Little Orphan Roo Of The Oracles
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13927}) -- Little Orphan Kekek Of The Wolvar
