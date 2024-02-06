@@ -328,7 +328,7 @@ function QuestieMap.ProcessQueue()
         minimapDrawCall[2]._loaded = true
         if minimapDrawCall[2]._needsUnload then
             minimapDrawCall[2]:Unload()
-        end  
+        end
 end
 
 -- Show NPC on map
@@ -359,17 +359,10 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     data.ManualTooltipData = {}
     data.ManualTooltipData.Title = title or (npc.name .. " (" .. l10n("NPC") .. ")")
     local WeaponMasterSkills = require("WeaponMasterSkills")
-    if Questie.IsTBC or Questie.IsWotlk then
-        -- Blood Elf Starting Area Weapon Trainers
-        WeaponMasterSkills.data[16621] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"}
-        WeaponMasterSkills.data[17005] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"}
-        -- Draenei Starting Area Weapon Trainers
-        WeaponMasterSkills.data[16773] = {"Crossbows", "Daggers", "One-Handed Maces", "One-Handed Swords", "Two-Handed Maces", "Two-Handed Swords"}
-    end
     if npc.subName == "Weapon Master" then
         local skills = WeaponMasterSkills.data[data.id]
         if skills then
-            data.ManualTooltipData.Title = WeaponMasterSkills.appendSkillsToTitle(data.ManualTooltipData.Title, skills)
+            data.ManualTooltipData.Title = WeaponMasterSkills.AppendSkillsToTitle(data.ManualTooltipData.Title, skills)
         end
     end
     local level = tostring(npc.minLevel)

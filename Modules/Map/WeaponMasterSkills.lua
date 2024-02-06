@@ -1,4 +1,5 @@
-local WeaponMasterSkills = {}
+---@class WeaponMasterSkills
+local WeaponMasterSkills = QuestieLoader:CreateModule("WeaponMasterSkills")
 
 WeaponMasterSkills.data = {
     -- Alliance Weapon Trainers
@@ -13,7 +14,15 @@ WeaponMasterSkills.data = {
     [11870] = {"Crossbows", "Daggers", "One-Handed Swords", "Polearms", "Two-Handed Swords"},
 }
 
-function WeaponMasterSkills.appendSkillsToTitle(title, skills)
+if Questie.IsTBC or Questie.IsWotlk then
+    -- Blood Elf Starting Area Weapon Trainers
+    WeaponMasterSkills.data[16621] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"}
+    WeaponMasterSkills.data[17005] = {"Bows", "Daggers", "One-Handed Swords", "Polearms", "Thrown", "Two-Handed Swords"}
+    -- Draenei Starting Area Weapon Trainers
+    WeaponMasterSkills.data[16773] = {"Crossbows", "Daggers", "One-Handed Maces", "One-Handed Swords", "Two-Handed Maces", "Two-Handed Swords"}
+end
+
+function WeaponMasterSkills.AppendSkillsToTitle(title, skills)
     for _, skill in ipairs(skills) do
         title = title .. "\n - " .. l10n(skill)
     end
