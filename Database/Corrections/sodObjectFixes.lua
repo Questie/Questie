@@ -174,6 +174,11 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.DARKSHORE] = {{56.2, 26.4},},
             },
         },
+        [409311] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{89.4, 77.1}},
+            },
+        },
         [409562] = { -- Spellbook
             [objectKeys.spawns] = {
                 [zoneIDs.WESTFALL] = {{45.4, 70.4}},

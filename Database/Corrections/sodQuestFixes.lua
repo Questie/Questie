@@ -268,6 +268,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [78092] = { -- It Must Be Destroyed
+            [questKeys.finishedBy] = {nil,{409311}},
             [questKeys.preQuestSingle] = {78091},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
