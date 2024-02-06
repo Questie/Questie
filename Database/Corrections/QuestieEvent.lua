@@ -341,6 +341,7 @@ QuestieEvent.eventDateCorrections = {
     ["CLASSIC"] = {
         ["Brewfest"] = false,
         ["Pilgrim's Bounty"] = false,
+        ["Love is in the Air"] = {startDate = "11/2", endDate = "16/2"},
     },
     ["TBC"] = {
         ["Harvest Festival"] = false,
