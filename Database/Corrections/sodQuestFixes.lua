@@ -2756,7 +2756,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 8,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.HUNTER,
-            [questKeys.objectivesText] = {"Kill Swoops and Plainstriders for Mulgore Bird Meat, then use the meat east of Bloodhoof Village, to summon Mokwa which you must kill and then loot the rune."},
+            [questKeys.objectivesText] = {"Kill Swoops and Plainstriders for Mulgore Bird Meat, then use the meat west of Bloodhoof Village, to summon Mokwa which you must kill and then loot the rune."},
             [questKeys.requiredSpell] = -425762,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
