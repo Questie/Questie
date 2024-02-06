@@ -1,6 +1,9 @@
 ---@class WeaponMasterSkills
 local WeaponMasterSkills = QuestieLoader:CreateModule("WeaponMasterSkills")
 
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 WeaponMasterSkills.data = {
     -- Alliance Weapon Trainers
     [11865] = {"Fist Weapons", "Guns", "One-Handed Axes", "One-Handed Maces", "Two-Handed Axes", "Two-Handed Maces"},
