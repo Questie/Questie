@@ -171,7 +171,7 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [208802] = { -- Wounded Adventurer
             [npcKeys.spawns] = {
-                [zoneIDs.ELWYNN_FOREST] = {{25.4, 43.6}},
+                [zoneIDs.DUN_MOROGH] = {{25.4, 43.6}},
             },
         },
         [208812] = { -- Jorul
