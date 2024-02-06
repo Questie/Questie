@@ -30,6 +30,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [77586] = true, -- Warlock Haunt
     [77587] = true, -- Shaman Overload
     [77588] = true, -- Warrior Victory Rush
+    [77590] = true, -- Hunter Chimera Shot
     [77592] = true, -- Rogue Shadowstrike Troll
     [77616] = true, -- Warrior Victory Rush
     [77617] = true, -- Paladin Crusader Strike Elwynn Forest

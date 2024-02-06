@@ -105,6 +105,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
             [questKeys.requiredSpell] = -403470,
         },
+        [77590] = { -- Rugged Terrain
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410121, nil, 206168}}},
+            [questKeys.requiredRaces] = raceIDs.TROLL,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+            [questKeys.requiredSpell] = -410121,
+        },
         [77592] = { -- Atop the Cliffs
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{400105, nil, 204795}}},
             [questKeys.requiredRaces] = raceIDs.TROLL,

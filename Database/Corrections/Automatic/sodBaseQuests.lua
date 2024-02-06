@@ -181,6 +181,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find the Hidden Cache in the cliffs behind Frang. Learn the rune inside, then report back to Frang in the Valley of Trials."},
             [questKeys.objectives] = {nil,nil,nil,nil,nil,{{403470}}},
         },
+        [77590] = {
+            [questKeys.name] = "Rugged Terrain",
+            [questKeys.startedBy] = {{3154}},
+            [questKeys.finishedBy] = {{3154,}},
+            [questKeys.requiredLevel] = 2,
+            [questKeys.questLevel] = 2,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Find the lost rune by slaying scorpids in the Valley of Trials. Learn the rune's power, then report back to Jen'sahn."},
+            [questKeys.objectives] = {nil,nil,nil,nil,nil,{{410121}}},
+        },
         [77592] = {
             [questKeys.name] = "Atop the Cliffs",
             [questKeys.startedBy] = {{3155}},
