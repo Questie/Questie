@@ -1639,7 +1639,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [208778] = {
             [itemKeys.name] = "Rune of Quick Strike",
-            [itemKeys.npcDrops] = {209797,210482,210487},
+            [itemKeys.npcDrops] = {1940,209797,210482,210487},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {208848},
             [itemKeys.vendors] = nil,
