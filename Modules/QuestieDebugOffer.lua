@@ -542,15 +542,8 @@ end
 -- generates dialog based on link clicked
 ---@param link string
 function QuestieDebugOffer.ShowOffer(link)
-    -- The questie.dev domain was purchased by Logon
-    local discordURL = "https://discord.gg/txNSuwyBQ8" -- redirect to #bug-reports
-    if Questie.IsWotlk then
-        discordURL = "https://questie.dev/wotlk" -- redirect to #wotlk-bug-reports
-    elseif Questie.IsSoD then
-        discordURL = "https://questie.dev/sod" -- redirect to #sod-bug-reports
-    elseif Questie.IsClassic then
-        discordURL = "https://questie.dev/era" -- redirect to #era-bug-reports
-    end
+    -- We also have access to the questie.dev domain (purchased by Logon)
+    local discordURL = "https://discord.gg/Q6j4qByndw" -- redirect to #bug-redirect
     local i = tonumber(string.sub(link,21))
     local popupText = DebugInformation[i]
 
