@@ -31,5 +31,3 @@ function WeaponMasterSkills.AppendSkillsToTitle(title, skills)
     end
     return title
 end
-
-return WeaponMasterSkills
