@@ -26,6 +26,9 @@ if Questie.IsTBC or Questie.IsWotlk then
 end
 
 function WeaponMasterSkills.AppendSkillsToTitle(title, skills)
+    if #skills == 0 then
+        return title
+    end
     for _, skill in ipairs(skills) do
         title = title .. "\n - " .. l10n(skill)
     end
