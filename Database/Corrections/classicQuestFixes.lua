@@ -206,6 +206,9 @@ function QuestieQuestFixes:Load()
         [420] = {
             [questKeys.exclusiveTo] = {287}, -- senir's observations part 2 becomes unavailable if you have completed frostmane hold
         },
+        [427] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [428] = {
             [questKeys.exclusiveTo] = {429}, -- lost deathstalkers breadcrumb
         },
