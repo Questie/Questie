@@ -25,10 +25,12 @@ if Questie.IsTBC or Questie.IsWotlk then
     WeaponMasterSkills.data[16773] = {"Crossbows", "Daggers", "One-Handed Maces", "One-Handed Swords", "Two-Handed Maces", "Two-Handed Swords"}
 end
 
-function WeaponMasterSkills.AppendSkillsToTitle(title, skills)
-    if #skills == 0 then
+function WeaponMasterSkills.AppendSkillsToTitle(title, npcId)
+    local skills = WeaponMasterSkills.data[npcId]
+    if (not skills) then
         return title
     end
+
     for _, skill in ipairs(skills) do
         title = title .. "\n - " .. l10n(skill)
     end
