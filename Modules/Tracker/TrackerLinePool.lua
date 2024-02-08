@@ -617,10 +617,6 @@ function TrackerLinePool.Initialize(questFrame)
                 return
             end
 
-            local valid
-            local rangeTimer = self.rangeTimer
-            local charges = GetItemCount(self.itemId, nil, true)
-
             local start, duration, enabled = QuestieCompat.GetItemCooldown(self.itemId)
 
             if enabled == 1 and duration > 0 then
@@ -630,6 +626,7 @@ function TrackerLinePool.Initialize(questFrame)
                 cooldown:Hide()
             end
 
+            local charges = GetItemCount(self.itemId, nil, true)
             if (not charges or charges ~= self.charges) then
                 self.count:Hide()
                 self.charges = GetItemCount(self.itemId, nil, true)
@@ -647,21 +644,23 @@ function TrackerLinePool.Initialize(questFrame)
                 end
             end
 
-            if UnitExists("target") then
+            -- IsItemInRange is restricted to only be used either on hostile targets or friendly ones while NOT in combat
+            if UnitExists("target") and (not UnitIsFriend("player", "target") or (not InCombatLockdown())) then
                 if not self.itemName then
                     self.itemName = GetItemInfo(self.itemId)
                 end
 
+                local rangeTimer = self.rangeTimer
                 if (rangeTimer) then
                     rangeTimer = rangeTimer - elapsed
 
                     if (rangeTimer <= 0) then
-                        valid = IsItemInRange(self.itemName, "target")
+                        local isInRange = IsItemInRange(self.itemName, "target")
 
-                        if valid == false then
+                        if isInRange == false then
                             self.range:SetVertexColor(1.0, 0.1, 0.1)
                             self.range:Show()
-                        elseif valid == true then
+                        elseif isInRange == true then
                             self.range:SetVertexColor(0.6, 0.6, 0.6)
                             self.range:Show()
                         end
