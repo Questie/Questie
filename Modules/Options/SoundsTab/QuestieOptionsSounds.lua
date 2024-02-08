@@ -5,6 +5,8 @@ local Sounds = QuestieLoader:ImportModule("Sounds")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+local tinsert = table.insert
+
 local _GetQuestSoundChoices
 local _GetQuestSoundChoicesSort
 local _GetObjectiveSoundChoices
@@ -200,7 +202,7 @@ _GetQuestSoundChoicesSort = function()
 end
 
 _GetObjectiveSoundChoices = function()
-    return {
+    local choices = {
         ["ObjectiveDefault"]   = "Default",
         ["Map Ping"]           = "Map Ping",
         ["Window Close"]       = "Window Close",
@@ -208,18 +210,21 @@ _GetObjectiveSoundChoices = function()
         ["Boat Docked"]        = "Boat Docked",
         ["Bell Toll Alliance"] = "Bell Toll Alliance",
         ["Bell Toll Horde"]    = "Bell Toll Horde",
-        ["Explosion"]          = "Explosion",
-        ["Shing!"]             = "Shing!",
-        ["Wham!"]              = "Wham!",
-        ["Simon Chime"]        = "Simon Chime",
-        ["War Drums"]          = "War Drums",
-        ["Humm"]               = "Humm",
-        ["Short Circuit"]      = "Short Circuit",
     }
+    if Questie.IsWotlk then
+        choices["Explosion"] = "Explosion"
+        choices["Shing!"] = "Shing!"
+        choices["Wham!"] = "Wham!"
+        choices["Simon Chime"] = "Simon Chime"
+        choices["War Drums"] = "War Drums"
+        choices["Humm"] = "Humm"
+        choices["Short Circuit"] = "Short Circuit"
+    end
+    return choices
 end
 
 _GetObjectiveSoundChoicesSort = function()
-    return {
+    local sorting = {
         "ObjectiveDefault",
         "Map Ping",
         "Window Close",
@@ -227,18 +232,21 @@ _GetObjectiveSoundChoicesSort = function()
         "Boat Docked",
         "Bell Toll Alliance",
         "Bell Toll Horde",
-        "Explosion",
-        "Shing!",
-        "Wham!",
-        "Simon Chime",
-        "War Drums",
-        "Humm",
-        "Short Circuit",
     }
+    if Questie.IsWotlk then
+        tinsert(sorting, "Explosion")
+        tinsert(sorting, "Shing!")
+        tinsert(sorting, "Wham!")
+        tinsert(sorting, "Simon Chime")
+        tinsert(sorting, "War Drums")
+        tinsert(sorting, "Humm")
+        tinsert(sorting, "Short Circuit")
+    end
+    return sorting
 end
 
 _GetObjectiveProgressSoundChoices = function()
-    return {
+    local choices = {
         ["ObjectiveProgress"]  = "Default",
         ["ObjectiveDefault"]   = "Objective Complete",
         ["Map Ping"]           = "Map Ping",
@@ -247,18 +255,21 @@ _GetObjectiveProgressSoundChoices = function()
         ["Boat Docked"]        = "Boat Docked",
         ["Bell Toll Alliance"] = "Bell Toll Alliance",
         ["Bell Toll Horde"]    = "Bell Toll Horde",
-        ["Explosion"]          = "Explosion",
-        ["Shing!"]             = "Shing!",
-        ["Wham!"]              = "Wham!",
-        ["Simon Chime"]        = "Simon Chime",
-        ["War Drums"]          = "War Drums",
-        ["Humm"]               = "Humm",
-        ["Short Circuit"]      = "Short Circuit",
     }
+    if Questie.IsWotlk then
+        choices["Explosion"] = "Explosion"
+        choices["Shing!"] = "Shing!"
+        choices["Wham!"] = "Wham!"
+        choices["Simon Chime"] = "Simon Chime"
+        choices["War Drums"] = "War Drums"
+        choices["Humm"] = "Humm"
+        choices["Short Circuit"] = "Short Circuit"
+    end
+    return choices
 end
 
 _GetObjectiveProgressSoundChoicesSort = function()
-    return {
+    local sorting = {
         "ObjectiveProgress",
         "ObjectiveDefault",
         "Map Ping",
@@ -267,13 +278,15 @@ _GetObjectiveProgressSoundChoicesSort = function()
         "Boat Docked",
         "Bell Toll Alliance",
         "Bell Toll Horde",
-        "Explosion",
-        "Shing!",
-        "Wham!",
-        "Simon Chime",
-        "War Drums",
-        "Humm",
-        "Short Circuit",
     }
+    if Questie.IsWotlk then
+        tinsert(sorting, "Explosion")
+        tinsert(sorting, "Shing!")
+        tinsert(sorting, "Wham!")
+        tinsert(sorting, "Simon Chime")
+        tinsert(sorting, "War Drums")
+        tinsert(sorting, "Humm")
+        tinsert(sorting, "Short Circuit")
+    end
+    return sorting
 end
-
