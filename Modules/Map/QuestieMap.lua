@@ -360,12 +360,8 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     data.Name = npc.name
     data.IsObjectiveNote = false
     data.ManualTooltipData = {}
-    data.ManualTooltipData.Title = title or (npc.name .. " (" .. l10n("NPC") .. ")")
-    local skills = WeaponMasterSkills.data[data.id]
-    if not skills then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "", data.id)
-    end
-    data.ManualTooltipData.Title = WeaponMasterSkills:AppendSkillsToTitle(data.ManualTooltipData.Title, skills or {})
+    local baseTitle = title or (npc.name .. " (" .. l10n("NPC") .. ")")
+    data.ManualTooltipData.Title = WeaponMasterSkills.AppendSkillsToTitle(baseTitle, data.id)
     local level = tostring(npc.minLevel)
     local health = tostring(npc.minLevelHealth)
     if npc.minLevel ~= npc.maxLevel then
