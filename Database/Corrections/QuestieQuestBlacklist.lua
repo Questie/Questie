@@ -1468,6 +1468,8 @@ function QuestieQuestBlacklist:Load()
         --[26013] = true, -- Assault on the Sanctum
 
         ----- SoD -------------- SoD quests --------------- SoD -----
+        [78611] = true, -- A Waylaid Shipment (no longer available in P2)
+        [79100] = true, -- A Waylaid Shipment (no longer available in P2)
         [79482] = true, -- Stolen Winter Veil Treats
         [79483] = true, -- Stolen Winter Veil Treats
         [79484] = true, -- You're a Mean One...
