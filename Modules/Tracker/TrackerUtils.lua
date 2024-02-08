@@ -603,9 +603,9 @@ local function _GetZoneName(zoneOrSort, questId)
     else
         -- Let's create custom Zones based on Sorting type.
         if sortObj == "byComplete" then
-            zoneName = "Quests (By % Complete)"
+            zoneName = "Quests (By %% Complete)"
         elseif sortObj == "byCompleteReversed" then
-            zoneName = "Quests (By % Complete Reversed)"
+            zoneName = "Quests (By %% Complete Reversed)"
         elseif sortObj == "byLevel" then
             zoneName = "Quests (By Level)"
         elseif sortObj == "byLevelReversed" then
