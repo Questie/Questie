@@ -467,11 +467,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [78611] = { -- A Waylaid Shipment
-            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [78612] = { -- A Full Shipment
-            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [78680] = { -- Rumors Abound
@@ -497,7 +495,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {78684},
         },
         [78872] = { -- A Full Shipment
-            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [78909] = { -- Shifting Scale Talisman
@@ -679,19 +676,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [79100] = { -- A Waylaid Shipment
-            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [79101] = { -- A Full Shipment
-            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [79102] = { -- A Full Shipment
-            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [79103] = { -- A Full Shipment
-            [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [79192] = { -- Stepping Stones
