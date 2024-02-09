@@ -1611,6 +1611,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Water spray dampens the air, the view is incredible."},
             [questKeys.objectives] = nil,
         },
+        [79976] = {
+            [questKeys.name] = "This Must Be The Place",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 14,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Whoever was here, you just missed them."},
+            [questKeys.objectives] = nil,
+        },
         [79980] = {
             [questKeys.name] = "Scramble",
             [questKeys.startedBy] = nil,

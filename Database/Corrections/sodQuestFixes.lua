@@ -793,6 +793,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {79974},
             [questKeys.zoneOrSort] = zoneIDs.STONEWROUGHT_DAM,
         },
+        [79976] = { -- This Must Be The Place
+            [questKeys.startedBy] = {nil,{406918}},
+            [questKeys.finishedBy] = {nil,{424006}},
+            [questKeys.preQuestSingle] = {79975},
+            [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
+        },
         [79980] = { -- Scramble
             [questKeys.startedBy] = {nil,{424005}},
             [questKeys.finishedBy] = {nil,{424012}},
