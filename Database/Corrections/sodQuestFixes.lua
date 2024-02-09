@@ -3396,6 +3396,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425344,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90221] = {
+            [questKeys.name] = "Berserk",
+            [questKeys.startedBy] = {nil,{450013}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 28,
+            [questKeys.questLevel] = 28,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Use Challenging Roar on the Beastly Effigy, then Kill Zai'enki. Equip the Icon and follow its instructions to receive the rune."},
+            [questKeys.requiredSpell] = -424760,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 

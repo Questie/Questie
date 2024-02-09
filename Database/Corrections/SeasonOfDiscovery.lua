@@ -326,6 +326,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90218] = true, -- Shaman Shield Mastery Mulgore Tauren
     [90219] = true, -- Shaman Molten Blast Durotar
     [90220] = true, -- Shaman Molten Blast Mulgore
+    -- P2 SoD Runes
+    [90221] = true, -- Druid Berserk Thousand Needles
 }
 
 ---@param questId number
