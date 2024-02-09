@@ -2162,18 +2162,6 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"] = { -- 24638, 24645, 24647, 24648, 24649, 24650, 24651, 24652, 24658, 24659, 24660, 24662, 24663, 24664, 24665, 24666
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
     ["Use Snagglebolt's Air Analyzer on perfumed guards"] = { -- 24536, 24655
         ["ptBR"] = false,
         ["ruRU"] = false,
