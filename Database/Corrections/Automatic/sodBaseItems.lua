@@ -4765,6 +4765,14 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
+        [213701] = {
+            [itemKeys.name] = "Strong Harpy Feather",
+            [itemKeys.npcDrops] = {4100,4101,4104},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
         [213709] = {
             [itemKeys.name] = "Cloud Serpent Fang",
             [itemKeys.npcDrops] = {4117,4118,4119},
