@@ -471,6 +471,13 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.REDRIDGE_MOUNTAINS] = {{77.6, 85.8}},
             },
         },
+        [215850] = { -- Raszel Ander
+            [npcKeys.zoneID] = zoneIDs.DESOLACE,
+            [npcKeys.spawns] = {
+                [zoneIDs.DESOLACE] = {{54,80}},
+            },
+            [npcKeys.friendlyToFaction] = "AH",
+        },
         [216902] = { -- Wulmort Jinglepocket
             [npcKeys.spawns] = {
                 [zoneIDs.IRONFORGE] = {{33.7,67.23}},

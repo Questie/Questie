@@ -4210,6 +4210,16 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.questStarts] = nil,
             [npcKeys.questEnds] = nil,
         },
+        [215850] = {
+            [npcKeys.name] = "Raszel Ander",
+            [npcKeys.minLevel] = 0,
+            [npcKeys.maxLevel] = 0,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
+        },
         [216126] = {
             [npcKeys.name] = "Invisible Stalker",
             [npcKeys.minLevel] = 0,

@@ -59,6 +59,9 @@ function SeasonOfDiscovery:LoadItems()
         [210055] = { -- Hillsbrad Human Bones
             [itemKeys.npcDrops] = {2265,2266,2267,2268,2360},
         },
+        [211426] = { -- Bough of Shadows
+            [itemKeys.objectDrops] = {}, -- TODO: What's the object?
+        },
         [211452] = { -- Horde Blackfathom Pearl
             [itemKeys.relatedQuests] = {78917},
             [itemKeys.startQuest] = 78917,
