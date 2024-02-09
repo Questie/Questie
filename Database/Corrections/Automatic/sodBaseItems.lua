@@ -4813,6 +4813,14 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
+        [215402] = {
+            [itemKeys.name] = "Waylaid Supplies: Big Iron Bombs",
+            [itemKeys.npcDrops] = {570,785,787,1023,1110,1663,1666,2269,2372,2408,3752,3762,4097,4119,4541},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
         [215403] = {
             [itemKeys.name] = "Waylaid Supplies: Deadly Scopes",
             [itemKeys.npcDrops] = {205,533,570,604,787,1019,1663,2269,3757,3770,3791,4100,4114,4308,4541,10758},
