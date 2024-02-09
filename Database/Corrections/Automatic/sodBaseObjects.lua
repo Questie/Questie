@@ -1015,5 +1015,12 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
+        [423898] = {
+            [objectKeys.name] = "Mysterious Book",
+            [objectKeys.zoneID] = nil,
+            [objectKeys.spawns] = nil,
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
     }
 end

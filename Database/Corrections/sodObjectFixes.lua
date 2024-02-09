@@ -248,6 +248,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.WESTFALL] = {{37.4, 50.7}},
             },
         },
+        [423898] = { -- Mysterious Book
+            [objectKeys.zoneID] = zoneIDs.DESOLACE,
+            [objectKeys.spawns] = {
+                [zoneIDs.DESOLACE] = {{55,26.2}},
+            },
+        },
 
         -- fake ID - no clue yet what the correct ones are
         [450000] = {
