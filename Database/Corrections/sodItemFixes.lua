@@ -71,7 +71,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.relatedQuests] = {79099},
             [itemKeys.startQuest] = nil,
         },
-        [211818] = { -- Demons and You
+        [215817] = { -- Demons and You
             [itemKeys.objectDrops] = {423898},
         },
     }
