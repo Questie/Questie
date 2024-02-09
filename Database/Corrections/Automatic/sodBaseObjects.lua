@@ -1022,5 +1022,14 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
+        [424264] = {
+            [objectKeys.name] = "Grave",
+            [objectKeys.zoneID] = 15,
+            [objectKeys.spawns] = {
+                [15] = {{63.7, 42.4},},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
     }
 end
