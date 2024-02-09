@@ -5928,6 +5928,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24629, 24635},
         },
         [24638] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {24576},
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
@@ -5936,6 +5937,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 13,
         },
         [24645] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {24576},
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
@@ -5944,6 +5946,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 22,
         },
         [24647] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {24576},
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
@@ -5952,6 +5955,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 31,
         },
         [24648] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {24576},
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
@@ -5960,6 +5964,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 40,
         },
         [24649] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {24576},
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
@@ -5968,6 +5973,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 50,
         },
         [24650] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {24576},
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
@@ -5976,6 +5982,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 60,
         },
         [24651] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {24576},
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
@@ -5984,6 +5991,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 70,
         },
         [24652] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {24576},
             [questKeys.startedBy] = {{37172}},
             [questKeys.finishedBy] = {{37172}},
@@ -5999,6 +6007,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.sourceItemId] = 49867,
         },
         [24658] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {24657},
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
@@ -6007,6 +6016,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 13,
         },
         [24659] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {24657},
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
@@ -6015,6 +6025,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 22,
         },
         [24660] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {24657},
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
@@ -6023,6 +6034,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 31,
         },
         [24662] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {24657},
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
@@ -6031,6 +6043,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 40,
         },
         [24663] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {24657},
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
@@ -6039,6 +6052,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 50,
         },
         [24664] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {24657},
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
@@ -6047,6 +6061,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 60,
         },
         [24665] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {24657},
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
@@ -6055,6 +6070,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 70,
         },
         [24666] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {24657},
             [questKeys.startedBy] = {{38066}},
             [questKeys.finishedBy] = {{38066}},
@@ -6105,9 +6121,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{36853,"Infuse Shadow's Edge with Frost then slay Sindragosa."}}},
         },
         [24792] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {24657},
         },
         [24793] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {24576},
         },
         [24795] = {
