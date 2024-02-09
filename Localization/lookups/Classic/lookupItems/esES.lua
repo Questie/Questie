@@ -1587,6 +1587,7 @@ l10n.itemLookup["esES"] = {
 [20932] = "Ataduras de dominancia qiraji",
 [20933] = "Coraza del dios antiguo",
 [20951] = "Gafas de visión de Narain",
+[21015] = "Huellas pezuñales",
 [21024] = "Solomillo de quimerok",
 [21027] = "Cadáver de Lakmaeran",
 [21137] = "Fragmento de cetro azul",
