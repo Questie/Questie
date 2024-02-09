@@ -979,6 +979,15 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
+        [424007] = {
+            [objectKeys.name] = "Carved Figurine",
+            [objectKeys.zoneID] = 38,
+            [objectKeys.spawns] = {
+                [38] = {{49.3, 12.8},},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
         [424012] = {
             [objectKeys.name] = "Mound of Dirt",
             [objectKeys.zoneID] = 406,

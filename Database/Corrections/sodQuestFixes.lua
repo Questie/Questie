@@ -781,6 +781,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
+        [79974] = { -- Wet Job
+            [questKeys.startedBy] = {nil,{424012}},
+            [questKeys.finishedBy] = {nil,{424007}},
+            [questKeys.preQuestSingle] = {79980},
+            [questKeys.zoneOrSort] = zoneIDs.STONETALON_MOUNTAINS,
+        },
         [79980] = { -- Scramble
             [questKeys.startedBy] = {nil,{424005}},
             [questKeys.finishedBy] = {nil,{424012}},
