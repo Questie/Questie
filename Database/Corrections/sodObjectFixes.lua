@@ -254,6 +254,24 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.DESOLACE] = {{55,26.2}},
             },
         },
+        [424265] = { -- Grave
+            [objectKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
+            [objectKeys.spawns] = {
+                [zoneIDs.SWAMP_OF_SORROWS] = {{16.8,53.8}},
+            },
+        },
+        [424266] = { -- Grave
+            [objectKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
+            [objectKeys.spawns] = {
+                [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
+            },
+        },
+        [424267] = { -- Grave
+            [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.ARATHI_HIGHLANDS] = {{62,54}},
+            },
+        },
 
         -- fake ID - no clue yet what the correct ones are
         [450000] = {

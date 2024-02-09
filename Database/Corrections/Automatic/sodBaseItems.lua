@@ -4885,6 +4885,22 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
+        [215426] = {
+            [itemKeys.name] = "Graveyard Echo",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
+        [215427] = {
+            [itemKeys.name] = "Arathi Echo",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
         [215428] = {
             [itemKeys.name] = "Theramore Echo",
             [itemKeys.npcDrops] = nil,
