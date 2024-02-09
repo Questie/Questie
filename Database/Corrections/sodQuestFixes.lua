@@ -787,6 +787,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {79980},
             [questKeys.zoneOrSort] = zoneIDs.STONETALON_MOUNTAINS,
         },
+        [79975] = { -- Eagle's Fist
+            [questKeys.startedBy] = {nil,{424007}},
+            [questKeys.finishedBy] = {nil,{406918}},
+            [questKeys.preQuestSingle] = {79974},
+            [questKeys.zoneOrSort] = zoneIDs.STONEWROUGHT_DAM,
+        },
         [79980] = { -- Scramble
             [questKeys.startedBy] = {nil,{424005}},
             [questKeys.finishedBy] = {nil,{424012}},

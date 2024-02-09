@@ -334,6 +334,15 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
+        [406918] = {
+            [objectKeys.name] = "Messenger Bag",
+            [objectKeys.zoneID] = 45,
+            [objectKeys.spawns] = {
+                [45] = {{22.4, 24.2},},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
         [407117] = {
             [objectKeys.name] = "Abandoned Snapjaw Nest",
             [objectKeys.zoneID] = 0,
@@ -975,6 +984,15 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.zoneID] = 406,
             [objectKeys.spawns] = {
                 [406] = {{40.7,52.6},},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
+        [424006] = {
+            [objectKeys.name] = "Hastily Rolled-Up Satchel",
+            [objectKeys.zoneID] = 45,
+            [objectKeys.spawns] = {
+                [45] = {{22.4, 24.2},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,

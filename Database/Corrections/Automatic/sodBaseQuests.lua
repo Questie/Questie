@@ -1600,6 +1600,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Dusting off a messenger bag emerging from the soil, you find a parchment nestled among the supplies."},
             [questKeys.objectives] = nil,
         },
+        [79975] = {
+            [questKeys.name] = "Eagle's Fist",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 14,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Water spray dampens the air, the view is incredible."},
+            [questKeys.objectives] = nil,
+        },
         [79980] = {
             [questKeys.name] = "Scramble",
             [questKeys.startedBy] = nil,
