@@ -3396,6 +3396,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425344,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90223] = {
+            [questKeys.name] = "Dual Wield Specialization",
+            [questKeys.startedBy] = {{217783}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 32,
+            [questKeys.questLevel] = 32,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Use Flare when you have the Danger! buff, it will reveal a Bloodscalp Guerrilla which patrols so you may need to cast it a few times, kill it to receive the rune."},
+            [questKeys.requiredSpell] = -410116,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
