@@ -341,5 +341,19 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.MULGORE] = {{54.07, 55.82},{36.3, 9.8},{37.5, 52.5},{41.65, 55.98},{37.99, 60.04}},
             },
         },
+        [450014] = {
+            [objectKeys.name] = "Satyrweed Bulb Location",
+            [objectKeys.zoneID] = zoneIDs.DESCOLACE,
+            [objectKeys.spawns] = {
+                [zoneIDs.DESCOLACE] = {{70.0, 70.0}},
+            },
+        },
+        [450015] = {
+            [objectKeys.name] = "Sandy Loam",
+            [objectKeys.zoneID] = zoneIDs.DESCOLACE,
+            [objectKeys.spawns] = {
+                [zoneIDs.DESCOLACE] = {{75.0, 20.0}},
+            },
+        },
     }
 end

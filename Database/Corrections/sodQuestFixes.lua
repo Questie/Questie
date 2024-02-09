@@ -3396,6 +3396,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425344,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90222] = {
+            [questKeys.name] = "Eclipse",
+            [questKeys.startedBy] = {{12977,4636,4632,4637,4634,4633,12976,4635},{450014,450015}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 32,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Kill Kol'kar Centaur until Desiccated Seed Pod drops, bring it to the lack in the south east of Descolace, and swim until it becomes a Satyrweed Bulb. Then bring it to Sargeron and plant it in Sandy Loam to receive the rune."},
+            [questKeys.requiredSpell] = -410060,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 
