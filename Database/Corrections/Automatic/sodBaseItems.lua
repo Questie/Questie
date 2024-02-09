@@ -4741,6 +4741,14 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
+        [213546] = {
+            [itemKeys.name] = "Scroll: SHOOBEEDOOP",
+            [itemKeys.npcDrops] = {205,533,785,4308},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
         [213547] = {
             [itemKeys.name] = "Scroll: THAW WORDS",
             [itemKeys.npcDrops] = {889,1023,1663,4308},
