@@ -1321,6 +1321,7 @@ l10n.objectLookup["esMX"] = {
 [21008] = "Hoguera",
 [21009] = "Hoguera",
 [21015] = "Huellas de pezuñas",
+[21016] = "Huellas de pezuñas",
 [21042] = "Identificación de guardia de Theramore",
 [21052] = "Caja fuerte de los Defias",
 [21053] = "Alto del Centinela",
