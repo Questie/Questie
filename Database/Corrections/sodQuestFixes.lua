@@ -781,6 +781,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
+        [79980] = { -- Scramble
+            [questKeys.startedBy] = {nil,{424005}},
+            [questKeys.finishedBy] = {nil,{424012}},
+            [questKeys.preQuestSingle] = {79192},
+            [questKeys.zoneOrSort] = zoneIDs.STONETALON_MOUNTAINS,
+        },
 
         --- Fake rune quests
         [90000] = {
