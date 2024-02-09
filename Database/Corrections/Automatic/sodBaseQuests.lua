@@ -1402,6 +1402,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Do you have something for me?"},
             [questKeys.objectives] = {nil,nil,{{211841}}},
         },
+        [79192] = {
+            [questKeys.name] = "Stepping Stones",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 14,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"You tear the note from the plank and read the scrawled writing."},
+            [questKeys.objectives] = nil,
+        },
         [79482] = {
             [questKeys.name] = "Stolen Winter Veil Treats",
             [questKeys.startedBy] = {{216902}},

@@ -970,5 +970,23 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
+        [424005] = {
+            [objectKeys.name] = "Pocket Litter",
+            [objectKeys.zoneID] = 406,
+            [objectKeys.spawns] = {
+                [406] = {{40.7,52.6},},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
+        [424012] = {
+            [objectKeys.name] = "Mound of Dirt",
+            [objectKeys.zoneID] = 406,
+            [objectKeys.spawns] = {
+                [406] = {{39.6, 49.9},},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
     }
 end

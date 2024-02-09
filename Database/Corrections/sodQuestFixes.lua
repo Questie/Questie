@@ -694,6 +694,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{213077,214070,214096,214098,214099,214101,}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [79192] = { -- Stepping Stones
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.startedBy] = {nil,{415106,415107}},
+            [questKeys.finishedBy] = {nil,{424005}},
+            [questKeys.preQuestSingle] = {79007,79008},
+            [questKeys.zoneOrSort] = zoneIDs.THE_BARRENS,
+        },
         [79482] = { -- Stolen Winter Veil Treats (Alliance)
             [questKeys.startedBy] = {{216902}},
             [questKeys.finishedBy] = {{216915}},
