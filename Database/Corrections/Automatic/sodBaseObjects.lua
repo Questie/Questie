@@ -943,6 +943,24 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
+        [415106] = {
+            [objectKeys.name] = "Burned-Out Remains",
+            [objectKeys.zoneID] = 17,
+            [objectKeys.spawns] = {
+                [17] = {{46.4, 73.9},},
+            },
+            [objectKeys.questStarts] = {79192},
+            [objectKeys.questEnds] = {79008},
+        },
+        [415107] = {
+            [objectKeys.name] = "Burned-Out Remains",
+            [objectKeys.zoneID] = 40,
+            [objectKeys.spawns] = {
+                [40] = {{37.4, 50.7},{37.5, 50.7},},
+            },
+            [objectKeys.questStarts] = {79008},
+            [objectKeys.questEnds] = nil,
+        },
         [415614] = {
             [objectKeys.name] = "Mysterious Formulae",
             [objectKeys.zoneID] = 719,

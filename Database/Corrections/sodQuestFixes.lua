@@ -574,6 +574,16 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [79007] = { -- ...and that note you found
+            [questKeys.startedBy] = {nil,{415106}},
+            [questKeys.finishedBy] = {nil,{415107}},
+            [questKeys.zoneOrSort] = zoneIDs.THE_BARRENS,
+        },
+        [79008] = { -- ...and that note you found
+            [questKeys.startedBy] = {nil,{415107}},
+            [questKeys.finishedBy] = {nil,{415106}},
+            [questKeys.zoneOrSort] = zoneIDs.WESTFALL,
+        },
         [79077] = { -- Sharing the Faith (Stormwind)
             [questKeys.objectives] = {{{215062}}},
             [questKeys.requiredRaces] = raceIDs.DWARF + raceIDs.HUMAN,
