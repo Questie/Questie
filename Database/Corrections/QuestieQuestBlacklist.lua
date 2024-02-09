@@ -1194,6 +1194,10 @@ function QuestieQuestBlacklist:Load()
         [5638] = QuestieCorrections.WOTLK_ONLY, -- removed in wotlk
         [5639] = QuestieCorrections.WOTLK_ONLY, -- removed in wotlk
         [5640] = QuestieCorrections.WOTLK_ONLY, -- removed in wotlk
+        [5283] = QuestieCorrections.WOTLK_ONLY, -- removed in wotlk
+        [5284] = QuestieCorrections.WOTLK_ONLY, -- removed in wotlk
+        [5301] = QuestieCorrections.WOTLK_ONLY, -- removed in wotlk
+        [5302] = QuestieCorrections.WOTLK_ONLY, -- removed in wotlk
         [12881] = true, -- Not in the game
         [14351] = true, -- Not in the game
         [14353] = true, -- Not in the game
