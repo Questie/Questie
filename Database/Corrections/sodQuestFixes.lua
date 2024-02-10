@@ -3397,7 +3397,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [90222] = {
-            [questKeys.name] = "Eclipse",
+            [questKeys.name] = "Dreamstate",
             [questKeys.startedBy] = {{12977,4636,4632,4637,4634,4633,12976,4635},{450014,450015}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
