@@ -3398,6 +3398,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425344,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90228] = {
+            [questKeys.name] = "Rolling with the Punches",
+            [questKeys.startedBy] = {nil,{423930}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 30,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Keep opening the chests in the Sizable Stolen Strongbox until you receive the rune."},
+            [questKeys.requiredSpell] = -400093,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 
