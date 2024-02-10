@@ -3406,7 +3406,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.WARRIOR,
-            [questKeys.objectivesText] = {"Kill Wandering Swordsman to receive the rune."},
+            [questKeys.objectivesText] = {"Kill Wandering Swordsman, after his RP he will spawn Swordman's Reward, open it to receive the rune."},
             [questKeys.requiredSpell] = -426491,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
