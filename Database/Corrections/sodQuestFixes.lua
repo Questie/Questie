@@ -3398,6 +3398,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425344,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90225] = {
+            [questKeys.name] = "Rallying Cry",
+            [questKeys.startedBy] = {{218273}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Kill Wandering Swordsman to receive the rune."},
+            [questKeys.requiredSpell] = -426491,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
     }
 end
 
