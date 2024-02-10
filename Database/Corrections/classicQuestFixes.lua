@@ -1817,6 +1817,9 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Destroy the command tent and plant the Scourge banner in the camp", {[zoneIDs.WESTERN_PLAGUELANDS]={{40.72,52.04}}}},
             [questKeys.preQuestSingle] = {},
         },
+        [5103] = {
+            [questKeys.requiredSourceItems] = {12812},
+        },
         [5122] = {
             [questKeys.specialFlags] = 1, -- #1140
         },
@@ -1828,7 +1831,7 @@ function QuestieQuestFixes:Load()
         },
         [5126] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.SHAMAN,
-            [questKeys.triggerEnd] = {"Listen to Lorax's Tale", {[zoneIDs.WINTERSPRING]={{63.82,73.79}}}},
+            [questKeys.objectives] = {{{10918,"Listen to Lorax's Tale"}}},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
         },
         [5149] = {
@@ -2588,6 +2591,9 @@ function QuestieQuestFixes:Load()
         [7541] = {
             [questKeys.questLevel] = 40, -- #1320
         },
+        [7604] = {
+            [questKeys.specialFlags] = 0,
+        },
         [7622] = {
             [questKeys.triggerEnd] = {"The Balance of Light and Shadow", {[zoneIDs.EASTERN_PLAGUELANDS]={{21.19,17.79}}}}, -- #2332
         },
@@ -2602,6 +2608,9 @@ function QuestieQuestFixes:Load()
         },
         [7640] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Exorcise the spirits"), 0, {{"object", 179747}}}},
+        },
+        [7651] = {
+            [questKeys.specialFlags] = 0,
         },
         [7668] = { -- #1344
             [questKeys.name] = "The Darkreaver Menace",
