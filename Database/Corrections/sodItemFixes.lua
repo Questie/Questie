@@ -74,6 +74,9 @@ function SeasonOfDiscovery:LoadItems()
         [212724] = { -- Whirling Essence
             [itemKeys.npcDrops] = {11577},
         },
+        [212693] = { -- Rotten Seed
+            [itemKeys.objectDrops] = {216310},
+        },
         [213573] = { -- Conjuror's Pendant
             [itemKeys.npcDrops] = {2590},
         },
