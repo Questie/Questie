@@ -74,6 +74,9 @@ function SeasonOfDiscovery:LoadItems()
         [213573] = { -- Conjuror's Pendant
             [itemKeys.npcDrops] = {2590},
         },
+        [213599] = { -- Unsettling Vision
+            [itemKeys.npcDrops] = {4712,4713},
+        },
         [215817] = { -- Demons and You
             [itemKeys.objectDrops] = {423898},
         },
