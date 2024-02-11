@@ -506,5 +506,10 @@ function SeasonOfDiscovery:LoadNPCs()
         [217707] = { -- Felore Moonray
             [npcKeys.friendlyToFaction] = "A",
         },
+        [218115] = { -- Mai'zin
+            [npcKeys.spawns] = {
+                [zoneIDs.STRANGLETHORN_VALE] = {{31.2, 48.4}},
+            },
+        },
     }
 end

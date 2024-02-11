@@ -798,6 +798,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {79192},
             [questKeys.zoneOrSort] = zoneIDs.STONETALON_MOUNTAINS,
         },
+        [79990] = { -- Stranglethorn Lumber
+            [questKeys.finishedBy] = {{14984}},
+            [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
+        },
+        [79991] = { -- Stranglethorn Lumber
+            [questKeys.finishedBy] = {{15022}},
+            [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
+        },
         [80307] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
