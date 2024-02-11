@@ -230,7 +230,7 @@ function TrackerUtils:FlashFinisher(quest)
                 end
             end
         else
-            for _, frameName in ipairs(framelist) do
+            for _, frameName in pairs(framelist) do
                 local icon = _G[frameName]
                 if not icon.miniMapIcon then
                     icon._size = icon:GetWidth()
