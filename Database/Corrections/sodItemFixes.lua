@@ -71,6 +71,9 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.relatedQuests] = {79099},
             [itemKeys.startQuest] = nil,
         },
+        [212724] = { -- Whirling Essence
+            [itemKeys.npcDrops] = {11577},
+        },
         [213573] = { -- Conjuror's Pendant
             [itemKeys.npcDrops] = {2590},
         },
