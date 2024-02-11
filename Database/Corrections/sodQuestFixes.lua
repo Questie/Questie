@@ -805,6 +805,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{15022}},
             [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
         },
+        [80001] = { -- Rekindle
+            [questKeys.startedBy] = {nil,{424082}},
+            [questKeys.finishedBy] = {nil,{424082}},
+            [questKeys.preQuestSingle] = {79192},
+            [questKeys.exclusiveTo] = {79974},
+        },
         [80307] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },

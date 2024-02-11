@@ -1655,6 +1655,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring Deathstalker Mortis a Shipment of Stranglethorn Lumber."},
             [questKeys.objectives] = {nil,nil,{{216491}}},
         },
+        [80001] = {
+            [questKeys.name] = "Rekindle",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 14,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"An extinguished fire pit. The wood is even dry enough to catch a flame."},
+            [questKeys.objectives] = {nil,nil,{{4470},{4471}}},
+        },
         [80307] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214099}},
