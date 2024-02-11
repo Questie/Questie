@@ -4,7 +4,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local classicObjectiveLocales = {
     ["Summon Dagun the Ravenous using an Enchanted Sea Kelp"] = { -- 735 736
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Призовите Дагун Ненасытный используя Зачарованные морские водоросли",
         ["deDE"] = "Verzauberten Seetang benutzen, um Dagun den Gefräßigen zu beschwören",
         ["koKR"] = false,
         ["esMX"] = "Invoca a Dagun el Voraz utilizando un Kelp marino encantado",
@@ -28,7 +28,7 @@ local classicObjectiveLocales = {
     },
     ["Fish for Darkshore Groupers"] = { -- 1141
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Выловите Окунь с Темных берегов",
         ["deDE"] = "Dunkelküstenbarsche angeln",
         ["koKR"] = false,
         ["esMX"] = "Pesca Meros de Costa Oscura",
@@ -64,7 +64,7 @@ local classicObjectiveLocales = {
     },
     ["Use the War Horn Mouthpiece to summon Khan Hratha"] = { -- 1380 1381
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Используйте Загубник боевого горна, чтобы призвать Вождя Храта",
         ["deDE"] = "Kriegshornmundstück benutzen, um Khan Hratha zu rufen",
         ["koKR"] = false,
         ["esMX"] = "Utiliza la Boquilla del cuerno de guerra para invocar a Khan Hratha",
@@ -76,7 +76,7 @@ local classicObjectiveLocales = {
     },
     ["Fish for Gaffer Jacks"] = { -- 1579
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Выловите Суперразъемы",
         ["deDE"] = "Klemm-Muffen angeln",
         ["koKR"] = false,
         ["esMX"] = "Pesca Mecanismos eléctricos",
@@ -88,7 +88,7 @@ local classicObjectiveLocales = {
     },
     ["Fish for Electropellers"] = { -- 1580
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Выловите Электропеллеры",
         ["deDE"] = "Elektropeller angeln",
         ["koKR"] = false,
         ["esMX"] = "Pesca electromuelles",
@@ -112,7 +112,7 @@ local classicObjectiveLocales = {
     },
     ["Step 1: obtain the Yellow Punch Card. You need the White Punch Card."] = { -- 2930
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Шаг 1: получите Желтую перфокарту. Вам нужна Белая перфокарта.",
         ["deDE"] = "Schritt 1: Erhalte die gelbe Lochkarte. Weiße Lochkarte wird benötigt.",
         ["koKR"] = false,
         ["esMX"] = "Paso 1: obtén la Tarjeta perforada amarilla. Necesitas la Tarjeta perforada blanca.",
@@ -124,7 +124,7 @@ local classicObjectiveLocales = {
     },
     ["Step 2: obtain the Blue Punch Card. You need the Yellow Punch Card."] = { -- 2930
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Шаг 2: получите Синюю перфокарту. Вам нужна Желтая перфокарта.",
         ["deDE"] = "Schritt 2: Erhalte die blaue Lochkarte. Gelbe Lochkarte wird benötigt.",
         ["koKR"] = false,
         ["esMX"] = "Paso 2: obtén la Tarjeta perforada azul. Necesitas la Tarjeta perforada amarilla.",
@@ -136,7 +136,7 @@ local classicObjectiveLocales = {
     },
     ["Step 3: obtain the Red Punch Card. You need the Blue Punch Card."] = { -- 2930
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Шаг 3: получите Красную перфокарту. Вам нужна Синяя перфокарта.",
         ["deDE"] = "Schritt 3: Erhalte die rote Stempelkarte. Blaue Lochkarte wird benötigt.",
         ["koKR"] = false,
         ["esMX"] = "Paso 3: obtén la Tarjeta perforada roja. Necesitas la Tarjeta perforada azul.",
@@ -148,7 +148,7 @@ local classicObjectiveLocales = {
     },
     ["Step 4: obtain the Prismatic Punch Card. You need the Red Punch Card."] = { -- 2930
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Шаг 4: получите Призматическую перфокарту. Вам нужна Красная перфокарта.",
         ["deDE"] = "Schritt 4: Erhalte die prismatische Lochkarte. Rote Lochkarte wird benötigt.",
         ["koKR"] = false,
         ["esMX"] = "Paso 4: obtén la Tarjeta perforada prismática. Necesitas la Tarjeta perforada roja.",
@@ -172,7 +172,7 @@ local classicObjectiveLocales = {
     },
     ["Use the Ward of the Defiler to summon Razelikh."] = { -- 3628
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Используйте Оберег Осквернителя, чтобы призвать Разелиха.",
         ["deDE"] = "Zauberschutz der Entweihten benutzen, um Razelikh zu beschwören",
         ["koKR"] = false,
         ["esMX"] = "Utiliza el Amuleto del Rapiñador para invocar a Razelikh.",
@@ -184,7 +184,7 @@ local classicObjectiveLocales = {
     },
     ["Teleport to the top of the mountain."] = { -- 3628
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Телепортируйтесь на вершину горы.",
         ["deDE"] = "Zur Bergspitze teleportieren",
         ["koKR"] = false,
         ["esMX"] = "Teletransportarse a la cima de la montaña.",
@@ -196,7 +196,7 @@ local classicObjectiveLocales = {
     },
     ["Place the Bait in front of Miblon Snarltooth."] = { -- 3909
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Разместите Приманку перед Миблон Рыкозубом.",
         ["deDE"] = "Den Köder vor Miblon Fletschmaul legen",
         ["koKR"] = false,
         ["esMX"] = "Deja el cebo cerca de Miblon Gruñidiente",
@@ -208,7 +208,7 @@ local classicObjectiveLocales = {
     },
     ["Use the Altered Black Dragonflight Molt on Bael'gar's corpse."] = { -- 4024
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Используйте Измененную сброшенную шкуру черного дракона на трупе Бейл'Гора.",
         ["deDE"] = "Benutze die veränderte Haut des schwarzen Drachenschwarms mit Bael'Gar's Leichnam",
         ["koKR"] = false,
         ["esMX"] = "Utiliza la Muda de piel de vuelo negro alterada en los restos de Bael'Gar.",
@@ -220,7 +220,7 @@ local classicObjectiveLocales = {
     },
     ["Use the Gorishi Queen Lure."] = { -- 4507
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Используйте Приманку для королевы Гориши.",
         ["deDE"] = "Benutze den Köder für die Gorishischwarmkönigin",
         ["koKR"] = false,
         ["esMX"] = "Utiliza el Cebo de reina Gorishi",
@@ -232,7 +232,7 @@ local classicObjectiveLocales = {
     },
     ["Collect eggs using the Collectronic Module."] = { -- 4735
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Соберите яйца используя Устройство-коллекционер.",
         ["deDE"] = "Sammle Eier mit dem Kollektronischen Modul",
         ["koKR"] = false,
         ["esMX"] = "Recoge huevos con el Módulo colectrónico",
@@ -244,7 +244,7 @@ local classicObjectiveLocales = {
     },
     ["Summon Xabraxxis once you have the required items from the Blackwood Stores."] = { -- 4763
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Призовите Забраксис, когда у вас будут необходимые предметы из Зернохранилищ.",
         ["deDE"] = "Beschwöre Xabraxxis sobald Ihr die benötigten Gegenstände von den Lager der Schwarzfelle habt.",
         ["koKR"] = false,
         ["esMX"] = "Invoca a Xabraxxis una vez que tengas los objetos necesarios de las Provisiones del Bosque Negro.",
@@ -256,7 +256,7 @@ local classicObjectiveLocales = {
     },
     ["Use the Flames of the Black Flight over it to create the Seal."] = { -- 4743
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Используйте Пламя Черного дракона над ним, чтобы создать Печать.",
         ["deDE"] = "Flammen des schwarzen Drachenschwarms benutzen, um das Siegel zu erstellen",
         ["koKR"] = false,
         ["esMX"] = "Utiliza las Llamas del Vuelo Negro sobre él para crear el Sello.",
@@ -280,7 +280,7 @@ local classicObjectiveLocales = {
     },
     ["Lure the Kodos to Smeed Scrabblescrew."] = { -- 5561
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Приманите Кодо к Смиду Заржавень.",
         ["deDE"] = "Führe die Kodos zu Smeed Scrabblescrew",
         ["koKR"] = false,
         ["esMX"] = "Atrae a los kodos a Smeed Mezclatornillos",
@@ -292,7 +292,7 @@ local classicObjectiveLocales = {
     },
     ["Summon Lord Kragaru"] = { -- 6027
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Призовите Лорда Крагару",
         ["deDE"] = "Lord Kragaru beschwören",
         ["koKR"] = false,
         ["esMX"] = "Invoca a Lord Kragaru",
@@ -304,7 +304,7 @@ local classicObjectiveLocales = {
     },
     ["Place the Crate of Ghost Magnets"] = { -- 6134
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Разместите Ящик с призрачным магнитом",
         ["deDE"] = "Platziere die Kiste mit Geistermagneten",
         ["koKR"] = false,
         ["esMX"] = "Deja el Cajón de imanes fantasmales",
@@ -364,7 +364,7 @@ local classicObjectiveLocales = {
     },
     ["Exorcise the spirits"] = { -- 7640
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Изгоните духов",
         ["deDE"] = "Vertreibe die Geister",
         ["koKR"] = false,
         ["esMX"] = "Utiliza el incensario de exorcismos para expulsar los espíritus",
@@ -376,7 +376,7 @@ local classicObjectiveLocales = {
     },
     ["Plant the Demon Summoning Torch"] = { -- 8481
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Поставьте Факел призыва демонов",
         ["deDE"] = "Platziere die Fackel zur Dämonenbeschwörung",
         ["koKR"] = false,
         ["esMX"] = "Deja la Antorcha para invocar demonios",
@@ -400,7 +400,7 @@ local classicObjectiveLocales = {
     },
     ["Talk to Silva Fil'naveth to fly back to Darnassus"] = { -- 5931
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Поговорите с Сильва Фил'навет, чтобы вернуться в Дарнассус",
         ["deDE"] = "Sprich mit Silva Fil'naveth, um zurück nach Darnassus zu fliegen.",
         ["koKR"] = false,
         ["esMX"] = "Habla con Silva Fil'naveth para volar de regreso a Darnassus.",
@@ -412,7 +412,7 @@ local classicObjectiveLocales = {
     },
     ["Talk to Bunthen Plainswind to fly back to Thunder Bluff"] = { -- 5932
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Поговорите с Бунтен Ветер Равнин, чтобы вернуться в Громовой Утес",
         ["deDE"] = "Sprich mit Bunthen Plainswind, um zurück nach Thunder Bluff zu fliegen.",
         ["koKR"] = false,
         ["esMX"] = "Habla con Bunthen Ventollano para volar de regreso a Cima del Trueno.",
@@ -424,7 +424,7 @@ local classicObjectiveLocales = {
     },
     ["Release the kitten near the Jadefire Satyrs' corrupted moonwell."] = { -- quest 4506, text from item 12565
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Отпустите котёнка близ оскверненного лунного колодца Сатиров из племени Нефритового Пламени.",
         ["deDE"] = "Lass das Kätzchen in der Nähe des verderbten Mondbrunnens der Jadefeuersatyrn frei.",
         ["koKR"] = false,
         ["esMX"] = "Libera al gatito cerca de la poza de la luna corrupta de los sátiros Fuego de Jade.",
@@ -472,7 +472,7 @@ local classicObjectiveLocales = {
     },
     ["Ask to see the Captain."] = { -- 8507
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Попросите встретиться с капитаном.",
         ["deDE"] = "Frage nach dem Kapitän.",
         ["koKR"] = false,
         ["esMX"] = "Pide ver al capitán.",
@@ -484,7 +484,7 @@ local classicObjectiveLocales = {
     },
     ["Draw the glyphs into the sand to summon the Qiraji Emissary."] = { -- 8315
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Нарисуйте письмена зова на песке, чтобы призвать Киражского посланника.",
         ["deDE"] = "Zeichne die Glyphen in den Sand, um den Abgesandten der Qiraji zu rufen.",
         ["koKR"] = false,
         ["esMX"] = "Dibuja los glifos en la arena para invocar al emisario Qiraji.",
@@ -496,7 +496,7 @@ local classicObjectiveLocales = {
     },
     ["Place the Relic Bundle in the Town Square."] = { -- 5721
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Положите сверток с реликвиями на городскую площадь.",
         ["deDE"] = "Lege das Reliquienbündel auf den Stadtplatz.",
         ["koKR"] = false,
         ["esMX"] = "Coloca el Fardo de reliquias en la plaza de Villa Darrow.",
@@ -508,7 +508,7 @@ local classicObjectiveLocales = {
     },
     ["Search the false grave for the Taelan's Hammer."] = { -- 5781
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Ищите ложное могильное место для Молота Таэлана.",
         ["deDE"] = "Durchsuche das falsche Grab nach dem Hammer des Taelan.",
         ["koKR"] = false,
         ["esMX"] = "Busca en el Túmulo de porquería el Martillo de Taelan.",
@@ -520,7 +520,7 @@ local classicObjectiveLocales = {
     },
     ["Plant the bomb!"] = { -- 6041
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Установите бомбу!",
         ["deDE"] = "Platziere die Bombe!",
         ["koKR"] = false,
         ["esMX"] = "¡Planta la bomba!",
@@ -532,7 +532,7 @@ local classicObjectiveLocales = {
     },
     ["Use the Empty Worg Pup Cage to capture it."] = { -- 4729
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Используйте Пустую клетку для щенка ворга, чтобы поймать его.",
         ["deDE"] = "Benutze den leeren Worg-Welpen-Käfig, um ihn zu fangen.",
         ["koKR"] = false,
         ["esMX"] = "Utiliza la Jaula de Mascolupo vacía para capturarlo.",
@@ -544,7 +544,7 @@ local classicObjectiveLocales = {
     },
     ["Combine Omokk's Head with the Roughshod Pike."] = { -- 4867
         ["ptBR"] = "Junte a Cabeça do Omokk com o Pique da Brutalidade.",
-        ["ruRU"] = false,
+        ["ruRU"] = "Соедините голову Омокка с грубым копьем.",
         ["deDE"] = "Kombiniere Omokks Kopf mit der beschlagenen Pike.",
         ["koKR"] = false,
         ["esMX"] = "Combina la Cabeza de Omokk con la Pica despiadada.",
@@ -556,7 +556,7 @@ local classicObjectiveLocales = {
     },
     ["Use it to instantly kill one nearby ogre."] = { -- 4867
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Используйте его, чтобы мгновенно убить одного ближайшего огра.",
         ["deDE"] = "Benutze es, um einen Oger in der Nähe sofort zu töten.",
         ["koKR"] = false,
         ["esMX"] = "Úsalo para matar instantáneamente a un ogro cercano.",
@@ -568,7 +568,7 @@ local classicObjectiveLocales = {
     },
     ["Place a tribute at Uther's Tomb"] = { -- 8149
         ["ptBR"] = "Coloca uma homenagem na tumba de Uther",
-        ["ruRU"] = false,
+        ["ruRU"] = "Положите подношения у гробницы Утера",
         ["deDE"] = "Bringt einen Tribut an Uthers Grabmal an",
         ["koKR"] = false,
         ["esMX"] = "Ofrece un tributo en la tumba de Uther",
@@ -580,7 +580,7 @@ local classicObjectiveLocales = {
     },
     ["Place a tribute at Grom's Monument"] = { -- 8150
         ["ptBR"] = "Oferece um tributo no monumento de Grom",
-        ["ruRU"] = false,
+        ["ruRU"] = "Положите подношения у памятника Грому",
         ["deDE"] = "Platziere ein Tribut am Grom-Denkmal",
         ["koKR"] = false,
         ["esMX"] = "Ofrece un tributo en el monumento de Grom",
