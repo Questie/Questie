@@ -14,7 +14,7 @@ function SeasonOfDiscovery:LoadNPCs()
     return {
         [15076] = { -- Zandalarian Emissary
             [npcKeys.spawns] = {
-                [zoneIDs.STRANGLETHORN_VALE] = {{27.2 77.0},{39.5, 5.0}},
+                [zoneIDs.STRANGLETHORN_VALE] = {{27.2, 77.0},{39.5, 5.0}},
             },
         },
         [202060] = { -- Frozen Murloc
