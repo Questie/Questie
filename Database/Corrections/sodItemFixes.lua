@@ -89,5 +89,8 @@ function SeasonOfDiscovery:LoadItems()
         [215817] = { -- Demons and You
             [itemKeys.objectDrops] = {423898},
         },
+        [216635] = { -- Spent Voidcore
+            [itemKeys.npcDrops] = {5336},
+        },
     }
 end
