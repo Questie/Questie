@@ -384,7 +384,6 @@ function SeasonOfDiscovery:LoadQuests()
         [78197] = { -- Secrets of Undeath
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.preQuestSingle] = {78196},
-            [questKeys.startedBy] = {{211229}},
             [questKeys.requiredRaces] = raceIDs.TROLL,
         },
         [78198] = { -- Secrets of the Loa
