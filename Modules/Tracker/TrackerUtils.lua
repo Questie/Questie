@@ -141,6 +141,11 @@ function TrackerUtils:FlashObjective(objective)
                     if icon:IsShown() then
                         icon._hidden_by_flash = true
                         icon:Hide()
+                        if icon.data.lineFrames then
+                            for _, line in pairs(icon.data.lineFrames) do
+                                line:Hide()
+                            end
+                        end
                     end
                 end
             end
@@ -200,6 +205,11 @@ function TrackerUtils:FlashObjective(objective)
                                         if icon._hidden_by_flash then
                                             icon._hidden_by_flash = nil
                                             icon:Show()
+                                            if icon.data.lineFrames then
+                                                for _, line in pairs(icon.data.lineFrames) do
+                                                    line:Show()
+                                                end
+                                            end
                                         end
                                     end
                                 end
@@ -226,6 +236,11 @@ function TrackerUtils:FlashFinisher(quest)
                     if icon:IsShown() then
                         icon._hidden_by_flash = true
                         icon:Hide()
+                        if icon.data.lineFrames then
+                            for _, line in pairs(icon.data.lineFrames) do
+                                line:Hide()
+                            end
+                        end
                     end
                 end
             end
@@ -279,6 +294,11 @@ function TrackerUtils:FlashFinisher(quest)
                                     if icon._hidden_by_flash then
                                         icon._hidden_by_flash = nil
                                         icon:Show()
+                                        if icon.data.lineFrames then
+                                            for _, line in pairs(icon.data.lineFrames) do
+                                                line:Show()
+                                            end
+                                        end
                                     end
                                 end
                             end
