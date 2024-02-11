@@ -74,15 +74,6 @@ function SeasonOfDiscovery:LoadItems()
         [213573] = { -- Conjuror's Pendant
             [itemKeys.npcDrops] = {2590},
         },
-        [424265] = { -- Swamp Echo
-            [itemKeys.objectDrops] = {423898},
-        },
-        [424266] = { -- Graveyard Echo
-            [itemKeys.objectDrops] = {424266},
-        },
-        [424267] = { -- Arathi Echo
-            [itemKeys.objectDrops] = {424267},
-        },
         [215817] = { -- Demons and You
             [itemKeys.objectDrops] = {423898},
         },
