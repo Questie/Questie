@@ -71,6 +71,9 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.relatedQuests] = {79099},
             [itemKeys.startQuest] = nil,
         },
+        [213573] = { -- Conjuror's Pendant
+            [itemKeys.npcDrops] = {2590},
+        },
         [424265] = { -- Swamp Echo
             [itemKeys.objectDrops] = {423898},
         },
