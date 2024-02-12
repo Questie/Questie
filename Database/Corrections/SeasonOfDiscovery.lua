@@ -8,7 +8,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
-SeasonOfDiscovery.currentPhase = 1 -- TODO: Use API function which hopefully will come in the future
+SeasonOfDiscovery.currentPhase = 2 -- TODO: Use API function which hopefully will come in the future
 
 
 
@@ -348,7 +348,9 @@ local questsToBlacklistBySoDPhase = {
         [8171] = true, -- The Battle for Arathi Basin!
         [8168] = true, -- The Battle for Arathi Basin!
     },
-    [3] = { -- SoD Phase 3 - level cap 50
+    [3] = { -- SoD Phase 3 - level cap 50#
+        [6623] = true, -- Horde Trauma
+        [6625] = true, -- Alliance Trauma
     },
     [4] = { -- SoD Phase 4 - level cap 60
         -- These might not be re-added at level 60
