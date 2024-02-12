@@ -75,7 +75,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [212724] = { -- Whirling Essence
-            [itemKeys.npcDrops] = {11577},
+            [itemKeys.npcDrops] = {11577,11578},
         },
         [212693] = { -- Rotten Seed
             [itemKeys.objectDrops] = {216310},
