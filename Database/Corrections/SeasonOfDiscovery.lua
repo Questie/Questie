@@ -341,6 +341,16 @@ function QuestieDB.IsSoDRuneQuest(questId)
     return runeQuestsInSoD[questId] ~= nil
 end
 
+---@param questId number
+---@return boolean
+function QuestieDB.IsRuneAndShouldBeHidden(questId)
+    if (not QuestieDB.IsSoDRuneQuest(questId)) then
+        return false
+    end
+
+    return runeQuestsInSoD[questId] >= SeasonOfDiscovery.currentPhase
+end
+
 -- This function blacklists any quests in phases LATER than the currentPhase value
 -- so in Phase 1, quests in phases 2+ are blacklisted, in phase 2, phases 3+ are blacklisted, etc
 -- Phase 1 is omitted, because everything not in this list is supposed to be available in Phase 1
