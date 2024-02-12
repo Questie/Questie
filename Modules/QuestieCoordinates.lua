@@ -136,7 +136,7 @@ end
 
 function QuestieCoords.ResetMiniWorldMapText()
     local currentMapId = WorldMapFrame:GetMapID();
-    if(currentMapId) then
+    if currentMapId then
         local info = C_Map.GetMapInfo(currentMapId);
         if(info) then
             GetMiniWorldMapTitleText():SetText(info.name);
