@@ -921,7 +921,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [80180] = { -- The Grand Betrayal
             [questKeys.finishedBy] = {{7937}},
-            [questKeys.objectives] = {{218537}},
+            [questKeys.objectives] = {{{218537}}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
