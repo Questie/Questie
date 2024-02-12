@@ -816,6 +816,16 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [79986] = { -- Grime-Encrusted Ring
+            [questKeys.startedBy] = {nil,nil,{216661}},
+            [questKeys.finishedBy] = {nil,{142487}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [79987] = { -- Return of the Ring Alliance
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
         [79990] = { -- Stranglethorn Lumber
             [questKeys.finishedBy] = {{14984}},
             [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
@@ -830,7 +840,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {79192},
             [questKeys.exclusiveTo] = {79974},
         },
-        [80131] = { -- Gnome Improvement
+        [80131] = { -- Gnome Improvement Alliance
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {79987},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
@@ -846,6 +858,7 @@ function SeasonOfDiscovery:LoadQuests()
         [80134] = { -- Gnomer-gooooone!
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.preQuestSingle] = {80133},
         },
         [80135] = { -- Klockmort's Essentials
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
@@ -856,7 +869,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80137] = { -- Save Techbot's Brain!
-            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80138] = { -- Tinkmaster Overspark
@@ -867,11 +880,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
-        [80140] = { -- Return of the Ring
+        [80140] = { -- Return of the Ring Horde
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80141] = { -- Nogg's Ring Redo
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {80140},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
