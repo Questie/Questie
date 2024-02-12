@@ -138,15 +138,19 @@ local itemBlacklist = {
     203751, -- Mage encoded spell notes
     209028, -- Mage encoded spell notes
     210655, -- Mage encoded spell notes
-    210179, -- Mage encoded spell notes
-    211786, -- Mage encoded scrolls
-    211785, -- Mage encoded scrolls
-    211787, -- Mage encoded scrolls
-    211780, -- Mage encoded scrolls
-    211784, -- Mage encoded scrolls
-    211854, -- Mage encoded scrolls
-    211855, -- Mage encoded scrolls
-    211853, -- Mage encoded scrolls
+    213543, -- Scroll: UPDOG
+    213544, -- Scroll: TOPAZ YORAK
+    211785, -- Scroll: CWAL
+    213547, -- Scroll: THAW WORDS
+    211787, -- Scroll: LOWER PING WHOMEVER
+    213545, -- Scroll: PEATCHY ATTAX
+    213546, -- Scroll: SHOOBEEDOOP
+    211780, -- Scroll: KWYJIBO
+    211786, -- Scroll: CHAP BALK WELLES
+    211855, -- Scroll: STHENIC LUNATE
+    211784, -- Scroll: WUBBA WUBBA
+    211854, -- Scroll: OMIT KESA
+    211853, -- Scroll: VOCE WELL
 }
 
 local itemWhitelist = {
