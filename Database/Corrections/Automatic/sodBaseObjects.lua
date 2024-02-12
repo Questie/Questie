@@ -918,8 +918,10 @@ function SeasonOfDiscovery:LoadBaseObjects()
         },
         [412198] = {
             [objectKeys.name] = "Stone Coffer",
-            [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = nil,
+            [objectKeys.zoneID] = 796,
+            [objectKeys.spawns] = {
+                [796] = {{-1, -1},},
+            },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
@@ -934,15 +936,19 @@ function SeasonOfDiscovery:LoadBaseObjects()
         },
         [412261] = {
             [objectKeys.name] = "Padlocked Reliquary",
-            [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = nil,
+            [objectKeys.zoneID] = 796,
+            [objectKeys.spawns] = {
+                [796] = {{-1, -1},},
+            },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
         [412759] = {
             [objectKeys.name] = "Personal Letterbox",
-            [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = nil,
+            [objectKeys.zoneID] = 796,
+            [objectKeys.spawns] = {
+                [796] = {{-1, -1},},
+            },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
@@ -1445,8 +1451,10 @@ function SeasonOfDiscovery:LoadBaseObjects()
         },
         [424266] = {
             [objectKeys.name] = "Grave",
-            [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = nil,
+            [objectKeys.zoneID] = 796,
+            [objectKeys.spawns] = {
+                [796] = {{-1, -1},},
+            },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
@@ -1461,36 +1469,46 @@ function SeasonOfDiscovery:LoadBaseObjects()
         },
         [424373] = {
             [objectKeys.name] = "Remnant",
-            [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = nil,
+            [objectKeys.zoneID] = 796,
+            [objectKeys.spawns] = {
+                [796] = {{-1, -1},},
+            },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
         [425896] = {
             [objectKeys.name] = "Archivists of the Monastery",
-            [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = nil,
+            [objectKeys.zoneID] = 796,
+            [objectKeys.spawns] = {
+                [796] = {{-1, -1},},
+            },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
         [425897] = {
             [objectKeys.name] = "Archivists of the Monastery",
-            [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = nil,
+            [objectKeys.zoneID] = 796,
+            [objectKeys.spawns] = {
+                [796] = {{-1, -1},},
+            },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
         [425898] = {
             [objectKeys.name] = "Archivists of the Monastery",
-            [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = nil,
+            [objectKeys.zoneID] = 796,
+            [objectKeys.spawns] = {
+                [796] = {{-1, -1},},
+            },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
         [425899] = {
             [objectKeys.name] = "Archivists of the Monastery",
-            [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = nil,
+            [objectKeys.zoneID] = 796,
+            [objectKeys.spawns] = {
+                [796] = {{-1, -1},},
+            },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
