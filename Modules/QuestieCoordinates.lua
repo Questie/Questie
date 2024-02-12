@@ -89,7 +89,7 @@ function QuestieCoords:WriteCoords()
         worldmapCoordsText = worldmapCoordsText.."|  Player: "..format(precision.. " X , ".. precision .." Y", posX, posY);
         -- Add text to world map
         mapTitleText:SetText(worldmapCoordsText)
-        if(Questie.db.profile.miniWorldMapCoordinatesEnabled) then
+        if Questie.db.profile.miniWorldMapCoordinatesEnabled then
             local miniWorldMapTitleText = GetMiniWorldMapTitleText()
             if miniWorldMapTitleText then
                 miniWorldMapTitleText:SetText(worldmapCoordsText)
