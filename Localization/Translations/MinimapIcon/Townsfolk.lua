@@ -302,8 +302,6 @@ local townsfolkLocales = {
         ["esES"] = "Ciudadanos",
         ["frFR"] = "Citoyens",
     },
-
-
 }
 
 for k, v in pairs(townsfolkLocales) do
