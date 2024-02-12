@@ -297,7 +297,7 @@ function QuestieOptions.tabs.general:Initialize()
                         set = function (info, value)
                             QuestieOptions:SetProfileValue(info, value)
 
-                            if not value then
+                            if (not value) then
                                 QuestieCoords.ResetMiniWorldMapText();
                             end
                         end,
