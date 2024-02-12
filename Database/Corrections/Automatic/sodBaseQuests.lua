@@ -1927,7 +1927,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"As quickly as it started, the Sparklematic 5200 comes to an abrupt halt. &nbsp;A simple "ding" is heard from the machine, and the mouth of the machine spirals upward. &nbsp;Inside the Sparklematic 5200 is a small box wrapped in a little bow. &nbsp;The machine would appear to wrap an object up after eliminating its grime-encrusted status. &nbsp;Even if the machine didn't work, at least the item is now wrapped in a pretty box.Well, there is one way to find out if it cleaned the item or not..."},
+            [questKeys.objectivesText] = {"As quickly as it started, the Sparklematic 5200 comes to an abrupt halt. &nbsp;A simple \"ding\" is heard from the machine, and the mouth of the machine spirals upward. &nbsp;Inside the Sparklematic 5200 is a small box wrapped in a little bow. &nbsp;The machine would appear to wrap an object up after eliminating its grime-encrusted status. &nbsp;Even if the machine didn't work, at least the item is now wrapped in a pretty box.Well, there is one way to find out if it cleaned the item or not..."},
             [questKeys.objectives] = nil,
         },
         [80180] = {
