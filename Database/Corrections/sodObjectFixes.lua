@@ -371,5 +371,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.MULGORE] = {{54.07, 55.82},{36.3, 9.8},{37.5, 52.5},{41.65, 55.98},{37.99, 60.04}},
             },
         },
+        [450013] = {
+            [objectKeys.name] = "Witherbark Gong",
+            [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.ARATHI_HIGHLANDS] = {{69.33, 81.50}},
+            },
+        },
     }
 end

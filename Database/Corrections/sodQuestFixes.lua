@@ -3411,6 +3411,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425344,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90230] = {
+            [questKeys.name] = "Focused Rage",
+            [questKeys.startedBy] = {{2554,2555,2556,218032},{450013}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 35,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Kill Witherbark Trolls until Witherbark Mallet drops, use it on the gong inside of the cave to summon an Witherbark Goliath and two adds. Kill the Goliath and loot it to receive the rune."},
+            [questKeys.requiredSpell] = -409163,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
     }
 end
 
