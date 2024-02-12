@@ -91,7 +91,7 @@ function QuestieCoords:WriteCoords()
         mapTitleText:SetText(worldmapCoordsText)
         if(Questie.db.profile.miniWorldMapCoordinatesEnabled) then
             local miniWorldMapTitleText = GetMiniWorldMapTitleText()
-            if(miniWorldMapTitleText) then
+            if miniWorldMapTitleText then
                 miniWorldMapTitleText:SetText(worldmapCoordsText)
             end
         end
