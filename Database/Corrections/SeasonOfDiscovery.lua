@@ -348,7 +348,7 @@ local questsToBlacklistBySoDPhase = {
         [8171] = true, -- The Battle for Arathi Basin!
         [8168] = true, -- The Battle for Arathi Basin!
     },
-    [3] = { -- SoD Phase 3 - level cap 50#
+    [3] = { -- SoD Phase 3 - level cap 50
         [6623] = true, -- Horde Trauma
         [6625] = true, -- Alliance Trauma
     },
