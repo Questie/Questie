@@ -30,7 +30,7 @@ end
 local function GetMiniWorldMapTitleText()
     local regions = {WorldMapFrame.MiniBorderFrame:GetRegions()}
     for i = 1, #regions do
-        if (regions[i].SetText) then
+        if regions[i].SetText then
             return regions[i]
         end
     end
