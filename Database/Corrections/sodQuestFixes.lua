@@ -811,6 +811,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {79192},
             [questKeys.exclusiveTo] = {79974},
         },
+        [80136] = { -- Essential Artificials
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+        },
+        [80137] = { -- Save Techbot's Brain!
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+        },
+        [80143] = { -- Data Rescue
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+        },
+        [80180] = { -- The Grand Betrayal
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+        },
         [80307] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },

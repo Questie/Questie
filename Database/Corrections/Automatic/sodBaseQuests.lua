@@ -1708,7 +1708,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.objectivesText] = {"Venture to Gnomeregan and kill Mekgineer Thermaplugg. Return to High Tinker Mekkatorque when the task is complete."},
-            [questKeys.objectives] = nil,
+            [questKeys.objectives] = {{218537}},
         },
         [80307] = {
             [questKeys.name] = "A Full Shipment",
