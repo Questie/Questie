@@ -12,6 +12,11 @@ function SeasonOfDiscovery:LoadNPCs()
     local waypointPresets = QuestieDB.waypointPresets
 
     return {
+        [15076] = { -- Zandalarian Emissary
+            [npcKeys.spawns] = {
+                [zoneIDs.STRANGLETHORN_VALE] = {{27.2, 77.0},{39.5, 5.0}},
+            },
+        },
         [202060] = { -- Frozen Murloc
             [npcKeys.spawns] = {
                 [zoneIDs.ELWYNN_FOREST] = {{76.8, 51.4}},
@@ -19,7 +24,9 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [202699] = { -- Baron Aquanis
-            [npcKeys.spawns] = { [zoneIDs.BLACKFATHOM_DEEPS] = { { -1, -1 } } },
+            [npcKeys.spawns] = {
+                [zoneIDs.BLACKFATHOM_DEEPS] = {{-1, -1}},
+            },
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
         },
         [203079] = { -- Wandering Swordsman
@@ -47,7 +54,9 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [204068] = { -- Lady Sarevess
-            [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS]={{-1,-1}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.BLACKFATHOM_DEEPS] = {{-1, -1}},
+            },
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
         },
         [204070] = { -- Soboz
@@ -272,7 +281,7 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [210483] = { -- Aggressive Squashling
             [npcKeys.spawns] = {
-                [zoneIDs.WESTFALL] = {{51.2,22.3},{54,31.8},{44.6,35.2},{38.4,52.5},{62.5,61.1}}
+                [zoneIDs.WESTFALL] = {{51.2, 22.3},{54, 31.8},{44.6, 35.2},{38.4, 52.5},{62.5, 61.1}},
             },
         },
         [210533] = { -- Silverspur
@@ -282,7 +291,7 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [210537] = { -- Undying Laborer
             [npcKeys.spawns] = {
-                [zoneIDs.WESTFALL] = {{44.9,24},{31.5,45}},
+                [zoneIDs.WESTFALL] = {{44.9, 24},{31.5, 45}},
             },
         },
         [210549] = { -- Defias Scout
@@ -302,13 +311,13 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [211022] = { -- Owen Thadd
             [npcKeys.spawns] = {
-                [zoneIDs.UNDERCITY] = {{73.4,33}},
+                [zoneIDs.UNDERCITY] = {{73.4, 33}},
             },
             [npcKeys.friendlyToFaction] = "H",
         },
         [211033] = { -- Garion Wendell
             [npcKeys.spawns] = {
-                [zoneIDs.STORMWIND_CITY] = {{37.8,80.2}},
+                [zoneIDs.STORMWIND_CITY] = {{37.8, 80.2}},
             },
             [npcKeys.friendlyToFaction] = "A",
         },
@@ -324,7 +333,7 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [211951] = { -- Koartul
             [npcKeys.spawns] = {
-                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{60.8,31.8}},
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{60.8, 31.8}},
             },
         },
         [211965] = { -- Carrodin
@@ -342,7 +351,7 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [212694] = { -- Hirzek
             [npcKeys.spawns] = {
-                [zoneIDs.THE_BARRENS] = {{43.2,78.6}},
+                [zoneIDs.THE_BARRENS] = {{43.2, 78.6}},
             },
         },
         [212699] = { -- Silverwing Archer
@@ -407,7 +416,7 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [212809] = { -- Wailing Spirit
             [npcKeys.spawns] = {
-                [zoneIDs.SILVERPINE_FOREST] = {{59.6,71.4}},
+                [zoneIDs.SILVERPINE_FOREST] = {{59.6, 71.4}},
             },
         },
         [212837] = { -- Primordial Anomaly
@@ -427,43 +436,43 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [213077] = { -- Elaine Compton
             [npcKeys.spawns] = {
-                [zoneIDs.STORMWIND_CITY] = {{54.4,61.2}},
+                [zoneIDs.STORMWIND_CITY] = {{54.4, 61.2}},
             },
             [npcKeys.friendlyToFaction] = "A",
         },
         [214070] = { -- Jornah
             [npcKeys.spawns] = {
-                [zoneIDs.ORGRIMMAR] = {{51.4,63.8}},
+                [zoneIDs.ORGRIMMAR] = {{51.4, 63.8}},
             },
             [npcKeys.friendlyToFaction] = "H",
         },
         [214096] = { -- Dokimi
             [npcKeys.spawns] = {
-                [zoneIDs.THUNDER_BLUFF] = {{39.2,53.4}},
+                [zoneIDs.THUNDER_BLUFF] = {{39.2, 53.4}},
             },
             [npcKeys.friendlyToFaction] = "H",
         },
         [214098] = { -- Gishah
             [npcKeys.spawns] = {
-                [zoneIDs.UNDERCITY] = {{64,39.2}},
+                [zoneIDs.UNDERCITY] = {{64, 39.2}},
             },
             [npcKeys.friendlyToFaction] = "H",
         },
         [214099] = { -- Tamelyn Aldridge
             [npcKeys.spawns] = {
-                [zoneIDs.IRONFORGE] = {{24.4,67.6}},
+                [zoneIDs.IRONFORGE] = {{24.4, 67.6}},
             },
             [npcKeys.friendlyToFaction] = "A",
         },
         [214101] = { -- Marcy Baker
             [npcKeys.spawns] = {
-                [zoneIDs.DARNASSUS] = {{59.8,56.4}},
+                [zoneIDs.DARNASSUS] = {{59.8, 56.4}},
             },
             [npcKeys.friendlyToFaction] = "A",
         },
         [214456] = { -- Dro'zem the Blasphemous
             [npcKeys.spawns] = {
-                [zoneIDs.REDRIDGE_MOUNTAINS] = {{35.4,8.6},{64.2,45.8},{77.4,69.4}},
+                [zoneIDs.REDRIDGE_MOUNTAINS] = {{35.4, 8.6},{64.2, 45.8},{77.4, 69.4}},
             },
         },
         [214519] = { -- Incinerator Gar'im
@@ -473,18 +482,18 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [216902] = { -- Wulmort Jinglepocket
             [npcKeys.spawns] = {
-                [zoneIDs.IRONFORGE] = {{33.7,67.23}},
+                [zoneIDs.IRONFORGE] = {{33.7, 67.23}},
             },
             [npcKeys.friendlyToFaction] = "AH",
         },
         [216915] = { -- Strange Snowman
             [npcKeys.spawns] = {
-                [zoneIDs.ALTERAC_MOUNTAINS]={{35.43,72.45}},
+                [zoneIDs.ALTERAC_MOUNTAINS]={{35.43, 72.45}},
             },
         },
         [216924] = { -- Kaymard Copperpinch
             [npcKeys.spawns] = {
-                [zoneIDs.ORGRIMMAR] = {{53.3,66.47}},
+                [zoneIDs.ORGRIMMAR] = {{53.3, 66.47}},
             },
             [npcKeys.friendlyToFaction] = "AH",
         },
@@ -496,6 +505,11 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [217707] = { -- Felore Moonray
             [npcKeys.friendlyToFaction] = "A",
+        },
+        [218115] = { -- Mai'zin
+            [npcKeys.spawns] = {
+                [zoneIDs.STRANGLETHORN_VALE] = {{31.2, 48.4}},
+            },
         },
     }
 end

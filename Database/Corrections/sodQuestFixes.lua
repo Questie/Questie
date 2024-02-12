@@ -384,7 +384,6 @@ function SeasonOfDiscovery:LoadQuests()
         [78197] = { -- Secrets of Undeath
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.preQuestSingle] = {78196},
-            [questKeys.startedBy] = {{211229}},
             [questKeys.requiredRaces] = raceIDs.TROLL,
         },
         [78198] = { -- Secrets of the Loa
@@ -797,6 +796,20 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {nil,{424012}},
             [questKeys.preQuestSingle] = {79192},
             [questKeys.zoneOrSort] = zoneIDs.STONETALON_MOUNTAINS,
+        },
+        [79990] = { -- Stranglethorn Lumber
+            [questKeys.finishedBy] = {{14984}},
+            [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
+        },
+        [79991] = { -- Stranglethorn Lumber
+            [questKeys.finishedBy] = {{15022}},
+            [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
+        },
+        [80001] = { -- Rekindle
+            [questKeys.startedBy] = {nil,{424082}},
+            [questKeys.finishedBy] = {nil,{424082}},
+            [questKeys.preQuestSingle] = {79192},
+            [questKeys.exclusiveTo] = {79974},
         },
         [80307] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,

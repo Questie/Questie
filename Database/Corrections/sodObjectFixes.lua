@@ -237,6 +237,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [130] = {{65.8, 23.4}},
             },
         },
+        [412147] = { -- Supply Locker
+            [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
+            [objectKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES] = {{81.18,32.12}},
+            },
+        },
         [414658] = { -- Rubble
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
             [objectKeys.spawns] = {
