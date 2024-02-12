@@ -8,7 +8,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
-SeasonOfDiscovery.currentPhase = 2 -- TODO: Use API function which hopefully will come in the future
+SeasonOfDiscovery.currentPhase = 1 -- TODO: Use API function which hopefully will come in the future
 
 
 
