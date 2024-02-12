@@ -1017,6 +1017,7 @@ l10n.objectLookup["esMX"] = {
 [4166] = "Instrumentos de alquimia",
 [4406] = "Huevos de Tejemadera",
 [4608] = "Brote de Brezomadera",
+[4614] = "Colgante de Myzrael",
 [5619] = "Piedra de energía con imperfecciones",
 [5620] = "Piedras de energía imperfectas",
 [5621] = "Piedras de energía imperfectas",
