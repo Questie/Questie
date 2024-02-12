@@ -954,7 +954,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{3412}},
             [questKeys.finishedBy] = {{3412}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectives] = {nil,nil,{217351}},
+            [questKeys.objectives] = {nil,nil,{{217351}}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
