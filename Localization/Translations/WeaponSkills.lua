@@ -158,6 +158,18 @@ local weaponSkillLocales = {
         ["esES"] = "Bastones",
         ["frFR"] = "Bâtons",
     },
+    ["Polearms"] = {
+        ["ptBR"] = "Armas de Haste",
+        ["ruRU"] = "Древковое оружие",
+        ["deDE"] = "Stangenwaffen",
+        ["koKR"] = "장창류",
+        ["esMX"] = "Armas de asta",
+        ["enUS"] = true,
+        ["zhCN"] = "长柄武器",
+        ["zhTW"] = "長柄武器",
+        ["esES"] = "Armas de asta",
+        ["frFR"] = "Armes d'hast",
+    },
 }
 
 for k, v in pairs(weaponSkillLocales) do
