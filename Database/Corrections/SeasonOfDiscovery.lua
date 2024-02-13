@@ -349,6 +349,9 @@ local questsToBlacklistBySoDPhase = {
         [8168] = true, -- The Battle for Arathi Basin!
     },
     [3] = { -- SoD Phase 3 - level cap 50
+        [6610] = true, -- Clamlette Surprise Cooking 225+ quest
+        [6611] = true, -- To Gadgetzan You Go! Cooking 225+ pre quest
+        [6612] = true, -- I Know A Guy... Cooking 225+ pre quest
         [6623] = true, -- Horde Trauma
         [6625] = true, -- Alliance Trauma
     },
