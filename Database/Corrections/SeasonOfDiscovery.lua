@@ -349,6 +349,9 @@ local questsToBlacklistBySoDPhase = {
         [8168] = true, -- The Battle for Arathi Basin!
     },
     [3] = { -- SoD Phase 3 - level cap 50
+        [6607] = true, -- Nat Pagle, Angler Extreme Fishing 225+ quest
+        [6608] = true, -- You Too Good. Fishing 225+ quest
+        [6609] = true, -- I Got Nothin' Left! Fishing 225+ pre quest
         [6610] = true, -- Clamlette Surprise Cooking 225+ quest
         [6611] = true, -- To Gadgetzan You Go! Cooking 225+ pre quest
         [6612] = true, -- I Know A Guy... Cooking 225+ pre quest
