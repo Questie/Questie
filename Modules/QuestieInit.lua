@@ -251,6 +251,7 @@ QuestieInit.Stages[2] = function()
     while (not QuestieValidateGameCache:IsCacheGood()) and keepWaiting do
         coYield()
     end
+    keepWaiting = false
 end
 
 QuestieInit.Stages[3] = function() -- run as a coroutine
