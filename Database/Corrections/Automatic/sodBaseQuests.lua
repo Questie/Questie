@@ -1674,7 +1674,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"Find Wirdal Wondergear's Quadrangulation Beacons and attune with them. There are four of them and they are located somewhere in Kalimdor. Rewards ."},
+            [questKeys.objectivesText] = {"Find Wirdal Wondergear's Quadrangulation Beacons and attune with them. There are four of them and they are located somewhere in Kalimdor."},
             [questKeys.objectives] = nil,
         },
         [79986] = {
