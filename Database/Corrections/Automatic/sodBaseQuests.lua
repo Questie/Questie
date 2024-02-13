@@ -1608,7 +1608,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"Bring Ziri "The Wrench" 10 Mithril Bars, 5 Greater Mystic Essence, 3 GG12-082 Cartridge Fuses, and a Pristine G-7 C.O.R.E. Processor and she can get the Salvagematic 9000! working for you. Probably. Maybe."},
+            [questKeys.objectivesText] = {"Bring Ziri \"The Wrench\" 10 Mithril Bars, 5 Greater Mystic Essence, 3 GG12-082 Cartridge Fuses, and a Pristine G-7 C.O.R.E. Processor and she can get the Salvagematic 9000! working for you. Probably. Maybe."},
             [questKeys.objectives] = {nil,nil,{{3860},{216634},{11135},{213735}}},
         },
         [79974] = {
