@@ -481,10 +481,6 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [215850] = { -- Raszel Ander
-            [npcKeys.zoneID] = zoneIDs.DESOLACE,
-            [npcKeys.spawns] = {
-                [zoneIDs.DESOLACE] = {{54,80}},
-            },
             [npcKeys.friendlyToFaction] = "AH",
         },
         [216902] = { -- Wulmort Jinglepocket

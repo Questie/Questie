@@ -501,9 +501,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
             [questKeys.questFlags] = questFlags.RAID,
         },
-        [78994] = { -- Soul Vessel
-            [questKeys.startedBy] = {{213445}},
-            [questKeys.finishedBy] = {{215850}},
+        [78914] = { -- Soul Vessel
             [questKeys.preQuestSingle] = {78994},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
