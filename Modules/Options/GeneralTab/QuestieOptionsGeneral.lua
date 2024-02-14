@@ -269,6 +269,7 @@ function QuestieOptions.tabs.general:Initialize()
 
                             if not value then
                                 QuestieCoords.ResetMapText();
+                                QuestieCoords:ResetMiniWorldMapText();
                             end
                         end,
                     },
@@ -287,22 +288,6 @@ function QuestieOptions.tabs.general:Initialize()
                             end
                         end,
                     },
-                    miniWorldMapCoordinatesEnabled = {
-                        type = "toggle",
-                        order = 5.55,
-                        disabled = function() return not Questie.db.profile.mapCoordinatesEnabled end,
-                        name = function() return l10n('Mini World Map Coord.') end,
-                        desc = function() return l10n("Place the Player's coordinates and Cursor's coordinates on the Mini World Map's title."); end,
-                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                        set = function (info, value)
-                            QuestieOptions:SetProfileValue(info, value)
-
-                            if (not value) then
-                                QuestieCoords.ResetMiniWorldMapText();
-                            end
-                        end,
-                    },
-                    Spacer_Range = QuestieOptionsUtils:Spacer(5.56),
                     mapCoordinatePrecision = {
                         type = "range",
                         order = 5.6,

@@ -89,11 +89,11 @@ function QuestieCoords:WriteCoords()
         worldmapCoordsText = worldmapCoordsText.."|  Player: "..format(precision.. " X , ".. precision .." Y", posX, posY);
         -- Add text to world map
         mapTitleText:SetText(worldmapCoordsText)
-        if Questie.db.profile.miniWorldMapCoordinatesEnabled then
-            local miniWorldMapTitleText = GetMiniWorldMapTitleText()
-            if miniWorldMapTitleText then
-                miniWorldMapTitleText:SetText(worldmapCoordsText)
-            end
+
+        -- Adding text to mini world map
+        local miniWorldMapTitleText = GetMiniWorldMapTitleText()
+        if miniWorldMapTitleText then
+            miniWorldMapTitleText:SetText(worldmapCoordsText)
         end
     end
 end
@@ -134,7 +134,7 @@ function QuestieCoords:ResetMapText()
     GetMapTitleText():SetText(WORLD_MAP);
 end
 
-function QuestieCoords.ResetMiniWorldMapText()
+function QuestieCoords:ResetMiniWorldMapText()
     local currentMapId = WorldMapFrame:GetMapID();
     if currentMapId then
         local info = C_Map.GetMapInfo(currentMapId);
