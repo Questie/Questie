@@ -293,12 +293,10 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [78124] = { -- Nar'thalas Almanac
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78127] = { -- The Dalaran Digest
             [questKeys.questLevel] = 20,
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78132] = { -- Dragonslayer's Helm
@@ -315,12 +313,10 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [78142] = { -- Bewitchments and Glamours
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78143] = { -- Secrets of the Dreamers
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78144] = { -- Alonso the Dragonslayer
@@ -331,28 +327,23 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [78145] = { -- Arcanic Systems Manual
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78146] = { -- Goaz Scrolls
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78147] = { -- Crimes Against Anatomy
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78148] = { -- Runes of the Sorceror-Kings
             [questKeys.name] = "Runes of the Sorcerer-Kings",
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78149] = { -- Fury of the Land
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78150] = { -- Friend of the Library
@@ -612,7 +603,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Collect 'Archmage Antonidas: The Unabridged Autobiography'and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79092] = { -- Archmage Theocritus's Research Journal
@@ -620,7 +610,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Collect 'Azora Apprentice Notes: Page 1'and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79093] = { -- Rumi of Gnomeregan: The Collected Works
@@ -628,7 +617,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Collect 'Rumi of Gnomeregan: The Collected Works'and bring it to Garion Wendell in Stormwind. After ten book turnins you will receive the Icy Veins rune."},
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79094] = { -- The Lessons of Ta'zo
@@ -636,7 +624,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Collect 'The Lessons of Ta'zo'and bring it to Owen Thadd in Undercity. After ten book turnins you will receive the Icy Veins rune."},
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79095] = { -- The Apothecary's Metaphysical Primer
@@ -644,7 +631,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Collect 'The Apothecary's Metaphysical Primer'and bring it to Owen Thadd in Undercity. After ten book turnins you will receive the Icy Veins rune."},
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79096] = { -- Ataeric: On Arcane Curiosities
@@ -652,12 +638,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Collect 'Arcanic Systems Manual'and bring it to Owen Thadd in Undercity. After ten book turnins you will receive the Icy Veins rune."},
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79097] = { -- Baxtan: On Destructive Magics
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -425170,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79098] = { -- Clear the Forest!
@@ -733,7 +717,6 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [79535] = { -- Basilisks: Should Petrification be Feared?
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -415934,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79536] = { -- Greater Friend of the Library
@@ -794,37 +777,30 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [79947] = { -- Geomancy: The Stone-Cold Truth
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -415934,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79948] = { -- Defensive Magics 101
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -415934,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79949] = { -- A Web of Lies: Debunking Myths and Legends
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -415934,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79950] = { -- Demons and You
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -415934,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79951] = { -- Mummies: A Guide to the Unsavory Undead
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -415934,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79952] = { -- RwlRwlRwlRwl!
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -415934,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79953] = { -- A Ludite's Guide to Caring for Your Demonic Pet
             [questKeys.questLevel] = -1,
-            [questKeys.requiredSpell] = -415934,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79974] = { -- Wet Job
