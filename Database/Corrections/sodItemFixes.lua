@@ -62,9 +62,6 @@ function SeasonOfDiscovery:LoadItems()
         [210955] = { -- Scarlet Initiate's Uniform
             [itemKeys.objectDrops] = {412147},
         },
-        [211426] = { -- Bough of Shadows
-            [itemKeys.objectDrops] = {}, -- TODO: What's the object?
-        },
         [211452] = { -- Horde Blackfathom Pearl
             [itemKeys.relatedQuests] = {78917},
             [itemKeys.startQuest] = 78917,
