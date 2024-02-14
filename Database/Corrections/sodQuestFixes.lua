@@ -731,6 +731,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
+        [79535] = { -- Basilisks: Should Petrification be Feared?
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredSpell] = -415934,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [79536] = { -- Greater Friend of the Library
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
         [79588] = { -- Small Furry Paws
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 500},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
@@ -783,6 +791,41 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{217689}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
+        },
+        [79947] = { -- Geomancy: The Stone-Cold Truth
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredSpell] = -415934,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [79948] = { -- Defensive Magics 101
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredSpell] = -415934,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [79949] = { -- A Web of Lies: Debunking Myths and Legends
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredSpell] = -415934,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [79950] = { -- Demons and You
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredSpell] = -415934,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [79951] = { -- Mummies: A Guide to the Unsavory Undead
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredSpell] = -415934,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [79952] = { -- RwlRwlRwlRwl!
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredSpell] = -415934,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [79953] = { -- A Ludite's Guide to Caring for Your Demonic Pet
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredSpell] = -415934,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79974] = { -- Wet Job
             [questKeys.startedBy] = {nil,{424012}},
@@ -3640,6 +3683,51 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = {{214070,214096,214098}},
         },
+        [79535] = { -- Basilisks: Should Petrification be Feared?
+            [questKeys.startedBy] = {nil,{421526}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Basilisks: Should Petrification be Feared?' and bring it to Owen Thadd in Undercity."},
+        },
+        [79536] = { -- Greater Friend of the Library
+            [questKeys.startedBy] = {{211022}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"You will need to hand in 20 books to receive the rune, however you can hand 1 in at any time."},
+        },
+        [79947] = { -- Geomancy: The Stone-Cold Truth
+            [questKeys.startedBy] = {nil,{423895}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Geomancy: The Stone-Cold Truth' and bring it to Owen Thadd in Undercity."},
+        },
+        [79948] = { -- Defensive Magics 101
+            [questKeys.startedBy] = {nil,{423896}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Defensive Magics 101' and bring it to Owen Thadd in Undercity."},
+        },
+        [79949] = { -- A Web of Lies: Debunking Myths and Legends
+            [questKeys.startedBy] = {nil,{423897}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'A Web of Lies: Debunking Myths and Legends' and bring it to Owen Thadd in Undercity."},
+        },
+        [79950] = { -- Demons and You
+            [questKeys.startedBy] = {nil,{423898}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Demons and You' and bring it to Owen Thadd in Undercity."},
+        },
+        [79951] = { -- Mummies: A Guide to the Unsavory Undead
+            [questKeys.startedBy] = {nil,{423899}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Mummies: A Guide to the Unsavory Undead' and bring it to Owen Thadd in Undercity."},
+        },
+        [79952] = { -- RwlRwlRwlRwl!
+            [questKeys.startedBy] = {nil,{423900}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'RwlRwlRwlRwl!' and bring it to Owen Thadd in Undercity."},
+        },
+        [79953] = { -- A Ludite's Guide to Caring for Your Demonic Pet
+            [questKeys.startedBy] = {nil,{423901}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'A Ludite's Guide to Caring for Your Demonic Pet' and bring it to Owen Thadd in Undercity."},
+        },
         [80307] = { -- A Full Shipment
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = {{214070,214096,214098}},
@@ -3737,6 +3825,51 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
         [79103] = { -- A Full Shipment
             [questKeys.startedBy] = {{213077,214099,214101}},
             [questKeys.finishedBy] = {{213077,214099,214101}},
+        },
+        [79535] = { -- Basilisks: Should Petrification be Feared?
+            [questKeys.startedBy] = {nil,{421526}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Basilisks: Should Petrification be Feared?' and bring it to Garion Wendell in Stormwind."},
+        },
+        [79536] = { -- Greater Friend of the Library
+            [questKeys.startedBy] = {{211033}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"You will need to hand in 20 books to receive the rune, however you can hand 1 in at any time."},
+        },
+        [79947] = { -- Geomancy: The Stone-Cold Truth
+            [questKeys.startedBy] = {nil,{423895}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Geomancy: The Stone-Cold Truth' and bring it to Garion Wendell in Stormwind."},
+        },
+        [79948] = { -- Defensive Magics 101
+            [questKeys.startedBy] = {nil,{423896}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Defensive Magics 101' and bring it to Garion Wendell in Stormwind."},
+        },
+        [79949] = { -- A Web of Lies: Debunking Myths and Legends
+            [questKeys.startedBy] = {nil,{423897}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'A Web of Lies: Debunking Myths and Legends' and bring it to Garion Wendell in Stormwind."},
+        },
+        [79950] = { -- Demons and You
+            [questKeys.startedBy] = {nil,{423898}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Demons and You' and bring it to Garion Wendell in Stormwind."},
+        },
+        [79951] = { -- Mummies: A Guide to the Unsavory Undead
+            [questKeys.startedBy] = {nil,{423899}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Mummies: A Guide to the Unsavory Undead' and bring it to Garion Wendell in Stormwind."},
+        },
+        [79952] = { -- RwlRwlRwlRwl!
+            [questKeys.startedBy] = {nil,{423900}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'RwlRwlRwlRwl!' and bring it to Garion Wendell in Stormwind."},
+        },
+        [79953] = { -- A Ludite's Guide to Caring for Your Demonic Pet
+            [questKeys.startedBy] = {nil,{423901}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'A Ludite's Guide to Caring for Your Demonic Pet' and bring it to Garion Wendell in Stormwind."},
         },
         [80307] = { -- A Full Shipment
             [questKeys.startedBy] = {{213077,214099,214101}},
