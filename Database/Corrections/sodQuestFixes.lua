@@ -813,6 +813,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [79984] = { -- Quadrangulation
+            [questKeys.objectives] = {nil,{{424074},{424075},{424076},{424077}}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
