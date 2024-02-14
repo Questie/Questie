@@ -261,23 +261,27 @@ function SeasonOfDiscovery:LoadObjects()
             },
         },
         [424074] = { -- Quadrangulation Beacon 001
+            [objectKeys.zoneID] = zoneIDs.TANARIS,
             [objectKeys.spawns] = {
-                [440] = {{37.8, 27.3}},
+                [zoneIDs.TANARIS] = {{37.8, 27.3}},
             },
         },
         [424075] = { -- Quadrangulation Beacon 002
+            [objectKeys.zoneID] = zoneIDs.DESOLACE,
             [objectKeys.spawns] = {
-                [405] = {{32.0, 72.7}},
+                [zoneIDs.DESOLACE] = {{32.0, 72.7}},
             },
         },
         [424076] = { -- Quadrangulation Beacon 003
+            [objectKeys.zoneID] = zoneIDs.FERALAS,
             [objectKeys.spawns] = {
-                [357] = {{29.3, 93.8}},
+                [zoneIDs.FERALAS] = {{29.3, 93.8}},
             },
         },
         [424077] = { -- Quadrangulation Beacon 004
+            [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
             [objectKeys.spawns] = {
-                [15] = {{58.6, 13.0}},
+                [zoneIDs.DUSTWALLOW_MARSH] = {{58.6, 13.0}},
             },
         },
         [424265] = { -- Grave
