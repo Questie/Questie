@@ -237,6 +237,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [130] = {{65.8, 23.4}},
             },
         },
+        [412147] = { -- Supply Locker
+            [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
+            [objectKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES] = {{81.18,32.12}},
+            },
+        },
         [414658] = { -- Rubble
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
             [objectKeys.spawns] = {
@@ -252,6 +258,24 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
             [objectKeys.spawns] = {
                 [zoneIDs.DESOLACE] = {{55,26.2}},
+            },
+        },
+        [424265] = { -- Grave
+            [objectKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
+            [objectKeys.spawns] = {
+                [zoneIDs.SWAMP_OF_SORROWS] = {{16.8,53.8}},
+            },
+        },
+        [424266] = { -- Grave
+            [objectKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
+            [objectKeys.spawns] = {
+                [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
+            },
+        },
+        [424267] = { -- Grave
+            [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.ARATHI_HIGHLANDS] = {{62,54}},
             },
         },
 

@@ -57,7 +57,10 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {410220},
         },
         [210055] = { -- Hillsbrad Human Bones
-            [itemKeys.npcDrops] = {2265,2266,2267,2268,2360},
+            [itemKeys.npcDrops] = {2265,2266,2267,2268,2360,2387},
+        },
+        [210955] = { -- Scarlet Initiate's Uniform
+            [itemKeys.objectDrops] = {412147},
         },
         [211426] = { -- Bough of Shadows
             [itemKeys.objectDrops] = {}, -- TODO: What's the object?
@@ -74,8 +77,8 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.relatedQuests] = {79099},
             [itemKeys.startQuest] = nil,
         },
-        [211818] = { -- Demons and You
-            [itemKeys.objectDrops] = {423898},
+        [216635] = { -- Spent Voidcore
+            [itemKeys.npcDrops] = {5336},
         },
     }
 end

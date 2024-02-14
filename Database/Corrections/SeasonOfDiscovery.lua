@@ -351,6 +351,14 @@ local questsToBlacklistBySoDPhase = {
         [8168] = true, -- The Battle for Arathi Basin!
     },
     [3] = { -- SoD Phase 3 - level cap 50
+        [6607] = true, -- Nat Pagle, Angler Extreme Fishing 225+ quest
+        [6608] = true, -- You Too Good. Fishing 225+ quest
+        [6609] = true, -- I Got Nothin' Left! Fishing 225+ pre quest
+        [6610] = true, -- Clamlette Surprise Cooking 225+ quest
+        [6611] = true, -- To Gadgetzan You Go! Cooking 225+ pre quest
+        [6612] = true, -- I Know A Guy... Cooking 225+ pre quest
+        [6623] = true, -- Horde Trauma
+        [6625] = true, -- Alliance Trauma
     },
     [4] = { -- SoD Phase 4 - level cap 60
         -- These might not be re-added at level 60
@@ -899,56 +907,46 @@ local questsToBlacklistBySoDPhase = {
         [9416] = true,
     },
     [17] = { -- Never appearing in Season of Discovery
-    -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
-    [909] = true,
-    [971] = true,
-    [1198] = true,
-    [1199] = true,
-    [1200] = true,
-    [1275] = true,
-    [6561] = true,
-    [6565] = true,
-    [6921] = true,
-    [6922] = true,
+        -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
+        [909] = true,
+        [971] = true,
+        [1198] = true,
+        [1199] = true,
+        [1200] = true,
+        [1275] = true,
+        [6561] = true,
+        [6565] = true,
+        [6921] = true,
+        [6922] = true,
 
-    -- Original Gnomeregan quests (instance reworked to raid, new quest IDs)
-    [2841] = true,
-    [2842] = true,
-    [2843] = true,
-    [2904] = true,
-    [2922] = true,
-    [2923] = true,
-    [2924] = true,
-    [2925] = true,
-    [2926] = true,
-    [2927] = true,
-    [2928] = true,
-    [2929] = true,
-    [2930] = true,
-    [2931] = true,
-    [2945] = true,
-    [2947] = true,
-    [2949] = true,
-    [2951] = true,
-    [2952] = true,
-    [2953] = true,
-    [2962] = true,
-    [4601] = true,
-    [4602] = true,
-    [4603] = true,
-    [4604] = true,
-    [4605] = true,
-    [4606] = true,
-
-    -- Original Scarlet Monastery quests (instance reworked to raid, new quest IDs)
-    [1048] = true,
-    [1049] = true,
-    [1050] = true,
-    [1051] = true,
-    [1052] = true,
-    [1053] = true,
-    [1113] = true,
-    [1160] = true,
+        -- Original Gnomeregan quests (instance reworked to raid, new quest IDs)
+        [2841] = true,
+        [2842] = true,
+        [2843] = true,
+        [2904] = true,
+        [2922] = true,
+        [2923] = true,
+        [2924] = true,
+        [2925] = true,
+        [2926] = true,
+        [2927] = true,
+        [2928] = true,
+        [2929] = true,
+        [2930] = true,
+        [2931] = true,
+        [2945] = true,
+        [2947] = true,
+        [2949] = true,
+        [2951] = true,
+        [2952] = true,
+        [2953] = true,
+        [2962] = true,
+        [4601] = true,
+        [4602] = true,
+        [4603] = true,
+        [4604] = true,
+        [4605] = true,
+        [4606] = true,
     },
 }
 
