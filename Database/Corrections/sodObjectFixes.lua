@@ -260,6 +260,26 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.DESOLACE] = {{55,26.2}},
             },
         },
+        [424074] = { -- Quadrangulation Beacon 001
+            [objectKeys.spawns] = {
+                [440] = {{37.8, 27.3}},
+            },
+        },
+        [424075] = { -- Quadrangulation Beacon 002
+            [objectKeys.spawns] = {
+                [405] = {{32.0, 72.7}},
+            },
+        },
+        [424076] = { -- Quadrangulation Beacon 003
+            [objectKeys.spawns] = {
+                [357] = {{29.3, 93.8}},
+            },
+        },
+        [424077] = { -- Quadrangulation Beacon 004
+            [objectKeys.spawns] = {
+                [15] = {{58.6, 13.0}},
+            },
+        },
         [424265] = { -- Grave
             [objectKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
             [objectKeys.spawns] = {
