@@ -57,7 +57,10 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {410220},
         },
         [210055] = { -- Hillsbrad Human Bones
-            [itemKeys.npcDrops] = {2265,2266,2267,2268,2360},
+            [itemKeys.npcDrops] = {2265,2266,2267,2268,2360,2387},
+        },
+        [210955] = { -- Scarlet Initiate's Uniform
+            [itemKeys.objectDrops] = {412147},
         },
         [211452] = { -- Horde Blackfathom Pearl
             [itemKeys.relatedQuests] = {78917},
@@ -71,17 +74,8 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.relatedQuests] = {79099},
             [itemKeys.startQuest] = nil,
         },
-        [424265] = { -- Swamp Echo
-            [itemKeys.objectDrops] = {423898},
-        },
-        [424266] = { -- Graveyard Echo
-            [itemKeys.objectDrops] = {424266},
-        },
-        [424267] = { -- Arathi Echo
-            [itemKeys.objectDrops] = {424267},
-        },
-        [215817] = { -- Demons and You
-            [itemKeys.objectDrops] = {423898},
+        [216635] = { -- Spent Voidcore
+            [itemKeys.npcDrops] = {5336},
         },
     }
 end

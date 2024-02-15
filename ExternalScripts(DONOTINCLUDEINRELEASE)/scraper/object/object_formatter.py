@@ -12,6 +12,9 @@ class ObjectFormatter:
         with Path("object/object_data.lua").open("w", encoding="utf-8") as g:
             g.write("return {\n")
             for item in object_input:
+                if "name" not in item:
+                    continue
+
                 g.write("    [{id}] = {{\n".format(id=item["objectId"]))
                 g.write("        [objectKeys.name] = \"{name}\",\n".format(name=item["name"]))
                 g.write("        [objectKeys.zoneID] = {zone_id},\n".format(zone_id=self.__get_zone_id(item)))
