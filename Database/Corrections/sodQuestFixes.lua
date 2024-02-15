@@ -501,6 +501,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [78914] = { -- Soul Vessel
+            [questKeys.preQuestSingle] = {78994},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
         [78916] = { -- The Heart of the Void (Alliance)
             [questKeys.startedBy] = {nil, nil, {209693}},
             [questKeys.finishedBy] = {{4783}},
@@ -569,6 +573,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {{{207356}},nil,nil},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
             [questKeys.questFlags] = questFlags.RAID,
+        },
+        [78994] = { -- A Solid Foundation
+            [questKeys.preQuestSingle] = {78702},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [79007] = { -- ...and that note you found
             [questKeys.startedBy] = {nil,{415106}},
