@@ -3413,7 +3413,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90230] = {
             [questKeys.name] = "Focused Rage",
-            [questKeys.startedBy] = {{2554,2555,2556,218032},{450013}},
+            [questKeys.startedBy] = {nil,{450013}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 35,
