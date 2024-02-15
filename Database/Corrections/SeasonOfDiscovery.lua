@@ -330,6 +330,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     -- P2 SoD Runes
     [90221] = 2, -- Druid Berserk Thousand Needles
     [90223] = 2, -- Hunter Dual Wield Specialization Stranglethorn Vale
+    [90224] = 2, -- Warrior Intervene Thousand Needles
 }
 
 --- "automatic" phase detection for the first few phases;

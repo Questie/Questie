@@ -3582,6 +3582,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410116,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90224] = {
+            [questKeys.name] = "Intervene",
+            [questKeys.startedBy] = {{218019,218020,218021,}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 24,
+            [questKeys.questLevel] = 24,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Use Execute while wielding a two-handed weapon on the left Combat Dummy, use Taunt whilst dual wielding on the center Combat Dummy, and use Shield Bash on the right Combat Dummy to receive the rune."},
+            [questKeys.requiredSpell] = -403472,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
     }
 end
 
