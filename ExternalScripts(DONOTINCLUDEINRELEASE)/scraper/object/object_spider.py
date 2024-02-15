@@ -63,11 +63,12 @@ class ObjectSpider(scrapy.Spider):
         zone_id = None
         text = response.xpath("//div[contains(text(), 'This object can be found in')]").get()
         zone_id_match = re.search(r"zone=(\d+)", text)
-        zone_name_match = re.search(r"Shadowfang Keep|Blackfathom Deeps|Gnomeregan", text)
+        zone_name_match = re.search(r"Shadowfang Keep|Blackfathom Deeps|Scarlet Monastery|Gnomeregan", text)
         if zone_id_match:
             zone_id = zone_id_match.group(1)
             if (zone_id == "719" or  # Blackfathom Deeps
                     zone_id == "209" or  # Shadowfang Keep
+                    zone_id == "796" or  # Scarlet Monastery
                     zone_id == "721"):  # Gnomeregan
                 spawns = [[zone_id, "[-1,-1]"]]
         elif zone_name_match:
@@ -78,6 +79,9 @@ class ObjectSpider(scrapy.Spider):
             elif zone_name == "Shadowfang Keep":
                 zone_id = "209"
                 spawns = [["209", "[-1,-1]"]]
+            elif zone_name == "Scarlet Monastery":
+                zone_id = "796"
+                spawns = [["796", "[-1,-1]"]]
             elif zone_name == "Gnomeregan":
                 zone_id = "721"
                 spawns = [["721", "[-1,-1]"]]

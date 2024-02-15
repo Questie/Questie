@@ -1,12 +1,12 @@
 ## Interface: 30403
-## Title: Questie|cFF00FF00 v9.3.7|r
+## Title: Questie|cFF00FF00 v9.4.1|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
 ## Notes-esMX: Ayundante de misión
 ## Notes-esES: Ayundante de misión
 ## Notes-ptBR: Ajudante de missão
 ## Notes-frFR: Assistant de quête
-## Version: 9.3.7
+## Version: 9.4.1
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
@@ -150,6 +150,7 @@ Modules\FramePool\QuestieFrame.lua
 Modules\Map\QuestieMap.lua
 Modules\Map\QuestieMapUtils.lua
 Modules\Map\HBDHooks.lua
+Modules\Map\WeaponMasterSkills.lua
 
 # Quest
 Modules\Quest\AvailableQuests.lua
