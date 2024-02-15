@@ -384,7 +384,6 @@ function SeasonOfDiscovery:LoadQuests()
         [78197] = { -- Secrets of Undeath
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.preQuestSingle] = {78196},
-            [questKeys.startedBy] = {{211229}},
             [questKeys.requiredRaces] = raceIDs.TROLL,
         },
         [78198] = { -- Secrets of the Loa
@@ -502,6 +501,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [78914] = { -- Soul Vessel
+            [questKeys.preQuestSingle] = {78994},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
         [78916] = { -- The Heart of the Void (Alliance)
             [questKeys.startedBy] = {nil, nil, {209693}},
             [questKeys.finishedBy] = {{4783}},
@@ -570,6 +573,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {{{207356}},nil,nil},
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
             [questKeys.questFlags] = questFlags.RAID,
+        },
+        [78994] = { -- A Solid Foundation
+            [questKeys.preQuestSingle] = {78702},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [79007] = { -- ...and that note you found
             [questKeys.startedBy] = {nil,{415106}},
@@ -774,6 +781,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
+        [79626] = { -- The Salvagematic 9000!
+            [questKeys.startedBy] = {nil,{422483}},
+            [questKeys.finishedBy] = {nil,{422483}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [79705] = { -- Salvaging the Salvagematic
+            [questKeys.finishedBy] = {{217689}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
         [79974] = { -- Wet Job
             [questKeys.startedBy] = {nil,{424012}},
             [questKeys.finishedBy] = {nil,{424007}},
@@ -798,14 +816,156 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {79192},
             [questKeys.zoneOrSort] = zoneIDs.STONETALON_MOUNTAINS,
         },
-        [80307] = {
+        [79981] = { -- The Corroded Core
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [79984] = { -- Quadrangulation
+            [questKeys.objectives] = {nil,{{424074},{424075},{424076},{424077}}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [79986] = { -- Grime-Encrusted Ring
+            [questKeys.startedBy] = {nil,nil,{216661}},
+            [questKeys.finishedBy] = {nil,{142487}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [79987] = { -- Return of the Ring Alliance
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [79990] = { -- Stranglethorn Lumber
+            [questKeys.finishedBy] = {{14984}},
+            [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
+        },
+        [79991] = { -- Stranglethorn Lumber
+            [questKeys.finishedBy] = {{15022}},
+            [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
+        },
+        [80001] = { -- Rekindle
+            [questKeys.startedBy] = {nil,{424082}},
+            [questKeys.finishedBy] = {nil,{424082}},
+            [questKeys.preQuestSingle] = {79192},
+            [questKeys.exclusiveTo] = {79974},
+        },
+        [80131] = { -- Gnome Improvement Alliance
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {79987},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80132] = { -- Rig Wars
+            [questKeys.finishedBy] = {{3412}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80133] = { -- Chief Engineer Scooty
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80134] = { -- Gnomer-gooooone!
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.preQuestSingle] = {80133},
+        },
+        [80135] = { -- Klockmort's Essentials
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80136] = { -- Essential Artificials
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80137] = { -- Save Techbot's Brain!
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80138] = { -- Tinkmaster Overspark
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80139] = { -- Gnogaine
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80140] = { -- Return of the Ring Horde
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80141] = { -- Nogg's Ring Redo
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {80140},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80143] = { -- Data Rescue
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80153] = { -- The Sparklematic 5200!
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80155] = { -- More Sparklematic Action
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80157] = { -- The Sparklematic 5200!
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80158] = { -- The Sparklematic 5200!
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80160] = { -- More Sparklematic Action
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80161] = { -- The Sparklematic 5200!
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80180] = { -- The Grand Betrayal
+            [questKeys.finishedBy] = {{7937}},
+            [questKeys.objectives] = {{{218537}}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80181] = { -- Gyrodrillmatic Excavationators
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80182] = { -- The Only Cure is More Green Glow
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80307] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [80308] = {
+        [80308] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [80309] = {
+        [80309] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [80324] = { -- The Mad King
+            [questKeys.startedBy] = {{7937}},
+            [questKeys.finishedBy] = {{7937}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectives] = {nil,nil,{{217350}}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80325] = { -- The Mad King
+            [questKeys.startedBy] = {{3412}},
+            [questKeys.finishedBy] = {{3412}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectives] = {nil,nil,{{217351}}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
         },
 
         --- Fake rune quests
@@ -3397,6 +3557,54 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Kill Bael'dun Dwarves until Artifact Storage Key drops, use it on the Artifact Storage. Equip the Icon and follow its instructions to receive the rune."},
             [questKeys.requiredSpell] = -425344,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [90221] = {
+            [questKeys.name] = "Berserk",
+            [questKeys.startedBy] = {nil,{450013}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 28,
+            [questKeys.questLevel] = 28,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Use Challenging Roar on the Beastly Effigy, then Kill Zai'enki. Equip the Icon and follow its instructions to receive the rune."},
+            [questKeys.requiredSpell] = -424760,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [90223] = {
+            [questKeys.name] = "Dual Wield Specialization",
+            [questKeys.startedBy] = {{217783}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 32,
+            [questKeys.questLevel] = 32,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Use Flare when you have the Danger! buff, it will reveal a Bloodscalp Guerrilla which patrols so you may need to cast it a few times, kill it to receive the rune."},
+            [questKeys.requiredSpell] = -410116,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [90224] = {
+            [questKeys.name] = "Intervene",
+            [questKeys.startedBy] = {{218019,218020,218021,}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 24,
+            [questKeys.questLevel] = 24,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Use Execute while wielding a two-handed weapon on the left Combat Dummy, use Taunt whilst dual wielding on the center Combat Dummy, and use Shield Bash on the right Combat Dummy to receive the rune."},
+            [questKeys.requiredSpell] = -403472,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
+        [90225] = {
+            [questKeys.name] = "Rallying Cry",
+            [questKeys.startedBy] = {{218273}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Kill Wandering Swordsman, after his RP he will spawn Swordman's Reward, open it to receive the rune."},
+            [questKeys.requiredSpell] = -426491,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [90226] = {
             [questKeys.name] = "Spellfrost Bolt",
