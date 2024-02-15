@@ -334,6 +334,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90225] = 2, -- Warrior Rallying Cry Badlands
     [90226] = 2, -- Mage Spellfrost Bolt Stranglethorn Vale
     [90227] = 2, -- Mage Frostfire Bolt Stranglethorn Vale
+    [90228] = 2, -- Rogue Rolling with the Punches Thousand Needles
 }
 
 --- "automatic" phase detection for the first few phases;
