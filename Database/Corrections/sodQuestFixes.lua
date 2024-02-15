@@ -3398,7 +3398,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90222] = {
             [questKeys.name] = "Dreamstate",
-            [questKeys.startedBy] = {{12977,4636,4632,4637,4634,4633,12976,4635},{450014,450015}},
+            [questKeys.startedBy] = {{12977,4632,4637,4633,12976},{450014,404401}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 32,

@@ -348,12 +348,5 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.DESOLACE] = {{70.0, 70.0}},
             },
         },
-        [450015] = {
-            [objectKeys.name] = "Sandy Loam",
-            [objectKeys.zoneID] = zoneIDs.DESOLACE,
-            [objectKeys.spawns] = {
-                [zoneIDs.DESOLACE] = {{75.0, 20.0}},
-            },
-        },
     }
 end
