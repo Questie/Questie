@@ -395,5 +395,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.MULGORE] = {{54.07, 55.82},{36.3, 9.8},{37.5, 52.5},{41.65, 55.98},{37.99, 60.04}},
             },
         },
+        [450013] = {
+            [objectKeys.name] = "Beastly Effigy",
+            [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
+            [objectKeys.spawns] = {
+                [zoneIDs.THOUSAND_NEEDLES] = {{69.0, 55.0}},
+            },
+        },
     }
 end

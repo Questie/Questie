@@ -324,6 +324,9 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90218] = 1, -- Shaman Shield Mastery Mulgore Tauren
     [90219] = 1, -- Shaman Molten Blast Durotar
     [90220] = 1, -- Shaman Molten Blast Mulgore
+
+    -- P2 SoD Runes
+    [90221] = 2, -- Druid Berserk Thousand Needles
 }
 
 --- "automatic" phase detection for the first few phases;
