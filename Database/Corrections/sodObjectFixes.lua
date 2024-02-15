@@ -260,6 +260,30 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.DESOLACE] = {{55,26.2}},
             },
         },
+        [424074] = { -- Quadrangulation Beacon 001
+            [objectKeys.zoneID] = zoneIDs.TANARIS,
+            [objectKeys.spawns] = {
+                [zoneIDs.TANARIS] = {{37.8, 27.3}},
+            },
+        },
+        [424075] = { -- Quadrangulation Beacon 002
+            [objectKeys.zoneID] = zoneIDs.DESOLACE,
+            [objectKeys.spawns] = {
+                [zoneIDs.DESOLACE] = {{32.0, 72.7}},
+            },
+        },
+        [424076] = { -- Quadrangulation Beacon 003
+            [objectKeys.zoneID] = zoneIDs.FERALAS,
+            [objectKeys.spawns] = {
+                [zoneIDs.FERALAS] = {{29.3, 93.8}},
+            },
+        },
+        [424077] = { -- Quadrangulation Beacon 004
+            [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
+            [objectKeys.spawns] = {
+                [zoneIDs.DUSTWALLOW_MARSH] = {{58.6, 13.0}},
+            },
+        },
         [424265] = { -- Grave
             [objectKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
             [objectKeys.spawns] = {
@@ -369,6 +393,13 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.zoneID] = zoneIDs.MULGORE,
             [objectKeys.spawns] = {
                 [zoneIDs.MULGORE] = {{54.07, 55.82},{36.3, 9.8},{37.5, 52.5},{41.65, 55.98},{37.99, 60.04}},
+            },
+        },
+        [450013] = {
+            [objectKeys.name] = "Beastly Effigy",
+            [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
+            [objectKeys.spawns] = {
+                [zoneIDs.THOUSAND_NEEDLES] = {{69.0, 55.0}},
             },
         },
     }

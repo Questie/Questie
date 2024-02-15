@@ -821,6 +821,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [79984] = { -- Quadrangulation
+            [questKeys.objectives] = {nil,{{424074},{424075},{424076},{424077}}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
@@ -3556,6 +3557,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Kill Bael'dun Dwarves until Artifact Storage Key drops, use it on the Artifact Storage. Equip the Icon and follow its instructions to receive the rune."},
             [questKeys.requiredSpell] = -425344,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [90221] = {
+            [questKeys.name] = "Berserk",
+            [questKeys.startedBy] = {nil,{450013}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 28,
+            [questKeys.questLevel] = 28,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Use Challenging Roar on the Beastly Effigy, then Kill Zai'enki. Equip the Icon and follow its instructions to receive the rune."},
+            [questKeys.requiredSpell] = -424760,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
     }
 end
