@@ -402,5 +402,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.THOUSAND_NEEDLES] = {{69.0, 55.0}},
             },
         },
+        [450014] = {
+            [objectKeys.name] = "Witherbark Gong",
+            [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.ARATHI_HIGHLANDS] = {{69.33, 81.50}},
+            },
+        },
     }
 end

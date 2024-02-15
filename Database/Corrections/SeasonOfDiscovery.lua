@@ -336,6 +336,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90227] = 2, -- Mage Frostfire Bolt Stranglethorn Vale
     [90228] = 2, -- Rogue Rolling with the Punches Thousand Needles
     [90229] = 2, -- Paladin Sacred Shield Desolace
+    [90230] = 2, -- Warrior Focused Rage Arathi Highlands
 }
 
 --- "automatic" phase detection for the first few phases;
