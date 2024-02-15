@@ -103,6 +103,15 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79095] = 1, -- Mage Icy Veins
     [79096] = 1, -- Mage Icy Veins
     [79097] = 1, -- Mage Icy Veins
+    [79535] = 2, -- Mage Icy Veins/Spell Power
+    [79536] = 2, -- Mage Icy Veins/Spell Power
+    [79947] = 2, -- Mage Icy Veins/Spell Power
+    [79948] = 2, -- Mage Icy Veins/Spell Power
+    [79949] = 2, -- Mage Icy Veins/Spell Power
+    [79950] = 2, -- Mage Icy Veins/Spell Power
+    [79951] = 2, -- Mage Icy Veins/Spell Power
+    [79952] = 2, -- Mage Icy Veins/Spell Power
+    [79953] = 2, -- Mage Icy Veins/Spell Power
 
     -- fake IDs
     --- Mage runes
