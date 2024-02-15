@@ -3642,6 +3642,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400093,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90229] = {
+            [questKeys.name] = "Sacred Shield",
+            [questKeys.startedBy] = {nil,{423695}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 18,
+            [questKeys.questLevel] = 18,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Loot the Libram of Deliverance from a book on the bench inside the building. Equip the Libram and follow its instructions to receive the rune."},
+            [questKeys.requiredSpell] = -416028,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
     }
 end
 
