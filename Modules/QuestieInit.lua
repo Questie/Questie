@@ -77,6 +77,8 @@ local Tutorial = QuestieLoader:ImportModule("Tutorial")
 local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+---@type SeasonOfDiscovery
+local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
 
 local coYield = coroutine.yield
 
@@ -333,6 +335,11 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
             Questie.db.global.lastDailyRequestDate = date("%d-%m-%y");
             Questie.db.global.lastDailyRequestResetTime = GetQuestResetTime();
         end
+    end
+
+    if Questie.IsSoD then
+        coYield()
+        SeasonOfDiscovery.Initialize()
     end
 
     -- We do this last because it will run for a while and we don't want to block the rest of the init
