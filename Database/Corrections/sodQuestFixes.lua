@@ -773,6 +773,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
+        [79626] = { -- The Salvagematic 9000!
+            [questKeys.startedBy] = {nil,{422483}},
+            [questKeys.finishedBy] = {nil,{422483}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [79705] = { -- Salvaging the Salvagematic
+            [questKeys.finishedBy] = {{217689}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
         [79974] = { -- Wet Job
             [questKeys.startedBy] = {nil,{424012}},
             [questKeys.finishedBy] = {nil,{424007}},
@@ -797,6 +808,25 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {79192},
             [questKeys.zoneOrSort] = zoneIDs.STONETALON_MOUNTAINS,
         },
+        [79981] = { -- The Corroded Core
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [79984] = { -- Quadrangulation
+            [questKeys.objectives] = {nil,{{424074},{424075},{424076},{424077}}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [79986] = { -- Grime-Encrusted Ring
+            [questKeys.startedBy] = {nil,nil,{216661}},
+            [questKeys.finishedBy] = {nil,{142487}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [79987] = { -- Return of the Ring Alliance
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
         [79990] = { -- Stranglethorn Lumber
             [questKeys.finishedBy] = {{14984}},
             [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
@@ -811,14 +841,123 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {79192},
             [questKeys.exclusiveTo] = {79974},
         },
-        [80307] = {
+        [80131] = { -- Gnome Improvement Alliance
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {79987},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80132] = { -- Rig Wars
+            [questKeys.finishedBy] = {{3412}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80133] = { -- Chief Engineer Scooty
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80134] = { -- Gnomer-gooooone!
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.preQuestSingle] = {80133},
+        },
+        [80135] = { -- Klockmort's Essentials
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80136] = { -- Essential Artificials
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80137] = { -- Save Techbot's Brain!
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80138] = { -- Tinkmaster Overspark
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80139] = { -- Gnogaine
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80140] = { -- Return of the Ring Horde
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80141] = { -- Nogg's Ring Redo
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {80140},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80143] = { -- Data Rescue
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80153] = { -- The Sparklematic 5200!
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80155] = { -- More Sparklematic Action
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80157] = { -- The Sparklematic 5200!
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80158] = { -- The Sparklematic 5200!
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80160] = { -- More Sparklematic Action
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80161] = { -- The Sparklematic 5200!
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80180] = { -- The Grand Betrayal
+            [questKeys.finishedBy] = {{7937}},
+            [questKeys.objectives] = {{{218537}}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80181] = { -- Gyrodrillmatic Excavationators
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80182] = { -- The Only Cure is More Green Glow
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80307] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [80308] = {
+        [80308] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [80309] = {
+        [80309] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [80324] = { -- The Mad King
+            [questKeys.startedBy] = {{7937}},
+            [questKeys.finishedBy] = {{7937}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectives] = {nil,nil,{{217350}}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
+        [80325] = { -- The Mad King
+            [questKeys.startedBy] = {{3412}},
+            [questKeys.finishedBy] = {{3412}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectives] = {nil,nil,{{217351}}},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
         },
 
         --- Fake rune quests
