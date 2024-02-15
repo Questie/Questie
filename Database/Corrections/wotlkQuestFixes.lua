@@ -252,6 +252,15 @@ function QuestieWotlkQuestFixes:Load()
         [5057] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [5305]  ={
+            [questKeys.requiredSpecialization] = 0,
+        },
+        [5306]  ={
+            [questKeys.requiredSpecialization] = 0,
+        },
+        [5307]  ={
+            [questKeys.requiredSpecialization] = 0,
+        },
         [5502] = {
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
