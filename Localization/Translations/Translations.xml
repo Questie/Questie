@@ -46,4 +46,5 @@
     <Script file="TooltipsUI.lua"/>
     <Script file="TrackerUI.lua"/>
     <Script file="Tutorial.lua"/>
+    <Script file="WeaponSkills.lua"/>
 </Ui>

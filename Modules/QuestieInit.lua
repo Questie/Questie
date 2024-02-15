@@ -77,6 +77,8 @@ local Tutorial = QuestieLoader:ImportModule("Tutorial")
 local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+---@type SeasonOfDiscovery
+local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
 
 local coYield = coroutine.yield
 
@@ -230,17 +232,28 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 end
 
 QuestieInit.Stages[2] = function()
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Stage 2 start.")
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage2] Stage 2 start.")
     -- We do this while we wait for the Quest Cache anyway.
     l10n:PostBoot()
     QuestiePlayer:Initialize()
     coYield()
     QuestieJourney:Initialize()
 
+    local keepWaiting = true
+    -- We had users reporting that a quest did not reach a valid state in the game cache.
+    -- In this case we still need to continue the initialization process, even though a specific quest might be bugged
+    C_Timer.After(3, function()
+        if keepWaiting then
+            Questie:Debug(Questie.DEBUG_CRITICAL, "QuestieInit: Timeout waiting for Game Cache validation. Continuing.")
+            keepWaiting = false
+        end
+    end)
+
     -- Continue to the next Init Stage once Game Cache's Questlog is good
-    while not QuestieValidateGameCache:IsCacheGood() do
+    while (not QuestieValidateGameCache:IsCacheGood()) and keepWaiting do
         coYield()
     end
+    keepWaiting = false
 end
 
 QuestieInit.Stages[3] = function() -- run as a coroutine
@@ -322,6 +335,11 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
             Questie.db.global.lastDailyRequestDate = date("%d-%m-%y");
             Questie.db.global.lastDailyRequestResetTime = GetQuestResetTime();
         end
+    end
+
+    if Questie.IsSoD then
+        coYield()
+        SeasonOfDiscovery.Initialize()
     end
 
     -- We do this last because it will run for a while and we don't want to block the rest of the init

@@ -28,7 +28,7 @@ function Tutorial.ShowRunes()
 
     local titleText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     titleText:SetText(l10n("Welcome to Questie"))
-    titleText:SetFont("Fonts\\FRIZQT__.TTF", 16)
+    titleText:SetFont(STANDARD_TEXT_FONT, 16)
     titleText:SetPoint("TOP", 0, -10)
 
     local customText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
