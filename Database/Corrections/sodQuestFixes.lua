@@ -685,6 +685,23 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {79007,79008},
             [questKeys.zoneOrSort] = zoneIDs.THE_BARRENS,
         },
+        [79229] = { -- Highway Robbery
+            [questKeys.startedBy] = {nil,{417353}},
+            [questKeys.zoneOrSort] = zoneIDs.DESOLACE,
+        },
+        [79235] = { -- On the Lam
+            [questKeys.preQuestSingle] = {79229},
+            [questKeys.zoneOrSort] = zoneIDs.DESOLACE,
+        },
+        [79236] = { -- Cherry for Your Thoughts?
+            [questKeys.preQuestSingle] = {79235},
+            [questKeys.zoneOrSort] = zoneIDs.DESOLACE,
+        },
+        [79242] = { -- No Honor Among Thieves
+            [questKeys.finishedBy] = {nil,{418855}},
+            [questKeys.preQuestSingle] = {79236},
+            [questKeys.zoneOrSort] = zoneIDs.DESOLACE,
+        },
         [79482] = { -- Stolen Winter Veil Treats (Alliance)
             [questKeys.startedBy] = {{216902}},
             [questKeys.finishedBy] = {{216915}},
