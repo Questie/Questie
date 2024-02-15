@@ -237,6 +237,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [130] = {{65.8, 23.4}},
             },
         },
+        [412147] = { -- Supply Locker
+            [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
+            [objectKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES] = {{81.18,32.12}},
+            },
+        },
         [414658] = { -- Rubble
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
             [objectKeys.spawns] = {
@@ -246,6 +252,54 @@ function SeasonOfDiscovery:LoadObjects()
         [415107] = {
             [objectKeys.spawns] = {
                 [zoneIDs.WESTFALL] = {{37.4, 50.7}},
+            },
+        },
+        [423898] = { -- Mysterious Book
+            [objectKeys.zoneID] = zoneIDs.DESOLACE,
+            [objectKeys.spawns] = {
+                [zoneIDs.DESOLACE] = {{55,26.2}},
+            },
+        },
+        [424074] = { -- Quadrangulation Beacon 001
+            [objectKeys.zoneID] = zoneIDs.TANARIS,
+            [objectKeys.spawns] = {
+                [zoneIDs.TANARIS] = {{37.8, 27.3}},
+            },
+        },
+        [424075] = { -- Quadrangulation Beacon 002
+            [objectKeys.zoneID] = zoneIDs.DESOLACE,
+            [objectKeys.spawns] = {
+                [zoneIDs.DESOLACE] = {{32.0, 72.7}},
+            },
+        },
+        [424076] = { -- Quadrangulation Beacon 003
+            [objectKeys.zoneID] = zoneIDs.FERALAS,
+            [objectKeys.spawns] = {
+                [zoneIDs.FERALAS] = {{29.3, 93.8}},
+            },
+        },
+        [424077] = { -- Quadrangulation Beacon 004
+            [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
+            [objectKeys.spawns] = {
+                [zoneIDs.DUSTWALLOW_MARSH] = {{58.6, 13.0}},
+            },
+        },
+        [424265] = { -- Grave
+            [objectKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
+            [objectKeys.spawns] = {
+                [zoneIDs.SWAMP_OF_SORROWS] = {{16.8,53.8}},
+            },
+        },
+        [424266] = { -- Grave
+            [objectKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
+            [objectKeys.spawns] = {
+                [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
+            },
+        },
+        [424267] = { -- Grave
+            [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.ARATHI_HIGHLANDS] = {{62,54}},
             },
         },
 
@@ -339,6 +393,13 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.zoneID] = zoneIDs.MULGORE,
             [objectKeys.spawns] = {
                 [zoneIDs.MULGORE] = {{54.07, 55.82},{36.3, 9.8},{37.5, 52.5},{41.65, 55.98},{37.99, 60.04}},
+            },
+        },
+        [450013] = {
+            [objectKeys.name] = "Beastly Effigy",
+            [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
+            [objectKeys.spawns] = {
+                [zoneIDs.THOUSAND_NEEDLES] = {{69.0, 55.0}},
             },
         },
     }
