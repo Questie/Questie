@@ -3618,6 +3618,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415948,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [90227] = {
+            [questKeys.name] = "Frostfire Bolt",
+            [questKeys.startedBy] = {{780}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Kill Skullsplitter Mystics until Spell Notes: TROFF IRESTBOL drops, decipher it to receive the rune."},
+            [questKeys.requiredSpell] = -401762,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end
 
