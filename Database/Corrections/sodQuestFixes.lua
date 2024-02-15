@@ -3606,6 +3606,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -426491,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90226] = {
+            [questKeys.name] = "Spellfrost Bolt",
+            [questKeys.startedBy] = {{780}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Kill Skullsplitter Mystics until Spell Notes: PELFRB STOLLOTS drops, decipher it to receive the rune."},
+            [questKeys.requiredSpell] = -415948,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end
 
