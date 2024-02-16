@@ -118,6 +118,14 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79951] = 2, -- Mage Icy Veins/Spell Power
     [79952] = 2, -- Mage Icy Veins/Spell Power
     [79953] = 2, -- Mage Icy Veins/Spell Power
+    [80098] = 2, -- Curious Dalaran Relic
+    [80120] = 2, -- A Service to Dalaran
+    [80147] = 2, -- Curious Dalaran Relic
+    [80148] = 2, -- Curious Dalaran Relic
+    [80149] = 2, -- Curious Dalaran Relic
+    [80150] = 2, -- Curious Dalaran Relic
+    [80151] = 2, -- Curious Dalaran Relic
+    [80152] = 2, -- Curious Dalaran Relic
 
     -- fake IDs
     --- Mage runes
