@@ -4,6 +4,8 @@ local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 
@@ -701,6 +703,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {nil,{418855}},
             [questKeys.preQuestSingle] = {79236},
             [questKeys.zoneOrSort] = zoneIDs.DESOLACE,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Rowboat to reach the eastern shore."), 0, {{"object", 420055}}}},
         },
         [79482] = { -- Stolen Winter Veil Treats (Alliance)
             [questKeys.startedBy] = {{216902}},
