@@ -486,6 +486,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.preQuestSingle] = {78684},
         },
+        [78823] = { -- Terror of the Desert Skies
+            [questKeys.startedBy] = {{2701,2715,2716,2717,2718,2893,2894,2906,2907}},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [78830] = { -- Terror of the Desert Skies
+            [questKeys.preQuestSingle] = {78823},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [78872] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
