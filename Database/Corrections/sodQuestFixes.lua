@@ -3717,6 +3717,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410103,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90232] = {
+            [questKeys.name] = "Empowered Renew",
+            [questKeys.startedBy] = {{2252,2253,10758,10759,10760,10761}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 30,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Defeat Grimtotem Tauren or Crushridge Ogres to receive the rune."},
+            [questKeys.requiredSpell] = -425309,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
