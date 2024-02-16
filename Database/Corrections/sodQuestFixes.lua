@@ -807,8 +807,8 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [79677] = { -- A Quick Grocery Run
-            [questKeys.startedBy] = {nil,nil,{213422}},
-            [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
+            [questKeys.startedBy] = {{2255,2569}},
+            [questKeys.zoneOrSort] = zoneIDs.WARRIOR,
         },
         [79705] = { -- Salvaging the Salvagematic
             [questKeys.finishedBy] = {{217689}},
