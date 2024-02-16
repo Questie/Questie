@@ -90,6 +90,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [78537] = 1, -- Shaman Earth Shield Part 2
     [78561] = 1, -- Shaman Earth Shield Part 3
     [78575] = 1, -- Shaman Earth Shield Part 4
+    [78676] = 2, -- The Eye of Bhossca
     [78680] = 1, -- Warlock Metamorphosis Part 2
     [78681] = 1, -- Warlock Metamorphosis Part 3
     [78684] = 1, -- Warlock Metamorphosis Part 4

@@ -1017,6 +1017,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Do you have something for me?"},
             [questKeys.objectives] = {nil,nil,{{211365}}},
         },
+        [78676] = {
+            [questKeys.name] = "The Eye of Bhossca",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 30,
+            [questKeys.questLevel] = 35,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Find The Eye of Bhossca inside of the Scarlet Monastery. Then, return it to C's dead drop near Pyrewood Village. You must complete the job alone."},
+            [questKeys.objectives] = {nil,nil,{{210953}}},
+        },
         [78680] = {
             [questKeys.name] = "Rumors Abound",
             [questKeys.startedBy] = {{6247}},

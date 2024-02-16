@@ -464,6 +464,11 @@ function SeasonOfDiscovery:LoadQuests()
         [78612] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [78676] = { -- The Eye of Bhossca
+            [questKeys.startedBy] = {nil,{410369}},
+            [questKeys.finishedBy] = {nil,{410369}},
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
         [78680] = { -- Rumors Abound
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
