@@ -3359,7 +3359,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [211269] = {
             [itemKeys.name] = "Primitive Drawing",
-            [itemKeys.npcDrops] = {2701,2715,2906},
+            [itemKeys.npcDrops] = {2701,2715,2716,2717,2718,2893,2894,2906,2907},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
