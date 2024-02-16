@@ -254,6 +254,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.WESTFALL] = {{37.4, 50.7}},
             },
         },
+        [420055] = { -- Rowboat
+            [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.ARATHI_HIGHLANDS] = {{58.31,6.94}},
+            },
+        },
         [423898] = { -- Mysterious Book
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
             [objectKeys.spawns] = {
