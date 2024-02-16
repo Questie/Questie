@@ -80,5 +80,23 @@ function SeasonOfDiscovery:LoadItems()
         [216635] = { -- Spent Voidcore
             [itemKeys.npcDrops] = {5336},
         },
+        [216946] = { -- Glittering Dalaran Relic
+            [itemKeys.npcDrops] = {900000},
+        },
+        [216947] = { -- Whirring Dalaran Relic
+            [itemKeys.npcDrops] = {900001},
+        },
+        [216948] = { -- Odd Dalaran Relic
+            [itemKeys.npcDrops] = {900002},
+        },
+        [216949] = { -- Heavy Dalaran Relic
+            [itemKeys.npcDrops] = {900003},
+        },
+        [216950] = { -- Creepy Dalaran Relic
+            [itemKeys.npcDrops] = {900004},
+        },
+        [216951] = { -- Slippery Dalaran Relic
+            [itemKeys.npcDrops] = {900005},
+        },
     }
 end
