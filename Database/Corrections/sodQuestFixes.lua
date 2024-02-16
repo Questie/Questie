@@ -896,6 +896,31 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {79192},
             [questKeys.exclusiveTo] = {79974},
         },
+        [80098] = { -- Curious Dalaran Relic
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [80120] = { -- A Service to Dalaran
+            [questKeys.preQuestGroup] = {80098,80147,80148,80149,80150,80151,80152},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [80147] = { -- Curious Dalaran Relic
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [80148] = { -- Curious Dalaran Relic
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [80149] = { -- Curious Dalaran Relic
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [80150] = { -- Curious Dalaran Relic
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [80151] = { -- Curious Dalaran Relic
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [80152] = { -- Curious Dalaran Relic
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
         [80131] = { -- Gnome Improvement Alliance
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {79987},
