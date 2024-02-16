@@ -74,6 +74,9 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.relatedQuests] = {79099},
             [itemKeys.startQuest] = nil,
         },
+        [212347] = { -- Illari's Key
+            [itemKeys.npcDrops] = {215655},
+        },
         [216635] = { -- Spent Voidcore
             [itemKeys.npcDrops] = {5336},
         },
