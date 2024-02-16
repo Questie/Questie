@@ -3705,6 +3705,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -409163,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90231] = {
+            [questKeys.name] = "Spirit of the Alpha",
+            [questKeys.startedBy] = {nil,{421568}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 30,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Starting at Freewind Post, take the northern and then the lower bridge to see a chest on a pillar. Either in Ghost Wolf form or with a different speed boost, jump down and loot the chest."},
+            [questKeys.requiredSpell] = -410103,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 
