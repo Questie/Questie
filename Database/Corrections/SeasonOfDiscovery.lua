@@ -386,13 +386,13 @@ function QuestieDB.IsSoDRuneQuest(questId)
 end
 
 ---@param questId number
----@return boolean
+---@return boolean Returns true if the quest should be hidden, false otherwise
 function QuestieDB.IsRuneAndShouldBeHidden(questId)
     if (not QuestieDB.IsSoDRuneQuest(questId)) then
         return false
     end
 
-    return runeQuestsInSoD[questId] >= SeasonOfDiscovery.currentPhase
+    return (not Questie.db.profile.showSoDRunes) or (runeQuestsInSoD[questId] >= SeasonOfDiscovery.currentPhase)
 end
 
 -- This function blacklists any quests in phases LATER than the currentPhase value
