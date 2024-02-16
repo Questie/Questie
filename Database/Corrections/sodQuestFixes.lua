@@ -897,6 +897,8 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.exclusiveTo] = {79974},
         },
         [80098] = { -- Curious Dalaran Relic
+            [questKeys.startedBy] = {{218931}},
+            [questKeys.objectivesText] = "Defeat the Dark Rider and bring the relic to the Dalaran Agent in Deadwind Pass.",
             [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
         },
         [80120] = { -- A Service to Dalaran
