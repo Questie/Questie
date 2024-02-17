@@ -2168,7 +2168,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90095] = {
             [questKeys.name] = "Explosive Shot",
-            [questKeys.startedBy] = {{208638,207515,327,448,1271,1388,3204,3281,3205,3058,6113,208196},{407734}},
+            [questKeys.startedBy] = {{208638,327,448,1271,1388,3204,3281,3205,3058,6113,208196},{407734}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 8,
