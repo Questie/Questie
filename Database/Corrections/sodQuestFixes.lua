@@ -926,7 +926,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80137] = { -- Save Techbot's Brain!
-            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80138] = { -- Tinkmaster Overspark
