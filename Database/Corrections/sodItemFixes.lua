@@ -57,7 +57,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {410220},
         },
         [210055] = { -- Hillsbrad Human Bones
-            [itemKeys.npcDrops] = {2265,2266,2267,2268,2360},
+            [itemKeys.npcDrops] = {2265,2266,2267,2268,2360,2387},
         },
         [210955] = { -- Scarlet Initiate's Uniform
             [itemKeys.objectDrops] = {412147},
@@ -74,20 +74,8 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.relatedQuests] = {79099},
             [itemKeys.startQuest] = nil,
         },
-        [212724] = { -- Whirling Essence
-            [itemKeys.npcDrops] = {11577,11578},
-        },
-        [212693] = { -- Rotten Seed
-            [itemKeys.objectDrops] = {216310},
-        },
-        [213573] = { -- Conjuror's Pendant
-            [itemKeys.npcDrops] = {2590},
-        },
-        [213599] = { -- Unsettling Vision
-            [itemKeys.npcDrops] = {4712,4713},
-        },
-        [215817] = { -- Demons and You
-            [itemKeys.objectDrops] = {423898},
+        [212347] = { -- Illari's Key
+            [itemKeys.npcDrops] = {215655},
         },
         [216635] = { -- Spent Voidcore
             [itemKeys.npcDrops] = {5336},

@@ -4293,7 +4293,7 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.maxLevel] = 40,
             [npcKeys.zoneID] = 45,
             [npcKeys.spawns] = {
-                [45] = {{91.2, 69},{91.4, 76},{91.8, 73.4},{92, 69.4},{92, 70.4},{92, 75.6},{92.2, 72.2},{92.6, 72},{92.8, 72.8},{93.2, 70.6},{93.4, 70.4},{93.6, 69.8},{93.8, 69.2},{93.8, 71.4},{93.8, 71.6},{95.6, 66.2},},
+                [45] = {{93.8, 71.4},{93.8, 71.6},},
             },
             [npcKeys.friendlyToFaction] = "AH",
             [npcKeys.questStarts] = nil,
