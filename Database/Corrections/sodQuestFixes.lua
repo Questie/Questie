@@ -864,8 +864,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.STONETALON_MOUNTAINS,
         },
         [79981] = { -- The Corroded Core
+            [questKeys.startedBy] = {{216666}},
+            [questKeys.finishedBy] = {{218237}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk with Scooty in Booty Bay."), 0, {{"monster", 7853}}}},
         },
         [79984] = { -- Quadrangulation
             [questKeys.objectives] = {nil,{{424074},{424075},{424076},{424077}}},

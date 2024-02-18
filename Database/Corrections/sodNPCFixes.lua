@@ -514,5 +514,12 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.STRANGLETHORN_VALE] = {{31.2, 48.4}},
             },
         },
+        [218237] = { -- Wirdal Wondergear
+            [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.zoneID] = zoneIDs.FERALAS,
+            [npcKeys.spawns] = {
+                [zoneIDs.FERALAS] = {{84.2,43.8}},
+            },
+        },
     }
 end
