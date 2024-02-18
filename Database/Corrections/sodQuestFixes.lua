@@ -1000,7 +1000,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [80324] = { -- The Mad King
-            [questKeys.startedBy] = {{7937}},
+            [questKeys.startedBy] = {{218537}},
             [questKeys.finishedBy] = {{7937}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{217350}}},
@@ -1008,7 +1008,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80325] = { -- The Mad King
-            [questKeys.startedBy] = {{3412}},
+            [questKeys.startedBy] = {{218537}},
             [questKeys.finishedBy] = {{3412}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {nil,nil,{{217351}}},
