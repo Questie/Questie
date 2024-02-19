@@ -111,6 +111,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79242] = 2, -- No Honor Among Thieves
     [79535] = 2, -- Mage Icy Veins/Spell Power
     [79536] = 2, -- Mage Icy Veins/Spell Power
+    [79677] = 2, -- A Quick Grocery Run
     [79947] = 2, -- Mage Icy Veins/Spell Power
     [79948] = 2, -- Mage Icy Veins/Spell Power
     [79949] = 2, -- Mage Icy Veins/Spell Power
@@ -144,6 +145,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90020] = 1, -- Mage Alliance Living Bomb
     [90021] = 1, -- Mage Horde Living Bomb
     --- Mage runes end
+ 
     [90022] = 1, -- Paladin Divine Storm
     [90023] = 1, -- Druid Wild Strikes
     [90024] = 1, -- Druid Survival of the Fittest
@@ -344,6 +346,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
 
     -- P2 SoD Runes
     [90221] = 2, -- Druid Berserk Thousand Needles
+    [90222] = 2, -- Druid Dreamstate Desolace
     [90223] = 2, -- Hunter Dual Wield Specialization Stranglethorn Vale
     [90224] = 2, -- Warrior Intervene Thousand Needles
     [90225] = 2, -- Warrior Rallying Cry Badlands
@@ -354,6 +357,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90230] = 2, -- Warrior Focused Rage Arathi Highlands
     [90231] = 2, -- Shaman Spirit of the Alpha
     [90232] = 2, -- Priest Empowered Renew
+    [90233] = 2, -- Hunter Steady Shot Arathi Highlands
+    [90234] = 2, -- Mage Hot Streak Alterac Mountains
     [90235] = 2, -- Priest Renewed Hope Desolace
 }
 

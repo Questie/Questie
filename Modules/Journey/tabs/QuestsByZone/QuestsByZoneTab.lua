@@ -76,6 +76,8 @@ _CreateContinentDropdown = function()
         selectedContinentId = 3
     elseif currentContinentId == 571 then -- Northrend
         selectedContinentId = 4
+    elseif l10n.zoneLookup[currentContinentId] then -- Dungeon
+        selectedContinentId = 5
     end
 
     if _QuestieJourney.lastZoneSelection[1] then

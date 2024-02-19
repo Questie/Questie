@@ -1710,6 +1710,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Insert a Grime-Encrusted Salvage into the Salvagematic 9000, and be sure to have thirty silver coins to start the machine."},
             [questKeys.objectives] = {nil,nil,{{213427}}},
         },
+        [79677] = {
+            [questKeys.name] = "A Quick Grocery Run",
+            [questKeys.startedBy] = {{217300}},
+            [questKeys.finishedBy] = {{217300,}},
+            [questKeys.requiredLevel] = 26,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Gather the ingredients for Skonk's dish, then bring them to him in Arathi Highlands."},
+            [questKeys.objectives] = {nil,nil,{{213526},{213527},{213528},{213529}}},
+        },
         [79705] = {
             [questKeys.name] = "Salvaging the Salvagematic",
             [questKeys.startedBy] = {{217689}},
