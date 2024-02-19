@@ -78,7 +78,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.npcDrops] = {215655},
         },
         [216635] = { -- Spent Voidcore
-            [itemKeys.npcDrops] = {5336},
+            [itemKeys.npcDrops] = {5335,5336,5337},
         },
     }
 end
