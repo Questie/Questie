@@ -3757,6 +3757,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425309,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90233] = {
+            [questKeys.name] = "Steady Shot",
+            [questKeys.startedBy] = {{217836}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 35,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill Needletooth, then loot him to receive the rune."},
+            [questKeys.requiredSpell] = -410109,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
