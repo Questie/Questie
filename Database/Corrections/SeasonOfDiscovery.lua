@@ -354,6 +354,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90230] = 2, -- Warrior Focused Rage Arathi Highlands
     [90231] = 2, -- Shaman Spirit of the Alpha
     [90232] = 2, -- Priest Empowered Renew
+    [90233] = 2, -- Hunter Steady Shot Arathi Highlands
 }
 
 --- "automatic" phase detection for the first few phases;
