@@ -3021,3 +3021,32 @@ ZoneDB.private.zoneIDs = {
     GUNDRAK_UPPER_LEVEL = 4824, --154
     GUNDRAK_LOWER_LEVEL = 4825, --153
 }
+
+-- https://wowpedia.fandom.com/wiki/InstanceID --> Classic
+ZoneDB.instanceIdToUiMapId = {
+    [33] = ZoneDB.private.zoneIDs.SHADOWFANG_KEEP,
+    [36] = ZoneDB.private.zoneIDs.THE_DEADMINES,
+    [43] = ZoneDB.private.zoneIDs.WAILING_CAVERNS,
+    [47] = ZoneDB.private.zoneIDs.RAZORFEN_KRAUL,
+    [48] = ZoneDB.private.zoneIDs.BLACKFATHOM_DEEPS,
+    [70] = ZoneDB.private.zoneIDs.ULDAMAN,
+    [90] = ZoneDB.private.zoneIDs.GNOMEREGAN,
+    [109] = ZoneDB.private.zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+    [129] = ZoneDB.private.zoneIDs.RAZORFEN_DOWNS,
+    [189] = ZoneDB.private.zoneIDs.SCARLET_MONASTERY,
+    [209] = ZoneDB.private.zoneIDs.ZUL_FARRAK,
+    [229] = ZoneDB.private.zoneIDs.BLACKROCK_SPIRE,
+    [230] = ZoneDB.private.zoneIDs.BLACKROCK_DEPTHS,
+    [249] = ZoneDB.private.zoneIDs.ONYXIAS_LAIR,
+    [289] = ZoneDB.private.zoneIDs.SCHOLOMANCE,
+    [309] = ZoneDB.private.zoneIDs.ZUL_GURUB,
+    [329] = ZoneDB.private.zoneIDs.STRATHOLME,
+    [349] = ZoneDB.private.zoneIDs.MARAUDON,
+    [389] = ZoneDB.private.zoneIDs.RAGEFIRE_CHASM,
+    [409] = ZoneDB.private.zoneIDs.MOLTEN_CORE,
+    [429] = ZoneDB.private.zoneIDs.DIRE_MAUL,
+    [469] = ZoneDB.private.zoneIDs.BLACKWING_LAIR,
+    [509] = ZoneDB.private.zoneIDs.AHN_QIRAJ,
+    [531] = ZoneDB.private.zoneIDs.RUINS_OF_AHN_QIRAJ,
+    [533] = ZoneDB.private.zoneIDs.NAXXRAMAS,
+}

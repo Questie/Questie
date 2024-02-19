@@ -144,6 +144,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90020] = 1, -- Mage Alliance Living Bomb
     [90021] = 1, -- Mage Horde Living Bomb
     --- Mage runes end
+ 
     [90022] = 1, -- Paladin Divine Storm
     [90023] = 1, -- Druid Wild Strikes
     [90024] = 1, -- Druid Survival of the Fittest
@@ -344,6 +345,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
 
     -- P2 SoD Runes
     [90221] = 2, -- Druid Berserk Thousand Needles
+    [90222] = 2, -- Druid Dreamstate Desolace
     [90223] = 2, -- Hunter Dual Wield Specialization Stranglethorn Vale
     [90224] = 2, -- Warrior Intervene Thousand Needles
     [90225] = 2, -- Warrior Rallying Cry Badlands
