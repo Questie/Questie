@@ -806,6 +806,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [79677] = { -- A Quick Grocery Run
+            [questKeys.startedBy] = {{2254,2255,2256,2287,2569,2570,2571}},
+            [questKeys.zoneOrSort] = zoneIDs.WARRIOR,
+        },
         [79705] = { -- Salvaging the Salvagematic
             [questKeys.finishedBy] = {{217689}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
@@ -3752,6 +3756,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Defeat Grimtotem Tauren or Crushridge Ogres to receive the rune."},
             [questKeys.requiredSpell] = -425309,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [90233] = {
+            [questKeys.name] = "Steady Shot",
+            [questKeys.startedBy] = {{217836}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 35,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill Needletooth, then loot him to receive the rune."},
+            [questKeys.requiredSpell] = -410109,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [90234] = {
             [questKeys.name] = "Hot Streak",

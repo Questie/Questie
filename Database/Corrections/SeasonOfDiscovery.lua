@@ -111,6 +111,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79242] = 2, -- No Honor Among Thieves
     [79535] = 2, -- Mage Icy Veins/Spell Power
     [79536] = 2, -- Mage Icy Veins/Spell Power
+    [79677] = 2, -- A Quick Grocery Run
     [79947] = 2, -- Mage Icy Veins/Spell Power
     [79948] = 2, -- Mage Icy Veins/Spell Power
     [79949] = 2, -- Mage Icy Veins/Spell Power
@@ -356,6 +357,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90230] = 2, -- Warrior Focused Rage Arathi Highlands
     [90231] = 2, -- Shaman Spirit of the Alpha
     [90232] = 2, -- Priest Empowered Renew
+    [90233] = 2, -- Hunter Steady Shot Arathi Highlands
     [90234] = 2, -- Mage Hot Streak Alterac Mountains
 }
 
