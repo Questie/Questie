@@ -3621,6 +3621,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -424760,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90222] = {
+            [questKeys.name] = "Dreamstate",
+            [questKeys.startedBy] = {nil,{450014,404401}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 32,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Kill Kol'kar Centaur until Desiccated Seed Pod drops, bring it to the lack in the south east of Desolace, and swim until it becomes a Satyrweed Bulb. Then bring it to Sargeron and plant it in Sandy Loam to receive the rune."},
+            [questKeys.requiredSpell] = -410060,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
         [90223] = {
             [questKeys.name] = "Dual Wield Specialization",
             [questKeys.startedBy] = {{217783}},

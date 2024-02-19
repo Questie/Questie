@@ -416,5 +416,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.ARATHI_HIGHLANDS] = {{69.33, 81.50}},
             },
         },
+        [450015] = {
+            [objectKeys.name] = "Satyrweed Bulb Location",
+            [objectKeys.zoneID] = zoneIDs.DESOLACE,
+            [objectKeys.spawns] = {
+                [zoneIDs.DESOLACE] = {{70.0, 70.0}},
+            },
+        },
     }
 end
