@@ -111,6 +111,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79242] = 2, -- No Honor Among Thieves
     [79535] = 2, -- Mage Icy Veins/Spell Power
     [79536] = 2, -- Mage Icy Veins/Spell Power
+    [79677] = 2, -- A Quick Grocery Run
     [79947] = 2, -- Mage Icy Veins/Spell Power
     [79948] = 2, -- Mage Icy Veins/Spell Power
     [79949] = 2, -- Mage Icy Veins/Spell Power
