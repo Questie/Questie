@@ -3741,6 +3741,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425309,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90234] = {
+            [questKeys.name] = "Hot Streak",
+            [questKeys.startedBy] = {{217305},{450015}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 16,
+            [questKeys.questLevel] = 30,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Cast Flamestrike on the two bellows on the outside of the blacksmith in Strahnbrad until they are glowing red, this will spawn an Ancient Fire Elemental, kill it to receive the rune."},
+            [questKeys.requiredSpell] = -401749,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end
 
