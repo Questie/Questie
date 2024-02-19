@@ -415,7 +415,7 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.ARATHI_HIGHLANDS] = {{69.33, 81.50}},
             },
         },
-        [450015] = {
+        [450016] = {
             [objectKeys.name] = "Strahnbrad Bellows",
             [objectKeys.zoneID] = zoneIDs.ALTERAC_MOUNTAINS,
             [objectKeys.spawns] = {

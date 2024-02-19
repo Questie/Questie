@@ -3743,7 +3743,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90234] = {
             [questKeys.name] = "Hot Streak",
-            [questKeys.startedBy] = {{217305},{450015}},
+            [questKeys.startedBy] = {{217305},{450016}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 16,
             [questKeys.questLevel] = 30,
