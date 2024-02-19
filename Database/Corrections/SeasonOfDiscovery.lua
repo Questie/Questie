@@ -359,6 +359,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90232] = 2, -- Priest Empowered Renew
     [90233] = 2, -- Hunter Steady Shot Arathi Highlands
     [90234] = 2, -- Mage Hot Streak Alterac Mountains
+    [90235] = 2, -- Priest Renewed Hope Desolace
 }
 
 --- "automatic" phase detection for the first few phases;

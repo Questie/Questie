@@ -3781,6 +3781,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401749,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [90235] = {
+            [questKeys.name] = "Renewed Hope",
+            [questKeys.startedBy] = {{4713,218249}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 30,
+            [questKeys.questLevel] = 32,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Nagas until they drop Unsettling VIsion, then use Mind Control on a Slitherblade Tide Priestess to acquire her Meditation buff, then use Unsettling Vision to receive the rune."},
+            [questKeys.requiredSpell] = -425310,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
