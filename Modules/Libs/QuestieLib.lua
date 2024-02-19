@@ -726,3 +726,14 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
         return { useLine }
     end
 end
+
+function QuestieLib.GetSpawnDistance(spawnA, spawnB)
+    local x1, y1 = spawnA[1], spawnA[2]
+    local x2, y2 = spawnB[1], spawnB[2]
+
+    -- Adjust the x-coordinate to account the map scale
+    local distanceX = (x1 - x2) * 1.5
+    local distanceY = y1 - y2
+
+    return math_sqrt(distanceX * distanceX + distanceY * distanceY)
+end

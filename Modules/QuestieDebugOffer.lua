@@ -46,48 +46,91 @@ end
 local minLevelForDebugOffers = 10
 
 local itemBlacklist = {
-    210771, -- Waylaid Supplies 10-25
-    211315, -- Waylaid Supplies 10-25
-    211316, -- Waylaid Supplies 10-25
-    211317, -- Waylaid Supplies 10-25
-    211318, -- Waylaid Supplies 10-25
-    211319, -- Waylaid Supplies 10-25
-    211320, -- Waylaid Supplies 10-25
-    211321, -- Waylaid Supplies 10-25
-    211322, -- Waylaid Supplies 10-25
-    211323, -- Waylaid Supplies 10-25
-    211324, -- Waylaid Supplies 10-25
-    211325, -- Waylaid Supplies 10-25
-    211326, -- Waylaid Supplies 10-25
-    211327, -- Waylaid Supplies 10-25
-    211328, -- Waylaid Supplies 10-25
-    211329, -- Waylaid Supplies 10-25
-    211330, -- Waylaid Supplies 10-25
-    211331, -- Waylaid Supplies 10-25
-    211332, -- Waylaid Supplies 10-25
-    211819, -- Waylaid Supplies 10-25
-    211820, -- Waylaid Supplies 10-25
-    211821, -- Waylaid Supplies 10-25
-    211822, -- Waylaid Supplies 10-25
-    211823, -- Waylaid Supplies 10-25
-    211824, -- Waylaid Supplies 10-25
-    211825, -- Waylaid Supplies 10-25
-    211826, -- Waylaid Supplies 10-25
-    211827, -- Waylaid Supplies 10-25
-    211828, -- Waylaid Supplies 10-25
-    211829, -- Waylaid Supplies 10-25
-    211830, -- Waylaid Supplies 10-25
-    211831, -- Waylaid Supplies 10-25
-    211832, -- Waylaid Supplies 10-25
-    211833, -- Waylaid Supplies 10-25
-    211834, -- Waylaid Supplies 10-25
-    211835, -- Waylaid Supplies 10-25
-    211836, -- Waylaid Supplies 10-25
-    211837, -- Waylaid Supplies 10-25
-    211838, -- Waylaid Supplies 10-25
-    211933, -- Waylaid Supplies 10-25
-    211934, -- Waylaid Supplies 10-25
-    211935, -- Waylaid Supplies 10-25
+    -- Waylaid Supplies level 10
+    211316, -- peacebloom
+    211933, -- rough stone
+    211331, -- brilliant smallfish
+    210771, -- copper bars
+    211934, -- healing potions
+    211315, -- light leather
+    211317, -- silverleaf
+    211327, -- brown linen pants
+    211328, -- brown linen robes
+    211332, -- heavy linen bandages
+    211324, -- rough boomsticks
+    211330, -- spiced wolf meat
+    211329, -- herb baked eggs
+    211325, -- handstitched leather belts
+    211321, -- lesser magic wands
+    211320, -- runed copper pants
+    211323, -- rough copper bombs
+    211319, -- copper shortswords
+    211326, -- embossed leather vests
+    211318, -- minor healing potions
+    211322, -- minor wizard oil
+    -- Waylaid Supplies level 25
+    211823, -- swiftthistle
+    211834, -- pearl clasped cloaks
+    211832, -- hillmans shoulders
+    211827, -- runed silver rods
+    211935, -- elixir of firepower
+    211833, -- gray woolen shirts
+    211821, -- medium leather
+    211819, -- bronze bars
+    211826, -- silver skeleton keys
+    211831, -- dark leather cloaks
+    211836, -- smoked bear meat
+    211830, -- ornate spyglasses
+    211820, -- silver bars
+    211837, -- goblin deviled clams
+    211822, -- bruiseweed
+    211825, -- rough bronze boots
+    211835, -- smoked sagefish
+    211824, -- lesser mana potions
+    211838, -- heavy wool bandages
+    211829, -- small bronze bombs
+    211828, -- minor mana oil
+    -- Waylaid Supplies level 30
+    215408, -- guardian gloves
+    215413, -- formal white shirts
+    215421, -- fire oil
+    215420, -- rockscale cod
+    215411, -- frost leather cloaks
+    215398, -- green iron bracers
+    215387, -- heavy hide
+    215402, -- big iron bombs
+    215391, -- wintersbite
+    215389, -- fadeleaf
+    215403, -- deadly scopes
+    215400, -- solid grinding stones
+    -- Waylaid Supplies level 35
+    215415, -- rich purple silk shirts
+    215414, -- crimson silk pantaloons
+    215407, -- barbaric shoulders
+    215410, -- dusky belts
+    215418, -- spider sausages
+    215417, -- soothing turtle bisque
+    215412, -- shadowskin gloves
+    215419, -- heavy silk bandages
+    215401, -- compact harvest reaper kits
+    215385, -- gold bars
+    215399, -- heavy mithril gauntlets
+    215388, -- thick leather
+    215395, -- elixirs of agility
+    215386, -- mithril bars
+    215393, -- greater healing potions
+    215390, -- khadgars whisker
+    215392, -- purple lotus
+    -- Waylaid Supplies level 40
+    215416, -- white bandit masks
+    215409, -- turtle scale bracers
+    215397, -- massive iron axes
+    215394, -- lesser stoneshield potions
+    215404, -- mithril blunderbuss
+    215396, -- elixirs of greater defense
+    215405, -- gnomish rocket boots
+    215406, -- goblin mortars
+
     203753, -- Mage encoded spell notes
     203752, -- Mage encoded spell notes
     208754, -- Mage encoded spell notes
@@ -95,20 +138,25 @@ local itemBlacklist = {
     203751, -- Mage encoded spell notes
     209028, -- Mage encoded spell notes
     210655, -- Mage encoded spell notes
-    210179, -- Mage encoded spell notes
-    211786, -- Mage encoded scrolls
-    211785, -- Mage encoded scrolls
-    211787, -- Mage encoded scrolls
-    211780, -- Mage encoded scrolls
-    211784, -- Mage encoded scrolls
-    211854, -- Mage encoded scrolls
-    211855, -- Mage encoded scrolls
-    211853, -- Mage encoded scrolls
+    213543, -- Scroll: UPDOG
+    213544, -- Scroll: TOPAZ YORAK
+    211785, -- Scroll: CWAL
+    213547, -- Scroll: THAW WORDS
+    211787, -- Scroll: LOWER PING WHOMEVER
+    213545, -- Scroll: PEATCHY ATTAX
+    213546, -- Scroll: SHOOBEEDOOP
+    211780, -- Scroll: KWYJIBO
+    211786, -- Scroll: CHAP BALK WELLES
+    211855, -- Scroll: STHENIC LUNATE
+    211784, -- Scroll: WUBBA WUBBA
+    211854, -- Scroll: OMIT KESA
+    211853, -- Scroll: VOCE WELL
 }
 
 local itemWhitelist = {
-    208609, -- glade flower for druid living seed
-    206469, -- prairie flower for druid living seed
+    -- TODO: Add distance check for these
+    --208609, -- glade flower for druid living seed
+    --206469, -- prairie flower for druid living seed
 }
 
 local itemTripCodes = {
@@ -210,10 +258,10 @@ local function filterItem(itemID, itemInfo, containerGUID)
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Object drop data for item " .. itemID .. " OK, ignoring")
                 end
             end
-        elseif containerType == "Item" then -- if container is an item
+        elseif containerType == "Item" and containerID > 0 then -- if container is an item and there is an containerID for it
+            -- TODO: I am quite sure this case can never happen, because the containerID is always 0 for items. Is there a different way?
             -- first check if container item is even in our DB.
-            -- There were many reports for a containerID == 0, which does not help us as ContainerMissingFromItemDB report.
-            if containerID > 0 and (not QuestieDB.QueryItemSingle(containerID, "name")) then
+            if (not QuestieDB.QueryItemSingle(containerID, "name")) then
                 return itemTripCodes.ContainerMissingFromItemDB
             end
 
@@ -541,15 +589,8 @@ end
 -- generates dialog based on link clicked
 ---@param link string
 function QuestieDebugOffer.ShowOffer(link)
-    -- The questie.dev domain was purchased by Logon
-    local discordURL = "https://discord.gg/txNSuwyBQ8" -- redirect to #bug-reports
-    if Questie.IsWotlk then
-        discordURL = "https://questie.dev/wotlk" -- redirect to #wotlk-bug-reports
-    elseif Questie.IsSoD then
-        discordURL = "https://questie.dev/sod" -- redirect to #sod-bug-reports
-    elseif Questie.IsClassic then
-        discordURL = "https://questie.dev/era" -- redirect to #era-bug-reports
-    end
+    -- We also have access to the questie.dev domain (purchased by Logon)
+    local discordURL = "https://discord.gg/Q6j4qByndw" -- redirect to #bug-redirect
     local i = tonumber(string.sub(link,21))
     local popupText = DebugInformation[i]
 

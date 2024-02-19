@@ -19,9 +19,12 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local GetQuestGreenRange = GetQuestGreenRange
 local yield = coroutine.yield
+local tinsert = table.insert
 local NewThread = ThreadLib.ThreadSimple
 
 local QUESTS_PER_YIELD = 24
@@ -35,7 +38,7 @@ local availableQuests = {}
 
 local dungeons = ZoneDB:GetDungeons()
 
-local _CalculateAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable
+local _CalculateAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
 
 ---@param callback function | nil
 function AvailableQuests.CalculateAndDrawAll(callback)
@@ -102,7 +105,6 @@ _CalculateAvailableQuests = function()
     local showRaidQuests = Questie.db.profile.showRaidQuests
     local showPvPQuests = Questie.db.profile.showPvPQuests
     local showAQWarEffortQuests = Questie.db.profile.showAQWarEffortQuests
-    local showSoDRunes = Questie.db.profile.showSoDRunes
 
     local autoBlacklist = QuestieDB.autoBlacklist
     local hiddenQuests = QuestieCorrections.hiddenQuests
@@ -136,13 +138,13 @@ _CalculateAvailableQuests = function()
         end
 
         if (
-            ((not showRepeatableQuests) and QuestieDB.IsRepeatable(questId)) or             -- Don't show repeatable quests if option is disabled
-            ((not showPvPQuests) and QuestieDB.IsPvPQuest(questId)) or                      -- Don't show PvP quests if option is disabled
-            ((not showDungeonQuests) and QuestieDB.IsDungeonQuest(questId)) or              -- Don't show dungeon quests if option is disabled
-            ((not showRaidQuests) and QuestieDB.IsRaidQuest(questId)) or                    -- Don't show raid quests if option is disabled
-            ((not showAQWarEffortQuests) and aqWarEffortQuests[questId]) or                 -- Don't show AQ War Effort quests if the option disabled
-            (Questie.IsClassic and currentIsleOfQuelDanasQuests[questId]) or                -- Don't show Isle of Quel'Danas quests for Era/HC/SoX
-            ((not showSoDRunes) and Questie.IsSoD and QuestieDB.IsSoDRuneQuest(questId))    -- Don't show SoD Rune quests with the option disabled
+            ((not showRepeatableQuests) and QuestieDB.IsRepeatable(questId)) or     -- Don't show repeatable quests if option is disabled
+            ((not showPvPQuests) and QuestieDB.IsPvPQuest(questId)) or              -- Don't show PvP quests if option is disabled
+            ((not showDungeonQuests) and QuestieDB.IsDungeonQuest(questId)) or      -- Don't show dungeon quests if option is disabled
+            ((not showRaidQuests) and QuestieDB.IsRaidQuest(questId)) or            -- Don't show raid quests if option is disabled
+            ((not showAQWarEffortQuests) and aqWarEffortQuests[questId]) or         -- Don't show AQ War Effort quests if the option disabled
+            (Questie.IsClassic and currentIsleOfQuelDanasQuests[questId]) or        -- Don't show Isle of Quel'Danas quests for Era/HC/SoX
+            (Questie.IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId))          -- Don't show SoD Rune quests with the option disabled
         ) then
             return
         end
@@ -272,36 +274,40 @@ _AddStarter = function(starter, quest, tooltipKey)
     local starterIcons = {}
     local starterLocs = {}
     for zone, spawns in pairs(starter.spawns) do
+        local alreadyAddedSpawns = {}
         if (zone and spawns) then
             local coords
             for spawnIndex = 1, #spawns do
                 coords = spawns[spawnIndex]
-                local data = {
-                    Id = quest.Id,
-                    Icon = _GetQuestIcon(quest),
-                    GetIconScale = _GetIconScaleForAvailable,
-                    IconScale = _GetIconScaleForAvailable(),
-                    Type = "available",
-                    QuestData = quest,
-                    Name = starter.name,
-                    IsObjectiveNote = false,
-                }
+                if #spawns == 1 or _HasProperDistanceToAlreadyAddedSpawns(coords, alreadyAddedSpawns) then
+                    local data = {
+                        Id = quest.Id,
+                        Icon = _GetQuestIcon(quest),
+                        GetIconScale = _GetIconScaleForAvailable,
+                        IconScale = _GetIconScaleForAvailable(),
+                        Type = "available",
+                        QuestData = quest,
+                        Name = starter.name,
+                        IsObjectiveNote = false,
+                    }
 
-                if (coords[1] == -1 or coords[2] == -1) then
-                    local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
-                    if dungeonLocation then
-                        for _, value in ipairs(dungeonLocation) do
-                            QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                    if (coords[1] == -1 or coords[2] == -1) then
+                        local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
+                        if dungeonLocation then
+                            for _, value in ipairs(dungeonLocation) do
+                                QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                            end
                         end
-                    end
-                else
-                    local icon = QuestieMap:DrawWorldIcon(data, zone, coords[1], coords[2])
-                    if starter.waypoints then
-                        -- This is only relevant for waypoint drawing
-                        starterIcons[zone] = icon
-                        if not starterLocs[zone] then
-                            starterLocs[zone] = { coords[1], coords[2] }
+                    else
+                        local icon = QuestieMap:DrawWorldIcon(data, zone, coords[1], coords[2])
+                        if starter.waypoints then
+                            -- This is only relevant for waypoint drawing
+                            starterIcons[zone] = icon
+                            if not starterLocs[zone] then
+                                starterLocs[zone] = { coords[1], coords[2] }
+                            end
                         end
+                        tinsert(alreadyAddedSpawns, coords)
                     end
                 end
             end
@@ -330,6 +336,17 @@ _AddStarter = function(starter, quest, tooltipKey)
             end
         end
     end
+end
+
+_HasProperDistanceToAlreadyAddedSpawns = function(coords, alreadyAddedSpawns)
+    for _, alreadyAdded in pairs(alreadyAddedSpawns) do
+        local distance = QuestieLib.GetSpawnDistance(alreadyAdded, coords)
+        -- 29 seems like a good distance. The "Undying Laborer" in Westfall shows both spawns for the "Horn of Lordaeron" rune
+        if distance < 29 then
+            return false
+        end
+    end
+    return true
 end
 
 _GetIconScaleForAvailable = function()

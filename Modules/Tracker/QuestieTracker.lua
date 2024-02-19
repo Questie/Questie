@@ -651,10 +651,10 @@ function QuestieTracker:Update()
                     -- Set Zone Title and default Min/Max states
                     if Questie.db.char.collapsedZones[zoneName] then
                         line.expandZone:SetMode(0)
-                        line.label:SetText("|cFFC0C0C0" .. zoneName .. " +|r")
+                        line.label:SetText("|cFFC0C0C0" .. l10n(zoneName) .. " +|r")
                     else
                         line.expandZone:SetMode(1)
-                        line.label:SetText("|cFFC0C0C0" .. zoneName .. "|r")
+                        line.label:SetText("|cFFC0C0C0" .. l10n(zoneName) .. "|r")
                     end
 
                     -- Checks the minAllQuestsInZone[zone] table and if empty, zero out the table.

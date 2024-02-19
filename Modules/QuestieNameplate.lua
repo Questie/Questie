@@ -231,6 +231,9 @@ function _QuestieNameplate.GetTargetFrameIconFrame()
     elseif AzeriteUnitFrameTarget then
         targetFrame = AzeriteUnitFrameTarget
         strata = "LOW"
+    elseif GwTargetUnitFrame then
+        targetFrame = GwTargetUnitFrame
+        strata = "LOW"
     elseif SUFUnittarget then
         targetFrame = SUFUnittarget
         frame:SetFrameLevel(SUFUnittarget:GetFrameLevel() + 1)

@@ -141,6 +141,11 @@ function TrackerUtils:FlashObjective(objective)
                     if icon:IsShown() then
                         icon._hidden_by_flash = true
                         icon:Hide()
+                        if icon.data.lineFrames then
+                            for _, line in pairs(icon.data.lineFrames) do
+                                line:Hide()
+                            end
+                        end
                     end
                 end
             end
@@ -200,6 +205,11 @@ function TrackerUtils:FlashObjective(objective)
                                         if icon._hidden_by_flash then
                                             icon._hidden_by_flash = nil
                                             icon:Show()
+                                            if icon.data.lineFrames then
+                                                for _, line in pairs(icon.data.lineFrames) do
+                                                    line:Show()
+                                                end
+                                            end
                                         end
                                     end
                                 end
@@ -226,11 +236,16 @@ function TrackerUtils:FlashFinisher(quest)
                     if icon:IsShown() then
                         icon._hidden_by_flash = true
                         icon:Hide()
+                        if icon.data.lineFrames then
+                            for _, line in pairs(icon.data.lineFrames) do
+                                line:Hide()
+                            end
+                        end
                     end
                 end
             end
         else
-            for _, frameName in ipairs(framelist) do
+            for _, frameName in pairs(framelist) do
                 local icon = _G[frameName]
                 if not icon.miniMapIcon then
                     icon._size = icon:GetWidth()
@@ -279,6 +294,11 @@ function TrackerUtils:FlashFinisher(quest)
                                     if icon._hidden_by_flash then
                                         icon._hidden_by_flash = nil
                                         icon:Show()
+                                        if icon.data.lineFrames then
+                                            for _, line in pairs(icon.data.lineFrames) do
+                                                line:Show()
+                                            end
+                                        end
                                     end
                                 end
                             end
@@ -603,9 +623,9 @@ local function _GetZoneName(zoneOrSort, questId)
     else
         -- Let's create custom Zones based on Sorting type.
         if sortObj == "byComplete" then
-            zoneName = "Quests (By % Complete)"
+            zoneName = "Quests (By %% Complete)"
         elseif sortObj == "byCompleteReversed" then
-            zoneName = "Quests (By % Complete Reversed)"
+            zoneName = "Quests (By %% Complete Reversed)"
         elseif sortObj == "byLevel" then
             zoneName = "Quests (By Level)"
         elseif sortObj == "byLevelReversed" then

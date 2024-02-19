@@ -602,30 +602,6 @@ local generalOptionsLocales = {
         ["esES"] = "Habilitar tooltips del mundo",
         ["frFR"] = false,
     },
-    ["Welcome to Season of Discovery! Questie is being continuously updated with the new quests from this season, but it will take time. Be sure to update frequently to minimize errors."] = {
-        ["ptBR"] = "Bem-vindo à Temporada da Descoberta! O Questie está sendo continuamente atualizado com as novas missões desta temporada, mas levará algum tempo. Certifique-se de atualizar com frequência para minimizar erros.",
-        ["ruRU"] = "Добро пожаловать в Сезон Открытий! Questie продолжает обновляться с новыми заданиями из данного сезона, но на это потребуется время. Обновляйте аддон почаще, чтоб минимизировать количество ошибок.",
-        ["deDE"] = "Willkommen zur Season der Entdeckung! Questie wird kontinuierlich mit den neuen Quests dieser Saison aktualisiert, aber es wird einige Zeit dauern. Stell sicher, dass du häufig aktualisierst, um Fehler zu minimieren.",
-        ["koKR"] = false,
-        ["esMX"] = "¡Bienvenido a Temporada de descubrimiento! Questie se actualiza continuamente con las nuevas misiones de esta temporada, pero llevará tiempo. Asegúrate de actualizar con frecuencia para minimizar errores.",
-        ["enUS"] = true,
-        ["zhCN"] = false,
-        ["zhTW"] = "歡迎來到探索賽季! Questie 正在不斷更新本賽季的新任務，但這需要時間。請務必經常更新以盡量減少錯誤。",
-        ["esES"] = "¡Bienvenido a Temporada de descubrimiento! Questie se actualiza continuamente con las nuevas misiones de esta temporada, pero llevará tiempo. Asegúrate de actualizar con frecuencia para minimizar errores.",
-        ["frFR"] = "Bienvenue à la Saison de la Découverte ! Questie est continuellement mis à jour avec les nouvelles quêtes de cette saison, mais cela prendra du temps. Assurez-vous de mettre à jour fréquemment pour minimiser les erreurs.",
-    },
-    ["While playing Season of Discovery, Questie will notify you if it encounters a quest it doesn't yet know about. Please share this info with us on Discord or GitHub!"] = {
-        ["ptBR"] = "Ao jogar a Temporada da Descoberta, o Questie irá notificá-lo se encontrar uma missão que ainda não conhece. Por favor, compartilhe essas informações conosco no Discord ou GitHub!",
-        ["ruRU"] = "Questie во время игры в Сезон Открытий будет уведомлять о неизвестных аддону заданиях. Пожалуйста, поделитесь с нами этой информацией в нашем дискорде или на GitHub!",
-        ["deDE"] = "Während du Season der Entdeckung spielst, wird Questie dich benachrichtigen, wenn es auf eine Quest stößt, die es noch nicht kennt. Bitte teile diese Informationen mit uns auf Discord oder GitHub!",
-        ["koKR"] = false,
-        ["esMX"] = "Mientras juegas Temporada de descubrimiento, Questie te notificará si encuentra una misión que aún no conoce. ¡Comparte esta información con nosotros en Discord o GitHub!",
-        ["enUS"] = true,
-        ["zhCN"] = false,
-        ["zhTW"] = "在玩探索賽季時，如果遇到 Questie 還不知道的任務，會通知你。請在 Discord 或 GitHub 與我們分享此資訊!",
-        ["esES"] = "Mientras juegas Temporada de descubrimiento, Questie te notificará si encuentra una misión que aún no conoce. ¡Comparte esta información con nosotros en Discord o GitHub!",
-        ["frFR"] = "Pendant la Saison de la Découverte, Questie vous avertira s'il rencontre une quête qu'il ne connaît pas encore. Veuillez partager ces informations avec nous sur Discord ou GitHub !",
-    },
 }
 
 for k, v in pairs(generalOptionsLocales) do

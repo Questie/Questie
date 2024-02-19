@@ -98,6 +98,9 @@ function QuestieQuestFixes:Load()
         [117] = {
             [questKeys.name] = "Thunderbrew",
         },
+        [136] = {
+            [questKeys.startedBy] = {{513,515,126,171,456,127,517,458,391},nil,{1357}},
+        },
         [148] = {
             [questKeys.preQuestSingle] = {}, -- #1173
         },
@@ -112,6 +115,10 @@ function QuestieQuestFixes:Load()
         },
         [165] = {
             [questKeys.exclusiveTo] = {148}, --#1173
+        },
+        [178] = {
+            [questKeys.startedBy] = {{429,431,432,433,434,568,579,703,947},nil,{1962}},
+            [questKeys.objectivesText] = {"Bring the Faded Shadowhide Pendant to Theocritus the Mage. NOTE: This is a very rare drop!"},
         },
         [201] = {
             [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.65,10.59}}}},
@@ -198,6 +205,9 @@ function QuestieQuestFixes:Load()
         },
         [420] = {
             [questKeys.exclusiveTo] = {287}, -- senir's observations part 2 becomes unavailable if you have completed frostmane hold
+        },
+        [427] = {
+            [questKeys.preQuestSingle] = {},
         },
         [428] = {
             [questKeys.exclusiveTo] = {429}, -- lost deathstalkers breadcrumb
@@ -572,7 +582,7 @@ function QuestieQuestFixes:Load()
             [questKeys.parentQuest] = 950, -- workaround, can't mimic ingame 100%
         },
         [968] = {
-            [questKeys.startedBy] = {{2338,2339},nil,{5352}}, -- temp correction for item start
+            [questKeys.startedBy] = {{2338,2339},nil,{5352}},
         },
         [976] = {
             [questKeys.triggerEnd] = {"Protect Feero Ironhand", {[zoneIDs.DARKSHORE]={{43.54,94.39}}}},
@@ -870,6 +880,9 @@ function QuestieQuestFixes:Load()
         },
         [1479] = {
             [questKeys.triggerEnd] = {"Go to the bank in Darnassus, otherwise known as the Bough of the Eternals.", {[zoneIDs.DARNASSUS]={{41.31,43.54}}}},
+        },
+        [1480] = {
+            [questKeys.startedBy] = {{4663,4664,4665,4666,4667,4668,4705,13019},nil,{20310}},
         },
         [1483] = {
             [questKeys.exclusiveTo] = {1093},
@@ -1175,13 +1188,22 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Omosh Dance of Joy Learned", {[zoneIDs.ORGRIMMAR]={{79.28,22.3}}}},
         },
         [2765] = {
-            [questKeys.triggerEnd] = {"You Are The Big Winner", {[zoneIDs.STRANGLETHORN_VALE]={{50.58,20.54}}}},
+            [questKeys.objectives] = {{{7802,"You Are The Big Winner"}}},
         },
         [2767] = {
             [questKeys.triggerEnd] = {"Escort OOX-22/FE to the dock along the Forgotten Coast", {[zoneIDs.FERALAS]={{45.63,43.39}}}},
         },
         [2769] = {
             [questKeys.exclusiveTo] = {2770}, -- #2071
+        },
+        [2771] = {
+            [questKeys.preQuestSingle] = {2764},
+        },
+        [2772] = {
+            [questKeys.preQuestSingle] = {2764},
+        },
+        [2773] = {
+            [questKeys.preQuestSingle] = {2764},
         },
         [2781] = {
             [questKeys.startedBy] = {nil,{142122,150075},nil}, -- #1081
@@ -1309,7 +1331,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{5833},nil,{10000}},
         },
         [3321] = {
-            [questKeys.triggerEnd] = {"Watch Trenton Work", {[zoneIDs.TANARIS]={{51.43,28.7}}}},
+            [questKeys.objectives] = {{{7804,"Watch Trenton Work"}}},
         },
         [3367] = {
             [questKeys.triggerEnd] = {"Dorius Escort", {[zoneIDs.SEARING_GORGE]={{74.47,19.44}}}},
@@ -1579,6 +1601,9 @@ function QuestieQuestFixes:Load()
         [4361] = {
             [questKeys.preQuestSingle] = {4342},
         },
+        [4451] = {
+            [questKeys.startedBy] = {{8566,5840,5844,5846,15692,8504},nil,{11818}},
+        },
         [4485] = {
             [questKeys.startedBy] = {{6179},nil,nil},
             [questKeys.exclusiveTo] = {1661,4486},
@@ -1792,6 +1817,9 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Destroy the command tent and plant the Scourge banner in the camp", {[zoneIDs.WESTERN_PLAGUELANDS]={{40.72,52.04}}}},
             [questKeys.preQuestSingle] = {},
         },
+        [5103] = {
+            [questKeys.requiredSourceItems] = {12812},
+        },
         [5122] = {
             [questKeys.specialFlags] = 1, -- #1140
         },
@@ -1803,7 +1831,7 @@ function QuestieQuestFixes:Load()
         },
         [5126] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.SHAMAN,
-            [questKeys.triggerEnd] = {"Listen to Lorax's Tale", {[zoneIDs.WINTERSPRING]={{63.82,73.79}}}},
+            [questKeys.objectives] = {{{10918,"Listen to Lorax's Tale"}}},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
         },
         [5149] = {
@@ -2563,6 +2591,9 @@ function QuestieQuestFixes:Load()
         [7541] = {
             [questKeys.questLevel] = 40, -- #1320
         },
+        [7604] = {
+            [questKeys.specialFlags] = 0,
+        },
         [7622] = {
             [questKeys.triggerEnd] = {"The Balance of Light and Shadow", {[zoneIDs.EASTERN_PLAGUELANDS]={{21.19,17.79}}}}, -- #2332
         },
@@ -2577,6 +2608,9 @@ function QuestieQuestFixes:Load()
         },
         [7640] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Exorcise the spirits"), 0, {{"object", 179747}}}},
+        },
+        [7651] = {
+            [questKeys.specialFlags] = 0,
         },
         [7668] = { -- #1344
             [questKeys.name] = "The Darkreaver Menace",
@@ -3409,6 +3443,7 @@ function QuestieQuestFixes:Load()
         },
         [8867] = {
             [questKeys.requiredSourceItems] = {21557,21558,21559,21571,21574,21576},
+            [questKeys.objectives] = {nil,{{180771,"Lunar Fireworks Fired"},{180772,"Lunar Fireworks Cluster Fired"}}},
         },
         [8868] = {
             [questKeys.triggerEnd] = {"Receive Elune's Blessing.", {[zoneIDs.MOONGLADE]={{63.89,62.5}}}},

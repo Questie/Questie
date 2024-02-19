@@ -7,8 +7,6 @@ local TrackerLinePool = QuestieLoader:CreateModule("TrackerLinePool")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type TrackerBaseFrame
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
----@type TrackerQuestFrame
-local TrackerQuestFrame = QuestieLoader:ImportModule("TrackerQuestFrame")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type TrackerQuestTimers
@@ -28,9 +26,6 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestEventHandler
-local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
-local _QuestEventHandler = QuestEventHandler.private
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
@@ -119,7 +114,7 @@ function TrackerLinePool.Initialize(questFrame)
                 timeElapsed = timeElapsed + elapsed
 
                 if timeElapsed > 1 and self.trackTimedQuest and self.label.activeTimer then
-                    local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(self.Quest.Id)
+                    local _, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(self.Quest.Id)
 
                     if timeRemaining ~= nil then
                         if timeRemaining > 1 then
@@ -363,7 +358,6 @@ function TrackerLinePool.Initialize(questFrame)
                         end
 
                         local soundData = VoiceOver.QuestOverlayUI.questPlayButtons[self.mode].soundData
-                        local questID = soundData.questID
                         local isPlaying = VoiceOver.SoundQueue:Contains(soundData)
 
                         if not isPlaying then
@@ -461,11 +455,11 @@ function TrackerLinePool.Initialize(questFrame)
             expandQuest:SetAlpha(0)
         end
 
-        expandQuest:SetScript("OnEnter", function(self)
+        expandQuest:SetScript("OnEnter", function()
             TrackerFadeTicker.Unfade()
         end)
 
-        expandQuest:SetScript("OnLeave", function(self)
+        expandQuest:SetScript("OnLeave", function()
             TrackerFadeTicker.Fade()
         end)
 
@@ -492,7 +486,6 @@ function TrackerLinePool.Initialize(questFrame)
 
         btn.SetItem = function(self, quest, buttonType, size)
             local validTexture
-            local complete = quest:IsComplete()
 
             for bag = -2, 4 do
                 for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
@@ -617,10 +610,6 @@ function TrackerLinePool.Initialize(questFrame)
                 return
             end
 
-            local valid
-            local rangeTimer = self.rangeTimer
-            local charges = GetItemCount(self.itemId, nil, true)
-
             local start, duration, enabled = QuestieCompat.GetItemCooldown(self.itemId)
 
             if enabled == 1 and duration > 0 then
@@ -630,6 +619,7 @@ function TrackerLinePool.Initialize(questFrame)
                 cooldown:Hide()
             end
 
+            local charges = GetItemCount(self.itemId, nil, true)
             if (not charges or charges ~= self.charges) then
                 self.count:Hide()
                 self.charges = GetItemCount(self.itemId, nil, true)
@@ -647,21 +637,23 @@ function TrackerLinePool.Initialize(questFrame)
                 end
             end
 
-            if UnitExists("target") then
+            -- IsItemInRange is restricted to only be used either on hostile targets or friendly ones while NOT in combat
+            if UnitExists("target") and (not UnitIsFriend("player", "target") or (not InCombatLockdown())) then
                 if not self.itemName then
                     self.itemName = GetItemInfo(self.itemId)
                 end
 
+                local rangeTimer = self.rangeTimer
                 if (rangeTimer) then
                     rangeTimer = rangeTimer - elapsed
 
                     if (rangeTimer <= 0) then
-                        valid = IsItemInRange(self.itemName, "target")
+                        local isInRange = IsItemInRange(self.itemName, "target")
 
-                        if valid == false then
+                        if isInRange == false then
                             self.range:SetVertexColor(1.0, 0.1, 0.1)
                             self.range:Show()
-                        elseif valid == true then
+                        elseif isInRange == true then
                             self.range:SetVertexColor(0.6, 0.6, 0.6)
                             self.range:Show()
                         end

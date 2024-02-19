@@ -13,6 +13,34 @@ local migrationFunctions = {
         end
         -- theres no need to delete old settings, since we read/write to different addresses now;
         -- old settings can linger unused unless you roll back versions, no harm no foul
+    end,
+    [2] = function()
+        -- Blizzard removed some sounds from Era/SoD, which are present in WotLK
+        local objectiveSound = Questie.db.profile.objectiveCompleteSoundChoiceName
+        if (not Questie.IsWotlk) and
+            objectiveSound == "Explosion" or
+            objectiveSound == "Shing!" or
+            objectiveSound == "Wham!" or
+            objectiveSound == "Simon Chime" or
+            objectiveSound == "War Drums" or
+            objectiveSound == "Humm" or
+            objectiveSound == "Short Circuit"
+        then
+            Questie.db.profile.objectiveCompleteSoundChoiceName = "ObjectiveDefault"
+        end
+
+        local progressSound = Questie.db.profile.objectiveProgressSoundChoiceName
+        if (not Questie.IsWotlk) and
+            progressSound == "Explosion" or
+            progressSound == "Shing!" or
+            progressSound == "Wham!" or
+            progressSound == "Simon Chime" or
+            progressSound == "War Drums" or
+            progressSound == "Humm" or
+            progressSound == "Short Circuit"
+        then
+            Questie.db.profile.objectiveProgressSoundChoiceName = "ObjectiveProgress"
+        end
     end
 }
 

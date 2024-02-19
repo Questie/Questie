@@ -57,7 +57,10 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {410220},
         },
         [210055] = { -- Hillsbrad Human Bones
-            [itemKeys.npcDrops] = {2265,2266,2267,2268,2360},
+            [itemKeys.npcDrops] = {2265,2266,2267,2268,2360,2387},
+        },
+        [210955] = { -- Scarlet Initiate's Uniform
+            [itemKeys.objectDrops] = {412147},
         },
         [211452] = { -- Horde Blackfathom Pearl
             [itemKeys.relatedQuests] = {78917},
@@ -70,6 +73,12 @@ function SeasonOfDiscovery:LoadItems()
         [211818] = { -- Alliance Strange Water Globe (required for but does not start Baron Aquanis)
             [itemKeys.relatedQuests] = {79099},
             [itemKeys.startQuest] = nil,
+        },
+        [212347] = { -- Illari's Key
+            [itemKeys.npcDrops] = {215655},
+        },
+        [216635] = { -- Spent Voidcore
+            [itemKeys.npcDrops] = {5336},
         },
     }
 end

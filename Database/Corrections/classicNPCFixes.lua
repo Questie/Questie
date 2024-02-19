@@ -621,6 +621,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.RAZORFEN_KRAUL,
             [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{-1,-1}}},
         },
+        [4643] = {
+            [npcKeys.waypoints] = {},
+        },
         [4660] = {
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{39.65,61.37}}},

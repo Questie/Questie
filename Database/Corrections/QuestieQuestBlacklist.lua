@@ -726,6 +726,9 @@ function QuestieQuestBlacklist:Load()
         [13031] = true,
         [13032] = true,
         [13033] = true,
+        [13065] = true,
+        [13066] = true,
+        [13067] = true,
 
 
         -- End of Wotlk event quests
@@ -1465,12 +1468,16 @@ function QuestieQuestBlacklist:Load()
         --[26013] = true, -- Assault on the Sanctum
 
         ----- SoD -------------- SoD quests --------------- SoD -----
-        [79482] = true,
-        [79483] = true,
-        [79484] = true,
-        [79485] = true,
-        [79492] = true,
-        [79495] = true,
+        [78611] = true, -- A Waylaid Shipment (no longer available in P2)
+        [79100] = true, -- A Waylaid Shipment (no longer available in P2)
+        [79482] = true, -- Stolen Winter Veil Treats
+        [79483] = true, -- Stolen Winter Veil Treats
+        [79484] = true, -- You're a Mean One...
+        [79485] = true, -- You're a Mean One...
+        [79486] = true, -- A Smokywood Pastures' Thank You!
+        [79487] = true, -- A Smokywood Pastures' Thank You!
+        [79492] = true, -- Metzen the Reindeer
+        [79495] = true, -- Metzen the Reindeer
         [79588] = true, -- Small Furry Paws
         [79589] = true, -- Torn Bear Pelts
         [79590] = true, -- Heavy Grinding Stone
