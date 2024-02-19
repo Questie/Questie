@@ -423,5 +423,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.DESOLACE] = {{70.0, 70.0}},
             },
         },
+        [450016] = {
+            [objectKeys.name] = "Strahnbrad Bellows",
+            [objectKeys.zoneID] = zoneIDs.ALTERAC_MOUNTAINS,
+            [objectKeys.spawns] = {
+                [zoneIDs.ALTERAC_MOUNTAINS] = {{60.0, 46.4}},
+            },
+        },
     }
 end
