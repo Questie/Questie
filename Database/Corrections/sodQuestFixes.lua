@@ -996,6 +996,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80182] = { -- The Only Cure is More Green Glow
+            [questKeys.startedBy] = {{1268}},
+            [questKeys.finishedBy] = {{1268}},
+            [questKeys.preQuestSingle] = {80139},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
