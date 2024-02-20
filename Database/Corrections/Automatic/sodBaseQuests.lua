@@ -1866,8 +1866,8 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [79984] = {
             [questKeys.name] = "Quadrangulation",
-            [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = nil,
+            [questKeys.startedBy] = {{7853}},
+            [questKeys.finishedBy] = {{7853,}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
