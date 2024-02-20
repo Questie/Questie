@@ -268,9 +268,9 @@ function SeasonOfDiscovery:LoadObjects()
             },
         },
         [424074] = { -- Quadrangulation Beacon 001
-            [objectKeys.zoneID] = zoneIDs.TANARIS,
+            [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
             [objectKeys.spawns] = {
-                [zoneIDs.TANARIS] = {{37.8, 27.3}},
+                [zoneIDs.DUSTWALLOW_MARSH] = {{58.6, 13.0}},
             },
         },
         [424075] = { -- Quadrangulation Beacon 002
@@ -280,15 +280,15 @@ function SeasonOfDiscovery:LoadObjects()
             },
         },
         [424076] = { -- Quadrangulation Beacon 003
-            [objectKeys.zoneID] = zoneIDs.FERALAS,
+            [objectKeys.zoneID] = zoneIDs.TANARIS,
             [objectKeys.spawns] = {
-                [zoneIDs.FERALAS] = {{29.3, 93.8}},
+                [zoneIDs.TANARIS] = {{37.8, 27.3}},
             },
         },
         [424077] = { -- Quadrangulation Beacon 004
-            [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
+            [objectKeys.zoneID] = zoneIDs.FERALAS,
             [objectKeys.spawns] = {
-                [zoneIDs.DUSTWALLOW_MARSH] = {{58.6, 13.0}},
+                [zoneIDs.FERALAS] = {{29.3, 93.8}},
             },
         },
         [424265] = { -- Grave
