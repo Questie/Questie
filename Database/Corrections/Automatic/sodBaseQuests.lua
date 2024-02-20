@@ -1932,11 +1932,11 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [80131] = {
             [questKeys.name] = "Gnome Improvement",
-            [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = nil,
+            [questKeys.startedBy] = {{6826}},
+            [questKeys.finishedBy] = {{6826,}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
-            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.objectivesText] = {"Bring the Brilliant Gold Ring, a Silver Bar, a Moss Agate, and 30 silver coins to Talvash del Kissel in Ironforge."},
             [questKeys.objectives] = {nil,nil,{{2842},{1206}}},
@@ -1944,7 +1944,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80132] = {
             [questKeys.name] = "Rig Wars",
             [questKeys.startedBy] = {{3412}},
-            [questKeys.finishedBy] = nil,
+            [questKeys.finishedBy] = {{3412,}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
