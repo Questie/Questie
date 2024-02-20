@@ -5,6 +5,8 @@ local QuestieWotlkNpcFixes = QuestieLoader:CreateModule("QuestieWotlkNpcFixes")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 function QuestieWotlkNpcFixes:Load()
     local npcKeys = QuestieDB.npcKeys
@@ -1171,6 +1173,15 @@ function QuestieWotlkNpcFixes:Load()
         },
         [29173] = {
             [npcKeys.waypoints] = {},
+        },
+        [29194] = {
+            [npcKeys.subName] = l10n("Death Knight Trainer"),
+        },
+        [29195] = {
+            [npcKeys.subName] = l10n("Death Knight Trainer"),
+        },
+        [29196] = {
+            [npcKeys.subName] = l10n("Death Knight Trainer"),
         },
         [29216] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BROOD_PIT]={{63.2,48.1}},[4277]={{-1,-1}}},

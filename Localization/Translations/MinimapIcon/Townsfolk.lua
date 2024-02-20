@@ -290,7 +290,7 @@ local townsfolkLocales = {
         ["esES"] = "Maestro armero",
         ["frFR"] = "Maître d'armes",
     },
-    ["Deathknight Trainer"] = {
+    ["Death Knight Trainer"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Todesritterlehrer:in",
