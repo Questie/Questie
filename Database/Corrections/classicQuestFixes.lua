@@ -1185,7 +1185,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{7783,"Conversation with Loramus"}}},
         },
         [2755] = {
-            [questKeys.triggerEnd] = {"Omosh Dance of Joy Learned", {[zoneIDs.ORGRIMMAR]={{79.28,22.3}}}},
+            [questKeys.objectives] = {{{7790,"Omosh Dance of Joy Learned"}}},
         },
         [2765] = {
             [questKeys.objectives] = {{{7802,"You Are The Big Winner"}}},
