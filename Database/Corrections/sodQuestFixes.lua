@@ -939,8 +939,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80139] = { -- Gnogaine
-            [questKeys.startedBy] = {{1268}},
-            [questKeys.finishedBy] = {{1268}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
