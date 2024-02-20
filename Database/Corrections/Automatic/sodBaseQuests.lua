@@ -1988,7 +1988,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80136] = {
             [questKeys.name] = "Essential Artificials",
             [questKeys.startedBy] = {{6169}},
-            [questKeys.finishedBy] = nil,
+            [questKeys.finishedBy] = {{6169,}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
