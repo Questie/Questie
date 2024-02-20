@@ -1888,8 +1888,8 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [79987] = {
             [questKeys.name] = "Return of the Ring",
-            [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = nil,
+            [questKeys.startedBy] = {{6826}},
+            [questKeys.finishedBy] = {{6826,}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1900,7 +1900,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79990] = {
             [questKeys.name] = "Stranglethorn Lumber",
             [questKeys.startedBy] = {{14984}},
-            [questKeys.finishedBy] = nil,
+            [questKeys.finishedBy] = {{14984,}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1911,7 +1911,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79991] = {
             [questKeys.name] = "Stranglethorn Lumber",
             [questKeys.startedBy] = {{15022}},
-            [questKeys.finishedBy] = nil,
+            [questKeys.finishedBy] = {{15022,}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
