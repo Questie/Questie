@@ -806,6 +806,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [79677] = { -- A Quick Grocery Run
+            [questKeys.startedBy] = {{2254,2255,2256,2287,2569,2570,2571}},
+            [questKeys.zoneOrSort] = zoneIDs.WARRIOR,
+        },
         [79705] = { -- Salvaging the Salvagematic
             [questKeys.finishedBy] = {{217689}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
@@ -864,8 +868,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.STONETALON_MOUNTAINS,
         },
         [79981] = { -- The Corroded Core
+            [questKeys.startedBy] = {{216666}},
+            [questKeys.finishedBy] = {{218237}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk with Scooty in Booty Bay."), 0, {{"monster", 7853}}}},
         },
         [79984] = { -- Quadrangulation
             [questKeys.objectives] = {nil,{{424074},{424075},{424076},{424077}}},
@@ -883,11 +890,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [79990] = { -- Stranglethorn Lumber
-            [questKeys.finishedBy] = {{14984}},
             [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
         },
         [79991] = { -- Stranglethorn Lumber
-            [questKeys.finishedBy] = {{15022}},
             [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
         },
         [80001] = { -- Rekindle
@@ -942,7 +947,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80132] = { -- Rig Wars
-            [questKeys.finishedBy] = {{3412}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
@@ -951,6 +955,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80134] = { -- Gnomer-gooooone!
+            [questKeys.triggerEnd] = {"Goblin Transponder", {[zoneIDs.STRANGLETHORN_VALE]={{27.56,77.42}}}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.preQuestSingle] = {80133},
@@ -964,7 +969,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80137] = { -- Save Techbot's Brain!
-            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80138] = { -- Tinkmaster Overspark
@@ -972,11 +977,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80139] = { -- Gnogaine
+            [questKeys.startedBy] = {{1268}},
+            [questKeys.finishedBy] = {{1268}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80140] = { -- Return of the Ring Horde
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
@@ -1025,6 +1031,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80182] = { -- The Only Cure is More Green Glow
+            [questKeys.startedBy] = {{1268}},
+            [questKeys.finishedBy] = {{1268}},
+            [questKeys.preQuestSingle] = {80139},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
@@ -1038,7 +1047,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [80324] = { -- The Mad King
-            [questKeys.startedBy] = {{7937}},
+            [questKeys.startedBy] = {{218537}},
             [questKeys.finishedBy] = {{7937}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,nil,{{217350}}},
@@ -1046,7 +1055,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80325] = { -- The Mad King
-            [questKeys.startedBy] = {{3412}},
+            [questKeys.startedBy] = {{218537}},
             [questKeys.finishedBy] = {{3412}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectives] = {nil,nil,{{217351}}},
@@ -2207,7 +2216,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90095] = {
             [questKeys.name] = "Explosive Shot",
-            [questKeys.startedBy] = {{208638,207515,327,448,1271,1388,3204,3281,3205,3058,6113,208196},{407734}},
+            [questKeys.startedBy] = {{208638,327,448,1271,1388,3204,3281,3205,3058,6113,208196},{407734}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 8,
@@ -3656,6 +3665,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -424760,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90222] = {
+            [questKeys.name] = "Dreamstate",
+            [questKeys.startedBy] = {nil,{450014,404401}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 32,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Kill Kol'kar Centaur until Desiccated Seed Pod drops, bring it to the lack in the south east of Desolace, and swim until it becomes a Satyrweed Bulb. Then bring it to Sargeron and plant it in Sandy Loam to receive the rune."},
+            [questKeys.requiredSpell] = -410060,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
         [90223] = {
             [questKeys.name] = "Dual Wield Specialization",
             [questKeys.startedBy] = {{217783}},
@@ -3774,6 +3795,42 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.PRIEST,
             [questKeys.objectivesText] = {"Defeat Grimtotem Tauren or Crushridge Ogres to receive the rune."},
             [questKeys.requiredSpell] = -425309,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [90233] = {
+            [questKeys.name] = "Steady Shot",
+            [questKeys.startedBy] = {{217836}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 35,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill Needletooth, then loot him to receive the rune."},
+            [questKeys.requiredSpell] = -410109,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [90234] = {
+            [questKeys.name] = "Hot Streak",
+            [questKeys.startedBy] = {{217305},{450016}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 16,
+            [questKeys.questLevel] = 30,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Cast Flamestrike on the two bellows on the outside of the blacksmith in Strahnbrad until they are glowing red, this will spawn an Ancient Fire Elemental, kill it to receive the rune."},
+            [questKeys.requiredSpell] = -401749,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [90235] = {
+            [questKeys.name] = "Renewed Hope",
+            [questKeys.startedBy] = {{4713,218249}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 30,
+            [questKeys.questLevel] = 32,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Nagas until they drop Unsettling VIsion, then use Mind Control on a Slitherblade Tide Priestess to acquire her Meditation buff, then use Unsettling Vision to receive the rune."},
+            [questKeys.requiredSpell] = -425310,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
     }

@@ -257,7 +257,8 @@ function SeasonOfDiscovery:LoadObjects()
         [420055] = { -- Rowboat
             [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
             [objectKeys.spawns] = {
-                [zoneIDs.ARATHI_HIGHLANDS] = {{58.31,6.94}},
+                [zoneIDs.ARATHI_HIGHLANDS] = {{53.7,91.9}},
+                [zoneIDs.WETLANDS] = {{58.31,6.94}},
             },
         },
         [423898] = { -- Mysterious Book
@@ -267,9 +268,9 @@ function SeasonOfDiscovery:LoadObjects()
             },
         },
         [424074] = { -- Quadrangulation Beacon 001
-            [objectKeys.zoneID] = zoneIDs.TANARIS,
+            [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
             [objectKeys.spawns] = {
-                [zoneIDs.TANARIS] = {{37.8, 27.3}},
+                [zoneIDs.DUSTWALLOW_MARSH] = {{58.6, 13.0}},
             },
         },
         [424075] = { -- Quadrangulation Beacon 002
@@ -279,15 +280,15 @@ function SeasonOfDiscovery:LoadObjects()
             },
         },
         [424076] = { -- Quadrangulation Beacon 003
-            [objectKeys.zoneID] = zoneIDs.FERALAS,
+            [objectKeys.zoneID] = zoneIDs.TANARIS,
             [objectKeys.spawns] = {
-                [zoneIDs.FERALAS] = {{29.3, 93.8}},
+                [zoneIDs.TANARIS] = {{37.8, 27.3}},
             },
         },
         [424077] = { -- Quadrangulation Beacon 004
-            [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
+            [objectKeys.zoneID] = zoneIDs.FERALAS,
             [objectKeys.spawns] = {
-                [zoneIDs.DUSTWALLOW_MARSH] = {{58.6, 13.0}},
+                [zoneIDs.FERALAS] = {{29.3, 93.8}},
             },
         },
         [424265] = { -- Grave
@@ -413,6 +414,20 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
             [objectKeys.spawns] = {
                 [zoneIDs.ARATHI_HIGHLANDS] = {{69.33, 81.50}},
+            },
+        },
+        [450015] = {
+            [objectKeys.name] = "Satyrweed Bulb Location",
+            [objectKeys.zoneID] = zoneIDs.DESOLACE,
+            [objectKeys.spawns] = {
+                [zoneIDs.DESOLACE] = {{70.0, 70.0}},
+            },
+        },
+        [450016] = {
+            [objectKeys.name] = "Strahnbrad Bellows",
+            [objectKeys.zoneID] = zoneIDs.ALTERAC_MOUNTAINS,
+            [objectKeys.spawns] = {
+                [zoneIDs.ALTERAC_MOUNTAINS] = {{60.0, 46.4}},
             },
         },
     }

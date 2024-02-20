@@ -44,6 +44,7 @@ _QuestieAuto.disallowedNPC = {
     [14828] = true, -- Gelvas Grimegate (Darkmoon Faire Ticket Redemption)
     [14921] = true, -- Rin'wosho the Trader (Zul'Gurub Isle, Stranglethorn Vale)
     [15192] = true, -- Anachronos (Caverns of Time)
+    [15909] = true, -- Fariel Starsong <Coin of Ancestry Collector> (Lunar Festival)
     [18166] = true, -- Khadgar (Allegiance to Aldor/Scryer, Shattrath)
     [18253] = true, -- Archmage Leryda (Violet Eye)
     [18471] = true, -- Gurgthock (The Ring of Blood)
