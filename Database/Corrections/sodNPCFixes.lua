@@ -521,5 +521,67 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.FERALAS] = {{84.2,43.8}},
             },
         },
+        [218931] = { -- Dark Rider Deadwind Pass
+            [npcKeys.zoneID] = zoneIDs.DEADWIND_PASS,
+            [npcKeys.spawns] = {
+                [zoneIDs.DEADWIND_PASS] = {{43,29}},
+            },
+        },
+
+        -- fake NPCs
+        [900000] = {
+            [npcKeys.name] = "Dark Rider",
+            [npcKeys.minLevel] = 41,
+            [npcKeys.maxLevel] = 41,
+            [npcKeys.zoneID] = zoneIDs.DUSKWOOD,
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{23,47}},
+            },
+        },
+        [900001] = {
+            [npcKeys.name] = "Dark Rider",
+            [npcKeys.minLevel] = 41,
+            [npcKeys.maxLevel] = 41,
+            [npcKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
+            [npcKeys.spawns] = {
+                [zoneIDs.ARATHI_HIGHLANDS] = {{60,40}},
+            },
+        },
+        [900002] = {
+            [npcKeys.name] = "Dark Rider",
+            [npcKeys.minLevel] = 41,
+            [npcKeys.maxLevel] = 41,
+            [npcKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
+            [npcKeys.spawns] = {
+                [zoneIDs.SWAMP_OF_SORROWS] = {{69,28}},
+            },
+        },
+        [900003] = {
+            [npcKeys.name] = "Dark Rider",
+            [npcKeys.minLevel] = 41,
+            [npcKeys.maxLevel] = 41,
+            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_BARRENS] = {{52,36}},
+            },
+        },
+        [900004] = {
+            [npcKeys.name] = "Dark Rider",
+            [npcKeys.minLevel] = 41,
+            [npcKeys.maxLevel] = 41,
+            [npcKeys.zoneID] = zoneIDs.DESOLACE,
+            [npcKeys.spawns] = {
+                [zoneIDs.DESOLACE] = {{65,25}},
+            },
+        },
+        [900005] = {
+            [npcKeys.name] = "Dark Rider",
+            [npcKeys.minLevel] = 41,
+            [npcKeys.maxLevel] = 41,
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+            [npcKeys.spawns] = {
+                [zoneIDs.BADLANDS] = {{58,54}},
+            },
+        },
     }
 end

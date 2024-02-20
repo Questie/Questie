@@ -906,6 +906,45 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {79192},
             [questKeys.exclusiveTo] = {79974},
         },
+        [80098] = { -- Curious Dalaran Relic
+            [questKeys.startedBy] = {{218931}},
+            [questKeys.objectivesText] = {"Defeat the Dark Rider and bring the relic to the Dalaran Agent in Deadwind Pass."},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [80120] = { -- A Service to Dalaran
+            [questKeys.preQuestGroup] = {80098,80147,80148,80149,80150,80151,80152},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [80147] = { -- Glittering Dalaran Relic
+            [questKeys.startedBy] = {{900000}},
+            [questKeys.objectivesText] = {"Defeat the Dark Rider and bring the relic to the Dalaran Agent in Deadwind Pass."},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [80148] = { -- Whirring Dalaran Relic
+            [questKeys.startedBy] = {{900001}},
+            [questKeys.objectivesText] = {"Defeat the Dark Rider and bring the relic to the Dalaran Agent in Deadwind Pass."},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [80149] = { -- Odd Dalaran Relic
+            [questKeys.startedBy] = {{900002}},
+            [questKeys.objectivesText] = {"Defeat the Dark Rider and bring the relic to the Dalaran Agent in Deadwind Pass."},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [80150] = { -- Heavy Dalaran Relic
+            [questKeys.startedBy] = {{900003}},
+            [questKeys.objectivesText] = {"Defeat the Dark Rider and bring the relic to the Dalaran Agent in Deadwind Pass."},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [80151] = { -- Creepy Dalaran Relic
+            [questKeys.startedBy] = {{900004}},
+            [questKeys.objectivesText] = {"Defeat the Dark Rider and bring the relic to the Dalaran Agent in Deadwind Pass."},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
+        [80152] = { -- Slippery Dalaran Relic
+            [questKeys.startedBy] = {{900005}},
+            [questKeys.objectivesText] = {"Defeat the Dark Rider and bring the relic to the Dalaran Agent in Deadwind Pass."},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
         [80131] = { -- Gnome Improvement Alliance
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {79987},
