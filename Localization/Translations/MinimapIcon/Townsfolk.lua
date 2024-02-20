@@ -292,7 +292,7 @@ local townsfolkLocales = {
     },
     ["Death Knight Trainer"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Наставник рыцарей смерти",
         ["deDE"] = "Todesritterlehrer:in",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -304,7 +304,7 @@ local townsfolkLocales = {
     },
     ["Druid Trainer"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Наставник друидов",
         ["deDE"] = "Druidenlehrer:in",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -316,7 +316,7 @@ local townsfolkLocales = {
     },
     ["Hunter Trainer"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Наставник охотников",
         ["deDE"] = "Jägerlehrer:in",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -328,7 +328,7 @@ local townsfolkLocales = {
     },
     ["Mage Trainer"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Наставник магов",
         ["deDE"] = "Magierlehrer:in",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -340,7 +340,7 @@ local townsfolkLocales = {
     },
     ["Paladin Trainer"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Наставник паладинов",
         ["deDE"] = "Paladinlehrer:in",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -352,7 +352,7 @@ local townsfolkLocales = {
     },
     ["Priest Trainer"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Наставник жрецов",
         ["deDE"] = "Priesterlehrer:in",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -364,7 +364,7 @@ local townsfolkLocales = {
     },
     ["Rogue Trainer"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Наставник разбойников",
         ["deDE"] = "Schurkenlehrer:in",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -376,7 +376,7 @@ local townsfolkLocales = {
     },
     ["Shaman Trainer"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Наставник шаманов",
         ["deDE"] = "Schamanenlehrer:in",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -388,7 +388,7 @@ local townsfolkLocales = {
     },
     ["Warlock Trainer"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Наставник чернокнижников",
         ["deDE"] = "Hexenmeisterlehrer:in",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -400,7 +400,7 @@ local townsfolkLocales = {
     },
     ["Warrior Trainer"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Наставник воинов",
         ["deDE"] = "Kriegerlehrer:in",
         ["koKR"] = false,
         ["esMX"] = false,
