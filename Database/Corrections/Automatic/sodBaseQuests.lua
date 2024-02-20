@@ -1864,6 +1864,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find someone who can repair the Corroded G-7 C.O.R.E Processor."},
             [questKeys.objectives] = nil,
         },
+        [79982] = {
+            [questKeys.name] = "Warranty Claim",
+            [questKeys.startedBy] = {{218237}},
+            [questKeys.finishedBy] = {{218237,}},
+            [questKeys.requiredLevel] = 40,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring Wirdal Wondergear a Charged Voidcore."},
+            [questKeys.objectives] = {nil,nil,{{216636}}},
+        },
         [79984] = {
             [questKeys.name] = "Quadrangulation",
             [questKeys.startedBy] = {{7853}},

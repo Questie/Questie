@@ -874,6 +874,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk with Scooty in Booty Bay."), 0, {{"monster", 7853}}}},
         },
+        [79982] = {
+            [questKeys.preQuestSingle] = {79981},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+        },
         [79984] = { -- Quadrangulation
             [questKeys.objectives] = {nil,{{424074},{424075},{424076},{424077}}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
