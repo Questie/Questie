@@ -890,11 +890,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [79990] = { -- Stranglethorn Lumber
-            [questKeys.finishedBy] = {{14984}},
             [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
         },
         [79991] = { -- Stranglethorn Lumber
-            [questKeys.finishedBy] = {{15022}},
             [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
         },
         [80001] = { -- Rekindle
