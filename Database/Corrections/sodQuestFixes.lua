@@ -1047,6 +1047,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80181] = { -- Gyrodrillmatic Excavationators
+            [questKeys.finishedBy] = {{6579}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
