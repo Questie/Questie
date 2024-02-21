@@ -1059,7 +1059,7 @@ local iconOptionsLocales = {
         ["frFR"] = "Autres icônes",
     },
     ["Profession Trainers"] = {
-        ["ptBR"] = "Instrutores de profissão",
+        ["ptBR"] = "Instrutores de profissões",
         ["ruRU"] = "Учителя профессий",
         ["deDE"] = "Berufe-Lehrer",
         ["koKR"] = false,
