@@ -1175,13 +1175,13 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.waypoints] = {},
         },
         [29194] = {
-            [npcKeys.subName] = l10n("Death Knight Trainer"),
+            [npcKeys.subName] = "Death Knight Trainer",
         },
         [29195] = {
-            [npcKeys.subName] = l10n("Death Knight Trainer"),
+            [npcKeys.subName] = "Death Knight Trainer",
         },
         [29196] = {
-            [npcKeys.subName] = l10n("Death Knight Trainer"),
+            [npcKeys.subName] = "Death Knight Trainer",
         },
         [29216] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BROOD_PIT]={{63.2,48.1}},[4277]={{-1,-1}}},
