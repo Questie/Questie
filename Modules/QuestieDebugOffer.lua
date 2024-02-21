@@ -178,7 +178,7 @@ local itemTripCodes = {
 ---@param itemInfo table -- subset from GetLootInfo()
 local function filterItem(itemID, itemInfo, containerGUID)
     -- return true if we should create debug offer, false if not
-    if itemID <= 0 or itemID == nil then -- if itemID invalid don't bother going further
+    if itemID <= 0 or itemID == nil or containerGUID == nil then -- if itemID or containerGUID is invalid don't bother going further
         return nil
     elseif itemID < 190000 then
         -- temporary catch-all for any item added before SoD so we only get SoD reports;
