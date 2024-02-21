@@ -652,10 +652,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79096] = { -- Ataeric: On Arcane Curiosities
-            [questKeys.startedBy] = {{211022},{409700}},
+            [questKeys.startedBy] = {{211022},{410299}},
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Arcanic Systems Manual'and bring it to Owen Thadd in Undercity. After ten book turnins you will receive the Icy Veins rune."},
+            [questKeys.objectivesText] = {"Collect 'Ataeric: On Arcane Curiosities'and bring it to Owen Thadd in Undercity. After ten book turnins you will receive the Icy Veins rune."},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [79097] = { -- Baxtan: On Destructive Magics
