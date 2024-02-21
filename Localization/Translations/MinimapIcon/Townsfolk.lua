@@ -144,7 +144,7 @@ local townsfolkLocales = {
         ["zhCN"] = "专业训练师",
         ["zhTW"] = "專業技能訓練師",
         ["esES"] = "Instructor de profesión",
-        ["frFR"] = "Maîtres de métier",
+        ["frFR"] = "Maître de profession",
     },
     ["Reagents"] = {
         ["ptBR"] = "Reagentes",
