@@ -12,7 +12,7 @@ local professionLocals = {
         ["zhCN"] = "急救",
         ["zhTW"] = "急救",
         ["esES"] = "Primeros auxilios",
-        ["frFR"] = "Secourisme",
+        ["frFR"] = "Premiers soins",
     },
     ["Blacksmithing"] = {
         ["ptBR"] = "Ferraria",
