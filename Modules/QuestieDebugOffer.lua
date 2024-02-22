@@ -151,6 +151,15 @@ local itemBlacklist = {
     211784, -- Scroll: WUBBA WUBBA
     211854, -- Scroll: OMIT KESA
     211853, -- Scroll: VOCE WELL
+
+    -- Dalaran Relics
+    216945, -- Curious Dalaran Relic
+    216946, -- Glittering Dalaran Relic
+    216947, -- Whirring Dalaran Relic
+    216948, -- Odd Dalaran Relic
+    216949, -- Heavy Dalaran Relic
+    216950, -- Creepy Dalaran Relic
+    216951, -- Slippery Dalaran Relic
 }
 
 local itemWhitelist = {
