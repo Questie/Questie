@@ -46,6 +46,7 @@ end
 local minLevelForDebugOffers = 10
 
 local itemBlacklist = {
+    209027, -- Crap Treats (these are also looted from fishing, for which no real "objects" exists)
     -- Waylaid Supplies level 10
     211316, -- peacebloom
     211933, -- rough stone
