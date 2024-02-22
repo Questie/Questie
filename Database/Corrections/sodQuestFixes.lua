@@ -812,6 +812,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [79705] = { -- Salvaging the Salvagematic
             [questKeys.finishedBy] = {{217689}},
+            [questKeys.objectives] = {nil,nil,{{3860},{11135},{216634},{213735}}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
