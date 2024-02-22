@@ -1244,7 +1244,7 @@ function QuestieQuestFixes:Load()
             [questKeys.zoneOrSort] = 440, -- #1780
         },
         [2904] = {
-            [questKeys.triggerEnd] = {"Kernobee Rescue", {[zoneIDs.DUN_MOROGH]={{17.67,39.15}}}},
+            [questKeys.triggerEnd] = {"Kernobee Rescue", {[zoneIDs.GNOMEREGAN]={{-1,-1}}}},
         },
         [2922] = {
             [questKeys.preQuestSingle] = {}, -- Save Techbot's Brain doesn't need the Tinkmaster Overspark breadcrumb #687

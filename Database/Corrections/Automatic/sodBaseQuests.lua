@@ -1886,6 +1886,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find Wirdal Wondergear's Quadrangulation Beacons and attune with them. There are four of them and they are located somewhere in Kalimdor."},
             [questKeys.objectives] = nil,
         },
+        [79985] = {
+            [questKeys.name] = "A Fine Mess",
+            [questKeys.startedBy] = {{7850}},
+            [questKeys.finishedBy] = {{7853,}},
+            [questKeys.requiredLevel] = 40,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Escort Kernobee to the Clockwerk Run exit and then report to Scooty in Booty Bay."},
+            [questKeys.objectives] = nil,
+        },
         [79986] = {
             [questKeys.name] = "Grime-Encrusted Ring",
             [questKeys.startedBy] = nil,
