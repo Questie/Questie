@@ -5037,6 +5037,14 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
+        [213112] = {
+            [itemKeys.name] = "Spell Notes: Missile Barrage",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = {217014},
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
         [213113] = {
             [itemKeys.name] = "Spell Notes: Hot Streak",
             [itemKeys.npcDrops] = {2760,217305},
