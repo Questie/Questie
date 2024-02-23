@@ -291,7 +291,7 @@ local genericsLocales = {
         ["frFR"] = "Détails de l'objet",
     },
     ["Item Details"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Detalhes do item",
         ["ruRU"] = "Подробности о предмете",
         ["deDE"] = "Item-Details",
         ["koKR"] = "아이템 상세정보",
@@ -399,7 +399,7 @@ local genericsLocales = {
         ["frFR"] = "Groupe",
     },
     ["Party"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Grupo",
         ["ruRU"] = "Группа",
         ["deDE"] = true,
         ["koKR"] = "파티",
@@ -423,7 +423,7 @@ local genericsLocales = {
         ["frFR"] = "Raid",
     },
     ["Vendors"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Comerciantes",
         ["ruRU"] = "Продавцы",
         ["deDE"] = "Händler",
         ["koKR"] = "상인",
@@ -435,7 +435,7 @@ local genericsLocales = {
         ["frFR"] = "Vendeurs",
     },
     ["Achievements"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Conquistas",
         ["ruRU"] = "Достижения",
         ["deDE"] = "Erfolge",
         ["koKR"] = "업적",
@@ -447,7 +447,7 @@ local genericsLocales = {
         ["frFR"] = "Hauts faits",
     },
     ["Dismiss"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Fechar",
         ["ruRU"] = "Закрыть",
         ["deDE"] = "Schließen",
         ["koKR"] = "해산",
@@ -456,10 +456,10 @@ local genericsLocales = {
         ["zhCN"] = false,
         ["zhTW"] = "解散",
         ["esES"] = "Cerrar",
-        ["frFR"] = false,
+        ["frFR"] = "Fermer",
     },
     ["Doable"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Fazível",
         ["ruRU"] = "Выполнимые",
         ["deDE"] = "Machbar",
         ["koKR"] = "수행 가능",
@@ -468,7 +468,7 @@ local genericsLocales = {
         ["zhCN"] = false,
         ["zhTW"] = "可行",
         ["esES"] = "Realizable",
-        ["frFR"] = false,
+        ["frFR"] = "Faisable",
     },
 }
 
