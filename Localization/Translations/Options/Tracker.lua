@@ -1398,7 +1398,7 @@ local trackerOptionsLocales = {
         ["frFR"] = "Ratio de hauteur du suivi",
     },
     ["The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height.\n\nNOTE: This setting only applies while in Sizer Mode: Auto"] = {
-        ["ptBR"] = "A altura do rastreador do Questie baseada em percentagem da altura de tela utilizável. Uma configuração de 100 por cento faria com que o rastreador preenchesse toda a altura da tela do jogador.\n\NOTA: Esta configuração só se aplica enquanto estiver no Modo de Redimensionamento: Automático.",
+        ["ptBR"] = "A altura do rastreador do Questie baseada em percentagem da altura de tela utilizável. Uma configuração de 100 por cento faria com que o rastreador preenchesse toda a altura da tela do jogador.\n\nNOTA: Esta configuração só se aplica enquanto estiver no Modo de Redimensionamento: Automático.",
         ["ruRU"] = "Высота трекера, основанная на процентах от высоты экрана. Значение 100 заставит трекер заполнять всю высоту экрана.\n\nПРИМЕЧАНИЕ: Эта настройка работает только тогда, когда сайзер (изменитель размера трекера) в автоматическом режиме",
         ["deDE"] = "Die Höhe des Questie-Trackers basierend auf dem Prozentsatz der nutzbaren Bildschirmhöhe. Eine Einstellung von 100 Prozent würde den Tracker die gesamte Bildschirmhöhe des Spielers ausfüllen lassen.\n\nHINWEIS: Diese Einstellung gilt nur im Sizer-Modus: Auto",
         ["koKR"] = false,
