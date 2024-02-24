@@ -75,7 +75,7 @@ local dbmHudOptionsLocales = {
         ["frFR"] = "Indique si les icônes de quête disponibles/terminées apparaissent ou non sur le HUD. (Par défaut : %s)",
     },
     ["Show object interact icons"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Mostrar ícones de interação com objetos",
         ["ruRU"] = "Значки объектов",
         ["deDE"] = "Objekt-Interaktions-Icons anzeigen",
         ["koKR"] = false,
@@ -84,7 +84,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = false,
         ["zhTW"] = "顯示物件互動圖示",
         ["esES"] = "Mostrar iconos de interacción de objetos",
-        ["frFR"] = false,
+        ["frFR"] = "Afficher les icônes d'interaction avec les objets",
     },
     ["Refresh rate for HUD (Requires turning HUD off/on)"] = {
         ["ptBR"] = "Taxa de atualização para HUD (requer que o HUD seja ativado/desativado)",
@@ -135,7 +135,7 @@ local dbmHudOptionsLocales = {
         ["frFR"] = "Ajuste la taille des icônes qui apparaissent sur le HUD. (Par défaut : %s)",
     },
     ["Toggles whether or not object (gear) icons appear on the DBM HUD. (Default: %s)"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Ativa ou desativa a aparição de ícones de objetos (equipamentos) na interface do usuário do DBM. (Padrão: %s)",
         ["ruRU"] = "Показать/скрыть значки объектов (снаряжения) на DMB HUD (по умолчанию: %s)",
         ["deDE"] = "Aktiviert/Deaktiviert, ob Objekt-Icons (Ausrüstung) im DBM-HUD angezeigt werden oder nicht.",
         ["koKR"] = false,
@@ -144,7 +144,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = false,
         ["zhTW"] = "切換 HUD 上是否要顯示物件 (裝備) 圖示。(預設值: %s)",
         ["esES"] = "Alterna si los iconos de objetos (equipo) aparecen o no en el HUD de DBM. (Predeterminado: %s)",
-        ["frFR"] = false,
+        ["frFR"] = "Active ou désactive l'apparition des icônes d'objets (équipement) sur l'interface utilisateur de DBM. (Par défaut : %s)",
     },
     ["Size & Scale Options"] = {
         ["ptBR"] = "Opções de tamanho e escala",
@@ -255,7 +255,7 @@ local dbmHudOptionsLocales = {
         ["frFR"] = "Ajuste le niveau de zoom des icônes HUD qui affecte la distance à laquelle vous les voyez. (Par défaut : %s)",
     },
     ["The DBM HUD integrates with the addon DeadlyBossMods to show a radar of objective icons on your entire screen. Enabling this feature usually requires a /reload to take effect."] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "A interface do usuário do DBM se integra ao addon DeadlyBossMods para mostrar um radar de ícones de objetivos em toda a sua tela. Ativar esse recurso geralmente requer um /reload para ter efeito.",
         ["ruRU"] = "Оверлей DBM HUD интегрируется с аддоном DeadlyBossMods для отображения на вашем экране радара со значками целей. После включения настройки желательно перезагрузить интерфейс командой /reload",
         ["deDE"] = "Das DBM-HUD integriert sich in dem Addon DeadlyBossMods, um ein Radar mit Quest-Icons auf dem gesamten Bildschirm anzuzeigen. Die Aktivierung dieser Funktion erfordert normalerweise ein /reload",
         ["koKR"] = false,
@@ -264,7 +264,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = false,
         ["zhTW"] = "DBM HUD 會整合 DeadlyBossMods 插件，顯示全螢幕的目標圖示雷達。啟用此功能需要重新載入介面 /reload 才能生效。",
         ["esES"] = "El DBM HUD se integra con el addon DeadlyBossMods para mostrar un radar de iconos de objetivos en toda la pantalla. Al activar esta función generalmente requiere /recargar para tener efecto.",
-        ["frFR"] = false,
+        ["frFR"] = "L'interface utilisateur de DBM s'intègre avec l'addon DeadlyBossMods pour afficher un radar d'icônes d'objectifs sur l'ensemble de votre écran. Activer cette fonctionnalité nécessite généralement un /reload pour prendre effet.",
     },
 }
 
