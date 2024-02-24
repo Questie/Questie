@@ -216,7 +216,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "正在更新 目标 数据",
         ["zhTW"] = "正在更新物件資料",
         ["esES"] = "Actualizando objetos",
-        ["frFR"] = "Mise à jour Objets",
+        ["frFR"] = "Mise à jour objets",
     },
     ["Updating quests"] = {
         ["ptBR"] = "Atualizando missões",
@@ -228,7 +228,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "正在更新 任务 数据",
         ["zhTW"] = "正在更新任務資料",
         ["esES"] = "Actualizando misiones",
-        ["frFR"] = "Mise à jour Quêtes",
+        ["frFR"] = "Mise à jour quêtes",
     },
     ["Loading database"] = {
         ["ptBR"] = "Carregando banco de dados",
@@ -276,7 +276,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "初始化镇民",
         ["zhTW"] = "正在初始化村民",
         ["esES"] = "Inicializando ciudadanos",
-        ["frFR"] = "Initialisation du citoyens",
+        ["frFR"] = "Initialisation des citadins",
     },
     ["Optimizing waypoints"] = {
         ["ptBR"] = "Otimizando pontos de rota",
