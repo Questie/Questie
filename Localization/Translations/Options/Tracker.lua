@@ -1232,7 +1232,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "任务标题文字的字体大小。\n\n注意: 任务目标文字大小会自动调整为小于或等于任务文字大小大小，这是为了避免任务文字冲突和格式异常而必需的设定。",
         ["zhTW"] = "任務標題文字的字體大小。\n\n注意: 任務目標文字大小會自動調整為小於或等於任務文字大小，這是為了避免任何文字衝突和格式異常而必須的。",
         ["esES"] = false,
-        ["frFR"] = "La taille de police utilisée pour les titres de quête.\n\nNOTE : La taille de police des objectifs s'ajustera automatiquement à moins ou égale à la taille de police des quêtes. Cela est nécessaire pour éviter toute collision de texte et toute anomalie de formatage.,
+        ["frFR"] = "La taille de police utilisée pour les titres de quête.\n\nNOTE : La taille de police des objectifs s'ajustera automatiquement à moins ou égale à la taille de police des quêtes. Cela est nécessaire pour éviter toute collision de texte et toute anomalie de formatage.",
     },
     ---------------------------------------------------------
     ["Font for Quest Titles"] = {
