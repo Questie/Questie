@@ -135,7 +135,7 @@ local townsfolkLocales = {
         ["frFR"] = "Boîte aux lettres",
     },
     ["Profession Trainer"] = {
-        ["ptBR"] = "Instrutores de profissão",
+        ["ptBR"] = "Instrutores de profissões",
         ["ruRU"] = "Учитель профессий",
         ["deDE"] = "Berufsausbilder",
         ["koKR"] = "기술 전문가",
@@ -144,7 +144,7 @@ local townsfolkLocales = {
         ["zhCN"] = "专业训练师",
         ["zhTW"] = "專業技能訓練師",
         ["esES"] = "Instructor de profesión",
-        ["frFR"] = "Maîtres de métier",
+        ["frFR"] = "Maître de profession",
     },
     ["Reagents"] = {
         ["ptBR"] = "Reagentes",
@@ -300,7 +300,7 @@ local townsfolkLocales = {
         ["zhCN"] = false,
         ["zhTW"] = "村民",
         ["esES"] = "Ciudadanos",
-        ["frFR"] = "Citoyens",
+        ["frFR"] = "Citadins",
     },
 }
 
