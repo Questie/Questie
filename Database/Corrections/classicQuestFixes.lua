@@ -1028,6 +1028,12 @@ function QuestieQuestFixes:Load()
         [1718] = {
             [questKeys.startedBy] = {{3041,3354,4595,5113,5479},nil,nil}, -- #1034
         },
+        [1789] = {
+            [questKeys.exclusiveTo] = {1785},
+        },
+        [1790] = {
+            [questKeys.exclusiveTo] = {1788},
+        },
         [1793] = {
             [questKeys.exclusiveTo] = {1649},
             [questKeys.specialFlags] = 1,
