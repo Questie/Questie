@@ -250,7 +250,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = false,
         ["zhTW"] = "啟用時，會一直顯示任務數量和 Questie 圖示。\n\n停用時，滑鼠指向清單時才會顯示 Questie 圖示。",
         ["esES"] = "Cuando esto está habilitado, el encabezado del rastreador con el número de misiones activas y el icono de Questie estarán permanentemente visibles.\n\nCuando esto esté deshabilitado, el icono de Questie desaparecerá mientras el ratón esté sobre el rastreador.",
-        ["frFR"] = "Quand cette option est activée, l'en-tête du suivi avec le nombre de quêtes actives et l'icône de Questie restera visible en permanence.\n\Si cette option est désactivée, l'icône de Questie s'estompera lorsque votre souris survolera le suivi.",
+        ["frFR"] = "Quand cette option est activée, l'en-tête du suivi avec le nombre de quêtes actives et l'icône de Questie restera visible en permanence.\n\nSi cette option est désactivée, l'icône de Questie s'estompera lorsque votre souris survolera le suivi.",
     },
     ---------------------------------------------------------
     ["Show Tracker Header At The Bottom"] = {
