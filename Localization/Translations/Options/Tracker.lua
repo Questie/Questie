@@ -1223,7 +1223,7 @@ local trackerOptionsLocales = {
         ["frFR"] = "Taille de police pour les titres de quête",
     },
     ["The font size used for Quest Titles.\n\nNOTE: Objective font size will auto adjust to less than or equal to Quest font size. This is necessary to avoid any text collisions and formatting abnormalities."] = {
-        ["ptBR"] = "O tamanho da fonte usado para os títulos de missão.\n\nNOTA: O tamanho da fonte do objetivo será ajustado automaticamente para menos ou igual ao tamanho da fonte da missão. Isso é necessário para evitar colisões de texto e anormalidades de formatação.,
+        ["ptBR"] = "O tamanho da fonte usado para os títulos de missão.\n\nNOTA: O tamanho da fonte do objetivo será ajustado automaticamente para menos ou igual ao tamanho da fonte da missão. Isso é necessário para evitar colisões de texto e anormalidades de formatação.",
         ["ruRU"] = "Размер шрифта, используемого в названиях заданий.\n\nПРИМЕЧАНИЕ: Размер шрифта целей будет автоматически скорректирован до значения меньше или равно 'Размер шрифта названий заданий'. Это необходимо для того, чтобы избежать любых проблем с текстом и форматированием",
         ["deDE"] = "Die Schriftgröße der Quest-Titel.\n\nHINWEIS: Die Schriftgröße für Quest-Ziele wird automatisch auf weniger als oder gleich der Quest-Titel Schriftgröße angepasst. Dies ist notwendig, um Textkollisionen und Formatierungsfehler zu vermeiden.",
         ["koKR"] = false,
