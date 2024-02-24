@@ -188,7 +188,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "隐藏已完成的成就目标",
         ["zhTW"] = "隱藏已完成的成就目標",
         ["esES"] = "Ocultar objetivos de logros completados",
-        ["frFR"] = "Cacher les objectifs des hauts faits terminées,
+        ["frFR"] = "Cacher les objectifs des hauts faits terminées",
     },
     ["When this is checked, completed Achievement Objectives will automatically be removed from the Questie Tracker."] = {
         ["ptBR"] =  "Quando esta opção está marcada, os objetivos de conquistas concluídos serão automaticamente removidos do rastreador de missões do Questie.",
