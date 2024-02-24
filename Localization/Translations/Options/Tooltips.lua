@@ -111,7 +111,7 @@ local tooltipOptionsLocales = {
         ["frFR"] = "Affiche les quêtes (disponibles / terminées) dans les info-bulles des PNJ.",
     },
     ["Show quest XP at max level"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Mostrar XP da missão no nível máximo",
         ["ruRU"] = "Опыт на макс. уровне",
         ["deDE"] = "Zeige XP auf Max-Level",
         ["koKR"] = false,
@@ -120,10 +120,10 @@ local tooltipOptionsLocales = {
         ["zhCN"] = "显示高等级的任务经验值",
         ["zhTW"] = "滿等時顯示任務經驗值",
         ["esES"] = "Mostrar EXP de misión en el nivel máximo",
-        ["frFR"] = "Voir l'expérience des quêtes au niveau maximum",
+        ["frFR"] = "Afficher l'expérience des quêtes au niveau maximum",
     },
     ["Shows the quest XP values on quests even at max level."] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Mostra os valores de XP da missão mesmo no nível máximo",
         ["ruRU"] = "Показывать опыт за задания даже на максимальном уровне персонажа",
         ["deDE"] = "Zeigt die Quest XP auch auf Max-Level an.",
         ["koKR"] = false,
@@ -132,7 +132,7 @@ local tooltipOptionsLocales = {
         ["zhCN"] = "即使在最高等级,任务也会显示任务经验值。",
         ["zhTW"] = "滿等後也要顯示任務的經驗值。",
         ["esES"] = "Muestra los valores de EXP de misiones incluso en el nivel máximo.",
-        ["frFR"] = "Montrer le montant d'expérience des quêtes, même au niveau maximum.",
+        ["frFR"] = "Affiche le montant d'expérience des quêtes, même au niveau maximum.",
     },
 }
 
