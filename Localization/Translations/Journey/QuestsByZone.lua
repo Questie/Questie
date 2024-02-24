@@ -135,7 +135,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Quêtes répétables",
     },
     ["Missing Pre Quest"] = {
-        ["ptBR"] = "Faltando missão de pré-requisito",
+        ["ptBR"] = "Faltando missão requisita",
         ["ruRU"] = "Необходимо предзадание",
         ["deDE"] = "Prequest fehlt",
         ["koKR"] = "선행 퀘스트 미수행",
@@ -159,7 +159,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Quêtes impossibles à obtenir",
     },
     ["Pre Quests"] = {
-        ["ptBR"] = "Missões de pré-requisito",
+        ["ptBR"] = "Missões requisitas",
         ["ruRU"] = "Предзадание:",
         ["deDE"] = "Pre-Quests",
         ["koKR"] = "선행 퀘스트",
