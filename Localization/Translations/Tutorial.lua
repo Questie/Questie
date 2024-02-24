@@ -15,7 +15,7 @@ local tutorialLocals = {
         ["frFR"] = "Bienvenue sur Questie",
     },
     ["With WotLK Phase 4 Blizzard introduced their own quest objective system.\n\nPlease choose the objective style you want to use:"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Com a Fase 4 de WotLK, a Blizzard introduziu seu próprio sistema de objetivos de missão.\n\nPor favor, escolha o estilo de objetivo que deseja usar:",
         ["ruRU"] = "В 4-й фазе Гнева Короля Лича разработчики Blizzard представили их собственную систему целей заданий.\n\nПожалуйста, выберите стиль целей, который вы будете использовать:",
         ["deDE"] = "Mit der Phase 4 von WotLK hat Blizzard sein eigenes Questziel-System eingeführt.\n\nBitte wähle den Stil den du nutzen möchtest:",
         ["koKR"] = "리치왕의 분노 페이즈4 에서는 블리자드 순정 퀘스트 추적기가 제공됩니다. \n\n사용하고 싶은 퀘스트 추적기 종류를 선택하여 주십시오",
@@ -27,7 +27,7 @@ local tutorialLocals = {
         ["frFR"] = "Avec WotLK Phase 4, Blizzard a introduit son propre système d'objectifs de quête.\n\nVeuillez choisir le style d'objectif que vous souhaitez utiliser :",
     },
     ["Questie Objectives"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Objetivos de Questie",
         ["ruRU"] = "Цели Questie",
         ["deDE"] = "Questie Questziele",
         ["koKR"] = "퀘스트 목표",
@@ -39,7 +39,7 @@ local tutorialLocals = {
         ["frFR"] = "Objectifs de Questie",
     },
     ["pfQuest Objectives"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Objetivos de pfQuest",
         ["ruRU"] = "Цели pfQuest",
         ["deDE"] = "pfQuest Questziele",
         ["koKR"] = false,
@@ -51,7 +51,7 @@ local tutorialLocals = {
         ["frFR"] = "Objectifs de pfQuest",
     },
     ["Blizzard Objectives"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Objetivos de Blizzard",
         ["ruRU"] = "Цели Blizzard",
         ["deDE"] = "Blizzard Questziele",
         ["koKR"] = "블리자드 목표",
