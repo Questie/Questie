@@ -27,6 +27,15 @@ local function GetMapTitleText()
     end
 end
 
+local function GetMiniWorldMapTitleText()
+    local regions = {WorldMapFrame.MiniBorderFrame:GetRegions()}
+    for i = 1, #regions do
+        if regions[i].SetText then
+            return regions[i]
+        end
+    end
+end
+
 function QuestieCoords:WriteCoords()
     if not ((Questie.db.profile.mapCoordinatesEnabled and WorldMapFrame:IsVisible()) or (Questie.db.profile.minimapCoordinatesEnabled and Minimap:IsVisible())) then
         return -- no need to write coords
@@ -80,6 +89,12 @@ function QuestieCoords:WriteCoords()
         worldmapCoordsText = worldmapCoordsText.."|  Player: "..format(precision.. " X , ".. precision .." Y", posX, posY);
         -- Add text to world map
         mapTitleText:SetText(worldmapCoordsText)
+
+        -- Adding text to mini world map
+        local miniWorldMapTitleText = GetMiniWorldMapTitleText()
+        if miniWorldMapTitleText then
+            miniWorldMapTitleText:SetText(worldmapCoordsText)
+        end
     end
 end
 
@@ -117,4 +132,14 @@ end
 
 function QuestieCoords:ResetMapText()
     GetMapTitleText():SetText(WORLD_MAP);
+end
+
+function QuestieCoords:ResetMiniWorldMapText()
+    local currentMapId = WorldMapFrame:GetMapID();
+    if currentMapId then
+        local info = C_Map.GetMapInfo(currentMapId);
+        if info then
+            GetMiniWorldMapTitleText():SetText(info.name);
+        end
+    end
 end

@@ -269,6 +269,7 @@ function QuestieOptions.tabs.general:Initialize()
 
                             if not value then
                                 QuestieCoords.ResetMapText();
+                                QuestieCoords:ResetMiniWorldMapText();
                             end
                         end,
                     },

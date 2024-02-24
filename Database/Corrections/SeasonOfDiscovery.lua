@@ -109,8 +109,18 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79235] = 2, -- On the Lam
     [79236] = 2, -- Cherry for Your Thoughts?
     [79242] = 2, -- No Honor Among Thieves
+    [79358] = 2, -- Shaman MailStrom Weapon (Tattered Note)
+    [79360] = 2, -- Shaman MailStrom Weapon (Elemental Aid)
+    [79361] = 2, -- Shaman MailStrom Weapon (Power of da Wind)
+    [79362] = 2, -- Shaman MailStrom Weapon (Power of da Earth)
+    [79363] = 2, -- Shaman MailStrom Weapon (Power of da Water)
+    [79364] = 2, -- Shaman MailStrom Weapon (A Simple Container)
+    [79365] = 2, -- Shaman MailStrom Weapon (With Wind Beneath Your Wings)
+    [79366] = 2, -- Shaman MailStrom Weapon (Calm Before the Storm)
+    [79442] = 2, -- Shaman MailStrom Weapon (Catching Up)
     [79535] = 2, -- Mage Icy Veins/Spell Power
     [79536] = 2, -- Mage Icy Veins/Spell Power
+    [79677] = 2, -- A Quick Grocery Run
     [79947] = 2, -- Mage Icy Veins/Spell Power
     [79948] = 2, -- Mage Icy Veins/Spell Power
     [79949] = 2, -- Mage Icy Veins/Spell Power
@@ -118,6 +128,14 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79951] = 2, -- Mage Icy Veins/Spell Power
     [79952] = 2, -- Mage Icy Veins/Spell Power
     [79953] = 2, -- Mage Icy Veins/Spell Power
+    [80098] = 2, -- Curious Dalaran Relic
+    [80120] = 2, -- A Service to Dalaran
+    [80147] = 2, -- Curious Dalaran Relic
+    [80148] = 2, -- Curious Dalaran Relic
+    [80149] = 2, -- Curious Dalaran Relic
+    [80150] = 2, -- Curious Dalaran Relic
+    [80151] = 2, -- Curious Dalaran Relic
+    [80152] = 2, -- Curious Dalaran Relic
 
     -- fake IDs
     --- Mage runes
@@ -144,6 +162,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90020] = 1, -- Mage Alliance Living Bomb
     [90021] = 1, -- Mage Horde Living Bomb
     --- Mage runes end
+ 
     [90022] = 1, -- Paladin Divine Storm
     [90023] = 1, -- Druid Wild Strikes
     [90024] = 1, -- Druid Survival of the Fittest
@@ -344,6 +363,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
 
     -- P2 SoD Runes
     [90221] = 2, -- Druid Berserk Thousand Needles
+    [90222] = 2, -- Druid Dreamstate Desolace
     [90223] = 2, -- Hunter Dual Wield Specialization Stranglethorn Vale
     [90224] = 2, -- Warrior Intervene Thousand Needles
     [90225] = 2, -- Warrior Rallying Cry Badlands
@@ -354,6 +374,9 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90230] = 2, -- Warrior Focused Rage Arathi Highlands
     [90231] = 2, -- Shaman Spirit of the Alpha
     [90232] = 2, -- Priest Empowered Renew
+    [90233] = 2, -- Hunter Steady Shot Arathi Highlands
+    [90234] = 2, -- Mage Hot Streak Alterac Mountains
+    [90235] = 2, -- Priest Renewed Hope Desolace
 }
 
 --- "automatic" phase detection for the first few phases;
