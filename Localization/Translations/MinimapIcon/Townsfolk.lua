@@ -300,7 +300,7 @@ local townsfolkLocales = {
         ["zhCN"] = false,
         ["zhTW"] = "村民",
         ["esES"] = "Ciudadanos",
-        ["frFR"] = "Citoyens",
+        ["frFR"] = "Citadins",
     },
 }
 
