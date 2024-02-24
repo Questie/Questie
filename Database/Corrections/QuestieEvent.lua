@@ -355,7 +355,7 @@ QuestieEvent.lunarFestival = {
     ["22"] = {startDate = "30/1", endDate = "18/2"},
     -- Below are estimates
     ["23"] = {startDate = "20/1", endDate = "10/2"},
-    ["24"] = {startDate = "3/2", endDate = "24/2"},
+    ["24"] = {startDate = "3/2", endDate = "23/2"},
     ["25"] = {startDate = "29/1", endDate = "12/2"},
     ["26"] = {startDate = "17/2", endDate = "3/3"},
     ["27"] = {startDate = "7/2", endDate = "21/2"},
