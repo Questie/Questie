@@ -129,16 +129,16 @@ local trackerUILocales = {
     },
     -- VoiceOver Integration
     ["VoiceOver"] = {
-        ["ptBR"] = "Dublagem",
+        ["ptBR"] = true,
         ["ruRU"] = true,
         ["deDE"] = true,
-        ["koKR"] = false,
-        ["esMX"] = "Doblaje",
+        ["koKR"] = true,
+        ["esMX"] = true,
         ["enUS"] = true,
-        ["zhCN"] = false,
-        ["zhTW"] = "文字轉語音",
-        ["esES"] = "Doblaje",
-        ["frFR"] = "Doublage",
+        ["zhCN"] = true,
+        ["zhTW"] = true,
+        ["esES"] = true,
+        ["frFR"] = true,
     },
     ["Hold shift to see PlayButtons"] = {
         ["ptBR"] = "Pressione Shift para ver os PlayButtons",
