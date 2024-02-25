@@ -716,7 +716,7 @@ function SeasonOfDiscovery:LoadQuests()
         [79348] = { -- The Lost Ancient
             [questKeys.startedBy] = {{216310},nil,{212693}},
             [questKeys.requiredClasses] = classIDs.DRUID,
-            [questkeys.zoneOrSort] = zoneIDs.DUSTWALLOW_MARSH,
+            [questKeys.zoneOrSort] = zoneIDs.DUSTWALLOW_MARSH,
         },
         [79358] = { -- Tattered Note
             [questKeys.startedBy] = {{4421},nil,{212748}},
