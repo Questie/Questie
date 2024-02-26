@@ -377,6 +377,9 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90233] = 2, -- Hunter Steady Shot Arathi Highlands
     [90234] = 2, -- Mage Hot Streak Alterac Mountains
     [90235] = 2, -- Priest Renewed Hope Desolace
+    [90236] = 2, -- Mage Chronostatic Preservation
+    [90237] = 2, -- Mage Chronostatic Preservation
+    [90238] = 2, -- Mage Chronostatic Preservation
 }
 
 --- "automatic" phase detection for the first few phases;

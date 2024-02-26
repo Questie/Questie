@@ -500,6 +500,17 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.friendlyToFaction] = "AH",
         },
+        [217669] = { -- Scorched Screeching Roguefeather
+            [npcKeys.spawns] = {
+                [zoneIDs.THOUSAND_NEEDLES] = {{26.4, 46.4}},
+            },
+        },
+        [217703] = { -- Singed Highperch Consort
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{10.4, 40.2}},
+            },
+        },
         [217706] = { -- Kazragore
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.spawns] = {
@@ -508,6 +519,11 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [217707] = { -- Felore Moonray
             [npcKeys.friendlyToFaction] = "A",
+        },
+        [217711] = { -- Seared Needles Cougar
+            [npcKeys.spawns] = {
+                [zoneIDs.THOUSAND_NEEDLES] = {{23.4, 23.4}},
+            },
         },
         [218115] = { -- Mai'zin
             [npcKeys.spawns] = {
