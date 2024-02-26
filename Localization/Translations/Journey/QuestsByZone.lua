@@ -147,7 +147,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Pré-quête manquante",
     },
     ["Unobtainable Quests"] = {
-        ["ptBR"] = "Missões impossíveis de se obter",
+        ["ptBR"] = "Missões inalcançáveis",
         ["ruRU"] = "Недоступные задания",
         ["deDE"] = "Nicht abschließbare Quests",
         ["koKR"] = "수행이 불가능한 퀘스트",
