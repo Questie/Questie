@@ -39,7 +39,7 @@ local iconOptionsLocales = {
         ["frFR"] = "Configurer les icônes de suivi",
     },
     ["Allows to select which tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap."] = {
-        ["ptBR"] = "Permite selecionar quais ícones de rastreamento (como Caixa de Correio, PNJ de Reparo) mostrar no mapa e minimapa.",
+        ["ptBR"] = "Permite selecionar quais ícones de rastreamento (como Caixa de Correio, NPC de conserto) mostrar no mapa e minimapa.",
         ["ruRU"] = "Позволяет выбрать, какие 'городские' значки (почтовый ящик, ремонт и проч.) отображать на карте и миникарте",
         ["deDE"] = "Ermöglicht das Konfigurieren der Tracking Icons (z.B. Briefkästen, Reparatur-NPCs) auf der Karte und Minimap.",
         ["koKR"] = "지도에 표시할 추적 아이콘(예: 우체통, 수리NPC)을 선택할 수 있습니다.",
