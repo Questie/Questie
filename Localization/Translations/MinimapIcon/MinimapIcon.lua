@@ -75,7 +75,7 @@ local minimapIconLocales = {
         ["frFR"] = "Quêtes disponibles",
     },
     ["Trivial Quest"] = {
-        ["ptBR"] = "Missões Triviais",
+        ["ptBR"] = "Missões triviais",
         ["ruRU"] = "Простые задания",
         ["deDE"] = "Niedrigstufige Quests",
         ["koKR"] = "기타 퀘스트",
