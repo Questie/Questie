@@ -2228,8 +2228,8 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         [25500] = true, --* Words for Delivery (https://www.wowhead.com/wotlk/quest=25500) (Retail Data)
 
         -- Raids -> Icecrown Citadel (3 -> 4812)
-        [24872] = true, --* Respite for a Tormented Soul (https://www.wowhead.com/wotlk/quest=24872)
-        [24880] = true, --* Respite for a Tormented Soul (https://www.wowhead.com/wotlk/quest=24880)
+        --[24872] = true, --* Respite for a Tormented Soul (https://www.wowhead.com/wotlk/quest=24872)
+        --[24880] = true, --* Respite for a Tormented Soul (https://www.wowhead.com/wotlk/quest=24880)
 
         --  ->  (0 -> 0)
         [25293] = true, --* The Missing (https://www.wowhead.com/wotlk/quest=25293) (Retail Data)
