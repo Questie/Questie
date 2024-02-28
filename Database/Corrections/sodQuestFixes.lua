@@ -1033,6 +1033,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80138] = { -- Tinkmaster Overspark
+            [questKeys.exclusiveTo] = {80137},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
