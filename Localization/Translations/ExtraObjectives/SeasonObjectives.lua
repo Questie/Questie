@@ -26,6 +26,18 @@ local seasonObjectiveLocals = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Defeat enough enemies to call forth the Shadowy Figure and talk to her to receive a Mote of Darkness."] = { -- 79982
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Besiege genug Feinde, um die Schattenhafte Gestalt herbeizurufen und sprich mit ihr, um einen Partikel der Dunkelheit zu erhalten.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(seasonObjectiveLocals) do

@@ -921,10 +921,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk with Scooty in Booty Bay."), 0, {{"monster", 7853}}}},
         },
-        [79982] = {
+        [79982] = { -- Warrany Claim
             [questKeys.preQuestSingle] = {79981},
+            [questKeys.requiredSourceItems] = {216635,216645},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Defeat enough enemies to call forth the Shadowy Figure and talk to her to receive a Mote of Darkness."), 0, {{"monster", 5335},{"monster", 5336},{"monster", 5337}}}},
         },
         [79984] = { -- Quadrangulation
             [questKeys.objectives] = {nil,{{424074},{424075},{424076},{424077}}},
