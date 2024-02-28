@@ -6450,6 +6450,20 @@ function QuestieWotlkQuestFixes:Load()
         [26034] = {
             [questKeys.preQuestSingle] = {26013},
         },
+        [64845] = {
+            [questKeys.triggerEnd] = {"Victory in a battleground match", {
+                [zoneIDs.ALTERAC_MOUNTAINS] = {{39.4,82.2}},
+                [zoneIDs.ARATHI_HIGHLANDS] = {{45.6,45.8}},
+                [zoneIDs.ASHENVALE] = {{61.8,83.8}},
+                [zoneIDs.DALARAN]={{29.79,75.78}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.IRONFORGE]={{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
+                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
+                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
+                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+            }},
+        },
 
         ----- Boosted character quests -----
         [70395] = {

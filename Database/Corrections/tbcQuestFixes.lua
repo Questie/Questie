@@ -4879,6 +4879,7 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.ALTERAC_MOUNTAINS] = {{39.4,82.2}},
                 [zoneIDs.ARATHI_HIGHLANDS] = {{45.6,45.8}},
                 [zoneIDs.ASHENVALE] = {{61.8,83.8}},
+                [zoneIDs.THE_EXODAR]={{26.6,50.1}},
             }},
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
             [questKeys.questFlags] = questFlags.RAID,
