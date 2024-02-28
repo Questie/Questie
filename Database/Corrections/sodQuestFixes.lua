@@ -1020,6 +1020,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {80133},
         },
         [80135] = { -- Klockmort's Essentials
+            [questKeys.exclusiveTo] = {80136},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
