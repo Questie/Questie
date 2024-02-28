@@ -500,6 +500,11 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.friendlyToFaction] = "AH",
         },
+        [217392] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DESOLACE]={{56.4, 21.8}},
+            },
+        },
         [217669] = { -- Scorched Screeching Roguefeather
             [npcKeys.spawns] = {
                 [zoneIDs.THOUSAND_NEEDLES] = {{26.4, 46.4}},

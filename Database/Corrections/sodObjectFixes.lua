@@ -261,6 +261,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.WETLANDS] = {{58.31,6.94}},
             },
         },
+        [422895] = {
+            [objectKeys.zoneID] = zoneIDs.DESOLACE,
+            [objectKeys.spawns] = {
+                [zoneIDs.DESOLACE] = {{39,57}},
+            },
+        },
         [423898] = { -- Mysterious Book
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
             [objectKeys.spawns] = {
@@ -428,6 +434,13 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.zoneID] = zoneIDs.ALTERAC_MOUNTAINS,
             [objectKeys.spawns] = {
                 [zoneIDs.ALTERAC_MOUNTAINS] = {{60.0, 46.4}},
+            },
+        },
+        [450017] = {
+            [objectKeys.name] = "Crate",
+            [objectKeys.zoneID] = zoneIDs.MOONGLADE,
+            [objectKeys.spawns] = {
+                [zoneIDs.MOONGLADE] = {{55.6,66.5}},
             },
         },
     }
