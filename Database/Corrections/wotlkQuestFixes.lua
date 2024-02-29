@@ -6678,6 +6678,206 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,{{400012, "Spend 5 Talent Points"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1519,
         },
+        [78136] = {
+            [questKeys.name] = "A New Beginning",
+            [questKeys.startedBy] = {}, -- This quest is auto accept
+            [questKeys.finishedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Meet with your class trainer in Stormwind."},
+            [questKeys.zoneOrSort] = 1519,
+        },
+        [78137] = {
+            [questKeys.name] = "A New Beginning",
+            [questKeys.startedBy] = {}, -- This quest is auto accept
+            [questKeys.finishedBy] = {{3324,3328,3344,3353,3406,5885,5994,23128},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Meet with your class trainer in Orgrimmar."},
+            [questKeys.zoneOrSort] = 1637,
+        },
+        [78138] = {
+            [questKeys.name] = "A New Beginning",
+            [questKeys.startedBy] = {}, -- This quest is auto accept
+            [questKeys.finishedBy] = {{3036},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Meet with your Druid trainer in Thunder Bluff."},
+            [questKeys.zoneOrSort] = 1638,
+        },
+        [78140] = {
+            [questKeys.name] = "Tools for Survival",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil,nil},
+            [questKeys.finishedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
+            [questKeys.objectives] = {nil,{{400009, "Open the Survival Kit"}, {400010, "Equip a Weapon"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1519,
+        },
+        [78151] = {
+            [questKeys.name] = "Tools for Survival",
+            [questKeys.startedBy] = {{3036},nil,nil},
+            [questKeys.finishedBy] = {{3036},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
+            [questKeys.objectives] = {nil,{{400001, "Open the Survival Kit"}, {400002, "Equip a Weapon"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1637,
+        },
+        [78157] = {
+            [questKeys.name] = "Combat Training",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil,nil},
+            [questKeys.finishedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
+            [questKeys.objectives] = {nil,{{400011, "Train a Spell"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1519,
+        },
+        [78158] = {
+            [questKeys.name] = "Combat Training",
+            [questKeys.startedBy] = {{3036},nil,nil},
+            [questKeys.finishedBy] = {{3036},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
+            [questKeys.objectives] = {nil,{{400006, "Train a Spell"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1638,
+        },
+        [78164] = {
+            [questKeys.name] = "Talented",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil,nil},
+            [questKeys.finishedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
+            [questKeys.objectives] = {nil,{{400012, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1519,
+        },
+        [78166] = {
+            [questKeys.name] = "To Northrend",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil,nil},
+            [questKeys.finishedBy] = {{26673},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Use the scroll of teleportation from your inventory to reach Northrend and speak to the Image of Archmage Modera."},
+            [questKeys.requiredSourceItems] = {210046,210047},
+            [questKeys.zoneOrSort] = 65,
+        },
+        [78167] = {
+            [questKeys.name] = "Talented",
+            [questKeys.startedBy] = {{3036,3324,3328,3344,3353,3406,5885,5994,23128},nil},
+            [questKeys.finishedBy] = {{3036,3324,3328,3344,3353,3406,5885,5994,23128},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
+            [questKeys.objectives] = {nil,{{400007, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1637,
+        },
+        [78168] = {
+            [questKeys.name] = "To Northrend",
+            [questKeys.startedBy] = {{3036,3324,3328,3344,3353,3406,5885,5994,23128},nil,nil},
+            [questKeys.finishedBy] = {{26471},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Use the scroll of teleportation from your inventory to reach Northrend and speak to the Image of Archmage Aethas Sunreaver."},
+            [questKeys.requiredSourceItems] = {210046,210047},
+            [questKeys.zoneOrSort] = 65,
+        },
+        [78219] = {
+            [questKeys.name] = "A New Beginning",
+            [questKeys.startedBy] = {}, -- This quest is auto accept
+            [questKeys.finishedBy] = {{28471,28472,28474},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredClasses] = classIDs.DEATH_KNIGHT,
+            [questKeys.objectivesText] = {"Meet with your Death Knight trainer in Acherus: The Ebon Hold."},
+            [questKeys.zoneOrSort] = 4281,
+        },
+        [78220] = {
+            [questKeys.name] = "Tools for Survival",
+            [questKeys.startedBy] = {{28471,28472,28474},nil,nil},
+            [questKeys.finishedBy] = {{28471,28472,28474},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredClasses] = classIDs.DEATH_KNIGHT,
+            [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
+            [questKeys.objectives] = {nil,{{400062, "Open the Survival Kit"}, {400063, "Equip a Weapon"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 4281,
+        },
+        [78221] = {
+            [questKeys.name] = "Combat Training",
+            [questKeys.startedBy] = {{28471,28472,28474},nil,nil},
+            [questKeys.finishedBy] = {{28471,28472,28474},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredClasses] = classIDs.DEATH_KNIGHT,
+            [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
+            [questKeys.objectives] = {nil,{{400064, "Train a Spell"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 4281,
+        },
+        [78222] = {
+            [questKeys.name] = "Talented",
+            [questKeys.startedBy] = {{28471,28472,28474},nil,nil},
+            [questKeys.finishedBy] = {{28471,28472,28474},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.DEATH_KNIGHT,
+            [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
+            [questKeys.objectives] = {nil,{{400061, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 4281,
+        },
+        [78223] = {
+            [questKeys.name] = "To Northrend",
+            [questKeys.startedBy] = {{28471,28472,28474},nil,nil},
+            [questKeys.finishedBy] = {{26673},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.DEATH_KNIGHT,
+            [questKeys.objectivesText] = {"Use the scroll of teleportation from your inventory to reach Northrend and speak to the Image of Archmage Modera."},
+            [questKeys.requiredSourceItems] = {210046,210047},
+            [questKeys.zoneOrSort] = 65,
+        },
+        [78224] = {
+            [questKeys.name] = "Talented",
+            [questKeys.startedBy] = {{28471,28472,28474},nil,nil},
+            [questKeys.finishedBy] = {{28471,28472,28474},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.DEATH_KNIGHT,
+            [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
+            [questKeys.objectives] = {nil,{{400061, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 4281,
+        },
+        [78225] = {
+            [questKeys.name] = "To Northrend",
+            [questKeys.startedBy] = {{28471,28472,28474},nil,nil},
+            [questKeys.finishedBy] = {{26471},nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.DEATH_KNIGHT,
+            [questKeys.objectivesText] = {"Use the scroll of teleportation from your inventory to reach Northrend and speak to the Image of Archmage Aethas Sunreaver."},
+            [questKeys.requiredSourceItems] = {210046,210047},
+            [questKeys.zoneOrSort] = 65,
+        },
         [78752] = {
             [questKeys.name] = "Proof of Demise: Titan Rune Protocol Gamma",
             [questKeys.startedBy] = {{20735},nil,nil},
@@ -6718,6 +6918,13 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[70401] = {} -- Talented
     QuestieDB.questData[70411] = {} -- To the Dockmaster
     QuestieDB.questData[70870] = {} -- Talented
+    QuestieDB.questData[78136] = {} -- A New Beginning
+    QuestieDB.questData[78140] = {} -- Tools for Survival
+    QuestieDB.questData[78157] = {} -- Combat Training
+    QuestieDB.questData[78164] = {} -- Talented
+    QuestieDB.questData[78166] = {} -- To Northrend
+    QuestieDB.questData[78222] = {} -- Talented DK
+    QuestieDB.questData[78223] = {} -- To Northrend DK
 
     -- Horde boosted quests
     QuestieDB.questData[70396] = {} -- A New Beginning
@@ -6730,9 +6937,20 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[70764] = {} -- Combat Training
     QuestieDB.questData[70765] = {} -- Talented
     QuestieDB.questData[70869] = {} -- Talented
+    QuestieDB.questData[78137] = {} -- A New Beginning
+    QuestieDB.questData[78138] = {} -- A New Beginning
+    QuestieDB.questData[78151] = {} -- Tools for Survival
+    QuestieDB.questData[78158] = {} -- Combat Training
+    QuestieDB.questData[78167] = {} -- Talented
+    QuestieDB.questData[78168] = {} -- To Northrend
+    QuestieDB.questData[78224] = {} -- Talented DK
+    QuestieDB.questData[78225] = {} -- To Northrend DK
 
     -- Neutral boosted quests
     QuestieDB.questData[70865] = {} -- To Shattrath City
+    QuestieDB.questData[78219] = {} -- A New Beginning
+    QuestieDB.questData[78220] = {} -- Tools for Survival
+    QuestieDB.questData[78221] = {} -- Combat Training
 
     -- P4 quests
     QuestieDB.questData[78752] = {} -- Proof of Demise: Titan Rune Protocol Gamma

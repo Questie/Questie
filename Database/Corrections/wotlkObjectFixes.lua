@@ -792,6 +792,26 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{19.94,56.12}}},
             [objectKeys.zoneID] = zoneIDs.ZUL_DRAK,
         },
+        [400061] = {
+            [objectKeys.name] = "Spend 5 Talent Points",
+            [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD]={{80.29,48.02},{80.91,43.78},{83.74,44.58}}},
+            [objectKeys.zoneID] = zoneIDs.ACHERUS_THE_EBON_HOLD,
+        },
+        [400062] = {
+            [objectKeys.name] = "Open the Survival Kit",
+            [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD]={{80.29,48.02},{80.91,43.78},{83.74,44.58}}},
+            [objectKeys.zoneID] = zoneIDs.ACHERUS_THE_EBON_HOLD,
+        },
+        [400063] = {
+            [objectKeys.name] = "Equip a Weapon",
+            [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD]={{80.29,48.02},{80.91,43.78},{83.74,44.58}}},
+            [objectKeys.zoneID] = zoneIDs.ACHERUS_THE_EBON_HOLD,
+        },
+        [400064] = {
+            [objectKeys.name] = "Train a Spell at your class trainer",
+            [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD]={{80.29,48.02},{80.91,43.78},{83.74,44.58}}},
+            [objectKeys.zoneID] = zoneIDs.ACHERUS_THE_EBON_HOLD,
+        },
     }
 end
 
