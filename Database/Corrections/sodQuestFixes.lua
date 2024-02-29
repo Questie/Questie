@@ -926,7 +926,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSourceItems] = {216635,216645},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Defeat enough enemies to call forth the Shadowy Figure and talk to her to receive a Mote of Darkness."), 0, {{"monster", 5335},{"monster", 5336},{"monster", 5337}}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.FERALAS]={{84.5,44.8}}}, Questie.ICON_TYPE_SLAY, l10n("Defeat enough enemies around the world to call forth the Shadowy Figure and talk to her to receive a Mote of Darkness.")}},
         },
         [79984] = { -- Quadrangulation
             [questKeys.objectives] = {nil,{{424074},{424075},{424076},{424077}}},
