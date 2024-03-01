@@ -1094,6 +1094,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {80158},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [80158] = { -- The Sparklematic 5200!
             [questKeys.startedBy] = {nil,{142487}},
@@ -1114,6 +1115,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {80153},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [80180] = { -- The Grand Betrayal
             [questKeys.finishedBy] = {{7937}},
