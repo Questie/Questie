@@ -1820,6 +1820,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Gather the ingredients for Skonk's dish, then bring them to him in Arathi Highlands."},
             [questKeys.objectives] = {nil,nil,{{213526},{213527},{213528},{213529}}},
         },
+        [79704] = {
+            [questKeys.name] = "The Salvagematic 9000!",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 40,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Insert a Grime-Encrusted Salvage into the Salvagematic 9000, and be sure to have three silver coins to start the machine."},
+            [questKeys.objectives] = {nil,nil,{{213427}}},
+        },
         [79705] = {
             [questKeys.name] = "Salvaging the Salvagematic",
             [questKeys.startedBy] = {{217689}},

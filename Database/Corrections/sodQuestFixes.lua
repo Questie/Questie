@@ -858,6 +858,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{2254,2255,2256,2287,2569,2570,2571}},
             [questKeys.zoneOrSort] = zoneIDs.WARRIOR,
         },
+        [79704] = { -- The Salvagematic 9000!
+            [questKeys.startedBy] = {nil,{422483}},
+            [questKeys.finishedBy] = {nil,{422483}},
+            [questKeys.preQuestSingle] = {79705},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [79705] = { -- Salvaging the Salvagematic
             [questKeys.finishedBy] = {{217689}},
             [questKeys.objectives] = {nil,nil,{{3860},{11135},{216634},{213735}}},
