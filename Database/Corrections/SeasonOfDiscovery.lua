@@ -109,6 +109,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79095] = 1, -- Mage Icy Veins
     [79096] = 1, -- Mage Icy Veins
     [79097] = 1, -- Mage Icy Veins
+    [79348] = 2, -- Druid Nourish (The Lost Ancient)
+    [79377] = 2, -- Druid Nourish (The Lost Saplings)
     [79229] = 2, -- Highway Robbery
     [79235] = 2, -- On the Lam
     [79236] = 2, -- Cherry for Your Thoughts?
@@ -166,7 +168,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90020] = 1, -- Mage Alliance Living Bomb
     [90021] = 1, -- Mage Horde Living Bomb
     --- Mage runes end
- 
+
     [90022] = 1, -- Paladin Divine Storm
     [90023] = 1, -- Druid Wild Strikes
     [90024] = 1, -- Druid Survival of the Fittest
