@@ -715,7 +715,6 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [79348] = { -- The Lost Ancient
             [questKeys.startedBy] = {{216310},nil,{212693}},
-            [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.zoneOrSort] = zoneIDs.DUSTWALLOW_MARSH,
         },
         [79358] = { -- Tattered Note
@@ -760,7 +759,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Drink the Squall-breakers Potion and talk to Nyse."), 0, {{"monster", 4317}}}},
         },
         [79377] = { -- The Lost Saplings
-            [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.preQuestSingle] = {79348},
             [questKeys.zoneOrSort] = zoneIDs.MOONGLADE,
             [questKeys.objectives] = {{{216437,216451,216448,216445}},nil,{{213036}}},
