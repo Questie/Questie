@@ -431,7 +431,22 @@ function QuestieDB.IsRuneAndShouldBeHidden(questId)
         return false
     end
 
-    return (not Questie.db.profile.showSoDRunes) or (runeQuestsInSoD[questId] >= SeasonOfDiscovery.currentPhase)
+    if (not Questie.db.profile.showSoDRunes) then
+        return true
+    end
+
+    local showPhase1Runes = Questie.db.profile.showRunesOfPhase["phase1"]
+    local showPhase2Runes = Questie.db.profile.showRunesOfPhase["phase2"]
+
+    local phaseOfRuneQuest = runeQuestsInSoD[questId]
+
+    if (phaseOfRuneQuest == 1) then
+        return (not showPhase1Runes)
+    elseif (phaseOfRuneQuest == 2) then
+        return (not showPhase2Runes)
+    end
+
+    return false
 end
 
 -- This function blacklists any quests in phases LATER than the currentPhase value
