@@ -4063,6 +4063,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416054,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90247] = {
+            [questKeys.name] = "Decoy Totem",
+            [questKeys.startedBy] = {{217683}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Collect either 3 Cloud Serpent Fangs from any Cloud Serpent or 10 Strong Harpy Feather from any Harpy. Bring these together with a Silken Thread (e.g. bought from Jandia in Freewind Post) to the altar and create the Offering to the Wind Spirit. Then jump off the cliff to receive the rune."},
+            [questKeys.requiredSpell] = -425882,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 

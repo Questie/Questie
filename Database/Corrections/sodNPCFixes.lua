@@ -510,6 +510,12 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.THOUSAND_NEEDLES] = {{26.4, 46.4}},
             },
         },
+        [217683] = {
+            [npcKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
+            [npcKeys.spawns] = {
+                [zoneIDs.THOUSAND_NEEDLES] = {{39.4,42}},
+            },
+        },
         [217703] = { -- Singed Highperch Consort
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.spawns] = {
