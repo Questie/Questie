@@ -447,6 +447,15 @@ local questsToBlacklistBySoDPhase = {
         [8168] = true, -- The Battle for Arathi Basin!
     },
     [3] = { -- SoD Phase 3 - level cap 50
+        [3526] = true, -- Goblin Engineering
+        [3629] = true, -- Goblin Engineering
+        [3630] = true, -- Gnome Engineering
+        [3632] = true, -- Gnome Engineering
+        [3633] = true, -- Goblin Engineering
+        [3634] = true, -- Gnome Engineering
+        [3635] = true, -- Gnome Engineering
+        [3637] = true, -- Gnome Engineering
+        [4181] = true, -- Goblin Engineering
         [6607] = true, -- Nat Pagle, Angler Extreme Fishing 225+ quest
         [6608] = true, -- You Too Good. Fishing 225+ quest
         [6609] = true, -- I Got Nothin' Left! Fishing 225+ pre quest
