@@ -468,7 +468,9 @@ local questsToBlacklistBySoDPhase = {
         [6610] = true, -- Clamlette Surprise Cooking 225+ quest
         [6611] = true, -- To Gadgetzan You Go! Cooking 225+ pre quest
         [6612] = true, -- I Know A Guy... Cooking 225+ pre quest
+        [6622] = true, -- Horde Triage
         [6623] = true, -- Horde Trauma
+        [6624] = true, -- Alliance Triage
         [6625] = true, -- Alliance Trauma
     },
     [4] = { -- SoD Phase 4 - level cap 60
