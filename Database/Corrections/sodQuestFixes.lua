@@ -715,7 +715,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [79348] = { -- The Lost Ancient
             [questKeys.startedBy] = {{216310},nil,{212693}},
-            [questKeys.zoneOrSort] = zoneIDs.DUSTWALLOW_MARSH,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
         [79358] = { -- Tattered Note
             [questKeys.startedBy] = {{4421},nil,{212748}},
@@ -760,7 +760,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [79377] = { -- The Lost Saplings
             [questKeys.preQuestSingle] = {79348},
-            [questKeys.zoneOrSort] = zoneIDs.MOONGLADE,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
             [questKeys.objectives] = {{{216437,216451,216448,216445}},nil,{{213036}}},
         },
         [79442] = { -- Catching Up
