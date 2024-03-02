@@ -1089,7 +1089,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {1947},
         },
         [1950] = {
-            [questKeys.triggerEnd] = {"Secret phrase found", {[zoneIDs.THOUSAND_NEEDLES]={{79.56,75.65}}}},
+            [questKeys.objectives] = {{{6626,"Secret phrase found"}}},
         },
         [1954] = {
             [questKeys.preQuestSingle] = {},
