@@ -276,7 +276,7 @@ local townsfolkLocales = {
         ["zhCN"] = "商人",
         ["zhTW"] = "商人",
         ["esES"] = "Vendedor",
-        ["frFR"] = "Marchand",
+        ["frFR"] = "Vendeur",
     },
     ["Weapon Master"] = {
         ["ptBR"] = "Mestre de Armas",

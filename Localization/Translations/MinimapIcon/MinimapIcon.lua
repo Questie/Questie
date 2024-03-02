@@ -39,7 +39,7 @@ local minimapIconLocales = {
         ["frFR"] = "Mon voyage",
     },
     ["Hide Minimap Button"] = {
-        ["ptBR"] = "Ocultar botão Mini-carta",
+        ["ptBR"] = "Ocultar botão do minimapa",
         ["ruRU"] = "Скрыть кнопку у миникарты",
         ["deDE"] = "Minimap-Button verstecken",
         ["koKR"] = "미니맵 버튼 가리기",
@@ -48,7 +48,7 @@ local minimapIconLocales = {
         ["zhCN"] = "隐藏小地图图标",
         ["zhTW"] = "隱藏小地圖按鈕",
         ["esES"] = "Ocultar botón del minimapa",
-        ["frFR"] = "Cacher le bouton autour de la mini-carte",
+        ["frFR"] = "Cacher le bouton de la minicarte",
     },
     ["Reload Questie"] = {
         ["ptBR"] = "Carregar Questie",
@@ -75,7 +75,7 @@ local minimapIconLocales = {
         ["frFR"] = "Quêtes disponibles",
     },
     ["Trivial Quest"] = {
-        ["ptBR"] = "Missões Triviais",
+        ["ptBR"] = "Missões triviais",
         ["ruRU"] = "Простые задания",
         ["deDE"] = "Niedrigstufige Quests",
         ["koKR"] = "기타 퀘스트",

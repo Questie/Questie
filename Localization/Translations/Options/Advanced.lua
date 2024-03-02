@@ -315,7 +315,7 @@ local advancedOptionsLocales = {
         ["frFR"] = "Questie est en cours de développement pour World of Warcraft: Classic. Veuillez consulter GitHub pour connaître les dernières versions alpha ou signaler des problèmes. Ou rejoignez nous sur notre discord ! ( https://github.com/Questie/Questie/ ) ",
     },
     ["Skip Validation"] = {
-        ["ptBR"] = "Ignorar Validação",
+        ["ptBR"] = "Ignorar validação",
         ["ruRU"] = "Пропуск валидации",
         ["deDE"] = "Validierung überspringen",
         ["koKR"] = false,
