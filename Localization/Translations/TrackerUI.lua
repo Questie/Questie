@@ -53,7 +53,7 @@ local trackerUILocales = {
         ["frFR"] = "Réinitialiser le calibreur",
     },
     ["NOTE"] = {
-        ["ptBR"] = "OBSERVAÇÃO",
+        ["ptBR"] = "NOTA",
         ["ruRU"] = "ПРИМЕЧАНИЕ",
         ["deDE"] = "NOTIZ",
         ["koKR"] = "메모",
