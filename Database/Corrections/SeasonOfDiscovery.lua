@@ -465,6 +465,7 @@ local questsToBlacklistBySoDPhase = {
     },
     [3] = { -- SoD Phase 3 - level cap 50
         [2847] = true, -- Wild Leather Armor
+        [2854] = true, -- Wild Leather Armor
         [3526] = true, -- Goblin Engineering
         [3629] = true, -- Goblin Engineering
         [3630] = true, -- Gnome Engineering
