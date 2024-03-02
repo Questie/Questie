@@ -298,7 +298,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78127] = { -- The Dalaran Digest
-            [questKeys.questLevel] = 20,
+            [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [78132] = { -- Dragonslayer's Helm
