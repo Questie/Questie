@@ -443,5 +443,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.MOONGLADE] = {{55.6,66.5}},
             },
         },
+        [450018] = {
+            [objectKeys.name] = "Soft Soil",
+            [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.ARATHI_HIGHLANDS] = {{34,44}},
+            },
+        },
     }
 end

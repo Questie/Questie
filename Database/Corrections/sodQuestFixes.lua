@@ -4051,6 +4051,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410093,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90246] = {
+            [questKeys.name] = "Power Surge",
+            [questKeys.startedBy] = {nil,{450018}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Defeat Boulderfist Ogre to receive a Ogre Lightning Rod and place it in the Soft Soil on top of the mountain. Then hit the Lightning Rod with Lightning Bolt ten times to summon Tam'kar. Defeat him to receive the rune."},
+            [questKeys.requiredSpell] = -416054,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 

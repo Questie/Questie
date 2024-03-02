@@ -391,6 +391,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90243] = 2, -- Shaman Fire Nova Step 5
     [90244] = 2, -- Shaman Fire Nova Step 6
     [90245] = 2, -- Shaman Fire Nova Final Step
+    [90246] = 2, -- Shaman Power Surge
 }
 
 --- "automatic" phase detection for the first few phases;
