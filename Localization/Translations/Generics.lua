@@ -72,7 +72,7 @@ local genericsLocales = {
         ["zhCN"] = "隐藏Questie",
         ["zhTW"] = "隱藏任務圖示",
         ["esES"] = "Ocultar Questie",
-        ["frFR"] = "Masquer Questie",
+        ["frFR"] = "Cacher Questie",
     },
     ["Reload UI"] = {
         ["ptBR"] = "Recarregar interface",
