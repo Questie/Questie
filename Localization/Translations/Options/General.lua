@@ -27,7 +27,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Options générales",
     },
     ["Enable Minimap Button"] = {
-        ["ptBR"] = "Ative o botão da minimapa",
+        ["ptBR"] = "Ative o botão do minimapa",
         ["ruRU"] = "Кнопка у миникарты",
         ["deDE"] = "Minimap-Button aktivieren",
         ["koKR"] = "미니맵 버튼 활성화",
@@ -39,7 +39,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Bouton de la minicarte",
     },
     ["Enable or disable the Questie minimap button. You can still access the options menu with /questie."] = {
-        ["ptBR"] = "Ative ou desative o botão da minimapa da missão. Você ainda pode acessar o menu de opções com o Questie",
+        ["ptBR"] = "Ative ou desative o botão do minimapa da missão. Você ainda pode acessar o menu de opções com o Questie",
         ["ruRU"] = "Показать/скрыть кнопку Questie у миникарты. Доступ к настройкам аддона также можно получить через команду '/questie'",
         ["deDE"] = "Questie Minimap-Button aktivieren/deaktivieren. Mit /questie kannst du trotzdem die Einstellungen aufrufen.",
         ["koKR"] = "Questie 미니맵 버튼을 사용합니다. /questie 명령어로도 설정 메뉴를 열 수 있습니다.",
