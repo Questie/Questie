@@ -27,7 +27,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Options générales",
     },
     ["Enable Minimap Button"] = {
-        ["ptBR"] = "Ative o botão da mini-carta",
+        ["ptBR"] = "Ative o botão da minimapa",
         ["ruRU"] = "Кнопка у миникарты",
         ["deDE"] = "Minimap-Button aktivieren",
         ["koKR"] = "미니맵 버튼 활성화",
@@ -36,10 +36,10 @@ local generalOptionsLocales = {
         ["zhCN"] = "启用Questie的小地图按钮",
         ["zhTW"] = "啟用小地圖按鈕",
         ["esES"] = "Habilitar botón del minimapa",
-        ["frFR"] = "Bouton autour de la mini-carte",
+        ["frFR"] = "Bouton autour de la minicarte",
     },
     ["Enable or disable the Questie minimap button. You can still access the options menu with /questie."] = {
-        ["ptBR"] = "Ative ou desative o botão da mini-carta da missão. Você ainda pode acessar o menu de opções com o Questie",
+        ["ptBR"] = "Ative ou desative o botão da minimapa da missão. Você ainda pode acessar o menu de opções com o Questie",
         ["ruRU"] = "Показать/скрыть кнопку Questie у миникарты. Доступ к настройкам аддона также можно получить через команду '/questie'",
         ["deDE"] = "Questie Minimap-Button aktivieren/deaktivieren. Mit /questie kannst du trotzdem die Einstellungen aufrufen.",
         ["koKR"] = "Questie 미니맵 버튼을 사용합니다. /questie 명령어로도 설정 메뉴를 열 수 있습니다.",
@@ -48,7 +48,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "启用小地图按钮；禁用后以 /questie 打开配置",
         ["zhTW"] = "啟用或停用任務位置提示的小地圖按鈕，停用後仍可輸入 /questie 開啟設定選項。",
         ["esES"] = "Habilita o deshabilita el botón del minimapa. Puedes seguir accediendo al menú de opciones con /questie",
-        ["frFR"] = "Active le bouton Questie autour de la mini-carte. Le panneau de configuration reste accessible avec la commande /questie.",
+        ["frFR"] = "Active le bouton Questie autour de la minicarte. Le panneau de configuration reste accessible avec la commande /questie.",
     },
     ["Enable Instant Quest Text"] = {
         ["ptBR"] = "Ativar texto de pesquisa instantânea",
@@ -156,7 +156,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "自动调整",
         ["zhTW"] = "自動輔助鍵",
         ["esES"] = "Auto modificador",
-        ["frFR"] = "Modificateur Auto",
+        ["frFR"] = "Modificateur auto",
     },
     ["The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC."] = {
         ["ptBR"] = "O modificador para NÃO aceitar automaticamente / completar missões quando uma das opções está ativada e você interage com um PNJ de missão.",
