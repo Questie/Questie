@@ -588,7 +588,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "显示任务等级",
         ["zhTW"] = "在浮動提示資訊中顯示任務等級",
         ["esES"] = "Mostrar nivel de misión en tooltips",
-        ["frFR"] = "Niveau des quêtes dans les info-bulles",
+        ["frFR"] = "Niveau des quêtes dans les infobulles",
     },
     ["Enable World Tooltips"] = {
         ["ptBR"] = "Ativar dicas de ferramentas do mundo",
