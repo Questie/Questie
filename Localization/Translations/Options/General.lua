@@ -36,7 +36,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "启用Questie的小地图按钮",
         ["zhTW"] = "啟用小地圖按鈕",
         ["esES"] = "Habilitar botón del minimapa",
-        ["frFR"] = "Bouton autour de la minicarte",
+        ["frFR"] = "Bouton de la minicarte",
     },
     ["Enable or disable the Questie minimap button. You can still access the options menu with /questie."] = {
         ["ptBR"] = "Ative ou desative o botão da minimapa da missão. Você ainda pode acessar o menu de opções com o Questie",
@@ -48,7 +48,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "启用小地图按钮；禁用后以 /questie 打开配置",
         ["zhTW"] = "啟用或停用任務位置提示的小地圖按鈕，停用後仍可輸入 /questie 開啟設定選項。",
         ["esES"] = "Habilita o deshabilita el botón del minimapa. Puedes seguir accediendo al menú de opciones con /questie",
-        ["frFR"] = "Active le bouton Questie autour de la minicarte. Le panneau de configuration reste accessible avec la commande /questie.",
+        ["frFR"] = "Active le bouton Questie de la minicarte. Le panneau de configuration reste accessible avec la commande /questie.",
     },
     ["Enable Instant Quest Text"] = {
         ["ptBR"] = "Ativar texto de pesquisa instantânea",
@@ -60,7 +60,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "立即显示任务文本",
         ["zhTW"] = "啟用立即顯示任務內容",
         ["esES"] = "Habilitar texto automático de misiones",
-        ["frFR"] = "Activer Texte instantané (quêtes)",
+        ["frFR"] = "Activer texte instantané (quêtes)",
     },
     ["Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface."] = {
         ["ptBR"] = "Ativa / desativa a opção Texto da missão instantânea. Este é apenas um atalho para a opção WoW na Interface",
@@ -72,7 +72,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "使任务直接显示完整文本，这其实是一个暴雪原生自带的功能",
         ["zhTW"] = "啟用遊戲內建的立刻顯示任務內容選項，這只是方便調整魔獸介面設定中的選項的捷徑。",
         ["esES"] = "Habilita el texto automático de misiones. Es simplemente un atajo a la opción de la interfaz de WoW",
-        ["frFR"] = "Active l'option Texte instantané (quêtes). Cela revient à cocher l'option du même nom dans Interface/Affichage.",
+        ["frFR"] = "Active l'option texte instantané (quêtes). Cela revient à cocher l'option du même nom dans l'interface.",
     },
     ["Auto Accept Quests"] = {
         ["ptBR"] = "Aceitar automaticamente missões",
