@@ -60,7 +60,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "切换任务追踪窗口，输入  'show', 'hide', 'reset' 选项以显示、隐藏、重设追踪窗口",
         ["zhTW"] = "切換顯示追蹤清單。加上 'show', 'hide', 'reset' 選項來顯示、隱藏、重置追蹤清單",
         ["esES"] = "Muestra el Rastreador. Agrega 'mostrar', 'ocultar y 'restablecer' para mostrar/ocultar y restablecer el Rastreador",
-        ["frFR"] = "Active / désactive le traqueur. Ajouter 'afficher', 'masquer', 'réinitialiser' pour afficher / masquer ou réinitialiser explicitement le traqueur",
+        ["frFR"] = "Active / désactive le traqueur. Ajouter 'afficher', 'cacher', 'réinitialiser' pour afficher / cacher ou réinitialiser explicitement le traqueur",
     },
     ["Flex the amount of quests you have completed so far"] = {
         ["ptBR"] = "Mostra a quantidade de missões que você completou até agora",
