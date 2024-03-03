@@ -238,7 +238,7 @@ local trackerUILocales = {
         ["zhCN"] = "隐藏标记",
         ["zhTW"] = "隱藏圖示",
         ["esES"] = "Ocultar iconos",
-        ["frFR"] = "Masquer les icônes",
+        ["frFR"] = "Cacher les icônes",
     },
     ["Show Icons"] = {
         ["ptBR"] = "Mostrar ícones",
