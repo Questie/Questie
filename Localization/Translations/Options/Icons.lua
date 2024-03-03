@@ -156,7 +156,7 @@ local iconOptionsLocales = {
         ["zhCN"] = "隐藏未探测区域图标",
         ["zhTW"] = "隱藏未探索區域的圖示",
         ["esES"] = "Ocultar icono de áreas inexploradas.",
-        ["frFR"] = "Masquer les icônes des zones inexplorées",
+        ["frFR"] = "Cacher les icônes des zones inexplorées",
     },
     ["Hide icons in unexplored map regions."] = {
         ["ptBR"] = "Oculta ícones em áreas inexploradas.",
@@ -180,7 +180,7 @@ local iconOptionsLocales = {
         ["zhCN"] = "隐藏未追踪的任务图标",
         ["zhTW"] = "隱藏未追蹤任務的圖示",
         ["esES"] = "Ocultar iconos de misiones sin seguimiento",
-        ["frFR"] = "Masquer les icônes des quêtes non suivies",
+        ["frFR"] = "Cacher les icônes des quêtes non suivies",
     },
     ["Hide icons for quests that are not tracked."] = {
         ["ptBR"] = "Oculta ícones para missões que não são rastreadas.",
@@ -456,7 +456,7 @@ local iconOptionsLocales = {
         ["zhCN"] = "覆盖图标 （显示/隐藏）",
         ["zhTW"] = "顯示/隱藏圖示",
         ["esES"] = "Anulación de iconos (mostrar/ocultar)",
-        ["frFR"] = "Remplacements d'icônes (afficher/masquer)",
+        ["frFR"] = "Remplacements d'icônes (afficher/cacher)",
     },
     ["Slay objectives"] = {
         ["ptBR"] = "Objetivos de matar",
@@ -1020,7 +1020,7 @@ local iconOptionsLocales = {
         ["zhCN"] = false,
         ["zhTW"] = "隱藏大陸地圖上的圖示",
         ["esES"] = "Ocultar iconos en el mapa continental",
-        ["frFR"] = "Masquer les icônes sur la carte du continent",
+        ["frFR"] = "Cacher les icônes sur la carte du continent",
     },
     ["Hide icons on the continent map, when not viewing a specific zone."] = {
         ["ptBR"] = "Oculta ícones no mapa do continente quando nenhuma zona específica está sendo visualizada.",
