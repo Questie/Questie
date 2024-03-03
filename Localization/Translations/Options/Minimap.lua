@@ -75,7 +75,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Options des icônes sur la minicarte",
     },
     ["How large the minimap icons are.\n(Default: %s)"] = {
-        ["ptBR"] = "Qual é o tamanho dos ícones da mini-carta.\n(Por defeito: %s)",
+        ["ptBR"] = "Qual é o tamanho dos ícones do minimapa.\n(Por defeito: %s)",
         ["ruRU"] = "Одновременная регулировка размера всех значков на миникарте\n(по умолчанию: %s)",
         ["deDE"] = "Skaliert wie groß die Minimap-Icons sind.\n(Standard: %s)",
         ["koKR"] = "미니맵 아이콘의 크기를 설정합니다.\n(기본값: %s)",
