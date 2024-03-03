@@ -279,7 +279,7 @@ local iconOptionsLocales = {
         ["frFR"] = "Icônes des objectifs",
     },
     ["When this is enabled, quest objective icons will be shown on the map/minimap."] = {
-        ["ptBR"] = "Se ativado, os ícones do objectivo da missão serão exibidos no mapa / mini-carta",
+        ["ptBR"] = "Se ativado, os ícones do objectivo da missão serão exibidos no mapa / minimapa",
         ["ruRU"] = "Показать/скрыть значки целей заданий на карте мира и миникарте",
         ["deDE"] = "Aktiviert/Deaktiviert die Icons der Questziele auf der Karte/Minimap.",
         ["koKR"] = "퀘스트 목표 아이콘을 지도와 미니맵에 표시합니다.",
