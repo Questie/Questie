@@ -255,7 +255,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Application des correctifs de base de données",
     },
     ["Initializing locale"] = {
-        ["ptBR"] = "Inicializando a localização",
+        ["ptBR"] = "Inicializando idioma",
         ["ruRU"] = "Определение языка игры",
         ["deDE"] = "Übersetzungen werden geladen",
         ["koKR"] = "Locale 데이터 설치중",
