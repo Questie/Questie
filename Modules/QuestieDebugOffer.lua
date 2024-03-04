@@ -161,6 +161,23 @@ local itemBlacklist = {
     216949, -- Heavy Dalaran Relic
     216950, -- Creepy Dalaran Relic
     216951, -- Slippery Dalaran Relic
+
+    -- Updates Profession Recipes
+    217249, -- Pattern: Earthen Silk Belt
+    217251, -- Pattern: Crimson Silk Shoulders
+    217254, -- Pattern: Boots of the Enchanter
+    217260, -- Pattern: Big Voodoo Mask
+    217262, -- Pattern: Big Voodoo Robe
+    217264, -- Pattern: Guardian Leather Bracers
+    217266, -- Pattern: Guardian Belt
+    217271, -- Pattern: Turtle Scale Gloves
+    217274, -- Plans: Golden Scale Gauntlets
+    217276, -- Plans: Golden Scale Boots
+    217278, -- Plans: Golden Scale Cuirass
+    217280, -- Plans: Golden Scale Coif
+    217282, -- Plans: Moonsteel Broadsword
+    217284, -- Plans: Golden Scale Shoulders
+    217286, -- Plans: Golden Scale Leggings
 }
 
 local itemWhitelist = {
