@@ -74,7 +74,7 @@ local trackerUILocales = {
         ["zhCN"] = "在手動模式下忽略跟踪器高度比",
         ["zhTW"] = "手動模式下忽略任務清單的高度比例",
         ["esES"] = "La relación de altura del rastreador\nse ignora mientras está en modo manual",
-        ["frFR"] = "Le rapport de hauteur du suivi\est ignoré en mode manuel",
+        ["frFR"] = "Le rapport de hauteur du suivi\nest ignoré en mode manuel",
     },
     ---------------------------------------------------------
     -- Questie Icon (Active Quest Header)
