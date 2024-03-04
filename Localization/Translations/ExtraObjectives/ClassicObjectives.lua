@@ -3,7 +3,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local classicObjectiveLocales = {
     ["Summon Dagun the Ravenous using an Enchanted Sea Kelp"] = { -- 735 736
-        ["ptBR"] = false,
+        ["ptBR"] = "Evocar Dagun, o Voraz, usando uma Alga Marinha Encantada.",
         ["ruRU"] = "Призовите Дагун Ненасытный используя Зачарованные морские водоросли",
         ["deDE"] = "Verzauberten Seetang benutzen, um Dagun den Gefräßigen zu beschwören",
         ["koKR"] = "마법의 해조를 사용하여 포악한 다군을 소환",
