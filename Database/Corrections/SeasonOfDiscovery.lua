@@ -127,6 +127,10 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79535] = 2, -- Mage Icy Veins/Spell Power
     [79536] = 2, -- Mage Icy Veins/Spell Power
     [79677] = 2, -- A Quick Grocery Run
+    [79939] = 2, -- Paladin Sheath of Light Part 1
+    [79940] = 2, -- Paladin Sheath of Light Part 2
+    [79945] = 2, -- Paladin Sheath of Light Part 3
+    [79946] = 2, -- Paladin Sheath of Light Part 4
     [79947] = 2, -- Mage Icy Veins/Spell Power
     [79948] = 2, -- Mage Icy Veins/Spell Power
     [79949] = 2, -- Mage Icy Veins/Spell Power
@@ -134,6 +138,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79951] = 2, -- Mage Icy Veins/Spell Power
     [79952] = 2, -- Mage Icy Veins/Spell Power
     [79953] = 2, -- Mage Icy Veins/Spell Power
+    [79963] = 2, -- Paladin Sheath of Light 5
+    [79970] = 2, -- Paladin Sheath of Light 6
     [80098] = 2, -- Curious Dalaran Relic
     [80120] = 2, -- A Service to Dalaran
     [80147] = 2, -- Curious Dalaran Relic
@@ -397,6 +403,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90247] = 2, -- Shaman Decoy Totem
     [90248] = 2, -- Paladin Enlightened Judgements
     [90249] = 2, -- Paladin Guarded by the Light
+    [90250] = 2, -- Paladin Sheath of Light Part 2.5
 }
 
 --- "automatic" phase detection for the first few phases;

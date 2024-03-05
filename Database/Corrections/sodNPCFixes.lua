@@ -541,6 +541,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.STRANGLETHORN_VALE] = {{31.2, 48.4}},
             },
         },
+        [218160]  = { -- Aeonas the Vindicated
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{37.4, 31.8}},
+            },
+        },
         [218237] = { -- Wirdal Wondergear
             [npcKeys.friendlyToFaction] = "AH",
             [npcKeys.zoneID] = zoneIDs.FERALAS,
