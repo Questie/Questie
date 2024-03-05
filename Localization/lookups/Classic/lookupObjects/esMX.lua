@@ -691,6 +691,7 @@ l10n.objectLookup["esMX"] = {
 [2912] = "Bellota ámbar",
 [2913] = "Pozo Pezuña Invernal",
 [2914] = "Fuego tribal",
+[2933] = "Sello de la Tierra",
 [2968] = "Poblado Pezuña de Sangre",
 [2969] = "Cima del Trueno",
 [2970] = "Poblado Pezuña de Sangre",
