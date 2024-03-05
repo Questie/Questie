@@ -4089,6 +4089,23 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425882,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90248] = {
+            [questKeys.name] = "Enlightened Judgements",
+            [questKeys.startedBy] = {{217387}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {
+                "Kill Humanoids in Arathi Highlands and collect Tarnished Prayer Bead I, II and III. Purify all three before combining them to the Rosary of the Light, which you bring to Brother Atticus in Stromgarde Keep.",
+                "Purify Bead I: Cast Blessing of Might while in combat and defeat an enemy.",
+                "Purify Bead II: Cast Divine Shield with less than 10% HP.",
+                "Purify Bead III: Unleash Seal of Justice on a fleeing enemy.",
+            },
+            [questKeys.requiredSpell] = -426175,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
     }
 end
 
