@@ -2458,5 +2458,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring Thermaplugg's Engineering Notes to Nogg at the Valley of Honor in Orgrimmar."},
             [questKeys.objectives] = nil,
         },
+        [81570] = {
+            [questKeys.name] = "Jarl Needs a Blade",
+            [questKeys.startedBy] = {{4792}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 30,
+            [questKeys.questLevel] = 35,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring a Moonsteel Broadsword to Jarl in Dustwallow Marsh."},
+            [questKeys.objectives] = {nil,nil,{{217281}}},
+        },
     }
 end

@@ -1169,6 +1169,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [81570] = { -- Jarl Needs a Blade
+            [questKeys.finishedBy] = {{4792}},
+            [questKeys.preQuestSingle] = {1206},
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+        },
 
         --- Fake rune quests
         [90000] = {

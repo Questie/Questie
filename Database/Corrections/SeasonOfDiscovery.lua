@@ -1041,6 +1041,8 @@ local questsToBlacklistBySoDPhase = {
         [9416] = true,
     },
     [17] = { -- Never appearing in Season of Discovery
+        [1203] = true, -- Jarl Needs a Blade - Replaced by 81570
+
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,
         [971] = true,
