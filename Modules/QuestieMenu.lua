@@ -637,6 +637,12 @@ function QuestieMenu:PopulateTownsfolk()
         tinsert(professionTrainers[QuestieProfessions.professionKeys.FIRST_AID], 18991)
     end
 
+    if Questie.IsClassic then
+        -- Vendors selling "Expert First Aid - Under Wraps"
+        tinsert(professionTrainers[QuestieProfessions.professionKeys.FIRST_AID], 2805)
+        tinsert(professionTrainers[QuestieProfessions.professionKeys.FIRST_AID], 13476)
+    end
+
     if Questie.IsTBC or Questie.IsWotlk then
         local meetingStones = Questie.IsTBC and { --TBC
             178824,178825,178826,178827,178828,178829,178831,178832,178833,178834,178844,178845,
