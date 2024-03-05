@@ -4106,6 +4106,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -426175,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [90249] = {
+            [questKeys.name] = "Guarded by the Light",
+            [questKeys.startedBy] = {nil,{423841}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Loot the Dormant Holy Rune, cast Divine Intervention (anywhere) and be resurrected by another player before releasing your spirit to receive the rune."},
+            [questKeys.requiredSpell] = -416035,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
     }
 end
 

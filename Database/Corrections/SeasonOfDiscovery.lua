@@ -396,6 +396,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90246] = 2, -- Shaman Power Surge
     [90247] = 2, -- Shaman Decoy Totem
     [90248] = 2, -- Paladin Enlightened Judgements
+    [90249] = 2, -- Paladin Guarded by the Light
 }
 
 --- "automatic" phase detection for the first few phases;
