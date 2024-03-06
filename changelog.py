@@ -24,11 +24,10 @@ def get_commit_changelog():
 
 
 def get_last_git_tag():
-    return "v9.4.7"
-    #     subprocess.run(
-    #     ["git", "describe", "--tags", "--abbrev=0", "HEAD^"],
-    #     **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
-    # ).stdout.decode().strip('\n'))
+    return subprocess.run(
+        ["git", "describe", "--tags", "--abbrev=0", "HEAD^"],
+        **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
+    ).stdout.decode().strip('\n')
 
 
 def get_chronological_git_log(last_tag):
