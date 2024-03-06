@@ -11,13 +11,19 @@ local UnitLevel = UnitLevel
 local globalXPMultiplier = 1
 
 function QuestXP.Init()
-    if Questie.IsWotlk and globalXPMultiplier == 1 then
+    if (Questie.IsWotlk or Questie.IsSoD) and globalXPMultiplier == 1 then
         for i = 1, 40 do
             local _, _, _, _, _, _, _, _, _, buffSpellId = UnitBuff("player", i)
 
             if buffSpellId == 377749 then
                 -- Joyous Journeys is active - 50% bonus XP
                 globalXPMultiplier = 1.5
+                break
+            end
+
+            if buffSpellId == 436412 then
+                -- Discoverer's Delight is active - 100% bonus XP
+                globalXPMultiplier = 2
                 break
             end
         end
