@@ -9,6 +9,7 @@ local floor = floor
 local UnitLevel = UnitLevel
 
 local globalXPMultiplier = 1
+local isDiscovererDelightActive = false
 
 function QuestXP.Init()
     if (Questie.IsWotlk or Questie.IsSoD) and globalXPMultiplier == 1 then
@@ -24,6 +25,7 @@ function QuestXP.Init()
             if buffSpellId == 436412 then
                 -- Discoverer's Delight is active - 100% bonus XP
                 globalXPMultiplier = 2
+                isDiscovererDelightActive = true
                 break
             end
         end
@@ -81,4 +83,23 @@ function QuestXP:GetQuestLogRewardXP(questId, ignorePlayerLevel)
 
     -- Return 0 if questId or xp data is not found for some reason
     return 0
+end
+
+local exclusions = {
+    [78612] = true,
+    [78872] = true,
+    [79101] = true,
+    [79102] = true,
+    [79103] = true,
+    [80307] = true,
+    [80308] = true,
+    [80309] = true,
+}
+
+function QuestXP.GetQuestRewardMoney(questId)
+    local modifier = 1
+    if isDiscovererDelightActive and (not exclusions[questId]) then
+        modifier = 3
+    end
+    return floor(GetQuestLogRewardMoney(questId) * modifier)
 end
