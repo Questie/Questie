@@ -483,6 +483,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [215850] = { -- Raszel Ander
             [npcKeys.friendlyToFaction] = "AH",
         },
+        [216289] = { -- Orokai
+            [npcKeys.spawns] = {
+                [zoneIDs.MOONGLADE] = {{41.2, 43.6}},
+            },
+        },
         [216902] = { -- Wulmort Jinglepocket
             [npcKeys.spawns] = {
                 [zoneIDs.IRONFORGE] = {{33.7, 67.23}},
