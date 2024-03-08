@@ -16,7 +16,7 @@ class QuestSpider(scrapy.Spider):
 
     def __init__(self) -> None:
         super().__init__()
-        self.start_urls = [self.base_url_classic.format(quest_id) for quest_id in [1678]]
+        self.start_urls = [self.base_url_classic.format(quest_id) for quest_id in [1684]]
 
     def parse(self, response):
         # debug the response
@@ -66,6 +66,10 @@ class QuestSpider(scrapy.Spider):
         requires_any_script = response.xpath('//th[text()="Requires Any"]/../following-sibling::tr/td/script/text()').get()
         if requires_any_script:
             result["preQuestSingle"] = re.findall(r'quest=(\d+)', requires_any_script)
+
+        exclusive_to_script = response.xpath('//th[text()="Disables"]/../following-sibling::tr/td/script/text()').get()
+        if exclusive_to_script:
+            result["exclusiveTo"] = re.findall(r'quest=(\d+)', exclusive_to_script)
 
         # determine if a quest has a pre- or followup-quest, based on the href of the link in the <tr> before and after the one with the <b>
         # This is the table below a "Series" header
