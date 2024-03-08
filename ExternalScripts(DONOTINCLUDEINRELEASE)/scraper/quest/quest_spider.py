@@ -19,6 +19,10 @@ class QuestSpider(scrapy.Spider):
         self.start_urls = [self.base_url_classic.format(quest_id) for quest_id in QUEST_IDS]
 
     def parse(self, response):
+        # debug the response
+        # with open('response.html', 'wb') as f:
+        #     f.write(response.body)
+
         if response.url.startswith('https://www.wowhead.com/classic/quests?notFound='):
             questID = re.search(r'https://www.wowhead.com/classic/quests\?notFound=(\d+)', response.url).group(1)
             logging.warning('\x1b[31;20mQuest with ID {questID} not found\x1b[0m'.format(questID=questID))
