@@ -222,7 +222,7 @@ function MapIconTooltip:Show()
                             rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(" .. FormatLargeNumber(xpReward) .. xpString .. ") ", QuestieDB.IsRepeatable(questData.questId), QuestieDB.IsActiveEventQuest(questData.questId), QuestieDB.IsPvPQuest(questData.questId))
                         end
 
-                        local moneyReward = GetQuestLogRewardMoney(questData.questId)
+                        local moneyReward = QuestXP.GetQuestRewardMoney(questData.questId)
                         if moneyReward > 0 then
                             rewardString = rewardString .. Questie:Colorize("(" .. GetCoinTextureString(moneyReward) .. ") ", "white")
                         end
