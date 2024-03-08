@@ -16,7 +16,7 @@ class QuestSpider(scrapy.Spider):
 
     def __init__(self) -> None:
         super().__init__()
-        self.start_urls = [self.base_url_classic.format(quest_id) for quest_id in [1684]]
+        self.start_urls = [self.base_url_classic.format(quest_id) for quest_id in QUEST_IDS]
 
     def parse(self, response):
         # debug the response
@@ -66,6 +66,14 @@ class QuestSpider(scrapy.Spider):
         requires_any_script = response.xpath('//th[text()="Requires Any"]/../following-sibling::tr/td/script/text()').get()
         if requires_any_script:
             result["preQuestSingle"] = re.findall(r'quest=(\d+)', requires_any_script)
+        else:
+            requires_script = response.xpath('//th[text()="Requires"]/../following-sibling::tr/td/script/text()').get()
+            if requires_script:
+                all_required = re.findall(r'quest=(\d+)', requires_script)
+                if len(all_required) == 1:
+                    result["preQuestSingle"] = all_required
+                else:
+                    result["preQuestGroup"] = all_required
 
         exclusive_to_script = response.xpath('//th[text()="Disables"]/../following-sibling::tr/td/script/text()').get()
         if exclusive_to_script:
