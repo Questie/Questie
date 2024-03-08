@@ -63,6 +63,28 @@ class QuestSpider(scrapy.Spider):
         if spell_objective:
             result["spellObjective"] = re.search(r'spell=(\d+)', spell_objective).group(1)
 
+        # determine if a quest has a pre- or followup-quest, based on the href of the link in the <tr> before and after the one with the <b>
+        # This is the table below a "Series" header
+        # <table class="series">
+        #   <tr><th>1.</th><td><div><a href="/classic/quest=1679/muren-stormpike">Muren Stormpike</a></div></td></tr>
+        #   <tr><th>2.</th><td><div><b>Vejrek</b></div></td></tr> <--- this is the quest we are currently parsing
+        #   <tr><th>3.</th><td><div><a href="/classic/quest=1680/tormus-deepforge">Tormus Deepforge</a></div></td></tr>
+        #   <tr><th>4.</th><td><div><a href="/classic/quest=1681/ironbands-compound">Ironband's Compound</a></div></td></tr>
+        # </table>
+        rows = response.xpath('//table[@class="series"]/tr')
+        pre_quest = None
+        next_quest = None
+        for i, row in enumerate(rows):
+            if row.xpath('.//b'):
+                pre_quest = rows[i-1] if i > 0 else None
+                next_quest = rows[i+1] if i < len(rows) - 1 else None
+                break
+
+        if pre_quest:
+            result["preQuest"] = re.search(r'quest=(\d+)', pre_quest.xpath('.//a/@href').get()).group(1)
+        if next_quest:
+            result["nextQuest"] = re.search(r'quest=(\d+)', next_quest.xpath('.//a/@href').get()).group(1)
+
         if result:
             yield result
 
