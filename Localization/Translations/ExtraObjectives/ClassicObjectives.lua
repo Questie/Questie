@@ -531,7 +531,7 @@ local classicObjectiveLocales = {
         ["zhCN"] = false,
     },
     ["Use the Empty Worg Pup Cage to capture it."] = { -- 4729
-        ["ptBR"] = "Use a Jaula Vazia de Filhote de Worg  para capturá-lo.",
+        ["ptBR"] = "Use a Jaula Vazia de Filhote de Worg para capturá-lo.",
         ["ruRU"] = "Используйте Пустую клетку для щенка ворга, чтобы поймать его.",
         ["deDE"] = "Benutze den leeren Worg-Welpen-Käfig, um ihn zu fangen.",
         ["koKR"] = "빈 검은늑대 우리 아이템을 사용하여 사로잡으세요",
