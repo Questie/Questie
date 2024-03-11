@@ -4164,7 +4164,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.exclusiveTo] = {79945},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90250] = {
+        [90251] = {
             [questKeys.name] = "Invigoration",
             [questKeys.startedBy] = {{217412}},
             [questKeys.finishedBy] = nil,
@@ -4176,7 +4176,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416089,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90251] = {
+        [90252] = {
             [questKeys.name] = "Invigoration",
             [questKeys.startedBy] = {{217588}},
             [questKeys.finishedBy] = nil,
@@ -4188,7 +4188,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416089,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90252] = {
+        [90253] = {
             [questKeys.name] = "Invigoration",
             [questKeys.startedBy] = {{217589}},
             [questKeys.finishedBy] = nil,
@@ -4200,7 +4200,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416089,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90253] = {
+        [90254] = {
             [questKeys.name] = "Invigoration",
             [questKeys.startedBy] = {{217590}},
             [questKeys.finishedBy] = nil,

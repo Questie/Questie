@@ -404,6 +404,10 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90248] = 2, -- Paladin Enlightened Judgements
     [90249] = 2, -- Paladin Guarded by the Light
     [90250] = 2, -- Paladin Sheath of Light Part 2.5
+    [90251] = 2, -- Hunter Invigoration
+    [90252] = 2, -- Hunter Invigoration
+    [90253] = 2, -- Hunter Invigoration
+    [90254] = 2, -- Hunter Invigoration
 }
 
 --- "automatic" phase detection for the first few phases;
