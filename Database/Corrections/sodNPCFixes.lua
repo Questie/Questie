@@ -541,6 +541,26 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.THOUSAND_NEEDLES] = {{23.4, 23.4}},
             },
         },
+        [217412] = { -- Amaryllis Webb
+            [npcKeys.spawns] = {
+                [zoneIDs.SWAMP_OF_SORROWS] = {{25.2, 54.6}},
+            },
+        },
+        [217588] = { -- Arbor Tarantula
+            [npcKeys.spawns] = {
+                [zoneIDs.STRANGLETHORN_VALE] = {{45.2, 19.6}},
+            },
+        },
+        [217589] = { -- Hay Weevil
+            [npcKeys.spawns] = {
+                [zoneIDs.ARATHI_HIGHLANDS] = {{30.8, 28.6},{54.2, 38.6},{61.2, 55.4}},
+            },
+        },
+        [217590] = { -- Flesh Picker
+            [npcKeys.spawns] = {
+                [zoneIDs.DESOLACE] = {{51.4, 59.8}},
+            },
+        },
         [218115] = { -- Mai'zin
             [npcKeys.spawns] = {
                 [zoneIDs.STRANGLETHORN_VALE] = {{31.2, 48.4}},
