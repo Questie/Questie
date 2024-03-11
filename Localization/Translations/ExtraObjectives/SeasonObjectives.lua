@@ -3,14 +3,14 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local seasonObjectiveLocals = {
     ["Use the Rowboat to reach the eastern shore."] = { -- 79242
-        ["ptBR"] = false,
+        ["ptBR"] = "Use o barco a remo para alcançar a margem leste.",
         ["ruRU"] = "Используйте лодку с веслами, чтобы добраться до восточного берега.",
         ["deDE"] = "Benutze das Ruderboot, um zur Ostküste zu gelangen.",
         ["koKR"] = false,
-        ["esMX"] = false,
+        ["esMX"] = "Usa el bote de remos para llegar a la orilla este.",
         ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
+        ["frFR"] = "Utilisez la chaloupe pour atteindre la rive est.",
+        ["esES"] = "Usa el bote de remos para llegar a la orilla este.",
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
