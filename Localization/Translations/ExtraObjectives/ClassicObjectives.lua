@@ -63,7 +63,7 @@ local classicObjectiveLocales = {
         ["zhCN"] = false,
     },
     ["Use the War Horn Mouthpiece to summon Khan Hratha"] = { -- 1380 1381
-        ["ptBR"] = "Usa a Boquilha da Corneta de Guerra para evocar Khan Hratha,
+        ["ptBR"] = "Usa a Boquilha da Corneta de Guerra para evocar Khan Hratha",
         ["ruRU"] = "Используйте Загубник боевого горна, чтобы призвать Вождя Храта",
         ["deDE"] = "Kriegshornmundstück benutzen, um Khan Hratha zu rufen",
         ["koKR"] = "전쟁 뿔피리 파이프를 사용하여 칸 흐라사를 소환하세요",
@@ -459,7 +459,7 @@ local classicObjectiveLocales = {
         ["zhCN"] = false,
     },
     ["Summon a Lord using a full Twilight set, neck and ring."] = { -- 8352 9248
-        ["ptBR"] = "Evocar um Lorde usando um conjunto Crepúsculo, o Medalhão de Posto e Anel."
+        ["ptBR"] = "Evocar um Lorde usando um conjunto Crepúsculo, o Medalhão de Posto e Anel.",
         ["ruRU"] = false,
         ["deDE"] = "Beschwöre einen Lord mit einem vollen Twilight-Set, Halskette und Ring.",
         ["koKR"] = "황혼의 제복 세트, 황혼의 신도 계급장, 황혼의 신도 지휘관 반지를 착용하여 심연의 대의회 보스 몬스터를 소환하세요",
@@ -597,7 +597,7 @@ local classicObjectiveLocales = {
         ["koKR"] = false,
         ["esMX"] = "Combina los dos medio colgantes cuando estés cerca del Santuario de Remulos.",
         ["enUS"] = true,
-        ["frFR"] = "Combinez les Demi-pendentifs à proximité du sanctuaire de Remulos."
+        ["frFR"] = "Combinez les Demi-pendentifs à proximité du sanctuaire de Remulos.",
         ["esES"] = "Combina los dos medio colgantes cuando estés cerca del Santuario de Remulos.",
         ["zhTW"] = false,
         ["zhCN"] = false,
