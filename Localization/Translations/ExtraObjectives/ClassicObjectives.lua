@@ -436,7 +436,7 @@ local classicObjectiveLocales = {
     },
     ["Summon a Templar using a full Twilight set."] = { -- 8332 8361
         ["ptBR"] = "Evocar um Templário usando um conjunto Crepúsculo.",
-        ["ruRU"] = false,
+        ["ruRU"] = "Призовите Храмовника используя Сумеречное облачение.",
         ["deDE"] = "Beschwöre einen Templer mit einem vollen Twilight-Set.",
         ["koKR"] = "황혼의 제복 세트를 모두 착용하여 기사단을 소환하세요",
         ["esMX"] = "Invoca a un Templario usando un conjunto Crepuscular.",
@@ -448,7 +448,7 @@ local classicObjectiveLocales = {
     },
     ["Summon a Duke using a full Twilight set and neck."] = { -- 8341 8348
         ["ptBR"] = "Evocar um Duque usando um conjunto Crepúsculo e o Medalhão de Posto.",
-        ["ruRU"] = false,
+        ["ruRU"] = "Призовите Герцога используя Сумеречное облачение и шею.",
         ["deDE"] = "Beschwöre einen Duke mit einem vollen Twilight-Set und einer Halskette.",
         ["koKR"] = "황혼의 제복 세트와 황혼의 신도 계급장을 착용하여 군주를 소환하세요",
         ["esMX"] = "Invoca a un Duque usando un conjunto Crepuscular y el Medallón.",
@@ -460,7 +460,7 @@ local classicObjectiveLocales = {
     },
     ["Summon a Lord using a full Twilight set, neck and ring."] = { -- 8352 9248
         ["ptBR"] = "Evocar um Lorde usando um conjunto Crepúsculo, o Medalhão de Posto e Anel.",
-        ["ruRU"] = false,
+        ["ruRU"] = "Призовите Лорда используя Сумеречное облачение, шею и кольцо.",
         ["deDE"] = "Beschwöre einen Lord mit einem vollen Twilight-Set, Halskette und Ring.",
         ["koKR"] = "황혼의 제복 세트, 황혼의 신도 계급장, 황혼의 신도 지휘관 반지를 착용하여 심연의 대의회 보스 몬스터를 소환하세요",
         ["esMX"] = "Invoca a un Señor usando un conjunto Crepuscular, Medallón y Anillo.",
@@ -592,7 +592,7 @@ local classicObjectiveLocales = {
     },
     ["Combine the Pendant halves at the Shrine of Remulos."] = { -- 30 & 272
         ["ptBR"] = "Combine os Meio-pingentes perto do Santuário de Remulos.",
-        ["ruRU"] = false,
+        ["ruRU"] = "Сложите из половинок подвеску в святилище Ремулоса.",
         ["deDE"] = "Kombiniere die Anhängerhälften am Schrein von Remulos.",
         ["koKR"] = false,
         ["esMX"] = "Combina los dos medio colgantes cuando estés cerca del Santuario de Remulos.",
