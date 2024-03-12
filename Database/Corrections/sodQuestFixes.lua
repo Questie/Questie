@@ -4212,6 +4212,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416089,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90255] = {
+            [questKeys.name] = "Invocation",
+            [questKeys.startedBy] = {{2590}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Defeat Syndicate Conjuror to receive 10 Conjuror's Pendant and use Drain Soul on the Voidwalker Minions to receive a Soul of the Void. Combine both to spawn a Void Seeker and defeat it to receive the rune."},
+            [questKeys.requiredSpell] = -426443,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
     }
 end
 
