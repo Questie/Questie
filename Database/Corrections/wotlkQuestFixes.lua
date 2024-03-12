@@ -4277,6 +4277,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{194081}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [13481] = {
+            [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
+        },
+        [13482] = {
+            [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
+        },
         [13485] = {
             [questKeys.startedBy] = {{32801}},
             [questKeys.finishedBy] = {{32801}},
