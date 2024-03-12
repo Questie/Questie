@@ -410,6 +410,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90254] = 2, -- Hunter Invigoration
     [90255] = 2, -- Warlock Invocation
     [90256] = 2, -- Warlock Shadowflame
+    [90257] = 2, -- Warlock Dance of the Wicked
 }
 
 --- "automatic" phase detection for the first few phases;

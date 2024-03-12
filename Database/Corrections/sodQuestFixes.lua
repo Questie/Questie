@@ -4236,6 +4236,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -426467,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
+        [90257] = {
+            [questKeys.name] = "Dance of the Wicked",
+            [questKeys.startedBy] = {{217620}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Talk to the Reckless Warlock to receive Brimstone Carving. Then use Hellfire to damage yourself for a chance to receive the rune."},
+            [questKeys.requiredSpell] = -416017,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
     }
 end
 
