@@ -4224,6 +4224,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -426443,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
+        [90256] = {
+            [questKeys.name] = "Shadowflame",
+            [questKeys.startedBy] = {nil,{419741}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Cast Shadow Ward and start the summoning ritual. Defeat Seductress Ceeyna to receive the rune."},
+            [questKeys.requiredSpell] = -426467,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
     }
 end
 

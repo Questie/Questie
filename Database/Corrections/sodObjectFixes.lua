@@ -254,6 +254,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.WESTFALL] = {{37.4, 50.7}},
             },
         },
+        [419741] = { -- Sacrificial Altar
+            [objectKeys.zoneID] = zoneIDs.DESOLACE,
+            [objectKeys.spawns] = {
+                [zoneIDs.DESOLACE] = {{81.4,79.8}},
+            },
+        },
         [420055] = { -- Rowboat
             [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
             [objectKeys.spawns] = {
