@@ -524,7 +524,7 @@ function SeasonOfDiscovery:LoadNPCs()
         [217703] = { -- Singed Highperch Consort
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.spawns] = {
-                [zoneIDs.ASHENVALE] = {{10.4, 40.2}},
+                [zoneIDs.THOUSAND_NEEDLES] = {{10.4, 40.2}},
             },
         },
         [217706] = { -- Kazragore
