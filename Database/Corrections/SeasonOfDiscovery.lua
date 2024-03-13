@@ -127,6 +127,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79535] = 2, -- Mage Icy Veins/Spell Power
     [79536] = 2, -- Mage Icy Veins/Spell Power
     [79677] = 2, -- A Quick Grocery Run
+    [79731] = 2, -- Priest Dispersion
     [79939] = 2, -- Paladin Sheath of Light Part 1
     [79940] = 2, -- Paladin Sheath of Light Part 2
     [79945] = 2, -- Paladin Sheath of Light Part 3
