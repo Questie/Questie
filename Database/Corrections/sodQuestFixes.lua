@@ -881,6 +881,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [79731] = { -- The Troll Scroll
+            [questKeys.startedBy] = {{702}},
+            [questKeys.objectivesText] = {
+                "Solve the riddle of the scroll. Once you've done that, Hemet Nesingwary might like to hear the tale.",
+                "NOTE: Have a Rogue with a Jani's Charm trinket pickpocket a Mysterious Troll Scroll from the Bloodscalp Trolls in Stranglethorn Vale.",
+                "Then let that scroll be deciphered by a Mage to receive a Deciphered Troll Scroll starting this quest.",
+            },
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.requiredSourceItems] = {737},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Holy Spring Water next to the Holy Spring, while you have two meditation buffs active. Then loot the rune from the fountain."), 0, {{"object", 759}}}},
+        },
         [79939] = { -- The Broken Hammer
             [questKeys.startedBy] = {nil,{423703}},
             [questKeys.preQuestSingle] = {78093},
