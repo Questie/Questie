@@ -115,11 +115,11 @@ local tooltipsUILocales = {
         ["ruRU"] = "Завершает",
         ["deDE"] = "Beendet von",
         ["koKR"] = "끝",
-        ["esMX"] = "Terminado por",
+        ["esMX"] = "Finalizado por",
         ["enUS"] = true,
         ["zhCN"] = "任务结束于",
         ["zhTW"] = "任務結束於",
-        ["esES"] = "Terminado por",
+        ["esES"] = "Finalizado por",
         ["frFR"] = "Fin",
     },
     ["Completed on:"] = {
