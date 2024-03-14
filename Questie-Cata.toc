@@ -89,6 +89,12 @@ Database\Corrections\wotlkNPCFixes.lua
 Database\Corrections\wotlkItemFixes.lua
 Database\Corrections\wotlkObjectFixes.lua
 
+# Cata Corrections
+Database\Corrections\cataQuestFixes.lua
+Database\Corrections\cataNPCFixes.lua
+Database\Corrections\cataItemFixes.lua
+Database\Corrections\cataObjectFixes.lua
+
 # Compiler
 Database\compiler.lua
 

@@ -51,6 +51,15 @@ local QuestieWotlkItemFixes = QuestieLoader:ImportModule("QuestieWotlkItemFixes"
 ---@type QuestieWotlkObjectFixes
 local QuestieWotlkObjectFixes = QuestieLoader:ImportModule("QuestieWotlkObjectFixes")
 
+---@type CataQuestFixes
+local CataQuestFixes = QuestieLoader:ImportModule("CataQuestFixes")
+---@type CataNpcFixes
+local CataNpcFixes = QuestieLoader:ImportModule("CataNpcFixes")
+---@type CataItemFixes
+local CataItemFixes = QuestieLoader:ImportModule("CataItemFixes")
+---@type CataObjectFixes
+local CataObjectFixes = QuestieLoader:ImportModule("CataObjectFixes")
+
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 
@@ -287,12 +296,13 @@ function QuestieCorrections:Initialize(validationTables)
         _LoadCorrections("objectData", QuestieTBCObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
     end
 
+    -- TODO: Questie.IsWotlk is currently "true" in the cata beta
     if Questie.IsWotlk then
-        _LoadCorrections("questData", QuestieWotlkQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
-        _LoadCorrections("npcData", QuestieWotlkNpcFixes:LoadAutomatics(), QuestieDB.npcKeysReversed, validationTables)
-        _LoadCorrections("npcData", QuestieWotlkNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
-        _LoadCorrections("itemData", QuestieWotlkItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
-        _LoadCorrections("objectData", QuestieWotlkObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
+        _LoadCorrections("questData", CataQuestFixes.Load(), QuestieDB.questKeysReversed, validationTables)
+        --_LoadCorrections("npcData", QuestieWotlkNpcFixes:LoadAutomatics(), QuestieDB.npcKeysReversed, validationTables)
+        _LoadCorrections("npcData", CataNpcFixes.Load(), QuestieDB.npcKeysReversed, validationTables)
+        _LoadCorrections("itemData", CataItemFixes.Load(), QuestieDB.itemKeysReversed, validationTables)
+        _LoadCorrections("objectData", CataObjectFixes.Load(), QuestieDB.objectKeysReversed, validationTables)
     end
 
     if Questie.IsSoD then
