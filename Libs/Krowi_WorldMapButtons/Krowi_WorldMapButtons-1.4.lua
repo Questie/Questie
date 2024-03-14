@@ -112,10 +112,11 @@ function AddButton(button)
 	local xOffset = 4 + lib.NumButtons * 32;
 	button:SetPoint("TOPRIGHT", WorldMapFrame:GetCanvasContainer(), "TOPRIGHT", -xOffset, -2);
 	button.relativeFrame = WorldMapFrame:GetCanvasContainer();
-	hooksecurefunc(WorldMapFrame, lib.HasNoOverlay and "OnMapChanged" or "RefreshOverlayFrames", function()
-		button:Refresh();
-		lib.SetPoints();
-	end);
+    -- TODO: "RefreshOverlayFrames" is nil. Will this be fixed?
+	--hooksecurefunc(WorldMapFrame, lib.HasNoOverlay and "OnMapChanged" or "RefreshOverlayFrames", function()
+	--	button:Refresh();
+	--	lib.SetPoints();
+	--end);
 
 	tinsert(lib.Buttons, button);
 
