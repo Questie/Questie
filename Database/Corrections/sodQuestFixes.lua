@@ -2671,7 +2671,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425621,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [901234] = {
+        [90124] = {
             [questKeys.name] = "Rebuke",
             [questKeys.startedBy] = {{203475}},
             [questKeys.finishedBy] = {{203475}},
