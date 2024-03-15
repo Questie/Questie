@@ -187,19 +187,6 @@ do
 
         -- Season of Discovery Corrections
         if Questie.IsSoD then
-            -- Hot load all new SoD IDs so the compiled database can access them
-            for id, _ in pairs(SeasonOfDiscovery:LoadItems()) do
-                QuestieDB.itemDataOverrides[id] = {}
-            end
-            for id, _ in pairs(SeasonOfDiscovery:LoadNPCs()) do
-                QuestieDB.npcDataOverrides[id] = {}
-            end
-            for id, _ in pairs(SeasonOfDiscovery:LoadObjects()) do
-                QuestieDB.objectDataOverrides[id] = {}
-            end
-            for id, _ in pairs(SeasonOfDiscovery:LoadQuests()) do
-                QuestieDB.questDataOverrides[id] = {}
-            end
             addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadFactionQuestFixes())
         end
 
