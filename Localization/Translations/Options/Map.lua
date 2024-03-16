@@ -27,7 +27,7 @@ local mapOptionsLocales = {
         ["frFR"] = "Options de la carte du monde",
     },
     ["Show Questie Map Button"] = {
-        ["ptBR"] = "Mostrar o botão no cartão Questie",
+        ["ptBR"] = "Mostrar o botão de Questie no mapa",
         ["ruRU"] = "Кнопка Questie",
         ["deDE"] = "Zeige Questie-Button an der Weltkarte",
         ["koKR"] = "Questie 지도 버튼 표시",
@@ -255,7 +255,7 @@ local mapOptionsLocales = {
         ["frFR"] = "Coordonnées",
     },
     ["Place the Player's coordinates and Cursor's coordinates on the Map's title."] = {
-        ["ptBR"] = "Coloque as coordenadas do jogador e as do cursor no título do cartão.",
+        ["ptBR"] = "Coloque as coordenadas do jogador e as do cursor no título do mapa.",
         ["ruRU"] = "Показать/скрыть координаты игрока и курсора в заголовке карты мира",
         ["deDE"] = "Koordinaten von Spieler- und Mauszeiger-Koordinaten an der Weltkarte.",
         ["koKR"] = "지도 제목 영역에 플레이어 및 커서의 좌표를 표시합니다.",
