@@ -19,6 +19,10 @@ class QuestSpider(scrapy.Spider):
         self.start_urls = [self.base_url_classic.format(quest_id) for quest_id in QUEST_IDS]
 
     def parse(self, response):
+        # debug the response
+        # with open('response.html', 'wb') as f:
+        #     f.write(response.body)
+
         if response.url.startswith('https://www.wowhead.com/classic/quests?notFound='):
             questID = re.search(r'https://www.wowhead.com/classic/quests\?notFound=(\d+)', response.url).group(1)
             logging.warning('\x1b[31;20mQuest with ID {questID} not found\x1b[0m'.format(questID=questID))
@@ -58,6 +62,19 @@ class QuestSpider(scrapy.Spider):
         spell_objective = response.xpath('//a[@class="q"]/@href').get()
         if spell_objective:
             result["spellObjective"] = re.search(r'spell=(\d+)', spell_objective).group(1)
+
+        pre_quest_single, pre_quest_group, next_quest = self.__get_quest_chain(response)
+        if pre_quest_single:
+            result["preQuestSingle"] = pre_quest_single
+        if pre_quest_group:
+            result["preQuestGroup"] = pre_quest_group
+        if next_quest:
+            result["nextQuest"] = next_quest
+
+        # example quest: https://www.wowhead.com/classic/quest=1679/muren-stormpike
+        exclusive_to_script = response.xpath('//th[text()="Disables"]/../following-sibling::tr/td/script/text()').get()
+        if exclusive_to_script:
+            result["exclusiveTo"] = re.findall(r'quest=(\d+)', exclusive_to_script)
 
         if result:
             yield result
@@ -119,6 +136,38 @@ class QuestSpider(scrapy.Spider):
         if item_objective:
             return item_objective
         return None
+
+    def __get_quest_chain(self, response):
+        pre_quest_single, pre_quest_group, next_quest = None, None, None
+        # Example quest: https://www.wowhead.com/classic/quest=1678/vejrek
+        requires_any_script = response.xpath('//th[text()="Requires Any"]/../following-sibling::tr/td/script/text()').get()
+        if requires_any_script:
+            pre_quest_single = re.findall(r'quest=(\d+)', requires_any_script)
+        else:
+            # example quest: https://www.wowhead.com/classic/quest=4822/you-scream-i-scream
+            requires_script = response.xpath('//th[text()="Requires"]/../following-sibling::tr/td/script/text()').get()
+            if requires_script:
+                all_required = re.findall(r'quest=(\d+)', requires_script)
+                if len(all_required) == 1:
+                    pre_quest_single = all_required
+                else:
+                    pre_quest_group = all_required
+
+        # Example quest: https://www.wowhead.com/classic/quest=1678/vejrek
+        rows = response.xpath('//table[@class="series"]/tr')
+        pre_quest_row = None
+        next_quest_row = None
+        for i, row in enumerate(rows):
+            if row.xpath('.//b'):
+                pre_quest_row = rows[i - 1] if i > 0 else None
+                next_quest_row = rows[i + 1] if i < len(rows) - 1 else None
+                break
+        if pre_quest_row and pre_quest_single is None:
+            pre_quest_single = [re.search(r'quest=(\d+)', pre_quest_row.xpath('.//a/@href').get()).group(1)]
+        if next_quest_row:
+            next_quest = re.search(r'quest=(\d+)', next_quest_row.xpath('.//a/@href').get()).group(1)
+
+        return pre_quest_single, pre_quest_group, next_quest
 
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):

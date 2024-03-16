@@ -483,6 +483,11 @@ function SeasonOfDiscovery:LoadNPCs()
         [215850] = { -- Raszel Ander
             [npcKeys.friendlyToFaction] = "AH",
         },
+        [216289] = { -- Orokai
+            [npcKeys.spawns] = {
+                [zoneIDs.MOONGLADE] = {{41.2, 43.6}},
+            },
+        },
         [216902] = { -- Wulmort Jinglepocket
             [npcKeys.spawns] = {
                 [zoneIDs.IRONFORGE] = {{33.7, 67.23}},
@@ -519,7 +524,7 @@ function SeasonOfDiscovery:LoadNPCs()
         [217703] = { -- Singed Highperch Consort
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.spawns] = {
-                [zoneIDs.ASHENVALE] = {{10.4, 40.2}},
+                [zoneIDs.THOUSAND_NEEDLES] = {{10.4, 40.2}},
             },
         },
         [217706] = { -- Kazragore
@@ -536,9 +541,34 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.THOUSAND_NEEDLES] = {{23.4, 23.4}},
             },
         },
+        [217412] = { -- Amaryllis Webb
+            [npcKeys.spawns] = {
+                [zoneIDs.SWAMP_OF_SORROWS] = {{25.2, 54.6}},
+            },
+        },
+        [217588] = { -- Arbor Tarantula
+            [npcKeys.spawns] = {
+                [zoneIDs.STRANGLETHORN_VALE] = {{45.2, 19.6}},
+            },
+        },
+        [217589] = { -- Hay Weevil
+            [npcKeys.spawns] = {
+                [zoneIDs.ARATHI_HIGHLANDS] = {{30.8, 28.6},{54.2, 38.6},{61.2, 55.4}},
+            },
+        },
+        [217590] = { -- Flesh Picker
+            [npcKeys.spawns] = {
+                [zoneIDs.DESOLACE] = {{51.4, 59.8}},
+            },
+        },
         [218115] = { -- Mai'zin
             [npcKeys.spawns] = {
                 [zoneIDs.STRANGLETHORN_VALE] = {{31.2, 48.4}},
+            },
+        },
+        [218160]  = { -- Aeonas the Vindicated
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{37.4, 31.8}},
             },
         },
         [218237] = { -- Wirdal Wondergear

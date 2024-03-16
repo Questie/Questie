@@ -38,6 +38,18 @@ local seasonObjectiveLocals = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Use the Holy Spring Water next to the Holy Spring, while you have two meditation buffs active. Then loot the rune from the fountain."] = { -- 79731
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Benutze das Wasser der Heiligen Quelle neben der Heiligen Quelle, während du zwei Meditation-Buffs aktiv hast. Plündere dann die Rune aus dem Brunnen.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(seasonObjectiveLocals) do

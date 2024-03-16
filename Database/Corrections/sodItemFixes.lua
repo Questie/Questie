@@ -37,6 +37,12 @@ function SeasonOfDiscovery:LoadItems()
         [208609] = { -- Glade Flower
             [itemKeys.objectDrops] = {407247},
         },
+        [208612] = { -- Severed Spider Head
+            [itemKeys.npcDrops] = {1998,1999,2000,2001},
+        },
+        [208689] = { -- Ferocious Idol
+            [itemKeys.npcDrops] = {98,500,1972,6788},
+        },
         [208771] = { -- Rune of Blade Dance
             [itemKeys.objectDrops] = {407453,408718,414532},
         },
@@ -76,6 +82,9 @@ function SeasonOfDiscovery:LoadItems()
         },
         [212347] = { -- Illari's Key
             [itemKeys.npcDrops] = {215655},
+        },
+        [215376] = { -- Crusader's Mace
+            [itemKeys.npcDrops] = {4281,4283,4286,4287,4288,4289,4290,4291,4292,4293,4294,4295,4296,4297,4298,4299,4300,4301,4302,4303,4306,4540},
         },
         [216635] = { -- Spent Voidcore
             [itemKeys.npcDrops] = {5335,5336,5337},

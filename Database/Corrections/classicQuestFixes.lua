@@ -2796,6 +2796,9 @@ function QuestieQuestFixes:Load()
         [8171] = {
             [questKeys.specialFlags] = 0,
         },
+        [8183] = {
+            [questKeys.startedBy] = {{14834},nil,{19802}},
+        },
         [8184] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR,
         },

@@ -85,7 +85,7 @@ function _QuestieTooltips:AddObjectDataToTooltip(name)
         return
     end
     if name then
-        local tooltipAdded = false
+        local titleAdded = false
         local lookup = l10n.objectNameLookup[name] or {}
         local count = table.getn(lookup)
 
@@ -97,25 +97,30 @@ function _QuestieTooltips:AddObjectDataToTooltip(name)
             end
         end
 
+        local alreadyAddedObjectiveLines = {}
         for _, gameObjectId in pairs(lookup) do
             local tooltipData = QuestieTooltips:GetTooltip("o_" .. gameObjectId);
 
             if type(gameObjectId) == "number" and tooltipData then
-                for _, v in pairs (tooltipData) do
-                    if tooltipData[2] then
-                        local _, _, acquired, needed = string.find(tooltipData[2], "(%d+)/(%d+)")
-                        if acquired and acquired == needed then
-                            -- We don't want to show completed objectives on game objects
-                            break;
-                        end
-                    end
-
-                    GameTooltip:AddLine(v)
-                    tooltipAdded = true
+                if (not titleAdded) then
+                    GameTooltip:AddLine(tooltipData[1])
+                    titleAdded = true
                 end
 
-                if tooltipAdded then
-                    break;
+                if tooltipData[2] then
+                    -- Quest has objectives
+                    for index, line in pairs (tooltipData) do
+                        if index > 1 and (not alreadyAddedObjectiveLines[line]) then -- skip the first entry, it's the title
+                            local _, _, acquired, needed = string.find(line, "(%d+)/(%d+)")
+                            -- We need "tonumber", because acquired can contain parts of the color string
+                            if acquired and tonumber(acquired) == tonumber(needed) then
+                                -- We don't want to show completed objectives on game objects
+                                break;
+                            end
+                            alreadyAddedObjectiveLines[line] = true
+                            GameTooltip:AddLine(line)
+                        end
+                    end
                 end
             end
         end

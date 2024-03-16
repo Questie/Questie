@@ -109,6 +109,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79095] = 1, -- Mage Icy Veins
     [79096] = 1, -- Mage Icy Veins
     [79097] = 1, -- Mage Icy Veins
+    [79348] = 2, -- Druid Nourish (The Lost Ancient)
+    [79377] = 2, -- Druid Nourish (The Lost Saplings)
     [79229] = 2, -- Highway Robbery
     [79235] = 2, -- On the Lam
     [79236] = 2, -- Cherry for Your Thoughts?
@@ -125,6 +127,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79535] = 2, -- Mage Icy Veins/Spell Power
     [79536] = 2, -- Mage Icy Veins/Spell Power
     [79677] = 2, -- A Quick Grocery Run
+    [79731] = 2, -- Priest Dispersion
+    [79939] = 2, -- Paladin Sheath of Light Part 1
+    [79940] = 2, -- Paladin Sheath of Light Part 2
+    [79945] = 2, -- Paladin Sheath of Light Part 3
+    [79946] = 2, -- Paladin Sheath of Light Part 4
     [79947] = 2, -- Mage Icy Veins/Spell Power
     [79948] = 2, -- Mage Icy Veins/Spell Power
     [79949] = 2, -- Mage Icy Veins/Spell Power
@@ -132,6 +139,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79951] = 2, -- Mage Icy Veins/Spell Power
     [79952] = 2, -- Mage Icy Veins/Spell Power
     [79953] = 2, -- Mage Icy Veins/Spell Power
+    [79963] = 2, -- Paladin Sheath of Light 5
+    [79970] = 2, -- Paladin Sheath of Light 6
     [80098] = 2, -- Curious Dalaran Relic
     [80120] = 2, -- A Service to Dalaran
     [80147] = 2, -- Curious Dalaran Relic
@@ -166,7 +175,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90020] = 1, -- Mage Alliance Living Bomb
     [90021] = 1, -- Mage Horde Living Bomb
     --- Mage runes end
- 
+
     [90022] = 1, -- Paladin Divine Storm
     [90023] = 1, -- Druid Wild Strikes
     [90024] = 1, -- Druid Survival of the Fittest
@@ -393,6 +402,23 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90245] = 2, -- Shaman Fire Nova Final Step
     [90246] = 2, -- Shaman Power Surge
     [90247] = 2, -- Shaman Decoy Totem
+    [90248] = 2, -- Paladin Enlightened Judgements
+    [90249] = 2, -- Paladin Guarded by the Light
+    [90250] = 2, -- Paladin Sheath of Light Part 2.5
+    [90251] = 2, -- Hunter Invigoration
+    [90252] = 2, -- Hunter Invigoration
+    [90253] = 2, -- Hunter Invigoration
+    [90254] = 2, -- Hunter Invigoration
+    [90255] = 2, -- Warlock Invocation
+    [90256] = 2, -- Warlock Shadowflame
+    [90257] = 2, -- Warlock Dance of the Wicked
+    [90258] = 2, -- Priest Pain Suppression
+    [90259] = 2, -- Priest Pain Suppression
+    [90260] = 2, -- Priest Pain Suppression
+    [90261] = 2, -- Priest Pain Suppression
+    [90262] = 2, -- Priest Pain Suppression
+    [90263] = 2, -- Rogue Shuriken Toss
+    [90264] = 2, -- Rogue Master of Subtlety
 }
 
 --- "automatic" phase detection for the first few phases;
@@ -1039,6 +1065,8 @@ local questsToBlacklistBySoDPhase = {
         [9416] = true,
     },
     [17] = { -- Never appearing in Season of Discovery
+        [1203] = true, -- Jarl Needs a Blade - Replaced by 81570
+
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,
         [971] = true,
