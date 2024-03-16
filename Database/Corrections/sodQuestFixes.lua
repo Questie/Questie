@@ -4323,6 +4323,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402855,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90263] = {
+            [questKeys.name] = "Pain Suppression",
+            [questKeys.startedBy] = {nil,{428228}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Disarm the Dart Trap and loot the Conspicuous Cache to receive the rune."},
+            [questKeys.requiredSpell] = -400096,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 

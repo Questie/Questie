@@ -417,6 +417,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90260] = 2, -- Priest Pain Suppression
     [90261] = 2, -- Priest Pain Suppression
     [90262] = 2, -- Priest Pain Suppression
+    [90263] = 2, -- Rogue Shuriken Toss
 }
 
 --- "automatic" phase detection for the first few phases;
