@@ -11,3 +11,5 @@ object_data.json
 object_data.lua
 
 response.html
+
+quest/sod_translations/quest_data_*.lua
