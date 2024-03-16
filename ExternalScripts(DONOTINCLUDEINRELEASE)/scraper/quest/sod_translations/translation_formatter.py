@@ -9,7 +9,7 @@ class TranslationFormatter:
         self.__format_quests()
 
     def __format_quests(self) -> None:
-        quest_input = self.__load_json_file("quest_data.json")
+        quest_input = self.__load_json_file("quest/sod_translations/quest_data.json")
 
         input_by_locale = {}
         for item in quest_input:
@@ -19,7 +19,7 @@ class TranslationFormatter:
 
         for locale, data in input_by_locale.items():
             locale = self.__get_locale(locale)
-            with Path("quest_data_{}.lua".format(locale)).open("w", encoding="utf-8") as g:
+            with Path("quest/sod_translations/quest_data_{}.lua".format(locale)).open("w", encoding="utf-8") as g:
                 g.write("if GetLocale() ~= \"{}\" then\n".format(locale) +
                         "    return\n" +
                         "end\n\n" +
