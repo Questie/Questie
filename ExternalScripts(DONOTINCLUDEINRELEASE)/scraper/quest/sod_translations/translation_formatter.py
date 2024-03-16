@@ -21,10 +21,7 @@ class TranslationFormatter:
             with Path("quest_data_{}.lua".format(locale)).open("w", encoding="utf-8") as g:
                 g.write("local lookup = l10n.questLookup[\"{}\"]\n\n".format(locale))
                 for item in data:
-                    g.write("lookup[{id}] = {{{title},nil}}\n".format(
-                        id=item["questId"],
-                        title=("\"" + item["title"] + "\"") if "title" in item else "nil")
-                    )
+                    g.write("lookup[{id}] = {{{title},nil}}\n".format(id=item["questId"], title=self.__get_title(item)))
 
     def __load_json_file(self, file_name: str):
         print("Loading '{}'...".format(file_name))
@@ -37,6 +34,12 @@ class TranslationFormatter:
     def __sort_and_filter_data(self, data):
         sorted_data = sorted(data, key=lambda x: int(x.get('questId', 0)))
         return sorted_data
+
+    def __get_title(self, item):
+        if "title" in item:
+            return "\"" + item["title"].replace("\"", "\\\"") + "\""
+        return "nil"
+
 
 
 if __name__ == '__main__':
