@@ -18,6 +18,7 @@ class TranslationFormatter:
             input_by_locale[item["locale"]].append(item)
 
         for locale, data in input_by_locale.items():
+            locale = self.__get_locale(locale)
             with Path("quest_data_{}.lua".format(locale)).open("w", encoding="utf-8") as g:
                 g.write("local lookup = l10n.questLookup[\"{}\"]\n\n".format(locale))
                 for item in data:
@@ -34,6 +35,23 @@ class TranslationFormatter:
     def __sort_and_filter_data(self, data):
         sorted_data = sorted(data, key=lambda x: int(x.get('questId', 0)))
         return sorted_data
+
+    def __get_locale(self, locale):
+        if locale == "cn":
+            return "zhCN"
+        if locale == "de":
+            return "deDE"
+        if locale == "es":
+            return "esES"
+        if locale == "fr":
+            return "frFR"
+        if locale == "ko":
+            return "koKR"
+        if locale == "pt":
+            return "ptBR"
+        if locale == "ru":
+            return "ruRU"
+
 
     def __get_title(self, item):
         if "title" in item:
