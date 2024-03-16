@@ -132,7 +132,7 @@ local advancedOptionsLocales = {
         ["zhCN"] = "勾选此选项后，任务ID将显示在鼠标提示和跟踪器中",
         ["zhTW"] = "啟用時，會在浮動提示資訊和任務追蹤清單內顯示任務 ID。",
         ["esES"] = "Si está marcado, la ID de misiones mostrará en los tooltips y el rastreador.",
-        ["frFR"] = "Active l'affichage de l'ID des quêtes dans les info-bulles et le suivi des quêtes.",
+        ["frFR"] = "Active l'affichage de l'ID des quêtes dans les infobulles et le suivi des quêtes.",
     },
     ["Enable Debug"] = {
         ["ptBR"] = "Ativar depuração",
