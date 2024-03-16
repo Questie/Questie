@@ -4335,6 +4335,21 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400096,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90264] = {
+            [questKeys.name] = "Master of Subtlety",
+            [questKeys.startedBy] = {{218230,218229}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {
+                "Talk to Wendel Mathers and free him with a Compoud Cage Key you can pickpocket from the nearby Kurzen mobs.",
+                "Afterwards talk to Captain Aransas in Booty Bay to receive the rune. Hold on to the Jani's Charm, you'll get as a bonus."
+            },
+            [questKeys.requiredSpell] = -425103,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 
