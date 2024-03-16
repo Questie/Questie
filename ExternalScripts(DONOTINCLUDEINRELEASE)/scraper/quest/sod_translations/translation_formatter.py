@@ -20,7 +20,12 @@ class TranslationFormatter:
         for locale, data in input_by_locale.items():
             locale = self.__get_locale(locale)
             with Path("quest_data_{}.lua".format(locale)).open("w", encoding="utf-8") as g:
-                g.write("local lookup = l10n.questLookup[\"{}\"]\n\n".format(locale))
+                g.write("if GetLocale() ~= \"{}\" then\n".format(locale) +
+                        "    return\n" +
+                        "end\n\n" +
+                        "---@type l10n\n" +
+                        "local l10n = QuestieLoader:ImportModule(\"l10n\")\n\n" +
+                        "local lookup = l10n.questLookup[\"{}\"]\n\n".format(locale))
                 for item in data:
                     g.write("lookup[{id}] = {{{title},nil}}\n".format(id=item["questId"], title=self.__get_title(item)))
 
