@@ -8,6 +8,7 @@ exclude_files = {
     ".types/",
     ".vscode/",
     "ExternalScripts(DONOTINCLUDEINRELEASE)/",
+    "Icons/",
     "Database/Classic/",
     "Database/TBC/",
     "Database/Wotlk/",
