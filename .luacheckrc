@@ -12,7 +12,6 @@ exclude_files = {
     "Database/Classic/",
     "Database/TBC/",
     "Database/Wotlk/",
-    "Localization/lookups",
     "Libs/",
     "releases/",
     ".luacheckrc",
