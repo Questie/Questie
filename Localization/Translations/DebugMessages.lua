@@ -36,7 +36,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "在地图上显示Questie提示",
         ["zhTW"] = "在大地圖和小地圖上顯示任務圖示",
         ["esES"] = "Muestra Questie en el mapa y minimapa",
-        ["frFR"] = "Active ou désactive l'affichage de Questie sur la carte et la mini-carte",
+        ["frFR"] = "Active ou désactive l'affichage de Questie sur la carte et la minicarte",
     },
     ["Toggles the My Journey window"] = {
         ["ptBR"] = "Mostrar / Ocultar a janela Minha Jornada",
@@ -60,7 +60,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "切换任务追踪窗口，输入  'show', 'hide', 'reset' 选项以显示、隐藏、重设追踪窗口",
         ["zhTW"] = "切換顯示追蹤清單。加上 'show', 'hide', 'reset' 選項來顯示、隱藏、重置追蹤清單",
         ["esES"] = "Muestra el Rastreador. Agrega 'mostrar', 'ocultar y 'restablecer' para mostrar/ocultar y restablecer el Rastreador",
-        ["frFR"] = "Active / désactive le traqueur. Ajouter 'afficher', 'masquer', 'réinitialiser' pour afficher / masquer ou réinitialiser explicitement le traqueur",
+        ["frFR"] = "Active / désactive le traqueur. Ajouter 'afficher', 'cacher', 'réinitialiser' pour afficher / cacher ou réinitialiser explicitement le traqueur",
     },
     ["Flex the amount of quests you have completed so far"] = {
         ["ptBR"] = "Mostra a quantidade de missões que você completou até agora",
@@ -96,7 +96,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "切换显示或隐藏Questie小地图图标",
         ["zhTW"] = "顯示小地圖按鈕",
         ["esES"] = "Muestra el botón del minimapa para Questie",
-        ["frFR"] = "Affiche ou désactive le bouton Questie autour de la mini-carte.",
+        ["frFR"] = "Affiche ou désactive le bouton Questie autour de la minicarte.",
     },
     ["Adds manual notes to the map for a given NPC ID or name. If the name is ambiguous multipe notes might be added. Without a second command the target will be added to the map. The 'reset' command removes all notes"] = {
         ["ptBR"] = "Adiciona notas manuais ao mapa para um determinado NPC ID ou nome. Se o nome for ambíguo, podem ser adicionadas notas multipe. Sem um segundo comando, o alvo será adicionado ao mapa. O comando 'redefinir' remove todas as notas",
@@ -255,7 +255,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Application des correctifs de base de données",
     },
     ["Initializing locale"] = {
-        ["ptBR"] = "Inicializando a localização",
+        ["ptBR"] = "Inicializando idioma",
         ["ruRU"] = "Определение языка игры",
         ["deDE"] = "Übersetzungen werden geladen",
         ["koKR"] = "Locale 데이터 설치중",

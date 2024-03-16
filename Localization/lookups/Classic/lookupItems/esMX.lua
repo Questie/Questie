@@ -324,6 +324,7 @@ l10n.itemLookup["esMX"] = {
 [3924] = "Pata de palo de Maury",
 [3925] = "Catalejo dorado de Jon-Jon",
 [3926] = "Anillo enorme de Chucky",
+[3930] = "Llave de Maury",
 [3932] = "Cofre de Smotts",
 [3935] = "Alfanje de Smotts",
 [3985] = "Fajín con monogramas",
