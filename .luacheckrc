@@ -10,6 +10,7 @@ exclude_files = {
     "ExternalScripts(DONOTINCLUDEINRELEASE)/",
     "Database/Classic/",
     "Database/TBC/",
+    "Database/Wotlk/",
     "Localization/lookups",
     "Libs/",
     "releases/",
