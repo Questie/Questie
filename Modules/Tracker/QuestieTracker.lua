@@ -64,7 +64,7 @@ local questsWatched = GetNumQuestWatches()
 local trackedAchievements
 local trackedAchievementIds
 
-if Questie.IsWotlk then
+if Questie.IsWotlk or Questie.IsCata then
     trackedAchievements = { GetTrackedAchievements() }
     trackedAchievementIds = {}
 end
@@ -219,7 +219,7 @@ function QuestieTracker.Initialize()
 
             -- The trackedAchievements variable is populated by GetTrackedAchievements(). If Questie
             -- is enabled, this will always return nil so we need to save it before we enable Questie.
-            if Questie.IsWotlk then
+            if Questie.IsWotlk or Questie.IsCata then
                 if #trackedAchievements > 0 then
                     local tempAchieves = trackedAchievements
 
