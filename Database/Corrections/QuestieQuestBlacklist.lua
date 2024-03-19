@@ -1490,6 +1490,7 @@ function QuestieQuestBlacklist:Load()
         ----- Cata ------------- starting here -------------- Cata -----
 
         -- Pre-event
+        [25571] = true, -- A Natural Occurrence
         [25773] = true, -- A Natural Occurrence
         [27473] = true, -- What's Shaking in Ironforge
 
