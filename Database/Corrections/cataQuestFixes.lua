@@ -21,3 +21,31 @@ function CataQuestFixes.Load()
         }
     }
 end
+
+function CataQuestFixes:LoadFactionFixes()
+    local questKeys = QuestieDB.questKeys
+
+    local questFixesHorde = {
+        [29481] = { -- Elixir Master
+            [questKeys.startedBy] = {{3347}}
+        },
+        [29482] = { -- Transmutation Master
+            [questKeys.startedBy] = {{3347}}
+        },
+    }
+
+    local questFixesAlliance = {
+        [29481] = { -- Elixir Master
+            [questKeys.startedBy] = {{5499}}
+        },
+        [29482] = { -- Transmutation Master
+            [questKeys.startedBy] = {{5499}}
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return questFixesHorde
+    else
+        return questFixesAlliance
+    end
+end
