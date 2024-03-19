@@ -1485,6 +1485,221 @@ function QuestieQuestBlacklist:Load()
         --[26012] = true, -- Trouble at Wyrmrest
         --[26013] = true, -- Assault on the Sanctum
 
+
+        ----- Cata -------------- Cata quests --------------- Cata -----
+        ----- Cata ------------- starting here -------------- Cata -----
+
+        -- Darkmoon Faire
+        [27664] = true, -- Darkmoon Volcanic Deck
+        [27665] = true, -- Darkmoon Hurricane Deck
+        [27666] = true, -- Darkmoon Tsunami Deck
+        [27667] = true, -- Darkmoon Earthquake Deck
+        [29433] = true, -- Test Your Strength
+        [29434] = true, -- Tonk Commander
+        [29436] = true, -- The Humanoid Cannonball
+        [29438] = true, -- He Shoots, He Scores!
+        [29443] = true, -- A Curious Crystal
+        [29444] = true, -- An Exotic Egg
+        [29445] = true, -- An Intriguing Grimoire
+        [29446] = true, -- A Wondrous Weapon
+        [29451] = true, -- The Master Strategist
+        [29455] = true, -- Target: Turtle
+        [29456] = true, -- A Captured Banner
+        [29457] = true, -- The Enemy's Insignia
+        [29458] = true, -- The Captured Journal
+        [29463] = true, -- It's Hammer Time
+        [29464] = true, -- Tools of Divination
+        [29506] = true, -- A Fizzy Fusion
+        [29507] = true, -- Fun for the Little Ones
+        [29508] = true, -- Baby Needs Two Pair of Shoes
+        [29509] = true, -- Putting the Crunch in the Frog
+        [29510] = true, -- Putting Trash to Good Use
+        [29511] = true, -- Talkin' Tonks
+        [29513] = true, -- Spoilin' for Salty Sea Dogs
+        [29514] = true, -- Herbs for Healing
+        [29515] = true, -- Writing the Future
+        [29516] = true, -- Keeping the Faire Sparkling
+        [29517] = true, -- Eyes on the Prizes
+        [29518] = true, -- Rearm, Reuse, Recycle
+        [29519] = true, -- Tan My Hide
+        [29520] = true, -- Banners, Banners Everywhere!
+        [29601] = true, -- The Darkmoon Field Guide
+        [29760] = true, -- Pit Fighter
+        [29761] = true, -- Master Pit Fighter
+
+        -- Day of the Dead
+        [27841] = true, -- The Grateful Dead
+        [27846] = true, -- The Grateful Dead
+
+        -- Children's Week
+        [28879] = true, -- Back To The Orphanage
+        [28880] = true, -- Back To The Orphanage
+        [29093] = true, -- Cruisin' the Chasm
+        [29106] = true, -- The Biggest Diamond Ever!
+        [29117] = true, -- Let's Go Fly a Kite
+        [29119] = true, -- You Scream, I Scream...
+        [29146] = true, -- Ridin' the Rocketway
+        [29176] = true, -- The Fallen Chieftain
+        [29190] = true, -- Let's Go Fly a Kite
+        [29191] = true, -- You Scream, I Scream...
+
+        -- Midsummer
+        [28910] = true, -- Desecrate this Fire!
+        [28911] = true, -- Desecrate this Fire!
+        [28912] = true, -- Desecrate this Fire!
+        [28913] = true, -- Desecrate this Fire!
+        [28914] = true, -- Desecrate this Fire!
+        [28915] = true, -- Desecrate this Fire!
+        [28916] = true, -- Desecrate this Fire!
+        [28917] = true, -- Desecrate this Fire!
+        [28918] = true, -- Desecrate this Fire!
+        [28919] = true, -- Desecrate this Fire!
+        [28920] = true, -- Desecrate this Fire!
+        [28921] = true, -- Desecrate this Fire!
+        [28922] = true, -- Honor the Flame
+        [28923] = true, -- Honor the Flame
+        [28924] = true, -- Honor the Flame
+        [28925] = true, -- Honor the Flame
+        [28926] = true, -- Honor the Flame
+        [28927] = true, -- Honor the Flame
+        [28928] = true, -- Honor the Flame
+        [28929] = true, -- Honor the Flame
+        [28930] = true, -- Honor the Flame
+        [28931] = true, -- Honor the Flame
+        [28932] = true, -- Honor the Flame
+        [28933] = true, -- Honor the Flame
+        [28943] = true, -- Desecrate this Fire!
+        [28944] = true, -- Desecrate this Fire!
+        [28945] = true, -- Honor the Flame
+        [28946] = true, -- Honor the Flame
+        [28947] = true, -- Desecrate this Fire!
+        [28948] = true, -- Desecrate this Fire!
+        [28949] = true, -- Honor the Flame
+        [28950] = true, -- Honor the Flame
+        [29030] = true, -- Honor the Flame
+        [29031] = true, -- Honor the Flame
+        [29036] = true, -- Honor the Flame
+        [29092] = true, -- Inform the Elder
+
+        -- Hallow's End
+        [28934] = true, -- Candy Bucket
+        [28951] = true, -- Candy Bucket
+        [28952] = true, -- Candy Bucket
+        [28953] = true, -- Candy Bucket
+        [28954] = true, -- Candy Bucket
+        [28955] = true, -- Candy Bucket
+        [28956] = true, -- Candy Bucket
+        [28957] = true, -- Candy Bucket
+        [28958] = true, -- Candy Bucket
+        [28959] = true, -- Candy Bucket
+        [28960] = true, -- Candy Bucket
+        [28961] = true, -- Candy Bucket
+        [28962] = true, -- Candy Bucket
+        [28963] = true, -- Candy Bucket
+        [28964] = true, -- Candy Bucket
+        [28965] = true, -- Candy Bucket
+        [28966] = true, -- Candy Bucket
+        [28967] = true, -- Candy Bucket
+        [28968] = true, -- Candy Bucket
+        [28969] = true, -- Candy Bucket
+        [28970] = true, -- Candy Bucket
+        [28971] = true, -- Candy Bucket
+        [28972] = true, -- Candy Bucket
+        [28973] = true, -- Candy Bucket
+        [28974] = true, -- Candy Bucket
+        [28975] = true, -- Candy Bucket
+        [28976] = true, -- Candy Bucket
+        [28977] = true, -- Candy Bucket
+        [28978] = true, -- Candy Bucket
+        [28979] = true, -- Candy Bucket
+        [28980] = true, -- Candy Bucket
+        [28981] = true, -- Candy Bucket
+        [28982] = true, -- Candy Bucket
+        [28983] = true, -- Candy Bucket
+        [28984] = true, -- Candy Bucket
+        [28985] = true, -- Candy Bucket
+        [28986] = true, -- Candy Bucket
+        [28987] = true, -- Candy Bucket
+        [28988] = true, -- Candy Bucket
+        [28989] = true, -- Candy Bucket
+        [28990] = true, -- Candy Bucket
+        [28991] = true, -- Candy Bucket
+        [28992] = true, -- Candy Bucket
+        [28993] = true, -- Candy Bucket
+        [28994] = true, -- Candy Bucket
+        [28995] = true, -- Candy Bucket
+        [28996] = true, -- Candy Bucket
+        [28997] = true, -- Candy Bucket
+        [28998] = true, -- Candy Bucket
+        [28999] = true, -- Candy Bucket
+        [29000] = true, -- Candy Bucket
+        [29001] = true, -- Candy Bucket
+        [29002] = true, -- Candy Bucket
+        [29003] = true, -- Candy Bucket
+        [29004] = true, -- Candy Bucket
+        [29005] = true, -- Candy Bucket
+        [29006] = true, -- Candy Bucket
+        [29007] = true, -- Candy Bucket
+        [29008] = true, -- Candy Bucket
+        [29009] = true, -- Candy Bucket
+        [29010] = true, -- Candy Bucket
+        [29011] = true, -- Candy Bucket
+        [29012] = true, -- Candy Bucket
+        [29013] = true, -- Candy Bucket
+        [29014] = true, -- Candy Bucket
+        [29016] = true, -- Candy Bucket
+        [29017] = true, -- Candy Bucket
+        [29018] = true, -- Candy Bucket
+        [29019] = true, -- Candy Bucket
+        [29020] = true, -- Candy Bucket
+        [29054] = true, -- Stink Bombs Away!
+        [29074] = true, -- A Season for Celebration
+        [29075] = true, -- A Time to Gain
+        [29144] = true, -- Clean Up in Stormwind
+        [29371] = true, -- A Time to Lose
+        [29374] = true, -- Stink Bombs Away!
+        [29375] = true, -- Clean Up in Undercity
+        [29376] = true, -- A Time to Build Up
+        [29377] = true, -- A Time to Break Down
+        [29392] = true, -- Missing Heirlooms
+        [29398] = true, -- Fencing the Goods
+        [29399] = true, -- Shopping Around
+        [29400] = true, -- A Season for Celebration
+        [29402] = true, -- Taking Precautions
+        [29403] = true, -- The Collector's Agent
+        [29411] = true, -- What Now?
+        [29415] = true, -- Missing Heirlooms
+        [29416] = true, -- Fencing the Goods
+        [29425] = true, -- Shopping Around
+        [29426] = true, -- Taking Precautions
+        [29427] = true, -- The Collector's Agent
+        [29428] = true, -- What Now?
+        [29430] = true, -- A Friend in Need
+        [29431] = true, -- A Friend in Need
+
+        -- Winter's Veil
+        [29382] = true, -- Thanks, But No Thanks
+        [29383] = true, -- Thanks, But No Thanks
+        [29385] = true, -- A Winter Veil Gift
+        [28878] = true, -- A Winter Veil Gift
+
+        -- Brewfest
+        [29393] = true, -- Brew For Brewfest
+        [29394] = true, -- Brew For Brewfest
+        [29396] = true, -- A New Supplier of Souvenirs
+        [29397] = true, -- A New Supplier of Souvenirs
+
+        -- Lunar Festival
+        [29734] = true, -- Deepforge the Elder
+        [29735] = true, -- Stonebrand the Elder
+        [29736] = true, -- Darkfeather the Elder
+        [29737] = true, -- Firebeard the Elder
+        [29738] = true, -- Moonlance the Elder
+        [29739] = true, -- Windsong the Elder
+        [29740] = true, -- Evershade the Elder
+        [29741] = true, -- Sekhemi the Elder
+        [29742] = true, -- Menkhaf the Elder
+
         ----- SoD -------------- SoD quests --------------- SoD -----
         [78611] = true, -- A Waylaid Shipment (no longer available in P2)
         [79100] = true, -- A Waylaid Shipment (no longer available in P2)
