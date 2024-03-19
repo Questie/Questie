@@ -216,7 +216,7 @@ do
         end
 
         -- Wotlk Blacklist
-        if (Questie.IsWotlk) then
+        if (Questie.IsWotlk or Questie.IsCata) then
             -- We only add blacklist if no blacklist entry for the quest already exists
             for id, hide in pairs(QuestieQuestBlacklist.LoadAutoBlacklistWotlk()) do
                 -- This has to be a nil-check, because the value could be false
