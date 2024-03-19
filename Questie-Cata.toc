@@ -46,10 +46,10 @@ Database\Zones\zoneTables.lua
 Database\Zones\zoneDB.lua
 
 # Databases
-Database\Wotlk\wotlkItemDB.lua
-Database\Wotlk\wotlkNpcDB.lua
-Database\Wotlk\wotlkObjectDB.lua
-Database\Wotlk\wotlkQuestDB.lua
+Database\Cata\cataItemDB.lua
+Database\Cata\cataNpcDB.lua
+Database\Cata\cataObjectDB.lua
+Database\Cata\cataQuestDB.lua
 Database\QuestieDB.lua
 Database\questDB.lua
 Database\objectDB.lua
