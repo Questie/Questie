@@ -16,6 +16,9 @@ function CataQuestFixes.Load()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
+        [578] = { -- The Stone of the Tides
+            [questKeys.childQuests] = {579},
+        },
         [579] = { -- Stormwind Library
             [questKeys.parentQuest] = 578,
         },
