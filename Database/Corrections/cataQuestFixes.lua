@@ -13,6 +13,9 @@ function CataQuestFixes.Load()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
+        [579] = { -- Stormwind Library
+            [questKeys.parentQuest] = 578,
+        },
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
         }
