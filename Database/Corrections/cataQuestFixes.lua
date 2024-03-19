@@ -13,7 +13,7 @@ function CataQuestFixes.Load()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
-        [2438] = { --
+        [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
         }
     }
