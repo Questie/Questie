@@ -51,7 +51,7 @@ local townsfolkLocales = {
         ["frFR"] = "Banquier",
     },
     ["Battlemaster"] = {
-        ["ptBR"] = "Mestre de batalha",
+        ["ptBR"] = "Mestre de Batalha",
         ["ruRU"] = "Военачальник",
         ["deDE"] = "Kampfmeister:in",
         ["koKR"] = "전투모병관",
@@ -87,7 +87,7 @@ local townsfolkLocales = {
         ["frFR"] = "Boissons",
     },
     ["Flight Master"] = {
-        ["ptBR"] = "Mestre de voo",
+        ["ptBR"] = "Mestre de Voo",
         ["ruRU"] = "Распорядитель полетов",
         ["deDE"] = "Flugmeister:in",
         ["koKR"] = "비행 조련사",
@@ -123,7 +123,7 @@ local townsfolkLocales = {
         ["frFR"] = "Aubergiste",
     },
     ["Mailbox"] = {
-        ["ptBR"] = "Caixa de correio",
+        ["ptBR"] = "Caixa de Correio",
         ["ruRU"] = "Почтовый ящик",
         ["deDE"] = "Briefkasten",
         ["koKR"] = "우체통",
@@ -135,7 +135,7 @@ local townsfolkLocales = {
         ["frFR"] = "Boîte aux lettres",
     },
     ["Profession Trainer"] = {
-        ["ptBR"] = "Instrutores de profissões",
+        ["ptBR"] = "Instrutor de profissão",
         ["ruRU"] = "Учитель профессий",
         ["deDE"] = "Berufsausbilder",
         ["koKR"] = "기술 전문가",
@@ -183,7 +183,7 @@ local townsfolkLocales = {
         ["frFR"] = "Gardien des âmes",
     },
     ["Stable Master"] = {
-        ["ptBR"] = "Mestre de estábulo",
+        ["ptBR"] = "Mestre de Estábulo",
         ["ruRU"] = "Смотритель стойл",
         ["deDE"] = "Stallmeister:in",
         ["koKR"] = "야수 관리인",

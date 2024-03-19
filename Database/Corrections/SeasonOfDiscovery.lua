@@ -412,6 +412,13 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90255] = 2, -- Warlock Invocation
     [90256] = 2, -- Warlock Shadowflame
     [90257] = 2, -- Warlock Dance of the Wicked
+    [90258] = 2, -- Priest Pain Suppression
+    [90259] = 2, -- Priest Pain Suppression
+    [90260] = 2, -- Priest Pain Suppression
+    [90261] = 2, -- Priest Pain Suppression
+    [90262] = 2, -- Priest Pain Suppression
+    [90263] = 2, -- Rogue Shuriken Toss
+    [90264] = 2, -- Rogue Master of Subtlety
 }
 
 --- "automatic" phase detection for the first few phases;

@@ -197,11 +197,6 @@ do
 
         -- Season of Discovery Corrections
         if Questie.IsSoD then
-            -- TODO: Why is this needed at all? Something is off. Only faction fixes should be needed!!
-            addOverride(QuestieDB.itemDataOverrides, SeasonOfDiscovery:LoadItems())
-            addOverride(QuestieDB.npcDataOverrides, SeasonOfDiscovery:LoadNPCs())
-            addOverride(QuestieDB.objectDataOverrides, SeasonOfDiscovery:LoadObjects())
-            addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadQuests())
             addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadFactionQuestFixes())
         end
 

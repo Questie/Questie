@@ -3,21 +3,21 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local trackerUILocales = {
     ["Questie Tracker"] = {
-        ["ptBR"] = "Missões ativas",
+        ["ptBR"] = "Rastreador de Questie",
         ["ruRU"] = "Активные задания",
         ["deDE"] = "Aktive Quests",
         ["koKR"] = "활성 퀘스트",
-        ["esMX"] = "Misiones activas",
+        ["esMX"] = "Rastreador de Questie",
         ["enUS"] = true,
         ["zhCN"] = "当前任务",
         ["zhTW"] = "任務",
-        ["esES"] = "Misiones activas",
-        ["frFR"] = "Quêtes actives",
+        ["esES"] = "Rastreador de Questie",
+        ["frFR"] = "Suivi de Questie",
     },
     ---------------------------------------------------------
     -- Sizer
     ["Sizer Mode"] = {
-        ["ptBR"] = "Modo do Medidor",
+        ["ptBR"] = "Modo do medidor",
         ["ruRU"] = "Режим сайзера",
         ["deDE"] = "Sizer-Modus",
         ["koKR"] = "사이저 모드",
@@ -74,7 +74,7 @@ local trackerUILocales = {
         ["zhCN"] = "在手動模式下忽略跟踪器高度比",
         ["zhTW"] = "手動模式下忽略任務清單的高度比例",
         ["esES"] = "La relación de altura del rastreador\nse ignora mientras está en modo manual",
-        ["frFR"] = "Le rapport de hauteur du\ntracker est ignoré en mode manuel",
+        ["frFR"] = "Le rapport de hauteur du suivi\nest ignoré en mode manuel",
     },
     ---------------------------------------------------------
     -- Questie Icon (Active Quest Header)
@@ -145,11 +145,11 @@ local trackerUILocales = {
         ["ruRU"] = "Зажмите Shift, чтобы увидеть PlayButtons",
         ["deDE"] = "Halte Shift gedrückt, um Play-Buttons zu sehen",
         ["koKR"] = "플레이 버튼을 보기 위해서는 쉬프트 키를 누르고 계세요",
-        ["esMX"] = "Manten presionada la la techa shift para ver los PlayButtons",
+        ["esMX"] = "Manten presionada la tecla mayús para ver los PlayButtons",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = "按住 Shift 顯示播放按鈕",
-        ["esES"] = "Manten presionada la la techa shift para ver los PlayButtons",
+        ["esES"] = "Manten presionada la tecla mayús para ver los PlayButtons",
         ["frFR"] = "Maintenez la touche Maj enfoncée pour voir les PlayButtons",
     },
     -- TomTom Integration
@@ -238,7 +238,7 @@ local trackerUILocales = {
         ["zhCN"] = "隐藏标记",
         ["zhTW"] = "隱藏圖示",
         ["esES"] = "Ocultar iconos",
-        ["frFR"] = "Masquer les icônes",
+        ["frFR"] = "Cacher les icônes",
     },
     ["Show Icons"] = {
         ["ptBR"] = "Mostrar ícones",

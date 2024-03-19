@@ -303,6 +303,11 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.FERALAS] = {{29.3, 93.8}},
             },
         },
+        [424264] = { -- Grave
+            [objectKeys.spawns] = {
+                [zoneIDs.DUSTWALLOW_MARSH] = {{63.7, 42.4}},
+            },
+        },
         [424265] = { -- Grave
             [objectKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
             [objectKeys.spawns] = {

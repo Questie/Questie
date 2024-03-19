@@ -39,16 +39,16 @@ local keyboardShortcutLocales = {
         ["frFR"] = true,
     },
     ["Control"] = {
-        ["ptBR"] = true,
-        ["ruRU"] = true,
+        ["ptBR"] = "Ctrl",
+        ["ruRU"] = "Ctrl",
         ["deDE"] = "Strg",
-        ["koKR"] = true,
-        ["esMX"] = true,
+        ["koKR"] = "Ctrl",
+        ["esMX"] = "Ctrl",
         ["enUS"] = true,
-        ["zhCN"] = true,
-        ["zhTW"] = true,
-        ["esES"] = true,
-        ["frFR"] = true,
+        ["zhCN"] = "Ctrl",
+        ["zhTW"] = "Ctrl",
+        ["esES"] = "Ctrl",
+        ["frFR"] = "Ctrl",
     },
     ["Ctrl + Left Click"] = {
         ["ptBR"] = "Ctrl + Clique esquerdo",
@@ -84,7 +84,7 @@ local keyboardShortcutLocales = {
         ["zhCN"] = "Ctrl +左键+保持",
         ["zhTW"] = "Ctrl + 長按左鍵",
         ["esES"] = "Ctrl + Clic izq. + Mantener",
-        ["frFR"] = "Ctrl + clic gauche + maintien",
+        ["frFR"] = "Ctrl + Clic Gauche + Maintenir",
     },
     ["Ctrl + Shift + Left Click"] = {
         ["ptBR"] = "Ctrl + Shift + Clique esquerdo",
@@ -132,7 +132,7 @@ local keyboardShortcutLocales = {
         ["zhCN"] = "左键单击并按住",
         ["zhTW"] = "按住左鍵",
         ["esES"] = "Clic izq. + Mantener",
-        ["frFR"] = "Clic gauche + Maintenir",
+        ["frFR"] = "Clic Gauche + Maintenir",
     },
 }
 
