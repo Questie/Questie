@@ -5,11 +5,14 @@ local CataQuestFixes = QuestieLoader:CreateModule("CataQuestFixes")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 
 function CataQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
+    local profKeys = QuestieProfessions.professionKeys
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
@@ -18,7 +21,13 @@ function CataQuestFixes.Load()
         },
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
-        }
+        },
+        [29481] = { -- Elixir Master
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
+        },
+        [29482] = { -- Transmutation Master
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
+        },
     }
 end
 
