@@ -265,7 +265,7 @@ end
 ---@param quest Quest
 ---@param tooltipKey string the tooltip key. For objects it's "o_<ID>", for NPCs it's "m_<ID>"
 _AddStarter = function(starter, quest, tooltipKey)
-    if (not starter) or (not starter.spawns) then
+    if (not starter) then
         return
     end
 
@@ -273,7 +273,7 @@ _AddStarter = function(starter, quest, tooltipKey)
 
     local starterIcons = {}
     local starterLocs = {}
-    for zone, spawns in pairs(starter.spawns) do
+    for zone, spawns in pairs(starter.spawns or {}) do
         local alreadyAddedSpawns = {}
         if (zone and spawns) then
             local coords
@@ -316,7 +316,7 @@ _AddStarter = function(starter, quest, tooltipKey)
 
     -- Only for NPCs since objects do not move
     if starter.waypoints then
-        for zone, waypoints in pairs(starter.waypoints) do
+        for zone, waypoints in pairs(starter.waypointsor {}) do
             if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                 if not starterIcons[zone] then
                     local data = {
