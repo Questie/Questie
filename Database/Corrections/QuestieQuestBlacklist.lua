@@ -1489,6 +1489,10 @@ function QuestieQuestBlacklist:Load()
         ----- Cata -------------- Cata quests --------------- Cata -----
         ----- Cata ------------- starting here -------------- Cata -----
 
+        -- Pre-event
+        [25773] = true, -- A Natural Occurrence
+        [27473] = true, -- What's Shaking in Ironforge
+
         -- Darkmoon Faire
         [27664] = true, -- Darkmoon Volcanic Deck
         [27665] = true, -- Darkmoon Hurricane Deck
