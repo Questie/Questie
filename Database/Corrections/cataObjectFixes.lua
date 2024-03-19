@@ -1,7 +1,21 @@
 ---@class CataObjectFixes
 local CataObjectFixes = QuestieLoader:CreateModule("CataObjectFixes")
 
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+
 
 function CataObjectFixes.Load()
-    return {}
+    local objectKeys = QuestieDB.objectKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
+    return {
+        [126158] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.TELDRASSIL] = {{66.1,52}}
+            }
+        }
+    }
 end
