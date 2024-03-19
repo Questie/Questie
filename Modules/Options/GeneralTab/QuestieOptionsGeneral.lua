@@ -386,7 +386,7 @@ function QuestieOptions.tabs.general:Initialize()
                         end,
                         width = 1.063,
                         min = 0,
-                        max = 60 + 10 * GetExpansionLevel(),
+                        max = Questie.IsCata and 85 or (60 + 10 * GetExpansionLevel()),
                         step = 1,
                         disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
                         get = function(info) return Questie.db.profile.maxLevelFilter; end,
