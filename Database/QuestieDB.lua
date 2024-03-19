@@ -138,11 +138,9 @@ local questTagCorrections = {
 }
 
 -- race bitmask data, for easy access
-local VANILLA = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
-
 QuestieDB.raceKeys = {
-    ALL_ALLIANCE = VANILLA and 77 or 1101,
-    ALL_HORDE = VANILLA and 178 or 690,
+    ALL_ALLIANCE = Questie.IsClassic and 77 or Questie.IsCata and 2098253 or 1101,
+    ALL_HORDE = Questie.IsClassic and 178 or Questie.IsCata and 946 or 690,
     NONE = 0,
 
     HUMAN = 1,
@@ -153,9 +151,10 @@ QuestieDB.raceKeys = {
     TAUREN = 32,
     GNOME = 64,
     TROLL = 128,
-    --GOBLIN = 256,
+    GOBLIN = 256,
     BLOOD_ELF = 512,
-    DRAENEI = 1024
+    DRAENEI = 1024,
+    WORGEN = 2097152, -- lol
 }
 
 -- Combining these with "and" makes the order matter
