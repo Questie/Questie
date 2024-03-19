@@ -114,7 +114,7 @@ function QuestieEventHandler:RegisterLateEvents()
     end)
 
     -- UI Achievement Events
-    if Questie.IsWotlk then
+    if Questie.IsWotlk or Questie.IsCata then
         -- Earned Achievement update
         Questie:RegisterEvent("ACHIEVEMENT_EARNED", function(index, achieveId, alreadyEarned)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ACHIEVEMENT_EARNED")
@@ -319,7 +319,7 @@ function _EventHandler:MapExplorationUpdated()
     end
 
     -- Exploratory based Achievement updates
-    if Questie.IsWotlk then
+    if Questie.IsWotlk or Questie.IsCata then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
@@ -429,7 +429,7 @@ function _EventHandler:ChatMsgSkill()
     end
 
     -- Skill based Achievement updates
-    if Questie.IsWotlk then
+    if Questie.IsWotlk or Questie.IsCata then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)

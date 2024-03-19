@@ -35,7 +35,7 @@ function TrackerQuestFrame.Initialize(baseFrame, headerFrame)
     questFrame:SetScript("OnLeave", TrackerFadeTicker.Fade)
 
     local scrollFrameTemplete
-    if Questie.IsWotlk then
+    if Questie.IsWotlk or Questie.IsCata then
         scrollFrameTemplete = "ScrollFrameTemplate"
     else
         scrollFrameTemplete = "UIPanelScrollFrameTemplate"
@@ -45,7 +45,7 @@ function TrackerQuestFrame.Initialize(baseFrame, headerFrame)
     questFrame.ScrollFrame = CreateFrame("ScrollFrame", "TrackedQuestsScrollFrame", questFrame, scrollFrameTemplete)
     questFrame.ScrollFrame:SetAllPoints(questFrame)
 
-    if not Questie.IsWotlk then
+    if (not Questie.IsWotlk) and (not Questie.IsCata) then
         local frameName = questFrame.ScrollFrame:GetName()
         questFrame.ScrollBar = _G[frameName .. "ScrollBar"]
         questFrame.ScrollBar:ClearAllPoints()
