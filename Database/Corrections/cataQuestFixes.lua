@@ -22,8 +22,14 @@ function CataQuestFixes.Load()
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
         },
+        [14071] = { -- Rolling with my Homies
+            [questKeys.childQuests] = {28607},
+        },
         [24960] = { -- The Wakening
             [questKeys.preQuestSingle] = {28608},
+        },
+        [28607] = { -- The Keys to the Hot Rod
+            [questKeys.parentQuest] = 14071,
         },
         [29481] = { -- Elixir Master
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
