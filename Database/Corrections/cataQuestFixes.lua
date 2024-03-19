@@ -12,5 +12,9 @@ function CataQuestFixes.Load()
     local classIDs = QuestieDB.classKeys
     local zoneIDs = ZoneDB.zoneIDs
 
-    return {}
+    return {
+        [2438] = { --
+            [questKeys.specialFlags] = 0,
+        }
+    }
 end
