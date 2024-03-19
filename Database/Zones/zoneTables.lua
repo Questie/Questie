@@ -260,6 +260,16 @@ ZoneDB.private.areaIdToUiMapId = {
     [5892] = 414, -- Dragon Soul
     [5892] = 415, -- Dragon Soul
     [5034] = 249, -- Uldum
+
+    [1196] = 137, -- Utgarde Pinnacle
+    [4100] = 130, -- The Culling of Stratholme
+    [4196] = 160, -- Drak'Tharon Keep
+    [4264] = 140, -- Halls of Stone
+    [4277] = 159, -- Azjol-Nerub
+    [4416] = 154, -- Gundrak
+    [4494] = 132, -- Ahn'kahet: The Old Kingdom
+    [4720] = 174, -- The Lost Isles
+    [4950] = 293, -- Grim Batol
 }
 
 ---@type table<UiMapId, AreaId>
@@ -580,6 +590,16 @@ ZoneDB.private.uiMapIdToAreaId = {
     [414] = 5892, -- Dragon Soul
     [415] = 5892, -- Dragon Soul
     [249] = 5034, -- Uldum
+
+    [130] = 4100, -- The Culling of Stratholme
+    [132] = 4494, -- Ahn'kahet: The Old Kingdom
+    [137] = 1196, -- Utgarde Pinnacle
+    [140] = 4264, -- Halls of Stone
+    [154] = 4416, -- Gundrak
+    [159] = 4277, -- Azjol-Nerub
+    [160] = 4196, -- Drak'Tharon Keep
+    [174] = 4720, -- The Lost Isles
+    [293] = 4950, -- Grim Batol
 }
 
 -- [areaId] = {"name", alternative areaId (a sub zone), parentId}
