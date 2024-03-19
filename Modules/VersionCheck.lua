@@ -47,9 +47,14 @@ Questie.db = {profile={minimap={hide=false}}}
 Questie._sessionWarnings = {}
 
 local clientVersion = GetBuildInfo()
+
+--- Addon is running on Classic Cata client
+---@type boolean
+Questie.IsCata = true -- TODO: Fix this, once Blizzard adds a proper global
+
 --- Addon is running on Classic Wotlk client
 ---@type boolean
-Questie.IsWotlk = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
+Questie.IsWotlk = false -- TODO: Fix this, once we can say IsCata WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
 
 --- Addon is running on Classic TBC client
 ---@type boolean

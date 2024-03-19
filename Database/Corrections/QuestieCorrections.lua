@@ -172,12 +172,13 @@ do
     end
 
     function QuestieCorrections:MinimalInit() -- db already compiled
-
-        -- Classic Era Corrections
-        addOverride(QuestieDB.itemDataOverrides, QuestieItemFixes:LoadFactionFixes())
-        addOverride(QuestieDB.npcDataOverrides, QuestieNPCFixes:LoadFactionFixes())
-        addOverride(QuestieDB.objectDataOverrides, QuestieObjectFixes:LoadFactionFixes())
-        addOverride(QuestieDB.questDataOverrides, QuestieQuestFixes:LoadFactionFixes())
+        if (not Questie.IsCata) then
+            -- Classic Era Corrections
+            addOverride(QuestieDB.itemDataOverrides, QuestieItemFixes:LoadFactionFixes())
+            addOverride(QuestieDB.npcDataOverrides, QuestieNPCFixes:LoadFactionFixes())
+            addOverride(QuestieDB.objectDataOverrides, QuestieObjectFixes:LoadFactionFixes())
+            addOverride(QuestieDB.questDataOverrides, QuestieQuestFixes:LoadFactionFixes())
+        end
 
         -- TBC Corrections
         if (Questie.IsTBC or Questie.IsWotlk) then
@@ -280,14 +281,16 @@ end
 
 ---@param validationTables table? Only used by the CI validation scripts to validate the corrections against the original database values and find irrelevant corrections
 function QuestieCorrections:Initialize(validationTables)
-    QuestieQuestFixes:LoadMissingQuests()
+    if (not Questie.IsCata) then
+        QuestieQuestFixes:LoadMissingQuests()
 
-    -- Classic Corrections
-    _LoadCorrections("questData", QuestieClassicQuestReputationFixes:Load(), QuestieDB.questKeysReversed, validationTables)
-    _LoadCorrections("questData", QuestieQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
-    _LoadCorrections("npcData", QuestieNPCFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
-    _LoadCorrections("itemData", QuestieItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
-    _LoadCorrections("objectData", QuestieObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
+        -- Classic Corrections
+        _LoadCorrections("questData", QuestieClassicQuestReputationFixes:Load(), QuestieDB.questKeysReversed, validationTables)
+        _LoadCorrections("questData", QuestieQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
+        _LoadCorrections("npcData", QuestieNPCFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
+        _LoadCorrections("itemData", QuestieItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
+        _LoadCorrections("objectData", QuestieObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
+    end
 
     if Questie.IsTBC or Questie.IsWotlk then
         _LoadCorrections("questData", QuestieTBCQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
@@ -296,8 +299,15 @@ function QuestieCorrections:Initialize(validationTables)
         _LoadCorrections("objectData", QuestieTBCObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
     end
 
-    -- TODO: Questie.IsWotlk is currently "true" in the cata beta
     if Questie.IsWotlk then
+        _LoadCorrections("questData", QuestieWotlkQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
+        _LoadCorrections("npcData", QuestieWotlkNpcFixes:LoadAutomatics(), QuestieDB.npcKeysReversed, validationTables)
+        _LoadCorrections("npcData", QuestieWotlkNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
+        _LoadCorrections("itemData", QuestieWotlkItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
+        _LoadCorrections("objectData", QuestieWotlkObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
+    end
+
+    if Questie.IsCata then
         _LoadCorrections("questData", CataQuestFixes.Load(), QuestieDB.questKeysReversed, validationTables)
         --_LoadCorrections("npcData", QuestieWotlkNpcFixes:LoadAutomatics(), QuestieDB.npcKeysReversed, validationTables)
         _LoadCorrections("npcData", CataNpcFixes.Load(), QuestieDB.npcKeysReversed, validationTables)
@@ -316,8 +326,10 @@ function QuestieCorrections:Initialize(validationTables)
         _LoadCorrections("objectData", SeasonOfDiscovery:LoadObjects(), QuestieDB.objectKeysReversed, validationTables)
     end
 
-    --- Corrections that apply to all versions
-    _LoadCorrections("itemData", QuestieItemStartFixes:LoadAutomaticQuestStarts(), QuestieDB.itemKeysReversed, validationTables, true, true)
+    --- Corrections that apply to all versions except cata
+    if (not Questie.IsCata) then
+        _LoadCorrections("itemData", QuestieItemStartFixes:LoadAutomaticQuestStarts(), QuestieDB.itemKeysReversed, validationTables, true, true)
+    end
 
     local patchCount = 0
     for _, quest in pairs(QuestieDB.questData) do
