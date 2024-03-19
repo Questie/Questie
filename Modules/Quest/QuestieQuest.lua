@@ -491,12 +491,14 @@ function QuestieQuest:CompleteQuest(questId)
     -- otherwise objectives for repeatable quests won't track correctly - #1433
     Questie.db.char.complete[questId] = (not QuestieDB.IsRepeatable(questId)) or QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId);
 
-    if allianceChampionMarkerQuests[questId] then
-        Questie.db.char.complete[13700] = true -- Alliance Champion Marker
-        Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
-    elseif hordeChampionMarkerQuests[questId] then
-        Questie.db.char.complete[13701] = true -- Horde Champion Marker
-        Questie.db.char.complete[13687] = nil -- Horde Tournament Eligibility Marker
+    if Questie.IsWotlk or Questie.IsCata then
+        if allianceChampionMarkerQuests[questId] then
+            Questie.db.char.complete[13700] = true -- Alliance Champion Marker
+            Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
+        elseif hordeChampionMarkerQuests[questId] then
+            Questie.db.char.complete[13701] = true -- Horde Champion Marker
+            Questie.db.char.complete[13687] = nil -- Horde Tournament Eligibility Marker
+        end
     end
     QuestieMap:UnloadQuestFrames(questId)
 
