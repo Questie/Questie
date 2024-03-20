@@ -251,10 +251,13 @@ readers["spawnlist"] = function(stream)
         local list = {}
         for i = 1, spawnCount do
             local x, y = stream:ReadInt12Pair()
+            local phase = stream:ReadByte()
             if x == 0 and y == 0 then
                 list[i] = {-1, -1}
-            else
+            elseif phase == 0 then
                 list[i] = {x / 40.90, y / 40.90}
+            else
+                list[i] = {x / 40.90, y / 40.90, phase}
             end
         end
         spawnlist[zone] = list
@@ -540,6 +543,7 @@ QuestieDBCompiler.writers = {
                     else
                         stream:WriteInt12Pair(floor(spawn[1] * 40.90), floor(spawn[2] * 40.90))
                     end
+                    stream:WriteByte(spawn[3] or 0) -- spawn phase
                 end
             end
         else
@@ -702,7 +706,9 @@ skippers["spawnlist"] = function(stream)
     local count = stream:ReadByte()
     for _ = 1, count do
         stream._pointer = stream._pointer + 2
-        stream._pointer = stream:ReadShort() * 3 + stream._pointer
+        -- Skip over the 4 bytes of each spawn
+        -- 3 bytes for the spawn-pair of 12-bit integers and 1 byte for the phase
+        stream._pointer = stream:ReadShort() * 4 + stream._pointer
     end
 end
 local spawnlistSkipper = skippers["spawnlist"]
