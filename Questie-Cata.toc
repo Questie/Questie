@@ -100,6 +100,7 @@ Modules\QuestieProfessions.lua
 Modules\QuestieReputation.lua
 Modules\QuestieEventHandler.lua
 Modules\Migration.lua
+Modules\Phasing.lua
 Modules\QuestieMenu.lua
 Modules\QuestieAnnounce.lua
 Modules\QuestieShutUp.lua
