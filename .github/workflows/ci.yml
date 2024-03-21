@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - "**"
     tags:
       - "*"
   pull_request:
@@ -34,8 +34,19 @@ jobs:
           status: ${{ job.status }}
         if: ${{ failure() }}
 
-  validate-era-db:
+  unit-tests:
     needs: lua-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Run Unit Tests
+        uses: lunarmodules/busted@v2.2.0
+        with:
+          args: -p ".test.lua" .
+
+  validate-era-db:
+    needs: unit-tests
     runs-on: ubuntu-latest
 
     steps:
@@ -63,7 +74,7 @@ jobs:
         if: ${{ failure() }}
 
   validate-sod-db:
-    needs: lua-check
+    needs: unit-tests
     runs-on: ubuntu-latest
 
     steps:
@@ -91,7 +102,7 @@ jobs:
         if: ${{ failure() }}
 
 #  validate-tbc-db:
-#    needs: lua-check
+#    needs: unit-tests
 #    runs-on: ubuntu-latest
 #
 #    steps:
@@ -119,7 +130,7 @@ jobs:
 #        if: ${{ failure() }}
 
   validate-wotlk-db:
-    needs: lua-check
+    needs: unit-tests
     runs-on: ubuntu-latest
 
     steps:
