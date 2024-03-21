@@ -1,6 +1,8 @@
 ---@class Phasing
 local Phasing = QuestieLoader:CreateModule("Phasing")
 
+local _Phasing = {}
+
 -- https://old.wow.tools/dbc/?dbc=phase&build=4.3.4.15595
 local phases = {
     KEZAN_CHAPTER_1 = 378,
@@ -13,24 +15,30 @@ local phases = {
 }
 Phasing.phases = phases
 
+---@param phase number @The phase belonging to a spawn of an NPC
+---@return boolean @true if the spawn is visible, false otherwise
 function Phasing.IsSpawnVisible(phase)
     local complete = Questie.db.char.complete
 
     if phase >= phases.KEZAN_CHAPTER_1 and phase <= phases.KEZAN_CHAPTER_7 then
-        if phase == phases.KEZAN_CHAPTER_1 and (complete[14125] or complete[14126]) then
-            return false
-        elseif phase == phases.KEZAN_CHAPTER_1 then
-            return true
-        end
-        if phase == phases.KEZAN_CHAPTER_6 and complete[14125] then
-            return true
-        end
-        if phase == phases.KEZAN_CHAPTER_7 and complete[14126] then
-            return true
-        end
-
-        return false
+        return _Phasing.Kezan(phase, complete)
     end
+    return false
+end
+
+_Phasing.Kezan = function(phase, complete)
+    if phase == phases.KEZAN_CHAPTER_1 and (complete[14125] or complete[14126]) then
+        return false
+    elseif phase == phases.KEZAN_CHAPTER_1 then
+        return true
+    end
+    if phase == phases.KEZAN_CHAPTER_6 and complete[14125] then
+        return true
+    end
+    if phase == phases.KEZAN_CHAPTER_7 and complete[14126] then
+        return true
+    end
+
     return false
 end
 
