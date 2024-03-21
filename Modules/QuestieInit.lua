@@ -357,7 +357,12 @@ end
 function QuestieInit:LoadDatabase(key)
     if QuestieDB[key] then
         coYield()
-        QuestieDB[key] = loadstring(QuestieDB[key]) -- load the table from string (returns a function)
+        local func, err = loadstring(QuestieDB[key]) -- load the table from string (returns a function)
+        if (not func) then
+            Questie:Error("Failed to load database: ", key, err)
+            return
+        end
+        QuestieDB[key] = func
         coYield()
         QuestieDB[key] = QuestieDB[key]()           -- execute the function (returns the table)
     else
