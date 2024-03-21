@@ -16,14 +16,20 @@ Phasing.phases = phases
 function Phasing.IsSpawnVisible(phase)
     local complete = Questie.db.char.complete
 
-    if phase == phases.KEZAN_CHAPTER_6 and complete[14125] then
-        return true
-    end
-    if phase == phases.KEZAN_CHAPTER_7 and complete[14126] then
-        return true
-    end
-    if phase == phases.KEZAN_CHAPTER_1 then
-        return true
+    if phase >= phases.KEZAN_CHAPTER_1 and phase <= phases.KEZAN_CHAPTER_7 then
+        if phase == phases.KEZAN_CHAPTER_1 and (complete[14125] or complete[14126]) then
+            return false
+        elseif phase == phases.KEZAN_CHAPTER_1 then
+            return true
+        end
+        if phase == phases.KEZAN_CHAPTER_6 and complete[14125] then
+            return true
+        end
+        if phase == phases.KEZAN_CHAPTER_7 and complete[14126] then
+            return true
+        end
+
+        return false
     end
     return false
 end
