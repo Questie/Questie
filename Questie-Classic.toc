@@ -105,6 +105,8 @@ Localization\lookups\Classic\lookupNpcs\lookupNpcs.xml
 Localization\lookups\Classic\lookupObjects\lookupObjects.xml
 Localization\lookups\Classic\lookupQuests\lookupQuests.xml
 
+Localization\lookups\SoD\lookupQuests\lookupQuests.xml
+
 # Libs
 Modules\Libs\QuestieLib.lua
 Modules\Libs\QuestieSerializer.lua

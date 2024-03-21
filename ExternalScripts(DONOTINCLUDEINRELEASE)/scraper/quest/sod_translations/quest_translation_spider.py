@@ -3,8 +3,8 @@ import re
 import scrapy
 from scrapy import signals
 
-from quest.quest_formatter import QuestFormatter
 from quest.quest_ids import QUEST_IDS
+from quest.sod_translations.translation_formatter import TranslationFormatter
 
 
 class QuestTranslationSpider(scrapy.Spider):
@@ -54,5 +54,5 @@ class QuestTranslationSpider(scrapy.Spider):
         return spider
 
     def spider_feed_closed(self):
-        f = QuestFormatter()
+        f = TranslationFormatter()
         f()
