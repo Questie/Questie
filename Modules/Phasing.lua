@@ -11,6 +11,7 @@ local phases = {
     KEZAN_CHAPTER_6 = 383,
     KEZAN_CHAPTER_7 = 384,
 }
+Phasing.phases = phases
 
 function Phasing.IsSpawnVisible(phase)
     if phase == phases.KEZAN_CHAPTER_1 then
@@ -18,3 +19,5 @@ function Phasing.IsSpawnVisible(phase)
     end
     return false
 end
+
+return Phasing
