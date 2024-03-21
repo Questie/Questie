@@ -15,9 +15,13 @@ local phases = {
 }
 Phasing.phases = phases
 
----@param phase number @The phase belonging to a spawn of an NPC
+---@param phase number|nil @The phase belonging to a spawn of an NPC
 ---@return boolean @true if the spawn is visible, false otherwise
 function Phasing.IsSpawnVisible(phase)
+    if (not phase) then
+        return true
+    end
+
     local complete = Questie.db.char.complete
 
     if phase >= phases.KEZAN_CHAPTER_1 and phase <= phases.KEZAN_CHAPTER_7 then
