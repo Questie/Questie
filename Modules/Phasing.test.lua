@@ -1,7 +1,7 @@
-dofile("Libs/QuestieLoader.lua")
+dofile("Modules/Libs/QuestieLoader.lua")
 
 ---@type Phasing
-local Phasing = require("Phasing")
+local Phasing = require("Modules.Phasing")
 
 local phases = Phasing.phases
 
