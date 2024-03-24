@@ -99,7 +99,7 @@ local tooltipsUILocales = {
         ["frFR"] = "Vous avez terminé cette quête",
     },
     ["Started by"] = {
-        ["ptBR"] = "Começado por",
+        ["ptBR"] = "Iniciado por",
         ["ruRU"] = "Начинает",
         ["deDE"] = "Gestarted von",
         ["koKR"] = "시작",
@@ -127,11 +127,11 @@ local tooltipsUILocales = {
         ["ruRU"] = "Выполнено:",
         ["deDE"] = "Abgeschlossen am",
         ["koKR"] = "완료",
-        ["esMX"] = "Completado el:",
+        ["esMX"] = "Completada el:",
         ["enUS"] = true,
         ["zhCN"] = "完成于:",
         ["zhTW"] = "已完成:",
-        ["esES"] = "Completado el:",
+        ["esES"] = "Completada el:",
         ["frFR"] = "Complété le:",
     }
 }
