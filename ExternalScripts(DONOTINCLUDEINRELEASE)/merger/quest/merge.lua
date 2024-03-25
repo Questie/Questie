@@ -255,7 +255,7 @@ for questId, data in pairsByKeys(trinity) do
             printString = printString .. "},"
         end
         if objectives[6] then
-            printString = printString .. printObjective(objectives[5])
+            printString = printString .. printObjective(objectives[6])
         end
         printString = printString .. "},"
     else
