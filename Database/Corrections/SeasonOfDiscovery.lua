@@ -1066,6 +1066,7 @@ local questsToBlacklistBySoDPhase = {
     },
     [17] = { -- Never appearing in Season of Discovery
         [1203] = true, -- Jarl Needs a Blade - Replaced by 81570
+        [2758] = true, -- The Origins of Smithing - Replaced by 80241
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,

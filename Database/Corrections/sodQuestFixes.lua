@@ -1197,6 +1197,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [80241] = {
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSkill] = {specKeys.BLACKSMITHING,210},
+        },
         [80307] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },

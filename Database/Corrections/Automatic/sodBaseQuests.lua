@@ -2502,6 +2502,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Travel to Gnomeregan and bring back High Potency Radioactive Fallout. Be warned, the fallout is unstable and will collapse rather quickly.Ozzie will also require your Heavy Leaden Collection Phial when the task is complete."},
             [questKeys.objectives] = {nil,nil,{{9365}}},
         },
+        [80241] = {
+            [questKeys.name] = "The Origins of Smithing",
+            [questKeys.startedBy] = {{7798}},
+            [questKeys.finishedBy] = {{7798,}},
+            [questKeys.requiredLevel] = 40,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring six Golden Scale Bracers to Hank the Hammer in Stormwind."},
+            [questKeys.objectives] = {nil,nil,{{6040}}},
+        },
         [80307] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214099}},
