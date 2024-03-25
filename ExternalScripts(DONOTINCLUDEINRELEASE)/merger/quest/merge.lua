@@ -180,7 +180,7 @@ for questId, data in pairsByKeys(trinity) do
         printString = printString .. "nil,"
     end
     if data[questKeys.triggerEnd] then
-        printString = printString .. "{'" .. data[questKeys.triggerEnd][1]:gsub("\"", "\\\"") .. "\","
+        printString = printString .. "{\"" .. data[questKeys.triggerEnd][1]:gsub("\"", "\\\""):gsub("\n\n", "\",\"\",\"") .. "\","
         if data[questKeys.triggerEnd][2] then
             printString = printString .. "{"
             for zoneID, coords in pairs(data[questKeys.triggerEnd][2]) do
