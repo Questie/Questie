@@ -89,7 +89,7 @@ local function printObjective(objectives)
             if creature[2] then
                 printString = printString .. ",'" .. creature[2]:gsub("\"", "\\\"")
             end
-            printString = printString .. "}"
+            printString = printString .. "},"
         end
     end
     printString = printString:sub(1, -2) -- remove trailing comma
@@ -252,6 +252,7 @@ for questId, data in pairsByKeys(trinity) do
         if objectives[6] then
             printString = printString .. printObjective(objectives[5])
         end
+        printString = printString .. "},"
     end
     printString = printString .. (data[questKeys.sourceItemId] or "nil") .. ","
     if data[questKeys.preQuestGroup] then
