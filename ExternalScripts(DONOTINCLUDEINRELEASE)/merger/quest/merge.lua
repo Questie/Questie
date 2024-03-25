@@ -234,10 +234,10 @@ for questId, data in pairsByKeys(trinity) do
             printString = printString .. "nil,"
         end
         if objectives[5] then
-            printString = printString .. "{{"
+            printString = printString .. "{"
             local killCreditObjective = objectives[5]
             for _, entry in ipairs(killCreditObjective) do
-                printString = printString .. "{"
+                printString = printString .. "{{"
                 for i, creature in ipairs(entry[1]) do
                     if i == #entry[1] then
                         printString = printString .. creature
