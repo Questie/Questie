@@ -871,6 +871,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {79624},
             [questKeys.zoneOrSort] = zoneIDs.WARRIOR,
         },
+        [79678] = { -- Taste Testing
+            [questKeys.preQuestSingle] = {79677},
+            [questKeys.zoneOrSort] = zoneIDs.WARRIOR,
+        },
         [79704] = { -- The Salvagematic 9000!
             [questKeys.startedBy] = {nil,{422483}},
             [questKeys.finishedBy] = {nil,{422483}},

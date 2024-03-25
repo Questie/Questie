@@ -1853,6 +1853,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Gather the ingredients for Skonk's dish, then bring them to him in Arathi Highlands."},
             [questKeys.objectives] = {nil,nil,{{213526},{213527},{213528},{213529}}},
         },
+        [79678] = {
+            [questKeys.name] = "Taste Testing",
+            [questKeys.startedBy] = {{217300}},
+            [questKeys.finishedBy] = {{217300,}},
+            [questKeys.requiredLevel] = 26,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Taste test the recipe with Skonk."},
+            [questKeys.objectives] = nil,
+        },
         [79704] = {
             [questKeys.name] = "The Salvagematic 9000!",
             [questKeys.startedBy] = nil,
