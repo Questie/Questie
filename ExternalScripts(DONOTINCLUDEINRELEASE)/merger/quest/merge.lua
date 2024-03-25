@@ -238,14 +238,15 @@ for questId, data in pairsByKeys(trinity) do
             local killCreditObjective = objectives[5][1]
             for i, creature in ipairs(killCreditObjective[1]) do
                 if i == #killCreditObjective[1] then
-                    printString = printString .. creature .. ","
-                else
                     printString = printString .. creature
+                else
+                    printString = printString .. creature .. ","
                 end
             end
-            printString = printString .. killCreditObjective[2] .. ","
+            printString = printString .. "},"
+            printString = printString .. killCreditObjective[2]
             if killCreditObjective[3] then
-                printString = printString .. killCreditObjective[3]
+                printString = printString .. "," .. killCreditObjective[3]
             end
             printString = printString .. "},"
         end
