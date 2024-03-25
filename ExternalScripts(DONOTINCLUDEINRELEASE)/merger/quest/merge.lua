@@ -50,6 +50,12 @@ for npcId, data in pairs(trinity) do
 
     -- get spawns from trinity and add them to mangos
     if quest and quest[questKeys.questLevel] then
+        if not data[questKeys.startedBy] then
+            data[questKeys.startedBy] = quest[questKeys.startedBy]
+        end
+        if not data[questKeys.finishedBy] then
+            data[questKeys.finishedBy] = quest[questKeys.finishedBy]
+        end
         data[questKeys.requiredLevel] = quest[questKeys.requiredLevel]
         data[questKeys.questLevel] = quest[questKeys.questLevel]
     end
