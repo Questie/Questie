@@ -172,7 +172,7 @@ for questId, data in pairsByKeys(trinity) do
     if data[questKeys.objectivesText] then
         printString = printString .. "{"
         for i, text in ipairs(data[questKeys.objectivesText]) do
-            printString = printString .. "\"" .. text:gsub("\"", "\\\"") .. "\","
+            printString = printString .. "\"" .. text:gsub("\"", "\\\""):gsub("\n\n", "") .. "\","
         end
         printString = printString:sub(1, -2) -- remove trailing comma
         printString = printString .. "},"
@@ -247,7 +247,7 @@ for questId, data in pairsByKeys(trinity) do
             if killCreditObjective[3] then
                 printString = printString .. killCreditObjective[3]
             end
-            printString = printString .. "}},"
+            printString = printString .. "},"
         end
         if objectives[6] then
             printString = printString .. printObjective(objectives[5])
