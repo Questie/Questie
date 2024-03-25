@@ -126,6 +126,8 @@ for questId, data in pairsByKeys(trinity) do
             end
             printString = printString:sub(1, -2) -- remove trailing comma
             printString = printString .. "},"
+        else
+            printString = printString .. "nil,"
         end
         if starter[3] then
             printString = printString .. "{"
