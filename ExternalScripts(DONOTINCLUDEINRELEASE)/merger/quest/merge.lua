@@ -104,7 +104,7 @@ for questId, data in pairsByKeys(trinity) do
     print("questId: " .. questId)
     -- build print string with npcId and data
     local printString = "[" .. questId .. "] = {"
-    printString = printString .. "\"" .. data[questKeys.name] .. "\","
+    printString = printString .. "\"" .. data[questKeys.name]:gsub("\"", "\\\"") .. "\","
     if data[questKeys.startedBy] then
         printString = printString .. "{"
         local starter = data[questKeys.startedBy]
@@ -206,7 +206,7 @@ for questId, data in pairsByKeys(trinity) do
             printString = printString .. "},"
         end
         printString = printString:sub(1, -2) -- remove trailing comma
-        printString = printString .. "}},"
+        printString = printString .. "},"
     else
         printString = printString .. "nil,"
     end
