@@ -109,6 +109,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [79095] = 1, -- Mage Icy Veins
     [79096] = 1, -- Mage Icy Veins
     [79097] = 1, -- Mage Icy Veins
+    [79298] = 2, -- Warlock Grimoire of Synergy Part 3
     [79348] = 2, -- Druid Nourish (The Lost Ancient)
     [79377] = 2, -- Druid Nourish (The Lost Saplings)
     [79229] = 2, -- Highway Robbery

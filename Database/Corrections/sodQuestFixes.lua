@@ -715,6 +715,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.DESOLACE,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Rowboat to reach the eastern shore."), 0, {{"object", 420055}}}},
         },
+        [79298] = {
+            [questKeys.preQuestSingle] = {78914},
+            [questKeys.objectives] = {{{215974}}},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
         [79348] = { -- The Lost Ancient
             [questKeys.startedBy] = {{216310},nil,{212693}},
             [questKeys.zoneOrSort] = sortKeys.DRUID,

@@ -1501,6 +1501,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find Illari Duskfeather, near Arathi Highlands, and get access to her cache of stolen loot."},
             [questKeys.objectives] = {nil,nil,{{212347}}},
         },
+        [79298] = {
+            [questKeys.name] = "Tempting Fate",
+            [questKeys.startedBy] = {{215850}},
+            [questKeys.finishedBy] = {{215849,}},
+            [questKeys.requiredLevel] = 30,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Assist Raszel Ander and Doan Karhan with the summoning ritual and trap Des'Altek inside the staff."},
+            [questKeys.objectives] = nil,
+        },
         [79348] = {
             [questKeys.name] = "The Lost Ancient",
             [questKeys.startedBy] = nil,
