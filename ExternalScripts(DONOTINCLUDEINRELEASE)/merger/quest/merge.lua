@@ -254,6 +254,8 @@ for questId, data in pairsByKeys(trinity) do
             printString = printString .. printObjective(objectives[5])
         end
         printString = printString .. "},"
+    else
+        printString = printString .. "nil,"
     end
     printString = printString .. (data[questKeys.sourceItemId] or "nil") .. ","
     if data[questKeys.preQuestGroup] then
