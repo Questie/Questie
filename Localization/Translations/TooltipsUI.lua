@@ -127,11 +127,11 @@ local tooltipsUILocales = {
         ["ruRU"] = "Выполнено:",
         ["deDE"] = "Abgeschlossen am",
         ["koKR"] = "완료",
-        ["esMX"] = "Completada el:",
+        ["esMX"] = "Completado el:",
         ["enUS"] = true,
         ["zhCN"] = "完成于:",
         ["zhTW"] = "已完成:",
-        ["esES"] = "Completada el:",
+        ["esES"] = "Completado el:",
         ["frFR"] = "Complété le:",
     }
 }
