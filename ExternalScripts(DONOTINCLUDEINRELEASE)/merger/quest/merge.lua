@@ -58,6 +58,8 @@ for npcId, data in pairs(trinity) do
         end
         data[questKeys.requiredLevel] = quest[questKeys.requiredLevel]
         data[questKeys.questLevel] = quest[questKeys.questLevel]
+        data[questKeys.preQuestSingle] = quest[questKeys.preQuestSingle]
+        data[questKeys.preQuestGroup] = quest[questKeys.preQuestGroup]
         data[questKeys.questFlags] = quest[questKeys.questFlags]
     end
 end
