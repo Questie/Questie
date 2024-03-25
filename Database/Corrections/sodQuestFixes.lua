@@ -857,6 +857,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
+        [79624] = { -- Anyone Can Cook
+            [questKeys.startedBy] = {{2254,2255,2256,2287,2569,2570,2571}},
+            [questKeys.zoneOrSort] = zoneIDs.WARRIOR,
+        },
         [79626] = { -- The Salvagematic 9000!
             [questKeys.startedBy] = {nil,{422483}},
             [questKeys.finishedBy] = {nil,{422483}},
@@ -864,7 +868,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [79677] = { -- A Quick Grocery Run
-            [questKeys.startedBy] = {{2254,2255,2256,2287,2569,2570,2571}},
+            [questKeys.preQuestSingle] = {79624},
             [questKeys.zoneOrSort] = zoneIDs.WARRIOR,
         },
         [79704] = { -- The Salvagematic 9000!

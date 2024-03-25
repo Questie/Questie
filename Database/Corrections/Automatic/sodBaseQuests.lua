@@ -1820,6 +1820,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"We at the Darkmoon Faire do much walking. &nbsp;We walk from one faire site to another... in fact, you'll never see us sitting down on the job! &nbsp;So it is no surprise that we wear out quite a lot of boots! &nbsp;We need boots that are both durable and stylish, and embossed leather boots fit that bill rather well.You! &nbsp;You're a leatherworker; make me embossed leather boots and I'll give you a Darkmoon Faire ticket for the work."},
             [questKeys.objectives] = {nil,nil,{{2309}}},
         },
+        [79624] = {
+            [questKeys.name] = "Anyone Can Cook",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{217300,}},
+            [questKeys.requiredLevel] = 26,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Find an ogre who can read the Illegible Recipe."},
+            [questKeys.objectives] = nil,
+        },
         [79626] = {
             [questKeys.name] = "The Salvagematic 9000!",
             [questKeys.startedBy] = nil,
