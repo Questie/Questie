@@ -427,6 +427,20 @@ function SeasonOfDiscovery:LoadQuests()
         [78612] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [78676] = { -- The Eye of Bhossca
+            [questKeys.startedBy] = {nil,{410369}},
+            [questKeys.finishedBy] = {nil,{410369}},
+            [questKeys.preQuestSingle] = {78261},
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_LOOT, l10n("Step 1: Loot the Scarlet Initiate's Uniform from the chest in the stables, outside of Scarlet Monastery. You need Lockpicking 100 to open the chest."), 0, {{"object", 412147}}},
+                {{[zoneIDs.SCARLET_MONASTERY]={{-1,-1}}}, Questie.ICON_TYPE_EVENT, l10n("Step 2: put on the Scarlet Initiate's Uniform while inside the Graveyard wing of Scarlet Monastery and not in a group.")},
+                {nil, Questie.ICON_TYPE_LOOT, l10n("Step 3: pick pocket Scarlet Scryer to loot Scryer's Key."), 0, {{"monster", 4293}}},
+                {nil, Questie.ICON_TYPE_LOOT, l10n("Step 4: head to the Library wing and loot the Confidential Message from the Personal Letterbox."), 0, {{"object", 412759}}},
+                {nil, Questie.ICON_TYPE_LOOT, l10n("Step 5: go back to the Graveyard and /sit on the two benches between the pair of statues on either side of the graveyard. Then loot the Reliquary Key from the Stone Coffer in the northern mausoleum."), 0, {{"object", 412198}}},
+                {nil, Questie.ICON_TYPE_LOOT, l10n("Step 6: go back to the Library and loot the Eye of Bhossca from the Padlocked Reliquary."), 0, {{"object", 412261}}},
+            },
+        },
         [78680] = { -- Rumors Abound
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
@@ -443,6 +457,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.preQuestSingle] = {78681},
+        },
+        [78699] = { -- The Eye of Bhossca
+            [questKeys.startedBy] = {nil,{410369}},
+            [questKeys.finishedBy] = {nil,{410369}},
+            [questKeys.preQuestSingle] = {78676},
+            [questKeys.objectivesText] = {"Head to a major city to receive another letter. Then head back to the Dead Drop to receive the rune."},
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
         [78702] = { -- Raszel Ander
             [questKeys.requiredClasses] = classIDs.WARLOCK,
