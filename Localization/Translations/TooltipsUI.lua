@@ -99,7 +99,7 @@ local tooltipsUILocales = {
         ["frFR"] = "Vous avez terminé cette quête",
     },
     ["Started by"] = {
-        ["ptBR"] = "Começado por",
+        ["ptBR"] = "Iniciado por",
         ["ruRU"] = "Начинает",
         ["deDE"] = "Gestarted von",
         ["koKR"] = "시작",
