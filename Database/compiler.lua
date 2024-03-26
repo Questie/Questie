@@ -298,19 +298,21 @@ readers["objectives"] = function(stream)
 
     local count = stream:ReadByte()
     if count == 0 then
-        return ret
+        ret[5] = nil
+    else
+        local killobjectives = {}
+        for i=1, count do
+            local creditCount = stream:ReadByte()
+            local creditList = {}
+            for j=1, creditCount do
+                creditList[j] = stream:ReadInt24()
+            end
+            killobjectives[i] = {creditList, stream:ReadInt24(), stream:ReadTinyStringNil()}
+        end
+        ret[5] = killobjectives
     end
 
-    local killobjectives = {}
-    for i=1, count do
-        local creditCount = stream:ReadByte()
-        local creditList = {}
-        for j=1, creditCount do
-            creditList[j] = stream:ReadInt24()
-        end
-        killobjectives[i] = {creditList, stream:ReadInt24(), stream:ReadTinyStringNil()}
-    end
-    ret[5] = killobjectives
+    ret[6] = readers["objective"](stream)
 
     return ret
 end
@@ -605,6 +607,8 @@ QuestieDBCompiler.writers = {
             else
                 stream:WriteByte(0)
             end
+
+            QuestieDBCompiler.writers["objective"](stream, value[6])
         else
             --print("Missing objective table for " .. QuestieDBCompiler.currentEntry)
             stream:WriteByte(0)
@@ -612,6 +616,7 @@ QuestieDBCompiler.writers = {
             stream:WriteByte(0)
             stream:WriteInt24(0)
             stream:WriteInt24(0)
+            stream:WriteByte(0)
             stream:WriteByte(0)
         end
     end,
@@ -737,6 +742,7 @@ skippers["objectives"] = function(stream)
             stream._pointer = stream:ReadByte() + stream._pointer
         end
     end
+    objectiveSkipper(stream)
 end
 skippers["reflist"] = function(stream)
     stream._pointer = stream:ReadByte() * 4 + stream._pointer
