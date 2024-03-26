@@ -8,7 +8,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 ---@type QuestLogCache
-local QuestLogCache = QuestieLoader:CreateModule("QuestLogCache")
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
