@@ -43,6 +43,7 @@ local TICKS_PER_YIELD_DEBUG = TICKS_PER_YIELD * 3
 ---| "trigger"
 ---| "questgivers"
 ---| "objective"
+---| "spellobjective"
 ---| "objectives"
 ---| "reflist"
 ---| "extraobjective
@@ -61,6 +62,7 @@ QuestieDBCompiler.supportedTypes = {
         ["trigger"] = true,
         ["questgivers"] = true,
         ["objective"] = true,
+        ["spellobjective"] = true,
         ["objectives"] = true,
         ["waypointlist"] = true,
         ["u8u16stringarray"] = true,
@@ -287,6 +289,16 @@ readers["objective"] = function(stream)
     end
     return ret
 end
+readers["spellobjective"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
+
+    local ret = {}
+    for i = 1, count do
+        ret[i] = {stream:ReadInt24(), stream:ReadTinyStringNil(), stream:ReadInt24()}
+    end
+    return ret
+end
 
 readers["objectives"] = function(stream)
     local ret = {
@@ -312,7 +324,7 @@ readers["objectives"] = function(stream)
         ret[5] = killobjectives
     end
 
-    ret[6] = readers["objective"](stream)
+    ret[6] = readers["spellobjective"](stream)
 
     return ret
 end
@@ -582,6 +594,19 @@ QuestieDBCompiler.writers = {
             stream:WriteByte(0)
         end
     end,
+    ["spellobjective"] = function(stream, value)
+        if value then
+            local count = 0 for _ in pairs(value) do count = count + 1 end
+            stream:WriteByte(count)
+            for _, data in pairs(value) do
+                stream:WriteInt24(data[1])
+                stream:WriteTinyString(data[2] or "")
+                stream:WriteInt24(data[3] or 0)
+            end
+        else
+            stream:WriteByte(0)
+        end
+    end,
     ["objectives"] = function(stream, value)
         if value then
             QuestieDBCompiler.writers["objective"](stream, value[1])
@@ -608,7 +633,7 @@ QuestieDBCompiler.writers = {
                 stream:WriteByte(0)
             end
 
-            QuestieDBCompiler.writers["objective"](stream, value[6])
+            QuestieDBCompiler.writers["spellobjective"](stream, value[6])
         else
             --print("Missing objective table for " .. QuestieDBCompiler.currentEntry)
             stream:WriteByte(0)
@@ -728,7 +753,16 @@ skippers["objective"] = function(stream)
         stream._pointer = stream:ReadByte() + stream._pointer
     end
 end
+skippers["spellobjective"] = function(stream)
+    local count = stream:ReadByte()
+    for _=1,count do
+        stream._pointer = stream._pointer + 3
+        stream._pointer = stream:ReadByte() + stream._pointer
+        stream._pointer = stream._pointer + 3
+    end
+end
 local objectiveSkipper = skippers["objective"]
+local spellObjectiveSkipper = skippers["spellobjective"]
 local u24pairSkipper = skippers["u24pair"]
 skippers["objectives"] = function(stream)
     objectiveSkipper(stream)
@@ -742,7 +776,7 @@ skippers["objectives"] = function(stream)
             stream._pointer = stream:ReadByte() + stream._pointer
         end
     end
-    objectiveSkipper(stream)
+    spellObjectiveSkipper(stream)
 end
 skippers["reflist"] = function(stream)
     stream._pointer = stream:ReadByte() * 4 + stream._pointer

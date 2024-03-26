@@ -157,7 +157,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402862,
         },
         [77643] = { -- Spell Research
-            [questKeys.objectives] = {nil, {{404695}}, nil, nil, nil, {{401760, nil, 203751}}},
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{401760, nil, 203751}}},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
             [questKeys.requiredSpell] = -401760,
         },
@@ -229,7 +229,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403919,
         },
         [77667] = { -- Spell Research
-            [questKeys.objectives] = {nil, {{405633}}, nil, nil, nil, {{401760, nil, 203751}}},
+            [questKeys.objectives] = {nil, nil, nil, nil, nil, {{401760, nil, 203751}}},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
             [questKeys.requiredSpell] = -401760,
         },
