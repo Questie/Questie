@@ -34,6 +34,9 @@ function SeasonOfDiscovery:LoadItems()
         [206469] = { -- Prairie Flower
             [itemKeys.objectDrops] = {403718},
         },
+        [208085] = { -- Scarlet Lieutenant Signet Ring
+            [itemKeys.npcDrops] = {1662,1664,1665},
+        },
         [208609] = { -- Glade Flower
             [itemKeys.objectDrops] = {407247},
         },
@@ -41,7 +44,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.npcDrops] = {1998,1999,2000,2001},
         },
         [208689] = { -- Ferocious Idol
-            [itemKeys.npcDrops] = {98,500,1972,6788},
+            [itemKeys.npcDrops] = {98,117,500,1972,6788},
         },
         [208771] = { -- Rune of Blade Dance
             [itemKeys.objectDrops] = {407453,408718,414532},
@@ -64,6 +67,9 @@ function SeasonOfDiscovery:LoadItems()
         },
         [210055] = { -- Hillsbrad Human Bones
             [itemKeys.npcDrops] = {2265,2266,2267,2268,2360,2387},
+        },
+        [210589] = { -- Echo of the Ancestors
+            [itemKeys.npcDrops] = {204937},
         },
         [210955] = { -- Scarlet Initiate's Uniform
             [itemKeys.objectDrops] = {412147},

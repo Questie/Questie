@@ -9,6 +9,7 @@ from npc.npc_spider import NPCSpider
 from object.object_spider import ObjectSpider
 from quest.quest_spider import QuestSpider
 from quest.classic.quest_spider import ClassicQuestSpider
+from quest.sod_translations.quest_translation_spider import QuestTranslationSpider
 
 BASE_SETTINGS = {
     "LOG_LEVEL": "INFO",
@@ -35,6 +36,12 @@ class Runner:
         process.crawl(ClassicQuestSpider)
         process.start()
 
+    def run_quest_translations(self) -> None:
+        Path("quest/sod_translations/quest_data.json").unlink(missing_ok=True)
+        process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "quest/sod_translations/quest_data.json"})
+        process.crawl(QuestTranslationSpider)
+        process.start()
+
     def run_npc(self) -> None:
         Path("npc/npc_data.json").unlink(missing_ok=True)
         process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "npc/npc_data.json"})
@@ -58,13 +65,14 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument("--quest", help="Run quest spider", action="store_true")
     parser.add_argument("--quest-classic", help="Run quest spider for classic wow", action="store_true")
+    parser.add_argument("--quest-translations", help="Run quest spider for SoD translations", action="store_true")
     parser.add_argument("--npc", help="Run npc spider", action="store_true")
     parser.add_argument("--item", help="Run item spider", action="store_true")
     parser.add_argument("--object", help="Run object spider", action="store_true")
 
     args = parser.parse_args()
 
-    if (not args.quest) and (not args.quest_classic) and(not args.npc) and (not args.item) and (not args.object):
+    if (not args.quest) and (not args.quest_classic) and (not args.quest_translations) and (not args.npc) and (not args.item) and (not args.object):
         parser.error("No spider selected")
 
     runner = Runner()
@@ -75,6 +83,9 @@ if __name__ == '__main__':
     if args.quest_classic:
         print("Running quest spider for classic wow")
         runner.run_classic_quest()
+    if args.quest_translations:
+        print("Running quest spider for SoD translations")
+        runner.run_quest_translations()
     if args.npc:
         print("Running npc spider")
         runner.run_npc()

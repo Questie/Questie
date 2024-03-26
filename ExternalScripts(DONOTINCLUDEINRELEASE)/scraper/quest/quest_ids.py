@@ -3,12 +3,6 @@
 # document.getElementsByClassName("listview-cleartext").forEach(l => r.push(parseInt(l.href.substr(38, 6)))); r; // run for each page
 # [...new Set(r)].sort();
 QUEST_IDS = [
-    60863,
-    60864,
-    60865,
-    60866,
-    60868,
-    63769,
     76156,
     76160,
     76240,
@@ -246,5 +240,8 @@ QUEST_IDS = [
     80309,
     80324,
     80325,
+    80421,
+    80422,
+    80423,
     81570,
 ]

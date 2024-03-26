@@ -4973,6 +4973,14 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
+        [213100] = {
+            [itemKeys.name] = "Rune of Forbidden Knowledge",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = {217014},
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
         [213101] = {
             [itemKeys.name] = "Rune of Shadowflames",
             [itemKeys.npcDrops] = {217580},
