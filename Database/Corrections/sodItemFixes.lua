@@ -34,6 +34,9 @@ function SeasonOfDiscovery:LoadItems()
         [206469] = { -- Prairie Flower
             [itemKeys.objectDrops] = {403718},
         },
+        [208085] = { -- Scarlet Lieutenant Signet Ring
+            [itemKeys.npcDrops] = {1662,1664,1665},
+        },
         [208609] = { -- Glade Flower
             [itemKeys.objectDrops] = {407247},
         },
