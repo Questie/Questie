@@ -41,7 +41,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.npcDrops] = {1998,1999,2000,2001},
         },
         [208689] = { -- Ferocious Idol
-            [itemKeys.npcDrops] = {98,500,1972,6788},
+            [itemKeys.npcDrops] = {98,117,500,1972,6788},
         },
         [208771] = { -- Rune of Blade Dance
             [itemKeys.objectDrops] = {407453,408718,414532},
