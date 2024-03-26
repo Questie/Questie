@@ -613,6 +613,7 @@ tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 79593}) -- Coarse Weightsto
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 79594}) -- Copper Modulator
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 79595}) -- Carnival Boots
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 80421}) -- Green Iron Bracers
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 80422}) -- Green Fireworks
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 80423}) -- The World's Largest Gnome!
 
 -- New TBC event quests

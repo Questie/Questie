@@ -1218,6 +1218,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
+        [80422] = { -- Green Fireworks
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1700},
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
+        },
         [80423] = { -- The World's Largest Gnome!
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1700},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,

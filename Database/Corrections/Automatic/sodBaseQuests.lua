@@ -2612,6 +2612,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"I'm working on a new costume, for when I have my own booth as the strongest woman alive! &nbsp;Right now I'm looking for some bracers I can wear. &nbsp;They can't cover much because people want to see my muscles, but I still want to flash a little color, you know?How about green iron bracers, &lt;name&gt;? &nbsp;Can you make me green iron bracers? &nbsp;If you can, then I have a whole bunch of Darkmoon Faire tickets for you."},
             [questKeys.objectives] = {nil,nil,{{3835}}},
         },
+        [80422] = {
+            [questKeys.name] = "Green Fireworks",
+            [questKeys.startedBy] = {{14841}},
+            [questKeys.finishedBy] = {{14841,}},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"When I finally get this booth up and running, I'll want to advertise! &nbsp;And what better way is there to advertise then with fireworks?Well, some might think that the smell of a cauldron, churning with the boiling heads of your foes is better for drawing crowds, but... we're in mixed company. &nbsp;So fireworks it will have to be!Bring me green fireworks, &lt;name&gt;, and I have a big fistful of Darkmoon Faire tickets for you."},
+            [questKeys.objectives] = {nil,nil,{{9313}}},
+        },
         [80423] = {
             [questKeys.name] = "The World's Largest Gnome!",
             [questKeys.startedBy] = {{14833}},
