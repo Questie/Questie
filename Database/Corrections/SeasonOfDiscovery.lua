@@ -422,6 +422,10 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90262] = 2, -- Priest Pain Suppression
     [90263] = 2, -- Rogue Shuriken Toss
     [90264] = 2, -- Rogue Master of Subtlety
+    [90265] = 2, -- Druid Survival Instincts
+    [90266] = 2, -- Druid Survival Instincts
+    [90267] = 2, -- Druid Survival Instincts
+    [90268] = 2, -- Druid Survival Instincts
 }
 
 --- "automatic" phase detection for the first few phases;
