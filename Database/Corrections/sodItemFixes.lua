@@ -65,6 +65,9 @@ function SeasonOfDiscovery:LoadItems()
         [210055] = { -- Hillsbrad Human Bones
             [itemKeys.npcDrops] = {2265,2266,2267,2268,2360,2387},
         },
+        [210589] = { -- Echo of the Ancestors
+            [itemKeys.npcDrops] = {204937},
+        },
         [210955] = { -- Scarlet Initiate's Uniform
             [itemKeys.objectDrops] = {412147},
         },
