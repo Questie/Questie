@@ -83,12 +83,6 @@ function QuestieEventHandler:RegisterLateEvents()
         AvailableQuests.CalculateAndDrawAll()
     end)
 
-    -- TODO: This seems to fire constantly with the "Way of Earth" Shaman rune. Do we even need it?
-    --Questie:RegisterEvent("SPELLS_CHANGED", function() -- Ensures map icon eligibility updates for quests with RequireSpell
-    --    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] SPELLS_CHANGED")
-    --    AvailableQuests.CalculateAndDrawAll()
-    --end)
-
     -- UI Quest Events
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("QUEST_FINISHED", QuestieAuto.QUEST_FINISHED)
