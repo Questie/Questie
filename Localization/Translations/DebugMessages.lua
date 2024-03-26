@@ -231,7 +231,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Mise à jour quêtes",
     },
     ["Loading database"] = {
-        ["ptBR"] = "Carregando banco de dados",
+        ["ptBR"] = "Carregando o banco de dados",
         ["ruRU"] = "Загрузка базы данных",
         ["deDE"] = "Datenbank wird geladen",
         ["koKR"] = "데이터베이스 로딩중",
@@ -243,7 +243,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Chargement base de données",
     },
     ["Applying database corrections"] = {
-        ["ptBR"] = "Aplicando correções de banco de dados",
+        ["ptBR"] = "Aplicando correções ao banco de dados",
         ["ruRU"] = "Применение исправлений БД",
         ["deDE"] = "Datenbankkorrekturen werden eingespielt",
         ["koKR"] = "데이터베이스 수정 적용중",
@@ -295,11 +295,11 @@ local debugMessagesLocales = {
         ["ruRU"] = "Обновление предметов",
         ["deDE"] = "Aktualisiere Gegenstände",
         ["koKR"] = "아이템정보 업데이트중",
-        ["esMX"] = "Actualizando artículos",
+        ["esMX"] = "Actualizando objetos",
         ["enUS"] = true,
         ["zhCN"] = "正在读出 物品信息",
         ["zhTW"] = "正在更新物品資訊",
-        ["esES"] = "Actualizando artículos",
+        ["esES"] = "Actualizando objetos",
         ["frFR"] = "Mise à jour objets",
     },
     ["Questie DB update complete!"] = {
@@ -327,7 +327,7 @@ local debugMessagesLocales = {
         ["esMX"] = "%s para %s!",
     },
     ["Picked up %s which starts %s!"] = {
-        ["ptBR"] = "Pegou %s que começa %s!",
+        ["ptBR"] = "Pegou %s que inicia %s!",
         ["ruRU"] = "Получен предмет %s, который начинает задание %s",
         ["frFR"] = "Ramassé %s qui démarre %s !",
         ["koKR"] = "%s 를 획득하여 %s!를 시작 할 수 있습니다.",
@@ -339,7 +339,7 @@ local debugMessagesLocales = {
         ["esMX"] = "Recogió %s que inicia %s!",
     },
     ["You picked up %s which starts %s!"] = {
-        ["ptBR"] = "Você pegou %s que começa %s!",
+        ["ptBR"] = "Você pegou %s que inicia %s!",
         ["ruRU"] = "Вы получили предмет %s, который начинает задание %s",
         ["frFR"] = "Vous avez ramassé %s qui démarre %s !",
         ["koKR"] = "%s 을(를) 시작하는 %s 을(를) 수락했습니다",
