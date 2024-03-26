@@ -2601,6 +2601,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring Thermaplugg's Engineering Notes to Nogg at the Valley of Honor in Orgrimmar."},
             [questKeys.objectives] = nil,
         },
+        [80421] = {
+            [questKeys.name] = "Green Iron Bracers",
+            [questKeys.startedBy] = {{14832}},
+            [questKeys.finishedBy] = {{14832,}},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"I'm working on a new costume, for when I have my own booth as the strongest woman alive! &nbsp;Right now I'm looking for some bracers I can wear. &nbsp;They can't cover much because people want to see my muscles, but I still want to flash a little color, you know?How about green iron bracers, &lt;name&gt;? &nbsp;Can you make me green iron bracers? &nbsp;If you can, then I have a whole bunch of Darkmoon Faire tickets for you."},
+            [questKeys.objectives] = {nil,nil,{{3835}}},
+        },
         [80423] = {
             [questKeys.name] = "The World's Largest Gnome!",
             [questKeys.startedBy] = {{14833}},
