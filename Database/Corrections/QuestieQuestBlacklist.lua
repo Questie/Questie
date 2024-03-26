@@ -1504,6 +1504,7 @@ function QuestieQuestBlacklist:Load()
         [79593] = true, -- Coarse Weightstone
         [79594] = true, -- Copper Modulator
         [79595] = true, -- Carnival Boots
+        [80423] = true, -- The World's Largest Gnome!
 
         --- Automatic Overrides (for when Wowhead data is wrong)
         [13134] = false, -- Spill Their Blood

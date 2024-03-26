@@ -44,6 +44,7 @@ local questsToBlacklistBySoMPhase = {
         [7896] = true,
         [7884] = true,
         [7882] = true,
+        [7883] = true,
         [7897] = true,
         [7895] = true,
         [7941] = true,

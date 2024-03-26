@@ -1231,6 +1231,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [80423] = { -- The World's Largest Gnome!
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1700},
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
+        },
         [81570] = { -- Jarl Needs a Blade
             [questKeys.finishedBy] = {{4792}},
             [questKeys.preQuestSingle] = {1206},

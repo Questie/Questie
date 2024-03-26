@@ -2579,6 +2579,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring Thermaplugg's Engineering Notes to Nogg at the Valley of Honor in Orgrimmar."},
             [questKeys.objectives] = nil,
         },
+        [80423] = {
+            [questKeys.name] = "The World's Largest Gnome!",
+            [questKeys.startedBy] = {{14833}},
+            [questKeys.finishedBy] = {{14833,}},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Yebb Nebblegear is looking to add more talent to his show, and he's searching far and wide for the world's largest gnome. &nbsp;Do you know any gnomes of considerable size?Well before he finds the gnome, he wants to have its costume ready. &nbsp;I think a barbaric harness would be a good foundation for the costume; can you make some harnesses and bring them to me? &nbsp;Do that, and I'll have a stack of Darkmoon Faire tickets for you..."},
+            [questKeys.objectives] = {nil,nil,{{5739}}},
+        },
         [81570] = {
             [questKeys.name] = "Jarl Needs a Blade",
             [questKeys.startedBy] = {{4792}},
