@@ -397,9 +397,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
         [78307] = { -- The Horn of Xelthos
-            [questKeys.finishedBy] = {{410369,}},
-            [questKeys.objectives] = {nil,nil,{{203994}}},
+            [questKeys.startedBy] = {nil,{410369}},
+            [questKeys.finishedBy] = {nil,{410369}},
             [questKeys.preQuestSingle] = {78261},
+            [questKeys.objectivesText] = {"Head to a major city to receive another letter. Then head back to the Dead Drop to receive the rune."},
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
         [78506] = { -- Elemental Distress
