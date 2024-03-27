@@ -8,7 +8,7 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@return Frame
 function Tutorial.ShowRunes()
     local baseFrame = CreateFrame("Frame", "QuestieTutorialShowRunes", UIParent, BackdropTemplateMixin and "BackdropTemplate")
-    baseFrame:SetSize(500, 200)
+    baseFrame:SetSize(500, 240)
     baseFrame:SetPoint("CENTER", 0, 50)
     baseFrame:SetFrameStrata("HIGH")
     baseFrame:EnableMouse(true)
@@ -33,7 +33,7 @@ function Tutorial.ShowRunes()
 
     local customText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     customText:SetText(
-        l10n("Questie can show you the locations of Phase 1 runes for your class.\n\n") ..
+        l10n("Questie can show you the locations of Phase 1 & 2 runes for your class.\n\n") ..
         l10n("Rune locations are marked with the following symbol:")
     )
     customText:SetPoint("TOP", 0, -35)
@@ -50,24 +50,36 @@ function Tutorial.ShowRunes()
     )
     chooseText:SetPoint("TOP", 0, -125)
 
-    local showRunesButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
-    showRunesButton:SetText(l10n("Yes, show runes"))
-    showRunesButton:SetSize(140, 24)
-    showRunesButton:SetPoint("BOTTOMLEFT", 60, 15)
-    showRunesButton:SetScript("OnClick", function()
-        Questie.db.profile.tutorialShowRunesDone = true
-        Questie.db.profile.showSoDRunes = true
-        AvailableQuests.CalculateAndDrawAll()
-        baseFrame:Hide()
-    end)
+    local showPhase1RunesButton = CreateFrame("CheckButton", nil, baseFrame, "ChatConfigCheckButtonTemplate")
+    showPhase1RunesButton.Text:SetText(" " .. l10n("Phase 1"))
+    showPhase1RunesButton.Text:SetTextColor(1, 0.82, 0)
+    showPhase1RunesButton:SetChecked(true)
+    showPhase1RunesButton:SetPoint("BOTTOM", -30, 60)
 
-    local hideRunesButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
-    hideRunesButton:SetText(l10n("No, hide runes"))
-    hideRunesButton:SetSize(140, 24)
-    hideRunesButton:SetPoint("BOTTOMRIGHT", -60, 15)
-    hideRunesButton:SetScript("OnClick", function()
+    local showPhase2RunesButton = CreateFrame("CheckButton", nil, baseFrame, "ChatConfigCheckButtonTemplate")
+    showPhase2RunesButton.Text:SetText(" " .. l10n("Phase 2"))
+    showPhase2RunesButton.Text:SetTextColor(1, 0.82, 0)
+    showPhase2RunesButton:SetChecked(true)
+    showPhase2RunesButton:SetPoint("BOTTOM", -30, 40)
+
+    local confirmButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
+    confirmButton:SetText(DONE)
+    confirmButton:SetSize(80, 24)
+    confirmButton:SetPoint("BOTTOM", 0, 15)
+    confirmButton:SetScript("OnClick", function()
+        local showPhase1Runes = showPhase1RunesButton:GetChecked()
+        local showPhase2Runes = showPhase2RunesButton:GetChecked()
+
+        Questie.db.profile.showSoDRunes = showPhase1Runes or showPhase2Runes
         Questie.db.profile.tutorialShowRunesDone = true
-        Questie.db.profile.showSoDRunes = false
+
+        Questie.db.profile.showRunesOfPhase = {
+            phase1 = showPhase1Runes,
+            phase2 = showPhase2Runes,
+            phase3 = false,
+            phase4 = false,
+        }
+
         AvailableQuests.CalculateAndDrawAll()
         baseFrame:Hide()
     end)

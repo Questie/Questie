@@ -138,7 +138,7 @@ function MapIconTooltip:Show()
                     local orderedTooltips = {}
                     iconData.ObjectiveData:Update()
                     if iconData.Type == "event" then
-                        local tip = _MapIconTooltip:GetEventObjectiveTooltip(icon)
+                        local tip = _MapIconTooltip:GetEventObjectiveTooltip(icon.data)
 
                         -- We need to check for duplicates.
                         local add = true;
@@ -470,14 +470,22 @@ function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
     return tip
 end
 
-function _MapIconTooltip:GetEventObjectiveTooltip(icon)
-    local tip = {
-        [icon.data.ObjectiveData.Description] = {},
-    }
-    if (icon.data.ObjectiveData.Index) then
-        tip[icon.data.ObjectiveData.Description][icon.data.ObjectiveData.Description] = true;
+function _MapIconTooltip:GetEventObjectiveTooltip(iconData)
+    if iconData.Name then
+        return {
+            [iconData.ObjectiveData.Index] = {
+                [iconData.ObjectiveData.Description] = {
+                    [iconData.Name] = true
+                }
+            }
+        }
+    else
+        return {
+            [iconData.ObjectiveData.Index] = {
+                [iconData.ObjectiveData.Description] = true
+            }
+        }
     end
-    return tip
 end
 
 function _MapIconTooltip:GetObjectiveTooltip(icon)
