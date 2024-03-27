@@ -60,7 +60,10 @@ local migrationFunctions = {
                 }
             end
         end
-    end
+    end,
+    [4] = function()
+        Questie.db.profile.tutorialShowRunesDone = false
+    end,
 }
 
 function Migration:Migrate()
