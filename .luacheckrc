@@ -850,6 +850,7 @@ globals = {
     "DisplayChannelOwner",
     "DoCraft",
     "DoEmote",
+    "DONE",
     "DoReadyCheck",
     "DoTradeSkill",
     "DoesCurrentLocaleSellExpansionLevels",
