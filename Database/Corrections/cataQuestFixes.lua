@@ -7,6 +7,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 function CataQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
@@ -30,6 +32,9 @@ function CataQuestFixes.Load()
         },
         [24960] = { -- The Wakening
             [questKeys.preQuestSingle] = {28608},
+        },
+        [27674] = { -- To the Surface
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast."), 0, {{"monster", 46293}}}},
         },
         [28607] = { -- The Keys to the Hot Rod
             [questKeys.parentQuest] = 14071,
