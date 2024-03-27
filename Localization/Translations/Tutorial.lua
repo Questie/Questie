@@ -64,7 +64,7 @@ local tutorialLocals = {
     },
     ["Questie can show you the locations of Phase 1 & 2 runes for your class.\n\n"] = {
         ["ptBR"] = "O Questie pode mostrar as localizações das runas da fase 1 & 2 para a sua classe.\n\n",
-        ["ruRU"] = false,
+        ["ruRU"] = "Questie может отображать местоположение рун 1-й и 2-й фаз для вашего класса.\n\n",
         ["deDE"] = "Questie kann die Orte der Runen aus Phase 1 & 2 für deine Klasse anzeigen.\n\n",
         ["koKR"] = false,
         ["esMX"] = "Questie puede mostrarte las ubicaciones de las runas de la fase 1 & 2 para tu clase.\n\n",
