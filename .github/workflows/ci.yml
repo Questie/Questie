@@ -41,7 +41,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Run Unit Tests
-        uses: lunarmodules/busted@v0
+        uses: lunarmodules/busted@v2.2.0
         with:
           args: Modules/**/*.test.lua
 
