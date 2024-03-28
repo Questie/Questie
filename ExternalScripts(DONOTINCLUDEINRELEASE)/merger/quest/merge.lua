@@ -52,6 +52,9 @@ for npcId, data in pairs(trinity) do
     if quest and quest[questKeys.questLevel] then
         if not data[questKeys.startedBy] then
             data[questKeys.startedBy] = quest[questKeys.startedBy]
+        --TODO: add items to startedBy once that is really required. Questie doesn't use it yet.
+        --elseif (not data[questKeys.startedBy][3]) and quest[questKeys.startedBy] and quest[questKeys.startedBy][3] then
+        --    data[questKeys.startedBy][3] = quest[questKeys.startedBy][3]
         end
         if not data[questKeys.finishedBy] then
             data[questKeys.finishedBy] = quest[questKeys.finishedBy]
