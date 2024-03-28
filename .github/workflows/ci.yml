@@ -43,7 +43,7 @@ jobs:
       - name: Run Unit Tests
         uses: lunarmodules/busted@v2.2.0
         with:
-          args: -p ".test.lua"
+          args: -p ".test.lua" .
 
   validate-era-db:
     needs: unit-tests
