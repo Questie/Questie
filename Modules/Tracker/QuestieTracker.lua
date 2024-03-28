@@ -1284,10 +1284,12 @@ function QuestieTracker:Update()
                         -- Set Zone Title and Min/Max states
                         if Questie.db.char.collapsedZones[zoneName] then
                             line.expandZone:SetMode(0)
-                            line.label:SetText("|cFFC0C0C0" .. zoneName .. " +|r")
+                            local text = zoneName == "Achievements" and l10n("Achievements") or zoneName
+                            line.label:SetText("|cFFC0C0C0" .. text .. " +|r")
                         else
                             line.expandZone:SetMode(1)
-                            line.label:SetText("|cFFC0C0C0" .. zoneName .. ": " .. GetNumTrackedAchievements(true) .. "/10|r")
+                            local text = zoneName == "Achievements" and l10n("Achievements") or zoneName
+                            line.label:SetText("|cFFC0C0C0" .. text .. ": " .. GetNumTrackedAchievements(true) .. "/10|r")
                         end
 
                         -- Checks the minAllQuestsInZone[zone] table and if empty, zero out the table.

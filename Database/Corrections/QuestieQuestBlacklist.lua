@@ -1724,6 +1724,7 @@ function QuestieQuestBlacklist:Load()
         [79593] = true, -- Coarse Weightstone
         [79594] = true, -- Copper Modulator
         [79595] = true, -- Carnival Boots
+        [80423] = true, -- The World's Largest Gnome!
 
         --- Automatic Overrides (for when Wowhead data is wrong)
         [13134] = false, -- Spill Their Blood
@@ -2034,6 +2035,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         [12187] = true, --* FLAG: Participant (https://www.wowhead.com/wotlk/quest=12187) (Retail Data)
         [12693] = true, --* Wolvar Faction Choice Tracker (https://www.wowhead.com/wotlk/quest=12693) (Retail Data)
         [12694] = true, --* Oracle Faction Choice Tracker (https://www.wowhead.com/wotlk/quest=12694) (Retail Data)
+        [12781] = true, --* Welcome! (https://www.wowhead.com/wotlk/quest=12781) (Retail Data)
         [12845] = true, --* Dalaran Teleport Crystal Flag (https://www.wowhead.com/wotlk/quest=12845) (Retail Data)
 
 
