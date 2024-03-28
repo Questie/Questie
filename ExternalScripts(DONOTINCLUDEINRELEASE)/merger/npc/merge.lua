@@ -57,7 +57,7 @@ for npcId, data in pairsByKeys(mangos) do
     printString = printString .. data[npcKeys.rank] .. ","
     if data[npcKeys.spawns] then
         printString = printString .. "{"
-        for zoneID, coords in pairs(data[npcKeys.spawns]) do
+        for zoneID, coords in pairsByKeys(data[npcKeys.spawns]) do
             printString = printString .. "[" .. zoneID .. "]={"
             for i, coord in ipairs(coords) do
                 if coords[i+1] then
