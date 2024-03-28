@@ -151,7 +151,7 @@ local function _ErrorOrWarning(_, text, ...)
     io.stderr:write(tostring(text) .. "\n")
 end
 
-local function _CheckClassicDatabase()
+local function _CheckCataDatabase()
     print("\n\27[36mCompiling Cata database...\27[0m")
     loadTOC("Questie-Cata.toc")
 
@@ -210,4 +210,4 @@ local function _CheckClassicDatabase()
     print("\n\27[32mCata database compiled successfully\27[0m")
 end
 
-_CheckClassicDatabase()
+_CheckCataDatabase()
