@@ -66,6 +66,24 @@ Database\Corrections\QuestieQuestBlacklist.lua
 Database\Corrections\SoMPhases.lua
 Database\Corrections\QuestieEvent.lua
 
+# Classic Corrections
+Database\Corrections\classicQuestFixes.lua
+Database\Corrections\classicNPCFixes.lua
+Database\Corrections\classicItemFixes.lua
+Database\Corrections\classicObjectFixes.lua
+
+# TBC Corrections
+Database\Corrections\tbcQuestFixes.lua
+Database\Corrections\tbcNPCFixes.lua
+Database\Corrections\tbcItemFixes.lua
+Database\Corrections\tbcObjectFixes.lua
+
+# Wotlk Corrections
+Database\Corrections\wotlkQuestFixes.lua
+Database\Corrections\wotlkNPCFixes.lua
+Database\Corrections\wotlkItemFixes.lua
+Database\Corrections\wotlkObjectFixes.lua
+
 # Cata Corrections
 Database\Corrections\cataQuestFixes.lua
 Database\Corrections\cataNPCFixes.lua
