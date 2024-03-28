@@ -1030,7 +1030,7 @@ function QuestieQuest:AddFinisher(quest)
                             local y = coords[2];
 
                             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Adding world icon as finisher:", finisherZone, x, y)
-                            finisherIcons[finisherZone] = QuestieMap:DrawWorldIcon(data, finisherZone, x, y)
+                            finisherIcons[finisherZone] = QuestieMap:DrawWorldIcon(data, finisherZone, x, y, coords[3])
 
                             if not finisherLocs[finisherZone] then
                                 finisherLocs[finisherZone] = { x, y }
@@ -1366,10 +1366,10 @@ _GetIconsSortedByDistance = function(icons)
 
     -- use the keys to retrieve the values in the sorted order
     for distIndex = 1, #distances do
-        local iconsAtDisntace = icons[distances[distIndex]]
+        local iconsAtDistance = icons[distances[distIndex]]
 
-        for iconIndex = 1, #iconsAtDisntace do
-            local icon = iconsAtDisntace[iconIndex]
+        for iconIndex = 1, #iconsAtDistance do
+            local icon = iconsAtDistance[iconIndex]
 
             iconCount = iconCount + 1
             orderedList[iconCount] = icon

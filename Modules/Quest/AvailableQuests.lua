@@ -299,7 +299,7 @@ _AddStarter = function(starter, quest, tooltipKey)
                             end
                         end
                     else
-                        local icon = QuestieMap:DrawWorldIcon(data, zone, coords[1], coords[2])
+                        local icon = QuestieMap:DrawWorldIcon(data, zone, coords[1], coords[2], coords[3])
                         if starter.waypoints then
                             -- This is only relevant for waypoint drawing
                             starterIcons[zone] = icon

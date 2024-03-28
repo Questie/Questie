@@ -34,6 +34,12 @@ Trust us it's (Good)!
 - Translators can search for missing translations by: `["<yourLanguage>"] = false` (e.g. `["deDE"] = false`) and replace the `false` with a string of the new translation, e.g. `["<yourLanguage>"] = "YourTranslation"`. Current translations can be found in the [Translation folder](https://github.com/Questie/Questie/tree/master/Localization/Translations)
 - Additional information you might find interesting can be found [here](https://github.com/Questie/Questie/wiki/Contributing)
 
+### Unit Tests
+
+1. Install [busted](https://github.com/lunarmodules/busted) with `luarocks install busted`
+2. Run `busted Modules/**/*.test.lua` in the root directory of the project
+3. When adding new tests, make sure to name them `<module>.test.lua` and place them next to the module
+
 
 ## Donation
 If you'd like to support the development of Questie by donating, you can do so via PayPal:

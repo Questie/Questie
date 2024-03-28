@@ -29,10 +29,24 @@ for npcId, data in pairs(mangos) do
     end
 end
 
+local function pairsByKeys (t, f)
+    local a = {}
+    for n in pairs(t) do table.insert(a, n) end
+    table.sort(a, f)
+    local i = 0      -- iterator variable
+    local iter = function ()   -- iterator function
+        i = i + 1
+        if a[i] == nil then return nil
+        else return a[i], t[a[i]]
+        end
+    end
+    return iter
+end
+
 -- print to "merged-file.lua"
 local file = io.open("merged-file.lua", "w")
 print("writing to merged-file.lua")
-for npcId, data in pairs(mangos) do
+for npcId, data in pairsByKeys(mangos) do
     -- build print string with npcId and data
     local printString = "[" .. npcId .. "] = {"
     printString = printString .. "'" .. data[npcKeys.name]:gsub("'", "\\'") .. "',"
@@ -43,7 +57,7 @@ for npcId, data in pairs(mangos) do
     printString = printString .. data[npcKeys.rank] .. ","
     if data[npcKeys.spawns] then
         printString = printString .. "{"
-        for zoneID, coords in pairs(data[npcKeys.spawns]) do
+        for zoneID, coords in pairsByKeys(data[npcKeys.spawns]) do
             printString = printString .. "[" .. zoneID .. "]={"
             for i, coord in ipairs(coords) do
                 if coords[i+1] then

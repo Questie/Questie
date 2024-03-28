@@ -2834,4 +2834,9 @@ globals = {
     "QuestieConfig",
     "QuestieCompat",
     "QuestieWorldMapButtonMixin",
+    -----------------------------------------------------> busted unit testing
+    "describe",
+    "it",
+    "before_each",
+    "after_each",
 }

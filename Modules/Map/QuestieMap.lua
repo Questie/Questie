@@ -22,6 +22,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type WeaponMasterSkills
 local WeaponMasterSkills = QuestieLoader:ImportModule("WeaponMasterSkills")
+---@type Phasing
+local Phasing = QuestieLoader:ImportModule("Phasing")
 
 QuestieMap.ICON_MAP_TYPE = "MAP";
 QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
@@ -565,7 +567,7 @@ end
 --coordinates need to be 0-1 instead of 0-100
 --showFlag isn't required but may want to be Modified
 ---@return IconFrame, IconFrame
-function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
+function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     if type(data) ~= "table" then
         error("Questie" .. ": AddWorldMapIconMap: must have some data")
     end
@@ -575,6 +577,11 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     --if type(data.Id) ~= "number" or type(data.Id) ~= "number"then
     --    error("Questie".."Data.Id must be set to the quests ID!")
     --end
+
+    if phase and (not Phasing.IsSpawnVisible(phase)) then
+        print("Skipping invisible phase", phase)
+        return nil, nil
+    end
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
     if (not uiMapId) then
