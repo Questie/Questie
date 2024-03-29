@@ -6477,6 +6477,32 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {25240,25238},
             [questKeys.exclusiveTo] = {24823,24830,24832,24834,25240},
         },
+        [25444] = { -- Da Perfect Spies
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Attune a Captured Frog"), 0, {{"monster", 40187}}}},
+        },
+        [25445] = { -- Zalazane's Fall
+            [questKeys.objectives] = {{{40502,"Zalazane Killed"}}},
+        },
+        [25446] = { -- Frogs Away!
+            [questKeys.nextQuestInChain] = 25461,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Handler Marnlek and deploy the frogs on the white smoke"), 0, {{"monster", 40204}}}},
+        },
+        [25461] = { -- Trollin' For Volunteers
+            [questKeys.preQuestSingle] = {25446},
+            [questKeys.nextQuestInChain] = 25470,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Handler Marnlek for a ride"), 0, {{"monster", 40204}}}},
+        },
+        [25470] = { -- Lady Of Da Tigers
+            [questKeys.preQuestSingle] = {25461},
+        },
+        [25480] = { -- Dance Of De Spirits
+            [questKeys.nextQuestInChain] = 25495,
+            [questKeys.objectives] = {{{40352,"Dance of the Spirits"}}},
+        },
+        [25495] = { -- Preparin' For Battle
+            [questKeys.preQuestSingle] = {25480},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Handler Marnlek for a ride"), 0, {{"monster", 40204}}}},
+        },
         [26034] = {
             [questKeys.preQuestSingle] = {26013},
         },

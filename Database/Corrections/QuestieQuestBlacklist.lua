@@ -1254,7 +1254,6 @@ function QuestieQuestBlacklist:Load()
         [12162] = true, -- Not in the game
         [12163] = true, -- Not in the game
         [12051] = true, -- Not in the game
-        [25444] = true, -- Not in the game, part of Cata pre-prepatch events
         [12682] = true, -- Not in the game
         [12586] = true, -- Not in the game
         [12835] = true, -- Not in the game
@@ -2223,16 +2222,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
 
         -- Northrend -> Tournament (10 -> -241)
         --[14112] = true, --* What Do You Feed a Yeti, Anyway? (https://www.wowhead.com/wotlk/quest=14112) (Retail Data)
-
-
-        --! 3.3.3
-        -- Kalimdor -> Durotar (1 -> 14)
-        [25445] = true, --* Zalazane's Fall (https://www.wowhead.com/wotlk/quest=25445) (Retail Data)
-        [25446] = true, --* Frogs Away! (https://www.wowhead.com/wotlk/quest=25446) (Retail Data)
-        [25461] = true, --* Trollin' For Volunteers (https://www.wowhead.com/wotlk/quest=25461) (Retail Data)
-        [25470] = true, --* Lady Of Da Tigers (https://www.wowhead.com/wotlk/quest=25470) (Retail Data)
-        [25480] = true, --* Dance Of De Spirits (https://www.wowhead.com/wotlk/quest=25480) (Retail Data)
-        [25495] = true, --* Preparin' For Battle (https://www.wowhead.com/wotlk/quest=25495) (Retail Data)
 
         -- Eastern Kingdoms -> Dun Morogh (0 -> 1)
         [25199] = true, --* Basic Orders (https://www.wowhead.com/wotlk/quest=25199) (Retail Data)
