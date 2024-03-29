@@ -32,6 +32,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{48323},{34890},{34892},{34954}}},
             [questKeys.childQuests] = {28607},
         },
+        [24502] = { -- Necessary Roughness
+            [questKeys.objectives] = {{{48526},{37114}}},
+        },
         [24960] = { -- The Wakening
             [questKeys.preQuestSingle] = {28608},
         },
