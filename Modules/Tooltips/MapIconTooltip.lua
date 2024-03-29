@@ -261,7 +261,7 @@ function MapIconTooltip:Show()
                     while nextQuest ~= nil do
                         nextQuestRewardString = "";
                         if firstInChain then
-                            self:AddLine("  Part of chain:", 0.86, 0.86, 0.86)
+                            self:AddLine("  Next in chain:", 0.86, 0.86, 0.86)
                             firstInChain = false;
                         end
                         local nextQuestXpReward = QuestXP:GetQuestLogRewardXP(nextQuest.Id, Questie.db.profile.showQuestXpAtMaxLevel)
