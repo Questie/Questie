@@ -29,6 +29,7 @@ function CataQuestFixes.Load()
             [questKeys.specialFlags] = 0,
         },
         [14071] = { -- Rolling with my Homies
+            [questKeys.objectives] = {{{48323},{34890},{34892},{34954}}},
             [questKeys.childQuests] = {28607},
         },
         [24960] = { -- The Wakening
