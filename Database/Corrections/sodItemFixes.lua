@@ -31,6 +31,9 @@ function SeasonOfDiscovery:LoadItems()
         [206170] = { -- Windfury Cone
             [itemKeys.objectDrops] = {403105},
         },
+        [206264] = { -- Rune of Inspiration
+            [itemKeys.npcDrops] = {204937},
+        },
         [206469] = { -- Prairie Flower
             [itemKeys.objectDrops] = {403718},
         },
