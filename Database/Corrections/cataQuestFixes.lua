@@ -40,6 +40,12 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14075,14069},
         },
+        [26711] = { -- Off to the Bank (female)
+            [questKeys.exclusiveTo] = {26712},
+        },
+        [26712] = { -- Off to the Bank (male)
+            [questKeys.exclusiveTo] = {26711},
+        },
         [27674] = { -- To the Surface
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast."), 0, {{"monster", 46293}}}},
         },
