@@ -159,10 +159,6 @@ local function _CheckWotlkDatabase()
     Questie.Error = _ErrorOrWarning
     Questie.Warning = _ErrorOrWarning
 
-    -- TODO: Remove me once Questie.IsCata is correct
-    Questie.IsCata = false
-    Questie.IsWotlk = true
-
     Questie.db = {
         char = {
             showEventQuests = false
