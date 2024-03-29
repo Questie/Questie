@@ -6449,6 +6449,21 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{37120}},
             [questKeys.preQuestSingle] = {24549},
         },
+        [25199] = {
+            [questKeys.startedBy] = {{39675}},
+            [questKeys.finishedBy] = {{39675}},
+            [questKeys.objectives] = {{{39368,"Salute the Drill Sergeant"},{39368,"Roar with the Drill Sergeant"},{39368,"Cheer with the Drill Sergeant"},{39368,"Dance with the Drill Sergeant"}}},
+        },
+        [25212] = {
+            [questKeys.startedBy] = {{39386}},
+            [questKeys.finishedBy] = {{39386}},
+            [questKeys.preQuestSingle] = {25199},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Board the Flying Machine"), 0, {{"monster", 39396}}}},
+        },
+        [25229] = {
+            [questKeys.requiredLevel] = 1,
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{39253,39623},39623,"Gnomes Motivated"},{{39624,39466,39675},39466,"Motivated Gnomes Brought to Captain Sparknozzle"}}},
+        },
         [25239] = { -- Path of Might - friendly to honored
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24815,25238},
@@ -6477,6 +6492,48 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {25240,25238},
             [questKeys.exclusiveTo] = {24823,24830,24832,24834,25240},
         },
+        [25283] = {
+            [questKeys.startedBy] = {{39678}},
+            [questKeys.finishedBy] = {{39678}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25212,25295},
+            [questKeys.nextQuestInChain] = 25500,
+        },
+        [25285] = {
+            [questKeys.startedBy] = {{39675}},
+            [questKeys.finishedBy] = {{39675}},
+            [questKeys.preQuestSingle] = {25199},
+            [questKeys.nextQuestInChain] = 25289,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Hop in"), 0, {{"monster", 39715}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{39682,39715},39715,"Ejection System Tested"}}},
+        },
+        [25286] = {
+            [questKeys.preQuestSingle] = {25283},
+            [questKeys.exclusiveTo] = {25500},
+            [questKeys.questLevel] = -1,
+        },
+        [25287] = {
+            [questKeys.questLevel] = -1,
+        },
+        [25289] = {
+            [questKeys.startedBy] = {{39675}},
+            [questKeys.finishedBy] = {{39675}},
+            [questKeys.preQuestSingle] = {25285},
+            [questKeys.nextQuestInChain] = 25295,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Hop in"), 0, {{"monster", 39716}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{39713,39716},39716,"Left Leg Servos Tested"},{{39713,39716},39716,"Right Leg Servos Tested"},{{39713,39716},39716,"Evasive Maneuver System Tested"}}},
+        },
+        [25295] = {
+            [questKeys.startedBy] = {{39675}},
+            [questKeys.finishedBy] = {{39675}},
+            [questKeys.preQuestSingle] = {25289},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Hop in"), 0, {{"monster", 39717}}}},
+            [questKeys.objectives] = {{{39711,"Weapon System Tested"}}},
+        },
+        [25393] = {
+            [questKeys.requiredLevel] = 75,
+            [questKeys.questLevel] = -1,
+        },
         [25444] = { -- Da Perfect Spies
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Attune a Captured Frog"), 0, {{"monster", 40187}}}},
         },
@@ -6502,6 +6559,12 @@ function QuestieWotlkQuestFixes:Load()
         [25495] = { -- Preparin' For Battle
             [questKeys.preQuestSingle] = {25480},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Handler Marnlek for a ride"), 0, {{"monster", 40204}}}},
+        },
+        [25500] = {
+            [questKeys.preQuestSingle] = {25283},
+            [questKeys.requiredMaxLevel] = 74,
+            [questKeys.exclusiveTo] = {25286},
+            [questKeys.nextQuestInChain] = 25287,
         },
         [26034] = {
             [questKeys.preQuestSingle] = {26013},

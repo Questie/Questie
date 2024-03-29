@@ -1234,7 +1234,6 @@ function QuestieQuestBlacklist:Load()
         [12480] = true, -- Not in the game
         [12490] = true, -- Not in the game
         [12493] = true, -- Not in the game
-        [25229] = true, -- Not in the game
         [12780] = true, -- Not in the game
         [12590] = true, -- Not in the game
         [11461] = true, -- Not in the game
@@ -2222,19 +2221,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
 
         -- Northrend -> Tournament (10 -> -241)
         --[14112] = true, --* What Do You Feed a Yeti, Anyway? (https://www.wowhead.com/wotlk/quest=14112) (Retail Data)
-
-        -- Eastern Kingdoms -> Dun Morogh (0 -> 1)
-        [25199] = true, --* Basic Orders (https://www.wowhead.com/wotlk/quest=25199) (Retail Data)
-        [25212] = true, --* Vent Horizon (https://www.wowhead.com/wotlk/quest=25212) (Retail Data)
-        [25229] = true, --* A Few Good Gnomes (https://www.wowhead.com/wotlk/quest=25229) (Retail Data)
-        [25283] = true, --* Prepping the Speech (https://www.wowhead.com/wotlk/quest=25283) (Retail Data)
-        [25285] = true, --* In and Out (https://www.wowhead.com/wotlk/quest=25285) (Retail Data)
-        [25286] = true, --* Words for Delivery (https://www.wowhead.com/wotlk/quest=25286) (Retail Data)
-        [25287] = true, --* Words for Delivery (https://www.wowhead.com/wotlk/quest=25287) (Retail Data)
-        [25289] = true, --* One Step Forward... (https://www.wowhead.com/wotlk/quest=25289) (Retail Data)
-        [25295] = true, --* Press Fire (https://www.wowhead.com/wotlk/quest=25295) (Retail Data)
-        [25393] = true, --* Operation: Gnomeregan (https://www.wowhead.com/wotlk/quest=25393) (Retail Data)
-        [25500] = true, --* Words for Delivery (https://www.wowhead.com/wotlk/quest=25500) (Retail Data)
 
         -- Raids -> Icecrown Citadel (3 -> 4812)
         --[24872] = true, --* Respite for a Tormented Soul (https://www.wowhead.com/wotlk/quest=24872)
