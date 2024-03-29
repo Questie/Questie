@@ -38,3 +38,11 @@ function WatchFrameHook.Reposition(hideWatchFrame)
 
     WatchFrame:Show()
 end
+
+function WatchFrameHook.Hide()
+    if Questie.IsWotlk or Questie.IsCata then
+        QuestTimerFrame:Hide()
+    end
+
+    WatchFrame:Hide()
+end

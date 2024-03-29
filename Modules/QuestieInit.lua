@@ -392,11 +392,7 @@ function QuestieInit:Init()
 
     if Questie.db.profile.trackerEnabled then
         -- This needs to be called ASAP otherwise tracked Achievements in the Blizzard WatchFrame shows upon login
-        if Questie.IsWotlk or Questie.IsCata then
-            QuestTimerFrame:Hide()
-        end
-
-        WatchFrameHook.Reposition(true)
+        WatchFrameHook.Hide()
 
         if (not Questie.IsWotlk) and (not Questie.IsCata) then
             -- Need to hook this ASAP otherwise the scroll bars show up
