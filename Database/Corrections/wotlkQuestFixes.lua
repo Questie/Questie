@@ -6450,6 +6450,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {24549},
         },
         [25199] = {
+            [questKeys.preQuestSingle] = {25229},
             [questKeys.startedBy] = {{39675}},
             [questKeys.finishedBy] = {{39675}},
             [questKeys.objectives] = {{{39368,"Salute the Drill Sergeant"},{39368,"Roar with the Drill Sergeant"},{39368,"Cheer with the Drill Sergeant"},{39368,"Dance with the Drill Sergeant"}}},
