@@ -68,6 +68,9 @@ function SeasonOfDiscovery:LoadItems()
         [210055] = { -- Hillsbrad Human Bones
             [itemKeys.npcDrops] = {2265,2266,2267,2268,2360,2387},
         },
+        [210195] = { -- Unbalanced Idol
+            [itemKeys.npcDrops] = {1769,1770,1779},
+        },
         [210589] = { -- Echo of the Ancestors
             [itemKeys.npcDrops] = {204937},
         },
