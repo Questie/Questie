@@ -255,8 +255,28 @@ function MapIconTooltip:Show()
                             self:AddLine(line, 0.86, 0.86, 0.86);
                         end
                     end
-                end
+                    local nextQuest = QuestieDB.GetQuest(QuestieDB.GetQuest(questData.questId).nextQuestInChain)
+                    local firstInChain = true;
+                    local nextQuestRewardString;
+                    while nextQuest ~= nil do
+                        nextQuestRewardString = "";
+                        if firstInChain then
+                            self:AddLine("  Part of chain:", 0.86, 0.86, 0.86)
+                            firstInChain = false;
+                        end
+                        local nextQuestXpReward = QuestXP:GetQuestLogRewardXP(nextQuest.Id, Questie.db.profile.showQuestXpAtMaxLevel)
+                        if nextQuestXpReward > 0 then
+                            nextQuestRewardString = nextQuestRewardString .. "(" .. FormatLargeNumber(nextQuestXpReward) .. xpString .. ")"
+                        end
 
+                        local nextQuestMoneyReward = GetQuestLogRewardMoney(nextQuest.Id)
+                        if nextQuestMoneyReward > 0 then
+                            nextQuestRewardString = nextQuestRewardString .. " " .. Questie:Colorize("(" .. GetCoinTextureString(nextQuestMoneyReward) .. ") ", "white")
+                        end
+                        self:AddLine(QuestieLib:PrintDifficultyColor(nextQuest.level, string.format("    [%d] %s %s", nextQuest.level, nextQuest.name, nextQuestRewardString), QuestieDB.IsRepeatable(questData.questId), QuestieDB.IsActiveEventQuest(questData.questId), QuestieDB.IsPvPQuest(questData.questId)), 1, 1, 1);
+                        nextQuest = QuestieDB.GetQuest(nextQuest.nextQuestInChain)
+                    end
+                end
                 if shift and reputationReward and next(reputationReward) then
                     local rewardTable = {}
                     local factionId, factionName
