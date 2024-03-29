@@ -151,7 +151,7 @@ def get_version_dir(is_release_build, versionOverride):
 directoriesToInclude = ['Database', 'Icons', 'Libs', 'Localization', 'Modules']
 filesToInclude = ['embeds.xml', 'Questie.lua', 'Questie.toc']
 expansionStrings = ['', 'Classic', 'TBC', 'Wotlk']
-ignorePatterns = []
+ignorePatterns = ["*.test.lua"]
 
 def copy_content_to(release_folder_path):
     for i in [1,2,3]:

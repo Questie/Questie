@@ -33,6 +33,11 @@ function CataQuestFixes.Load()
         [24960] = { -- The Wakening
             [questKeys.preQuestSingle] = {28608},
         },
+        [25473] = { -- Kaja'Cola
+            [questKeys.startedBy] = {{34872}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {14075,14069},
+        },
         [27674] = { -- To the Surface
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast."), 0, {{"monster", 46293}}}},
         },
