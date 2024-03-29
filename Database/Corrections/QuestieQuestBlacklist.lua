@@ -1254,7 +1254,6 @@ function QuestieQuestBlacklist:Load()
         [12162] = true, -- Not in the game
         [12163] = true, -- Not in the game
         [12051] = true, -- Not in the game
-        [25444] = true, -- Not in the game, part of Cata pre-prepatch events
         [12682] = true, -- Not in the game
         [12586] = true, -- Not in the game
         [12835] = true, -- Not in the game
@@ -1489,10 +1488,29 @@ function QuestieQuestBlacklist:Load()
         ----- Cata -------------- Cata quests --------------- Cata -----
         ----- Cata ------------- starting here -------------- Cata -----
 
-        -- Pre-event
+        -- First Pre-Event
+        [25444] = true, -- Da Perfect Spies
+        [25445] = true, -- Zalazane's Fall
+        [25446] = true, -- Frogs Away!
+        [25461] = true, -- Trollin' For Volunteers
+        [25470] = true, -- Lady Of Da Tigers
+        [25480] = true, -- Dance Of De Spirits
+        [25495] = true, -- Preparin' For Battle
+
+        -- Second Pre-event
         [25571] = true, -- A Natural Occurrence
         [25773] = true, -- A Natural Occurrence
         [27473] = true, -- What's Shaking in Ironforge
+        [27572] = true, -- A Gathering in Outland
+        [25181] = true, -- Tablets of Fire
+        [26054] = true, -- Water They Up To?
+        [26990] = true, -- Water They Up To?
+        [27137] = true, -- Earth Girls Aren't So Easy
+        [27138] = true, -- Earth Girls Aren't So Easy
+        [27122] = true, -- Fired Up and Not So Good To Go.
+        [27127] = true, -- Fired Up and Not So Good To Go.
+        [27207] = true, -- This Blows
+        [27209] = true, -- This Blows
 
         -- Darkmoon Faire
         [27664] = true, -- Darkmoon Volcanic Deck
@@ -1532,7 +1550,12 @@ function QuestieQuestBlacklist:Load()
         [29760] = true, -- Pit Fighter
         [29761] = true, -- Master Pit Fighter
 
+        -- Love is in the Air
+        [14483] = true, -- Something is in the Air (and it Ain't Love)
+
         -- Day of the Dead
+        [14176] = true, -- The Grateful Dead
+        [14177] = true, -- The Grateful Dead
         [27841] = true, -- The Grateful Dead
         [27846] = true, -- The Grateful Dead
 
@@ -1544,6 +1567,7 @@ function QuestieQuestBlacklist:Load()
         [29117] = true, -- Let's Go Fly a Kite
         [29119] = true, -- You Scream, I Scream...
         [29146] = true, -- Ridin' the Rocketway
+        [29167] = true, -- The Banshee Queen
         [29176] = true, -- The Fallen Chieftain
         [29190] = true, -- Let's Go Fly a Kite
         [29191] = true, -- You Scream, I Scream...
@@ -1683,12 +1707,14 @@ function QuestieQuestBlacklist:Load()
         [29431] = true, -- A Friend in Need
 
         -- Winter's Veil
+        [13966] = true, -- A Winter Veil Gift
         [29382] = true, -- Thanks, But No Thanks
         [29383] = true, -- Thanks, But No Thanks
         [29385] = true, -- A Winter Veil Gift
         [28878] = true, -- A Winter Veil Gift
 
         -- Brewfest
+        [11413] = true, -- Did Someone Say "Souvenir?"
         [29393] = true, -- Brew For Brewfest
         [29394] = true, -- Brew For Brewfest
         [29396] = true, -- A New Supplier of Souvenirs
@@ -2443,16 +2469,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
 
         -- Northrend -> Tournament (10 -> -241)
         --[14112] = true, --* What Do You Feed a Yeti, Anyway? (https://www.wowhead.com/wotlk/quest=14112) (Retail Data)
-
-
-        --! 3.3.3
-        -- Kalimdor -> Durotar (1 -> 14)
-        [25445] = true, --* Zalazane's Fall (https://www.wowhead.com/wotlk/quest=25445) (Retail Data)
-        [25446] = true, --* Frogs Away! (https://www.wowhead.com/wotlk/quest=25446) (Retail Data)
-        [25461] = true, --* Trollin' For Volunteers (https://www.wowhead.com/wotlk/quest=25461) (Retail Data)
-        [25470] = true, --* Lady Of Da Tigers (https://www.wowhead.com/wotlk/quest=25470) (Retail Data)
-        [25480] = true, --* Dance Of De Spirits (https://www.wowhead.com/wotlk/quest=25480) (Retail Data)
-        [25495] = true, --* Preparin' For Battle (https://www.wowhead.com/wotlk/quest=25495) (Retail Data)
 
         -- Eastern Kingdoms -> Dun Morogh (0 -> 1)
         [25199] = true, --* Basic Orders (https://www.wowhead.com/wotlk/quest=25199) (Retail Data)
