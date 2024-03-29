@@ -159,6 +159,10 @@ local function _CheckClassicDatabase()
     Questie.Error = _ErrorOrWarning
     Questie.Warning = _ErrorOrWarning
 
+    -- TODO: Remove me once Questie.IsCata is correct
+    Questie.IsCata = false
+    Questie.IsWotlk = false
+
     Questie.db = {
         char = {
             showEventQuests = false
