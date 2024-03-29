@@ -45,6 +45,8 @@ local QuestgiverFrame = QuestieLoader:ImportModule("QuestgiverFrame")
 local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+---@type WatchFrameHook
+local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
@@ -177,6 +179,12 @@ function QuestieEventHandler:RegisterLateEvents()
     -- Questie Debug Offer
     if Questie.IsSoD then
         Questie:RegisterEvent("LOOT_OPENED", QuestieDebugOffer.LootWindow)
+    end
+
+    if Questie.IsCata then
+        Questie:RegisterEvent("UPDATE_ALL_UI_WIDGETS", function()
+            WatchFrameHook.Reposition(QuestieTracker.IsHidden())
+        end)
     end
 
     -- Questie Comms Events

@@ -22,8 +22,6 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieMap
-local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieTooltips
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
 ---@type QuestieLib
@@ -41,6 +39,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieDebugOffer
 local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
+---@type WatchFrameHook
+local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
@@ -1687,6 +1687,12 @@ function QuestieTracker:Update()
             end)
         end)
     end
+
+    WatchFrameHook.Reposition(QuestieTracker.IsHidden())
+end
+
+function QuestieTracker.IsHidden()
+    return (not trackerBaseFrame:IsShown())
 end
 
 function QuestieTracker:UpdateFormatting()

@@ -79,6 +79,8 @@ local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type SeasonOfDiscovery
 local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
+---@type WatchFrameHook
+local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 
 local coYield = coroutine.yield
 
@@ -390,20 +392,12 @@ function QuestieInit:Init()
 
     if Questie.db.profile.trackerEnabled then
         -- This needs to be called ASAP otherwise tracked Achievements in the Blizzard WatchFrame shows upon login
-        if Questie.IsCata then
+        if Questie.IsWotlk or Questie.IsCata then
             QuestTimerFrame:Hide()
-            WatchFrame:SetClampedToScreen(false)
-            WatchFrame:ClearAllPoints()
-            WatchFrame:SetPoint("TOP", "UIParent", -10000, -10000)
-            -- TODO: Position WatchFrameAutoQuestPopUp1 on startup if present
-        elseif Questie.IsWotlk then
-            QuestTimerFrame:Hide()
-        else
-            -- Classic WoW: This moves the QuestTimerFrame off screen. A faux Hide().
-            -- Otherwise, if the frame is hidden then the OnUpdate doesn't work.
-            WatchFrame:ClearAllPoints()
-            WatchFrame:SetPoint("TOP", "UIParent", -10000, -10000)
         end
+
+        WatchFrameHook.Reposition(true)
+
         if (not Questie.IsWotlk) and (not Questie.IsCata) then
             -- Need to hook this ASAP otherwise the scroll bars show up
             hooksecurefunc("ScrollFrame_OnScrollRangeChanged", function()
