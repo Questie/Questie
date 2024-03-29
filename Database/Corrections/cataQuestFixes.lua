@@ -16,6 +16,7 @@ function CataQuestFixes.Load()
     local classIDs = QuestieDB.classKeys
     local profKeys = QuestieProfessions.professionKeys
     local zoneIDs = ZoneDB.zoneIDs
+    local specialFlags = QuestieDB.specialFlags
 
     return {
         [578] = { -- The Stone of the Tides
@@ -43,6 +44,7 @@ function CataQuestFixes.Load()
         },
         [28607] = { -- The Keys to the Hot Rod
             [questKeys.parentQuest] = 14071,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29481] = { -- Elixir Master
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
