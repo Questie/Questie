@@ -19,6 +19,9 @@ for objId, data in pairs(mangos) do
     end
 end
 
+--- Finklestein's Cauldron
+mangos[190499] = trinity[190499]
+
 local function pairsByKeys (t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
