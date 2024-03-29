@@ -416,7 +416,7 @@ function _QuestEventHandler:QuestAutoComplete(questId)
     C_Timer.After(1, function()
         -- WatchFrameAutoQuestPopUp1 is a child frame of WatchFrame.
         WatchFrameAutoQuestPopUp1:ClearAllPoints()
-        WatchFrameAutoQuestPopUp1:SetPoint("TOP", "Questie_HeaderFrame", -180, 0)
+        WatchFrameAutoQuestPopUp1:SetPoint("TOPLEFT", "Questie_BaseFrame", -220, 0)
     end)
 end
 
