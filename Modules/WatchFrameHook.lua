@@ -1,7 +1,7 @@
 ---@class WatchFrameHook
 local WatchFrameHook = QuestieLoader:CreateModule("WatchFrameHook")
 
-local WatchFrame = WatchFrame
+local WatchFrame, QuestTimerFrame = WatchFrame, QuestTimerFrame
 
 local function _PositionQuestPopUp()
     if WatchFrameAutoQuestPopUp1 then
@@ -10,15 +10,14 @@ local function _PositionQuestPopUp()
     end
 end
 
---- Blizzards WatchFrame position resets sometimes, so we move it off screen again
----@param hideWatchFrame boolean @True if the tracker is not shown and the WatchFrame should be hidden
-function WatchFrameHook.Reposition(hideWatchFrame)
-    if (not Questie.db.profile.trackerEnabled) then
-        return
-    end
+-- TODO: The WatchFrame is moved very often, when an auto complete quest is active. We need to work around that
+-- Timers are not good, because they will flicker the WatchFrame
+-- We should recreate WatchFrameAutoQuestPopUp1
+-- We can use ShowQuestComplete(GetQuestLogIndexByID(questId)) to show the QuestFrame
 
-    if hideWatchFrame then
-        WatchFrame:Hide()
+--- Blizzards WatchFrame position resets sometimes, so we move it off screen again
+function WatchFrameHook.Reposition()
+    if (not Questie.db.profile.trackerEnabled) then
         return
     end
 

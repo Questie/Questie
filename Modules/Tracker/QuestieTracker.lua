@@ -1688,11 +1688,9 @@ function QuestieTracker:Update()
         end)
     end
 
-    WatchFrameHook.Reposition(QuestieTracker.IsHidden())
-end
-
-function QuestieTracker.IsHidden()
-    return (not trackerBaseFrame:IsShown())
+    if trackerBaseFrame:IsShown() then
+        WatchFrameHook.Reposition()
+    end
 end
 
 function QuestieTracker:UpdateFormatting()
