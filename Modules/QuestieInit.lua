@@ -390,11 +390,14 @@ function QuestieInit:Init()
 
     if Questie.db.profile.trackerEnabled then
         -- This needs to be called ASAP otherwise tracked Achievements in the Blizzard WatchFrame shows upon login
-        local WatchFrame = QuestTimerFrame or WatchFrame
-
-        if Questie.IsWotlk or Questie.IsCata then
-            -- Classic WotLK
-            WatchFrame:Hide()
+        if Questie.IsCata then
+            QuestTimerFrame:Hide()
+            WatchFrame:SetClampedToScreen(false)
+            WatchFrame:ClearAllPoints()
+            WatchFrame:SetPoint("TOP", "UIParent", -10000, -10000)
+            -- TODO: Position WatchFrameAutoQuestPopUp1 on startup if present
+        elseif Questie.IsWotlk then
+            QuestTimerFrame:Hide()
         else
             -- Classic WoW: This moves the QuestTimerFrame off screen. A faux Hide().
             -- Otherwise, if the frame is hidden then the OnUpdate doesn't work.

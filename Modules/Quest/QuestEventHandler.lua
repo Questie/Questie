@@ -55,6 +55,7 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("QUEST_REMOVED")
     eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
     eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
+    eventFrame:RegisterEvent("QUEST_AUTOCOMPLETE")
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
     eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
     eventFrame:RegisterEvent("NEW_RECIPE_LEARNED") -- Spell objectives; Runes in SoD count as recipes because "Engraving" is a profession?
@@ -400,6 +401,25 @@ local _UnitQuestLogChangedCallback = function()
     return true
 end
 
+---Some Quests are not turned in at an NPC or object. QUEST_AUTOCOMPLETE is fired for these quests.
+---Good quest to test this: https://www.wowhead.com/quest=24502/necessary-roughness
+---@param questId number
+function _QuestEventHandler:QuestAutoComplete(questId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_AUTOCOMPLETE", questId)
+    C_Timer.After(0.5, function()
+        -- WatchFrame position is reset on QUEST_AUTOCOMPLETE. We want to keep it off screen.
+        WatchFrame:SetClampedToScreen(false)
+        WatchFrame:ClearAllPoints()
+        WatchFrame:SetPoint("TOP", "UIParent", -10000, -10000)
+    end)
+    -- We can not set the position right away because the WatchFrame is not yet updated.
+    C_Timer.After(1, function()
+        -- WatchFrameAutoQuestPopUp1 is a child frame of WatchFrame.
+        WatchFrameAutoQuestPopUp1:ClearAllPoints()
+        WatchFrameAutoQuestPopUp1:SetPoint("TOP", "Questie_HeaderFrame", -180, 0)
+    end)
+end
+
 --- Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
 ---@param unitTarget string
 function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
@@ -537,6 +557,8 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:QuestLogUpdate()
     elseif event == "QUEST_WATCH_UPDATE" then
         _QuestEventHandler:QuestWatchUpdate(...)
+    elseif event == "QUEST_AUTOCOMPLETE" then
+        _QuestEventHandler:QuestAutoComplete(...)
     elseif event == "UNIT_QUEST_LOG_CHANGED" and select(1, ...) == "player" then
         _QuestEventHandler:UnitQuestLogChanged(...)
     elseif event == "ZONE_CHANGED_NEW_AREA" then
