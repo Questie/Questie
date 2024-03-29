@@ -11,11 +11,11 @@ local objectKeys = {
 }
 
 for objId, data in pairs(mangos) do
-    local tNPC = trinity[objId]
+    local tObj = trinity[objId]
 
     -- get spawns from trinity and add them to mangos
-    if tNPC and tNPC[objectKeys.spawns] then
-        data[objectKeys.spawns] = tNPC[objectKeys.spawns]
+    if tObj and tObj[objectKeys.spawns] then
+        data[objectKeys.spawns] = tObj[objectKeys.spawns]
     end
 end
 
@@ -36,9 +36,9 @@ end
 -- print to "merged-file.lua"
 local file = io.open("merged-file.lua", "w")
 print("writing to merged-file.lua")
-for npcId, data in pairsByKeys(mangos) do
+for objId, data in pairsByKeys(mangos) do
     -- build print string with npcId and data
-    local printString = "[" .. npcId .. "] = {"
+    local printString = "[" .. objId .. "] = {"
     printString = printString .. "\"" .. data[objectKeys.name]:gsub("\"", "\\\"") .. "\","
     if data[objectKeys.questStarts] then
         printString = printString .. "{"
@@ -86,7 +86,7 @@ for npcId, data in pairsByKeys(mangos) do
     end
     printString = printString .. data[objectKeys.zoneID]
     if data[objectKeys.factionID] then
-        printString = "," .. printString .. data[objectKeys.factionID] .. ","
+        printString = printString .. "," .. data[objectKeys.factionID]
     end
     printString = printString .. "},"
     file:write(printString .. "\n")
