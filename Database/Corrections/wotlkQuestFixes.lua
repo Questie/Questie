@@ -6540,6 +6540,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [25445] = { -- Zalazane's Fall
             [questKeys.objectives] = {{{40502,"Zalazane Killed"}}},
+            [questKeys.requiredLevel] = 75,
+            [questKeys.questLevel] = -1,
         },
         [25446] = { -- Frogs Away!
             [questKeys.nextQuestInChain] = 25461,
