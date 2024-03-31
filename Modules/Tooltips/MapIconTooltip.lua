@@ -290,9 +290,9 @@ function MapIconTooltip:Show()
                             nextQuestMoneyRewardString = Questie:Colorize(string.format("(%s)",GetCoinTextureString(nextQuestMoneyReward)), "white");
                         end
 
-                        print(QuestieDB.GetQuestTagInfo(nextQuest.Id))
+                        local nextQuestTagString = Questie:Colorize(GetQuestTag(nextQuest), "yellow")
 
-                        local nextQuestString = string.format("    %s %s %s", nextQuestTitleString, nextQuestXpRewardString, nextQuestMoneyRewardString); -- we need an offset to align with description
+                        local nextQuestString = string.format("    %s %s %s %s", nextQuestTitleString, nextQuestXpRewardString, nextQuestMoneyRewardString, nextQuestTagString); -- we need an offset to align with description
                         self:AddLine(QuestieLib:PrintDifficultyColor(nextQuest.level, nextQuestString, QuestieDB.IsRepeatable(nextQuest.Id), QuestieDB.IsActiveEventQuest(nextQuest.Id), QuestieDB.IsPvPQuest(nextQuest.Id)), 1, 1, 1);
                         nextQuest = QuestieDB.GetQuest(nextQuest.nextQuestInChain)
                     end
