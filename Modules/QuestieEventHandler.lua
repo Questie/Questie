@@ -182,7 +182,7 @@ function QuestieEventHandler:RegisterLateEvents()
     end
 
     if Questie.IsCata then
-        Questie:RegisterEvent("UPDATE_ALL_UI_WIDGETS", WatchFrameHook.Reposition)
+        Questie:RegisterEvent("UPDATE_ALL_UI_WIDGETS", WatchFrameHook.Hide)
     end
 
     -- Questie Comms Events

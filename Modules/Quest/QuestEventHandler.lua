@@ -28,6 +28,10 @@ local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type AutoCompleteFrame
+local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
+---@type WatchFrameHook
+local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -406,18 +410,9 @@ end
 ---@param questId number
 function _QuestEventHandler:QuestAutoComplete(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_AUTOCOMPLETE", questId)
-    C_Timer.After(0.5, function()
-        -- WatchFrame position is reset on QUEST_AUTOCOMPLETE. We want to keep it off screen.
-        WatchFrame:SetClampedToScreen(false)
-        WatchFrame:ClearAllPoints()
-        WatchFrame:SetPoint("TOP", "UIParent", -10000, -10000)
-    end)
-    -- We can not set the position right away because the WatchFrame is not yet updated.
-    C_Timer.After(1, function()
-        -- WatchFrameAutoQuestPopUp1 is a child frame of WatchFrame.
-        WatchFrameAutoQuestPopUp1:ClearAllPoints()
-        WatchFrameAutoQuestPopUp1:SetPoint("TOPLEFT", "Questie_BaseFrame", -220, 0)
-    end)
+
+    WatchFrameHook.Hide()
+    AutoCompleteFrame.ShowAutoComplete(questId)
 end
 
 --- Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though

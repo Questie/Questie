@@ -17,6 +17,8 @@ local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+---@type AutoCompleteFrame
+local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
 -------------------------
 --Import Questie modules.
 -------------------------
@@ -39,8 +41,6 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieDebugOffer
 local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
----@type WatchFrameHook
-local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
@@ -124,6 +124,10 @@ function QuestieTracker.Initialize()
     trackerBaseFrame = TrackerBaseFrame.Initialize()
     trackerHeaderFrame = TrackerHeaderFrame.Initialize(trackerBaseFrame)
     trackerQuestFrame = TrackerQuestFrame.Initialize(trackerBaseFrame, trackerHeaderFrame)
+
+    if Questie.IsCata then
+        AutoCompleteFrame.Initialize(trackerBaseFrame)
+    end
 
     -- Initialize tracker functions
     TrackerLinePool.Initialize(trackerQuestFrame)
@@ -1686,10 +1690,6 @@ function QuestieTracker:Update()
                 QuestieTracker:Update()
             end)
         end)
-    end
-
-    if trackerBaseFrame:IsShown() then
-        WatchFrameHook.Reposition()
     end
 end
 
