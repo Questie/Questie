@@ -2435,8 +2435,25 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{76.6,72.8}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
+        [38606] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{39,20.6},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
+        [38607] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{39.2,20.6},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
+        [38608] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{39,18.2},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
+        [38609] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{38.1,19.9},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
         [38858] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{36,20.7},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
         [39271] = {
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{25.87,47.15}}},

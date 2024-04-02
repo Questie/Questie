@@ -5843,12 +5843,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37120}},
             [questKeys.finishedBy] = {{37120}},
             [questKeys.preQuestSingle] = {24757},
-            [questKeys.nextQuestInChain] = 24549,
+            [questKeys.nextQuestInChain] = 24912,
         },
         [24549] = {
             [questKeys.startedBy] = {{37120}},
             [questKeys.finishedBy] = {{37120}},
-            [questKeys.preQuestSingle] = {24548},
+            [questKeys.preQuestSingle] = {24912},
             [questKeys.nextQuestInChain] = 24748,
         },
         [24553] = {
@@ -6155,6 +6155,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37120}},
             [questKeys.finishedBy] = {{37120}},
             [questKeys.preQuestSingle] = {24549},
+            [questKeys.objectives] = {{{36597,"Lich King Defeated"}}},
         },
         [24749] = {
             [questKeys.preQuestSingle] = {24547},
@@ -6441,13 +6442,40 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{38017}},
             [questKeys.exclusiveTo] = {24875,24876,24877,24878,24879},
         },
+        [24912] = {
+            [questKeys.startedBy] = {{37120}},
+            [questKeys.finishedBy] = {{37120}},
+            [questKeys.preQuestSingle] = {24548},
+            [questKeys.nextQuestInChain] = 24549,
+        },
         [24914] = {
+            [questKeys.startedBy] = {{36597},nil,{53135}},
             [questKeys.preQuestSingle] = {24549},
         },
         [24915] = {
             [questKeys.startedBy] = {{37120}},
             [questKeys.finishedBy] = {{37120}},
-            [questKeys.preQuestSingle] = {24549},
+            [questKeys.preQuestSingle] = {24914},
+        },
+        [24916] = {
+            [questKeys.startedBy] = {{38606}},
+            [questKeys.finishedBy] = {{38606}},
+            [questKeys.preQuestSingle] = {24914},
+        },
+        [24917] = {
+            [questKeys.startedBy] = {{38607}},
+            [questKeys.finishedBy] = {{38607}},
+            [questKeys.preQuestSingle] = {24914},
+        },
+        [24918] = {
+            [questKeys.startedBy] = {{38609}},
+            [questKeys.finishedBy] = {{38609}},
+            [questKeys.preQuestSingle] = {24914},
+        },
+        [24919] = {
+            [questKeys.startedBy] = {{38608}},
+            [questKeys.finishedBy] = {{38608}},
+            [questKeys.preQuestSingle] = {24914},
         },
         [25199] = {
             [questKeys.preQuestSingle] = {25229},
