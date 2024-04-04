@@ -2798,6 +2798,7 @@ ZoneDB.private.subZoneToParentZone = {
 ZoneDB.private.subZoneToParentZone[3545] = 3483 -- Hellfire Citadel -> Hellfire Peninsula
 ZoneDB.private.subZoneToParentZone[3563] = 3483 -- Hellfire Citadel -> Hellfire Peninsula
 
+---TODO: Remove with QuestieDB change
 -- Different source of zoneIds
 -- These are not in use anymore but are quite helpful when fixing the database
 -- https://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-emulator-servers/60411-zone-ids.html
