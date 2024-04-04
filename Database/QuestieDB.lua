@@ -165,6 +165,8 @@ QuestieDB.npcDataOverrides = {}
 QuestieDB.objectDataOverrides = {}
 QuestieDB.questDataOverrides = {}
 
+local QuestDB
+
 QuestieDB.activeChildQuests = {}
 
 
@@ -195,6 +197,11 @@ function QuestieDB:Initialize()
     QuestieDB.QueryObject = QuestieDBCompiler:GetDBHandle(Questie.db.global.objBin, Questie.db.global.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder), QuestieDB.objectKeys, QuestieDB.objectDataOverrides)
     QuestieDB.QueryItem = QuestieDBCompiler:GetDBHandle(Questie.db.global.itemBin, Questie.db.global.itemPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder), QuestieDB.itemKeys, QuestieDB.itemDataOverrides)
 
+    --[[
+/run local q = Questie.db.global; q.npcBin=nil; q.questBin=nil; q.objBin=nil; q.itemBin=nil; q.npcPtrs=nil; q.questPtrs=nil; q.objPtrs=nil; q.itemPtrs=nil; q.sod=nil
+/dump Questie.db.global
+    ]]
+
     QuestieDB._QueryQuestSingle = QuestieDB.QueryQuest.QuerySingle
     QuestieDB._QueryNPCSingle = QuestieDB.QueryNPC.QuerySingle
     QuestieDB._QueryObjectSingle = QuestieDB.QueryObject.QuerySingle
@@ -212,10 +219,9 @@ function QuestieDB:Initialize()
 
     ---@diagnostic disable-next-line: undefined-global
     assert(type(LibQuestieDB) == "function", "LibQuestieDB is not loaded, Questie requires the addon QuestieDB!")
-    ---@diagnostic disable-next-line: undefined-global
-    local LibQuestieDB                           = LibQuestieDB()
-    QuestieDB.LibQuestieDB = LibQuestieDB
+    local LibQuestieDB = QuestieDB.LibQuestieDB
     local quest, npc, object, item               = LibQuestieDB.Quest, LibQuestieDB.Npc, LibQuestieDB.Object, LibQuestieDB.Item
+    QuestDB = LibQuestieDB.Quest
     assert(type(quest) == "table", "LibQuestieDB.Quest is not a table!")
     assert(type(npc) == "table", "LibQuestieDB.Npc is not a table!")
     assert(type(object) == "table", "LibQuestieDB.Object is not a table!")
@@ -300,7 +306,6 @@ function QuestieDB:Initialize()
     /dump QuestieDB.QueryItem(25, QuestieDB._itemAdapterQueryOrder)
     /dump QuestieDB.QQueryItem(25, QuestieDB._itemAdapterQueryOrder)
     ]]
-
 
     local QueryQuestSingleReplaceFunction        = function(id, value)
         if quest[value] then
@@ -686,7 +691,7 @@ function QuestieDB.IsDoable(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
+    local requiredRaces = QuestDB.requiredRaces(questId)-- QuestieDB.QueryQuestSingle(questId, "requiredRaces")
     if (requiredRaces and not checkRace[requiredRaces]) then
         QuestieQuest.autoBlacklist[questId] = "race"
         local msg = "Race requirement not fulfilled for quest " .. questId
@@ -701,7 +706,7 @@ function QuestieDB.IsDoable(questId, debugPrint, returnText, returnBrief)
     end
 
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
-    local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
+    local preQuestSingle = QuestDB.preQuestSingle(questId)-- QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
     if preQuestSingle then
         local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
         if not isPreQuestSingleFulfilled then
@@ -717,7 +722,7 @@ function QuestieDB.IsDoable(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
+    local requiredClasses = QuestDB.requiredClasses(questId)-- QuestieDB.QueryQuestSingle(questId, "requiredClasses")
     if (requiredClasses and not checkClass[requiredClasses]) then
         QuestieQuest.autoBlacklist[questId] = "class"
         local msg = "Class requirement not fulfilled for quest " .. questId
@@ -731,8 +736,8 @@ function QuestieDB.IsDoable(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    local requiredMinRep = QuestieDB.QueryQuestSingle(questId, "requiredMinRep")
-    local requiredMaxRep = QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
+    local requiredMinRep = QuestDB.requiredMinRep(questId)-- QuestieDB.QueryQuestSingle(questId, "requiredMinRep")
+    local requiredMaxRep = QuestDB.requiredMaxRep(questId)-- QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
     if (requiredMinRep or requiredMaxRep) then
         local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
         if (not ((aboveMinRep and hasMinFaction) and (belowMaxRep and hasMaxFaction))) then
@@ -753,7 +758,7 @@ function QuestieDB.IsDoable(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    local requiredSkill = QuestieDB.QueryQuestSingle(questId, "requiredSkill")
+    local requiredSkill = QuestDB.requiredSkill(questId)-- QuestieDB.QueryQuestSingle(questId, "requiredSkill")
     if (requiredSkill) then
         local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
         if (not (hasProfession and hasSkillLevel)) then
@@ -778,7 +783,7 @@ function QuestieDB.IsDoable(questId, debugPrint, returnText, returnBrief)
     --? Only try group if single does not exist.
     if not preQuestSingle then
         -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
-        local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
+        local preQuestGroup = QuestDB.preQuestGroup(questId)-- QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
         if preQuestGroup then
             local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
             if not isPreQuestGroupFulfilled then
@@ -795,7 +800,7 @@ function QuestieDB.IsDoable(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
+    local parentQuest = QuestDB.parentQuest(questId)-- QuestieDB.QueryQuestSingle(questId, "parentQuest")
     if parentQuest and parentQuest ~= 0 then
         local msg = "Quest " .. questId .. " has an inactive parent quest"
         if not returnText then
@@ -808,7 +813,7 @@ function QuestieDB.IsDoable(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    local nextQuestInChain = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
+    local nextQuestInChain = QuestDB.nextQuestInChain(questId)-- QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
     if nextQuestInChain and nextQuestInChain ~= 0 then
         if Questie.db.char.complete[nextQuestInChain] or QuestiePlayer.currentQuestlog[nextQuestInChain] then
             local msg = "Follow up quests already completed or in the quest log for quest " .. questId
@@ -825,7 +830,7 @@ function QuestieDB.IsDoable(questId, debugPrint, returnText, returnBrief)
 
     -- Check if a quest which is exclusive to the current has already been completed or accepted
     -- If yes the current quest can't be accepted
-    local ExclusiveQuestGroup = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
+    local ExclusiveQuestGroup = QuestDB.exclusiveTo(questId)-- QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
     if ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for _, v in pairs(ExclusiveQuestGroup) do
             if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
@@ -854,7 +859,7 @@ function QuestieDB.IsDoable(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    local requiredSpecialization = QuestieDB.QueryQuestSingle(questId, "requiredSpecialization")
+    local requiredSpecialization = QuestDB.requiredSpecialization(questId)-- QuestieDB.QueryQuestSingle(questId, "requiredSpecialization")
     if (requiredSpecialization) and (requiredSpecialization > 0) then
         local hasSpecialization = QuestieProfessions:HasSpecialization(requiredSpecialization)
         if (not hasSpecialization) then
@@ -870,7 +875,7 @@ function QuestieDB.IsDoable(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    local requiredSpell = QuestieDB.QueryQuestSingle(questId, "requiredSpell")
+    local requiredSpell = QuestDB.requiredSpell(questId)-- QuestieDB.QueryQuestSingle(questId, "requiredSpell")
     if (requiredSpell) and (requiredSpell ~= 0) then
         local hasSpell = IsSpellKnownOrOverridesKnown(math.abs(requiredSpell))
         local hasProfSpell = IsPlayerSpell(math.abs(requiredSpell))
@@ -1362,8 +1367,11 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
     end
     local zoneQuests = {};
     local alternativeZoneID = ZoneDB:GetAlternativeZoneId(zoneId)
+    local questIds = QuestieDB.LibQuestieDB.Quest.GetAllIds() --TODO: Fix this, do not return the entire list every time for the Ids
+
     -- loop over all quests to populate a zone
-    for qid, _ in pairs(QuestieDB.QuestPointers or QuestieDB.questData) do
+    for questIdIndex = 1, #questIds do
+        local qid = questIds[questIdIndex]
         local quest = QuestieDB.GetQuest(qid);
         if quest then
             if quest.zoneOrSort > 0 then

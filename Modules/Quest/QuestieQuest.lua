@@ -688,9 +688,9 @@ function QuestieQuest:GetAllQuestIds()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Getting all quests")
 
     QuestiePlayer.currentQuestlog = {}
-
+    local questIdsHash = QuestieDB.LibQuestieDB.Quest.GetAllIds(true)
     for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
-        if (not QuestieDB.QuestPointers[questId]) then
+        if (not questIdsHash[questId]) then                             --TODO: Fix this, do not return the entire list every time for the Ids
             if not Questie._sessionWarnings[questId] then
                 if not Questie.IsSoD then Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!", tostring(questId))) end
                 Questie._sessionWarnings[questId] = true
@@ -843,7 +843,7 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
     QuestiePlayer.currentQuestlog = {}
 
     for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
-        if (not QuestieDB.QuestPointers[questId]) then
+        if (not QuestieDB.LibQuestieDB.Quest.GetAllIds(true)[questId]) then --TODO: Fix this, do not return the entire list every time for the Ids
             if not Questie._sessionWarnings[questId] then
                 if not Questie.IsSoD then Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!", tostring(questId))) end
                 Questie._sessionWarnings[questId] = true

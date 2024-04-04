@@ -368,7 +368,8 @@ function QuestieLib:CacheItemNames(questId)
     if (quest and quest.ObjectiveData) then
         for _, objectiveDB in pairs(quest.ObjectiveData) do
             if objectiveDB.Type == "item" then
-                if not ((QuestieDB.ItemPointers or QuestieDB.itemData)[objectiveDB.Id]) then
+                local questIds = QuestieDB.LibQuestieDB.Quest.GetAllIds(true)
+                if not questIds[objectiveDB.Id] then
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieLib:CacheItemNames] Requesting item information for missing itemId:", objectiveDB.Id)
                     local item = Item:CreateFromItemID(objectiveDB.Id)
                     item:ContinueOnItemLoad(
