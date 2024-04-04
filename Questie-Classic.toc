@@ -1,4 +1,4 @@
-## Interface: 11501
+## Interface: 11502
 ## Title: Questie|cFF00FF00 v9.4.12|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
