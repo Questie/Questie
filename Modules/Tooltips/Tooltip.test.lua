@@ -22,9 +22,9 @@ describe("Tooltip", function()
             registeredItemTooltips = true,
         }
 
-        setup(function()
+        before_each(function()
             QuestieDB = require("Database.QuestieDB")
-            QuestieDB.GetQuest = function(questId)
+            QuestieDB.GetQuest = spy.new(function(questId)
                 return {
                     Id = questId,
                     Objectives = {
@@ -34,7 +34,7 @@ describe("Tooltip", function()
                         [1] = specialObjective,
                     },
                 }
-            end
+            end)
             QuestieTooltips = require("Modules.Tooltips.Tooltip")
         end)
 
@@ -43,6 +43,8 @@ describe("Tooltip", function()
             QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {questId = 1, name = "test", starterId = 2}}}
 
             QuestieTooltips:RemoveQuest(1)
+
+            assert.spy(QuestieDB.GetQuest).was_called_with(1)
 
             assert.are.same(false, objective.hasRegisteredTooltips)
             assert.are.same(false, objective.registeredItemTooltips)
@@ -54,6 +56,15 @@ describe("Tooltip", function()
 
             assert.are.same({}, QuestieTooltips.lookupByKey)
             assert.are.same({}, QuestieTooltips.lookupKeysByQuestId)
+        end)
+
+        it("should do nothing when tooltip is already removed", function()
+            QuestieTooltips.lookupKeysByQuestId = {[1] = {"key"}}
+
+            QuestieTooltips:RemoveQuest(2)
+
+            assert.spy(QuestieDB.GetQuest).was_not_called()
+            assert.are.same({[1] = {"key"}}, QuestieTooltips.lookupKeysByQuestId)
         end)
     end)
 end)
