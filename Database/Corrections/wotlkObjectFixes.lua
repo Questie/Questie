@@ -782,16 +782,6 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.CRYSTALSONG_FOREST]={{50.5,50.11},{46.44,50.86},{48.46,51.01},{49.09,47.62}}},
             [objectKeys.zoneID] = zoneIDs.CRYSTALSONG_FOREST,
         },
-        [400058] = {
-            [objectKeys.name] = "Drakuru's Brazier",
-            [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{71.74,26.2}}},
-            [objectKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
-        },
-        [400059] = {
-            [objectKeys.name] = "Scourge Enclosure",
-            [objectKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{19.94,56.12}}},
-            [objectKeys.zoneID] = zoneIDs.ZUL_DRAK,
-        },
         [400061] = {
             [objectKeys.name] = "Spend 5 Talent Points",
             [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD]={{80.29,48.02},{80.91,43.78},{83.74,44.58}}},
@@ -811,6 +801,16 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.name] = "Train a Spell at your class trainer",
             [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD]={{80.29,48.02},{80.91,43.78},{83.74,44.58}}},
             [objectKeys.zoneID] = zoneIDs.ACHERUS_THE_EBON_HOLD,
+        },
+        [400065] = {
+            [objectKeys.name] = "Scourge Enclosure",
+            [objectKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{19.94,56.12}}},
+            [objectKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
+        [400066] = {
+            [objectKeys.name] = "Drakuru's Brazier",
+            [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{71.74,26.2}}},
+            [objectKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
     }
 end
