@@ -2459,8 +2459,8 @@ function QuestieNPCFixes:Load()
             },
         },
         [16031] = {
-            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
-            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{48.31,21.93},{31.14,15.84}}},
+            [npcKeys.zoneID] = zoneIDs.STRATHOLME,
+            [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
         },
         [16042] = {
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},

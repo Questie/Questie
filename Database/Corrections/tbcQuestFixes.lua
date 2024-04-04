@@ -74,6 +74,9 @@ function QuestieTBCQuestFixes:Load()
         [403] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [415] = {
+            [questKeys.startedBy] = {{1378,1872}},
+        },
         [455] = {
             [questKeys.triggerEnd] = {"Traverse Dun Algaz", {[zoneIDs.WETLANDS]={{53.49,70.36}}}},
         },

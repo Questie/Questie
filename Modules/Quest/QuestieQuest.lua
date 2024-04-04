@@ -1110,7 +1110,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
         objective.Color = QuestieLib:ColorWheel()
     end
 
-    if next(objective.spawnList) then
+    if objective.spawnList and next(objective.spawnList) then
         local maxPerType = 300
 
         if Questie.db.profile.enableIconLimit and Questie.db.profile.iconLimit < maxPerType then

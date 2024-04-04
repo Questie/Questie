@@ -2435,8 +2435,46 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{76.6,72.8}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
+        [38606] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{39,20.6},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
+        [38607] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{39.2,20.6},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
+        [38608] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{39,18.2},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
+        [38609] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{38.1,19.9},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
         [38858] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{36,20.7},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
+        [39271] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{25.87,47.15}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39368] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{49.53,47.12}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39386] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{50.09,47.74}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39396] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{50.14,47.84}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39420] = {
+            [npcKeys.name] = "Gnomeregan Vent",
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{23.5,44.8},{23.2,43.4},{24.1,41.2},{23.9,38.8},{24.5,38},{25.6,34.9}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
         },
         [39509] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{40.2,21.9},{-1,-1}}},
@@ -2444,6 +2482,30 @@ function QuestieWotlkNpcFixes:Load()
         [39654] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{64.5,74.1}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [39675] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{50.18,48.36}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39678] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{49.32,48.27}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39711] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{50.63,48.17},{50.83,48.02}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39715] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{50.21,48.65}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39716] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{50.12,48.2}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39717] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{50.42,47.63}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
         },
         [39863] = {
             [npcKeys.spawns] = {[zoneIDs.THE_RUBY_SANCTUM]={{49.3,53.9},{-1,-1}}},
