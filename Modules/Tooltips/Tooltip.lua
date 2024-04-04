@@ -412,3 +412,5 @@ function QuestieTooltips:Initialize()
         end
     end)
 end
+
+return QuestieTooltips

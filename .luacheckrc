@@ -2840,4 +2840,6 @@ globals = {
     "it",
     "before_each",
     "after_each",
+    "setup",
+    "teardown",
 }
