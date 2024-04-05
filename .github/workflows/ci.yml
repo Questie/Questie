@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - master
-    tags:
-      - "*"
     tags-ignore:
       - "v10"
   pull_request:
