@@ -32,7 +32,7 @@ This program accepts optional command line options:
 '''
 addonDir = 'Questie'
 includedExpansions = []
-tocs = ['', 'Questie-Classic.toc', 'Questie-BCC.toc', 'Questie-WOTLKC.toc']
+tocs = ['', 'Questie-Classic.toc', 'Questie-BCC.toc', 'Questie-WOTLKC.toc', 'Questie-Cata.toc']
 
 def main():
     isReleaseBuild = False
@@ -94,6 +94,7 @@ def main():
     interface_classic = get_interface_version()
     interface_bcc = get_interface_version('BCC')
     interface_wotlk = get_interface_version('WOTLKC')
+    # interface_cata = get_interface_version('Cata') # TODO: Add cata to release.json
 
     flavorString = ""
     if 1 in includedExpansions:
