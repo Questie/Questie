@@ -49,13 +49,7 @@ function AutoCompleteFrame.Initialize(baseFrame)
         autoCompleteFrame:Hide()
     end)
 
-    if GetNumAutoQuestPopUps() > 0 then -- returns the number of quests that can be completed automatically
-        -- TODO: Handle multiple quests
-        local questId = GetAutoQuestPopUp(1)
-        AutoCompleteFrame.ShowAutoComplete(questId)
-    else
-        autoCompleteFrame:Hide()
-    end
+    AutoCompleteFrame.CheckAutoCompleteQuests()
 end
 
 ---@param questId number @The questId to show the auto complete frame for
@@ -64,4 +58,14 @@ function AutoCompleteFrame.ShowAutoComplete(questId)
     autoCompleteFrame.questTitle:SetText(questTitle)
     autoCompleteFrame.questId = questId
     autoCompleteFrame:Show()
+end
+
+function AutoCompleteFrame.CheckAutoCompleteQuests()
+    if GetNumAutoQuestPopUps() > 0 then -- returns the number of quests that can be completed automatically
+        -- TODO: Handle multiple quests
+        local questId = GetAutoQuestPopUp(1)
+        AutoCompleteFrame.ShowAutoComplete(questId)
+    else
+        autoCompleteFrame:Hide()
+    end
 end

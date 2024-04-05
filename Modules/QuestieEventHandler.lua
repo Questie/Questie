@@ -47,6 +47,8 @@ local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type WatchFrameHook
 local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
+---@type AutoCompleteFrame
+local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
 
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
@@ -87,7 +89,10 @@ function QuestieEventHandler:RegisterLateEvents()
 
     -- UI Quest Events
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
-    Questie:RegisterEvent("QUEST_FINISHED", QuestieAuto.QUEST_FINISHED)
+    Questie:RegisterEvent("QUEST_FINISHED", function()
+        QuestieAuto.QUEST_FINISHED()
+        AutoCompleteFrame.CheckAutoCompleteQuests()
+    end)
     Questie:RegisterEvent("QUEST_ACCEPTED", QuestieAuto.QUEST_ACCEPTED)
     Questie:RegisterEvent("QUEST_DETAIL", function(...) -- When the quest is presented!
         QuestieAuto.QUEST_DETAIL(...)
