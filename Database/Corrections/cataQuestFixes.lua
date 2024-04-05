@@ -25,12 +25,30 @@ function CataQuestFixes.Load()
         [579] = { -- Stormwind Library
             [questKeys.parentQuest] = 578,
         },
+        [869] = { -- To Track a Thief
+            [questKeys.triggerEnd] = {"Source of Tracks Discovered", {[zoneIDs.THE_BARRENS]={{63.5,61.5}}}},
+        },
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
+        },
+        [13564] = { -- A Lost Companion
+            [questKeys.triggerEnd] = {"Locate Grimclaw", {[zoneIDs.DARKSHORE]={{43,39}}}},
+        },
+        [13639] = { -- Resupplying the Excavation
+            [questKeys.triggerEnd] = {"Find Huldar, Miran, and Saean", {[zoneIDs.LOCH_MODAN]={{55.6,68.5}}}},
+        },
+        [13881] = { -- Consumed
+            [questKeys.triggerEnd] = {"Watering Hole Investigated", {[zoneIDs.DARKSHORE]={{45,79.1}}}},
+        },
+        [13961] = { -- Drag it Out of Them
+            [questKeys.triggerEnd] = {"Razormane Prisoner Delivered", {[zoneIDs.THE_BARRENS]={{56.4,40.3}}}},
         },
         [14071] = { -- Rolling with my Homies
             [questKeys.objectives] = {{{48323},{34890},{34892},{34954}}},
             [questKeys.childQuests] = {28607},
+        },
+        [14165] = { -- Stone Cold
+            [questKeys.triggerEnd] = {"Stonified Miner Delivered", {[zoneIDs.AZSHARA]={{59.9,40.2}}}},
         },
         [24502] = { -- Necessary Roughness
             [questKeys.objectives] = {{{48526},{37114}}},
