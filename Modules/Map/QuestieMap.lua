@@ -579,7 +579,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     --end
 
     if phase and (not Phasing.IsSpawnVisible(phase)) then
-        print("Skipping invisible phase", phase)
+        Questie:Debug(Questie.DEBUG_SPAM, "Skipping invisible phase", phase)
         return nil, nil
     end
 
