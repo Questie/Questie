@@ -10,5 +10,12 @@ function CataNpcFixes.Load()
     local npcKeys = QuestieDB.npcKeys
     local zoneIDs = ZoneDB.zoneIDs
 
-    return {}
+    return {
+        [49456] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.MOUNT_HYJAL] = {{42.7,28.8}}
+            },
+            [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        }
+    }
 end

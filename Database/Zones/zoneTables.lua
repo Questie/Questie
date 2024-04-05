@@ -3169,7 +3169,14 @@ ZoneDB.private.zoneIDs = {
     -- Fake IDs for Gundrak
     GUNDRAK_UPPER_LEVEL = 4824, --154
     GUNDRAK_LOWER_LEVEL = 4825, --153
+
+    -- new cata zones
+    MOUNT_HYJAL = 616,
+    RUINS_OF_GILNEAS = 4706,
     KEZAN = 4737,
+    TWILIGHT_HIGHLANDS = 4922,
+    BLACKROCK_CAVERNS = 4926,
+    DEEPHOLM = 5042,
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic
