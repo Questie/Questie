@@ -5,10 +5,6 @@ local LSM30 = LibStub("LibSharedMedia-3.0")
 
 local autoCompleteFrame
 
--- TODO: Also show this frame on init
--- GetNumAutoQuestPopUps() returns the number of quests that can be completed automatically
--- GetAutoQuestPopUp(i) returns the questId of the i-th quest that can be completed automatically
-
 ---@param baseFrame table @The Tracker base frame
 function AutoCompleteFrame.Initialize(baseFrame)
     autoCompleteFrame = CreateFrame("Button", "Questie_AutoComplete_Frame", baseFrame, BackdropTemplateMixin and "BackdropTemplate")
@@ -46,7 +42,13 @@ function AutoCompleteFrame.Initialize(baseFrame)
         autoCompleteFrame:Hide()
     end)
 
-    autoCompleteFrame:Hide()
+    if GetNumAutoQuestPopUps() > 0 then -- returns the number of quests that can be completed automatically
+        -- TODO: Handle multiple quests
+        local questId = GetAutoQuestPopUp(1)
+        AutoCompleteFrame.ShowAutoComplete(questId)
+    else
+        autoCompleteFrame:Hide()
+    end
 end
 
 ---@param questId number @The questId to show the auto complete frame for
