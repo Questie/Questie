@@ -591,7 +591,7 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
             end
             -- TODO rename option to "enabledIDs" or create separate ones for npcs/objects/items
             local id = ''
-            if Questie.db.profile.enableTooltipsQuestID then
+            if Questie.db.profile.enableTooltipsQuestID or Questie.IsCata then
                 id = ' (' .. k .. ')'
             end
             table.insert(results, {

@@ -1379,7 +1379,7 @@ function QuestieTracker:Update()
                         line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questMarginLeft, 0)
 
                         -- Set Achievement Title
-                        if Questie.db.profile.enableTooltipsQuestID then
+                        if Questie.db.profile.enableTooltipsQuestID or Questie.IsCata then
                             line.label:SetText("|cFFFFFF00" .. achieve.Name .. " (" .. achieve.Id .. ")|r")
                         else
                             line.label:SetText("|cFFFFFF00" .. achieve.Name .. "|r")
