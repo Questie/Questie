@@ -71,6 +71,36 @@ function CataQuestFixes.Load()
         [25081] = { -- Claim the Battlescar
             [questKeys.triggerEnd] = {"Battlescar Flag Scouted", {[zoneIDs.THE_BARRENS]={{45.2,69.4}}}},
         },
+        [25105] = { -- Nibbler!  No!
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
+        },
+        [25154] = { -- A Present for Lila
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
+        },
+        [25155] = { -- Ogrezonians in the Mood
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
+        },
+        [25156] = { -- Elemental Goo
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
+        },
+        [25157] = { -- The Latest Fashion!
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
+        },
+        [25158] = { -- Nibbler!  No!
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
+        },
+        [25159] = { -- The Latest Fashion!
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
+        },
+        [25160] = { -- A Present for Lila
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
+        },
+        [25161] = { -- Ogrezonians in the Mood
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
+        },
+        [25162] = { -- Elemental Goo
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
+        },
         [25325] = { -- Through the Dream
             [questKeys.triggerEnd] = {"Arch Druid Fandral Staghelm delivered", {[zoneIDs.MOUNT_HYJAL]={{55,28.9}}}},
         },
