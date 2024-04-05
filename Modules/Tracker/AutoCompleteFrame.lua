@@ -23,7 +23,14 @@ function AutoCompleteFrame.Initialize(baseFrame)
     autoCompleteFrame:SetBackdropColor(0, 0, 0, 1)
     autoCompleteFrame:SetBackdropBorderColor(1, 1, 1, 0)
 
-    -- TODO: Add some icon -- Interface\\QuestFrame\\AutoQuest-Parts
+    local icon = CreateFrame("Button", nil, autoCompleteFrame)
+    icon:SetPoint("LEFT", 4, 0)
+    icon:SetSize(25, 25);
+    icon:SetAlpha(1)
+    icon.texture = icon:CreateTexture(nil, "BACKGROUND", nil, 0)
+    icon.texture:SetTexture(Questie.icons["complete"])
+    icon.texture:SetSize(25, 25);
+    icon.texture:SetPoint("LEFT", 4, 0)
 
     local trackerFontSizeZone = Questie.db.profile.trackerFontSizeZone
     local font = LSM30:Fetch("font", Questie.db.profile.trackerFontZone)
