@@ -17,6 +17,10 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(nil))
         end)
 
+        it("should return true for UNKNOWN", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.UNKNOWN))
+        end)
+
         it("should return true for KEZAN_CHAPTER_1", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_1))
         end)

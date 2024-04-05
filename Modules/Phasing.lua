@@ -5,6 +5,7 @@ local _Phasing = {}
 
 -- https://old.wow.tools/dbc/?dbc=phase&build=4.3.4.15595
 local phases = {
+    UNKNOWN = 169, -- Most Deepholm NPCs (and others) have this ID but are not phased
     KEZAN_CHAPTER_1 = 378,
     KEZAN_CHAPTER_2 = 379,
     KEZAN_CHAPTER_3 = 380,
@@ -18,7 +19,7 @@ Phasing.phases = phases
 ---@param phase number|nil @The phase belonging to a spawn of an NPC
 ---@return boolean @true if the spawn is visible, false otherwise
 function Phasing.IsSpawnVisible(phase)
-    if (not phase) then
+    if (not phase) or phase == phases.UNKNOWN then
         return true
     end
 
