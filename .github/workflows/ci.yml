@@ -5,7 +5,7 @@ on:
     branches:
       - master
     tags-ignore:
-      - "v10"
+      - "v10.*"
   pull_request:
 
 jobs:
