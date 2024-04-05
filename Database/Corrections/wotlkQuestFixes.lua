@@ -1370,7 +1370,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{26762},nil,{36756}},
         },
         [12068] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Sacred Mojo"),0,{{"object", 400058}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Sacred Mojo"),0,{{"object", 400066}}}},
             [questKeys.requiredSourceItems] = {35797,36758},
         },
         [12069] = {
@@ -2710,7 +2710,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.sourceItemId] = 40971,
         },
         [12916] = {
-            [questKeys.objectives] = {nil,{{400059,"Scourge Enclosure Blown Up"}}},
+            [questKeys.objectives] = {nil,{{400065,"Scourge Enclosure Blown Up"}}},
         },
         [12919] = {
             [questKeys.extraObjectives] = {

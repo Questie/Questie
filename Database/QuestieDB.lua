@@ -1258,6 +1258,114 @@ local factionReactions = {
     H = (playerFaction == "Horde") or nil,
     AH = true,
 }
+--
+--
+--function __TEST()
+--    local questsWithoutTriggerEnd = {
+--        869,
+--        944,
+--        1448,
+--        6185,
+--        9260,
+--        9261,
+--        9262,
+--        9263,
+--        9264,
+--        9265,
+--        12032,
+--        12036,
+--        12816,
+--        12817,
+--        13564,
+--        13639,
+--        13881,
+--        13961,
+--        14066,
+--        14165,
+--        14389,
+--        24452,
+--        24618,
+--        25081,
+--        25325,
+--        25621,
+--        25715,
+--        25930,
+--        26258,
+--        26512,
+--        26930,
+--        26975,
+--        27007,
+--        27044,
+--        27152,
+--        27341,
+--        27349,
+--        27610,
+--        27704,
+--        28228,
+--        28635,
+--        28732,
+--        29392,
+--        29415,
+--        29536,
+--        29539,
+--    }
+--
+--    local corrections = {}
+--
+--    -- Read QuestieDB to check if the quest has a triggerEnd
+--    for _, questId in pairs(questsWithoutTriggerEnd) do
+--        local quest = QuestieDB.GetQuest(questId)
+--        if (not quest) then
+--            print("Quest " .. questId .. " not found in QuestieDB")
+--            corrections[questId] = true
+--        else
+--            if quest.triggerEnd then
+--                print("Quest " .. questId .. " has a triggerEnd")
+--            else
+--                print("Quest " .. questId .. " does not have a triggerEnd")
+--                corrections[questId] = true
+--            end
+--        end
+--    end
+--
+--    Questie.db.global.__TEST = corrections
+--end
+local a = {
+    [869] = true,
+    [13564] = true,
+    [13639] = true,
+    [13881] = true,
+    [13961] = true,
+    [14165] = true,
+
+    [27610] = true,
+    [27044] = true,
+    [26930] = true,
+    [14066] = true,
+    [28635] = true,
+    [25930] = true,
+    [27007] = true,
+    [14389] = true,
+    [27704] = true,
+    [24618] = true,
+    [26258] = true,
+    [26512] = true,
+    [29539] = true,
+    [27341] = true,
+    [29536] = true,
+    [29415] = true,
+    [29392] = true,
+    [28732] = true,
+    [28228] = true,
+    [27152] = true,
+    [27349] = true,
+    [24452] = true,
+    [25325] = true,
+    [26975] = true,
+    [25621] = true,
+    [25715] = true,
+    [25081] = true,
+}
 
 ---@param npcId number
 ---@return table
