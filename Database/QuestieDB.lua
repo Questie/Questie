@@ -431,6 +431,13 @@ function QuestieDB.IsPvPQuest(questId)
     return questType == 41
 end
 
+---@param questId number
+---@return boolean
+function QuestieDB.IsGroupQuest(questId)
+    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questType == 1
+end
+
 --[[ Commented out because not used anywhere
 ---@param questId number
 ---@return boolean
