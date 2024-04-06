@@ -28,7 +28,7 @@ class ItemSpider(scrapy.Spider):
 
                 for match in list_views_pattern.findall(script):
                     list_view_name = re.search(r'id: \'(.*?)\',', match).group(1)
-                    if list_view_name == "dropped-by" or list_view_name == "pick-pocketed-from":
+                    if list_view_name == "dropped-by" or list_view_name == "pick-pocketed-from" or list_view_name == "skinned-from":
                         dropped_by_pattern = re.compile(r'"id":(\d+)')
                         for dropped_by in dropped_by_pattern.findall(match):
                             if "npcDrops" not in result.keys():
@@ -40,7 +40,7 @@ class ItemSpider(scrapy.Spider):
                             if "vendors" not in result.keys():
                                 result["vendors"] = []
                             result["vendors"].append(int(sold_by))
-                    if list_view_name == "contained-in-object":
+                    if list_view_name == "contained-in-object" or list_view_name == "mined-from-object" or list_view_name == "gathered-from-object":
                         contained_in_object_pattern = re.compile(r'"id":(\d+)')
                         for contained_in_object in contained_in_object_pattern.findall(match):
                             if "objectDrops" not in result.keys():

@@ -307,6 +307,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {7642,7648},
         },
+        [7704] = {
+            [questKeys.startedBy] = {nil,{179832},{18950}},
+        },
         [8149] = {
             [questKeys.objectives] = {nil,{{180204,"Place a tribute at Uther's Tomb"}}},
             [questKeys.extraObjectives] = {},
@@ -1370,7 +1373,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{26762},nil,{36756}},
         },
         [12068] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Sacred Mojo"),0,{{"object", 400058}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Sacred Mojo"),0,{{"object", 400066}}}},
             [questKeys.requiredSourceItems] = {35797,36758},
         },
         [12069] = {
@@ -2710,7 +2713,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.sourceItemId] = 40971,
         },
         [12916] = {
-            [questKeys.objectives] = {nil,{{400059,"Scourge Enclosure Blown Up"}}},
+            [questKeys.objectives] = {nil,{{400065,"Scourge Enclosure Blown Up"}}},
         },
         [12919] = {
             [questKeys.extraObjectives] = {
@@ -5843,12 +5846,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37120}},
             [questKeys.finishedBy] = {{37120}},
             [questKeys.preQuestSingle] = {24757},
-            [questKeys.nextQuestInChain] = 24549,
+            [questKeys.nextQuestInChain] = 24912,
         },
         [24549] = {
             [questKeys.startedBy] = {{37120}},
             [questKeys.finishedBy] = {{37120}},
-            [questKeys.preQuestSingle] = {24548},
+            [questKeys.preQuestSingle] = {24912},
             [questKeys.nextQuestInChain] = 24748,
         },
         [24553] = {
@@ -6155,6 +6158,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{37120}},
             [questKeys.finishedBy] = {{37120}},
             [questKeys.preQuestSingle] = {24549},
+            [questKeys.objectives] = {{{36597,"Lich King Defeated"}}},
         },
         [24749] = {
             [questKeys.preQuestSingle] = {24547},
@@ -6441,13 +6445,40 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{38017}},
             [questKeys.exclusiveTo] = {24875,24876,24877,24878,24879},
         },
+        [24912] = {
+            [questKeys.startedBy] = {{37120}},
+            [questKeys.finishedBy] = {{37120}},
+            [questKeys.preQuestSingle] = {24548},
+            [questKeys.nextQuestInChain] = 24549,
+        },
         [24914] = {
+            [questKeys.startedBy] = {{36597},nil,{53135}},
             [questKeys.preQuestSingle] = {24549},
         },
         [24915] = {
             [questKeys.startedBy] = {{37120}},
             [questKeys.finishedBy] = {{37120}},
-            [questKeys.preQuestSingle] = {24549},
+            [questKeys.preQuestSingle] = {24914},
+        },
+        [24916] = {
+            [questKeys.startedBy] = {{38606}},
+            [questKeys.finishedBy] = {{38606}},
+            [questKeys.preQuestSingle] = {24914},
+        },
+        [24917] = {
+            [questKeys.startedBy] = {{38607}},
+            [questKeys.finishedBy] = {{38607}},
+            [questKeys.preQuestSingle] = {24914},
+        },
+        [24918] = {
+            [questKeys.startedBy] = {{38609}},
+            [questKeys.finishedBy] = {{38609}},
+            [questKeys.preQuestSingle] = {24914},
+        },
+        [24919] = {
+            [questKeys.startedBy] = {{38608}},
+            [questKeys.finishedBy] = {{38608}},
+            [questKeys.preQuestSingle] = {24914},
         },
         [25199] = {
             [questKeys.preQuestSingle] = {25229},
@@ -6540,6 +6571,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [25445] = { -- Zalazane's Fall
             [questKeys.objectives] = {{{40502,"Zalazane Killed"}}},
+            [questKeys.requiredLevel] = 75,
+            [questKeys.questLevel] = -1,
         },
         [25446] = { -- Frogs Away!
             [questKeys.nextQuestInChain] = 25461,

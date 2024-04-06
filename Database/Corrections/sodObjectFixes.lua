@@ -329,6 +329,51 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.ARATHI_HIGHLANDS] = {{62,54}},
             },
         },
+        [439627] = {
+            [objectKeys.name] = "Dreamroot",
+            [objectKeys.zoneID] = 331,
+            [objectKeys.spawns] = {
+                [331] = {{80.7, 50.6},{82.6, 50.2},{82.7, 55},{84.3, 44.8},{85.6, 60},{86.2, 47},{87.3, 52.2},{87.7, 62.6},{89.5, 44.7},{89.7, 50.6},{89.7, 58},{93.4, 38.3},{93.5, 38.3},},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
+        [439628] = {
+            [objectKeys.name] = "Fool's Gold Vein",
+            [objectKeys.zoneID] = 331,
+            [objectKeys.spawns] = {
+                [331] = {{79.2, 49.9},{81.6, 52.2},{82.7, 45.8},{84.8, 55.4},{85.8, 46.7},{86, 49.7},{88.1, 62.1},{89, 45.5},{89.8, 42.9},{91.3, 37.6},{94, 36.6},},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
+        [441124] = {
+            [objectKeys.name] = "Dream-Touched Dragon Egg",
+            [objectKeys.zoneID] = 331,
+            [objectKeys.spawns] = {
+                [331] = {{86.1, 45.9},},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
+        [441128] = {
+            [objectKeys.name] = "Vibrating Crate",
+            [objectKeys.zoneID] = 331,
+            [objectKeys.spawns] = {
+                [331] = {{88.4, 55.4},{88.4, 55.5},},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
+        [441129] = {
+            [objectKeys.name] = "Azsharan Prophecy",
+            [objectKeys.zoneID] = 331,
+            [objectKeys.spawns] = {
+                [331] = {{80.7, 48.9},},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
 
         -- fake ID - no clue yet what the correct ones are
         [450000] = {
