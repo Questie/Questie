@@ -270,32 +270,36 @@ function MapIconTooltip:Show()
                         local nextQuestXpRewardString = "";
                         local nextQuestMoneyRewardString = "";
                         local nextQuestIdString = "";
+                        local nextQuestTagString = "";
                         if firstInChain then
                             self:AddLine("  Next in chain:", 0.86, 0.86, 0.86)
                             firstInChain = false;
                         end
 
                         if Questie.db.profile.enableTooltipsQuestLevel then
-                            nextQuestTitleString = string.format("%s ", QuestieLib:GetLevelString(nextQuest.Id, "", nextQuest.level, true) .. nextQuest.name)
+                            nextQuestTitleString = string.format("%s", QuestieLib:GetLevelString(nextQuest.Id, "", nextQuest.level, true) .. nextQuest.name)
                         else
-                            nextQuestTitleString = string.format("%s ", nextQuest.name)
+                            nextQuestTitleString = string.format("%s", nextQuest.name)
                         end
 
                         if Questie.db.profile.enableTooltipsQuestID then
-                            nextQuestIdString = string.format("(%d) ", nextQuest.Id)
+                            nextQuestIdString = string.format(" (%d)", nextQuest.Id)
                         end
 
                         local nextQuestXpReward = QuestXP:GetQuestLogRewardXP(nextQuest.Id, Questie.db.profile.showQuestXpAtMaxLevel);
                         if nextQuestXpReward > 0 then
-                            nextQuestXpRewardString = string.format("(%s%s) ", FormatLargeNumber(nextQuestXpReward), xpString);
+                            nextQuestXpRewardString = string.format(" (%s%s)", FormatLargeNumber(nextQuestXpReward), xpString);
                         end
 
                         local nextQuestMoneyReward = QuestXP:GetQuestRewardMoney(nextQuest.Id);
                         if nextQuestMoneyReward > 0 then
-                            nextQuestMoneyRewardString = Questie:Colorize(string.format("(%s) ",GetCoinTextureString(nextQuestMoneyReward)), "white");
+                            nextQuestMoneyRewardString = Questie:Colorize(string.format(" (%s)",GetCoinTextureString(nextQuestMoneyReward)), "white");
                         end
 
-                        local nextQuestTagString = Questie:Colorize(GetQuestTag(nextQuest), "yellow")
+                        if (QuestieDB.IsGroupQuest(nextQuest.Id) or QuestieDB.IsDungeonQuest(nextQuest.Id) or QuestieDB.IsRaidQuest(nextQuest.Id)) then
+                            local _, nextQuestTag = QuestieDB.GetQuestTagInfo(nextQuest.Id)
+                            nextQuestTagString = Questie:Colorize(string.format(" (%s)", nextQuestTag), "yellow")
+                        end
 
                         local nextQuestString = string.format("    %s%s%s%s%s", nextQuestTitleString, nextQuestIdString, nextQuestXpRewardString, nextQuestMoneyRewardString, nextQuestTagString); -- we need an offset to align with description
                         self:AddLine(QuestieLib:PrintDifficultyColor(nextQuest.level, nextQuestString, QuestieDB.IsRepeatable(nextQuest.Id), QuestieDB.IsActiveEventQuest(nextQuest.Id), QuestieDB.IsPvPQuest(nextQuest.Id)), 1, 1, 1);
