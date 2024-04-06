@@ -307,6 +307,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {7642,7648},
         },
+        [7704] = {
+            [questKeys.startedBy] = {nil,{179832},{18950}},
+        },
         [8149] = {
             [questKeys.objectives] = {nil,{{180204,"Place a tribute at Uther's Tomb"}}},
             [questKeys.extraObjectives] = {},

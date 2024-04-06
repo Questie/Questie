@@ -18,6 +18,9 @@ function QuestieWotlkObjectFixes:Load()
                 [zoneIDs.TIRISFAL_GLADES]={{82.8,72.7},{83,71.4},{83,71.5}},
             },
         },
+        [179832] = {
+            [objectKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{45.86,29.68}}},
+        },
         [180669] = {
             [objectKeys.spawns] = {[zoneIDs.AZSHARA] = {{65.82,54.77}}},
         },
