@@ -61,6 +61,12 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {47044},
             [questKeys.exclusiveTo] = {14109},
         },
+        [14113] = { -- Life of the Party
+            [questKeys.preQuestSingle] = {14109},
+        },
+        [14153] = { -- Life of the Party
+            [questKeys.preQuestSingle] = {14110},
+        },
         [14165] = { -- Stone Cold
             [questKeys.triggerEnd] = {"Stonified Miner Delivered", {[zoneIDs.AZSHARA]={{59.9,40.2}}}},
         },
