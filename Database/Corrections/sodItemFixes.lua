@@ -123,7 +123,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.npcDrops] = {900005},
         },
         [219444] = {
-            [itemKeys.name] = "Dreamroot",
+            -- Dreamroot
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = {439627},
             [itemKeys.itemDrops] = nil,
@@ -131,7 +131,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [219445] = {
-            [itemKeys.name] = "Fool's Gold Dust",
+            -- Fool's Gold Dust
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = {439628},
             [itemKeys.itemDrops] = nil,
@@ -139,7 +139,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [219446] = {
-            [itemKeys.name] = "Dream-Infused Dragonscale",
+            -- Dream-Infused Dragonscale
             [itemKeys.npcDrops] = {221259,221260,221265},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
@@ -147,7 +147,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [219447] = {
-            [itemKeys.name] = "Dream-Touched Dragon Egg",
+            -- Dream-Touched Dragon Egg
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = {441124},
             [itemKeys.itemDrops] = nil,
@@ -155,7 +155,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [219448] = {
-            [itemKeys.name] = "Dreamengine",
+            -- Dreamengine
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = {441128},
             [itemKeys.itemDrops] = nil,
@@ -163,7 +163,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [219449] = {
-            [itemKeys.name] = "Azsharan Prophecy",
+            -- Azsharan Prophecy
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = {441129},
             [itemKeys.itemDrops] = nil,
@@ -171,7 +171,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [219770] = {
-            [itemKeys.name] = "Gemeron's Field Report",
+            -- Gemeron's Field Report
             [itemKeys.npcDrops] = {221482},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
@@ -179,7 +179,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [219773] = {
-            [itemKeys.name] = "Mission Brief: Ashenvale",
+            -- Mission Brief: Ashenvale
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
@@ -187,7 +187,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [219924] = {
-            [itemKeys.name] = "Intelligence Report: Forest Song",
+            -- Intelligence Report: Forest Song
             [itemKeys.npcDrops] = {221271},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
@@ -195,7 +195,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [219925] = {
-            [itemKeys.name] = "Intelligence Report: Satyrnaar",
+            -- Intelligence Report: Satyrnaar
             [itemKeys.npcDrops] = {221272},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
@@ -203,7 +203,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [219926] = {
-            [itemKeys.name] = "Intelligence Report: Warsong Lumber Camp",
+            -- Intelligence Report: Warsong Lumber Camp
             [itemKeys.npcDrops] = {221273},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
@@ -211,7 +211,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [219999] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission I",
+            -- Nightmare Incursions: Ashenvale Mission I
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -219,7 +219,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81768,
         },
         [220000] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission II",
+            -- Nightmare Incursions: Ashenvale Mission II
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -227,7 +227,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81769,
         },
         [220001] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission III",
+            -- Nightmare Incursions: Ashenvale Mission III
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -235,7 +235,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81770,
         },
         [220002] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission IV",
+            -- Nightmare Incursions: Ashenvale Mission IV
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -243,7 +243,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81771,
         },
         [220003] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission V",
+            -- Nightmare Incursions: Ashenvale Mission V
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -251,7 +251,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81772,
         },
         [220004] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission VI",
+            -- Nightmare Incursions: Ashenvale Mission VI
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -259,7 +259,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81773,
         },
         [220005] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission VII",
+            -- Nightmare Incursions: Ashenvale Mission VII
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -267,7 +267,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81774,
         },
         [220006] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission VIII",
+            -- Nightmare Incursions: Ashenvale Mission VIII
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -275,7 +275,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81775,
         },
         [220007] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission IX",
+            -- Nightmare Incursions: Ashenvale Mission IX
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -283,7 +283,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81776,
         },
         [220008] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission X",
+            -- Nightmare Incursions: Ashenvale Mission X
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -291,7 +291,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81777,
         },
         [220009] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission XI",
+            -- Nightmare Incursions: Ashenvale Mission XI
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -299,7 +299,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81778,
         },
         [220010] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission XII",
+            -- Nightmare Incursions: Ashenvale Mission XII
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -307,7 +307,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81779,
         },
         [220011] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission XIII",
+            -- Nightmare Incursions: Ashenvale Mission XIII
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -315,7 +315,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81780,
         },
         [220012] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission XIV",
+            -- Nightmare Incursions: Ashenvale Mission XIV
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -323,7 +323,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81781,
         },
         [220013] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission XV",
+            -- Nightmare Incursions: Ashenvale Mission XV
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -331,7 +331,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81782,
         },
         [220014] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission XVI",
+            -- Nightmare Incursions: Ashenvale Mission XVI
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -339,7 +339,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81783,
         },
         [220015] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission XVII",
+            -- Nightmare Incursions: Ashenvale Mission XVII
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -347,7 +347,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81784,
         },
         [220016] = {
-            [itemKeys.name] = "Nightmare Incursions: Ashenvale Mission XVIII",
+            -- Nightmare Incursions: Ashenvale Mission XVIII
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -355,7 +355,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = 81785,
         },
         [220053] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission I",
+            -- Deputization Authorization: Ashenvale Mission I
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -363,7 +363,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220054] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission II",
+            -- Deputization Authorization: Ashenvale Mission II
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -371,7 +371,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220055] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission III",
+            -- Deputization Authorization: Ashenvale Mission III
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -379,7 +379,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220056] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission IV",
+            -- Deputization Authorization: Ashenvale Mission IV
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -387,7 +387,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220057] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission V",
+            -- Deputization Authorization: Ashenvale Mission V
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -395,7 +395,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220058] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission VI",
+            -- Deputization Authorization: Ashenvale Mission VI
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -403,7 +403,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220059] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission VII",
+            -- Deputization Authorization: Ashenvale Mission VII
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -411,7 +411,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220060] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission VIII",
+            -- Deputization Authorization: Ashenvale Mission VIII
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -419,7 +419,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220061] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission IX",
+            -- Deputization Authorization: Ashenvale Mission IX
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -427,7 +427,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220062] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission X",
+            -- Deputization Authorization: Ashenvale Mission X
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -435,7 +435,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220063] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission XI",
+            -- Deputization Authorization: Ashenvale Mission XI
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -443,7 +443,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220064] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission XII",
+            -- Deputization Authorization: Ashenvale Mission XII
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -451,7 +451,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220065] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission XIII",
+            -- Deputization Authorization: Ashenvale Mission XIII
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -459,7 +459,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220066] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission XIV",
+            -- Deputization Authorization: Ashenvale Mission XIV
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -467,7 +467,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220067] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission XV",
+            -- Deputization Authorization: Ashenvale Mission XV
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -475,7 +475,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220068] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission XVI",
+            -- Deputization Authorization: Ashenvale Mission XVI
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -483,7 +483,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220069] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission XVII",
+            -- Deputization Authorization: Ashenvale Mission XVII
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
@@ -491,7 +491,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.startQuest] = nil,
         },
         [220070] = {
-            [itemKeys.name] = "Deputization Authorization: Ashenvale Mission XVIII",
+            -- Deputization Authorization: Ashenvale Mission XVIII
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = {219773},
