@@ -6,6 +6,8 @@ local _Phasing = {}
 -- https://old.wow.tools/dbc/?dbc=phase&build=4.3.4.15595
 local phases = {
     UNKNOWN = 169, -- Most Deepholm NPCs (and others) have this ID but are not phased
+    LOST_ISLES_CHAPTER_1 = 170,
+
     KEZAN_CHAPTER_1 = 378,
     KEZAN_CHAPTER_2 = 379,
     KEZAN_CHAPTER_3 = 380,
@@ -24,6 +26,10 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     local complete = Questie.db.char.complete
+
+    if phase == phases.LOST_ISLES_CHAPTER_1 then
+        return complete[14126]
+    end
 
     if phase >= phases.KEZAN_CHAPTER_1 and phase <= phases.KEZAN_CHAPTER_7 then
         return _Phasing.Kezan(phase, complete)

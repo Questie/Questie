@@ -12,15 +12,15 @@ describe("Phasing", function()
         Questie = _G["Questie"]
     end)
 
-    describe("IsSpawnVisible", function()
-        it("should return true for phase nil", function()
-            assert.is_true(Phasing.IsSpawnVisible(nil))
-        end)
+    it("should return true for phase nil", function()
+        assert.is_true(Phasing.IsSpawnVisible(nil))
+    end)
 
-        it("should return true for UNKNOWN", function()
-            assert.is_true(Phasing.IsSpawnVisible(phases.UNKNOWN))
-        end)
+    it("should return true for UNKNOWN", function()
+        assert.is_true(Phasing.IsSpawnVisible(phases.UNKNOWN))
+    end)
 
+    describe("Kezan", function()
         it("should return true for KEZAN_CHAPTER_1", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_1))
         end)
@@ -101,6 +101,14 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_5))
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_6))
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_7))
+        end)
+    end)
+
+    describe("The Lost Isles", function()
+        it("should return true for chapter 1 when quest 14126 is complete", function()
+            Questie.db.char.complete[14126] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.LOST_ISLES_CHAPTER_1))
         end)
     end)
 end)
