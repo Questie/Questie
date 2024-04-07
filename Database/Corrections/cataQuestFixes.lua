@@ -43,6 +43,9 @@ function CataQuestFixes.Load()
         [13961] = { -- Drag it Out of Them
             [questKeys.triggerEnd] = {"Razormane Prisoner Delivered", {[zoneIDs.THE_BARRENS]={{56.4,40.3}}}},
         },
+        [14011] = { -- Primal Strike
+            [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{73899}}},
+        },
         [14066] = { -- Investigate the Wreckage
             [questKeys.triggerEnd] = {"Caravan Scene Searched", {[zoneIDs.THE_BARRENS]={{59.2,67.5}}}},
         },
@@ -73,6 +76,9 @@ function CataQuestFixes.Load()
         },
         [25105] = { -- Nibbler!  No!
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
+        },
+        [25143] = { -- Primal Strike
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{73899}}},
         },
         [25154] = { -- A Present for Lila
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
@@ -137,11 +143,17 @@ function CataQuestFixes.Load()
         [26930] = { -- After the Crusade
             [questKeys.triggerEnd] = {"Scarlet Crusade camp scouted", {[zoneIDs.WESTERN_PLAGUELANDS]={{40.6,52.6}}}},
         },
+        [26969] = { -- Primal Strike
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{73899}}},
+        },
         [26975] = { -- Rallying the Fleet
             [questKeys.triggerEnd] = {"Prince Anduin Escorted to Graves", {[zoneIDs.STORMWIND_CITY]={{33.5,40.9}}}},
         },
         [27007] = { -- Silvermarsh Rendezvous
             [questKeys.triggerEnd] = {"Upper Silvermarsh reached", {[zoneIDs.DEEPHOLM]={{72.3,62.3}}}},
+        },
+        [27027] = { -- Primal Strike
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{73899}}},
         },
         [27044] = { -- Peasant Problems
             [questKeys.triggerEnd] = {"Anduin Escorted to Farmer Wollerton", {[zoneIDs.STORMWIND_CITY]={{52.1,6.5}}}},
