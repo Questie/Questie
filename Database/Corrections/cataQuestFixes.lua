@@ -53,6 +53,14 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{48323},{34890},{34892},{34954}}},
             [questKeys.childQuests] = {28607},
         },
+        [14109] = { -- The New You
+            [questKeys.requiredSourceItems] = {47044},
+            [questKeys.exclusiveTo] = {14110},
+        },
+        [14110] = { -- The New You
+            [questKeys.requiredSourceItems] = {47044},
+            [questKeys.exclusiveTo] = {14109},
+        },
         [14165] = { -- Stone Cold
             [questKeys.triggerEnd] = {"Stonified Miner Delivered", {[zoneIDs.AZSHARA]={{59.9,40.2}}}},
         },
