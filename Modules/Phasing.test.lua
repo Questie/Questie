@@ -25,18 +25,6 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_1))
         end)
 
-        it("should return true for KEZAN_CHAPTER_5 when quest 14115 is complete", function()
-            Questie.db.char.complete[14115] = true
-
-            assert.is_true(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_5))
-        end)
-
-        it("should return false for KEZAN_CHAPTER_1 when quest 14115 is complete", function()
-            Questie.db.char.complete[14115] = true
-
-            assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_1))
-        end)
-
         it("should return false for KEZAN_CHAPTER_1 when quest 14125 is complete", function()
             Questie.db.char.complete[14125] = true
 
@@ -45,6 +33,18 @@ describe("Phasing", function()
 
         it("should return false for KEZAN_CHAPTER_1 when quest 14126 is complete", function()
             Questie.db.char.complete[14126] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_1))
+        end)
+
+        it("should return true for KEZAN_CHAPTER_5 when quest 14115 is complete", function()
+            Questie.db.char.complete[14115] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_5))
+        end)
+
+        it("should return false for KEZAN_CHAPTER_1 when quest 14115 is complete", function()
+            Questie.db.char.complete[14115] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_1))
         end)
@@ -65,6 +65,7 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_2))
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_3))
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_4))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_5))
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_6))
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_7))
         end)

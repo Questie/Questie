@@ -14,6 +14,26 @@ function CataNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
+        [34872] = { -- Foreman Dampwick
+            [npcKeys.spawns] = {
+                [zoneIDs.KEZAN] = {
+                    {60.22,74.56,phases.KEZAN_CHAPTER_1},
+                    {63.03,77.81,phases.KEZAN_CHAPTER_5},
+                    {63.03,77.81,phases.KEZAN_CHAPTER_6},
+                    {21.63,13.47,phases.KEZAN_CHAPTER_7},
+                },
+            },
+        },
+        [34874] = { -- Megs Dreadshredder
+            [npcKeys.spawns] = {
+                [zoneIDs.KEZAN] = {
+                    {58.23,76.45,phases.KEZAN_CHAPTER_1},
+                    {60.08,78.23,phases.KEZAN_CHAPTER_5},
+                    {60.08,78.23,phases.KEZAN_CHAPTER_6},
+                    {21.62,12.91,phases.KEZAN_CHAPTER_7},
+                },
+            },
+        },
         [35222] = { -- Trade Prince Gallywix
             [npcKeys.spawns] = {
                 [zoneIDs.KEZAN] = {
