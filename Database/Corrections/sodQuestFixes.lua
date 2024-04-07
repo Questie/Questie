@@ -1235,15 +1235,13 @@ function SeasonOfDiscovery:LoadQuests()
         },
 
         -- P3 Incursion Intro Quests
-        [81716] = {
-            --[questKeys.name] = "Recover Incursion Field Report: Duskwood",
+        [81716] = { -- Recover Incursion Field Report: Duskwood
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {nil,nil,{{219759}},nil,{{{221226},221226,"Firestarter Imp"},{{221223},221223,"Duskblaze Shadowstalker"},{{221227},221227,"Nightmare Hound"}}},
         },
-        [81727] = {
-            --[questKeys.name] = "Recover Incursion Field Report: Ashenvale",
+        [81727] = { -- Recover Incursion Field Report: Ashenvale
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
@@ -1251,129 +1249,111 @@ function SeasonOfDiscovery:LoadQuests()
         },
 
         -- Begin Duskwood Incursion
-        [81730] = {
-            --[questKeys.name] = "Duskwood Mission I: Defeat Worgen",
+        [81730] = { -- Duskwood Mission I: Defeat Worgen
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {{{221171},{221172}}},
         },
-        [81731] = {
-            --[questKeys.name] = "Duskwood Mission II: Defeat Ogres",
+        [81731] = { -- Duskwood Mission II: Defeat Ogres
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {{{221174},{221175}}},
         },
-        [81732] = {
-            --[questKeys.name] = "Duskwood Mission III: Defeat Dragonkin",
+        [81732] = { -- Duskwood Mission III: Defeat Dragonkin
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {{{221200},{221176}}},
         },
-        [81733] = {
-            --[questKeys.name] = "Duskwood Mission IV: Ogre Intelligence",
+        [81733] = { -- Duskwood Mission IV: Ogre Intelligence
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {nil,nil,{{219776}}},
         },
-        [81734] = {
-            --[questKeys.name] = "Duskwood Mission V: Worgen Intelligence",
+        [81734] = { -- Duskwood Mission V: Worgen Intelligence
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {nil,nil,{{219778}}},
         },
-        [81735] = {
-            --[questKeys.name] = "Duskwood Mission VI: Dragon Intelligence",
+        [81735] = { -- Duskwood Mission VI: Dragon Intelligence
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {nil,nil,{{219803}}},
         },
-        [81736] = {
-            --[questKeys.name] = "Duskwood Mission VII: Recover Shadowscythe",
+        [81736] = { -- Duskwood Mission VII: Recover Shadowscythe
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {nil,nil,{{219404}}},
         },
-        [81737] = {
-            --[questKeys.name] = "Duskwood Mission VIII: Recover Ogre Magi text",
+        [81737] = { -- Duskwood Mission VIII: Recover Ogre Magi text
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {nil,nil,{{219405}}},
         },
-        [81738] = {
-            --[questKeys.name] = "Duskwood Mission IX: Recover Dragon Egg",
+        [81738] = { -- Duskwood Mission IX: Recover Dragon Egg
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {nil,nil,{{219406}}},
         },
-        [81739] = {
-            --[questKeys.name] = "Duskwood Mission X: Nightmare Moss",
+        [81739] = { -- Duskwood Mission X: Nightmare Moss
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {nil,nil,{{219399}}},
         },
-        [81740] = {
-            --[questKeys.name] = "Duskwood Mission XI: Cold Iron Ore",
+        [81740] = { -- Duskwood Mission XI: Cold Iron Ore
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {nil,nil,{{219401}}},
         },
-        [81741] = {
-            --[questKeys.name] = "Duskwood Mission XII: Dream-Touched Dragonscale",
+        [81741] = { -- Duskwood Mission XII: Dream-Touched Dragonscale
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {nil,nil,{{219402}}},
         },
-        [81742] = {
-            --[questKeys.name] = "Duskwood Mission XIII: Defeat Ylanthrius",
+        [81742] = { -- Duskwood Mission XIII: Defeat Ylanthrius
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {{{221204}}},
         },
-        [81743] = {
-            --[questKeys.name] = "Duskwood Mission XIV: Defeat Vvarc'zul",
+        [81743] = { -- Duskwood Mission XIV: Defeat Vvarc'zul
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {{{221206}}},
         },
-        [81744] = {
-            --[questKeys.name] = "Duskwood Mission XV: Defeat Amokarok",
+        [81744] = { -- Duskwood Mission XV: Defeat Amokarok
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {{{221207}}},
         },
-        [81745] = {
-            --[questKeys.name] = "Duskwood Mission XVI: Rescue Kroll Mountainshade",
+        [81745] = { -- Duskwood Mission XVI: Rescue Kroll Mountainshade
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {{{221210}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.DUSKWOOD]={{46.52,38.69}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Kroll Mountainshade to the Dream Portal"),}},
         },
-        [81746] = {
-            --[questKeys.name] = "Duskwood Mission XVII: Rescue Alara Grovemender",
+        [81746] = { -- Duskwood Mission XVII: Rescue Alara Grovemender
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {{{221215}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.DUSKWOOD]={{46.52,38.69}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Alara Grovemender to the Dream Portal"),}},
         },
-        [81747] = {
-            --[questKeys.name] = "Duskwood Mission XVIII: Rescue Elenora Marshwalker",
+        [81747] = { -- Duskwood Mission XVIII: Rescue Elenora Marshwalker
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
@@ -1383,129 +1363,111 @@ function SeasonOfDiscovery:LoadQuests()
         -- End Duskwood Incursion
 
         -- Begin Ashenvale Incursion
-        [81768] = {
-            --[questKeys.name] = "Ashenvale Mission I: Defeat Satyrs",
+        [81768] = { -- Ashenvale Mission I: Defeat Satyrs
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {{{221262},{221261}}},
         },
-        [81769] = {
-            --[questKeys.name] = "Ashenvale Mission II: Defeat Treants",
+        [81769] = { -- Ashenvale Mission II: Defeat Treants
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {{{221263}}},
         },
-        [81770] = {
-            --[questKeys.name] = "Ashenvale Mission III: Defeat Dragonkin",
+        [81770] = { -- Ashenvale Mission III: Defeat Dragonkin
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {{{221259},{221260}}},
         },
-        [81771] = {
-            --[questKeys.name] = "Ashenvale Mission IV: Dragon Intelligence",
+        [81771] = { -- Ashenvale Mission IV: Dragon Intelligence
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {nil,nil,{{219924}}},
         },
-        [81772] = {
-            --[questKeys.name] = "Ashenvale Mission V: Satyr Intelligence",
+        [81772] = { -- Ashenvale Mission V: Satyr Intelligence
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {nil,nil,{{219925}}},
         },
-        [81773] = {
-            --[questKeys.name] = "Ashenvale Mission VI: Treant Intelligence",
+        [81773] = { -- Ashenvale Mission VI: Treant Intelligence
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {nil,nil,{{219926}}},
         },
-        [81774] = {
-            --[questKeys.name] = "Ashenvale Mission VII: Recover Dreamengine",
+        [81774] = { -- Ashenvale Mission VII: Recover Dreamengine
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {nil,nil,{{219448}}},
         },
-        [81775] = {
-            --[questKeys.name] = "Ashenvale Mission VIII: Recover Azsharan Prophecy",
+        [81775] = { -- Ashenvale Mission VIII: Recover Azsharan Prophecy
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {nil,nil,{{219449}}},
         },
-        [81776] = {
-            --[questKeys.name] = "Ashenvale Mission IX: Recover Dream-Touched Dragonegg",
+        [81776] = { -- Ashenvale Mission IX: Recover Dream-Touched Dragonegg
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {nil,nil,{{219447}}},
         },
-        [81777] = {
-            --[questKeys.name] = "Ashenvale Mission X: Dreamroot",
+        [81777] = { -- Ashenvale Mission X: Dreamroot
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {nil,nil,{{219444}}},
         },
-        [81778] = {
-            --[questKeys.name] = "Ashenvale Mission XI: Fool's Gold Dust",
+        [81778] = { -- Ashenvale Mission XI: Fool's Gold Dust
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {nil,nil,{{219445}}},
         },
-        [81779] = {
-            --[questKeys.name] = "Ashenvale Mission XII: Dream-Infused Dragonscale",
+        [81779] = { -- Ashenvale Mission XII: Dream-Infused Dragonscale
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {nil,nil,{{219446}}},
         },
-        [81780] = {
-            --[questKeys.name] = "Ashenvale Mission XIII: Defeat Larsera",
+        [81780] = { -- Ashenvale Mission XIII: Defeat Larsera
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {{{221265}}},
         },
-        [81781] = {
-            --[questKeys.name] = "Ashenvale Mission XIV: Defeat Zalius",
+        [81781] = { -- Ashenvale Mission XIV: Defeat Zalius
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {{{221266}}},
         },
-        [81782] = {
-            --[questKeys.name] = "Ashenvale Mission XV: Defeat Shredder 9000",
+        [81782] = { -- Ashenvale Mission XV: Defeat Shredder 9000
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {{{221267}}},
         },
-        [81783] = {
-            --[questKeys.name] = "Ashenvale Mission XVI: Rescue Alyssian Windcaller",
+        [81783] = { -- Ashenvale Mission XVI: Rescue Alyssian Windcaller
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {{{221270}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{93.94,38.35}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Alyssian Windcaller to the Dream Portal"),}},
         },
-        [81784] = {
-            --[questKeys.name] = "Ashenvale Mission XVII: Rescue Doran Dreambough",
+        [81784] = { -- Ashenvale Mission XVII: Rescue Doran Dreambough
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {{{221268}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{93.94,38.35}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Doran Dreambough to the Dream Portal"),}},
         },
-        [81785] = {
-            --[questKeys.name] = "Ashenvale Mission XVIII: Rescue Maseara Autumnmoon",
+        [81785] = { -- Ashenvale Mission XVIII: Rescue Maseara Autumnmoon
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
