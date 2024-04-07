@@ -1513,6 +1513,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{93.94,38.35}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Maseara Autumnmoon to the Dream Portal"),}},
         },
         -- End Ashenvale Incursion
+        [82307] = { -- A Full Shipment
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [82308] = { -- A Full Shipment
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [82309] = { -- A Full Shipment
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
 
         --- Fake rune quests
         [90000] = {
@@ -4840,6 +4849,18 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = {{214070,214096,214098}},
         },
+        [82307] = { -- A Full Shipment
+            [questKeys.startedBy] = {{214070,214096,214098}},
+            [questKeys.finishedBy] = {{214070,214096,214098}},
+        },
+        [82308] = { -- A Full Shipment
+            [questKeys.startedBy] = {{214070,214096,214098}},
+            [questKeys.finishedBy] = {{214070,214096,214098}},
+        },
+        [82309] = { -- A Full Shipment
+            [questKeys.startedBy] = {{214070,214096,214098}},
+            [questKeys.finishedBy] = {{214070,214096,214098}},
+        },
     }
 
     local questFixesAlliance = {
@@ -4980,6 +5001,18 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.finishedBy] = {{213077,214099,214101}},
         },
         [80309] = { -- A Full Shipment
+            [questKeys.startedBy] = {{213077,214099,214101}},
+            [questKeys.finishedBy] = {{213077,214099,214101}},
+        },
+        [82307] = { -- A Full Shipment
+            [questKeys.startedBy] = {{213077,214099,214101}},
+            [questKeys.finishedBy] = {{213077,214099,214101}},
+        },
+        [82308] = { -- A Full Shipment
+            [questKeys.startedBy] = {{213077,214099,214101}},
+            [questKeys.finishedBy] = {{213077,214099,214101}},
+        },
+        [82309] = { -- A Full Shipment
             [questKeys.startedBy] = {{213077,214099,214101}},
             [questKeys.finishedBy] = {{213077,214099,214101}},
         },
