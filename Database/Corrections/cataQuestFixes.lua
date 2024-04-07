@@ -47,6 +47,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{73899}}},
         },
         [14019] = { -- Monkey Business
+            [questKeys.objectives] = {{{34699}}},
             [questKeys.preQuestSingle] = {14001},
         },
         [14066] = { -- Investigate the Wreckage
@@ -83,6 +84,10 @@ function CataQuestFixes.Load()
         },
         [14165] = { -- Stone Cold
             [questKeys.triggerEnd] = {"Stonified Miner Delivered", {[zoneIDs.AZSHARA]={{59.9,40.2}}}},
+        },
+        [14248] = { -- Help Wanted
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {14014,14019,14473}
         },
         [14389] = { -- Wasn't It Obvious?
             [questKeys.triggerEnd] = {"Find Anara, and hopefully, Azuregos", {[zoneIDs.AZSHARA]={{27.7,40.4}}}},
