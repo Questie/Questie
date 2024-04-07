@@ -584,6 +584,21 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DEADWIND_PASS] = {{43,29}},
             },
         },
+        [221210] = { -- Kroll Mountainshade
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{66.11, 69.28}},
+            },
+        },
+        [221215] = { -- Alara Grovemender
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{49.15, 77.55}},
+            },
+        },
+        [221216] = { -- Elenora Marshwalker
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{32.39, 69.48}},
+            },
+        },
         [221268] = { -- Doran Dreambough
             [npcKeys.spawns] = {
                 [zoneIDs.ASHENVALE] = {{87.23, 43.56}},
@@ -602,7 +617,7 @@ function SeasonOfDiscovery:LoadNPCs()
 
         -- fake NPCs
         [900000] = {
-            -- Dark Rider
+            [npcKeys.name] = "Dark Rider",
             [npcKeys.minLevel] = 41,
             [npcKeys.maxLevel] = 41,
             [npcKeys.zoneID] = zoneIDs.DUSKWOOD,
@@ -611,7 +626,7 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [900001] = {
-            -- Dark Rider
+            [npcKeys.name] = "Dark Rider",
             [npcKeys.minLevel] = 41,
             [npcKeys.maxLevel] = 41,
             [npcKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
@@ -620,7 +635,7 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [900002] = {
-            -- Dark Rider
+            [npcKeys.name] = "Dark Rider",
             [npcKeys.minLevel] = 41,
             [npcKeys.maxLevel] = 41,
             [npcKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
@@ -629,7 +644,7 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [900003] = {
-            -- Dark Rider
+            [npcKeys.name] = "Dark Rider",
             [npcKeys.minLevel] = 41,
             [npcKeys.maxLevel] = 41,
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
@@ -638,7 +653,7 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [900004] = {
-            -- Dark Rider
+            [npcKeys.name] = "Dark Rider",
             [npcKeys.minLevel] = 41,
             [npcKeys.maxLevel] = 41,
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
@@ -647,7 +662,7 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [900005] = {
-            -- Dark Rider
+            [npcKeys.name] = "Dark Rider",
             [npcKeys.minLevel] = 41,
             [npcKeys.maxLevel] = 41,
             [npcKeys.zoneID] = zoneIDs.BADLANDS,
