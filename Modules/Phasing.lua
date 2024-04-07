@@ -32,18 +32,21 @@ function Phasing.IsSpawnVisible(phase)
 end
 
 _Phasing.Kezan = function(phase, complete)
-    if phase == phases.KEZAN_CHAPTER_1 and (complete[14115] or complete[14125] or complete[14126]) then
+    local isChapter5Available = complete[14115]
+    local isChapter6Available = complete[14121] and complete[14122] and complete[14123] and complete[14124]
+    local isChapter7Available = complete[14125]
+    if phase == phases.KEZAN_CHAPTER_1 and (isChapter5Available or isChapter6Available or isChapter7Available) then
         return false
     elseif phase == phases.KEZAN_CHAPTER_1 then
         return true
     end
-    if phase == phases.KEZAN_CHAPTER_5 and complete[14115] then
+    if phase == phases.KEZAN_CHAPTER_5 and isChapter5Available and (not (isChapter6Available or isChapter7Available)) then
         return true
     end
-    if phase == phases.KEZAN_CHAPTER_6 and complete[14125] then
+    if phase == phases.KEZAN_CHAPTER_6 and isChapter6Available and (not isChapter7Available) then
         return true
     end
-    if phase == phases.KEZAN_CHAPTER_7 and complete[14126] then
+    if phase == phases.KEZAN_CHAPTER_7 and isChapter7Available then
         return true
     end
 

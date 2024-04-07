@@ -44,6 +44,13 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [37602] = { -- Claims Adjuster
+            [npcKeys.spawns] = {
+                [zoneIDs.KEZAN] = {
+                    {59.6,76.48,phases.KEZAN_CHAPTER_6},
+                },
+            },
+        },
         [49456] = { -- Finkle\'s Mole Machine
             [npcKeys.spawns] = {
                 [zoneIDs.MOUNT_HYJAL] = {{42.7,28.8}}
