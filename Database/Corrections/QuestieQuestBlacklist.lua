@@ -1487,6 +1487,8 @@ function QuestieQuestBlacklist:Load()
         ----- Cata -------------- Cata quests --------------- Cata -----
         ----- Cata ------------- starting here -------------- Cata -----
 
+        [24503] = true, -- Duplicate of 28414
+
         -- First Pre-Event
         [25444] = true, -- Da Perfect Spies
         [25445] = true, -- Zalazane's Fall
