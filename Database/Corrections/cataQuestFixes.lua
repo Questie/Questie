@@ -88,6 +88,9 @@ function CataQuestFixes.Load()
         [14165] = { -- Stone Cold
             [questKeys.triggerEnd] = {"Stonified Miner Delivered", {[zoneIDs.AZSHARA]={{59.9,40.2}}}},
         },
+        [14233] = { -- Orcs Can Write?
+            [questKeys.exclusiveTo] = {},
+        },
         [14248] = { -- Help Wanted
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14014,14019,14473}
