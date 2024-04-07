@@ -9,6 +9,9 @@ function CataItemFixes.Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [46858] = { -- Personal Riches
+            [itemKeys.objectDrops] = {195525},
+        },
         [47044] = { -- Shiny Bling
             [itemKeys.vendors] = {35120},
         },
