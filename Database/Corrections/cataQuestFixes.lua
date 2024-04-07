@@ -84,6 +84,9 @@ function CataQuestFixes.Load()
         [14389] = { -- Wasn't It Obvious?
             [questKeys.triggerEnd] = {"Find Anara, and hopefully, Azuregos", {[zoneIDs.AZSHARA]={{27.7,40.4}}}},
         },
+        [14473] = { -- It's Our Problem Now
+            [questKeys.preQuestSingle] = {14001},
+        },
         [24452] = { -- Profitability Scouting
             [questKeys.triggerEnd] = {"Heart of Arkkoroc identified", {[zoneIDs.AZSHARA]={{32.4,50.4}}}},
         },
