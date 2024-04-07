@@ -12,6 +12,9 @@ function CataItemFixes.Load()
         [46858] = { -- Personal Riches
             [itemKeys.objectDrops] = {195525},
         },
+        [48766] = { -- Kaja\'mite Chunk
+            [itemKeys.npcDrops] = {},
+        },
         [47044] = { -- Shiny Bling
             [itemKeys.vendors] = {35120},
         },
