@@ -14,6 +14,18 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Take the Swift Seahorse to Nespirah."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Nimm das schnelle Seepferdchen nach Nespirah.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = false,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(cataObjectiveLocales) do
