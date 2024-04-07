@@ -1487,6 +1487,7 @@ function QuestieQuestBlacklist:Load()
         ----- Cata -------------- Cata quests --------------- Cata -----
         ----- Cata ------------- starting here -------------- Cata -----
 
+        [14474] = true, -- Duplicate of 14001
         [24503] = true, -- Duplicate of 28414
 
         -- First Pre-Event
