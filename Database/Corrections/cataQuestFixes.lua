@@ -180,6 +180,10 @@ function CataQuestFixes.Load()
         [26512] = { -- Tuning the Gnomecorder
             [questKeys.triggerEnd] = {"Test the Gnomecorder at the Lakeshire Graveyard", {[zoneIDs.REDRIDGE_MOUNTAINS]={{32.3,39.5}}}},
         },
+        [26656] = { -- Don't. Stop. Moving.
+            [questKeys.triggerEnd] = {"Opalescent Guardians Escorted to safety", {[zoneIDs.DEEPHOLM]={51,14.8}}},
+            [questKeys.objectives] = {{{42466},{43597}},nil,nil,nil,},
+        },
         [26711] = { -- Off to the Bank (female)
             [questKeys.exclusiveTo] = {26712},
         },
