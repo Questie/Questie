@@ -91,6 +91,10 @@ function CataQuestFixes.Load()
         [14233] = { -- Orcs Can Write?
             [questKeys.exclusiveTo] = {},
         },
+        [14234] = { -- The Enemy of My Enemy
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {14031,14233},
+        },
         [14248] = { -- Help Wanted
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14014,14019,14473}
