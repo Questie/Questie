@@ -584,6 +584,36 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DEADWIND_PASS] = {{43,29}},
             },
         },
+        [221210] = { -- Kroll Mountainshade
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{66.11, 69.28}},
+            },
+        },
+        [221215] = { -- Alara Grovemender
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{49.15, 77.55}},
+            },
+        },
+        [221216] = { -- Elenora Marshwalker
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{32.39, 69.48}},
+            },
+        },
+        [221268] = { -- Doran Dreambough
+            [npcKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{87.23, 43.56}},
+            },
+        },
+        [221269] = { -- Maseara Autumnmoon
+            [npcKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{81.2, 50.5}},
+            },
+        },
+        [221270] = { -- Alyssian Windcaller
+            [npcKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{92, 54.0}},
+            },
+        },
 
         -- fake NPCs
         [900000] = {

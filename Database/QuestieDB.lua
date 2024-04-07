@@ -430,6 +430,13 @@ function QuestieDB.IsPvPQuest(questId)
     return questType == 41
 end
 
+---@param questId number
+---@return boolean
+function QuestieDB.IsGroupQuest(questId)
+    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
+    return questType == 1
+end
+
 --[[ Commented out because not used anywhere
 ---@param questId number
 ---@return boolean
@@ -1540,7 +1547,7 @@ function QuestieDB.GetQuestIDFromName(name, questgiverGUID, questStarter)
                         questID = id
                     end
                 end
-            else
+            elseif Questie.IsSoD == false then -- don't print these errors in SoD, as we expect missing data when new quests release; debug offers will handle these scenarios instead
                 Questie:Error("Database mismatch! No entries found that match quest name. Please report this on Github or Discord!")
                 Questie:Error("Queststarter is: " .. unit_type .. " " .. questgiverID)
                 Questie:Error("Quest name is: " .. name)
@@ -1553,7 +1560,7 @@ function QuestieDB.GetQuestIDFromName(name, questgiverGUID, questStarter)
                         questID = id
                     end
                 end
-            else
+            elseif Questie.IsSoD == false then -- don't print these errors in SoD, as we expect missing data when new quests release; debug offers will handle these scenarios instead
                 Questie:Error("Database mismatch! No entries found that match quest name. Please report this on Github or Discord!")
                 Questie:Error("Questender is: " .. unit_type .. " " .. questgiverID)
                 Questie:Error("Quest name is: " .. name)
