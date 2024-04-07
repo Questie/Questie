@@ -25,6 +25,18 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_1))
         end)
 
+        it("should return true for KEZAN_CHAPTER_2 when quest 14115 is complete", function()
+            Questie.db.char.complete[14115] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_2))
+        end)
+
+        it("should return false for KEZAN_CHAPTER_1 when quest 14115 is complete", function()
+            Questie.db.char.complete[14115] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_1))
+        end)
+
         it("should return false for KEZAN_CHAPTER_1 when quest 14125 is complete", function()
             Questie.db.char.complete[14125] = true
 
@@ -50,7 +62,6 @@ describe("Phasing", function()
         end)
 
         it("should return false for other chapter than chapter 1", function()
-            assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_2))
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_3))
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_4))
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_5))

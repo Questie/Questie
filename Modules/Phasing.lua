@@ -32,9 +32,12 @@ function Phasing.IsSpawnVisible(phase)
 end
 
 _Phasing.Kezan = function(phase, complete)
-    if phase == phases.KEZAN_CHAPTER_1 and (complete[14125] or complete[14126]) then
+    if phase == phases.KEZAN_CHAPTER_1 and (complete[14115] or complete[14125] or complete[14126]) then
         return false
     elseif phase == phases.KEZAN_CHAPTER_1 then
+        return true
+    end
+    if phase == phases.KEZAN_CHAPTER_2 and complete[14115] then
         return true
     end
     if phase == phases.KEZAN_CHAPTER_6 and complete[14125] then
