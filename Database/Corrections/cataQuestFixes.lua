@@ -46,6 +46,9 @@ function CataQuestFixes.Load()
         [14011] = { -- Primal Strike
             [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{73899}}},
         },
+        [14019] = { -- Monkey Business
+            [questKeys.preQuestSingle] = {14001},
+        },
         [14066] = { -- Investigate the Wreckage
             [questKeys.triggerEnd] = {"Caravan Scene Searched", {[zoneIDs.THE_BARRENS]={{59.2,67.5}}}},
         },
