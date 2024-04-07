@@ -5037,7 +5037,7 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.questEnds] = nil,
         },
         [217689] = {
-            [npcKeys.name] = "Ziri \",
+            [npcKeys.name] = "Ziri \"The Wrench\" Littlesprocket <Gearhead>",
             [npcKeys.minLevel] = 40,
             [npcKeys.maxLevel] = 40,
             [npcKeys.zoneID] = 0,

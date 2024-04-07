@@ -1916,7 +1916,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"Bring Ziri "The Wrench" 10 Mithril Bars, 5 Greater Mystic Essence, 3 GG12-082 Cartridge Fuses, and a Pristine G-7 C.O.R.E. Processor and she can get the Salvagematic 9000! working for you. Probably. Maybe."},
+            [questKeys.objectivesText] = {"Bring Ziri \"The Wrench\" 10 Mithril Bars, 5 Greater Mystic Essence, 3 GG12-082 Cartridge Fuses, and a Pristine G-7 C.O.R.E. Processor and she can get the Salvagematic 9000! working for you. Probably. Maybe."},
             [questKeys.objectives] = {nil,nil,{{3860},{216634},{11135},{213735}}},
         },
         [79731] = {
@@ -2477,7 +2477,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"As quickly as it started, the Sparklematic 5200 comes to an abrupt halt. &nbsp;A simple "ding" is heard from the machine, and the mouth of the machine spirals upward. &nbsp;Inside the Sparklematic 5200 is a small box wrapped in a little bow. &nbsp;The machine would appear to wrap an object up after eliminating its grime-encrusted status. &nbsp;Even if the machine didn't work, at least the item is now wrapped in a pretty box.Well, there is one way to find out if it cleaned the item or not..."},
+            [questKeys.objectivesText] = {"As quickly as it started, the Sparklematic 5200 comes to an abrupt halt. &nbsp;A simple \"ding\" is heard from the machine, and the mouth of the machine spirals upward. &nbsp;Inside the Sparklematic 5200 is a small box wrapped in a little bow. &nbsp;The machine would appear to wrap an object up after eliminating its grime-encrusted status. &nbsp;Even if the machine didn't work, at least the item is now wrapped in a pretty box.Well, there is one way to find out if it cleaned the item or not..."},
             [questKeys.objectives] = nil,
         },
         [80158] = {
@@ -2510,7 +2510,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"As quickly as it started, the Sparklematic 5200 comes to an abrupt halt. &nbsp;A simple "ding" is heard from the machine, and the mouth of the machine spirals upward. &nbsp;Inside the Sparklematic 5200 is a small box wrapped in a little bow. &nbsp;The machine would appear to wrap an object up after eliminating its grime-encrusted status. &nbsp;Even if the machine didn't work, at least the item is now wrapped in a pretty box.Well, there is one way to find out if it cleaned the item or not..."},
+            [questKeys.objectivesText] = {"As quickly as it started, the Sparklematic 5200 comes to an abrupt halt. &nbsp;A simple \"ding\" is heard from the machine, and the mouth of the machine spirals upward. &nbsp;Inside the Sparklematic 5200 is a small box wrapped in a little bow. &nbsp;The machine would appear to wrap an object up after eliminating its grime-encrusted status. &nbsp;Even if the machine didn't work, at least the item is now wrapped in a pretty box.Well, there is one way to find out if it cleaned the item or not..."},
             [questKeys.objectives] = nil,
         },
         [80169] = {
