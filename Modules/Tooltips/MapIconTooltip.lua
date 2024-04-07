@@ -266,7 +266,7 @@ function MapIconTooltip:Show()
                     local firstInChain = true;
                     while nextQuest ~= nil do
 
-                        local nextQuestTitleString = "";
+                        local nextQuestTitleString;
                         local nextQuestXpRewardString = "";
                         local nextQuestMoneyRewardString = "";
                         local nextQuestIdString = "";
