@@ -51,7 +51,7 @@ function CataQuestFixes.Load()
         },
         [14071] = { -- Rolling with my Homies
             [questKeys.objectives] = {{{48323},{34890},{34892},{34954}}},
-            [questKeys.childQuests] = {28607},
+            [questKeys.childQuests] = {28606},
         },
         [14109] = { -- The New You
             [questKeys.requiredSourceItems] = {47044},
@@ -63,6 +63,9 @@ function CataQuestFixes.Load()
         },
         [14113] = { -- Life of the Party
             [questKeys.preQuestSingle] = {14109},
+        },
+        [14121] = { -- Robbing Hoods
+            [questKeys.childQuests] = {28607},
         },
         [14122] = { -- The Great Bank Heist
             [questKeys.startedBy] = {{34668}},
@@ -193,8 +196,13 @@ function CataQuestFixes.Load()
         [27704] = { -- Legends of the Sunken Temple
             [questKeys.triggerEnd] = {"Hall of Masks found", {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR]={{74,44.4}}}},
         },
-        [28607] = { -- The Keys to the Hot Rod
+        [28606] = { -- The Keys to the Hot Rod
+            [questKeys.startedBy] = {{34874}},
             [questKeys.parentQuest] = 14071,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [28607] = { -- The Keys to the Hot Rod
+            [questKeys.parentQuest] = 14121,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [28635] = { -- A Haunting in Hillsbrad
