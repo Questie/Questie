@@ -11,11 +11,11 @@ function CataNpcFixes.Load()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
-        [49456] = {
+        [49456] = { -- Finkle\'s Mole Machine
             [npcKeys.spawns] = {
                 [zoneIDs.MOUNT_HYJAL] = {{42.7,28.8}}
             },
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
-        }
+        },
     }
 end
