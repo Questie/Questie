@@ -37,7 +37,7 @@ _Phasing.Kezan = function(phase, complete)
     elseif phase == phases.KEZAN_CHAPTER_1 then
         return true
     end
-    if phase == phases.KEZAN_CHAPTER_2 and complete[14115] then
+    if phase == phases.KEZAN_CHAPTER_5 and complete[14115] then
         return true
     end
     if phase == phases.KEZAN_CHAPTER_6 and complete[14125] then

@@ -19,7 +19,7 @@ function CataNpcFixes.Load()
                 [zoneIDs.KEZAN] = {
                     {50.48,59.89,phases.KEZAN_CHAPTER_1},
                     {56.7,76.9,phases.KEZAN_CHAPTER_2},
-                    {16.7,26.06,phases.KEZAN_CHAPTER_6},
+                    {16.7,26.06,phases.KEZAN_CHAPTER_5},
                     {20.84,13.69,phases.KEZAN_CHAPTER_7},
                 },
             },
