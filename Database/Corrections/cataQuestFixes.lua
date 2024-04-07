@@ -50,6 +50,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{34699}}},
             [questKeys.preQuestSingle] = {14001},
         },
+        [14021] = { -- Miner Troubles
+            [questKeys.triggerEnd] = {"Kaja'mite Ore mining a success!", {[zoneIDs.THE_LOST_ISLES]={{31.9,73.6}}}},
+        },
         [14066] = { -- Investigate the Wreckage
             [questKeys.triggerEnd] = {"Caravan Scene Searched", {[zoneIDs.THE_BARRENS]={{59.2,67.5}}}},
         },
