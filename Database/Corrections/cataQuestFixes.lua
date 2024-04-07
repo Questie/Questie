@@ -64,6 +64,9 @@ function CataQuestFixes.Load()
         [14113] = { -- Life of the Party
             [questKeys.preQuestSingle] = {14109},
         },
+        [14122] = { -- The Great Bank Heist
+            [questKeys.startedBy] = {{34668}},
+        },
         [14153] = { -- Life of the Party
             [questKeys.preQuestSingle] = {14110},
         },
