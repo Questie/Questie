@@ -493,10 +493,10 @@ function _MapIconTooltip:IsMinimapInside()
     end
 end
 
+--- Get the quest tag to display in the tooltip
 ---@param quest Quest
 ---@return string tag
---- Get the quest tag to display in the tooltip
-function GetQuestTag(quest)
+local function _GetQuestTag(quest)
     if quest.Type == "complete" then
         return "(" .. l10n("Complete") .. ")";
     else
@@ -521,7 +521,7 @@ end
 
 function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
     local tip = {};
-    tip.type = GetQuestTag(icon.data)
+    tip.type = _GetQuestTag(icon.data)
     tip.title = QuestieLib:GetColoredQuestName(icon.data.Id, Questie.db.profile.enableTooltipsQuestLevel, false, true)
     tip.subData = icon.data.QuestData.Description
     tip.questId = icon.data.Id;
