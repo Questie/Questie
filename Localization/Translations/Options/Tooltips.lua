@@ -134,6 +134,30 @@ local tooltipOptionsLocales = {
         ["esES"] = "Muestra los valores de EXP de misiones incluso en el nivel máximo.",
         ["frFR"] = "Affiche le montant d'expérience des quêtes, même au niveau maximum.",
     },
+    ["Show next quests in chain"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Zeige nachfolgende Quests",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ["When this is checked, the next quests in the chain will show in the expanded map tooltips."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Wenn dies aktiviert ist, werden nachfolgende Quests in den erweiterten Karten-Icon-Tooltips angezeigt.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(tooltipOptionsLocales) do
