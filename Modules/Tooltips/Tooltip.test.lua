@@ -132,6 +132,58 @@ describe("Tooltip", function()
             assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)
         end)
+
+        it("should return multiple objectives for same key", function()
+            QuestieLib.GetColoredQuestName = spy.new(function(_, questId)
+                 if questId == 1 then return "Quest Name" else return "Quest Name 2" end
+            end)
+            QuestieTooltips.lookupByKey = {["key"] = {
+                ["1 test 2"] = {
+                    questId = 1,
+                    starterId = 2,
+                    objective = {
+                        Index = 1,
+                        Needed = 5,
+                        Collected = 3,
+                        Description = "do it",
+                        Update = function() end,
+                    }
+                },
+                ["1 test 3"] = {
+                    questId = 1,
+                    starterId = 3,
+                    objective = {
+                        Index = 2,
+                        Needed = 1,
+                        Collected = 0,
+                        Description = "do something else",
+                        Update = function() end,
+                    }
+                },
+                ["2 test 4"] = {
+                    questId = 2,
+                    starterId = 4,
+                    objective = {
+                        Index = 1,
+                        Needed = 10,
+                        Collected = 10,
+                        Description = "do something",
+                        Update = function() end,
+                    }
+                }
+            }}
+            QuestiePlayer.currentQuestlog[1] = {}
+            QuestiePlayer.currentQuestlog[2] = {}
+
+            local tooltip = QuestieTooltips:GetTooltip("key")
+
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 2, nil, true, true)
+            assert.are.same({
+                "Quest Name", "   gold0/1 do something else", "   gold3/5 do it",
+                "Quest Name 2", "   gold10/10 do something"
+            }, tooltip)
+        end)
     end)
 
     describe("RemoveQuest", function()
