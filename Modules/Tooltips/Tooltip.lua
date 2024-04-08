@@ -234,6 +234,7 @@ function QuestieTooltips:GetTooltip(key)
                     }
                 end
                 if not QuestiePlayer.currentQuestlog[questId] then
+                    -- TODO: Is this still required?
                     QuestieTooltips.lookupByKey[key][k] = nil
                 else
                     tooltipData[questId].objectivesText = _InitObjectiveTexts(tooltipData[questId].objectivesText, objectiveIndex, playerName)
