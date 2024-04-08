@@ -184,6 +184,48 @@ describe("Tooltip", function()
                 "Quest Name 2", "   gold10/10 do something"
             }, tooltip)
         end)
+
+        it("should not Update objective for IsSourceItem", function()
+            local updateSpy = spy.new(function() end)
+            QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {
+                questId = 1,
+                starterId = 2,
+                objective = {
+                    Index = 1,
+                    Needed = 5,
+                    Collected = 3,
+                    Description = "do it",
+                    IsSourceItem = true,
+                    Update = updateSpy,
+                }
+            }}}
+            QuestiePlayer.currentQuestlog[1] = {}
+
+            QuestieTooltips:GetTooltip("key")
+
+            assert.spy(updateSpy).was_not_called()
+        end)
+
+        it("should not Update objective for IsRequiredSourceItem", function()
+            local updateSpy = spy.new(function() end)
+            QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {
+                questId = 1,
+                starterId = 2,
+                objective = {
+                    Index = 1,
+                    Needed = 5,
+                    Collected = 3,
+                    Description = "do it",
+                    IsRequiredSourceItem = true,
+                    Update = updateSpy,
+                }
+            }}}
+            QuestiePlayer.currentQuestlog[1] = {}
+
+            QuestieTooltips:GetTooltip("key")
+
+            assert.spy(updateSpy).was_not_called()
+        end)
     end)
 
     describe("RemoveQuest", function()
