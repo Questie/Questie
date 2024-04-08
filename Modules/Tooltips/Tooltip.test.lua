@@ -1,22 +1,9 @@
-dofile("Modules/Libs/QuestieLoader.lua")
+dofile("setupTests.lua")
 
----@type ZoneDB
-local ZoneDB = require("Database.Zones.zoneDB")
 ---@type QuestiePlayer
 local QuestiePlayer = require("Modules.QuestiePlayer")
 
-ZoneDB.zoneIDs = {ICECROWN = 210}
 QuestiePlayer.numberOfGroupMembers = 0
-
-_G.bit = {band = function() return 0 end}
-
-_G.QUEST_MONSTERS_KILLED = ""
-_G.QUEST_ITEMS_NEEDED = ""
-_G.QUEST_OBJECTS_FOUND = ""
-_G.C_QuestLog = {IsQuestFlaggedCompleted = function() return false end}
-_G.IsInGroup = function() return false end
-_G.UnitFactionGroup = function() return "Horde" end
-_G.UnitName = function() return "Testi" end
 
 describe("Tooltip", function()
     ---@type QuestieDB
@@ -36,9 +23,7 @@ describe("Tooltip", function()
     }
 
     before_each(function()
-        -- Accessing _G["Questie"] is required
-        _G["Questie"] = {db = {profile = {}}, Debug = function() end}
-        Questie = _G["Questie"]
+        Questie.db.profile = {}
 
         QuestieDB = require("Database.QuestieDB")
         QuestieDB.GetQuest = spy.new(function(questId)
