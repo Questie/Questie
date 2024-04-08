@@ -72,6 +72,29 @@ describe("Tooltip", function()
             assert.are.same({}, tooltip)
         end)
 
+        it("should return quest name and objective when tooltip has spell objective", function()
+            QuestieDB.QueryItemSingle = spy.new(function()
+                return "Item Name"
+            end)
+            QuestieTooltips.lookupByKey = {["m_123"] = {["1 test 2"] = {
+                questId = 1,
+                starterId = 2,
+                objective = {
+                    Index = 1,
+                    Type = "spell",
+                    Update = function() end,
+                    spawnList = {[123] = {ItemId = 5}}
+                }
+            }}}
+            QuestiePlayer.currentQuestlog[1] = {}
+
+            local tooltip = QuestieTooltips:GetTooltip("m_123")
+
+            assert.spy(QuestieDB.QueryItemSingle).was_called_with(5, "name")
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
+            assert.are.same({"Quest Name", "   goldItem Name"}, tooltip)
+        end)
+
         it("should return quest name and objective when tooltip has objective and Needed", function()
             QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {
                 questId = 1,
