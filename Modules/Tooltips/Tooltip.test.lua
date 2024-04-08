@@ -8,10 +8,10 @@ QuestiePlayer.numberOfGroupMembers = 0
 describe("Tooltip", function()
     ---@type QuestieDB
     local QuestieDB
-    ---@type QuestieTooltips
-    local QuestieTooltips
     ---@type QuestieLib
     local QuestieLib
+    ---@type QuestieTooltips
+    local QuestieTooltips
 
     local objective = {
         hasRegisteredTooltips = true,
@@ -45,12 +45,13 @@ describe("Tooltip", function()
     end)
 
     describe("GetTooltip", function()
-        it("should return tooltip lines if showQuestsInNpcTooltip is active", function()
+        it("should return quest name when tooltip has name set and showQuestsInNpcTooltip is active", function()
             Questie.db.profile.showQuestsInNpcTooltip = true
             QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {questId = 1, name = "test", starterId = 2}}}
 
             local tooltip = QuestieTooltips:GetTooltip("key")
 
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
             assert.are.same({"Quest Name"}, tooltip)
         end)
     end)
