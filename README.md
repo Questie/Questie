@@ -38,7 +38,7 @@ Trust us it's (Good)!
 ## Donation
 If you'd like to support the development of Questie by donating, you can do so via PayPal:
 
-<a href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=aero1861%40gmail%2ecom&lc=CA&item_name=Questie%20Devs&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted'><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"/></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JCUBJWKT395ME&source=url"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"/></a>
 
 ## Features
 
