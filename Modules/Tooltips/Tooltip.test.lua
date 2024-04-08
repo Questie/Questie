@@ -54,6 +54,16 @@ describe("Tooltip", function()
             assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
             assert.are.same({"Quest Name"}, tooltip)
         end)
+
+        it("should return empty tooltip when tooltip has name set but showQuestsInNpcTooltip is not active", function()
+            Questie.db.profile.showQuestsInNpcTooltip = false
+            QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {questId = 1, name = "test", starterId = 2}}}
+
+            local tooltip = QuestieTooltips:GetTooltip("key")
+
+            assert.spy(QuestieLib.GetColoredQuestName).was_not_called()
+            assert.are.same({}, tooltip)
+        end)
     end)
 
     describe("RemoveQuest", function()
