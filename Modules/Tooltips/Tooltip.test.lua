@@ -2,42 +2,75 @@ dofile("Modules/Libs/QuestieLoader.lua")
 
 ---@type ZoneDB
 local ZoneDB = require("Database.Zones.zoneDB")
+---@type QuestiePlayer
+local QuestiePlayer = require("Modules.QuestiePlayer")
 
 ZoneDB.zoneIDs = {ICECROWN = 210}
+QuestiePlayer.numberOfGroupMembers = 0
+
 _G.bit = {band = function() return 0 end}
+
+_G.QUEST_MONSTERS_KILLED = ""
+_G.QUEST_ITEMS_NEEDED = ""
+_G.QUEST_OBJECTS_FOUND = ""
 _G.C_QuestLog = {IsQuestFlaggedCompleted = function() return false end}
-_G.Questie = {Debug = function() end}
+_G.IsInGroup = function() return false end
 _G.UnitFactionGroup = function() return "Horde" end
+_G.UnitName = function() return "Testi" end
 
 describe("Tooltip", function()
-    describe("RemoveQuest", function()
-        local QuestieDB, QuestieTooltips
+    ---@type QuestieDB
+    local QuestieDB
+    ---@type QuestieTooltips
+    local QuestieTooltips
+    ---@type QuestieLib
+    local QuestieLib
 
-        local objective = {
-            hasRegisteredTooltips = true,
-            registeredItemTooltips = true,
-        }
-        local specialObjective = {
-            hasRegisteredTooltips = true,
-            registeredItemTooltips = true,
-        }
+    local objective = {
+        hasRegisteredTooltips = true,
+        registeredItemTooltips = true,
+    }
+    local specialObjective = {
+        hasRegisteredTooltips = true,
+        registeredItemTooltips = true,
+    }
 
-        before_each(function()
-            QuestieDB = require("Database.QuestieDB")
-            QuestieDB.GetQuest = spy.new(function(questId)
-                return {
-                    Id = questId,
-                    Objectives = {
-                        [1] = objective,
-                    },
-                    SpecialObjectives = {
-                        [1] = specialObjective,
-                    },
-                }
-            end)
-            QuestieTooltips = require("Modules.Tooltips.Tooltip")
+    before_each(function()
+        -- Accessing _G["Questie"] is required
+        _G["Questie"] = {db = {profile = {}}, Debug = function() end}
+        Questie = _G["Questie"]
+
+        QuestieDB = require("Database.QuestieDB")
+        QuestieDB.GetQuest = spy.new(function(questId)
+            return {
+                Id = questId,
+                Objectives = {
+                    [1] = objective,
+                },
+                SpecialObjectives = {
+                    [1] = specialObjective,
+                },
+            }
         end)
+        QuestieLib = require("Modules.Libs.QuestieLib")
+        QuestieLib.GetColoredQuestName = spy.new(function()
+            return "Quest Name"
+        end)
+        QuestieTooltips = require("Modules.Tooltips.Tooltip")
+    end)
 
+    describe("GetTooltip", function()
+        it("should return tooltip lines if showQuestsInNpcTooltip is active", function()
+            Questie.db.profile.showQuestsInNpcTooltip = true
+            QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {questId = 1, name = "test", starterId = 2}}}
+
+            local tooltip = QuestieTooltips:GetTooltip("key")
+
+            assert.are.same({"Quest Name"}, tooltip)
+        end)
+    end)
+
+    describe("RemoveQuest", function()
         it("should reset tooltip flags", function()
             QuestieTooltips.lookupKeysByQuestId = {[1] = {"key"}}
             QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {questId = 1, name = "test", starterId = 2}}}
