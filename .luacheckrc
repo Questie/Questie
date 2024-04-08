@@ -2841,4 +2841,6 @@ globals = {
     "after_each",
     "setup",
     "teardown",
+    "spy",
+    "mock",
 }
