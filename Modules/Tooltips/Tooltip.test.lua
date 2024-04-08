@@ -1,9 +1,13 @@
 dofile("setupTests.lua")
 
+---@type ZoneDB
+local ZoneDB = require("Database.Zones.zoneDB")
+ZoneDB.zoneIDs = {ICECROWN = 210}
+
 ---@type QuestiePlayer
 local QuestiePlayer = require("Modules.QuestiePlayer")
 
-QuestiePlayer.numberOfGroupMembers = 0
+require("Modules.Network.QuestieComms")
 
 describe("Tooltip", function()
     ---@type QuestieDB
@@ -41,6 +45,9 @@ describe("Tooltip", function()
         QuestieLib.GetColoredQuestName = spy.new(function()
             return "Quest Name"
         end)
+        QuestieLib.GetRGBForObjective = spy.new(function()
+            return "gold"
+        end)
         QuestieTooltips = require("Modules.Tooltips.Tooltip")
     end)
 
@@ -63,6 +70,26 @@ describe("Tooltip", function()
 
             assert.spy(QuestieLib.GetColoredQuestName).was_not_called()
             assert.are.same({}, tooltip)
+        end)
+
+        it("should return quest name and objective when tooltip has objective and Needed", function()
+            QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {
+                questId = 1,
+                starterId = 2,
+                objective = {
+                    Index = 1,
+                    Needed = 5,
+                    Collected = 3,
+                    Description = "do it",
+                    Update = function() end,
+                }
+            }}}
+            QuestiePlayer.currentQuestlog[1] = {}
+
+            local tooltip = QuestieTooltips:GetTooltip("key")
+
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
+            assert.are.same({"Quest Name", "   gold3/5 do it"}, tooltip)
         end)
     end)
 
