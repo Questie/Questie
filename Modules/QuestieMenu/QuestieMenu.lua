@@ -25,6 +25,8 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+---@type Townsfolk
+local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -494,7 +496,7 @@ function QuestieMenu:PopulateTownsfolk()
     end
 
     local count = 0
-    local validProfessionTrainers = QuestieMenu.GetProfessionTrainers()
+    local validProfessionTrainers = Townsfolk.GetProfessionTrainers()
     for i=1, #validProfessionTrainers do
         local id = validProfessionTrainers[i]
         if QuestieDB.npcData[id] then
@@ -533,7 +535,7 @@ function QuestieMenu:PopulateTownsfolk()
     end
 
     if Questie.IsWotlk or Questie.IsTBC then
-        local meetingStones = QuestieMenu.GetMeetingStones()
+        local meetingStones = Townsfolk.GetMeetingStones()
 
         townfolk["Meeting Stones"] = {}
         for _, id in pairs(meetingStones) do
@@ -546,7 +548,7 @@ function QuestieMenu:PopulateTownsfolk()
     local classSpecificTownsfolk = {}
     local factionSpecificTownsfolk = {["Horde"] = {}, ["Alliance"] = {}}
 
-    local classTrainers = QuestieMenu.GetClassTrainers()
+    local classTrainers = Townsfolk.GetClassTrainers()
     for class, trainers in pairs(classTrainers) do
         local newTrainers = {}
         for _, trainer in pairs(trainers) do
@@ -571,7 +573,7 @@ function QuestieMenu:PopulateTownsfolk()
     factionSpecificTownsfolk["Horde"]["Mailbox"] = {}
     factionSpecificTownsfolk["Alliance"]["Mailbox"] = {}
 
-    local mailboxes = QuestieMenu.GetMailboxes()
+    local mailboxes = Townsfolk.GetMailboxes()
     for i=1, #mailboxes do
         local id = mailboxes[i]
         if QuestieDB.objectData[id] then

@@ -1,5 +1,5 @@
----@type QuestieMenu
-local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
+---@type Townsfolk
+local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 
 local meetingStones
 if Questie.IsWotlk then
@@ -21,6 +21,6 @@ else
     meetingStones = {} -- Meeting Stones can not be used for teleports in Classic
 end
 
-function QuestieMenu.GetMeetingStones()
+function Townsfolk.GetMeetingStones()
     return meetingStones
 end

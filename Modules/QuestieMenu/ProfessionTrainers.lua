@@ -1,5 +1,5 @@
----@type QuestieMenu
-local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
+---@type Townsfolk
+local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 
 -- SELECT Entry FROM creature_template WHERE NpcFlags & 16 = 16 AND TrainerType=2
 ---@type NpcId[]
@@ -41,6 +41,6 @@ else
     }
 end
 
-function QuestieMenu.GetProfessionTrainers()
+function Townsfolk.GetProfessionTrainers()
     return professionTrainers
 end

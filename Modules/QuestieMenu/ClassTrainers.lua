@@ -1,5 +1,5 @@
----@type QuestieMenu
-local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
+---@type Townsfolk
+local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 
 -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=X
 -- 1: Warrior, 2: Paladin, 3: Hunter, 4: Rogue, 5: Priest, 6: Death Knight, 7: Shaman, 8: Mage, 9: Warlock, 11: Druid
@@ -46,6 +46,6 @@ else
     }
 end
 
-function QuestieMenu.GetClassTrainers()
+function Townsfolk.GetClassTrainers()
     return classTrainers
 end

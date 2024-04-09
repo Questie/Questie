@@ -1,5 +1,5 @@
----@type QuestieMenu
-local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
+---@type Townsfolk
+local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 
 local mailboxes
 
@@ -39,6 +39,6 @@ else
     }
 end
 
-function QuestieMenu.GetMailboxes()
+function Townsfolk.GetMailboxes()
     return mailboxes
 end
