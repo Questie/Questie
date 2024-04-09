@@ -25,7 +25,7 @@ end
 
 ---Uses a table to fetch multiple townfolk types at the same time.
 ---@param folkTypes table<string, {mask: NpcFlags|integer, requireSubname: boolean, data: NpcId[]}>
-function Townsfolk:PopulateTownsfolkTypes(folkTypes) -- populate the table with all npc ids based on the given bitmask
+local function _PopulateTownsfolkTypes(folkTypes) -- populate the table with all npc ids based on the given bitmask
     local count = 0
     for id, npcData in pairs(QuestieDB.npcData) do
         local flags = npcData[QuestieDB.npcKeys.npcFlags]
@@ -96,7 +96,7 @@ function Townsfolk.Initialize()
             data = {}
         }
     }
-    Townsfolk:PopulateTownsfolkTypes(townsfolkData)
+    _PopulateTownsfolkTypes(townsfolkData)
 
     local townfolk = {
         ["Repair"] = townsfolkData["Repair"].data,
@@ -313,7 +313,21 @@ function Townsfolk.PostBoot() -- post DB boot (use queries here)
     Townsfolk:UpdatePlayerVendors()
 end
 
-function Townsfolk:UpdatePetFood() -- call on change pet
+function Townsfolk:BuildCharacterTownsfolk()
+    Questie.db.char.townsfolk = {}
+    Questie.db.char.vendorList = {}
+    Questie.db.char.townsfolkClass = UnitClass("player")
+
+    for key, npcs in pairs(Questie.db.global.factionSpecificTownsfolk[playerFaction]) do
+        Questie.db.char.townsfolk[key] = npcs
+    end
+
+    for key, npcs in pairs(Questie.db.global.classSpecificTownsfolk[playerClass]) do
+        Questie.db.char.townsfolk[key] = npcs
+    end
+end
+
+local function _UpdatePetFood() -- call on change pet
     Questie.db.char.vendorList["Pet Food"] = {}
     -- detect petfood vendors for player's pet
     for _, key in pairs({GetStablePetFoodTypes(0)}) do
@@ -324,11 +338,11 @@ function Townsfolk:UpdatePetFood() -- call on change pet
     Questie.db.char.vendorList["Pet Food"] = _reformatVendors(Questie.db.char.vendorList["Pet Food"])
 end
 
-function Townsfolk:UpdateAmmoVendors() -- call on change weapon
+local function _UpdateAmmoVendors() -- call on change weapon
     Questie.db.char.vendorList["Ammo"] = _reformatVendors(Townsfolk:PopulateVendors({11285,3030,19316,2515,2512,11284,19317,2519,2516,3033,28056,28053,28061,28060}, {}, true))
 end
 
-function Townsfolk:UpdateFoodDrink()
+local function _UpdateFoodDrink()
     local drink = {159,8766,1179,1708,1645,1205,17404,19300,19299,27860,28399,29395,29454,33042,32453,32455} -- water item ids
     local food = { -- food item ids (from wowhead)
         8932,4536,8952,19301,13724,8953,3927,11109,8957,4608,4599,4593,4592,117,3770,3771,4539,8950,8948,7228,
@@ -342,14 +356,13 @@ function Townsfolk:UpdateFoodDrink()
 end
 
 function Townsfolk:UpdatePlayerVendors() -- call on levelup
-    Townsfolk:UpdateFoodDrink()
+    _UpdateFoodDrink()
     if playerClass == "HUNTER" then
-        Townsfolk:UpdatePetFood()
-        Townsfolk:UpdateAmmoVendors()
+        _UpdatePetFood()
+        _UpdateAmmoVendors()
     elseif playerClass == "ROGUE" or playerClass == "WARRIOR" then
-        Townsfolk:UpdateAmmoVendors()
+        _UpdateAmmoVendors()
     end
-
 end
 
 function Townsfolk:PopulateVendors(itemList, existingTable, restrictLevel)
@@ -391,19 +404,4 @@ function Townsfolk:PopulateVendors(itemList, existingTable, restrictLevel)
         end
     end
     return tbl
-end
-
-function Townsfolk:BuildCharacterTownsfolk()
-    Questie.db.char.townsfolk = {}
-    Questie.db.char.vendorList = {}
-    Questie.db.char.townsfolkClass = UnitClass("player")
-
-    for key, npcs in pairs(Questie.db.global.factionSpecificTownsfolk[playerFaction]) do
-        Questie.db.char.townsfolk[key] = npcs
-    end
-
-    for key, npcs in pairs(Questie.db.global.classSpecificTownsfolk[playerClass]) do
-        Questie.db.char.townsfolk[key] = npcs
-    end
-
 end
