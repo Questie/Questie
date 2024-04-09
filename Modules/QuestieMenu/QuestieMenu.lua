@@ -552,7 +552,7 @@ function QuestieMenu:PopulateTownsfolk()
         tinsert(professionTrainers[QuestieProfessions.professionKeys.FIRST_AID], 13476)
     end
 
-    if Questie.IsTBC or Questie.IsWotlk then
+    if Questie.IsWotlk or Questie.IsTBC then
         local meetingStones = QuestieMenu.GetMeetingStones()
 
         townfolk["Meeting Stones"] = {}
