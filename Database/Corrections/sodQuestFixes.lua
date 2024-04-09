@@ -4663,6 +4663,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410027,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90269] = {
+            [questKeys.name] = "Gale Winds",
+            [questKeys.startedBy] = {{222286}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 43,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Defeat Namida Grimtotem to receive the rune."},
+            [questKeys.requiredSpell] = -431451,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 
