@@ -594,7 +594,8 @@ function QuestieMenu:PopulateTownsfolk()
     factionSpecificTownsfolk["Alliance"]["Mailbox"] = {}
 
     local mailboxes = QuestieMenu.GetMailboxes()
-    for _, id in pairs(mailboxes) do
+    for i=1, #mailboxes do
+        local id = mailboxes[i]
         if QuestieDB.objectData[id] then
             local factionID = QuestieDB.objectData[id][QuestieDB.objectKeys.factionID]
 
