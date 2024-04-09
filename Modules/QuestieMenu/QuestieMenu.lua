@@ -31,6 +31,7 @@ local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 local _, playerClass = UnitClass("player")
 local playerFaction = UnitFactionGroup("player")
 
+local tinsert = tinsert
 
 
 local _townsfolk_texturemap = {
