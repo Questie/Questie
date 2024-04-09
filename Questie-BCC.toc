@@ -113,6 +113,7 @@ Modules\QuestieEventHandler.lua
 Modules\Migration.lua
 Modules\QuestieMenu\QuestieMenu.lua
 Modules\QuestieMenu\ClassTrainers.lua
+Modules\QuestieMenu\Mailboxes.lua
 Modules\QuestieMenu\ProfessionTrainers.lua
 Modules\QuestieAnnounce.lua
 Modules\QuestieShutUp.lua
