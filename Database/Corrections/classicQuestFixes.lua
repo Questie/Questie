@@ -1892,6 +1892,13 @@ function QuestieQuestFixes:Load()
         [5262] = {
             [questKeys.startedBy] = {{10813},nil,{13250}},
         },
+        [5283] = {
+            [questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.DWARF + raceIDs.NIGHT_ELF,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
+        },
+        [5284] = {
+            [questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.DWARF + raceIDs.NIGHT_ELF,
+        },
         [5305]  ={
             [questKeys.exclusiveTo] = {8869},
             [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
