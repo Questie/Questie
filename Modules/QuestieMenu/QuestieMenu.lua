@@ -32,6 +32,7 @@ local _, playerClass = UnitClass("player")
 local playerFaction = UnitFactionGroup("player")
 
 local tinsert = tinsert
+local sub, bitband, strlen = string.sub, bit.band, string.len
 
 local professionKeys = QuestieProfessions.professionKeys
 
@@ -379,8 +380,6 @@ local function _reformatVendors(lst, existingTable)
     end
     return newList
 end
-
-local sub, bitband, strlen = string.sub, bit.band, string.len
 
 ---Uses a table to fetch multiple townfolk types at the same time.
 ---@param folkTypes table<string, {mask: NpcFlags|integer, requireSubname: boolean, data: NpcId[]}>
