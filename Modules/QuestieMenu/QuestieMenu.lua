@@ -382,27 +382,6 @@ end
 
 local sub, bitband, strlen = string.sub, bit.band, string.len
 
----Fetches townfolk of a specific mask
----@param mask NpcFlags
----@param requireSubname boolean?
----@return NpcId[]
-function QuestieMenu:PopulateTownsfolkType(mask, requireSubname) -- populate the table with all npc ids based on the given bitmask
-    local tbl = {}
-    for id, data in pairs(QuestieDB.npcData) do
-        local flags = data[QuestieDB.npcKeys.npcFlags]
-        if flags and bitband(flags, mask) == mask then
-            local name = data[QuestieDB.npcKeys.name]
-            local subName = data[QuestieDB.npcKeys.subName]
-            if name and sub(name, 1, 5) ~= "[DND]" then
-                if (not requireSubname) or (subName and string.len(subName) > 1) then
-                    tinsert(tbl, id)
-                end
-            end
-        end
-    end
-    return tbl
-end
-
 ---Uses a table to fetch multiple townfolk types at the same time.
 ---@param folkTypes table<string, {mask: NpcFlags|integer, requireSubname: boolean, data: NpcId[]}>
 function QuestieMenu:PopulateTownsfolkTypes(folkTypes) -- populate the table with all npc ids based on the given bitmask
