@@ -33,6 +33,8 @@ local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
+---@type Townsfolk
+local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type IsleOfQuelDanas
@@ -96,7 +98,7 @@ local function loadFullDatabase()
 
     print("\124cFF4DDBFF [3/9] " .. l10n("Initializing townfolks") .. "...")
     coYield()
-    QuestieMenu:PopulateTownsfolk()
+    Townsfolk.Initialize()
 
     print("\124cFF4DDBFF [4/9] " .. l10n("Initializing locale") .. "...")
     coYield()
@@ -214,7 +216,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     if (not Questie.db.char.townsfolk) or (dbCompiledCount ~= Questie.db.char.townsfolkVersion) or (Questie.db.char.townsfolkClass ~= UnitClass("player")) then
         Questie.db.char.townsfolkVersion = dbCompiledCount
         coYield()
-        QuestieMenu:BuildCharacterTownsfolk()
+        Townsfolk:BuildCharacterTownsfolk()
     end
 
     coYield()
@@ -292,7 +294,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     coYield()
     QuestieQuest:GetAllQuestIdsNoObjectives()
     coYield()
-    QuestieMenu:PopulateTownsfolkPostBoot()
+    Townsfolk.PostBoot()
     coYield()
     QuestieQuest:GetAllQuestIds()
 

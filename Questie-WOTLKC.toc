@@ -117,6 +117,11 @@ Modules\QuestieProfessions.lua
 Modules\QuestieReputation.lua
 Modules\QuestieEventHandler.lua
 Modules\Migration.lua
+Modules\QuestieMenu\Townsfolk.lua
+Modules\QuestieMenu\ClassTrainers.lua
+Modules\QuestieMenu\Mailboxes.lua
+Modules\QuestieMenu\MeetingStones.lua
+Modules\QuestieMenu\ProfessionTrainers.lua
 Modules\QuestieMenu\QuestieMenu.lua
 Modules\QuestieAnnounce.lua
 Modules\QuestieShutUp.lua

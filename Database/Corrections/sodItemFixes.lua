@@ -122,5 +122,17 @@ function SeasonOfDiscovery:LoadItems()
         [216951] = { -- Slippery Dalaran Relic
             [itemKeys.npcDrops] = {900005},
         },
+        [219770] = { -- Gemeron's Field Report
+            [itemKeys.npcDrops] = {221482},
+        },
+        [219924] = { -- Intelligence Report: Forest Song
+            [itemKeys.npcDrops] = {221271},
+        },
+        [219925] = { -- Intelligence Report: Satyrnaar
+            [itemKeys.npcDrops] = {221272},
+        },
+        [219926] = { -- Intelligence Report: Warsong Lumber Camp
+            [itemKeys.npcDrops] = {221273},
+        },
     }
 end
