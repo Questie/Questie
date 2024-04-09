@@ -106,9 +106,9 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.zoneID] = 1,
             [objectKeys.spawns] = {
                 [1] = {{53.4, 47.8},{53.5, 47.8},},
-                [12] = {{22.3, 73.3},{30, 73.4},{36.1, 81},{38.2, 75.3},{38.6, 75.6},{40.9, 74.7},},
-                [14] = {{40.9, 49.3},{56.8, 21.2},},
-                [215] = {{46, 36.1},},
+                [12] = {{22.3, 73.3},{30, 73.4},{36, 80.6},{38.2, 75.3},{38.6, 75.6},{40.9, 74.7},},
+                [14] = {{40.9, 49.3},{56.7, 21.4},{56.7, 21.7},},
+                [215] = {{46, 36.1},{52.2, 39},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -735,7 +735,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Spellbook",
             [objectKeys.zoneID] = 10,
             [objectKeys.spawns] = {
-                [10] = {{16.5, 28.4},{16.6, 28.5},},
+                [10] = {{16.6, 28.5},{16.7, 28.4},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -976,7 +976,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Bough of Shadows",
             [objectKeys.zoneID] = 331,
             [objectKeys.spawns] = {
-                [331] = {{89.8, 37.3},{91.2, 37.5},{92.5, 40.4},{94, 41.6},},
+                [331] = {{89.8, 37.3},{89.8, 37.5},{91.2, 37.5},{92.5, 40.4},{94, 41.6},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1028,7 +1028,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Storage Locker",
             [objectKeys.zoneID] = 267,
             [objectKeys.spawns] = {
-                [267] = {{79.7, 40.9},},
+                [267] = {{79.7, 41},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1073,7 +1073,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.spawns] = {
                 [17] = {{46.4, 73.8},},
             },
-            [objectKeys.questStarts] = nil,
+            [objectKeys.questStarts] = {79192},
             [objectKeys.questEnds] = {79008},
         },
         [417353] = {
@@ -1302,7 +1302,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Warrior's Bounty",
             [objectKeys.zoneID] = 400,
             [objectKeys.spawns] = {
-                [400] = {{67.9, 89.3},{68, 89.5},},
+                [400] = {{67.9, 89.3},{67.9, 89.5},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1320,7 +1320,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Sizable Stolen Strongbox",
             [objectKeys.zoneID] = 400,
             [objectKeys.spawns] = {
-                [400] = {{18.6, 21.1},},
+                [400] = {{18.7, 21},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1441,7 +1441,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Swordsman's Reward",
             [objectKeys.zoneID] = 3,
             [objectKeys.spawns] = {
-                [3] = {{14.5, 44.8},{23.6, 59.5},{23.8, 58.5},{24.2, 58.2},{24.5, 61.7},{24.8, 59},{24.9, 57.6},{26.6, 68.7},{27, 66.2},{27.1, 72.8},{27.4, 67},{27.5, 70.5},{27.6, 66.3},{27.6, 69.1},{28, 67.8},{28, 69.5},{28.5, 68.1},{32.6, 69.5},{33.2, 68.1},{33.4, 68.6},{33.7, 68},{33.8, 69.5},{34.2, 68.8},{34.7, 69.5},{34.8, 57.3},{35.4, 58.6},{35.4, 59.6},{35.6, 56.9},{35.6, 59.1},{35.7, 59.7},{36.4, 57.9},{36.7, 56.6},},
+                [3] = {{14.5, 44.8},{23.6, 57.5},{23.6, 59.5},{23.8, 58.5},{24.5, 61.7},{24.8, 59},{24.9, 57.6},{26.6, 68.7},{27, 66.2},{27.1, 72.8},{27.4, 67},{27.5, 70.5},{27.6, 66.3},{27.8, 68.1},{27.9, 69},{28, 69.5},{28.5, 68.1},{32.6, 69.5},{32.7, 70.6},{33.2, 68.1},{33.4, 68.6},{33.7, 68},{33.8, 69.5},{34.2, 68.8},{34.7, 69.5},{34.8, 57.3},{35.4, 58.6},{35.4, 59.6},{35.6, 56.9},{35.6, 59.1},{35.7, 59.7},{36.4, 57.9},{36.7, 56.6},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1598,7 +1598,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Nightmare Moss",
             [objectKeys.zoneID] = 10,
             [objectKeys.spawns] = {
-                [10] = {{32.2, 69.3},{35.1, 71.9},{37.3, 84.6},{40.4, 66.8},{40.5, 67.1},{44.3, 36.7},{46.2, 55.2},{47.8, 42.9},{48.8, 78},{50.9, 76.6},{53.9, 62.7},{57, 71.1},{61.6, 75.8},{64.1, 72.8},{65.7, 67.1},{66.3, 76.4},},
+                [10] = {{32.2, 69.3},{35.2, 71.8},{37.3, 84.6},{40.5, 67.1},{44.3, 36.7},{47.8, 42.9},{48.8, 78},{50.9, 76.6},{65.7, 67.1},{66.3, 76.4},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1607,7 +1607,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Cold Iron Deposit",
             [objectKeys.zoneID] = 10,
             [objectKeys.spawns] = {
-                [10] = {{33.6, 76.7},{35.4, 68.1},{35.5, 67.9},{37, 84.7},{38, 84},{41.3, 75.4},{44.9, 63.9},{46.8, 56.3},{50.2, 46.5},{50.2, 78.8},{50.3, 46.4},{52, 71.9},{63.2, 64.1},{63.2, 64.5},{64.2, 65},},
+                [10] = {{44.9, 63.9},{46.8, 56.2},{50.2, 78.8},{50.3, 46.4},{55.7, 74.4},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1616,7 +1616,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Dreamroot",
             [objectKeys.zoneID] = 331,
             [objectKeys.spawns] = {
-                [331] = {{78.3, 43.3},{80.7, 50.6},{81, 44.8},{82.6, 50.2},{82.7, 55},{84.3, 44.8},{85.6, 60},{85.9, 56.4},{85.9, 56.5},{86.2, 47},{86.5, 54.5},{87.3, 52.2},{87.7, 62.6},{89.5, 44.7},{89.7, 50.7},{89.7, 58},{93.4, 38.3},{93.5, 38.3},},
+                [331] = {{78.3, 43.3},{80.7, 50.6},{81, 44.8},{82.6, 50.2},{82.7, 55},{84.3, 44.9},{85.6, 60},{85.9, 56.4},{85.9, 56.5},{86.2, 47},{86.4, 54.5},{86.5, 54.5},{87.3, 52.3},{87.7, 62.6},{89.5, 44.7},{89.7, 58},{89.8, 50.7},{93.4, 38.3},{93.5, 38.3},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1625,7 +1625,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Fool's Gold Vein",
             [objectKeys.zoneID] = 331,
             [objectKeys.spawns] = {
-                [331] = {{79.2, 49.9},{81.6, 52.1},{82.7, 45.8},{84.8, 55.4},{85.8, 46.7},{86, 49.7},{87.7, 64.9},{88.1, 62.1},{89, 45.6},{89.8, 42.9},{91, 56.4},{91.3, 37.6},{92.6, 35.2},{94.1, 36.6},},
+                [331] = {{79.2, 49.9},{81.6, 52.1},{82.7, 45.8},{84.8, 55.4},{85.8, 46.7},{86, 49.7},{87.7, 64.9},{88.1, 62.1},{89, 45.6},{89.8, 42.9},{91, 56.4},{91.3, 37.6},{92.6, 35.2},{93.4, 42.5},{94.1, 36.6},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1676,7 +1676,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Star Lotus",
             [objectKeys.zoneID] = 47,
             [objectKeys.spawns] = {
-                [47] = {{46.1, 38.4},{46.1, 38.5},{49.4, 37.9},{49.5, 37.9},{57.3, 41.9},{59.1, 43.8},{61.8, 25.2},{66.1, 43},{66.6, 32.9},{68.5, 46.6},{71.3, 48.4},{73, 53.2},},
+                [47] = {{46.1, 38.5},{49.4, 37.9},{57.3, 41.9},{61.8, 25.2},{66.1, 43},{68.5, 46.6},{71.3, 48.4},{73, 53.2},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1685,7 +1685,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Starsilver Vein",
             [objectKeys.zoneID] = 47,
             [objectKeys.spawns] = {
-                [47] = {{48.8, 45.6},{58, 40.8},{66.2, 50.7},{73.6, 53.8},},
+                [47] = {{45.4, 39.4},{48.8, 45.6},{56.6, 43.4},{57, 43.6},{57.9, 49.7},{58.1, 40.9},{58.9, 43.3},{63.8, 43.8},{66.2, 50.7},{72.2, 52.4},{73.6, 53.8},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1694,7 +1694,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Moonroot",
             [objectKeys.zoneID] = 357,
             [objectKeys.spawns] = {
-                [357] = {{38.2, 11.1},{39.1, 11.1},{40.4, 11.5},{40.5, 11.5},{41.8, 13.9},{44.7, 23.1},{45.4, 11},{46.5, 18.4},{50.8, 18.3},{52, 12.2},},
+                [357] = {{38.2, 11.1},{39.1, 11.1},{46.5, 18.4},{50.8, 18.3},{52, 12.1},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1703,7 +1703,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Greater Moonstone Formation",
             [objectKeys.zoneID] = 357,
             [objectKeys.spawns] = {
-                [357] = {{40.8, 9.9},{40.8, 12.5},{42.8, 23.1},{50.9, 19.9},{51.2, 14.8},},
+                [357] = {{40.8, 9.9},{40.8, 12.5},{51.2, 14.8},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1712,7 +1712,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Weathered Etching",
             [objectKeys.zoneID] = 51,
             [objectKeys.spawns] = {
-                [51] = {{14.4, 36.3},{14.5, 36.4},{14.6, 36.5},},
+                [51] = {{14.4, 36.2},{14.5, 36.4},{14.6, 36.5},},
             },
             [objectKeys.questStarts] = {81900},
             [objectKeys.questEnds] = nil,
@@ -1739,7 +1739,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Unhatched Green Dragon Egg",
             [objectKeys.zoneID] = 10,
             [objectKeys.spawns] = {
-                [10] = {{49.1, 73},},
+                [10] = {{49.1, 72.1},{49.1, 73},{49.5, 72.3},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1757,7 +1757,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Vibrating Crate",
             [objectKeys.zoneID] = 331,
             [objectKeys.spawns] = {
-                [331] = {{88.4, 55.4},{88.4, 55.5},},
+                [331] = {{88.4, 55.4},{88.4, 55.5},{88.5, 55.1},{91, 58.1},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1857,7 +1857,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Book",
             [objectKeys.zoneID] = 47,
             [objectKeys.spawns] = {
-                [47] = {{36, 72.7},},
+                [47] = {{36, 72.8},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1875,7 +1875,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Book",
             [objectKeys.zoneID] = 4,
             [objectKeys.spawns] = {
-                [4] = {{55.4, 32.2},{55.5, 32.2},},
+                [4] = {{55.4, 32.2},{55.4, 32.5},{55.5, 32.2},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1918,7 +1918,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Traveller's Knapsack",
             [objectKeys.zoneID] = 16,
             [objectKeys.spawns] = {
-                [16] = {{20.6, 62},},
+                [16] = {{20.6, 61.9},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1927,7 +1927,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Satyrweed Bramble",
             [objectKeys.zoneID] = 16,
             [objectKeys.spawns] = {
-                [16] = {{18.5, 63},{18.8, 60.6},{19.3, 59.6},{19.7, 58.9},{19.8, 61.6},{20.9, 58.4},{21.1, 63.5},{21.3, 60.8},{21.4, 58.9},{21.6, 61.6},{21.7, 63.5},{21.9, 59.3},{22.2, 60.3},},
+                [16] = {{18.5, 63},{18.8, 60.6},{19.3, 59.6},{19.7, 58.9},{20.9, 58.4},{21.1, 63.6},{21.3, 60.8},{21.4, 58.9},{21.9, 59.3},{22.2, 60.3},{22.2, 61.8},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1970,7 +1970,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Giant Golem Arm",
             [objectKeys.zoneID] = 51,
             [objectKeys.spawns] = {
-                [51] = {{41.9, 44.3},{42, 44.6},},
+                [51] = {{41.9, 44.3},{41.9, 44.7},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -2061,6 +2061,15 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
+        [442742] = {
+            [objectKeys.name] = "Box of Scarlet Dye",
+            [objectKeys.zoneID] = 28,
+            [objectKeys.spawns] = {
+                [28] = {{45.1, 15.1},},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
         [443727] = {
             [objectKeys.name] = "Grimtotem Chest",
             [objectKeys.zoneID] = 357,
@@ -2101,7 +2110,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Extraplanar Eye",
             [objectKeys.zoneID] = 47,
             [objectKeys.spawns] = {
-                [47] = {{58.4, 72.7},{58.5, 72.8},},
+                [47] = {{58.4, 72.7},},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
