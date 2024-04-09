@@ -33,6 +33,7 @@ local playerFaction = UnitFactionGroup("player")
 
 local tinsert = tinsert
 
+local professionKeys = QuestieProfessions.professionKeys
 
 local _townsfolk_texturemap = {
     ["Flight Master"] = "Interface\\Minimap\\tracking\\flightmaster",
@@ -56,20 +57,20 @@ local _townsfolk_texturemap = {
         end
         return "Interface\\Minimap\\tracking\\reagents"
     end)(),
-    [QuestieProfessions.professionKeys.FIRST_AID] = "Interface\\Icons\\spell_holy_sealofsacrifice",
-    [QuestieProfessions.professionKeys.BLACKSMITHING] = "Interface\\Icons\\trade_blacksmithing",
-    [QuestieProfessions.professionKeys.LEATHERWORKING] = "Interface\\Icons\\trade_leatherworking",
-    [QuestieProfessions.professionKeys.ALCHEMY] = "Interface\\Icons\\trade_alchemy",
-    [QuestieProfessions.professionKeys.HERBALISM] = "Interface\\Icons\\trade_herbalism",
-    [QuestieProfessions.professionKeys.COOKING] = "Interface\\Icons\\inv_misc_food_15",
-    [QuestieProfessions.professionKeys.MINING] = "Interface\\Icons\\trade_mining",
-    [QuestieProfessions.professionKeys.TAILORING] = "Interface\\Icons\\trade_tailoring",
-    [QuestieProfessions.professionKeys.ENGINEERING] = "Interface\\Icons\\trade_engineering",
-    [QuestieProfessions.professionKeys.ENCHANTING] = "Interface\\Icons\\trade_engraving",
-    [QuestieProfessions.professionKeys.FISHING] = "Interface\\Icons\\trade_fishing",
-    [QuestieProfessions.professionKeys.SKINNING] = "Interface\\Icons\\inv_misc_pelt_wolf_01",
-    [QuestieProfessions.professionKeys.JEWELCRAFTING] = "Interface\\Icons\\inv_misc_gem_01",
-    [QuestieProfessions.professionKeys.INSCRIPTION] = "Interface\\Icons\\inv_inscription_tradeskill01",
+    [professionKeys.FIRST_AID] = "Interface\\Icons\\spell_holy_sealofsacrifice",
+    [professionKeys.BLACKSMITHING] = "Interface\\Icons\\trade_blacksmithing",
+    [professionKeys.LEATHERWORKING] = "Interface\\Icons\\trade_leatherworking",
+    [professionKeys.ALCHEMY] = "Interface\\Icons\\trade_alchemy",
+    [professionKeys.HERBALISM] = "Interface\\Icons\\trade_herbalism",
+    [professionKeys.COOKING] = "Interface\\Icons\\inv_misc_food_15",
+    [professionKeys.MINING] = "Interface\\Icons\\trade_mining",
+    [professionKeys.TAILORING] = "Interface\\Icons\\trade_tailoring",
+    [professionKeys.ENGINEERING] = "Interface\\Icons\\trade_engineering",
+    [professionKeys.ENCHANTING] = "Interface\\Icons\\trade_engraving",
+    [professionKeys.FISHING] = "Interface\\Icons\\trade_fishing",
+    [professionKeys.SKINNING] = "Interface\\Icons\\inv_misc_pelt_wolf_01",
+    [professionKeys.JEWELCRAFTING] = "Interface\\Icons\\inv_misc_gem_01",
+    [professionKeys.INSCRIPTION] = "Interface\\Icons\\inv_inscription_tradeskill01",
 }
 
 local _spawned = {} -- used to check if we have already spawned an icon for this npc
@@ -212,9 +213,9 @@ local div = { -- from libEasyMenu code
     },
 }
 local secondaryProfessions = {
-    [QuestieProfessions.professionKeys.FIRST_AID] = true,
-    [QuestieProfessions.professionKeys.COOKING] = true,
-    [QuestieProfessions.professionKeys.FISHING] = true
+    [professionKeys.FIRST_AID] = true,
+    [professionKeys.COOKING] = true,
+    [professionKeys.FISHING] = true
 }
 
 function QuestieMenu.buildProfessionMenu()
@@ -490,28 +491,28 @@ function QuestieMenu:PopulateTownsfolk()
 
     ---@type table<ProfessionEnum, NpcId[]>
     local professionTrainers = {
-        [QuestieProfessions.professionKeys.FIRST_AID] = {},
-        [QuestieProfessions.professionKeys.BLACKSMITHING] = {},
-        [QuestieProfessions.professionKeys.LEATHERWORKING] = {},
-        [QuestieProfessions.professionKeys.ALCHEMY] = {},
-        [QuestieProfessions.professionKeys.HERBALISM] = {},
-        [QuestieProfessions.professionKeys.COOKING] = {
+        [professionKeys.FIRST_AID] = {},
+        [professionKeys.BLACKSMITHING] = {},
+        [professionKeys.LEATHERWORKING] = {},
+        [professionKeys.ALCHEMY] = {},
+        [professionKeys.HERBALISM] = {},
+        [professionKeys.COOKING] = {
             19186, -- Kylene <Barmaid> (this is an edge case)
         },
-        [QuestieProfessions.professionKeys.MINING] = {},
-        [QuestieProfessions.professionKeys.TAILORING] = {},
-        [QuestieProfessions.professionKeys.ENGINEERING] = {},
-        [QuestieProfessions.professionKeys.ENCHANTING] = {},
-        [QuestieProfessions.professionKeys.FISHING] = {},
-        [QuestieProfessions.professionKeys.SKINNING] = {}
+        [professionKeys.MINING] = {},
+        [professionKeys.TAILORING] = {},
+        [professionKeys.ENGINEERING] = {},
+        [professionKeys.ENCHANTING] = {},
+        [professionKeys.FISHING] = {},
+        [professionKeys.SKINNING] = {}
     }
 
     if Questie.IsTBC or Questie.IsWotlk then
-        professionTrainers[QuestieProfessions.professionKeys.JEWELCRAFTING] = {}
+        professionTrainers[professionKeys.JEWELCRAFTING] = {}
     end
 
     if Questie.IsWotlk then
-        professionTrainers[QuestieProfessions.professionKeys.INSCRIPTION] = {}
+        professionTrainers[professionKeys.INSCRIPTION] = {}
     end
 
     local count = 0
@@ -541,16 +542,16 @@ function QuestieMenu:PopulateTownsfolk()
     end
 
     -- Fix NPC Gubber Blump (10216) can train fishing profession
-    tinsert(professionTrainers[QuestieProfessions.professionKeys.FISHING], 10216)
+    tinsert(professionTrainers[professionKeys.FISHING], 10216)
     -- Fix NPC Aresella (18991) can train first aid profession
     if Questie.IsTBC or Questie.IsWotlk then
-        tinsert(professionTrainers[QuestieProfessions.professionKeys.FIRST_AID], 18991)
+        tinsert(professionTrainers[professionKeys.FIRST_AID], 18991)
     end
 
     if Questie.IsClassic then
         -- Vendors selling "Expert First Aid - Under Wraps"
-        tinsert(professionTrainers[QuestieProfessions.professionKeys.FIRST_AID], 2805)
-        tinsert(professionTrainers[QuestieProfessions.professionKeys.FIRST_AID], 13476)
+        tinsert(professionTrainers[professionKeys.FIRST_AID], 2805)
+        tinsert(professionTrainers[professionKeys.FIRST_AID], 13476)
     end
 
     if Questie.IsWotlk or Questie.IsTBC then
@@ -649,9 +650,9 @@ function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries he
     if Questie.db.global.townsfolkNeedsUpdatedGlobalVendors then
         Questie.db.global.townsfolkNeedsUpdatedGlobalVendors = nil
         -- insert item-based profession vendors
-        _reformatVendors(QuestieMenu:PopulateVendors({22012, 21992, 21993, 16084, 16112, 16113, 16085, 19442, 6454, 8547, 23689}), Questie.db.global.professionTrainers[QuestieProfessions.professionKeys.FIRST_AID])
-        _reformatVendors(QuestieMenu:PopulateVendors({27532, 16082, 16083}), Questie.db.global.professionTrainers[QuestieProfessions.professionKeys.FISHING])
-        _reformatVendors(QuestieMenu:PopulateVendors({27736, 16072, 16073}), Questie.db.global.professionTrainers[QuestieProfessions.professionKeys.COOKING])
+        _reformatVendors(QuestieMenu:PopulateVendors({22012, 21992, 21993, 16084, 16112, 16113, 16085, 19442, 6454, 8547, 23689}), Questie.db.global.professionTrainers[professionKeys.FIRST_AID])
+        _reformatVendors(QuestieMenu:PopulateVendors({27532, 16082, 16083}), Questie.db.global.professionTrainers[professionKeys.FISHING])
+        _reformatVendors(QuestieMenu:PopulateVendors({27736, 16072, 16073}), Questie.db.global.professionTrainers[professionKeys.COOKING])
     end
 
     -- item ids for class-specific reagents
