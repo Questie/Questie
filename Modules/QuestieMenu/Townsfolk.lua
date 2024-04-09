@@ -50,8 +50,7 @@ function Townsfolk:PopulateTownsfolkTypes(folkTypes) -- populate the table with 
 end
 
 
----Initialization for townfolk
-function Townsfolk:PopulateTownsfolk()
+function Townsfolk.Initialize()
 
     --? This datastructure is used in PopulateTownsfolkTypes to fetch multiple townfolk data in the same npc loop cycle
     ---@type table<string, {mask: NpcFlags|integer, requireSubname: boolean, data: NpcId[]}>
@@ -266,7 +265,7 @@ function Townsfolk:PopulateTownsfolk()
     Questie.db.global.petFoodVendorTypes = petFoodVendorTypes
 end
 
-function Townsfolk:PopulateTownsfolkPostBoot() -- post DB boot (use queries here)
+function Townsfolk.PostBoot() -- post DB boot (use queries here)
 
     if Questie.db.global.townsfolkNeedsUpdatedGlobalVendors then
         Questie.db.global.townsfolkNeedsUpdatedGlobalVendors = nil
