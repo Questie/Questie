@@ -123,7 +123,7 @@ Modules\QuestieReputation.lua
 Modules\QuestieEventHandler.lua
 Modules\Migration.lua
 Modules\Phasing.lua
-Modules\QuestieMenu.lua
+Modules\QuestieMenu\QuestieMenu.lua
 Modules\QuestieAnnounce.lua
 Modules\QuestieShutUp.lua
 Modules\Sounds.lua
