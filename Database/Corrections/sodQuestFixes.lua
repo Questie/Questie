@@ -4967,6 +4967,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431451,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90275] = {
+            [questKeys.name] = "Wrath",
+            [questKeys.startedBy] = {{221828,221827}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 45,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Use Sense Undead, to find a Vengeful Spirit, kill it and go to Ironforge and speak with Magister Falath to receive the rune."},
+            [questKeys.requiredSpell] = -429249,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
     }
 end
 
