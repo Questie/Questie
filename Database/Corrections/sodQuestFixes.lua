@@ -1719,6 +1719,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81986] = { -- Waking the Nightmare
             [questKeys.preQuestSingle] = {82022},
             [questKeys.objectives] = {{{222198}},nil,{{220570}}},
+            [questKeys.zoneOrSort] = sortKeys.NIGHTMARE_INCURSIONS,
             [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{94.26,35.13}}}, Questie.ICON_TYPE_EVENT, l10n("Enter the Emerald Dream"),}},
         },
         [82017] = { -- An Amalagamation of Nightmares
