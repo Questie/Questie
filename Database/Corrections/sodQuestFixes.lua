@@ -4963,6 +4963,20 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431451,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90273] = {
+            [90272] = {
+                [questKeys.name] = "Molten Armor",
+                [questKeys.startedBy] = {{222685,222687,222684,222686}},
+                [questKeys.finishedBy] = nil,
+                [questKeys.requiredLevel] = 1,
+                [questKeys.questLevel] = 23,
+                [questKeys.requiredRaces] = raceIDs.NONE,
+                [questKeys.requiredClasses] = classIDs.MAGE,
+                [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Molten Armor rune from the Quartermaster."},
+                [questKeys.requiredSpell] = -429308,
+                [questKeys.zoneOrSort] = sortKeys.MAGE,
+            },
+        },
     }
 end
 

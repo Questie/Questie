@@ -431,6 +431,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
 
     -- P3 SoD Runes
     [90269] = 3, -- Druid Gale Winds
+    [90273] = 3, -- Mage Molten Armor
 }
 
 --- "automatic" phase detection for the first few phases;
