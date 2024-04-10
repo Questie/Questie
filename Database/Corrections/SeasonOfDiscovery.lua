@@ -431,6 +431,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
 
     -- P3 SoD Runes
     [90269] = 3, -- Druid Gale Winds
+    [90271] = 3, -- Hunter Raptor Fury
 }
 
 --- "automatic" phase detection for the first few phases;
