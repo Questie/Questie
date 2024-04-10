@@ -272,7 +272,7 @@ function MapIconTooltip:Show()
                         local nextQuestIdString = "";
                         local nextQuestTagString = "";
                         if firstInChain then
-                            self:AddLine("  Next in chain:", 0.86, 0.86, 0.86)
+                            self:AddLine("  " .. l10n("Next in chain:"), 0.86, 0.86, 0.86)
                             firstInChain = false;
                         end
 
@@ -293,7 +293,7 @@ function MapIconTooltip:Show()
 
                         local nextQuestMoneyReward = QuestXP:GetQuestRewardMoney(nextQuest.Id);
                         if nextQuestMoneyReward > 0 then
-                            nextQuestMoneyRewardString = Questie:Colorize(string.format(" (%s)",GetCoinTextureString(nextQuestMoneyReward)), "white");
+                            nextQuestMoneyRewardString = Questie:Colorize(string.format(" (%s)", GetCoinTextureString(nextQuestMoneyReward)), "white");
                         end
 
                         if (QuestieDB.IsGroupQuest(nextQuest.Id) or QuestieDB.IsDungeonQuest(nextQuest.Id) or QuestieDB.IsRaidQuest(nextQuest.Id)) then

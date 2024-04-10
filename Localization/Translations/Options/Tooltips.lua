@@ -134,6 +134,18 @@ local tooltipOptionsLocales = {
         ["esES"] = "Muestra los valores de EXP de misiones incluso en el nivel máximo.",
         ["frFR"] = "Affiche le montant d'expérience des quêtes, même au niveau maximum.",
     },
+    ["Next in chain:"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = "Следующее в цепочке",
+        ["deDE"] = "Folge-Quests in der Reihe:",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
     ["Show next quests in chain"] = {
         ["ptBR"] = "Mostrar as próximas missões na cadeia",
         ["ruRU"] = "Показывать следующие задания в цепочке",
