@@ -126,12 +126,16 @@ function Townsfolk.Initialize()
         [professionKeys.SKINNING] = {}
     }
 
-    if Questie.IsTBC or Questie.IsWotlk then
+    if Questie.IsCata or Questie.IsWotlk or Questie.IsTBC then
         professionTrainers[professionKeys.JEWELCRAFTING] = {}
     end
 
-    if Questie.IsWotlk then
+    if Questie.IsCata or Questie.IsWotlk then
         professionTrainers[professionKeys.INSCRIPTION] = {}
+    end
+
+    if Questie.IsCata then
+        professionTrainers[professionKeys.ARCHAEOLOGY] = {}
     end
 
     local count = 0
