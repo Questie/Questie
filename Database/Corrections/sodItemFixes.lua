@@ -122,8 +122,17 @@ function SeasonOfDiscovery:LoadItems()
         [216951] = { -- Slippery Dalaran Relic
             [itemKeys.npcDrops] = {900005},
         },
+        [219759] = { -- Charla's Field Report
+            [itemKeys.npcDrops] = {221472},
+        },
         [219770] = { -- Gemeron's Field Report
             [itemKeys.npcDrops] = {221482},
+        },
+        [219771] = { -- Thandros' Field Report
+            [itemKeys.npcDrops] = {221484},
+        },
+        [219772] = { -- Fallia's Field Report
+            [itemKeys.npcDrops] = {221483},
         },
         [219924] = { -- Intelligence Report: Forest Song
             [itemKeys.npcDrops] = {221271},

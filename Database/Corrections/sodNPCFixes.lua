@@ -614,6 +614,41 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.ASHENVALE] = {{92, 54.0}},
             },
         },
+        [221335] = { -- Elianar Shadowdrinker
+            [npcKeys.spawns] = {
+                [zoneIDs.HINTERLANDS] = {{53.47, 39.05}},
+            },
+        },
+        [221336] = { -- Serlina Starbright
+            [npcKeys.spawns] = {
+                [zoneIDs.HINTERLANDS] = {{71.11, 47.98}},
+            },
+        },
+        [221337] = { -- Veanna Cloudsleeper
+            [npcKeys.spawns] = {
+                [zoneIDs.HINTERLANDS] = {{57.29, 42.80}},
+            },
+        },
+        [221395] = { -- Mellias Earthtender
+            [npcKeys.spawns] = {
+                [zoneIDs.FERALAS] = {{49.65, 15.35}},
+            },
+        },
+        [221398] = { -- Nerene Brooksinger
+            [npcKeys.spawns] = {
+                [zoneIDs.FERALAS] = {{46.00, 16.50}},
+            },
+        },
+        [221399] = { -- Jamniss Treemender
+            [npcKeys.spawns] = {
+                [zoneIDs.FERALAS] = {{40.62, 8.08}},
+            },
+        },
+        [221484] = { -- Scout Thandros
+            [npcKeys.spawns] = {
+                [zoneIDs.FERALAS] = {{51.06,10.54}},
+            },
+        },
         [222188] = { -- Shadowy Figure
             [npcKeys.spawns] = {
                 [zoneIDs.MOONGLADE] = {{52.12,40.89}},
