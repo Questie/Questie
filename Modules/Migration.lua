@@ -60,6 +60,12 @@ local migrationFunctions = {
                 }
             end
         end
+    end,
+    [4] = function()
+        Questie.db.profile.tutorialShowRunesDone = false
+    end,
+    [5] = function()
+        Questie.db.profile.enableTooltipsNextInChain = true
     end
 }
 

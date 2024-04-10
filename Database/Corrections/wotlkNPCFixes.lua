@@ -2435,15 +2435,133 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{76.6,72.8}},[zoneIDs.ICECROWN_CITADEL]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
         },
+        [38606] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{39,20.6},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
+        [38607] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{39.2,20.6},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
+        [38608] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{39,18.2},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
+        [38609] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{38.1,19.9},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
         [38858] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{36,20.7},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN_CITADEL,
+        },
+        [39271] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{25.87,47.15}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39368] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{49.53,47.12}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39386] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{50.09,47.74}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39396] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{50.14,47.84}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39420] = {
+            [npcKeys.name] = "Gnomeregan Vent",
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{23.5,44.8},{23.2,43.4},{24.1,41.2},{23.9,38.8},{24.5,38},{25.6,34.9}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
         },
         [39509] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{40.2,21.9},{-1,-1}}},
         },
+        [39654] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{64.5,74.1}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [39675] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{50.18,48.36}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39678] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{49.32,48.27}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39711] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{50.63,48.17},{50.83,48.02}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39715] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{50.21,48.65}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39716] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{50.12,48.2}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
+        [39717] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{50.42,47.63}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
         [39863] = {
             [npcKeys.spawns] = {[zoneIDs.THE_RUBY_SANCTUM]={{49.3,53.9},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_RUBY_SANCTUM,
+        },
+        [40176] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{55.2,76.4},{55.3,73.6},{55.6,72.6},{55.1,71.5},{54.2,71.9},{56.4,72.8},{56.3,71.2},{58.3,71.8}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [40184] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{57.5,72.5}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [40187] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{57.6,72.5}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [40204] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{57.1,75.1}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [40253] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{57.8,73}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [40256] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{52.5,43.6},{52.1,44.3},{51.7,44.1},{51.3,44.3},{50.4,43.3},{50.6,42.2},{50.1,42.7},{51.1,40.5},{51.6,40.8},{51.9,39.7},{53.2,40.6},{53.5,41.5},{54.3,41.5},{54.2,43.7},{53.6,43}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [40257] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{52.5,43.6},{52.1,44.3},{51.7,44.1},{51.3,44.3},{50.4,43.3},{50.6,42.2},{50.1,42.7},{51.1,40.5},{51.6,40.8},{51.9,39.7},{53.2,40.6},{53.5,41.5},{54.3,41.5},{54.2,43.7},{53.6,43}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [40260] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{57.8,73}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [40264] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{57.8,73}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [40301] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{64.3,74.4},{61.1,78.4},{60.4,80.1},{59.9,82.8}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [40352] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{57,74.2}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [40391] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{57.4,72.7}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [40502] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{60.3,89.6}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
         },
         [40429] = {
             [npcKeys.spawns] = {[zoneIDs.THE_RUBY_SANCTUM]={{74.42,54.5},{-1,-1}}},

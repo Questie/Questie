@@ -944,13 +944,13 @@ function QuestieQuest:AddFinisher(quest)
             Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] Quest has no finisher:", questId, quest.name)
         end
 
-        if (finisher ~= nil and finisher.spawns ~= nil) then
+        if finisher ~= nil then
             -- Certain race conditions can occur when the NPC/Objects are both the Quest Starter and Quest Finisher
             -- which can result in duplicate Quest Title tooltips appearing. DrawAvailableQuest() would have already
-            -- registered this NPC/Object so, the appropiate tooltip lines are already present. This checks and clears
+            -- registered this NPC/Object so, the appropriate tooltip lines are already present. This checks and clears
             -- any duplicate keys before registering the Quest Finisher.
 
-            -- Clear duplicate keys if they exsist
+            -- Clear duplicate keys if they exist
             if QuestieTooltips.lookupByKey[key] then
                 if QuestieTooltips:GetTooltip(key) ~= nil and #QuestieTooltips:GetTooltip(key) > 1 then
                     for ttline = 1, #QuestieTooltips:GetTooltip(key) do
@@ -990,7 +990,7 @@ function QuestieQuest:AddFinisher(quest)
             local finisherIcons = {}
             local finisherLocs = {}
 
-            for finisherZone, spawns in pairs(finisher.spawns) do
+            for finisherZone, spawns in pairs(finisher.spawns or {}) do
                 if (finisherZone ~= nil and spawns ~= nil) then
                     for _, coords in ipairs(spawns) do
                         local data = {
@@ -1108,7 +1108,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
         objective.Color = QuestieLib:ColorWheel()
     end
 
-    if next(objective.spawnList) then
+    if objective.spawnList and next(objective.spawnList) then
         local maxPerType = 300
 
         if Questie.db.profile.enableIconLimit and Questie.db.profile.iconLimit < maxPerType then

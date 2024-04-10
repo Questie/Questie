@@ -25,7 +25,7 @@ class NPCSpider(scrapy.Spider):
                     # Handle an invalid case
                     return
                 result["npcId"] = npc_id
-                result["name"] = re.search(r'"name":"([^"]+)"', script).group(1)
+                result["name"] = re.search(r'"name":"((?:[^"\\]|\\.)*)"', script).group(1)
                 min_level_match = re.search(r'"minlevel":(\d+)', script)
                 result["minLevel"] = min_level_match.group(1) if str(min_level_match) != "None" else "0"
                 max_level_match = re.search(r'"maxlevel":(\d+)', script)

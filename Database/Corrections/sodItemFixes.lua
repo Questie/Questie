@@ -31,6 +31,9 @@ function SeasonOfDiscovery:LoadItems()
         [206170] = { -- Windfury Cone
             [itemKeys.objectDrops] = {403105},
         },
+        [206264] = { -- Rune of Inspiration
+            [itemKeys.npcDrops] = {204937},
+        },
         [206469] = { -- Prairie Flower
             [itemKeys.objectDrops] = {403718},
         },
@@ -68,6 +71,9 @@ function SeasonOfDiscovery:LoadItems()
         [210055] = { -- Hillsbrad Human Bones
             [itemKeys.npcDrops] = {2265,2266,2267,2268,2360,2387},
         },
+        [210195] = { -- Unbalanced Idol
+            [itemKeys.npcDrops] = {1769,1770,1779},
+        },
         [210589] = { -- Echo of the Ancestors
             [itemKeys.npcDrops] = {204937},
         },
@@ -88,6 +94,9 @@ function SeasonOfDiscovery:LoadItems()
         },
         [212347] = { -- Illari's Key
             [itemKeys.npcDrops] = {215655},
+        },
+        [213446] = { -- Tarnished Prayer Bead III
+            [itemKeys.npcDrops] = {2552,2553,2554,2555,2556,2557,2562,2564,2566,2569,2570,2572,2573,2574,2575,2586,2587,2588,2589,2590,2618,2619,4062},
         },
         [215376] = { -- Crusader's Mace
             [itemKeys.npcDrops] = {4281,4283,4286,4287,4288,4289,4290,4291,4292,4293,4294,4295,4296,4297,4298,4299,4300,4301,4302,4303,4306,4540},
@@ -112,6 +121,27 @@ function SeasonOfDiscovery:LoadItems()
         },
         [216951] = { -- Slippery Dalaran Relic
             [itemKeys.npcDrops] = {900005},
+        },
+        [219759] = { -- Charla's Field Report
+            [itemKeys.npcDrops] = {221472},
+        },
+        [219770] = { -- Gemeron's Field Report
+            [itemKeys.npcDrops] = {221482},
+        },
+        [219771] = { -- Thandros' Field Report
+            [itemKeys.npcDrops] = {221484},
+        },
+        [219772] = { -- Fallia's Field Report
+            [itemKeys.npcDrops] = {221483},
+        },
+        [219924] = { -- Intelligence Report: Forest Song
+            [itemKeys.npcDrops] = {221271},
+        },
+        [219925] = { -- Intelligence Report: Satyrnaar
+            [itemKeys.npcDrops] = {221272},
+        },
+        [219926] = { -- Intelligence Report: Warsong Lumber Camp
+            [itemKeys.npcDrops] = {221273},
         },
     }
 end

@@ -584,6 +584,76 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DEADWIND_PASS] = {{43,29}},
             },
         },
+        [221210] = { -- Kroll Mountainshade
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{66.11, 69.28}},
+            },
+        },
+        [221215] = { -- Alara Grovemender
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{49.15, 77.55}},
+            },
+        },
+        [221216] = { -- Elenora Marshwalker
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {{32.39, 69.48}},
+            },
+        },
+        [221268] = { -- Doran Dreambough
+            [npcKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{87.23, 43.56}},
+            },
+        },
+        [221269] = { -- Maseara Autumnmoon
+            [npcKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{81.2, 50.5}},
+            },
+        },
+        [221270] = { -- Alyssian Windcaller
+            [npcKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {{92, 54.0}},
+            },
+        },
+        [221335] = { -- Elianar Shadowdrinker
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_HINTERLANDS] = {{53.47, 39.05}},
+            },
+        },
+        [221336] = { -- Serlina Starbright
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_HINTERLANDS] = {{71.11, 47.98}},
+            },
+        },
+        [221337] = { -- Veanna Cloudsleeper
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_HINTERLANDS] = {{57.29, 42.80}},
+            },
+        },
+        [221395] = { -- Mellias Earthtender
+            [npcKeys.spawns] = {
+                [zoneIDs.FERALAS] = {{49.65, 15.35}},
+            },
+        },
+        [221398] = { -- Nerene Brooksinger
+            [npcKeys.spawns] = {
+                [zoneIDs.FERALAS] = {{46.00, 16.50}},
+            },
+        },
+        [221399] = { -- Jamniss Treemender
+            [npcKeys.spawns] = {
+                [zoneIDs.FERALAS] = {{40.62, 8.08}},
+            },
+        },
+        [221484] = { -- Scout Thandros
+            [npcKeys.spawns] = {
+                [zoneIDs.FERALAS] = {{51.06,10.54}},
+            },
+        },
+        [222188] = { -- Shadowy Figure
+            [npcKeys.spawns] = {
+                [zoneIDs.MOONGLADE] = {{52.12,40.89}},
+            },
+        },
 
         -- fake NPCs
         [900000] = {

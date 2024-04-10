@@ -74,6 +74,9 @@ function QuestieTBCQuestFixes:Load()
         [403] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [415] = {
+            [questKeys.startedBy] = {{1378,1872}},
+        },
         [455] = {
             [questKeys.triggerEnd] = {"Traverse Dun Algaz", {[zoneIDs.WETLANDS]={{53.49,70.36}}}},
         },
@@ -1491,6 +1494,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10021] = {
             [questKeys.preQuestSingle] = {10551},
+            [questKeys.requiredMinRep]= {932,0},
         },
         [10024] = {
             [questKeys.preQuestSingle] = {10211},
@@ -1788,7 +1792,15 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down"), 0, {{"object", 184312}}}},
         },
         [10325] = {
-            [questKeys.requiredMaxRep] = {},
+            [questKeys.requiredMaxRep] = {932,9000},
+            [questKeys.preQuestSingle] = {10551,10552},
+        },
+        [10326] = {
+            [questKeys.requiredMaxRep] = {932,9000},
+            [questKeys.preQuestSingle] = {10551,10552},
+        },
+        [10327] = {
+            [questKeys.requiredMaxRep] = {932,9000},
             [questKeys.preQuestSingle] = {10551,10552},
         },
         [10329] = {
@@ -1899,11 +1911,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use Navuud's Concoction before attacking Void Wastes or Seeping Sludge"), 0, {{"monster", 20501}, {"monster", 20778}}}},
         },
         [10412] = {
-            [questKeys.requiredMaxRep] = {},
+            [questKeys.requiredMaxRep] = {934,9000},
             [questKeys.preQuestSingle] = {10551,10552},
         },
         [10413] = {
             [questKeys.startedBy] = {{20779},nil,nil},
+        },
+        [10414] = {
+            [questKeys.requiredMaxRep] = {934,9000},
+            [questKeys.preQuestSingle] = {10551,10552},
+        },
+        [10415] = {
+            [questKeys.requiredMaxRep] = {934,9000},
+            [questKeys.preQuestSingle] = {10551,10552},
         },
         [10422] = {
             [questKeys.requiredSourceItems] = {29742},
@@ -2066,6 +2086,9 @@ function QuestieTBCQuestFixes:Load()
         [10545] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995},19995,"Bladespire Ogres drunken"}}},
         },
+        [10554] = {
+            [questKeys.requiredMinRep]= {932,0},
+        },
         [10556] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Fistful of Feathers on the Lashh'an Spell Circle and get back to Daranelle"), 0, {{"object", 184826}, {"monster", 21469}}}},
         },
@@ -2171,12 +2194,28 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10551,10552},
         },
+        [10654] = {
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.preQuestSingle] = {10551,10552},
+        },
+        [10655] = {
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.preQuestSingle] = {10551,10552},
+        },
         [10656] = {
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10551,10552},
         },
         [10657] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Repolarized Magneto Sphere to absorb 25 lightning strikes from the Scalewing Serpents"), 0, {{"monster", 20749}}}},
+        },
+        [10658] = {
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.preQuestSingle] = {10551,10552},
+        },
+        [10659] = {
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.preQuestSingle] = {10551,10552},
         },
         [10668] = {
             [questKeys.preQuestSingle] = {10640,10689},
@@ -2243,8 +2282,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.sourceItemId] = 31121,
         },
         [10723] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sablemane's Trap at Gorgrom's Altar"), 0, {{"object", 185234}}},
-                                           {nil, Questie.ICON_TYPE_SLAY, l10n("Place the 3 Grisly Totems near Gorgrom's corpse"), 0, {{"monster", 21514}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Use Sablemane's Trap at Gorgrom's Altar"), 0, {{"object", 185234}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Place the 3 Grisly Totems near Gorgrom's corpse"), 0, {{"monster", 21514}}},
             },
         },
         [10742] = {
@@ -2321,12 +2361,29 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {31536},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Retrieve five Camp Anger Keys and activate the five Legion obelisks. The obelisks have a short duration, so make sure they are all activated at the same time."), 0, {{"object", 185193},{"object", 185195},{"object", 185196},{"object", 185197},{"object", 185198}}}},
         },
+        [10822] = {
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.preQuestSingle] = {10551,10552},
+        },
+        [10823] = {
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.preQuestSingle] = {10551,10552},
+        },
         [10824] = {
             [questKeys.requiredMaxRep] = {},
-            [questKeys.preQuestSingle] = {10552},
+            [questKeys.preQuestSingle] = {10551,10552},
         },
         [10826] = {
-            [questKeys.preQuestSingle] = {10551},
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.preQuestSingle] = {10551,10552},
+        },
+        [10827] = {
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.preQuestSingle] = {10551,10552},
+        },
+        [10828] = {
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.preQuestSingle] = {10551,10552},
         },
         [10830] = {
             [questKeys.requiredSourceItems] = {31517,31495,31518},

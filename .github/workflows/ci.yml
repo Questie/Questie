@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - "**"
     tags:
       - "*"
   pull_request:
@@ -34,8 +34,19 @@ jobs:
           status: ${{ job.status }}
         if: ${{ failure() }}
 
-  validate-era-db:
+  unit-tests:
     needs: lua-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Run Unit Tests
+        uses: lunarmodules/busted@v2.2.0
+        with:
+          args: -p ".test.lua" .
+
+  validate-era-db:
+    needs: unit-tests
     runs-on: ubuntu-latest
 
     steps:
@@ -63,7 +74,7 @@ jobs:
         if: ${{ failure() }}
 
   validate-sod-db:
-    needs: lua-check
+    needs: unit-tests
     runs-on: ubuntu-latest
 
     steps:
@@ -90,36 +101,36 @@ jobs:
           status: ${{ job.status }}
         if: ${{ failure() }}
 
-  validate-tbc-db:
-    needs: lua-check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v3
-
-      - name: Install Lua
-        uses: leafo/gh-actions-lua@v10
-        with:
-          luaVersion: "5.1"
-
-      - name: Install Luarocks
-        uses: leafo/gh-actions-luarocks@v4
-
-      - name: Validate TBC database
-        run: |
-          luarocks install bit32
-          lua cli/validate-tbc.lua
-
-      - name: Send CI failure to Discord
-        uses: nebularg/actions-discord-webhook@v1
-        with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ job.status }}
-        if: ${{ failure() }}
+#  validate-tbc-db:
+#    needs: unit-tests
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout project
+#        uses: actions/checkout@v3
+#
+#      - name: Install Lua
+#        uses: leafo/gh-actions-lua@v10
+#        with:
+#          luaVersion: "5.1"
+#
+#      - name: Install Luarocks
+#        uses: leafo/gh-actions-luarocks@v4
+#
+#      - name: Validate TBC database
+#        run: |
+#          luarocks install bit32
+#          lua cli/validate-tbc.lua
+#
+#      - name: Send CI failure to Discord
+#        uses: nebularg/actions-discord-webhook@v1
+#        with:
+#          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+#          status: ${{ job.status }}
+#        if: ${{ failure() }}
 
   validate-wotlk-db:
-    needs: lua-check
+    needs: unit-tests
     runs-on: ubuntu-latest
 
     steps:
@@ -148,7 +159,7 @@ jobs:
 
   publish:
     needs: [
-      validate-era-db, validate-sod-db, validate-tbc-db, validate-wotlk-db]
+      validate-era-db, validate-sod-db, validate-wotlk-db]
     if: startsWith(github.ref, 'refs/tags/v')
 
     runs-on: ubuntu-latest

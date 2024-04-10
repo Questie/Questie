@@ -223,7 +223,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     if (reqRaces ~= "") then
         QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Race"), "yellow") .. ": " .. reqRaces)
     end
-    QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Doable"), "yellow") .. ": " .. tostring(QuestieDB.IsDoable(id, false, true, true)))
+    QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Doable"), "yellow") .. ": " .. tostring(QuestieDB.IsDoableVerbose(id, false, true, true)))
 
     -- objectives text
     if objectivesText then

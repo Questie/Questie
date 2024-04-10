@@ -850,6 +850,7 @@ globals = {
     "DisplayChannelOwner",
     "DoCraft",
     "DoEmote",
+    "DONE",
     "DoReadyCheck",
     "DoTradeSkill",
     "DoesCurrentLocaleSellExpansionLevels",
@@ -2833,4 +2834,13 @@ globals = {
     "QuestieConfig",
     "QuestieCompat",
     "QuestieWorldMapButtonMixin",
+    -----------------------------------------------------> busted unit testing
+    "describe",
+    "it",
+    "before_each",
+    "after_each",
+    "setup",
+    "teardown",
+    "spy",
+    "mock",
 }

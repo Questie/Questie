@@ -637,8 +637,7 @@ function TrackerLinePool.Initialize(questFrame)
                 end
             end
 
-            -- IsItemInRange is restricted to only be used either on hostile targets or friendly ones while NOT in combat
-            if UnitExists("target") and (not UnitIsFriend("player", "target") or (not InCombatLockdown())) then
+            if UnitExists("target") then
                 if not self.itemName then
                     self.itemName = GetItemInfo(self.itemId)
                 end
@@ -647,7 +646,8 @@ function TrackerLinePool.Initialize(questFrame)
                 if (rangeTimer) then
                     rangeTimer = rangeTimer - elapsed
 
-                    if (rangeTimer <= 0) then
+                    -- IsItemInRange is restricted to only be used either on hostile targets or friendly ones while NOT in combat
+                    if (rangeTimer <= 0) and (not UnitIsFriend("player", "target") or (not InCombatLockdown())) then
                         local isInRange = IsItemInRange(self.itemName, "target")
 
                         if isInRange == false then
