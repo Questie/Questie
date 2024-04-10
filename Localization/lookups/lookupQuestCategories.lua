@@ -43,4 +43,5 @@ l10n.questCategoryLookup = {
     [-374] = "Noblegarden",
     [-375] = "Pilgrim's Bounty",
     [-376] = "Love is in the Air",
+    [-377] = "Nightmare Incursions",
 };
