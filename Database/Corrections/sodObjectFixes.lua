@@ -329,6 +329,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.ARATHI_HIGHLANDS] = {{62,54}},
             },
         },
+        [441848] = { -- Small Burrow
+            [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+            [objectKeys.spawns] = {
+                [zoneIDs.STRANGLETHORN_VALE] = {{40.75,85.72}},
+            },
+        },
 
         -- fake ID - no clue yet what the correct ones are
         [450000] = {

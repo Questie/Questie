@@ -1475,6 +1475,47 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{93.94,38.35}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Maseara Autumnmoon to the Dream Portal"),}},
         },
         -- End Ashenvale Incursion
+
+        [81986] = { -- Waking the Nightmare
+            [questKeys.preQuestSingle] = {82022},
+            [questKeys.objectives] = {{{222198}},nil,{{220570}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{94.26,35.13}}}, Questie.ICON_TYPE_EVENT, l10n("Enter the Emerald Dream"),}},
+        },
+        [82017] = { -- An Amalagamation of Nightmares
+            [questKeys.nextQuestInChain] = 82018,
+            [questKeys.objectives] = {{{12042}}},
+        },
+        [82018] = { -- Itharius
+            [questKeys.nextQuestInChain] = 82019,
+            [questKeys.preQuestSingle] = {82017},
+            [questKeys.objectives] = {{{5353}}},
+        },
+        [82019] = { -- Going Under
+            [questKeys.nextQuestInChain] = 82020,
+            [questKeys.preQuestSingle] = {82018},
+            [questKeys.objectives] = {{{223568}}},
+        },
+        [82020] = { -- Return to Moonglade
+            [questKeys.nextQuestInChain] = 82021,
+            [questKeys.preQuestSingle] = {82019},
+            [questKeys.objectives] = {{{12042}}},
+        },
+        [82021] = { -- A Fortuitous Turn of Events
+            [questKeys.nextQuestInChain] = 82022,
+            [questKeys.preQuestSingle] = {82020},
+            [questKeys.objectives] = {{{222225}}},
+        },
+        [82022] = { -- The Bad News...
+            [questKeys.nextQuestInChain] = 81986,
+            [questKeys.preQuestSingle] = {82021},
+            [questKeys.objectives] = {nil,nil,{{220964}}},
+            [questKeys.childQuests] = {82023},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to the Injured Gnome"), 0, {{"monster", 222444}}}},
+        },
+        [82023] = { -- The Lost Vambraces
+            [questKeys.parentQuest] = 82022,
+            [questKeys.objectives] = {nil,{{441848}}},
+        },
         [82307] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },

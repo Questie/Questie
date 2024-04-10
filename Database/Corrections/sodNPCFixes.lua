@@ -614,6 +614,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.ASHENVALE] = {{92, 54.0}},
             },
         },
+        [222188] = { -- Shadowy Figure
+            [npcKeys.spawns] = {
+                [zoneIDs.MOONGLADE] = {{52.12,40.89}},
+            },
+        },
 
         -- fake NPCs
         [900000] = {
