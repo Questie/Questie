@@ -616,17 +616,17 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [221335] = { -- Elianar Shadowdrinker
             [npcKeys.spawns] = {
-                [zoneIDs.HINTERLANDS] = {{53.47, 39.05}},
+                [zoneIDs.THE_HINTERLANDS] = {{53.47, 39.05}},
             },
         },
         [221336] = { -- Serlina Starbright
             [npcKeys.spawns] = {
-                [zoneIDs.HINTERLANDS] = {{71.11, 47.98}},
+                [zoneIDs.THE_HINTERLANDS] = {{71.11, 47.98}},
             },
         },
         [221337] = { -- Veanna Cloudsleeper
             [npcKeys.spawns] = {
-                [zoneIDs.HINTERLANDS] = {{57.29, 42.80}},
+                [zoneIDs.THE_HINTERLANDS] = {{57.29, 42.80}},
             },
         },
         [221395] = { -- Mellias Earthtender
