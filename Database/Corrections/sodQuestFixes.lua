@@ -1763,6 +1763,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [82084] - { --A Lesson in Literacy
+            [questKeys.startedBy] = {{211022,211033}},
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
         [82307] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
