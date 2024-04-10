@@ -177,7 +177,7 @@ function Townsfolk.Initialize()
         tinsert(professionTrainers[professionKeys.FIRST_AID], 13476)
     end
 
-    if Questie.IsWotlk or Questie.IsTBC then
+    if Questie.IsCata or Questie.IsWotlk or Questie.IsTBC then
         local meetingStones = Townsfolk.GetMeetingStones()
 
         townfolk["Meeting Stones"] = {}
