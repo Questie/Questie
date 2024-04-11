@@ -19,9 +19,6 @@ for objId, data in pairs(mangos) do
     end
 end
 
---- Finklestein's Cauldron
-mangos[190499] = trinity[190499]
-
 local function pairsByKeys (t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
@@ -34,6 +31,15 @@ local function pairsByKeys (t, f)
         end
     end
     return iter
+end
+
+-- Some objects are missing entirely in mangos
+-- But if they have good data it doesn't hurt to add them
+for objId, data in pairsByKeys(trinity) do
+    if not mangos[objId] and data[objectKeys.name] and data[objectKeys.spawns] then
+        print("Mangos is missing the following object: " .. objId .. " " .. data[objectKeys.name])
+        mangos[objId] = data
+    end
 end
 
 -- print to "merged-file.lua"
