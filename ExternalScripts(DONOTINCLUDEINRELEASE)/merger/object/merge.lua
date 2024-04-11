@@ -1,5 +1,6 @@
 local trinity =  require('cataObjectDB-trinity')
 local mangos = require('cataObjectDB')
+local wotlk = require('wotlkObjectDB')
 
 local objectKeys = {
     ['name'] = 1, -- string
@@ -19,6 +20,8 @@ for objId, data in pairs(mangos) do
     end
 end
 
+mangos[186336] = wotlk[186336] -- Entrance to Onyxia's Lair
+
 local function pairsByKeys (t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
@@ -35,7 +38,16 @@ end
 
 -- Some objects are missing entirely in mangos
 -- But if they have good data it doesn't hurt to add them
+print("checking for good data in trinity DB...")
 for objId, data in pairsByKeys(trinity) do
+    if not mangos[objId] and data[objectKeys.name] and data[objectKeys.spawns] then
+        print("Mangos is missing the following object: " .. objId .. " " .. data[objectKeys.name])
+        mangos[objId] = data
+    end
+end
+
+print("checking for good data in wotlk DB...")
+for objId, data in pairsByKeys(wotlk) do
     if not mangos[objId] and data[objectKeys.name] and data[objectKeys.spawns] then
         print("Mangos is missing the following object: " .. objId .. " " .. data[objectKeys.name])
         mangos[objId] = data
