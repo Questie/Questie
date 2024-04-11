@@ -252,6 +252,9 @@ function CataQuestFixes.Load()
         [28228] = { -- Rejoining the Forest
             [questKeys.triggerEnd] = {"Protector brought to hill", {[zoneIDs.FELWOOD]={{48.7,25.2}}}},
         },
+        [28909] = { -- Sauranok Will Point the Way
+            [questKeys.startedBy] = {{39605}},
+        },
         [29392] = { -- Missing Heirlooms
             [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.STORMWIND_CITY]={{41.4,72.5}}}},
         },
