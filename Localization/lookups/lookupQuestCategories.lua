@@ -48,4 +48,5 @@ l10n.questCategoryLookup = {
     [-379] = "Firelands Invasion",
     [-380] = "The Zandalari",
     [-381] = "Elemental Bonds",
+    [-641] = "Nightmare Incursions",
 };

@@ -206,6 +206,18 @@ local eventsLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "元素誓约",
     },
+    ["Nightmare Incursions"] = {
+        ["ptBR"] = "Incursões Pesadelares",
+        ["ruRU"] = "Кошмарные вторжения",
+        ["deDE"] = "Alptraumeinfälle",
+        ["koKR"] = "악몽 침공지",
+        ["esMX"] = "Incursiones de la Pesadilla",
+        ["enUS"] = true,
+        ["frFR"] = "Incursions de cauchemar",
+        ["esES"] = "Incursiones de la Pesadilla",
+        ["zhTW"] = "梦魇进犯",
+        ["zhCN"] = "梦魇进犯",
+    },
 }
 
 for k, v in pairs(eventsLocales) do
