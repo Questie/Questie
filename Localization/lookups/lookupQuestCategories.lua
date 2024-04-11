@@ -43,4 +43,9 @@ l10n.questCategoryLookup = {
     [-374] = "Noblegarden",
     [-375] = "Pilgrim's Bounty",
     [-376] = "Love is in the Air",
+    [-377] = "Archeology",
+    [-378] = "Children's Week",
+    [-379] = "Firelands Invasion",
+    [-380] = "The Zandalari",
+    [-381] = "Elemental Bonds",
 };
