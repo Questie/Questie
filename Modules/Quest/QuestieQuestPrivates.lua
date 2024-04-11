@@ -87,7 +87,7 @@ monster = function(npcId, objective)
 
     local name = QuestieDB.QueryNPCSingle(npcId, "name")
     if (not name) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "Name missing for NPC:", npcId)
+        Questie:Error("Name missing for NPC:", npcId, "- Please report this error on Discord or GitHub.")
         return nil
     end
 
