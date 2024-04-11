@@ -136,7 +136,7 @@ object = function(objectId, objective)
 
     local name = QuestieDB.QueryObjectSingle(objectId, "name")
     if (not name) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "Name missing for object:", objectId)
+        Questie:Error("Name missing for object:", objectId, "- Please report this error on Discord or GitHub.")
         return nil
     end
 
