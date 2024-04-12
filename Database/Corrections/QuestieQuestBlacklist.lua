@@ -1514,6 +1514,18 @@ function QuestieQuestBlacklist:Load()
         [27207] = true, -- This Blows
         [27209] = true, -- This Blows
 
+        -- Phase 3 - Rage of the Firelands
+
+        [29129] = true, -- A Legendary Engagement
+        [29132] = true, -- A Legendary Engagement
+        [29387] = true, --Guardians of Hyjal: Firelands Invasion!
+        [29388] = true, --Guardians of Hyjal: Firelands Invasion!
+        [29389] = true, --Guardians of Hyjal: Firelands Invasion!
+        [29390] = true, --Guardians of Hyjal: Call of the Ancients
+        [29391] = true, --Guardians of Hyjal: Call of the Ancients
+        [29452] = true, -- Your Time Has Come
+        [29453] = true, -- Your Time Has Come
+
         -- Darkmoon Faire
         [27664] = true, -- Darkmoon Volcanic Deck
         [27665] = true, -- Darkmoon Hurricane Deck
