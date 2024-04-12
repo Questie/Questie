@@ -215,14 +215,32 @@ function CataQuestFixes.Load()
         [27044] = { -- Peasant Problems
             [questKeys.triggerEnd] = {"Anduin Escorted to Farmer Wollerton", {[zoneIDs.STORMWIND_CITY]={{52.1,6.5}}}},
         },
+        [27123] = { -- Deepholm, Realm of Earth
+            [questKeys.exclusiveTo] = {26244,26245,26246},
+        },
         [27152] = { -- Unusual Behavior... Even For Gnolls
             [questKeys.triggerEnd] = {"Gnoll camp investigated", {[zoneIDs.WESTERN_PLAGUELANDS]={{57.5,35.6}}}},
+        },
+        [27203] = { -- The Maelstrom
+            [questKeys.preQuestSingle] = {27399,27442,27722,27398,27443,27727},
         },
         [27341] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
         },
         [27349] = { -- Break in Communications: Dreadwatch Outpost
             [questKeys.triggerEnd] = {"Investigate Dreadwatch Outpost", {[zoneIDs.RUINS_OF_GILNEAS]={{53,32.6}}}},
+        },
+        [27398] = { -- The Battle Is Won, The War Goes On
+            [questKeys.exclusiveTo] = {27443,27727},
+        },
+        [27399] = { -- The Battle Is Won, The War Goes On
+            [questKeys.exclusiveTo] = {27442,27722},
+        },
+        [27442] = { -- The War Has Many Fronts
+            [questKeys.exclusiveTo] = {27399,27722},
+        },
+        [27443] = { -- The War Has Many Fronts
+            [questKeys.exclusiveTo] = {27398,27727},
         },
         [27610] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
@@ -232,6 +250,12 @@ function CataQuestFixes.Load()
         },
         [27704] = { -- Legends of the Sunken Temple
             [questKeys.triggerEnd] = {"Hall of Masks found", {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR]={{74,44.4}}}},
+        },
+        [27722] = { -- Warchief's Command: Deepholm!
+            [questKeys.exclusiveTo] = {27399,27442},
+        },
+        [27727] = { -- Hero's Call: Deepholm!
+            [questKeys.exclusiveTo] = {27398,27443},
         },
         [28606] = { -- The Keys to the Hot Rod
             [questKeys.startedBy] = {{34874}},
