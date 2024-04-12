@@ -3,7 +3,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local tooltipOptionsLocales = {
     ["Tooltips"] = {
-        ["ptBR"] = "Dicas de ferramentas (informaçâo)",
+        ["ptBR"] = "Dicas de ferramentas",
         ["ruRU"] = "Подсказки",
         ["deDE"] = "Tooltip",
         ["koKR"] = "툴팁",
@@ -27,7 +27,7 @@ local tooltipOptionsLocales = {
         ["frFR"] = "Options des infobulles",
     },
     ["Enable Tooltips"] = {
-        ["ptBR"] = "Ativar dicas de ferramentas (informaçâo)",
+        ["ptBR"] = "Ativar dicas de ferramentas",
         ["ruRU"] = "Отображение в подсказках",
         ["deDE"] = "Tooltips aktivieren",
         ["koKR"] = "툴팁 활성화",
@@ -39,7 +39,7 @@ local tooltipOptionsLocales = {
         ["frFR"] = "Activer les infobulles",
     },
     ["When this is enabled, quest info will be added to relevant mob/item tooltips."] = {
-        ["ptBR"] = "Se ativada, as informações da missão serão adicionadas às dicas relevantes de mob / item",
+        ["ptBR"] = "Se ativada, as informações da missão serão adicionadas às dicas relevantes de mob/item",
         ["ruRU"] = "Показать/скрыть информацию о заданиях в соответствующих всплывающих подсказках",
         ["deDE"] = "Aktiviert/Deaktiviert zusätzliche Informationen zu Gegnern und Gegenständen als Tooltip.",
         ["koKR"] = "몬스터와 아이템의 툴팁에 관련된 퀘스트 정보를 표시합니다.",
@@ -63,7 +63,7 @@ local tooltipOptionsLocales = {
         ["frFR"] = "Active l'affichage du niveau des quêtes dans les infobulles.",
     },
     ["Only show party members"] = {
-        ["ptBR"] = "Somente parte compartilhada",
+        ["ptBR"] = "Apenas mostrar membros do grupo",
         ["ruRU"] = "Только от игроков группы",
         ["deDE"] = "Party nur geteilt",
         ["koKR"] = "파티만 공유",
@@ -75,7 +75,7 @@ local tooltipOptionsLocales = {
         ["frFR"] = "Partage avec le groupe uniquement",
     },
     ["When this is enabled, shared quest info will only show players in your party."] = {
-        ["ptBR"] = "Quando isso estiver ativado, as informações compartilhadas das missões serão mostradas apenas se forem de membros da equipe.",
+        ["ptBR"] = "Quando isso estiver ativado, as informações compartilhadas das missões serão mostradas apenas se forem de membros do grupo.",
         ["ruRU"] = "Когда включено, информация о таком же, как у вас, задании будет отображаться только от членов группы",
         ["deDE"] = "Wenn dies aktiviert ist, werden freigegebene Questinformationen nur angezeigt, wenn sie von Gruppenmitgliedern stammen.",
         ["koKR"] = "이 기능을 활성화하면 공유 퀘스트 정보가 파티원의 정보 인 경우에만 표시됩니다.",
@@ -87,7 +87,7 @@ local tooltipOptionsLocales = {
         ["frFR"] = "Limite le partage des progressions avec les membres du groupe uniquement.",
     },
     ["Show quests in NPC tooltips"] = {
-        ["ptBR"] = "Mostrar missões nas dicas do PNJ",
+        ["ptBR"] = "Mostrar missões nas dicas do NPC",
         ["ruRU"] = "Задания в подсказках NPC",
         ["deDE"] = "Quests in NPC Tooltips anzeigen",
         ["koKR"] = "NPC 툴팁에 퀘스트 표시",
@@ -99,7 +99,7 @@ local tooltipOptionsLocales = {
         ["frFR"] = "Afficher les quêtes dans les infobulles des PNJ",
     },
     ["Show quests (available/complete) in the NPC tooltips."] = {
-        ["ptBR"] = "Mostra missões (disponíveis/concluídas) nas dicas de ferramentas do PNJ.",
+        ["ptBR"] = "Mostra missões (disponíveis/concluídas) nas dicas de ferramentas do NPC.",
         ["ruRU"] = "Показать/скрыть задания (доступные/выполненные) во всплывающих подсказках NPC",
         ["deDE"] = "Zeigt Quests (verfügbar/abgeschlossen) in den NPC Tooltips.",
         ["koKR"] = "NPC 툴팁에 (가능한/완료한) 퀘스트표시",
@@ -135,16 +135,16 @@ local tooltipOptionsLocales = {
         ["frFR"] = "Affiche le montant d'expérience des quêtes, même au niveau maximum.",
     },
     ["Next in chain:"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Próxima missão:",
         ["ruRU"] = "Следующее в цепочке",
         ["deDE"] = "Folge-Quests in der Reihe:",
         ["koKR"] = false,
-        ["esMX"] = false,
+        ["esMX"] = "Siguiente misión:",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = false,
-        ["esES"] = false,
-        ["frFR"] = false,
+        ["esES"] = "Siguiente misión:",
+        ["frFR"] = "Prochaine quête :",
     },
     ["Show next quests in chain"] = {
         ["ptBR"] = "Mostrar as próximas missões na cadeia",
@@ -156,10 +156,10 @@ local tooltipOptionsLocales = {
         ["zhCN"] = false,
         ["zhTW"] = "顯示後續任務",
         ["esES"] = "Mostrar las siguientes misiones en la cadena",
-        ["frFR"] = "Afficher les quêtes suivantes dans la chaîne",
+        ["frFR"] = "Afficher les prochaines quêtes de la série",
     },
     ["When this is checked, the next quests in the chain will show in the expanded map tooltips."] = {
-        ["ptBR"] = "Quando isso estiver marcado, as próximas missões na cadeia serão exibidas nas dicas de mapa expandidas.",
+        ["ptBR"] = "Quando isso estiver marcado, as próximas missões na cadeia serão mostradas nas dicas de mapa expandidas.",
         ["ruRU"] = "Когда включено, следующие задания в цепочке будут отображаться в расширенной подсказке на карте",
         ["deDE"] = "Wenn ausgewählt, werden die nächsten Quests der Reihe in den erweiterten Map-Tooltips angezeigt.",
         ["koKR"] = false,
@@ -168,7 +168,7 @@ local tooltipOptionsLocales = {
         ["zhCN"] = false,
         ["zhTW"] = "勾選時，會在展開的地圖浮動提示資訊中顯示任務串中的下一個任務。",
         ["esES"] = "Cuando esto está marcado, las siguientes misiones en la cadena se mostrarán en los tooltips de mapa expandidos.",
-        ["frFR"] = "Les quêtes suivantes dans la chaîne seront affichées dans les infobulles de carte étendue.",
+        ["frFR"] = "Les prochaines quêtes de la série seront affichées dans les infobulles de carte étendue.",
     },
 }
 
