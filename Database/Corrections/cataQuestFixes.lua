@@ -278,6 +278,8 @@ function CataQuestFixes.Load()
         },
         [28909] = { -- Sauranok Will Point the Way
             [questKeys.startedBy] = {{39605}},
+            [questKeys.preQuestSingle] = {26294},
+            [questKeys.exclusiveTo] = {26311},
         },
         [29392] = { -- Missing Heirlooms
             [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.STORMWIND_CITY]={{41.4,72.5}}}},
