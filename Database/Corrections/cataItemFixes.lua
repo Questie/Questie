@@ -27,6 +27,9 @@ function CataItemFixes.Load()
         [47047] = { -- Cool Shades
             [itemKeys.vendors] = {35130},
         },
+        [55122] = { -- Tholo\'s Horn
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [60382] = { -- Mylra\'s Knife
             [itemKeys.class] = itemClasses.QUEST,
         },
