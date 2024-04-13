@@ -1490,6 +1490,20 @@ function QuestieQuestBlacklist:Load()
         [14474] = true, -- Duplicate of 14001
         [24503] = true, -- Duplicate of 28414
 
+        -- ICC weekly quests
+        [24869] = true, -- Removed with cata
+        [24870] = true, -- Removed with cata
+        [24871] = true, -- Removed with cata
+        [24872] = true, -- Removed with cata
+        [24873] = true, -- Removed with cata
+        [24874] = true, -- Removed with cata
+        [24875] = true, -- Removed with cata
+        [24876] = true, -- Removed with cata
+        [24877] = true, -- Removed with cata
+        [24878] = true, -- Removed with cata
+        [24879] = true, -- Removed with cata
+        [24880] = true, -- Removed with cata
+
         -- First Pre-Event
         [25444] = true, -- Da Perfect Spies
         [25445] = true, -- Zalazane's Fall
