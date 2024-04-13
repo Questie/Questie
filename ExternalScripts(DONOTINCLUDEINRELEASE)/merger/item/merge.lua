@@ -1,4 +1,5 @@
-local trinity =  require('cataItemDB')
+local mangos =  require('cataItemDB')
+local trinity =  require('cataItemDB-trinity')
 local wotlkQuestDB =  require('wotlkQuestDB')
 local wotlkItemDB =  require('wotlkItemDB')
 
@@ -77,25 +78,42 @@ local function pairsByKeys (t, f)
     return iter
 end
 
-for questId, questData in pairsByKeys(wotlkQuestDB) do
-    local objectives = questData[questKeys.objectives]
-    if objectives and objectives[3] then
-        for _, itemObjective in ipairs(objectives[3]) do
-            local itemId = itemObjective[1]
-            if trinity[itemId] then
-                if wotlkItemDB[itemId][itemKeys.npcDrops] then
-                    trinity[itemId][itemKeys.npcDrops] = wotlkItemDB[itemId][itemKeys.npcDrops]
-                end
-                if wotlkItemDB[itemId][itemKeys.objectDrops] then
-                    trinity[itemId][itemKeys.objectDrops] = wotlkItemDB[itemId][itemKeys.objectDrops]
-                end
-                if wotlkItemDB[itemId][itemKeys.itemDrops] then
-                    trinity[itemId][itemKeys.itemDrops] = wotlkItemDB[itemId][itemKeys.itemDrops]
-                end
-                if wotlkItemDB[itemId][itemKeys.vendors] then
-                    trinity[itemId][itemKeys.vendors] = wotlkItemDB[itemId][itemKeys.vendors]
-                end
-            end
+--for questId, questData in pairsByKeys(wotlkQuestDB) do
+--    local objectives = questData[questKeys.objectives]
+--    if objectives and objectives[3] then
+--        for _, itemObjective in ipairs(objectives[3]) do
+--            local itemId = itemObjective[1]
+--            if trinity[itemId] then
+--                if wotlkItemDB[itemId][itemKeys.npcDrops] then
+--                    trinity[itemId][itemKeys.npcDrops] = wotlkItemDB[itemId][itemKeys.npcDrops]
+--                end
+--                if wotlkItemDB[itemId][itemKeys.objectDrops] then
+--                    trinity[itemId][itemKeys.objectDrops] = wotlkItemDB[itemId][itemKeys.objectDrops]
+--                end
+--                if wotlkItemDB[itemId][itemKeys.itemDrops] then
+--                    trinity[itemId][itemKeys.itemDrops] = wotlkItemDB[itemId][itemKeys.itemDrops]
+--                end
+--                if wotlkItemDB[itemId][itemKeys.vendors] then
+--                    trinity[itemId][itemKeys.vendors] = wotlkItemDB[itemId][itemKeys.vendors]
+--                end
+--            end
+--        end
+--    end
+--end
+
+for itemId, data in pairsByKeys(mangos) do
+    if mangos[itemId] then
+        if trinity[itemId][itemKeys.npcDrops] then
+            mangos[itemId][itemKeys.npcDrops] = trinity[itemId][itemKeys.npcDrops]
+        end
+        if trinity[itemId][itemKeys.objectDrops] then
+            mangos[itemId][itemKeys.objectDrops] = trinity[itemId][itemKeys.objectDrops]
+        end
+        if trinity[itemId][itemKeys.itemDrops] then
+            mangos[itemId][itemKeys.itemDrops] = trinity[itemId][itemKeys.itemDrops]
+        end
+        if trinity[itemId][itemKeys.vendors] then
+            mangos[itemId][itemKeys.vendors] = trinity[itemId][itemKeys.vendors]
         end
     end
 end
@@ -104,7 +122,7 @@ end
 -- print to "merged-file.lua"
 local file = io.open("merged-file.lua", "w")
 print("writing to merged-file.lua")
-for itemId, data in pairsByKeys(trinity) do
+for itemId, data in pairsByKeys(mangos) do
     -- build print string with npcId and data
     local printString = "[" .. itemId .. "] = {"
     printString = printString .. "'" .. data[itemKeys.name]:gsub("'", "\\'") .. "',"
