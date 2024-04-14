@@ -287,6 +287,9 @@ function CataQuestFixes.Load()
         [27922] = { -- Traitors!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Hide behind Neferset Frond"), 0, {{"object", 206579}}}},
         },
+        [28038] = { -- Blood in the Highlands
+            [questKeys.exclusiveTo] = {27863},
+        },
         [28170] = { -- Night Terrors
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Uchek"), 0, {{"monster", 47826}}}},
         },
