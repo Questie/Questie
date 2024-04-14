@@ -284,6 +284,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26294},
             [questKeys.exclusiveTo] = {26311},
         },
+        [29102] = { -- To Fort Livingston
+            [questKeys.triggerEnd] = {"Head to Fort Livingston in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{52.8,67.2}}}},
+        },
         [29392] = { -- Missing Heirlooms
             [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.STORMWIND_CITY]={{41.4,72.5}}}},
         },
