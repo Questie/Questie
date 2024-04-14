@@ -132,6 +132,9 @@ function CataItemFixes.Load()
         [60835] = { -- Depleted Totem
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [62324] = { -- Wildhammer Food Store
+            [itemKeys.npcDrops] = {},
+        },
         [62534] = { -- Horn of Ramkahen
             [itemKeys.class] = itemClasses.QUEST,
         },
