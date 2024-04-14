@@ -120,6 +120,7 @@ function CataQuestFixes.Load()
         },
         [24671] = { -- Cluster Cluck
             [questKeys.objectives] = {{{38111}}},
+            [questKeys.preQuestSingle] = {},
         },
         [24960] = { -- The Wakening
             [questKeys.preQuestSingle] = {28608},
@@ -286,9 +287,6 @@ function CataQuestFixes.Load()
         },
         [27610] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
-        },
-        [24671] = { -- Cluster Cluck
-            [questKeys.preQuestSingle] = {},
         },
         [27674] = { -- To the Surface
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast."), 0, {{"monster", 46293}}}},
