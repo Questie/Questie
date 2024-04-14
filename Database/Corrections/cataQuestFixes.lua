@@ -293,6 +293,16 @@ function CataQuestFixes.Load()
         [29415] = { -- Missing Heirlooms
             [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.DUROTAR]={{60,46.1}}}},
         },
+        [29475] = { -- Goblin Engineering
+            [questKeys.startedBy] = {{5174,5518,8126,8738,11017,11031,16667,16726,29513,52636,52651}},
+            [questKeys.finishedBy] = {{5174,5518,11017,11031,16667,16726,29513,52636,52651}},
+            [questKeys.exclusiveTo] = {3639,3641,3643,29477},
+        },
+        [29477] = { -- Gnomish Engineering
+            [questKeys.startedBy] = {{5174,5518,7406,7944,11017,11031,16667,16726,29514,52636,52651}},
+            [questKeys.finishedBy] = {{5174,5518,7944,11017,11031,16667,16726,29514,52636,52651}},
+            [questKeys.exclusiveTo] = {3639,3641,3643,29475},
+        },
         [29481] = { -- Elixir Master
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
         },

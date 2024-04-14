@@ -1489,6 +1489,7 @@ function QuestieQuestBlacklist:Load()
 
         [14474] = true, -- Duplicate of 14001
         [24503] = true, -- Duplicate of 28414
+        [29476] = true, -- Duplicate of 29477
 
         -- ICC weekly quests
         [24869] = true, -- Removed with cata
