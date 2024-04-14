@@ -45,8 +45,8 @@ local questKeys = {
     ['requiredMaxLevel'] = 30, -- int: quest is only available up to a certain level
 }
 
-for npcId, data in pairs(trinity) do
-    local quest = mangos[npcId]
+for questId, data in pairs(trinity) do
+    local quest = mangos[questId]
 
     -- get spawns from trinity and add them to mangos
     if quest and quest[questKeys.questLevel] then
