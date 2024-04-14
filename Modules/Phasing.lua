@@ -8,6 +8,7 @@ local phases = {
     UNKNOWN = 169, -- Most Deepholm NPCs (and others) have this ID but are not phased
     LOST_ISLES_CHAPTER_1 = 170,
     LOST_ISLES_CHAPTER_2 = 171,
+    LOST_ISLES_CHAPTER_3 = 172,
 
     KEZAN_CHAPTER_1 = 378,
     KEZAN_CHAPTER_2 = 379,
@@ -28,12 +29,16 @@ function Phasing.IsSpawnVisible(phase)
 
     local complete = Questie.db.char.complete
 
-    if phase == phases.LOST_ISLES_CHAPTER_1 and (not complete[14303]) then
+    if phase == phases.LOST_ISLES_CHAPTER_1 and (not complete[14303]) and (not complete[14240]) then
         return complete[14126]
     end
 
-    if phase == phases.LOST_ISLES_CHAPTER_2 then
+    if phase == phases.LOST_ISLES_CHAPTER_2 and (not complete[14240]) then
         return complete[14303]
+    end
+
+    if phase == phases.LOST_ISLES_CHAPTER_3 then
+        return complete[14240]
     end
 
     if phase >= phases.KEZAN_CHAPTER_1 and phase <= phases.KEZAN_CHAPTER_7 then
