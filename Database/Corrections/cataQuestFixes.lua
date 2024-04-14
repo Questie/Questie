@@ -164,6 +164,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14075,14069},
         },
+        [25577] = { -- Crushing the Cores
+            [questKeys.requiredSourceItems] = {55123},
+        },
         [25621] = { -- Field Test: Gnomecorder
             [questKeys.triggerEnd] = {"Gnomecorder Tested", {[zoneIDs.STONETALON_MOUNTAINS]={{73.2,46.6}}}},
         },
