@@ -183,6 +183,10 @@ function CataQuestFixes.Load()
         [26105] = { -- Claim Korthun's End
             [questKeys.startedBy] = {{42115}},
         },
+        [26106] = { -- Fuel-ology 101
+            [questKeys.requiredSourceItems] = {56819,56820},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring three Hammerhead Oil and two Remora Oil to Engineer Hexascrub."), 0, {{"monster", 41666}}}},
+        },
         [26258] = { -- Deathwing's Fall
             [questKeys.triggerEnd] = {"Deathwing's Fall reached", {[zoneIDs.DEEPHOLM]={{61.3,57.5}}}},
         },

@@ -183,6 +183,12 @@ function CataItemFixes.Load()
         [56178] = { -- Duarn's Rope
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [56819] = { -- Remora Oil
+            [itemKeys.npcDrops] = {42112},
+        },
+        [56820] = { -- Hammerhead Oil
+            [itemKeys.npcDrops] = {42113},
+        },
         [58167] = { -- Spirit Totem
             [itemKeys.class] = itemClasses.QUEST,
         },

@@ -50,6 +50,18 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Bring three Hammerhead Oil and two Remora Oil to Engineer Hexascrub."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Bring drei Hammerhaiöl und zwei Schiffshalteröl zu Ingenieur Hexasept.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(cataObjectiveLocales) do
