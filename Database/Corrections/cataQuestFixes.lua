@@ -159,6 +159,19 @@ function CataQuestFixes.Load()
         [25162] = { -- Elemental Goo
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
         },
+        [25202] = { -- The Fastest Way to His Heart
+            [questKeys.exclusiveTo] = {25243},
+        },
+        [25203] = { -- What Kind of Name is Chip, Anyway?
+            [questKeys.exclusiveTo] = {25244},
+        },
+        [25243] = { -- She Loves Me, She Loves Me NOT!
+            [questKeys.exclusiveTo] = {25202},
+        },
+        [25244] = { -- What Kind of Name is Candy, Anyway?
+            [questKeys.preQuestSingle] = {25243},
+            [questKeys.exclusiveTo] = {25203},
+        },
         [25325] = { -- Through the Dream
             [questKeys.triggerEnd] = {"Arch Druid Fandral Staghelm delivered", {[zoneIDs.MOUNT_HYJAL]={{55,28.9}}}},
         },
