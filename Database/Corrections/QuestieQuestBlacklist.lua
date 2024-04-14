@@ -1491,8 +1491,6 @@ function QuestieQuestBlacklist:Load()
         [7492] = true, -- Removed with cata
         [14474] = true, -- Duplicate of 14001
         [24503] = true, -- Duplicate of 28414
-        [27566] = true, -- Removed with cata (or is this a pre-event quest?)
-        [27572] = true, -- Removed with cata (or is this a pre-event quest?)
         [29476] = true, -- Duplicate of 29477
 
         -- ICC weekly quests
@@ -1522,7 +1520,10 @@ function QuestieQuestBlacklist:Load()
         [25571] = true, -- A Natural Occurrence
         [25773] = true, -- A Natural Occurrence
         [27473] = true, -- What's Shaking in Ironforge
+        [27546] = true, -- Speak with Captain Anton
+        [27566] = true, -- A Gathering in Outland
         [27572] = true, -- A Gathering in Outland
+        [25180] = true, -- Tablets of the Earth
         [25181] = true, -- Tablets of Fire
         [26054] = true, -- Water They Up To?
         [26990] = true, -- Water They Up To?
