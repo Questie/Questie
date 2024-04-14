@@ -251,6 +251,14 @@ function CataQuestFixes.Load()
         [27674] = { -- To the Surface
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast."), 0, {{"monster", 46293}}}},
         },
+        [27689] = { -- Distract Them for Me
+            [questKeys.preQuestSingle] = {27655},
+            [questKeys.exclusiveTo] = {},
+        },
+        [27696] = { -- The Elementium Axe
+            [questKeys.preQuestSingle] = {27689},
+            [questKeys.exclusiveTo] = {},
+        },
         [27704] = { -- Legends of the Sunken Temple
             [questKeys.triggerEnd] = {"Hall of Masks found", {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR]={{74,44.4}}}},
         },
