@@ -1,5 +1,7 @@
 local trinity =  require('cataQuestDB-trinity')
 local mangos = require('cataQuestDB')
+local tbc = require('tbcQuestDB')
+local wotlk = require('wotlkQuestDB')
 
 local questKeys = {
     ['name'] = 1, -- string
@@ -67,6 +69,28 @@ for questId, data in pairs(trinity) do
     end
 end
 
+for questId, data in pairs(tbc) do
+    local quest = trinity[questId]
+
+    if quest then
+        if not quest[questKeys.objectives] and data[questKeys.objectives] then
+            print("Adding TBC objectives to quest " .. questId)
+            quest[questKeys.objectives] = data[questKeys.objectives]
+        end
+    end
+end
+
+for questId, data in pairs(wotlk) do
+    local quest = trinity[questId]
+
+    if quest then
+        if not quest[questKeys.objectives] and data[questKeys.objectives] then
+            print("Adding WotLK objectives to quest " .. questId)
+            quest[questKeys.objectives] = data[questKeys.objectives]
+        end
+    end
+end
+
 local function pairsByKeys (t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
@@ -107,7 +131,7 @@ end
 local file = io.open("merged-file.lua", "w")
 print("writing to merged-file.lua")
 for questId, data in pairsByKeys(trinity) do
-    print("questId: " .. questId)
+    --print("questId: " .. questId)
     -- build print string with npcId and data
     local printString = "[" .. questId .. "] = {"
     printString = printString .. "\"" .. data[questKeys.name]:gsub("\"", "\\\"") .. "\","
