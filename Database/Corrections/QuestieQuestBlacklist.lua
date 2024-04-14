@@ -1487,6 +1487,8 @@ function QuestieQuestBlacklist:Load()
         ----- Cata -------------- Cata quests --------------- Cata -----
         ----- Cata ------------- starting here -------------- Cata -----
 
+        [1431] = true, -- Removed with cata
+        [7492] = true, -- Removed with cata
         [14474] = true, -- Duplicate of 14001
         [24503] = true, -- Duplicate of 28414
         [29476] = true, -- Duplicate of 29477
@@ -1540,6 +1542,8 @@ function QuestieQuestBlacklist:Load()
         [29391] = true, --Guardians of Hyjal: Call of the Ancients
         [29452] = true, -- Your Time Has Come
         [29453] = true, -- Your Time Has Come
+        [30094] = true, -- The End Time
+        [30095] = true, -- The End Time
 
         -- Darkmoon Faire
         [27664] = true, -- Darkmoon Volcanic Deck
@@ -1581,6 +1585,7 @@ function QuestieQuestBlacklist:Load()
 
         -- Love is in the Air
         [14483] = true, -- Something is in the Air (and it Ain't Love)
+        [28935] = true, -- Crushing the Crown
 
         -- Day of the Dead
         [14176] = true, -- The Grateful Dead
