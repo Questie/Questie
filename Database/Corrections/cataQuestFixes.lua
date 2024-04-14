@@ -95,6 +95,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14031,14233},
         },
+        [14244] = {
+            [questKeys.objectives] = {nil,{{196439}}},
+        },
         [14248] = { -- Help Wanted
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14014,14019,14473}
