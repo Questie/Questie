@@ -26,6 +26,18 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Hide behind Neferset Frond"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Versteck dich hinter dem Nefersetwedel.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(cataObjectiveLocales) do

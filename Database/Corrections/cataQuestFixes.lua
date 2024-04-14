@@ -268,6 +268,9 @@ function CataQuestFixes.Load()
         [27727] = { -- Hero's Call: Deepholm!
             [questKeys.exclusiveTo] = {27398,27443},
         },
+        [27922] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Hide behind Neferset Frond"), 0, {{"object", 206579}}}},
+        },
         [28606] = { -- The Keys to the Hot Rod
             [questKeys.startedBy] = {{34874}},
             [questKeys.parentQuest] = 14071,
