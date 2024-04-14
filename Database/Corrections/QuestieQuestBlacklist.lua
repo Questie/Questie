@@ -1598,6 +1598,7 @@ function QuestieQuestBlacklist:Load()
         [28880] = true, -- Back To The Orphanage
         [29093] = true, -- Cruisin' the Chasm
         [29106] = true, -- The Biggest Diamond Ever!
+        [29107] = true, -- Malfurion Has Returned!
         [29117] = true, -- Let's Go Fly a Kite
         [29119] = true, -- You Scream, I Scream...
         [29146] = true, -- Ridin' the Rocketway
