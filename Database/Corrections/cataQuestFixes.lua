@@ -12,8 +12,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 function CataQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
-    local raceIDs = QuestieDB.raceKeys
-    local classIDs = QuestieDB.classKeys
     local profKeys = QuestieProfessions.professionKeys
     local zoneIDs = ZoneDB.zoneIDs
     local specialFlags = QuestieDB.specialFlags
@@ -119,6 +117,9 @@ function CataQuestFixes.Load()
         },
         [24618] = { -- Claim the Battle Scar
             [questKeys.triggerEnd] = {"Battlescar Flag Scouted", {[zoneIDs.THE_BARRENS]={{45.2,69.4}}}},
+        },
+        [24671] = { -- Cluster Cluck
+            [questKeys.objectives] = {{{38111}}},
         },
         [24960] = { -- The Wakening
             [questKeys.preQuestSingle] = {28608},
