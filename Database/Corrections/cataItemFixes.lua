@@ -270,8 +270,5 @@ function CataItemFixes.Load()
         [71716] = { -- Soothsayer's Runes
             [itemKeys.class] = itemClasses.QUEST,
         },
-        [63351] = { -- Tahret Dynasty Mallet
-            [itemKeys.class] = itemClasses.QUEST,
-        },
     }
 end
