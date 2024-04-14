@@ -159,6 +159,9 @@ function CataQuestFixes.Load()
         [25419] = { -- Lady La-La's Medallion
             [questKeys.requiredSourceItems] = {55188},
         },
+        [25464] = { -- The Return of Baron Geddon
+            [questKeys.objectives] = {{40147}},
+        },
         [25473] = { -- Kaja'Cola
             [questKeys.startedBy] = {{34872}},
             [questKeys.preQuestSingle] = {},
