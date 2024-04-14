@@ -221,6 +221,9 @@ function CataQuestFixes.Load()
         [27044] = { -- Peasant Problems
             [questKeys.triggerEnd] = {"Anduin Escorted to Farmer Wollerton", {[zoneIDs.STORMWIND_CITY]={{52.1,6.5}}}},
         },
+        [27509] = { -- Breach in the Defenses
+            [questKeys.objectives] = {nil,{{205486,"Twilight Portal destroyed"}}},
+        },
         [27123] = { -- Deepholm, Realm of Earth
             [questKeys.exclusiveTo] = {26244,26245,26246},
         },
