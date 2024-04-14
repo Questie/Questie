@@ -219,6 +219,9 @@ function CataItemFixes.Load()
         [60835] = { -- Depleted Totem
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [61317] = { -- Vermillion Egg
+            [itemKeys.npcDrops] = {45506,45508,45651,45682},
+        },
         [62324] = { -- Wildhammer Food Store
             [itemKeys.npcDrops] = {},
         },
