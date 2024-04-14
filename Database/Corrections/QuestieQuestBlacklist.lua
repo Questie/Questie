@@ -1591,6 +1591,17 @@ function QuestieQuestBlacklist:Load()
         [28935] = true, -- Crushing the Crown
 
         -- Day of the Dead
+        [13952] = true, -- The Grateful Dead
+        [14166] = true, -- The Grateful Dead
+        [14167] = true, -- The Grateful Dead
+        [14168] = true, -- The Grateful Dead
+        [14169] = true, -- The Grateful Dead
+        [14170] = true, -- The Grateful Dead
+        [14171] = true, -- The Grateful Dead
+        [14172] = true, -- The Grateful Dead
+        [14173] = true, -- The Grateful Dead
+        [14174] = true, -- The Grateful Dead
+        [14175] = true, -- The Grateful Dead
         [14176] = true, -- The Grateful Dead
         [14177] = true, -- The Grateful Dead
         [27841] = true, -- The Grateful Dead
