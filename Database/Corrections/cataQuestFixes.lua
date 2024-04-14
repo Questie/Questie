@@ -95,8 +95,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14031,14233},
         },
-        [14244] = {
+        [14244] = { -- Up, Up & Away!
             [questKeys.objectives] = {nil,{{196439}}},
+        },
+        [14245] = { -- It's a Town-In-A-Box
+            [questKeys.objectives] = {nil,{{202166}}},
         },
         [14248] = { -- Help Wanted
             [questKeys.preQuestSingle] = {},
