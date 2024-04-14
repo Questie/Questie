@@ -38,6 +38,18 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Talk to Uchek"] = {
+        ["ptBR"] = "Converse com Uchek",
+        ["ruRU"] = "Поговорите с Учеком",
+        ["deDE"] = "Sprich mit Uchek",
+        ["koKR"] = false,
+        ["esMX"] = "Habla con Uchek",
+        ["enUS"] = true,
+        ["frFR"] = "Parlez à Uchek",
+        ["esES"] = "Habla con Uchek",
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(cataObjectiveLocales) do

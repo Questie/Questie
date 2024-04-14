@@ -59,6 +59,18 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [47838] = { -- Shrine 1 Cleansed
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{34.18,35.74}}},
+            [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+        },
+        [47839] = { -- Shrine 1 Cleansed
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{33.59,37.76}}},
+            [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+        },
+        [47840] = { -- Shrine 1 Cleansed
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{34.33,37.75}}},
+            [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+        },
         [49456] = { -- Finkle\'s Mole Machine
             [npcKeys.spawns] = {
                 [zoneIDs.MOUNT_HYJAL] = {{42.7,28.8}}
