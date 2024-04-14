@@ -243,6 +243,9 @@ function CataQuestFixes.Load()
         [27123] = { -- Deepholm, Realm of Earth
             [questKeys.exclusiveTo] = {26244,26245,26246},
         },
+        [27139] = { -- Hobart Needs You
+            [questKeys.exclusiveTo] = {24671},
+        },
         [27152] = { -- Unusual Behavior... Even For Gnolls
             [questKeys.triggerEnd] = {"Gnoll camp investigated", {[zoneIDs.WESTERN_PLAGUELANDS]={{57.5,35.6}}}},
         },
@@ -269,6 +272,9 @@ function CataQuestFixes.Load()
         },
         [27610] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
+        },
+        [24671] = { -- Cluster Cluck
+            [questKeys.preQuestSingle] = {},
         },
         [27674] = { -- To the Surface
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast."), 0, {{"monster", 46293}}}},
