@@ -111,13 +111,13 @@ local function printObjective(objectives)
         if objectives[1][i+1] then
             printString = printString .. "{" .. creature[1]
             if creature[2] then
-                printString = printString .. ",'" .. creature[2]:gsub("\"", "\\\"")
+                printString = printString .. ",\"" .. creature[2]:gsub("\"", "\\\"") .. "\""
             end
             printString = printString .. "},"
         else
             printString = printString .. "{" .. creature[1]
             if creature[2] then
-                printString = printString .. ",'" .. creature[2]:gsub("\"", "\\\"")
+                printString = printString .. ",\"" .. creature[2]:gsub("\"", "\\\"") .. "\""
             end
             printString = printString .. "},"
         end
@@ -280,7 +280,7 @@ for questId, data in pairsByKeys(trinity) do
                 printString = printString .. "},"
                 printString = printString .. entry[2]
                 if entry[3] then
-                    printString = printString .. "," .. entry[3]
+                    printString = printString .. "," .. "\"" .. entry[3]:gsub("\"", "\\\"") .. "\""
                 end
                 printString = printString .. "},"
             end
