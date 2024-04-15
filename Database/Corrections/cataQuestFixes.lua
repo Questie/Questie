@@ -314,6 +314,10 @@ function CataQuestFixes.Load()
         [27743] = { -- While We're Here
             [questKeys.preQuestSingle] = {28885},
         },
+        [27783] = { -- Garona Needs You
+            [questKeys.preQuestSingle] = {27745},
+            [questKeys.exclusiveTo] = {27786},
+        },
         [27922] = { -- Traitors!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Hide behind Neferset Frond"), 0, {{"object", 206579}}}},
         },
