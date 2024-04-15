@@ -308,6 +308,12 @@ function CataQuestFixes.Load()
         [27727] = { -- Hero's Call: Deepholm!
             [questKeys.exclusiveTo] = {27398,27443},
         },
+        [27742] = { -- A Little on the Side
+            [questKeys.preQuestSingle] = {28885},
+        },
+        [27743] = { -- While We're Here
+            [questKeys.preQuestSingle] = {28885},
+        },
         [27922] = { -- Traitors!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Hide behind Neferset Frond"), 0, {{"object", 206579}}}},
         },
