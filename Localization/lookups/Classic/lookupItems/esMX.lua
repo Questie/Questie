@@ -333,6 +333,7 @@ l10n.itemLookup["esMX"] = {
 [4029] = "Junco akiris",
 [4034] = "Piedra de las Mareas",
 [4053] = "Piel de crocolisco fluvial",
+[4056] = "El enigma de Cortello",
 [4094] = "Fragmento de tablilla",
 [4098] = "Nota doblada con cuidado",
 [4103] = "Llave de grillete",
