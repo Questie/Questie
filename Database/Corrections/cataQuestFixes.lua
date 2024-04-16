@@ -134,6 +134,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24858,24859},
         },
+        [24901] = { -- Town-In-A-Box: Under Attack
+            [questKeys.objectives] = {{{38526}}},
+        },
         [24960] = { -- The Wakening
             [questKeys.preQuestSingle] = {28608},
         },
