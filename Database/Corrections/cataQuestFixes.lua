@@ -7,8 +7,12 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+
+QuestieCorrections.objectObjectiveFirst[24817] = true
 
 function CataQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
@@ -121,6 +125,9 @@ function CataQuestFixes.Load()
         [24671] = { -- Cluster Cluck
             [questKeys.objectives] = {{{38111}}},
             [questKeys.preQuestSingle] = {},
+        },
+        [24817] = { -- A Goblin in Shark's Clothing
+            [questKeys.objectives] = {{{36682}},{{202108}}},
         },
         [24960] = { -- The Wakening
             [questKeys.preQuestSingle] = {28608},

@@ -43,7 +43,7 @@ local _QuestieQuest = QuestieQuest.private
 ---@type table<number, AutoBlacklistString>
 QuestieDB.autoBlacklist = {}
 
-local tinsert = table.insert
+local tinsert, tremove = table.insert, table.remove
 local bitband = bit.band
 
 -- questFlags https://github.com/cmangos/issues/wiki/Quest_template#questflags
@@ -1211,6 +1211,10 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         Id = objectObjective[1],
                         Text = objectObjective[2]
                     }
+                    if QuestieCorrections.objectObjectiveFirst[questId] then
+                        tinsert(QO.ObjectiveData, 1, QO.ObjectiveData[#QO.ObjectiveData])
+                        tremove(QO.ObjectiveData)
+                    end
                 end
             end
         end
