@@ -25,9 +25,8 @@ describe("QuestieReputation", function()
             QuestieReputation:Update()
 
             local requiredMinRep = { 589, 4500 }
-            local requiredMaxRep
 
-            local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
+            local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, nil)
 
             assert.is_true(aboveMinRep)
             assert.is_true(hasMinFaction)
@@ -39,9 +38,8 @@ describe("QuestieReputation", function()
             QuestieReputation:Update()
 
             local requiredMinRep = { 589, 5000 }
-            local requiredMaxRep
 
-            local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
+            local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, nil)
 
             assert.is_false(aboveMinRep)
             assert.is_true(hasMinFaction)
@@ -52,10 +50,9 @@ describe("QuestieReputation", function()
         it("should detect if the player exceeds the max required reputation value", function()
             QuestieReputation:Update()
 
-            local requiredMinRep
             local requiredMaxRep = { 589, 4500 }
 
-            local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
+            local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(nil, requiredMaxRep)
 
             assert.is_true(aboveMinRep)
             assert.is_true(hasMinFaction)
@@ -66,10 +63,9 @@ describe("QuestieReputation", function()
         it("should detect if the player has not reached the max required reputation value", function()
             QuestieReputation:Update()
 
-            local requiredMinRep
             local requiredMaxRep = { 589, 5000 }
 
-            local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
+            local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(nil, requiredMaxRep)
 
             assert.is_true(aboveMinRep)
             assert.is_true(hasMinFaction)
@@ -122,10 +118,9 @@ describe("QuestieReputation", function()
         it("should detect if the player does not know the Darkmoon Faire faction", function()
             QuestieReputation:Update()
 
-            local requiredMinRep
             local requiredMaxRep = { 909, 5000 }
 
-            local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
+            local _, _, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(nil, requiredMaxRep)
 
             assert.is_true(belowMaxRep)
             assert.is_true(hasMaxFaction)
