@@ -130,6 +130,8 @@ local reputationRewards = {
     [9] = 5,
 }
 
+---@param questId QuestId
+---@return table<number, table<number, number>> @{{factionId, reputationValue},...}
 function QuestieReputation.GetReputationReward(questId)
     local reputationReward = QuestieDB.QueryQuestSingle(questId, "reputationReward")
 
