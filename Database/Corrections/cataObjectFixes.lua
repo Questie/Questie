@@ -20,5 +20,8 @@ function CataObjectFixes.Load()
         [201974] = { -- Raptor Trap
             [objectKeys.spawns] = {},
         },
+        [201977] = { -- The Biggest Egg Ever
+            [objectKeys.spawns] = {},
+        },
     }
 end

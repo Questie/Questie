@@ -96,6 +96,9 @@ function CataItemFixes.Load()
         [50239] = { -- Spiny Raptor Egg
             [itemKeys.objectDrops] = {201972,201974},
         },
+        [50261] = { -- The Biggest Egg Ever
+            [itemKeys.npcDrops] = {38224},
+        },
         [50334] = { -- Rapier of the Gilnean Patriots
             [itemKeys.class] = itemClasses.QUEST,
         },
