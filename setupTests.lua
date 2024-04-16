@@ -23,3 +23,7 @@ _G["Questie"] = {
     },
     Debug = function() end,
 }
+
+---@type ZoneDB
+local ZoneDB = require("Database.Zones.zoneDB")
+ZoneDB.zoneIDs = {ICECROWN = 210}
