@@ -145,10 +145,12 @@ function QuestieReputation.GetReputationReward(questId)
 
     local rewards = {}
     for _, entry in pairs(reputationReward) do
+        -- corrections for quests before cataclysm are still applied to cataclysm quests.
+        -- Therefore they most likely don't match any entry reputationRewards. We work around with "or entry[2]"
         if entry[2] > 0 then
-            table.insert(rewards, {entry[1], reputationRewards[entry[2]]})
+            table.insert(rewards, {entry[1], reputationRewards[entry[2]] or entry[2]})
         elseif entry[2] < 0 then
-            table.insert(rewards, {entry[1], -reputationRewards[-entry[2]]})
+            table.insert(rewards, {entry[1], -reputationRewards[-entry[2]] or entry[2]})
         end
     end
 
