@@ -16,6 +16,9 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {
                 [zoneIDs.TELDRASSIL] = {{66.1,52}}
             }
-        }
+        },
+        [201974] = { -- Raptor Trap
+            [objectKeys.spawns] = {},
+        },
     }
 end
