@@ -144,6 +144,18 @@ describe("QuestieReputation", function()
             assert.are.same({{909, 250}}, reputationReward)
         end)
 
+        it("should return an empty table when a quest has no reputation reward", function()
+            Questie.IsCata = true
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return nil
+            end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+
+            assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "reputationReward")
+            assert.are.same({}, reputationReward)
+        end)
+
         it("should return 10 as reward value for difficulty 1 when Questie.IsCata is true", function()
             Questie.IsCata = true
             QuestieDB.QueryQuestSingle = spy.new(function()

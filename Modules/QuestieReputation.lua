@@ -135,6 +135,10 @@ local reputationRewards = {
 function QuestieReputation.GetReputationReward(questId)
     local reputationReward = QuestieDB.QueryQuestSingle(questId, "reputationReward")
 
+    if (not reputationReward) then
+        return {}
+    end
+
     if (not Questie.IsCata) then
         return reputationReward
     end
