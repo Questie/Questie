@@ -129,6 +129,10 @@ function CataQuestFixes.Load()
         [24817] = { -- A Goblin in Shark's Clothing
             [questKeys.objectives] = {{{36682}},{{202108}}},
         },
+        [24864] = { -- Irresistible Pool Pony
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24858,24859},
+        },
         [24960] = { -- The Wakening
             [questKeys.preQuestSingle] = {28608},
         },
