@@ -130,6 +130,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{36682}},{{202108}}},
         },
         [24864] = { -- Irresistible Pool Pony
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{38412,44578,44579,44580},38412,"Naga Hatchling lured"}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24858,24859},
         },
