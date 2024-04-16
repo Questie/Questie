@@ -141,6 +141,8 @@ function QuestieReputation.GetReputationReward(questId)
     for _, entry in pairs(reputationReward) do
         if entry[2] > 0 then
             table.insert(rewards, {entry[1], reputationRewards[entry[2]]})
+        elseif entry[2] < 0 then
+            table.insert(rewards, {entry[1], -reputationRewards[-entry[2]]})
         end
     end
 
