@@ -2,6 +2,8 @@
 local QuestieReputation = QuestieLoader:CreateModule("QuestieReputation")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local playerReputations = {}
 
@@ -113,6 +115,36 @@ function QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)
     local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
 
     return ((aboveMinRep and hasMinFaction) and (belowMaxRep and hasMaxFaction))
+end
+
+-- Using https://wago.tools/db2/QuestFactionReward?build=4.4.0.54217
+local reputationRewards = {
+    [1] = 10,
+    [2] = 25,
+    [3] = 75,
+    [4] = 150,
+    [5] = 250,
+    [6] = 350,
+    [7] = 500,
+    [8] = 1000,
+    [9] = 5,
+}
+
+function QuestieReputation.GetReputationReward(questId)
+    local reputationReward = QuestieDB.QueryQuestSingle(questId, "reputationReward")
+
+    if (not Questie.IsCata) then
+        return reputationReward
+    end
+
+    local rewards = {}
+    for _, entry in pairs(reputationReward) do
+        if entry[2] > 0 then
+            table.insert(rewards, {entry[1], reputationRewards[entry[2]]})
+        end
+    end
+
+    return rewards
 end
 
 return QuestieReputation
