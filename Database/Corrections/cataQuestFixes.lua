@@ -137,6 +137,10 @@ function CataQuestFixes.Load()
         [24901] = { -- Town-In-A-Box: Under Attack
             [questKeys.objectives] = {{{38526}}},
         },
+        [24937] = { -- Oomlot Dealt With
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24925,24929},
+        },
         [24960] = { -- The Wakening
             [questKeys.preQuestSingle] = {28608},
         },
