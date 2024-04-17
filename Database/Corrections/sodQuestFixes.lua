@@ -1772,6 +1772,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.ALCHEMY,
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,275},
         },
+        [82098] = { -- Into The Temple of Atal'Hakkar
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+            [questKeys.preQuestSingle] = {1469},
+        },
         [82307] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
