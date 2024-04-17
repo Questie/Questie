@@ -1839,6 +1839,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.preQuestSingle] = {8421},
         },
+        [82209] = { -- Water Pouch Bounty  (repeatable)
+            [questKeys.preQuestSingle] = {1707},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [82307] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
