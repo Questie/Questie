@@ -359,6 +359,9 @@ function CataQuestFixes.Load()
         [28038] = { -- Blood in the Highlands
             [questKeys.exclusiveTo] = {27863},
         },
+        [28145] = { -- Venomblood Antidote
+            [questKeys.objectives] = {{{45859}}},
+        },
         [28170] = { -- Night Terrors
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Uchek"), 0, {{"monster", 47826}}}},
         },
