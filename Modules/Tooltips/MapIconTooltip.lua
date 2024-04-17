@@ -260,9 +260,10 @@ function MapIconTooltip:Show()
                     end
                 end
 
-                if shift and Questie.db.profile.enableTooltipsNextInChain then
+                local nextQuestInChain = QuestieDB.QueryQuestSingle(questData.questId, "nextQuestInChain")
+                if shift and nextQuestInChain > 0 and Questie.db.profile.enableTooltipsNextInChain then
                     -- add quest chain info
-                    local nextQuest = QuestieDB.GetQuest(QuestieDB.GetQuest(questData.questId).nextQuestInChain)
+                    local nextQuest = QuestieDB.GetQuest(nextQuestInChain)
                     local firstInChain = true;
                     while nextQuest ~= nil do
 
