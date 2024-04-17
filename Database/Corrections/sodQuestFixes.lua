@@ -5085,6 +5085,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431451,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90274] = {
+            [questKeys.name] = "Improved Hammer of Wrath",
+            [questKeys.startedBy] = {{222685,222687,222684,222686}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 23,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Improved Hammer of Wrath rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -429261,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [90275] = {
             [questKeys.name] = "Wrath",
             [questKeys.startedBy] = {{221828,221827}},

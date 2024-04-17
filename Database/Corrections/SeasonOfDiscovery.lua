@@ -436,6 +436,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [80455] = 3, -- Rogue Honor Among Thieves
     [80526] = 3, -- Rogue Honor Among Thieves
     [90269] = 3, -- Druid Gale Winds
+    [90274] = 3, -- Paladin Improved Hammer of Wrath
     [90275] = 3, -- Paladin Wrath
     [90276] = 3, -- Priest Void Zone
     [90277] = 3, -- Rogue Cut to the Chase
