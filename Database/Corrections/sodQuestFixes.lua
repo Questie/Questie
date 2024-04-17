@@ -1764,8 +1764,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [82089] = { -- Master of Transmutation
+            [questKeys.zoneOrSort] = sortKeys.ALCHEMY,
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY,275},
+        },
         [82090] = { -- Mixology For Fun and Profit
             [questKeys.zoneOrSort] = sortKeys.ALCHEMY,
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY,275},
         },
         [82307] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
