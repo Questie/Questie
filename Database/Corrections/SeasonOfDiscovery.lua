@@ -1079,6 +1079,10 @@ local questsToBlacklistBySoDPhase = {
     [17] = { -- Never appearing in Season of Discovery
         [1203] = true, -- Jarl Needs a Blade - Replaced by 81570
         [2758] = true, -- The Origins of Smithing - Replaced by 80241
+        [2849] = true, -- Wild Leather Vest - Replaced by 82657
+        [2856] = true, -- Wild Leather Vest - Replaced by 82656
+        [5284] = true, -- The Way of the Weaponsmith - Replaced by 82662
+        [8302] = true, -- The Way of the Weaponsmith - Replaced by 82665
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,

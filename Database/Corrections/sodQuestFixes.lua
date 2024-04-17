@@ -1848,6 +1848,24 @@ function SeasonOfDiscovery:LoadQuests()
         [82309] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [82656] = { -- Wild Leather Vest (Horde)
+            [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
+        },
+        [82657] = { -- Wild Leather Vest (Alliance)
+            [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
+        },
+        [82662] = { -- The Way of the Weaponsmith (Alliance)
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING,
+        },
+        [82665] = { -- The Way of the Weaponsmith (Horde)
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING,
+        },
 
         --- Fake rune quests
         [90000] = {
