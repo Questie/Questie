@@ -1803,6 +1803,42 @@ function SeasonOfDiscovery:LoadQuests()
         [82104] = { -- Jammal'an the Prophet
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
         },
+        [82106] = { -- Forging the Mightstone
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.preQuestSingle] = {8416},
+        },
+        [82107] = { -- Voodoo Feathers
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+            [questKeys.preQuestSingle] = {8424},
+        },
+        [82108] = { -- The Green Drake
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+            [questKeys.preQuestSingle] = {8231},
+        },
+        [82110] = { -- The Azure Key
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.preQuestSingle] = {8235},
+        },
+        [82111] = { -- Blood of Morphaz
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.preQuestSingle] = {8256},
+        },
+        [82112] = { -- A Better Ingredient
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+            [questKeys.preQuestSingle] = {9051},
+        },
+        [82113] = { -- Da Voodoo
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+            [questKeys.preQuestSingle] = {8412},
+        },
+        [82114] = { -- Destroy Morphaz
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+            [questKeys.preQuestSingle] = {8252},
+        },
+        [82115] = { -- Trolls of a Feather
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.preQuestSingle] = {8421},
+        },
         [82307] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
