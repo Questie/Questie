@@ -114,3 +114,5 @@ function QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)
 
     return ((aboveMinRep and hasMinFaction) and (belowMaxRep and hasMaxFaction))
 end
+
+return QuestieReputation
