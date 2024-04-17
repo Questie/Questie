@@ -1120,6 +1120,15 @@ local questsToBlacklistBySoDPhase = {
         [4604] = true,
         [4605] = true,
         [4606] = true,
+
+        -- Original Sunken Temple quests (instance reworked to raid, new quest IDs)
+        [1445] = true,
+        [1446] = true,
+        [1475] = true,
+        [3373] = true,
+        [3447] = true,
+        [3528] = true,
+        [4143] = true,
     },
 }
 
