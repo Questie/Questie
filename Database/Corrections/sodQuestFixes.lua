@@ -5108,6 +5108,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Void Zone rune from the Quartermaster."},
             [questKeys.requiredSpell] = -431705,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [90277] = {
             [questKeys.name] = "Cut to the Chase",
             [questKeys.startedBy] = {{222685,222687,222684,222686}},
@@ -5119,7 +5120,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Cut to the Chase rune from the Quartermaster."},
             [questKeys.requiredSpell] = -432297,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
-        },
+        }
     }
 end
 
