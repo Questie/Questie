@@ -214,8 +214,20 @@ function CataQuestFixes.Load()
         [25577] = { -- Crushing the Cores
             [questKeys.requiredSourceItems] = {55123},
         },
+        [25617] = { -- Into the Maw!
+            [questKeys.exclusiveTo] = {25624},
+        },
+        [25618] = { -- Into the Maw!
+            [questKeys.exclusiveTo] = {25623},
+        },
         [25621] = { -- Field Test: Gnomecorder
             [questKeys.triggerEnd] = {"Gnomecorder Tested", {[zoneIDs.STONETALON_MOUNTAINS]={{73.2,46.6}}}},
+        },
+        [25623] = { -- Into the Maw!
+            [questKeys.exclusiveTo] = {25618},
+        },
+        [25624] = { -- Into the Maw!
+            [questKeys.exclusiveTo] = {25617},
         },
         [25715] = { -- A Closer Look
             [questKeys.triggerEnd] = {"Scout the ships on the Shattershore", {[zoneIDs.BLASTED_LANDS]={{69,32.7}}}},
