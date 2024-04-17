@@ -163,11 +163,11 @@ local tooltipOptionsLocales = {
         ["ruRU"] = "Когда включено, следующие задания в цепочке будут отображаться в расширенной подсказке на карте",
         ["deDE"] = "Wenn ausgewählt, werden die nächsten Quests der Reihe in den erweiterten Map-Tooltips angezeigt.",
         ["koKR"] = false,
-        ["esMX"] = "Cuando esto está marcado, las siguientes misiones en la cadena se mostrarán en los tooltips de mapa expandidos.",
+        ["esMX"] = "Si está marcado, las siguientes misiones en la cadena se mostrarán en los tooltips de mapa expandidos.",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = "勾選時，會在展開的地圖浮動提示資訊中顯示任務串中的下一個任務。",
-        ["esES"] = "Cuando esto está marcado, las siguientes misiones en la cadena se mostrarán en los tooltips de mapa expandidos.",
+        ["esES"] = "Si está marcado, las siguientes misiones en la cadena se mostrarán en los tooltips de mapa expandidos.",
         ["frFR"] = "Les prochaines quêtes de la série seront affichées dans les infobulles de carte étendue.",
     },
 }
