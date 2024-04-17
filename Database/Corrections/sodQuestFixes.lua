@@ -5085,6 +5085,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431451,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90277] = {
+            [questKeys.name] = "Cut to the Chase",
+            [questKeys.startedBy] = {{222685,222687,222684,222686}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 23,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Cut to the Chase rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -432297,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 
