@@ -750,7 +750,7 @@ function SeasonOfDiscovery:LoadQuests()
         [79377] = { -- The Lost Saplings
             [questKeys.preQuestSingle] = {79348},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
-            [questKeys.objectives] = {{{216437,216451,216448,216445}},nil,{{213036}}},
+            [questKeys.objectives] = {{{216437},{216451},{216448},{216445}},nil,{{213036}}},
         },
         [79442] = { -- Catching Up
             [questKeys.requiredClasses] = classIDs.SHAMAN,
