@@ -1245,7 +1245,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [80455] = { -- Biding Our Time
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
-            [questKeys.preQuestSingle] = 80454,
+            [questKeys.preQuestSingle] = {80454},
         },
         [80526] = { -- Fool Me Twice
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
