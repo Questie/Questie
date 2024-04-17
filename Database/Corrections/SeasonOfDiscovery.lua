@@ -430,8 +430,18 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90268] = 2, -- Druid Survival Instincts
 
     -- P3 SoD Runes
+    [80411] = 3, -- Rogue Honor Among Thieves
+    [80453] = 3, -- Rogue Honor Among Thieves
+    [80454] = 3, -- Rogue Honor Among Thieves
+    [80455] = 3, -- Rogue Honor Among Thieves
+    [80526] = 3, -- Rogue Honor Among Thieves
+    [82084] = 3, -- Mage Temporal Anomaly
     [90269] = 3, -- Druid Gale Winds
     [90273] = 3, -- Mage Molten Armor
+    [90274] = 3, -- Paladin Improved Hammer of Wrath
+    [90275] = 3, -- Paladin Wrath
+    [90276] = 3, -- Priest Void Zone
+    [90277] = 3, -- Rogue Cut to the Chase
 }
 
 --- "automatic" phase detection for the first few phases;
@@ -1079,7 +1089,12 @@ local questsToBlacklistBySoDPhase = {
     },
     [17] = { -- Never appearing in Season of Discovery
         [1203] = true, -- Jarl Needs a Blade - Replaced by 81570
+        [1878] = true, -- Water Pouch Bounty - Replaced by 82209
         [2758] = true, -- The Origins of Smithing - Replaced by 80241
+        [2849] = true, -- Wild Leather Vest - Replaced by 82657
+        [2856] = true, -- Wild Leather Vest - Replaced by 82656
+        [5284] = true, -- The Way of the Weaponsmith - Replaced by 82662
+        [8302] = true, -- The Way of the Weaponsmith - Replaced by 82665
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,
@@ -1121,6 +1136,24 @@ local questsToBlacklistBySoDPhase = {
         [4604] = true,
         [4605] = true,
         [4606] = true,
+
+        -- Original Sunken Temple quests (instance reworked to raid, new quest IDs)
+        [1445] = true,
+        [1446] = true,
+        [1475] = true,
+        [3373] = true,
+        [3447] = true,
+        [3528] = true,
+        [4143] = true,
+        [8232] = true,
+        [8236] = true,
+        [8253] = true,
+        [8257] = true,
+        [8413] = true,
+        [8418] = true,
+        [8422] = true,
+        [8425] = true,
+        [9053] = true,
     },
 }
 
