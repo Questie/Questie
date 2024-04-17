@@ -890,15 +890,15 @@ local trackerOptionsLocales = {
     },
     ---------------------------------------------------------
     ["Set |cFF54e33bTomTom|r Target"] = {
-        ["ptBR"] = "Defina o alvo |cFF54e33bTomTom|r",
+        ["ptBR"] = "Defina o alvo de |cFF54e33bTomTom|r",
         ["ruRU"] = "Установить точку |cFF54e33bTomTom|r",
         ["deDE"] = "|cFF54e33bTomTom|r-Ziel setzen",
         ["koKR"] = "|cFF54e33bTomTom|r 대상 설정",
-        ["esMX"] = "Establecer objetivo de|cFF54e33bTomTom|r",
+        ["esMX"] = "Establecer objetivo de |cFF54e33bTomTom|r",
         ["enUS"] = true,
         ["zhCN"] = "显示|cFF54e33bTomTom|r箭头",
         ["zhTW"] = "|cFF54e33bTomTom|r 開始導航",
-        ["esES"] = "Establecer objetivo de|cFF54e33bTomTom|r",
+        ["esES"] = "Establecer objetivo de |cFF54e33bTomTom|r",
         ["frFR"] = "Définir un point |cFF54e33bTomTom|r",
     },
     -- Classic and TBC only --

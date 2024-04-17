@@ -134,6 +134,15 @@ function SeasonOfDiscovery:LoadItems()
         [219772] = { -- Fallia's Field Report
             [itemKeys.npcDrops] = {221483},
         },
+        [219776] = { -- Intelligence Report: Vul'gol Ogre Mound
+            [itemKeys.npcDrops] = {221222},
+        },
+        [219778] = { -- Intelligence Report: Rotting Orchard
+            [itemKeys.npcDrops] = {221221},
+        },
+        [219803] = { -- Intelligence Report: Yorgen Farmstead
+            [itemKeys.npcDrops] = {221220},
+        },
         [219924] = { -- Intelligence Report: Forest Song
             [itemKeys.npcDrops] = {221271},
         },
@@ -142,6 +151,24 @@ function SeasonOfDiscovery:LoadItems()
         },
         [219926] = { -- Intelligence Report: Warsong Lumber Camp
             [itemKeys.npcDrops] = {221273},
+        },
+        [219928] = { -- Intelligence Report: Agol'watha
+            [itemKeys.npcDrops] = {221353},
+        },
+        [219937] = { -- Intelligence Report: Shaol'watha
+            [itemKeys.npcDrops] = {221352},
+        },
+        [219938] = { -- Intelligence Report: Skulk Rock
+            [itemKeys.npcDrops] = {221351},
+        },
+        [219957] = { -- Intelligence Report: Oneiros
+            [itemKeys.npcDrops] = {221401},
+        },
+        [219958] = { -- Intelligence Report: Twin Colossals
+            [itemKeys.npcDrops] = {221402},
+        },
+        [219959] = { -- Intelligence Report: Ruins of Ravenwind
+            [itemKeys.npcDrops] = {221404},
         },
     }
 end
