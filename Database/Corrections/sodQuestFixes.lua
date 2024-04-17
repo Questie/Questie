@@ -5089,6 +5089,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431451,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90271] = {
+            [questKeys.name] = "Raptor Fury",
+            [questKeys.startedBy] = {{222243}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 43,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Defeat Zopilote to receive the rune."},
+            [questKeys.requiredSpell] = -416093,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [90272] = {
             [questKeys.name] = "T.N.T",
             [questKeys.startedBy] = {{222685,222687,222684,222686}},
