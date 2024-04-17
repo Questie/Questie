@@ -2343,6 +2343,7 @@ l10n.objectLookup["esMX"] = {
 [141979] = "Tesoro antiguo",
 [141980] = "Arcón espectral",
 [141981] = "Spectral Arcón Particles",
+[142071] = "Huevomático",
 [142073] = "Hoguera",
 [142076] = "Manzanas Frescas de Clara",
 [142077] = "Yunque",
