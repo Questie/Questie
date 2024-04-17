@@ -77,5 +77,8 @@ function CataNpcFixes.Load()
             },
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
+        [49476] = { -- Finkle Einhorn
+            [npcKeys.questStarts] = {28735,28737,28738,28740,28741},
+        },
     }
 end
