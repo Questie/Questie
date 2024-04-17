@@ -435,6 +435,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [80454] = 3, -- Rogue Honor Among Thieves
     [80455] = 3, -- Rogue Honor Among Thieves
     [80526] = 3, -- Rogue Honor Among Thieves
+    [82084] = 3, -- Mage Temporal Anomaly
     [90269] = 3, -- Druid Gale Winds
     [90274] = 3, -- Paladin Improved Hammer of Wrath
     [90275] = 3, -- Paladin Wrath
