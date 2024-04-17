@@ -7,6 +7,7 @@ _G.QUEST_MONSTERS_KILLED = ""
 _G.QUEST_ITEMS_NEEDED = ""
 _G.QUEST_OBJECTS_FOUND = ""
 _G.C_QuestLog = {IsQuestFlaggedCompleted = function() return false end}
+_G.ExpandFactionHeader = function() end
 _G.IsInGroup = function() return false end
 _G.UnitInParty = function() return false end
 _G.UnitInRaid = function() return false end

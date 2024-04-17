@@ -47,6 +47,7 @@ local minLevelForDebugOffers = 10
 
 local itemBlacklist = {
     209027, -- Crap Treats (these are also looted from fishing, for which no real "objects" exists)
+    215430, -- gnomeregan fallout, drops from nearly every mob in gnomeregan
     -- Waylaid Supplies level 10
     211316, -- peacebloom
     211933, -- rough stone
@@ -131,6 +132,32 @@ local itemBlacklist = {
     215396, -- elixirs of greater defense
     215405, -- gnomish rocket boots
     215406, -- goblin mortars
+    -- Waylaid Supplies level 50
+    220918, -- undermine clam chowder
+    220919, -- nightfin soup
+    220920, -- tender wolf steaks
+    220921, -- heavy mageweave bandages
+    220922, -- sungrass
+    220923, -- dreamfoil
+    220924, -- truesilver bars
+    220925, -- thorium bars
+    220926, -- rugged leather
+    220927, -- thick hide
+    220928, -- enchanted thorium bars
+    220929, -- superior mana potions
+    220930, -- major healing potions
+    220931, -- hi-explosive bombs
+    220932, -- thorium grenades
+    220933, -- thorium rifles
+    220934, -- mithril coifs
+    220935, -- thorium belts
+    220936, -- truesilver gauntlets
+    220937, -- rugged armor kits
+    220938, -- wicked leather bracers
+    220939, -- runic leather bracers
+    220940, -- black mageweave headbands
+    220941, -- runecloth belts
+    220942, -- tuxedo shirts
 
     203753, -- Mage encoded spell notes
     203752, -- Mage encoded spell notes
@@ -178,6 +205,41 @@ local itemBlacklist = {
     217282, -- Plans: Moonsteel Broadsword
     217284, -- Plans: Golden Scale Shoulders
     217286, -- Plans: Golden Scale Leggings
+
+    -- New Darkmoon Cards
+    221271, -- Ace of Wilds
+    221273, -- Two of Wilds
+    221274, -- Three of Wilds
+    221275, -- Four of Wilds
+    221276, -- Five of Wilds
+    221277, -- Six of Wilds
+    221278, -- Seven of Wilds
+    221279, -- Eight of Wilds
+    221281, -- Ace of Plagues
+    221282, -- Two of Plagues
+    221283, -- Three of Plagues
+    221284, -- Four of Plagues
+    221285, -- Five of Plagues
+    221286, -- Six of Plagues
+    221287, -- Seven of Plagues
+    221288, -- Eight of Plagues
+    221290, -- Ace of Dunes
+    221291, -- Two of Dunes
+    221292, -- Three of Dunes
+    221293, -- Four of Dunes
+    221294, -- Five of Dunes
+    221295, -- Six of Dunes
+    221296, -- Seven of Dunes
+    221297, -- Eight of Dunes
+    221298, -- Ace of Nightmares
+    221300, -- Two of Nightmares
+    221301, -- Three of Nightmares
+    221302, -- Four of Nightmares
+    221303, -- Five of Nightmares
+    221304, -- Six of Nightmares
+    221305, -- Seven of Nightmares
+    221306, -- Eight of Nightmares
+
 }
 
 local itemWhitelist = {

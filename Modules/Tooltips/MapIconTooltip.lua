@@ -260,9 +260,10 @@ function MapIconTooltip:Show()
                     end
                 end
 
-                if shift and Questie.db.profile.enableTooltipsNextInChain then
+                local nextQuestInChain = QuestieDB.QueryQuestSingle(questData.questId, "nextQuestInChain")
+                if shift and nextQuestInChain > 0 and Questie.db.profile.enableTooltipsNextInChain then
                     -- add quest chain info
-                    local nextQuest = QuestieDB.GetQuest(QuestieDB.GetQuest(questData.questId).nextQuestInChain)
+                    local nextQuest = QuestieDB.GetQuest(nextQuestInChain)
                     local firstInChain = true;
                     while nextQuest ~= nil do
 
@@ -272,7 +273,7 @@ function MapIconTooltip:Show()
                         local nextQuestIdString = "";
                         local nextQuestTagString = "";
                         if firstInChain then
-                            self:AddLine("  Next in chain:", 0.86, 0.86, 0.86)
+                            self:AddLine("  " .. l10n("Next in chain:"), 0.86, 0.86, 0.86)
                             firstInChain = false;
                         end
 
@@ -293,7 +294,7 @@ function MapIconTooltip:Show()
 
                         local nextQuestMoneyReward = QuestXP:GetQuestRewardMoney(nextQuest.Id);
                         if nextQuestMoneyReward > 0 then
-                            nextQuestMoneyRewardString = Questie:Colorize(string.format(" (%s)",GetCoinTextureString(nextQuestMoneyReward)), "white");
+                            nextQuestMoneyRewardString = Questie:Colorize(string.format(" (%s)", GetCoinTextureString(nextQuestMoneyReward)), "white");
                         end
 
                         if (QuestieDB.IsGroupQuest(nextQuest.Id) or QuestieDB.IsDungeonQuest(nextQuest.Id) or QuestieDB.IsRaidQuest(nextQuest.Id)) then
