@@ -16,6 +16,7 @@ QuestieCorrections.objectObjectiveFirst[24817] = true
 
 function CataQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
+    local raceKeys = QuestieDB.raceKeys
     local profKeys = QuestieProfessions.professionKeys
     local zoneIDs = ZoneDB.zoneIDs
     local specialFlags = QuestieDB.specialFlags
@@ -195,6 +196,9 @@ function CataQuestFixes.Load()
         },
         [25325] = { -- Through the Dream
             [questKeys.triggerEnd] = {"Arch Druid Fandral Staghelm delivered", {[zoneIDs.MOUNT_HYJAL]={{55,28.9}}}},
+        },
+        [25354] = { -- Sweeping the Shelf
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [25419] = { -- Lady La-La's Medallion
             [questKeys.requiredSourceItems] = {55188},
