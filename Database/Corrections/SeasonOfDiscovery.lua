@@ -444,6 +444,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90275] = 3, -- Paladin Wrath
     [90276] = 3, -- Priest Void Zone
     [90277] = 3, -- Rogue Cut to the Chase
+    [90282] = 3, -- Warrior Vigilance
 }
 
 --- "automatic" phase detection for the first few phases;

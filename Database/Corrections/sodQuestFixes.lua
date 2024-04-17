@@ -5173,6 +5173,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432297,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90282] = {
+            [questKeys.name] = "Vigilance",
+            [questKeys.startedBy] = {{222726}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 46,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Defeat Tyrant of the Hive to receive the rune."},
+            [questKeys.requiredSpell] = -427078,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
     }
 end
 
