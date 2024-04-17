@@ -5089,6 +5089,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431451,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90272] = {
+            [questKeys.name] = "T.N.T",
+            [questKeys.startedBy] = {{222685,222687,222684,222686}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 23,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the T.N.T rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -431611,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [90273] = {
             [questKeys.name] = "Molten Armor",
             [questKeys.startedBy] = {{222685,222687,222684,222686}},
