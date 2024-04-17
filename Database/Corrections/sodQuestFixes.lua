@@ -1772,9 +1772,36 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.ALCHEMY,
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,275},
         },
+        [82095] = { -- The God Hakkar
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+            [questKeys.preQuestSingle] = {4787},
+        },
+        [82096] = { -- Into the Depths
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+            [questKeys.preQuestSingle] = {3444},
+        },
+        [82097] = { -- Secret of the Circle
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+            [questKeys.preQuestSingle] = {3444},
+        },
         [82098] = { -- Into The Temple of Atal'Hakkar
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
             [questKeys.preQuestSingle] = {1469},
+        },
+        [82099] = { -- Haze of Evil
+            [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
+            [questKeys.preQuestSingle] = {4142},
+            [questKeys.nextQuestInChain] = 4144,
+        },
+        [82100] = { -- The Temple of Atal'Hakkar
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+            [questKeys.preQuestSingle] = {1444},
+        },
+        [82102] = { -- The Essence of Eranikus
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+        },
+        [82104] = { -- Jammal'an the Prophet
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
         },
         [82307] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
