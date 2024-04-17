@@ -1213,6 +1213,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [80411] = { -- The Talisman of Kazdor
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.preQuestSingle] = {80526},
+            [questKeys.nextQuestInChain] = 80453,
+        },
         [80421] = { -- Green Iron Bracers
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1700},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
@@ -1227,6 +1232,25 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1700},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
+        },
+        [80453] = { -- Best Laid Plans
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.preQuestSingle] = {80411},
+            [questKeys.nextQuestInChain] = 80454,
+        },
+        [80454] = { -- One Last Drop
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.preQuestSingle] = {80453},
+            [questKeys.nextQuestInChain] = 80455,
+        },
+        [80455] = { -- Biding Our Time
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.preQuestSingle] = 80454,
+        },
+        [80526] = { -- Fool Me Twice
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.preQuestGroup] = {6681,78261,78676},
+            [questKeys.nextQuestInChain] = 80411,
         },
         [81570] = { -- Jarl Needs a Blade
             [questKeys.finishedBy] = {{4792}},

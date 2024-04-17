@@ -431,6 +431,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
 
     -- P3 SoD Runes
     [90269] = 3, -- Druid Gale Winds
+    [80411] = 3, -- Rogue Honor Among Thieves
+    [80453] = 3, -- Rogue Honor Among Thieves
+    [80454] = 3, -- Rogue Honor Among Thieves
+    [80455] = 3, -- Rogue Honor Among Thieves
+    [80526] = 3, -- Rogue Honor Among Thieves
 }
 
 --- "automatic" phase detection for the first few phases;
