@@ -5108,10 +5108,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 23,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.requiredClasses] = classIDs.MAGE,
-            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Molten Armor rune from the Quartermaster."},
-            [questKeys.requiredSpell] = -429308,
-            [questKeys.zoneOrSort] = sortKeys.MAGE,
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Improved Hammer of Wrath rune from the Quartermaster."},
             [questKeys.requiredSpell] = -429261,
@@ -5151,7 +5147,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.ROGUE,
             [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Cut to the Chase rune from the Quartermaster."},
             [questKeys.requiredSpell] = -432297,
-            [questKeys.zoneOrSort] = sortKeys.ROGUE
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
     }
 end
