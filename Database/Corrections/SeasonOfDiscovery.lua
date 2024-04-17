@@ -1129,6 +1129,15 @@ local questsToBlacklistBySoDPhase = {
         [3447] = true,
         [3528] = true,
         [4143] = true,
+        [8232] = true,
+        [8236] = true,
+        [8253] = true,
+        [8257] = true,
+        [8413] = true,
+        [8418] = true,
+        [8422] = true,
+        [8425] = true,
+        [9053] = true,
     },
 }
 
