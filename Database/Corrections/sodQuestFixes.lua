@@ -5173,6 +5173,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432297,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90283] = {
+            [questKeys.name] = "Wrecking Crew",
+            [questKeys.startedBy] = {{2649,2650,2651,2652,2653}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 42,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Kill Trolls and Spiders until they drop a Geode Hammer, equip it and continue attacking enemies until it breaks, then open it to receive the rune."},
+            [questKeys.requiredSpell] = -427084,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
     }
 end
 
