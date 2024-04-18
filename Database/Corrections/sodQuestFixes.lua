@@ -5173,6 +5173,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432297,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90286] = {
+            [questKeys.name] = "Static Shock",
+            [questKeys.startedBy] = {{223061}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 42,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Activate the Charged Totem, and ensure you and your partner are within range of the totem and keep Lightning Shield on yourself. Kill mobs that spawn until a Whirling Tempest appears, kill it to receive the rune. NOTE: This rune requires 2 players."},
+            [questKeys.requiredSpell] = -432238,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 
