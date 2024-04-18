@@ -400,6 +400,9 @@ function CataQuestFixes.Load()
         [28228] = { -- Rejoining the Forest
             [questKeys.triggerEnd] = {"Protector brought to hill", {[zoneIDs.FELWOOD]={{48.7,25.2}}}},
         },
+        [28872] = { -- Total War
+            [questKeys.objectives] = {nil,{{206195}}},
+        },
         [28909] = { -- Sauranok Will Point the Way
             [questKeys.startedBy] = {{39605}},
             [questKeys.preQuestSingle] = {26294},
