@@ -3178,6 +3178,7 @@ ZoneDB.private.zoneIDs = {
     TWILIGHT_HIGHLANDS = 4922,
     BLACKROCK_CAVERNS = 4926,
     DEEPHOLM = 5042,
+    ULDUM = 5043,
     SHIMMERING_EXPANSE = 5144, -- Vashj'ir sub zone
 }
 
