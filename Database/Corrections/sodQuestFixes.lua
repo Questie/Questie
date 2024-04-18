@@ -5173,6 +5173,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432297,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90287] = {
+            [questKeys.name] = "Pain and Suffering",
+            [questKeys.startedBy] = {{5616,5617},{450019}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 43,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Wastewander mobs until they drop Coded Warlock Notes and Wastewander Cipher, combine them and go to the Cryptic Scroll of Summoning, stand on it and use the Deciphered Warlock Notes. Kill the Enraged Voidwalker to receive the rune."},
+            [questKeys.requiredSpell] = -415991,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
