@@ -302,6 +302,9 @@ function CataQuestFixes.Load()
         [27152] = { -- Unusual Behavior... Even For Gnolls
             [questKeys.triggerEnd] = {"Gnoll camp investigated", {[zoneIDs.WESTERN_PLAGUELANDS]={{57.5,35.6}}}},
         },
+        [27176] = { -- A Strange Disc
+            [questKeys.requiredSourceItems] = {60865},
+        },
         [27203] = { -- The Maelstrom
             [questKeys.preQuestSingle] = {27399,27442,27722,27398,27443,27727},
         },
