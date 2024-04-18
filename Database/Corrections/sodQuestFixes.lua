@@ -1213,6 +1213,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [80411] = { -- The Talisman of Kazdor
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.preQuestSingle] = {80526},
+            [questKeys.nextQuestInChain] = 80453,
+        },
         [80421] = { -- Green Iron Bracers
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1700},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
@@ -1227,6 +1232,25 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1700},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
+        },
+        [80453] = { -- Best Laid Plans
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.preQuestSingle] = {80411},
+            [questKeys.nextQuestInChain] = 80454,
+        },
+        [80454] = { -- One Last Drop
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.preQuestSingle] = {80453},
+            [questKeys.nextQuestInChain] = 80455,
+        },
+        [80455] = { -- Biding Our Time
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.preQuestSingle] = {80454},
+        },
+        [80526] = { -- Fool Me Twice
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.preQuestGroup] = {6681,78261,78676},
+            [questKeys.nextQuestInChain] = 80411,
         },
         [81570] = { -- Jarl Needs a Blade
             [questKeys.finishedBy] = {{4792}},
@@ -1764,8 +1788,88 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [82084] = { --A Lesson in Literacy
+            [questKeys.startedBy] = {{211022,211033}},
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [82089] = { -- Master of Transmutation
+            [questKeys.zoneOrSort] = sortKeys.ALCHEMY,
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY,275},
+        },
         [82090] = { -- Mixology For Fun and Profit
             [questKeys.zoneOrSort] = sortKeys.ALCHEMY,
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY,275},
+        },
+        [82095] = { -- The God Hakkar
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+            [questKeys.preQuestSingle] = {4787},
+        },
+        [82096] = { -- Into the Depths
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+            [questKeys.preQuestSingle] = {3444},
+        },
+        [82097] = { -- Secret of the Circle
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+            [questKeys.preQuestSingle] = {3444},
+        },
+        [82098] = { -- Into The Temple of Atal'Hakkar
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+            [questKeys.preQuestSingle] = {1469},
+        },
+        [82099] = { -- Haze of Evil
+            [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
+            [questKeys.preQuestSingle] = {4142},
+            [questKeys.nextQuestInChain] = 4144,
+        },
+        [82100] = { -- The Temple of Atal'Hakkar
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+            [questKeys.preQuestSingle] = {1444},
+        },
+        [82102] = { -- The Essence of Eranikus
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+        },
+        [82104] = { -- Jammal'an the Prophet
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+        },
+        [82106] = { -- Forging the Mightstone
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.preQuestSingle] = {8416},
+        },
+        [82107] = { -- Voodoo Feathers
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+            [questKeys.preQuestSingle] = {8424},
+        },
+        [82108] = { -- The Green Drake
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+            [questKeys.preQuestSingle] = {8231},
+        },
+        [82110] = { -- The Azure Key
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+            [questKeys.preQuestSingle] = {8235},
+        },
+        [82111] = { -- Blood of Morphaz
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.preQuestSingle] = {8256},
+        },
+        [82112] = { -- A Better Ingredient
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+            [questKeys.preQuestSingle] = {9051},
+        },
+        [82113] = { -- Da Voodoo
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+            [questKeys.preQuestSingle] = {8412},
+        },
+        [82114] = { -- Destroy Morphaz
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+            [questKeys.preQuestSingle] = {8252},
+        },
+        [82115] = { -- Trolls of a Feather
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.preQuestSingle] = {8421},
+        },
+        [82209] = { -- Water Pouch Bounty  (repeatable)
+            [questKeys.preQuestSingle] = {1707},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82307] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -1775,6 +1879,24 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [82309] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [82656] = { -- Wild Leather Vest (Horde)
+            [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
+        },
+        [82657] = { -- Wild Leather Vest (Alliance)
+            [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
+        },
+        [82662] = { -- The Way of the Weaponsmith (Alliance)
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING,
+        },
+        [82665] = { -- The Way of the Weaponsmith (Horde)
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING,
         },
 
         --- Fake rune quests
@@ -4966,6 +5088,90 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Defeat Namida Grimtotem to receive the rune."},
             [questKeys.requiredSpell] = -431451,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [90271] = {
+            [questKeys.name] = "Raptor Fury",
+            [questKeys.startedBy] = {{222243}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 43,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Defeat Zopilote to receive the rune."},
+            [questKeys.requiredSpell] = -416093,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [90272] = {
+            [questKeys.name] = "T.N.T",
+            [questKeys.startedBy] = {{222685,222687,222684,222686}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 23,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the T.N.T rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -431611,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [90273] = {
+            [questKeys.name] = "Molten Armor",
+            [questKeys.startedBy] = {{222685,222687,222684,222686}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 23,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Molten Armor rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -429308,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [90274] = {
+            [questKeys.name] = "Improved Hammer of Wrath",
+            [questKeys.startedBy] = {{222685,222687,222684,222686}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 23,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Improved Hammer of Wrath rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -429261,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [90275] = {
+            [questKeys.name] = "Wrath",
+            [questKeys.startedBy] = {{221828,221827}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 45,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Use Sense Undead, to find a Vengeful Spirit, kill it and go to Ironforge and speak with Magister Falath to receive the rune."},
+            [questKeys.requiredSpell] = -429249,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [90276] = {
+            [questKeys.name] = "Void Zone",
+            [questKeys.startedBy] = {{222685,222687,222684,222686}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 23,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Void Zone rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -431705,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [90277] = {
+            [questKeys.name] = "Cut to the Chase",
+            [questKeys.startedBy] = {{222685,222687,222684,222686}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 23,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Cut to the Chase rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -432297,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
     }
 end
