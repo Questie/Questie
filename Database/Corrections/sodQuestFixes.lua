@@ -5173,6 +5173,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432297,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90285] = {
+            [questKeys.name] = "Summon Felguard",
+            [questKeys.startedBy] = {{222228,222288,222696,222697,222698}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 10,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Send an Explorer Imp through a Fel Portal and open the returned Otherworldly Treasure to receive the rune."},
+            [questKeys.requiredSpell] = -431756,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
     }
 end
 
