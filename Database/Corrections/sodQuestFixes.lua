@@ -574,22 +574,22 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.WESTFALL,
         },
         [79077] = { -- Sharing the Faith (Stormwind)
-            [questKeys.objectives] = {{{215062}}},
+            [questKeys.objectives] = {{{215062, nil, Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredRaces] = raceIDs.DWARF + raceIDs.HUMAN,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [79078] = { -- Sharing the Faith (Darnassus)
-            [questKeys.objectives] = {{{215095}}},
+            [questKeys.objectives] = {{{215095, nil, Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [79079] = { -- Sharing the Faith (Orgrimmar)
-            [questKeys.objectives] = {{{215096}}},
+            [questKeys.objectives] = {{{215096, nil, Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredRaces] = raceIDs.TROLL,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [79080] = { -- Sharing the Faith (Undercity)
-            [questKeys.objectives] = {{{215098}}},
+            [questKeys.objectives] = {{{215098, nil, Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
