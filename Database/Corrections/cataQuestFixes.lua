@@ -359,6 +359,9 @@ function CataQuestFixes.Load()
         [28038] = { -- Blood in the Highlands
             [questKeys.exclusiveTo] = {27863},
         },
+        [28134] = { -- Impending Retribution
+            [questKeys.objectives] = {{{46603},{47715},{47930}}}
+        },
         [28145] = { -- Venomblood Antidote
             [questKeys.objectives] = {{{45859}}},
         },
