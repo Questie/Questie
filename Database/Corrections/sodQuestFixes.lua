@@ -5173,6 +5173,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432297,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90284] = {
+            [questKeys.name] = "Immolation Aura",
+            [questKeys.startedBy] = {{221282,221283,221292}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Collect Dreampyre Fire, Dreamsworn Horn and Dreamhunter Fang from imps, satyrs and hounds and combine them to receive the rune."},
+            [questKeys.requiredSpell] = -431758,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
     }
 end
 
