@@ -296,6 +296,9 @@ function CataQuestFixes.Load()
         [27139] = { -- Hobart Needs You
             [questKeys.exclusiveTo] = {24671},
         },
+        [27141] = { -- Exploding Through
+            [questKeys.preQuestSingle] = {},
+        },
         [27152] = { -- Unusual Behavior... Even For Gnolls
             [questKeys.triggerEnd] = {"Gnoll camp investigated", {[zoneIDs.WESTERN_PLAGUELANDS]={{57.5,35.6}}}},
         },
@@ -355,6 +358,10 @@ function CataQuestFixes.Load()
         },
         [27922] = { -- Traitors!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Hide behind Neferset Frond"), 0, {{"object", 206579}}}},
+        },
+        [27993] = { -- Take it to 'Em!
+            [questKeys.triggerEnd] = {"Khartut's Tomb Investigated",{[zoneIDs.ULDUM]={{64.6,28.6}}}},
+            [questKeys.exclusiveTo] = {27141},
         },
         [28038] = { -- Blood in the Highlands
             [questKeys.exclusiveTo] = {27863},
