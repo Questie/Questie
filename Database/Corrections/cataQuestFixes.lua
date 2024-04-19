@@ -373,6 +373,9 @@ function CataQuestFixes.Load()
         [27743] = { -- While We're Here
             [questKeys.preQuestSingle] = {28885},
         },
+        [27755] = { -- The Curse of the Tombs
+            [questKeys.preQuestSingle] = {28501},
+        },
         [27783] = { -- Garona Needs You
             [questKeys.preQuestSingle] = {27745},
             [questKeys.exclusiveTo] = {27786},
