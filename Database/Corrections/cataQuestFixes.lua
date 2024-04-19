@@ -382,6 +382,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27761,27777},
         },
+        [27779] = { -- Gnomebliteration
+            [questKeys.objectives] = {{{46384}}},
+        },
         [27783] = { -- Garona Needs You
             [questKeys.preQuestSingle] = {27745},
             [questKeys.exclusiveTo] = {27786},
