@@ -142,6 +142,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24925,24929},
         },
+        [24945] = { -- Three Little Pygmies
+            [questKeys.preQuestSingle] = {24940},
+        },
         [24960] = { -- The Wakening
             [questKeys.preQuestSingle] = {28608},
         },
