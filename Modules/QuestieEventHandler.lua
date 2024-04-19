@@ -91,7 +91,9 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("QUEST_FINISHED", function()
         QuestieAuto.QUEST_FINISHED()
-        AutoCompleteFrame.CheckAutoCompleteQuests()
+        if Questie.IsCata then
+            AutoCompleteFrame.CheckAutoCompleteQuests()
+        end
     end)
     Questie:RegisterEvent("QUEST_ACCEPTED", QuestieAuto.QUEST_ACCEPTED)
     Questie:RegisterEvent("QUEST_DETAIL", function(...) -- When the quest is presented!
