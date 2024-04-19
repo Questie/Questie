@@ -376,6 +376,10 @@ function CataQuestFixes.Load()
         [27755] = { -- The Curse of the Tombs
             [questKeys.preQuestSingle] = {28501},
         },
+        [27778] = { -- Hacking the Wibson
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27761,27777},
+        },
         [27783] = { -- Garona Needs You
             [questKeys.preQuestSingle] = {27745},
             [questKeys.exclusiveTo] = {27786},
