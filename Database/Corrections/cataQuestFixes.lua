@@ -194,6 +194,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25243},
             [questKeys.exclusiveTo] = {25203},
         },
+        [25316] = { -- As Hyjal Burns
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Hop on Aronus"), 0, {{"monster", 39140}}}},
+        },
         [25325] = { -- Through the Dream
             [questKeys.triggerEnd] = {"Arch Druid Fandral Staghelm delivered", {[zoneIDs.MOUNT_HYJAL]={{55,28.9}}}},
         },
