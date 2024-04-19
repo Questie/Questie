@@ -46,16 +46,13 @@ Questie.db = {profile={minimap={hide=false}}}
 -- prevent multiple warnings for the same ID, not sure the best place to put this
 Questie._sessionWarnings = {}
 
--- TODO: Remove this once WOW_PROJECT_ID is available for Cata
-local interfaceVersion = select(4, GetBuildInfo())
-
 --- Addon is running on Classic Cata client
 ---@type boolean
-Questie.IsCata = interfaceVersion >= 40400 and interfaceVersion < 50000
+Questie.IsCata = WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC
 
 --- Addon is running on Classic Wotlk client
 ---@type boolean
-Questie.IsWotlk = interfaceVersion >= 30400 and interfaceVersion < 40000
+Questie.IsWotlk = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
 
 --- Addon is running on Classic TBC client
 ---@type boolean
