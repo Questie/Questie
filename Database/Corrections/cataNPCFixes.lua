@@ -68,6 +68,16 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [39065] = { -- Aggra
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_LOST_ISLES] = {
+                    {36.26,43.37,phases.LOST_ISLES_CHAPTER_5},
+                    {36.26,43.37,phases.LOST_ISLES_CHAPTER_8},
+                    {42.55,18.22,184},
+                    {42.19,17.4,185},
+                },
+            },
+        },
         [47838] = { -- Shrine 1 Cleansed
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{34.18,35.74}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
