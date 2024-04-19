@@ -206,6 +206,10 @@ function CataQuestFixes.Load()
         [25419] = { -- Lady La-La's Medallion
             [questKeys.requiredSourceItems] = {55188},
         },
+        [25442] = { -- A Pearl of Wisdom
+            [questKeys.startedBy] = {{40510},nil,{54614}},
+            [questKeys.exclusiveTo] = {25890},
+        },
         [25464] = { -- The Return of Baron Geddon
             [questKeys.objectives] = {{{40147}}},
         },
@@ -237,6 +241,7 @@ function CataQuestFixes.Load()
         },
         [25890] = { -- Nespirah
             [questKeys.triggerEnd] = {"Find a way to communicate with Nespirah", {[zoneIDs.SHIMMERING_EXPANSE]={{52.5,54.1}}}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take the Swift Seahorse to Nespirah."), 0, {{"monster", 40851}}}},
         },
         [25930] = { -- Ascending the Vale
