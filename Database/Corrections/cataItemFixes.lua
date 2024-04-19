@@ -120,6 +120,9 @@ function CataItemFixes.Load()
         [51956] = { -- Blessed Offerings
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [52024] = { -- Rockin' Powder
+            [itemKeys.npcDrops] = {},
+        },
         [52505] = { -- Poison Extraction Totem
             [itemKeys.class] = itemClasses.QUEST,
         },
