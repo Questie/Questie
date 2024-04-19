@@ -59,6 +59,15 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [38935] = { -- Thrall
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_LOST_ISLES] = {
+                    {36.79,43.13,phases.LOST_ISLES_CHAPTER_5},
+                    {36.79,43.13,phases.LOST_ISLES_CHAPTER_8},
+                    {42.16,17.37,185},
+                },
+            },
+        },
         [47838] = { -- Shrine 1 Cleansed
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{34.18,35.74}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
