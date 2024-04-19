@@ -59,6 +59,18 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [38387] = { -- Sassy Hardwrench
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_LOST_ISLES] = {
+                    {45.18,64.9,phases.LOST_ISLES_CHAPTER_5},
+                    {45.18,64.9,phases.LOST_ISLES_CHAPTER_6},
+                    {45.18,64.9,phases.LOST_ISLES_CHAPTER_7},
+                    {37.3,41.9,phases.LOST_ISLES_CHAPTER_8},
+                    {43.63,25.32,184},
+                    {42.57,16.38,185},
+                },
+            },
+        },
         [38935] = { -- Thrall
             [npcKeys.spawns] = {
                 [zoneIDs.THE_LOST_ISLES] = {
