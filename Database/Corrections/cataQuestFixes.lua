@@ -414,6 +414,10 @@ function CataQuestFixes.Load()
         [28250] = { -- Thieving Little Pluckers
             [questKeys.objectives] = {nil,nil,nil,nil,{{{48040,48041,48043},48040,"Thieving plucker smashed"}}},
         },
+        [28486] = { -- Salhet's Gambit
+            [questKeys.triggerEnd] = {"Higher ground secured", {[zoneIDs.ULDUM]={{54.,71.1}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Ranmkahen Ranger Captain"), 0, {{"monster", 49244}}}},
+        },
         [28501] = { -- The Defense of Nahom
             [questKeys.objectives] = {{{49228}}},
         },
