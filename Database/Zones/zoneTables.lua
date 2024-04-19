@@ -670,7 +670,22 @@ ZoneDB.private.dungeons = {
     [4812] = {"Icecrown Citadel",nil,210},
     [4813] = {"Pit of Saron",nil,210},
     [4820] = {"Halls of Reflection",nil,210},
+    [4926] = {"Blackrock Caverns",nil,51},
+    [4950] = {"Grim Batol",nil,4922},
+    [4945] = {"Halls of Origination",nil,5034},
     [4987] = {"The Ruby Sanctum",nil,65},
+    [5004] = {"Throne of the Tides",nil,5146},
+    [5035] = {"The Vortex Pinnacle",nil,5034},
+    [5088] = {"The Stonecore",nil,5042},
+    [5334] = {"The Bastion of Twilight",nil,4922},
+    [5396] = {"Lost City of the Tol'vir",nil,5034},
+    [5600] = {"Baradin Hold",nil,5095},
+    [5638] = {"Throne of the Four Winds",nil,5034},
+    [5723] = {"Firelands",nil,616},
+    [5788] = {"Well of Eternity",nil,440},
+    [5789] = {"End Time",nil,440},
+    [5844] = {"Hour of Twilight",nil,440},
+    [5892] = {"Dragon Soul",nil,440},
 }
 
 
