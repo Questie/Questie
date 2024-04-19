@@ -142,6 +142,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24925,24929},
         },
+        [24942] = { -- Zombies vs. Super Booster Rocket Boots
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{38753,38813,38815,38816},38813,"Goblin Zombies slain"}}},
+        },
         [24945] = { -- Three Little Pygmies
             [questKeys.preQuestSingle] = {24940},
         },
