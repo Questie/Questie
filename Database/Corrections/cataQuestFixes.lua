@@ -148,6 +148,10 @@ function CataQuestFixes.Load()
         [24945] = { -- Three Little Pygmies
             [questKeys.preQuestSingle] = {24940},
         },
+        [24952] = { -- Rocket Boot Boost
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24942,24945,24946},
+        },
         [24960] = { -- The Wakening
             [questKeys.preQuestSingle] = {28608},
         },
