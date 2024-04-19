@@ -247,6 +247,10 @@ function CataQuestFixes.Load()
         [25900] = { -- Making Contact
             [questKeys.objectives] = {{{41531}}},
         },
+        [25909] = { -- Capture the Crab
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25907,25908},
+        },
         [25930] = { -- Ascending the Vale
             [questKeys.triggerEnd] = {"Ascend the Charred Vale", {[zoneIDs.STONETALON_MOUNTAINS]={{31.3,73.2}}}},
         },
