@@ -377,6 +377,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28501},
         },
         [27778] = { -- Hacking the Wibson
+            [questKeys.objectives] = {{{46715}}},
+            [questKeys.requiredSourceItems] = {62621},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27761,27777},
         },
