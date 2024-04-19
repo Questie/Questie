@@ -436,6 +436,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [80455] = 3, -- Rogue Honor Among Thieves
     [80526] = 3, -- Rogue Honor Among Thieves
     [82084] = 3, -- Mage Temporal Anomaly
+    [82316] = 3, -- Priest Eye of the Void
     [90269] = 3, -- Druid Gale Winds
     [90271] = 3, -- Hunter Raptor Fury
     [90272] = 3, -- Hunter T.N.T
