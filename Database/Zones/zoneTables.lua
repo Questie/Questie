@@ -757,7 +757,22 @@ ZoneDB.private.dungeonLocations = {
     [4812] = {{210, 53.3, 85.5}},
     [4813] = {{210, 52.6, 89.4}},
     [4820] = {{210, 52.6, 89.4}},
+    [4926] = {{51, 34.8, 85.3}, {46, 29.4, 38.3}}, -- Blackrock Caverns, Dungeon
+    [4950] = {{4922, 19.2, 54.0}}, -- Grim Batol, Dungeon
+    [4945] = {{5034, 71.6, 52.2}}, -- Halls of Origination, Dungeon
     [4987] = {{65, 59.6, 51.1}},
+    [5004] = {{5146, 49.1, 42.4}, {5145, 70.8, 29.0}}, -- Throne of the Tides, Dungeon
+    [5035] = {{5034, 76.7, 84.4}}, -- The Vortex Pinnacle, Dungeon
+    [5088] = {{5042, 47.6, 52.0}}, -- The Stonecore, Dungeon
+    [5334] = {{4922, 34.0, 78.0}}, -- The Bastion of Twilight, Raid
+    [5396] = {{5034, 60.5, 64.2}}, -- Lost City of the Tol'vir, Dungeon
+    [5600] = {{5095, 46.3, 47.9}}, -- Baradin Hold, Raid
+    [5638] = {{5034, 38.4, 80.6}}, -- Throne of the Four Winds, Raid
+    [5723] = {{616, 47.3, 78.0}}, -- Firelands, Raid
+    [5788] = {{440, 65.7, 49.8}}, -- Well of Eternity, Dungeon
+    [5789] = {{440, 65.7, 49.8}}, -- End Time, Dungeon
+    [5844] = {{440, 65.7, 49.8}}, -- Hour of Twilight, Dungeon
+    [5892] = {{440, 65.7, 49.8}}, -- Dragon Soul, Raid
     [7307] = {{51, 34.8, 85.3}, {46, 29.4, 38.3}},
 }
 
