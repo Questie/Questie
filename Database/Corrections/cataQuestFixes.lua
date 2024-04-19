@@ -152,6 +152,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24942,24945,24946},
         },
+        [24958] = { -- Volcanoth!
+            [questKeys.objectives] = {{{38855}}},
+        },
         [24960] = { -- The Wakening
             [questKeys.preQuestSingle] = {28608},
         },
