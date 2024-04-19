@@ -17,6 +17,12 @@ function CataObjectFixes.Load()
                 [zoneIDs.TELDRASSIL] = {{66.1,52}}
             }
         },
+        [197196] = { -- Waters of Farseeing
+            [objectKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{41.71,47.5}},
+                [zoneIDs.ORGRIMMAR] = {{50.9,37.9}},
+            }
+        },
         [201974] = { -- Raptor Trap
             [objectKeys.spawns] = {},
         },

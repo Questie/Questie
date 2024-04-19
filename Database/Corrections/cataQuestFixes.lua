@@ -400,6 +400,9 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Arrive at Blackrock Caverns", {[zoneIDs.BLACKROCK_CAVERNS]={{33,66.4}}}},
             [questKeys.objectives] = {{{49456}},nil,nil,nil,},
         },
+        [28805] = { -- The Eye of the Storm
+            [questKeys.objectives] = {nil,{{197196}}},
+        },
         [28228] = { -- Rejoining the Forest
             [questKeys.triggerEnd] = {"Protector brought to hill", {[zoneIDs.FELWOOD]={{48.7,25.2}}}},
         },
