@@ -168,6 +168,9 @@ function CataItemFixes.Load()
         [55137] = { -- Ogre Disguise
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [55141] = { -- Spiralung
+            [itemKeys.npcDrops] = {39745},
+        },
         [55153] = { -- Horn of Cenarius
             [itemKeys.class] = itemClasses.QUEST,
         },

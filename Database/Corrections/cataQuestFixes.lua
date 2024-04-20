@@ -238,6 +238,10 @@ function CataQuestFixes.Load()
         [25577] = { -- Crushing the Cores
             [questKeys.requiredSourceItems] = {55123},
         },
+        [25593] = { -- Shelled Salvation
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{39729,41203,41219,42404},39729,"Shell Survivors rescued"}}},
+            [questKeys.requiredSourceItems] = {55141},
+        },
         [25617] = { -- Into the Maw!
             [questKeys.exclusiveTo] = {25624},
         },
