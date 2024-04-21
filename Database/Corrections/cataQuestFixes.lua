@@ -260,6 +260,9 @@ function CataQuestFixes.Load()
         [25715] = { -- A Closer Look
             [questKeys.triggerEnd] = {"Scout the ships on the Shattershore", {[zoneIDs.BLASTED_LANDS]={{69,32.7}}}},
         },
+        [27517] = { -- Be Prepared
+            [questKeys.objectives] = {nil,nil,{{61321}}},
+        },
         [25890] = { -- Nespirah
             [questKeys.triggerEnd] = {"Find a way to communicate with Nespirah", {[zoneIDs.SHIMMERING_EXPANSE]={{52.5,54.1}}}},
             [questKeys.preQuestSingle] = {},
