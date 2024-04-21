@@ -426,6 +426,10 @@ function CataQuestFixes.Load()
         [27969] = { -- Make Yourself Useful
             [questKeys.objectives] = {{{47292}}},
         },
+        [27990] = { -- Battlezone
+            [questKeys.objectives] = {{{47385},{47940}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Man the Siege Tank"), 0, {{"monster", 47732}}}},
+        },
         [27993] = { -- Take it to 'Em!
             [questKeys.triggerEnd] = {"Khartut's Tomb Investigated",{[zoneIDs.ULDUM]={{64.6,28.6}}}},
             [questKeys.exclusiveTo] = {27141},
