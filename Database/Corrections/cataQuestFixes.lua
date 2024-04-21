@@ -301,7 +301,8 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Sassy Hardwrench"), 0, {{"monster", 38387}}}},
         },
         [25267] = { -- Message for the Saurfang
-            [questKeys.name] = "Message for the Warchief",
+            [questKeys.name] = "Message for Garrosh",
+            [questKeys.objectivesText] = {"Deliver the SI:7 Emblem to Garrosh Hellscream at Grommash Hold in Orgrimmar."},
             [questKeys.startedBy] = {{39609}},
             [questKeys.finishedBy] = {{39605}},
         },
