@@ -90,6 +90,9 @@ function CataQuestFixes.Load()
         [13659] = { -- Explorers' League Document (6 of 6)
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [13831] = { -- A Troubling Prescription
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [13660] = { -- Explorers' League Document (5 of 6)
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
