@@ -63,6 +63,24 @@ function CataQuestFixes.Load()
         [13639] = { -- Resupplying the Excavation
             [questKeys.triggerEnd] = {"Find Huldar, Miran, and Saean", {[zoneIDs.LOCH_MODAN]={{55.6,68.5}}}},
         },
+        [13655] = { -- Explorers' League Document (2 of 6)
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [13656] = { -- Explorers' League Document (1 of 6)
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [13657] = { -- Explorers' League Document (3 of 6)
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [13658] = { -- Explorers' League Document (4 of 6)
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [13659] = { -- Explorers' League Document (6 of 6)
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [13660] = { -- Explorers' League Document (5 of 6)
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [13841] = { -- All Apologies
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectivesText] = {"Draaka wants you to bring her Letter of Explanation to Garrosh Hellscream in Orgrimmar."},
