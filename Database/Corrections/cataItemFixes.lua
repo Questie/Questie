@@ -252,6 +252,9 @@ function CataItemFixes.Load()
         [62608] = { -- Uldum Chest Key Code
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [62777] = { -- The Desert Fox
+            [itemKeys.npcDrops] = {47201},
+        },
         [62817] = { -- Neferset Key
             [itemKeys.class] = itemClasses.QUEST,
         },
