@@ -541,6 +541,9 @@ function CataQuestFixes.Load()
         [28635] = { -- A Haunting in Hillsbrad
             [questKeys.triggerEnd] = {"Search Dun Garok for Evidence of a Haunting", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.9,84.5}}}},
         },
+        [28717] = { -- Warchief's Command: Twilight Highlands!
+            [questKeys.finishedBy] = {{39605}},
+        },
         [28732] = { --This Can Only Mean One Thing...
             [questKeys.triggerEnd] = {"Arrive at Blackrock Caverns", {[zoneIDs.BLACKROCK_CAVERNS]={{33,66.4}}}},
             [questKeys.objectives] = {{{49456}},nil,nil,nil,},
