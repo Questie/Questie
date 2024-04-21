@@ -329,6 +329,9 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectives] = {{{42673},{42671}}},
         },
+        [26337] = { -- Beating the Market
+            [questKeys.objectives] = {{{42777}}},
+        },
         [26374] = { -- Ready the Ground Troops
             [questKeys.objectives] = {{{42646}}},
         },
