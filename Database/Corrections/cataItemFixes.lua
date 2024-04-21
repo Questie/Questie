@@ -255,6 +255,9 @@ function CataItemFixes.Load()
         [62777] = { -- The Desert Fox
             [itemKeys.npcDrops] = {47201},
         },
+        [62793] = { -- Furious Spectral Essence
+            [itemKeys.npcDrops] = {47220},
+        },
         [62817] = { -- Neferset Key
             [itemKeys.class] = itemClasses.QUEST,
         },
