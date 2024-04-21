@@ -273,6 +273,9 @@ function CataItemFixes.Load()
         [63351] = { -- Tahret Dynasty Mallet
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [63685] = { -- Ancient Copper Scroll
+            [itemKeys.npcDrops] = {},
+        },
         [65734] = { -- Twilight Documents
             [itemKeys.class] = itemClasses.QUEST,
         },
