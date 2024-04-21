@@ -299,6 +299,11 @@ function CataQuestFixes.Load()
         [25266] = { -- Warchief's Emissary
             [questKeys.finishedBy] = {{39605}},
         },
+        [25267] = { -- Message for the Saurfang
+            [questKeys.name] = "Message for the Warchief",
+            [questKeys.startedBy] = {{39609}},
+            [questKeys.finishedBy] = {{39605}},
+        },
         [25316] = { -- As Hyjal Burns
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Hop on Aronus"), 0, {{"monster", 39140}}}},
         },
