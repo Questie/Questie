@@ -34,6 +34,10 @@ function CataQuestFixes.Load()
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
         },
+        [7783] = { -- The Lord of Blackrock
+            [questKeys.finishedBy] = {{39605}},
+            [questKeys.objectivesText] = {"Return the Head of Nefarian to Garrosh Hellscream in Orgrimmar."},
+        },
         [13564] = { -- A Lost Companion
             [questKeys.triggerEnd] = {"Locate Grimclaw", {[zoneIDs.DARKSHORE]={{43,39}}}},
         },
