@@ -63,6 +63,9 @@ function CataQuestFixes.Load()
         [13564] = { -- A Lost Companion
             [questKeys.triggerEnd] = {"Locate Grimclaw", {[zoneIDs.DARKSHORE]={{43,39}}}},
         },
+        [13567] = { -- Spirit of the Stag
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [13597] = { -- Spirit of the Thistle Bear
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
