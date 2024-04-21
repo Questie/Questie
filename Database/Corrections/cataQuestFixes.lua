@@ -451,6 +451,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{39605}},
             [questKeys.finishedBy] = {{39605}},
         },
+        [26840] = { -- Return to the Highlands
+            [questKeys.startedBy] = {{39605}},
+        },
         [26930] = { -- After the Crusade
             [questKeys.triggerEnd] = {"Scarlet Crusade camp scouted", {[zoneIDs.WESTERN_PLAGUELANDS]={{40.6,52.6}}}},
         },
