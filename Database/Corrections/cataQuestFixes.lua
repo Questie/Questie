@@ -292,6 +292,10 @@ function CataQuestFixes.Load()
         [26258] = { -- Deathwing's Fall
             [questKeys.triggerEnd] = {"Deathwing's Fall reached", {[zoneIDs.DEEPHOLM]={{61.3,57.5}}}},
         },
+        [26294] = { -- Weapons of Mass Dysfunction
+            [questKeys.finishedBy] = {{39605}},
+            [questKeys.objectives] = {{{42673},{42671}}},
+        },
         [26440] = { -- Clingy
             [questKeys.triggerEnd] = {"Pebble brought to crystal formation",{[zoneIDs.DEEPHOLM]={{29,45}}}},
             [questKeys.objectives] = {},
