@@ -40,6 +40,10 @@ function CataQuestFixes.Load()
         [13639] = { -- Resupplying the Excavation
             [questKeys.triggerEnd] = {"Find Huldar, Miran, and Saean", {[zoneIDs.LOCH_MODAN]={{55.6,68.5}}}},
         },
+        [13841] = { -- All Apologies
+            [questKeys.finishedBy] = {{39605}},
+            [questKeys.objectivesText] = {"Draaka wants you to bring her Letter of Explanation to Garrosh Hellscream in Orgrimmar."},
+        },
         [13881] = { -- Consumed
             [questKeys.triggerEnd] = {"Watering Hole Investigated", {[zoneIDs.DARKSHORE]={{45,79.1}}}},
         },
