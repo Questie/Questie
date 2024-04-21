@@ -38,6 +38,11 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectivesText] = {"Return the Head of Nefarian to Garrosh Hellscream in Orgrimmar."},
         },
+        [13189] = { -- Saurfang's Blessing
+            [questKeys.name] = "Warchief's Blessing",
+            [questKeys.finishedBy] = {{39605}},
+            [questKeys.objectivesText] = {"Deliver the letter to High Overlord Garrosh Hellscream at Orgrimmar."},
+        },
         [13564] = { -- A Lost Companion
             [questKeys.triggerEnd] = {"Locate Grimclaw", {[zoneIDs.DARKSHORE]={{43,39}}}},
         },
