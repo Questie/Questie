@@ -129,9 +129,6 @@ function CataItemFixes.Load()
         [52483] = { -- Kaja'Cola Zero-One
             [itemKeys.npcDrops] = {},
         },
-        [52484] = { -- Kaja'Cola Zero-One
-            [itemKeys.npcDrops] = {},
-        },
         [52505] = { -- Poison Extraction Totem
             [itemKeys.class] = itemClasses.QUEST,
         },

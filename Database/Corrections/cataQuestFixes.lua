@@ -230,6 +230,9 @@ function CataQuestFixes.Load()
         [25105] = { -- Nibbler!  No!
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
         },
+        [25122] = { -- Morale Boost
+            [questKeys.requiredSourceItems] = {52484},
+        },
         [25123] = { -- Throw It On the Ground!
             [questKeys.objectives] = {{{39194}}},
             [questKeys.requiredSourceItems] = {52481},
