@@ -358,6 +358,11 @@ function CataQuestFixes.Load()
         [26712] = { -- Off to the Bank (male)
             [questKeys.exclusiveTo] = {26711},
         },
+        [26798] = { -- Saurfang Will be Pleased
+            [questKeys.name] = "The Warchief Will Be Pleased",
+            [questKeys.finishedBy] = {{39605}},
+            [questKeys.objectivesText] = {"Use the portal in Dragonmaw Port to go to Orgrimmar and report to Garrosh Hellscream."},
+        },
         [26930] = { -- After the Crusade
             [questKeys.triggerEnd] = {"Scarlet Crusade camp scouted", {[zoneIDs.WESTERN_PLAGUELANDS]={{40.6,52.6}}}},
         },
