@@ -123,6 +123,9 @@ function CataItemFixes.Load()
         [52024] = { -- Rockin' Powder
             [itemKeys.npcDrops] = {},
         },
+        [52481] = { -- Blastshadow's Soulstone
+            [itemKeys.npcDrops] = {},
+        },
         [52483] = { -- Kaja'Cola Zero-One
             [itemKeys.npcDrops] = {},
         },
