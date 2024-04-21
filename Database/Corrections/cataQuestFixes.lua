@@ -150,6 +150,9 @@ function CataQuestFixes.Load()
         [24502] = { -- Necessary Roughness
             [questKeys.objectives] = {{{48526},{37114}}},
         },
+        [24612] = { -- A Gift for the Emissary of Orgrimmar
+            [questKeys.finishedBy] = {{39605}},
+        },
         [24618] = { -- Claim the Battle Scar
             [questKeys.triggerEnd] = {"Battlescar Flag Scouted", {[zoneIDs.THE_BARRENS]={{45.2,69.4}}}},
         },
