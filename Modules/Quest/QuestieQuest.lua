@@ -45,6 +45,8 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+---@type Phasing
+local Phasing = QuestieLoader:ImportModule("Phasing")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -1236,7 +1238,7 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
             for zone, spawns in pairs(spawnData.Spawns) do
                 local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
                 for _, spawn in pairs(spawns) do
-                    if (spawn[1] and spawn[2]) then
+                    if spawn[1] and spawn[2] and Phasing.IsSpawnVisible(spawn[3]) then
                         local drawIcon = {
                             AlreadySpawnedId = id,
                             data = data,
@@ -1319,6 +1321,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
                 centerX = secondDungeonLocation[2]
                 centerY = secondDungeonLocation[3]
 
+                -- Phase is already checked in _DetermineIconsToDraw
                 local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, centerX, centerY) -- clustering code takes care of duplicates as long as min-dist is more than 0
 
                 if iconMap and iconMini then
@@ -1336,6 +1339,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
             centerY = firstDungeonLocation[3]
         end
 
+        -- Phase is already checked in _DetermineIconsToDraw
         local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, centerX, centerY) -- clustering code takes care of duplicates as long as min-dist is more than 0
 
         if iconMap and iconMini then
@@ -1386,6 +1390,7 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
                 local firstWaypoint = waypoints[1][1]
 
                 if (not iconPerZone[zone]) and icon and firstWaypoint[1] ~= -1 and firstWaypoint[2] ~= -1 then              -- spawn an icon in this zone for the mob
+                    -- Phase is already checked in _DetermineIconsToDraw
                     local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, zone, firstWaypoint[1], firstWaypoint[2]) -- clustering code takes care of duplicates as long as min-dist is more than 0
 
                     if iconMap and iconMini then
