@@ -363,6 +363,9 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectivesText] = {"Use the portal in Dragonmaw Port to go to Orgrimmar and report to Garrosh Hellscream."},
         },
+        [26830] = { -- Traitor's Bait
+            [questKeys.finishedBy] = {{39605}},
+        },
         [26930] = { -- After the Crusade
             [questKeys.triggerEnd] = {"Scarlet Crusade camp scouted", {[zoneIDs.WESTERN_PLAGUELANDS]={{40.6,52.6}}}},
         },
