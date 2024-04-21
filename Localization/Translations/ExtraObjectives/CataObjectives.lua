@@ -110,6 +110,18 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Talk to Sassy Hardwrench"] = {
+        ["ptBR"] = "Converse com Espoleta Chaveforte",
+        ["ruRU"] = "Поговорите с Хамми Кофельнагель",
+        ["deDE"] = "Sprich mit Sassy Hartzang",
+        ["koKR"] = false,
+        ["esMX"] = "Habla con Sassy Malallave",
+        ["enUS"] = true,
+        ["frFR"] = "Parlez à Chipie Serrelavis",
+        ["esES"] = "Habla con Sassy Malallave",
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(cataObjectiveLocales) do

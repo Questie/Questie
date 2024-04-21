@@ -298,6 +298,7 @@ function CataQuestFixes.Load()
         },
         [25266] = { -- Warchief's Emissary
             [questKeys.finishedBy] = {{39605}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Sassy Hardwrench"), 0, {{"monster", 38387}}}},
         },
         [25267] = { -- Message for the Saurfang
             [questKeys.name] = "Message for the Warchief",
