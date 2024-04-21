@@ -404,6 +404,9 @@ function CataQuestFixes.Load()
         [26311] = { -- Unfamiliar Waters
             [questKeys.preQuestSingle] = {26294},
         },
+        [26324] = { -- Where Is My Warfleet?
+            [questKeys.startedBy] = {{39605}},
+        },
         [26337] = { -- Beating the Market
             [questKeys.objectives] = {{{42777}}},
         },
