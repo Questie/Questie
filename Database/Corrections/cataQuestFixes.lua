@@ -329,6 +329,9 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectives] = {{{42673},{42671}}},
         },
+        [26311] = { -- Unfamiliar Waters
+            [questKeys.preQuestSingle] = {26294},
+        },
         [26337] = { -- Beating the Market
             [questKeys.objectives] = {{{42777}}},
         },
