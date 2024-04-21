@@ -481,6 +481,9 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 14121,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [28622] = { -- Three if by Air
+            [questKeys.objectives] = {{{49211},{49215},{49216}}},
+        },
         [28635] = { -- A Haunting in Hillsbrad
             [questKeys.triggerEnd] = {"Search Dun Garok for Evidence of a Haunting", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.9,84.5}}}},
         },
