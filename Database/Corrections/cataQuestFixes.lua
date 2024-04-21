@@ -563,6 +563,9 @@ function CataQuestFixes.Load()
         [28228] = { -- Rejoining the Forest
             [questKeys.triggerEnd] = {"Protector brought to hill", {[zoneIDs.FELWOOD]={{48.7,25.2}}}},
         },
+        [28849] = { -- Twilight Skies
+            [questKeys.preQuestGroup] = {26337,26372,26374},
+        },
         [28870] = { -- Return to the Lost City
             [questKeys.preQuestSingle] = {28520},
         },
