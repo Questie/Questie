@@ -38,6 +38,16 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectivesText] = {"Return the Head of Nefarian to Garrosh Hellscream in Orgrimmar."},
         },
+        [9626] = { -- Meeting the Orcs
+            [questKeys.name] = "Meeting the Warchief",
+            [questKeys.finishedBy] = {{39605}},
+            [questKeys.objectivesText] = {"Lady Sylvanas Windrunner wants you to take the Letter Sealed by Sylvanas to Garrosh Hellscream in Orgrimmar, capital of Durotar."},
+        },
+        [9813] = { -- Meeting the Orcs
+            [questKeys.name] = "Meeting the Warchief",
+            [questKeys.finishedBy] = {{39605}},
+            [questKeys.objectivesText] = {"Lady Sylvanas Windrunner wants you to take the Letter Sealed by Sylvanas to Garrosh Hellscream in Orgrimmar, capital of Durotar."},
+        },
         [13189] = { -- Saurfang's Blessing
             [questKeys.name] = "Warchief's Blessing",
             [questKeys.finishedBy] = {{39605}},
