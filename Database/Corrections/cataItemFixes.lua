@@ -204,6 +204,9 @@ function CataItemFixes.Load()
         [58167] = { -- Spirit Totem
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [58224] = { -- Induction Samophlange
+            [itemKeys.npcDrops] = {42644},
+        },
         [58365] = { -- Horn of the Ancients
             [itemKeys.class] = itemClasses.QUEST,
         },
