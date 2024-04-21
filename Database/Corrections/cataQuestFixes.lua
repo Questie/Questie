@@ -268,6 +268,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
         },
         [25202] = { -- The Fastest Way to His Heart
+            [questKeys.preQuestSingle] = {25213},
             [questKeys.exclusiveTo] = {25243},
         },
         [25203] = { -- What Kind of Name is Chip, Anyway?
