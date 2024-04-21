@@ -63,6 +63,9 @@ function CataQuestFixes.Load()
         [13564] = { -- A Lost Companion
             [questKeys.triggerEnd] = {"Locate Grimclaw", {[zoneIDs.DARKSHORE]={{43,39}}}},
         },
+        [13597] = { -- Spirit of the Thistle Bear
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [13639] = { -- Resupplying the Excavation
             [questKeys.triggerEnd] = {"Find Huldar, Miran, and Saean", {[zoneIDs.LOCH_MODAN]={{55.6,68.5}}}},
         },
