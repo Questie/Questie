@@ -42,6 +42,9 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectivesText] = {"Return the Head of Nefarian to Garrosh Hellscream in Orgrimmar."},
         },
+        [9616] = { -- Bandits!
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [9626] = { -- Meeting the Orcs
             [questKeys.name] = "Meeting the Warchief",
             [questKeys.finishedBy] = {{39605}},
