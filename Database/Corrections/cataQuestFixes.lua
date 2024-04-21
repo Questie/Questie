@@ -304,6 +304,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{39609}},
             [questKeys.finishedBy] = {{39605}},
         },
+        [25275] = { -- Report to the Labor Captain
+            [questKeys.startedBy] = {{39605}},
+        },
         [25316] = { -- As Hyjal Burns
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Hop on Aronus"), 0, {{"monster", 39140}}}},
         },
