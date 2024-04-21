@@ -34,6 +34,10 @@ function CataQuestFixes.Load()
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
         },
+        [7490] = { -- Victory for the Horde
+            [questKeys.finishedBy] = {{39605}},
+            [questKeys.objectivesText] = {"Take the Head of Onyxia to Garrosh Hellscream in Orgrimmar."},
+        },
         [7783] = { -- The Lord of Blackrock
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectivesText] = {"Return the Head of Nefarian to Garrosh Hellscream in Orgrimmar."},
