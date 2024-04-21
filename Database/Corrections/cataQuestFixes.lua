@@ -263,6 +263,10 @@ function CataQuestFixes.Load()
         [27517] = { -- Be Prepared
             [questKeys.objectives] = {nil,nil,{{61321}}},
         },
+        [25830] = { -- The Last Living Lorekeeper
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25520,25611,25807},
+        },
         [25890] = { -- Nespirah
             [questKeys.triggerEnd] = {"Find a way to communicate with Nespirah", {[zoneIDs.SHIMMERING_EXPANSE]={{52.5,54.1}}}},
             [questKeys.preQuestSingle] = {},
