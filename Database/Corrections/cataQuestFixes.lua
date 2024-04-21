@@ -329,6 +329,15 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectives] = {{{42673},{42671}}},
         },
+        [26397] = { -- Walk With The Earth Mother
+            [questKeys.finishedBy] = {{39605}},
+            [questKeys.objectivesText] = {"Take the Mark of Bloodhoof to Garrosh Hellscream, located in Grommash Hold in Orgrimmar.","","You may speak with Tal the Wind Rider Master to travel there, or wait for the zeppelin."},
+        },
+        [26398] = { -- Walk With The Earth Mother
+            [questKeys.startedBy] = {{36648}},
+            [questKeys.finishedBy] = {{39605}},
+            [questKeys.objectivesText] = {"Take the Mark of Bloodhoof to Garrosh Hellscream, located in Grommash Hold in Orgrimmar.","","You may speak with Tal the Wind Rider Master to travel there, or wait for the zeppelin."},
+        },
         [26440] = { -- Clingy
             [questKeys.triggerEnd] = {"Pebble brought to crystal formation",{[zoneIDs.DEEPHOLM]={{29,45}}}},
             [questKeys.objectives] = {},
