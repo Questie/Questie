@@ -36,6 +36,18 @@ function Phasing.IsSpawnVisible(phase)
 
     local complete = Questie.db.char.complete
 
+    if (phase >= phases.LOST_ISLES_CHAPTER_1 and phase <= phases.LOST_ISLES_CHAPTER_3) or
+        (phase >= phases.LOST_ISLES_CHAPTER_4 and phase <= phases.LOST_ISLES_CHAPTER_10) then
+        return _Phasing.LostIsles(phase, complete)
+    end
+
+    if phase >= phases.KEZAN_CHAPTER_1 and phase <= phases.KEZAN_CHAPTER_7 then
+        return _Phasing.Kezan(phase, complete)
+    end
+    return false
+end
+
+_Phasing.LostIsles = function(phase, complete)
     if phase == phases.LOST_ISLES_CHAPTER_1 and (not complete[14303]) and (not complete[14240]) then
         return complete[14126]
     end
@@ -76,9 +88,6 @@ function Phasing.IsSpawnVisible(phase)
         return complete[25251]
     end
 
-    if phase >= phases.KEZAN_CHAPTER_1 and phase <= phases.KEZAN_CHAPTER_7 then
-        return _Phasing.Kezan(phase, complete)
-    end
     return false
 end
 
