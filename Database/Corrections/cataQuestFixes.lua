@@ -471,6 +471,9 @@ function CataQuestFixes.Load()
         [28228] = { -- Rejoining the Forest
             [questKeys.triggerEnd] = {"Protector brought to hill", {[zoneIDs.FELWOOD]={{48.7,25.2}}}},
         },
+        [28870] = { -- Return to the Lost City
+            [questKeys.preQuestSingle] = {28520},
+        },
         [28872] = { -- Total War
             [questKeys.objectives] = {nil,{{206195}}},
         },
