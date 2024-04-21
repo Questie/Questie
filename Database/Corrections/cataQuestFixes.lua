@@ -66,6 +66,9 @@ function CataQuestFixes.Load()
         [13567] = { -- Spirit of the Stag
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [13568] = { -- Spirit of the Moonstalker
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [13597] = { -- Spirit of the Thistle Bear
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
