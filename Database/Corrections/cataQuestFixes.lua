@@ -420,6 +420,9 @@ function CataQuestFixes.Load()
         [27922] = { -- Traitors!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Hide behind Neferset Frond"), 0, {{"object", 206579}}}},
         },
+        [27950] = { -- Gobbles!
+            [questKeys.objectives] = {{{47191}}},
+        },
         [27993] = { -- Take it to 'Em!
             [questKeys.triggerEnd] = {"Khartut's Tomb Investigated",{[zoneIDs.ULDUM]={{64.6,28.6}}}},
             [questKeys.exclusiveTo] = {27141},
