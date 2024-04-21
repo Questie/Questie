@@ -255,6 +255,9 @@ function CataItemFixes.Load()
         [62777] = { -- The Desert Fox
             [itemKeys.npcDrops] = {47201},
         },
+        [62792] = { -- Well-preserved Idol
+            [itemKeys.npcDrops] = {},
+        },
         [62793] = { -- Furious Spectral Essence
             [itemKeys.npcDrops] = {47220},
         },
