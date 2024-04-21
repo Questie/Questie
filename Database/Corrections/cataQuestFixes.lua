@@ -452,6 +452,9 @@ function CataQuestFixes.Load()
         [28250] = { -- Thieving Little Pluckers
             [questKeys.objectives] = {nil,nil,nil,nil,{{{48040,48041,48043},48040,"Thieving plucker smashed"}}},
         },
+        [28351] = { -- Unlimited Potential
+            [questKeys.objectives] = {{{51217}}},
+        },
         [28352] = { -- Camelraderie
             [questKeys.objectives] = {{{51193}}},
         },
