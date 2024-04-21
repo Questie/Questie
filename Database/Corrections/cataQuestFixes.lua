@@ -423,6 +423,9 @@ function CataQuestFixes.Load()
         [27950] = { -- Gobbles!
             [questKeys.objectives] = {{{47191}}},
         },
+        [27969] = { -- Make Yourself Useful
+            [questKeys.objectives] = {{{47292}}},
+        },
         [27993] = { -- Take it to 'Em!
             [questKeys.triggerEnd] = {"Khartut's Tomb Investigated",{[zoneIDs.ULDUM]={{64.6,28.6}}}},
             [questKeys.exclusiveTo] = {27141},
