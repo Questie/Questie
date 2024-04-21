@@ -44,6 +44,9 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectivesText] = {"Draaka wants you to bring her Letter of Explanation to Garrosh Hellscream in Orgrimmar."},
         },
+        [13842] = { -- Dread Head Redemption
+            [questKeys.finishedBy] = {{39605}},
+        },
         [13881] = { -- Consumed
             [questKeys.triggerEnd] = {"Watering Hole Investigated", {[zoneIDs.DARKSHORE]={{45,79.1}}}},
         },
