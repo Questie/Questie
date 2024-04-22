@@ -231,6 +231,9 @@ function CataItemFixes.Load()
         [59522] = { -- Key of Ilgalar
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [60337] = { -- Verrall River Muck
+            [itemKeys.npcDrops] = {},
+        },
         [60382] = { -- Mylra's Knife
             [itemKeys.class] = itemClasses.QUEST,
         },
