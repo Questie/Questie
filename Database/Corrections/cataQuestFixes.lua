@@ -458,6 +458,7 @@ function CataQuestFixes.Load()
         [26830] = { -- Traitor's Bait
             [questKeys.startedBy] = {{39605}},
             [questKeys.finishedBy] = {{39605}},
+            [questKeys.objectives] = {{{44160},{44120}}},
         },
         [26840] = { -- Return to the Highlands
             [questKeys.startedBy] = {{39605}},
