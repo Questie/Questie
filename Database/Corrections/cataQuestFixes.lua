@@ -13,6 +13,7 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieCorrections.objectObjectiveFirst[24817] = true
+QuestieCorrections.killCreditObjectiveFirst[26621] = true
 
 function CataQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
@@ -437,6 +438,9 @@ function CataQuestFixes.Load()
         [26549] = { -- Madness
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Negotiations Concluded",{[zoneIDs.TWILIGHT_HIGHLANDS]={{75.5,55.25}}}},
+        },
+        [26621] = { -- Insurrection
+            [questKeys.objectives] = {{{43575},{43394}},nil,nil,nil,{{{43577,43578},43577,"Dragonmaw Civilian Armed"}}},
         },
         [26642] = { -- Preserving the Barrens
             [questKeys.exclusiveTo] = {28494},
