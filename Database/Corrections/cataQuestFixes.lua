@@ -434,6 +434,10 @@ function CataQuestFixes.Load()
         [26538] = { -- Emergency Aid
             [questKeys.objectives] = {{{43191}}},
         },
+        [26549] = { -- Madness
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Negotiations Concluded",{[zoneIDs.TWILIGHT_HIGHLANDS]={{75.5,55.25}}}},
+        },
         [26642] = { -- Preserving the Barrens
             [questKeys.exclusiveTo] = {28494},
         },
