@@ -502,6 +502,9 @@ function CataQuestFixes.Load()
         [27203] = { -- The Maelstrom
             [questKeys.preQuestSingle] = {27399,27442,27722,27398,27443,27727},
         },
+        [27299] = { -- Torn Ground
+            [questKeys.preQuestSingle] = {},
+        },
         [27341] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
         },
