@@ -18,6 +18,8 @@ local phases = {
     LOST_ISLES_CHAPTER_10 = 185,
 
     TWILIGHT_HIGHLANDS_CHAPTER_1 = 229,
+    TWILIGHT_HIGHLANDS_CHAPTER_2 = 238,
+    TWILIGHT_HIGHLANDS_CHAPTER_3 = 247,
 
     KEZAN_CHAPTER_1 = 378,
     KEZAN_CHAPTER_2 = 379,
@@ -43,8 +45,16 @@ function Phasing.IsSpawnVisible(phase)
         return _Phasing.LostIsles(phase, complete)
     end
 
-    if phase == phases.TWILIGHT_HIGHLANDS_CHAPTER_1 then
+    if phase == phases.TWILIGHT_HIGHLANDS_CHAPTER_1 and (not complete[26608]) then
         return true
+    end
+
+    if phase == phases.TWILIGHT_HIGHLANDS_CHAPTER_2 and (not complete[26622]) then
+        return complete[26608]
+    end
+
+    if phase == phases.TWILIGHT_HIGHLANDS_CHAPTER_3 then
+        return complete[26622] and (not complete[26830])
     end
 
     if phase >= phases.KEZAN_CHAPTER_1 and phase <= phases.KEZAN_CHAPTER_7 then
