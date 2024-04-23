@@ -17,9 +17,10 @@ local phases = {
     LOST_ISLES_CHAPTER_9 = 184,
     LOST_ISLES_CHAPTER_10 = 185,
 
-    TWILIGHT_HIGHLANDS_CHAPTER_1 = 229,
-    TWILIGHT_HIGHLANDS_CHAPTER_2 = 238,
-    TWILIGHT_HIGHLANDS_CHAPTER_3 = 247,
+    -- Horde starting area in Twilight Highlands
+    DRAGONMAW_PORT_CHAPTER_1 = 229,
+    DRAGONMAW_PORT_CHAPTER_2 = 238,
+    DRAGONMAW_PORT_CHAPTER_3 = 247,
 
     KEZAN_CHAPTER_1 = 378,
     KEZAN_CHAPTER_2 = 379,
@@ -45,16 +46,8 @@ function Phasing.IsSpawnVisible(phase)
         return _Phasing.LostIsles(phase, complete)
     end
 
-    if phase == phases.TWILIGHT_HIGHLANDS_CHAPTER_1 and (not complete[26608]) then
-        return true
-    end
-
-    if phase == phases.TWILIGHT_HIGHLANDS_CHAPTER_2 and (not complete[26622]) then
-        return complete[26608]
-    end
-
-    if phase == phases.TWILIGHT_HIGHLANDS_CHAPTER_3 then
-        return complete[26622] and (not complete[26830])
+    if phase >= phases.DRAGONMAW_PORT_CHAPTER_1 and phase <= phases.DRAGONMAW_PORT_CHAPTER_3 then
+        return _Phasing.DragonmawPort(phase, complete)
     end
 
     if phase >= phases.KEZAN_CHAPTER_1 and phase <= phases.KEZAN_CHAPTER_7 then
@@ -102,6 +95,22 @@ _Phasing.LostIsles = function(phase, complete)
 
     if phase == phases.LOST_ISLES_CHAPTER_10 then
         return complete[25251]
+    end
+
+    return false
+end
+
+_Phasing.DragonmawPort = function(phase, complete)
+    if phase == phases.DRAGONMAW_PORT_CHAPTER_1 and (not complete[26608]) then
+        return true
+    end
+
+    if phase == phases.DRAGONMAW_PORT_CHAPTER_2 and (not complete[26622]) then
+        return complete[26608]
+    end
+
+    if phase == phases.DRAGONMAW_PORT_CHAPTER_3 then
+        return complete[26622] and (not complete[26830])
     end
 
     return false
