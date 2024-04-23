@@ -505,6 +505,9 @@ function CataQuestFixes.Load()
         [27299] = { -- Torn Ground
             [questKeys.preQuestSingle] = {},
         },
+        [27301] = { -- Unbroken
+            [questKeys.preQuestSingle] = {27300},
+        },
         [27341] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
         },
