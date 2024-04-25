@@ -381,6 +381,9 @@ function CataQuestFixes.Load()
         [25930] = { -- Ascending the Vale
             [questKeys.triggerEnd] = {"Ascend the Charred Vale", {[zoneIDs.STONETALON_MOUNTAINS]={{31.3,73.2}}}},
         },
+        [25974] = { -- Sira'kess Slaying
+            [questKeys.preQuestSingle] = {26092},
+        },
         [25976] = { -- Treasure Reclamation
             [questKeys.preQuestSingle] = {26092},
         },
