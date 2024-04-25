@@ -204,6 +204,9 @@ function CataItemFixes.Load()
         [56819] = { -- Remora Oil
             [itemKeys.npcDrops] = {42112},
         },
+        [56818] = { -- Terrapin Oil
+            [itemKeys.npcDrops] = {42108},
+        },
         [56820] = { -- Hammerhead Oil
             [itemKeys.npcDrops] = {42113},
         },
