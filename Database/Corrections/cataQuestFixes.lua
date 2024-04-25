@@ -416,6 +416,9 @@ function CataQuestFixes.Load()
         [26374] = { -- Ready the Ground Troops
             [questKeys.objectives] = {{{42646}}},
         },
+        [26377] = { -- Unsolid Ground
+            [questKeys.requiredSourceItems] = {58500,58783},
+        },
         [26397] = { -- Walk With The Earth Mother
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectivesText] = {"Take the Mark of Bloodhoof to Garrosh Hellscream, located in Grommash Hold in Orgrimmar.","","You may speak with Tal the Wind Rider Master to travel there, or wait for the zeppelin."},
