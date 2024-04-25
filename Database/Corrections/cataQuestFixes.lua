@@ -381,6 +381,17 @@ function CataQuestFixes.Load()
         [25930] = { -- Ascending the Vale
             [questKeys.triggerEnd] = {"Ascend the Charred Vale", {[zoneIDs.STONETALON_MOUNTAINS]={{31.3,73.2}}}},
         },
+        [26056] = { -- The Wavespeaker
+            [questKeys.exclusiveTo] = {26057,26065},
+            [questKeys.nextQuestInChain] = 26065,
+        },
+        [26057] = { -- The Wavespeaker
+            [questKeys.exclusiveTo] = {26056,26065},
+            [questKeys.nextQuestInChain] = 26065,
+        },
+        [26065] = { -- Free Wil'hai
+            [questKeys.preQuestSingle] = {},
+        },
         [26105] = { -- Claim Korthun's End
             [questKeys.startedBy] = {{42115}},
         },
