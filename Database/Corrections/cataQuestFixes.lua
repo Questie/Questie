@@ -405,6 +405,9 @@ function CataQuestFixes.Load()
         [26065] = { -- Free Wil'hai
             [questKeys.preQuestSingle] = {},
         },
+        [26086] = { -- Orako
+            [questKeys.preQuestSingle] = {26126},
+        },
         [26088] = { -- Here Fishie Fishie
             [questKeys.preQuestSingle] = {26087},
         },
