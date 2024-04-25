@@ -408,6 +408,9 @@ function CataQuestFixes.Load()
         [26088] = { -- Here Fishie Fishie
             [questKeys.preQuestSingle] = {26087},
         },
+        [26089] = { -- Die Fishman Die
+            [questKeys.preQuestSingle] = {26087},
+        },
         [26090] = { -- I Brought You This Egg
             [questKeys.startedBy] = {{41925,41926},nil,{56812}},
         },
