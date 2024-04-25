@@ -388,6 +388,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{41590}}},
             [questKeys.preQuestSingle] = {26092},
         },
+        [25982] = { -- Those Aren't Masks
+            [questKeys.preQuestSingle] = {26092},
+        },
         [26056] = { -- The Wavespeaker
             [questKeys.exclusiveTo] = {26057,26065},
             [questKeys.nextQuestInChain] = 26065,
