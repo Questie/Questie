@@ -405,6 +405,9 @@ function CataQuestFixes.Load()
         [26065] = { -- Free Wil'hai
             [questKeys.preQuestSingle] = {},
         },
+        [26088] = { -- Here Fishie Fishie
+            [questKeys.preQuestSingle] = {26087},
+        },
         [26090] = { -- I Brought You This Egg
             [questKeys.startedBy] = {{41925,41926},nil,{56812}},
         },
