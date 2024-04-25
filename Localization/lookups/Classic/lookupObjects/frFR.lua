@@ -533,6 +533,7 @@ l10n.objectLookup["frFR"] = {
 [142715] = "Tablette de Theka",
 [142958] = "Feralas : une histoire",
 [143980] = "Parchemin Gordunni",
+[144052] = "Mare du Guet de Tristesable",    
 [144053] = "Equipement d'analyse de Scrimshank",
 [144054] = "Coffre de Shay",
 [144063] = "Monolithe d'Equinex",
