@@ -566,7 +566,14 @@ function CataQuestFixes.Load()
         [27722] = { -- Warchief's Command: Deepholm!
             [questKeys.exclusiveTo] = {27399,27442},
         },
+        [27724] = { -- Hero's Call: Vashj'ir!
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+        },
+        [27726] = { -- Hero's Call: Mount Hyjal!
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+        },
         [27727] = { -- Hero's Call: Deepholm!
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
             [questKeys.exclusiveTo] = {27398,27443},
         },
         [27742] = { -- A Little on the Side
@@ -646,6 +653,9 @@ function CataQuestFixes.Load()
         [28501] = { -- The Defense of Nahom
             [questKeys.objectives] = {{{49228}}},
         },
+        [28558] = { -- Hero's Call: Uldum!
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+        },
         [28606] = { -- The Keys to the Hot Rod
             [questKeys.startedBy] = {{34874}},
             [questKeys.parentQuest] = 14071,
@@ -660,6 +670,15 @@ function CataQuestFixes.Load()
         },
         [28635] = { -- A Haunting in Hillsbrad
             [questKeys.triggerEnd] = {"Search Dun Garok for Evidence of a Haunting", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.9,84.5}}}},
+        },
+        [28708] = { -- Hero's Call: Outland!
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+        },
+        [28709] = { -- Hero's Call: Borean Tundra!
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+        },
+        [28716] = { -- Hero's Call: Twilight Highlands!
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
         [28717] = { -- Warchief's Command: Twilight Highlands!
             [questKeys.finishedBy] = {{39605}},
@@ -690,6 +709,15 @@ function CataQuestFixes.Load()
         },
         [29102] = { -- To Fort Livingston
             [questKeys.triggerEnd] = {"Head to Fort Livingston in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{52.8,67.2}}}},
+        },
+        [29156] = { -- The Troll Incursion
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+        },
+        [29387] = { -- Guardians of Hyjal: Firelands Invasion!
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+        },
+        [29391] = { -- Guardians of Hyjal: Call of the Ancients
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
         [29392] = { -- Missing Heirlooms
             [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.STORMWIND_CITY]={{41.4,72.5}}}},
