@@ -405,6 +405,9 @@ function CataQuestFixes.Load()
         [26065] = { -- Free Wil'hai
             [questKeys.preQuestSingle] = {},
         },
+        [26092] = { -- Orako's Report
+            [questKeys.preQuestGroup] = {26088,26089},
+        },
         [26105] = { -- Claim Korthun's End
             [questKeys.startedBy] = {{42115}},
         },
