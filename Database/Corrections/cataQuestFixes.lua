@@ -381,6 +381,10 @@ function CataQuestFixes.Load()
         [25930] = { -- Ascending the Vale
             [questKeys.triggerEnd] = {"Ascend the Charred Vale", {[zoneIDs.STONETALON_MOUNTAINS]={{31.3,73.2}}}},
         },
+        [25980] = { -- A Standard Day for Azrajar
+            [questKeys.objectives] = {{{41590}}},
+            [questKeys.preQuestSingle] = {26092},
+        },
         [26056] = { -- The Wavespeaker
             [questKeys.exclusiveTo] = {26057,26065},
             [questKeys.nextQuestInChain] = 26065,
