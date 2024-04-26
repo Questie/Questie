@@ -310,7 +310,6 @@ function QuestieCorrections:Initialize(validationTables)
 
     if Questie.IsCata then
         _LoadCorrections("questData", CataQuestFixes.Load(), QuestieDB.questKeysReversed, validationTables)
-        --_LoadCorrections("npcData", QuestieWotlkNpcFixes:LoadAutomatics(), QuestieDB.npcKeysReversed, validationTables)
         _LoadCorrections("npcData", CataNpcFixes.Load(), QuestieDB.npcKeysReversed, validationTables)
         _LoadCorrections("itemData", CataItemFixes.Load(), QuestieDB.itemKeysReversed, validationTables)
         _LoadCorrections("objectData", CataObjectFixes.Load(), QuestieDB.objectKeysReversed, validationTables)

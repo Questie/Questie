@@ -38,7 +38,7 @@ local availableQuests = {}
 
 local dungeons = ZoneDB:GetDungeons()
 
-local _CalculateAvailableQuests, _DrawChildQuests,  _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
+local _CalculateAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
 
 ---@param callback function | nil
 function AvailableQuests.CalculateAndDrawAll(callback)
