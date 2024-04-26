@@ -31,8 +31,8 @@ local phases = {
 
     KEZAN_CHAPTER_1 = 378,
     KEZAN_CHAPTER_2 = 379,
-    KEZAN_CHAPTER_3 = 380,
-    KEZAN_CHAPTER_4 = 381,
+    KEZAN_CHAPTER_3 = 380, -- Not handled explicitly because the spawns are the same as chapter 2
+    KEZAN_CHAPTER_4 = 381, -- Not handled explicitly because the spawns are the same as chapter 2
     KEZAN_CHAPTER_5 = 382,
     KEZAN_CHAPTER_6 = 383,
     KEZAN_CHAPTER_7 = 384,
@@ -48,13 +48,15 @@ function Phasing.IsSpawnVisible(phase)
 
     local complete = Questie.db.char.complete
 
+    -- We return "or false", to convert nil to false
+
     if (phase >= phases.LOST_ISLES_CHAPTER_1 and phase <= phases.LOST_ISLES_CHAPTER_3) or
         (phase >= phases.LOST_ISLES_CHAPTER_4 and phase <= phases.LOST_ISLES_CHAPTER_10) then
-        return _Phasing.LostIsles(phase, complete)
+        return _Phasing.LostIsles(phase, complete) or false
     end
 
     if phase >= phases.DRAGONMAW_PORT_CHAPTER_1 and phase <= phases.DRAGONMAW_PORT_CHAPTER_3 then
-        return _Phasing.DragonmawPort(phase, complete)
+        return _Phasing.DragonmawPort(phase, complete) or false
     end
 
     if phase >= phases.THE_STONE_MARCH and phase <= phases.TEMPLE_OF_EARTH_CHAPTER_3 then
@@ -62,7 +64,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase >= phases.KEZAN_CHAPTER_1 and phase <= phases.KEZAN_CHAPTER_7 then
-        return _Phasing.Kezan(phase, complete)
+        return _Phasing.Kezan(phase, complete) or false
     end
 
     return false

@@ -238,32 +238,21 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_1))
         end)
 
-        it("should return false for chapter 1 when 26608 is complete", function()
-            Questie.db.char.complete[26608] = true
-
-            assert.is_false(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_1))
-        end)
-
         it("should return true for chapter 2 when 26608 is complete", function()
             Questie.db.char.complete[26608] = true
 
             assert.is_true(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_2))
-        end)
-
-        it("should return false for chapter 2 when 26622 is complete", function()
-            Questie.db.char.complete[26622] = true
-
-            assert.is_false(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_2))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_1))
         end)
 
         it("should return true for chapter 3 when 26622 is complete", function()
             Questie.db.char.complete[26622] = true
 
             assert.is_true(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_3))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_2))
         end)
 
         it("should return false for chapter 3 when 26830 is complete", function()
-            Questie.db.char.complete[26622] = true
             Questie.db.char.complete[26830] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_3))
