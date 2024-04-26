@@ -615,6 +615,9 @@ function CataQuestFixes.Load()
         [27583] = {
             [questKeys.preQuestSingle] = {26840},
         },
+        [27586] = { -- Shells on the Sea Shore
+            [questKeys.preQuestSingle] = {27583},
+        },
         [27606] = { -- Blast Him!
             [questKeys.preQuestGroup] = {27584,27586},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Heth'Jatari Conch"), 0, {{"object", 205831}}}},
