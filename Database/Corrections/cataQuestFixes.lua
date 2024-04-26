@@ -513,6 +513,9 @@ function CataQuestFixes.Load()
         [26803] = { -- Missing Reports
             [questKeys.preQuestSingle] = {},
         },
+        [26829] = { -- The Stone March
+            [questKeys.preQuestSingle] = {26828},
+        },
         [26830] = { -- Traitor's Bait
             [questKeys.startedBy] = {{39605}},
             [questKeys.finishedBy] = {{39605}},
