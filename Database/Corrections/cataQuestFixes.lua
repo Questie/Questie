@@ -860,6 +860,9 @@ function CataQuestFixes.Load()
         [29156] = { -- The Troll Incursion
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
+        [29326] = { -- The Nordrassil Summit
+            [questKeys.preQuestSingle] = {},
+        },
         [29387] = { -- Guardians of Hyjal: Firelands Invasion!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
@@ -871,6 +874,12 @@ function CataQuestFixes.Load()
         },
         [29415] = { -- Missing Heirlooms
             [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.DUROTAR]={{60,46.1}}}},
+        },
+        [29439] = { -- The Call of the World-Shaman
+            [questKeys.exclusiveTo] = {29326},
+        },
+        [29440] = { -- The Call of the World-Shaman
+            [questKeys.exclusiveTo] = {29326},
         },
         [29475] = { -- Goblin Engineering
             [questKeys.startedBy] = {{5174,5518,8126,8738,11017,11031,16667,16726,29513,52636,52651}},
