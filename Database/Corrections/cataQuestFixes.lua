@@ -415,6 +415,9 @@ function CataQuestFixes.Load()
         [26065] = { -- Free Wil'hai
             [questKeys.preQuestSingle] = {},
         },
+        [26072] = { -- Into the Totem
+            [questKeys.objectives] = {{{42051}}},
+        },
         [26086] = { -- Orako
             [questKeys.preQuestSingle] = {26126},
         },
