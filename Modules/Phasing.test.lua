@@ -191,6 +191,48 @@ describe("Phasing", function()
         end)
     end)
 
+    describe("Deepholm", function()
+        it("should return true for The Stone March when 26827 is complete", function()
+            Questie.db.char.complete[26827] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.THE_STONE_MARCH))
+        end)
+
+        it("should return true for chapter 1 when The Stone March quests are complete", function()
+            Questie.db.char.complete[26829] = true
+            Questie.db.char.complete[26831] = true
+            Questie.db.char.complete[26832] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.TEMPLE_OF_EARTH_CHAPTER_1))
+            assert.is_false(Phasing.IsSpawnVisible(phases.THE_STONE_MARCH))
+        end)
+
+        it("should return true for chapter 2 when 26875 is complete", function()
+            Questie.db.char.complete[26875] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.TEMPLE_OF_EARTH_CHAPTER_2))
+            assert.is_false(Phasing.IsSpawnVisible(phases.THE_STONE_MARCH))
+        end)
+
+        it("should return true for chapter 3 when 26971 is complete", function()
+            Questie.db.char.complete[26971] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.TEMPLE_OF_EARTH_CHAPTER_3))
+            assert.is_false(Phasing.IsSpawnVisible(phases.THE_STONE_MARCH))
+            assert.is_false(Phasing.IsSpawnVisible(phases.TEMPLE_OF_EARTH_CHAPTER_1))
+            assert.is_false(Phasing.IsSpawnVisible(phases.TEMPLE_OF_EARTH_CHAPTER_2))
+        end)
+
+        it("should return false for chapter 3 when 26709 is complete", function()
+            Questie.db.char.complete[26709] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.TEMPLE_OF_EARTH_CHAPTER_3))
+            assert.is_false(Phasing.IsSpawnVisible(phases.THE_STONE_MARCH))
+            assert.is_false(Phasing.IsSpawnVisible(phases.TEMPLE_OF_EARTH_CHAPTER_1))
+            assert.is_false(Phasing.IsSpawnVisible(phases.TEMPLE_OF_EARTH_CHAPTER_2))
+        end)
+    end)
+
     describe("Twilight Highlands", function()
         it("should return true for chapter 1", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_1))

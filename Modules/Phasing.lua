@@ -22,6 +22,13 @@ local phases = {
     DRAGONMAW_PORT_CHAPTER_2 = 238,
     DRAGONMAW_PORT_CHAPTER_3 = 247,
 
+    -- Deepholm
+    THE_STONE_MARCH = 252,
+    TEMPLE_OF_EARTH_CHAPTER_1 = 253,
+    TEMPLE_OF_EARTH_CHAPTER_2 = 254,
+    -- It looks like 255 and 256 are not used
+    TEMPLE_OF_EARTH_CHAPTER_3 = 257,
+
     KEZAN_CHAPTER_1 = 378,
     KEZAN_CHAPTER_2 = 379,
     KEZAN_CHAPTER_3 = 380,
@@ -50,9 +57,14 @@ function Phasing.IsSpawnVisible(phase)
         return _Phasing.DragonmawPort(phase, complete)
     end
 
+    if phase >= phases.THE_STONE_MARCH and phase <= phases.TEMPLE_OF_EARTH_CHAPTER_3 then
+        return _Phasing.TempleOfEarth(phase, complete) or false
+    end
+
     if phase >= phases.KEZAN_CHAPTER_1 and phase <= phases.KEZAN_CHAPTER_7 then
         return _Phasing.Kezan(phase, complete)
     end
+
     return false
 end
 
@@ -95,6 +107,26 @@ _Phasing.LostIsles = function(phase, complete)
 
     if phase == phases.LOST_ISLES_CHAPTER_10 then
         return complete[25251]
+    end
+
+    return false
+end
+
+_Phasing.TempleOfEarth = function(phase, complete)
+    if phase == phases.THE_STONE_MARCH and (not complete[26829]) and (not complete[26831]) and (not complete[26832]) then
+        return complete[26827]
+    end
+
+    if phase == phases.TEMPLE_OF_EARTH_CHAPTER_1 and (not complete[26875]) then
+        return complete[26829] and complete[26831] and complete[26832]
+    end
+
+    if phase == phases.TEMPLE_OF_EARTH_CHAPTER_2 and (not complete[26971]) then
+        return complete[26875]
+    end
+
+    if phase == phases.TEMPLE_OF_EARTH_CHAPTER_3 and (not complete[26709]) then
+        return complete[26971]
     end
 
     return false

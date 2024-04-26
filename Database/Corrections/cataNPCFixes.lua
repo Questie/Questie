@@ -96,6 +96,14 @@ function CataNpcFixes.Load()
         [43792] = { -- Therazane
             [npcKeys.questStarts] = {26709,28824},
         },
+        [44025] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DEEPHOLM] = {
+                    {63.33,24.95,phases.THE_STONE_MARCH},
+                    {63.33,24.95,phases.TEMPLE_OF_EARTH_CHAPTER_1},
+                },
+            },
+        },
         [47838] = { -- Shrine 1 Cleansed
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{34.18,35.74}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
