@@ -453,6 +453,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {56819,56820},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring three Hammerhead Oil and two Remora Oil to Fiasco Sizzlegrin."), 0, {{"monster", 41666}}}},
         },
+        [26133] = { -- Fiends from the Netherworld
+            [questKeys.preQuestSingle] = {26111},
+        },
         [26229] = { -- "I TAKE Candle!"
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
