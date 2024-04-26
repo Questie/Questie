@@ -521,6 +521,9 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectives] = {{{44160},{44120}}},
         },
+        [26832] = { -- Therazane's Mercy
+            [questKeys.preQuestSingle] = {26828},
+        },
         [26840] = { -- Return to the Highlands
             [questKeys.startedBy] = {{39605}},
         },
