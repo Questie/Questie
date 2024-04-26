@@ -146,6 +146,18 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Wait for the Mercenary Ship to arrive"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Warte auf das Eintreffen des Söldnerschiffs",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(cataObjectiveLocales) do

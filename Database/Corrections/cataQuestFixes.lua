@@ -179,6 +179,9 @@ function CataQuestFixes.Load()
         [14473] = { -- It's Our Problem Now
             [questKeys.preQuestSingle] = {14001},
         },
+        [14482] = { -- Call of Duty
+            [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{18.3,25.5}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for the Mercenary Ship to arrive")}},
+        },
         [24452] = { -- Profitability Scouting
             [questKeys.triggerEnd] = {"Heart of Arkkoroc identified", {[zoneIDs.AZSHARA]={{32.4,50.4}}}},
         },
