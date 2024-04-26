@@ -809,6 +809,9 @@ function CataQuestFixes.Load()
         [28872] = { -- Total War
             [questKeys.objectives] = {nil,{{206195}}},
         },
+        [28874] = { -- Hook 'em High
+            [questKeys.preQuestSingle] = {28133},
+        },
         [28875] = { -- Bring Down the High Shaman
             [questKeys.preQuestSingle] = {28133},
         },
