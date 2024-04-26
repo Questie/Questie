@@ -431,6 +431,12 @@ function CataQuestFixes.Load()
         [26122] = { -- Environmental Awareness
             [questKeys.preQuestSingle] = {26221},
         },
+        [26124] = { -- Secure Seabrush
+            [questKeys.exclusiveTo] = {26125},
+        },
+        [26125] = { -- Secure Seabrush
+            [questKeys.exclusiveTo] = {26124},
+        },
         [26126] = { -- The Perfect Fuel
             [questKeys.requiredSourceItems] = {56819,56820},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring three Hammerhead Oil and two Remora Oil to Fiasco Sizzlegrin."), 0, {{"monster", 41666}}}},
