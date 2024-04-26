@@ -787,6 +787,9 @@ function CataQuestFixes.Load()
         [28870] = { -- Return to the Lost City
             [questKeys.preQuestSingle] = {28520},
         },
+        [28871] = { -- Crushing the Wildhammer
+            [questKeys.preQuestSingle] = {27690},
+        },
         [28872] = { -- Total War
             [questKeys.objectives] = {nil,{{206195}}},
         },
