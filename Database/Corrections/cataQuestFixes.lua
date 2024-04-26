@@ -700,6 +700,9 @@ function CataQuestFixes.Load()
         [28038] = { -- Blood in the Highlands
             [questKeys.exclusiveTo] = {27863},
         },
+        [28041] = { -- Bait and Throttle
+            [questKeys.preQuestGroup] = {27751,27929},
+        },
         [28043] = { -- How to Maim Your Dragon
             [questKeys.objectives] = {{{47391}}},
         },
