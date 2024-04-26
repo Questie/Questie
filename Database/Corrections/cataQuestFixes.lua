@@ -663,6 +663,9 @@ function CataQuestFixes.Load()
         [27922] = { -- Traitors!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Hide behind Neferset Frond"), 0, {{"object", 206579}}}},
         },
+        [27945] = { -- Paint it Black
+            [questKeys.preQuestSingle] = {27690},
+        },
         [27947] = { -- A Vision of Twilight
             [questKeys.preQuestSingle] = {27690},
         },
