@@ -505,6 +505,9 @@ function CataQuestFixes.Load()
         [26712] = { -- Off to the Bank (male)
             [questKeys.exclusiveTo] = {26711},
         },
+        [26750] = { -- At the Stonemother's Call
+            [questKeys.preQuestSingle] = {26659},
+        },
         [26798] = { -- Saurfang Will be Pleased
             [questKeys.name] = "The Warchief Will Be Pleased",
             [questKeys.finishedBy] = {{39605}},
