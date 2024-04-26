@@ -612,6 +612,10 @@ function CataQuestFixes.Load()
         [27583] = {
             [questKeys.preQuestSingle] = {26840},
         },
+        [27606] = { -- Blast Him!
+            [questKeys.preQuestGroup] = {27584,27586},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Heth'Jatari Conch"), 0, {{"object", 205831}}}},
+        },
         [27610] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
         },
