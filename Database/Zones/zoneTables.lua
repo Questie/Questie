@@ -3212,6 +3212,7 @@ ZoneDB.private.zoneIDs = {
     DEEPHOLM = 5042,
     ULDUM = 5043,
     SHIMMERING_EXPANSE = 5144, -- Vashj'ir sub zone
+    ABYSSAL_DEPTHS = 5145, -- Vashj'ir sub zone
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic
