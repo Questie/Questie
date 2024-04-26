@@ -804,7 +804,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28520},
         },
         [28871] = { -- Crushing the Wildhammer
-            [questKeys.preQuestSingle] = {27690},
+            [questKeys.preQuestSingle] = {28133},
         },
         [28872] = { -- Total War
             [questKeys.objectives] = {nil,{{206195}}},
