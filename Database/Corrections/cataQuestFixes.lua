@@ -626,6 +626,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27655},
             [questKeys.exclusiveTo] = {},
         },
+        [27690] = { -- Narkrall, the Drake-Tamer
+            [questKeys.preQuestSingle] = {27606},
+        },
         [27696] = { -- The Elementium Axe
             [questKeys.preQuestSingle] = {27689},
             [questKeys.exclusiveTo] = {},
