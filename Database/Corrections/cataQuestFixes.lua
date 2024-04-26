@@ -644,6 +644,10 @@ function CataQuestFixes.Load()
         [27743] = { -- While We're Here
             [questKeys.preQuestSingle] = {28885},
         },
+        [27747] = { -- Total War
+            [questKeys.objectives] = {nil,{{206195}}},
+            [questKeys.preQuestSingle] = {27690},
+        },
         [27755] = { -- The Curse of the Tombs
             [questKeys.preQuestSingle] = {28501},
         },
