@@ -747,6 +747,9 @@ function CataQuestFixes.Load()
         [28558] = { -- Hero's Call: Uldum!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
+        [28584] = { -- Quality Construction
+            [questKeys.preQuestSingle] = {28583},
+        },
         [28586] = { -- Pool Pony Rescue
             [questKeys.preQuestSingle] = {28583},
         },
