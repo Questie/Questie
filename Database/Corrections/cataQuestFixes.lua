@@ -513,6 +513,9 @@ function CataQuestFixes.Load()
         [26803] = { -- Missing Reports
             [questKeys.preQuestSingle] = {},
         },
+        [26827] = { -- Rallying the Earthen Ring
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{43836,44633,44634,44642,44644,44646,44647},44642,"Earthen Ring rallied"}}},
+        },
         [26829] = { -- The Stone March
             [questKeys.preQuestSingle] = {26828},
         },
