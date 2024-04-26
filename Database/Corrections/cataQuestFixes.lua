@@ -615,6 +615,10 @@ function CataQuestFixes.Load()
         [27610] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
         },
+        [27622] = { -- Mo' Better Shredder
+            [questKeys.objectives] = {{{46100},{46098}}},
+            [questKeys.preQuestSingle] = {27611},
+        },
         [27674] = { -- To the Surface
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast."), 0, {{"monster", 46293}}}},
         },
