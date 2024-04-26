@@ -14,6 +14,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieCorrections.objectObjectiveFirst[24817] = true
 QuestieCorrections.killCreditObjectiveFirst[26621] = true
+QuestieCorrections.killCreditObjectiveFirst[26875] = true
 
 function CataQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
