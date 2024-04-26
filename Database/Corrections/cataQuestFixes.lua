@@ -862,6 +862,38 @@ function CataQuestFixes.Load()
         },
         [29326] = { -- The Nordrassil Summit
             [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 29335,
+        },
+        [29327] = { -- Elemental Bonds: Doubt
+            [questKeys.nextQuestInChain] = 29336,
+        },
+        [29328] = { -- Elemental Bonds: Desire
+            [questKeys.preQuestSingle] = {29336},
+            [questKeys.nextQuestInChain] = 29337,
+        },
+        [29329] = { -- Elemental Bonds: Patience
+            [questKeys.preQuestSingle] = {29337},
+            [questKeys.nextQuestInChain] = 29338,
+        },
+        [29330] = { -- Elemental Bonds: Fury
+            [questKeys.preQuestSingle] = {29338},
+            [questKeys.nextQuestInChain] = 29331,
+        },
+        [29331] = { -- Elemental Bonds: The Vow
+            [questKeys.preQuestSingle] = {29330},
+        },
+        [29335] = { -- Into Slashing Winds
+            [questKeys.nextQuestInChain] = 29327,
+        },
+        [29336] = { -- Into Coaxing Tides
+            [questKeys.preQuestSingle] = {29327},
+            [questKeys.nextQuestInChain] = 29328,
+        },
+        [29337] = { -- Into Constant Earth
+            [questKeys.nextQuestInChain] = 29329,
+        },
+        [29338] = { -- Into Unrelenting Flame
+            [questKeys.nextQuestInChain] = 29330,
         },
         [29387] = { -- Guardians of Hyjal: Firelands Invasion!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
@@ -877,9 +909,11 @@ function CataQuestFixes.Load()
         },
         [29439] = { -- The Call of the World-Shaman
             [questKeys.exclusiveTo] = {29326},
+            [questKeys.nextQuestInChain] = 29326,
         },
         [29440] = { -- The Call of the World-Shaman
             [questKeys.exclusiveTo] = {29326},
+            [questKeys.nextQuestInChain] = 29326,
         },
         [29475] = { -- Goblin Engineering
             [questKeys.startedBy] = {{5174,5518,8126,8738,11017,11031,16667,16726,29513,52636,52651}},
