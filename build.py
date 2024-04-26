@@ -25,6 +25,11 @@ This program accepts optional command line options:
     -w
     --wotlk
         Include WotLK files
+
+    -ca
+    --cata
+        Include Cata files
+
     -v <versionString>
     --version <versionString>
         Disregard git and toc versions, and use <versionString> instead
@@ -98,7 +103,7 @@ def main():
     interface_classic = get_interface_version()
     interface_bcc = get_interface_version('BCC')
     interface_wotlk = get_interface_version('WOTLKC')
-    # interface_cata = get_interface_version('Cata') # TODO: Add cata to release.json
+    interface_cata = get_interface_version('Cata')
 
     flavorString = ""
     if 1 in includedExpansions:
@@ -119,6 +124,12 @@ def main():
                     "flavor": "wrath",
                     "interface": %s
                 },""" % interface_wotlk
+    if 4 in includedExpansions:
+        flavorString += """
+                {
+                    "flavor": "cata",
+                    "interface": %s
+                },""" % interface_cata
 
     with open(release_folder_path + '/release.json', 'w') as rf:
         rf.write('''{
