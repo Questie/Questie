@@ -655,6 +655,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{206195}}},
             [questKeys.preQuestSingle] = {27690},
         },
+        [27750] = { -- War Forage
+            [questKeys.preQuestSingle] = {27690},
+        },
         [27755] = { -- The Curse of the Tombs
             [questKeys.preQuestSingle] = {28501},
         },
