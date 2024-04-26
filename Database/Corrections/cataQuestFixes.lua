@@ -570,6 +570,9 @@ function CataQuestFixes.Load()
         [27007] = { -- Silvermarsh Rendezvous
             [questKeys.triggerEnd] = {"Upper Silvermarsh reached", {[zoneIDs.DEEPHOLM]={{72.3,62.3}}}},
         },
+        [27010] = { -- Quicksilver Submersion
+            [questKeys.requiredSourceItems] = {60809},
+        },
         [27027] = { -- Primal Strike
             [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{73899}}},
         },
