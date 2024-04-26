@@ -528,6 +528,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44160},{44120}}},
         },
         [26831] = { -- The Twilight Flight
+            [questKeys.finishedBy] = {{44080}},
             [questKeys.preQuestSingle] = {26828},
         },
         [26832] = { -- Therazane's Mercy
