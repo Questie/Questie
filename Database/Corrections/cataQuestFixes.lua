@@ -459,6 +459,9 @@ function CataQuestFixes.Load()
         [26154] = { -- Twilight Extermination
             [questKeys.objectives] = {{{47969},{42285}},nil,nil,nil,{{{42281,42280},42280}}},
         },
+        [26182] = { -- Back to the Tenebrous Cavern
+            [questKeys.preQuestSingle] = {26143},
+        },
         [26229] = { -- "I TAKE Candle!"
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },

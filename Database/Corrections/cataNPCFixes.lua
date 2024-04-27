@@ -90,6 +90,11 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [41600] = { -- Erunak Stonespeaker
+            [npcKeys.spawns] = {
+                [zoneIDs.ABYSSAL_DEPTHS] = {{51.57,60.9}},
+            },
+        },
         [41636] = { -- Legionnaire Nazgrim
             [npcKeys.spawns] = {
                 [zoneIDs.ABYSSAL_DEPTHS] = {{42.66,37.82}},
