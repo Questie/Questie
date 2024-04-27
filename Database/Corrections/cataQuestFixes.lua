@@ -752,27 +752,27 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Speak to Saripal Smolderbrew and learn Immolate, then cast Immolate 5 times on a Training Dummy near the entrance to Anvilmar."},
         },
         [26913] = { -- Charging into Battle
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{100}}},
             [questKeys.objectivesText] = {"Speak to Llane Bershere and purchase the Charge ability, then practice using Charge on a Training Dummy south of the entrance to Northshire Abbey."},
         },
         [26914] = { -- Corruption
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{348}}},
             [questKeys.objectivesText] = {"Speak to Drusilla La Salle and purchase the Immolate ability, then practice casting Immolate 5 times on a Training Dummy south of the entrance to Northshire Abbey."},
         },
         [26915] = { -- The Deepest Cut
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{2098}}},
             [questKeys.objectivesText] = {"Speak to Jorik Kerridan and purchase the Eviscerate ability, then find a Training Dummy south of the entrance to Northshire Abbey and practice Eviscerate 3 times."},
         },
         [26916] = { -- Mastering the Arcane
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{5143}}},
             [questKeys.objectivesText] = {"Speak to Khelden Bremen and purchase the Arcane Missiles ability, then practice casting Arcane Missiles 2 times on a Training Dummy south of the entrance to Northshire Abbey."},
         },
         [26917] = { -- The Hunter's Path
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{56641}}},
             [questKeys.objectivesText] = {"Speak to Ashley Blank and purchase the Steady Shot ability, then find a Training Dummy south of the entrance to Northshire Abbey and practice using Steady Shot 5 times."},
         },
         [26918] = { -- The Power of the Light
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{20154}}},
+            [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{20154}}},
             [questKeys.objectivesText] = {"Speak to Brother Sammuel and purchase the Seal of Righteousness and Judgement abilities. Cast Seal of Righteousness on yourself and then use Judgement on a Training Dummy south of the entrance to Northshire Abbey."},
         },
         [26919] = { -- Learning the Word
