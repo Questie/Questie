@@ -804,27 +804,27 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Learn Flash Heal from Shanda. Use Flash Heal 5 times to treat the Wounded Sentinels in Aldrassil."},
         },
         [26958] = { -- Your First Lesson
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{100}}},
             [questKeys.objectivesText] = {"Learn Charge from Kore. Find a Training Dummy on the northwest side of the Crash Site and practice using Charge."},
         },
         [26963] = { -- Steadying Your Shot
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{56641}}},
             [questKeys.objectivesText] = {"Learn Steady Shot from Keilnei. Find a Training Dummy on the northwest side of the Crash Site and practice using Steady Shot 5 times."},
         },
         [26966] = { -- The Light's Power
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{20154}}},
+            [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{20154}}},
             [questKeys.objectivesText] = {"Learn Seal of Righteousness and Judgement from Aurelon. Apply Seal of Righteousness, find a Training Dummy on the northwest side of the Crash Site and use Judgement."},
         },
         [26968] = { -- Frost Nova
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{5143}}},
             [questKeys.objectivesText] = {"Learn Arcane Missiles from Valaatu. Find a Training Dummy on the northwest side of the Crash Site and practice using Arcane Missiles 2 times."},
         },
         [26969] = { -- Primal Strike
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{73899}}},
+            [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{73899}}},
             [questKeys.objectivesText] = {"Learn Primal Strike from Firmanvaar. Find a Training Dummy on the northwest side of the Crash Site and practice using Primal Strike 3 times."},
         },
         [26970] = { -- Learning the Word
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{16971}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Learn Flash Heal from Zalduun. Use Flash Heal 5 times to heal the wounds of Injured Draenei at the Crash Site."},
         },
         [26975] = { -- Rallying the Fleet
