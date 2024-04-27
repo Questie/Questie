@@ -137,7 +137,7 @@ function CataQuestFixes.Load()
         },
         [14008] = { -- Frost Nova
             [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
-            [questKeys.objectivesText] = {"Speak with Fizz Lighter and train Arcane Missiles, then cast the spell 2 times at a Training Dummy.$B$BRemember, Arcane Missiles have a chance to activate through the use of other offensive spells. Use your Fireball spell first on the Training Dummy to enable the casting of your Arcane Missiles spell."},
+            [questKeys.objectivesText] = {"Speak with Fizz Lighter and train Arcane Missiles, then cast the spell 2 times at a Training Dummy."},
         },
         [14009] = { -- Learning the Word
             [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
