@@ -131,6 +131,10 @@ function CataQuestFixes.Load()
         [14094] = { -- Salvage the Supplies
             [questKeys.preQuestSingle] = {14078},
         },
+        [14098] = { -- Evacuate the Merchant Square
+            [questKeys.startedBy] = {{34913}},
+            [questKeys.objectives] = {nil,{{195327}}},
+        },
         [14109] = { -- The New You
             [questKeys.requiredSourceItems] = {47044},
             [questKeys.exclusiveTo] = {14110},
