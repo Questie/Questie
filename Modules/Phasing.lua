@@ -7,12 +7,14 @@ local playerFaction
 -- https://old.wow.tools/dbc/?dbc=phase&build=4.3.4.15595
 local phases = {
     UNKNOWN = 169, -- Most Deepholm NPCs (and others) have this ID but are not phased
+    -- The Lost Isles and Gilneas share the same phase IDs
     LOST_ISLES_OR_GILNEAS_CHAPTER_1 = 170,
     LOST_ISLES_OR_GILNEAS_CHAPTER_2 = 171,
     LOST_ISLES_OR_GILNEAS_CHAPTER_3 = 172,
     LOST_ISLES_OR_GILNEAS_CHAPTER_4 = 179,
     LOST_ISLES_CHAPTER_5 = 180,
     LOST_ISLES_CHAPTER_6 = 181,
+    GILNEAS_CHAPTER_5 = 181,
     LOST_ISLES_CHAPTER_7 = 182,
     LOST_ISLES_CHAPTER_8 = 183,
     LOST_ISLES_CHAPTER_9 = 184,
@@ -136,8 +138,12 @@ _Phasing.Gilneas = function(phase, complete)
         return complete[14293]
     end
 
-    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_4 then
+    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_4 and (not complete[14375]) then
         return complete[14221]
+    end
+
+    if phase == phases.GILNEAS_CHAPTER_5 then
+        return complete[14375]
     end
 
     return false
