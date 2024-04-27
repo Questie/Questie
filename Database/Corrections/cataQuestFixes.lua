@@ -197,6 +197,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{35229}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Mount Crowley's Horse"), 0, {{"monster", 44427}}}},
         },
+        [14218] = { -- By Blood and Ash
+            [questKeys.startedBy] = {{35618}},
+        },
         [14233] = { -- Orcs Can Write?
             [questKeys.exclusiveTo] = {},
         },
