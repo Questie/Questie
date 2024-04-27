@@ -626,23 +626,23 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26143},
         },
         [26198] = { -- The Arts of a Mage
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectives] = {{{44171}},nil,nil,nil,nil,{{5143}}},
             [questKeys.objectivesText] = {"Speak to Bipsi Frostflinger to train Arcane Missiles. Once you've learned the spell, successfully cast Arcane Missiles twice at a Training Dummy in New Tinkertown."},
         },
         [26200] = { -- The Arts of a Priest
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{42501}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Speak to \"Doc\" Cogspin to train Flash Heal. Use Flash Heal 5 times on Wounded Infantry in New Tinkertown."},
         },
         [26201] = { -- The Power of a Warlock
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectives] = {{{44171}},nil,nil,nil,nil,{{348}}},
             [questKeys.objectivesText] = {"Speak to Alamar Grimm and learn Immolate, then cast Immolate on a Training Dummy in New Tinkertown 5 times."},
         },
         [26204] = { -- The Arts of a Warrior
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectives] = {{{44171}},nil,nil,nil,nil,{{100}}},
             [questKeys.objectivesText] = {"Speak to Drill Sergeant Steamcrank to learn Charge. Locate a Training Dummy in New Tinkertown and use Charge on it."},
         },
         [26207] = { -- The Arts of a Rogue
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.objectives] = {{{44171}},nil,nil,nil,nil,{{2098}}},
             [questKeys.objectivesText] = {"Speak to Kelsey Steelspark to learn Eviscerate, then find a training dummy in New Tinkertown and practice using Eviscerate 3 times."},
         },
         [26229] = { -- "I TAKE Candle!"
@@ -748,7 +748,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{39605}},
         },
         [26904] = { -- Corruption
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{348}}},
             [questKeys.objectivesText] = {"Speak to Saripal Smolderbrew and learn Immolate, then cast Immolate 5 times on a Training Dummy near the entrance to Anvilmar."},
         },
         [26913] = { -- Charging into Battle
@@ -776,7 +776,7 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Speak to Brother Sammuel and purchase the Seal of Righteousness and Judgement abilities. Cast Seal of Righteousness on yourself and then use Judgement on a Training Dummy south of the entrance to Northshire Abbey."},
         },
         [26919] = { -- Learning the Word
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{44564}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Speak to Priestess Anetta and purchase the Flash Heal ability, then use Flash Heal 5 times to treat Wounded Trainees inside Northshire Abbey."},
         },
         [26930] = { -- After the Crusade
@@ -820,6 +820,7 @@ function CataQuestFixes.Load()
         },
         [26969] = { -- Primal Strike
             [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{73899}}},
+            [questKeys.objectivesText] = {"Learn Primal Strike from Firmanvaar. Find a Training Dummy on the northwest side of the Crash Site and practice using Primal Strike 3 times."},
         },
         [26970] = { -- Learning the Word
             [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
