@@ -285,14 +285,29 @@ describe("QuestieReputation", function()
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return {{909, 3}}
             end)
-            _G.IsSpellKnown = spy.new(function()
-                return true
+            _G.IsSpellKnown = spy.new(function(spellId)
+                return spellId == 78634
             end)
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.are.same({{909, 78}}, reputationReward)
             assert.spy(_G.IsSpellKnown).was_called_with(78634)
+        end)
+
+        it("should respect Mr. Popularity rank 2 guild perk", function()
+            Questie.IsCata = true
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {{909, 3}}
+            end)
+            _G.IsSpellKnown = spy.new(function(spellId)
+                return spellId == 78635
+            end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+
+            assert.are.same({{909, 82}}, reputationReward)
+            assert.spy(_G.IsSpellKnown).was_called_with(78635)
         end)
     end)
 end)

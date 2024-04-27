@@ -145,18 +145,23 @@ function QuestieReputation.GetReputationReward(questId)
 
     local rewards = {}
     local knowsMrPopularityRank1 = IsSpellKnown(78634)
+    local knowsMrPopularityRank2 = IsSpellKnown(78635)
     for _, entry in pairs(reputationReward) do
         -- corrections for quests before cataclysm are still applied to cataclysm quests.
         -- Therefore they most likely don't match any entry reputationRewards. We work around with "or entry[2]"
         if entry[2] > 0 then
             local reward = reputationRewards[entry[2]] or entry[2]
-            if knowsMrPopularityRank1 then
+            if knowsMrPopularityRank2 then
+                reward = math.floor(reward * 1.1) -- 10% bonus reputation from Mr. Popularity Rank 2
+            elseif knowsMrPopularityRank1 then
                 reward = math.floor(reward * 1.05) -- 5% bonus reputation from Mr. Popularity Rank 1
             end
             table.insert(rewards, {entry[1], reward})
         elseif entry[2] < 0 then
             local reward = -reputationRewards[-entry[2]] or entry[2]
-            if knowsMrPopularityRank1 then
+            if knowsMrPopularityRank2 then
+                reward = math.floor(reward * 1.1) -- 10% bonus reputation from Mr. Popularity Rank 2
+            elseif knowsMrPopularityRank1 then
                 reward = math.floor(reward * 1.05) -- 5% bonus reputation from Mr. Popularity Rank 1
             end
             table.insert(rewards, {entry[1], reward})
