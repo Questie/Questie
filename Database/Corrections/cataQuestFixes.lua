@@ -193,6 +193,10 @@ function CataQuestFixes.Load()
         [14204] = { -- From the Shadows
             [questKeys.startedBy] = {{35378}},
         },
+        [14212] = { -- Sacrifices
+            [questKeys.objectives] = {{{35229}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Mount Crowley's Horse"), 0, {{"monster", 44427}}}},
+        },
         [14233] = { -- Orcs Can Write?
             [questKeys.exclusiveTo] = {},
         },
