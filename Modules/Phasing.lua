@@ -8,17 +8,21 @@ local playerFaction
 local phases = {
     UNKNOWN = 169, -- Most Deepholm NPCs (and others) have this ID but are not phased
     -- The Lost Isles and Gilneas share the same phase IDs
-    LOST_ISLES_OR_GILNEAS_CHAPTER_1 = 170,
-    LOST_ISLES_OR_GILNEAS_CHAPTER_2 = 171,
-    LOST_ISLES_OR_GILNEAS_CHAPTER_3 = 172,
-    LOST_ISLES_OR_GILNEAS_CHAPTER_4 = 179,
+    LOST_ISLES_CHAPTER_1 = 170,
+    LOST_ISLES_CHAPTER_2 = 171,
+    LOST_ISLES_CHAPTER_3 = 172,
+    LOST_ISLES_CHAPTER_4 = 179,
     LOST_ISLES_CHAPTER_5 = 180,
     LOST_ISLES_CHAPTER_6 = 181,
-    GILNEAS_CHAPTER_5 = 181,
     LOST_ISLES_CHAPTER_7 = 182,
     LOST_ISLES_CHAPTER_8 = 183,
     LOST_ISLES_CHAPTER_9 = 184,
     LOST_ISLES_CHAPTER_10 = 185,
+    GILNEAS_CHAPTER_1 = 170,
+    GILNEAS_CHAPTER_2 = 171,
+    GILNEAS_CHAPTER_3 = 172,
+    GILNEAS_CHAPTER_4 = 179,
+    GILNEAS_CHAPTER_5 = 181,
 
     -- Horde starting area in Twilight Highlands
     DRAGONMAW_PORT_CHAPTER_1 = 229,
@@ -57,8 +61,8 @@ function Phasing.IsSpawnVisible(phase)
 
     -- We return "or false", to convert nil to false
 
-    if (phase >= phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1 and phase <= phases.LOST_ISLES_OR_GILNEAS_CHAPTER_3) or
-        (phase >= phases.LOST_ISLES_OR_GILNEAS_CHAPTER_4 and phase <= phases.LOST_ISLES_CHAPTER_10) then
+    if (phase >= phases.LOST_ISLES_CHAPTER_1 and phase <= phases.LOST_ISLES_CHAPTER_3) or
+        (phase >= phases.LOST_ISLES_CHAPTER_4 and phase <= phases.LOST_ISLES_CHAPTER_10) then
         if playerFaction == "Horde" then
             return _Phasing.LostIsles(phase, complete) or false
         else
@@ -82,19 +86,19 @@ function Phasing.IsSpawnVisible(phase)
 end
 
 _Phasing.LostIsles = function(phase, complete)
-    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1 and (not complete[14303]) and (not complete[14240]) then
+    if phase == phases.LOST_ISLES_CHAPTER_1 and (not complete[14303]) and (not complete[14240]) then
         return complete[14126]
     end
 
-    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_2 and (not complete[14240]) then
+    if phase == phases.LOST_ISLES_CHAPTER_2 and (not complete[14240]) then
         return complete[14303]
     end
 
-    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_3 and (not complete[14242]) then
+    if phase == phases.LOST_ISLES_CHAPTER_3 and (not complete[14242]) then
         return complete[14240]
     end
 
-    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_4 and (not complete[14244]) then
+    if phase == phases.LOST_ISLES_CHAPTER_4 and (not complete[14244]) then
         return complete[14242]
     end
 
@@ -126,19 +130,19 @@ _Phasing.LostIsles = function(phase, complete)
 end
 
 _Phasing.Gilneas = function(phase, complete)
-    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1 and (not complete[14159]) then
+    if phase == phases.LOST_ISLES_CHAPTER_1 and (not complete[14159]) then
         return complete[14078]
     end
 
-    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_2 and (not complete[14293]) then
+    if phase == phases.LOST_ISLES_CHAPTER_2 and (not complete[14293]) then
         return complete[14159]
     end
 
-    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_3 and (not complete[14221]) then
+    if phase == phases.LOST_ISLES_CHAPTER_3 and (not complete[14221]) then
         return complete[14293]
     end
 
-    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_4 and (not complete[14375]) then
+    if phase == phases.LOST_ISLES_CHAPTER_4 and (not complete[14375]) then
         return complete[14221]
     end
 

@@ -47,24 +47,24 @@ function CataNpcFixes.Load()
         [35566] = { -- Lord Darius Crowley
             [npcKeys.spawns] = {
                 [zoneIDs.GILNEAS_CITY] = {
-                    {48.9,52.8,phases.LOST_ISLES_OR_GILNEAS_CHAPTER_3},
-                    {48.9,52.8,phases.LOST_ISLES_OR_GILNEAS_CHAPTER_4},
+                    {48.9,52.8,phases.LOST_ISLES_CHAPTER_3},
+                    {48.9,52.8,phases.LOST_ISLES_CHAPTER_4},
                 },
             },
         },
         [35875] = { -- Aggra
             [npcKeys.spawns] = {
                 [zoneIDs.THE_LOST_ISLES] = {
-                    {37.63,78.03,phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1},
-                    {37.63,78.03,phases.LOST_ISLES_OR_GILNEAS_CHAPTER_2},
+                    {37.63,78.03,phases.LOST_ISLES_CHAPTER_1},
+                    {37.63,78.03,phases.LOST_ISLES_CHAPTER_2},
                 },
             },
         },
         [35906] = { -- Lord Godfrey
             [npcKeys.spawns] = {
                 [zoneIDs.GILNEAS_CITY] = {
-                    {65.6,77.6,phases.LOST_ISLES_OR_GILNEAS_CHAPTER_2},
-                    {65.6,77.6,phases.LOST_ISLES_OR_GILNEAS_CHAPTER_3},
+                    {65.6,77.6,phases.LOST_ISLES_CHAPTER_2},
+                    {65.6,77.6,phases.LOST_ISLES_CHAPTER_3},
                 },
             },
         },
