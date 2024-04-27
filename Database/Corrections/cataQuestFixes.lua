@@ -135,6 +135,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{34913}},
             [questKeys.objectives] = {nil,{{195327}}},
         },
+        [14099] = { -- Royal Orders
+            [questKeys.preQuestGroup] = {14093,14098},
+        },
         [14109] = { -- The New You
             [questKeys.requiredSourceItems] = {47044},
             [questKeys.exclusiveTo] = {14110},
