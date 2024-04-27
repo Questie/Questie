@@ -201,6 +201,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{35618}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Hop in a cannon"), 0, {{"monster", 35317}}}},
         },
+        [14222] = { -- Last Stand
+            [questKeys.startedBy] = {{35566}},
+        },
         [14233] = { -- Orcs Can Write?
             [questKeys.exclusiveTo] = {},
         },
