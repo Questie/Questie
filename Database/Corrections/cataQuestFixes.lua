@@ -389,22 +389,23 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {52481},
         },
         [25139] = { -- Steady Shot
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{56641}}},
             [questKeys.objectivesText] = {"Learn Steady Shot from Karranisha in the Valley of Trials. Locate a Training Dummy and practice using Steady Shot 5 times."},
         },
         [25143] = { -- Primal Strike
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{73899}}},
+            [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{73899}}},
+            [questKeys.objectivesText] = {"Train Primal Strike from Shikrik in the Valley of Trials. Look for a training dummy near Shikrik and practice using Primal Strike 3 times."},
         },
         [25145] = { -- Corruption
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{348}}},
             [questKeys.objectivesText] = {"Train Immolate from Nartok in the Valley of Trials. Locate a Training Dummy and practice casting Immolate 5 times."},
         },
         [25147] = { -- Charge
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{100}}},
             [questKeys.objectivesText] = {"Train Charge from Frang in the Valley of Trials. Locate a Training Dummy and practice using Charge."},
         },
         [25149] = { -- Frost Nova
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{5143}}},
             [questKeys.objectivesText] = {"Learn Arcane Missiles from Acrypha in the Valley of Trials. Locate a Training Dummy and practice using Arcane Missiles 2 times."},
         },
         [25154] = { -- A Present for Lila
