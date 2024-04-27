@@ -239,6 +239,10 @@ function CataQuestFixes.Load()
         [14283] = { -- Moonfire
             [questKeys.objectives] = {{{47091}},nil,nil,nil,nil,{{774}}},
         },
+        [14348] = { -- You Can't Take 'Em Alone
+            [questKeys.objectives] = {{{36231}}},
+            [questKeys.requiredSourceItems] = {49202},
+        },
         [14389] = { -- Wasn't It Obvious?
             [questKeys.triggerEnd] = {"Find Anara, and hopefully, Azuregos", {[zoneIDs.AZSHARA]={{27.7,40.4}}}},
         },
