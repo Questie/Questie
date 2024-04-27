@@ -11,6 +11,7 @@ local _ReachedNewStanding, _WinterSaberChanged
 
 -- Fast local references
 local ExpandFactionHeader, GetNumFactions, GetFactionInfo = ExpandFactionHeader, GetNumFactions, GetFactionInfo
+local tinsert, floor = table.insert, math.floor
 
 --- Updates all factions a player already discovered and checks if any of these
 --- reached a new reputation level
@@ -149,22 +150,20 @@ function QuestieReputation.GetReputationReward(questId)
     for _, entry in pairs(reputationReward) do
         -- corrections for quests before cataclysm are still applied to cataclysm quests.
         -- Therefore they most likely don't match any entry reputationRewards. We work around with "or entry[2]"
+        local reward
         if entry[2] > 0 then
-            local reward = reputationRewards[entry[2]] or entry[2]
-            if knowsMrPopularityRank2 then
-                reward = math.floor(reward * 1.1) -- 10% bonus reputation from Mr. Popularity Rank 2
-            elseif knowsMrPopularityRank1 then
-                reward = math.floor(reward * 1.05) -- 5% bonus reputation from Mr. Popularity Rank 1
-            end
-            table.insert(rewards, {entry[1], reward})
+            reward = reputationRewards[entry[2]] or entry[2]
         elseif entry[2] < 0 then
-            local reward = -reputationRewards[-entry[2]] or entry[2]
+            reward = -reputationRewards[-entry[2]] or entry[2]
+        end
+
+        if reward then
             if knowsMrPopularityRank2 then
-                reward = math.floor(reward * 1.1) -- 10% bonus reputation from Mr. Popularity Rank 2
+                reward = floor(reward * 1.1) -- 10% bonus reputation from Mr. Popularity Rank 2
             elseif knowsMrPopularityRank1 then
-                reward = math.floor(reward * 1.05) -- 5% bonus reputation from Mr. Popularity Rank 1
+                reward = floor(reward * 1.05) -- 5% bonus reputation from Mr. Popularity Rank 1
             end
-            table.insert(rewards, {entry[1], reward})
+            tinsert(rewards, {entry[1], reward})
         end
     end
 
