@@ -866,7 +866,7 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Learn Rejuvination from Gart Mistrunner. Practice using Rejuvination on a Wounded Brave in Camp Narache."},
         },
         [27091] = { -- Charge!
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{100}}},
             [questKeys.objectivesText] = {"Learn Charge from Delios. Locate a Training Dummy outside the Sunspire and practice using Charge."},
         },
         [27509] = { -- Breach in the Defenses
