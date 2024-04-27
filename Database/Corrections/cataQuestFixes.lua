@@ -218,7 +218,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{196439}}},
         },
         [14266] = { -- Charge
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{100}}},
             [questKeys.objectivesText] = {"Speak to Sergeant Cleese and learn Charge. Practice using Charge against a Bloodfang Worgen."},
         },
         [14245] = { -- It's a Town-In-A-Box
@@ -229,11 +229,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {14014,14019,14473}
         },
         [14274] = { -- Corruption
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{348}}},
             [questKeys.objectivesText] = {"Speak to Vitus Darkwalker and learn Immolate. Practice casting Immolate on a Bloodfang Worgen."},
         },
         [14276] = { -- Steady Shot
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{56641}}},
             [questKeys.objectivesText] = {"Speak to Huntsman Blake and learn Steady Shot. Practice using Steady Shot 2 times against a Bloodfang Worg."},
         },
         [14279] = { -- Learning the Word
@@ -241,11 +241,11 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Speak to Sister Almyra and learn Flash Heal. Use Flash Heal 2 times on a Wounded Guard."},
         },
         [14281] = { -- Frost Nova
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{5143}}},
             [questKeys.objectivesText] = {"Speak to Myriam Spellwaker and learn Arcane Missiles. Use Arcane Missiles against a Bloodfang Worgen."},
         },
         [14283] = { -- Moonfire
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{774}}},
+            [questKeys.objectives] = {{{47091}},nil,nil,nil,nil,{{774}}},
             [questKeys.objectivesText] = {"Speak to Celestine of the Harvest and learn Rejuvenation. Practice using Rejuvenation on a Wounded Guard."},
         },
         [14389] = { -- Wasn't It Obvious?
