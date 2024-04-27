@@ -14,6 +14,14 @@ function CataNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
+        [34571] = { -- Gwen Armstead
+            [npcKeys.spawns] = {
+                [zoneIDs.GILNEAS] = {
+                    {37.41,63.35,phases.GILNEAS_CHAPTER_5},
+                    {37.41,63.35,phases.GILNEAS_CHAPTER_6},
+                },
+            },
+        },
         [34872] = { -- Foreman Dampwick
             [npcKeys.spawns] = {
                 [zoneIDs.KEZAN] = {

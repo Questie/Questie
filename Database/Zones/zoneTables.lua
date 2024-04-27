@@ -3206,6 +3206,7 @@ ZoneDB.private.zoneIDs = {
 
     -- new cata zones
     MOUNT_HYJAL = 616,
+    GILNEAS = 4714,
     GILNEAS_CITY = 4755,
     RUINS_OF_GILNEAS = 4706,
     THE_LOST_ISLES = 4720,
