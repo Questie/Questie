@@ -219,6 +219,9 @@ function CataQuestFixes.Load()
         [24901] = { -- Town-In-A-Box: Under Attack
             [questKeys.objectives] = {{{38526}}},
         },
+        [24930] = { -- While You're At It
+            [questKeys.startedBy] = {{35115}},
+        },
         [24937] = { -- Oomlot Dealt With
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24925,24929},
