@@ -2,11 +2,12 @@
 local Phasing = QuestieLoader:CreateModule("Phasing")
 
 local _Phasing = {}
+local playerFaction
 
 -- https://old.wow.tools/dbc/?dbc=phase&build=4.3.4.15595
 local phases = {
     UNKNOWN = 169, -- Most Deepholm NPCs (and others) have this ID but are not phased
-    LOST_ISLES_CHAPTER_1 = 170,
+    LOST_ISLES_OR_GILNEAS_CHAPTER_1 = 170,
     LOST_ISLES_CHAPTER_2 = 171,
     LOST_ISLES_CHAPTER_3 = 172,
     LOST_ISLES_CHAPTER_4 = 179,
@@ -39,6 +40,10 @@ local phases = {
 }
 Phasing.phases = phases
 
+function Phasing.Initialize()
+    playerFaction = UnitFactionGroup("player")
+end
+
 ---@param phase number|nil @The phase belonging to a spawn of an NPC
 ---@return boolean @true if the spawn is visible, false otherwise
 function Phasing.IsSpawnVisible(phase)
@@ -50,9 +55,13 @@ function Phasing.IsSpawnVisible(phase)
 
     -- We return "or false", to convert nil to false
 
-    if (phase >= phases.LOST_ISLES_CHAPTER_1 and phase <= phases.LOST_ISLES_CHAPTER_3) or
+    if (phase >= phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1 and phase <= phases.LOST_ISLES_CHAPTER_3) or
         (phase >= phases.LOST_ISLES_CHAPTER_4 and phase <= phases.LOST_ISLES_CHAPTER_10) then
-        return _Phasing.LostIsles(phase, complete) or false
+        if playerFaction == "Horde" then
+            return _Phasing.LostIsles(phase, complete) or false
+        else
+            return _Phasing.Gilneas(phase, complete) or false
+        end
     end
 
     if phase >= phases.DRAGONMAW_PORT_CHAPTER_1 and phase <= phases.DRAGONMAW_PORT_CHAPTER_3 then
@@ -71,7 +80,7 @@ function Phasing.IsSpawnVisible(phase)
 end
 
 _Phasing.LostIsles = function(phase, complete)
-    if phase == phases.LOST_ISLES_CHAPTER_1 and (not complete[14303]) and (not complete[14240]) then
+    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1 and (not complete[14303]) and (not complete[14240]) then
         return complete[14126]
     end
 
@@ -112,6 +121,12 @@ _Phasing.LostIsles = function(phase, complete)
     end
 
     return false
+end
+
+_Phasing.Gilneas = function(phase, complete)
+    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1 then
+        return complete[14078]
+    end
 end
 
 _Phasing.TempleOfEarth = function(phase, complete)

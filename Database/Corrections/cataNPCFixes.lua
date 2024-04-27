@@ -47,7 +47,7 @@ function CataNpcFixes.Load()
         [35875] = { -- Aggra
             [npcKeys.spawns] = {
                 [zoneIDs.THE_LOST_ISLES] = {
-                    {37.63,78.03,phases.LOST_ISLES_CHAPTER_1},
+                    {37.63,78.03,phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1},
                     {37.63,78.03,phases.LOST_ISLES_CHAPTER_2},
                 },
             },

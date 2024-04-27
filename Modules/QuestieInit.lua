@@ -75,6 +75,8 @@ local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
 ---@type Tutorial
 local Tutorial = QuestieLoader:ImportModule("Tutorial")
+---@type Phasing
+local Phasing = QuestieLoader:ImportModule("Phasing")
 ---@type WorldMapButton
 local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
 ---@type AvailableQuests
@@ -181,6 +183,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     QuestieProfessions:Init()
     QuestXP.Init()
+    Phasing.Initialize()
     coYield()
 
     local dbCompiled = false

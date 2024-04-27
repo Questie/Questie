@@ -5,11 +5,18 @@ local Phasing = require("Modules.Phasing")
 
 local phases = Phasing.phases
 
+local playerFaction = "Horde"
+_G["UnitFactionGroup"] = function()
+    return playerFaction
+end
+
 describe("Phasing", function()
     before_each(function()
         -- Accessing _G["Questie"] is required
         _G["Questie"] = {db = {char = {complete = {}}}}
         Questie = _G["Questie"]
+
+        Phasing.Initialize()
     end)
 
     it("should return true for phase nil", function()
@@ -105,10 +112,15 @@ describe("Phasing", function()
     end)
 
     describe("The Lost Isles", function()
+        before_each(function()
+            playerFaction = "Horde"
+            Phasing.Initialize()
+        end)
+
         it("should return true for chapter 1 when quest 14126 is complete", function()
             Questie.db.char.complete[14126] = true
 
-            assert.is_true(Phasing.IsSpawnVisible(phases.LOST_ISLES_CHAPTER_1))
+            assert.is_true(Phasing.IsSpawnVisible(phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1))
         end)
 
         it("should return true for chapter 2 when quest 14303 is complete", function()
@@ -179,7 +191,7 @@ describe("Phasing", function()
             Questie.db.char.complete[25125] = true
             Questie.db.char.complete[25251] = true
 
-            assert.is_false(Phasing.IsSpawnVisible(phases.LOST_ISLES_CHAPTER_1))
+            assert.is_false(Phasing.IsSpawnVisible(phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1))
             assert.is_false(Phasing.IsSpawnVisible(phases.LOST_ISLES_CHAPTER_2))
             assert.is_false(Phasing.IsSpawnVisible(phases.LOST_ISLES_CHAPTER_3))
             assert.is_false(Phasing.IsSpawnVisible(phases.LOST_ISLES_CHAPTER_4))
@@ -188,6 +200,19 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.LOST_ISLES_CHAPTER_7))
             assert.is_false(Phasing.IsSpawnVisible(phases.LOST_ISLES_CHAPTER_8))
             assert.is_false(Phasing.IsSpawnVisible(phases.LOST_ISLES_CHAPTER_9))
+        end)
+    end)
+
+    describe("Gilneas", function()
+        before_each(function()
+            playerFaction = "Alliance"
+            Phasing.Initialize()
+        end)
+
+        it("should return true for chapter 1 when quest 14078 is complete", function()
+            Questie.db.char.complete[14078] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1))
         end)
     end)
 
