@@ -9,7 +9,7 @@ local phases = {
     UNKNOWN = 169, -- Most Deepholm NPCs (and others) have this ID but are not phased
     LOST_ISLES_OR_GILNEAS_CHAPTER_1 = 170,
     LOST_ISLES_OR_GILNEAS_CHAPTER_2 = 171,
-    LOST_ISLES_CHAPTER_3 = 172,
+    LOST_ISLES_OR_GILNEAS_CHAPTER_3 = 172,
     LOST_ISLES_CHAPTER_4 = 179,
     LOST_ISLES_CHAPTER_5 = 180,
     LOST_ISLES_CHAPTER_6 = 181,
@@ -55,7 +55,7 @@ function Phasing.IsSpawnVisible(phase)
 
     -- We return "or false", to convert nil to false
 
-    if (phase >= phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1 and phase <= phases.LOST_ISLES_CHAPTER_3) or
+    if (phase >= phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1 and phase <= phases.LOST_ISLES_OR_GILNEAS_CHAPTER_3) or
         (phase >= phases.LOST_ISLES_CHAPTER_4 and phase <= phases.LOST_ISLES_CHAPTER_10) then
         if playerFaction == "Horde" then
             return _Phasing.LostIsles(phase, complete) or false
@@ -88,7 +88,7 @@ _Phasing.LostIsles = function(phase, complete)
         return complete[14303]
     end
 
-    if phase == phases.LOST_ISLES_CHAPTER_3 and (not complete[14242]) then
+    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_3 and (not complete[14242]) then
         return complete[14240]
     end
 
@@ -128,8 +128,12 @@ _Phasing.Gilneas = function(phase, complete)
         return complete[14078]
     end
 
-    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_2 then
+    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_2 and (not complete[14293]) then
         return complete[14159]
+    end
+
+    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_3 then
+        return complete[14293]
     end
 
     return false

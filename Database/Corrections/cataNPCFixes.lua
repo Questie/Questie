@@ -52,6 +52,14 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [35906] = { -- Lord Godfrey
+            [npcKeys.spawns] = {
+                [zoneIDs.GILNEAS_CITY] = {
+                    {63.64,59.69,phases.LOST_ISLES_OR_GILNEAS_CHAPTER_2},
+                    {63.64,59.69,phases.LOST_ISLES_OR_GILNEAS_CHAPTER_3},
+                },
+            },
+        },
         [37602] = { -- Claims Adjuster
             [npcKeys.spawns] = {
                 [zoneIDs.KEZAN] = {
