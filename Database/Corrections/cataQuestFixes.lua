@@ -74,6 +74,7 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Learn Eviscerate from Pathstalker Kariel. Locate a Training Dummy outside the Sunspire and practice using Eviscerate 3 times."},
         },
         [10072] = { -- Learning the Word
+            [questKeys.name] = "Healing the Wounded",
             [questKeys.objectives] = {{{44857}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Learn Flash Heal from Matron Arena. Practice casting Flash Heal 5 times on Wounded Outrunners."},
         },
@@ -140,6 +141,7 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Speak with Fizz Lighter and train Arcane Missiles, then cast the spell 2 times at a Training Dummy."},
         },
         [14009] = { -- Learning the Word
+            [questKeys.name] = "Flash Heal",
             [questKeys.objectives] = {{{48305}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Speak with Sister Goldskimmer and train Flash Heal, then cast the spell 3 times on an Injured Employee."},
         },
@@ -237,6 +239,7 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Speak to Huntsman Blake and learn Steady Shot. Practice using Steady Shot 2 times against a Bloodfang Worg."},
         },
         [14279] = { -- Learning the Word
+            [questKeys.name] = "Flash Heal",
             [questKeys.objectives] = {{{47091}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Speak to Sister Almyra and learn Flash Heal. Use Flash Heal 2 times on a Wounded Guard."},
         },
@@ -776,6 +779,7 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Speak to Brother Sammuel and purchase the Seal of Righteousness and Judgement abilities. Cast Seal of Righteousness on yourself and then use Judgement on a Training Dummy south of the entrance to Northshire Abbey."},
         },
         [26919] = { -- Learning the Word
+            [questKeys.name] = "Healing the Wounded",
             [questKeys.objectives] = {{{44564}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Speak to Priestess Anetta and purchase the Flash Heal ability, then use Flash Heal 5 times to treat Wounded Trainees inside Northshire Abbey."},
         },
@@ -801,6 +805,7 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Learn Rejuvenation from Mardant Strongoak. Use Rejuvenation to treat a Wounded Sentinel in Aldrassil."},
         },
         [26949] = { -- Learning the Word
+            [questKeys.name] = "Healing for the Wounded",
             [questKeys.objectives] = {{{44617}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Learn Flash Heal from Shanda. Use Flash Heal 5 times to treat the Wounded Sentinels in Aldrassil."},
         },
@@ -825,6 +830,7 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Learn Primal Strike from Firmanvaar. Find a Training Dummy on the northwest side of the Crash Site and practice using Primal Strike 3 times."},
         },
         [26970] = { -- Learning the Word
+            [questKeys.name] = "Aiding the Injured",
             [questKeys.objectives] = {{{16971}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Learn Flash Heal from Zalduun. Use Flash Heal 5 times to heal the wounds of Injured Draenei at the Crash Site."},
         },
@@ -857,6 +863,7 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Anduin Escorted to Farmer Wollerton", {[zoneIDs.STORMWIND_CITY]={{52.1,6.5}}}},
         },
         [27066] = { -- Learning the Word
+            [questKeys.name] = "Healing in a Flash",
             [questKeys.objectives] = {{{45199}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Learn Flash Heal from Seer Ravenfeather. Practice using Flash Heal 5 times on Wounded Braves in Camp Narache."},
         },
