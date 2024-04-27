@@ -61,6 +61,8 @@ for questId, data in pairs(trinity) do
         if not data[questKeys.finishedBy] then
             data[questKeys.finishedBy] = quest[questKeys.finishedBy]
         end
+        data[questKeys.name] = quest[questKeys.name]
+        data[questKeys.objectivesText] = quest[questKeys.objectivesText]
         data[questKeys.requiredLevel] = quest[questKeys.requiredLevel]
         data[questKeys.questLevel] = quest[questKeys.questLevel]
         data[questKeys.preQuestSingle] = quest[questKeys.preQuestSingle]
