@@ -232,6 +232,7 @@ ZoneDB.private.areaIdToUiMapId = {
     --[5004] = 323, -- Throne of the Tides
     [5088] = 324, -- The Stonecore
     [5035] = 325, -- The Vortex Pinnacle
+    [6457] = 469, -- New Tinkertown
     [4755] = 202, -- Gilneas City
     [5695] = 327, -- Ahn'Qiraj: The Fallen Kingdom
     [5638] = 328, -- Throne of the Four Winds
@@ -590,6 +591,7 @@ ZoneDB.private.uiMapIdToAreaId = {
     [414] = 5892, -- Dragon Soul
     [415] = 5892, -- Dragon Soul
     [249] = 5034, -- Uldum
+    [469] = 6457, -- New Tinkertown
 
     --[130] = 4100, -- The Culling of Stratholme
     --[132] = 4494, -- Ahn'kahet: The Old Kingdom
