@@ -796,6 +796,7 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Learn Steady Shot from Ayanna Everstride. Look for a Training Dummy southeast of Aldrassil, and practice using Steady Shot 5 times."},
         },
         [26948] = { -- Rejuvenating Touch
+            [questKeys.name] = "Rejuvenating Touch",
             [questKeys.objectives] = {{{44617}},nil,nil,nil,nil,{{774}}},
             [questKeys.objectivesText] = {"Learn Rejuvenation from Mardant Strongoak. Use Rejuvenation to treat a Wounded Sentinel in Aldrassil."},
         },
@@ -837,30 +838,31 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {60809},
         },
         [27020] = { -- The First Lesson
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{100}}},
             [questKeys.objectivesText] = {"Learn Charge from Harutt Thunderhorn. Locate a Training Dummy in Camp Narache and practice using Charge."},
         },
         [27021] = { -- The Hunter's Path
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{56641}}},
             [questKeys.objectivesText] = {"Learn Steady Shot from Lanka Farshot. Locate a Training Dummy in Camp Narache and practice using Steady Shot 5 times."},
         },
         [27023] = { -- The Way of the Sunwalkers
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{20154}}},
+            [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{20154}}},
             [questKeys.objectivesText] = {"Learn Seal of Righteousness and Judgement from Sunwalker Helaku. Locate a Training Dummy in Camp Narache and practice using Judgement."},
         },
         [27027] = { -- Primal Strike
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{73899}}},
+            [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{73899}}},
             [questKeys.objectivesText] = {"Learn Primal Strike from Meela Dawnstrider. Locate a Training Dummy in Camp Narache and practice using Primal Strike 3 times."},
         },
         [27044] = { -- Peasant Problems
             [questKeys.triggerEnd] = {"Anduin Escorted to Farmer Wollerton", {[zoneIDs.STORMWIND_CITY]={{52.1,6.5}}}},
         },
         [27066] = { -- Learning the Word
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{45199}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Learn Flash Heal from Seer Ravenfeather. Practice using Flash Heal 5 times on Wounded Braves in Camp Narache."},
         },
-        [27067] = { -- Moonfire
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{774}}},
+        [27067] = { -- Rejuvenating Touch
+            [questKeys.name] = "Rejuvenating Touch",
+            [questKeys.objectives] = {{{45199}},nil,nil,nil,nil,{{774}}},
             [questKeys.objectivesText] = {"Learn Rejuvination from Gart Mistrunner. Practice using Rejuvination on a Wounded Brave in Camp Narache."},
         },
         [27091] = { -- Charge!
