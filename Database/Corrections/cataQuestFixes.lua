@@ -57,6 +57,30 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectivesText] = {"Lady Sylvanas Windrunner wants you to take the Letter Sealed by Sylvanas to Garrosh Hellscream in Orgrimmar, capital of Durotar."},
         },
+        [10068] = { -- Frost Nova
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectivesText] = {"Learn Arcane Missiles from Julia Sunstriker. Locate a Training Dummy outside the Sunspire and practice using Arcane Missiles 2 times."},
+        },
+        [10069] = { -- Ways of the Light
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{20154}}},
+            [questKeys.objectivesText] = {"Learn Judgement and Seal of Righteousness from Jesthenis Sunstriker. Cast Seal of Righteousness on yourself, then locate a Training Dummy outside the Sunspire and use Judgement."},
+        },
+        [10070] = { -- Steady Shot
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectivesText] = {"Learn Steady Shot from Ranger Sallina. Locate a Training Dummy outside the Sunspire and practice using Steady Shot 5 times."},
+        },
+        [10071] = { -- Evisceration
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.objectivesText] = {"Learn Eviscerate from Pathstalker Kariel. Locate a Training Dummy outside the Sunspire and practice using Eviscerate 3 times."},
+        },
+        [10072] = { -- Learning the Word
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectivesText] = {"Learn Flash Heal from Matron Arena. Practice casting Flash Heal 5 times on Wounded Outrunners."},
+        },
+        [10073] = { -- Corruption
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectivesText] = {"Learn Immolate from Summoner Teli'Larien. Locate a Training Dummy outside the Sunspire and practice casting Immolate 5 times."},
+        },
         [13189] = { -- Saurfang's Blessing
             [questKeys.name] = "Warchief's Blessing",
             [questKeys.finishedBy] = {{39605}},
@@ -111,8 +135,25 @@ function CataQuestFixes.Load()
         [13961] = { -- Drag it Out of Them
             [questKeys.triggerEnd] = {"Razormane Prisoner Delivered", {[zoneIDs.THE_BARRENS]={{56.4,40.3}}}},
         },
+        [14008] = { -- Frost Nova
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectivesText] = {"Speak with Fizz Lighter and train Arcane Missiles, then cast the spell 2 times at a Training Dummy.$B$BRemember, Arcane Missiles have a chance to activate through the use of other offensive spells. Use your Fireball spell first on the Training Dummy to enable the casting of your Arcane Missiles spell."},
+        },
+        [14009] = { -- Learning the Word
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectivesText] = {"Speak with Sister Goldskimmer and train Flash Heal, then cast the spell 3 times on an Injured Employee."},
+        },
         [14011] = { -- Primal Strike
             [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{73899}}},
+            [questKeys.objectivesText] = {"Speak with Maxx Avalanche and train Primal Strike, then use it 2 times on a Training Dummy."},
+        },
+        [14012] = { -- Corruption
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectivesText] = {"Speak with Evol Fingers and train Immolate, then cast it 3 times on a Training Dummy."},
+        },
+        [14013] = { -- Charge
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectivesText] = {"Speak with Warrior-Matic NX-01 and train the Charge ability, then use it on a Training Dummy."},
         },
         [14019] = { -- Monkey Business
             [questKeys.objectives] = {{{34699}}},
@@ -160,10 +201,6 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14121,14122,14123,14124},
         },
-        [14279] = { -- Learning the Word
-            [questKeys.objectives] = {{{47091}},nil,nil,nil,nil,{{2061}}},
-            [questKeys.objectivesText] = "Speak to Sister Almyra and learn Flash Heal. Use Flash Heal 2 times on a Wounded Guard."
-        },
         [14153] = { -- Life of the Party
             [questKeys.preQuestSingle] = {14110},
         },
@@ -180,12 +217,36 @@ function CataQuestFixes.Load()
         [14244] = { -- Up, Up & Away!
             [questKeys.objectives] = {nil,{{196439}}},
         },
+        [14266] = { -- Charge
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectivesText] = {"Speak to Sergeant Cleese and learn Charge. Practice using Charge against a Bloodfang Worgen."},
+        },
         [14245] = { -- It's a Town-In-A-Box
             [questKeys.objectives] = {nil,{{201938}}},
         },
         [14248] = { -- Help Wanted
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14014,14019,14473}
+        },
+        [14274] = { -- Corruption
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectivesText] = {"Speak to Vitus Darkwalker and learn Immolate. Practice casting Immolate on a Bloodfang Worgen."},
+        },
+        [14276] = { -- Steady Shot
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectivesText] = {"Speak to Huntsman Blake and learn Steady Shot. Practice using Steady Shot 2 times against a Bloodfang Worg."},
+        },
+        [14279] = { -- Learning the Word
+            [questKeys.objectives] = {{{47091}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectivesText] = {"Speak to Sister Almyra and learn Flash Heal. Use Flash Heal 2 times on a Wounded Guard."},
+        },
+        [14281] = { -- Frost Nova
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectivesText] = {"Speak to Myriam Spellwaker and learn Arcane Missiles. Use Arcane Missiles against a Bloodfang Worgen."},
+        },
+        [14283] = { -- Moonfire
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{774}}},
+            [questKeys.objectivesText] = {"Speak to Celestine of the Harvest and learn Rejuvenation. Practice using Rejuvenation on a Wounded Guard."},
         },
         [14389] = { -- Wasn't It Obvious?
             [questKeys.triggerEnd] = {"Find Anara, and hopefully, Azuregos", {[zoneIDs.AZSHARA]={{27.7,40.4}}}},
@@ -202,15 +263,63 @@ function CataQuestFixes.Load()
         [24502] = { -- Necessary Roughness
             [questKeys.objectives] = {{{48526},{37114}}},
         },
+        [24526] = { -- Filling Up the Spellbook
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectivesText] = {"Learn Arcane Missiles from Teegli Merrowith. Successfully cast Arcane Missiles 2 times on the Training Dummies outside the entrance to Anvilmar."},
+        },
+        [24528] = { -- The Power of the Light
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{20154}}},
+            [questKeys.objectivesText] = {"Learn Seal of Righteousness and Judgment from Bromos Grummner. After casting Seal of Righteousness on yourself, use Judgment on one of the Training Dummies at the entrance to Anvilmar."},
+        },
+        [24530] = { -- Oh, A Hunter's Life For Me
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectivesText] = {"Learn Steady Shot from Thorgas Grimson, then use Steady Shot 5 times on the Training Dummies outside the entrance to Anvilmar."},
+        },
+        [24531] = { -- Getting Battle-Ready
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectivesText] = {"Learn Charge from Thran Khorman, then use Charge on one of the Training Dummies outside the entrance to Anvilmar."},
+        },
+        [24532] = { -- Evisceratin' the Enemy
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.objectivesText] = {"Learn Evisecerate from Solm Hargrin, then use Eviscerate 3 times on the Training Dummies near the entrance to Anvilmar."},
+        },
+        [24533] = { -- Words of Power
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectivesText] = {"Learn Flash Heal from Branstock Khalder, then cast Flash Heal 5 times on Wounded Militia members in Anvilmar."},
+        },
         [24612] = { -- A Gift for the Emissary of Orgrimmar
             [questKeys.finishedBy] = {{39605}},
         },
         [24618] = { -- Claim the Battle Scar
             [questKeys.triggerEnd] = {"Battlescar Flag Scouted", {[zoneIDs.THE_BARRENS]={{45.2,69.4}}}},
         },
+        [24640] = { -- The Arts of a Warrior
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectivesText] = {"Speak to Nortet to train Charge. Practice using Charge against a Tiki Target."},
+        },
         [24671] = { -- Cluster Cluck
             [questKeys.objectives] = {{{38111}}},
             [questKeys.preQuestSingle] = {},
+        },
+        [24752] = { -- The Arts of a Mage
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectivesText] = {"Speak to Soratha to train Arcane Missiles. Practice using Arcane Missiles 2 times against a Tiki Target."},
+        },
+        [24766] = { -- The Arts of a Druid
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{774}}},
+            [questKeys.objectivesText] = {"Speak to Zen'Tabra to train Rejuvenation. Practice using Rejuvenation on a Wounded Darkspear Watcher in the Darkspear Training Grounds."},
+        },
+        [24772] = { -- The Arts of a Rogue
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.objectivesText] = {"Speak to Legati to train Eviscerate. Use Eviscerate 3 times against a Tiki Target."},
+        },
+        [24778] = { -- The Arts of a Hunter
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectivesText] = {"Speak to Ortezza to train Steady Shot. Use Steady Shot 5 times on a Tiki Target."},
+        },
+        [24784] = { -- Learnin' tha Word
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectivesText] = {"Speak to Tunari to train Flash Heal. Use Flash Heal 5 times to heal Wounded Darkspear Watchers around the Darkspear Training Grounds."},
         },
         [24817] = { -- A Goblin in Shark's Clothing
             [questKeys.objectives] = {{{36682}},{{202108}}},
@@ -246,6 +355,26 @@ function CataQuestFixes.Load()
         [24960] = { -- The Wakening
             [questKeys.preQuestSingle] = {28608},
         },
+        [24964] = { -- The Thrill of the Hunt
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectivesText] = {"Learn Steady Shot from Xavier the Huntsman in Deathknell, then practice using Steady Shot 5 times on a Training Dummy."},
+        },
+        [24966] = { -- Of Light and Shadows
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectivesText] = {"Train Flash Heal from Dark Cleric Duesten in Deathknell. Then, practice casting Flash Heal 5 times on Wounded Deathguards."},
+        },
+        [24967] = { -- Stab!
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.objectivesText] = {"Learn Eviscerate from David Trias in Deathknell, then practice using Eviscerate 3 times on a Training Dummy."},
+        },
+        [24968] = { -- Dark Deeds
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectivesText] = {"Learn Immolate from Maximillion in Deathknell, then practice casting Immolate 5 times on a Training Dummy."},
+        },
+        [24969] = { -- Charging into Battle
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectivesText] = {"Learn Charge from Dannal Stern in Deathknell, then practice using Charge on a Training Dummy."},
+        },
         [25081] = { -- Claim the Battlescar
             [questKeys.triggerEnd] = {"Battlescar Flag Scouted", {[zoneIDs.THE_BARRENS]={{45.2,69.4}}}},
         },
@@ -259,8 +388,24 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{39194}}},
             [questKeys.requiredSourceItems] = {52481},
         },
+        [25139] = { -- Steady Shot
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectivesText] = {"Learn Steady Shot from Karranisha in the Valley of Trials. Locate a Training Dummy and practice using Steady Shot 5 times."},
+        },
         [25143] = { -- Primal Strike
             [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{73899}}},
+        },
+        [25145] = { -- Corruption
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectivesText] = {"Train Immolate from Nartok in the Valley of Trials. Locate a Training Dummy and practice casting Immolate 5 times."},
+        },
+        [25147] = { -- Charge
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectivesText] = {"Train Charge from Frang in the Valley of Trials. Locate a Training Dummy and practice using Charge."},
+        },
+        [25149] = { -- Frost Nova
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectivesText] = {"Learn Arcane Missiles from Acrypha in the Valley of Trials. Locate a Training Dummy and practice using Arcane Missiles 2 times."},
         },
         [25154] = { -- A Present for Lila
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
@@ -479,6 +624,26 @@ function CataQuestFixes.Load()
         [26182] = { -- Back to the Tenebrous Cavern
             [questKeys.preQuestSingle] = {26143},
         },
+        [26198] = { -- The Arts of a Mage
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectivesText] = {"Speak to Bipsi Frostflinger to train Arcane Missiles. Once you've learned the spell, successfully cast Arcane Missiles twice at a Training Dummy in New Tinkertown."},
+        },
+        [26200] = { -- The Arts of a Priest
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectivesText] = {"Speak to \"Doc\" Cogspin to train Flash Heal. Use Flash Heal 5 times on Wounded Infantry in New Tinkertown."},
+        },
+        [26201] = { -- The Power of a Warlock
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectivesText] = {"Speak to Alamar Grimm and learn Immolate, then cast Immolate on a Training Dummy in New Tinkertown 5 times."},
+        },
+        [26204] = { -- The Arts of a Warrior
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectivesText] = {"Speak to Drill Sergeant Steamcrank to learn Charge. Locate a Training Dummy in New Tinkertown and use Charge on it."},
+        },
+        [26207] = { -- The Arts of a Rogue
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.objectivesText] = {"Speak to Kelsey Steelspark to learn Eviscerate, then find a training dummy in New Tinkertown and practice using Eviscerate 3 times."},
+        },
         [26229] = { -- "I TAKE Candle!"
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
@@ -581,11 +746,83 @@ function CataQuestFixes.Load()
         [26840] = { -- Return to the Highlands
             [questKeys.startedBy] = {{39605}},
         },
+        [26904] = { -- Corruption
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectivesText] = {"Speak to Saripal Smolderbrew and learn Immolate, then cast Immolate 5 times on a Training Dummy near the entrance to Anvilmar."},
+        },
+        [26913] = { -- Charging into Battle
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectivesText] = {"Speak to Llane Bershere and purchase the Charge ability, then practice using Charge on a Training Dummy south of the entrance to Northshire Abbey."},
+        },
+        [26914] = { -- Corruption
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectivesText] = {"Speak to Drusilla La Salle and purchase the Immolate ability, then practice casting Immolate 5 times on a Training Dummy south of the entrance to Northshire Abbey."},
+        },
+        [26915] = { -- The Deepest Cut
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.objectivesText] = {"Speak to Jorik Kerridan and purchase the Eviscerate ability, then find a Training Dummy south of the entrance to Northshire Abbey and practice Eviscerate 3 times."},
+        },
+        [26916] = { -- Mastering the Arcane
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectivesText] = {"Speak to Khelden Bremen and purchase the Arcane Missiles ability, then practice casting Arcane Missiles 2 times on a Training Dummy south of the entrance to Northshire Abbey."},
+        },
+        [26917] = { -- The Hunter's Path
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectivesText] = {"Speak to Ashley Blank and purchase the Steady Shot ability, then find a Training Dummy south of the entrance to Northshire Abbey and practice using Steady Shot 5 times."},
+        },
+        [26918] = { -- The Power of the Light
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{20154}}},
+            [questKeys.objectivesText] = {"Speak to Brother Sammuel and purchase the Seal of Righteousness and Judgement abilities. Cast Seal of Righteousness on yourself and then use Judgement on a Training Dummy south of the entrance to Northshire Abbey."},
+        },
+        [26919] = { -- Learning the Word
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectivesText] = {"Speak to Priestess Anetta and purchase the Flash Heal ability, then use Flash Heal 5 times to treat Wounded Trainees inside Northshire Abbey."},
+        },
         [26930] = { -- After the Crusade
             [questKeys.triggerEnd] = {"Scarlet Crusade camp scouted", {[zoneIDs.WESTERN_PLAGUELANDS]={{40.6,52.6}}}},
         },
+        [26940] = { -- Frost Nova
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectivesText] = {"Learn Arcane Missiles from Rhyanda. Look for a Training Dummy near, and practice using Arcane Missiles twice."},
+        },
+        [26945] = { -- Learning New Techniques
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectivesText] = {"Learn Charge from Alyissia. Look for a Training Dummy near, and practice using Charge."},
+        },
+        [26947] = { -- A Woodsman's Training
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectivesText] = {"Learn Steady Shot from Ayanna Everstride. Look for a Training Dummy southeast of Aldrassil, and practice using Steady Shot 5 times."},
+        },
+        [26948] = { -- Moonfire
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{774}}},
+            [questKeys.objectivesText] = {"Learn Rejuvenation from Mardant Strongoak. Use Rejuvenation to treat a Wounded Sentinel in Aldrassil."},
+        },
+        [26949] = { -- Learning the Word
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectivesText] = {"Learn Flash Heal from Shanda. Use Flash Heal 5 times to treat the Wounded Sentinels in Aldrassil."},
+        },
+        [26958] = { -- Your First Lesson
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectivesText] = {"Learn Charge from Kore. Find a Training Dummy on the northwest side of the Crash Site and practice using Charge."},
+        },
+        [26963] = { -- Steadying Your Shot
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectivesText] = {"Learn Steady Shot from Keilnei. Find a Training Dummy on the northwest side of the Crash Site and practice using Steady Shot 5 times."},
+        },
+        [26966] = { -- The Light's Power
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{20154}}},
+            [questKeys.objectivesText] = {"Learn Seal of Righteousness and Judgement from Aurelon. Apply Seal of Righteousness, find a Training Dummy on the northwest side of the Crash Site and use Judgement."},
+        },
+        [26968] = { -- Frost Nova
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectivesText] = {"Learn Arcane Missiles from Valaatu. Find a Training Dummy on the northwest side of the Crash Site and practice using Arcane Missiles 2 times."},
+        },
         [26969] = { -- Primal Strike
             [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{73899}}},
+        },
+        [26970] = { -- Learning the Word
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectivesText] = {"Learn Flash Heal from Zalduun. Use Flash Heal 5 times to heal the wounds of Injured Draenei at the Crash Site."},
         },
         [26975] = { -- Rallying the Fleet
             [questKeys.triggerEnd] = {"Prince Anduin Escorted to Graves", {[zoneIDs.STORMWIND_CITY]={{33.5,40.9}}}},
@@ -596,11 +833,36 @@ function CataQuestFixes.Load()
         [27010] = { -- Quicksilver Submersion
             [questKeys.requiredSourceItems] = {60809},
         },
+        [27020] = { -- The First Lesson
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectivesText] = {"Learn Charge from Harutt Thunderhorn. Locate a Training Dummy in Camp Narache and practice using Charge."},
+        },
+        [27021] = { -- The Hunter's Path
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectivesText] = {"Learn Steady Shot from Lanka Farshot. Locate a Training Dummy in Camp Narache and practice using Steady Shot 5 times."},
+        },
+        [27023] = { -- The Way of the Sunwalkers
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{20154}}},
+            [questKeys.objectivesText] = {"Learn Seal of Righteousness and Judgement from Sunwalker Helaku. Locate a Training Dummy in Camp Narache and practice using Judgement."},
+        },
         [27027] = { -- Primal Strike
             [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{73899}}},
+            [questKeys.objectivesText] = {"Learn Primal Strike from Meela Dawnstrider. Locate a Training Dummy in Camp Narache and practice using Primal Strike 3 times."},
         },
         [27044] = { -- Peasant Problems
             [questKeys.triggerEnd] = {"Anduin Escorted to Farmer Wollerton", {[zoneIDs.STORMWIND_CITY]={{52.1,6.5}}}},
+        },
+        [27066] = { -- Learning the Word
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectivesText] = {"Learn Flash Heal from Seer Ravenfeather. Practice using Flash Heal 5 times on Wounded Braves in Camp Narache."},
+        },
+        [27067] = { -- Moonfire
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{774}}},
+            [questKeys.objectivesText] = {"Learn Rejuvination from Gart Mistrunner. Practice using Rejuvination on a Wounded Brave in Camp Narache."},
+        },
+        [27091] = { -- Charge!
+            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectivesText] = {"Learn Charge from Delios. Locate a Training Dummy outside the Sunspire and practice using Charge."},
         },
         [27509] = { -- Breach in the Defenses
             [questKeys.objectives] = {nil,{{205486,"Twilight Portal destroyed"}}},
