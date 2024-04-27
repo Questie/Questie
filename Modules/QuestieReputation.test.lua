@@ -15,6 +15,9 @@ describe("QuestieReputation", function()
         _G.GetFactionInfo = spy.new(function()
             return "Wintersaber Trainer", nil, 5, nil, nil, 4500, nil, nil, false, nil, nil, nil, nil, 589, nil, nil
         end)
+        _G.IsSpellKnown = spy.new(function()
+            return false
+        end)
 
         QuestieQuest = require("Modules.Quest.QuestieQuest")
         QuestieQuest.ResetAutoblacklistCategory = spy.new(function() end)
@@ -275,6 +278,21 @@ describe("QuestieReputation", function()
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.are.same({{909, -10}}, reputationReward)
+        end)
+
+        it("should respect Mr. Popularity rank 1 guild perk", function()
+            Questie.IsCata = true
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {{909, 3}}
+            end)
+            _G.IsSpellKnown = spy.new(function()
+                return true
+            end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+
+            assert.are.same({{909, 78}}, reputationReward)
+            assert.spy(_G.IsSpellKnown).was_called_with(78634)
         end)
     end)
 end)
