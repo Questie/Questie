@@ -128,6 +128,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{48323},{34890},{34892},{34954}}},
             [questKeys.childQuests] = {28606},
         },
+        [14094] = { -- Salvage the Supplies
+            [questKeys.preQuestSingle] = {14078},
+        },
         [14109] = { -- The New You
             [questKeys.requiredSourceItems] = {47044},
             [questKeys.exclusiveTo] = {14110},
