@@ -8,7 +8,7 @@ local playerFaction
 local phases = {
     UNKNOWN = 169, -- Most Deepholm NPCs (and others) have this ID but are not phased
     LOST_ISLES_OR_GILNEAS_CHAPTER_1 = 170,
-    LOST_ISLES_CHAPTER_2 = 171,
+    LOST_ISLES_OR_GILNEAS_CHAPTER_2 = 171,
     LOST_ISLES_CHAPTER_3 = 172,
     LOST_ISLES_CHAPTER_4 = 179,
     LOST_ISLES_CHAPTER_5 = 180,
@@ -84,7 +84,7 @@ _Phasing.LostIsles = function(phase, complete)
         return complete[14126]
     end
 
-    if phase == phases.LOST_ISLES_CHAPTER_2 and (not complete[14240]) then
+    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_2 and (not complete[14240]) then
         return complete[14303]
     end
 
@@ -124,9 +124,15 @@ _Phasing.LostIsles = function(phase, complete)
 end
 
 _Phasing.Gilneas = function(phase, complete)
-    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1 then
+    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1 and (not complete[14159]) then
         return complete[14078]
     end
+
+    if phase == phases.LOST_ISLES_OR_GILNEAS_CHAPTER_2 then
+        return complete[14159]
+    end
+
+    return false
 end
 
 _Phasing.TempleOfEarth = function(phase, complete)

@@ -126,7 +126,7 @@ describe("Phasing", function()
         it("should return true for chapter 2 when quest 14303 is complete", function()
             Questie.db.char.complete[14303] = true
 
-            assert.is_true(Phasing.IsSpawnVisible(phases.LOST_ISLES_CHAPTER_2))
+            assert.is_true(Phasing.IsSpawnVisible(phases.LOST_ISLES_OR_GILNEAS_CHAPTER_2))
         end)
 
         it("should return true for chapter 3 when quest 14240 is complete", function()
@@ -192,7 +192,7 @@ describe("Phasing", function()
             Questie.db.char.complete[25251] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1))
-            assert.is_false(Phasing.IsSpawnVisible(phases.LOST_ISLES_CHAPTER_2))
+            assert.is_false(Phasing.IsSpawnVisible(phases.LOST_ISLES_OR_GILNEAS_CHAPTER_2))
             assert.is_false(Phasing.IsSpawnVisible(phases.LOST_ISLES_CHAPTER_3))
             assert.is_false(Phasing.IsSpawnVisible(phases.LOST_ISLES_CHAPTER_4))
             assert.is_false(Phasing.IsSpawnVisible(phases.LOST_ISLES_CHAPTER_5))
@@ -213,6 +213,18 @@ describe("Phasing", function()
             Questie.db.char.complete[14078] = true
 
             assert.is_true(Phasing.IsSpawnVisible(phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1))
+        end)
+
+        it("should return false for chapter 1 when quest 14159 is complete", function()
+            Questie.db.char.complete[14159] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.LOST_ISLES_OR_GILNEAS_CHAPTER_1))
+        end)
+
+        it("should return true for chapter 2 when quest 14159 is complete", function()
+            Questie.db.char.complete[14159] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.LOST_ISLES_OR_GILNEAS_CHAPTER_2))
         end)
     end)
 
