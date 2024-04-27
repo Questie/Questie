@@ -294,7 +294,7 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Battlescar Flag Scouted", {[zoneIDs.THE_BARRENS]={{45.2,69.4}}}},
         },
         [24640] = { -- The Arts of a Warrior
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{100}}},
             [questKeys.objectivesText] = {"Speak to Nortet to train Charge. Practice using Charge against a Tiki Target."},
         },
         [24671] = { -- Cluster Cluck
@@ -302,23 +302,23 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [24752] = { -- The Arts of a Mage
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{5143}}},
             [questKeys.objectivesText] = {"Speak to Soratha to train Arcane Missiles. Practice using Arcane Missiles 2 times against a Tiki Target."},
         },
         [24766] = { -- The Arts of a Druid
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{774}}},
+            [questKeys.objectives] = {{{47057}},nil,nil,nil,nil,{{774}}},
             [questKeys.objectivesText] = {"Speak to Zen'Tabra to train Rejuvenation. Practice using Rejuvenation on a Wounded Darkspear Watcher in the Darkspear Training Grounds."},
         },
         [24772] = { -- The Arts of a Rogue
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{2098}}},
             [questKeys.objectivesText] = {"Speak to Legati to train Eviscerate. Use Eviscerate 3 times against a Tiki Target."},
         },
         [24778] = { -- The Arts of a Hunter
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{56641}}},
             [questKeys.objectivesText] = {"Speak to Ortezza to train Steady Shot. Use Steady Shot 5 times on a Tiki Target."},
         },
         [24784] = { -- Learnin' tha Word
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{47057}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Speak to Tunari to train Flash Heal. Use Flash Heal 5 times to heal Wounded Darkspear Watchers around the Darkspear Training Grounds."},
         },
         [24817] = { -- A Goblin in Shark's Clothing
