@@ -160,6 +160,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14121,14122,14123,14124},
         },
+        [14279] = { -- Learning the Word
+            [questKeys.objectives] = {{{47091}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectivesText] = "Speak to Sister Almyra and learn Flash Heal. Use Flash Heal 2 times on a Wounded Guard."
+        },
         [14153] = { -- Life of the Party
             [questKeys.preQuestSingle] = {14110},
         },
