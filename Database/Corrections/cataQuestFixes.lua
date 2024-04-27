@@ -58,27 +58,27 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Lady Sylvanas Windrunner wants you to take the Letter Sealed by Sylvanas to Garrosh Hellscream in Orgrimmar, capital of Durotar."},
         },
         [10068] = { -- Frost Nova
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{5143}}},
             [questKeys.objectivesText] = {"Learn Arcane Missiles from Julia Sunstriker. Locate a Training Dummy outside the Sunspire and practice using Arcane Missiles 2 times."},
         },
         [10069] = { -- Ways of the Light
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{20154}}},
+            [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{20154}}},
             [questKeys.objectivesText] = {"Learn Judgement and Seal of Righteousness from Jesthenis Sunstriker. Cast Seal of Righteousness on yourself, then locate a Training Dummy outside the Sunspire and use Judgement."},
         },
         [10070] = { -- Steady Shot
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{56641}}},
             [questKeys.objectivesText] = {"Learn Steady Shot from Ranger Sallina. Locate a Training Dummy outside the Sunspire and practice using Steady Shot 5 times."},
         },
         [10071] = { -- Evisceration
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{2098}}},
             [questKeys.objectivesText] = {"Learn Eviscerate from Pathstalker Kariel. Locate a Training Dummy outside the Sunspire and practice using Eviscerate 3 times."},
         },
         [10072] = { -- Learning the Word
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{44857}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Learn Flash Heal from Matron Arena. Practice casting Flash Heal 5 times on Wounded Outrunners."},
         },
         [10073] = { -- Corruption
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{348}}},
             [questKeys.objectivesText] = {"Learn Immolate from Summoner Teli'Larien. Locate a Training Dummy outside the Sunspire and practice casting Immolate 5 times."},
         },
         [13189] = { -- Saurfang's Blessing
