@@ -356,23 +356,23 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28608},
         },
         [24964] = { -- The Thrill of the Hunt
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{56641}}},
             [questKeys.objectivesText] = {"Learn Steady Shot from Xavier the Huntsman in Deathknell, then practice using Steady Shot 5 times on a Training Dummy."},
         },
         [24966] = { -- Of Light and Shadows
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{44795}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Train Flash Heal from Dark Cleric Duesten in Deathknell. Then, practice casting Flash Heal 5 times on Wounded Deathguards."},
         },
         [24967] = { -- Stab!
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{2098}}},
             [questKeys.objectivesText] = {"Learn Eviscerate from David Trias in Deathknell, then practice using Eviscerate 3 times on a Training Dummy."},
         },
         [24968] = { -- Dark Deeds
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{348}}},
             [questKeys.objectivesText] = {"Learn Immolate from Maximillion in Deathknell, then practice casting Immolate 5 times on a Training Dummy."},
         },
         [24969] = { -- Charging into Battle
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{100}}},
             [questKeys.objectivesText] = {"Learn Charge from Dannal Stern in Deathknell, then practice using Charge on a Training Dummy."},
         },
         [25081] = { -- Claim the Battlescar
