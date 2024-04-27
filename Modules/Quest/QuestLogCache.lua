@@ -71,11 +71,12 @@ local cache = {
 
 ---@type table<QuestId, QuestLogCacheData>
 local cache = {}
+local questCount = 0
 
 --- NEVER EVER EDIT this table outside of the QuestLogCache module!  !!!
 ---@type table<QuestId, QuestLogCacheData>
 QuestLogCache.questLog_DO_NOT_MODIFY = cache
-
+QuestLogCache.questCount_DO_NOT_MODIFY = questCount
 
 
 ---@return table? newObjectives, ObjectiveIndex[] changedObjIds @nil == cache miss in both addon and game caches. table {} == no objectives.
@@ -196,6 +197,10 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                     end
 
                     if changedObjIds then
+                        if (not cache[questId]) then
+                            -- Quest is new to cache
+                            questCount = questCount + 1
+                        end
                         -- Save to cache
                         cache[questId] = {
                             title = title,
@@ -256,6 +261,7 @@ end
 function QuestLogCache.RemoveQuest(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestLogCache.RemoveQuest] remove questId:", questId)
     cache[questId] = nil
+    questCount = questCount - 1
 end
 
 
