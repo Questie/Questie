@@ -184,6 +184,9 @@ function CataQuestFixes.Load()
         [14153] = { -- Life of the Party
             [questKeys.preQuestSingle] = {14110},
         },
+        [14154] = { -- By the Skin of His Teeth
+            [questKeys.triggerEnd] = {"Survive while holding back the worgen for 2 minutes", {[zoneIDs.GILNEAS_CITY]={{55.1,62.7}}}},
+        },
         [14165] = { -- Stone Cold
             [questKeys.triggerEnd] = {"Stonified Miner Delivered", {[zoneIDs.AZSHARA]={{59.9,40.2}}}},
         },
