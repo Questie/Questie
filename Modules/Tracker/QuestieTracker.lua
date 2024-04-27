@@ -39,6 +39,8 @@ local _QuestEventHandler = QuestEventHandler.private
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestieDebugOffer
 local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 
@@ -1932,13 +1934,12 @@ function QuestieTracker:HookBaseTracker()
 
     -- Intercept and return only what Questie is tracking
     GetNumQuestWatches = function(isQuestie)
-        local activeQuests = 0
         if isQuestie and Questie.db.profile.autoTrackQuests and Questie.db.char.AutoUntrackedQuests then
             local autoUnTrackedQuests = 0
             for _ in pairs(Questie.db.char.AutoUntrackedQuests) do
                 autoUnTrackedQuests = autoUnTrackedQuests + 1
             end
-            return select(2, GetNumQuestLogEntries()) - autoUnTrackedQuests
+            return QuestLogCache.questCount_DO_NOT_MODIFY - autoUnTrackedQuests
         elseif isQuestie and Questie.db.char.TrackedQuests then
             local autoTrackedQuests = 0
             for _ in pairs(Questie.db.char.TrackedQuests) do
