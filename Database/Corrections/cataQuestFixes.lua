@@ -783,23 +783,24 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Scarlet Crusade camp scouted", {[zoneIDs.WESTERN_PLAGUELANDS]={{40.6,52.6}}}},
         },
         [26940] = { -- Frost Nova
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.startedBy] = {{43006}},
+            [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{5143}}},
             [questKeys.objectivesText] = {"Learn Arcane Missiles from Rhyanda. Look for a Training Dummy near, and practice using Arcane Missiles twice."},
         },
         [26945] = { -- Learning New Techniques
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{100}}},
             [questKeys.objectivesText] = {"Learn Charge from Alyissia. Look for a Training Dummy near, and practice using Charge."},
         },
         [26947] = { -- A Woodsman's Training
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{56641}}},
             [questKeys.objectivesText] = {"Learn Steady Shot from Ayanna Everstride. Look for a Training Dummy southeast of Aldrassil, and practice using Steady Shot 5 times."},
         },
-        [26948] = { -- Moonfire
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{774}}},
+        [26948] = { -- Rejuvenating Touch
+            [questKeys.objectives] = {{{44617}},nil,nil,nil,nil,{{774}}},
             [questKeys.objectivesText] = {"Learn Rejuvenation from Mardant Strongoak. Use Rejuvenation to treat a Wounded Sentinel in Aldrassil."},
         },
         [26949] = { -- Learning the Word
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{44617}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Learn Flash Heal from Shanda. Use Flash Heal 5 times to treat the Wounded Sentinels in Aldrassil."},
         },
         [26958] = { -- Your First Lesson
