@@ -136,11 +136,11 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Razormane Prisoner Delivered", {[zoneIDs.THE_BARRENS]={{56.4,40.3}}}},
         },
         [14008] = { -- Frost Nova
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{5143}}},
             [questKeys.objectivesText] = {"Speak with Fizz Lighter and train Arcane Missiles, then cast the spell 2 times at a Training Dummy."},
         },
         [14009] = { -- Learning the Word
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{48305}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Speak with Sister Goldskimmer and train Flash Heal, then cast the spell 3 times on an Injured Employee."},
         },
         [14011] = { -- Primal Strike
@@ -148,11 +148,11 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Speak with Maxx Avalanche and train Primal Strike, then use it 2 times on a Training Dummy."},
         },
         [14012] = { -- Corruption
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{348}}},
+            [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{348}}},
             [questKeys.objectivesText] = {"Speak with Evol Fingers and train Immolate, then cast it 3 times on a Training Dummy."},
         },
         [14013] = { -- Charge
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{100}}},
             [questKeys.objectivesText] = {"Speak with Warrior-Matic NX-01 and train the Charge ability, then use it on a Training Dummy."},
         },
         [14019] = { -- Monkey Business
