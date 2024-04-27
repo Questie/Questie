@@ -190,6 +190,9 @@ function CataQuestFixes.Load()
         [14165] = { -- Stone Cold
             [questKeys.triggerEnd] = {"Stonified Miner Delivered", {[zoneIDs.AZSHARA]={{59.9,40.2}}}},
         },
+        [14204] = { -- From the Shadows
+            [questKeys.startedBy] = {{35378}},
+        },
         [14233] = { -- Orcs Can Write?
             [questKeys.exclusiveTo] = {},
         },
