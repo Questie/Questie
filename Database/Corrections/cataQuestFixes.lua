@@ -264,27 +264,27 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{48526},{37114}}},
         },
         [24526] = { -- Filling Up the Spellbook
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{5143}}},
             [questKeys.objectivesText] = {"Learn Arcane Missiles from Teegli Merrowith. Successfully cast Arcane Missiles 2 times on the Training Dummies outside the entrance to Anvilmar."},
         },
         [24528] = { -- The Power of the Light
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{20154}}},
+            [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{20154}}},
             [questKeys.objectivesText] = {"Learn Seal of Righteousness and Judgment from Bromos Grummner. After casting Seal of Righteousness on yourself, use Judgment on one of the Training Dummies at the entrance to Anvilmar."},
         },
         [24530] = { -- Oh, A Hunter's Life For Me
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{56641}}},
             [questKeys.objectivesText] = {"Learn Steady Shot from Thorgas Grimson, then use Steady Shot 5 times on the Training Dummies outside the entrance to Anvilmar."},
         },
         [24531] = { -- Getting Battle-Ready
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{100}}},
             [questKeys.objectivesText] = {"Learn Charge from Thran Khorman, then use Charge on one of the Training Dummies outside the entrance to Anvilmar."},
         },
         [24532] = { -- Evisceratin' the Enemy
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{2098}}},
             [questKeys.objectivesText] = {"Learn Evisecerate from Solm Hargrin, then use Eviscerate 3 times on the Training Dummies near the entrance to Anvilmar."},
         },
         [24533] = { -- Words of Power
-            [questKeys.objectives] = {{{44175}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{44405}},nil,nil,nil,nil,{{2061}}},
             [questKeys.objectivesText] = {"Learn Flash Heal from Branstock Khalder, then cast Flash Heal 5 times on Wounded Militia members in Anvilmar."},
         },
         [24612] = { -- A Gift for the Emissary of Orgrimmar
