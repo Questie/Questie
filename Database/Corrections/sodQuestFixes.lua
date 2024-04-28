@@ -5221,6 +5221,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431747,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90281] = {
+            [questKeys.name] = "Rampage",
+            [questKeys.startedBy] = {{222233}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 43,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Defeat Ohk'zi to receive the rune."},
+            [questKeys.requiredSpell] = -427081,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
     }
 end
 

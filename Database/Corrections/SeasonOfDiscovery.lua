@@ -449,6 +449,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90278] = 3, -- Shaman Burn
     [90279] = 3, -- Warlock Unstable Affliction
     [90280] = 3, -- Warrior Shield Mastery
+    [90281] = 3, -- Warrior Rampage
 }
 
 --- "automatic" phase detection for the first few phases;
