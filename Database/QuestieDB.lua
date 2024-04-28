@@ -138,6 +138,7 @@ local questTagCorrections = {
     [90269] = {1, "Elite"},
     [90271] = {1, "Elite"},
     [90281] = {1, "Elite"},
+    [90282] = {1, "Elite"},
 }
 
 -- race bitmask data, for easy access
