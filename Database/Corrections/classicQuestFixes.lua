@@ -2775,6 +2775,12 @@ function QuestieQuestFixes:Load()
             },
         },
         [8122] = {
+            [questKeys.triggerEnd] = {"Hold Five Bases.", {
+                [zoneIDs.THUNDER_BLUFF]={{40.4,51.57}},
+                [zoneIDs.ARATHI_HIGHLANDS]={{73.72,29.52}},
+                [zoneIDs.ORGRIMMAR]={{50.1,69.03}},
+                [zoneIDs.SILVERPINE_FOREST]={{39.68,17.75}}},
+            },
             [questKeys.requiredMinRep] = {510,42000},
         },
         [8149] = {
