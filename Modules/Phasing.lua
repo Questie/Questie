@@ -27,6 +27,7 @@ local phases = {
     GILNEAS_CHAPTER_7 = 183,
     GILNEAS_CHAPTER_8 = 184,
     GILNEAS_CHAPTER_9 = 186,
+    GILNEAS_CHAPTER_10 = 187,
 
     -- Horde starting area in Twilight Highlands
     DRAGONMAW_PORT_CHAPTER_1 = 229,
@@ -66,7 +67,7 @@ function Phasing.IsSpawnVisible(phase)
     -- We return "or false", to convert nil to false
 
     if (phase >= phases.LOST_ISLES_CHAPTER_1 and phase <= phases.LOST_ISLES_CHAPTER_3) or
-        (phase >= phases.LOST_ISLES_CHAPTER_4 and phase <= phases.GILNEAS_CHAPTER_9) then
+        (phase >= phases.LOST_ISLES_CHAPTER_4 and phase <= phases.GILNEAS_CHAPTER_10) then
         if playerFaction == "Horde" then
             return _Phasing.LostIsles(phase, complete) or false
         else
@@ -166,8 +167,12 @@ _Phasing.Gilneas = function(phase, complete)
         return complete[14402] or complete[14405] or complete[14463]
     end
 
-    if phase == phases.GILNEAS_CHAPTER_9 then
+    if phase == phases.GILNEAS_CHAPTER_9 and (not complete[24676]) then
         return complete[14467]
+    end
+
+    if phase == phases.GILNEAS_CHAPTER_10 then
+        return complete[24676]
     end
 
     return false
