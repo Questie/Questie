@@ -337,6 +337,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{38111}}},
             [questKeys.preQuestSingle] = {},
         },
+        [24677] = { -- Flank the Forsaken
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Lord Hewell for a horse"), 0, {{"monster", 38764}}}},
+        },
         [24438] = { -- Exodus
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Board the carriage"), 0, {{"monster", 44928}}}},
         },
