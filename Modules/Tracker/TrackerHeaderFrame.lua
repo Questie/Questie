@@ -211,7 +211,7 @@ function TrackerHeaderFrame:Update()
         local maxQuestAmount = "/" .. C_QuestLog.GetMaxNumQuestsCanAccept()
 
         if Questie.db.char.isTrackerExpanded then
-            local activeQuests = QuestLogCache.questCount_DO_NOT_MODIFY
+            local activeQuests = QuestLogCache.GetQuestCount()
             headerFrame.trackedQuests.label:SetText(l10n("Questie Tracker") .. ": " .. tostring(activeQuests) .. maxQuestAmount)
         else
             headerFrame.trackedQuests.label:SetText(l10n("Questie Tracker") .. " +")

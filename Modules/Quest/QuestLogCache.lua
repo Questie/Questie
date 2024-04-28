@@ -76,7 +76,6 @@ local questCount = 0
 --- NEVER EVER EDIT this table outside of the QuestLogCache module!  !!!
 ---@type table<QuestId, QuestLogCacheData>
 QuestLogCache.questLog_DO_NOT_MODIFY = cache
-QuestLogCache.questCount_DO_NOT_MODIFY = questCount
 
 
 ---@return table? newObjectives, ObjectiveIndex[] changedObjIds @nil == cache miss in both addon and game caches. table {} == no objectives.
@@ -323,6 +322,10 @@ function QuestLogCache.GetQuestObjectives(questId)
     return cache[questId].objectives
 end
 
+---@return number @The amount of quests in the quest cache
+function QuestLogCache.GetQuestCount()
+    return questCount
+end
 
 
 ---@param q table @quest
