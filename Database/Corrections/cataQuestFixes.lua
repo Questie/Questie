@@ -261,6 +261,9 @@ function CataQuestFixes.Load()
         [14395] = { -- Gasping for Breath
             [questKeys.objectives] = {{{36440}}},
         },
+        [14416] = { -- The Hungry Ettin
+            [questKeys.objectives] = {{{36540, nil, Questie.ICON_TYPE_INTERACT}}},
+        },
         [14473] = { -- It's Our Problem Now
             [questKeys.preQuestSingle] = {14001},
         },
