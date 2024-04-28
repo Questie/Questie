@@ -2459,9 +2459,11 @@ function QuestieTBCQuestFixes:Load()
         },
         [10891] = {
             [questKeys.requiredSpell] = -16663,
+            [questKeys.exclusiveTo] = {7652},
         },
         [10892] = {
             [questKeys.requiredSpell] = -16663,
+            [questKeys.exclusiveTo] = {7652},
         },
         [10896] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Rotting Forest-Ragers and Infested Root-Walkers to spawn Wood Mites"), 0, {{"monster", 22307}, {"monster", 22095}}}},
