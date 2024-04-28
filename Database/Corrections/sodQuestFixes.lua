@@ -5293,6 +5293,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432238,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90287] = {
+            [questKeys.name] = "Mental Dexterity",
+            [questKeys.startedBy] = {{5616,5617},{450019}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 43,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Kill Wastewander mobs until they drop Coded Warlock Notes and Wastewander Cipher, combine them and go to the Cryptic Scroll of Summoning, stand on it and use the Deciphered Warlock Notes. Kill the Enraged Voidwalker to receive the rune."},
+            [questKeys.requiredSpell] = -416055,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 

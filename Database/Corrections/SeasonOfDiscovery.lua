@@ -455,6 +455,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90284] = 3, -- Warlock Immolation Aura
     [90285] = 3, -- Warlock Summon Felguard
     [90286] = 3, -- Shaman Static Shock
+    [90287] = 3, -- Shaman Mental Dexterity
 }
 
 --- "automatic" phase detection for the first few phases;
