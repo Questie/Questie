@@ -17,6 +17,9 @@ function CataObjectFixes.Load()
                 [zoneIDs.TELDRASSIL] = {{66.1,52}}
             }
         },
+        [196472] = { -- Grandma's Good Clothes
+            [objectKeys.spawns] = {[zoneIDs.GILNEAS]={{32.03,75.45}}},
+        },
         [197196] = { -- Waters of Farseeing
             [objectKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY] = {{41.71,47.5}},

@@ -76,6 +76,13 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [36458] = { -- Grandma Wahl
+            [npcKeys.spawns] = {
+                [zoneIDs.GILNEAS] = {
+                    {32.52,75.48,phases.GILNEAS_CHAPTER_7},
+                },
+            },
+        },
         [37602] = { -- Claims Adjuster
             [npcKeys.spawns] = {
                 [zoneIDs.KEZAN] = {

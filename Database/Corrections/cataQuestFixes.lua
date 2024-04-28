@@ -264,6 +264,9 @@ function CataQuestFixes.Load()
         [14416] = { -- The Hungry Ettin
             [questKeys.objectives] = {{{36540, nil, Questie.ICON_TYPE_INTERACT}}},
         },
+        [14400] = { -- I Can't Wear This
+            [questKeys.exclusiveTo] = {},
+        },
         [14473] = { -- It's Our Problem Now
             [questKeys.preQuestSingle] = {14001},
         },
