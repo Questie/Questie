@@ -91,6 +91,13 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [36743] = { -- King Genn Greymane
+            [npcKeys.spawns] = {
+                [zoneIDs.GILNEAS] = {
+                    {26.44,46.91,phases.GILNEAS_CHAPTER_8},
+                },
+            },
+        },
         [37602] = { -- Claims Adjuster
             [npcKeys.spawns] = {
                 [zoneIDs.KEZAN] = {
