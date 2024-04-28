@@ -1580,6 +1580,9 @@ function QuestieWotlkNpcFixes:Load()
         [31054] = {
             [npcKeys.spawns] = {[zoneIDs.WINTERGRASP]={{72.66,31.67},{43.73,17.01}}},
         },
+        [31101] = {
+            [npcKeys.spawns] = {[zoneIDs.WINTERGRASP]={{21.86,35.43},{51.74,21.17}}},
+        },
         [31104] = {
             [npcKeys.spawns] = {[zoneIDs.AHNKAHET_MAP]={{81.37,61.1},{82.39,60.19}},[4494]={{-1,-1}}},
         },
