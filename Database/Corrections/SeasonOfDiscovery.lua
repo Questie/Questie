@@ -453,6 +453,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90282] = 3, -- Warrior Vigilance
     [90283] = 3, -- Warrior Wrecking Crew
     [90284] = 3, -- Warlock Immolation Aura
+    [90285] = 3, -- Warlock Summon Felguard
 }
 
 --- "automatic" phase detection for the first few phases;
