@@ -246,6 +246,9 @@ function CataQuestFixes.Load()
         [14366] = { -- Holding Steady
             [questKeys.preQuestGroup] = {14347,14348},
         },
+        [14382] = { -- Two By Sea
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the catapult to board the ship"), 0, {{"monster", 36283}}}},
+        },
         [14389] = { -- Wasn't It Obvious?
             [questKeys.triggerEnd] = {"Find Anara, and hopefully, Azuregos", {[zoneIDs.AZSHARA]={{27.7,40.4}}}},
         },
