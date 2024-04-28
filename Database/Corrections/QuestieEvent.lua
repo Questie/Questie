@@ -615,6 +615,7 @@ tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 79595}) -- Carnival Boots
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 80421}) -- Green Iron Bracers
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 80422}) -- Green Fireworks
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 80423}) -- The World's Largest Gnome!
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 80169}) -- Cluster Launcher
 
 -- New TBC event quests
 
