@@ -109,7 +109,7 @@ monster = function(npcId, objective)
         Spawns = enableSpawns and spawns or {},
         Waypoints = enableWaypoints and QuestieDB.QueryNPCSingle(npcId, "waypoints") or {},
         Hostile = true,
-        Icon = Questie.ICON_TYPE_SLAY,
+        Icon = objective.Icon or Questie.ICON_TYPE_SLAY,
         GetIconScale = _GetIconScaleForMonster,
         IconScale = _GetIconScaleForMonster(),
         TooltipKey = "m_" .. npcId, -- todo: use ID based keys
@@ -152,7 +152,7 @@ object = function(objectId, objective)
         Id = objectId,
         Name = name,
         Spawns = spawns,
-        Icon = Questie.ICON_TYPE_OBJECT,
+        Icon = objective.Icon or Questie.ICON_TYPE_OBJECT,
         GetIconScale = _GetIconScaleForObject,
         IconScale = _GetIconScaleForObject(),
         TooltipKey = "o_" .. objectId,
@@ -216,10 +216,10 @@ item = function(itemId, objective)
                         if (not ret[id]) then
                             local icon, GetIconScale
                             if source.Type == "object" then
-                                icon = Questie.ICON_TYPE_OBJECT
+                                icon = objective.Icon or Questie.ICON_TYPE_OBJECT
                                 GetIconScale = _GetIconScaleForObject
                             else
-                                icon = Questie.ICON_TYPE_LOOT
+                                icon = objective.Icon or Questie.ICON_TYPE_LOOT
                                 GetIconScale = _GetIconScaleForLoot
                             end
 

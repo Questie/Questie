@@ -1841,6 +1841,12 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{10918,"Listen to Lorax's Tale"}}},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
         },
+        [5143] = {
+            [questKeys.preQuestSingle] = {2853},
+        },
+        [5148] = {
+            [questKeys.preQuestSingle] = {2860},
+        },
         [5149] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -2753,6 +2759,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Control Four Bases.", {[zoneIDs.ARATHI_HIGHLANDS]={{46.03,45.3}}}},
         },
         [8115] = {
+            [questKeys.triggerEnd] = {"Take Five Bases.", {[zoneIDs.ARATHI_HIGHLANDS]={{46.03,45.3}}}},
             [questKeys.requiredMinRep] = {509,42000},
         },
         [8120] = {
@@ -2768,6 +2775,12 @@ function QuestieQuestFixes:Load()
             },
         },
         [8122] = {
+            [questKeys.triggerEnd] = {"Hold Five Bases.", {
+                [zoneIDs.THUNDER_BLUFF]={{40.4,51.57}},
+                [zoneIDs.ARATHI_HIGHLANDS]={{73.72,29.52}},
+                [zoneIDs.ORGRIMMAR]={{50.1,69.03}},
+                [zoneIDs.SILVERPINE_FOREST]={{39.68,17.75}}},
+            },
             [questKeys.requiredMinRep] = {510,42000},
         },
         [8149] = {

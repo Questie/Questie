@@ -63,10 +63,8 @@ local tunpack = unpack;
 
 
 local drawTimer
-local fadeLogicTimerShown
+local drawQueueTickRate
 local fadeLogicCoroutine
-
-local isDrawQueueDisabled = false
 
 
 --* TODO: How the frames are handled needs to be reworked, why are we getting them from _G
@@ -163,32 +161,27 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
     local isInInstance, instanceType = IsInInstance()
 
-    if (not isInInstance) or instanceType ~= "raid" then -- only run map updates when not in a raid
-        isDrawQueueDisabled = false
-        if not drawTimer then
-            drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
-            -- ! Remember to update the distance variable in ProcessShownMinimapIcons if you change the timer
-            fadeLogicTimerShown = C_Timer.NewTicker(0.1, function()
-                if fadeLogicCoroutine and coroutine.status(fadeLogicCoroutine) == "suspended" then
-                    local success, errorMsg = coroutine.resume(fadeLogicCoroutine)
-                    if (not success) then
-                        Questie:Error("Please report on Github or Discord. Minimap pins fade logic coroutine stopped:", errorMsg)
-                        fadeLogicCoroutine = nil
-                    end
-                end
-            end)
-        end
-        if not fadeLogicCoroutine then
-            fadeLogicCoroutine = coroutine.create(QuestieMap.ProcessShownMinimapIcons)
-        end
+    if isInInstance and instanceType == "raid" then
+        drawQueueTickRate = 0.4 -- slower update rate in raids
     else
-        if drawTimer then -- cancel existing timer while in dungeon/raid
-            drawTimer:Cancel()
-            drawTimer = nil
-            fadeLogicTimerShown:Cancel()
-            fadeLogicTimerShown = nil
-        end
-        isDrawQueueDisabled = true
+        drawQueueTickRate = 0.2
+    end
+
+    if not drawTimer then
+        drawTimer = C_Timer.NewTicker(drawQueueTickRate, QuestieMap.ProcessQueue)
+        -- ! Remember to update the distance variable in ProcessShownMinimapIcons if you change the timer
+        C_Timer.NewTicker(0.1, function()
+            if fadeLogicCoroutine and coroutine.status(fadeLogicCoroutine) == "suspended" then
+                local success, errorMsg = coroutine.resume(fadeLogicCoroutine)
+                if (not success) then
+                    Questie:Error("Please report on Github or Discord. Minimap pins fade logic coroutine stopped:", errorMsg)
+                    fadeLogicCoroutine = nil
+                end
+            end
+        end)
+    end
+    if not fadeLogicCoroutine then
+        fadeLogicCoroutine = coroutine.create(QuestieMap.ProcessShownMinimapIcons)
     end
 end
 
@@ -287,12 +280,10 @@ function QuestieMap:ProcessShownMinimapIcons()
 end
 
 function QuestieMap:QueueDraw(drawType, ...)
-    if (not isDrawQueueDisabled) then -- dont queue when in raid
-        if (drawType == QuestieMap.ICON_MAP_TYPE) then
-            tinsert(mapDrawQueue, { ... });
-        elseif (drawType == QuestieMap.ICON_MINIMAP_TYPE) then
-            tinsert(minimapDrawQueue, { ... });
-        end
+    if (drawType == QuestieMap.ICON_MAP_TYPE) then
+        tinsert(mapDrawQueue, { ... });
+    elseif (drawType == QuestieMap.ICON_MINIMAP_TYPE) then
+        tinsert(minimapDrawQueue, { ... });
     end
 end
 

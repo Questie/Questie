@@ -6,7 +6,6 @@ on:
       - "**"
     tags-ignore:
       - "v10.*"
-  pull_request:
 
 jobs:
   lua-check:
