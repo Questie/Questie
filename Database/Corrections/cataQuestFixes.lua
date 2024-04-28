@@ -349,6 +349,9 @@ function CataQuestFixes.Load()
         [24679] = { -- Patriarch's Blessing
             [questKeys.objectives] = {nil,{{201964}}},
         },
+        [24681] = { -- They Have Allies, But So Do We
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Hop in a Glaive Thrower"), 0, {{"monster", 38150}}}},
+        },
         [24752] = { -- The Arts of a Mage
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{5143}}},
         },
