@@ -81,6 +81,9 @@ function CataItemFixes.Load()
         [49881] = { -- Slaver's Key
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [49921] = { -- Unearthed Memento
+            [itemKeys.npcDrops] = {},
+        },
         [49944] = { -- Belysra's Talisman
             [itemKeys.class] = itemClasses.QUEST,
         },
