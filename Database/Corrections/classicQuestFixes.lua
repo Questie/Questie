@@ -1841,6 +1841,12 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{10918,"Listen to Lorax's Tale"}}},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
         },
+        [5143] = {
+            [questKeys.preQuestSingle] = {2853},
+        },
+        [5148] = {
+            [questKeys.preQuestSingle] = {2860},
+        },
         [5149] = {
             [questKeys.preQuestSingle] = {},
         },
