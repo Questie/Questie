@@ -346,6 +346,9 @@ function CataQuestFixes.Load()
         [24677] = { -- Flank the Forsaken
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Lord Hewell for a horse"), 0, {{"monster", 38764}}}},
         },
+        [24679] = { -- Patriarch's Blessing
+            [questKeys.objectives] = {nil,{{201964}}},
+        },
         [24752] = { -- The Arts of a Mage
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{5143}}},
         },
