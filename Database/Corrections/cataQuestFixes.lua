@@ -246,6 +246,9 @@ function CataQuestFixes.Load()
         [14366] = { -- Holding Steady
             [questKeys.preQuestGroup] = {14347,14348},
         },
+        [14369] = { -- Unleash the Beast
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{36236,36396,36810},36236}}},
+        },
         [14382] = { -- Two By Sea
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the catapult to board the ship"), 0, {{"monster", 36283}}}},
         },
