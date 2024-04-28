@@ -121,6 +121,22 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [38539] = { -- King Genn Greymane
+            [npcKeys.spawns] = {
+                [zoneIDs.GILNEAS] = {
+                    {57.03,52.98,phases.GILNEAS_CHAPTER_10},
+                    {57.03,52.98,phases.GILNEAS_CHAPTER_11},
+                },
+            },
+        },
+        [38611] = { -- Lorna Crowley
+            [npcKeys.spawns] = {
+                [zoneIDs.GILNEAS] = {
+                    {58.8,53.89,phases.GILNEAS_CHAPTER_10},
+                    {58.8,53.89,phases.GILNEAS_CHAPTER_11},
+                },
+            },
+        },
         [37953] = { -- Dark Scout
             [npcKeys.waypoints] = {[zoneIDs.GILNEAS]={{66.10,81.01},{65.89,81.14},{65.68,81.26},{65.46,81.31},{65.24,81.31},{65.02,81.31},{64.80,81.31},{64.57,81.31},{64.35,81.31},{64.13,81.31},{63.90,81.30},{63.68,81.30},{63.46,81.30},{63.24,81.31},{63.01,81.34},{62.81,81.46},{62.61,81.62},{62.51,81.74}}},
         },
