@@ -39,6 +39,9 @@ function CataItemFixes.Load()
         [48766] = { -- Kaja\'mite Chunk
             [itemKeys.npcDrops] = {},
         },
+        [49281] = { -- Chance the Cat
+            [itemKeys.npcDrops] = {36459,36461},
+        },
         [49365] = { -- Briaroot Brew
             [itemKeys.class] = itemClasses.QUEST,
         },

@@ -261,6 +261,9 @@ function CataQuestFixes.Load()
         [14395] = { -- Gasping for Breath
             [questKeys.objectives] = {{{36440}}},
         },
+        [14401] = { -- Grandma's Cat
+            [questKeys.exclusiveTo] = {},
+        },
         [14416] = { -- The Hungry Ettin
             [questKeys.objectives] = {{{36540, nil, Questie.ICON_TYPE_INTERACT}}},
         },
