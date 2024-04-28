@@ -285,7 +285,7 @@ readers["objective"] = function(stream)
 
     local ret = {}
     for i = 1, count do
-        ret[i] = {stream:ReadInt24(), stream:ReadTinyStringNil()}
+        ret[i] = {stream:ReadInt24(), stream:ReadTinyStringNil(), stream:ReadByte()}
     end
     return ret
 end
@@ -589,6 +589,7 @@ QuestieDBCompiler.writers = {
             for _, pair in pairs(value) do
                 stream:WriteInt24(pair[1])
                 stream:WriteTinyString(pair[2] or "")
+                stream:WriteByte(pair[3] or 0)
             end
         else
             stream:WriteByte(0)
@@ -620,8 +621,8 @@ QuestieDBCompiler.writers = {
                 for i=1, #killobjectives do -- iterate over all killobjectives
                     local killobjective = killobjectives[i]
                     local npcIds = killobjective[1]
-                    assert(type(npcIds) == "table", "killobjective's npcids is not a table.")
-                    assert(#npcIds > 0, "killOojective has 0 npcIDs.")
+                    assert(type(npcIds) == "table", "killObjective's npcids is not a table.")
+                    assert(#npcIds > 0, "killObjective has 0 npcIDs.")
                     stream:WriteByte(#npcIds) -- write count of creatureIDs
                     for j=1, #npcIds do
                         stream:WriteInt24(npcIds[j]) -- write creatureID
@@ -751,6 +752,7 @@ skippers["objective"] = function(stream)
     for _=1,count do
         stream._pointer = stream._pointer + 3
         stream._pointer = stream:ReadByte() + stream._pointer
+        stream._pointer = stream._pointer + 1
     end
 end
 skippers["spellobjective"] = function(stream)

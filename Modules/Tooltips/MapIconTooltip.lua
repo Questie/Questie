@@ -273,7 +273,7 @@ function MapIconTooltip:Show()
                         local nextQuestIdString = "";
                         local nextQuestTagString = "";
                         if firstInChain then
-                            self:AddLine("  " .. l10n("Next in chain:"), 0.86, 0.86, 0.86)
+                            self:AddLine("  |TInterface\\Addons\\Questie\\Icons\\nextquest.blp:16|t " .. l10n("Next in chain:"), 0.86, 0.86, 0.86)
                             firstInChain = false;
                         end
 
@@ -302,7 +302,7 @@ function MapIconTooltip:Show()
                             nextQuestTagString = Questie:Colorize(string.format(" (%s)", nextQuestTag), "yellow")
                         end
 
-                        local nextQuestString = string.format("    %s%s%s%s%s", nextQuestTitleString, nextQuestIdString, nextQuestXpRewardString, nextQuestMoneyRewardString, nextQuestTagString); -- we need an offset to align with description
+                        local nextQuestString = string.format("      %s%s%s%s%s", nextQuestTitleString, nextQuestIdString, nextQuestXpRewardString, nextQuestMoneyRewardString, nextQuestTagString); -- we need an offset to align with description
                         self:AddLine(QuestieLib:PrintDifficultyColor(nextQuest.level, nextQuestString, QuestieDB.IsRepeatable(nextQuest.Id), QuestieDB.IsActiveEventQuest(nextQuest.Id), QuestieDB.IsPvPQuest(nextQuest.Id)), 1, 1, 1);
                         nextQuest = QuestieDB.GetQuest(nextQuest.nextQuestInChain)
                     end
