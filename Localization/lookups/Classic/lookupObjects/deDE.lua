@@ -534,6 +534,7 @@ l10n.objectLookup["deDE"] = {
 [142715] = "Schrifttafel von Theka",
 [142958] = "Feralas: Ein historischer Abriss",
 [143980] = "Gordunnischriftrolle",
+[144052] = "Wasserloch der Sandmarterwache",
 [144053] = "Scrimshanks Feldmesser-Ausstattung",
 [144054] = "Shays Truhe",
 [144063] = "Equinex-Monolith",

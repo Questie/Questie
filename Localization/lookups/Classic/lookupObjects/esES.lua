@@ -532,6 +532,7 @@ l10n.objectLookup["esES"] = {
 [142715] = "Tablilla de Theka",
 [142958] = "Feralas: Una historia",
 [143980] = "Pergamino Gordunni",
+[144052] = "Abrevadero de Vigía Penas de Arena",
 [144053] = "Equipo de análisis de Scrimshank",
 [144054] = "Cofre de Shay",
 [144063] = "Monolito de Equinex",
