@@ -76,6 +76,14 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [36452] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.GILNEAS] = {
+                    {37.63,65.23,phases.GILNEAS_CHAPTER_7},
+                    {37.63,65.23,phases.GILNEAS_CHAPTER_8},
+                },
+            },
+        },
         [36458] = { -- Grandma Wahl
             [npcKeys.spawns] = {
                 [zoneIDs.GILNEAS] = {

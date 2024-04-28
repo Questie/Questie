@@ -25,6 +25,7 @@ local phases = {
     GILNEAS_CHAPTER_5 = 181,
     GILNEAS_CHAPTER_6 = 182,
     GILNEAS_CHAPTER_7 = 183,
+    GILNEAS_CHAPTER_8 = 184,
 
     -- Horde starting area in Twilight Highlands
     DRAGONMAW_PORT_CHAPTER_1 = 229,
@@ -156,8 +157,12 @@ _Phasing.Gilneas = function(phase, complete)
         return complete[14321]
     end
 
-    if phase == phases.GILNEAS_CHAPTER_7 then
+    if phase == phases.GILNEAS_CHAPTER_7 and (not complete[14402]) and (not complete[14405]) and (not complete[14463]) then
         return complete[14386]
+    end
+
+    if phase == phases.GILNEAS_CHAPTER_8 then
+        return complete[14402] or complete[14405] or complete[14463]
     end
 
     return false

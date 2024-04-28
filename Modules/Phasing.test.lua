@@ -286,6 +286,34 @@ describe("Phasing", function()
 
             assert.is_true(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_7))
         end)
+
+        it("should return false for chapter 7 when quest 14402, 14405 or 14463 is complete", function()
+            Questie.db.char.complete[14402] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_7))
+
+            Questie.db.char.complete[14402] = false
+            Questie.db.char.complete[14405] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_7))
+
+            Questie.db.char.complete[14402] = false
+            Questie.db.char.complete[14405] = false
+            Questie.db.char.complete[14463] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_7))
+        end)
+
+        it("should return true for chapter 8 when quest 14402, 14405 or 14463 is complete", function()
+            Questie.db.char.complete[14402] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_8))
+
+            Questie.db.char.complete[14402] = false
+            Questie.db.char.complete[14405] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_8))
+
+            Questie.db.char.complete[14402] = false
+            Questie.db.char.complete[14405] = false
+            Questie.db.char.complete[14463] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_8))
+        end)
     end)
 
     describe("Deepholm", function()
