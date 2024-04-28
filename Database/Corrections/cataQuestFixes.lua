@@ -372,6 +372,9 @@ function CataQuestFixes.Load()
         [24901] = { -- Town-In-A-Box: Under Attack
             [questKeys.objectives] = {{{38526}}},
         },
+        [24902] = { -- The Hunt For Sylvanas
+            [questKeys.triggerEnd] = {"Hunt for Sylvanas", {[zoneIDs.GILNEAS_CITY]={{44.9,52.3}}}},
+        },
         [24904] = { -- The Battle for Gilneas City
             [questKeys.objectives] = {{{38469}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Krennan Aranas to join the battle"), 0, {{"monster", 38553}}}},
