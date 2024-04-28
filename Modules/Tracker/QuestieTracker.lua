@@ -1939,7 +1939,7 @@ function QuestieTracker:HookBaseTracker()
             for _ in pairs(Questie.db.char.AutoUntrackedQuests) do
                 autoUnTrackedQuests = autoUnTrackedQuests + 1
             end
-            return QuestLogCache.questCount_DO_NOT_MODIFY - autoUnTrackedQuests
+            return QuestLogCache.GetQuestCount() - autoUnTrackedQuests
         elseif isQuestie and Questie.db.char.TrackedQuests then
             local autoTrackedQuests = 0
             for _ in pairs(Questie.db.char.TrackedQuests) do
