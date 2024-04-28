@@ -904,8 +904,8 @@ function CataQuestFixes.Load()
         [27704] = { -- Legends of the Sunken Temple
             [questKeys.triggerEnd] = {"Hall of Masks found", {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR]={{74,44.4}}}},
         },
-        [27721] = { -- Warchief's Command: Mount Hyjal! TODO: Add TALK_ICON
-            [questKeys.objectives] = {{{15188}}},
+        [27721] = { -- Warchief's Command: Mount Hyjal!
+            [questKeys.objectives] = {{{15188, nil, Questie.ICON_TYPE_TALK}}},
         },
         [27722] = { -- Warchief's Command: Deepholm!
             [questKeys.exclusiveTo] = {27399,27442},
