@@ -264,14 +264,29 @@ function CataQuestFixes.Load()
         [14401] = { -- Grandma's Cat
             [questKeys.exclusiveTo] = {},
         },
+        [14402] = { -- Ready to Go
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {14401,14404,14412,14416},
+            [questKeys.exclusiveTo] = {14405,14463},
+        },
         [14404] = { -- Not Quite Shipshape
             [questKeys.exclusiveTo] = {},
+        },
+        [14405] = { -- Escape By Sea
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {14401,14404,14412,14416},
+            [questKeys.exclusiveTo] = {14402,14463},
         },
         [14412] = { -- Washed Up
             [questKeys.preQuestSingle] = {14403},
         },
         [14416] = { -- The Hungry Ettin
             [questKeys.objectives] = {{{36540, nil, Questie.ICON_TYPE_INTERACT}}},
+        },
+        [14463] = { -- Horses for Duskhaven
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {14401,14404,14412,14416},
+            [questKeys.exclusiveTo] = {14402,14405},
         },
         [14400] = { -- I Can't Wear This
             [questKeys.exclusiveTo] = {},
