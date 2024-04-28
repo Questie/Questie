@@ -470,5 +470,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.ARATHI_HIGHLANDS] = {{34,44}},
             },
         },
+        [450019] = {
+            [objectKeys.name] = "Cryptic Scroll of Summoning",
+            [objectKeys.zoneID] = zoneIDs.TANARIS,
+            [objectKeys.spawns] = {
+                [zoneIDs.TANARIS] = {{58.0,36.0}},
+            },
+        },
     }
 end

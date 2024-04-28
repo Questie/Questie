@@ -480,6 +480,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.REDRIDGE_MOUNTAINS] = {{77.6, 85.8}},
             },
         },
+        [215062] = { -- Supplicant
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{39.50,29.37}},
+            },
+        },
         [215850] = { -- Raszel Ander
             [npcKeys.friendlyToFaction] = "AH",
         },
