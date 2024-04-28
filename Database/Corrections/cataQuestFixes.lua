@@ -264,6 +264,9 @@ function CataQuestFixes.Load()
         [14401] = { -- Grandma's Cat
             [questKeys.exclusiveTo] = {},
         },
+        [14412] = { -- Washed Up
+            [questKeys.preQuestSingle] = {14403},
+        },
         [14416] = { -- The Hungry Ettin
             [questKeys.objectives] = {{{36540, nil, Questie.ICON_TYPE_INTERACT}}},
         },
