@@ -137,7 +137,9 @@ local questTagCorrections = {
     [90230] = {1, "Elite"},
     [90269] = {1, "Elite"},
     [90271] = {1, "Elite"},
-    [90286] = {1, "Elite"},
+    [90281] = {1, "Elite"},
+    [90282] = {1, "Elite"},
+    [90287] = {1, "Elite"},
 }
 
 -- race bitmask data, for easy access
@@ -1196,11 +1198,15 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
         if objectives[1] then
             for _, creatureObjective in pairs(objectives[1]) do
                 if creatureObjective then
+                    if creatureObjective[3] == 0 then
+                        creatureObjective[3] = nil
+                    end
                     ---@type NpcObjective
                     QO.ObjectiveData[#QO.ObjectiveData+1] = {
                         Type = "monster",
                         Id = creatureObjective[1],
-                        Text = creatureObjective[2]
+                        Text = creatureObjective[2],
+                        Icon = creatureObjective[3]
                     }
                 end
             end
@@ -1208,11 +1214,15 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
         if objectives[2] then
             for _, objectObjective in pairs(objectives[2]) do
                 if objectObjective then
+                    if objectObjective[3] == 0 then
+                        objectObjective[3] = nil
+                    end
                     ---@type ObjectObjective
                     QO.ObjectiveData[#QO.ObjectiveData+1] = {
                         Type = "object",
                         Id = objectObjective[1],
-                        Text = objectObjective[2]
+                        Text = objectObjective[2],
+                        Icon = objectObjective[3]
                     }
                 end
             end
@@ -1220,11 +1230,15 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
         if objectives[3] then
             for _, itemObjective in pairs(objectives[3]) do
                 if itemObjective then
+                    if itemObjective[3] == 0 then
+                        itemObjective[3] = nil
+                    end
                     ---@type ItemObjective
                     QO.ObjectiveData[#QO.ObjectiveData+1] = {
                         Type = "item",
                         Id = itemObjective[1],
-                        Text = itemObjective[2]
+                        Text = itemObjective[2],
+                        Icon = itemObjective[3]
                     }
                 end
             end
