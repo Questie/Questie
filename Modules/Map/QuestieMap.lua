@@ -62,7 +62,6 @@ local tunpack = unpack;
 
 local drawTimer
 local drawQueueTickRate
-local fadeLogicTimerShown
 local fadeLogicCoroutine
 
 
@@ -169,7 +168,7 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
     if not drawTimer then
         drawTimer = C_Timer.NewTicker(drawQueueTickRate, QuestieMap.ProcessQueue)
         -- ! Remember to update the distance variable in ProcessShownMinimapIcons if you change the timer
-        fadeLogicTimerShown = C_Timer.NewTicker(0.1, function()
+        C_Timer.NewTicker(0.1, function()
             if fadeLogicCoroutine and coroutine.status(fadeLogicCoroutine) == "suspended" then
                 local success, errorMsg = coroutine.resume(fadeLogicCoroutine)
                 if (not success) then
