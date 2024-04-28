@@ -5209,6 +5209,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431747,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
+        [90280] = {
+            [questKeys.name] = "Shield Mastery",
+            [questKeys.startedBy] = {{222685,222687,222684,222686}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 23,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Shield Mastery rune from the Quartermaster."},
+            [questKeys.requiredSpell] = -431747,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
     }
 end
 
