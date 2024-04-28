@@ -36,7 +36,7 @@ Modules\Libs\MessageHandler.lua
 
 #Quest XP
 Database\QuestXP\QuestieXP.lua
-Database\QuestXP\DB\xpDB-wotlk.lua
+Database\QuestXP\DB\xpDB-cata.lua
 
 # stream module (used by DB)
 Modules\QuestieStream.lua
