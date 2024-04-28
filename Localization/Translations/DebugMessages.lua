@@ -323,8 +323,8 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhTW"] = "%s 任務 %s!",
         ["deDE"] = "%s für %s!",
-        ["esES"] = "%s para %s!",
-        ["esMX"] = "%s para %s!",
+        ["esES"] = "¡%s para %s!",
+        ["esMX"] = "¡%s para %s!",
     },
     ["Picked up %s which starts %s!"] = {
         ["ptBR"] = "Pegou %s que inicia %s!",
@@ -335,8 +335,8 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhTW"] = "拾取 %s 自動接受任務 %s!",
         ["deDE"] = "%s aufgehoben, das %s startet!",
-        ["esES"] = "Recogió %s que inicia %s!",
-        ["esMX"] = "Recogió %s que inicia %s!",
+        ["esES"] = "¡Recogió %s que inicia %s!",
+        ["esMX"] = "¡Recogió %s que inicia %s!",
     },
     ["You picked up %s which starts %s!"] = {
         ["ptBR"] = "Você pegou %s que inicia %s!",
