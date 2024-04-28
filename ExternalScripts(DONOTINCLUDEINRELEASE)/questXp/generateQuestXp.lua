@@ -14,6 +14,7 @@ for line in questXpDBC:lines() do
 end
 questXpDBC:close()
 
+-- data.csv can be extracted from mangos/trinity with: SELECT entry, QuestLevel, RewXPId FROM quest_template;
 print("reading data.lua")
 local inputFile = io.open("data.csv", "r")
 local lines = {}
