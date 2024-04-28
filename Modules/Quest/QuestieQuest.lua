@@ -1471,7 +1471,8 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
                         AlreadySpawned = {},
                         Update = _QuestieQuest.ObjectiveUpdate,
                         Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates, -- Only for type "event"
-                        RequiredRepValue = quest.ObjectiveData[objectiveIndex].RequiredRepValue
+                        RequiredRepValue = quest.ObjectiveData[objectiveIndex].RequiredRepValue,
+                        Icon = quest.ObjectiveData[objectiveIndex].Icon
                     }
                 end
 

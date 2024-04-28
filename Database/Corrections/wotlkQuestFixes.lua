@@ -506,6 +506,18 @@ function QuestieWotlkQuestFixes:Load()
         [10703] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{21864,21878,21879,23020,21978},21978,},},},
         },
+        [10725] = {
+            [questKeys.objectives] = {nil,nil,nil,{967,42000}},
+        },
+        [10726] = {
+            [questKeys.objectives] = {nil,nil,nil,{967,42000}},
+        },
+        [10727] = {
+            [questKeys.objectives] = {nil,nil,nil,{967,42000}},
+        },
+        [10728] = {
+            [questKeys.objectives] = {nil,nil,nil,{967,42000}},
+        },
         [10769] = {
             [questKeys.objectives] = {{{19823}},nil,{{31108}}},
         },
