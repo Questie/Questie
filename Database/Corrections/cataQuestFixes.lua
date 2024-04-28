@@ -327,6 +327,9 @@ function CataQuestFixes.Load()
         [24618] = { -- Claim the Battle Scar
             [questKeys.triggerEnd] = {"Battlescar Flag Scouted", {[zoneIDs.THE_BARRENS]={{45.2,69.4}}}},
         },
+        [24628] = { -- Preparations
+            [questKeys.preQuestSingle] = {24617},
+        },
         [24640] = { -- The Arts of a Warrior
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{100}}},
         },
