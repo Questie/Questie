@@ -324,6 +324,9 @@ function CataQuestFixes.Load()
         [24533] = { -- Words of Power
             [questKeys.objectives] = {{{44405}},nil,nil,nil,nil,{{2061}}},
         },
+        [24575] = { -- Liberation Day
+            [questKeys.requiredSourceItems] = {49881},
+        },
         [24612] = { -- A Gift for the Emissary of Orgrimmar
             [questKeys.finishedBy] = {{39605}},
         },
