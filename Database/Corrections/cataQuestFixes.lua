@@ -258,6 +258,9 @@ function CataQuestFixes.Load()
         [14389] = { -- Wasn't It Obvious?
             [questKeys.triggerEnd] = {"Find Anara, and hopefully, Azuregos", {[zoneIDs.AZSHARA]={{27.7,40.4}}}},
         },
+        [14395] = { -- Gasping for Breath
+            [questKeys.objectives] = {{{36440}}},
+        },
         [14473] = { -- It's Our Problem Now
             [questKeys.preQuestSingle] = {14001},
         },
