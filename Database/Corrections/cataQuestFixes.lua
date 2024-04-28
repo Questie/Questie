@@ -334,6 +334,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{38111}}},
             [questKeys.preQuestSingle] = {},
         },
+        [24438] = { -- Exodus
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Board the carriage"), 0, {{"monster", 44928}}}},
+        },
         [24752] = { -- The Arts of a Mage
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{5143}}},
         },
