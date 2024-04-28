@@ -264,6 +264,9 @@ function CataQuestFixes.Load()
         [14401] = { -- Grandma's Cat
             [questKeys.exclusiveTo] = {},
         },
+        [14404] = { -- Not Quite Shipshape
+            [questKeys.exclusiveTo] = {},
+        },
         [14412] = { -- Washed Up
             [questKeys.preQuestSingle] = {14403},
         },
