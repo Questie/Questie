@@ -747,6 +747,11 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Opalescent Guardians Escorted to safety", {[zoneIDs.DEEPHOLM]={{51,14.8}}}},
             [questKeys.objectives] = {{{42466},{43597}},nil,nil,nil,},
         },
+        [26706] = { -- Endgame
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Gunship destroyed",{[zoneIDs.GILNEAS]={{42.4,29.2}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Hop on a Hippogryph"), 0, {{"monster", 43747}}}},
+        },
         [26711] = { -- Off to the Bank (female)
             [questKeys.exclusiveTo] = {26712},
         },
