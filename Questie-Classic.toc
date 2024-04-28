@@ -119,6 +119,7 @@ Modules\QuestieProfessions.lua
 Modules\QuestieReputation.lua
 Modules\QuestieEventHandler.lua
 Modules\Migration.lua
+Modules\Phasing.lua
 Modules\QuestieMenu\Townsfolk.lua
 Modules\QuestieMenu\ClassTrainers.lua
 Modules\QuestieMenu\Mailboxes.lua
