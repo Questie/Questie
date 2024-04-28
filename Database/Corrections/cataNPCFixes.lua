@@ -113,6 +113,21 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [37953] = { -- Dark Scout
+            [npcKeys.waypoints] = {[zoneIDs.GILNEAS]={{66.10,81.01},{65.89,81.14},{65.68,81.26},{65.46,81.31},{65.24,81.31},{65.02,81.31},{64.80,81.31},{64.57,81.31},{64.35,81.31},{64.13,81.31},{63.90,81.30},{63.68,81.30},{63.46,81.30},{63.24,81.31},{63.01,81.34},{62.81,81.46},{62.61,81.62},{62.51,81.74}}},
+        },
+        [38387] = { -- Sassy Hardwrench
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_LOST_ISLES] = {
+                    {45.18,64.9,phases.LOST_ISLES_CHAPTER_5},
+                    {45.18,64.9,phases.LOST_ISLES_CHAPTER_6},
+                    {45.18,64.9,phases.LOST_ISLES_CHAPTER_7},
+                    {37.3,41.9,phases.LOST_ISLES_CHAPTER_8},
+                    {43.63,25.32,phases.LOST_ISLES_CHAPTER_9},
+                    {42.57,16.38,phases.LOST_ISLES_CHAPTER_10},
+                },
+            },
+        },
         [38553] = { -- Krennan Aranas
             [npcKeys.spawns] = {
                 [zoneIDs.GILNEAS] = {
@@ -134,21 +149,6 @@ function CataNpcFixes.Load()
                 [zoneIDs.GILNEAS] = {
                     {58.8,53.89,phases.GILNEAS_CHAPTER_10},
                     {58.8,53.89,phases.GILNEAS_CHAPTER_11},
-                },
-            },
-        },
-        [37953] = { -- Dark Scout
-            [npcKeys.waypoints] = {[zoneIDs.GILNEAS]={{66.10,81.01},{65.89,81.14},{65.68,81.26},{65.46,81.31},{65.24,81.31},{65.02,81.31},{64.80,81.31},{64.57,81.31},{64.35,81.31},{64.13,81.31},{63.90,81.30},{63.68,81.30},{63.46,81.30},{63.24,81.31},{63.01,81.34},{62.81,81.46},{62.61,81.62},{62.51,81.74}}},
-        },
-        [38387] = { -- Sassy Hardwrench
-            [npcKeys.spawns] = {
-                [zoneIDs.THE_LOST_ISLES] = {
-                    {45.18,64.9,phases.LOST_ISLES_CHAPTER_5},
-                    {45.18,64.9,phases.LOST_ISLES_CHAPTER_6},
-                    {45.18,64.9,phases.LOST_ISLES_CHAPTER_7},
-                    {37.3,41.9,phases.LOST_ISLES_CHAPTER_8},
-                    {43.63,25.32,phases.LOST_ISLES_CHAPTER_9},
-                    {42.57,16.38,phases.LOST_ISLES_CHAPTER_10},
                 },
             },
         },
