@@ -288,6 +288,9 @@ function CataItemFixes.Load()
         [62926] = { -- Twilight Caravan Cargo Key
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [62927] = { -- Twilight's Hammer Gatestone
+            [itemKeys.npcDrops] = {},
+        },
         [63027] = { -- Brazier Torch
             [itemKeys.class] = itemClasses.QUEST,
         },
