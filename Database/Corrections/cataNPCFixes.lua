@@ -14,6 +14,9 @@ function CataNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
+        [3594] = { -- Frahun Shadewhisper
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.8,33.8}}},
+        },
         [34571] = { -- Gwen Armstead
             [npcKeys.spawns] = {
                 [zoneIDs.GILNEAS] = {
