@@ -1042,6 +1042,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28112},
             [questKeys.exclusiveTo] = {27141},
         },
+        [27955] = { -- Eye Spy
+            [questKeys.objectives] = {{{47274}}},
+        },
         [28038] = { -- Blood in the Highlands
             [questKeys.exclusiveTo] = {27863},
         },
