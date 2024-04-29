@@ -1171,6 +1171,9 @@ function CataQuestFixes.Load()
         [29156] = { -- The Troll Incursion
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
+        [29220] = { -- To Bambala
+            [questKeys.triggerEnd] = {"Head to Bambala in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{64.6,40.4}}}},
+        },
         [29326] = { -- The Nordrassil Summit
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 29335,
