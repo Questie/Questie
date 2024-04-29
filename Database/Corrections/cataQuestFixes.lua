@@ -63,6 +63,10 @@ function CataQuestFixes.Load()
         [2518] = { -- Tears of the Moon
             [questKeys.preQuestSingle] = {},
         },
+        [7383] = { -- Teldrassil: The Burden of the Kaldorei
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {918,919},
+        },
         [7490] = { -- Victory for the Horde
             [questKeys.finishedBy] = {{39605}},
         },
