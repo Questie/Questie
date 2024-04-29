@@ -36,6 +36,9 @@ function CataQuestFixes.Load()
         [919] = { -- Timberling Sprouts
             [questKeys.preQuestSingle] = {997},
         },
+        [930] = { -- The Glowing Fruit
+            [questKeys.preQuestSingle] = {},
+        },
         [932] = { -- Twisted Hatred
             [questKeys.preQuestSingle] = {489},
         },
