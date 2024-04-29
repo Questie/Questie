@@ -45,6 +45,9 @@ function CataQuestFixes.Load()
         [932] = { -- Twisted Hatred
             [questKeys.preQuestSingle] = {489},
         },
+        [933] = { -- Teldrassil: The Coming Dawn
+            [questKeys.preQuestSingle] = {7383},
+        },
         [935] = { -- The Waters of Teldrassil
             [questKeys.preQuestSingle] = {14005},
         },
