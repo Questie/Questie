@@ -1018,6 +1018,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27745},
             [questKeys.exclusiveTo] = {27786},
         },
+        [27485] = { -- Warm Welcome
+            [questKeys.preQuestSingle] = {27380},
+        },
         [27922] = { -- Traitors!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Hide behind Neferset Frond"), 0, {{"object", 206579}}}},
         },
