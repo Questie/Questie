@@ -54,6 +54,9 @@ function CataQuestFixes.Load()
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
         },
+        [2518] = { -- Tears of the Moon
+            [questKeys.preQuestSingle] = {},
+        },
         [7490] = { -- Victory for the Horde
             [questKeys.finishedBy] = {{39605}},
         },
