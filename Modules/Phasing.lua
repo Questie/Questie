@@ -43,6 +43,8 @@ local phases = {
     -- It looks like 255 and 256 are not used
     TEMPLE_OF_EARTH_CHAPTER_3 = 257,
 
+    TWILIGHT_GATE = 285,
+
     KEZAN_CHAPTER_1 = 378,
     KEZAN_CHAPTER_2 = 379,
     KEZAN_CHAPTER_3 = 380, -- Not handled explicitly because the spawns are the same as chapter 2
@@ -83,6 +85,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase >= phases.THE_STONE_MARCH and phase <= phases.TEMPLE_OF_EARTH_CHAPTER_3 then
         return _Phasing.TempleOfEarth(phase, complete) or false
+    end
+
+    if phase == phases.TWILIGHT_GATE then
+        return complete[27301] or false
     end
 
     if phase >= phases.KEZAN_CHAPTER_1 and phase <= phases.KEZAN_CHAPTER_7 then

@@ -195,11 +195,19 @@ function CataNpcFixes.Load()
         [43792] = { -- Therazane
             [npcKeys.questStarts] = {26709,28824},
         },
-        [44025] = {
+        [44025] = { -- Therazane
             [npcKeys.spawns] = {
                 [zoneIDs.DEEPHOLM] = {
                     {63.33,24.95,phases.THE_STONE_MARCH},
                     {63.33,24.95,phases.TEMPLE_OF_EARTH_CHAPTER_1},
+                },
+            },
+        },
+        [45362] = { -- Earthcaller Yevaa
+            [npcKeys.spawns] = {
+                [zoneIDs.TWILIGHT_HIGHLANDS] = {
+                    {44.21,18.13,phases.UNKNOWN},
+                    {44.21,18.13,phases.TWILIGHT_GATE},
                 },
             },
         },

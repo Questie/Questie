@@ -431,4 +431,16 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_3))
         end)
     end)
+
+    describe("Twilight Gate", function()
+        it("should return true for Twilight Gate when 27301 is complete", function()
+            Questie.db.char.complete[27301] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE))
+        end)
+
+        it("should return false for Twilight Gate when 27301 is not complete", function()
+            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE))
+        end)
+    end)
 end)
