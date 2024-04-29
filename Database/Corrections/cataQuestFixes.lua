@@ -1142,6 +1142,10 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Arrive at Blackrock Caverns", {[zoneIDs.BLACKROCK_CAVERNS]={{33,66.4}}}},
             [questKeys.objectives] = {{{49456}},nil,nil,nil,},
         },
+        [28734] = { -- A Favor for Melithar
+            [questKeys.exclusiveTo] = {28715},
+            [questKeys.nextQuestInChain] = 28715,
+        },
         [28805] = { -- The Eye of the Storm
             [questKeys.objectives] = {nil,{{197196}}},
         },
