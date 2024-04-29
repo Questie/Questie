@@ -21,6 +21,9 @@ function CataNpcFixes.Load()
         [3594] = { -- Frahun Shadewhisper
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.8,33.8}}},
         },
+        [7319] = { -- Lady Sathrah
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{40.66,22.16}}},
+        },
         [34571] = { -- Gwen Armstead
             [npcKeys.spawns] = {
                 [zoneIDs.GILNEAS] = {
