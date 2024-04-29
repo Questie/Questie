@@ -43,6 +43,7 @@ local phases = {
     -- It looks like 255 and 256 are not used
     TEMPLE_OF_EARTH_CHAPTER_3 = 257,
 
+    TWILIGHT_GATE_PRE_INVASION = 283,
     TWILIGHT_GATE = 285,
     TWILIGHT_CARAVAN_AMBUSH_HORDE = 318,
     GRIM_BATOL_ATTACK_HORDE = 319,
@@ -90,6 +91,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase >= phases.THE_STONE_MARCH and phase <= phases.TEMPLE_OF_EARTH_CHAPTER_3 then
         return _Phasing.TempleOfEarth(phase, complete) or false
+    end
+
+    if phase == phases.TWILIGHT_GATE_PRE_INVASION and (not complete[27301]) then
+        return complete[28249] or false
     end
 
     if phase == phases.TWILIGHT_GATE then

@@ -432,18 +432,6 @@ describe("Phasing", function()
         end)
     end)
 
-    describe("Twilight Gate", function()
-        it("should return true for Twilight Gate when 27301 is complete", function()
-            Questie.db.char.complete[27301] = true
-
-            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE))
-        end)
-
-        it("should return false for Twilight Gate when 27301 is not complete", function()
-            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE))
-        end)
-    end)
-
     describe("Isorath Nightmare", function()
         it("should return true for Isorath Nightmare when 27303 is complete", function()
             Questie.db.char.complete[27303] = true
@@ -457,6 +445,32 @@ describe("Phasing", function()
     end)
 
     describe("Grim Batol attack", function()
+        it("should return true for Twilight Gate Pre Invasion when 28249 is complete", function()
+            Questie.db.char.complete[28249] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE_PRE_INVASION))
+        end)
+
+        it("should return false for Twilight Gate when 28249 is not complete", function()
+            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE_PRE_INVASION))
+        end)
+
+        it("should return false for Twilight Gate when 27301 is complete", function()
+            Questie.db.char.complete[27301] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE_PRE_INVASION))
+        end)
+
+        it("should return true for Twilight Gate when 27301 is complete", function()
+            Questie.db.char.complete[27301] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE))
+        end)
+
+        it("should return false for Twilight Gate when 27301 is not complete", function()
+            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE))
+        end)
+
         it("should return true for Twilight Ambush Horde & Alliance when 27509 is complete", function()
             Questie.db.char.complete[27509] = true
 
