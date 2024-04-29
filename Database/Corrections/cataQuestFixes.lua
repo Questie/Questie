@@ -921,6 +921,9 @@ function CataQuestFixes.Load()
         [27349] = { -- Break in Communications: Dreadwatch Outpost
             [questKeys.triggerEnd] = {"Investigate Dreadwatch Outpost", {[zoneIDs.RUINS_OF_GILNEAS]={{53,32.6}}}},
         },
+        [27376] = { -- The Maw of Iso'rath
+            [questKeys.preQuestSingle] = {27303},
+        },
         [27398] = { -- The Battle Is Won, The War Goes On
             [questKeys.exclusiveTo] = {27443,27727},
         },
