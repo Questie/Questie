@@ -126,6 +126,9 @@ function CataQuestFixes.Load()
         [13945] = { -- Resident Danger
             [questKeys.preQuestSingle] = {476},
         },
+        [13946] = { -- Nature's Reprisal
+            [questKeys.preQuestSingle] = {489},
+        },
         [13961] = { -- Drag it Out of Them
             [questKeys.triggerEnd] = {"Razormane Prisoner Delivered", {[zoneIDs.THE_BARRENS]={{56.4,40.3}}}},
         },
