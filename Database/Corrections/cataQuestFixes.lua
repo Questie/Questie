@@ -24,6 +24,9 @@ function CataQuestFixes.Load()
     local specialFlags = QuestieDB.specialFlags
 
     return {
+        [487] = { -- The Road to Darnassus
+            [questKeys.preQuestSingle] = {2561},
+        },
         [578] = { -- The Stone of the Tides
             [questKeys.childQuests] = {579},
         },
