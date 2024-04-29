@@ -963,6 +963,9 @@ function CataQuestFixes.Load()
         [27443] = { -- The War Has Many Fronts
             [questKeys.exclusiveTo] = {27398,27727},
         },
+        [27506] = { -- Life from Death
+            [questKeys.preQuestSingle] = {27504},
+        },
         [27583] = {
             [questKeys.preQuestSingle] = {26840},
         },
