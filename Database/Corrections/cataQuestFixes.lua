@@ -670,6 +670,9 @@ function CataQuestFixes.Load()
         [26182] = { -- Back to the Tenebrous Cavern
             [questKeys.preQuestSingle] = {26143},
         },
+        [26194] = { -- Defending the Rift
+            [questKeys.preQuestSingle] = {26182},
+        },
         [26198] = { -- The Arts of a Mage
             [questKeys.objectives] = {{{44171}},nil,nil,nil,nil,{{5143}}},
         },
