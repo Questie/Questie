@@ -1120,6 +1120,9 @@ function CataQuestFixes.Load()
         [28170] = { -- Night Terrors
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Uchek"), 0, {{"monster", 47826}}}},
         },
+        [28191] = { -- A Fitting End
+            [questKeys.preQuestSingle] = {28171},
+        },
         [28247] = { -- Last of Her Kind
             [questKeys.objectives] = {{{47929,"Obsidia defeated"}}},
         },
