@@ -36,6 +36,9 @@ function CataQuestFixes.Load()
         [932] = { -- Twisted Hatred
             [questKeys.preQuestSingle] = {489},
         },
+        [997] = { -- Denalan's Earth
+            [questKeys.preQuestSingle] = {486},
+        },
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
         },
