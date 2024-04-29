@@ -54,7 +54,7 @@ QuestieDB.npcCompilerOrder = { -- order easily skipable data first for efficienc
 }
 
 ---@enum NpcFlags
-QuestieDB.npcFlags = (Questie.IsTBC or Questie.IsWotlk) and {
+QuestieDB.npcFlags = (Questie.IsTBC or Questie.IsWotlk or Questie.IsCata) and {
     NONE = 0,
     GOSSIP = 1,
     QUEST_GIVER = 2,
