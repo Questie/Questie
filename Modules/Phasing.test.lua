@@ -454,11 +454,45 @@ describe("Phasing", function()
         it("should return false for Isorath Nightmare when 27303 is not complete", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.ISORATH_NIGHTMARE))
         end)
+    end)
 
-        it("should return false for Isorath Nightmare when 27380 is complete", function()
-            Questie.db.char.complete[27380] = true
+    describe("Grim Batol attack", function()
+        it("should return true for Twilight Ambush Horde & Alliance when 27509 is complete", function()
+            Questie.db.char.complete[27509] = true
 
-            assert.is_false(Phasing.IsSpawnVisible(phases.ISORATH_NIGHTMARE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_HORDE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE))
+        end)
+
+        it("should return false for Twilight Ambush Horde & Alliance when 27509 is not complete", function()
+            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_HORDE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE))
+        end)
+
+        it("should return false for Twilight Ambush Horde when 27576 is complete", function()
+            Questie.db.char.complete[27576] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_HORDE))
+        end)
+
+        it("should return false for Twilight Ambush Alliance when 28101 is complete", function()
+            Questie.db.char.complete[28101] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE))
+        end)
+
+        it("should return true for Grim Batol Attack Horde when 28090 and 28091 are complete", function()
+            Questie.db.char.complete[28090] = true
+            Questie.db.char.complete[28091] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_HORDE))
+        end)
+
+        it("should return true for Grim Batol Attack Alliance when 28103 and 28104 are complete", function()
+            Questie.db.char.complete[28103] = true
+            Questie.db.char.complete[28104] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
         end)
     end)
 end)

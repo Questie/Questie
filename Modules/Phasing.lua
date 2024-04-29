@@ -44,6 +44,10 @@ local phases = {
     TEMPLE_OF_EARTH_CHAPTER_3 = 257,
 
     TWILIGHT_GATE = 285,
+    TWILIGHT_CARAVAN_AMBUSH_HORDE = 318,
+    GRIM_BATOL_ATTACK_HORDE = 319,
+    TWILIGHT_CARAVAN_AMBUSH_ALLIANCE = 320,
+    GRIM_BATOL_ATTACK_ALLIANCE = 321,
     ISORATH_NIGHTMARE = 327,
 
     KEZAN_CHAPTER_1 = 378,
@@ -92,8 +96,24 @@ function Phasing.IsSpawnVisible(phase)
         return complete[27301] or false
     end
 
+    if phase == phases.TWILIGHT_CARAVAN_AMBUSH_HORDE then
+        return complete[27509] and (not complete[27576]) or false
+    end
+
+    if phase == phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE then
+        return complete[27509] and (not complete[28101]) or false
+    end
+
+    if phase == phases.GRIM_BATOL_ATTACK_HORDE then
+        return complete[28090] and complete[28091] or false
+    end
+
+    if phase == phases.GRIM_BATOL_ATTACK_ALLIANCE then
+        return complete[28103] and complete[28104] or false
+    end
+
     if phase == phases.ISORATH_NIGHTMARE then
-        return complete[27303] and (not complete[27380]) or false
+        return complete[27303] or false
     end
 
     if phase >= phases.KEZAN_CHAPTER_1 and phase <= phases.KEZAN_CHAPTER_7 then
