@@ -42,6 +42,9 @@ function CataQuestFixes.Load()
         [932] = { -- Twisted Hatred
             [questKeys.preQuestSingle] = {489},
         },
+        [938] = { -- Mist
+            [questKeys.triggerEnd] = {"Lead Mist safely to Sentinel Arynia Cloudsbreak", {[zoneIDs.TELDRASSIL]={{39.5,29.86}}}},
+        },
         [997] = { -- Denalan's Earth
             [questKeys.preQuestSingle] = {486},
         },
