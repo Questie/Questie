@@ -44,6 +44,7 @@ local phases = {
     TEMPLE_OF_EARTH_CHAPTER_3 = 257,
 
     TWILIGHT_GATE = 285,
+    ISORATH_NIGHTMARE = 327,
 
     KEZAN_CHAPTER_1 = 378,
     KEZAN_CHAPTER_2 = 379,
@@ -89,6 +90,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.TWILIGHT_GATE then
         return complete[27301] or false
+    end
+
+    if phase == phases.ISORATH_NIGHTMARE then
+        return complete[27303] and (not complete[27380]) or false
     end
 
     if phase >= phases.KEZAN_CHAPTER_1 and phase <= phases.KEZAN_CHAPTER_7 then

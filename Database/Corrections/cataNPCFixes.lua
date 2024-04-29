@@ -223,6 +223,22 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{34.33,37.75}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
         },
+        [48264] = { -- Golluck Rockfist
+            [npcKeys.spawns] = {
+                [zoneIDs.TWILIGHT_HIGHLANDS] = {
+                    {44.08,10.54,phases.UNKNOWN},
+                    {44.08,10.54,phases.ISORATH_NIGHTMARE},
+                },
+            },
+        },
+        [48265] = { -- Lauriel Trueblade
+            [npcKeys.spawns] = {
+                [zoneIDs.TWILIGHT_HIGHLANDS] = {
+                    {44.08,10.54,phases.UNKNOWN},
+                    {44.08,10.54,phases.ISORATH_NIGHTMARE},
+                },
+            },
+        },
         [49456] = { -- Finkle\'s Mole Machine
             [npcKeys.spawns] = {
                 [zoneIDs.MOUNT_HYJAL] = {{42.7,28.8}}

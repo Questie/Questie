@@ -443,4 +443,22 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE))
         end)
     end)
+
+    describe("Isorath Nightmare", function()
+        it("should return true for Isorath Nightmare when 27303 is complete", function()
+            Questie.db.char.complete[27303] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.ISORATH_NIGHTMARE))
+        end)
+
+        it("should return false for Isorath Nightmare when 27303 is not complete", function()
+            assert.is_false(Phasing.IsSpawnVisible(phases.ISORATH_NIGHTMARE))
+        end)
+
+        it("should return false for Isorath Nightmare when 27380 is complete", function()
+            Questie.db.char.complete[27380] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.ISORATH_NIGHTMARE))
+        end)
+    end)
 end)
