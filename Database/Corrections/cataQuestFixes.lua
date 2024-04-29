@@ -1091,6 +1091,9 @@ function CataQuestFixes.Load()
         [28043] = { -- How to Maim Your Dragon
             [questKeys.objectives] = {{{47391}}},
         },
+        [28094] = { -- Paving the Way
+            [questKeys.preQuestSingle] = {28097},
+        },
         [28134] = { -- Impending Retribution
             [questKeys.objectives] = {{{46603},{47715},{47930}}}
         },
