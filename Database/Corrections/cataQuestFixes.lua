@@ -1036,6 +1036,7 @@ function CataQuestFixes.Load()
         },
         [27993] = { -- Take it to 'Em!
             [questKeys.triggerEnd] = {"Khartut's Tomb Investigated",{[zoneIDs.ULDUM]={{64.6,28.6}}}},
+            [questKeys.preQuestSingle] = {28112},
             [questKeys.exclusiveTo] = {27141},
         },
         [28038] = { -- Blood in the Highlands
