@@ -406,7 +406,7 @@ describe("Phasing", function()
         end)
     end)
 
-    describe("Twilight Highlands", function()
+    describe("Dragonmaw Port", function()
         it("should return true for chapter 1", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_1))
         end)
