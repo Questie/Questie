@@ -924,6 +924,9 @@ function CataQuestFixes.Load()
         [27376] = { -- The Maw of Iso'rath
             [questKeys.preQuestSingle] = {27303},
         },
+        [27379] = { -- The Terrors of Iso'rath
+            [questKeys.objectives] = {{{48739},{48790},{48794},{48796}}},
+        },
         [27398] = { -- The Battle Is Won, The War Goes On
             [questKeys.exclusiveTo] = {27443,27727},
         },
