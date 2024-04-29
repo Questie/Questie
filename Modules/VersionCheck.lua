@@ -46,10 +46,7 @@ Questie.db = {profile={minimap={hide=false}}}
 -- prevent multiple warnings for the same ID, not sure the best place to put this
 Questie._sessionWarnings = {}
 
---- Addon is running on Classic Cata client
----@type boolean
-Questie.IsCata = WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC
-
+local clientVersion = GetBuildInfo()
 --- Addon is running on Classic Wotlk client
 ---@type boolean
 Questie.IsWotlk = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC

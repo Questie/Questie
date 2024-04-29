@@ -122,22 +122,16 @@ function Townsfolk.Initialize()
         [professionKeys.TAILORING] = {},
         [professionKeys.ENGINEERING] = {},
         [professionKeys.ENCHANTING] = {},
-        [professionKeys.FISHING] = {
-            10216, -- Gubber Blump
-        },
+        [professionKeys.FISHING] = {},
         [professionKeys.SKINNING] = {}
     }
 
-    if Questie.IsCata or Questie.IsWotlk or Questie.IsTBC then
+    if Questie.IsTBC or Questie.IsWotlk then
         professionTrainers[professionKeys.JEWELCRAFTING] = {}
     end
 
-    if Questie.IsCata or Questie.IsWotlk then
+    if Questie.IsWotlk then
         professionTrainers[professionKeys.INSCRIPTION] = {}
-    end
-
-    if Questie.IsCata then
-        professionTrainers[professionKeys.ARCHAEOLOGY] = {}
     end
 
     local count = 0
@@ -151,7 +145,7 @@ function Townsfolk.Initialize()
                     tinsert(townfolk[subName], id)
                 else
                     for k, professionId in pairs(QuestieProfessions.professionTable) do
-                        if string.match(subName, k) and professionId ~= 762 then -- Skip Riding Trainer for now
+                        if string.match(subName, k) then
                             tinsert(professionTrainers[professionId], id)
                         end
                     end
@@ -166,8 +160,10 @@ function Townsfolk.Initialize()
         count = count + 1
     end
 
+    -- Fix NPC Gubber Blump (10216) can train fishing profession
+    tinsert(professionTrainers[professionKeys.FISHING], 10216)
     -- Fix NPC Aresella (18991) can train first aid profession
-    if Questie.IsCata or Questie.IsWotlk or Questie.IsTBC then
+    if Questie.IsTBC or Questie.IsWotlk then
         tinsert(professionTrainers[professionKeys.FIRST_AID], 18991)
     end
 
@@ -177,7 +173,7 @@ function Townsfolk.Initialize()
         tinsert(professionTrainers[professionKeys.FIRST_AID], 13476)
     end
 
-    if Questie.IsCata or Questie.IsWotlk or Questie.IsTBC then
+    if Questie.IsWotlk or Questie.IsTBC then
         local meetingStones = Townsfolk.GetMeetingStones()
 
         townfolk["Meeting Stones"] = {}

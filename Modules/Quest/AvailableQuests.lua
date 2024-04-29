@@ -61,12 +61,6 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
         for i = 1, #gameObjects do
             local obj = QuestieDB:GetObject(gameObjects[i])
 
-            if (not obj) then
-                -- TODO: This check can be removed once the DB is fixed
-                Questie:Error("Object not found for quest", quest.Id, "NPC ID:", gameObjects[i], "- Please report this on Github or Discord!")
-                return
-            end
-
             _AddStarter(obj, quest, "o_" .. obj.id)
         end
     end
@@ -74,12 +68,6 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
         local npcs = quest.Starts["NPC"]
         for i = 1, #npcs do
             local npc = QuestieDB:GetNPC(npcs[i])
-
-            if (not npc) then
-                -- TODO: This check can be removed once the DB is fixed
-                Questie:Error("NPC not found for quest", quest.Id, "NPC ID:", npcs[i], "- Please report this on Github or Discord!")
-                return
-            end
 
             _AddStarter(npc, quest, "m_" .. npc.id)
         end
@@ -311,7 +299,7 @@ _AddStarter = function(starter, quest, tooltipKey)
                             end
                         end
                     else
-                        local icon = QuestieMap:DrawWorldIcon(data, zone, coords[1], coords[2], coords[3])
+                        local icon = QuestieMap:DrawWorldIcon(data, zone, coords[1], coords[2])
                         if starter.waypoints then
                             -- This is only relevant for waypoint drawing
                             starterIcons[zone] = icon
@@ -319,9 +307,7 @@ _AddStarter = function(starter, quest, tooltipKey)
                                 starterLocs[zone] = { coords[1], coords[2] }
                             end
                         end
-                        if icon then
-                            tinsert(alreadyAddedSpawns, coords)
-                        end
+                        tinsert(alreadyAddedSpawns, coords)
                     end
                 end
             end

@@ -386,7 +386,7 @@ function QuestieOptions.tabs.general:Initialize()
                         end,
                         width = 1.063,
                         min = 0,
-                        max = Questie.IsCata and 85 or (60 + 10 * GetExpansionLevel()),
+                        max = 60 + 10 * GetExpansionLevel(),
                         step = 1,
                         disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
                         get = function(info) return Questie.db.profile.maxLevelFilter; end,
@@ -681,7 +681,7 @@ _GetObjectiveSoundChoices = function()
         ["Bell Toll Alliance"] = "Bell Toll Alliance",
         ["Bell Toll Horde"]    = "Bell Toll Horde",
     }
-    if Questie.IsWotlk or Questie.IsCata then
+    if Questie.IsWotlk then
         choices["Explosion"] = "Explosion"
         choices["Shing!"] = "Shing!"
         choices["Wham!"] = "Wham!"
@@ -703,7 +703,7 @@ _GetObjectiveSoundChoicesSort = function()
         "Bell Toll Alliance",
         "Bell Toll Horde",
     }
-    if Questie.IsWotlk or Questie.IsCata then
+    if Questie.IsWotlk then
         tinsert(sorting, "Explosion")
         tinsert(sorting, "Shing!")
         tinsert(sorting, "Wham!")
@@ -726,7 +726,7 @@ _GetObjectiveProgressSoundChoices = function()
         ["Bell Toll Alliance"] = "Bell Toll Alliance",
         ["Bell Toll Horde"]    = "Bell Toll Horde",
     }
-    if Questie.IsWotlk or Questie.IsCata then
+    if Questie.IsWotlk then
         choices["Explosion"] = "Explosion"
         choices["Shing!"] = "Shing!"
         choices["Wham!"] = "Wham!"
@@ -749,7 +749,7 @@ _GetObjectiveProgressSoundChoicesSort = function()
         "Bell Toll Alliance",
         "Bell Toll Horde",
     }
-    if Questie.IsWotlk or Questie.IsCata then
+    if Questie.IsWotlk then
         tinsert(sorting, "Explosion")
         tinsert(sorting, "Shing!")
         tinsert(sorting, "Wham!")
