@@ -33,6 +33,9 @@ function CataQuestFixes.Load()
         [869] = { -- To Track a Thief
             [questKeys.triggerEnd] = {"Source of Tracks Discovered", {[zoneIDs.THE_BARRENS]={{63.5,61.5}}}},
         },
+        [932] = { -- Twisted Hatred
+            [questKeys.preQuestSingle] = {489},
+        },
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
         },
