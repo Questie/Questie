@@ -965,6 +965,7 @@ function CataQuestFixes.Load()
         },
         [27506] = { -- Life from Death
             [questKeys.preQuestSingle] = {27504},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{45788,45746},45788,"Dragonkin corpse reclaimed"}}},
         },
         [27583] = {
             [questKeys.preQuestSingle] = {26840},
