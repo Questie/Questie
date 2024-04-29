@@ -117,6 +117,9 @@ function CataQuestFixes.Load()
         [13881] = { -- Consumed
             [questKeys.triggerEnd] = {"Watering Hole Investigated", {[zoneIDs.DARKSHORE]={{45,79.1}}}},
         },
+        [13945] = { -- Resident Danger
+            [questKeys.preQuestSingle] = {476},
+        },
         [13961] = { -- Drag it Out of Them
             [questKeys.triggerEnd] = {"Razormane Prisoner Delivered", {[zoneIDs.THE_BARRENS]={{56.4,40.3}}}},
         },
