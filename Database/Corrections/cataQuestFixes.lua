@@ -1023,6 +1023,10 @@ function CataQuestFixes.Load()
         [27743] = { -- While We're Here
             [questKeys.preQuestSingle] = {28885},
         },
+        [27744] = { -- Rune Ruination
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {27711,27712},
+        },
         [27747] = { -- Total War
             [questKeys.objectives] = {nil,{{206195}}},
             [questKeys.preQuestSingle] = {27690},
