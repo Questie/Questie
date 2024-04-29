@@ -19,19 +19,19 @@ cross-referencing first.
 """
 
 areatable = {}
-with open('DBC - WoW.tools/areatable_wotlk.csv', 'r') as f:
+with open('DBC - WoW.tools/areatable_cata.csv', 'r') as f:
     reader = csv.DictReader(f)
     for row in reader:
         areatable[row['ID']] = row
 
 uimap = {}
-with open('DBC - WoW.tools/uimap_wotlk.csv', 'r') as f:
+with open('DBC - WoW.tools/uimap_cata.csv', 'r') as f:
     reader = csv.DictReader(f)
     for row in reader:
         uimap[row['ID']] = row
 
 uimapassignment = {}
-with open('DBC - WoW.tools/uimapassignment_wotlk.csv', 'r') as f:
+with open('DBC - WoW.tools/uimapassignment_cata.csv', 'r') as f:
     reader = csv.DictReader(f)
     for row in reader:
         uimapassignment[row['ID']] = row
@@ -95,10 +95,10 @@ for entry in areatable:
         x.append(int(continent))
     map0[continent].append((entry, areatable[entry]['AreaName_lang']))
 
+print('l10n.zoneLookup = {')
 for y in sorted(x):
-    print('l10n.zoneLookup = {')
     print('    [%d]={'%y)
     for id, name in map0[str(y)]:
         print('        [%s]="%s",' % (id, name))
     print('    },')
-    print('}')
+print('}')

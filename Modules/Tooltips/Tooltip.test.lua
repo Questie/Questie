@@ -1,9 +1,5 @@
 dofile("setupTests.lua")
 
----@type ZoneDB
-local ZoneDB = require("Database.Zones.zoneDB")
-ZoneDB.zoneIDs = {ICECROWN = 210}
-
 ---@type QuestiePlayer
 local QuestiePlayer = require("Modules.QuestiePlayer")
 

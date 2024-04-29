@@ -259,8 +259,10 @@ end
 
 function QuestLogCache.RemoveQuest(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestLogCache.RemoveQuest] remove questId:", questId)
-    cache[questId] = nil
-    questCount = questCount - 1
+    if cache[questId] then
+        cache[questId] = nil
+        questCount = questCount - 1
+    end
 end
 
 

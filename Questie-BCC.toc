@@ -1,12 +1,12 @@
 ## Interface: 20504
-## Title: Questie|cFF00FF00 v9.5.2|r
+## Title: Questie|cFF00FF00 v10.0.0-b9|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
 ## Notes-esMX: Ayundante de misión
 ## Notes-esES: Ayundante de misión
 ## Notes-ptBR: Ajudante de missão
 ## Notes-frFR: Assistant de quête
-## Version: 9.5.2
+## Version: 10.0.0-b9
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
@@ -111,6 +111,7 @@ Modules\QuestieProfessions.lua
 Modules\QuestieReputation.lua
 Modules\QuestieEventHandler.lua
 Modules\Migration.lua
+Modules\Phasing.lua
 Modules\QuestieMenu\Townsfolk.lua
 Modules\QuestieMenu\ClassTrainers.lua
 Modules\QuestieMenu\Mailboxes.lua
@@ -123,6 +124,7 @@ Modules\Sounds.lua
 Modules\TaskQueue.lua
 Modules\QuestiePlayer.lua
 Modules\QuestieDebugOffer.lua
+Modules\WatchFrameHook.lua
 Modules\WorldMapButton\WorldMapButton.lua
 Modules\WorldMapButton\QuestieWorldMapButtonTemplate.xml
 

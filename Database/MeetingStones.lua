@@ -18,6 +18,8 @@ function MeetingStones:GetLocalizedDungeonNameAndLevelRangeByObjectId(objectId)
     return l10n(tableEntry.name), tableEntry.range
 end
 
+-- Useful link for level ranges
+-- https://www.wowhead.com/guide/dungeon-and-zone-level-and-item-level-requirements-1750
 _MeetingStones.levelRanges = {
     [178824] = {
         name = "Razorfen Downs",
@@ -202,5 +204,62 @@ _MeetingStones.levelRanges = {
     [202184] = {
         name = "The Frozen Halls",
         range = "(80)"
+    },
+    -- Cataclysm
+    [197315] = {
+        name = "Ragefire Chasm",
+        range = "(14-20)"
+    },
+    [204962] = {
+        name = "Throne of the Tides",
+        range = "(77-85)"
+    },
+    [205553] = {
+        name = "The Stockade",
+        range = "(21-29)"
+    },
+    [205561] = {
+        name = "Grim Batol",
+        range = "(83-85)"
+    },
+    [205562] = {
+        name = "The Lost City of the Tol'vir",
+        range = "(83-85)"
+    },
+    [205564] = {
+        name = "Halls of Origination",
+        range = "(83-85)"
+    },
+    [205565] = {
+        name = "The Stonecore",
+        range = "(80-85)"
+    },
+    [205566] = {
+        name = "Blackrock Caverns",
+        range = "(77-85)"
+    },
+    [206668] = {
+        name = "Baradin Hold",
+        range = "(85)"
+    },
+    [207307] = {
+        name = "The Vortex Pinnacle",
+        range = "(80-85)"
+    },
+    [207308] = {
+        name = "The Throne of the Four Winds",
+        range = "(85)"
+    },
+    [208225] = {
+        name = "The Bastion of Twilight",
+        range = "(85)"
+    },
+    [208358] = {
+        name = "Zul'Gurub",
+        range = "(85)"
+    },
+    [209128] = {
+        name = "Firelands",
+        range = "(85)"
     },
 }
