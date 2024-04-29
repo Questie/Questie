@@ -136,7 +136,7 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
         name = QuestieLib:GetQuestString(questId, name, level, blizzLike)
     end
 
-    if Questie.db.profile.enableTooltipsQuestID or Questie.IsCata then
+    if Questie.db.profile.enableTooltipsQuestID then
         name = name .. " (" .. questId .. ")"
     end
 

@@ -126,11 +126,11 @@ _AddQuestTitle = function(quest)
         titleColor = "blue"
     end
 
-    if Questie.db.profile.trackerShowQuestLevel and (Questie.db.profile.enableTooltipsQuestID or Questie.IsCata) then
+    if Questie.db.profile.trackerShowQuestLevel and Questie.db.profile.enableTooltipsQuestID then
         _AddColoredTooltipLine(questLevel .. quest.name .. " (" .. quest.Id .. ")", titleColor)
-    elseif Questie.db.profile.trackerShowQuestLevel and (not Questie.db.profile.enableTooltipsQuestID and not Questie.IsCata) then
+    elseif Questie.db.profile.trackerShowQuestLevel and (not Questie.db.profile.enableTooltipsQuestID) then
         _AddColoredTooltipLine(questLevel .. quest.name, titleColor)
-    elseif (Questie.db.profile.enableTooltipsQuestID or Questie.IsCata) and (not Questie.db.profile.trackerShowQuestLevel) then
+    elseif Questie.db.profile.enableTooltipsQuestID and (not Questie.db.profile.trackerShowQuestLevel) then
         _AddColoredTooltipLine(quest.name .. " (" .. quest.Id .. ")", titleColor)
     else
         _AddColoredTooltipLine(quest.name, titleColor)

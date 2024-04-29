@@ -337,9 +337,9 @@ function QuestieOptions.tabs.advanced:Initialize()
                 order = 5.05,
                 name = function() return l10n('Show Quest IDs'); end,
                 desc = function() return l10n('When this is checked, the ID of quests will show in tooltips and the tracker.'); end,
-                disabled = function() return (not Questie.db.profile.enableTooltips) or Questie.IsCata; end,
+                disabled = function() return (not Questie.db.profile.enableTooltips); end,
                 width = "full",
-                get = function() return Questie.IsCata or Questie.db.profile.enableTooltipsQuestID; end,
+                get = function() return Questie.db.profile.enableTooltipsQuestID; end,
                 set = function (_, value)
                     Questie.db.profile.enableTooltipsQuestID = value
                     QuestieTracker:Update()
