@@ -87,7 +87,7 @@ monster = function(npcId, objective)
 
     local name = QuestieDB.QueryNPCSingle(npcId, "name")
     if (not name) then
-        Questie:Error("Name missing for NPC:", npcId, "- Please report this error on Discord or GitHub.")
+        Questie:Debug(Questie.DEBUG_CRITICAL, "Name missing for NPC:", npcId)
         return nil
     end
 
@@ -136,7 +136,7 @@ object = function(objectId, objective)
 
     local name = QuestieDB.QueryObjectSingle(objectId, "name")
     if (not name) then
-        Questie:Error("Name missing for object:", objectId, "- Please report this error on Discord or GitHub.")
+        Questie:Debug(Questie.DEBUG_CRITICAL, "Name missing for object:", objectId)
         return nil
     end
 

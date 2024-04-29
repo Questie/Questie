@@ -43,7 +43,7 @@ local _QuestieQuest = QuestieQuest.private
 ---@type table<number, AutoBlacklistString>
 QuestieDB.autoBlacklist = {}
 
-local tinsert, tremove = table.insert, table.remove
+local tinsert = table.insert
 local bitband = bit.band
 
 -- questFlags https://github.com/cmangos/issues/wiki/Quest_template#questflags
@@ -144,9 +144,11 @@ local questTagCorrections = {
 }
 
 -- race bitmask data, for easy access
+local VANILLA = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+
 QuestieDB.raceKeys = {
-    ALL_ALLIANCE = Questie.IsClassic and 77 or Questie.IsCata and 2098253 or 1101,
-    ALL_HORDE = Questie.IsClassic and 178 or Questie.IsCata and 946 or 690,
+    ALL_ALLIANCE = VANILLA and 77 or 1101,
+    ALL_HORDE = VANILLA and 178 or 690,
     NONE = 0,
 
     HUMAN = 1,
@@ -157,10 +159,9 @@ QuestieDB.raceKeys = {
     TAUREN = 32,
     GNOME = 64,
     TROLL = 128,
-    GOBLIN = 256,
+    --GOBLIN = 256,
     BLOOD_ELF = 512,
-    DRAENEI = 1024,
-    WORGEN = 2097152, -- lol
+    DRAENEI = 1024
 }
 
 -- Combining these with "and" makes the order matter
@@ -1224,10 +1225,6 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         Text = objectObjective[2],
                         Icon = objectObjective[3]
                     }
-                    if QuestieCorrections.objectObjectiveFirst[questId] then
-                        tinsert(QO.ObjectiveData, 1, QO.ObjectiveData[#QO.ObjectiveData])
-                        tremove(QO.ObjectiveData)
-                    end
                 end
             end
         end
