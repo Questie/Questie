@@ -142,6 +142,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {13568,13597},
         },
         [13568] = { -- Spirit of the Moonstalker
+            [questKeys.startedBy] = {{33131}},
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {13567,13597},
         },
