@@ -9,6 +9,9 @@ function CataItemFixes.Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [44911] = { -- Foul Bear Carcass Sample
+            [itemKeys.npcDrops] = {32975},
+        },
         [44925] = { -- Corruptor's Master Key
             [itemKeys.class] = itemClasses.QUEST,
         },
