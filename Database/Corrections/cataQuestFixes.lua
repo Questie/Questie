@@ -769,6 +769,9 @@ function CataQuestFixes.Load()
         [25948] = { -- Bring It On!
             [questKeys.preQuestGroup] = {25944,25947},
         },
+        [25970] = { -- Come Prepared
+            [questKeys.preQuestSingle] = {25968},
+        },
         [25971] = { -- Unfurling Plan
             [questKeys.preQuestSingle] = {25968},
         },
