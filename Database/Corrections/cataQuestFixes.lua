@@ -143,6 +143,9 @@ function CataQuestFixes.Load()
         [13597] = { -- Spirit of the Thistle Bear
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [13598] = { -- Unsavory Remedies
+            [questKeys.preQuestSingle] = {13564},
+        },
         [13601] = { -- In Aid of the Refugees
             [questKeys.preQuestGroup] = {13519,13591},
         },
