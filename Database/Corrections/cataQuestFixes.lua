@@ -1070,6 +1070,10 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {27711,27712},
         },
+        [27745] = { -- A Fiery Reunion
+            [questKeys.objectives] = {nil,{{301087}},{{62394}}},
+            [questKeys.preQuestSingle] = {27744},
+        },
         [27747] = { -- Total War
             [questKeys.objectives] = {nil,{{206195}}},
             [questKeys.preQuestSingle] = {27690},
