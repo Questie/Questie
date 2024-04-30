@@ -134,6 +134,9 @@ function CataQuestFixes.Load()
         [13567] = { -- Spirit of the Stag
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [13562] = { -- The Final Flame of Bashal'Aran
+            [questKeys.objectives] = {nil,{{194179}}},
+        },
         [13568] = { -- Spirit of the Moonstalker
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
