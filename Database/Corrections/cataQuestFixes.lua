@@ -121,6 +121,9 @@ function CataQuestFixes.Load()
         [13509] = { -- War Supplies
             [questKeys.preQuestSingle] = {13504},
         },
+        [13513] = { -- On the Brink
+            [questKeys.preQuestSingle] = {13507},
+        },
         [13519] = { -- The Twilight's Hammer
             [questKeys.preQuestSingle] = {13591},
         },
