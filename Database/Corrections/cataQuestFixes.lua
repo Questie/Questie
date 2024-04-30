@@ -976,6 +976,9 @@ function CataQuestFixes.Load()
         [27443] = { -- The War Has Many Fronts
             [questKeys.exclusiveTo] = {27398,27727},
         },
+        [27491] = { -- Kor'kron Drop
+            [questKeys.objectives] = {{{45947},{45877}}},
+        },
         [27506] = { -- Life from Death
             [questKeys.preQuestSingle] = {27504},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{45788,45746},45788,"Dragonkin corpse reclaimed"}}},
