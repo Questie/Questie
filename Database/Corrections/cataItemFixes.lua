@@ -15,6 +15,15 @@ function CataItemFixes.Load()
         [44925] = { -- Corruptor's Master Key
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [44969] = { -- Moonstalker Whisker
+            [itemKeys.npcDrops] = {33127}
+        },
+        [45027] = { -- Tuft of Mottled Doe Hair
+            [itemKeys.npcDrops] = {33311},
+        },
+        [45885] = { -- Thistle Bear Fur
+            [itemKeys.npcDrops] = {33978},
+        },
         [46392] = { -- Venison Steak
             [itemKeys.class] = itemClasses.QUEST,
         },
