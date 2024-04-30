@@ -678,6 +678,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14075,14069},
         },
+        [25477] = { -- Better Late Than Dead
+            [questKeys.objectives] = {{{40223}}},
+        },
         [25577] = { -- Crushing the Cores
             [questKeys.requiredSourceItems] = {55123},
         },
