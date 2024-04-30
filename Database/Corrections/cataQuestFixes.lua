@@ -106,6 +106,9 @@ function CataQuestFixes.Load()
         [13520] = { -- The Boon of the Seas
             [questKeys.preQuestSingle] = {13518},
         },
+        [13521] = { -- Buzzbox 413
+            [questKeys.preQuestSingle] = {13518},
+        },
         [13564] = { -- A Lost Companion
             [questKeys.triggerEnd] = {"Locate Grimclaw", {[zoneIDs.DARKSHORE]={{43,39}}}},
         },
