@@ -159,6 +159,9 @@ function CataQuestFixes.Load()
         [13589] = { -- The Shatterspear Invaders
             [questKeys.preQuestSingle] = {13569},
         },
+        [13591] = { -- Disturbing Connections
+            [questKeys.preQuestSingle] = {13590},
+        },
         [13596] = { -- Twilight Plans
             [questKeys.preQuestSingle] = {13591},
         },
