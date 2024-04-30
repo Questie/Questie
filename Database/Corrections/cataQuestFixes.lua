@@ -982,6 +982,9 @@ function CataQuestFixes.Load()
         [27491] = { -- Kor'kron Drop
             [questKeys.objectives] = {{{45947},{45877}}},
         },
+        [27501] = { -- Four Heads are Better than None
+            [questKeys.preQuestSingle] = {27590},
+        },
         [27506] = { -- Life from Death
             [questKeys.preQuestSingle] = {27504},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{45788,45746},45788,"Dragonkin corpse reclaimed"}}},
