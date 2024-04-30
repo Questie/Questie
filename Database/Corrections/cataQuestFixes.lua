@@ -722,6 +722,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25907,25908},
         },
+        [25924] = { -- Call of Duty
+            [questKeys.extraObjectives] = {{{[zoneIDs.DUROTAR]={{57.8,10.4}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for the Mercenary Ship to arrive")}},
+        },
         [25930] = { -- Ascending the Vale
             [questKeys.triggerEnd] = {"Ascend the Charred Vale", {[zoneIDs.STONETALON_MOUNTAINS]={{31.3,73.2}}}},
         },
