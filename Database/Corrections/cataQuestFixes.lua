@@ -13,6 +13,7 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieCorrections.objectObjectiveFirst[24817] = true
+QuestieCorrections.objectObjectiveFirst[25371] = true
 QuestieCorrections.killCreditObjectiveFirst[26621] = true
 QuestieCorrections.killCreditObjectiveFirst[26875] = true
 
@@ -662,6 +663,9 @@ function CataQuestFixes.Load()
         },
         [25354] = { -- Sweeping the Shelf
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [25371] = { -- The Abyssal Ride
+            [questKeys.objectives] = {{{39996}},{{202766}}},
         },
         [25419] = { -- Lady La-La's Medallion
             [questKeys.requiredSourceItems] = {55188},
