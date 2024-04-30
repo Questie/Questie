@@ -692,6 +692,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{39729,41203,41219,42404},39729,"Shell Survivors rescued"}}},
             [questKeys.requiredSourceItems] = {55141},
         },
+        [25602] = { -- Can't Start a Fire Without a Spark
+            [questKeys.preQuestSingle] = {25598},
+        },
         [25617] = { -- Into the Maw!
             [questKeys.exclusiveTo] = {25624},
         },
