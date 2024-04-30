@@ -1062,7 +1062,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {60865},
         },
         [27203] = { -- The Maelstrom
-            [questKeys.preQuestSingle] = {27399,27442,27722,27398,27443,27727},
+            [questKeys.preQuestSingle] = {},
         },
         [27299] = { -- Torn Ground
             [questKeys.preQuestSingle] = {},
@@ -1086,16 +1086,16 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{48739},{48790},{48794},{48796}}},
         },
         [27398] = { -- The Battle Is Won, The War Goes On
-            [questKeys.exclusiveTo] = {27443,27727},
+            [questKeys.exclusiveTo] = {27203,27443,27727},
         },
         [27399] = { -- The Battle Is Won, The War Goes On
-            [questKeys.exclusiveTo] = {27442,27722},
+            [questKeys.exclusiveTo] = {27203,27442,27722},
         },
         [27442] = { -- The War Has Many Fronts
-            [questKeys.exclusiveTo] = {27399,27722},
+            [questKeys.exclusiveTo] = {27203,27399,27722},
         },
         [27443] = { -- The War Has Many Fronts
-            [questKeys.exclusiveTo] = {27398,27727},
+            [questKeys.exclusiveTo] = {27203,27398,27727},
         },
         [27490] = { -- SI:7 Drop
             [questKeys.objectives] = {{{45904},{45877}}},
@@ -1172,7 +1172,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{15188, nil, Questie.ICON_TYPE_TALK}}},
         },
         [27722] = { -- Warchief's Command: Deepholm!
-            [questKeys.exclusiveTo] = {27399,27442},
+            [questKeys.exclusiveTo] = {27203,27399,27442},
         },
         [27724] = { -- Hero's Call: Vashj'ir!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
@@ -1182,7 +1182,7 @@ function CataQuestFixes.Load()
         },
         [27727] = { -- Hero's Call: Deepholm!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
-            [questKeys.exclusiveTo] = {27398,27443},
+            [questKeys.exclusiveTo] = {27203,27398,27443},
         },
         [27729] = { -- Once More, With Eeling
             [questKeys.preQuestSingle] = {14482,25924},
