@@ -121,6 +121,9 @@ function CataQuestFixes.Load()
         [13568] = { -- Spirit of the Moonstalker
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [13596] = { -- Twilight Plans
+            [questKeys.preQuestSingle] = {13591},
+        },
         [13597] = { -- Spirit of the Thistle Bear
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
