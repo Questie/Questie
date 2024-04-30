@@ -868,6 +868,9 @@ function CataQuestFixes.Load()
         [26324] = { -- Where Is My Warfleet?
             [questKeys.startedBy] = {{39605}},
         },
+        [26335] = { -- Ready the Navy
+            [questKeys.preQuestSingle] = {26324},
+        },
         [26337] = { -- Beating the Market
             [questKeys.objectives] = {{{42777}}},
         },
