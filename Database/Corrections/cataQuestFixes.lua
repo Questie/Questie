@@ -720,6 +720,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25520,25611,25807},
         },
+        [25883] = { -- How Disarming
+            [questKeys.preQuestSingle] = {25887},
+        },
         [25890] = { -- Nespirah
             [questKeys.triggerEnd] = {"Find a way to communicate with Nespirah", {[zoneIDs.SHIMMERING_EXPANSE]={{52.5,54.1}}}},
             [questKeys.preQuestSingle] = {},
