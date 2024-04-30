@@ -127,6 +127,9 @@ function CataQuestFixes.Load()
         [13597] = { -- Spirit of the Thistle Bear
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [13601] = { -- In Aid of the Refugees
+            [questKeys.preQuestGroup] = {13519,13591},
+        },
         [13639] = { -- Resupplying the Excavation
             [questKeys.triggerEnd] = {"Find Huldar, Miran, and Saean", {[zoneIDs.LOCH_MODAN]={{55.6,68.5}}}},
         },
