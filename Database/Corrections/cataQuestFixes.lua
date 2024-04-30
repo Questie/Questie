@@ -115,6 +115,9 @@ function CataQuestFixes.Load()
         [13506] = { -- Reason to Worry
             [questKeys.startedBy] = {{32863},nil,{44979}}
         },
+        [13509] = { -- War Supplies
+            [questKeys.preQuestSingle] = {13504},
+        },
         [13519] = { -- The Twilight's Hammer
             [questKeys.preQuestSingle] = {13591},
         },
