@@ -183,6 +183,9 @@ function CataQuestFixes.Load()
         [13589] = { -- The Shatterspear Invaders
             [questKeys.preQuestSingle] = {13569},
         },
+        [13590] = { -- The Front Line
+            [questKeys.preQuestSingle] = {13512},
+        },
         [13591] = { -- Disturbing Connections
             [questKeys.preQuestSingle] = {13590},
         },
