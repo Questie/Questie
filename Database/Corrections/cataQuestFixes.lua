@@ -159,6 +159,9 @@ function CataQuestFixes.Load()
         [13598] = { -- Unsavory Remedies
             [questKeys.preQuestSingle] = {13564},
         },
+        [13599] = { -- Grimclaw's Return
+            [questKeys.preQuestSingle] = {13569},
+        },
         [13601] = { -- In Aid of the Refugees
             [questKeys.preQuestGroup] = {13519,13591},
         },
