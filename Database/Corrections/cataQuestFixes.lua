@@ -227,6 +227,9 @@ function CataQuestFixes.Load()
         [13842] = { -- Dread Head Redemption
             [questKeys.finishedBy] = {{39605}},
         },
+        [13844] = { -- The Looting of Althalaxx
+            [questKeys.preQuestSingle] = {13509},
+        },
         [13881] = { -- Consumed
             [questKeys.triggerEnd] = {"Watering Hole Investigated", {[zoneIDs.DARKSHORE]={{45,79.1}}}},
         },
