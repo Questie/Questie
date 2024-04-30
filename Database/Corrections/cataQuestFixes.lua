@@ -740,7 +740,7 @@ function CataQuestFixes.Load()
         },
         [25890] = { -- Nespirah
             [questKeys.triggerEnd] = {"Find a way to communicate with Nespirah", {[zoneIDs.SHIMMERING_EXPANSE]={{52.5,54.1}}}},
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {25440},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take the Swift Seahorse to Nespirah."), 0, {{"monster", 40851}}}},
         },
         [25900] = { -- Making Contact
