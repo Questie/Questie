@@ -118,6 +118,9 @@ function CataQuestFixes.Load()
         [13537] = { -- A Taste for Grouper
             [questKeys.requiredSkill] = {profKeys.FISHING, 1},
         },
+        [13560] = { -- An Ocean Not So Deep
+            [questKeys.preQuestGroup] = {13566,13569},
+        },
         [13562] = { -- The Final Flame of Bashal'Aran
             [questKeys.objectives] = {nil,{{194179}}},
             [questKeys.preQuestSingle] = {13554},
