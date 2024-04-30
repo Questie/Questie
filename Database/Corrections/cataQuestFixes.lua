@@ -1030,6 +1030,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27689},
             [questKeys.exclusiveTo] = {},
         },
+        [27703] = { -- Coup de Grace
+            [questKeys.preQuestSingle] = {27701},
+        },
         [27704] = { -- Legends of the Sunken Temple
             [questKeys.triggerEnd] = {"Hall of Masks found", {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR]={{74,44.4}}}},
         },
