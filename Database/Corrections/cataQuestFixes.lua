@@ -640,6 +640,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {53052,54214,54216,54217},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE]={{40.4,34.2}}}, Questie.ICON_TYPE_EVENT, l10n("Place a totem on the ground and defend it")}},
         },
+        [25219] = { -- Don't be Shellfish
+            [questKeys.preQuestSingle] = {25222},
+        },
         [25220] = { -- Slippery Threat
             [questKeys.preQuestSingle] = {25222},
         },
