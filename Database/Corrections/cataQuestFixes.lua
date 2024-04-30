@@ -1184,6 +1184,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
             [questKeys.exclusiveTo] = {27398,27443},
         },
+        [27729] = { -- Once More, With Eeling
+            [questKeys.preQuestSingle] = {14482,25924},
+        },
         [27742] = { -- A Little on the Side
             [questKeys.preQuestSingle] = {28885},
         },
