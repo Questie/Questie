@@ -738,6 +738,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25405},
             [questKeys.exclusiveTo] = {},
         },
+        [25948] = { -- Bring It On!
+            [questKeys.preQuestGroup] = {25944,25947},
+        },
         [25974] = { -- Sira'kess Slaying
             [questKeys.preQuestSingle] = {26092},
         },
