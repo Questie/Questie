@@ -1100,6 +1100,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{47274}}},
         },
         [28038] = { -- Blood in the Highlands
+            [questKeys.preQuestSingle] = {27955},
             [questKeys.exclusiveTo] = {27863},
         },
         [28041] = { -- Bait and Throttle
