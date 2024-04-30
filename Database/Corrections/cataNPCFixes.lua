@@ -24,6 +24,9 @@ function CataNpcFixes.Load()
         [7319] = { -- Lady Sathrah
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{40.66,22.16}}},
         },
+        [32959] = { -- Cerellean Whiteclaw
+            [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{50.8,18.0}}},
+        },
         [34571] = { -- Gwen Armstead
             [npcKeys.spawns] = {
                 [zoneIDs.GILNEAS] = {
