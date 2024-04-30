@@ -773,6 +773,9 @@ function CataQuestFixes.Load()
         [25988] = { -- Put It On
             [questKeys.triggerEnd] = {"Merciless One worn",{[zoneIDs.ABYSSAL_DEPTHS]={{51.5,60.8}}}},
         },
+        [26040] = { -- What? What? In My Gut...?
+            [questKeys.preQuestSingle] = {25887},
+        },
         [26056] = { -- The Wavespeaker
             [questKeys.exclusiveTo] = {26057,26065},
             [questKeys.nextQuestInChain] = 26065,
