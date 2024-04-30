@@ -25,7 +25,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{40.66,22.16}}},
         },
         [32959] = { -- Cerellean Whiteclaw
-            [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{50.8,18.0}}},
+            [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{50.8,18.0},{50.13,19.46}}},
         },
         [34571] = { -- Gwen Armstead
             [npcKeys.spawns] = {
