@@ -136,6 +136,7 @@ function CataQuestFixes.Load()
         },
         [13562] = { -- The Final Flame of Bashal'Aran
             [questKeys.objectives] = {nil,{{194179}}},
+            [questKeys.preQuestSingle] = {13554},
         },
         [13567] = { -- Spirit of the Stag
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
