@@ -992,6 +992,16 @@ function CataQuestFixes.Load()
         [27586] = { -- Shells on the Sea Shore
             [questKeys.preQuestSingle] = {27583},
         },
+        [27588] = { -- Signal the Attack
+            [questKeys.triggerEnd] = {"Signal the Attack", {[zoneIDs.TWILIGHT_HIGHLANDS]={{42.2,68.8}}}},
+            [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {27494},
+        },
+        [27590] = { -- Signal the Attack
+            [questKeys.triggerEnd] = {"Signal the Attack", {[zoneIDs.TWILIGHT_HIGHLANDS]={{40.56,62.09}}}},
+            [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {27495},
+        },
         [27606] = { -- Blast Him!
             [questKeys.preQuestGroup] = {27584,27586},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Heth'Jatari Conch"), 0, {{"object", 205831}}}},
