@@ -773,6 +773,9 @@ function CataQuestFixes.Load()
         [25988] = { -- Put It On
             [questKeys.triggerEnd] = {"Merciless One worn",{[zoneIDs.ABYSSAL_DEPTHS]={{51.5,60.8}}}},
         },
+        [26008] = { -- Decompression
+            [questKeys.preQuestSingle] = {25887},
+        },
         [26040] = { -- What? What? In My Gut...?
             [questKeys.preQuestSingle] = {25887},
         },
