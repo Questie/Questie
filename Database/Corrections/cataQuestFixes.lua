@@ -1124,6 +1124,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{46100},{46098}}},
             [questKeys.preQuestSingle] = {27611},
         },
+        [27668] = { -- Pay Attention!
+            [questKeys.exclusiveTo] = {25946},
+        },
         [27674] = { -- To the Surface
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast."), 0, {{"monster", 46293}}}},
         },
