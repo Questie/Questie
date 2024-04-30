@@ -731,6 +731,9 @@ function CataQuestFixes.Load()
         [25942] = { -- Buy Us Some Time
             [questKeys.preQuestSingle] = {25941},
         },
+        [25943] = { -- Traveling on Our Stomachs
+            [questKeys.preQuestSingle] = {25941},
+        },
         [25974] = { -- Sira'kess Slaying
             [questKeys.preQuestSingle] = {26092},
         },
