@@ -103,6 +103,9 @@ function CataQuestFixes.Load()
         [13189] = { -- Warchief's Blessing
             [questKeys.finishedBy] = {{39605}},
         },
+        [13519] = { -- The Twilight's Hammer
+            [questKeys.preQuestSingle] = {13591},
+        },
         [13520] = { -- The Boon of the Seas
             [questKeys.preQuestSingle] = {13518},
         },
