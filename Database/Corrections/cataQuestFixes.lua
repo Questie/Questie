@@ -1197,6 +1197,24 @@ function CataQuestFixes.Load()
         [27485] = { -- Warm Welcome
             [questKeys.preQuestSingle] = {27380},
         },
+        [27863] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
+            [questKeys.objectives] = {{{46944}}},
+        },
+        [27864] = { -- The Crucible of Carnage: The Deadly Dragonmaw!
+            [questKeys.objectives] = {{{46945}}},
+        },
+        [27865] = { -- The Crucible of Carnage: The Wayward Wildhammer!
+            [questKeys.objectives] = {{{46946}}},
+        },
+        [27866] = { -- The Crucible of Carnage: Calder's Creation!
+            [questKeys.objectives] = {{{46947}}},
+        },
+        [27867] = { -- The Crucible of Carnage: The Earl of Evisceration!
+            [questKeys.objectives] = {{{46948}}},
+        },
+        [27868] = { -- The Crucible of Carnage: The Twilight Terror!
+            [questKeys.objectives] = {{{46949}}},
+        },
         [27922] = { -- Traitors!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Hide behind Neferset Frond"), 0, {{"object", 206579}}}},
         },
