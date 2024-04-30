@@ -128,6 +128,9 @@ function CataQuestFixes.Load()
         [13565] = { -- Twice Removed
             [questKeys.preQuestSingle] = {13564},
         },
+        [13566] = { -- Ritual Materials
+            [questKeys.preQuestSingle] = {13564},
+        },
         [13567] = { -- Spirit of the Stag
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
