@@ -1163,6 +1163,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27611},
         },
         [27668] = { -- Pay Attention!
+            [questKeys.preQuestSingle] = {25944},
             [questKeys.exclusiveTo] = {25946},
         },
         [27674] = { -- To the Surface
