@@ -106,6 +106,9 @@ function CataQuestFixes.Load()
         [13189] = { -- Warchief's Blessing
             [questKeys.finishedBy] = {{39605}},
         },
+        [13504] = { -- Shatterspear Laborers
+            [questKeys.preQuestSingle] = {13589},
+        },
         [13505] = { -- Remnants of the Highborne
             [questKeys.preQuestSingle] = {13589},
         },
