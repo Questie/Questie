@@ -1548,6 +1548,8 @@ function QuestieQuestBlacklist:Load()
         [29389] = true, --Guardians of Hyjal: Firelands Invasion!
         [29390] = true, --Guardians of Hyjal: Call of the Ancients
         [29391] = true, --Guardians of Hyjal: Call of the Ancients
+        [29439] = true, -- The Call of the World-Shaman
+        [29440] = true, -- The Call of the World-Shaman
         [29452] = true, -- Your Time Has Come
         [29453] = true, -- Your Time Has Come
         [30094] = true, -- The End Time
