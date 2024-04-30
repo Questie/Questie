@@ -140,11 +140,17 @@ function CataQuestFixes.Load()
         [13567] = { -- Spirit of the Stag
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {13568,13597},
+            [questKeys.parentQuest] = 13569,
         },
         [13568] = { -- Spirit of the Moonstalker
             [questKeys.startedBy] = {{33131}},
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {13567,13597},
+            [questKeys.parentQuest] = 13569,
+        },
+        [13569] = { -- The Ritual Bond
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{33131,33132,33133},33131,"Receive the blessing of a great animal spirit."}}},
+            [questKeys.childQuests] = {13567,13568,13597},
         },
         [13570] = { -- Remembrance of Auberdine
             [questKeys.preQuestSingle] = {13591},
@@ -155,6 +161,7 @@ function CataQuestFixes.Load()
         [13597] = { -- Spirit of the Thistle Bear
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {13567,13568},
+            [questKeys.parentQuest] = 13569,
         },
         [13598] = { -- Unsavory Remedies
             [questKeys.preQuestSingle] = {13564},
