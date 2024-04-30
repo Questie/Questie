@@ -874,6 +874,9 @@ function CataQuestFixes.Load()
         [26337] = { -- Beating the Market
             [questKeys.objectives] = {{{42777}}},
         },
+        [26358] = { -- Ready the Air Force
+            [questKeys.preQuestSingle] = {26324},
+        },
         [26374] = { -- Ready the Ground Troops
             [questKeys.objectives] = {{{42646}}},
         },
