@@ -976,6 +976,9 @@ function CataQuestFixes.Load()
         [27443] = { -- The War Has Many Fronts
             [questKeys.exclusiveTo] = {27398,27727},
         },
+        [27490] = { -- SI:7 Drop
+            [questKeys.objectives] = {{{45904},{45877}}},
+        },
         [27491] = { -- Kor'kron Drop
             [questKeys.objectives] = {{{45947},{45877}}},
         },
