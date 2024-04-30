@@ -707,6 +707,9 @@ function CataQuestFixes.Load()
         [25624] = { -- Into the Maw!
             [questKeys.exclusiveTo] = {25617},
         },
+        [25651] = { -- Oh, the Insanity!
+            [questKeys.requiredSourceItems] = {55185},
+        },
         [25715] = { -- A Closer Look
             [questKeys.triggerEnd] = {"Scout the ships on the Shattershore", {[zoneIDs.BLASTED_LANDS]={{69,32.7}}}},
         },
