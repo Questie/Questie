@@ -112,6 +112,9 @@ function CataQuestFixes.Load()
         [13521] = { -- Buzzbox 413
             [questKeys.preQuestSingle] = {13518},
         },
+        [13529] = { -- The Corruption's Source
+            [questKeys.preQuestSingle] = {13528},
+        },
         [13564] = { -- A Lost Companion
             [questKeys.triggerEnd] = {"Locate Grimclaw", {[zoneIDs.DARKSHORE]={{43,39}}}},
         },
