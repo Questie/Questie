@@ -60,6 +60,9 @@ function CataQuestFixes.Load()
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
         },
+        [2499] = { -- Oakenscowl
+            [questKeys.preQuestSingle] = {923},
+        },
         [2518] = { -- Tears of the Moon
             [questKeys.preQuestSingle] = {},
         },
