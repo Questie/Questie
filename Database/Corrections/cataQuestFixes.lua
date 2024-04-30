@@ -633,6 +633,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25203,25207},
         },
+        [25215] = { -- A Distracting Scent
+            [questKeys.preQuestSingle] = {25222},
+        },
         [25217] = { -- Totem Modification
             [questKeys.requiredSourceItems] = {53052,54214,54216,54217},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE]={{40.4,34.2}}}, Questie.ICON_TYPE_EVENT, l10n("Place a totem on the ground and defend it")}},
