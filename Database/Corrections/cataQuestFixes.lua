@@ -1038,6 +1038,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{73899}}},
         },
         [27044] = { -- Peasant Problems
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.triggerEnd] = {"Anduin Escorted to Farmer Wollerton", {[zoneIDs.STORMWIND_CITY]={{52.1,6.5}}}},
         },
         [27066] = { -- Healing in a Flash
