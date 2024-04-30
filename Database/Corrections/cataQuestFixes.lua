@@ -115,6 +115,9 @@ function CataQuestFixes.Load()
         [13529] = { -- The Corruption's Source
             [questKeys.preQuestSingle] = {13528},
         },
+        [13563] = { -- A Love Eternal
+            [questKeys.preQuestSingle] = {13554},
+        },
         [13564] = { -- A Lost Companion
             [questKeys.triggerEnd] = {"Locate Grimclaw", {[zoneIDs.DARKSHORE]={{43,39}}}},
             [questKeys.preQuestSingle] = {13554},
