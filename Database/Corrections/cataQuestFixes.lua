@@ -1364,6 +1364,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{48040,48041,48043},48040,"Thieving plucker smashed"}}},
             [questKeys.preQuestSingle] = {28112},
         },
+        [28343] = { -- The Breath of Cenarius
+            [questKeys.preQuestSingle] = {},
+        },
         [28351] = { -- Unlimited Potential
             [questKeys.objectives] = {{{51217}}},
         },
