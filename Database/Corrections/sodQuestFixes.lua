@@ -5319,6 +5319,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415991,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90289] = {
+            [questKeys.name] = "Taste for Blood",
+            [questKeys.startedBy] = {{222546},{441912,441913,441914,441915,450020}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Collect Giant Golem Feet and Arms and take them to the eastern section of Searing Gorge, combine the golem parts to summon Iodax, kill him to receive the rune."},
+            [questKeys.requiredSpell] = -427076,
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
     }
 end
 
