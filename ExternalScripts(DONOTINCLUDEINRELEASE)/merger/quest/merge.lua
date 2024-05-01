@@ -98,6 +98,10 @@ for questId, data in pairs(wotlk) do
             print("Adding WotLK preQuestGroup to quest " .. questId)
             quest[questKeys.preQuestGroup] = data[questKeys.preQuestGroup]
         end
+        if not quest[questKeys.requiredSourceItems] and data[questKeys.requiredSourceItems] then
+            print("Adding WotLK requiredSourceItems to quest " .. questId)
+            quest[questKeys.requiredSourceItems] = data[questKeys.requiredSourceItems]
+        end
     end
 end
 
