@@ -231,6 +231,9 @@ function CataItemFixes.Load()
         [56820] = { -- Hammerhead Oil
             [itemKeys.npcDrops] = {42113},
         },
+        [57766] = { -- Prickly Pear Fruit
+            [itemKeys.npcDrops] = {},
+        },
         [58167] = { -- Spirit Totem
             [itemKeys.class] = itemClasses.QUEST,
         },
