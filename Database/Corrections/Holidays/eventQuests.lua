@@ -786,3 +786,228 @@ tinsert(eventQuests, {"Midsummer", 13497}) -- Honor the Flame
 tinsert(eventQuests, {"Midsummer", 13498}) -- Honor the Flame
 tinsert(eventQuests, {"Midsummer", 13499}) -- Honor the Flame
 tinsert(eventQuests, {"Midsummer", 13500}) -- Honor the Flame
+
+-- Cataclysm event quests
+
+tinsert(eventQuests, {"Darkmoon Faire", 27664}) -- Darkmoon Volcanic Deck
+tinsert(eventQuests, {"Darkmoon Faire", 27665}) -- Darkmoon Hurricane Deck
+tinsert(eventQuests, {"Darkmoon Faire", 27666}) -- Darkmoon Tsunami Deck
+tinsert(eventQuests, {"Darkmoon Faire", 27667}) -- Darkmoon Earthquake Deck
+tinsert(eventQuests, {"Darkmoon Faire", 29433}) -- Test Your Strength
+tinsert(eventQuests, {"Darkmoon Faire", 29434}) -- Tonk Commander
+tinsert(eventQuests, {"Darkmoon Faire", 29436}) -- The Humanoid Cannonball
+tinsert(eventQuests, {"Darkmoon Faire", 29438}) -- He Shoots, He Scores!
+tinsert(eventQuests, {"Darkmoon Faire", 29443}) -- A Curious Crystal
+tinsert(eventQuests, {"Darkmoon Faire", 29444}) -- An Exotic Egg
+tinsert(eventQuests, {"Darkmoon Faire", 29445}) -- An Intriguing Grimoire
+tinsert(eventQuests, {"Darkmoon Faire", 29446}) -- A Wondrous Weapon
+tinsert(eventQuests, {"Darkmoon Faire", 29451}) -- The Master Strategist
+tinsert(eventQuests, {"Darkmoon Faire", 29455}) -- Target: Turtle
+tinsert(eventQuests, {"Darkmoon Faire", 29456}) -- A Captured Banner
+tinsert(eventQuests, {"Darkmoon Faire", 29457}) -- The Enemy's Insignia
+tinsert(eventQuests, {"Darkmoon Faire", 29458}) -- The Captured Journal
+tinsert(eventQuests, {"Darkmoon Faire", 29463}) -- It's Hammer Time
+tinsert(eventQuests, {"Darkmoon Faire", 29464}) -- Tools of Divination
+tinsert(eventQuests, {"Darkmoon Faire", 29506}) -- A Fizzy Fusion
+tinsert(eventQuests, {"Darkmoon Faire", 29507}) -- Fun for the Little Ones
+tinsert(eventQuests, {"Darkmoon Faire", 29508}) -- Baby Needs Two Pair of Shoes
+tinsert(eventQuests, {"Darkmoon Faire", 29509}) -- Putting the Crunch in the Frog
+tinsert(eventQuests, {"Darkmoon Faire", 29510}) -- Putting Trash to Good Use
+tinsert(eventQuests, {"Darkmoon Faire", 29511}) -- Talkin' Tonks
+tinsert(eventQuests, {"Darkmoon Faire", 29513}) -- Spoilin' for Salty Sea Dogs
+tinsert(eventQuests, {"Darkmoon Faire", 29514}) -- Herbs for Healing
+tinsert(eventQuests, {"Darkmoon Faire", 29515}) -- Writing the Future
+tinsert(eventQuests, {"Darkmoon Faire", 29516}) -- Keeping the Faire Sparkling
+tinsert(eventQuests, {"Darkmoon Faire", 29517}) -- Eyes on the Prizes
+tinsert(eventQuests, {"Darkmoon Faire", 29518}) -- Rearm, Reuse, Recycle
+tinsert(eventQuests, {"Darkmoon Faire", 29519}) -- Tan My Hide
+tinsert(eventQuests, {"Darkmoon Faire", 29520}) -- Banners, Banners Everywhere!
+tinsert(eventQuests, {"Darkmoon Faire", 29601}) -- The Darkmoon Field Guide
+tinsert(eventQuests, {"Darkmoon Faire", 29760}) -- Pit Fighter
+tinsert(eventQuests, {"Darkmoon Faire", 29761}) -- Master Pit Fighter
+
+tinsert(eventQuests, {"Lunar Festival", 29734}) -- Deepforge the Elder
+tinsert(eventQuests, {"Lunar Festival", 29735}) -- Stonebrand the Elder
+tinsert(eventQuests, {"Lunar Festival", 29736}) -- Darkfeather the Elder
+tinsert(eventQuests, {"Lunar Festival", 29737}) -- Firebeard the Elder
+tinsert(eventQuests, {"Lunar Festival", 29738}) -- Moonlance the Elder
+tinsert(eventQuests, {"Lunar Festival", 29739}) -- Windsong the Elder
+tinsert(eventQuests, {"Lunar Festival", 29740}) -- Evershade the Elder
+tinsert(eventQuests, {"Lunar Festival", 29741}) -- Sekhemi the Elder
+tinsert(eventQuests, {"Lunar Festival", 29742}) -- Menkhaf the Elder
+
+tinsert(eventQuests, {"Love is in the Air", 14483}) -- Something is in the Air (and it Ain't Love)
+tinsert(eventQuests, {"Love is in the Air", 28935}) -- Crushing the Crown
+
+tinsert(eventQuests, {"Children's Week", 28879}) -- Back To The Orphanage
+tinsert(eventQuests, {"Children's Week", 28880}) -- Back To The Orphanage
+tinsert(eventQuests, {"Children's Week", 29093}) -- Cruisin' the Chasm
+tinsert(eventQuests, {"Children's Week", 29106}) -- The Biggest Diamond Ever!
+tinsert(eventQuests, {"Children's Week", 29107}) -- Malfurion Has Returned!
+tinsert(eventQuests, {"Children's Week", 29117}) -- Let's Go Fly a Kite
+tinsert(eventQuests, {"Children's Week", 29119}) -- You Scream, I Scream...
+tinsert(eventQuests, {"Children's Week", 29146}) -- Ridin' the Rocketway
+tinsert(eventQuests, {"Children's Week", 29167}) -- The Banshee Queen
+tinsert(eventQuests, {"Children's Week", 29176}) -- The Fallen Chieftain
+tinsert(eventQuests, {"Children's Week", 29190}) -- Let's Go Fly a Kite
+tinsert(eventQuests, {"Children's Week", 29191}) -- You Scream, I Scream...
+
+tinsert(eventQuests, {"Midsummer", 28910}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28911}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28912}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28913}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28914}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28915}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28916}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28917}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28918}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28919}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28920}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28921}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28922}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 28923}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 28924}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 28925}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 28926}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 28927}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 28928}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 28929}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 28930}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 28931}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 28932}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 28933}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 28943}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28944}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28945}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 28946}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 28947}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28948}) -- Desecrate this Fire!
+tinsert(eventQuests, {"Midsummer", 28949}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 28950}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 29030}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 29031}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 29036}) -- Honor the Flame
+tinsert(eventQuests, {"Midsummer", 29092}) -- Inform the Elder
+
+tinsert(eventQuests, {"Brewfest", 11413}) -- Did Someone Say "Souvenir?"
+tinsert(eventQuests, {"Brewfest", 29393}) -- Brew For Brewfest
+tinsert(eventQuests, {"Brewfest", 29394}) -- Brew For Brewfest
+tinsert(eventQuests, {"Brewfest", 29396}) -- A New Supplier of Souvenirs
+tinsert(eventQuests, {"Brewfest", 29397}) -- A New Supplier of Souvenirs
+
+tinsert(eventQuests, {"Hallow's End", 28934}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28951}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28952}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28953}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28954}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28955}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28956}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28957}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28958}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28959}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28960}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28961}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28962}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28963}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28964}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28965}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28966}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28967}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28968}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28969}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28970}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28971}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28972}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28973}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28974}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28975}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28976}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28977}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28978}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28979}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28980}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28981}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28982}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28983}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28984}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28985}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28986}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28987}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28988}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28989}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28990}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28991}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28992}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28993}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28994}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28995}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28996}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28997}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28998}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28999}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29000}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29001}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29002}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29003}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29004}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29005}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29006}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29007}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29008}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29009}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29010}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29011}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29012}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29013}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29014}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29016}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29017}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29018}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29019}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29020}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 29054}) -- Stink Bombs Away!
+tinsert(eventQuests, {"Hallow's End", 29074}) -- A Season for Celebration
+tinsert(eventQuests, {"Hallow's End", 29075}) -- A Time to Gain
+tinsert(eventQuests, {"Hallow's End", 29144}) -- Clean Up in Stormwind
+tinsert(eventQuests, {"Hallow's End", 29371}) -- A Time to Lose
+tinsert(eventQuests, {"Hallow's End", 29374}) -- Stink Bombs Away!
+tinsert(eventQuests, {"Hallow's End", 29375}) -- Clean Up in Undercity
+tinsert(eventQuests, {"Hallow's End", 29376}) -- A Time to Build Up
+tinsert(eventQuests, {"Hallow's End", 29377}) -- A Time to Break Down
+tinsert(eventQuests, {"Hallow's End", 29392}) -- Missing Heirlooms
+tinsert(eventQuests, {"Hallow's End", 29398}) -- Fencing the Goods
+tinsert(eventQuests, {"Hallow's End", 29399}) -- Shopping Around
+tinsert(eventQuests, {"Hallow's End", 29400}) -- A Season for Celebration
+tinsert(eventQuests, {"Hallow's End", 29402}) -- Taking Precautions
+tinsert(eventQuests, {"Hallow's End", 29403}) -- The Collector's Agent
+tinsert(eventQuests, {"Hallow's End", 29411}) -- What Now?
+tinsert(eventQuests, {"Hallow's End", 29415}) -- Missing Heirlooms
+tinsert(eventQuests, {"Hallow's End", 29416}) -- Fencing the Goods
+tinsert(eventQuests, {"Hallow's End", 29425}) -- Shopping Around
+tinsert(eventQuests, {"Hallow's End", 29426}) -- Taking Precautions
+tinsert(eventQuests, {"Hallow's End", 29427}) -- The Collector's Agent
+tinsert(eventQuests, {"Hallow's End", 29428}) -- What Now?
+tinsert(eventQuests, {"Hallow's End", 29430}) -- A Friend in Need
+tinsert(eventQuests, {"Hallow's End", 29431}) -- A Friend in Need
+
+tinsert(eventQuests, {"Day of the Dead", 13952}) -- The Grateful Dead
+tinsert(eventQuests, {"Day of the Dead", 14166}) -- The Grateful Dead
+tinsert(eventQuests, {"Day of the Dead", 14167}) -- The Grateful Dead
+tinsert(eventQuests, {"Day of the Dead", 14168}) -- The Grateful Dead
+tinsert(eventQuests, {"Day of the Dead", 14169}) -- The Grateful Dead
+tinsert(eventQuests, {"Day of the Dead", 14170}) -- The Grateful Dead
+tinsert(eventQuests, {"Day of the Dead", 14171}) -- The Grateful Dead
+tinsert(eventQuests, {"Day of the Dead", 14172}) -- The Grateful Dead
+tinsert(eventQuests, {"Day of the Dead", 14173}) -- The Grateful Dead
+tinsert(eventQuests, {"Day of the Dead", 14174}) -- The Grateful Dead
+tinsert(eventQuests, {"Day of the Dead", 14175}) -- The Grateful Dead
+tinsert(eventQuests, {"Day of the Dead", 14176}) -- The Grateful Dead
+tinsert(eventQuests, {"Day of the Dead", 14177}) -- The Grateful Dead
+tinsert(eventQuests, {"Day of the Dead", 27841}) -- The Grateful Dead
+tinsert(eventQuests, {"Day of the Dead", 27846}) -- The Grateful Dead
+
+tinsert(eventQuests, {"Winter Veil", 13966}) -- A Winter Veil Gift
+tinsert(eventQuests, {"Winter Veil", 29382}) -- Thanks, But No Thanks
+tinsert(eventQuests, {"Winter Veil", 29383}) -- Thanks, But No Thanks
+tinsert(eventQuests, {"Winter Veil", 29385}) -- A Winter Veil Gift
+tinsert(eventQuests, {"Winter Veil", 28878}) -- A Winter Veil Gift
