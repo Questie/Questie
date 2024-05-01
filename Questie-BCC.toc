@@ -66,6 +66,7 @@ Database\Corrections\QuestieNPCBlacklist.lua
 Database\Corrections\QuestieQuestBlacklist.lua
 Database\Corrections\SoMPhases.lua
 Database\Corrections\Holidays\QuestieEvent.lua
+Database\Corrections\Holidays\eventQuests.lua
 
 # Automatic General Corrections
 Database\Corrections\Automatic\itemStartFixes.lua
