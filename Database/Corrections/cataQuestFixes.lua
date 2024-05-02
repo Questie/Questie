@@ -1527,6 +1527,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26294},
             [questKeys.exclusiveTo] = {26311},
         },
+        [29093] = { -- Cruisin' the Chasm
+            [questKeys.objectives] = {{{52190}}},
+        },
         [29102] = { -- To Fort Livingston
             [questKeys.triggerEnd] = {"Head to Fort Livingston in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{52.8,67.2}}}},
         },
