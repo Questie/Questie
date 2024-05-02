@@ -106,6 +106,14 @@ for questId, data in pairs(wotlk) do
             print("Adding WotLK nextQuestInChain to quest " .. questId)
             quest[questKeys.nextQuestInChain] = data[questKeys.nextQuestInChain]
         end
+        if not quest[questKeys.childQuests] and data[questKeys.childQuests] then
+            print("Adding WotLK childQuests to quest " .. questId)
+            quest[questKeys.childQuests] = data[questKeys.childQuests]
+        end
+        if (not quest[questKeys.parentQuest] or quest[questKeys.parentQuest] == 0) and data[questKeys.parentQuest] then
+            print("Adding WotLK parentQuest to quest " .. questId)
+            quest[questKeys.parentQuest] = data[questKeys.parentQuest]
+        end
     end
 end
 
