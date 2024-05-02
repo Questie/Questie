@@ -1538,6 +1538,9 @@ function CataQuestFixes.Load()
         [29176] = { -- The Fallen Chieftain
             [questKeys.triggerEnd] = {"Take Your Orphan to Visit Red Rocks", {[zoneIDs.MULGORE]={{60.7,23.0}}}},
         },
+        [29190] = { -- Let's Go Fly a Kite
+            [questKeys.preQuestGroup] = {29146,29167,29176},
+        },
         [29220] = { -- To Bambala
             [questKeys.triggerEnd] = {"Head to Bambala in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{64.6,40.4}}}},
         },
