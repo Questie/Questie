@@ -40,7 +40,7 @@ function QuestieWotlkQuestFixes:Load()
     local zoneIDs = ZoneDB.zoneIDs
     local sortKeys = QuestieDB.sortKeys
     local profKeys = QuestieProfessions.professionKeys
-    local specKeys = QuestieProfessions.specializationKeys
+    local specialFlags = QuestieDB.specialFlags
 
     return {
         [55] = {
@@ -356,6 +356,15 @@ function QuestieWotlkQuestFixes:Load()
         },
         [8762] = {
             [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{{21211}}},
+        },
+        [8764] = { -- The Changing of Paths - Protector No More
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [8765] = { -- The Changing of Paths - Invoker No More
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [8766] = { -- The Changing of Paths - Conqueror No More
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [8767] = {
             [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.WARRIOR + classIDs.HUNTER + classIDs.PALADIN + classIDs.DEATH_KNIGHT,
