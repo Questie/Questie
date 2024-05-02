@@ -71,6 +71,7 @@ local _townsfolk_texturemap = {
     [professionKeys.FISHING] = "Interface\\Icons\\trade_fishing",
     [professionKeys.SKINNING] = "Interface\\Icons\\inv_misc_pelt_wolf_01",
     [professionKeys.JEWELCRAFTING] = "Interface\\Icons\\inv_misc_gem_01",
+    [professionKeys.ARCHAEOLOGY] = "Interface\\Icons\\trade_archaeology",
     [professionKeys.INSCRIPTION] = "Interface\\Icons\\inv_inscription_tradeskill01",
 }
 
@@ -214,6 +215,7 @@ local div = { -- from libEasyMenu code
     },
 }
 local secondaryProfessions = {
+    [professionKeys.ARCHAEOLOGY] = true,
     [professionKeys.FIRST_AID] = true,
     [professionKeys.COOKING] = true,
     [professionKeys.FISHING] = true
