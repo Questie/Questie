@@ -1609,6 +1609,7 @@ function QuestieQuestBlacklist:Load()
 
         -- Love is in the Air
         [14483] = true, -- Something is in the Air (and it Ain't Love)
+        [24745] = true, -- Something is in the Air (and it Ain't Love)
         [28935] = true, -- Crushing the Crown
 
         -- Day of the Dead

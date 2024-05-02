@@ -836,7 +836,6 @@ tinsert(eventQuests, {"Lunar Festival", 29740}) -- Evershade the Elder
 tinsert(eventQuests, {"Lunar Festival", 29741}) -- Sekhemi the Elder
 tinsert(eventQuests, {"Lunar Festival", 29742}) -- Menkhaf the Elder
 
-tinsert(eventQuests, {"Love is in the Air", 14483}) -- Something is in the Air (and it Ain't Love)
 tinsert(eventQuests, {"Love is in the Air", 28935}) -- Crushing the Crown
 
 tinsert(eventQuests, {"Children's Week", 28879}) -- Back To The Orphanage
