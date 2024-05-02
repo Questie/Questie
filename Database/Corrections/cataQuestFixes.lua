@@ -1541,6 +1541,9 @@ function CataQuestFixes.Load()
         [29190] = { -- Let's Go Fly a Kite
             [questKeys.preQuestGroup] = {29146,29167,29176},
         },
+        [29191] = { -- You Scream, I Scream...
+            [questKeys.preQuestGroup] = {29146,29167,29176},
+        },
         [29220] = { -- To Bambala
             [questKeys.triggerEnd] = {"Head to Bambala in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{64.6,40.4}}}},
         },
