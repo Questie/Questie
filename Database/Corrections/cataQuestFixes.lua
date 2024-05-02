@@ -67,6 +67,10 @@ function CataQuestFixes.Load()
         [2518] = { -- Tears of the Moon
             [questKeys.preQuestSingle] = {},
         },
+        [5502] = { -- A Warden of the Horde
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29190,29191},
+        },
         [7383] = { -- Teldrassil: The Burden of the Kaldorei
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {918,919},
