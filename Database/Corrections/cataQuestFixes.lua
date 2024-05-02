@@ -1532,6 +1532,9 @@ function CataQuestFixes.Load()
         [29167] = { -- The Banshee Queen
             [questKeys.triggerEnd] = {"Meeting with Lady Sylvanas Windrunner", {[zoneIDs.UNDERCITY]={{57.8,91.9}}}},
         },
+        [29176] = { -- The Fallen Chieftain
+            [questKeys.triggerEnd] = {"Take Your Orphan to Visit Red Rocks", {[zoneIDs.MULGORE]={{60.7,23.0}}}},
+        },
         [29220] = { -- To Bambala
             [questKeys.triggerEnd] = {"Head to Bambala in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{64.6,40.4}}}},
         },
