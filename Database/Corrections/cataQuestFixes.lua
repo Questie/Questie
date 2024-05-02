@@ -1532,7 +1532,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26311},
         },
         [29093] = { -- Cruisin' the Chasm
-            [questKeys.objectives] = {{{52190}}},
+            [questKeys.objectives] = {{{52190,nil,Questie.ICON_TYPE_TALK}}},
         },
         [29102] = { -- To Fort Livingston
             [questKeys.triggerEnd] = {"Head to Fort Livingston in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{52.8,67.2}}}},
@@ -1548,7 +1548,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {69027},
         },
         [29146] = { -- Ridin' the Rocketway
-            [questKeys.objectives] = {{{52585}}},
+            [questKeys.objectives] = {{{52585,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29156] = { -- The Troll Incursion
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
