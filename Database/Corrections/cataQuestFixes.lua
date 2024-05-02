@@ -1526,6 +1526,9 @@ function CataQuestFixes.Load()
         [29102] = { -- To Fort Livingston
             [questKeys.triggerEnd] = {"Head to Fort Livingston in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{52.8,67.2}}}},
         },
+        [29146] = { -- Ridin' the Rocketway
+            [questKeys.objectives] = {{{52585}}},
+        },
         [29156] = { -- The Troll Incursion
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
