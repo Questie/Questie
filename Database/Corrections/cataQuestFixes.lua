@@ -1535,6 +1535,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {29093,29106,29107},
             [questKeys.requiredSourceItems] = {68890},
         },
+        [29119] = { -- You Scream, I Scream...
+            [questKeys.triggerEnd] = {"Take your orphan out for ice cream.", {[zoneIDs.STORMWIND_CITY]={{48.8,89.6}}}},
+            [questKeys.preQuestGroup] = {29093,29106,29107},
+            [questKeys.requiredSourceItems] = {69027},
+        },
         [29146] = { -- Ridin' the Rocketway
             [questKeys.objectives] = {{{52585}}},
         },
@@ -1553,7 +1558,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {69231},
         },
         [29191] = { -- You Scream, I Scream...
+            [questKeys.triggerEnd] = {"Take your orphan out for ice cream.", {[zoneIDs.ORGRIMMAR]={{38.2,87.5}}}},
             [questKeys.preQuestGroup] = {29146,29167,29176},
+            [questKeys.requiredSourceItems] = {69233},
         },
         [29220] = { -- To Bambala
             [questKeys.triggerEnd] = {"Head to Bambala in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{64.6,40.4}}}},
