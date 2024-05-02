@@ -412,7 +412,10 @@ function _QuestEventHandler:QuestAutoComplete(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_AUTOCOMPLETE", questId)
 
     WatchFrameHook.Hide()
-    AutoCompleteFrame.ShowAutoComplete(questId)
+
+    if Questie.db.profile.trackerEnabled then
+        AutoCompleteFrame.ShowAutoComplete(questId)
+    end
 end
 
 --- Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though

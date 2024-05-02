@@ -61,6 +61,10 @@ function AutoCompleteFrame.ShowAutoComplete(questId)
 end
 
 function AutoCompleteFrame.CheckAutoCompleteQuests()
+    if (not Questie.db.profile.trackerEnabled) then
+        return
+    end
+
     if GetNumAutoQuestPopUps() > 0 then -- returns the number of quests that can be completed automatically
         -- TODO: Handle multiple quests
         local questId = GetAutoQuestPopUp(1)
