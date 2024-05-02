@@ -1530,6 +1530,11 @@ function CataQuestFixes.Load()
         [29102] = { -- To Fort Livingston
             [questKeys.triggerEnd] = {"Head to Fort Livingston in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{52.8,67.2}}}},
         },
+        [29117] = { -- Let's Go Fly a Kite
+            [questKeys.triggerEnd] = {"Fly Dragon Kites with your orphan", {[zoneIDs.STORMWIND_CITY]={{59.2,63.4}}}},
+            [questKeys.preQuestGroup] = {29093,29106,29107},
+            [questKeys.requiredSourceItems] = {68890},
+        },
         [29146] = { -- Ridin' the Rocketway
             [questKeys.objectives] = {{{52585}}},
         },
@@ -1543,7 +1548,9 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Take Your Orphan to Visit Red Rocks", {[zoneIDs.MULGORE]={{60.7,23.0}}}},
         },
         [29190] = { -- Let's Go Fly a Kite
+            [questKeys.triggerEnd] = {"Fly Dragon Kites with your orphan", {[zoneIDs.ORGRIMMAR]={{58.5,58.3}}}},
             [questKeys.preQuestGroup] = {29146,29167,29176},
+            [questKeys.requiredSourceItems] = {69231},
         },
         [29191] = { -- You Scream, I Scream...
             [questKeys.preQuestGroup] = {29146,29167,29176},
