@@ -25,6 +25,10 @@ function CataQuestFixes.Load()
     local specialFlags = QuestieDB.specialFlags
 
     return {
+        [171] = { -- A Warden of the Alliance
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29117,29119},
+        },
         [487] = { -- The Road to Darnassus
             [questKeys.preQuestSingle] = {2561},
         },
