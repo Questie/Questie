@@ -944,12 +944,27 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{36648}},
             [questKeys.finishedBy] = {{39605}},
         },
+        [26414] = { -- Hitting a Walleye
+            [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26420,26442,26488,26536},
+        },
         [26440] = { -- Clingy
             [questKeys.triggerEnd] = {"Pebble brought to crystal formation",{[zoneIDs.DEEPHOLM]={{29,45}}}},
             [questKeys.objectives] = {},
         },
+        [26420] = { -- Diggin' For Worms
+            [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26442,26488,26536},
+        },
+        [26442] = { -- Rock Lobster
+            [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26488,26536},
+        },
+        [26488] = { -- Big Gulp
+            [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26536},
+        },
         [26512] = { -- Tuning the Gnomecorder
             [questKeys.triggerEnd] = {"Test the Gnomecorder at the Lakeshire Graveyard", {[zoneIDs.REDRIDGE_MOUNTAINS]={{32.3,39.5}}}},
+        },
+        [26536] = { -- Thunder Falls
+            [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26488},
         },
         [26538] = { -- Emergency Aid
             [questKeys.objectives] = {{{43191}}},
@@ -1572,6 +1587,18 @@ function CataQuestFixes.Load()
         [29220] = { -- To Bambala
             [questKeys.triggerEnd] = {"Head to Bambala in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{64.6,40.4}}}},
         },
+        [29321] = { -- Happy as a Clam Digger
+            [questKeys.exclusiveTo] = {29325,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26488,26536},
+        },
+        [29323] = { -- Stocking Up
+            [questKeys.exclusiveTo] = {29325,29321,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26488,26536},
+        },
+        [29324] = { -- The Sister's Pendant
+            [questKeys.exclusiveTo] = {29325,29321,29323,29342,29343,29344,29347,29350,29359,26414,26420,26442,26488,26536},
+        },
+        [29325] = { -- A Slippery Snack
+            [questKeys.exclusiveTo] = {29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26488,26536},
+        },
         [29326] = { -- The Nordrassil Summit
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 29335,
@@ -1606,6 +1633,24 @@ function CataQuestFixes.Load()
         },
         [29338] = { -- Into Unrelenting Flame
             [questKeys.nextQuestInChain] = 29330,
+        },
+        [29342] = { -- Cold Water Fishing
+            [questKeys.exclusiveTo] = {29325,29321,29323,29324,29343,29344,29347,29350,29359,26414,26420,26442,26488,26536},
+        },
+        [29343] = { -- One fer the Ages
+            [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29344,29347,29350,29359,26414,26420,26442,26488,26536},
+        },
+        [29344] = { -- Fish fer Squirky
+            [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29347,29350,29359,26414,26420,26442,26488,26536},
+        },
+        [29347] = { -- Live Bait
+            [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29350,29359,26414,26420,26442,26488,26536},
+        },
+        [29350] = { -- The Gnomish Bait-o-Matic
+            [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29359,26414,26420,26442,26488,26536},
+        },
+        [29359] = { -- An Old Favorite
+            [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,26414,26420,26442,26488,26536},
         },
         [29387] = { -- Guardians of Hyjal: Firelands Invasion!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
