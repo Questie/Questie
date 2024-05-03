@@ -1,6 +1,6 @@
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["enUS"] = {
+l10n.questLookup["esMX"] = {
 [1] = {"Misión de Kanrethad", nil, {"Habla con Kanrethad para que restaure tus talentos, armas y montura."}},
 [2] = {"La garfa de Garfafilada", nil, {"Llévale la garfa de Garfafilada a Senani Corazón Atronador en el Refugio Brisa de Plata, Vallefresno."}},
 [8] = {"Un trato de pícaro", nil, {"Lleva la carta anodina a Claros de Tirisfal y entrégasela a la tabernera Renee."}},
