@@ -1645,6 +1645,8 @@ function CataQuestFixes.Load()
         },
         [29347] = { -- Live Bait
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29350,29359,26414,26420,26442,26488,26536},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DUN_MOROGH]={{83.97,51.69}}}, Questie.ICON_TYPE_EVENT, l10n("Use Grimnur's Bait on yourself"),1}},
+            [questKeys.objectives] = {{{53540,"Catch Cold Water Crayfish"},{1355,"Take Crayfish to Cook Ghilm",Questie.ICON_TYPE_INTERACT}}},
         },
         [29350] = { -- The Gnomish Bait-o-Matic
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29359,26414,26420,26442,26488,26536},
