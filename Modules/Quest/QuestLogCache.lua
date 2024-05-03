@@ -89,36 +89,38 @@ local function GetNewObjectives(questId, oldObjectives)
         local newObj = objectives[objIndex]
         -- Check if objective.text is in game's cache
         if (newObj.text) and (stringByte(newObj.text, 1) ~= 32) then
-            -- Check if objective has changed
-            if oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.raw_text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
-                -- Not changed
-                newObjectives[objIndex] = oldObj
-            else
-                -- objective has changed, add it to list of change ones
-                if (not changedObjIds) then
-                    changedObjIds = { objIndex }
+            if (newObj.text ~= "") then -- Some quests have empty objectives, which shouldn't exist in the first place - We skip those
+                -- Check if objective has changed
+                if oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.raw_text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
+                    -- Not changed
+                    newObjectives[objIndex] = oldObj
                 else
-                    changedObjIds[#changedObjIds+1] = objIndex
-                end
+                    -- objective has changed, add it to list of change ones
+                    if (not changedObjIds) then
+                        changedObjIds = { objIndex }
+                    else
+                        changedObjIds[#changedObjIds+1] = objIndex
+                    end
 
-                if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired == newObj.numFulfilled then
-                    Sounds.PlayObjectiveComplete()
-                end
+                    if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired == newObj.numFulfilled then
+                        Sounds.PlayObjectiveComplete()
+                    end
 
-                if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired ~= newObj.numFulfilled then
-                    Sounds.PlayObjectiveProgress()
-                end
+                    if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired ~= newObj.numFulfilled then
+                        Sounds.PlayObjectiveProgress()
+                    end
 
-                newObjectives[objIndex] = {
-                    raw_text = newObj.text,
-                    raw_finished = newObj.finished,
-                    raw_numFulfilled = newObj.numFulfilled,
-                    type = newObj.type,
-                    numRequired = newObj.numRequired,
-                    text = QuestieLib.TrimObjectiveText(newObj.text, newObj.type),
-                    finished = newObj.finished, -- gets overwritten with correct value later if quest isComplete
-                    numFulfilled = newObj.numFulfilled, -- gets overwritten with correct value later if quest isComplete
-                }
+                    newObjectives[objIndex] = {
+                        raw_text = newObj.text,
+                        raw_finished = newObj.finished,
+                        raw_numFulfilled = newObj.numFulfilled,
+                        type = newObj.type,
+                        numRequired = newObj.numRequired,
+                        text = QuestieLib.TrimObjectiveText(newObj.text, newObj.type),
+                        finished = newObj.finished, -- gets overwritten with correct value later if quest isComplete
+                        numFulfilled = newObj.numFulfilled, -- gets overwritten with correct value later if quest isComplete
+                    }
+                end
             end
         else -- objective text not in game's cache
             if oldObj then
