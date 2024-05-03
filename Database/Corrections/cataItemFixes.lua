@@ -9,6 +9,18 @@ function CataItemFixes.Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [18597] = { -- Orcish Orphan Whistle
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [18598] = { -- Human Orphan Whistle
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [31880] = { -- Blood Elf Orphan Whistle
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [31881] = { -- Draenei Orphan Whistle
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [44911] = { -- Foul Bear Carcass Sample
             [itemKeys.npcDrops] = {32975},
         },
@@ -28,6 +40,12 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {33978},
         },
         [46392] = { -- Venison Steak
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [46396] = { -- Wolvar Orphan Whistle
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [46397] = { -- Oracle Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
         [46702] = { -- Ancient Device Fragment
