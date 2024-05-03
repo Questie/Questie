@@ -649,6 +649,10 @@ l10n.zoneLookup = {
         [4636]="The Noxious Pass",
         [4668]="The Cooper Residence",
         [4679]="The Forlorn Cavern",
+        [6170]="Northshire",
+        [6176]="Coldridge Valley",
+        [6454]="Deathknell",
+        [6455]="Sunstrider Isle",
         [6457]="New Tinkertown",
     },
     [1]={
@@ -1222,6 +1226,11 @@ l10n.zoneLookup = {
         --[4100]="The Culling of Stratholme",
         [4381]="Waygate",
         [4382]="The Shaper's Terrace",
+        [6450]="Shadowglen",
+        [6451]="Valley of Trials",
+        [6452]="Camp Narache",
+        [6453]="Echo Isles",
+        [6456]="Ammen Vale",
     },
     [13]={
         [3817]="Test Dungeon",

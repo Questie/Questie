@@ -232,6 +232,15 @@ ZoneDB.private.areaIdToUiMapId = {
     --[5004] = 323, -- Throne of the Tides
     [5088] = 324, -- The Stonecore
     [5035] = 325, -- The Vortex Pinnacle
+    [6170] = 425, -- Northshire
+    [6176] = 427, -- Coldridge Valley
+    [6450] = 460, -- Shadowglen
+    [6451] = 461, -- Valley of Trials
+    [6452] = 462, -- Camp Narache
+    [6453] = 463, -- Echo Isles
+    [6454] = 465, -- Deathknell
+    [6455] = 467, -- Sunstrider Isle
+    [6456] = 468, -- Ammen Vale
     [6457] = 469, -- New Tinkertown
     [4755] = 202, -- Gilneas City
     [5695] = 327, -- Ahn'Qiraj: The Fallen Kingdom
@@ -591,6 +600,17 @@ ZoneDB.private.uiMapIdToAreaId = {
     [414] = 5892, -- Dragon Soul
     [415] = 5892, -- Dragon Soul
     [249] = 5034, -- Uldum
+
+    -- Starting areas
+    [425] = 6170, -- Northshire
+    [427] = 6176, -- Coldridge Valley
+    [460] = 6450, -- Shadowglen
+    [461] = 6451, -- Valley of Trials
+    [462] = 6452, -- Camp Narache
+    [463] = 6453, -- Echo Isles
+    [465] = 6454, -- Deathknell
+    [467] = 6455, -- Sunstrider Isle
+    [468] = 6456, -- Ammen Vale
     [469] = 6457, -- New Tinkertown
 
     --[130] = 4100, -- The Culling of Stratholme
