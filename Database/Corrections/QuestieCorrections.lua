@@ -211,8 +211,10 @@ do
             addOverride(QuestieDB.objectDataOverrides, QuestieWotlkObjectFixes:LoadFactionFixes())
         end
 
+        -- CATA Corrections
         if Questie.IsCata then
             addOverride(QuestieDB.questDataOverrides, CataQuestFixes:LoadFactionFixes())
+            addOverride(QuestieDB.npcDataOverrides, CataNpcFixes:LoadFactionFixes())
         end
 
         -- Season of Discovery Corrections
