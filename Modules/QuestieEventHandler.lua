@@ -188,7 +188,7 @@ function QuestieEventHandler:RegisterLateEvents()
         Questie:RegisterEvent("LOOT_OPENED", QuestieDebugOffer.LootWindow)
     end
 
-    if Questie.IsCata then
+    if Questie.IsCata and Questie.db.profile.trackerEnabled then
        -- This is fired pretty often when an auto complete quest frame is showing. We want the default one to be hidden though.
         Questie:RegisterEvent("UPDATE_ALL_UI_WIDGETS", WatchFrameHook.Hide)
     end

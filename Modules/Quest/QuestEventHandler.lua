@@ -411,9 +411,8 @@ end
 function _QuestEventHandler:QuestAutoComplete(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_AUTOCOMPLETE", questId)
 
-    WatchFrameHook.Hide()
-
     if Questie.db.profile.trackerEnabled then
+        WatchFrameHook.Hide()
         AutoCompleteFrame.ShowAutoComplete(questId)
     end
 end
