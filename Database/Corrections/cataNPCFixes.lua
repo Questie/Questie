@@ -18,6 +18,10 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{49.35,44.67}}},
             [npcKeys.waypoints] = {},
         },
+        [2988] = { -- Morin Cloudstalker
+            [npcKeys.questStarts] = {749,26179,26180},
+            [npcKeys.questEnds] = {749,24459,26179,26180},
+        },
         [3594] = { -- Frahun Shadewhisper
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.8,33.8}}},
         },
