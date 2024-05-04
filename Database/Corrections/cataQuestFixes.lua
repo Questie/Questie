@@ -1019,6 +1019,9 @@ function CataQuestFixes.Load()
         [26258] = { -- Deathwing's Fall
             [questKeys.triggerEnd] = {"Deathwing's Fall reached", {[zoneIDs.DEEPHOLM]={{61.3,57.5}}}},
         },
+        [26228] = { -- Livin' the Life
+            [questKeys.triggerEnd] = {"Livin' the Life!", {[zoneIDs.WESTFALL]={{61,25}}}},
+        },
         [26293] = { -- Machines of War
             [questKeys.startedBy] = {{39605}},
         },
