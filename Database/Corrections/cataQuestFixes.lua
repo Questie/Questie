@@ -777,6 +777,10 @@ function CataQuestFixes.Load()
         [25354] = { -- Sweeping the Shelf
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [25370] = { -- Inciting the Elements
+            [questKeys.requiredSourceItems] = {53009},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Feed Juniper Berries"), 0, {{"monster", 39921}}}},
+        },
         [25371] = { -- The Abyssal Ride
             [questKeys.objectives] = {{{39996}},{{202766}}},
         },

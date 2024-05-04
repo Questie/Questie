@@ -199,6 +199,9 @@ function CataNpcFixes.Load()
         [39877] = { -- Toshe Chaosrender
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{55.5,12.5},{53.3,33.1}}},
         },
+        [39926] = { -- Twilight Inciter
+            [npcKeys.spawns] = {},
+        },
         [41098] = { -- Gnaws
             [npcKeys.spawns] = {},
         },

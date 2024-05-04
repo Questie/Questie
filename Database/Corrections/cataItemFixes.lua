@@ -196,6 +196,7 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {39422},
         },
         [53009] = { -- Juniper Berries
+            [itemKeys.npcDrops] = {},
             [itemKeys.class] = itemClasses.QUEST,
         },
         [53107] = { -- Flameseer's Staff
