@@ -28,6 +28,7 @@ function CataQuestFixes.Load()
         [171] = { -- A Warden of the Alliance
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29117,29119},
+            [questKeys.zoneOrSort] = -378,
         },
         [487] = { -- The Road to Darnassus
             [questKeys.preQuestSingle] = {2561},
@@ -1243,7 +1244,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27504},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{45788,45746},45788,"Dragonkin corpse reclaimed"}}},
         },
-        [27583] = {
+        [27583] = { -- The Northern Flank
             [questKeys.preQuestSingle] = {26840},
         },
         [27586] = { -- Shells on the Sea Shore
@@ -1547,20 +1548,29 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26311},
         },
         [29093] = { -- Cruisin' the Chasm
-            [questKeys.objectives] = {{{52190,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.objectives] = {{{52189,"Chopper Tour of the Raging Chasm",Questie.ICON_TYPE_MOUNT_UP}}},
+            [questKeys.preQuestSingle] = {1468},
         },
         [29102] = { -- To Fort Livingston
             [questKeys.triggerEnd] = {"Head to Fort Livingston in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{52.8,67.2}}}},
         },
+        [29106] = { -- The Biggest Diamond Ever!
+            [questKeys.triggerEnd] = {"Visit King Magni in Old Ironforge", {[zoneIDs.IRONFORGE]={{33.17,47.65}}}},
+            [questKeys.preQuestSingle] = {1468},
+        },
+        [29107] = { -- Malfurion Has Returned!
+            [questKeys.objectives] = {{{43845,"Visit Malfurion Stormrage with your orphan",Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {1468},
+        },
         [29117] = { -- Let's Go Fly a Kite
             [questKeys.triggerEnd] = {"Fly Dragon Kites with your orphan", {[zoneIDs.STORMWIND_CITY]={{59.2,63.4}}}},
             [questKeys.preQuestGroup] = {29093,29106,29107},
-            [questKeys.requiredSourceItems] = {68890},
+            [questKeys.requiredSourceItems] = {18598,68890},
         },
         [29119] = { -- You Scream, I Scream...
-            [questKeys.triggerEnd] = {"Take your orphan out for ice cream.", {[zoneIDs.STORMWIND_CITY]={{48.8,89.6}}}},
+            [questKeys.triggerEnd] = {"Take your orphan out for ice cream.", {[zoneIDs.STORMWIND_CITY]={{49.28,89.8}}}},
             [questKeys.preQuestGroup] = {29093,29106,29107},
-            [questKeys.requiredSourceItems] = {69027},
+            [questKeys.requiredSourceItems] = {18598,69027},
         },
         [29146] = { -- Ridin' the Rocketway
             [questKeys.objectives] = {{{52585,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -1587,7 +1597,7 @@ function CataQuestFixes.Load()
         [29220] = { -- To Bambala
             [questKeys.triggerEnd] = {"Head to Bambala in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{64.6,40.4}}}},
         },
-        [29318] = {
+        [29318] = { -- Ribs for the Sentinels
             [questKeys.objectives] = {{{4262,"Feed Ribs to Sentinels",Questie.ICON_TYPE_INTERACT}}},
         },
         [29321] = { -- Happy as a Clam Digger
@@ -1654,7 +1664,7 @@ function CataQuestFixes.Load()
         [29350] = { -- The Gnomish Bait-o-Matic
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29359,26414,26420,26442,26488,26536},
         },
-        [29356] = {
+        [29356] = { -- I Need to Cask a Favor
             [questKeys.objectives] = {{{5159,"Deliver Cask of Drugan's IPA",Questie.ICON_TYPE_INTERACT}},{{208872}}},
         },
         [29359] = { -- An Old Favorite

@@ -339,6 +339,12 @@ function CataItemFixes.Load()
         [65734] = { -- Twilight Documents
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [68890] = { -- Dragon Kite 2-Pack
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [69027] = { -- Cone of Cold
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [69815] = { -- Seething Cinder
             [itemKeys.class] = itemClasses.QUEST,
         },

@@ -278,6 +278,12 @@ function CataNpcFixes.Load()
                 [zoneIDs.STORMWIND_CITY] = {{51.62,72.38}},
             },
         },
+        [52189] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{57.78,53.06},{57.71,53.28}},
+            },
+            [npcKeys.zoneID] = zoneIDs.WESTFALL,
+        },
         [53540] = {
             [npcKeys.spawns] = {
                 [zoneIDs.DUN_MOROGH] = {{83.97,51.69}},
