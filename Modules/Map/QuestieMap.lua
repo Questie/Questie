@@ -507,6 +507,8 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     icon.UiMapID = uiMapId
     icon.miniMapIcon = false;
     icon.texture:SetTexture(texture)
+    icon.texture:SetSnapToPixelGrid(false)
+    icon.texture:SetTexelSnappingBias(0)
     icon:SetWidth(16 * (data:GetIconScale() or 0.7))
     icon:SetHeight(16 * (data:GetIconScale() or 0.7))
 
@@ -528,6 +530,8 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     iconMinimap.AreaID = areaID -- used by QuestieFramePool
     iconMinimap.UiMapID = uiMapId
     iconMinimap.texture:SetTexture(texture)
+    iconMinimap.texture:SetSnapToPixelGrid(false)
+    iconMinimap.texture:SetTexelSnappingBias(0)
     iconMinimap.texture:SetVertexColor(colorsMinimap[1], colorsMinimap[2], colorsMinimap[3], 1);
     iconMinimap.miniMapIcon = true;
 
@@ -615,6 +619,8 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     iconMap.UiMapID = uiMapId
     iconMap.miniMapIcon = false;
     iconMap:UpdateTexture(Questie.usedIcons[data.Icon]);
+    iconMap.texture:SetSnapToPixelGrid(false)
+    iconMap.texture:SetTexelSnappingBias(0)
 
     ---@type IconFrame
     local iconMinimap = QuestieFramePool:GetFrame()
@@ -627,6 +633,8 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     --Are we a minimap note?
     iconMinimap.miniMapIcon = true;
     iconMinimap:UpdateTexture(Questie.usedIcons[data.Icon]);
+    iconMinimap.texture:SetSnapToPixelGrid(false)
+    iconMinimap.texture:SetTexelSnappingBias(0)
 
     if (not iconMinimap.FadeLogic) then
         function iconMinimap:SetFade(value)
