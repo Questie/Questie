@@ -1010,7 +1010,7 @@ function CataQuestFixes.Load()
         },
         [29348] = { -- The Race to Restock
             [questKeys.exclusiveTo] = {26572,26557,26543,26556,26588,29349,29345,29354,29346,29317,29320,29361,29319,29322},
-            [questKeys.extraObjectives] = {{{[zoneIDs.MULGORE]={{48.4,52.5}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Giant Furious Pike")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.MULGORE]={{48.4,52.5}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Randy Smallfish and Amorous Mud Snapper")}},
         },
         [29349] = { -- Craving Crayfish
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29345,29354,29346,29348,29317,29320,29361,29319,29322},
