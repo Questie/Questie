@@ -764,6 +764,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{39605}},
         },
         [25316] = { -- As Hyjal Burns
+            [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Hop on Aronus"), 0, {{"monster", 39140}}}},
         },
         [25325] = { -- Through the Dream
@@ -1404,6 +1405,7 @@ function CataQuestFixes.Load()
         },
         [27721] = { -- Warchief's Command: Mount Hyjal!
             [questKeys.objectives] = {{{15188, nil, Questie.ICON_TYPE_TALK}}},
+            [questKeys.exclusiveTo] = {25316},
         },
         [27722] = { -- Warchief's Command: Deepholm!
             [questKeys.exclusiveTo] = {27203,27399,27442},
@@ -1413,6 +1415,7 @@ function CataQuestFixes.Load()
         },
         [27726] = { -- Hero's Call: Mount Hyjal!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+            [questKeys.exclusiveTo] = {25316},
         },
         [27727] = { -- Hero's Call: Deepholm!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
