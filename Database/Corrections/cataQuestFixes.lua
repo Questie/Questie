@@ -993,37 +993,6 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26572,26557,26543,26556,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{71.1,7.9}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Giant Furious Pike")}},
         },
-        [29317] = { -- Fish Head
-            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29320,29361,29319,29322},
-        },
-        [29319] = { -- Tadpole Terror
-            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29317,29320,29361,29322},
-        },
-        [29320] = { -- Like Pike?
-            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29317,29361,29319,29322},
-        },
-        [29322] = { -- Time for Slime
-            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29317,29361,29319,29320},
-        },
-        [29345] = { -- Pond Predators
-            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29317,29320,29361,29319,29322},
-        },
-        [29346] = { -- The Ring's the Thing
-            [questKeys.exclusiveTo] = {26572,26557,26543,26556,26588,29349,29345,29354,29348,29317,29320,29361,29319,29322},
-        },
-        [29348] = { -- The Race to Restock
-            [questKeys.exclusiveTo] = {26572,26557,26543,26556,26588,29349,29345,29354,29346,29317,29320,29361,29319,29322},
-            [questKeys.extraObjectives] = {{{[zoneIDs.MULGORE]={{48.4,52.5}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Randy Smallfish and Amorous Mud Snapper")}},
-        },
-        [29349] = { -- Craving Crayfish
-            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29345,29354,29346,29348,29317,29320,29361,29319,29322},
-        },
-        [29354] = { -- Shiny Baubles
-            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29345,29346,29348,29317,29320,29361,29319,29322},
-        },
-        [29361] = { -- Moat Monster!
-            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29317,29320,29319,29322},
-        },
         [26621] = { -- Insurrection
             [questKeys.objectives] = {{{43575},{43394}},nil,nil,nil,{{{43577,43578},43577,"Dragonmaw Civilian Armed"}}},
         },
@@ -1602,11 +1571,23 @@ function CataQuestFixes.Load()
         [29220] = { -- To Bambala
             [questKeys.triggerEnd] = {"Head to Bambala in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{64.6,40.4}}}},
         },
+        [29317] = { -- Fish Head
+            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29320,29361,29319,29322},
+        },
         [29318] = { -- Ribs for the Sentinels
             [questKeys.objectives] = {{{4262,"Feed Ribs to Sentinels",Questie.ICON_TYPE_INTERACT}}},
         },
+        [29319] = { -- Tadpole Terror
+            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29317,29320,29361,29322},
+        },
+        [29320] = { -- Like Pike?
+            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29317,29361,29319,29322},
+        },
         [29321] = { -- Happy as a Clam Digger
             [questKeys.exclusiveTo] = {29325,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26488,26536},
+        },
+        [29322] = { -- Time for Slime
+            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29317,29361,29319,29320},
         },
         [29323] = { -- Stocking Up
             [questKeys.exclusiveTo] = {29325,29321,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26488,26536},
@@ -1661,19 +1642,38 @@ function CataQuestFixes.Load()
         [29344] = { -- Fish fer Squirky
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29347,29350,29359,26414,26420,26442,26488,26536},
         },
+        [29345] = { -- Pond Predators
+            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29317,29320,29361,29319,29322},
+        },
+        [29346] = { -- The Ring's the Thing
+            [questKeys.exclusiveTo] = {26572,26557,26543,26556,26588,29349,29345,29354,29348,29317,29320,29361,29319,29322},
+        },
         [29347] = { -- Live Bait
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29350,29359,26414,26420,26442,26488,26536},
             [questKeys.extraObjectives] = {{{[zoneIDs.DUN_MOROGH]={{83.97,51.69}}}, Questie.ICON_TYPE_EVENT, l10n("Use Grimnur's Bait on yourself"),1}},
             [questKeys.objectives] = {{{53540,"Catch Cold Water Crayfish"},{1355,"Take Crayfish to Cook Ghilm",Questie.ICON_TYPE_INTERACT}}},
         },
+        [29348] = { -- The Race to Restock
+            [questKeys.exclusiveTo] = {26572,26557,26543,26556,26588,29349,29345,29354,29346,29317,29320,29361,29319,29322},
+            [questKeys.extraObjectives] = {{{[zoneIDs.MULGORE]={{48.4,52.5}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Randy Smallfish and Amorous Mud Snapper")}},
+        },
+        [29349] = { -- Craving Crayfish
+            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29345,29354,29346,29348,29317,29320,29361,29319,29322},
+        },
         [29350] = { -- The Gnomish Bait-o-Matic
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29359,26414,26420,26442,26488,26536},
+        },
+        [29354] = { -- Shiny Baubles
+            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29345,29346,29348,29317,29320,29361,29319,29322},
         },
         [29356] = { -- I Need to Cask a Favor
             [questKeys.objectives] = {{{5159,"Deliver Cask of Drugan's IPA",Questie.ICON_TYPE_INTERACT}},{{208872}}},
         },
         [29359] = { -- An Old Favorite
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,26414,26420,26442,26488,26536},
+        },
+        [29361] = { -- Moat Monster!
+            [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29317,29320,29319,29322},
         },
         [29387] = { -- Guardians of Hyjal: Firelands Invasion!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
