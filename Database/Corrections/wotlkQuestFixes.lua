@@ -5814,6 +5814,9 @@ function QuestieWotlkQuestFixes:Load()
         [24431] = {
             [questKeys.specialFlags] = 1,
         },
+        [24442] = { -- Battle Plans Of The Kvaldir
+            [questKeys.startedBy] = {{34839,34838},nil,{49676}},
+        },
         [24461] = {
             [questKeys.sourceItemId] = 49723,
         },
