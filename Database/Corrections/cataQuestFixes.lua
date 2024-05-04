@@ -266,6 +266,10 @@ function CataQuestFixes.Load()
         [13961] = { -- Drag it Out of Them
             [questKeys.triggerEnd] = {"Razormane Prisoner Delivered", {[zoneIDs.THE_BARRENS]={{56.4,40.3}}}},
         },
+        [13975] = { -- Crossroads Caravan Delivery
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Crossroads Caravan Escorted", {[zoneIDs.THE_BARRENS]={{50.3,58.5}}}},
+        },
         [14008] = { -- Frost Nova
             [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{5143}}},
         },
