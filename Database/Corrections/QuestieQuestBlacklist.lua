@@ -1060,7 +1060,7 @@ function QuestieQuestBlacklist:Load()
         [64144] = true, -- Horde pala mount quest chain
         [64145] = true, -- Horde pala mount quest chain
         [64217] = true, -- Boosted character quest
-        [64845] = QuestieCorrections.TBC_AND_WOTLK, -- Alliance War Effort
+        [64845] = QuestieCorrections.TBC_AND_WOTLK_AND_CATA, -- Alliance War Effort
         [70395] = true, -- First quest for boosted characters. Blocked to not show for others
         [70396] = true, -- First quest for boosted characters. Blocked to not show for others
         [70397] = true, -- Boosted character quest
