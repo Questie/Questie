@@ -32,6 +32,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {29117,29119},
             [questKeys.zoneOrSort] = -378,
         },
+        [218] = { -- Ice and Fire
+            [questKeys.objectives] = {{{808},{37514},{37112}}},
+        },
         [487] = { -- The Road to Darnassus
             [questKeys.preQuestSingle] = {2561},
         },
