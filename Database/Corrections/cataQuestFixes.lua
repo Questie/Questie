@@ -793,6 +793,9 @@ function CataQuestFixes.Load()
         [25371] = { -- The Abyssal Ride
             [questKeys.objectives] = {{{39996}},{{202766}}},
         },
+        [25412] = { -- The Name Never Spoken
+            [questKeys.preQuestSingle] = {25411},
+        },
         [25419] = { -- Lady La-La's Medallion
             [questKeys.requiredSourceItems] = {55188},
         },
