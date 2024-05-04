@@ -1670,6 +1670,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{52189,"Chopper Tour of the Raging Chasm",Questie.ICON_TYPE_MOUNT_UP}}},
             [questKeys.preQuestSingle] = {1468},
         },
+        [29071] = { -- Make Haste to Stormwind!
+            [questKeys.exclusiveTo] = {25316,27724,27726},
+        },
         [29073] = { -- Make Haste to Orgrimmar!
             [questKeys.exclusiveTo] = {25316,27718,27721},
         },
