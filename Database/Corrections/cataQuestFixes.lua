@@ -272,6 +272,9 @@ function CataQuestFixes.Load()
         [14009] = { -- Flash Heal
             [questKeys.objectives] = {{{48305}},nil,nil,nil,nil,{{2061}}},
         },
+        [14010] = { -- Eviscerate
+            [questKeys.objectives] = {{{48305}},nil,nil,nil,nil,{{2098}}},
+        },
         [14011] = { -- Primal Strike
             [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{73899}}},
         },
@@ -369,6 +372,9 @@ function CataQuestFixes.Load()
         [14248] = { -- Help Wanted
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14014,14019,14473}
+        },
+        [14272] = { -- Eviscerate
+            [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{2098}}},
         },
         [14274] = { -- Corruption
             [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{348}}},
@@ -588,6 +594,9 @@ function CataQuestFixes.Load()
         },
         [25139] = { -- Steady Shot
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{56641}}},
+        },
+        [25141] = { -- Eviscerate
+            [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{2098}}},
         },
         [25143] = { -- Primal Strike
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{73899}}},
@@ -1084,6 +1093,9 @@ function CataQuestFixes.Load()
         },
         [26945] = { -- Learning New Techniques
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{100}}},
+        },
+        [26946] = { -- A Rogue's Advantage
+            [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{2098}}},
         },
         [26947] = { -- A Woodsman's Training
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{56641}}},
