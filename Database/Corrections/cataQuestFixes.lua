@@ -118,6 +118,9 @@ function CataQuestFixes.Load()
         [10073] = { -- Corruption
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{348}}},
         },
+        [11272] = { -- A Score to Settle
+            [questKeys.exclusiveTo] = {30112},
+        },
         [13189] = { -- Warchief's Blessing
             [questKeys.finishedBy] = {{39605}},
         },
@@ -1766,6 +1769,9 @@ function CataQuestFixes.Load()
         },
         [29539] = { -- Heart of Rage
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.THE_BLOOD_FURNACE]={{64.9,41.5}}}},
+        },
+        [30112] = { -- A Score to Settle
+            [questKeys.exclusiveTo] = {11272},
         },
     }
 end
