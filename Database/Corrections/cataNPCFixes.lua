@@ -233,6 +233,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [46316] = { -- Gimme Shelter Kill Credit 00
+            [npcKeys.spawns] = {},
+        },
         [47493] = { -- Warlord Krogg
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{29.6,41,phases.GRIM_BATOL_ATTACK_HORDE}}},
         },

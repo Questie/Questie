@@ -736,6 +736,12 @@ function CataQuestFixes.Load()
         [25577] = { -- Crushing the Cores
             [questKeys.requiredSourceItems] = {55123},
         },
+        [25587] = { -- Gimme Shelter!
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.KELP_THAR_FOREST]={{56.74,30.41}}}, Questie.ICON_TYPE_EVENT, l10n("Smuggler's Scar Scouted"), 1},
+                {{[zoneIDs.KELP_THAR_FOREST]={{54.1,34.4}}}, Questie.ICON_TYPE_EVENT, l10n("Adarrah Signaled"), 2},
+            },
+        },
         [25593] = { -- Shelled Salvation
             [questKeys.objectives] = {nil,nil,nil,nil,{{{39729,41203,41219,42404},39729,"Shell Survivors rescued"}}},
             [questKeys.requiredSourceItems] = {55141},
