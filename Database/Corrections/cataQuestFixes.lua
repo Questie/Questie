@@ -20,6 +20,7 @@ QuestieCorrections.killCreditObjectiveFirst[26875] = true
 function CataQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
     local raceKeys = QuestieDB.raceKeys
+    local classKeys = QuestieDB.classKeys
     local profKeys = QuestieProfessions.professionKeys
     local zoneIDs = ZoneDB.zoneIDs
     local specialFlags = QuestieDB.specialFlags
@@ -1046,6 +1047,9 @@ function CataQuestFixes.Load()
         },
         [26904] = { -- Corruption
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{348}}},
+        },
+        [26910] = { -- Etched Letter
+            [questKeys.requiredClasses] = classKeys.HUNTER,
         },
         [26913] = { -- Charging into Battle
             [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{100}}},
