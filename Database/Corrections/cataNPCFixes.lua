@@ -205,6 +205,12 @@ function CataNpcFixes.Load()
         [40065] = { -- Unbound Flame Spirit
             [npcKeys.spawns] = {},
         },
+        [40544] = { -- Rod of Subjugation 01
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{23.9,55.9}}},
+        },
+        [40545] = { -- Rod of Subjugation 02
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{25.2,54.8}}},
+        },
         [41098] = { -- Gnaws
             [npcKeys.spawns] = {},
         },
