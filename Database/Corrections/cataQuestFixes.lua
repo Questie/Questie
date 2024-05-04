@@ -1496,6 +1496,13 @@ function CataQuestFixes.Load()
         [28805] = { -- The Eye of the Storm
             [questKeys.objectives] = {nil,{{197196}}},
         },
+        [28809] = { -- Fear No Evil
+            [questKeys.preQuestSingle] = {28809},
+        },
+        [28813] = { -- Fear No Evil
+            [questKeys.requiredClasses] = classKeys.WARRIOR,
+            [questKeys.preQuestSingle] = {28789},
+        },
         [28228] = { -- Rejoining the Forest
             [questKeys.triggerEnd] = {"Protector brought to hill", {[zoneIDs.FELWOOD]={{48.7,25.2}}}},
         },
