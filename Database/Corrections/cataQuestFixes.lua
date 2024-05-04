@@ -1692,15 +1692,15 @@ function CataQuestFixes.Load()
         [29066] = { -- Good News... and Bad News
             [questKeys.preQuestSingle] = {25428},
         },
-        [29093] = { -- Cruisin' the Chasm
-            [questKeys.objectives] = {{{52189,"Chopper Tour of the Raging Chasm",Questie.ICON_TYPE_MOUNT_UP}}},
-            [questKeys.preQuestSingle] = {1468},
-        },
         [29071] = { -- Make Haste to Stormwind!
             [questKeys.exclusiveTo] = {25316,27724,27726},
         },
         [29073] = { -- Make Haste to Orgrimmar!
             [questKeys.exclusiveTo] = {25316,27718,27721},
+        },
+        [29093] = { -- Cruisin' the Chasm
+            [questKeys.objectives] = {{{52189,"Chopper Tour of the Raging Chasm",Questie.ICON_TYPE_MOUNT_UP}}},
+            [questKeys.preQuestSingle] = {1468},
         },
         [29102] = { -- To Fort Livingston
             [questKeys.triggerEnd] = {"Head to Fort Livingston in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{52.8,67.2}}}},
