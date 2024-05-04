@@ -102,7 +102,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{5143}}},
         },
         [10069] = { -- Ways of the Light
-            [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{20154}}},
+            [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{20271},{20154}}},
         },
         [10070] = { -- Steady Shot
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{56641}}},
@@ -455,7 +455,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{5143}}},
         },
         [24528] = { -- The Power of the Light
-            [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{20154}}},
+            [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{20271},{20154}}},
         },
         [24530] = { -- Oh, A Hunter's Life For Me
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{56641}}},
@@ -1063,7 +1063,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{56641}}},
         },
         [26918] = { -- The Power of the Light
-            [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{20154}}},
+            [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{20271},{20154}}},
         },
         [26919] = { -- Healing the Wounded
             [questKeys.objectives] = {{{44564}},nil,nil,nil,nil,{{2061}}},
@@ -1094,7 +1094,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{56641}}},
         },
         [26966] = { -- The Light's Power
-            [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{20154}}},
+            [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{20271},{20154}}},
         },
         [26968] = { -- Frost Nova
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{5143}}},
@@ -1121,7 +1121,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{56641}}},
         },
         [27023] = { -- The Way of the Sunwalkers
-            [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{20154}}},
+            [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{20271},{20154}}},
         },
         [27027] = { -- Primal Strike
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{73899}}},
