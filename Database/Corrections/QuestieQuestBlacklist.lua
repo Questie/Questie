@@ -1548,6 +1548,7 @@ function QuestieQuestBlacklist:Load()
         [29172] = true, -- The Beasts Within
         [29173] = true, -- Secondary Targets
         [29175] = true, -- Break Their Spirits
+        [29177] = true, -- Vigilance on Wings
         [29241] = true, -- Break the Godbreaker
         [29242] = true, -- Putting a Price on Priceless
         [29251] = true, -- Booty Bay's Interests
