@@ -192,6 +192,9 @@ function CataItemFixes.Load()
         [52973] = { -- Sunken Cargo
             [itemKeys.npcDrops] = {},
         },
+        [52975] = { -- Coilshell Sifter
+            [itemKeys.npcDrops] = {39422},
+        },
         [53009] = { -- Juniper Berries
             [itemKeys.class] = itemClasses.QUEST,
         },
