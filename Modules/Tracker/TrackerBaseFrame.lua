@@ -417,7 +417,7 @@ function TrackerBaseFrame.OnResizeStart(frame, button)
                         updateTimer = C_Timer.NewTicker(0.12, function()
                             local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
 
-                            if QuestieTrackerLoc == nil then
+                            if QuestieTrackerLoc == nil or InCombatLockdown() then
                                 updateTimer:Cancel()
                                 return
                             end
