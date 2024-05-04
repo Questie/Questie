@@ -1423,8 +1423,15 @@ function CataQuestFixes.Load()
         [28043] = { -- How to Maim Your Dragon
             [questKeys.objectives] = {{{47391}}},
         },
+        [28089] = { -- Warchief's Command: Hillsbrad Foothills!
+            [questKeys.exclusiveTo] = {28096},
+        },
         [28094] = { -- Paving the Way
             [questKeys.preQuestSingle] = {28097},
+        },
+        [28096] = { -- Welcome to the Machine
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount the Skeletal Steed"), 0, {{"monster", 47445}}}},
         },
         [28134] = { -- Impending Retribution
             [questKeys.objectives] = {{{46603},{47715},{47930}}}
@@ -1470,6 +1477,9 @@ function CataQuestFixes.Load()
         },
         [28558] = { -- Hero's Call: Uldum!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+        },
+        [28571] = { -- Warchief's Command: Hillsbrad Foothills!
+            [questKeys.exclusiveTo] = {28096},
         },
         [28584] = { -- Quality Construction
             [questKeys.preQuestSingle] = {28583},
