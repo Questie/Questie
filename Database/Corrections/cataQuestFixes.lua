@@ -846,9 +846,11 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Gnomecorder Tested", {[zoneIDs.STONETALON_MOUNTAINS]={{73.2,46.6}}}},
         },
         [25623] = { -- Into the Maw!
+            [questKeys.preQuestSingle] = {25353},
             [questKeys.exclusiveTo] = {25618},
         },
         [25624] = { -- Into the Maw!
+            [questKeys.preQuestSingle] = {25355},
             [questKeys.exclusiveTo] = {25617},
         },
         [25651] = { -- Oh, the Insanity!
