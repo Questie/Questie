@@ -202,6 +202,9 @@ function CataNpcFixes.Load()
         [39926] = { -- Twilight Inciter
             [npcKeys.spawns] = {},
         },
+        [40065] = { -- Unbound Flame Spirit
+            [npcKeys.spawns] = {},
+        },
         [41098] = { -- Gnaws
             [npcKeys.spawns] = {},
         },

@@ -771,6 +771,9 @@ function CataQuestFixes.Load()
         [25317] = { -- Protect the World Tree
             [questKeys.preQuestSingle] = {},
         },
+        [25323] = { -- Flamebreaker
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Flameseer's Staff"), 0, {{"monster", 38896}}}},
+        },
         [25325] = { -- Through the Dream
             [questKeys.triggerEnd] = {"Arch Druid Fandral Staghelm delivered", {[zoneIDs.MOUNT_HYJAL]={{55,28.9}}}},
         },
