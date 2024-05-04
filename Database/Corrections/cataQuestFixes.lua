@@ -722,6 +722,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{40510},nil,{54614}},
             [questKeys.exclusiveTo] = {25890},
         },
+        [25459] = { -- Ophidophobia
+            [questKeys.preQuestSingle] = {25602},
+        },
         [25464] = { -- The Return of Baron Geddon
             [questKeys.objectives] = {{{40147}}},
         },
