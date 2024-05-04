@@ -754,6 +754,9 @@ function CataQuestFixes.Load()
         [25419] = { -- Lady La-La's Medallion
             [questKeys.requiredSourceItems] = {55188},
         },
+        [25439] = { -- Vengeful Heart
+            [questKeys.preQuestSingle] = {25359},
+        },
         [25442] = { -- A Pearl of Wisdom
             [questKeys.startedBy] = {{40510},nil,{54614}},
             [questKeys.exclusiveTo] = {25890},
