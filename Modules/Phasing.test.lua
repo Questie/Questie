@@ -379,6 +379,18 @@ describe("Phasing", function()
         end)
     end)
 
+    describe("Hyjal", function()
+        it("should return true for Hyjal Chapter 1", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_CHAPTER_1))
+        end)
+
+        it("should return false for Hyjal Chapter 1 when 25520 is complete", function()
+            Questie.db.char.complete[25520] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_CHAPTER_1))
+        end)
+    end)
+
     describe("Deepholm", function()
         it("should return true for The Stone March when 26827 is complete", function()
             Questie.db.char.complete[26827] = true
