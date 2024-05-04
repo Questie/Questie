@@ -1026,6 +1026,10 @@ function CataQuestFixes.Load()
         },
         [26420] = { -- Diggin' For Worms
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26442,26488,26536},
+            [questKeys.extraObjectives] = {
+               {{[zoneIDs.STORMWIND_CITY]={{59.92,15.33}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Crystal Bass")},
+            },
+            [questKeys.requiredSourceItems] = {58788},
         },
         [26442] = { -- Rock Lobster
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26488,26536},
