@@ -1689,6 +1689,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26294},
             [questKeys.exclusiveTo] = {26311},
         },
+        [29066] = { -- Good News... and Bad News
+            [questKeys.preQuestSingle] = {25428},
+        },
         [29093] = { -- Cruisin' the Chasm
             [questKeys.objectives] = {{{52189,"Chopper Tour of the Raging Chasm",Questie.ICON_TYPE_MOUNT_UP}}},
             [questKeys.preQuestSingle] = {1468},
