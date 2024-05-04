@@ -190,6 +190,7 @@ Questie.icons = {
     ["node_fish"] = "Interface\\Addons\\Questie\\Icons\\object.blp",
     ["node_herb"] = "Interface\\Addons\\Questie\\Icons\\object.blp",
     ["node_ore"] = "Interface\\Addons\\Questie\\Icons\\object.blp",
+    ["chest"] = "Interface\\Addons\\Questie\\Icons\\chest.blp",
 }
 
 Questie.usedIcons = {}
@@ -216,6 +217,7 @@ Questie.ICON_TYPE_MOUNT_UP = 19
 Questie.ICON_TYPE_NODE_FISH = 20
 Questie.ICON_TYPE_NODE_HERB = 21
 Questie.ICON_TYPE_NODE_ORE = 22
+Questie.ICON_TYPE_CHEST = 23
 
 -- Load icon pathes from SavedVariables or set the default ones
 function Questie:SetIcons()
@@ -241,6 +243,7 @@ function Questie:SetIcons()
     Questie.usedIcons[Questie.ICON_TYPE_NODE_FISH] = Questie.icons["node_fish"]
     Questie.usedIcons[Questie.ICON_TYPE_NODE_HERB] = Questie.icons["node_herb"]
     Questie.usedIcons[Questie.ICON_TYPE_NODE_ORE] = Questie.icons["node_ore"]
+    Questie.usedIcons[Questie.ICON_TYPE_CHEST] = Questie.icons["chest"]
 end
 
 function Questie:GetIconNameFromPath(path)
