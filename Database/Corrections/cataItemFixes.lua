@@ -189,6 +189,9 @@ function CataItemFixes.Load()
         [52828] = { -- Orb of Ascension
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [52973] = { -- Sunken Cargo
+            [itemKeys.npcDrops] = {},
+        },
         [53009] = { -- Juniper Berries
             [itemKeys.class] = itemClasses.QUEST,
         },
