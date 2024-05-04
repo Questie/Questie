@@ -1542,6 +1542,7 @@ function QuestieQuestBlacklist:Load()
 
         -- Phase 2 - Rise of the Zandalari
 
+        [29158] = true, -- The Zandalar Representative
         [29153] = true, -- Booty Bay's Interests
         [29157] = true, -- The Zandalari Menace
         [29172] = true, -- The Beasts Within
