@@ -597,6 +597,12 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{39194}}},
             [questKeys.requiredSourceItems] = {52481},
         },
+        [25128] = { -- Hana'zua
+            [questKeys.exclusiveTo] = {25129},
+        },
+        [25129] = { -- Sarkoth
+            [questKeys.preQuestSingle] = {},
+        },
         [25139] = { -- Steady Shot
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{56641}}},
         },
