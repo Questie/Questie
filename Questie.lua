@@ -188,8 +188,8 @@ Questie.icons = {
     ["tracker_search"] = "Interface\\Addons\\Questie\\Icons\\tracker_search.tga",
     ["tracker_settings"] = "Interface\\Addons\\Questie\\Icons\\tracker_settings.tga",
     ["node_fish"] = "Interface\\Addons\\Questie\\Icons\\node_fish.blp",
-    ["node_herb"] = "Interface\\Addons\\Questie\\Icons\\object.blp",
-    ["node_ore"] = "Interface\\Addons\\Questie\\Icons\\object.blp",
+    ["node_herb"] = "Interface\\Addons\\Questie\\Icons\\node_herb.blp",
+    ["node_ore"] = "Interface\\Addons\\Questie\\Icons\\node_ore.blp",
     ["chest"] = "Interface\\Addons\\Questie\\Icons\\chest.blp",
 }
 
