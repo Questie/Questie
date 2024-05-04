@@ -76,8 +76,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.CUSTOM_EVENT_3 then
-        local questLog = QuestLogCache.questLog_DO_NOT_MODIFY
-        return questLog[13847] and true or false
+        return _Phasing.CheckQuestLog()
     end
 
     local complete = Questie.db.char.complete
@@ -134,6 +133,26 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     return false
+end
+
+_Phasing.CheckQuestLog = function()
+    local questLog = QuestLogCache.questLog_DO_NOT_MODIFY
+    return (
+        questLog[13847] or
+        questLog[13851] or
+        questLog[13852] or
+        questLog[13854] or
+        questLog[13855] or
+        questLog[13856] or
+        questLog[13857] or
+        questLog[13858] or
+        questLog[13859] or
+        questLog[13860] or
+        questLog[13861] or
+        questLog[13862] or
+        questLog[13863] or
+        questLog[13864]
+    ) and true or false
 end
 
 _Phasing.LostIsles = function(phase, complete)
