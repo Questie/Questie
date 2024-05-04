@@ -1,5 +1,7 @@
 ---@class Phasing
 local Phasing = QuestieLoader:CreateModule("Phasing")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 
 local _Phasing = {}
 local playerFaction
@@ -7,6 +9,7 @@ local playerFaction
 -- https://old.wow.tools/dbc/?dbc=phase&build=4.3.4.15595
 local phases = {
     UNKNOWN = 169, -- Most Deepholm NPCs (and others) have this ID but are not phased
+    CUSTOM_EVENT_3 = 177, -- Looks like only certain WotLK NPCs use this phase
     -- The Lost Isles and Gilneas share the same phase IDs
     LOST_ISLES_CHAPTER_1 = 170,
     LOST_ISLES_CHAPTER_2 = 171,
@@ -70,6 +73,11 @@ end
 function Phasing.IsSpawnVisible(phase)
     if (not phase) or phase == phases.UNKNOWN then
         return true
+    end
+
+    if phase == phases.CUSTOM_EVENT_3 then
+        local questLog = QuestLogCache.questLog_DO_NOT_MODIFY
+        return questLog[13847] and true or false
     end
 
     local complete = Questie.db.char.complete

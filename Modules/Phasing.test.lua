@@ -1,21 +1,28 @@
 dofile("Modules/Libs/QuestieLoader.lua")
 
----@type Phasing
-local Phasing = require("Modules.Phasing")
-
-local phases = Phasing.phases
-
 local playerFaction = "Horde"
 _G["UnitFactionGroup"] = function()
     return playerFaction
 end
+_G["C_QuestLog"] = {}
 
 describe("Phasing", function()
+    ---@type Phasing
+    local Phasing
+    ---@type QuestLogCache
+    local QuestLogCache
+
+    local phases
+
     before_each(function()
         -- Accessing _G["Questie"] is required
         _G["Questie"] = {db = {char = {complete = {}}}}
         Questie = _G["Questie"]
 
+        QuestLogCache = require("Modules.Quest.QuestLogCache")
+
+        Phasing = require("Modules.Phasing")
+        phases = Phasing.phases
         Phasing.Initialize()
     end)
 
@@ -25,6 +32,14 @@ describe("Phasing", function()
 
     it("should return true for UNKNOWN", function()
         assert.is_true(Phasing.IsSpawnVisible(phases.UNKNOWN))
+    end)
+
+    describe("quests in quest log", function()
+        it("should return true for phase ID 177 when certain quests are accepted", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[13847]={}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.CUSTOM_EVENT_3))
+        end)
     end)
 
     describe("Kezan", function()
