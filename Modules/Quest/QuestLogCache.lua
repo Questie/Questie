@@ -145,7 +145,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
     end
 
     local isComplete = isCompleteAccordingToBlizzard
-    if isComplete == 0 then
+    if (not isCompleteAccordingToBlizzard) or isCompleteAccordingToBlizzard == 0 then
         -- if quest is not complete, check if all objectives are finished.
         -- Blizzard keeps adding invalid empty objectives to quests and therefore not marking them as complete, so we need to work around that.
         isComplete = allObjectivesFinished and 1 or 0
