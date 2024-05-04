@@ -42,7 +42,8 @@ local _townsfolk_texturemap = {
     ["Class Trainer"] = "Interface\\Minimap\\tracking\\class",
     ["Stable Master"] = "Interface\\Minimap\\tracking\\stablemaster",
     ["Spirit Healer"] = "Interface\\raidframe\\raid-icon-rez",
-    ["Weapon Master"] = QuestieLib.AddonPath.."Icons\\slay.blp",
+    ["Weapon Master"] = QuestieLib.AddonPath.."Icons\\weaponmaster.blp",
+    ["Mailbox"] = QuestieLib.AddonPath.."Icons\\mailbox.blp",
     ["Profession Trainer"] = "Interface\\Minimap\\tracking\\profession",
     ["Ammo"] = 132382,--select(10, GetItemInfo(2515)) -- sharp arrow
     ["Bags"] = 133634,--select(10, GetItemInfo(4496)) -- small brown pouch
@@ -56,7 +57,7 @@ local _townsfolk_texturemap = {
         if playerClass == "ROGUE" then
             return "Interface\\Minimap\\tracking\\poisons"
         end
-        return "Interface\\Minimap\\tracking\\reagents"
+        return QuestieLib.AddonPath.."Icons\\reagents.blp"
     end)(),
     [professionKeys.FIRST_AID] = "Interface\\Icons\\spell_holy_sealofsacrifice",
     [professionKeys.BLACKSMITHING] = "Interface\\Icons\\trade_blacksmithing",
