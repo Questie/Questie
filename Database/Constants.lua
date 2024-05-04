@@ -42,6 +42,12 @@ QuestieDB.sortKeys = {
     NIGHTMARE_INCURSIONS = -641,
 }
 
+QuestieDB.nodeTypes = {
+    FISH = 1,
+    HERB = 2,
+    ORE = 3,
+}
+
 local isWotlk = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
 
 QuestieDB.factionTemplate = isWotlk and { -- [id] = EnemyGroup

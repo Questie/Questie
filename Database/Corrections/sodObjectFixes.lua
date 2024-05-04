@@ -8,6 +8,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 function SeasonOfDiscovery:LoadObjects()
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs
+    local nodeTypes = QuestieDB.nodeTypes
 
     return {
         [386675] = { -- Buried Treasure

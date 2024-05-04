@@ -14,6 +14,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 function QuestieObjectFixes:Load()
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs
+    local nodeTypes = QuestieDB.nodeTypes
 
     return {
         [167] = {
