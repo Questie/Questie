@@ -72,6 +72,9 @@ function CataQuestFixes.Load()
         [2518] = { -- Tears of the Moon
             [questKeys.preQuestSingle] = {},
         },
+        [3101] = { -- Consecrated Letter
+            [questKeys.startedBy] = {{197}},
+        },
         [5502] = { -- A Warden of the Horde
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29190,29191},
