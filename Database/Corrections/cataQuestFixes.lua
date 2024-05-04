@@ -690,6 +690,27 @@ function CataQuestFixes.Load()
         [25162] = { -- Elemental Goo
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
         },
+        [25188] = { -- Watershed Patrol
+            [questKeys.childQuests] = {25189,25190,25192,25193,25194,25195},
+        },
+        [25189] = { -- Spirits Be Praised
+            [questKeys.parentQuest] = 25188,
+        },
+        [25190] = { -- Raggaran's Rage
+            [questKeys.parentQuest] = 25188,
+        },
+        [25192] = { -- Raggaran's Fury
+            [questKeys.parentQuest] = 25188,
+        },
+        [25193] = { -- Lost But Not Forgotten
+            [questKeys.parentQuest] = 25188,
+        },
+        [25194] = { -- Unbidden Visitors
+            [questKeys.parentQuest] = 25188,
+        },
+        [25195] = { -- That's the End of That Raptor
+            [questKeys.parentQuest] = 25188,
+        },
         [25202] = { -- The Fastest Way to His Heart
             [questKeys.preQuestSingle] = {25213},
             [questKeys.exclusiveTo] = {25243},
