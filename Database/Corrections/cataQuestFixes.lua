@@ -1670,6 +1670,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{52189,"Chopper Tour of the Raging Chasm",Questie.ICON_TYPE_MOUNT_UP}}},
             [questKeys.preQuestSingle] = {1468},
         },
+        [29073] = { -- Make Haste to Orgrimmar!
+            [questKeys.exclusiveTo] = {25316,27718,27721},
+        },
         [29102] = { -- To Fort Livingston
             [questKeys.triggerEnd] = {"Head to Fort Livingston in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{52.8,67.2}}}},
         },
