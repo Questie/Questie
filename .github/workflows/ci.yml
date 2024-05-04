@@ -186,7 +186,7 @@ jobs:
 
   publish:
     needs: [
-      validate-era-db, validate-sod-db, validate-wotlk-db, validate-cata-db]
+      validate-era-db, validate-sod-db, validate-cata-db]
     if: startsWith(github.ref, 'refs/tags/v')
 
     runs-on: ubuntu-latest
