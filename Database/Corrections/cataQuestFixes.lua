@@ -937,6 +937,9 @@ function CataQuestFixes.Load()
         [26311] = { -- Unfamiliar Waters
             [questKeys.preQuestSingle] = {26294},
         },
+        [26320] = { -- A Vision of the Past
+            [questKeys.triggerEnd] = {"Vision of the Past uncovered", {[zoneIDs.THE_DEADMINES]={{-1,-1}}}},
+        },
         [26324] = { -- Where Is My Warfleet?
             [questKeys.startedBy] = {{39605}},
         },
