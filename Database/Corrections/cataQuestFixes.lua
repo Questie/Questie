@@ -151,6 +151,9 @@ function CataQuestFixes.Load()
         [11272] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {30112},
         },
+        [11724] = { -- Massive Moth Omelet?
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [13189] = { -- Warchief's Blessing
             [questKeys.finishedBy] = {{39605}},
         },
