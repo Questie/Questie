@@ -1425,6 +1425,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
         [27726] = { -- Hero's Call: Mount Hyjal!
+            [questKeys.objectives] = {{{15187, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
             [questKeys.exclusiveTo] = {25316},
         },
