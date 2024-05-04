@@ -899,6 +899,7 @@ function CataQuestFixes.Load()
         },
         [26008] = { -- Decompression
             [questKeys.preQuestSingle] = {25887},
+            [questKeys.objectives] = {{{41955}}},
         },
         [26040] = { -- What? What? In My Gut...?
             [questKeys.preQuestSingle] = {25887},
