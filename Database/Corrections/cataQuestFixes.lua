@@ -942,6 +942,9 @@ function CataQuestFixes.Load()
         [26377] = { -- Unsolid Ground
             [questKeys.requiredSourceItems] = {58500,58783},
         },
+        [26391] = { -- Extinguishing Hope
+            [questKeys.preQuestSingle] = {28817,28818,28819,28820,28821,28822,28823,29083},
+        },
         [26397] = { -- Walk With The Earth Mother
             [questKeys.finishedBy] = {{39605}},
         },
