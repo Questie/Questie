@@ -763,6 +763,9 @@ function CataQuestFixes.Load()
         [25275] = { -- Report to the Labor Captain
             [questKeys.startedBy] = {{39605}},
         },
+        [25300] = { -- The Eye of Twilight
+            [questKeys.preQuestSingle] = {25270,25271},
+        },
         [25316] = { -- As Hyjal Burns
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {25317},
