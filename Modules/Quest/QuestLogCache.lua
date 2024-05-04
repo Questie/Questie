@@ -151,7 +151,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
         isComplete = allObjectivesFinished and 1 or 0
     end
 
-    return newObjectives, changedObjIds, allObjectivesFinished
+    return newObjectives, changedObjIds, isComplete
 end
 
 -- For profiling
