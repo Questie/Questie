@@ -118,6 +118,36 @@ function CataQuestFixes.Load()
         [10073] = { -- Corruption
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{348}}},
         },
+        [10943] = { -- Children's Week
+            [questKeys.zoneOrSort] = -378,
+        },
+        [10950] = { -- Auchindoun and the Ring of Observance
+            [questKeys.zoneOrSort] = -378,
+        },
+        [10952] = { -- A Trip to the Dark Portal
+            [questKeys.zoneOrSort] = -378,
+        },
+        [10954] = { -- Jheel is at Aeris Landing!
+            [questKeys.zoneOrSort] = -378,
+        },
+        [10956] = { -- The Seat of the Naaru
+            [questKeys.zoneOrSort] = -378,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10950,10952,10954},
+        },
+        [10962] = { -- Time to Visit the Caverns
+            [questKeys.zoneOrSort] = -378,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10950,10952,10954},
+            [questKeys.triggerEnd] = {"Dornaa taken to the Caverns of Time", {[zoneIDs.TANARIS]={{60.02,57.32}}}},
+        },
+        [10966] = { -- Back to the Orphanage
+            [questKeys.zoneOrSort] = -378,
+        },
+        [10968] = { -- Call on the Farseer
+            [questKeys.zoneOrSort] = -378,
+            [questKeys.preQuestSingle] = {},
+        },
         [11272] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {30112},
         },
