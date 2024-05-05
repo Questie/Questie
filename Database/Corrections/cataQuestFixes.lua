@@ -1736,7 +1736,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {18598,69027},
         },
         [29146] = { -- Ridin' the Rocketway
-            [questKeys.objectives] = {{{52585,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{52585,nil,Questie.ICON_TYPE_MOUNT_UP}}},
             [questKeys.preQuestSingle] = {172},
         },
         [29156] = { -- The Troll Incursion
