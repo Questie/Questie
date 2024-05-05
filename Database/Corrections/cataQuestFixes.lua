@@ -32,6 +32,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {29117,29119},
             [questKeys.zoneOrSort] = -378,
         },
+        [172] = { -- Children's Week
+            [questKeys.zoneOrSort] = -378,
+        },
         [218] = { -- Ice and Fire
             [questKeys.objectives] = {{{808},{37514},{37112}}},
         },
@@ -68,6 +71,9 @@ function CataQuestFixes.Load()
         [997] = { -- Denalan's Earth
             [questKeys.preQuestSingle] = {486},
         },
+        [1468] = { -- Children's Week
+            [questKeys.zoneOrSort] = -378,
+        },
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
         },
@@ -83,6 +89,8 @@ function CataQuestFixes.Load()
         [5502] = { -- A Warden of the Horde
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29190,29191},
+            [questKeys.zoneOrSort] = -378,
+            [questKeys.finishedBy] = {{51989}},
         },
         [7383] = { -- Teldrassil: The Burden of the Kaldorei
             [questKeys.preQuestSingle] = {},
@@ -1727,25 +1735,28 @@ function CataQuestFixes.Load()
         },
         [29146] = { -- Ridin' the Rocketway
             [questKeys.objectives] = {{{52585,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {172},
         },
         [29156] = { -- The Troll Incursion
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
         [29167] = { -- The Banshee Queen
-            [questKeys.triggerEnd] = {"Meeting with Lady Sylvanas Windrunner", {[zoneIDs.UNDERCITY]={{57.8,91.9}}}},
+            [questKeys.objectives] = {{{10181,"Meeting with Lady Sylvanas Windrunner",Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {172},
         },
         [29176] = { -- The Fallen Chieftain
             [questKeys.triggerEnd] = {"Take Your Orphan to Visit Red Rocks", {[zoneIDs.MULGORE]={{60.7,23.0}}}},
+            [questKeys.preQuestSingle] = {172},
         },
         [29190] = { -- Let's Go Fly a Kite
             [questKeys.triggerEnd] = {"Fly Dragon Kites with your orphan", {[zoneIDs.ORGRIMMAR]={{58.5,58.3}}}},
             [questKeys.preQuestGroup] = {29146,29167,29176},
-            [questKeys.requiredSourceItems] = {69231},
+            [questKeys.requiredSourceItems] = {18597,69231},
         },
         [29191] = { -- You Scream, I Scream...
-            [questKeys.triggerEnd] = {"Take your orphan out for ice cream.", {[zoneIDs.ORGRIMMAR]={{38.2,87.5}}}},
+            [questKeys.triggerEnd] = {"Take your orphan out for ice cream.", {[zoneIDs.ORGRIMMAR]={{38.56,86.7}}}},
             [questKeys.preQuestGroup] = {29146,29167,29176},
-            [questKeys.requiredSourceItems] = {69233},
+            [questKeys.requiredSourceItems] = {18597,69233},
         },
         [29220] = { -- To Bambala
             [questKeys.triggerEnd] = {"Head to Bambala in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{64.6,40.4}}}},

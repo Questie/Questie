@@ -28,6 +28,9 @@ function CataNpcFixes.Load()
         [7319] = { -- Lady Sathrah
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{40.66,22.16}}},
         },
+        [14444] = { -- Orcish Orphan
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{58.18,57.5}}},
+        },
         [32959] = { -- Cerellean Whiteclaw
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{50.8,18.0},{50.13,19.46}}},
         },
@@ -227,7 +230,7 @@ function CataNpcFixes.Load()
                 [zoneIDs.ABYSSAL_DEPTHS] = {{42.66,37.82}},
             },
         },
-        [42288] = {
+        [42288] = { -- Robby Flay
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY] = {{50.56,71.89}},
             },
@@ -297,18 +300,23 @@ function CataNpcFixes.Load()
         [49476] = { -- Finkle Einhorn
             [npcKeys.questStarts] = {28735,28737,28738,28740,28741},
         },
-        [49893] = {
+        [49893] = { -- Lisa McKeever
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY] = {{51.62,72.38}},
             },
         },
-        [52189] = {
+        [51989] = { -- Orphan Matron Battlewail
+            [npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR] = {{57.96,57.62}},
+            },
+        },
+        [52189] = { -- Rental Chopper
             [npcKeys.spawns] = {
                 [zoneIDs.WESTFALL] = {{57.78,53.06},{57.71,53.28}},
             },
             [npcKeys.zoneID] = zoneIDs.WESTFALL,
         },
-        [53540] = {
+        [53540] = { -- Cold Water Crayfish
             [npcKeys.spawns] = {
                 [zoneIDs.DUN_MOROGH] = {{83.97,51.69}},
             },

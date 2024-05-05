@@ -358,6 +358,9 @@ function CataItemFixes.Load()
         [69027] = { -- Cone of Cold
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [69233] = { -- Cone of Cold
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [69815] = { -- Seething Cinder
             [itemKeys.class] = itemClasses.QUEST,
         },
