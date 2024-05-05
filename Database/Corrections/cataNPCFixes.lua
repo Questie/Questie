@@ -227,6 +227,9 @@ function CataNpcFixes.Load()
         [41098] = { -- Gnaws
             [npcKeys.spawns] = {},
         },
+        [41112] = { -- Marion Wormwing
+            [npcKeys.spawns] = {},
+        },
         [41294] = { -- Undersea Sanctuary
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{46.14,46.64}}},
         },

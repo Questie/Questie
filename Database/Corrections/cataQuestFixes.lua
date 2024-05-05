@@ -14,6 +14,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieCorrections.objectObjectiveFirst[24817] = true
 QuestieCorrections.objectObjectiveFirst[25371] = true
+QuestieCorrections.objectObjectiveFirst[25731] = true
 QuestieCorrections.killCreditObjectiveFirst[52] = true
 QuestieCorrections.killCreditObjectiveFirst[26621] = true
 QuestieCorrections.killCreditObjectiveFirst[26875] = true
@@ -872,6 +873,9 @@ function CataQuestFixes.Load()
         },
         [25670] = { -- DUN-dun-DUN-dun-DUN-dun
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Budd's Chain"), 0, {{"object", 203137}}}},
+        },
+        [25731] = { -- A Bird in Hand
+            [questKeys.objectives] = {{{41112},{460000}}},
         },
         [25715] = { -- A Closer Look
             [questKeys.triggerEnd] = {"Scout the ships on the Shattershore", {[zoneIDs.BLASTED_LANDS]={{69,32.7}}}},
