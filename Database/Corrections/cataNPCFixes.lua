@@ -131,6 +131,10 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [36644] = { -- Ahmo Thunderhorn
+            [npcKeys.questStarts] = {24459,14438,14491},
+            [npcKeys.questEnds] = {24215,14438,14491},
+        },
         [36743] = { -- King Genn Greymane
             [npcKeys.spawns] = {
                 [zoneIDs.GILNEAS] = {
