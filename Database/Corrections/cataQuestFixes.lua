@@ -1692,6 +1692,15 @@ function CataQuestFixes.Load()
         [28523] = { -- More Beads for Salfa
             [questKeys.preQuestSingle] = {28522},
         },
+        [28524] = { -- Delivery for Donova
+            [questKeys.exclusiveTo] = {28544,28545,28460,28768},
+        },
+        [28544] = { -- Hero's Call: Winterspring!
+            [questKeys.exclusiveTo] = {28524,28545,28460,28768},
+        },
+        [28545] = { -- Warchief's Command: Winterspring!
+            [questKeys.exclusiveTo] = {28524,28544,28460,28768},
+        },
         [28558] = { -- Hero's Call: Uldum!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
@@ -1741,6 +1750,9 @@ function CataQuestFixes.Load()
         [28734] = { -- A Favor for Melithar
             [questKeys.exclusiveTo] = {28715},
             [questKeys.nextQuestInChain] = 28715,
+        },
+        [28768] = { -- Winterspring!
+            [questKeys.exclusiveTo] = {28524,28544,28545},
         },
         [28805] = { -- The Eye of the Storm
             [questKeys.objectives] = {nil,{{197196}}},
