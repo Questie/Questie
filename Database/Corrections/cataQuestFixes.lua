@@ -1691,6 +1691,7 @@ function CataQuestFixes.Load()
         },
         [28523] = { -- More Beads for Salfa
             [questKeys.preQuestSingle] = {28522},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [28524] = { -- Delivery for Donova
             [questKeys.exclusiveTo] = {28544,28545,28460,28768},
