@@ -261,12 +261,12 @@ describe("QuestieReputation", function()
         it("should return DB value for unknown difficulty when Questie.IsCata is true", function()
             Questie.IsCata = true
             QuestieDB.QueryQuestSingle = spy.new(function()
-                return {{909, 10}}
+                return {{909, 99}}
             end)
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 10}}, reputationReward)
+            assert.are.same({{909, 99}}, reputationReward)
         end)
 
         it("should return -10 as reward value for difficulty -1 when Questie.IsCata is true", function()
