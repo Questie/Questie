@@ -457,6 +457,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90286] = 3, -- Shaman Static Shock
     [90287] = 3, -- Shaman Mental Dexterity
     [90288] = 3, -- Priest Pain and Suffering
+    [90289] = 3, -- Warrior Taste for Blood
 }
 
 --- "automatic" phase detection for the first few phases;
