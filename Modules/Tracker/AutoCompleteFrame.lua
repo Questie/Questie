@@ -11,7 +11,6 @@ function AutoCompleteFrame.Initialize(baseFrame)
 
     autoCompleteFrame:SetWidth(200)
     autoCompleteFrame:SetHeight(45)
-    autoCompleteFrame:SetPoint("TOPLEFT", "Questie_BaseFrame", -200, 0)
     autoCompleteFrame:SetBackdrop({
         bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
         edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
@@ -57,6 +56,19 @@ function AutoCompleteFrame.ShowAutoComplete(questId)
     local questTitle = GetQuestLogTitle(GetQuestLogIndexByID(questId))
     autoCompleteFrame.questTitle:SetText(questTitle)
     autoCompleteFrame.questId = questId
+
+    -- Check if xOfs is of the right side of the screen
+    local _, _, _, xOfs, _ = Questie_BaseFrame:GetPoint()
+    local screenWidth = GetScreenWidth() * UIParent:GetEffectiveScale()
+    local isTrackerOnTheRight = xOfs > (screenWidth / 2)
+
+    autoCompleteFrame:ClearAllPoints()
+    if isTrackerOnTheRight  then
+        autoCompleteFrame:SetPoint("TOPLEFT", "Questie_BaseFrame", -200, 0)
+    else
+        autoCompleteFrame:SetPoint("TOPRIGHT", "Questie_BaseFrame", 200, 0)
+    end
+
     autoCompleteFrame:Show()
 end
 
