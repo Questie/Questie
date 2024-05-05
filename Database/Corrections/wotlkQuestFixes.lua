@@ -5247,7 +5247,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13927},
         },
         [13955] = {
-            [questKeys.triggerEnd] = {"Keken taken to visit Alexstrasza the Life-Binder", {[zoneIDs.DRAGONBLIGHT]={{59.8,54.5}}}}, -- wolvar orphan
+            [questKeys.objectives] = {{{26917,"Keken taken to visit Alexstrasza the Life-Binder",Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestGroup] = {13930,13934,13951},
             [questKeys.exclusiveTo] = {13926},
         },
@@ -5258,7 +5258,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13927},
         },
         [13957] = {
-            [questKeys.triggerEnd] = {"Keken taken to visit Hemet Nesingwary", {[zoneIDs.SHOLAZAR_BASIN]={{27.1,58.8}}}}, -- wolvar orphan
+            [questKeys.objectives] = {{{27986,"Keken taken to visit Hemet Nesingwary",Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestGroup] = {13930,13934,13951},
             [questKeys.exclusiveTo] = {13926},
         },

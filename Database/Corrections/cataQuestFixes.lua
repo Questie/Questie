@@ -352,6 +352,9 @@ function CataQuestFixes.Load()
         [13937] = { -- A Trip To The Wonderworks
             [questKeys.preQuestSingle] = {},
         },
+        [13938] = { -- A Trip To The Wonderworks
+            [questKeys.preQuestSingle] = {},
+        },
         [13945] = { -- Resident Danger
             [questKeys.preQuestSingle] = {476},
         },
@@ -361,7 +364,13 @@ function CataQuestFixes.Load()
         [13954] = { -- The Dragon Queen
             [questKeys.preQuestSingle] = {},
         },
+        [13955] = { -- The Dragon Queen
+            [questKeys.preQuestSingle] = {},
+        },
         [13956] = { -- Meeting a Great One
+            [questKeys.preQuestSingle] = {},
+        },
+        [13957] = { -- The Mighty Hemet Nesingwary
             [questKeys.preQuestSingle] = {},
         },
         [13961] = { -- Drag it Out of Them
