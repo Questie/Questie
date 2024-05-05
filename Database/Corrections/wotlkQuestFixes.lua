@@ -5221,6 +5221,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13954,13956},
             [questKeys.nextQuestInChain] = 13959,
             [questKeys.exclusiveTo] = {13927},
+            [questKeys.requiredSourceItems] = {46397,46693},
         },
         [13938] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Buy a Small Paper Zeppelin"), 0, {{"monster", 29478}}}},
@@ -5228,6 +5229,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13955,13957},
             [questKeys.nextQuestInChain] = 13960,
             [questKeys.exclusiveTo] = {13926},
+            [questKeys.requiredSourceItems] = {46396,46693},
         },
         [13950] = {
             [questKeys.triggerEnd] = {"Roo taken to visit Winterfin Retreat", {[zoneIDs.BOREAN_TUNDRA]={{43.5,13.6}}}}, -- oracle orphan
@@ -5240,7 +5242,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13926},
         },
         [13954] = {
-            [questKeys.triggerEnd] = {"Roo taken to visit Alexstrasza the Life-Binder", {[zoneIDs.DRAGONBLIGHT]={{59.8,54.5}}}}, -- oracle orphan
+            [questKeys.objectives] = {{{26917,"Roo taken to visit Alexstrasza the Life-Binder",Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestGroup] = {13929,13933,13950},
             [questKeys.exclusiveTo] = {13927},
         },
@@ -5250,7 +5252,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13926},
         },
         [13956] = {
-            [questKeys.triggerEnd] = {"Roo taken to visit The Etymidian", {[zoneIDs.UN_GORO_CRATER]={{47.38,9.21}}}}, -- oracle orphan
+            [questKeys.objectives] = {{{28092,"Roo taken to visit The Etymidian",Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{40.3,83.3}}}, Questie.ICON_TYPE_EVENT, l10n("Use the waygate to teleport to Un'goro Crater")}},
             [questKeys.preQuestGroup] = {13929,13933,13950},
             [questKeys.exclusiveTo] = {13927},

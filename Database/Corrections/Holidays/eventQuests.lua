@@ -838,8 +838,8 @@ tinsert(eventQuests, {"Lunar Festival", 29742}) -- Menkhaf the Elder
 
 tinsert(eventQuests, {"Love is in the Air", 28935}) -- Crushing the Crown
 
-tinsert(eventQuests, {"Children's Week", 28879}) -- Back To The Orphanage
-tinsert(eventQuests, {"Children's Week", 28880}) -- Back To The Orphanage
+--tinsert(eventQuests, {"Children's Week", 28879}) -- Back To The Orphanage -- not available yet in children's week 2024
+--tinsert(eventQuests, {"Children's Week", 28880}) -- Back To The Orphanage -- not available yet in children's week 2024
 tinsert(eventQuests, {"Children's Week", 29093}) -- Cruisin' the Chasm
 tinsert(eventQuests, {"Children's Week", 29106}) -- The Biggest Diamond Ever!
 tinsert(eventQuests, {"Children's Week", 29107}) -- Malfurion Has Returned!

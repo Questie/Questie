@@ -343,11 +343,26 @@ function CataQuestFixes.Load()
         [13881] = { -- Consumed
             [questKeys.triggerEnd] = {"Watering Hole Investigated", {[zoneIDs.DARKSHORE]={{45,79.1}}}},
         },
+        [13926] = { -- Little Orphan Roo Of The Oracles
+            [questKeys.exclusiveTo] = {13927},
+        },
+        [13927] = { -- Little Orphan Kekek Of The Wolvar
+            [questKeys.exclusiveTo] = {13926},
+        },
+        [13937] = { -- A Trip To The Wonderworks
+            [questKeys.preQuestSingle] = {},
+        },
         [13945] = { -- Resident Danger
             [questKeys.preQuestSingle] = {476},
         },
         [13946] = { -- Nature's Reprisal
             [questKeys.preQuestSingle] = {489},
+        },
+        [13954] = { -- The Dragon Queen
+            [questKeys.preQuestSingle] = {},
+        },
+        [13956] = { -- Meeting a Great One
+            [questKeys.preQuestSingle] = {},
         },
         [13961] = { -- Drag it Out of Them
             [questKeys.triggerEnd] = {"Razormane Prisoner Delivered", {[zoneIDs.THE_BARRENS]={{56.4,40.3}}}},

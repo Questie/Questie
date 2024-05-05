@@ -34,8 +34,14 @@ function CataNpcFixes.Load()
         [22819] = { -- Orphan Matron Mercy
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{75.07,47.88}}},
         },
+        [28092] = { -- The Etymidian
+            [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{47.38,9.21}}},
+        },
         [32959] = { -- Cerellean Whiteclaw
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{50.8,18.0},{50.13,19.46}}},
+        },
+        [34365] = { -- Orphan Matron Aria
+            [npcKeys.spawns] = {[zoneIDs.DALARAN]={{49.36,63.26}}},
         },
         [34571] = { -- Gwen Armstead
             [npcKeys.spawns] = {
