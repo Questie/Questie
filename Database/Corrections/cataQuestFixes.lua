@@ -1135,6 +1135,8 @@ function CataQuestFixes.Load()
         },
         [26557] = { -- A Staggering Effort
             [questKeys.exclusiveTo] = {26572,26543,26556,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
+            [questKeys.requiredSourceItems] = {58949},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{47.1,46.3}}}, Questie.ICON_TYPE_EVENT, l10n("Attach a Stag Eye to your Fishing Pole and fish for Sandy Carp")}},
         },
         [26572] = { -- A Golden Opportunity
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
