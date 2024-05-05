@@ -1696,6 +1696,9 @@ function CataQuestFixes.Load()
         [28524] = { -- Delivery for Donova
             [questKeys.exclusiveTo] = {28544,28545,28460,28768},
         },
+        [28530] = { -- Scalding Signs
+            [questKeys.preQuestSingle] = {28467},
+        },
         [28544] = { -- Hero's Call: Winterspring!
             [questKeys.exclusiveTo] = {28524,28545,28460,28768},
         },
