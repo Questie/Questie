@@ -203,6 +203,18 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10945,10951,10953},
         },
+        [12563] = { -- Troll Patrol
+            [questKeys.startedBy] = {},
+        },
+        [12587] = { -- Troll Patrol
+            [questKeys.startedBy] = {},
+        },
+        [12601] = { -- The Alchemist's Apprentice
+            [questKeys.startedBy] = {},
+        },
+        [12602] = { -- The Alchemist's Apprentice
+            [questKeys.startedBy] = {},
+        },
         [13189] = { -- Warchief's Blessing
             [questKeys.finishedBy] = {{39605}},
         },
