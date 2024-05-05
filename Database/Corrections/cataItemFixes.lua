@@ -208,6 +208,9 @@ function CataItemFixes.Load()
         [54463] = { -- Flameseer's Staff
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [54745] = { -- Nemesis Shell Fragment
+            [itemKeys.npcDrops] = {40340},
+        },
         [54788] = { -- Twilight Pick
             [itemKeys.class] = itemClasses.QUEST,
         },
