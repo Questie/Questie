@@ -1624,6 +1624,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28112},
             [questKeys.exclusiveTo] = {27141},
         },
+        [27994] = { -- Ruumbo Demands Justice
+            [questKeys.preQuestSingle] = {28100},
+        },
         [27955] = { -- Eye Spy
             [questKeys.objectives] = {{{47274}}},
         },
