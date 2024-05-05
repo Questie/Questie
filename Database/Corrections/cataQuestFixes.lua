@@ -963,6 +963,9 @@ function CataQuestFixes.Load()
         [25715] = { -- A Closer Look
             [questKeys.triggerEnd] = {"Scout the ships on the Shattershore", {[zoneIDs.BLASTED_LANDS]={{69,32.7}}}},
         },
+        [25807] = { -- An Ancient Reborn
+            [questKeys.objectives] = {{{41300}}},
+        },
         [25830] = { -- The Last Living Lorekeeper
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25520,25611,25807},
