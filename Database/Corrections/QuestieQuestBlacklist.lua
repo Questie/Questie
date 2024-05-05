@@ -601,6 +601,7 @@ function QuestieQuestBlacklist:Load()
         [12409] = true,
         [12420] = true,
         [12421] = true,
+        [13158] = QuestieCorrections.CATA_ONLY, -- replaced in Cata with 29829
         ----------------
         --- Wotlk event quests
         --- Noblegarden
