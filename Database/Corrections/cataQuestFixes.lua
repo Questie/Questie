@@ -576,6 +576,9 @@ function CataQuestFixes.Load()
         [14400] = { -- I Can't Wear This
             [questKeys.exclusiveTo] = {},
         },
+        [14461] = { -- Feed of Evil
+            [questKeys.preQuestSingle] = {14455,14456},
+        },
         [14473] = { -- It's Our Problem Now
             [questKeys.preQuestSingle] = {14001},
         },
