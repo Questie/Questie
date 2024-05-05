@@ -576,6 +576,9 @@ function CataQuestFixes.Load()
         [14400] = { -- I Can't Wear This
             [questKeys.exclusiveTo] = {},
         },
+        [14460] = { -- Rite of Honor
+            [questKeys.preQuestGroup] = {14459,14461},
+        },
         [14461] = { -- Feed of Evil
             [questKeys.preQuestSingle] = {14455,14456},
         },
