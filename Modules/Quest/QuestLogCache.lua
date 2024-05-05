@@ -80,7 +80,7 @@ QuestLogCache.questLog_DO_NOT_MODIFY = cache
 
 ---@param questId QuestId
 ---@param oldObjectives QuestLogCacheObjectiveData[]
----@param isCompleteAccordingToBlizzard number @ -1 = failed, 0 = not complete, 1 = complete
+---@param isCompleteAccordingToBlizzard number @ -1 = failed, nil = not complete, 1 = complete
 ---@return table? newObjectives, ObjectiveIndex[] changedObjIds, isComplete @nil == cache miss in both addon and game caches. table {} == no objectives.
 local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBlizzard)
     local newObjectives = {} -- creating a fresh one to be able revert to old easily in case of missing data
@@ -98,6 +98,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                 if oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.raw_text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
                     -- Not changed
                     newObjectives[objIndex] = oldObj
+                    allObjectivesFinished = allObjectivesFinished and oldObj.finished -- if any objective is not finished, whole quest is not complete
                 else
                     -- objective has changed, add it to list of change ones
                     if (not changedObjIds) then
@@ -134,6 +135,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                 -- Extremely unlikely that the objective has changed from cached version as a change SHOULD trigger fetching data into game cache.
                 -- Possible bug point if there comes desync issues.
                 newObjectives[objIndex] = oldObj
+                allObjectivesFinished = allObjectivesFinished and oldObj.finished -- if any objective is not finished, whole quest is not complete
             else
                 Questie:Debug(Questie.DEBUG_INFO, "[GetNewObjectives] \"WARNING\" objective not in game's cache nor addon's cache. questID, objIndex:", questId, objIndex)
                 -- Objective has been never cached
@@ -145,7 +147,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
     end
 
     local isComplete = isCompleteAccordingToBlizzard
-    if (not isCompleteAccordingToBlizzard) or isCompleteAccordingToBlizzard == 0 then
+    if (not isCompleteAccordingToBlizzard) then
         -- if quest is not complete, check if all objectives are finished.
         -- Blizzard keeps adding invalid empty objectives to quests and therefore not marking them as complete, so we need to work around that.
         isComplete = allObjectivesFinished and 1 or 0
