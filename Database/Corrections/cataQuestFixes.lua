@@ -1612,6 +1612,9 @@ function CataQuestFixes.Load()
         [27969] = { -- Make Yourself Useful
             [questKeys.objectives] = {{{47292}}},
         },
+        [27989] = { -- Ruumbo Demands Honey
+            [questKeys.preQuestSingle] = {28100},
+        },
         [27990] = { -- Battlezone
             [questKeys.objectives] = {{{47385},{47940}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Man the Siege Tank"), 0, {{"monster", 47732}}}},
