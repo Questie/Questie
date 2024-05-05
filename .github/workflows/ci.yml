@@ -43,6 +43,12 @@ jobs:
         uses: lunarmodules/busted@v2.2.0
         with:
           args: -p ".test.lua" .
+      - name: Send CI failure to Discord
+        uses: nebularg/actions-discord-webhook@v1
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+        if: ${{ failure() }}
 
   validate-era-db:
     needs: unit-tests
