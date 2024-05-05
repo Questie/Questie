@@ -80,6 +80,8 @@ local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes"
     https://github.com/Questie/Questie/wiki/Corrections
 --]]
 
+-- TODO: USE BITMASKS!!!!!!!!!!!!!!!!!!!
+
 -- flags that can be used in corrections (currently only blacklists)
 QuestieCorrections.TBC_ONLY = 1 -- Hide only in TBC
 QuestieCorrections.CLASSIC_ONLY = 2 -- Hide only in Classic
@@ -90,7 +92,6 @@ QuestieCorrections.HIDE_SOD = 6 -- Hide when Season of Discovery; use to hide qu
 QuestieCorrections.CLASSIC_AND_TBC = 7 -- Hide in both Classic and TBC
 QuestieCorrections.CATA_ONLY = 8 -- Hide only in Cata
 QuestieCorrections.WOTLK_AND_CATA = 9 -- Hide in both Wotlk and Cata
-QuestieCorrections.TBC_AND_WOTLK_AND_CATA = 10 -- Hide in both Wotlk and Cata and TBC
 
 QuestieCorrections.killCreditObjectiveFirst = {}
 QuestieCorrections.objectObjectiveFirst = {}
@@ -156,12 +157,6 @@ local function filterExpansion(values)
             end
         elseif v == QuestieCorrections.WOTLK_AND_CATA then
             if isWotlk or isCata then
-                values[k] = true
-            else
-                values[k] = nil
-            end
-        elseif v == QuestieCorrections.TBC_AND_WOTLK_AND_CATA then
-            if isTBC or isWotlk or isCata then
                 values[k] = true
             else
                 values[k] = nil
