@@ -1693,6 +1693,9 @@ function CataQuestFixes.Load()
         [28501] = { -- The Defense of Nahom
             [questKeys.objectives] = {{{49228}}},
         },
+        [28521] = { -- Speak to Salfa
+            [questKeys.preQuestGroup] = {28362,28364,28338,28366},
+        },
         [28523] = { -- More Beads for Salfa
             [questKeys.preQuestSingle] = {28522},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
