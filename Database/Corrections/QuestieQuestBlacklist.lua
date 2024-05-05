@@ -326,6 +326,7 @@ function QuestieQuestBlacklist:Load()
         [11242] = true,
         [11318] = true,
         [11320] = true,
+        [11321] = true,
         [11356] = true,
         [11357] = true,
         [11360] = true,
