@@ -24,6 +24,7 @@ function CataQuestFixes.Load()
     local raceKeys = QuestieDB.raceKeys
     local classKeys = QuestieDB.classKeys
     local profKeys = QuestieProfessions.professionKeys
+    local factionIDs = QuestieDB.factionIDs
     local zoneIDs = ZoneDB.zoneIDs
     local specialFlags = QuestieDB.specialFlags
 
@@ -92,6 +93,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {29190,29191},
             [questKeys.zoneOrSort] = -378,
             [questKeys.finishedBy] = {{51989}},
+        },
+        [6031] = { -- Runecloth
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
         },
         [7383] = { -- Teldrassil: The Burden of the Kaldorei
             [questKeys.preQuestSingle] = {},
@@ -1614,6 +1618,7 @@ function CataQuestFixes.Load()
         },
         [27989] = { -- Ruumbo Demands Honey
             [questKeys.preQuestSingle] = {28100},
+            [questKeys.reputationReward] = {},
         },
         [27990] = { -- Battlezone
             [questKeys.objectives] = {{{47385},{47940}}},
@@ -1626,10 +1631,12 @@ function CataQuestFixes.Load()
         },
         [27994] = { -- Ruumbo Demands Justice
             [questKeys.preQuestSingle] = {28100},
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
         },
         [27995] = { -- Dance for Ruumbo!
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Ruumbo's Secret Discovered",{[zoneIDs.FELWOOD]={{51.5,83.7}}}},
+            [questKeys.reputationReward] = {},
         },
         [27955] = { -- Eye Spy
             [questKeys.objectives] = {{{47274}}},
@@ -1654,6 +1661,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount the Skeletal Steed"), 0, {{"monster", 47445}}}},
         },
+        [28100] = { -- A Talking Totem
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 12}},
+        },
         [28134] = { -- Impending Retribution
             [questKeys.objectives] = {{{46603},{47715},{47930}}}
         },
@@ -1675,6 +1685,7 @@ function CataQuestFixes.Load()
         },
         [28338] = { -- Deadwood of the North
             [questKeys.preQuestSingle] = {},
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
         },
         [28343] = { -- The Breath of Cenarius
             [questKeys.preQuestSingle] = {},
@@ -1685,8 +1696,25 @@ function CataQuestFixes.Load()
         [28352] = { -- Camelraderie
             [questKeys.objectives] = {{{51193}}},
         },
+        [28362] = { -- Stupid Drizle!
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
+        },
+        [28364] = { -- The Chieftain's Key
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
+        },
+        [28366] = { -- Disarming Bears
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
+        },
         [28376] = { -- Myzerian's Head
             [questKeys.startedBy] = {{48428},nil,{63700}},
+        },
+        [28395] = { -- Feathers for Nafien
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 11}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [28396] = { -- Feathers for Grazle
+            [questKeys.preQuestSingle] = {27995},
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 11}},
         },
         [28403] = { -- Bad Datas
             [questKeys.triggerEnd] = {"Titan Data Uploaded",{[zoneIDs.ULDUM]={{36.18,23.25}}}},
@@ -1694,10 +1722,18 @@ function CataQuestFixes.Load()
         },
         [28460] = { -- Threat of the Winterfall
             [questKeys.preQuestSingle] = {},
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
+        },
+        [28469] = { -- Winterfall Runners
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
+        },
+        [28470] = { -- High Chief Winterfall
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 11}},
         },
         [28471] = { -- The Final Piece
             [questKeys.startedBy] = {{10738},nil,{12842}},
             [questKeys.preQuestSingle] = {28470},
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
         },
         [28486] = { -- Salhet's Gambit
             [questKeys.triggerEnd] = {"Higher ground secured", {[zoneIDs.ULDUM]={{54.,71.1}}}},
@@ -1712,6 +1748,7 @@ function CataQuestFixes.Load()
         },
         [28523] = { -- More Beads for Salfa
             [questKeys.preQuestSingle] = {28522},
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 11}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [28524] = { -- Delivery for Donova
@@ -1719,6 +1756,7 @@ function CataQuestFixes.Load()
         },
         [28530] = { -- Scalding Signs
             [questKeys.preQuestSingle] = {28467},
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
         },
         [28544] = { -- Hero's Call: Winterspring!
             [questKeys.exclusiveTo] = {28524,28545,28460,28768},

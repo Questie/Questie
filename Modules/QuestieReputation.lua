@@ -129,6 +129,10 @@ local reputationRewards = {
     [7] = 500,
     [8] = 1000,
     [9] = 5,
+    -- Somehow quests also reward different values than the DBC lists :shrug:
+    [10] = 1400,
+    [11] = 2000,
+    [12] = 300,
 }
 
 ---@param questId QuestId
