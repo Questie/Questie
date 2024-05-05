@@ -107,6 +107,9 @@ function CataQuestFixes.Load()
         [7783] = { -- The Lord of Blackrock
             [questKeys.finishedBy] = {{39605}},
         },
+        [8481] = { -- The Root of All Evil
+            [questKeys.objectives] = {nil,nil,{{21145}},{576,42000}},
+        },
         [9616] = { -- Bandits!
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },

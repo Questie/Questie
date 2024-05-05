@@ -15,6 +15,9 @@ function CataItemFixes.Load()
         [18598] = { -- Human Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [21145] = { -- Essence of Xandivious
+            [itemKeys.npcDrops] = {},
+        },
         [31880] = { -- Blood Elf Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },

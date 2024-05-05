@@ -39,6 +39,9 @@ function CataNpcFixes.Load()
         [14444] = { -- Orcish Orphan
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{58.18,57.5}}},
         },
+        [15623] = { -- Xandivious
+            [npcKeys.spawns] = {},
+        },
         [22819] = { -- Orphan Matron Mercy
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{75.07,47.88}}},
         },
