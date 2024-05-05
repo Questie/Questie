@@ -130,14 +130,32 @@ function CataQuestFixes.Load()
         [10073] = { -- Corruption
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{348}}},
         },
+        [10942] = { -- Children's Week
+            [questKeys.zoneOrSort] = -378,
+            [questKeys.startedBy] = {{22819}},
+        },
         [10943] = { -- Children's Week
             [questKeys.zoneOrSort] = -378,
+        },
+        [10945] = { -- Hch'uu and the Mushroom People
+            [questKeys.zoneOrSort] = -378,
+            [questKeys.startedBy] = {{22817}},
         },
         [10950] = { -- Auchindoun and the Ring of Observance
             [questKeys.zoneOrSort] = -378,
         },
+        [10951] = { -- A Trip to the Dark Portal
+            [questKeys.zoneOrSort] = -378,
+            [questKeys.triggerEnd] = {"Salandria taken to the Dark Portal", {[zoneIDs.HELLFIRE_PENINSULA]={{89.1,50.23}}}},
+        },
         [10952] = { -- A Trip to the Dark Portal
             [questKeys.zoneOrSort] = -378,
+            [questKeys.triggerEnd] = {"Dornaa taken to the Dark Portal", {[zoneIDs.HELLFIRE_PENINSULA]={{89.1,50.23}}}},
+        },
+        [10953] = { -- Visit the Throne of the Elements
+            [questKeys.zoneOrSort] = -378,
+            [questKeys.triggerEnd] = {"Salandria taken to the Throne of the Elements", {[zoneIDs.NAGRAND]={{60.65,22.38}}}},
+            [questKeys.startedBy] = {{22817}},
         },
         [10954] = { -- Jheel is at Aeris Landing!
             [questKeys.zoneOrSort] = -378,
@@ -153,8 +171,19 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {10950,10952,10954},
             [questKeys.triggerEnd] = {"Dornaa taken to the Caverns of Time", {[zoneIDs.TANARIS]={{60.02,57.32}}}},
         },
+        [10963] = { -- Time to Visit the Caverns
+            [questKeys.zoneOrSort] = -378,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10945,10951,10953},
+            [questKeys.triggerEnd] = {"Salandria taken to the Caverns of Time", {[zoneIDs.TANARIS]={{60.02,57.32}}}},
+        },
         [10966] = { -- Back to the Orphanage
             [questKeys.zoneOrSort] = -378,
+        },
+        [10967] = { -- Back to the Orphanage
+            [questKeys.zoneOrSort] = -378,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10963,11975},
         },
         [10968] = { -- Call on the Farseer
             [questKeys.zoneOrSort] = -378,
@@ -168,6 +197,11 @@ function CataQuestFixes.Load()
         },
         [11724] = { -- Massive Moth Omelet?
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [11975] = { -- Now, When I Grow Up...
+            [questKeys.zoneOrSort] = -378,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10945,10951,10953},
         },
         [13189] = { -- Warchief's Blessing
             [questKeys.finishedBy] = {{39605}},

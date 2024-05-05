@@ -31,6 +31,9 @@ function CataNpcFixes.Load()
         [14444] = { -- Orcish Orphan
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{58.18,57.5}}},
         },
+        [22819] = { -- Orphan Matron Mercy
+            [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{75.07,47.88}}},
+        },
         [32959] = { -- Cerellean Whiteclaw
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{50.8,18.0},{50.13,19.46}}},
         },
