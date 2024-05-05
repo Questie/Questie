@@ -876,9 +876,6 @@ function CataQuestFixes.Load()
         [25715] = { -- A Closer Look
             [questKeys.triggerEnd] = {"Scout the ships on the Shattershore", {[zoneIDs.BLASTED_LANDS]={{69,32.7}}}},
         },
-        [27517] = { -- Be Prepared
-            [questKeys.objectives] = {nil,nil,{{61321}}},
-        },
         [25830] = { -- The Last Living Lorekeeper
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25520,25611,25807},
@@ -1377,6 +1374,9 @@ function CataQuestFixes.Load()
         [27506] = { -- Life from Death
             [questKeys.preQuestSingle] = {27504},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{45788,45746},45788,"Dragonkin corpse reclaimed"}}},
+        },
+        [27517] = { -- Be Prepared
+            [questKeys.objectives] = {nil,nil,{{61321}}},
         },
         [27583] = { -- The Northern Flank
             [questKeys.preQuestSingle] = {26840},
