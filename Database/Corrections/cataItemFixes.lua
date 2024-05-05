@@ -259,6 +259,9 @@ function CataItemFixes.Load()
         [57175] = { -- Canal Crab
             [itemKeys.npcDrops] = {42339},
         },
+        [57765] = { -- Muddy Crawfish
+            [itemKeys.npcDrops] = {42548},
+        },
         [57766] = { -- Prickly Pear Fruit
             [itemKeys.npcDrops] = {},
         },
