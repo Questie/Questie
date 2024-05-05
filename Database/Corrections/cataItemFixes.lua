@@ -256,6 +256,9 @@ function CataItemFixes.Load()
         [56820] = { -- Hammerhead Oil
             [itemKeys.npcDrops] = {42113},
         },
+        [57175] = { -- Canal Crab
+            [itemKeys.npcDrops] = {42339},
+        },
         [57766] = { -- Prickly Pear Fruit
             [itemKeys.npcDrops] = {},
         },
