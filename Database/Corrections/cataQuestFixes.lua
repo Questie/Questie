@@ -1627,6 +1627,10 @@ function CataQuestFixes.Load()
         [27994] = { -- Ruumbo Demands Justice
             [questKeys.preQuestSingle] = {28100},
         },
+        [27995] = { -- Dance for Ruumbo!
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Ruumbo's Secret Discovered",{[zoneIDs.FELWOOD]={{51.5,83.7}}}},
+        },
         [27955] = { -- Eye Spy
             [questKeys.objectives] = {{{47274}}},
         },
