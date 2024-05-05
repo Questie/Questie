@@ -6637,6 +6637,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {25286},
             [questKeys.nextQuestInChain] = 25287,
         },
+        [26012] = { -- Trouble at Wyrmrest
+            [questKeys.exclusiveTo] = {26013},
+        },
+        [26013] = { -- Assault on the Sanctum
+            [questKeys.preQuestSingle] = {},
+        },
         [26034] = {
             [questKeys.preQuestSingle] = {26013},
         },
