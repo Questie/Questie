@@ -1181,6 +1181,21 @@ function CataQuestFixes.Load()
         [26337] = { -- Beating the Market
             [questKeys.objectives] = {{{42777}}},
         },
+        [26353] = { -- Captain Sanders' Hidden Treasure
+            [questKeys.finishedBy] = {nil,{35}},
+        },
+        [26354] = { -- Captain Sanders' Hidden Treasure
+            [questKeys.startedBy] = {{35}},
+            [questKeys.finishedBy] = {nil,{36}},
+        },
+        [26355] = { -- Captain Sanders' Hidden Treasure
+            [questKeys.startedBy] = {{36}},
+            [questKeys.finishedBy] = {nil,{34}},
+        },
+        [26356] = { -- Captain Sanders' Hidden Treasure
+            [questKeys.startedBy] = {{34}},
+            [questKeys.finishedBy] = {nil,{33}},
+        },
         [26358] = { -- Ready the Air Force
             [questKeys.preQuestSingle] = {26324},
         },
