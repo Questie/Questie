@@ -1946,6 +1946,7 @@ function CataQuestFixes.Load()
         },
         [29318] = { -- Ribs for the Sentinels
             [questKeys.objectives] = {{{4262,"Feed Ribs to Sentinels",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredSourceItems] = {69906},
         },
         [29319] = { -- Tadpole Terror
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29317,29320,29361,29322},
