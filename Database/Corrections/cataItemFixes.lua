@@ -373,6 +373,9 @@ function CataItemFixes.Load()
         [69815] = { -- Seething Cinder
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [69915] = { -- Baby Octopus
+            [itemKeys.npcDrops] = {53522},
+        },
         [70928] = { -- Gift Receipt
             [itemKeys.class] = itemClasses.QUEST,
         },

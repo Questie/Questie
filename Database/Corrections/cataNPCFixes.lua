@@ -116,7 +116,7 @@ function CataNpcFixes.Load()
                 },
             },
         },
-        [36452] = {
+        [36452] = { -- Gwen Armstead
             [npcKeys.spawns] = {
                 [zoneIDs.GILNEAS] = {
                     {37.63,65.23,phases.GILNEAS_CHAPTER_7},
