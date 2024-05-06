@@ -376,6 +376,18 @@ function CataItemFixes.Load()
         [69915] = { -- Baby Octopus
             [itemKeys.npcDrops] = {53522},
         },
+        [70000] = { -- Succulent Sweet Potatoes
+            [itemKeys.objectDrops] = {208887},
+        },
+        [70001] = { -- Savory Spices
+            [itemKeys.objectDrops] = {208888},
+        },
+        [70002] = { -- Fresh-Caught Fish
+            [itemKeys.objectDrops] = {208889},
+        },
+        [70003] = { -- Fresh-Hunted Fowl
+            [itemKeys.objectDrops] = {208890},
+        },
         [70928] = { -- Gift Receipt
             [itemKeys.class] = itemClasses.QUEST,
         },
