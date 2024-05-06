@@ -119,6 +119,13 @@ function CataQuestFixes.Load()
         [9813] = { -- Meeting the Warchief
             [questKeys.finishedBy] = {{39605}},
         },
+        [9871] = { -- Murkblood Invaders
+            [questKeys.startedBy] = {{18238},nil,{24559}},
+        },
+        [9872] = { -- Murkblood Invaders
+            [questKeys.startedBy] = {{18238},nil,{24558}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [10068] = { -- Frost Nova
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{5143}}},
         },
