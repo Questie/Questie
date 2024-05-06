@@ -1,5 +1,7 @@
 dofile("Modules/Libs/QuestieLoader.lua")
 
+local EMTPY_FUNC = function() end
+
 _G.bit = {band = function() return 0 end}
 _G.GetTime = function() return 0 end
 
@@ -11,7 +13,7 @@ _G.UIParent = {GetEffectiveScale = function() return 1 end}
 _G.C_QuestLog = {IsQuestFlaggedCompleted = function() return false end}
 _G.GetQuestLogTitle = function() return "Test Quest" end
 _G.GetQuestLogIndexByID = function() return 1 end
-_G.ExpandFactionHeader = function() end
+_G.ExpandFactionHeader = EMTPY_FUNC
 _G.IsInGroup = function() return false end
 _G.UnitInParty = function() return false end
 _G.UnitInRaid = function() return false end
@@ -30,33 +32,33 @@ _G.CreateFrame = {
 setmetatable(_G.CreateFrame, {
     __call = function()
         local mockFrame = {
-            ClearAllPoints = function() end,
-            SetScript = function() end,
-            SetWidth = function() end,
-            SetHeight = function() end,
-            SetSize = function() end,
-            SetAlpha = function() end,
-            SetBackdrop = function() end,
-            SetBackdropColor = function() end,
-            SetBackdropBorderColor = function() end,
-            SetPoint = function() end,
-            GetPoint = function() end,
+            ClearAllPoints = EMTPY_FUNC,
+            SetScript = EMTPY_FUNC,
+            SetWidth = EMTPY_FUNC,
+            SetHeight = EMTPY_FUNC,
+            SetSize = EMTPY_FUNC,
+            SetAlpha = EMTPY_FUNC,
+            SetBackdrop = EMTPY_FUNC,
+            SetBackdropColor = EMTPY_FUNC,
+            SetBackdropBorderColor = EMTPY_FUNC,
+            SetPoint = EMTPY_FUNC,
+            GetPoint = EMTPY_FUNC,
             CreateFontString = function()
                 return {
-                    SetText = function() end,
-                    SetPoint = function() end,
-                    SetFont = function() end,
+                    SetText = EMTPY_FUNC,
+                    SetPoint = EMTPY_FUNC,
+                    SetFont = EMTPY_FUNC,
                 }
             end,
             CreateTexture = function()
                 return {
-                    SetTexture = function() end,
-                    SetSize = function() end,
-                    SetPoint = function() end
+                    SetTexture = EMTPY_FUNC,
+                    SetSize = EMTPY_FUNC,
+                    SetPoint = EMTPY_FUNC
                 }
             end,
-            Show = function() end,
-            Hide = function() end,
+            Show = EMTPY_FUNC,
+            Hide = EMTPY_FUNC,
         }
         table.insert(mockedFrames, mockFrame)
         return mockFrame
@@ -74,7 +76,7 @@ _G["Questie"] = {
         char = {},
         profile = {},
     },
-    Debug = function() end,
+    Debug = EMTPY_FUNC,
     icons = {},
 }
 
