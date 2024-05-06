@@ -594,7 +594,7 @@ function CataQuestFixes.Load()
         [14482] = { -- Call of Duty
             [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{18.3,25.5}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for the Mercenary Ship to arrive")}},
         },
-        [24429] = {
+        [24429] = { -- A Most Puzzling Circumstance
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [24438] = { -- Exodus
