@@ -883,6 +883,7 @@ function CataQuestFixes.Load()
         },
         [25354] = { -- Sweeping the Shelf
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.preQuestSingle] = {25277},
         },
         [25370] = { -- Inciting the Elements
             [questKeys.requiredSourceItems] = {53009},
