@@ -931,6 +931,9 @@ function CataQuestFixes.Load()
         [25477] = { -- Better Late Than Dead
             [questKeys.objectives] = {{{40223}}},
         },
+        [25575] = { -- Forged of Shadow and Flame
+            [questKeys.objectives] = {nil,{{203066}}},
+        },
         [25577] = { -- Crushing the Cores
             [questKeys.requiredSourceItems] = {55123},
         },
