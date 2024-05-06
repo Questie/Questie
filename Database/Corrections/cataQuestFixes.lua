@@ -837,6 +837,9 @@ function CataQuestFixes.Load()
         [25220] = { -- Slippery Threat
             [questKeys.preQuestSingle] = {25222},
         },
+        [25233] = { -- End of the Supply Line
+            [questKeys.preQuestSingle] = {25584},
+        },
         [25234] = { -- In the Rear With the Gear
             [questKeys.preQuestSingle] = {25584},
         },
