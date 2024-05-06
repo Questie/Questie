@@ -3,10 +3,14 @@ local AutoCompleteFrame = QuestieLoader:CreateModule("AutoCompleteFrame")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
+local MARGIN = 200
+
 local autoCompleteFrame
+local trackerBaseFrame
 
 ---@param baseFrame table @The Tracker base frame
 function AutoCompleteFrame.Initialize(baseFrame)
+    trackerBaseFrame = baseFrame
     autoCompleteFrame = CreateFrame("Button", "Questie_AutoComplete_Frame", baseFrame, BackdropTemplateMixin and "BackdropTemplate")
 
     autoCompleteFrame:SetWidth(200)
@@ -57,16 +61,19 @@ function AutoCompleteFrame.ShowAutoComplete(questId)
     autoCompleteFrame.questTitle:SetText(questTitle)
     autoCompleteFrame.questId = questId
 
-    -- Check if xOfs is of the right side of the screen
-    local _, _, _, xOfs, _ = Questie_BaseFrame:GetPoint()
-    local screenWidth = GetScreenWidth() * UIParent:GetEffectiveScale()
-    local isTrackerOnTheRight = xOfs > (screenWidth / 2)
+    local anchor, _, _, xOfs, _ = trackerBaseFrame:GetPoint()
+    local screenCenter = (GetScreenWidth() * UIParent:GetEffectiveScale()) / 2
+
+    local isTrackerOnTheRight = xOfs > screenCenter
+    if anchor == "BOTTOMRIGHT" or anchor == "TOPRIGHT" then
+        isTrackerOnTheRight = xOfs > -screenCenter
+    end
 
     autoCompleteFrame:ClearAllPoints()
-    if isTrackerOnTheRight  then
-        autoCompleteFrame:SetPoint("TOPLEFT", "Questie_BaseFrame", -200, 0)
+    if isTrackerOnTheRight then
+        autoCompleteFrame:SetPoint("TOPLEFT", trackerBaseFrame, -MARGIN, 0)
     else
-        autoCompleteFrame:SetPoint("TOPRIGHT", "Questie_BaseFrame", 200, 0)
+        autoCompleteFrame:SetPoint("TOPRIGHT", trackerBaseFrame, MARGIN, 0)
     end
 
     autoCompleteFrame:Show()
@@ -85,3 +92,5 @@ function AutoCompleteFrame.CheckAutoCompleteQuests()
         autoCompleteFrame:Hide()
     end
 end
+
+return AutoCompleteFrame
