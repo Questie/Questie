@@ -194,7 +194,6 @@ function CataQuestFixes.Load()
         },
         [10968] = { -- Call on the Farseer
             [questKeys.zoneOrSort] = -378,
-            [questKeys.preQuestSingle] = {},
         },
         [11272] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {30112},

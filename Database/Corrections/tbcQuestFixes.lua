@@ -2605,8 +2605,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestGroup] = {},
-            [questKeys.preQuestSingle] = {10968},
+            [questKeys.preQuestGroup] = {10962,10968},
+            [questKeys.preQuestSingle] = {},
         },
         [10967] = {
             [questKeys.questLevel] = -1,
@@ -2616,11 +2616,11 @@ function QuestieTBCQuestFixes:Load()
         },
         [10968] = {
             [questKeys.questLevel] = -1,
-            [questKeys.triggerEnd] = {"Dornaa taken to Farseer Nobundo", {[zoneIDs.THE_EXODAR]={{30.8,29.88}}}},
+            [questKeys.objectives] = {{{17204,"Dornaa taken to Farseer Nobundo",Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.preQuestGroup] = {10956,10962},
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {},
+            [questKeys.preQuestSingle] = {10956},
         },
         [10971] = {
             [questKeys.requiredSourceItems] = {29460},
