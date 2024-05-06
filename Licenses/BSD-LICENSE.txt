@@ -1,4 +1,4 @@
-Copyright <YEAR> <COPYRIGHT HOLDER>
+Copyright 2024 The Questie Team
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
