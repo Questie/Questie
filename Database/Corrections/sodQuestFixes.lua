@@ -5331,6 +5331,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -427076,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90293] = {
+            [questKeys.name] = "Balefire Bolt",
+            [questKeys.startedBy] = {{222228,222288,222696,222697,222698}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Get a Scroll of Spatial Mending from an enchanter or the auction house, then find Fel Portals throughout Azeroth and close one to receive the rune."},
+            [questKeys.requiredSpell] = -429311,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end
 
