@@ -940,6 +940,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{40510},nil,{54614}},
             [questKeys.exclusiveTo] = {25890},
         },
+        [25443] = { -- The Name Never Spoken
+            [questKeys.preQuestSingle] = {25411},
+        },
         [25459] = { -- Ophidophobia
             [questKeys.preQuestSingle] = {25602},
         },
