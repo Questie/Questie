@@ -466,6 +466,9 @@ function CataNpcFixes:LoadFactionFixes()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{74.14,10.52},{74.7,9.72},{74.15,9.14},{73.76,9.69}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [42790] = { -- Bloodlord Mandokir
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{38.4,48.6}}},
+        },
     }
 
     local npcFixesAlliance = {
@@ -566,6 +569,9 @@ function CataNpcFixes:LoadFactionFixes()
         [35071] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{66.87,8.97},{66.36,8.08},{67.31,8.2},{66.92,7.55}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [42790] = { -- Bloodlord Mandokir
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{47.2,10.6}}},
         },
     }
 
