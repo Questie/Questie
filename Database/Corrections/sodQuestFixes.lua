@@ -5331,6 +5331,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -427076,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90296] = {
+            [questKeys.name] = "Focused Attacks",
+            [questKeys.startedBy] = {nil,{442397}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 45,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Blind the Vilebranch Mask, and loot the Treasure of the Bat to receive the rune."},
+            [questKeys.requiredSpell] = -432291,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 
