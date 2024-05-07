@@ -537,6 +537,9 @@ function CataQuestFixes.Load()
         [14366] = { -- Holding Steady
             [questKeys.preQuestGroup] = {14347,14348},
         },
+        [14368] = { -- Save the Children!
+            [questKeys.objectives] = {{{36287,nil,Questie.ICON_TYPE_INTERACT},{36288,nil,Questie.ICON_TYPE_INTERACT},{36289,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [14369] = { -- Unleash the Beast
             [questKeys.objectives] = {nil,nil,nil,nil,{{{36236,36396,36810},36236}}},
         },
