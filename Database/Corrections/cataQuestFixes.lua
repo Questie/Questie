@@ -885,7 +885,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25270,25271},
         },
         [25300] = { -- The Eye of Twilight
-            [questKeys.preQuestSingle] = {25270,25271},
+            [questKeys.preQuestSingle] = {25272},
         },
         [25316] = { -- As Hyjal Burns
             [questKeys.preQuestSingle] = {},
