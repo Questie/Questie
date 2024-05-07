@@ -1050,6 +1050,9 @@ function CataQuestFixes.Load()
         [25930] = { -- Ascending the Vale
             [questKeys.triggerEnd] = {"Ascend the Charred Vale", {[zoneIDs.STONETALON_MOUNTAINS]={{31.3,73.2}}}},
         },
+        [25940] = { -- Last Stand at Whistling Grove
+            [questKeys.preQuestSingle] = {25428},
+        },
         [25942] = { -- Buy Us Some Time
             [questKeys.preQuestSingle] = {25941},
         },
