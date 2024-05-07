@@ -1037,7 +1037,7 @@ function CataQuestFixes.Load()
         },
         [25830] = { -- The Last Living Lorekeeper
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {25520,25611,25807},
+            [questKeys.preQuestGroup] = {25520,25807},
         },
         [25883] = { -- How Disarming
             [questKeys.preQuestSingle] = {25887},
