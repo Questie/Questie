@@ -949,6 +949,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{203066}}},
         },
         [25577] = { -- Crushing the Cores
+            [questKeys.objectives] = {nil,{{203067}}},
             [questKeys.requiredSourceItems] = {55123},
         },
         [25587] = { -- Gimme Shelter!
