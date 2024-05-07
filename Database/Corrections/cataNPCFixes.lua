@@ -168,6 +168,14 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [38150] = { -- Glaive Thrower
+            [npcKeys.spawns] = {
+                [zoneIDs.GILNEAS] = {
+                    {42.91,37.24,phases.GILNEAS_CHAPTER_12},
+                    {42.45,37.83,phases.GILNEAS_CHAPTER_12},
+                },
+            },
+        },
         [38387] = { -- Sassy Hardwrench
             [npcKeys.spawns] = {
                 [zoneIDs.THE_LOST_ISLES] = {
