@@ -963,6 +963,9 @@ function CataQuestFixes.Load()
         [25464] = { -- The Return of Baron Geddon
             [questKeys.objectives] = {{{40147}}},
         },
+        [25499] = { -- Agility Training: Run Like Hell!
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Run away from the Blazing Trainer"),0,{{"monster",40434}}}},
+        },
         [25473] = { -- Kaja'Cola
             [questKeys.startedBy] = {{34872}},
             [questKeys.preQuestSingle] = {},
