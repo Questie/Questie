@@ -408,6 +408,24 @@ describe("Phasing", function()
 
             assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_DAILY))
         end)
+
+        it("should return true for Hyjal Twilight chapter when 25274 is active", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25274]={}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_TWILIGHT_CHAPTER))
+        end)
+
+        it("should return true for Hyjal Twilight chapter when 25274 is complete", function()
+            Questie.db.char.complete[25274] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_TWILIGHT_CHAPTER))
+        end)
+
+        it("should return false for Hyjal Twilight chapter when 25531 is complete", function()
+            Questie.db.char.complete[25531] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_TWILIGHT_CHAPTER))
+        end)
     end)
 
     describe("Deepholm", function()
