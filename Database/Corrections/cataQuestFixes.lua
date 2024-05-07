@@ -900,6 +900,9 @@ function CataQuestFixes.Load()
         [25300] = { -- The Eye of Twilight
             [questKeys.preQuestSingle] = {25272},
         },
+        [25310] = { -- The Greater of Two Evils
+            [questKeys.preQuestSingle] = {25496},
+        },
         [25316] = { -- As Hyjal Burns
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {25317},
