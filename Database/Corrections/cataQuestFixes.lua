@@ -962,6 +962,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{39729,41203,41219,42404},39729,"Shell Survivors rescued"}}},
             [questKeys.requiredSourceItems] = {55141},
         },
+        [25599] = { -- Cindermaul, the Portal Master
+            [questKeys.preQuestGroup] = {25575,25576,25577},
+        },
         [25602] = { -- Can't Start a Fire Without a Spark
             [questKeys.preQuestSingle] = {25598},
         },
