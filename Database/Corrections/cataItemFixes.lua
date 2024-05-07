@@ -394,6 +394,9 @@ function CataItemFixes.Load()
         [69915] = { -- Baby Octopus
             [itemKeys.npcDrops] = {53522},
         },
+        [69931] = { -- Arctic Char
+            [itemKeys.npcDrops] = {},
+        },
         [70000] = { -- Succulent Sweet Potatoes
             [itemKeys.objectDrops] = {208887},
         },
