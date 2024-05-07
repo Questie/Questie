@@ -883,6 +883,9 @@ function CataQuestFixes.Load()
         [25275] = { -- Report to the Labor Captain
             [questKeys.startedBy] = {{39605}},
         },
+        [25291] = { -- Twilight Training
+            [questKeys.preQuestSingle] = {25330},
+        },
         [25297] = { -- From the Mouth of Madness
             [questKeys.preQuestSingle] = {25272},
         },
