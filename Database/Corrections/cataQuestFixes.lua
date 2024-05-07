@@ -2145,6 +2145,7 @@ function CataQuestFixes.Load()
         },
         [29346] = { -- The Ring's the Thing
             [questKeys.exclusiveTo] = {26572,26557,26543,26556,26588,29349,29345,29354,29348,29317,29320,29361,29319,29322},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THUNDER_BLUFF]={{28.0,23.3}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Blind Cavefish")}},
         },
         [29347] = { -- Live Bait
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29350,29359,26414,26420,26442,26488,26536},
