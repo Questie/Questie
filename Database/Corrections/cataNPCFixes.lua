@@ -248,6 +248,10 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{25.2,54.8}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
+        [41003] = { -- Morthis Whisperwing
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{44.1,45.9}}},
+            [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
         [41098] = { -- Gnaws
             [npcKeys.spawns] = {},
         },
