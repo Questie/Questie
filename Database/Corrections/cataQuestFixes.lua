@@ -968,6 +968,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {52716},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"),0,{{"monster",40720}}}},
         },
+        [25544] = { -- Wave Two
+            [questKeys.requiredSourceItems] = {52716},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"),0,{{"monster",40720}}}},
+        },
         [25575] = { -- Forged of Shadow and Flame
             [questKeys.objectives] = {nil,{{203066}}},
         },
