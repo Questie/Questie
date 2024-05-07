@@ -244,6 +244,9 @@ function CataItemFixes.Load()
         [55179] = { -- Drums of the Turtle God
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [55189] = { -- Hyjal Egg
+            [itemKeys.npcDrops] = {},
+        },
         [55200] = { -- Horde Cage Key
             [itemKeys.class] = itemClasses.QUEST,
         },
