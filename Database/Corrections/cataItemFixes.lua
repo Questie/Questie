@@ -183,6 +183,9 @@ function CataItemFixes.Load()
         [52514] = { -- Thonk's Spyglass
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [52537] = { -- Flame Blossom
+            [itemKeys.npcDrops] = {},
+        },
         [52716] = { -- Twilight Firelance
             [itemKeys.objectDrops] = {202967},
         },
