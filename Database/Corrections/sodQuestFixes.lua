@@ -5331,6 +5331,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -427076,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90291] = {
+            [questKeys.name] = "Focus Fire",
+            [questKeys.startedBy] = {nil,{442404}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 45,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Walk across the long branch to a Stormcrow Nest, loot the nest and kill the Enraged Stormcrow to receive the rune."},
+            [questKeys.requiredSpell] = -431601,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
