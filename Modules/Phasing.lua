@@ -34,7 +34,9 @@ local phases = {
     GILNEAS_CHAPTER_11 = 188,
     GILNEAS_CHAPTER_12 = 189,
 
-    HYJAL_CHAPTER_1 = 194, -- This seems to be the default phase for Hyjal, which changes once you completed some quests
+    -- You start with these phases available in Hyjal, which changes once you completed specific quests
+    HYJAL_CHAPTER_1 = 194,
+    HYJAL_CHAPTER_2 = 195,
 
     -- Horde starting area in Twilight Highlands
     DRAGONMAW_PORT_CHAPTER_1 = 229,
@@ -96,6 +98,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.HYJAL_CHAPTER_1 then
         return (not complete[25520])
+    end
+
+    if phase == phases.HYJAL_CHAPTER_2 then
+        return (not complete[25272]) and (not complete[25273])
     end
 
     if phase >= phases.DRAGONMAW_PORT_CHAPTER_1 and phase <= phases.DRAGONMAW_PORT_CHAPTER_3 then
