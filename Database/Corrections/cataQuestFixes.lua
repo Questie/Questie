@@ -979,6 +979,9 @@ function CataQuestFixes.Load()
         [25477] = { -- Better Late Than Dead
             [questKeys.objectives] = {{{40223}}},
         },
+        [25496] = { -- Grudge Match
+            [questKeys.preQuestSingle] = {25494},
+        },
         [25523] = { -- Flight in the Firelands
             [questKeys.requiredSourceItems] = {52716},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"),0,{{"monster",40720}}}},
