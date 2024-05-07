@@ -637,6 +637,8 @@ function CataQuestFixes.Load()
         },
         [24575] = { -- Liberation Day
             [questKeys.requiredSourceItems] = {49881},
+            [questKeys.objectives] = {{{37694,"Enslaved Gilnean freed",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Unlock the Ball and Chain"), 0, {{"object", 205098}}}},
         },
         [24612] = { -- A Gift for the Emissary of Orgrimmar
             [questKeys.finishedBy] = {{39605}},
