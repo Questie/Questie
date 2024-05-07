@@ -5331,6 +5331,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -427076,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90295] = {
+            [questKeys.name] = "Carnage",
+            [questKeys.startedBy] = {nil,{442405}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 46,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Climb the tower, and open the Abandoned Cache, it will spawn a Murderous Lost One, kill it to receive the rune. NOTE: The Abandoned Cache requires 225 Lockpicking skill."},
+            [questKeys.requiredSpell] = -432299,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 
