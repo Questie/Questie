@@ -5331,6 +5331,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -427076,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90290] = {
+            [questKeys.name] = "Improved Barkskin",
+            [questKeys.startedBy] = {{5481,5485}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 44,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Kill Thistleshrub Dew Collectors and Thistleshrub Rootshapers until they drop the Idol of the Raging Shambler, equip it and follow its instructions to receive the rune."},
+            [questKeys.requiredSpell] = -431449,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 
