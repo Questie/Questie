@@ -886,6 +886,9 @@ function CataQuestFixes.Load()
         [25291] = { -- Twilight Training
             [questKeys.preQuestSingle] = {25330},
         },
+        [25296] = { -- Gather the Intelligence
+            [questKeys.preQuestSingle] = {25291},
+        },
         [25297] = { -- From the Mouth of Madness
             [questKeys.preQuestSingle] = {25272},
         },
