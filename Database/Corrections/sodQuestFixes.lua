@@ -5331,6 +5331,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -427076,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90294] = {
+            [questKeys.name] = "Unfair Advantage",
+            [questKeys.startedBy] = {{7855,7856,8139}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 44,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Pickpocket Southsea Pirates and Southsea Freebooters until you receive a Kidnapper's Coin Purse, open it to get a Precious Medallion, bring it to Jabbey in Steamwheedle Port to receive the rune."},
+            [questKeys.requiredSpell] = -432301,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 
