@@ -14,6 +14,7 @@ end
 
 function QuestieShutUp:ToggleFilters(value)
     if value then
+        -- In French a blank is added before the colon, so we need to account for that (%s?)
         pattern = "^"..(l10n:GetUILocale() == "ruRU" and "{звезда}" or "{rt1}").." Questie%s?: "
         Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieShutUp toggle on. Pattern:", pattern)
         ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", QuestieShutUp.FilterFunc)
