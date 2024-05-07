@@ -886,6 +886,11 @@ function CataQuestFixes.Load()
         [25291] = { -- Twilight Training
             [questKeys.preQuestSingle] = {25330},
         },
+        [25294] = { -- Walking the Dog
+            [questKeys.objectives] = {{{40427}}},
+            [questKeys.preQuestSingle] = {25291},
+            [questKeys.requiredSourceItems] = {52708},
+        },
         [25296] = { -- Gather the Intelligence
             [questKeys.preQuestSingle] = {25291},
         },
