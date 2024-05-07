@@ -2009,6 +2009,9 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Take Your Orphan to Visit Red Rocks", {[zoneIDs.MULGORE]={{60.7,23.0}}}},
             [questKeys.preQuestSingle] = {172},
         },
+        [29177] = { -- Vigilance on Wings
+            [questKeys.preQuestSingle] = {25832},
+        },
         [29190] = { -- Let's Go Fly a Kite
             [questKeys.triggerEnd] = {"Fly Dragon Kites with your orphan", {[zoneIDs.ORGRIMMAR]={{58.5,58.3}}}},
             [questKeys.preQuestGroup] = {29146,29167,29176},
