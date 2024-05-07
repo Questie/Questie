@@ -397,6 +397,9 @@ function CataItemFixes.Load()
         [69931] = { -- Arctic Char
             [itemKeys.npcDrops] = {},
         },
+        [69982] = { -- Dun Morogh Chicken
+            [itemKeys.npcDrops] = {53568},
+        },
         [70000] = { -- Succulent Sweet Potatoes
             [itemKeys.objectDrops] = {208887},
         },
