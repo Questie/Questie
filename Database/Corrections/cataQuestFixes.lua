@@ -1039,6 +1039,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25520,25807},
         },
+        [25881] = { -- Lost Wardens
+            [questKeys.preQuestSingle] = {25372},
+        },
         [25883] = { -- How Disarming
             [questKeys.preQuestSingle] = {25887},
         },
