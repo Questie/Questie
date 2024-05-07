@@ -544,7 +544,10 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{36236,36396,36810},36236}}},
         },
         [14382] = { -- Two By Sea
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the catapult to board the ship"), 0, {{"monster", 36283}}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Use the catapult to board the ship"), 0, {{"monster", 36283}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Take out the Forsaken Machinist"), 0, {{"monster", 36292}}},
+            },
         },
         [14386] = { -- Leader of the Pack
             [questKeys.preQuestGroup] = {14368,14369,14382},
