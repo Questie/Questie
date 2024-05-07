@@ -903,6 +903,9 @@ function CataQuestFixes.Load()
         [25325] = { -- Through the Dream
             [questKeys.triggerEnd] = {"Arch Druid Fandral Staghelm delivered", {[zoneIDs.MOUNT_HYJAL]={{55,28.9}}}},
         },
+        [25330] = { -- Waste of Flesh
+            [questKeys.objectives] = {{{39453}}},
+        },
         [25332] = { -- Get Me Outta Here!
             [questKeys.preQuestSingle] = {25328},
         },
