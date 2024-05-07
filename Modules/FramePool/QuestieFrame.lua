@@ -172,18 +172,18 @@ function _Qframe:OnClick(button)
     else
         -- This will work in either the WorldMapFrame or the MiniMapFrame as long as there is an icon
         if self and self.UiMapID and button == "LeftButton" then
-            if (not ChatEdit_GetActiveWindow()) then
-                if self.data.Type == "available" and IsShiftKeyDown() then
-                    StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.Id)
-                    StaticPopup_Show("QUESTIE_CONFIRMHIDE")
-                elseif self.data.Type == "manual" and IsShiftKeyDown() and not self.data.ManualTooltipData.disableShiftToRemove then
-                    QuestieMap:UnloadManualFrames(self.data.id)
-                end
-            else
+            if ChatEdit_GetActiveWindow() and self.data.QuestData then
                 if Questie.db.profile.trackerShowQuestLevel then
                     ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.data.QuestData.level, self.data.QuestData.name, self.data.Id))
                 else
                     ChatEdit_InsertLink("[" .. self.data.QuestData.name .. " (" .. self.data.Id .. ")]")
+                end
+            else
+                if self.data.Type == "available" and IsShiftKeyDown() then
+                    StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.Id)
+                    StaticPopup_Show("QUESTIE_CONFIRMHIDE")
+                elseif self.data.Type == "manual" and IsShiftKeyDown() and (not self.data.ManualTooltipData.disableShiftToRemove) then
+                    QuestieMap:UnloadManualFrames(self.data.id)
                 end
             end
         end
