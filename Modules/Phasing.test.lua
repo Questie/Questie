@@ -402,6 +402,12 @@ describe("Phasing", function()
 
             assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_CHAPTER_2))
         end)
+
+        it("should return true for Hyjal Daily when 25560 is active", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25560]={}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_DAILY))
+        end)
     end)
 
     describe("Deepholm", function()

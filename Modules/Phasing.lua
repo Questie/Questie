@@ -35,6 +35,7 @@ local phases = {
     GILNEAS_CHAPTER_12 = 189,
 
     -- You start with these phases available in Hyjal, which changes once you completed specific quests
+    HYJAL_DAILY = 191,
     HYJAL_CHAPTER_1 = 194,
     HYJAL_CHAPTER_2 = 195,
 
@@ -79,7 +80,7 @@ function Phasing.IsSpawnVisible(phase)
         return true
     end
 
-    if phase == phases.CUSTOM_EVENT_3 then
+    if phase == phases.CUSTOM_EVENT_3 or phase == phases.HYJAL_DAILY then
         return _Phasing.CheckQuestLog()
     end
 
@@ -163,7 +164,8 @@ _Phasing.CheckQuestLog = function()
         questLog[13861] or
         questLog[13862] or
         questLog[13863] or
-        questLog[13864]
+        questLog[13864] or
+        questLog[25560]
     ) and true or false
 end
 
