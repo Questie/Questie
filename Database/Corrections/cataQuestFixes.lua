@@ -1666,6 +1666,9 @@ function CataQuestFixes.Load()
         [27868] = { -- The Crucible of Carnage: The Twilight Terror!
             [questKeys.objectives] = {{{46949}}},
         },
+        [27874] = { -- Aviana's Legacy
+            [questKeys.preQuestSingle] = {25612},
+        },
         [27922] = { -- Traitors!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Hide behind Neferset Frond"), 0, {{"object", 206579}}}},
         },
