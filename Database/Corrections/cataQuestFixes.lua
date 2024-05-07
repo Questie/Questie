@@ -1051,6 +1051,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25440},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take the Swift Seahorse to Nespirah."), 0, {{"monster", 40851}}}},
         },
+        [25899] = { -- Breakthrough
+            [questKeys.preQuestSingle] = {25372},
+        },
         [25900] = { -- Making Contact
             [questKeys.objectives] = {{{41531}}},
         },
