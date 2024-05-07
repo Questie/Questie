@@ -14,7 +14,7 @@ end
 
 function QuestieShutUp:ToggleFilters(value)
     if value then
-        pattern = "^"..(l10n:GetUILocale() == "ruRU" and "{звезда}" or "{rt1}").." Questie : "
+        pattern = "^"..(l10n:GetUILocale() == "ruRU" and "{звезда}" or "{rt1}").." Questie%s?: "
         Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieShutUp toggle on. Pattern:", pattern)
         ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", QuestieShutUp.FilterFunc)
         ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", QuestieShutUp.FilterFunc)
