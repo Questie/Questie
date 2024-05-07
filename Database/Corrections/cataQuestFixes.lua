@@ -921,6 +921,9 @@ function CataQuestFixes.Load()
         [25385] = { -- Save the Wee Animals
             [questKeys.preQuestSingle] = {25584},
         },
+        [25411] = { -- A New Master
+            [questKeys.objectives] = {{{39974}}},
+        },
         [25412] = { -- The Name Never Spoken
             [questKeys.preQuestSingle] = {25411},
         },
