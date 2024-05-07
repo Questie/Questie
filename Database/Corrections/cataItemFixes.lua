@@ -217,6 +217,9 @@ function CataItemFixes.Load()
         [54463] = { -- Flameseer's Staff
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [54574] = { -- Hyjal Seedling
+            [itemKeys.npcDrops] = {},
+        },
         [54745] = { -- Nemesis Shell Fragment
             [itemKeys.npcDrops] = {40340},
         },
