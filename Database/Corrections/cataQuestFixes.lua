@@ -960,6 +960,10 @@ function CataQuestFixes.Load()
         [25477] = { -- Better Late Than Dead
             [questKeys.objectives] = {{{40223}}},
         },
+        [25523] = { -- Flight in the Firelands
+            [questKeys.requiredSourceItems] = {52716},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"),0,{{"monster",40720}}}},
+        },
         [25575] = { -- Forged of Shadow and Flame
             [questKeys.objectives] = {nil,{{203066}}},
         },
