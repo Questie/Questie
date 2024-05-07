@@ -42,6 +42,12 @@ function CataItemFixes.Load()
         [45885] = { -- Thistle Bear Fur
             [itemKeys.npcDrops] = {33978},
         },
+        [46354] = { -- Seed of the Earth
+            [itemKeys.npcDrops] = {33072},
+        },
+        [46355] = { -- Seed of the Sky
+            [itemKeys.npcDrops] = {34306},
+        },
         [46392] = { -- Venison Steak
             [itemKeys.class] = itemClasses.QUEST,
         },
