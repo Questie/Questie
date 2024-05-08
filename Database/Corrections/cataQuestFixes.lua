@@ -238,7 +238,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {13589},
         },
         [13506] = { -- Reason to Worry
-            [questKeys.startedBy] = {{32863},nil,{44979}}
+            [questKeys.startedBy] = {{32863},nil,{44979}},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [13507] = { -- Denying Manpower
             [questKeys.preQuestSingle] = {13505},
