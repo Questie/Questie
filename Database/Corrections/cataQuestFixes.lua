@@ -915,6 +915,9 @@ function CataQuestFixes.Load()
         [25311] = { -- Twilight Territory
             [questKeys.preQuestSingle] = {25496},
         },
+        [25315] = { -- Graduation Speech
+            [questKeys.objectives] = {nil,{{202996}}},
+        },
         [25316] = { -- As Hyjal Burns
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {25317},
