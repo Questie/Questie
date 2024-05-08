@@ -892,6 +892,9 @@ function CataQuestFixes.Load()
         [25279] = { -- The Shrine Reclaimed
             [questKeys.exclusiveTo] = {25277},
         },
+        [25280] = { -- The Shrine Reclaimed
+            [questKeys.exclusiveTo] = {25278},
+        },
         [25291] = { -- Twilight Training
             [questKeys.preQuestSingle] = {25330},
         },
