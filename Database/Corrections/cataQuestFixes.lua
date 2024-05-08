@@ -1021,6 +1021,7 @@ function CataQuestFixes.Load()
         [25551] = { -- The Firelord
             [questKeys.startedBy] = {{40773}},
             [questKeys.preQuestSingle] = {25553},
+            [questKeys.extraObjectives] = {{{[zoneIDs.MOUNT_HYJAL]={{55.5,66.2}}}, Questie.ICON_TYPE_EVENT, l10n("Go through the portal")}},
         },
         [25575] = { -- Forged of Shadow and Flame
             [questKeys.objectives] = {nil,{{203066}}},
