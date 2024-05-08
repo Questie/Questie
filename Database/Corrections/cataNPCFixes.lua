@@ -231,6 +231,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [39640] = { -- Kristoff Manheim
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{27.2,40.8}}},
+        },
         [39877] = { -- Toshe Chaosrender
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{55.5,12.5},{53.3,33.1}}},
         },
