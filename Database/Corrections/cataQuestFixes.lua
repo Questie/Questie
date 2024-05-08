@@ -2203,6 +2203,12 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29326},
             [questKeys.nextQuestInChain] = 29326,
         },
+        [29475] = { -- Goblin Engineering
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,200},
+        },
+        [29477] = { -- Gnomish Engineering
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,200},
+        },
         [29481] = { -- Elixir Master
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
         },
