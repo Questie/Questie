@@ -936,6 +936,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.preQuestSingle] = {25277},
         },
+        [25355] = { -- Lightning in a Bottle
+            [questKeys.preQuestSingle] = {25277},
+        },
         [25370] = { -- Inciting the Elements
             [questKeys.requiredSourceItems] = {53009},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Feed Juniper Berries"), 0, {{"monster", 39921}}}},
