@@ -883,6 +883,9 @@ function CataQuestFixes.Load()
         [25275] = { -- Report to the Labor Captain
             [questKeys.startedBy] = {{39605}},
         },
+        [25279] = { -- The Shrine Reclaimed
+            [questKeys.exclusiveTo] = {25277},
+        },
         [25291] = { -- Twilight Training
             [questKeys.preQuestSingle] = {25330},
         },
