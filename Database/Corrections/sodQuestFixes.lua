@@ -1750,27 +1750,33 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [82017] = { -- An Amalagamation of Nightmares
             [questKeys.nextQuestInChain] = 82018,
-            [questKeys.objectives] = {{{12042}}},
+            [questKeys.objectives] = {{{12042,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
         },
         [82018] = { -- Itharius
             [questKeys.nextQuestInChain] = 82019,
             [questKeys.preQuestSingle] = {82017},
-            [questKeys.objectives] = {{{5353}}},
+            [questKeys.objectives] = {{{5353,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.zoneOrSort] = zoneIDs.SWAMP_OF_SORROWS,
         },
         [82019] = { -- Going Under
             [questKeys.nextQuestInChain] = 82020,
             [questKeys.preQuestSingle] = {82018},
             [questKeys.objectives] = {{{223568}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SWAMP_OF_SORROWS]={{70.24,54.08}}}, Questie.ICON_TYPE_EVENT, l10n("Explore the Temple of Atal'Hakkar"),}},
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
         },
         [82020] = { -- Return to Moonglade
             [questKeys.nextQuestInChain] = 82021,
             [questKeys.preQuestSingle] = {82019},
-            [questKeys.objectives] = {{{12042}}},
+            [questKeys.objectives] = {{{12042,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.zoneOrSort] = zoneIDs.MOONGLADE,
         },
         [82021] = { -- A Fortuitous Turn of Events
             [questKeys.nextQuestInChain] = 82022,
             [questKeys.preQuestSingle] = {82020},
-            [questKeys.objectives] = {{{222225}}},
+            [questKeys.objectives] = {{{222188,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.zoneOrSort] = zoneIDs.MOONGLADE,
         },
         [82022] = { -- The Bad News...
             [questKeys.nextQuestInChain] = 81986,
@@ -1778,6 +1784,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {nil,nil,{{220964}}},
             [questKeys.childQuests] = {82023},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to the Injured Gnome"), 0, {{"monster", 222444}}}},
+            [questKeys.zoneOrSort] = zoneIDs.MOONGLADE,
         },
         [82023] = { -- The Lost Vambraces
             [questKeys.parentQuest] = 82022,
