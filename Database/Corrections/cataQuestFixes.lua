@@ -883,6 +883,12 @@ function CataQuestFixes.Load()
         [25275] = { -- Report to the Labor Captain
             [questKeys.startedBy] = {{39605}},
         },
+        [25277] = { -- Cleaning House
+            [questKeys.preQuestSingle] = {25272},
+        },
+        [25278] = { -- Cleaning House
+            [questKeys.preQuestSingle] = {25273},
+        },
         [25279] = { -- The Shrine Reclaimed
             [questKeys.exclusiveTo] = {25277},
         },
