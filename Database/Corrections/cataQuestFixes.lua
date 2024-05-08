@@ -900,6 +900,12 @@ function CataQuestFixes.Load()
         [25300] = { -- The Eye of Twilight
             [questKeys.preQuestSingle] = {25272},
         },
+        [25308] = { -- Seeds of Discord
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Put on your disguise"), 0, {{"object", 203091}}},
+                {nil, Questie.ICON_TYPE_TALK, l10n("Talk to Karr'gonn"), 0, {{"monster", 40489}}},
+            },
+        },
         [25310] = { -- The Greater of Two Evils
             [questKeys.preQuestSingle] = {25496},
         },
