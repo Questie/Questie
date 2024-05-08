@@ -1076,6 +1076,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25355},
             [questKeys.exclusiveTo] = {25617},
         },
+        [25630] = { -- The Fires of Mount Hyjal
+            [questKeys.preQuestSingle] = {25611,25612},
+        },
         [25651] = { -- Oh, the Insanity!
             [questKeys.requiredSourceItems] = {55185},
         },
