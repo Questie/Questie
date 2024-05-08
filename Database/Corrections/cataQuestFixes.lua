@@ -974,6 +974,9 @@ function CataQuestFixes.Load()
         [25392] = { -- Oh, Deer!
             [questKeys.objectives] = {{{39999}}},
         },
+        [25404] = { -- If You're Not Against Us...
+            [questKeys.preQuestSingle] = {25269},
+        },
         [25411] = { -- A New Master
             [questKeys.objectives] = {{{39974}}},
         },
@@ -1078,6 +1081,7 @@ function CataQuestFixes.Load()
         },
         [25630] = { -- The Fires of Mount Hyjal
             [questKeys.preQuestSingle] = {25611,25612},
+            [questKeys.exclusiveTo] = {25404},
         },
         [25651] = { -- Oh, the Insanity!
             [questKeys.requiredSourceItems] = {55185},
