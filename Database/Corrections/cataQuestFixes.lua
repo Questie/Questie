@@ -923,6 +923,9 @@ function CataQuestFixes.Load()
         [25317] = { -- Protect the World Tree
             [questKeys.preQuestSingle] = {},
         },
+        [25314] = { -- Speech Writing for Dummies
+            [questKeys.preQuestSingle] = {25308},
+        },
         [25323] = { -- Flamebreaker
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Flameseer's Staff"), 0, {{"monster", 38896}}}},
         },
