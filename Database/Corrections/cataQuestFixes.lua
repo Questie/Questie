@@ -1821,6 +1821,9 @@ function CataQuestFixes.Load()
         [28191] = { -- A Fitting End
             [questKeys.preQuestSingle] = {28171},
         },
+        [28228] = { -- Rejoining the Forest
+            [questKeys.triggerEnd] = {"Protector brought to hill", {[zoneIDs.FELWOOD]={{48.7,25.2}}}},
+        },
         [28247] = { -- Last of Her Kind
             [questKeys.objectives] = {{{47929,"Obsidia defeated"}}},
         },
@@ -1962,6 +1965,9 @@ function CataQuestFixes.Load()
         [28768] = { -- Winterspring!
             [questKeys.exclusiveTo] = {28524,28544,28545},
         },
+        [28790] = { -- A Personal Summons
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [28805] = { -- The Eye of the Storm
             [questKeys.objectives] = {nil,{{197196}}},
         },
@@ -1972,8 +1978,8 @@ function CataQuestFixes.Load()
             [questKeys.requiredClasses] = classKeys.WARRIOR,
             [questKeys.preQuestSingle] = {28789},
         },
-        [28228] = { -- Rejoining the Forest
-            [questKeys.triggerEnd] = {"Protector brought to hill", {[zoneIDs.FELWOOD]={{48.7,25.2}}}},
+        [28825] = { -- A Personal Summons
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [28849] = { -- Twilight Skies
             [questKeys.preQuestGroup] = {26337,26372,26374},
