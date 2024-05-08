@@ -335,6 +335,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.STRANGLETHORN_VALE] = {{40.75,85.72}},
             },
         },
+        [442685] = { -- Old Chest
+            [objectKeys.zoneID] = zoneIDs.FERALAS,
+            [objectKeys.spawns] = {
+                [zoneIDs.FERALAS] = {{79.2,49.4}},
+            },
+        },
 
         -- fake ID - no clue yet what the correct ones are
         [450000] = {
