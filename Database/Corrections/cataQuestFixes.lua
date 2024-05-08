@@ -1019,6 +1019,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"),0,{{"monster",40720}}}},
         },
         [25551] = { -- The Firelord
+            [questKeys.startedBy] = {{40773}},
             [questKeys.preQuestSingle] = {25553},
         },
         [25575] = { -- Forged of Shadow and Flame
