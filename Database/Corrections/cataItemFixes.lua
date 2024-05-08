@@ -313,6 +313,9 @@ function CataItemFixes.Load()
         [58899] = { -- Violet Perch
             [itemKeys.npcDrops] = {},
         },
+        [58945] = { -- Toxic Puddlefish
+            [itemKeys.npcDrops] = {}
+        },
         [58950] = { -- Messner's Cage Key
             [itemKeys.class] = itemClasses.QUEST,
         },

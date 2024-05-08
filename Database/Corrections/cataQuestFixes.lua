@@ -1409,6 +1409,7 @@ function CataQuestFixes.Load()
         },
         [26556] = { -- No Dumping Allowed
             [questKeys.exclusiveTo] = {26572,26543,26557,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{37.8,81.3}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Toxic Puddlefish")}},
         },
         [26557] = { -- A Staggering Effort
             [questKeys.exclusiveTo] = {26572,26543,26556,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
