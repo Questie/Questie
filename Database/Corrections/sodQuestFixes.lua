@@ -5338,6 +5338,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -427076,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [90298] = {
+            [questKeys.name] = "Rolling Thunder",
+            [questKeys.startedBy] = {{222856,222857}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 20,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Click the Odd Totem which will give you the Totem Challenge debuff which increases your damage taken by 50%, quickly run to the opposite Odd Totem and click it. Open the chest to receive the rune."},
+            [questKeys.requiredSpell] = -432236,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 
