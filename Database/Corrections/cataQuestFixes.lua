@@ -2203,16 +2203,6 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29326},
             [questKeys.nextQuestInChain] = 29326,
         },
-        [29475] = { -- Goblin Engineering
-            [questKeys.startedBy] = {{5174,5518,8126,8738,11017,11031,16667,16726,29513,52636,52651}},
-            [questKeys.finishedBy] = {{5174,5518,11017,11031,16667,16726,29513,52636,52651}},
-            [questKeys.exclusiveTo] = {3639,3641,3643,29477},
-        },
-        [29477] = { -- Gnomish Engineering
-            [questKeys.startedBy] = {{5174,5518,7406,7944,11017,11031,16667,16726,29514,52636,52651}},
-            [questKeys.finishedBy] = {{5174,5518,7944,11017,11031,16667,16726,29514,52636,52651}},
-            [questKeys.exclusiveTo] = {3639,3641,3643,29475},
-        },
         [29481] = { -- Elixir Master
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
         },
@@ -2239,6 +2229,16 @@ function CataQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
 
     local questFixesHorde = {
+        [29475] = { -- Goblin Engineering
+            [questKeys.startedBy] = {{11017,11031,16667,29513,52651}},
+            [questKeys.finishedBy] = {{11017,11031,16667,29513,52651}},
+            [questKeys.exclusiveTo] = {3526,3629,3633,4181,29476,29477},
+        },
+        [29477] = { -- Gnomish Engineering
+            [questKeys.startedBy] = {{11017,11031,16667,29513,52651}},
+            [questKeys.finishedBy] = {{11017,11031,16667,29513,52651}},
+            [questKeys.exclusiveTo] = {3630,3632,3634,3635,3637,29475,29476},
+        },
         [29481] = { -- Elixir Master
             [questKeys.startedBy] = {{3347}}
         },
@@ -2248,6 +2248,16 @@ function CataQuestFixes:LoadFactionFixes()
     }
 
     local questFixesAlliance = {
+        [29475] = { -- Goblin Engineering
+            [questKeys.startedBy] = {{5174,5518,16726,29513,52636}},
+            [questKeys.finishedBy] = {{5174,5518,16726,29513,52636}},
+            [questKeys.exclusiveTo] = {3526,3629,3633,4181,29476,29477},
+        },
+        [29477] = { -- Gnomish Engineering
+            [questKeys.startedBy] = {{5174,5518,16726,29513,52636}},
+            [questKeys.finishedBy] = {{5174,5518,16726,29513,52636}},
+            [questKeys.exclusiveTo] = {3630,3632,3634,3635,3637,29475,29476},
+        },
         [29481] = { -- Elixir Master
             [questKeys.startedBy] = {{5499}}
         },
