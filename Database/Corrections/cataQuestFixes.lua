@@ -1038,6 +1038,9 @@ function CataQuestFixes.Load()
         [25599] = { -- Cindermaul, the Portal Master
             [questKeys.preQuestGroup] = {25575,25576,25577},
         },
+        [25601] = { -- Head of the Class
+            [questKeys.preQuestSingle] = {25308},
+        },
         [25602] = { -- Can't Start a Fire Without a Spark
             [questKeys.preQuestSingle] = {25598},
         },
