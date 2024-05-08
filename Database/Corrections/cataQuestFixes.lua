@@ -1780,6 +1780,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{46949}}},
         },
         [27874] = { -- Aviana's Legacy
+            [questKeys.startedBy] = {{40289}},
             [questKeys.preQuestSingle] = {25611,25612},
         },
         [27922] = { -- Traitors!
