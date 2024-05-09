@@ -262,6 +262,9 @@ function CataQuestFixes.Load()
         [13521] = { -- Buzzbox 413
             [questKeys.preQuestSingle] = {13518},
         },
+        [13523] = { -- Power Over the Tides
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Orb of Elune on its corpse"), 0, {{"monster", 32890}}}},
+        },
         [13529] = { -- The Corruption's Source
             [questKeys.preQuestSingle] = {13528},
         },
