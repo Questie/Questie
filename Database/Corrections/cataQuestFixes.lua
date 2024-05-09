@@ -1396,14 +1396,14 @@ function CataQuestFixes.Load()
         [26557] = { -- A Staggering Effort
             [questKeys.exclusiveTo] = {26572,26543,26556,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
             [questKeys.requiredSourceItems] = {58949},
-            [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{47.1,46.3}}}, Questie.ICON_TYPE_EVENT, l10n("Attach a Stag Eye to your Fishing Pole and fish for Sandy Carp")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{47.1,46.3}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Attach a Stag Eye to your Fishing Pole and fish for Sandy Carp")}},
         },
         [26572] = { -- A Golden Opportunity
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
         },
         [26588] = { -- A Furious Catch
             [questKeys.exclusiveTo] = {26572,26557,26543,26556,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
-            [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{71.1,7.9}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Giant Furious Pike")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{71.1,7.9}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Giant Furious Pike")}},
         },
         [26621] = { -- Insurrection
             [questKeys.objectives] = {{{43575},{43394}},nil,nil,nil,{{{43577,43578},43577,"Dragonmaw Civilian Armed"}}},
@@ -2194,11 +2194,12 @@ function CataQuestFixes.Load()
         },
         [29345] = { -- Pond Predators
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29317,29320,29361,29319,29322},
-            [questKeys.extraObjectives] = {{{[zoneIDs.THUNDER_BLUFF]={{40.4,58.5}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Azshara Snakehead")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THUNDER_BLUFF]={{40.4,58.5}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Azshara Snakehead")}},
         },
         [29346] = { -- The Ring's the Thing
             [questKeys.exclusiveTo] = {26572,26557,26543,26556,26588,29349,29345,29354,29348,29317,29320,29361,29319,29322},
-            [questKeys.extraObjectives] = {{{[zoneIDs.THUNDER_BLUFF]={{28.0,23.3}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Blind Cavefish")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THUNDER_BLUFF]={{28.0,23.3}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Blind Cavefish")}},
+            [questKeys.requiredSourceItems] = {69956},
         },
         [29347] = { -- Live Bait
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29350,29359,26414,26420,26442,26488,26536},
@@ -2207,7 +2208,7 @@ function CataQuestFixes.Load()
         },
         [29348] = { -- The Race to Restock
             [questKeys.exclusiveTo] = {26572,26557,26543,26556,26588,29349,29345,29354,29346,29317,29320,29361,29319,29322},
-            [questKeys.extraObjectives] = {{{[zoneIDs.MULGORE]={{48.4,52.5}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Randy Smallfish and Amorous Mud Snapper")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.MULGORE]={{48.4,52.5}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Randy Smallfish and Amorous Mud Snapper")}},
         },
         [29349] = { -- Craving Crayfish
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29345,29354,29346,29348,29317,29320,29361,29319,29322},
@@ -2220,6 +2221,9 @@ function CataQuestFixes.Load()
         },
         [29354] = { -- Shiny Baubles
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29345,29346,29348,29317,29320,29361,29319,29322},
+        },
+        [29355] = { -- Can't Get Enough Spice Bread
+            [questKeys.extraObjectives] = {{{[zoneIDs.IRONFORGE]={{60.34,38.17}}}, Questie.ICON_TYPE_EVENT, l10n("Cook 10 Spice Bread")}},
         },
         [29356] = { -- I Need to Cask a Favor
             [questKeys.objectives] = {{{5159,"Deliver Cask of Drugan's IPA",Questie.ICON_TYPE_INTERACT}},{{208872}}},
