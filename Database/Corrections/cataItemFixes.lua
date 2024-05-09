@@ -34,10 +34,13 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {33020,33021,33022},
         },
         [44969] = { -- Moonstalker Whisker
-            [itemKeys.npcDrops] = {33127}
+            [itemKeys.npcDrops] = {33127},
+        },
+        [44976] = { -- Fuming Toadstool
+            [itemKeys.npcDrops] = {},
         },
         [44979] = { -- Overseer's Orders
-            [itemKeys.npcDrops] = {32863}
+            [itemKeys.npcDrops] = {32863},
         },
         [45027] = { -- Tuft of Mottled Doe Hair
             [itemKeys.npcDrops] = {33311},
