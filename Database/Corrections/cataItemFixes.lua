@@ -298,6 +298,9 @@ function CataItemFixes.Load()
         [58365] = { -- Horn of the Ancients
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [58864] = { -- Precious Locket
+            [itemKeys.itemDrops] = {58856},
+        },
         [58950] = { -- Messner's Cage Key
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -396,6 +399,9 @@ function CataItemFixes.Load()
         },
         [69931] = { -- Arctic Char
             [itemKeys.npcDrops] = {},
+        },
+        [69935] = { -- Poshken's Ring
+            [itemKeys.itemDrops] = {69956},
         },
         [69982] = { -- Dun Morogh Chicken
             [itemKeys.npcDrops] = {53568},

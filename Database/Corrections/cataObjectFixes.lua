@@ -37,7 +37,7 @@ function CataObjectFixes.Load()
         },
         [206585] = { -- Totem of Ruumbo
             [objectKeys.questStarts] = {27989,27994,27995},
-            [objectKeys.questStarts] = {27989,27994,28100},
+            [objectKeys.questEnds] = {27989,27994,28100},
         },
 
         --- fake object IDs
