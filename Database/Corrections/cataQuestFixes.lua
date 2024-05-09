@@ -2212,6 +2212,9 @@ function CataQuestFixes.Load()
         [29350] = { -- The Gnomish Bait-o-Matic
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29359,26414,26420,26442,26488,26536},
         },
+        [29351] = { -- A Round for the Guards
+            [questKeys.objectives] = {{{5595,"Ironforge Guards Fed",Questie.ICON_TYPE_INTERACT}}},
+        },
         [29354] = { -- Shiny Baubles
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29345,29346,29348,29317,29320,29361,29319,29322},
         },
