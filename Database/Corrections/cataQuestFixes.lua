@@ -277,14 +277,14 @@ function CataQuestFixes.Load()
         },
         [13562] = { -- The Final Flame of Bashal'Aran
             [questKeys.objectives] = {nil,{{194179}}},
-            [questKeys.preQuestSingle] = {13554},
+            [questKeys.preQuestGroup] = {13529,13554},
         },
         [13563] = { -- A Love Eternal
-            [questKeys.preQuestSingle] = {13554},
+            [questKeys.preQuestGroup] = {13529,13554},
         },
         [13564] = { -- A Lost Companion
             [questKeys.triggerEnd] = {"Locate Grimclaw", {[zoneIDs.DARKSHORE]={{43,39}}}},
-            [questKeys.preQuestSingle] = {13554},
+            [questKeys.preQuestGroup] = {13529,13554},
         },
         [13565] = { -- Twice Removed
             [questKeys.preQuestSingle] = {13564},
