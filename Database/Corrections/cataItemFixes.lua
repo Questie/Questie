@@ -43,7 +43,7 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {32863},
         },
         [45027] = { -- Tuft of Mottled Doe Hair
-            [itemKeys.npcDrops] = {33311},
+            [itemKeys.npcDrops] = {33313},
         },
         [45885] = { -- Thistle Bear Fur
             [itemKeys.npcDrops] = {33978},
