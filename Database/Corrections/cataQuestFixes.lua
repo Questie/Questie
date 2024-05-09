@@ -286,11 +286,13 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {13529,13554},
         },
         [13564] = { -- A Lost Companion
-            [questKeys.objectives] = {{{33053,"Locate Grimclaw",Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{33053,"Locate Grimclaw.",Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestGroup] = {13529,13554},
         },
         [13565] = { -- Twice Removed
             [questKeys.preQuestSingle] = {13564},
+            [questKeys.objectives] = {{{33207},{34009,"Withered Ents called",Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Petrified Root on its corpse"), 0, {{"monster", 33206}}}},
         },
         [13566] = { -- Ritual Materials
             [questKeys.preQuestSingle] = {13564},
