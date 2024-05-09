@@ -30,6 +30,9 @@ function CataItemFixes.Load()
         [44925] = { -- Corruptor's Master Key
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [44966] = { -- Foul Ichor
+            [itemKeys.npcDrops] = {33020,33021,33022},
+        },
         [44969] = { -- Moonstalker Whisker
             [itemKeys.npcDrops] = {33127}
         },
