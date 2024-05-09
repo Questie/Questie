@@ -1742,13 +1742,13 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       [44725] = {
         [itemKeys.startQuest] = 13420,
       },
-      --* Item 45039 https://wotlk.wowhead.com/wotlk/item=45039
-      --* Starts: Ancient History(13622)(https://wotlk.wowhead.com/wotlk/quest=13622)
+      --* Item 44927 https://wotlk.wowhead.com/wotlk/item=44927
+      --* Starts: Bearer of Good Fortune(13557)(https://wotlk.wowhead.com/wotlk/quest=13557)
       [44927] = {
         [itemKeys.startQuest] = 13557,
       },
-      --* Item 44927 https://wotlk.wowhead.com/wotlk/item=44927
-      --* Starts: Bearer of Good Fortune(13557)(https://wotlk.wowhead.com/wotlk/quest=13557)
+      --* Item 45039 https://wotlk.wowhead.com/wotlk/item=45039
+      --* Starts: Ancient History(13622)(https://wotlk.wowhead.com/wotlk/quest=13622)
       [45039] = {
         [itemKeys.startQuest] = 13622,
       },
