@@ -286,7 +286,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {13529,13554},
         },
         [13564] = { -- A Lost Companion
-            [questKeys.triggerEnd] = {"Locate Grimclaw", {[zoneIDs.DARKSHORE]={{43,39}}}},
+            [questKeys.objectives] = {{{33053,"Locate Grimclaw",Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestGroup] = {13529,13554},
         },
         [13565] = { -- Twice Removed
