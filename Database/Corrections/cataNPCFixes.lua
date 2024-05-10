@@ -237,6 +237,30 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [39432] = { -- Takrik Ragehowl
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
+                {80.85,67.87,phases.HYJAL_CHAPTER_2},
+                {79.72,66.66,phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE},
+            }},
+        },
+        [39433] = { -- Ian Duran
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
+                {80.82,67.59,phases.HYJAL_CHAPTER_2},
+                {79.57,66.57,phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE},
+            }},
+        },
+        [39434] = { -- Rio Duran
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
+                {80.91,67.75,phases.HYJAL_CHAPTER_2},
+                {79.54,66.65,phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE},
+            }},
+        },
+        [39435] = { -- Royce Duskwhisper
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
+                {80.93,67.78,phases.HYJAL_CHAPTER_2},
+                {79.62,66.72,phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE},
+            }},
+        },
         [39640] = { -- Kristoff Manheim
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{27.2,40.8}}},
         },

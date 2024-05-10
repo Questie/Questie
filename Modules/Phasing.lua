@@ -67,6 +67,9 @@ local phases = {
     KEZAN_CHAPTER_5 = 382,
     KEZAN_CHAPTER_6 = 383,
     KEZAN_CHAPTER_7 = 384,
+
+    -- Fake phases - looks like Blizzard is using the same phase ID for different areas - this is a nightmare...
+    HYJAL_IAN_AND_TARIK_NOT_IN_CAGE = 1000,
 }
 Phasing.phases = phases
 
@@ -111,6 +114,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.HYJAL_CHAPTER_2 then
         return (not complete[25272]) and (not complete[25273])
+    end
+
+    if phase == phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE then
+        return complete[25272] or complete[25273] or false
     end
 
     if phase >= phases.DRAGONMAW_PORT_CHAPTER_1 and phase <= phases.DRAGONMAW_PORT_CHAPTER_3 then
