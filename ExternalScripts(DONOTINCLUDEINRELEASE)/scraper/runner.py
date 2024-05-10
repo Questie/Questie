@@ -6,6 +6,7 @@ from scrapy.crawler import CrawlerProcess
 
 from item.item_spider import ItemSpider
 from npc.npc_spider import NPCSpider
+from npc.npc_zone_id_spider import NpcZoneIdSpider
 from object.object_spider import ObjectSpider
 from quest.quest_spider import QuestSpider
 from quest.classic.quest_spider import ClassicQuestSpider
@@ -48,6 +49,12 @@ class Runner:
         process.crawl(NPCSpider)
         process.start()
 
+    def run_npc_zone_ids(self) -> None:
+        Path("npc/npc_zone_id_data.json").unlink(missing_ok=True)
+        process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "npc/npc_zone_id_data.json"})
+        process.crawl(NpcZoneIdSpider)
+        process.start()
+
     def run_item(self) -> None:
         Path("item/item_data.json").unlink(missing_ok=True)
         process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "item/item_data.json"})
@@ -67,12 +74,13 @@ if __name__ == '__main__':
     parser.add_argument("--quest-classic", help="Run quest spider for classic wow", action="store_true")
     parser.add_argument("--quest-translations", help="Run quest spider for SoD translations", action="store_true")
     parser.add_argument("--npc", help="Run npc spider", action="store_true")
+    parser.add_argument("--npc-zone", help="Run npc zone IDs spider", action="store_true")
     parser.add_argument("--item", help="Run item spider", action="store_true")
     parser.add_argument("--object", help="Run object spider", action="store_true")
 
     args = parser.parse_args()
 
-    if (not args.quest) and (not args.quest_classic) and (not args.quest_translations) and (not args.npc) and (not args.item) and (not args.object):
+    if (not args.quest) and (not args.quest_classic) and (not args.quest_translations) and (not args.npc) and (not args.npc_zone) and (not args.item) and (not args.object):
         parser.error("No spider selected")
 
     runner = Runner()
@@ -89,6 +97,9 @@ if __name__ == '__main__':
     if args.npc:
         print("Running npc spider")
         runner.run_npc()
+    if args.npc_zone:
+        print("Running npc zone ID spider")
+        runner.run_npc_zone_ids()
     if args.item:
         print("Running item spider")
         runner.run_item()
