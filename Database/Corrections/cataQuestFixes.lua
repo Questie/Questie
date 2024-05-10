@@ -944,7 +944,7 @@ function CataQuestFixes.Load()
         },
         [25316] = { -- As Hyjal Burns
             [questKeys.preQuestSingle] = {},
-            [questKeys.exclusiveTo] = {25317},
+            [questKeys.exclusiveTo] = {25317,25370,25460},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Hop on Aronus"), 0, {{"monster", 39140}}}},
         },
         [25317] = { -- Protect the World Tree
@@ -973,6 +973,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25277},
         },
         [25370] = { -- Inciting the Elements
+            [questKeys.preQuestSingle] = {},
             [questKeys.requiredSourceItems] = {53009},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Feed Juniper Berries"), 0, {{"monster", 39921}}}},
         },
