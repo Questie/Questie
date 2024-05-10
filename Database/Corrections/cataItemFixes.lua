@@ -310,6 +310,9 @@ function CataItemFixes.Load()
         [58864] = { -- Precious Locket
             [itemKeys.itemDrops] = {58856},
         },
+        [58899] = { -- Violet Perch
+            [itemKeys.npcDrops] = {},
+        },
         [58950] = { -- Messner's Cage Key
             [itemKeys.class] = itemClasses.QUEST,
         },

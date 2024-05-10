@@ -1393,6 +1393,9 @@ function CataQuestFixes.Load()
         },
         [26536] = { -- Thunder Falls
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26488},
+            [questKeys.extraObjectives] = {
+               {{[zoneIDs.ELWYNN_FOREST]={{26.50,60.57},{24.5,59.57},{21.49,59.4}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Violet Perch")},
+            },
         },
         [26538] = { -- Emergency Aid
             [questKeys.objectives] = {{{43191}}},
