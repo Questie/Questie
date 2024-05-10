@@ -120,8 +120,8 @@ function CataNpcFixes.Load()
         [35906] = { -- Lord Godfrey
             [npcKeys.spawns] = {
                 [zoneIDs.GILNEAS_CITY] = {
-                    {65.6,77.6,phases.LOST_ISLES_CHAPTER_2},
-                    {65.6,77.6,phases.LOST_ISLES_CHAPTER_3},
+                    {55.6,80.6,phases.LOST_ISLES_CHAPTER_2},
+                    {55.6,80.6,phases.LOST_ISLES_CHAPTER_3},
                 },
             },
         },
