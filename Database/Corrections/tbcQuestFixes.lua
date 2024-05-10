@@ -3341,6 +3341,12 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.UNDERCITY]={{64.58,8.08}},
             }},
         },
+        [11665] = { -- Crocolisks in the City
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.ORGRIMMAR]={{70.4,28.3},{67.8,33.7},{64.8,26},{35.2,78.6},{37.6,81.7},{33.3,84.4},{36.3,86}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Baby Crocolisk")},
+                {{[zoneIDs.STORMWIND_CITY]={{48.5,67.9},{45.7,60.5},{45.4,53.3},{35.7,45.6},{34.3,59},{51.8,47.1},{60.2,46.6},{65.2,53.7},{61.1,37},{65.6,32},{55.9,33.5},{50.9,23.8}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Baby Crocolisk")},
+            },
+        },
         [11666] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.TEROKKAR_FOREST]={{51.9,34.7},{55.3,44.1},{60.2,53.9}}}, Questie.ICON_TYPE_EVENT, l10n("Fish here for Blackfin Darter")}},
         },

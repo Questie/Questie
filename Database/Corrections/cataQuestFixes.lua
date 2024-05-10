@@ -208,6 +208,12 @@ function CataQuestFixes.Load()
         [11632] = { -- What the Cold Wind Brings...
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [11665] = { -- Crocolisks in the City
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.ORGRIMMAR]={{38.2,81.6},{36.0,75.8},{46.0,45.3},{64.9,42.5}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Baby Crocolisk")},
+                {{[zoneIDs.STORMWIND_CITY]={{60.4,60.2},{54.6,66.3},{69.8,65.2},{62.2,48.2},{71.2,40.7},{56.1,38.3}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Baby Crocolisk")},
+            },
+        },
         [11724] = { -- Massive Moth Omelet?
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
