@@ -1610,6 +1610,9 @@ function CataQuestFixes.Load()
         [27302] = { -- Simple Solutions
             [questKeys.preQuestSingle] = {27299},
         },
+        [27337] = { -- A Fitting Weapon
+            [questKeys.startedBy] = {{914}},
+        },
         [27341] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
         },
