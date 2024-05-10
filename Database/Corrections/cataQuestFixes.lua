@@ -2169,6 +2169,8 @@ function CataQuestFixes.Load()
         },
         [29320] = { -- Like Pike?
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29317,29361,29319,29322},
+            [questKeys.requiredSourceItems] = {69907},
+            [questKeys.extraObjectives] = {{{[zoneIDs.TIRISFAL_GLADES]={{68.48,48.59}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Corpse-Fed Pike")}},
         },
         [29321] = { -- Happy as a Clam Digger
             [questKeys.exclusiveTo] = {29325,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26488,26536},
