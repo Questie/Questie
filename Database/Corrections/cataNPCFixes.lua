@@ -267,6 +267,12 @@ function CataNpcFixes.Load()
         [39640] = { -- Kristoff Manheim
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{27.2,40.8}}},
         },
+        [39858] = { -- Arch Druid Hamuul Runetotem
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
+                {78.85,88.17,phases.HYJAL_HAMUUL_RUNETOTEM_AT_SANCTUARY},
+                {73.87,71.86,phases.HYJAL_HAMUUL_RUNETOTEM_AT_GROVE},
+            }},
+        },
         [39877] = { -- Toshe Chaosrender
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{55.5,12.5},{53.3,33.1}}},
         },

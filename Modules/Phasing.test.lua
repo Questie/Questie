@@ -405,6 +405,19 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE))
         end)
 
+        it("should handle Hyjal Hamuul Runetotem positioning when 25520 and 25502 are complete", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_HAMUUL_RUNETOTEM_AT_SANCTUARY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_HAMUUL_RUNETOTEM_AT_GROVE))
+
+            Questie.db.char.complete[25520] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_HAMUUL_RUNETOTEM_AT_SANCTUARY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_HAMUUL_RUNETOTEM_AT_GROVE))
+
+            Questie.db.char.complete[25502] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_HAMUUL_RUNETOTEM_AT_SANCTUARY))
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_HAMUUL_RUNETOTEM_AT_GROVE))
+        end)
+
         it("should return true for Hyjal Daily when 25560 is active", function()
             QuestLogCache.questLog_DO_NOT_MODIFY = {[25560]={}}
 
