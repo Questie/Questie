@@ -1128,7 +1128,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Budd's Chain"), 0, {{"object", 203137}}}},
         },
         [25731] = { -- A Bird in Hand
-            [questKeys.objectives] = {{{41112},{460000}}},
+            [questKeys.objectives] = {{{41112}},{{460000}}},
         },
         [25715] = { -- A Closer Look
             [questKeys.triggerEnd] = {"Scout the ships on the Shattershore", {[zoneIDs.BLASTED_LANDS]={{69,32.7}}}},
