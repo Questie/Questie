@@ -433,6 +433,9 @@ function CataItemFixes.Load()
         [69982] = { -- Dun Morogh Chicken
             [itemKeys.npcDrops] = {53568},
         },
+        [69984] = { -- Bag o' Sheep Innards
+            [itemKeys.vendors] = {5124},
+        },
         [70000] = { -- Succulent Sweet Potatoes
             [itemKeys.objectDrops] = {208887},
         },
