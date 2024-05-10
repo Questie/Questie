@@ -436,6 +436,9 @@ function CataItemFixes.Load()
         [69915] = { -- Baby Octopus
             [itemKeys.npcDrops] = {53522},
         },
+        [69918] = { -- Brightwater Snail
+            [itemKeys.npcDrops] = {53526},
+        },
         [69931] = { -- Arctic Char
             [itemKeys.npcDrops] = {},
         },

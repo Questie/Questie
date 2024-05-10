@@ -2289,7 +2289,7 @@ function CataQuestFixes.Load()
         },
         [29361] = { -- Moat Monster!
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29317,29320,29319,29322},
-            [questKeys.objectives] = {{53590,"Feed Bloated Frogs to the Moat Monster",Questie.ICON_TYPE_EVENT}},
+            [questKeys.objectives] = {{{53590,"Feed Bloated Frogs to the Moat Monster",Questie.ICON_TYPE_EVENT}}},
             [questKeys.sourceItemId] = 69998,
             [questKeys.requiredSourceItems] = {69995,69998,69999},
         },
