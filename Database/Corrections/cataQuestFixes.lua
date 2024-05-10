@@ -311,6 +311,9 @@ function CataQuestFixes.Load()
         [13569] = { -- The Ritual Bond
             [questKeys.objectives] = {nil,nil,nil,nil,{{{33131,33132,33133},33131,"Receive the blessing of a great animal spirit."}}},
             [questKeys.childQuests] = {13567,13568,13597},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {13565,13566,13598},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Breathe in the incense"), 0, {{"object", 194771}}}},
         },
         [13570] = { -- Remembrance of Auberdine
             [questKeys.preQuestSingle] = {13591},
