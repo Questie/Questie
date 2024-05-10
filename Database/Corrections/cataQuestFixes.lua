@@ -1133,6 +1133,9 @@ function CataQuestFixes.Load()
         [25715] = { -- A Closer Look
             [questKeys.triggerEnd] = {"Scout the ships on the Shattershore", {[zoneIDs.BLASTED_LANDS]={{69,32.7}}}},
         },
+        [25764] = { -- Egg Hunt
+            [questKeys.objectives] = {nil,{{203208}}},
+        },
         [25807] = { -- An Ancient Reborn
             [questKeys.objectives] = {{{41300}}},
         },
