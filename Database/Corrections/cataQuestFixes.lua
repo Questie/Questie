@@ -1314,17 +1314,23 @@ function CataQuestFixes.Load()
         [26207] = { -- The Arts of a Rogue
             [questKeys.objectives] = {{{44171}},nil,nil,nil,nil,{{2098}}},
         },
+        [26228] = { -- Livin' the Life
+            [questKeys.triggerEnd] = {"Livin' the Life!", {[zoneIDs.WESTFALL]={{61,25}}}},
+        },
         [26229] = { -- "I TAKE Candle!"
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [26230] = { -- Feast or Famine
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [26233] = { -- Stealing From Our Own
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE - raceKeys.TROLL,
+        },
+        [26234] = { -- Stealing From Our Own
+            [questKeys.requiredRaces] = raceKeys.TROLL,
+        },
         [26258] = { -- Deathwing's Fall
             [questKeys.triggerEnd] = {"Deathwing's Fall reached", {[zoneIDs.DEEPHOLM]={{61.3,57.5}}}},
-        },
-        [26228] = { -- Livin' the Life
-            [questKeys.triggerEnd] = {"Livin' the Life!", {[zoneIDs.WESTFALL]={{61,25}}}},
         },
         [26293] = { -- Machines of War
             [questKeys.startedBy] = {{39605}},
