@@ -322,6 +322,9 @@ function CataItemFixes.Load()
         [58951] = { -- Giant Furious Pike
             [itemKeys.npcDrops] = {}
         },
+        [58958] = { -- Drowned Thunder Lizard Tail
+            [itemKeys.npcDrops] = {39464},
+        },
         [58969] = { -- Jorgensen's Cage Key
             [itemKeys.class] = itemClasses.QUEST,
         },
