@@ -313,6 +313,9 @@ function CataItemFixes.Load()
         [58365] = { -- Horn of the Ancients
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [58809] = { -- Rock Lobster
+            [itemKeys.npcDrops] = {},
+        },
         [58864] = { -- Precious Locket
             [itemKeys.itemDrops] = {58856},
         },
