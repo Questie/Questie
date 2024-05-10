@@ -421,6 +421,9 @@ function CataItemFixes.Load()
         [69815] = { -- Seething Cinder
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [69905] = { -- Giant Flesh-Eating Tadpole
+            [itemKeys.npcDrops] = {},
+        },
         [69913] = { -- Aquinne's Moon Pendant
             [itemKeys.itemDrops] = {69914},
         },
