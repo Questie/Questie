@@ -1442,7 +1442,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{47.1,46.3}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Attach a Stag Eye to your Fishing Pole and fish for Sandy Carp")}},
         },
         [26572] = { -- A Golden Opportunity
-            [questKeys.requiredSourceItems] = {58958},
+            [questKeys.requiredSourceItems] = {58955,58958},
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
         },
         [26588] = { -- A Furious Catch
