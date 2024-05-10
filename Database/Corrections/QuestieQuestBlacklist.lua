@@ -1547,18 +1547,22 @@ function QuestieQuestBlacklist:Load()
 
         -- Phase 2 - Rise of the Zandalari
 
-        [29158] = true, -- The Zandalar Representative
+        [29100] = true, -- Bwemba's Spirit
+        [29102] = true, -- To Fort Livingston
         [29153] = true, -- Booty Bay's Interests
         [29157] = true, -- The Zandalari Menace
+        [29158] = true, -- The Zandalar Representative
         [29172] = true, -- The Beasts Within
         [29173] = true, -- Secondary Targets
         [29175] = true, -- Break Their Spirits
         [29177] = true, -- Vigilance on Wings
+        [29208] = true, -- An Old Friend
+        [29219] = true, -- Bwemba's Spirit
+        [29220] = true, -- To Bambala
+        [29229] = true, -- Follow That Cat
         [29241] = true, -- Break the Godbreaker
         [29242] = true, -- Putting a Price on Priceless
         [29251] = true, -- Booty Bay's Interests
-        [29208] = true, -- An Old Friend
-        [29229] = true, -- Follow That Cat
         [29252] = true, -- Booty Bay's Interests
 
         -- Phase 3 - Rage of the Firelands
