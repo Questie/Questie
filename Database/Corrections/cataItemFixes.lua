@@ -424,6 +424,9 @@ function CataItemFixes.Load()
         [69905] = { -- Giant Flesh-Eating Tadpole
             [itemKeys.npcDrops] = {},
         },
+        [69911] = { -- Squirming Slime Mold
+            [itemKeys.npcDrops] = {53517},
+        },
         [69913] = { -- Aquinne's Moon Pendant
             [itemKeys.itemDrops] = {69914},
         },
