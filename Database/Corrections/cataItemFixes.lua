@@ -412,6 +412,12 @@ function CataItemFixes.Load()
         [69815] = { -- Seething Cinder
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [69913] = { -- Aquinne's Moon Pendant
+            [itemKeys.itemDrops] = {69914},
+        },
+        [69914] = { -- Giant Catfish
+            [itemKeys.npcDrops] = {},
+        },
         [69915] = { -- Baby Octopus
             [itemKeys.npcDrops] = {53522},
         },
