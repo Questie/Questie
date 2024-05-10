@@ -1,5 +1,6 @@
 local trinity =  require('cataNpcDB-trinity')
 local mangos = require('cataNpcDB')
+local wotlk = require('wotlkNpcDB')
 
 local npcKeys = {
     ['name'] = 1, -- string
@@ -26,6 +27,12 @@ for npcId, data in pairs(mangos) do
     -- get spawns from trinity and add them to mangos
     if tNPC and tNPC[npcKeys.spawns] then
         data[npcKeys.spawns] = tNPC[npcKeys.spawns]
+        data[npcKeys.zoneID] = tNPC[npcKeys.zoneID]
+    end
+
+    -- get waypoints from wotlk and add them to mangos
+    if wotlk[npcId] and wotlk[npcId][npcKeys.waypoints] then
+        data[npcKeys.waypoints] = wotlk[npcId][npcKeys.waypoints]
     end
 end
 
