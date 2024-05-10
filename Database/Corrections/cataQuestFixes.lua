@@ -1000,6 +1000,7 @@ function CataQuestFixes.Load()
         },
         [25412] = { -- The Name Never Spoken
             [questKeys.preQuestSingle] = {25411},
+            [questKeys.exclusiveTo] = {25443},
         },
         [25419] = { -- Lady La-La's Medallion
             [questKeys.requiredSourceItems] = {55188},
@@ -1016,6 +1017,7 @@ function CataQuestFixes.Load()
         },
         [25443] = { -- The Name Never Spoken
             [questKeys.preQuestSingle] = {25411},
+            [questKeys.exclusiveTo] = {25412},
         },
         [25459] = { -- Ophidophobia
             [questKeys.preQuestSingle] = {25602},
