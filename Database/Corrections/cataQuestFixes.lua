@@ -895,6 +895,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{39609}},
             [questKeys.finishedBy] = {{39605}},
         },
+        [25273] = { -- Lycanthoth the Corruptor
+            [questKeys.finishedBy] = {{39627}},
+        },
         [25275] = { -- Report to the Labor Captain
             [questKeys.startedBy] = {{39605}},
         },
