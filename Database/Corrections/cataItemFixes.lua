@@ -448,6 +448,9 @@ function CataItemFixes.Load()
         [69935] = { -- Poshken's Ring
             [itemKeys.itemDrops] = {69956},
         },
+        [69977] = { -- Stonebull Crayfish
+            [itemKeys.npcDrops] = {53561},
+        },
         [69982] = { -- Dun Morogh Chicken
             [itemKeys.npcDrops] = {53568},
         },
