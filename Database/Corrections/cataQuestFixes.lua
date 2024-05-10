@@ -29,6 +29,9 @@ function CataQuestFixes.Load()
     local specialFlags = QuestieDB.specialFlags
 
     return {
+        [106] = { -- Young Lovers
+            [questKeys.preQuestSingle] = {},
+        },
         [171] = { -- A Warden of the Alliance
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29117,29119},
@@ -1292,6 +1295,10 @@ function CataQuestFixes.Load()
         },
         [26133] = { -- Fiends from the Netherworld
             [questKeys.preQuestSingle] = {26111},
+        },
+        [26150] = { -- A Visit With Maybell
+            [questKeys.exclusiveTo] = {106},
+            [questKeys.nextQuestInChain] = 106,
         },
         [26154] = { -- Twilight Extermination
             [questKeys.objectives] = {{{47969},{42285}},nil,nil,nil,{{{42281,42280},42280}}},
