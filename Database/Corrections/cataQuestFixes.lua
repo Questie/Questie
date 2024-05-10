@@ -1025,6 +1025,9 @@ function CataQuestFixes.Load()
         [25460] = { -- The Earth Rises
             [questKeys.preQuestSingle] = {},
         },
+        [25462] = { -- The Bears Up There
+            [questKeys.objectives] = {{{40240}}},
+        },
         [25464] = { -- The Return of Baron Geddon
             [questKeys.objectives] = {{{40147}}},
         },
