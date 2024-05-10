@@ -2261,6 +2261,7 @@ function CataQuestFixes.Load()
         },
         [29350] = { -- The Gnomish Bait-o-Matic
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29359,26414,26420,26442,26488,26536},
+            [questKeys.requiredSourceItems] = {6529,39684,69980},
         },
         [29351] = { -- A Round for the Guards
             [questKeys.objectives] = {{{5595,"Ironforge Guards Fed",Questie.ICON_TYPE_INTERACT}}},

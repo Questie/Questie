@@ -24,6 +24,9 @@ function CataItemFixes.Load()
         [31881] = { -- Draenei Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [39684] = { -- Hair Trigger
+            [itemKeys.npcDrops] = {},
+        },
         [44830] = { -- Highborne Relic
             [itemKeys.npcDrops] = {},
         },
