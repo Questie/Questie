@@ -1017,6 +1017,9 @@ function CataQuestFixes.Load()
         [25459] = { -- Ophidophobia
             [questKeys.preQuestSingle] = {25602},
         },
+        [25460] = { -- The Earth Rises
+            [questKeys.preQuestSingle] = {},
+        },
         [25464] = { -- The Return of Baron Geddon
             [questKeys.objectives] = {{{40147}}},
         },
