@@ -385,8 +385,8 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_CHAPTER_2))
         end)
 
-        it("should return false for Hyjal Chapter 1 when 25520 is complete", function()
-            Questie.db.char.complete[25520] = true
+        it("should return false for Hyjal Chapter 1 when 25372 is complete", function()
+            Questie.db.char.complete[25372] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_CHAPTER_1))
         end)

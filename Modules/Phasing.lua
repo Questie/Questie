@@ -109,7 +109,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.HYJAL_CHAPTER_1 then
-        return (not complete[25520])
+        return (not complete[25372])
     end
 
     if phase == phases.HYJAL_CHAPTER_2 then
