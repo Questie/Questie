@@ -28,6 +28,8 @@ for npcId, data in pairs(mangos) do
     if tNPC and tNPC[npcKeys.spawns] then
         data[npcKeys.spawns] = tNPC[npcKeys.spawns]
         data[npcKeys.zoneID] = tNPC[npcKeys.zoneID]
+        data[npcKeys.questStarts] = tNPC[npcKeys.questStarts]
+        data[npcKeys.questEnds] = tNPC[npcKeys.questEnds]
     end
 
     -- get waypoints from wotlk and add them to mangos
@@ -112,6 +114,9 @@ for npcId, data in pairsByKeys(mangos) do
         for i, questID in ipairs(data[npcKeys.questStarts]) do
             printString = printString .. questID .. ","
         end
+        if printString:sub(-1) == "," then
+            printString = printString:sub(1, -2) -- remove trailing comma
+        end
         printString = printString .. "},"
     else
         printString = printString .. "nil,"
@@ -120,6 +125,9 @@ for npcId, data in pairsByKeys(mangos) do
         printString = printString .. "{"
         for i, questID in ipairs(data[npcKeys.questEnds]) do
             printString = printString .. questID .. ","
+        end
+        if printString:sub(-1) == "," then
+            printString = printString:sub(1, -2) -- remove trailing comma
         end
         printString = printString .. "},"
     else
