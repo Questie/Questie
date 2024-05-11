@@ -343,6 +343,9 @@ function CataItemFixes.Load()
         [59261] = { -- Blackrock Holding Pen Key
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [59361] = { -- A Torn Journal
+            [itemKeys.objectDrops] = {204464},
+        },
         [59522] = { -- Key of Ilgalar
             [itemKeys.class] = itemClasses.QUEST,
         },
