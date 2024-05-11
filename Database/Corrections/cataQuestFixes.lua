@@ -330,6 +330,9 @@ function CataQuestFixes.Load()
         [13570] = { -- Remembrance of Auberdine
             [questKeys.preQuestSingle] = {13591},
         },
+        [13576] = { -- Mutual Aid
+            [questKeys.objectives] = {{{32999}}},
+        },
         [13583] = { -- The Wildkin's Oath
             [questKeys.preQuestSingle] = {13582},
         },
