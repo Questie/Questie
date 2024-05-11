@@ -645,6 +645,9 @@ function CataQuestFixes.Load()
         [24526] = { -- Filling Up the Spellbook
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{5143}}},
         },
+        [24527] = { -- Your Path Begins Here
+            [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{73899}}},
+        },
         [24528] = { -- The Power of the Light
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{20271},{20154}}},
         },
