@@ -1202,6 +1202,9 @@ function CataQuestFixes.Load()
         [25943] = { -- Traveling on Our Stomachs
             [questKeys.preQuestSingle] = {25941},
         },
+        [25945] = { -- We're Here to Do One Thing, Maybe Two...
+            [questKeys.triggerEnd] = {"	Krom'gar Wagon taken to the Fold", {[zoneIDs.STONETALON_MOUNTAINS]={{74.5,43.9}}}},
+        },
         [25946] = { -- Helm's Deep
             [questKeys.preQuestSingle] = {25405},
             [questKeys.exclusiveTo] = {},
