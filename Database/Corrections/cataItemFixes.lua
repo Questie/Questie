@@ -403,6 +403,18 @@ function CataItemFixes.Load()
         [63027] = { -- Brazier Torch
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [63333] = { -- Obsidian Piston
+            [itemKeys.npcDrops] = {7039},
+        },
+        [63334] = { -- Stone Power Core
+            [itemKeys.npcDrops] = {7039},
+        },
+        [63335] = { -- Thorium Gearshaft
+            [itemKeys.npcDrops] = {7039},
+        },
+        [63336] = { -- Flux Exhaust Sieve
+            [itemKeys.npcDrops] = {7039},
+        },
         [63351] = { -- Tahret Dynasty Mallet
             [itemKeys.class] = itemClasses.QUEST,
         },
