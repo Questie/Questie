@@ -1641,6 +1641,9 @@ function CataQuestFixes.Load()
         [27203] = { -- The Maelstrom
             [questKeys.preQuestSingle] = {},
         },
+        [27225] = { -- A Summons from Ander Germaine
+            [questKeys.exclusiveTo] = {27337},
+        },
         [27273] = { -- An Invitation from Moonglade
             [questKeys.exclusiveTo] = {27356},
         },
@@ -1658,6 +1661,7 @@ function CataQuestFixes.Load()
         },
         [27337] = { -- A Fitting Weapon
             [questKeys.startedBy] = {{914}},
+            [questKeys.preQuestSingle] = {},
         },
         [27341] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
