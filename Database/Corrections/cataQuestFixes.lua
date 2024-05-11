@@ -1466,6 +1466,9 @@ function CataQuestFixes.Load()
         [26642] = { -- Preserving the Barrens
             [questKeys.exclusiveTo] = {28494},
         },
+        [26645] = { -- The Night Watch
+            [questKeys.preQuestSingle] = {26618},
+        },
         [26656] = { -- Don't. Stop. Moving.
             [questKeys.triggerEnd] = {"Opalescent Guardians Escorted to safety", {[zoneIDs.DEEPHOLM]={{51,14.8}}}},
             [questKeys.objectives] = {{{42466},{43597}},nil,nil,nil,},
