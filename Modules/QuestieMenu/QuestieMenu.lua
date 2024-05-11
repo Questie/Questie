@@ -296,6 +296,7 @@ function QuestieMenu:Show(hideDelay)
         else
             Questie.db.profile.lowLevelStyle = Questie.LOWLEVEL_ALL
         end
+        AvailableQuests.ResetLevelRequirementCache()
         AvailableQuests.CalculateAndDrawAll()
     end, icon=QuestieLib.AddonPath.."Icons\\available_gray.blp", notCheckable=false, checked=Questie.db.profile.lowLevelStyle==Questie.LOWLEVEL_ALL, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, { text= l10n("Objective"), func = function()

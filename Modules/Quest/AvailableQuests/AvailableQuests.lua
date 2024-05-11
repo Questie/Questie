@@ -96,9 +96,6 @@ function AvailableQuests.UnloadUndoable()
 end
 
 _CalculateAvailableQuests = function()
-    -- Measure the time it takes to calculate and draw all available quests
-    local startTime = debugprofilestop()
-
     -- Localize the variables for speeeeed
     local debugEnabled = Questie.db.profile.debugEnabled
 
@@ -212,9 +209,6 @@ _CalculateAvailableQuests = function()
             yield()
         end
     end
-
-    local endTime = debugprofilestop()
-    print("Time to calculate and draw all available quests:", (endTime - startTime) / 1000, "seconds")
 end
 
 --- Mark all child quests as active when the parent quest is in the quest log
