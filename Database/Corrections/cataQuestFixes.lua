@@ -1473,6 +1473,9 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Opalescent Guardians Escorted to safety", {[zoneIDs.DEEPHOLM]={{51,14.8}}}},
             [questKeys.objectives] = {{{42466},{43597}},nil,nil,nil,},
         },
+        [26683] = { -- Look To The Stars
+            [questKeys.preQuestSingle] = {26661},
+        },
         [26706] = { -- Endgame
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Gunship destroyed",{[zoneIDs.GILNEAS]={{42.4,29.2}}}},
