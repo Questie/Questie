@@ -37,6 +37,7 @@ local timer
 local availableQuests = {}
 
 local dungeons = ZoneDB:GetDungeons()
+local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, QuestieDB.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
 
 local _CalculateAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
 
@@ -95,6 +96,9 @@ function AvailableQuests.UnloadUndoable()
 end
 
 _CalculateAvailableQuests = function()
+    -- Measure the time it takes to calculate and draw all available quests
+    local startTime = debugprofilestop()
+
     -- Localize the variables for speeeeed
     local debugEnabled = Questie.db.profile.debugEnabled
 
@@ -129,6 +133,9 @@ _CalculateAvailableQuests = function()
     QuestieDB.activeChildQuests = {} -- Reset here so we don't need to keep track in the quest event system
     local activeChildQuests = QuestieDB.activeChildQuests
 
+    local IsClassic = Questie.IsClassic
+    local IsSoD = Questie.IsSoD
+
     -- We create a local function here to improve readability but use the localized variables above.
     -- The order of checks is important here to bring the speed to a max
     local function _DrawQuestIfAvailable(questId)
@@ -144,7 +151,7 @@ _CalculateAvailableQuests = function()
         if currentQuestlog[questId] then
             _DrawChildQuests(questId, currentQuestlog, completedQuests)
 
-            if QuestieDB.IsComplete(questId) ~= -1 then -- The quest in the quest log is not failed, so we don't show it as available
+            if QIsComplete(questId) ~= -1 then -- The quest in the quest log is not failed, so we don't show it as available
                 return
             end
         end
@@ -155,15 +162,15 @@ _CalculateAvailableQuests = function()
             ((not showDungeonQuests) and QuestieDB.IsDungeonQuest(questId)) or      -- Don't show dungeon quests if option is disabled
             ((not showRaidQuests) and QuestieDB.IsRaidQuest(questId)) or            -- Don't show raid quests if option is disabled
             ((not showAQWarEffortQuests) and aqWarEffortQuests[questId]) or         -- Don't show AQ War Effort quests if the option disabled
-            (Questie.IsClassic and currentIsleOfQuelDanasQuests[questId]) or        -- Don't show Isle of Quel'Danas quests for Era/HC/SoX
-            (Questie.IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId))          -- Don't show SoD Rune quests with the option disabled
+            (IsClassic and currentIsleOfQuelDanasQuests[questId]) or        -- Don't show Isle of Quel'Danas quests for Era/HC/SoX
+            (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId))          -- Don't show SoD Rune quests with the option disabled
         ) then
             return
         end
 
         if (
-            (not QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)) or
-            (not QuestieDB.IsDoable(questId, debugEnabled))
+            (not IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)) or
+            (not IsDoable(questId, debugEnabled))
         ) then
             --If the quests are not within level range we want to unload them
             --(This is for when people level up or change settings etc)
@@ -205,6 +212,9 @@ _CalculateAvailableQuests = function()
             yield()
         end
     end
+
+    local endTime = debugprofilestop()
+    print("Time to calculate and draw all available quests:", (endTime - startTime) / 1000, "seconds")
 end
 
 --- Mark all child quests as active when the parent quest is in the quest log
