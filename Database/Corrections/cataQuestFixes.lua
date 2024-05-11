@@ -1498,6 +1498,10 @@ function CataQuestFixes.Load()
         [26750] = { -- At the Stonemother's Call
             [questKeys.preQuestSingle] = {26659},
         },
+        [26785] = { -- Part of the Pack
+            [questKeys.preQuestSingle] = {26674},
+            [questKeys.exclusiveTo] = {26717},
+        },
         [26798] = { -- The Warchief Will Be Pleased
             [questKeys.finishedBy] = {{39605}},
         },
