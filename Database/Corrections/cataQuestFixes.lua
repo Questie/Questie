@@ -602,12 +602,18 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {14401,14404,14412,14416},
             [questKeys.exclusiveTo] = {14402,14463},
         },
+        [14408] = { -- Nine's Plan
+            [questKeys.preQuestSingle] = {},
+        },
         [14412] = { -- Washed Up
             [questKeys.preQuestSingle] = {14403},
         },
         [14416] = { -- The Hungry Ettin
             [questKeys.objectives] = {{{36540, nil, Questie.ICON_TYPE_MOUNT_UP}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring the horses to Lorna Crowley"), 0, {{"monster", 36457}}}},
+        },
+        [14442] = { -- My Favorite Subject
+            [questKeys.exclusiveTo] = {14408},
         },
         [14463] = { -- Horses for Duskhaven
             [questKeys.preQuestSingle] = {},
