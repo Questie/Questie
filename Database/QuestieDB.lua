@@ -474,7 +474,7 @@ end
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsActiveEventQuest(questId)
-    --! If you edit the logic here, also edit in QuestieDB:IsLevelRequirementsFulfilled
+    --! If you edit the logic here, also edit in AvailableQuests.IsLevelRequirementsFulfilled
     return QuestieEvent.activeQuests[questId] == true
 end
 
@@ -493,62 +493,10 @@ function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
     return false
 end
 
----@param questId QuestId
----@param minLevel Level @The level a quest must have at least to be shown
----@param maxLevel Level @The level a quest can have at most to be shown
----@param playerLevel Level? @Pass player level to avoid calling UnitLevel or to use custom level
----@return boolean
-function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)
-    local level, requiredLevel, requiredMaxLevel = QuestieLib.GetTbcLevel(questId, playerLevel)
-
-    --* QuestiePlayer.currentQuestlog[parentQuestId] logic is from QuestieDB.IsParentQuestActive, if you edit here, also edit there
-    local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
-    if parentQuestId and QuestiePlayer.currentQuestlog[parentQuestId] then
-        -- If the quest is in the player's log already, there's no need to do any logic here, it must already be available
-        return true
-    end
-
-    --* QuestieEvent.activeQuests[questId] logic is from QuestieDB.IsParentQuestActive, if you edit here, also edit there
-    if (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) and
-        minLevel > requiredLevel and
-        QuestieEvent.activeQuests[questId]  then
-        return true
-    end
-
-    if (Questie.IsSoD == true) and (QuestieDB.IsSoDRuneQuest(questId) == true) and (requiredLevel <= playerLevel) then
-        -- Season of Discovery Rune quests are still shown when trivial
-        return true
-    end
-
-    if maxLevel >= level then
-        if (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_ALL) and minLevel > level then
-            -- The quest level is too low and trivial quests are not shown
-            return false
-        end
-    else
-        if (Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_RANGE) or maxLevel < requiredLevel then
-            -- Either an absolute level range is set and maxLevel < level OR the maxLevel is manually set to a lower value
-            return false
-        end
-    end
-
-    if maxLevel < requiredLevel then
-        -- Either the players level is not high enough or the maxLevel is manually set to a lower value
-        return false
-    end
-
-    if requiredMaxLevel ~= 0 and playerLevel > requiredMaxLevel then
-        -- The players level exceeds the requiredMaxLevel of a quest
-        return false
-    end
-
-    return true
-end
-
 ---@param parentID number
 ---@return boolean
 function QuestieDB.IsParentQuestActive(parentID)
-    --! If you edit the logic here, also edit in QuestieDB:IsLevelRequirementsFulfilled
+    --! If you edit the logic here, also edit in AvailableQuests.IsLevelRequirementsFulfilled
     if (not parentID) or (parentID == 0) then
         return false
     end

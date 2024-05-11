@@ -37,7 +37,7 @@ local timer
 local availableQuests = {}
 
 local dungeons = ZoneDB:GetDungeons()
-local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, QuestieDB.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
+local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
 
 local _CalculateAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
 

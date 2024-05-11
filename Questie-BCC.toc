@@ -155,7 +155,8 @@ Modules\Map\HBDHooks.lua
 Modules\Map\WeaponMasterSkills.lua
 
 # Quest
-Modules\Quest\AvailableQuests.lua
+Modules\Quest\AvailableQuests\IsLevelRequirementFulfilled.lua
+Modules\Quest\AvailableQuests\AvailableQuests.lua
 Modules\Quest\QuestLogCache.lua
 Modules\Quest\DailyQuests.lua
 Modules\Quest\IsleOfQuelDanas.lua
