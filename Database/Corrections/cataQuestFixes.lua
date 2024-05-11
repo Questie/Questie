@@ -283,6 +283,7 @@ function CataQuestFixes.Load()
         [13557] = { -- Bearer of Good Fortune
             [questKeys.startedBy] = {{33020,33022},nil,{44927}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{33023,33024},33023,"Uncorrupted animals freed"}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [13560] = { -- An Ocean Not So Deep
             [questKeys.preQuestGroup] = {13566,13569},
