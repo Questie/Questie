@@ -129,7 +129,7 @@ function QuestieEvent:Load()
 
         if activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth) then
 
-            if ((not questData[5]) or (Questie.IsClassic and questData[5] == QuestieCorrections.CLASSIC_ONLY)) then
+            if ((not questData[5]) or (Questie.IsClassic and questData[5] == QuestieCorrections.CLASSIC_HIDE)) then
                 QuestieCorrections.hiddenQuests[questId] = nil
                 QuestieEvent.activeQuests[questId] = true
             end
@@ -259,7 +259,7 @@ _LoadDarkmoonFaire = function()
     QuestieEvent.activeQuests[announcingQuestId] = true
 
     for _, questData in pairs(QuestieEvent.eventQuests) do
-        if questData[1] == "Darkmoon Faire" and ((not questData[5]) or (not Questie.IsSoD) or questData[5] ~= QuestieCorrections.HIDE_SOD) then
+        if questData[1] == "Darkmoon Faire" and ((not questData[5]) or (not Questie.IsSoD) or questData[5] ~= QuestieCorrections.SOD_HIDE) then
             local questId = questData[2]
             QuestieCorrections.hiddenQuests[questId] = nil
             QuestieEvent.activeQuests[questId] = true

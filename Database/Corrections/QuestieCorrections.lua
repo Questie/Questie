@@ -84,16 +84,15 @@ local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes"
 local bitband = bit.band
 
 -- Bitmask flags to blacklist DB entries in specific expansions
-QuestieCorrections.CLASSIC_ONLY = 1 -- Hide in Classic
-QuestieCorrections.TBC_ONLY = 2 -- Hide in TBC
-QuestieCorrections.WOTLK_ONLY = 4 -- Hide in Wotlk
-QuestieCorrections.CATA_ONLY = 8 -- Hide in Cata
-QuestieCorrections.HIDE_SOD = 16 -- Hide when Season of Discovery; use to hide quests that are not available in SoD
+QuestieCorrections.CLASSIC_HIDE = 1 -- Hide in Classic
+QuestieCorrections.TBC_HIDE = 2 -- Hide in TBC
+QuestieCorrections.WOTLK_HIDE = 4 -- Hide in Wotlk
+QuestieCorrections.CATA_HIDE = 8 -- Hide in Cata
+QuestieCorrections.SOD_HIDE = 16 -- Hide when Season of Discovery; use to hide quests that are not available in SoD
 
 QuestieCorrections.killCreditObjectiveFirst = {}
 QuestieCorrections.objectObjectiveFirst = {}
 
--- this function filters a table of values, if the value is TBC_ONLY or CLASSIC_ONLY, set it to true or nil if that case is met
 ---@generic T
 ---@param values T
 ---@return T
@@ -105,35 +104,35 @@ local function filterExpansion(values)
     local isCata = Questie.IsCata
     for k, v in pairs(values) do
         if v ~= true and v ~= false then
-            if bitband(v, QuestieCorrections.CLASSIC_ONLY) ~= 0 then
+            if bitband(v, QuestieCorrections.CLASSIC_HIDE) ~= 0 then
                 if isClassic then
                     values[k] = true
                 else
                     values[k] = nil
                 end
             end
-            if bitband(v, QuestieCorrections.TBC_ONLY) ~= 0 then
+            if bitband(v, QuestieCorrections.TBC_HIDE) ~= 0 then
                 if isTBC then
                     values[k] = true
                 else
                     values[k] = nil
                 end
             end
-            if bitband(v, QuestieCorrections.WOTLK_ONLY) ~= 0 then
+            if bitband(v, QuestieCorrections.WOTLK_HIDE) ~= 0 then
                 if isWotlk then
                     values[k] = true
                 else
                     values[k] = nil
                 end
             end
-            if bitband(v, QuestieCorrections.CATA_ONLY) ~= 0 then
+            if bitband(v, QuestieCorrections.CATA_HIDE) ~= 0 then
                 if isCata then
                     values[k] = true
                 else
                     values[k] = nil
                 end
             end
-            if bitband(v, QuestieCorrections.HIDE_SOD) ~= 0 then
+            if bitband(v, QuestieCorrections.SOD_HIDE) ~= 0 then
                 if isSoD then
                     values[k] = true
                 else
