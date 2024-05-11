@@ -1700,6 +1700,9 @@ function CataQuestFixes.Load()
         [27379] = { -- The Terrors of Iso'rath
             [questKeys.objectives] = {{{48739},{48790},{48794},{48796}}},
         },
+        [27381] = { -- Traveling Companions
+            [questKeys.objectives] = {{{45451}}},
+        },
         [27398] = { -- The Battle Is Won, The War Goes On
             [questKeys.preQuestSingle] = {25551},
             [questKeys.exclusiveTo] = {27203,27443,27727},
