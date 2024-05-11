@@ -768,6 +768,9 @@ function CataQuestFixes.Load()
         [24969] = { -- Charging into Battle
             [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{100}}},
         },
+        [25037] = { -- Crab Fishin'
+            [questKeys.preQuestSingle] = {24769},
+        },
         [25081] = { -- Claim the Battlescar
             [questKeys.triggerEnd] = {"Battlescar Flag Scouted", {[zoneIDs.THE_BARRENS]={{45.2,69.4}}}},
         },
