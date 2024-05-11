@@ -390,6 +390,9 @@ function CataQuestFixes.Load()
         [13844] = { -- The Looting of Althalaxx
             [questKeys.preQuestSingle] = {13509},
         },
+        [13871] = { -- Security!
+            [questKeys.preQuestSingle] = {13870},
+        },
         [13873] = { -- Sheelah's Last Wish
             [questKeys.preQuestSingle] = {13871},
         },
