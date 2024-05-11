@@ -16,7 +16,10 @@ for objId, data in pairs(mangos) do
 
     -- get spawns from trinity and add them to mangos
     if tObj and tObj[objectKeys.spawns] then
+        data[objectKeys.questStarts] = tObj[objectKeys.questStarts]
+        data[objectKeys.questEnds] = tObj[objectKeys.questEnds]
         data[objectKeys.spawns] = tObj[objectKeys.spawns]
+        data[objectKeys.zoneID] = tObj[objectKeys.zoneID]
     end
 end
 
@@ -66,6 +69,7 @@ for objId, data in pairsByKeys(mangos) do
         for i, questID in ipairs(data[objectKeys.questStarts]) do
             printString = printString .. questID .. ","
         end
+        printString = printString:sub(1, -2) -- remove trailing comma
         printString = printString .. "},"
     else
         printString = printString .. "nil,"
@@ -75,6 +79,7 @@ for objId, data in pairsByKeys(mangos) do
         for i, questID in ipairs(data[objectKeys.questEnds]) do
             printString = printString .. questID .. ","
         end
+        printString = printString:sub(1, -2) -- remove trailing comma
         printString = printString .. "},"
     else
         printString = printString .. "nil,"
