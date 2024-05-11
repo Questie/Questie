@@ -2225,6 +2225,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 29336,
         },
         [29328] = { -- Elemental Bonds: Desire
+            [questKeys.objectives] = {{{53646},{53647}}},
             [questKeys.preQuestSingle] = {29336},
             [questKeys.nextQuestInChain] = 29337,
         },
