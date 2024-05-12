@@ -129,6 +129,12 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{18238},nil,{24558}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [10647] = { -- Wanted: Uvuros, Scourge of Shadowmoon
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [10648] = { -- Wanted: Uvuros, Scourge of Shadowmoon
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [10068] = { -- Frost Nova
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{5143}}},
         },
