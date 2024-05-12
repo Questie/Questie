@@ -198,6 +198,9 @@ function CataItemFixes.Load()
         [52537] = { -- Flame Blossom
             [itemKeys.npcDrops] = {},
         },
+        [52568] = { -- Twilight Supplies
+            [itemKeys.npcDrops] = {},
+        },
         [52716] = { -- Twilight Firelance
             [itemKeys.objectDrops] = {202967},
         },
