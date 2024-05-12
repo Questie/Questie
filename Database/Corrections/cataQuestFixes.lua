@@ -938,6 +938,10 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{39609}},
             [questKeys.finishedBy] = {{39605}},
         },
+        [25268] = { -- The Voice of Goldrinn
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25233,25234,25255}
+        },
         [25273] = { -- Lycanthoth the Corruptor
             [questKeys.finishedBy] = {{39627}},
         },
