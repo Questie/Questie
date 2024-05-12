@@ -232,6 +232,9 @@ function CataItemFixes.Load()
         [53139] = { -- Twilight Overseer's Key
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [54461] = { -- Charred Staff Fragment
+            [itemKeys.npcDrops] = {},
+        },
         [54463] = { -- Flameseer's Staff
             [itemKeys.class] = itemClasses.QUEST,
         },
