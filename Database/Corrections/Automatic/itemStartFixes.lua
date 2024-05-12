@@ -1747,6 +1747,11 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       [44927] = {
         [itemKeys.startQuest] = 13557,
       },
+      --* Item 44979 https://wotlk.wowhead.com/wotlk/item=44979
+      --* Starts: Reason to Worry(13506)(https://wotlk.wowhead.com/wotlk/quest=13506)
+      [44979] = {
+        [itemKeys.startQuest] = 13506,
+      },
       --* Item 45039 https://wotlk.wowhead.com/wotlk/item=45039
       --* Starts: Ancient History(13622)(https://wotlk.wowhead.com/wotlk/quest=13622)
       [45039] = {
@@ -1776,6 +1781,11 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       --* Starts: Heroic: All Is Well That Ends Well(13819)(https://wotlk.wowhead.com/wotlk/quest=13819)
       [46053] = {
         [itemKeys.startQuest] = 13819,
+      },
+      --* Item 46128 https://wotlk.wowhead.com/wotlk/item=46128
+      --* Starts: Corrupting Influence?(13868)(https://wotlk.wowhead.com/wotlk/quest=13868)
+      [46128] = {
+        [itemKeys.startQuest] = 13868,
       },
       --* Item 46875 https://wotlk.wowhead.com/wotlk/item=46875
       --* Starts: Learn to Ride in Elwynn Forest(14079)(https://wotlk.wowhead.com/wotlk/quest=14079)
@@ -1876,6 +1886,46 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       --* Starts: The Battered Hilt(24554)(https://wotlk.wowhead.com/wotlk/quest=24554)
       [50380] = {
         [itemKeys.startQuest] = 24554,
+      },
+      --* Item 61378 https://wotlk.wowhead.com/wotlk/item=61378
+      --* Starts: The Baroness' Missive(27551)(https://wotlk.wowhead.com/wotlk/quest=27551)
+      [61378] = {
+        [itemKeys.startQuest] = 27551,
+      },
+      --* Item 62021 https://wotlk.wowhead.com/wotlk/item=62021
+      --* Starts: Darkmoon Volcanic Deck(27664)(https://wotlk.wowhead.com/wotlk/quest=27664)
+      [62021] = {
+        [itemKeys.startQuest] = 27664,
+      },
+      --* Item 62044 https://wotlk.wowhead.com/wotlk/item=62044
+      --* Starts: Darkmoon Tsunami Deck(27666)(https://wotlk.wowhead.com/wotlk/quest=27666)
+      [62044] = {
+        [itemKeys.startQuest] = 27666,
+      },
+      --* Item 62045 https://wotlk.wowhead.com/wotlk/item=62045
+      --* Starts: Darkmoon Hurricane Deck(27665)(https://wotlk.wowhead.com/wotlk/quest=27665)
+      [62045] = {
+        [itemKeys.startQuest] = 27665,
+      },
+      --* Item 62046 https://wotlk.wowhead.com/wotlk/item=62046
+      --* Starts: Darkmoon Earthquake Deck(27667)(https://wotlk.wowhead.com/wotlk/quest=27667)
+      [62046] = {
+        [itemKeys.startQuest] = 27667,
+      },
+      --* Item 71635 https://wotlk.wowhead.com/wotlk/item=71635
+      --* Starts: A Curious Crystal(29443)(https://wotlk.wowhead.com/wotlk/quest=29443)
+      [71635] = {
+        [itemKeys.startQuest] = 29443,
+      },
+      --* Item 71637 https://wotlk.wowhead.com/wotlk/item=71637
+      --* Starts: An Intriguing Grimoire(29445)(https://wotlk.wowhead.com/wotlk/quest=29445)
+      [71637] = {
+        [itemKeys.startQuest] = 29445,
+      },
+      --* Item 74034 https://wotlk.wowhead.com/wotlk/item=74034
+      --* Starts: Pit Fighter(29760)(https://wotlk.wowhead.com/wotlk/quest=29760)
+      [74034] = {
+        [itemKeys.startQuest] = 29760,
       },
     }
 end
