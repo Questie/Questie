@@ -1184,6 +1184,10 @@ function CataQuestFixes.Load()
         [25764] = { -- Egg Hunt
             [questKeys.objectives] = {nil,{{203208}}},
         },
+        [25776] = { -- Sethria's Demise
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25761,25764}
+        },
         [25807] = { -- An Ancient Reborn
             [questKeys.objectives] = {{{41300}}},
         },
