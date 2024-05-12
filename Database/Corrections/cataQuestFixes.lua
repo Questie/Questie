@@ -1312,6 +1312,9 @@ function CataQuestFixes.Load()
         [25982] = { -- Those Aren't Masks
             [questKeys.preQuestSingle] = {26092},
         },
+        [25985] = { -- Wings Over Mount Hyjal
+            [questKeys.exclusiveTo] = {25663,27874},
+        },
         [25987] = { -- Put It On
             [questKeys.triggerEnd] = {"Merciless One worn",{[zoneIDs.ABYSSAL_DEPTHS]={{51.5,60.8}}}},
         },
