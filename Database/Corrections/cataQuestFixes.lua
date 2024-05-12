@@ -1162,6 +1162,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{203137,"Explosive Grub fed to Gnaws",Questie.ICON_TYPE_EVENT}}},
         },
         [25663] = { -- An Offering for Aviana
+            [questKeys.preQuestSingle] = {25578},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sacred Nectar"), 0, {{"object", 203147}}}},
         },
         [25670] = { -- DUN-dun-DUN-dun-DUN-dun
