@@ -980,6 +980,9 @@ function CataQuestFixes.Load()
         [25297] = { -- From the Mouth of Madness
             [questKeys.preQuestSingle] = {25272,25273},
         },
+        [25298] = { -- Free Your Mind, the Rest Follows
+            [questKeys.objectives] = {{{39644,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [25300] = { -- The Eye of Twilight
             [questKeys.preQuestSingle] = {25272,25273},
         },
