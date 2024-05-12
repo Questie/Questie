@@ -25,11 +25,17 @@ for npcId, data in pairs(mangos) do
     local tNPC = trinity[npcId]
 
     -- get spawns from trinity and add them to mangos
-    if tNPC and tNPC[npcKeys.spawns] then
-        data[npcKeys.spawns] = tNPC[npcKeys.spawns]
-        data[npcKeys.zoneID] = tNPC[npcKeys.zoneID]
-        data[npcKeys.questStarts] = tNPC[npcKeys.questStarts]
-        data[npcKeys.questEnds] = tNPC[npcKeys.questEnds]
+    if tNPC then
+        if tNPC[npcKeys.spawns] then
+            data[npcKeys.spawns] = tNPC[npcKeys.spawns]
+            data[npcKeys.zoneID] = tNPC[npcKeys.zoneID]
+        end
+        if tNPC[npcKeys.questStarts] then
+            data[npcKeys.questStarts] = tNPC[npcKeys.questStarts]
+        end
+        if tNPC[npcKeys.questEnds] then
+            data[npcKeys.questEnds] = tNPC[npcKeys.questEnds]
+        end
     end
 
     -- get waypoints from wotlk and add them to mangos
