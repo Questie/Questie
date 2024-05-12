@@ -1061,7 +1061,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25584},
         },
         [25392] = { -- Oh, Deer!
-            [questKeys.objectives] = {{{39999}}},
+            [questKeys.objectives] = {{{39999,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Escort the Injured Fawn back home"), 0, {{"monster", 39930}}}},
         },
         [25404] = { -- If You're Not Against Us...
             [questKeys.objectives] = {{{39933,nil,Questie.ICON_TYPE_TALK}}},

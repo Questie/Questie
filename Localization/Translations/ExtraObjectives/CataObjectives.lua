@@ -746,6 +746,18 @@ local cataObjectiveLocales = {
         ["zhTW"] = "啟動",
         ["zhCN"] = "激活",
     },
+    ["Escort the Injured Fawn back home"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Geleite die verletzten Rehkitz nach Hause",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(cataObjectiveLocales) do
