@@ -2195,6 +2195,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {28715},
             [questKeys.nextQuestInChain] = 28715,
         },
+        [28756] = { -- Aberrations of Bone
+            [questKeys.objectives] = {{{11622}}},
+        },
         [28768] = { -- Winterspring!
             [questKeys.exclusiveTo] = {28524,28544,28545},
         },
