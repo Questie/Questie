@@ -282,6 +282,9 @@ function CataNpcFixes.Load()
         [40065] = { -- Unbound Flame Spirit
             [npcKeys.spawns] = {},
         },
+        [40178] = { -- Alysra
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{52.12,17.42}}},
+        },
         [40461] = { -- Flameward Activated
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{33.1,64.5},{41.6,56.2},{40.5,53.2},{38.4,63.9}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
