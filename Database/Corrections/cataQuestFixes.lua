@@ -986,6 +986,9 @@ function CataQuestFixes.Load()
         [25300] = { -- The Eye of Twilight
             [questKeys.preQuestSingle] = {25272,25273},
         },
+        [25303] = { -- Elementary!
+            [questKeys.objectives] = {{{39737},{39736},{39730},{39738}}},
+        },
         [25308] = { -- Seeds of Discord
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Put on your disguise"), 0, {{"object", 203091}}},
