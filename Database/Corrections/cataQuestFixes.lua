@@ -942,6 +942,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25233,25234,25255}
         },
+        [25269] = { -- The Voice of Lo'Gosh
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25233,25234,25255}
+        },
         [25273] = { -- Lycanthoth the Corruptor
             [questKeys.finishedBy] = {{39627}},
         },
