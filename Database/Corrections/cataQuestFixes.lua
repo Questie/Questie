@@ -981,7 +981,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25272,25273},
         },
         [25300] = { -- The Eye of Twilight
-            [questKeys.preQuestSingle] = {25272},
+            [questKeys.preQuestSingle] = {25272,25273},
         },
         [25308] = { -- Seeds of Discord
             [questKeys.extraObjectives] = {
