@@ -213,6 +213,9 @@ function CataItemFixes.Load()
         [52725] = { -- Hyjal Battleplans
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [52789] = { -- Rusted Skull Key
+            [itemKeys.npcDrops] = {},
+        },
         [52819] = { -- Frostgale Crystal
             [itemKeys.class] = itemClasses.QUEST,
         },
