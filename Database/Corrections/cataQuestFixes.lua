@@ -263,6 +263,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {13504},
             [questKeys.objectives] = {nil,{{194102}}},
         },
+        [13510] = { -- Timely Arrival
+            [questKeys.triggerEnd] = {"Escort Sentinel Aynasha to the Dock", {[zoneIDs.DARKSHORE]={{60.25,69.01}}}},
+        },
         [13512] = { -- Strategic Strikes
             [questKeys.preQuestSingle] = {13507},
         },
