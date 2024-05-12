@@ -2227,7 +2227,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {172},
         },
         [29177] = { -- Vigilance on Wings
-            [questKeys.preQuestSingle] = {25832},
+            [questKeys.preQuestSingle] = {25560},
         },
         [29190] = { -- Let's Go Fly a Kite
             [questKeys.triggerEnd] = {"Fly Dragon Kites with your orphan", {[zoneIDs.ORGRIMMAR]={{58.5,58.3}}}},
