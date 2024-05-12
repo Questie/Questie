@@ -1023,6 +1023,8 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{39453}}},
         },
         [25332] = { -- Get Me Outta Here!
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Kristoff Escorted Out", {[zoneIDs.MOUNT_HYJAL]={{27.1,35.9}}}},
             [questKeys.preQuestSingle] = {25328},
         },
         [25354] = { -- Sweeping the Shelf
