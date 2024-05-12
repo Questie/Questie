@@ -275,6 +275,9 @@ function CataQuestFixes.Load()
         [13514] = { -- The Ancients' Ire
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get on the Protector's back"), 0, {{"monster", 43742}}}},
         },
+        [13515] = { -- Ending the Threat
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak to Sandrya Moonfall to start the attack"), 0, {{"monster", 33178}}}},
+        },
         [13519] = { -- The Twilight's Hammer
             [questKeys.preQuestSingle] = {13591},
         },
