@@ -129,12 +129,6 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{18238},nil,{24558}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
-        [10647] = { -- Wanted: Uvuros, Scourge of Shadowmoon
-            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
-        },
-        [10648] = { -- Wanted: Uvuros, Scourge of Shadowmoon
-            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
-        },
         [10068] = { -- Frost Nova
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{5143}}},
         },
@@ -152,6 +146,12 @@ function CataQuestFixes.Load()
         },
         [10073] = { -- Corruption
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{348}}},
+        },
+        [10647] = { -- Wanted: Uvuros, Scourge of Shadowmoon
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [10648] = { -- Wanted: Uvuros, Scourge of Shadowmoon
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [10942] = { -- Children's Week
             [questKeys.zoneOrSort] = -378,
@@ -2428,12 +2428,12 @@ function CataQuestFixes:LoadFactionFixes()
         [29475] = { -- Goblin Engineering
             [questKeys.startedBy] = {{11017,11031,16667,29513,52651}},
             [questKeys.finishedBy] = {{11017,11031,16667,29513,52651}},
-            [questKeys.exclusiveTo] = {3526,3629,3633,4181,29476,29477},
+            [questKeys.exclusiveTo] = {3526,3629,3633,4181,29476,29477,3630,3632,3634,3635,3637},
         },
         [29477] = { -- Gnomish Engineering
             [questKeys.startedBy] = {{11017,11031,16667,29513,52651}},
             [questKeys.finishedBy] = {{11017,11031,16667,29513,52651}},
-            [questKeys.exclusiveTo] = {3630,3632,3634,3635,3637,29475,29476},
+            [questKeys.exclusiveTo] = {3630,3632,3634,3635,3637,29475,29476,3526,3629,3633,4181},
         },
         [29481] = { -- Elixir Master
             [questKeys.startedBy] = {{3347}}
@@ -2447,12 +2447,12 @@ function CataQuestFixes:LoadFactionFixes()
         [29475] = { -- Goblin Engineering
             [questKeys.startedBy] = {{5174,5518,16726,29513,52636}},
             [questKeys.finishedBy] = {{5174,5518,16726,29513,52636}},
-            [questKeys.exclusiveTo] = {3526,3629,3633,4181,29476,29477,3630,3632,3634,3635,3637,29475,29476},
+            [questKeys.exclusiveTo] = {3526,3629,3633,4181,29476,29477,3630,3632,3634,3635,3637},
         },
         [29477] = { -- Gnomish Engineering
             [questKeys.startedBy] = {{5174,5518,16726,29513,52636}},
             [questKeys.finishedBy] = {{5174,5518,16726,29513,52636}},
-            [questKeys.exclusiveTo] = {3630,3632,3634,3635,3637,29475,29476,3526,3629,3633,4181,29476,29477},
+            [questKeys.exclusiveTo] = {3630,3632,3634,3635,3637,29475,29476,3526,3629,3633,4181},
         },
         [29481] = { -- Elixir Master
             [questKeys.startedBy] = {{5499}}
