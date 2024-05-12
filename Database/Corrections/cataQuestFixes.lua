@@ -2447,12 +2447,12 @@ function CataQuestFixes:LoadFactionFixes()
         [29475] = { -- Goblin Engineering
             [questKeys.startedBy] = {{5174,5518,16726,29513,52636}},
             [questKeys.finishedBy] = {{5174,5518,16726,29513,52636}},
-            [questKeys.exclusiveTo] = {3526,3629,3633,4181,29476,29477},
+            [questKeys.exclusiveTo] = {3526,3629,3633,4181,29476,29477,3630,3632,3634,3635,3637,29475,29476},
         },
         [29477] = { -- Gnomish Engineering
             [questKeys.startedBy] = {{5174,5518,16726,29513,52636}},
             [questKeys.finishedBy] = {{5174,5518,16726,29513,52636}},
-            [questKeys.exclusiveTo] = {3630,3632,3634,3635,3637,29475,29476},
+            [questKeys.exclusiveTo] = {3630,3632,3634,3635,3637,29475,29476,3526,3629,3633,4181,29476,29477},
         },
         [29481] = { -- Elixir Master
             [questKeys.startedBy] = {{5499}}
