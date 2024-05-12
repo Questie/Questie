@@ -1099,6 +1099,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [25462] = { -- The Bears Up There
+            [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{40240}}},
         },
         [25464] = { -- The Return of Baron Geddon
@@ -1267,6 +1268,7 @@ function CataQuestFixes.Load()
         },
         [25940] = { -- Last Stand at Whistling Grove
             [questKeys.preQuestSingle] = {25428},
+            [questKeys.exclusiveTo] = {25462},
         },
         [25942] = { -- Buy Us Some Time
             [questKeys.preQuestSingle] = {25941},
