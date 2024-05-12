@@ -1030,6 +1030,9 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Kristoff Escorted Out", {[zoneIDs.MOUNT_HYJAL]={{27.1,35.9}}}},
             [questKeys.preQuestSingle] = {25328},
         },
+        [25352] = { -- Sweeping the Shelf
+            [questKeys.preQuestSingle] = {25278},
+        },
         [25353] = { -- Lightning in a Bottle
             [questKeys.preQuestSingle] = {25278},
         },
