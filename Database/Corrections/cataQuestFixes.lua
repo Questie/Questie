@@ -272,6 +272,9 @@ function CataQuestFixes.Load()
         [13513] = { -- On the Brink
             [questKeys.preQuestSingle] = {13507},
         },
+        [13514] = { -- The Ancients' Ire
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get on the Protector's back"), 0, {{"monster", 43742}}}},
+        },
         [13519] = { -- The Twilight's Hammer
             [questKeys.preQuestSingle] = {13591},
         },
