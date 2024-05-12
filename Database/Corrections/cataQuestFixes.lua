@@ -978,7 +978,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25291},
         },
         [25297] = { -- From the Mouth of Madness
-            [questKeys.preQuestSingle] = {25272},
+            [questKeys.preQuestSingle] = {25272,25273},
         },
         [25300] = { -- The Eye of Twilight
             [questKeys.preQuestSingle] = {25272},
