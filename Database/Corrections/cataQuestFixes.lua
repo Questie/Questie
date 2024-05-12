@@ -1165,6 +1165,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25578},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sacred Nectar"), 0, {{"object", 203147}}}},
         },
+        [25664] = { -- A Prayer and a Wing
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Enormous Bird Call"), 0, {{"object", 203169}}}},
+        },
         [25670] = { -- DUN-dun-DUN-dun-DUN-dun
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Budd's Chain"), 0, {{"object", 203137}}}},
         },
