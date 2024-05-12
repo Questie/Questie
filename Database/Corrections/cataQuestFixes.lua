@@ -353,7 +353,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {13512},
         },
         [13591] = { -- Disturbing Connections
-            [questKeys.startedBy] = {{33178},nil,{46318}},
+            [questKeys.startedBy] = {{32862},nil,{46318}},
             [questKeys.preQuestSingle] = {13590},
         },
         [13596] = { -- Twilight Plans
