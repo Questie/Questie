@@ -1047,7 +1047,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{39999}}},
         },
         [25404] = { -- If You're Not Against Us...
-            [questKeys.preQuestSingle] = {25269},
+            [questKeys.preQuestSingle] = {25584},
         },
         [25411] = { -- A New Master
             [questKeys.objectives] = {{{39974}}},
