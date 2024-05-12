@@ -1002,6 +1002,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25308},
         },
         [25323] = { -- Flamebreaker
+            [questKeys.objectives] = {{{40080}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Flameseer's Staff"), 0, {{"monster", 38896}}}},
         },
         [25325] = { -- Through the Dream
