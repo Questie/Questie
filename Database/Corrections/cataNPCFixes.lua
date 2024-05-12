@@ -269,8 +269,8 @@ function CataNpcFixes.Load()
         },
         [39858] = { -- Arch Druid Hamuul Runetotem
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
-                {78.85,88.17,phases.HYJAL_HAMUUL_RUNETOTEM_AT_SANCTUARY},
-                {73.87,71.86,phases.HYJAL_HAMUUL_RUNETOTEM_AT_GROVE},
+                {27.12,62.64,phases.HYJAL_HAMUUL_RUNETOTEM_AT_SANCTUARY},
+                {19.53,37.81,phases.HYJAL_HAMUUL_RUNETOTEM_AT_GROVE},
             }},
         },
         [39877] = { -- Toshe Chaosrender
