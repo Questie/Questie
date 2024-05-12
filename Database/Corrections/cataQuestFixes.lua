@@ -261,6 +261,7 @@ function CataQuestFixes.Load()
         },
         [13509] = { -- War Supplies
             [questKeys.preQuestSingle] = {13504},
+            [questKeys.objectives] = {nil,{{194102}}},
         },
         [13512] = { -- Strategic Strikes
             [questKeys.preQuestSingle] = {13507},
