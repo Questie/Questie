@@ -1145,6 +1145,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {55141},
         },
         [25599] = { -- Cindermaul, the Portal Master
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25575,25576,25577},
         },
         [25601] = { -- Head of the Class
