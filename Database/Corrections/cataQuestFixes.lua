@@ -1101,6 +1101,7 @@ function CataQuestFixes.Load()
         [25462] = { -- The Bears Up There
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{40240}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Climb the tree"),0,{{"monster",40190}}}},
         },
         [25464] = { -- The Return of Baron Geddon
             [questKeys.objectives] = {{{40147}}},
