@@ -32,6 +32,11 @@ function CataObjectFixes.Load()
         [201977] = { -- The Biggest Egg Ever
             [objectKeys.spawns] = {},
         },
+        [203092] = { -- Portal Rune - Fully added here, because we don't scrape "objectType = button" objects
+            [objectKeys.name] = "Portal Rune",
+            [objectKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{31.64,46.03},{32.03,45.79},{31.68,46.61},{32.36,46.16},{31.92,46.92}}},
+            [objectKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
         [204281] = { -- Worm Mound
             [objectKeys.spawns] = {[1519]={{49.24,18.03},{52.53,14.86},{64.01,16.59},{63.39,5.73},{64.93,8.47},{56.45,22.58},{55.73,16.51},{53.73,19.56},{60.51,6.85},{58.05,10.49},{62.12,17.65},{59.07,20.64}}},
         },

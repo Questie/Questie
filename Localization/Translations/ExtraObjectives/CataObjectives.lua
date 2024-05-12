@@ -734,6 +734,18 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Activate"] = {
+        ["ptBR"] = "Ativar",
+        ["ruRU"] = "Активировать",
+        ["deDE"] = "Aktivieren",
+        ["koKR"] = "활성화",
+        ["esMX"] = "Activar",
+        ["enUS"] = true,
+        ["frFR"] = "Activer",
+        ["esES"] = "Activar",
+        ["zhTW"] = "啟動",
+        ["zhCN"] = "激活",
+    },
 }
 
 for k, v in pairs(cataObjectiveLocales) do
