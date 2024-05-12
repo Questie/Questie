@@ -280,6 +280,9 @@ function CataItemFixes.Load()
         [55238] = { -- Concentrated Solvent
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [55809] = { -- Twilight Armor Plate
+            [itemKeys.npcDrops] = {},
+        },
         [56012] = { -- Stone Knife of Sealing
             [itemKeys.class] = itemClasses.QUEST,
         },
