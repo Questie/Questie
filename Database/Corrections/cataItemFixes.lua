@@ -39,6 +39,9 @@ function CataItemFixes.Load()
         [44966] = { -- Foul Ichor
             [itemKeys.npcDrops] = {33020,33021,33022},
         },
+        [44968] = { -- Twilight Plans
+            [itemKeys.npcDrops] = {},
+        },
         [44969] = { -- Moonstalker Whisker
             [itemKeys.npcDrops] = {33127},
         },
