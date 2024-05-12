@@ -418,6 +418,24 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_HAMUUL_RUNETOTEM_AT_GROVE))
         end)
 
+        it("should handle Thisalee Crow positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SHRINE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SETHRIAS_ROOST))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25740]={}}
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SHRINE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SETHRIAS_ROOST))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[25740] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SHRINE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SETHRIAS_ROOST))
+
+            Questie.db.char.complete[25807] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SHRINE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SETHRIAS_ROOST))
+        end)
+
         it("should return true for Hyjal Daily when 25560 is active", function()
             QuestLogCache.questLog_DO_NOT_MODIFY = {[25560]={}}
 

@@ -305,6 +305,12 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{44.1,45.9}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
+        [41006] = { -- Thisalee Crow
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
+                {42.18,45.46,phases.HYJAL_THISALEE_AT_SHRINE},
+                {32.79,70.75,phases.HYJAL_THISALEE_AT_SETHRIAS_ROOST},
+            }},
+        },
         [41098] = { -- Gnaws
             [npcKeys.spawns] = {},
         },
