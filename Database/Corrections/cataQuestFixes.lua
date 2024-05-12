@@ -1761,8 +1761,14 @@ function CataQuestFixes.Load()
         [27341] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
         },
+        [27344] = { -- A Well-Earned Reward
+            [questKeys.startedBy] = {{44247}},
+        },
         [27349] = { -- Break in Communications: Dreadwatch Outpost
             [questKeys.triggerEnd] = {"Investigate Dreadwatch Outpost", {[zoneIDs.RUINS_OF_GILNEAS]={{53,32.6}}}},
+        },
+        [27354] = { -- Mastering the Arcane
+            [questKeys.startedBy] = {{331}},
         },
         [27356] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
@@ -2069,6 +2075,10 @@ function CataQuestFixes.Load()
         [28376] = { -- Myzerian's Head
             [questKeys.startedBy] = {{48428},nil,{63700}},
         },
+        [28394] = { -- The Golem Lord's Creations
+            [questKeys.startedBy] = {{44247}},
+            [questKeys.finishedBy] = {{44247}},
+        },
         [28395] = { -- Feathers for Nafien
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 11}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2076,6 +2086,10 @@ function CataQuestFixes.Load()
         [28396] = { -- Feathers for Grazle
             [questKeys.preQuestSingle] = {27995},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 11}},
+        },
+        [28398] = { -- The Pyromancer's Grimoire
+            [questKeys.startedBy] = {{331}},
+            [questKeys.finishedBy] = {{331}},
         },
         [28403] = { -- Bad Datas
             [questKeys.triggerEnd] = {"Titan Data Uploaded",{[zoneIDs.ULDUM]={{36.18,23.25}}}},
