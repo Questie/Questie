@@ -2211,6 +2211,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26311},
         },
         [29066] = { -- Good News... and Bad News
+            [questKeys.startedBy] = {},
             [questKeys.preQuestSingle] = {25428},
         },
         [29071] = { -- Make Haste to Stormwind!
