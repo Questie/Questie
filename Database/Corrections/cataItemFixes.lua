@@ -232,6 +232,9 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [53060] = { -- Frightened Animal
+            [itemKeys.npcDrops] = {39997,39998},
+        },
         [53107] = { -- Flameseer's Staff
             [itemKeys.class] = itemClasses.QUEST,
         },
