@@ -1723,6 +1723,12 @@ function CataQuestFixes.Load()
         [26840] = { -- Return to the Highlands
             [questKeys.startedBy] = {{39605}},
         },
+        [26897] = { -- Blackfathom Deeps
+            [questKeys.exclusiveTo] = {26898},
+        },
+        [26898] = { -- Blackfathom Deeps
+            [questKeys.exclusiveTo] = {26897},
+        },
         [26904] = { -- Corruption
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{348}}},
         },
