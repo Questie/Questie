@@ -444,6 +444,9 @@ function CataQuestFixes.Load()
         [13910] = { -- A New Home
             [questKeys.objectives] = {nil,{{195043}}},
         },
+        [13925] = { -- An Ounce of Prevention
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{2071,2165,2237,34318},2071,"Lifebringer Sapling Tested"}}},
+        },
         [13926] = { -- Little Orphan Roo Of The Oracles
             [questKeys.exclusiveTo] = {13927},
         },
