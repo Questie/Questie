@@ -484,6 +484,9 @@ function CataQuestFixes.Load()
         [13948] = { -- Stepping Up Surveillance
             [questKeys.objectives] = {{{34326}}},
         },
+        [13953] = { -- Naga In Our Midst
+            [questKeys.preQuestSingle] = {13895},
+        },
         [13954] = { -- The Dragon Queen
             [questKeys.preQuestSingle] = {},
         },
