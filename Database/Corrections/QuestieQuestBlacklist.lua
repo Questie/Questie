@@ -1498,6 +1498,7 @@ function QuestieQuestBlacklist:Load()
         [24503] = true, -- Duplicate of 28414
         [25474] = true, -- Duplicate of 27729
         [26565] = true, -- Duplicate of 26588
+        [26951] = true, -- Seems to not be available
         [29476] = true, -- Duplicate of 29477
         [27608] = true, -- Duplicate of 27500
         [27609] = true, -- Duplicate of 27501
