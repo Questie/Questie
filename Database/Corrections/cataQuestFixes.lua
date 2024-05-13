@@ -445,6 +445,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{2165},{2071},{34318}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ask Orseus for a hippogryph"), 0, {{"monster", 34392}}}},
         },
+        [13897] = { -- The Battle for Darkshore
+            [questKeys.preQuestSingle] = {13900},
+        },
         [13892] = { -- Leave No Tracks
             [questKeys.objectives] = {{{34406}}},
         },
