@@ -808,6 +808,9 @@ function CataQuestFixes.Load()
         [25037] = { -- Crab Fishin'
             [questKeys.preQuestSingle] = {24769},
         },
+        [25073] = { -- Sen'jin Village
+            [questKeys.exclusiveTo] = {25133},
+        },
         [25081] = { -- Claim the Battlescar
             [questKeys.triggerEnd] = {"Battlescar Flag Scouted", {[zoneIDs.THE_BARRENS]={{45.2,69.4}}}},
         },
@@ -826,6 +829,9 @@ function CataQuestFixes.Load()
         },
         [25129] = { -- Sarkoth
             [questKeys.preQuestSingle] = {},
+        },
+        [25133] = { -- Report to Sen'jin Village
+            [questKeys.exclusiveTo] = {25073},
         },
         [25139] = { -- Steady Shot
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{56641}}},
