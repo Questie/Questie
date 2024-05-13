@@ -872,6 +872,9 @@ function CataQuestFixes.Load()
         [25162] = { -- Elemental Goo
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
         },
+        [25171] = { -- Riding On
+            [questKeys.preQuestSingle] = {25169},
+        },
         [25188] = { -- Watershed Patrol
             [questKeys.childQuests] = {25189,25190,25192,25193,25194,25195},
         },
