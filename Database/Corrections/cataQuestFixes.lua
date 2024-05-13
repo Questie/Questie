@@ -448,6 +448,9 @@ function CataQuestFixes.Load()
         [13892] = { -- Leave No Tracks
             [questKeys.objectives] = {{{34406}}},
         },
+        [13896] = { -- Unearthed Knowledge
+            [questKeys.preQuestSingle] = {13948},
+        },
         [13910] = { -- A New Home
             [questKeys.objectives] = {nil,{{195043}}},
         },
