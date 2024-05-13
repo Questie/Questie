@@ -349,6 +349,10 @@ function CataQuestFixes.Load()
         [13576] = { -- Mutual Aid
             [questKeys.objectives] = {{{32999}}},
         },
+        [13580] = { -- Soothing the Elements
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Ritual of Soothing complete", {[zoneIDs.DARKSHORE]={{39.54,62.23}}}},
+        },
         [13583] = { -- The Wildkin's Oath
             [questKeys.preQuestSingle] = {13582},
         },
