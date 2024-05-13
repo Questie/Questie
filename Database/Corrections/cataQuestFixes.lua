@@ -1616,6 +1616,9 @@ function CataQuestFixes.Load()
         [26466] = { -- Ruuzel
             [questKeys.preQuestSingle] = {26465},
         },
+        [26476] = { -- Dryad Delivery
+            [questKeys.preQuestSingle] = {26475},
+        },
         [26488] = { -- Big Gulp
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26536},
             [questKeys.extraObjectives] = {
