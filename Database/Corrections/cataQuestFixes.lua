@@ -448,6 +448,9 @@ function CataQuestFixes.Load()
         [13892] = { -- Leave No Tracks
             [questKeys.objectives] = {{{34406}}},
         },
+        [13895] = { -- The Slumbering Ancients
+            [questKeys.preQuestSingle] = {13893},
+        },
         [13896] = { -- Unearthed Knowledge
             [questKeys.preQuestSingle] = {13948},
         },
