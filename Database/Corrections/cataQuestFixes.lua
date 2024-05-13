@@ -405,6 +405,9 @@ function CataQuestFixes.Load()
         [13601] = { -- In Aid of the Refugees
             [questKeys.preQuestGroup] = {13519,13591},
         },
+        [13617] = { -- West to the Strand
+            [questKeys.exclusiveTo] = {26465},
+        },
         [13639] = { -- Resupplying the Excavation
             [questKeys.triggerEnd] = {"Find Huldar, Miran, and Saean", {[zoneIDs.LOCH_MODAN]={{55.6,68.5}}}},
         },
@@ -1597,6 +1600,9 @@ function CataQuestFixes.Load()
         },
         [26442] = { -- Rock Lobster
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26488,26536},
+        },
+        [26465] = { -- The Ancient Statuettes
+            [questKeys.preQuestSingle] = {},
         },
         [26488] = { -- Big Gulp
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26536},
