@@ -434,6 +434,9 @@ function CataQuestFixes.Load()
         [13881] = { -- Consumed
             [questKeys.triggerEnd] = {"Watering Hole Investigated", {[zoneIDs.DARKSHORE]={{45,79.1}}}},
         },
+        [13910] = { -- A New Home
+            [questKeys.objectives] = {nil,{{195043}}},
+        },
         [13926] = { -- Little Orphan Roo Of The Oracles
             [questKeys.exclusiveTo] = {13927},
         },
