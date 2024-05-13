@@ -55,6 +55,9 @@ function CataQuestFixes.Load()
         [869] = { -- To Track a Thief
             [questKeys.triggerEnd] = {"Source of Tracks Discovered", {[zoneIDs.THE_BARRENS]={{63.5,61.5}}}},
         },
+        [870] = { -- The Forgotten Pools
+            [questKeys.triggerEnd] = {"Explore the waters of the Forgotten Pools", {[zoneIDs.THE_BARRENS]={{37.1,45.4}}}},
+        },
         [919] = { -- Timberling Sprouts
             [questKeys.preQuestSingle] = {997},
         },
