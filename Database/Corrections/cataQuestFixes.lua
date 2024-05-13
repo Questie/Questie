@@ -488,6 +488,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Crossroads Caravan Escorted", {[zoneIDs.THE_BARRENS]={{50.3,58.5}}}},
         },
+        [13998] = { -- In Fungus We Trust
+            [questKeys.triggerEnd] = {"Fungal Culture Planted", {[zoneIDs.THE_BARRENS]={{55.1,80.4},{57,78.9},{57.7,81.1}}}},
+        },
         [14008] = { -- Frost Nova
             [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{5143}}},
         },
