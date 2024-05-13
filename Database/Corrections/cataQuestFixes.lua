@@ -475,6 +475,9 @@ function CataQuestFixes.Load()
         [13946] = { -- Nature's Reprisal
             [questKeys.preQuestSingle] = {489},
         },
+        [13948] = { -- Stepping Up Surveillance
+            [questKeys.objectives] = {{{34326}}},
+        },
         [13954] = { -- The Dragon Queen
             [questKeys.preQuestSingle] = {},
         },
