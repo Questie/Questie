@@ -353,6 +353,9 @@ function CataQuestFixes.Load()
         [13570] = { -- Remembrance of Auberdine
             [questKeys.preQuestSingle] = {13591},
         },
+        [13572] = { -- Jadefire Braziers
+            [questKeys.preQuestSingle] = {13544},
+        },
         [13576] = { -- Mutual Aid
             [questKeys.objectives] = {{{32999}}},
         },
