@@ -414,6 +414,9 @@ function CataQuestFixes.Load()
         [13642] = { -- Bathed in Light
             [questKeys.preQuestSingle] = {13623},
         },
+        [13646] = { -- Astranaar Bound
+            [questKeys.preQuestSingle] = {26464},
+        },
         [13655] = { -- Explorers' League Document (2 of 6)
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
