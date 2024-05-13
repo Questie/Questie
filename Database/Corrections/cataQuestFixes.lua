@@ -382,6 +382,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{32862},nil,{46318}},
             [questKeys.preQuestSingle] = {13590},
         },
+        [13594] = { -- Don't Forget the Horde
+            [questKeys.preQuestSingle] = {26408},
+        },
         [13596] = { -- Twilight Plans
             [questKeys.preQuestSingle] = {13591},
         },
