@@ -385,6 +385,9 @@ function CataQuestFixes.Load()
         [13594] = { -- Don't Forget the Horde
             [questKeys.preQuestSingle] = {26408},
         },
+        [13595] = { -- Of Their Own Design
+            [questKeys.requiredSourceItems] = {44967},
+        },
         [13596] = { -- Twilight Plans
             [questKeys.preQuestSingle] = {13591},
         },
