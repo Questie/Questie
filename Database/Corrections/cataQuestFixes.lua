@@ -356,6 +356,9 @@ function CataQuestFixes.Load()
         [13583] = { -- The Wildkin's Oath
             [questKeys.preQuestSingle] = {13582},
         },
+        [13586] = { -- The Emerald Dream
+            [questKeys.preQuestGroup] = {13581,13583,13585},
+        },
         [13589] = { -- The Shatterspear Invaders
             [questKeys.preQuestSingle] = {13569},
         },
