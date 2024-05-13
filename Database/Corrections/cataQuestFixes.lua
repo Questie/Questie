@@ -441,6 +441,10 @@ function CataQuestFixes.Load()
         [13881] = { -- Consumed
             [questKeys.triggerEnd] = {"Watering Hole Investigated", {[zoneIDs.DARKSHORE]={{45,79.1}}}},
         },
+        [13885] = { -- In Defense of Darkshore
+            [questKeys.objectives] = {{{2165},{2071},{34318}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ask Orseus for a hippogryph"), 0, {{"monster", 34392}}}},
+        },
         [13910] = { -- A New Home
             [questKeys.objectives] = {nil,{{195043}}},
         },
