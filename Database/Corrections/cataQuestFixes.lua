@@ -290,6 +290,9 @@ function CataQuestFixes.Load()
         [13523] = { -- Power Over the Tides
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Orb of Elune on its corpse"), 0, {{"monster", 32890}}}},
         },
+        [13526] = { -- The Bear's Paw
+            [questKeys.preQuestSingle] = {13525},
+        },
         [13529] = { -- The Corruption's Source
             [questKeys.preQuestSingle] = {13528},
         },
