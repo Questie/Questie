@@ -881,6 +881,9 @@ function CataQuestFixes.Load()
         [25171] = { -- Riding On
             [questKeys.preQuestSingle] = {25169},
         },
+        [25187] = { -- Lost in the Floods
+            [questKeys.preQuestSingle] = {},
+        },
         [25188] = { -- Watershed Patrol
             [questKeys.childQuests] = {25189,25190,25192,25193,25194,25195},
         },
@@ -935,6 +938,9 @@ function CataQuestFixes.Load()
         },
         [25220] = { -- Slippery Threat
             [questKeys.preQuestSingle] = {25222},
+        },
+        [25227] = { -- Thonk
+            [questKeys.exclusiveTo] = {25187},
         },
         [25233] = { -- End of the Supply Line
             [questKeys.preQuestSingle] = {25584},
