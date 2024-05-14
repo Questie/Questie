@@ -2713,9 +2713,9 @@ function CataQuestFixes.Load()
         },
         [29361] = { -- Moat Monster!
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29317,29320,29319,29322},
-            [questKeys.objectives] = {{{53590,"Feed Bloated Frogs to the Moat Monster",Questie.ICON_TYPE_EVENT}}},
             [questKeys.sourceItemId] = 69998,
             [questKeys.requiredSourceItems] = {69995,69998,69999},
+            [questKeys.extraObjectives] = {{{[zoneIDs.TIRISFAL_GLADES]={{61.4,68.6}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Alliance Decoy Kit in the Ruins of Lordaeron and feed the Moat Monster")}},
         },
         [29363] = { -- Mulgore Spice Bread
             [questKeys.extraObjectives] = {{{[zoneIDs.THUNDER_BLUFF]={{51.3,52.9}}}, Questie.ICON_TYPE_EVENT, l10n("Cook 5 Spice Bread and combine with Mulgore Spices")}},
