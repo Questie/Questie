@@ -53,6 +53,9 @@ function CataQuestFixes.Load()
         [579] = { -- Stormwind Library
             [questKeys.parentQuest] = 578,
         },
+        [749] = { -- The Ravaged Caravan
+            [questKeys.preQuestSingle] = {},
+        },
         [824] = { -- Je'neu of the Earthen Ring
             [questKeys.finishedBy] = {{12736}},
         },
@@ -218,6 +221,9 @@ function CataQuestFixes.Load()
         },
         [10968] = { -- Call on the Farseer
             [questKeys.zoneOrSort] = -378,
+        },
+        [11129] = { -- Kyle's Gone Missing!
+            [questKeys.objectives] = {{{23616,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [11272] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {30112},
@@ -706,6 +712,9 @@ function CataQuestFixes.Load()
         [14395] = { -- Gasping for Breath
             [questKeys.objectives] = {{{36440}}},
         },
+        [14400] = { -- I Can't Wear This
+            [questKeys.exclusiveTo] = {},
+        },
         [14401] = { -- Grandma's Cat
             [questKeys.exclusiveTo] = {},
         },
@@ -735,19 +744,40 @@ function CataQuestFixes.Load()
         [14442] = { -- My Favorite Subject
             [questKeys.exclusiveTo] = {14408},
         },
+        [14449] = { -- The First Step
+            [questKeys.zoneOrSort] = 215,
+        },
+        [14452] = { -- Rite of Strength
+            [questKeys.zoneOrSort] = 215,
+        },
+        [14455] = { -- Stop the Thorncallers
+            [questKeys.zoneOrSort] = 215,
+        },
+        [14456] = { -- Rite of Courage
+            [questKeys.zoneOrSort] = 215,
+        },
+        [14458] = { -- Go to Adana
+            [questKeys.zoneOrSort] = 215,
+        },
+        [14459] = { -- The Battleboars
+            [questKeys.zoneOrSort] = 215,
+            [questKeys.preQuestGroup] = {14455,14456},
+            [questKeys.preQuestSingle] = {},
+        },
+        [14460] = { -- Rite of Honor
+            [questKeys.zoneOrSort] = 215,
+            [questKeys.preQuestGroup] = {14459,14461},
+            [questKeys.preQuestSingle] = {},
+        },
+        [14461] = { -- Feed of Evil
+            [questKeys.zoneOrSort] = 215,
+            [questKeys.preQuestGroup] = {14455,14456},
+            [questKeys.preQuestSingle] = {},
+        },
         [14463] = { -- Horses for Duskhaven
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14401,14404,14412,14416},
             [questKeys.exclusiveTo] = {14402,14405},
-        },
-        [14400] = { -- I Can't Wear This
-            [questKeys.exclusiveTo] = {},
-        },
-        [14460] = { -- Rite of Honor
-            [questKeys.preQuestGroup] = {14459,14461},
-        },
-        [14461] = { -- Feed of Evil
-            [questKeys.preQuestSingle] = {14455,14456},
         },
         [14473] = { -- It's Our Problem Now
             [questKeys.preQuestSingle] = {14001},
@@ -755,14 +785,36 @@ function CataQuestFixes.Load()
         [14482] = { -- Call of Duty
             [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{18.3,25.5}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for the Mercenary Ship to arrive")}},
         },
+        [14491] = { -- The Restless Earth
+            [questKeys.objectives] = {{{36845,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [20441] = { -- Rite of Vision
+            [questKeys.preQuestSingle] = {24456},
+        },
+        [23733] = { -- Rites of the Earthmother
+            [questKeys.zoneOrSort] = 215,
+        },
+        [24215] = { -- Rite of the Winds
+            [questKeys.zoneOrSort] = 215,
+        },
         [24429] = { -- A Most Puzzling Circumstance
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [24438] = { -- Exodus
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Board the carriage"), 0, {{"monster", 38755},{"monster", 44928}}}},
         },
+        [24440] = { -- Winterhoof Cleansing
+            [questKeys.preQuestSingle] = {20440},
+            [questKeys.triggerEnd] = {"Cleanse the Winterhoof Water Well", {[zoneIDs.MULGORE]={{53.51,65.38}}}},
+        },
         [24452] = { -- Profitability Scouting
             [questKeys.triggerEnd] = {"Heart of Arkkoroc identified", {[zoneIDs.AZSHARA]={{32.4,50.4}}}},
+        },
+        [24456] = { -- Thunderhorn Cleansing
+            [questKeys.triggerEnd] = {"Cleanse the Thunderhorn Water Well", {[zoneIDs.MULGORE]={{44.8,45.56}}}},
+        },
+        [24459] = { -- Morin Cloudstalker
+            [questKeys.nextQuestInChain] = 749,
         },
         [24468] = { -- Stranded at the Marsh
             [questKeys.objectives] = {{{37067,"Crash Survivor rescued",Questie.ICON_TYPE_INTERACT}}},
@@ -794,6 +846,9 @@ function CataQuestFixes.Load()
         },
         [24533] = { -- Words of Power
             [questKeys.objectives] = {{{44405}},nil,nil,nil,nil,{{2061}}},
+        },
+        [24457] = { -- Rite of Vision
+            [questKeys.nextQuestInChain] = 20441,
         },
         [24575] = { -- Liberation Day
             [questKeys.requiredSourceItems] = {49881},
@@ -842,6 +897,15 @@ function CataQuestFixes.Load()
         },
         [24817] = { -- A Goblin in Shark's Clothing
             [questKeys.objectives] = {{{36682}},{{202108}}},
+        },
+        [24852] = { -- Our Tribe, Imprisoned
+            [questKeys.zoneOrSort] = 215,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 202112}}}},
+            [questKeys.objectives] = {{{38345}}},
+        },
+        [24861] = { -- Last Rites, First Rites
+            [questKeys.zoneOrSort] = 215,
+            [questKeys.objectives] = {{{38438,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24864] = { -- Irresistible Pool Pony
             [questKeys.objectives] = {nil,nil,nil,nil,{{{38412,44578,44579,44580},38412,"Naga Hatchling lured"}}},
@@ -1514,6 +1578,12 @@ function CataQuestFixes.Load()
         [26154] = { -- Twilight Extermination
             [questKeys.objectives] = {{{47969},{42285}},nil,nil,nil,{{{42281,42280},42280}}},
         },
+        [26179] = { -- The Venture Co.
+            [questKeys.preQuestSingle] = {751},
+        },
+        [26180] = { -- Supervisor Fizsprocket
+            [questKeys.preQuestSingle] = {751},
+        },
         [26182] = { -- Back to the Tenebrous Cavern
             [questKeys.preQuestSingle] = {26143},
         },
@@ -1855,7 +1925,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{56641}}},
         },
         [27023] = { -- The Way of the Sunwalkers
-            [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{20271},{20154}}},
+            [questKeys.objectives] = {{{44848},{37737,nil,Questie.ICON_TYPE_TALK},{37737,nil,Questie.ICON_TYPE_TALK}}},
         },
         [27027] = { -- Primal Strike
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{73899}}},
