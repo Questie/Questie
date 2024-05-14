@@ -257,6 +257,9 @@ function CataQuestFixes.Load()
         [12602] = { -- The Alchemist's Apprentice
             [questKeys.startedBy] = {},
         },
+        [12821] = { -- Opening the Backdoor
+            [questKeys.objectives] = {nil,nil,{{40731}}}
+        },
         [13189] = { -- Warchief's Blessing
             [questKeys.finishedBy] = {{39605}},
         },
