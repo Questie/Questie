@@ -1749,6 +1749,9 @@ function CataQuestFixes.Load()
         [26840] = { -- Return to the Highlands
             [questKeys.startedBy] = {{39605}},
         },
+        [26881] = { -- In Search of Thaelrid
+            [questKeys.finishedBy] = {{4787}},
+        },
         [26893] = { -- Blackfathom Deeps
             [questKeys.finishedBy] = {{12736}},
             [questKeys.exclusiveTo] = {26894},
