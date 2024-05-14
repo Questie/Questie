@@ -2268,6 +2268,9 @@ function CataQuestFixes.Load()
         [28414] = { -- Fourth and Goal
             [questKeys.objectives] = {{{37203,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [28459] = { -- Stones of Binding
+            [questKeys.finishedBy] = {{3326}},
+        },
         [28460] = { -- Threat of the Winterfall
             [questKeys.preQuestSingle] = {},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
