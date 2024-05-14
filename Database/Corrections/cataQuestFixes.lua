@@ -53,6 +53,9 @@ function CataQuestFixes.Load()
         [579] = { -- Stormwind Library
             [questKeys.parentQuest] = 578,
         },
+        [824] = { -- Je'neu of the Earthen Ring
+            [questKeys.finishedBy] = {{12736}},
+        },
         [869] = { -- To Track a Thief
             [questKeys.triggerEnd] = {"Source of Tracks Discovered", {[zoneIDs.THE_BARRENS]={{63.5,61.5}}}},
         },
