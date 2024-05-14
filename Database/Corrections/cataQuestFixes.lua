@@ -2323,6 +2323,9 @@ function CataQuestFixes.Load()
         [28526] = { -- Warchief's Command: Un'Goro Crater!
             [questKeys.objectives] = {},
         },
+        [28527] = { -- Warchief's Command: Silithus!
+            [questKeys.objectives] = {},
+        },
         [28530] = { -- Scalding Signs
             [questKeys.preQuestSingle] = {28467},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
