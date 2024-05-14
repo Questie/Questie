@@ -82,6 +82,7 @@ function CataQuestFixes.Load()
         },
         [1468] = { -- Children's Week
             [questKeys.zoneOrSort] = -378,
+            [questKeys.startedBy] = {{14450}},
         },
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
