@@ -2653,6 +2653,9 @@ function CataQuestFixes.Load()
         [29371] = { -- A Time to Lose
             [questKeys.objectives] = {nil,{{209140}}},
         },
+        [29377] = { -- A Time to Break Down
+            [questKeys.objectives] = {nil,{{209139}}},
+        },
         [29387] = { -- Guardians of Hyjal: Firelands Invasion!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
