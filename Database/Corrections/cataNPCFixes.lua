@@ -14,6 +14,10 @@ function CataNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
+        [2079] = { -- Ilthalaine
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{57.97,39.2}}},
+            [npcKeys.waypoints] = {},
+        },
         [2151] = { -- Moon Priestess Amara
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{49.35,44.67}}},
             [npcKeys.waypoints] = {},
