@@ -311,11 +311,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{179832},{18950}},
         },
         [8149] = {
-            [questKeys.objectives] = {nil,{{180204,"Place a tribute at Uther's Tomb"}}},
+            [questKeys.objectives] = {nil,{{1323,"Place a tribute at Uther's Tomb"}}},
             [questKeys.extraObjectives] = {},
         },
         [8150] = {
-            [questKeys.objectives] = {nil,{{180205,"Place a tribute at Grom's Monument"}}},
+            [questKeys.objectives] = {nil,{{1324,"Place a tribute at Grom's Monument"}}},
             [questKeys.extraObjectives] = {},
         },
         [8166] = {
