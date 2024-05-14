@@ -56,6 +56,9 @@ function CataQuestFixes.Load()
         [749] = { -- The Ravaged Caravan
             [questKeys.preQuestSingle] = {},
         },
+        [773] = { -- Rite of Wisdom
+            [questKeys.preQuestSingle] = {20441},
+        },
         [824] = { -- Je'neu of the Earthen Ring
             [questKeys.finishedBy] = {{12736}},
         },
