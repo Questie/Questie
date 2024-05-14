@@ -1198,16 +1198,16 @@ function QuestieQuestBlacklist:Load()
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
 
-        [10985] = QuestieCorrections.WOTLK_HIDE, -- Got replaced by 13429
-        [10888] = QuestieCorrections.WOTLK_HIDE, -- Got replaced by 13430
-        [10901] = QuestieCorrections.WOTLK_HIDE, -- Got replaced by 13431
-        [10445] = QuestieCorrections.WOTLK_HIDE, -- Got replaced by 13432
-        [6144] = QuestieCorrections.WOTLK_HIDE, -- Got replaced by 14349
-        [6821] = QuestieCorrections.WOTLK_HIDE, -- Not in the game
-        [6822] = QuestieCorrections.WOTLK_HIDE, -- Not in the game
-        [6823] = QuestieCorrections.WOTLK_HIDE, -- Not in the game
-        [6824] = QuestieCorrections.WOTLK_HIDE, -- Not in the game
-        [7486] = QuestieCorrections.WOTLK_HIDE, -- Not in the game
+        [10985] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Got replaced by 13429
+        [10888] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Got replaced by 13430
+        [10901] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Got replaced by 13431
+        [10445] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Got replaced by 13432
+        [6144] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Got replaced by 14349
+        [6821] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Not in the game
+        [6822] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Not in the game
+        [6823] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Not in the game
+        [6824] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Not in the game
+        [7486] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Not in the game
         [5634] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
         [5635] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
         [5636] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk

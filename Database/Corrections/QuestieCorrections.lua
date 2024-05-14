@@ -80,7 +80,6 @@ local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes"
     https://github.com/Questie/Questie/wiki/Corrections
 --]]
 
--- TODO: USE BITMASKS!!!!!!!!!!!!!!!!!!!
 local bitband = bit.band
 
 -- Bitmask flags to blacklist DB entries in specific expansions
