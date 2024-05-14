@@ -1685,6 +1685,9 @@ function CataQuestFixes.Load()
         [26621] = { -- Insurrection
             [questKeys.objectives] = {{{43575},{43394}},nil,nil,nil,{{{43577,43578},43577,"Dragonmaw Civilian Armed"}}},
         },
+        [26627] = { -- The Hermit
+            [questKeys.exclusiveTo] = {26653},
+        },
         [26642] = { -- Preserving the Barrens
             [questKeys.exclusiveTo] = {28494},
         },
