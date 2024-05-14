@@ -1652,15 +1652,15 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {nil,{35}},
         },
         [26354] = { -- Captain Sanders' Hidden Treasure
-            [questKeys.startedBy] = {{35}},
+            [questKeys.startedBy] = {nil,{35}},
             [questKeys.finishedBy] = {nil,{36}},
         },
         [26355] = { -- Captain Sanders' Hidden Treasure
-            [questKeys.startedBy] = {{36}},
+            [questKeys.startedBy] = {nil,{36}},
             [questKeys.finishedBy] = {nil,{34}},
         },
         [26356] = { -- Captain Sanders' Hidden Treasure
-            [questKeys.startedBy] = {{34}},
+            [questKeys.startedBy] = {nil,{34}},
             [questKeys.finishedBy] = {nil,{33}},
         },
         [26358] = { -- Ready the Air Force
