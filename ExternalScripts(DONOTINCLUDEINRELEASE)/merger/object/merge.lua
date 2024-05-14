@@ -55,6 +55,11 @@ for objId, data in pairsByKeys(wotlk) do
         print("Mangos is missing the following object: " .. objId .. " " .. data[objectKeys.name])
         mangos[objId] = data
     end
+
+    if mangos[objId] and (not mangos[objId][objectKeys.spawns]) and data[objectKeys.spawns] then
+        mangos[objId][objectKeys.spawns] = data[objectKeys.spawns]
+        mangos[objId][objectKeys.zoneID] = data[objectKeys.zoneID]
+    end
 end
 
 -- print to "merged-file.lua"
