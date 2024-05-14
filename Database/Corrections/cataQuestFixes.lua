@@ -1858,6 +1858,12 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.triggerEnd] = {"Anduin Escorted to Farmer Wollerton", {[zoneIDs.STORMWIND_CITY]={{52.1,6.5}}}},
         },
+        [27062] = { -- Looming Threat
+            [questKeys.finishedBy] = {{44837}},
+        },
+        [27063] = { -- Looming Threat
+            [questKeys.finishedBy] = {{44837}},
+        },
         [27066] = { -- Healing in a Flash
             [questKeys.objectives] = {{{45199}},nil,nil,nil,nil,{{2061}}},
         },
