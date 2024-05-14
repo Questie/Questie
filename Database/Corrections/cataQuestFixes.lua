@@ -2272,6 +2272,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
         },
+        [28465] = { -- Slaves of the Firelord
+            [questKeys.finishedBy] = {{3344}},
+        },
         [28469] = { -- Winterfall Runners
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
         },
