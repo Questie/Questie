@@ -39,6 +39,7 @@ function CataQuestFixes.Load()
         },
         [172] = { -- Children's Week
             [questKeys.zoneOrSort] = -378,
+            [questKeys.startedBy] = {{51989}},
         },
         [218] = { -- Ice and Fire
             [questKeys.objectives] = {{{808},{37514},{37112}}},
@@ -1740,6 +1741,9 @@ function CataQuestFixes.Load()
         },
         [26904] = { -- Corruption
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{348}}},
+        },
+        [26907] = { -- Take Them Down!
+            [questKeys.objectives] = {{{4424},{4428},{4420},{4422}}},
         },
         [26910] = { -- Etched Letter
             [questKeys.requiredClasses] = classKeys.HUNTER,
