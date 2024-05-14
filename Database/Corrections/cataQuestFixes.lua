@@ -761,6 +761,9 @@ function CataQuestFixes.Load()
         [24502] = { -- Necessary Roughness
             [questKeys.objectives] = {{{48526},{37114}}},
         },
+        [24503] = { -- Fourth and Goal
+            [questKeys.objectives] = {{{37203,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [24526] = { -- Filling Up the Spellbook
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{5143}}},
         },
@@ -2222,6 +2225,9 @@ function CataQuestFixes.Load()
         [28403] = { -- Bad Datas
             [questKeys.triggerEnd] = {"Titan Data Uploaded",{[zoneIDs.ULDUM]={{36.18,23.25}}}},
             [questKeys.objectives] = {},
+        },
+        [28414] = { -- Fourth and Goal
+            [questKeys.objectives] = {{{37203,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [28460] = { -- Threat of the Winterfall
             [questKeys.preQuestSingle] = {},
