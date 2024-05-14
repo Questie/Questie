@@ -32,7 +32,7 @@ function QuestieQuestBlacklist:Load()
         [11189] = true, -- Removed
         [13417] = true, -- Duplicate of 12973
         [936] = QuestieCorrections.CLASSIC_HIDE,
-        [535] = QuestieCorrections.WOTLK_HIDE, -- Valik
+        [535] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Valik
         [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
@@ -1025,7 +1025,7 @@ function QuestieQuestBlacklist:Load()
         [11027] = true, -- NOT IN GAME: Yous Have Da Darkrune? , "replaced" by 11060 (A Crystalforged Darkrune)
 
         [1] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
-        [2881] = QuestieCorrections.TBC_HIDE, -- Wildhammer faction removed in TBC. Repeatable to gain rep
+        [2881] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Wildhammer faction removed in TBC. Repeatable to gain rep
         [8329] = true, -- Warrior Training / Not in the game
         [8547] = true, -- Welcome!
         [9065] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
@@ -1118,13 +1118,13 @@ function QuestieQuestBlacklist:Load()
         [708] = true,
         [909] = true,
         [1288] = true,
-        [1661] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
+        [1661] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
         [3366] = true,
         [3381] = true,
         [5627] = true,
-        [5641] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
-        [5645] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
-        [5647] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
+        [5641] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [5645] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [5647] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
         [6131] = true,
         [6221] = true,
         [6241] = true,
@@ -1166,30 +1166,30 @@ function QuestieQuestBlacklist:Load()
         [11052] = true,
 
         -- Classic only PvP quests
-        [8369] = QuestieCorrections.TBC_HIDE,
-        [8370] = QuestieCorrections.TBC_HIDE,
-        [8372] = QuestieCorrections.TBC_HIDE,
-        [8374] = QuestieCorrections.TBC_HIDE,
-        [8375] = QuestieCorrections.TBC_HIDE,
-        [8389] = QuestieCorrections.TBC_HIDE,
-        [8393] = QuestieCorrections.TBC_HIDE,
-        [8394] = QuestieCorrections.TBC_HIDE,
-        [8395] = QuestieCorrections.TBC_HIDE,
-        [8396] = QuestieCorrections.TBC_HIDE,
-        [8399] = QuestieCorrections.TBC_HIDE,
-        [8400] = QuestieCorrections.TBC_HIDE,
-        [8401] = QuestieCorrections.TBC_HIDE,
-        [8402] = QuestieCorrections.TBC_HIDE,
-        [8403] = QuestieCorrections.TBC_HIDE,
-        [8431] = QuestieCorrections.TBC_HIDE,
-        [8432] = QuestieCorrections.TBC_HIDE,
-        [8433] = QuestieCorrections.TBC_HIDE,
-        [8434] = QuestieCorrections.TBC_HIDE,
-        [8435] = QuestieCorrections.TBC_HIDE,
-        [8436] = QuestieCorrections.TBC_HIDE,
-        [8437] = QuestieCorrections.TBC_HIDE,
-        [8438] = QuestieCorrections.TBC_HIDE,
-        [8439] = QuestieCorrections.TBC_HIDE,
+        [8369] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8370] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8372] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8374] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8375] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8389] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8393] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8394] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8395] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8396] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8399] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8400] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8401] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8402] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8403] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8431] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8432] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8433] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8434] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE
+        [8435] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8436] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8437] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8438] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8439] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
 
         -- Phase 4 Zul'Aman
         [11195] = true, -- Not in the game
@@ -1274,83 +1274,83 @@ function QuestieQuestBlacklist:Load()
         [13826] = true, -- EXISTS ingame, but can only be picked up if quest 6607 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
         --[13843] = true, -- Questie NYI - only available if recipe 55252 is not known but quest 12889 is completed, we can't yet determine recipe knowledge - fixed
 
-        [8367] = QuestieCorrections.WOTLK_HIDE, -- pvp marks removed in wotlk
-        [8371] = QuestieCorrections.WOTLK_HIDE, -- pvp marks removed in wotlk
-        [8385] = QuestieCorrections.WOTLK_HIDE, -- pvp marks removed in wotlk
-        [8388] = QuestieCorrections.WOTLK_HIDE, -- pvp marks removed in wotlk
-        [13475] = QuestieCorrections.WOTLK_HIDE, -- pvp marks removed in wotlk
-        [13476] = QuestieCorrections.WOTLK_HIDE, -- pvp marks removed in wotlk
-        [13477] = QuestieCorrections.WOTLK_HIDE, -- pvp marks removed in wotlk
-        [13478] = QuestieCorrections.WOTLK_HIDE, -- pvp marks removed in wotlk
+        [8367] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
+        [8371] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
+        [8385] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
+        [8388] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
+        [13475] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
+        [13476] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
+        [13477] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
+        [13478] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
 
-        [6804] = QuestieCorrections.WOTLK_HIDE,
-        [7737] = QuestieCorrections.WOTLK_HIDE, -- replaced by 13662 in wotlk
-        [9094] = QuestieCorrections.WOTLK_HIDE,
-        [9317] = QuestieCorrections.WOTLK_HIDE,
-        [9318] = QuestieCorrections.WOTLK_HIDE,
-        [9320] = QuestieCorrections.WOTLK_HIDE,
-        [9321] = QuestieCorrections.WOTLK_HIDE,
-        [9333] = QuestieCorrections.WOTLK_HIDE,
-        [9334] = QuestieCorrections.WOTLK_HIDE,
-        [9335] = QuestieCorrections.WOTLK_HIDE,
-        [9336] = QuestieCorrections.WOTLK_HIDE,
-        [9337] = QuestieCorrections.WOTLK_HIDE,
-        [9341] = QuestieCorrections.WOTLK_HIDE,
-        [9343] = QuestieCorrections.WOTLK_HIDE,
+        [6804] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [7737] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- replaced by 13662 in wotlk
+        [9094] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9317] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9318] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9320] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9321] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9333] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9334] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9335] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9336] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9337] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9341] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9343] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
 
         -- Old Naxx quests (Naxx40 goes away in wotlk)
-        [9120] = QuestieCorrections.WOTLK_HIDE, -- The Fall of Kel'Thuzad
-        [9229] = QuestieCorrections.WOTLK_HIDE, -- The Fate of Ramaladni
-        [9230] = QuestieCorrections.WOTLK_HIDE, -- Ramaladni's Icy Grasp
-        [9232] = QuestieCorrections.WOTLK_HIDE, -- The Only Song I Know...
-        [9233] = QuestieCorrections.WOTLK_HIDE, -- Omarion's Handbook
-        [9234] = QuestieCorrections.WOTLK_HIDE, -- Icebane Gauntlets
-        [9235] = QuestieCorrections.WOTLK_HIDE, -- Icebane Bracers
-        [9236] = QuestieCorrections.WOTLK_HIDE, -- Icebane Breastplate
-        [9237] = QuestieCorrections.WOTLK_HIDE, -- Glacial Cloak
-        [9238] = QuestieCorrections.WOTLK_HIDE, -- Glacial Wrists
-        [9239] = QuestieCorrections.WOTLK_HIDE, -- Glacial Gloves
-        [9240] = QuestieCorrections.WOTLK_HIDE, -- Glacial Vest
-        [9241] = QuestieCorrections.WOTLK_HIDE, -- Polar Bracers
-        [9242] = QuestieCorrections.WOTLK_HIDE, -- Polar Gloves
-        [9243] = QuestieCorrections.WOTLK_HIDE, -- Polar Tunic
-        [9244] = QuestieCorrections.WOTLK_HIDE, -- Icy Scale Bracers
-        [9245] = QuestieCorrections.WOTLK_HIDE, -- Icy Scale Gauntlets
-        [9246] = QuestieCorrections.WOTLK_HIDE, -- Icy Scale Breastplate
+        [9120] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- The Fall of Kel'Thuzad
+        [9229] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- The Fate of Ramaladni
+        [9230] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Ramaladni's Icy Grasp
+        [9232] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- The Only Song I Know...
+        [9233] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Omarion's Handbook
+        [9234] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icebane Gauntlets
+        [9235] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icebane Bracers
+        [9236] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icebane Breastplate
+        [9237] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Glacial Cloak
+        [9238] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Glacial Wrists
+        [9239] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Glacial Gloves
+        [9240] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Glacial Vest
+        [9241] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Polar Bracers
+        [9242] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Polar Gloves
+        [9243] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Polar Tunic
+        [9244] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icy Scale Bracers
+        [9245] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icy Scale Gauntlets
+        [9246] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icy Scale Breastplate
 
         -- Vanilla Onyxia Alliance attunement
-        [4182] = QuestieCorrections.WOTLK_HIDE,
-        [4183] = QuestieCorrections.WOTLK_HIDE,
-        [4184] = QuestieCorrections.WOTLK_HIDE,
-        [4185] = QuestieCorrections.WOTLK_HIDE,
-        [4186] = QuestieCorrections.WOTLK_HIDE,
-        [4223] = QuestieCorrections.WOTLK_HIDE,
-        [4224] = QuestieCorrections.WOTLK_HIDE,
-        [4241] = QuestieCorrections.WOTLK_HIDE,
-        [4242] = QuestieCorrections.WOTLK_HIDE,
-        [4264] = QuestieCorrections.WOTLK_HIDE,
-        [4282] = QuestieCorrections.WOTLK_HIDE,
-        [4322] = QuestieCorrections.WOTLK_HIDE,
-        [6402] = QuestieCorrections.WOTLK_HIDE,
-        [6403] = QuestieCorrections.WOTLK_HIDE,
-        [6501] = QuestieCorrections.WOTLK_HIDE,
-        [6502] = QuestieCorrections.WOTLK_HIDE,
+        [4182] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4183] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4184] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4185] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4186] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4223] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4224] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4241] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4242] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4264] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4282] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4322] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6402] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6403] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6501] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6502] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
 
         -- Vanilla Onyxia Horde pre attunement
-        [4903] = QuestieCorrections.WOTLK_HIDE,
-        [4941] = QuestieCorrections.WOTLK_HIDE,
-        [4974] = QuestieCorrections.WOTLK_HIDE,
-        [6566] = QuestieCorrections.WOTLK_HIDE,
-        [6567] = QuestieCorrections.WOTLK_HIDE,
-        [6568] = QuestieCorrections.WOTLK_HIDE,
-        [6569] = QuestieCorrections.WOTLK_HIDE,
-        [6570] = QuestieCorrections.WOTLK_HIDE,
-        [6582] = QuestieCorrections.WOTLK_HIDE,
-        [6583] = QuestieCorrections.WOTLK_HIDE,
-        [6584] = QuestieCorrections.WOTLK_HIDE,
-        [6585] = QuestieCorrections.WOTLK_HIDE,
-        [6601] = QuestieCorrections.WOTLK_HIDE,
-        [6602] = QuestieCorrections.WOTLK_HIDE,
+        [4903] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4941] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4974] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6566] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6567] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6568] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6569] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6570] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6582] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6583] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6584] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6585] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6601] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6602] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
 
         -- "learn to ride" series (unimplemented)
         [14079] = true, -- elwynn (human)
@@ -2641,7 +2641,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         --[13431] = true, --* The Cudgel of Kar'desh (https://www.wowhead.com/wotlk/quest=13431) -- it is still available in wotlk P3
 
         -- Darnassus WOTLK
-        [10520] = QuestieCorrections.WOTLK_HIDE, --*Assisting Arch Druid Staghelm (https://www.wowhead.com/wotlk/quest=10520) not present anymore in wotlk
+        [10520] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, --*Assisting Arch Druid Staghelm (https://www.wowhead.com/wotlk/quest=10520) not present anymore in wotlk
 
         --! 8.0.1
         -- Raids -> Sunwell Plateau (3 -> 4075)
