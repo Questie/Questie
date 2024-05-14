@@ -2320,6 +2320,9 @@ function CataQuestFixes.Load()
         [28524] = { -- Delivery for Donova
             [questKeys.exclusiveTo] = {28544,28545,28460,28768},
         },
+        [28526] = { -- Warchief's Command: Un'Goro Crater!
+            [questKeys.objectives] = {},
+        },
         [28530] = { -- Scalding Signs
             [questKeys.preQuestSingle] = {28467},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
