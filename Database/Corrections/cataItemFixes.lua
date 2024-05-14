@@ -415,6 +415,9 @@ function CataItemFixes.Load()
         [62817] = { -- Neferset Key
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [62822] = { -- Twilight Collar
+            [itemKeys.npcDrops] = {5860,5861,5862,8419,47309,47310,47311},
+        },
         [62926] = { -- Twilight Caravan Cargo Key
             [itemKeys.class] = itemClasses.QUEST,
         },
