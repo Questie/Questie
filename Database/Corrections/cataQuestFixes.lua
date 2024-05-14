@@ -2214,6 +2214,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{48040,48041,48043},48040,"Thieving plucker smashed"}}},
             [questKeys.preQuestSingle] = {28112},
         },
+        [28301] = { -- Meet with Kardris Dreamseeker
+            [questKeys.finishedBy] = {{3344}},
+        },
         [28338] = { -- Deadwood of the North
             [questKeys.preQuestSingle] = {},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
