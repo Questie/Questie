@@ -573,7 +573,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{34830,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [14071] = { -- Rolling with my Homies
-            [questKeys.objectives] = {{{48323},{34890},{34892},{34954}}},
+            [questKeys.objectives] = {{{48323},{34890,nil,Questie.ICON_TYPE_EVENT},{34892,nil,Questie.ICON_TYPE_EVENT},{34954,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.childQuests] = {28606},
         },
         [14094] = { -- Salvage the Supplies
