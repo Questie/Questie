@@ -1906,6 +1906,9 @@ function CataQuestFixes.Load()
         [27280] = { -- The Dreamseeker Calls
             [questKeys.finishedBy] = {{3344}},
         },
+        [27282] = { -- Zevrost's Behest
+            [questKeys.finishedBy] = {{3326}},
+        },
         [27283] = { -- A Journey to Moonglade
             [questKeys.exclusiveTo] = {27404},
         },
