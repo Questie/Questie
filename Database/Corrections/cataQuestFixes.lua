@@ -2650,6 +2650,9 @@ function CataQuestFixes.Load()
         [29363] = { -- Mulgore Spice Bread
             [questKeys.extraObjectives] = {{{[zoneIDs.THUNDER_BLUFF]={{51.3,52.9}}}, Questie.ICON_TYPE_EVENT, l10n("Cook 5 Spice Bread and combine with Mulgore Spices")}},
         },
+        [29371] = { -- A Time to Lose
+            [questKeys.objectives] = {nil,{{209140}}},
+        },
         [29387] = { -- Guardians of Hyjal: Firelands Invasion!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
