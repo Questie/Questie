@@ -567,6 +567,9 @@ function CataQuestFixes.Load()
         [14066] = { -- Investigate the Wreckage
             [questKeys.triggerEnd] = {"Caravan Scene Searched", {[zoneIDs.THE_BARRENS]={{59.2,67.5}}}},
         },
+        [14069] = { -- Good Help is Hard to Find
+            [questKeys.objectives] = {{{34830,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [14071] = { -- Rolling with my Homies
             [questKeys.objectives] = {{{48323},{34890},{34892},{34954}}},
             [questKeys.childQuests] = {28606},
