@@ -319,6 +319,9 @@ function CataItemFixes.Load()
         [57197] = { -- Juicy Apple
             [itemKeys.npcDrops] = {},
         },
+        [57756] = { -- Murloc Clue
+            [itemKeys.npcDrops] = {126,458,515},
+        },
         [57765] = { -- Muddy Crawfish
             [itemKeys.npcDrops] = {42548},
         },
