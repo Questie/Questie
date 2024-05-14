@@ -486,6 +486,9 @@ function CataQuestFixes.Load()
         [13918] = { -- The Titans' Terminal
             [questKeys.extraObjectives] = {{{[zoneIDs.DARKSHORE]={{37.1,80.4},{35.4,83.8},{35.2,86.5}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Buried Artifact Detector to collect 5 Ancient Device Fragment")}},
         },
+        [13919] = { -- A Trip to the Moonwell
+            [questKeys.preQuestSingle] = {26475},
+        },
         [13925] = { -- An Ounce of Prevention
             [questKeys.objectives] = {nil,nil,nil,nil,{{{2071,2165,2237,34318},2071,"Lifebringer Sapling Tested"}}},
         },
