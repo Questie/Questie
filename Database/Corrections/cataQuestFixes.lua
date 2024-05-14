@@ -1633,6 +1633,9 @@ function CataQuestFixes.Load()
         [26466] = { -- Ruuzel
             [questKeys.preQuestSingle] = {26465},
         },
+        [26475] = { -- Elune's Tear
+            [questKeys.preQuestSingle] = {26474},
+        },
         [26476] = { -- Dryad Delivery
             [questKeys.preQuestSingle] = {26475},
         },
