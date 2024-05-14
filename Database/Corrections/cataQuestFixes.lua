@@ -2339,6 +2339,9 @@ function CataQuestFixes.Load()
         [28549] = { -- Warchief's Command: Southern Barrens!
             [questKeys.objectives] = {},
         },
+        [28554] = { -- Warchief's Command: Dustwallow Marsh!
+            [questKeys.objectives] = {},
+        },
         [28558] = { -- Hero's Call: Uldum!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
