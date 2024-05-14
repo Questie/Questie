@@ -9,6 +9,9 @@ function CataItemFixes.Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [10458] = { -- Prayer to Elune
+            [itemKeys.npcDrops] = {}
+        },
         [18597] = { -- Orcish Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
