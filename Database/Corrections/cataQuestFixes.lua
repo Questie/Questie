@@ -1903,6 +1903,9 @@ function CataQuestFixes.Load()
         [27273] = { -- An Invitation from Moonglade
             [questKeys.exclusiveTo] = {27356},
         },
+        [27280] = { -- The Dreamseeker Calls
+            [questKeys.finishedBy] = {{3344}},
+        },
         [27283] = { -- A Journey to Moonglade
             [questKeys.exclusiveTo] = {27404},
         },
