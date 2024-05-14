@@ -796,6 +796,7 @@ function CataQuestFixes.Load()
         },
         [20441] = { -- Rite of Vision
             [questKeys.preQuestSingle] = {24456},
+            [questKeys.objectives] = {nil,{{18035}}},
         },
         [23733] = { -- Rites of the Earthmother
             [questKeys.zoneOrSort] = 215,
