@@ -96,5 +96,8 @@ function CataObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
             [objectKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{32.8,46.6},{36.6,44.7},{38.3,44.1},{44.6,51.3}}},
         },
+        [460001] = {
+            [objectKeys.name] = "Fossil Archaeology Object",
+        },
     }
 end

@@ -2614,6 +2614,9 @@ function CataQuestFixes.Load()
         [29482] = { -- Transmutation Master
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
         },
+        [29507] = { -- Fun for the Little Ones
+            [questKeys.objectives] = {nil,{{460001}}},
+        },
         [29536] = { -- Heart of Rage
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.THE_BLOOD_FURNACE]={{64.9,41.5}}}},
         },
