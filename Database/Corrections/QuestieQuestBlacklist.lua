@@ -1500,6 +1500,7 @@ function QuestieQuestBlacklist:Load()
         [24503] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28414
         [25474] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27729
         [26565] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26588
+        [26951] = QuestieCorrections.CATA_HIDE, -- Seems to not be available
         [29476] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29477
         [27608] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27500
         [27609] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27501

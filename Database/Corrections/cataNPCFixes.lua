@@ -14,6 +14,10 @@ function CataNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
+        [2079] = { -- Ilthalaine
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{57.97,39.2}}},
+            [npcKeys.waypoints] = {},
+        },
         [2151] = { -- Moon Priestess Amara
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{49.35,44.67}}},
             [npcKeys.waypoints] = {},
@@ -21,6 +25,7 @@ function CataNpcFixes.Load()
         [2988] = { -- Morin Cloudstalker
             [npcKeys.questStarts] = {749,26179,26180},
             [npcKeys.questEnds] = {749,24459,26179,26180},
+            [npcKeys.waypoints] = {},
         },
         [3594] = { -- Frahun Shadewhisper
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.8,33.8}}},
@@ -47,6 +52,9 @@ function CataNpcFixes.Load()
         },
         [22819] = { -- Orphan Matron Mercy
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{75.07,47.88}}},
+        },
+        [23616] = { -- Kyle the Frenzied
+            [npcKeys.spawns] = {[zoneIDs.MULGORE]={{48.48,61.57}}},
         },
         [28092] = { -- The Etymidian
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{47.38,9.21}}},
@@ -242,26 +250,26 @@ function CataNpcFixes.Load()
         },
         [39432] = { -- Takrik Ragehowl
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
-                {80.85,67.87,phases.HYJAL_CHAPTER_2},
-                {79.72,66.66,phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE},
+                {30.16,31.73,phases.HYJAL_CHAPTER_2},
+                {28.45,29.88,phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE},
             }},
         },
         [39433] = { -- Ian Duran
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
-                {80.82,67.59,phases.HYJAL_CHAPTER_2},
-                {79.57,66.57,phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE},
+                {30.12,31.3,phases.HYJAL_CHAPTER_2},
+                {28.22,29.75,phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE},
             }},
         },
         [39434] = { -- Rio Duran
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
-                {80.91,67.75,phases.HYJAL_CHAPTER_2},
-                {79.54,66.65,phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE},
+                {30.25,31.54,phases.HYJAL_CHAPTER_2},
+                {28.17,29.88,phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE},
             }},
         },
         [39435] = { -- Royce Duskwhisper
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
-                {80.93,67.78,phases.HYJAL_CHAPTER_2},
-                {79.62,66.72,phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE},
+                {30.29,31.6,phases.HYJAL_CHAPTER_2},
+                {28.3,29.98,phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE},
             }},
         },
         [39640] = { -- Kristoff Manheim
@@ -269,8 +277,8 @@ function CataNpcFixes.Load()
         },
         [39858] = { -- Arch Druid Hamuul Runetotem
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
-                {78.85,88.17,phases.HYJAL_HAMUUL_RUNETOTEM_AT_SANCTUARY},
-                {73.87,71.86,phases.HYJAL_HAMUUL_RUNETOTEM_AT_GROVE},
+                {27.12,62.64,phases.HYJAL_HAMUUL_RUNETOTEM_AT_SANCTUARY},
+                {19.53,37.81,phases.HYJAL_HAMUUL_RUNETOTEM_AT_GROVE},
             }},
         },
         [39877] = { -- Toshe Chaosrender
@@ -281,6 +289,9 @@ function CataNpcFixes.Load()
         },
         [40065] = { -- Unbound Flame Spirit
             [npcKeys.spawns] = {},
+        },
+        [40178] = { -- Alysra
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{52.12,17.42}}},
         },
         [40461] = { -- Flameward Activated
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{33.1,64.5},{41.6,56.2},{40.5,53.2},{38.4,63.9}}},
@@ -301,6 +312,12 @@ function CataNpcFixes.Load()
         [41003] = { -- Morthis Whisperwing
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{44.1,45.9}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
+        [41006] = { -- Thisalee Crow
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
+                {42.18,45.46,phases.HYJAL_THISALEE_AT_SHRINE},
+                {32.79,70.75,phases.HYJAL_THISALEE_AT_SETHRIAS_ROOST},
+            }},
         },
         [41098] = { -- Gnaws
             [npcKeys.spawns] = {},

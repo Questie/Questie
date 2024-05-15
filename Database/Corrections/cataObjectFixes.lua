@@ -17,6 +17,9 @@ function CataObjectFixes.Load()
                 [zoneIDs.TELDRASSIL] = {{66.1,52}}
             }
         },
+        [194102] = { -- Shatterspear Armaments
+            [objectKeys.spawns] = {[141]={{90.96,99.06},{87.07,99.87},{91.69,98.44}},[148]={{62.81,7.27},{62.38,7.8},{63.28,10.48},{61.29,10.61},{61.2,7.71},{63.53,8.07},{63.21,8.92},{61.96,8.94},{61.52,9.23},{61.38,9.81},{62.9,10.82},{62.76,11.37},{62.06,11.44},{62.2,8.98},{61.66,9.22},{63.08,9.56},{62.78,9.64},{61.94,9.95},{61.89,11.07}}},
+        },
         [196472] = { -- Grandma's Good Clothes
             [objectKeys.spawns] = {[zoneIDs.GILNEAS]={{32.03,75.45}}},
         },
@@ -31,6 +34,11 @@ function CataObjectFixes.Load()
         },
         [201977] = { -- The Biggest Egg Ever
             [objectKeys.spawns] = {},
+        },
+        [203092] = { -- Portal Rune - Fully added here, because we don't scrape "objectType = button" objects
+            [objectKeys.name] = "Portal Rune",
+            [objectKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{31.64,46.03},{32.03,45.79},{31.68,46.61},{32.36,46.16},{31.92,46.92}}},
+            [objectKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
         [204281] = { -- Worm Mound
             [objectKeys.spawns] = {[1519]={{49.24,18.03},{52.53,14.86},{64.01,16.59},{63.39,5.73},{64.93,8.47},{56.45,22.58},{55.73,16.51},{53.73,19.56},{60.51,6.85},{58.05,10.49},{62.12,17.65},{59.07,20.64}}},
@@ -87,6 +95,9 @@ function CataObjectFixes.Load()
             [objectKeys.name] = "Harpy Signal Fire",
             [objectKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
             [objectKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{32.8,46.6},{36.6,44.7},{38.3,44.1},{44.6,51.3}}},
+        },
+        [460001] = {
+            [objectKeys.name] = "Fossil Archaeology Object",
         },
     }
 end

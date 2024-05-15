@@ -3,6 +3,8 @@ import re
 
 import scrapy
 
+from npc.npc_ids_complete import NPC_IDS_COMPLETE
+
 
 class NpcZoneIdSpider(scrapy.Spider):
     name = "npc_zone_id"
@@ -12,7 +14,7 @@ class NpcZoneIdSpider(scrapy.Spider):
 
     def __init__(self) -> None:
         super().__init__()
-        self.start_urls = [self.base_url_classic.format(npc_id) for npc_id in range(1, 100)]  # TODO: Add actual NPC IDs
+        self.start_urls = [self.base_url_classic.format(npc_id) for npc_id in NPC_IDS_COMPLETE]
 
     def parse(self, response):
         # debug the response
@@ -23,8 +25,6 @@ class NpcZoneIdSpider(scrapy.Spider):
             npc_id = re.search(r'https://www.wowhead.com/npcs\?notFound=(\d+)', response.url).group(1)
             logging.warning('\x1b[31;20mNPC with ID {npc_id} not found\x1b[0m'.format(npc_id=npc_id))
             return None
-
-        print('response.url', response.url)
 
         result = {
             "npcId": re.search(r'https://www.wowhead.com/npc=(\d+)', response.url).group(1)

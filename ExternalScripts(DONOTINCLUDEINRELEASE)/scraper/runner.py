@@ -8,6 +8,7 @@ from item.item_spider import ItemSpider
 from npc.npc_spider import NPCSpider
 from npc.npc_zone_id_spider import NpcZoneIdSpider
 from object.object_spider import ObjectSpider
+from object.object_zone_id_spider import ObjectZoneIdSpider
 from quest.quest_spider import QuestSpider
 from quest.classic.quest_spider import ClassicQuestSpider
 from quest.sod_translations.quest_translation_spider import QuestTranslationSpider
@@ -67,6 +68,12 @@ class Runner:
         process.crawl(ObjectSpider)
         process.start()
 
+    def run_object_zone_ids(self) -> None:
+        Path("object/object_zone_id_data.json").unlink(missing_ok=True)
+        process = CrawlerProcess(settings={**BASE_SETTINGS, "FEED_URI": "object/object_zone_id_data.json"})
+        process.crawl(ObjectZoneIdSpider)
+        process.start()
+
 
 if __name__ == '__main__':
     parser = ArgumentParser()
@@ -77,10 +84,11 @@ if __name__ == '__main__':
     parser.add_argument("--npc-zone", help="Run npc zone IDs spider", action="store_true")
     parser.add_argument("--item", help="Run item spider", action="store_true")
     parser.add_argument("--object", help="Run object spider", action="store_true")
+    parser.add_argument("--object-zone", help="Run object zone IDs spider", action="store_true")
 
     args = parser.parse_args()
 
-    if (not args.quest) and (not args.quest_classic) and (not args.quest_translations) and (not args.npc) and (not args.npc_zone) and (not args.item) and (not args.object):
+    if (not args.quest) and (not args.quest_classic) and (not args.quest_translations) and (not args.npc) and (not args.npc_zone) and (not args.item) and (not args.object) and (not args.object_zone):
         parser.error("No spider selected")
 
     runner = Runner()
@@ -106,3 +114,6 @@ if __name__ == '__main__':
     if args.object:
         print("Running object spider")
         runner.run_object()
+    if args.object_zone:
+        print("Running object zone ID spider")
+        runner.run_object_zone_ids()

@@ -72,6 +72,8 @@ local phases = {
     HYJAL_IAN_AND_TARIK_NOT_IN_CAGE = 1000,
     HYJAL_HAMUUL_RUNETOTEM_AT_SANCTUARY = 1001,
     HYJAL_HAMUUL_RUNETOTEM_AT_GROVE = 1002,
+    HYJAL_THISALEE_AT_SHRINE = 1003,
+    HYJAL_THISALEE_AT_SETHRIAS_ROOST = 1004,
 }
 Phasing.phases = phases
 
@@ -168,6 +170,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.HYJAL_HAMUUL_RUNETOTEM_AT_GROVE then
         return complete[25520] and complete[25502] or false
+    end
+
+    if phase == phases.HYJAL_THISALEE_AT_SHRINE then
+        return complete[25807] or ((not complete[25740]) and (not questLog[25740]))
+    end
+
+    if phase == phases.HYJAL_THISALEE_AT_SETHRIAS_ROOST then
+        return (not complete[25807]) and (complete[25740] or (questLog[25740] and true) or false)
     end
 
     return false

@@ -311,11 +311,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{179832},{18950}},
         },
         [8149] = {
-            [questKeys.objectives] = {nil,{{180204,"Place a tribute at Uther's Tomb"}}},
+            [questKeys.objectives] = {nil,{{1323,"Place a tribute at Uther's Tomb"}}},
             [questKeys.extraObjectives] = {},
         },
         [8150] = {
-            [questKeys.objectives] = {nil,{{180205,"Place a tribute at Grom's Monument"}}},
+            [questKeys.objectives] = {nil,{{1324,"Place a tribute at Grom's Monument"}}},
             [questKeys.extraObjectives] = {},
         },
         [8166] = {
@@ -5063,7 +5063,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33842}}}},
         },
         [13830] = {
-            [questKeys.triggerEnd] = {"Discover the Ghostfish mystery",{[zoneIDs.SHOLAZAR_BASIN]={{48.89,62.29,},},},},
+            [questKeys.triggerEnd] = {"Discover the Ghostfish mystery",{[zoneIDs.SHOLAZAR_BASIN]={{48.89,62.29,}}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{48.2,63.4}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Phantom Ghostfish")}},
+            [questKeys.requiredSourceItems] = {45902},
         },
         [13832] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_UNDERBELLY]={{46,68}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Corroded Jewelry")}},
