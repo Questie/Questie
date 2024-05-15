@@ -339,22 +339,25 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
         -- self.text:SetText(self.text:GetText() .. "\n\n|c FFFFB9 00" .. name .. "|r")
         self.text:SetText(self.text:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
 
-        local langShort = string.sub(l10n:GetUILocale(), 1, 2) .. "."
-        if langShort == "en." then
+        local langShort = string.sub(GetLocale(), 1, 2) .. "/"
+        if langShort == "en/" then
+            langShort = ""
+        elseif langShort == "zh/" then -- there are no zhTW/zhCN repos on wowhead. Will redirect to the english ones.
             langShort = ""
         end
 
-        local wowheadLink
-        if Questie.IsWotlk then
-            if langShort then
-                langShort = langShort:gsub("%.", "/") -- The Wotlk WoWHead URL differs to the other Classic URLs
-            end
-            wowheadLink = "https://" .. "wowhead.com/wotlk/" .. langShort .. "quest=" .. questID
+        local wowheadLink, xpac
+        if Questie.IsCata then
+            xpac = "cata/"
+        elseif Questie.IsWotlk then
+            xpac = "wotlk/"
         elseif Questie.IsTBC then
-            wowheadLink = "https://" .. langShort .. "tbc.wowhead.com/quest=" .. questID
+            xpac = "tbc/"
         else
-            wowheadLink = "https://" .. langShort .. "classic.wowhead.com/quest=" .. questID
+            xpac = "classic/" -- era/sod/hardcore are all on this URL
         end
+
+        wowheadLink = "https://www.wowhead.com/".. xpac .. langShort .. "quest=" .. questID -- all expansions follow this system as of 2024 start of Cata
 
         self.editBox:SetText(wowheadLink)
         self.editBox:SetFocus()
