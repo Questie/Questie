@@ -1684,10 +1684,12 @@ function CataQuestFixes.Load()
         },
         [26397] = { -- Walk With The Earth Mother
             [questKeys.finishedBy] = {{39605}},
+            [questKeys.preQuestSingle] = {24540},
         },
         [26398] = { -- Walk With The Earth Mother
             [questKeys.startedBy] = {{36648}},
             [questKeys.finishedBy] = {{39605}},
+            [questKeys.preQuestSingle] = {24540},
         },
         [26408] = { -- Ashes in Ashenvale
             [questKeys.preQuestSingle] = {13897},
