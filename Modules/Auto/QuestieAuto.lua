@@ -265,6 +265,11 @@ end
 
 function QuestieAuto:QUEST_ACCEPTED()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto][EVENT] QUEST_ACCEPTED")
+    if (not Questie.db.profile.autoaccept) then
+        -- Auto-accept quests added with Cataclysm will trigger this event, but we want the details frame to still show without auto-accepting
+        return
+    end
+
     if Questie.db.profile.bugWorkarounds == true and QuestFrameDetailPanel:IsVisible() == true then
         QuestFrameCloseButton:Click()
     end
