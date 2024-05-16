@@ -298,7 +298,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{194102}}},
         },
         [13510] = { -- Timely Arrival
-            [questKeys.triggerEnd] = {"Escort Sentinel Aynasha to the Dock", {[zoneIDs.DARKSHORE]={{60.25,69.01}}}},
+            [questKeys.triggerEnd] = {"Escort Sentinel Aynasha to the Dock", {[zoneIDs.DARKSHORE]={{60.25,6.93}}}},
         },
         [13512] = { -- Strategic Strikes
             [questKeys.preQuestSingle] = {13507},
@@ -308,9 +308,13 @@ function CataQuestFixes.Load()
         },
         [13514] = { -- The Ancients' Ire
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get on the Protector's back"), 0, {{"monster", 43742}}}},
+            [questKeys.preQuestSingle] = {13512},
         },
         [13515] = { -- Ending the Threat
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak to Sandrya Moonfall to start the attack"), 0, {{"monster", 33178}}}},
+        },
+        [13518] = { -- The Last Wave of Survivors
+            [questKeys.objectives] = {{{33093,nil,Questie.ICON_TYPE_TALK},{32911,nil,Questie.ICON_TYPE_TALK},{33095,nil,Questie.ICON_TYPE_TALK},{33094,nil,Questie.ICON_TYPE_TALK}}},
         },
         [13519] = { -- The Twilight's Hammer
             [questKeys.preQuestSingle] = {13591},
@@ -332,15 +336,31 @@ function CataQuestFixes.Load()
         },
         [13537] = { -- A Taste for Grouper
             [questKeys.requiredSkill] = {profKeys.FISHING, 1},
+            [questKeys.preQuestGroup] = {13518,13522},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DARKSHORE]={{52.44,17.43}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Darkshore Groupers")}},
+        },
+        [13542] = { -- Against the Wind
+            [questKeys.requiredSourceItems] = {44868},
+            [questKeys.objectives] = {{{32986,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [13544] = { -- The Bear's Blessing
             [questKeys.requiredSourceItems] = {44886},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Fleetfoot's Tailfeathers"), 0, {{"object", 194106}}}},
         },
+        [13545] = { -- Coaxing the Spirits
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Blessed Herb Bundle"), 0, {{"monster", 33043},{"monster", 33044}}}},
+        },
+        [13547] = { -- Coaxing the Spirits
+            [questKeys.objectives] = {{{33001,nil,Questie.ICON_TYPE_TALK},{33033,nil,Questie.ICON_TYPE_TALK},{33035,nil,Questie.ICON_TYPE_TALK},{33037,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [13557] = { -- Bearer of Good Fortune
             [questKeys.startedBy] = {{33020,33022},nil,{44927}},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{33023,33024},33023,"Uncorrupted animals freed"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{33023,33024},33023,"Uncorrupted animals freed",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 194124},{"object", 194133}}}},
+        },
+        [13558] = { -- Call Down the Thunder
+            [questKeys.objectives] = {nil,{{194145}},{{44929}}},
         },
         [13560] = { -- An Ocean Not So Deep
             [questKeys.preQuestGroup] = {13566,13569},
@@ -378,7 +398,7 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 13569,
         },
         [13569] = { -- The Ritual Bond
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{33131,33132,33133},33131,"Receive the blessing of a great animal spirit."}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{33131,33132,33133},33131,"Receive the blessing of a great animal spirit.",Questie.ICON_TYPE_EVENT}}},
             [questKeys.childQuests] = {13567,13568,13597},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13565,13566,13598},
@@ -402,6 +422,13 @@ function CataQuestFixes.Load()
         },
         [13586] = { -- The Emerald Dream
             [questKeys.preQuestGroup] = {13581,13583,13585},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Step through the Nightmare Portal"), 0, {{"object", 195071}}}},
+        },
+        [13587] = { -- The Waking Nightmare
+            [questKeys.preQuestSingle] = {13586},
+        },
+        [13588] = { -- The Eye of All Storms
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Ride Thessera"), 0, {{"monster", 34401}}}},
         },
         [13589] = { -- The Shatterspear Invaders
             [questKeys.preQuestSingle] = {13569},
@@ -434,7 +461,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {13569},
         },
         [13601] = { -- In Aid of the Refugees
-            [questKeys.preQuestGroup] = {13519,13591},
+            [questKeys.preQuestSingle] = {13596},
+        },
+        [13605] = { -- The Last Refugee
+            [questKeys.triggerEnd] = {"Archaeologist Hollee escorted to safety.", {[zoneIDs.DARKSHORE]={{41.18,43.36}}}},
         },
         [13617] = { -- West to the Strand
             [questKeys.exclusiveTo] = {26465},
@@ -465,6 +495,7 @@ function CataQuestFixes.Load()
         },
         [13831] = { -- A Troubling Prescription
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {13528},
         },
         [13660] = { -- Explorers' League Document (5 of 6)
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -491,14 +522,14 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Watering Hole Investigated", {[zoneIDs.DARKSHORE]={{45,79.1}}}},
         },
         [13885] = { -- In Defense of Darkshore
-            [questKeys.objectives] = {{{2165},{2071},{34318}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{2165,34417},2165,nil,Questie.ICON_TYPE_EVENT},{{2071,2237,2070},2071,nil,Questie.ICON_TYPE_EVENT},{{34318,34396},34318,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ask Orseus for a hippogryph"), 0, {{"monster", 34392}}}},
         },
         [13897] = { -- The Battle for Darkshore
             [questKeys.preQuestSingle] = {13900},
         },
         [13892] = { -- Leave No Tracks
-            [questKeys.objectives] = {{{34406}}},
+            [questKeys.objectives] = {{{34406,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [13895] = { -- The Slumbering Ancients
             [questKeys.preQuestSingle] = {13893},
@@ -509,20 +540,27 @@ function CataQuestFixes.Load()
         [13898] = { -- The Tides Turn Against Us
             [questKeys.preQuestSingle] = {13953},
         },
+        [13902] = { -- Mounting the Offensive
+            [questKeys.preQuestSingle] = {13588},
+        },
         [13910] = { -- A New Home
             [questKeys.objectives] = {nil,{{195043}}},
+        },
+        [13911] = { -- The Absent-Minded Prospector
+            [questKeys.triggerEnd] = {"Prospector Remtravel Escorted", {[zoneIDs.DARKSHORE]={{37.69,82.94}}}},
         },
         [13913] = { -- They Took Our Gnomes
             [questKeys.objectives] = {{{39096}}},
         },
         [13918] = { -- The Titans' Terminal
             [questKeys.extraObjectives] = {{{[zoneIDs.DARKSHORE]={{37.1,80.4},{35.4,83.8},{35.2,86.5}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Buried Artifact Detector to collect 5 Ancient Device Fragment")}},
+            [questKeys.requiredSourceItems] = {46388,46702},
         },
         [13919] = { -- A Trip to the Moonwell
             [questKeys.preQuestSingle] = {26475},
         },
         [13925] = { -- An Ounce of Prevention
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{2071,2165,2237,34318},2071,"Lifebringer Sapling Tested"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{2071,2165,2237,34318},2071,"Lifebringer Sapling Tested",Questie.ICON_TYPE_INTERACT}}},
         },
         [13926] = { -- Little Orphan Roo Of The Oracles
             [questKeys.exclusiveTo] = {13927},
@@ -544,7 +582,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{2002,2003,2004,2005},2002}}},
         },
         [13948] = { -- Stepping Up Surveillance
-            [questKeys.objectives] = {{{34326}}},
+            [questKeys.objectives] = {{{34326,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [13953] = { -- Naga In Our Midst
             [questKeys.preQuestSingle] = {13895},
@@ -983,7 +1021,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{38438,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24864] = { -- Irresistible Pool Pony
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{38412,44578,44579,44580},38412,"Naga Hatchling lured"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{38412,44578,44579,44580},38412,"Naga Hatchling lured",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24858,24859},
         },
@@ -1410,7 +1448,7 @@ function CataQuestFixes.Load()
             },
         },
         [25593] = { -- Shelled Salvation
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{39729,41203,41219,42404},39729,"Shell Survivors rescued"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{39729,41203,41219,42404},39729,"Shell Survivors rescued",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSourceItems] = {55141},
         },
         [25599] = { -- Cindermaul, the Portal Master
@@ -1881,7 +1919,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [26827] = { -- Rallying the Earthen Ring
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{43836,44633,44634,44642,44644,44646,44647},44642,"Earthen Ring rallied"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{43836,44633,44634,44642,44644,44646,44647},44642,"Earthen Ring rallied",Questie.ICON_TYPE_EVENT}}},
         },
         [26829] = { -- The Stone March
             [questKeys.preQuestSingle] = {26828},
@@ -2129,7 +2167,7 @@ function CataQuestFixes.Load()
         },
         [27506] = { -- Life from Death
             [questKeys.preQuestSingle] = {27504},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{45788,45746},45788,"Dragonkin corpse reclaimed"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{45788,45746},45788,"Dragonkin corpse reclaimed",Questie.ICON_TYPE_EVENT}}},
         },
         [27517] = { -- Be Prepared
             [questKeys.objectives] = {nil,nil,{{61321}}},

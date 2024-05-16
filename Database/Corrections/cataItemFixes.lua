@@ -78,6 +78,9 @@ function CataItemFixes.Load()
         [46397] = { -- Oracle Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [46696] = { -- Panther Figurine
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [46702] = { -- Ancient Device Fragment
             [itemKeys.class] = itemClasses.QUEST,
         },
