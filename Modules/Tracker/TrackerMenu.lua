@@ -318,25 +318,25 @@ TrackerMenu.addLockUnlockOption = function(menu)
 end
 
 local function _GetWowheadLinkForLanguage()
-    local langShort = string.sub(GetLocale(), 1, 2) .. "/"
-    if langShort == "en/" then
+    local langShort = string.sub(GetLocale(), 1, 2)
+    if langShort == "en" then
         langShort = ""
-    elseif langShort == "zh/" then
-        langShort = "cn/"
+    elseif langShort == "zh" then
+        langShort = "cn"
     end
 
     local xpac
     if Questie.IsCata then
-        xpac = "cata/"
+        xpac = "cata"
     elseif Questie.IsWotlk then
-        xpac = "wotlk/"
+        xpac = "wotlk"
     elseif Questie.IsTBC then
-        xpac = "tbc/"
+        xpac = "tbc"
     else
-        xpac = "classic/" -- era/sod/hardcore are all on this URL
+        xpac = "classic" -- era/sod/hardcore are all on this URL
     end
 
-    return "https://www.wowhead.com/".. xpac .. langShort
+    return "https://www.wowhead.com/".. xpac .. "/" .. langShort .. "/"
 end
 
 -- Register the WoWHead Quest popup dialog
