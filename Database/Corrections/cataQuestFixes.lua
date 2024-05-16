@@ -45,7 +45,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{808},{37514},{37112}}},
         },
         [487] = { -- The Road to Darnassus
-            [questKeys.preQuestSingle] = {2561},
+            [questKeys.preQuestSingle] = {483},
         },
         [578] = { -- The Stone of the Tides
             [questKeys.childQuests] = {579},
@@ -68,10 +68,19 @@ function CataQuestFixes.Load()
         [870] = { -- The Forgotten Pools
             [questKeys.triggerEnd] = {"Explore the waters of the Forgotten Pools", {[zoneIDs.THE_BARRENS]={{37.1,45.4}}}},
         },
+        [918] = { -- Timberling Seeds
+            [questKeys.preQuestSingle] = {997},
+        },
         [919] = { -- Timberling Sprouts
             [questKeys.preQuestSingle] = {997},
         },
+        [929] = { -- Teldrassil: The Refusal of the Aspects
+            [questKeys.preQuestSingle] = {28731},
+        },
         [930] = { -- The Glowing Fruit
+            [questKeys.preQuestSingle] = {},
+        },
+        [931] = { -- The Shimmering Frond
             [questKeys.preQuestSingle] = {},
         },
         [932] = { -- Twisted Hatred
@@ -101,6 +110,7 @@ function CataQuestFixes.Load()
         },
         [2518] = { -- Tears of the Moon
             [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 0, -- there are some weird things happening if you completed these quests before prepatch
         },
         [3101] = { -- Consecrated Letter
             [questKeys.startedBy] = {{197}},

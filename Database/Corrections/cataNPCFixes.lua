@@ -14,6 +14,9 @@ function CataNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
+        [2039] = { -- Ursal the Mauler
+            [npcKeys.waypoints] = {},
+        },
         [2079] = { -- Ilthalaine
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{57.97,39.2}}},
             [npcKeys.waypoints] = {},
@@ -43,7 +46,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.85,33.74}}},
         },
         [3594] = { -- Frahun Shadewhisper
-            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.8,33.8}}},
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.85,33.92}}},
         },
         [3595] = { -- Shanda
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.45,35.47}}},
@@ -64,6 +67,9 @@ function CataNpcFixes.Load()
         [10920] = { -- Kelek Skykeeper
             [npcKeys.questStarts] = {28479,28537,28848},
             [npcKeys.questEnds] = {28471,28536,28537},
+        },
+        [14431] = { -- Fury Shelda
+            [npcKeys.waypoints] = {},
         },
         [14444] = { -- Orcish Orphan
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{58.18,57.5}}},

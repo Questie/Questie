@@ -12,6 +12,9 @@ function CataObjectFixes.Load()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
+        [7510] = { --Sprouted Frond
+            [objectKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{43.91,43.99},{43.93,44.04},{43.95,44.08},{59.88,59.89},{59.84,59.86},{59.81,59.84}}},
+        },
         [126158] = { -- Tallonkai's Dresser
             [objectKeys.spawns] = {
                 [zoneIDs.TELDRASSIL] = {{66.1,52}}
