@@ -317,6 +317,28 @@ TrackerMenu.addLockUnlockOption = function(menu)
     end
 end
 
+local function _GetWowheadLinkForLanguage()
+    local langShort = string.sub(GetLocale(), 1, 2) .. "/"
+    if langShort == "en/" then
+        langShort = ""
+    elseif langShort == "zh/" then
+        langShort = "cn/"
+    end
+
+    local xpac
+    if Questie.IsCata then
+        xpac = "cata/"
+    elseif Questie.IsWotlk then
+        xpac = "wotlk/"
+    elseif Questie.IsTBC then
+        xpac = "tbc/"
+    else
+        xpac = "classic/" -- era/sod/hardcore are all on this URL
+    end
+
+    return "https://www.wowhead.com/".. xpac .. langShort
+end
+
 -- Register the WoWHead Quest popup dialog
 StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
     text = "WoWHead URL",
@@ -337,25 +359,7 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
         self.text:SetFont("GameFontNormal", 12)
         self.text:SetText(self.text:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
 
-        local langShort = string.sub(GetLocale(), 1, 2) .. "/"
-        if langShort == "en/" then
-            langShort = ""
-        elseif langShort == "zh/" then
-            langShort = "cn/"
-        end
-
-        local wowheadLink, xpac
-        if Questie.IsCata then
-            xpac = "cata/"
-        elseif Questie.IsWotlk then
-            xpac = "wotlk/"
-        elseif Questie.IsTBC then
-            xpac = "tbc/"
-        else
-            xpac = "classic/" -- era/sod/hardcore are all on this URL
-        end
-
-        wowheadLink = "https://www.wowhead.com/".. xpac .. langShort .. "quest=" .. questID -- all expansions follow this system as of 2024 start of Cata
+        local wowheadLink = _GetWowheadLinkForLanguage() .. "quest=" .. questID -- all expansions follow this system as of 2024 start of Cata
 
         self.editBox:SetText(wowheadLink)
         self.editBox:SetFocus()
@@ -514,21 +518,7 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_AURL"] = {
         self.text:SetFont("GameFontNormal", 12)
         self.text:SetText(self.text:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
 
-        local langShort = string.sub(GetLocale(), 1, 2) .. "/"
-        if langShort == "en/" then
-            langShort = ""
-        elseif langShort == "zh/" then
-            langShort = "cn/"
-        end
-
-        local wowheadLink, xpac
-        if Questie.IsCata then
-            xpac = "cata/"
-        else
-            xpac = "wotlk/"
-        end
-
-        wowheadLink = "https://" .. "wowhead.com/" .. xpac .. langShort .. "achievement=" .. achieveID
+        local wowheadLink = _GetWowheadLinkForLanguage() .. "achievement=" .. achieveID
 
         self.editBox:SetText(wowheadLink)
         self.editBox:SetFocus()
