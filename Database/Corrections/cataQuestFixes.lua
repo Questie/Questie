@@ -138,6 +138,9 @@ function CataQuestFixes.Load()
         [8481] = { -- The Root of All Evil
             [questKeys.objectives] = {nil,nil,{{21145}},{576,42000}},
         },
+        [9612] = { -- A Hearty Thanks!
+            [questKeys.requiredRaces] = raceKeys.DRAENEI,
+        },
         [9616] = { -- Bandits!
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
@@ -1948,7 +1951,7 @@ function CataQuestFixes.Load()
         [26930] = { -- After the Crusade
             [questKeys.triggerEnd] = {"Scarlet Crusade camp scouted", {[zoneIDs.WESTERN_PLAGUELANDS]={{40.6,52.6}}}},
         },
-        [26940] = { -- Frost Nova
+        [26940] = { -- Arcane Missiles
             [questKeys.startedBy] = {{43006}},
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{5143}}},
         },
