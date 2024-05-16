@@ -622,4 +622,16 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_CROSSROAD))
         end)
     end)
+
+    describe("Darkshore", function()
+        it("should handle Cerellean Whiteclaw positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.CERELLEAN_NEAR_EDGE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CERELLEAN_NEAR_TREE))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[13515] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.CERELLEAN_NEAR_EDGE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.CERELLEAN_NEAR_TREE))
+        end)
+    end)
 end)

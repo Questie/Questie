@@ -76,6 +76,8 @@ local phases = {
     HYJAL_THISALEE_AT_SETHRIAS_ROOST = 1004,
     CORITHRAS_AT_DOLANAAR = 1005,
     CORITHRAS_AT_CROSSROAD = 1006,
+    CERELLEAN_NEAR_EDGE = 1007,
+    CERELLEAN_NEAR_TREE = 1008,
 }
 Phasing.phases = phases
 
@@ -188,6 +190,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.CORITHRAS_AT_CROSSROAD then
         return (complete[7383] or questLog[7383] and true) or false
+    end
+
+    if phase == phases.CERELLEAN_NEAR_EDGE then
+        return (not complete[13515])
+    end
+
+    if phase == phases.CERELLEAN_NEAR_TREE then
+        return complete[13515] or false
     end
 
     return false
