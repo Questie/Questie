@@ -25,6 +25,11 @@ This program accepts optional command line options:
     -w
     --wotlk
         Include WotLK files
+
+    -ca
+    --cata
+        Include Cata files
+
     -v <versionString>
     --version <versionString>
         Disregard git and toc versions, and use <versionString> instead
@@ -32,7 +37,7 @@ This program accepts optional command line options:
 '''
 addonDir = 'Questie'
 includedExpansions = []
-tocs = ['', 'Questie-Classic.toc', 'Questie-BCC.toc', 'Questie-WOTLKC.toc']
+tocs = ['', 'Questie-Classic.toc', 'Questie-BCC.toc', 'Questie-WOTLKC.toc', 'Questie-Cata.toc']
 
 def main():
     isReleaseBuild = False
@@ -55,16 +60,20 @@ def main():
                     includedExpansions.append(2)
                 if 3 not in includedExpansions:
                     includedExpansions.append(3)
+                if 4 not in includedExpansions:
+                    includedExpansions.append(4)
             elif arg in ['-c', '--classic'] and 1 not in includedExpansions:
                 includedExpansions.append(1)
             elif arg in ['-t', '--tbc'] and 2 not in includedExpansions:
                 includedExpansions.append(2)
             elif arg in ['-w', '--wotlk'] and 3 not in includedExpansions:
                 includedExpansions.append(3)
+            elif arg in ['-ca', '--cata'] and 4 not in includedExpansions:
+                includedExpansions.append(4)
     if len(includedExpansions) == 0:
         # If expansions go online/offline their major version needs to be added/removed here
         includedExpansions.append(1)
-        includedExpansions.append(3)
+        includedExpansions.append(4)
 
     release_dir = get_version_dir(isReleaseBuild, versionOverride)
 
@@ -94,6 +103,7 @@ def main():
     interface_classic = get_interface_version()
     interface_bcc = get_interface_version('BCC')
     interface_wotlk = get_interface_version('WOTLKC')
+    interface_cata = get_interface_version('Cata')
 
     flavorString = ""
     if 1 in includedExpansions:
@@ -114,6 +124,12 @@ def main():
                     "flavor": "wrath",
                     "interface": %s
                 },""" % interface_wotlk
+    if 4 in includedExpansions:
+        flavorString += """
+                {
+                    "flavor": "cata",
+                    "interface": %s
+                },""" % interface_cata
 
     with open(release_folder_path + '/release.json', 'w') as rf:
         rf.write('''{
@@ -150,11 +166,11 @@ def get_version_dir(is_release_build, versionOverride):
 
 directoriesToInclude = ['Database', 'Icons', 'Libs', 'Localization', 'Modules']
 filesToInclude = ['embeds.xml', 'Questie.lua', 'Questie.toc']
-expansionStrings = ['', 'Classic', 'TBC', 'Wotlk']
+expansionStrings = ['', 'Classic', 'TBC', 'Wotlk', "Cata"]
 ignorePatterns = ["*.test.lua"]
 
 def copy_content_to(release_folder_path):
-    for i in [1,2,3]:
+    for i in [1,2,3,4]:
         if i in includedExpansions:
             filesToInclude.append(tocs[i])
         else:

@@ -45,6 +45,10 @@ local QuestgiverFrame = QuestieLoader:ImportModule("QuestgiverFrame")
 local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+---@type WatchFrameHook
+local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
+---@type AutoCompleteFrame
+local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
 
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
@@ -85,7 +89,12 @@ function QuestieEventHandler:RegisterLateEvents()
 
     -- UI Quest Events
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
-    Questie:RegisterEvent("QUEST_FINISHED", QuestieAuto.QUEST_FINISHED)
+    Questie:RegisterEvent("QUEST_FINISHED", function()
+        QuestieAuto.QUEST_FINISHED()
+        if Questie.IsCata then
+            AutoCompleteFrame.CheckAutoCompleteQuests()
+        end
+    end)
     Questie:RegisterEvent("QUEST_ACCEPTED", QuestieAuto.QUEST_ACCEPTED)
     Questie:RegisterEvent("QUEST_DETAIL", function(...) -- When the quest is presented!
         QuestieAuto.QUEST_DETAIL(...)
@@ -108,7 +117,7 @@ function QuestieEventHandler:RegisterLateEvents()
     end)
 
     -- UI Achievement Events
-    if Questie.IsWotlk then
+    if Questie.IsWotlk or Questie.IsCata then
         -- Earned Achievement update
         Questie:RegisterEvent("ACHIEVEMENT_EARNED", function(index, achieveId, alreadyEarned)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ACHIEVEMENT_EARNED")
@@ -177,6 +186,11 @@ function QuestieEventHandler:RegisterLateEvents()
     -- Questie Debug Offer
     if Questie.IsSoD then
         Questie:RegisterEvent("LOOT_OPENED", QuestieDebugOffer.LootWindow)
+    end
+
+    if Questie.IsCata and Questie.db.profile.trackerEnabled then
+       -- This is fired pretty often when an auto complete quest frame is showing. We want the default one to be hidden though.
+        Questie:RegisterEvent("UPDATE_ALL_UI_WIDGETS", WatchFrameHook.Hide)
     end
 
     -- Questie Comms Events
@@ -313,7 +327,7 @@ function _EventHandler:MapExplorationUpdated()
     end
 
     -- Exploratory based Achievement updates
-    if Questie.IsWotlk then
+    if Questie.IsWotlk or Questie.IsCata then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
@@ -331,6 +345,7 @@ function _EventHandler:PlayerLevelUp(level)
     C_Timer.After(3, function()
         QuestiePlayer:SetPlayerLevel(level)
 
+        AvailableQuests.ResetLevelRequirementCache()
         AvailableQuests.CalculateAndDrawAll()
     end)
 
@@ -423,7 +438,7 @@ function _EventHandler:ChatMsgSkill()
     end
 
     -- Skill based Achievement updates
-    if Questie.IsWotlk then
+    if Questie.IsWotlk or Questie.IsCata then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)

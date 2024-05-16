@@ -1,4 +1,5 @@
 <Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+    <Script file="ExtraObjectives\CataObjectives.lua"/>
     <Script file="ExtraObjectives\ClassicObjectives.lua"/>
     <Script file="ExtraObjectives\SeasonObjectives.lua"/>
     <Script file="ExtraObjectives\TbcObjectives.lua"/>

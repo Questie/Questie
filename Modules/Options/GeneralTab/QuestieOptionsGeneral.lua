@@ -334,6 +334,7 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function () return Questie.db.profile.lowLevelStyle end,
                         set = function (_, value)
                             Questie.db.profile.lowLevelStyle = value
+                            AvailableQuests.ResetLevelRequirementCache()
                             AvailableQuests.CalculateAndDrawAll()
                             Questie:Debug(Questie.DEBUG_DEVELOP, "Lowlevel Quests set to:", value)
                         end,
@@ -353,7 +354,10 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function() return Questie.db.profile.manualLevelOffset end,
                         set = function(info, value)
                             Questie.db.profile.manualLevelOffset = value;
-                            QuestieOptionsUtils:Delay(0.3, AvailableQuests.CalculateAndDrawAll, "manualLevelOffset set to " .. value)
+                            QuestieOptionsUtils:Delay(0.3, function()
+                                AvailableQuests.ResetLevelRequirementCache()
+                                AvailableQuests.CalculateAndDrawAll()
+                            end, "manualLevelOffset set to " .. value)
                         end,
                     },
                     minLevelFilter = {
@@ -372,7 +376,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 value = Questie.db.profile.maxLevelFilter
                             end
                             Questie.db.profile.minLevelFilter = value;
-                            QuestieOptionsUtils:Delay(0.3, AvailableQuests.CalculateAndDrawAll, "minLevelFilter set to " .. value)
+                            QuestieOptionsUtils:Delay(0.3, function()
+                                AvailableQuests.ResetLevelRequirementCache()
+                                AvailableQuests.CalculateAndDrawAll()
+                            end, "minLevelFilter set to " .. value)
                         end,
                     },
                     maxLevelFilter = {
@@ -386,7 +393,7 @@ function QuestieOptions.tabs.general:Initialize()
                         end,
                         width = 1.063,
                         min = 0,
-                        max = 60 + 10 * GetExpansionLevel(),
+                        max = Questie.IsCata and 85 or (60 + 10 * GetExpansionLevel()),
                         step = 1,
                         disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
                         get = function(info) return Questie.db.profile.maxLevelFilter; end,
@@ -395,7 +402,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 value = Questie.db.profile.minLevelFilter
                             end
                             Questie.db.profile.maxLevelFilter = value;
-                            QuestieOptionsUtils:Delay(0.3, AvailableQuests.CalculateAndDrawAll, "maxLevelFilter set to " .. value)
+                            QuestieOptionsUtils:Delay(0.3, function()
+                                AvailableQuests.ResetLevelRequirementCache()
+                                AvailableQuests.CalculateAndDrawAll()
+                            end, "maxLevelFilter set to " .. value)
                         end,
                     },
                 },
@@ -681,7 +691,7 @@ _GetObjectiveSoundChoices = function()
         ["Bell Toll Alliance"] = "Bell Toll Alliance",
         ["Bell Toll Horde"]    = "Bell Toll Horde",
     }
-    if Questie.IsWotlk then
+    if Questie.IsWotlk or Questie.IsCata then
         choices["Explosion"] = "Explosion"
         choices["Shing!"] = "Shing!"
         choices["Wham!"] = "Wham!"
@@ -703,7 +713,7 @@ _GetObjectiveSoundChoicesSort = function()
         "Bell Toll Alliance",
         "Bell Toll Horde",
     }
-    if Questie.IsWotlk then
+    if Questie.IsWotlk or Questie.IsCata then
         tinsert(sorting, "Explosion")
         tinsert(sorting, "Shing!")
         tinsert(sorting, "Wham!")
@@ -726,7 +736,7 @@ _GetObjectiveProgressSoundChoices = function()
         ["Bell Toll Alliance"] = "Bell Toll Alliance",
         ["Bell Toll Horde"]    = "Bell Toll Horde",
     }
-    if Questie.IsWotlk then
+    if Questie.IsWotlk or Questie.IsCata then
         choices["Explosion"] = "Explosion"
         choices["Shing!"] = "Shing!"
         choices["Wham!"] = "Wham!"
@@ -749,7 +759,7 @@ _GetObjectiveProgressSoundChoicesSort = function()
         "Bell Toll Alliance",
         "Bell Toll Horde",
     }
-    if Questie.IsWotlk then
+    if Questie.IsWotlk or Questie.IsCata then
         tinsert(sorting, "Explosion")
         tinsert(sorting, "Shing!")
         tinsert(sorting, "Wham!")

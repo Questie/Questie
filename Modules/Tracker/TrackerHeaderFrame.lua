@@ -20,8 +20,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
----@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type l10n
@@ -209,9 +209,9 @@ function TrackerHeaderFrame:Update()
         headerFrame.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontHeader), trackerFontSizeHeader, Questie.db.profile.trackerFontOutline)
 
         local maxQuestAmount = "/" .. C_QuestLog.GetMaxNumQuestsCanAccept()
-        local _, activeQuests = GetNumQuestLogEntries()
 
         if Questie.db.char.isTrackerExpanded then
+            local activeQuests = QuestLogCache.GetQuestCount()
             headerFrame.trackedQuests.label:SetText(l10n("Questie Tracker") .. ": " .. tostring(activeQuests) .. maxQuestAmount)
         else
             headerFrame.trackedQuests.label:SetText(l10n("Questie Tracker") .. " +")
@@ -241,8 +241,6 @@ function TrackerHeaderFrame:Update()
         headerFrame.questieIcon:SetHeight(trackerFontSizeZone)
         headerFrame.questieIcon:SetAlpha(0)
 
-        local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
-
         if Questie.db.profile.moveHeaderToBottom then
             headerFrame.questieIcon:SetPoint("BOTTOMRIGHT", trackerBaseFrame, "BOTTOMRIGHT", -4, 8)
         else
@@ -256,7 +254,6 @@ function TrackerHeaderFrame:Update()
 end
 
 function TrackerHeaderFrame.PositionTrackerHeaderFrame()
-    local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
     if Questie.db.profile.moveHeaderToBottom then
         -- Move tracker header to the bottom
         headerFrame:SetPoint("BOTTOMLEFT", trackerBaseFrame, "BOTTOMLEFT", 0, 5)

@@ -9,7 +9,7 @@ function QuestieQuestBlacklist:Load()
         [7462] = true, -- Duplicate of 7877. See #1583
         [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
         [5658] = true, -- Touch of Weakness of Father Lankester -- See #1603
-        [2358] = QuestieCorrections.CLASSIC_AND_TBC, -- See #921
+        [2358] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.TBC_HIDE, -- See #921
         [787] = true, -- The New Horde is not in the game. See #830
         [6606] = true, -- Quest is not in the game. See #1338
         [6072] = true, -- Ayanna Everstride doesn't start "Hunter's Path" (this quest is most likely simply not in the game) #700
@@ -20,7 +20,7 @@ function QuestieQuestBlacklist:Load()
         --[960] = true, -- Duplicate of 961 -- different quests, not duplicate
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
-        [7704] = QuestieCorrections.CLASSIC_AND_TBC, -- Not implemented in Era, added in Wrath
+        [7704] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.TBC_HIDE, -- Not implemented in Era, added in Wrath
         [7668] = true, -- Not in the game (yet) Replaced with 8258 in Ph 4-- #1805
         [636] = true, -- Not in the game - #1900
         [6066] = true, -- Not in the game - #1957
@@ -31,8 +31,8 @@ function QuestieQuestBlacklist:Load()
         [11402] = true, -- GM Island quest
         [11189] = true, -- Removed
         [13417] = true, -- Duplicate of 12973
-        [936] = QuestieCorrections.CLASSIC_ONLY,
-        [535] = QuestieCorrections.WOTLK_ONLY, -- Valik
+        [936] = QuestieCorrections.CLASSIC_HIDE,
+        [535] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Valik
         [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
@@ -326,6 +326,7 @@ function QuestieQuestBlacklist:Load()
         [11242] = true,
         [11318] = true,
         [11320] = true,
+        [11321] = true,
         [11356] = true,
         [11357] = true,
         [11360] = true,
@@ -498,6 +499,7 @@ function QuestieQuestBlacklist:Load()
         [11955] = true,
         [11972] = true,
         [11975] = true,
+        [11976] = true,
         [11964] = true,
         [11966] = true,
         [11970] = true,
@@ -600,6 +602,7 @@ function QuestieQuestBlacklist:Load()
         [12409] = true,
         [12420] = true,
         [12421] = true,
+        [13158] = QuestieCorrections.CATA_HIDE, -- replaced in Cata with 29829
         ----------------
         --- Wotlk event quests
         --- Noblegarden
@@ -798,16 +801,16 @@ function QuestieQuestBlacklist:Load()
         [8156] = true,
         [8297] = true,
         -- Alterac Valley
-        [6861] = QuestieCorrections.CLASSIC_ONLY,
-        [6862] = QuestieCorrections.CLASSIC_ONLY,
-        [6864] = QuestieCorrections.CLASSIC_ONLY,
-        [6901] = QuestieCorrections.CLASSIC_ONLY,
+        [6861] = QuestieCorrections.CLASSIC_HIDE,
+        [6862] = QuestieCorrections.CLASSIC_HIDE,
+        [6864] = QuestieCorrections.CLASSIC_HIDE,
+        [6901] = QuestieCorrections.CLASSIC_HIDE,
         [7221] = true,
         [7222] = true,
-        [7281] = QuestieCorrections.CLASSIC_ONLY,
-        [7282] = QuestieCorrections.CLASSIC_ONLY,
-        [7301] = QuestieCorrections.CLASSIC_ONLY,
-        [7302] = QuestieCorrections.CLASSIC_ONLY,
+        [7281] = QuestieCorrections.CLASSIC_HIDE,
+        [7282] = QuestieCorrections.CLASSIC_HIDE,
+        [7301] = QuestieCorrections.CLASSIC_HIDE,
+        [7302] = QuestieCorrections.CLASSIC_HIDE,
         [7367] = true,
         [7368] = true,
         -- Master Ryson's All Seeing Eye
@@ -1022,7 +1025,7 @@ function QuestieQuestBlacklist:Load()
         [11027] = true, -- NOT IN GAME: Yous Have Da Darkrune? , "replaced" by 11060 (A Crystalforged Darkrune)
 
         [1] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
-        [2881] = QuestieCorrections.TBC_ONLY, -- Wildhammer faction removed in TBC. Repeatable to gain rep
+        [2881] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Wildhammer faction removed in TBC. Repeatable to gain rep
         [8329] = true, -- Warrior Training / Not in the game
         [8547] = true, -- Welcome!
         [9065] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
@@ -1060,7 +1063,7 @@ function QuestieQuestBlacklist:Load()
         [64144] = true, -- Horde pala mount quest chain
         [64145] = true, -- Horde pala mount quest chain
         [64217] = true, -- Boosted character quest
-        [64845] = QuestieCorrections.TBC_AND_WOTLK, -- Alliance War Effort
+        [64845] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Alliance War Effort
         [70395] = true, -- First quest for boosted characters. Blocked to not show for others
         [70396] = true, -- First quest for boosted characters. Blocked to not show for others
         [70397] = true, -- Boosted character quest
@@ -1115,13 +1118,13 @@ function QuestieQuestBlacklist:Load()
         [708] = true,
         [909] = true,
         [1288] = true,
-        [1661] = QuestieCorrections.TBC_AND_WOTLK,
+        [1661] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
         [3366] = true,
         [3381] = true,
         [5627] = true,
-        [5641] = QuestieCorrections.TBC_AND_WOTLK,
-        [5645] = QuestieCorrections.TBC_AND_WOTLK,
-        [5647] = QuestieCorrections.TBC_AND_WOTLK,
+        [5641] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [5645] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [5647] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
         [6131] = true,
         [6221] = true,
         [6241] = true,
@@ -1163,30 +1166,30 @@ function QuestieQuestBlacklist:Load()
         [11052] = true,
 
         -- Classic only PvP quests
-        [8369] = QuestieCorrections.TBC_ONLY,
-        [8370] = QuestieCorrections.TBC_ONLY,
-        [8372] = QuestieCorrections.TBC_ONLY,
-        [8374] = QuestieCorrections.TBC_ONLY,
-        [8375] = QuestieCorrections.TBC_ONLY,
-        [8389] = QuestieCorrections.TBC_ONLY,
-        [8393] = QuestieCorrections.TBC_ONLY,
-        [8394] = QuestieCorrections.TBC_ONLY,
-        [8395] = QuestieCorrections.TBC_ONLY,
-        [8396] = QuestieCorrections.TBC_ONLY,
-        [8399] = QuestieCorrections.TBC_ONLY,
-        [8400] = QuestieCorrections.TBC_ONLY,
-        [8401] = QuestieCorrections.TBC_ONLY,
-        [8402] = QuestieCorrections.TBC_ONLY,
-        [8403] = QuestieCorrections.TBC_ONLY,
-        [8431] = QuestieCorrections.TBC_ONLY,
-        [8432] = QuestieCorrections.TBC_ONLY,
-        [8433] = QuestieCorrections.TBC_ONLY,
-        [8434] = QuestieCorrections.TBC_ONLY,
-        [8435] = QuestieCorrections.TBC_ONLY,
-        [8436] = QuestieCorrections.TBC_ONLY,
-        [8437] = QuestieCorrections.TBC_ONLY,
-        [8438] = QuestieCorrections.TBC_ONLY,
-        [8439] = QuestieCorrections.TBC_ONLY,
+        [8369] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8370] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8372] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8374] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8375] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8389] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8393] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8394] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8395] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8396] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8399] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8400] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8401] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8402] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8403] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8431] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8432] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8433] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8434] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8435] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8436] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8437] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8438] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [8439] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
 
         -- Phase 4 Zul'Aman
         [11195] = true, -- Not in the game
@@ -1195,23 +1198,23 @@ function QuestieQuestBlacklist:Load()
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
 
-        [10985] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13429
-        [10888] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13430
-        [10901] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13431
-        [10445] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13432
-        [6144] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 14349
-        [6821] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
-        [6822] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
-        [6823] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
-        [6824] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
-        [7486] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
-        [5634] = QuestieCorrections.WOTLK_ONLY, -- removed in wotlk
-        [5635] = QuestieCorrections.WOTLK_ONLY, -- removed in wotlk
-        [5636] = QuestieCorrections.WOTLK_ONLY, -- removed in wotlk
-        [5637] = QuestieCorrections.WOTLK_ONLY, -- removed in wotlk
-        [5638] = QuestieCorrections.WOTLK_ONLY, -- removed in wotlk
-        [5639] = QuestieCorrections.WOTLK_ONLY, -- removed in wotlk
-        [5640] = QuestieCorrections.WOTLK_ONLY, -- removed in wotlk
+        [10985] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Got replaced by 13429
+        [10888] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Got replaced by 13430
+        [10901] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Got replaced by 13431
+        [10445] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Got replaced by 13432
+        [6144] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Got replaced by 14349
+        [6821] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Not in the game
+        [6822] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Not in the game
+        [6823] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Not in the game
+        [6824] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Not in the game
+        [7486] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Not in the game
+        [5634] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
+        [5635] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
+        [5636] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
+        [5637] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
+        [5638] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
+        [5639] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
+        [5640] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- removed since wotlk
         [12881] = true, -- Not in the game
         [14351] = true, -- Not in the game
         [14353] = true, -- Not in the game
@@ -1271,83 +1274,83 @@ function QuestieQuestBlacklist:Load()
         [13826] = true, -- EXISTS ingame, but can only be picked up if quest 6607 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
         --[13843] = true, -- Questie NYI - only available if recipe 55252 is not known but quest 12889 is completed, we can't yet determine recipe knowledge - fixed
 
-        [8367] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
-        [8371] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
-        [8385] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
-        [8388] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
-        [13475] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
-        [13476] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
-        [13477] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
-        [13478] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [8367] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
+        [8371] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
+        [8385] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
+        [8388] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
+        [13475] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
+        [13476] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
+        [13477] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
+        [13478] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
 
-        [6804] = QuestieCorrections.WOTLK_ONLY,
-        [7737] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13662 in wotlk
-        [9094] = QuestieCorrections.WOTLK_ONLY,
-        [9317] = QuestieCorrections.WOTLK_ONLY,
-        [9318] = QuestieCorrections.WOTLK_ONLY,
-        [9320] = QuestieCorrections.WOTLK_ONLY,
-        [9321] = QuestieCorrections.WOTLK_ONLY,
-        [9333] = QuestieCorrections.WOTLK_ONLY,
-        [9334] = QuestieCorrections.WOTLK_ONLY,
-        [9335] = QuestieCorrections.WOTLK_ONLY,
-        [9336] = QuestieCorrections.WOTLK_ONLY,
-        [9337] = QuestieCorrections.WOTLK_ONLY,
-        [9341] = QuestieCorrections.WOTLK_ONLY,
-        [9343] = QuestieCorrections.WOTLK_ONLY,
+        [6804] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [7737] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- replaced by 13662 in wotlk
+        [9094] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9317] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9318] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9320] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9321] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9333] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9334] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9335] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9336] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9337] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9341] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [9343] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
 
         -- Old Naxx quests (Naxx40 goes away in wotlk)
-        [9120] = QuestieCorrections.WOTLK_ONLY, -- The Fall of Kel'Thuzad
-        [9229] = QuestieCorrections.WOTLK_ONLY, -- The Fate of Ramaladni
-        [9230] = QuestieCorrections.WOTLK_ONLY, -- Ramaladni's Icy Grasp
-        [9232] = QuestieCorrections.WOTLK_ONLY, -- The Only Song I Know...
-        [9233] = QuestieCorrections.WOTLK_ONLY, -- Omarion's Handbook
-        [9234] = QuestieCorrections.WOTLK_ONLY, -- Icebane Gauntlets
-        [9235] = QuestieCorrections.WOTLK_ONLY, -- Icebane Bracers
-        [9236] = QuestieCorrections.WOTLK_ONLY, -- Icebane Breastplate
-        [9237] = QuestieCorrections.WOTLK_ONLY, -- Glacial Cloak
-        [9238] = QuestieCorrections.WOTLK_ONLY, -- Glacial Wrists
-        [9239] = QuestieCorrections.WOTLK_ONLY, -- Glacial Gloves
-        [9240] = QuestieCorrections.WOTLK_ONLY, -- Glacial Vest
-        [9241] = QuestieCorrections.WOTLK_ONLY, -- Polar Bracers
-        [9242] = QuestieCorrections.WOTLK_ONLY, -- Polar Gloves
-        [9243] = QuestieCorrections.WOTLK_ONLY, -- Polar Tunic
-        [9244] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Bracers
-        [9245] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Gauntlets
-        [9246] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Breastplate
+        [9120] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- The Fall of Kel'Thuzad
+        [9229] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- The Fate of Ramaladni
+        [9230] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Ramaladni's Icy Grasp
+        [9232] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- The Only Song I Know...
+        [9233] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Omarion's Handbook
+        [9234] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icebane Gauntlets
+        [9235] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icebane Bracers
+        [9236] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icebane Breastplate
+        [9237] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Glacial Cloak
+        [9238] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Glacial Wrists
+        [9239] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Glacial Gloves
+        [9240] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Glacial Vest
+        [9241] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Polar Bracers
+        [9242] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Polar Gloves
+        [9243] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Polar Tunic
+        [9244] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icy Scale Bracers
+        [9245] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icy Scale Gauntlets
+        [9246] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Icy Scale Breastplate
 
         -- Vanilla Onyxia Alliance attunement
-        [4182] = QuestieCorrections.WOTLK_ONLY,
-        [4183] = QuestieCorrections.WOTLK_ONLY,
-        [4184] = QuestieCorrections.WOTLK_ONLY,
-        [4185] = QuestieCorrections.WOTLK_ONLY,
-        [4186] = QuestieCorrections.WOTLK_ONLY,
-        [4223] = QuestieCorrections.WOTLK_ONLY,
-        [4224] = QuestieCorrections.WOTLK_ONLY,
-        [4241] = QuestieCorrections.WOTLK_ONLY,
-        [4242] = QuestieCorrections.WOTLK_ONLY,
-        [4264] = QuestieCorrections.WOTLK_ONLY,
-        [4282] = QuestieCorrections.WOTLK_ONLY,
-        [4322] = QuestieCorrections.WOTLK_ONLY,
-        [6402] = QuestieCorrections.WOTLK_ONLY,
-        [6403] = QuestieCorrections.WOTLK_ONLY,
-        [6501] = QuestieCorrections.WOTLK_ONLY,
-        [6502] = QuestieCorrections.WOTLK_ONLY,
+        [4182] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4183] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4184] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4185] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4186] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4223] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4224] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4241] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4242] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4264] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4282] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4322] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6402] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6403] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6501] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6502] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
 
         -- Vanilla Onyxia Horde pre attunement
-        [4903] = QuestieCorrections.WOTLK_ONLY,
-        [4941] = QuestieCorrections.WOTLK_ONLY,
-        [4974] = QuestieCorrections.WOTLK_ONLY,
-        [6566] = QuestieCorrections.WOTLK_ONLY,
-        [6567] = QuestieCorrections.WOTLK_ONLY,
-        [6568] = QuestieCorrections.WOTLK_ONLY,
-        [6569] = QuestieCorrections.WOTLK_ONLY,
-        [6570] = QuestieCorrections.WOTLK_ONLY,
-        [6582] = QuestieCorrections.WOTLK_ONLY,
-        [6583] = QuestieCorrections.WOTLK_ONLY,
-        [6584] = QuestieCorrections.WOTLK_ONLY,
-        [6585] = QuestieCorrections.WOTLK_ONLY,
-        [6601] = QuestieCorrections.WOTLK_ONLY,
-        [6602] = QuestieCorrections.WOTLK_ONLY,
+        [4903] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4941] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [4974] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6566] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6567] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6568] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6569] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6570] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6582] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6583] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6584] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6585] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6601] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
+        [6602] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
 
         -- "learn to ride" series (unimplemented)
         [14079] = true, -- elwynn (human)
@@ -1483,6 +1486,339 @@ function QuestieQuestBlacklist:Load()
         --[26012] = true, -- Trouble at Wyrmrest
         --[26013] = true, -- Assault on the Sanctum
 
+
+        ----- Cata -------------- Cata quests --------------- Cata -----
+        ----- Cata ------------- starting here -------------- Cata -----
+
+        [764] = QuestieCorrections.CATA_HIDE, -- Replaced by 26179
+        [765] = QuestieCorrections.CATA_HIDE, -- Replaced by 26180
+        [1431] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5121] = QuestieCorrections.CATA_HIDE, -- Replaced by 28470
+        [5123] = QuestieCorrections.CATA_HIDE, -- Replaced by 28471
+        [7492] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [14474] = QuestieCorrections.CATA_HIDE, -- Duplicate of 14001
+        [24503] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28414
+        [25474] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27729
+        [26565] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26588
+        [26951] = QuestieCorrections.CATA_HIDE, -- Seems to not be available
+        [29476] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29477
+        [27608] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27500
+        [27609] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27501
+        [27861] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27863
+        [27862] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27863
+
+        -- ICC weekly quests
+        [24869] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [24870] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [24871] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [24872] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [24873] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [24874] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [24875] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [24876] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [24877] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [24878] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [24879] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [24880] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+
+        -- First Pre-Event
+        [25444] = true, -- Da Perfect Spies
+        [25445] = true, -- Zalazane's Fall
+        [25446] = true, -- Frogs Away!
+        [25461] = true, -- Trollin' For Volunteers
+        [25470] = true, -- Lady Of Da Tigers
+        [25480] = true, -- Dance Of De Spirits
+        [25495] = true, -- Preparin' For Battle
+
+        -- Second Pre-event
+        [25571] = true, -- A Natural Occurrence
+        [25773] = true, -- A Natural Occurrence
+        [27473] = true, -- What's Shaking in Ironforge
+        [27546] = true, -- Speak with Captain Anton
+        [27566] = true, -- A Gathering in Outland
+        [27572] = true, -- A Gathering in Outland
+        [25180] = true, -- Tablets of the Earth
+        [25181] = true, -- Tablets of Fire
+        [26054] = true, -- Water They Up To?
+        [26990] = true, -- Water They Up To?
+        [27137] = true, -- Earth Girls Aren't So Easy
+        [27138] = true, -- Earth Girls Aren't So Easy
+        [27122] = true, -- Fired Up and Not So Good To Go.
+        [27127] = true, -- Fired Up and Not So Good To Go.
+        [27207] = true, -- This Blows
+        [27209] = true, -- This Blows
+
+        -- Phase 2 - Rise of the Zandalari
+
+        [29100] = true, -- Bwemba's Spirit
+        [29102] = true, -- To Fort Livingston
+        [29153] = true, -- Booty Bay's Interests
+        [29157] = true, -- The Zandalari Menace
+        [29158] = true, -- The Zandalar Representative
+        [29172] = true, -- The Beasts Within
+        [29173] = true, -- Secondary Targets
+        [29175] = true, -- Break Their Spirits
+        [29177] = true, -- Vigilance on Wings
+        [29208] = true, -- An Old Friend
+        [29219] = true, -- Bwemba's Spirit
+        [29220] = true, -- To Bambala
+        [29229] = true, -- Follow That Cat
+        [29241] = true, -- Break the Godbreaker
+        [29242] = true, -- Putting a Price on Priceless
+        [29251] = true, -- Booty Bay's Interests
+        [29252] = true, -- Booty Bay's Interests
+
+        -- Phase 3 - Rage of the Firelands
+
+        [29129] = true, -- A Legendary Engagement
+        [29132] = true, -- A Legendary Engagement
+        [29326] = true, -- The Nordrassil Summit
+        [29387] = true, -- Guardians of Hyjal: Firelands Invasion!
+        [29388] = true, -- Guardians of Hyjal: Firelands Invasion!
+        [29389] = true, -- Guardians of Hyjal: Firelands Invasion!
+        [29390] = true, -- Guardians of Hyjal: Call of the Ancients
+        [29391] = true, -- Guardians of Hyjal: Call of the Ancients
+        [29437] = true, -- The Fallen Guardian
+        [29439] = true, -- The Call of the World-Shaman
+        [29440] = true, -- The Call of the World-Shaman
+        [29452] = true, -- Your Time Has Come
+        [29453] = true, -- Your Time Has Come
+        [30094] = true, -- The End Time
+        [30095] = true, -- The End Time
+
+        -- Darkmoon Faire
+        [27664] = true, -- Darkmoon Volcanic Deck
+        [27665] = true, -- Darkmoon Hurricane Deck
+        [27666] = true, -- Darkmoon Tsunami Deck
+        [27667] = true, -- Darkmoon Earthquake Deck
+        [29433] = true, -- Test Your Strength
+        [29434] = true, -- Tonk Commander
+        [29436] = true, -- The Humanoid Cannonball
+        [29438] = true, -- He Shoots, He Scores!
+        [29443] = true, -- A Curious Crystal
+        [29444] = true, -- An Exotic Egg
+        [29445] = true, -- An Intriguing Grimoire
+        [29446] = true, -- A Wondrous Weapon
+        [29451] = true, -- The Master Strategist
+        [29455] = true, -- Target: Turtle
+        [29456] = true, -- A Captured Banner
+        [29457] = true, -- The Enemy's Insignia
+        [29458] = true, -- The Captured Journal
+        [29463] = true, -- It's Hammer Time
+        [29464] = true, -- Tools of Divination
+        [29506] = true, -- A Fizzy Fusion
+        [29507] = true, -- Fun for the Little Ones
+        [29508] = true, -- Baby Needs Two Pair of Shoes
+        [29509] = true, -- Putting the Crunch in the Frog
+        [29510] = true, -- Putting Trash to Good Use
+        [29511] = true, -- Talkin' Tonks
+        [29513] = true, -- Spoilin' for Salty Sea Dogs
+        [29514] = true, -- Herbs for Healing
+        [29515] = true, -- Writing the Future
+        [29516] = true, -- Keeping the Faire Sparkling
+        [29517] = true, -- Eyes on the Prizes
+        [29518] = true, -- Rearm, Reuse, Recycle
+        [29519] = true, -- Tan My Hide
+        [29520] = true, -- Banners, Banners Everywhere!
+        [29601] = true, -- The Darkmoon Field Guide
+        [29760] = true, -- Pit Fighter
+        [29761] = true, -- Master Pit Fighter
+
+        -- Love is in the Air
+        [14483] = true, -- Something is in the Air (and it Ain't Love)
+        [24745] = true, -- Something is in the Air (and it Ain't Love)
+        [28935] = true, -- Crushing the Crown
+
+        -- Day of the Dead
+        [13952] = true, -- The Grateful Dead
+        [14166] = true, -- The Grateful Dead
+        [14167] = true, -- The Grateful Dead
+        [14168] = true, -- The Grateful Dead
+        [14169] = true, -- The Grateful Dead
+        [14170] = true, -- The Grateful Dead
+        [14171] = true, -- The Grateful Dead
+        [14172] = true, -- The Grateful Dead
+        [14173] = true, -- The Grateful Dead
+        [14174] = true, -- The Grateful Dead
+        [14175] = true, -- The Grateful Dead
+        [14176] = true, -- The Grateful Dead
+        [14177] = true, -- The Grateful Dead
+        [27841] = true, -- The Grateful Dead
+        [27846] = true, -- The Grateful Dead
+
+        -- Children's Week
+        [28879] = true, -- Back To The Orphanage
+        [28880] = true, -- Back To The Orphanage
+        [29093] = true, -- Cruisin' the Chasm
+        [29106] = true, -- The Biggest Diamond Ever!
+        [29107] = true, -- Malfurion Has Returned!
+        [29117] = true, -- Let's Go Fly a Kite
+        [29119] = true, -- You Scream, I Scream...
+        [29146] = true, -- Ridin' the Rocketway
+        [29167] = true, -- The Banshee Queen
+        [29176] = true, -- The Fallen Chieftain
+        [29190] = true, -- Let's Go Fly a Kite
+        [29191] = true, -- You Scream, I Scream...
+
+        -- Midsummer
+        [28910] = true, -- Desecrate this Fire!
+        [28911] = true, -- Desecrate this Fire!
+        [28912] = true, -- Desecrate this Fire!
+        [28913] = true, -- Desecrate this Fire!
+        [28914] = true, -- Desecrate this Fire!
+        [28915] = true, -- Desecrate this Fire!
+        [28916] = true, -- Desecrate this Fire!
+        [28917] = true, -- Desecrate this Fire!
+        [28918] = true, -- Desecrate this Fire!
+        [28919] = true, -- Desecrate this Fire!
+        [28920] = true, -- Desecrate this Fire!
+        [28921] = true, -- Desecrate this Fire!
+        [28922] = true, -- Honor the Flame
+        [28923] = true, -- Honor the Flame
+        [28924] = true, -- Honor the Flame
+        [28925] = true, -- Honor the Flame
+        [28926] = true, -- Honor the Flame
+        [28927] = true, -- Honor the Flame
+        [28928] = true, -- Honor the Flame
+        [28929] = true, -- Honor the Flame
+        [28930] = true, -- Honor the Flame
+        [28931] = true, -- Honor the Flame
+        [28932] = true, -- Honor the Flame
+        [28933] = true, -- Honor the Flame
+        [28943] = true, -- Desecrate this Fire!
+        [28944] = true, -- Desecrate this Fire!
+        [28945] = true, -- Honor the Flame
+        [28946] = true, -- Honor the Flame
+        [28947] = true, -- Desecrate this Fire!
+        [28948] = true, -- Desecrate this Fire!
+        [28949] = true, -- Honor the Flame
+        [28950] = true, -- Honor the Flame
+        [29030] = true, -- Honor the Flame
+        [29031] = true, -- Honor the Flame
+        [29036] = true, -- Honor the Flame
+        [29092] = true, -- Inform the Elder
+
+        -- Hallow's End
+        [28934] = true, -- Candy Bucket
+        [28951] = true, -- Candy Bucket
+        [28952] = true, -- Candy Bucket
+        [28953] = true, -- Candy Bucket
+        [28954] = true, -- Candy Bucket
+        [28955] = true, -- Candy Bucket
+        [28956] = true, -- Candy Bucket
+        [28957] = true, -- Candy Bucket
+        [28958] = true, -- Candy Bucket
+        [28959] = true, -- Candy Bucket
+        [28960] = true, -- Candy Bucket
+        [28961] = true, -- Candy Bucket
+        [28962] = true, -- Candy Bucket
+        [28963] = true, -- Candy Bucket
+        [28964] = true, -- Candy Bucket
+        [28965] = true, -- Candy Bucket
+        [28966] = true, -- Candy Bucket
+        [28967] = true, -- Candy Bucket
+        [28968] = true, -- Candy Bucket
+        [28969] = true, -- Candy Bucket
+        [28970] = true, -- Candy Bucket
+        [28971] = true, -- Candy Bucket
+        [28972] = true, -- Candy Bucket
+        [28973] = true, -- Candy Bucket
+        [28974] = true, -- Candy Bucket
+        [28975] = true, -- Candy Bucket
+        [28976] = true, -- Candy Bucket
+        [28977] = true, -- Candy Bucket
+        [28978] = true, -- Candy Bucket
+        [28979] = true, -- Candy Bucket
+        [28980] = true, -- Candy Bucket
+        [28981] = true, -- Candy Bucket
+        [28982] = true, -- Candy Bucket
+        [28983] = true, -- Candy Bucket
+        [28984] = true, -- Candy Bucket
+        [28985] = true, -- Candy Bucket
+        [28986] = true, -- Candy Bucket
+        [28987] = true, -- Candy Bucket
+        [28988] = true, -- Candy Bucket
+        [28989] = true, -- Candy Bucket
+        [28990] = true, -- Candy Bucket
+        [28991] = true, -- Candy Bucket
+        [28992] = true, -- Candy Bucket
+        [28993] = true, -- Candy Bucket
+        [28994] = true, -- Candy Bucket
+        [28995] = true, -- Candy Bucket
+        [28996] = true, -- Candy Bucket
+        [28997] = true, -- Candy Bucket
+        [28998] = true, -- Candy Bucket
+        [28999] = true, -- Candy Bucket
+        [29000] = true, -- Candy Bucket
+        [29001] = true, -- Candy Bucket
+        [29002] = true, -- Candy Bucket
+        [29003] = true, -- Candy Bucket
+        [29004] = true, -- Candy Bucket
+        [29005] = true, -- Candy Bucket
+        [29006] = true, -- Candy Bucket
+        [29007] = true, -- Candy Bucket
+        [29008] = true, -- Candy Bucket
+        [29009] = true, -- Candy Bucket
+        [29010] = true, -- Candy Bucket
+        [29011] = true, -- Candy Bucket
+        [29012] = true, -- Candy Bucket
+        [29013] = true, -- Candy Bucket
+        [29014] = true, -- Candy Bucket
+        [29016] = true, -- Candy Bucket
+        [29017] = true, -- Candy Bucket
+        [29018] = true, -- Candy Bucket
+        [29019] = true, -- Candy Bucket
+        [29020] = true, -- Candy Bucket
+        [29054] = true, -- Stink Bombs Away!
+        [29074] = true, -- A Season for Celebration
+        [29075] = true, -- A Time to Gain
+        [29144] = true, -- Clean Up in Stormwind
+        [29371] = true, -- A Time to Lose
+        [29374] = true, -- Stink Bombs Away!
+        [29375] = true, -- Clean Up in Undercity
+        [29376] = true, -- A Time to Build Up
+        [29377] = true, -- A Time to Break Down
+        [29392] = true, -- Missing Heirlooms
+        [29398] = true, -- Fencing the Goods
+        [29399] = true, -- Shopping Around
+        [29400] = true, -- A Season for Celebration
+        [29402] = true, -- Taking Precautions
+        [29403] = true, -- The Collector's Agent
+        [29411] = true, -- What Now?
+        [29415] = true, -- Missing Heirlooms
+        [29416] = true, -- Fencing the Goods
+        [29425] = true, -- Shopping Around
+        [29426] = true, -- Taking Precautions
+        [29427] = true, -- The Collector's Agent
+        [29428] = true, -- What Now?
+        [29430] = true, -- A Friend in Need
+        [29431] = true, -- A Friend in Need
+
+        -- Winter's Veil
+        [13966] = true, -- A Winter Veil Gift
+        [29382] = true, -- Thanks, But No Thanks
+        [29383] = true, -- Thanks, But No Thanks
+        [29385] = true, -- A Winter Veil Gift
+        [28878] = true, -- A Winter Veil Gift
+
+        -- Brewfest
+        [11413] = true, -- Did Someone Say "Souvenir?"
+        [29393] = true, -- Brew For Brewfest
+        [29394] = true, -- Brew For Brewfest
+        [29396] = true, -- A New Supplier of Souvenirs
+        [29397] = true, -- A New Supplier of Souvenirs
+
+        -- Lunar Festival
+        [29734] = true, -- Deepforge the Elder
+        [29735] = true, -- Stonebrand the Elder
+        [29736] = true, -- Darkfeather the Elder
+        [29737] = true, -- Firebeard the Elder
+        [29738] = true, -- Moonlance the Elder
+        [29739] = true, -- Windsong the Elder
+        [29740] = true, -- Evershade the Elder
+        [29741] = true, -- Sekhemi the Elder
+        [29742] = true, -- Menkhaf the Elder
+
         ----- SoD -------------- SoD quests --------------- SoD -----
         [78611] = true, -- A Waylaid Shipment (no longer available in P2)
         [79100] = true, -- A Waylaid Shipment (no longer available in P2)
@@ -1502,6 +1838,7 @@ function QuestieQuestBlacklist:Load()
         [79593] = true, -- Coarse Weightstone
         [79594] = true, -- Copper Modulator
         [79595] = true, -- Carnival Boots
+        [80169] = true, -- Cluster Launcher
         [80421] = true, -- Green Iron Bracers
         [80422] = true, -- Green Fireworks
         [80423] = true, -- The World's Largest Gnome!
@@ -2307,7 +2644,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         --[13431] = true, --* The Cudgel of Kar'desh (https://www.wowhead.com/wotlk/quest=13431) -- it is still available in wotlk P3
 
         -- Darnassus WOTLK
-        [10520] = QuestieCorrections.WOTLK_ONLY, --*Assisting Arch Druid Staghelm (https://www.wowhead.com/wotlk/quest=10520) not present anymore in wotlk
+        [10520] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, --*Assisting Arch Druid Staghelm (https://www.wowhead.com/wotlk/quest=10520) not present anymore in wotlk
 
         --! 8.0.1
         -- Raids -> Sunwell Plateau (3 -> 4075)

@@ -153,45 +153,45 @@ function _Qframe:OnLeave()
 end
 
 function _Qframe:OnClick(button)
-    if self and self.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() and not IsModifierKeyDown() and not self.miniMapIcon then
-        if button == "RightButton" then
-            local currentMapParent = WorldMapFrame:GetMapID()
-            if currentMapParent then
-                local mapInfo = C_Map.GetMapInfo(currentMapParent)
-                currentMapParent = mapInfo.parentMapID
+    local uiMapId = self.UiMapID
 
-                if currentMapParent and currentMapParent > 0 then
-                    WorldMapFrame:SetMapID(currentMapParent)
-                end
+    if uiMapId and WorldMapFrame:IsShown() and (not IsModifierKeyDown()) and (not self.miniMapIcon) then
+        local currentMapId = WorldMapFrame:GetMapID()
+        if button == "RightButton" then
+            local mapInfo = C_Map.GetMapInfo(currentMapId)
+            local currentMapParent = mapInfo.parentMapID
+
+            if currentMapParent and currentMapParent > 0 then
+                WorldMapFrame:SetMapID(currentMapParent)
             end
         else
-            if self.UiMapID ~= WorldMapFrame:GetMapID() then
-                WorldMapFrame:SetMapID(self.UiMapID);
+            if uiMapId ~= currentMapId then
+                WorldMapFrame:SetMapID(uiMapId);
             end
         end
     else
         -- This will work in either the WorldMapFrame or the MiniMapFrame as long as there is an icon
-        if self and self.UiMapID and button == "LeftButton" then
-            if (not ChatEdit_GetActiveWindow()) then
-                if self.data.Type == "available" and IsShiftKeyDown() then
-                    StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.Id)
-                    StaticPopup_Show("QUESTIE_CONFIRMHIDE")
-                elseif self.data.Type == "manual" and IsShiftKeyDown() and not self.data.ManualTooltipData.disableShiftToRemove then
-                    QuestieMap:UnloadManualFrames(self.data.id)
+        if uiMapId and button == "LeftButton" then
+            local frameData = self.data
+            if ChatEdit_GetActiveWindow() and frameData.QuestData then
+                if Questie.db.profile.trackerShowQuestLevel then
+                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(frameData.QuestData.level, frameData.QuestData.name, frameData.Id))
+                else
+                    ChatEdit_InsertLink("[" .. frameData.QuestData.name .. " (" .. frameData.Id .. ")]")
                 end
             else
-                if Questie.db.profile.trackerShowQuestLevel then
-                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.data.QuestData.level, self.data.QuestData.name, self.data.Id))
-                else
-                    ChatEdit_InsertLink("[" .. self.data.QuestData.name .. " (" .. self.data.Id .. ")]")
+                if frameData.Type == "available" and IsShiftKeyDown() then
+                    StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(frameData.Id)
+                    StaticPopup_Show("QUESTIE_CONFIRMHIDE")
+                elseif frameData.Type == "manual" and IsShiftKeyDown() and (not frameData.ManualTooltipData.disableShiftToRemove) then
+                    QuestieMap:UnloadManualFrames(frameData.id)
                 end
             end
         end
     end
 
     -- TomTom integration
-    if self and self.UiMapID and IsControlKeyDown() and TomTom and TomTom.AddWaypoint then
-        local m = self.UiMapID
+    if uiMapId and IsControlKeyDown() and TomTom and TomTom.AddWaypoint then
         local x = self.x / 100
         local y = self.y / 100
         local title = self.data.Name
@@ -201,15 +201,15 @@ function _Qframe:OnClick(button)
         if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then
             local waypoint = Questie.db.char._tom_waypoint
             TomTom:RemoveWaypoint(waypoint)
-            add = (waypoint[1] ~= m or waypoint[2] ~= x or waypoint[3] ~= y or waypoint.title ~= title or waypoint.from ~= "Questie")
+            add = (waypoint[1] ~= uiMapId or waypoint[2] ~= x or waypoint[3] ~= y or waypoint.title ~= title or waypoint.from ~= "Questie")
         end
 
         -- Add waypoint
-        Questie.db.char._tom_waypoint = add and TomTom:AddWaypoint(m, x, y, { title = title, crazy = true, from = "Questie" })
+        Questie.db.char._tom_waypoint = add and TomTom:AddWaypoint(uiMapId, x, y, { title = title, crazy = true, from = "Questie" })
     end
 
     -- Make sure we don't break the map ping feature - this allows us to ping our own icons.
-    if self.miniMapIcon and button == "RightButton" and not IsModifierKeyDown() then
+    if self.miniMapIcon and button == "RightButton" and (not IsModifierKeyDown()) then
         local _, _, _, x, y = self:GetPoint()
         Minimap:PingLocation(x, y)
     end

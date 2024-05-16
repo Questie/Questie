@@ -40,7 +40,7 @@ function QuestieWotlkQuestFixes:Load()
     local zoneIDs = ZoneDB.zoneIDs
     local sortKeys = QuestieDB.sortKeys
     local profKeys = QuestieProfessions.professionKeys
-    local specKeys = QuestieProfessions.specializationKeys
+    local specialFlags = QuestieDB.specialFlags
 
     return {
         [55] = {
@@ -272,7 +272,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{11056}},
         },
         [5531] = {
-            [questKeys.nextQuestInChain] = nil,
+            [questKeys.nextQuestInChain] = 0,
         },
         [5721] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{35.01,84.05}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Relic Bundle in the Town Square."),}},
@@ -311,11 +311,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{179832},{18950}},
         },
         [8149] = {
-            [questKeys.objectives] = {nil,{{180204,"Place a tribute at Uther's Tomb"}}},
+            [questKeys.objectives] = {nil,{{1323,"Place a tribute at Uther's Tomb"}}},
             [questKeys.extraObjectives] = {},
         },
         [8150] = {
-            [questKeys.objectives] = {nil,{{180205,"Place a tribute at Grom's Monument"}}},
+            [questKeys.objectives] = {nil,{{1324,"Place a tribute at Grom's Monument"}}},
             [questKeys.extraObjectives] = {},
         },
         [8166] = {
@@ -356,6 +356,15 @@ function QuestieWotlkQuestFixes:Load()
         },
         [8762] = {
             [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{{21211}}},
+        },
+        [8764] = { -- The Changing of Paths - Protector No More
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [8765] = { -- The Changing of Paths - Invoker No More
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [8766] = { -- The Changing of Paths - Conqueror No More
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [8767] = {
             [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.WARRIOR + classIDs.HUNTER + classIDs.PALADIN + classIDs.DEATH_KNIGHT,
@@ -505,6 +514,18 @@ function QuestieWotlkQuestFixes:Load()
         },
         [10703] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{21864,21878,21879,23020,21978},21978,},},},
+        },
+        [10725] = {
+            [questKeys.objectives] = {nil,nil,nil,{967,42000}},
+        },
+        [10726] = {
+            [questKeys.objectives] = {nil,nil,nil,{967,42000}},
+        },
+        [10727] = {
+            [questKeys.objectives] = {nil,nil,nil,{967,42000}},
+        },
+        [10728] = {
+            [questKeys.objectives] = {nil,nil,nil,{967,42000}},
         },
         [10769] = {
             [questKeys.objectives] = {{{19823}},nil,{{31108}}},
@@ -833,10 +854,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Rune Sample"), 0, {{"object", 186718},}}},
         },
         [11390] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 24418},}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 24418},}}},
         },
         [11391] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 24418},}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 24418},}}},
         },
         [11392] = {
             [questKeys.startedBy] = {nil,{186267}},
@@ -1133,7 +1154,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11879] = {
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Mount Wooly Mammoth Bull to assist in killing Kaw the Mammoth Destroyer"),0,{{"monster", 25743}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount Wooly Mammoth Bull to assist in killing Kaw the Mammoth Destroyer"),0,{{"monster", 25743}}},
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Kill Kaw the Mammoth Destroyer"), 0, {{"monster", 25802}}},
             },
         },
@@ -1739,7 +1760,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [12308] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"),0,{{"monster", 27409}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"),0,{{"monster", 27409}}}},
             [questKeys.triggerEnd] = {"Escape from Silverbrook",{[zoneIDs.GRIZZLY_HILLS]={{32.37,59.14}}}},
             [questKeys.objectives] = {},
         },
@@ -1900,7 +1921,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Slay Antiok's mount to make him vulnerable"),0,{{"monster", 28018}}},
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Slay Grand Necrolord Antiok"),0,{{"monster", 28006}}},
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"),0,{{"monster", 27996}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"),0,{{"monster", 27996}}},
             },
         },
         [12500] = {
@@ -2615,7 +2636,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.name] = "Bearly Hanging On",
             [questKeys.objectives] = {{{29358},{29351}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount Icefang"), 0, {{"monster", 29598}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount Icefang"), 0, {{"monster", 29598}}},
             },
         },
         [12852] = {
@@ -2706,7 +2727,7 @@ function QuestieWotlkQuestFixes:Load()
         [12910] = {
             [questKeys.sourceItemId] = 40971,
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount Frostbite to track scent"), 0, {{"monster", 29857}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount Frostbite to track scent"), 0, {{"monster", 29857}}},
             },
         },
         [12913] = {
@@ -2910,7 +2931,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12987},
         },
         [13007] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount Tamed Jormungar to fight Iron Colossus"),0,{{"monster", 30301},{"object", 192262}}},},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount Tamed Jormungar to fight Iron Colossus"),0,{{"monster", 30301},{"object", 192262}}},},
         },
         [13008] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{30273,30268,30274},30273,}}},
@@ -3041,7 +3062,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{30409},nil,{42772}},
             [questKeys.requiredSourceItems] = {},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Mount Nergeld"), 0, {{"monster", 30403}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount Nergeld"), 0, {{"monster", 30403}}},
             },
         },
         [13044] = {
@@ -3050,7 +3071,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13045] = {
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Mount Argent Skytalon"), 0, {{"monster", 30500}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount Argent Skytalon"), 0, {{"monster", 30500}}},
                 {{[zoneIDs.ICECROWN]={{86.85,76.61}}}, Questie.ICON_TYPE_EVENT, l10n("Drop Off Captured Crusader"), 0},
             },
         },
@@ -3059,6 +3080,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1119,21000},
         },
         [13047] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13035,13005},
             [questKeys.objectives] = {{{30399,"Witness the Reckoning"}}},
         },
@@ -3112,17 +3134,17 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13141},
         },
         [13069] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 30337}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 30337}}}},
         },
         [13071] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 30272}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 30272}}}},
         },
         [13073] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak to Arch Druid Lilliandra for transportation to Moonglade"), 0, {{"monster", 30630}}}},
         },
         [13086] = {
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Mount Argent Cannon"), 0, {{"monster", 30236}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount Argent Cannon"), 0, {{"monster", 30236}}},
             },
         },
         [13091] = {
@@ -3701,12 +3723,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13309] = {
             [questKeys.preQuestSingle] = {13341},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Hop on the turret"), 0, {{"monster", 32227}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Hop on the turret"), 0, {{"monster", 32227}}}},
             [questKeys.objectives] = {{{32222,"Skybreaker Infiltrators dropped"}}},
         },
         [13310] = {
             [questKeys.preQuestSingle] = {13340},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Hop on the turret"), 0, {{"monster", 31884}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Hop on the turret"), 0, {{"monster", 31884}}}},
             [questKeys.objectives] = {{{31882,"Skybreaker Infiltrators dropped"}}},
         },
         [13312] = {
@@ -3992,10 +4014,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {10124},
         },
         [13413] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 1, {{"monster", 32548}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 1, {{"monster", 32548}}}},
         },
         [13414] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 1, {{"monster", 32548}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 1, {{"monster", 32548}}}},
         },
         [13415] = {
             [questKeys.requiredSourceItems] = {41197,40971},
@@ -4422,7 +4444,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13828,13835,13837},
             [questKeys.exclusiveTo] = {13679},
             [questKeys.parentQuest] = 0,
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33843}}}},
         },
         [13627] = {
             [questKeys.startedBy] = {},
@@ -4448,14 +4470,14 @@ function QuestieWotlkQuestFixes:Load()
         [13664] = {
             [questKeys.preQuestSingle] = {13700,13701},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33870}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33870}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Cavin"), 0, {{"monster", 33522}}},
             },
         },
         [13665] = { -- HUMAN The Grand Melee
             [questKeys.preQuestSingle] = {13684,13593},
             [questKeys.exclusiveTo] = {13699,13745,13750,13761,13756},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33800}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33800}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13666] = {
@@ -4512,7 +4534,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13829,13838,13839},
             [questKeys.exclusiveTo] = {13680},
             [questKeys.parentQuest] = 0,
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33842}}}},
         },
         [13678] = {
             [questKeys.childQuests] = {},
@@ -4520,14 +4542,14 @@ function QuestieWotlkQuestFixes:Load()
         [13679] = {
             [questKeys.objectives] = {{{33448,"Argent Valiant defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33843}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire David"), 0, {{"monster", 33447}}},
             },
         },
         [13680] = {
             [questKeys.objectives] = {{{33448,"Argent Valiant defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33842}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire David"), 0, {{"monster", 33447}}},
             },
         },
@@ -4545,7 +4567,7 @@ function QuestieWotlkQuestFixes:Load()
         [13699] = { -- HUMAN The Valiant's Challenge
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33800}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33800}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
             },
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4599,7 +4621,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33795}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33795}}},
             },
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -4642,7 +4664,7 @@ function QuestieWotlkQuestFixes:Load()
         [13723] = { -- GNOME The Valiant's Challenge
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33793}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33793}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
             },
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4650,7 +4672,7 @@ function QuestieWotlkQuestFixes:Load()
         [13724] = { -- DRAENEI The Valiant's Challenge
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33790}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33790}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
             },
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4658,7 +4680,7 @@ function QuestieWotlkQuestFixes:Load()
         [13725] = { -- NIGHT ELF The Valiant's Challenge
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33794}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33794}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
             },
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4666,7 +4688,7 @@ function QuestieWotlkQuestFixes:Load()
         [13726] = { -- ORC The Valiant's Challenge
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33799}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33799}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
             },
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4674,7 +4696,7 @@ function QuestieWotlkQuestFixes:Load()
         [13727] = { -- TROLL The Valiant's Challenge
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33796}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33796}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
             },
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4682,7 +4704,7 @@ function QuestieWotlkQuestFixes:Load()
         [13728] = { -- TAUREN The Valiant's Challenge
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33792}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33792}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
             },
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4690,7 +4712,7 @@ function QuestieWotlkQuestFixes:Load()
         [13729] = { -- UNDEAD The Valiant's Challenge
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33798}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33798}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
             },
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4698,7 +4720,7 @@ function QuestieWotlkQuestFixes:Load()
         [13731] = { -- BLOOD ELF The Valiant's Challenge
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33791}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33791}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
             },
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4729,7 +4751,7 @@ function QuestieWotlkQuestFixes:Load()
         [13745] = { -- DWARF The Grand Melee
             [questKeys.preQuestSingle] = {13685,13703},
             [questKeys.exclusiveTo] = {13713,13665,13750,13761,13756},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33795}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33795}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13746] = { -- GNOME A Blade Fit For A Champion
@@ -4758,7 +4780,7 @@ function QuestieWotlkQuestFixes:Load()
         [13750] = { -- GNOME The Grand Melee
             [questKeys.preQuestSingle] = {13688,13704},
             [questKeys.exclusiveTo] = {13723,13665,13745,13761,13756},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33793}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33793}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13752] = { -- DRAENEI A Blade Fit For A Champion
@@ -4787,7 +4809,7 @@ function QuestieWotlkQuestFixes:Load()
         [13756] = { -- DRAENEI The Grand Melee
             [questKeys.preQuestSingle] = {13690,13705},
             [questKeys.exclusiveTo] = {13724,13665,13745,13750,13761},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33790}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33790}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13757] = { -- NIGHT ELF A Blade Fit For A Champion
@@ -4816,7 +4838,7 @@ function QuestieWotlkQuestFixes:Load()
         [13761] = { -- NIGHT ELF The Grand Melee
             [questKeys.preQuestSingle] = {13689,13706},
             [questKeys.exclusiveTo] = {13725,13665,13745,13750,13756},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33794}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33794}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13762] = { -- ORC A Blade Fit For A Champion
@@ -4845,7 +4867,7 @@ function QuestieWotlkQuestFixes:Load()
         [13767] = { -- ORC The Grand Melee
             [questKeys.preQuestSingle] = {13691,13707},
             [questKeys.exclusiveTo] = {13726,13772,13777,13782,13787},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33799}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33799}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13768] = { -- TROLL A Blade Fit For A Champion
@@ -4874,7 +4896,7 @@ function QuestieWotlkQuestFixes:Load()
         [13772] = { -- TROLL The Grand Melee
             [questKeys.preQuestSingle] = {13693,13708},
             [questKeys.exclusiveTo] = {13727,13767,13777,13782,13787},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33796}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33796}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13773] = { -- TAUREN A Blade Fit For A Champion
@@ -4903,7 +4925,7 @@ function QuestieWotlkQuestFixes:Load()
         [13777] = { -- TAUREN The Grand Melee
             [questKeys.preQuestSingle] = {13694,13709},
             [questKeys.exclusiveTo] = {13728,13767,13772,13782,13787},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33792}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33792}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13778] = { -- UNDEAD A Blade Fit For A Champion
@@ -4932,7 +4954,7 @@ function QuestieWotlkQuestFixes:Load()
         [13782] = { -- UNDEAD The Grand Melee
             [questKeys.preQuestSingle] = {13695,13710},
             [questKeys.exclusiveTo] = {13729,13767,13772,13777,13787},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33798}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33798}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13783] = { -- BLOOD ELF A Blade Fit For A Champion
@@ -4961,7 +4983,7 @@ function QuestieWotlkQuestFixes:Load()
         [13787] = { -- BLOOD ELF The Grand Melee
             [questKeys.preQuestSingle] = {13696,13711},
             [questKeys.exclusiveTo] = {13731,13767,13772,13777,13782},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33791}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33791}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13788] = {
@@ -4972,14 +4994,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13790] = {
             [questKeys.preQuestSingle] = {13700},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33794},{"monster", 33800},{"monster", 33793},{"monster", 33795},{"monster", 33790}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33794},{"monster", 33800},{"monster", 33793},{"monster", 33795},{"monster", 33790}}}},
         },
         [13791] = {
             [questKeys.preQuestSingle] = {13700},
         },
         [13793] = {
             [questKeys.preQuestSingle] = {13700},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33794},{"monster", 33800},{"monster", 33793},{"monster", 33795},{"monster", 33790}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33794},{"monster", 33800},{"monster", 33793},{"monster", 33795},{"monster", 33790}}}},
         },
         [13795] = {
             [questKeys.preQuestSingle] = {13702,13732,13733,13734,13735,13736,13737,13738,13739,13740},
@@ -4992,7 +5014,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13811] = {
             [questKeys.preQuestSingle] = {13701},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33796},{"monster", 33798},{"monster", 33799},{"monster", 33791},{"monster", 33792}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33796},{"monster", 33798},{"monster", 33799},{"monster", 33791},{"monster", 33792}}}},
         },
         [13812] = {
             [questKeys.preQuestSingle] = {13664},
@@ -5002,7 +5024,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13814] = {
             [questKeys.preQuestSingle] = {13701},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33796},{"monster", 33798},{"monster", 33799},{"monster", 33791},{"monster", 33792}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33796},{"monster", 33798},{"monster", 33799},{"monster", 33791},{"monster", 33792}}}},
         },
         [13816] = {
             [questKeys.triggerEnd] = {"Entrance to Celestial Planetarium located",{[zoneIDs.THE_ARCHIVUM]={{60,46.3}},[zoneIDs.ULDUAR]={{-1,-1}}}},
@@ -5034,42 +5056,44 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13828] = {
             [questKeys.objectives] = {{{33973,"Jeran Lockwood's advice"},{33229,"Use Thrust on Melee Target"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33843}}}},
         },
         [13829] = {
             [questKeys.objectives] = {{{33973,"Jeran Lockwood's advice"},{33229,"Use Thrust on Melee Target"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33842}}}},
         },
         [13830] = {
-            [questKeys.triggerEnd] = {"Discover the Ghostfish mystery",{[zoneIDs.SHOLAZAR_BASIN]={{48.89,62.29,},},},},
+            [questKeys.triggerEnd] = {"Discover the Ghostfish mystery",{[zoneIDs.SHOLAZAR_BASIN]={{48.89,62.29,}}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{48.2,63.4}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Phantom Ghostfish")}},
+            [questKeys.requiredSourceItems] = {45902},
         },
         [13832] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.THE_UNDERBELLY]={{46,68}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Corroded Jewelry")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_UNDERBELLY]={{46,68}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Corroded Jewelry")}},
         },
         [13833] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.BOREAN_TUNDRA]={{57.5,33.2},{62.2,64.2},{45,45}}}, Questie.ICON_TYPE_SLAY, l10n("Slay any beast, jump in any water location and fish in the Pool of Blood"), 0}},
         },
         [13834] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.WINTERGRASP]={{70,36},{63,60},{50,44},{37.6,36},{56,66},{42,75},{34.7,19.5}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Terror Fish"), 0}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.WINTERGRASP]={{70,36},{63,60},{50,44},{37.6,36},{56,66},{42,75},{34.7,19.5}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Terror Fish"), 0}},
         },
         [13835] = {
             [questKeys.objectives] = {{{33974,"Valis Windchaser's advice"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33843}}}},
         },
         [13836] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.DALARAN]={{64,64}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Severed Arm")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DALARAN]={{67.43,61.38},{62.43,70.05}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Severed Arm")}},
         },
         [13837] = {
             [questKeys.objectives] = {{{33972,"Rugan Steelbelly's advice"},{33272,"Charge vulnerable Charge Target"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33843}}}},
         },
         [13838] = {
             [questKeys.objectives] = {{{33974,"Valis Windchaser's advice"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33842}}}},
         },
         [13839] = {
             [questKeys.objectives] = {{{33972,"Rugan Steelbelly's advice"},{33272,"Charge vulnerable Charge Target"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33842}}}},
         },
         [13843] = {
             [questKeys.startedBy] = {nil,{191761}},
@@ -5085,7 +5109,7 @@ function QuestieWotlkQuestFixes:Load()
         [13847] = { -- HUMAN At The Enemy's Gates
             [questKeys.preQuestSingle] = {13684,13593},
             [questKeys.exclusiveTo] = {13699,13851,13852,13854,13855},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 34125}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13850] = {
@@ -5094,13 +5118,13 @@ function QuestieWotlkQuestFixes:Load()
         [13851] = { -- DWARF At The Enemy's Gates
             [questKeys.preQuestSingle] = {13685,13703},
             [questKeys.exclusiveTo] = {13713,13847,13852,13854,13855},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 34125}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13852] = { -- GNOME At The Enemy's Gates
             [questKeys.preQuestSingle] = {13688,13704},
             [questKeys.exclusiveTo] = {13723,13847,13851,13854,13855},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 34125}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13854] = { -- DRAENEI At The Enemy's Gates
@@ -5112,54 +5136,54 @@ function QuestieWotlkQuestFixes:Load()
         [13855] = { -- NIGHT ELF At The Enemy's Gates
             [questKeys.preQuestSingle] = {13689,13706},
             [questKeys.exclusiveTo] = {13725,13847,13851,13852,13854},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 34125}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13856] = { -- ORC At The Enemy's Gates
             [questKeys.preQuestSingle] = {13691,13707},
             [questKeys.exclusiveTo] = {13726,13857,13858,13859,13860},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 34125}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13857] = { -- TROLL At The Enemy's Gates
             [questKeys.preQuestSingle] = {13693,13708},
             [questKeys.exclusiveTo] = {13727,13856,13858,13859,13860},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 34125}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13858] = { -- TAUREN At The Enemy's Gates
             [questKeys.preQuestSingle] = {13694,13709},
             [questKeys.exclusiveTo] = {13728,13856,13857,13859,13860},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 34125}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13859] = { -- BLOOD ELF At The Enemy's Gates
             [questKeys.preQuestSingle] = {13696,13711},
             [questKeys.exclusiveTo] = {13731,13856,13857,13858,13860},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 34125}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13860] = { -- UNDEAD At The Enemy's Gates
             [questKeys.preQuestSingle] = {13695,13710},
             [questKeys.exclusiveTo] = {13729,13856,13857,13858,13859},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 34125}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13861] = {
             [questKeys.preQuestSingle] = {13700},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13862] = {
             [questKeys.preQuestSingle] = {13701},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13863] = {
             [questKeys.preQuestSingle] = {13701},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13864] = {
             [questKeys.preQuestSingle] = {13700},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13887] = {
             [questKeys.preQuestSingle] = {13850},
@@ -5199,6 +5223,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13954,13956},
             [questKeys.nextQuestInChain] = 13959,
             [questKeys.exclusiveTo] = {13927},
+            [questKeys.requiredSourceItems] = {46397,46693},
         },
         [13938] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Buy a Small Paper Zeppelin"), 0, {{"monster", 29478}}}},
@@ -5206,6 +5231,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13955,13957},
             [questKeys.nextQuestInChain] = 13960,
             [questKeys.exclusiveTo] = {13926},
+            [questKeys.requiredSourceItems] = {46396,46693},
         },
         [13950] = {
             [questKeys.triggerEnd] = {"Roo taken to visit Winterfin Retreat", {[zoneIDs.BOREAN_TUNDRA]={{43.5,13.6}}}}, -- oracle orphan
@@ -5218,23 +5244,23 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13926},
         },
         [13954] = {
-            [questKeys.triggerEnd] = {"Roo taken to visit Alexstrasza the Life-Binder", {[zoneIDs.DRAGONBLIGHT]={{59.8,54.5}}}}, -- oracle orphan
+            [questKeys.objectives] = {{{26917,"Roo taken to visit Alexstrasza the Life-Binder",Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestGroup] = {13929,13933,13950},
             [questKeys.exclusiveTo] = {13927},
         },
         [13955] = {
-            [questKeys.triggerEnd] = {"Keken taken to visit Alexstrasza the Life-Binder", {[zoneIDs.DRAGONBLIGHT]={{59.8,54.5}}}}, -- wolvar orphan
+            [questKeys.objectives] = {{{26917,"Keken taken to visit Alexstrasza the Life-Binder",Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestGroup] = {13930,13934,13951},
             [questKeys.exclusiveTo] = {13926},
         },
         [13956] = {
-            [questKeys.triggerEnd] = {"Roo taken to visit The Etymidian", {[zoneIDs.UN_GORO_CRATER]={{47.38,9.21}}}}, -- oracle orphan
+            [questKeys.objectives] = {{{28092,"Roo taken to visit The Etymidian",Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{40.3,83.3}}}, Questie.ICON_TYPE_EVENT, l10n("Use the waygate to teleport to Un'goro Crater")}},
             [questKeys.preQuestGroup] = {13929,13933,13950},
             [questKeys.exclusiveTo] = {13927},
         },
         [13957] = {
-            [questKeys.triggerEnd] = {"Keken taken to visit Hemet Nesingwary", {[zoneIDs.SHOLAZAR_BASIN]={{27.1,58.8}}}}, -- wolvar orphan
+            [questKeys.objectives] = {{{27986,"Keken taken to visit Hemet Nesingwary",Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestGroup] = {13930,13934,13951},
             [questKeys.exclusiveTo] = {13926},
         },
@@ -5427,7 +5453,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{32149},32149,"Fallen Hero's Spirit blessed"}}},
         },
         [14108] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 35117}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 35117}}}},
             [questKeys.objectives] = {{{34925,"Hurl Spears at North Sea Kraken"},{35092}}},
         },
         [14112] = {
@@ -5791,6 +5817,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24431] = {
             [questKeys.specialFlags] = 1,
+        },
+        [24442] = { -- Battle Plans Of The Kvaldir
+            [questKeys.startedBy] = {{34839,34838},nil,{49676}},
         },
         [24461] = {
             [questKeys.sourceItemId] = 49723,
@@ -6303,69 +6332,81 @@ function QuestieWotlkQuestFixes:Load()
         [24836] = { -- A Change of Heart - Destruction honored - ormus
             [questKeys.startedBy] = {{38316}},
             [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24828,24811},
             [questKeys.exclusiveTo] = {24823,24830,24832,24834,25240},
         },
         [24837] = { -- A Change of Heart - wisdom honored - ormus
             [questKeys.startedBy] = {{38316}},
             [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24825,24809},
             [questKeys.exclusiveTo] = {24823,24830,24832,24834,25240},
         },
         [24838] = { -- A Change of Heart - vengeance honored - ormus
             [questKeys.startedBy] = {{38316}},
             [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24826,24810},
             [questKeys.exclusiveTo] = {24823,24830,24832,24834,25240},
         },
         [24839] = { -- A Change of Heart - courage honored - ormus
             [questKeys.startedBy] = {{38316}},
             [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24827,24808},
             [questKeys.exclusiveTo] = {24823,24830,24832,24834,25240},
         },
         [24840] = { -- A Change of Heart - Destruction revered - ormus
             [questKeys.startedBy] = {{38316}},
             [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24823,24811},
             [questKeys.exclusiveTo] = {24829,24831,24833,24835,25242},
         },
         [24841] = { -- A Change of Heart - Wisdom revered - ormus
             [questKeys.startedBy] = {{38316}},
             [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24830,24809},
             [questKeys.exclusiveTo] = {24829,24831,24833,24835,25242},
         },
         [24842] = { -- A Change of Heart - Vengeance revered - ormus
             [questKeys.startedBy] = {{38316}},
             [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24832,24810},
             [questKeys.exclusiveTo] = {24829,24831,24833,24835,25242},
         },
         [24843] = { -- A Change of Heart - Courage revered - ormus
             [questKeys.startedBy] = {{38316}},
             [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24834,24808},
             [questKeys.exclusiveTo] = {24829,24831,24833,24835,25242},
         },
         [24844] = { -- A Change of Heart - Destruction exalted - ormus
             [questKeys.startedBy] = {{38316}},
             [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24829,24811},
         },
         [24845] = { -- A Change of Heart - Wisdom exalted - ormus
             [questKeys.startedBy] = {{38316}},
             [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24831,24809},
         },
         [24846] = { -- A Change of Heart - Vengeance exalted - ormus
             [questKeys.startedBy] = {{38316}},
             [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24833,24810},
         },
         [24847] = { -- A Change of Heart - Courage exalted - ormus
             [questKeys.startedBy] = {{38316}},
             [questKeys.finishedBy] = {{38316}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24835,24808},
         },
         [24857] = {
@@ -6536,7 +6577,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{39675}},
             [questKeys.preQuestSingle] = {25199},
             [questKeys.nextQuestInChain] = 25289,
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Hop in"), 0, {{"monster", 39715}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Hop in"), 0, {{"monster", 39715}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{39682,39715},39715,"Ejection System Tested"}}},
         },
         [25286] = {
@@ -6552,14 +6593,14 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{39675}},
             [questKeys.preQuestSingle] = {25285},
             [questKeys.nextQuestInChain] = 25295,
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Hop in"), 0, {{"monster", 39716}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Hop in"), 0, {{"monster", 39716}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{39713,39716},39716,"Left Leg Servos Tested"},{{39713,39716},39716,"Right Leg Servos Tested"},{{39713,39716},39716,"Evasive Maneuver System Tested"}}},
         },
         [25295] = {
             [questKeys.startedBy] = {{39675}},
             [questKeys.finishedBy] = {{39675}},
             [questKeys.preQuestSingle] = {25289},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Hop in"), 0, {{"monster", 39717}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Hop in"), 0, {{"monster", 39717}}}},
             [questKeys.objectives] = {{{39711,"Weapon System Tested"}}},
         },
         [25393] = {
@@ -6599,6 +6640,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 74,
             [questKeys.exclusiveTo] = {25286},
             [questKeys.nextQuestInChain] = 25287,
+        },
+        [26012] = { -- Trouble at Wyrmrest
+            [questKeys.exclusiveTo] = {26013},
+        },
+        [26013] = { -- Assault on the Sanctum
+            [questKeys.preQuestSingle] = {},
         },
         [26034] = {
             [questKeys.preQuestSingle] = {26013},

@@ -519,6 +519,7 @@ l10n.objectLookup["ptBR"] = {
 [142714] = "Garrafa de Peçonha",
 [142715] = "Tabuleta de Theka",
 [142958] = "Feralas: Uma História",
+[144052] = "Poço do Posto Silitriste",
 [144053] = "Aparelho de Inspeção do Anilhacido",
 [144054] = "Baú da Shay",
 [144063] = "Monolito de Equinex",

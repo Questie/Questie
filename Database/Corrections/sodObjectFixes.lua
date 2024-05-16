@@ -470,5 +470,19 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.ARATHI_HIGHLANDS] = {{34,44}},
             },
         },
+        [450019] = {
+            [objectKeys.name] = "Cryptic Scroll of Summoning",
+            [objectKeys.zoneID] = zoneIDs.TANARIS,
+            [objectKeys.spawns] = {
+                [zoneIDs.TANARIS] = {{58.0,36.0}},
+            },
+        },
+        [450020] = {
+            [objectKeys.name] = "Iodax Spawn",
+            [objectKeys.zoneID] = zoneIDs.SEARING_GORGE,
+            [objectKeys.spawns] = {
+                [zoneIDs.SEARING_GORGE] = {{65.0,45.0}},
+            },
+        },
     }
 end

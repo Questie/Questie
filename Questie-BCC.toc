@@ -1,12 +1,12 @@
 ## Interface: 20504
-## Title: Questie|cFF00FF00 v9.5.1|r
+## Title: Questie|cFF00FF00 v10.0.10|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
 ## Notes-esMX: Ayundante de misión
 ## Notes-esES: Ayundante de misión
 ## Notes-ptBR: Ajudante de missão
 ## Notes-frFR: Assistant de quête
-## Version: 9.5.1
+## Version: 10.0.10
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
@@ -65,7 +65,8 @@ Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieNPCBlacklist.lua
 Database\Corrections\QuestieQuestBlacklist.lua
 Database\Corrections\SoMPhases.lua
-Database\Corrections\QuestieEvent.lua
+Database\Corrections\Holidays\QuestieEvent.lua
+Database\Corrections\Holidays\eventQuests.lua
 
 # Automatic General Corrections
 Database\Corrections\Automatic\itemStartFixes.lua
@@ -111,6 +112,7 @@ Modules\QuestieProfessions.lua
 Modules\QuestieReputation.lua
 Modules\QuestieEventHandler.lua
 Modules\Migration.lua
+Modules\Phasing.lua
 Modules\QuestieMenu\Townsfolk.lua
 Modules\QuestieMenu\ClassTrainers.lua
 Modules\QuestieMenu\Mailboxes.lua
@@ -123,6 +125,7 @@ Modules\Sounds.lua
 Modules\TaskQueue.lua
 Modules\QuestiePlayer.lua
 Modules\QuestieDebugOffer.lua
+Modules\WatchFrameHook.lua
 Modules\WorldMapButton\WorldMapButton.lua
 Modules\WorldMapButton\QuestieWorldMapButtonTemplate.xml
 
@@ -152,7 +155,8 @@ Modules\Map\HBDHooks.lua
 Modules\Map\WeaponMasterSkills.lua
 
 # Quest
-Modules\Quest\AvailableQuests.lua
+Modules\Quest\AvailableQuests\IsLevelRequirementFulfilled.lua
+Modules\Quest\AvailableQuests\AvailableQuests.lua
 Modules\Quest\QuestLogCache.lua
 Modules\Quest\DailyQuests.lua
 Modules\Quest\IsleOfQuelDanas.lua

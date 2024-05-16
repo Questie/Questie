@@ -741,14 +741,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.WAILING_CAVERNS,
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{-1,-1}}},
         },
-        [5767] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{45.99,35.66}}},
-            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
-        },
-        [5768] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{46.01,35.74}}},
-            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
-        },
         [5797] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{46,70}}},
         },

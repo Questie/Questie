@@ -2,6 +2,8 @@
 local QuestieReputation = QuestieLoader:CreateModule("QuestieReputation")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local playerReputations = {}
 
@@ -9,6 +11,7 @@ local _ReachedNewStanding, _WinterSaberChanged
 
 -- Fast local references
 local ExpandFactionHeader, GetNumFactions, GetFactionInfo = ExpandFactionHeader, GetNumFactions, GetFactionInfo
+local tinsert, floor = table.insert, math.floor
 
 --- Updates all factions a player already discovered and checks if any of these
 --- reached a new reputation level
@@ -113,6 +116,62 @@ function QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)
     local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
 
     return ((aboveMinRep and hasMinFaction) and (belowMaxRep and hasMaxFaction))
+end
+
+-- Using https://wago.tools/db2/QuestFactionReward?build=4.4.0.54217
+local reputationRewards = {
+    [1] = 10,
+    [2] = 25,
+    [3] = 75,
+    [4] = 150,
+    [5] = 250,
+    [6] = 350,
+    [7] = 500,
+    [8] = 1000,
+    [9] = 5,
+    -- Somehow quests also reward different values than the DBC lists :shrug:
+    [10] = 1400,
+    [11] = 2000,
+    [12] = 300,
+}
+
+---@param questId QuestId
+---@return ReputationPair[]
+function QuestieReputation.GetReputationReward(questId)
+    local reputationReward = QuestieDB.QueryQuestSingle(questId, "reputationReward")
+
+    if (not reputationReward) then
+        return {}
+    end
+
+    if (not Questie.IsCata) then
+        return reputationReward
+    end
+
+    local rewards = {}
+    local knowsMrPopularityRank1 = IsSpellKnown(78634)
+    local knowsMrPopularityRank2 = IsSpellKnown(78635)
+    for _, entry in pairs(reputationReward) do
+        -- corrections for quests before cataclysm are still applied to cataclysm quests.
+        -- Therefore they most likely don't match any entry reputationRewards. We work around with "or entry[2]"
+        local reward
+        if entry[2] > 0 then
+            reward = reputationRewards[entry[2]] or entry[2]
+        elseif entry[2] < 0 then
+            reward = -reputationRewards[-entry[2]] or entry[2]
+        end
+
+        if reward then
+            if knowsMrPopularityRank2 then
+                reward = floor(reward * 1.1) -- 10% bonus reputation from Mr. Popularity Rank 2
+            elseif knowsMrPopularityRank1 then
+                reward = floor(reward * 1.05) -- 5% bonus reputation from Mr. Popularity Rank 1
+            end
+            tinsert(rewards, {entry[1], reward})
+        end
+    end
+
+    return rewards
 end
 
 return QuestieReputation

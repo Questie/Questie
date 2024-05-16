@@ -288,6 +288,8 @@ function _QuestieNameplate.GetValidIcon(tooltips) -- helper function to get the 
                     return Questie.icons["event"]
                 elseif iconType == Questie.ICON_TYPE_TALK then
                     return Questie.icons["talk"]
+                elseif iconType == Questie.ICON_TYPE_INTERACT then
+                    return Questie.icons["interact"]
                 --? icon types below here are never reached or just not used on nameplates ?
                 elseif iconType == Questie.ICON_TYPE_AVAILABLE or iconType == Questie.ICON_TYPE_AVAILABLE_GRAY then
                     return Questie.icons["available"]
