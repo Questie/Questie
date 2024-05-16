@@ -93,6 +93,9 @@ function CataItemFixes.Load()
         [47047] = { -- Cool Shades
             [itemKeys.vendors] = {35130},
         },
+        [47050] = { -- The Captain's Logs
+            [itemKeys.objectDrops] = {195361},
+        },
         [48707] = { -- Gilnean Mastiff Collar
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -107,6 +110,9 @@ function CataItemFixes.Load()
         },
         [49533] = { -- Ironwrought Key
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [49599] = { -- Military Supplies
+            [itemKeys.npcDrops] = {36756,36987},
         },
         [49743] = { -- Sten's First Aid Kit
             [itemKeys.class] = itemClasses.QUEST,

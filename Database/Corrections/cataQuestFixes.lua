@@ -629,21 +629,48 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14121,14122,14123,14124},
         },
+        [14127] = { -- Return of the Highborne?
+            [questKeys.startedBy] = {{35095},nil,{47039}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [14135] = { -- Up a Tree
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Cut down the tree"), 0, {{"monster", 35162}}}},
+        },
         [14153] = { -- Life of the Party
             [questKeys.preQuestSingle] = {14110},
         },
         [14154] = { -- By the Skin of His Teeth
             [questKeys.triggerEnd] = {"Survive while holding back the worgen for 2 minutes", {[zoneIDs.GILNEAS_CITY]={{55.1,62.7}}}},
         },
+        [14162] = { -- Report to Horzak
+            [questKeys.preQuestSingle] = {14155},
+        },
         [14165] = { -- Stone Cold
             [questKeys.triggerEnd] = {"Stonified Miner Delivered", {[zoneIDs.AZSHARA]={{59.9,40.2}}}},
+        },
+        [14194] = { -- Refleshification
+            [questKeys.objectives] = {{{35257,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [14201] = { -- A Thousand Stories in the Sand
+            [questKeys.preQuestSingle] = {24453},
+        },
+        [14202] = { -- Survey the Lakeshore
+            [questKeys.preQuestSingle] = {24453},
+            [questKeys.objectives] = {{{35488,nil,Questie.ICON_TYPE_EVENT},{35487,nil,Questie.ICON_TYPE_EVENT},{35489,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [14204] = { -- From the Shadows
             [questKeys.startedBy] = {{35378}},
         },
+        [14209] = { -- Gunk in the Trunk
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Inspect the bulldozer"), 0, {{"monster", 35526}}}},
+        },
         [14212] = { -- Sacrifices
             [questKeys.objectives] = {{{35229}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount Crowley's Horse"), 0, {{"monster", 44427}}}},
+        },
+        [14215] = { -- Memories of the Dead
+            [questKeys.objectives] = {{{35595,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Touch the spirit"), 0, {{"monster", 35567}}}},
         },
         [14218] = { -- By Blood and Ash
             [questKeys.startedBy] = {{35618}},
@@ -747,6 +774,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{36540, nil, Questie.ICON_TYPE_MOUNT_UP}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring the horses to Lorna Crowley"), 0, {{"monster", 36457}}}},
         },
+        [14424] = { -- Need More Science
+            [questKeys.preQuestSingle] = {14423},
+        },
         [14442] = { -- My Favorite Subject
             [questKeys.exclusiveTo] = {14408},
         },
@@ -785,6 +815,22 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {14401,14404,14412,14416},
             [questKeys.exclusiveTo] = {14402,14405},
         },
+        [14468] = { -- Another Warm Body
+            [questKeys.preQuestGroup] = {14161,14194,14197},
+        },
+        [14469] = { -- Hand-me-downs
+            [questKeys.preQuestSingle] = {14468},
+        },
+        [14470] = { -- Military Breakthrough
+            [questKeys.preQuestSingle] = {14468},
+        },
+        [14471] = { -- First Degree Mortar
+            [questKeys.preQuestSingle] = {14468},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the mortar"), 0, {{"monster", 36768}}}},
+        },
+        [14472] = { -- In The Face!
+            [questKeys.preQuestSingle] = {14471},
+        },
         [14473] = { -- It's Our Problem Now
             [questKeys.preQuestSingle] = {14001},
         },
@@ -815,7 +861,8 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Cleanse the Winterhoof Water Well", {[zoneIDs.MULGORE]={{53.51,65.38}}}},
         },
         [24452] = { -- Profitability Scouting
-            [questKeys.triggerEnd] = {"Heart of Arkkoroc identified", {[zoneIDs.AZSHARA]={{32.4,50.4}}}},
+            [questKeys.objectives] = {nil,{{200298,"Heart of Arkkoroc identified"}}},
+            [questKeys.preQuestSingle] = {14472},
         },
         [24456] = { -- Thunderhorn Cleansing
             [questKeys.triggerEnd] = {"Cleanse the Thunderhorn Water Well", {[zoneIDs.MULGORE]={{44.8,45.56}}}},
@@ -889,6 +936,9 @@ function CataQuestFixes.Load()
         },
         [24681] = { -- They Have Allies, But So Do We
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Hop in a Glaive Thrower"), 0, {{"monster", 38150}}}},
+        },
+        [28723] = { -- Priestess of the Moon
+            [questKeys.startedBy] = {{3593,3594,3595,3596,3597,43006}},
         },
         [24752] = { -- The Arts of a Mage
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{5143}}},
@@ -1891,7 +1941,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{5143}}},
         },
         [26945] = { -- Learning New Techniques
-            [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{100}}},
+            [questKeys.objectives] = {{{44614},{3593,nil,Questie.ICON_TYPE_TALK}}},
         },
         [26946] = { -- A Rogue's Advantage
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{2098}}},
@@ -2461,6 +2511,9 @@ function CataQuestFixes.Load()
         },
         [28709] = { -- Hero's Call: Borean Tundra!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+        },
+        [28715] = { -- Demonic Thieves
+            [questKeys.preQuestSingle] = {28713},
         },
         [28716] = { -- Hero's Call: Twilight Highlands!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
