@@ -55,6 +55,7 @@ function SeasonOfDiscovery:LoadQuests()
         [77574] = { -- Meditation on Elune
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.exclusiveTo] = {{77619,77661}},
         },
         [77575] = { -- Amidst the Shadowed Webs
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403470, nil, 204806}}},
@@ -122,6 +123,7 @@ function SeasonOfDiscovery:LoadQuests()
         [77619] = { -- Meditation on the Light
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.exclusiveTo] = {{77574,77661}},
         },
         [77620] = { -- Spell Research
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{401760, nil, 203751}}},
@@ -134,6 +136,7 @@ function SeasonOfDiscovery:LoadQuests()
         [77642] = { -- Wisdom of the Loa
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.exclusiveTo] = {{77670}},
         },
         [77643] = { -- Spell Research
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{401760, nil, 203751}}},
@@ -189,6 +192,7 @@ function SeasonOfDiscovery:LoadQuests()
         [77661] = { -- Meditation on the Light
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.exclusiveTo] = {{77574,77619}},
         },
         [77666] = { -- Stolen Power
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
@@ -211,6 +215,7 @@ function SeasonOfDiscovery:LoadQuests()
         [77670] = { -- Meditation on Undeath
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{402862, nil, 205951}}},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.exclusiveTo] = {{77642}},
         },
         [77671] = { -- Spell Research
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{401760, nil, 203751}}},
