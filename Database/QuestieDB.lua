@@ -458,15 +458,26 @@ function QuestieDB:GetZoneOrSortForClass(class)
     return QuestieDB.sortKeys[class]
 end
 
+local questTagInfoCache = {}
+
 --- Wrapper function for the GetQuestTagInfo API to correct
---- quests that are falsely marked by Blizzard
+--- quests that are falsely marked by Blizzard and cache the results.
 ---@param questId number
 ---@return number|nil questType, string|nil questTag
 function QuestieDB.GetQuestTagInfo(questId)
+    --if questTagInfoCache[questId] then
+    --    return questTagInfoCache[questId][1], questTagInfoCache[questId][2]
+    --end
+
+    local questType, questTag
     if questTagCorrections[questId] then
-        return questTagCorrections[questId][1], questTagCorrections[questId][2]
+        questType, questTag = questTagCorrections[questId][1], questTagCorrections[questId][2]
+    else
+        questType, questTag = GetQuestTagInfo(questId)
     end
-    local questType, questTag = GetQuestTagInfo(questId)
+
+    -- cache the result to avoid hitting the API throttling limit
+    questTagInfoCache[questId] = {questType, questTag}
 
     return questType, questTag
 end
