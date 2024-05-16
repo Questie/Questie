@@ -516,17 +516,21 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_AURL"] = {
         self.text:SetFont("GameFontNormal", 12)
         self.text:SetText(self.text:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
 
-        local langShort = string.sub(l10n:GetUILocale(), 1, 2) .. "."
-        if langShort == "en." then
+        local langShort = string.sub(GetLocale(), 1, 2) .. "/"
+        if langShort == "en/" then
+            langShort = ""
+        elseif langShort == "zh/" then -- there are no zhTW/zhCN repos on wowhead. Will redirect to the english ones.
             langShort = ""
         end
 
-        local wowheadLink
-        if langShort then
-            langShort = langShort:gsub("%.", "/") -- The Wotlk wowhead URL differs to the other Classic URLs
+        local wowheadLink, xpac
+        if Questie.IsCata then
+            xpac = "cata/"
+        else
+            xpac = "wotlk/"
         end
 
-        wowheadLink = "https://" .. "wowhead.com/wotlk/" .. langShort .. "achievement=" .. achieveID
+        wowheadLink = "https://" .. "wowhead.com/" .. xpac .. langShort .. "achievement=" .. achieveID
 
         self.editBox:SetText(wowheadLink)
         self.editBox:SetFocus()
