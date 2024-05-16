@@ -334,16 +334,14 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
         local quest_wow = QuestieDB.GetQuest(questID)
         local name = quest_wow.name
 
-        -- self.text:SetText(self.text:GetText() .. "\n\n|cffff7f00" .. name .. "|r")
         self.text:SetFont("GameFontNormal", 12)
-        -- self.text:SetText(self.text:GetText() .. "\n\n|c FFFFB9 00" .. name .. "|r")
         self.text:SetText(self.text:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
 
         local langShort = string.sub(GetLocale(), 1, 2) .. "/"
         if langShort == "en/" then
             langShort = ""
-        elseif langShort == "zh/" then -- there are no zhTW/zhCN repos on wowhead. Will redirect to the english ones.
-            langShort = ""
+        elseif langShort == "zh/" then
+            langShort = "cn/"
         end
 
         local wowheadLink, xpac
@@ -519,8 +517,8 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_AURL"] = {
         local langShort = string.sub(GetLocale(), 1, 2) .. "/"
         if langShort == "en/" then
             langShort = ""
-        elseif langShort == "zh/" then -- there are no zhTW/zhCN repos on wowhead. Will redirect to the english ones.
-            langShort = ""
+        elseif langShort == "zh/" then
+            langShort = "cn/"
         end
 
         local wowheadLink, xpac
