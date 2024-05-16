@@ -783,7 +783,7 @@ skippers["objectives"] = function(stream)
         for _=1, count do
             stream._pointer = stream:ReadByte() * 3 + 3 + stream._pointer
             stream._pointer = stream:ReadByte() + stream._pointer
-            stream._pointer = stream:ReadByte() + stream._pointer
+            stream._pointer = stream._pointer + 1
         end
     end
     spellObjectiveSkipper(stream)
