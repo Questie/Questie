@@ -9,6 +9,9 @@ function CataItemFixes.Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [5169] = { -- Timberling Sprout
+            [itemKeys.objectDrops] = {4608}
+        },
         [10458] = { -- Prayer to Elune
             [itemKeys.npcDrops] = {}
         },

@@ -606,4 +606,20 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
         end)
     end)
+
+    describe("Teldrassil", function()
+        it("should handle Corithras Moonrage positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_DOLANAAR))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_CROSSROAD))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[7383]={}}
+            assert.is_false(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_DOLANAAR))
+            assert.is_true(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_CROSSROAD))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[7383] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_DOLANAAR))
+            assert.is_true(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_CROSSROAD))
+        end)
+    end)
 end)

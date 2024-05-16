@@ -570,7 +570,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMinRep] = nil,
             [questKeys.requiredMaxRep] = nil,
             [questKeys.requiredSourceItems] = nil,
-            [questKeys.nextQuestInChain] = nil,
+            [questKeys.nextQuestInChain] = 0,
             [questKeys.questFlags] = 8,
             [questKeys.specialFlags] = 1,
             [questKeys.parentQuest] = 949, -- workaround, can't mimic ingame 100%

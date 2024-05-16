@@ -88,6 +88,7 @@ function CataQuestFixes.Load()
         },
         [933] = { -- Teldrassil: The Coming Dawn
             [questKeys.preQuestSingle] = {7383},
+            [questKeys.nextQuestInChain] = 14005,
         },
         [935] = { -- The Waters of Teldrassil
             [questKeys.preQuestSingle] = {14005},
@@ -537,6 +538,7 @@ function CataQuestFixes.Load()
         },
         [13946] = { -- Nature's Reprisal
             [questKeys.preQuestSingle] = {489},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{2002,2003,2004,2005},2002}}},
         },
         [13948] = { -- Stepping Up Surveillance
             [questKeys.objectives] = {{{34326}}},

@@ -42,6 +42,14 @@ function CataNpcFixes.Load()
             [npcKeys.questEnds] = {749,24459,26179,26180},
             [npcKeys.waypoints] = {},
         },
+        [3515] = { -- Corithras Moonrage
+            [npcKeys.spawns] = {
+                [zoneIDs.TELDRASSIL] = {
+                    {41.07,45.66,phases.CORITHRAS_AT_CROSSROAD},
+                    {55.82,53.9,phases.CORITHRAS_AT_DOLANAAR},
+                },
+            },
+        },
         [3593] = { -- Alyissia
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.85,33.74}}},
         },
