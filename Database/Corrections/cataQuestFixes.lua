@@ -1958,6 +1958,9 @@ function CataQuestFixes.Load()
         [26816] = { -- Recipe for Disaster
             [questKeys.preQuestSingle] = {26815},
         },
+        [26818] = { -- Plush Pelts
+            [questKeys.preQuestSingle] = {26823},
+        },
         [26824] = { -- Results: Inconclusive
             [questKeys.preQuestSingle] = {26815},
         },
