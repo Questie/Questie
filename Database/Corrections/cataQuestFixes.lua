@@ -1961,6 +1961,9 @@ function CataQuestFixes.Load()
         [26818] = { -- Plush Pelts
             [questKeys.preQuestSingle] = {26823},
         },
+        [26819] = { -- Akiris by the Bundle
+            [questKeys.preQuestSingle] = {26823},
+        },
         [26820] = { -- If They're Just Going to Leave Them Lying Around...
             [questKeys.preQuestSingle] = {26823},
         },
