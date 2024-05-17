@@ -2077,6 +2077,9 @@ function CataQuestFixes.Load()
         [26648] = { -- Our Mortal Enemies
             [questKeys.preQuestSingle] = {26644},
         },
+        [26650] = { -- The Damsel's Luck
+            [questKeys.preQuestSingle] = {26649},
+        },
         [26656] = { -- Don't. Stop. Moving.
             [questKeys.triggerEnd] = {"Opalescent Guardians Escorted to safety", {[zoneIDs.DEEPHOLM]={{51,14.8}}}},
             [questKeys.objectives] = {{{42466},{43597}},nil,nil,nil,},
