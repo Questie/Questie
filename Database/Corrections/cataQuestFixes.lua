@@ -1924,6 +1924,9 @@ function CataQuestFixes.Load()
         [26712] = { -- Off to the Bank (male)
             [questKeys.exclusiveTo] = {26711},
         },
+        [26717] = { -- The Yorgen Worgen
+            [questKeys.preQuestSingle] = {26785},
+        },
         [26750] = { -- At the Stonemother's Call
             [questKeys.preQuestSingle] = {26659},
         },
