@@ -2059,6 +2059,9 @@ function CataQuestFixes.Load()
         [26630] = { -- Looks Like a Tauren Pirate to Me
             [questKeys.parentQuest] = 26629,
         },
+        [26635] = { -- Cannonball Swim
+            [questKeys.preQuestSingle] = {26631},
+        },
         [26642] = { -- Preserving the Barrens
             [questKeys.exclusiveTo] = {28494},
         },
