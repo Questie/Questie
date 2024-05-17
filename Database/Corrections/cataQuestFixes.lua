@@ -1930,6 +1930,9 @@ function CataQuestFixes.Load()
         [26683] = { -- Look To The Stars
             [questKeys.preQuestSingle] = {26661},
         },
+        [26697] = { -- The Final Voyage of the Brashtide
+            [questKeys.preQuestSingle] = {26695},
+        },
         [26706] = { -- Endgame
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Gunship destroyed",{[zoneIDs.GILNEAS]={{42.4,29.2}}}},
