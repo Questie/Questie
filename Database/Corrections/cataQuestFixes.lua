@@ -1945,6 +1945,9 @@ function CataQuestFixes.Load()
         [26698] = { -- Seeking Seahorn
             [questKeys.preQuestSingle] = {26679},
         },
+        [26699] = { -- Turning the Brashtide
+            [questKeys.preQuestSingle] = {26698},
+        },
         [26700] = { -- The Damsel's (Bad) Luck
             [questKeys.preQuestSingle] = {26698},
         },
