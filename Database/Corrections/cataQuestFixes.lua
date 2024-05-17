@@ -1927,6 +1927,9 @@ function CataQuestFixes.Load()
         [26717] = { -- The Yorgen Worgen
             [questKeys.preQuestSingle] = {26785},
         },
+        [26723] = { -- The Fate of Morbent Fel
+            [questKeys.preQuestSingle] = {26760},
+        },
         [26750] = { -- At the Stonemother's Call
             [questKeys.preQuestSingle] = {26659},
         },
