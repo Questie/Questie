@@ -78,6 +78,12 @@ function CataNpcFixes.Load()
         [3694] = { -- Sentinel Selarin
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{42.51,45.15}}},
         },
+        [3901] = { -- Illiyana
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{87.1,43.49}}},
+        },
+        [3943] = { -- Ruuzel
+            [npcKeys.waypoints] = {},
+        },
         [7319] = { -- Lady Sathrah
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{40.66,22.16}}},
         },
@@ -100,6 +106,9 @@ function CataNpcFixes.Load()
         },
         [15623] = { -- Xandivious
             [npcKeys.spawns] = {},
+        },
+        [17310] = { -- Gnarl
+            [npcKeys.waypoints] = {},
         },
         [22819] = { -- Orphan Matron Mercy
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{75.07,47.88}}},

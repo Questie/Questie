@@ -449,6 +449,7 @@ function CataQuestFixes.Load()
         },
         [13595] = { -- Of Their Own Design
             [questKeys.requiredSourceItems] = {44967},
+            [questKeys.objectives] = {{{33183,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [13596] = { -- Twilight Plans
             [questKeys.preQuestSingle] = {13591},
@@ -569,6 +570,7 @@ function CataQuestFixes.Load()
         },
         [13919] = { -- A Trip to the Moonwell
             [questKeys.preQuestSingle] = {26475},
+            [questKeys.objectives] = {nil,{{301015,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [13925] = { -- An Ounce of Prevention
             [questKeys.objectives] = {nil,nil,nil,nil,{{{2071,2165,2237,34318},2071,"Lifebringer Sapling Tested",Questie.ICON_TYPE_INTERACT}}},

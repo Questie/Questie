@@ -60,6 +60,15 @@ function CataItemFixes.Load()
         [45027] = { -- Tuft of Mottled Doe Hair
             [itemKeys.npcDrops] = {33313},
         },
+        [45042] = { -- Feero's Holy Hammer
+            [itemKeys.npcDrops] = {33348},
+        },
+        [45043] = { -- The Purifier's Prayer Book
+            [itemKeys.npcDrops] = {33347},
+        },
+        [45066] = { -- Bathed Concoction
+            [itemKeys.objectDrops] = {194651},
+        },
         [45885] = { -- Thistle Bear Fur
             [itemKeys.npcDrops] = {33978},
         },
