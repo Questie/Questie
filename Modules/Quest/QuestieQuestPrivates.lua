@@ -225,6 +225,8 @@ item = function(itemId, objective)
                                     icon = objective.Icon or Questie.ICON_TYPE_NODE_HERB
                                 elseif nodeType == QuestieDB.nodeTypes.ORE then
                                     icon = objective.Icon or Questie.ICON_TYPE_NODE_ORE
+                                elseif nodeType == QuestieDB.nodeTypes.CHEST then
+                                    icon = objective.Icon or Questie.ICON_TYPE_CHEST
                                 else
                                     Questie:Error("Unknown nodeType", nodeType, "for object", id)
                                     icon = objective.Icon or Questie.ICON_TYPE_OBJECT

@@ -46,6 +46,7 @@ QuestieDB.nodeTypes = {
     FISH = 1,
     HERB = 2,
     ORE = 3,
+    CHEST = 4,
 }
 
 local isWotlk = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
