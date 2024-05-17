@@ -1902,6 +1902,9 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 26597,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [26609] = { -- The Bloodsail Buccaneers
+            [questKeys.preQuestSingle] = {26595,26601,26606},
+        },
         [26621] = { -- Insurrection
             [questKeys.objectives] = {{{43575},{43394}},nil,nil,nil,{{{43577,43578},43577,"Dragonmaw Civilian Armed"}}},
         },
