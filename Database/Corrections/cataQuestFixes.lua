@@ -2303,6 +2303,9 @@ function CataQuestFixes.Load()
         [27073] = { -- Give 'em Hell!
             [questKeys.preQuestSingle] = {27065},
         },
+        [27082] = { -- Playing Dirty
+            [questKeys.preQuestSingle] = {27065},
+        },
         [27091] = { -- Charge!
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{100}}},
         },
