@@ -103,6 +103,9 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = -378,
             [questKeys.startedBy] = {{51988}},
         },
+        [1918] = { -- The Befouled Element
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
         },
