@@ -376,6 +376,9 @@ function CataItemFixes.Load()
         [59033] = { -- Blackrock Lever Key
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [59146] = { -- Head of Fleet Master Seahorn
+            [itemKeys.npcDrops] = {2487},
+        },
         [59261] = { -- Blackrock Holding Pen Key
             [itemKeys.class] = itemClasses.QUEST,
         },

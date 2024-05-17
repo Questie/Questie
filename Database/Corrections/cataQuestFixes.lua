@@ -1917,6 +1917,12 @@ function CataQuestFixes.Load()
         [26627] = { -- The Hermit
             [questKeys.exclusiveTo] = {26653},
         },
+        [26629] = { -- Seeing Where Your Loyalties Lie
+            [questKeys.childQuests] = {26630},
+        },
+        [26630] = { -- Looks Like a Tauren Pirate to Me
+            [questKeys.parentQuest] = 26629,
+        },
         [26642] = { -- Preserving the Barrens
             [questKeys.exclusiveTo] = {28494},
         },
