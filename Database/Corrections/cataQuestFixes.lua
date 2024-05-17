@@ -525,8 +525,8 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{2165,34417},2165,nil,Questie.ICON_TYPE_EVENT},{{2071,2237,2070},2071,nil,Questie.ICON_TYPE_EVENT},{{34318,34396},34318,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ask Orseus for a hippogryph"), 0, {{"monster", 34392}}}},
         },
-        [13897] = { -- The Battle for Darkshore
-            [questKeys.preQuestSingle] = {13900},
+        [13891] = { -- The Devourer of Darkshore
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Destroy the Devouring Artifact"), 0, {{"object", 195057}}}},
         },
         [13892] = { -- Leave No Tracks
             [questKeys.objectives] = {{{34406,nil,Questie.ICON_TYPE_EVENT}}},
@@ -537,8 +537,15 @@ function CataQuestFixes.Load()
         [13896] = { -- Unearthed Knowledge
             [questKeys.preQuestSingle] = {13948},
         },
+        [13897] = { -- The Battle for Darkshore
+            [questKeys.preQuestSingle] = {13900},
+        },
         [13898] = { -- The Tides Turn Against Us
             [questKeys.preQuestSingle] = {13953},
+        },
+        [13900] = { -- The Offering to Azshara
+            [questKeys.objectives] = {{{51314,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill the Darkscale Priestesses"), 0, {{"monster", 34415}}}},
         },
         [13902] = { -- Mounting the Offensive
             [questKeys.preQuestSingle] = {13588},

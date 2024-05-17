@@ -486,6 +486,9 @@ function CataNpcFixes.Load()
                 [zoneIDs.STORMWIND_CITY] = {{51.62,72.38}},
             },
         },
+        [51314] = { -- Azshara Event Credit
+            [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{32.89,84.09}}},
+        },
         [51989] = { -- Orphan Matron Battlewail
             [npcKeys.spawns] = {
                 [zoneIDs.ORGRIMMAR] = {{57.96,57.62}},
