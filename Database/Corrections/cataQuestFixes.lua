@@ -2090,6 +2090,9 @@ function CataQuestFixes.Load()
         [26663] = { -- Sinking From Within
             [questKeys.preQuestSingle] = {26650},
         },
+        [26664] = { -- Making Mutiny
+            [questKeys.preQuestSingle] = {26650},
+        },
         [26683] = { -- Look To The Stars
             [questKeys.preQuestSingle] = {26661},
         },
