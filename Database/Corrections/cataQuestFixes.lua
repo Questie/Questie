@@ -2071,6 +2071,9 @@ function CataQuestFixes.Load()
         [26645] = { -- The Night Watch
             [questKeys.preQuestSingle] = {26618},
         },
+        [26647] = { -- Ol' Blasty
+            [questKeys.preQuestSingle] = {26644},
+        },
         [26648] = { -- Our Mortal Enemies
             [questKeys.preQuestSingle] = {26644},
         },
