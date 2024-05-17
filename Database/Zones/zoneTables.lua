@@ -3238,6 +3238,7 @@ ZoneDB.private.zoneIDs = {
     ULDUM = 5043,
     SHIMMERING_EXPANSE = 5144, -- Vashj'ir sub zone
     ABYSSAL_DEPTHS = 5145, -- Vashj'ir sub zone
+    THE_CAPE_OF_STRANGLETHORN = 5287,
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic
