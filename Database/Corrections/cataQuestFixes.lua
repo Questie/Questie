@@ -1952,6 +1952,9 @@ function CataQuestFixes.Load()
         [26803] = { -- Missing Reports
             [questKeys.preQuestSingle] = {},
         },
+        [26816] = { -- Recipe for Disaster
+            [questKeys.preQuestSingle] = {26815},
+        },
         [26827] = { -- Rallying the Earthen Ring
             [questKeys.objectives] = {nil,nil,nil,nil,{{{43836,44633,44634,44642,44644,44646,44647},44642,"Earthen Ring rallied",Questie.ICON_TYPE_EVENT}}},
         },
