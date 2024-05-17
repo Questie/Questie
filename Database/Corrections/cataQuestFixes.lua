@@ -1952,6 +1952,9 @@ function CataQuestFixes.Load()
         [26803] = { -- Missing Reports
             [questKeys.preQuestSingle] = {},
         },
+        [26815] = { -- Zanzil's Secret
+            [questKeys.preQuestSingle] = {26817},
+        },
         [26816] = { -- Recipe for Disaster
             [questKeys.preQuestSingle] = {26815},
         },
