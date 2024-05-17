@@ -1942,6 +1942,9 @@ function QuestieWotlkQuestFixes:Load()
         [12506] = {
             [questKeys.triggerEnd] = {"Main building at the Altar of Sseratus investigated.",{[zoneIDs.ZUL_DRAK]={{40.32,39.46,},},},},
         },
+        [12507] = { -- Strange Mojo
+            [questKeys.startedBy] = {{28034,28035,28036},nil,{38321}},
+        },
         [12509] = {
             [questKeys.parentQuest] = 12501,
         },
