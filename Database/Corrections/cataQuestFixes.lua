@@ -1939,6 +1939,9 @@ function CataQuestFixes.Load()
         [26698] = { -- Seeking Seahorn
             [questKeys.preQuestSingle] = {26679},
         },
+        [26700] = { -- The Damsel's (Bad) Luck
+            [questKeys.preQuestSingle] = {26698},
+        },
         [26706] = { -- Endgame
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Gunship destroyed",{[zoneIDs.GILNEAS]={{42.4,29.2}}}},
