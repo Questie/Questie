@@ -1933,6 +1933,9 @@ function CataQuestFixes.Load()
         [26750] = { -- At the Stonemother's Call
             [questKeys.preQuestSingle] = {26659},
         },
+        [26777] = { -- Soothing Spirits
+            [questKeys.objectives] = {{{43923}}},
+        },
         [26778] = { -- The Cries of the Dead
             [questKeys.preQuestSingle] = {26760},
         },
