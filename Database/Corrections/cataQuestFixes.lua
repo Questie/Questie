@@ -1930,6 +1930,9 @@ function CataQuestFixes.Load()
         [26750] = { -- At the Stonemother's Call
             [questKeys.preQuestSingle] = {26659},
         },
+        [26778] = { -- The Cries of the Dead
+            [questKeys.preQuestSingle] = {26760},
+        },
         [26785] = { -- Part of the Pack
             [questKeys.preQuestSingle] = {26674},
             [questKeys.exclusiveTo] = {26717},
