@@ -2087,6 +2087,9 @@ function CataQuestFixes.Load()
         [26662] = { -- The Brashtide Crew
             [questKeys.preQuestSingle] = {26650},
         },
+        [26663] = { -- Sinking From Within
+            [questKeys.preQuestSingle] = {26650},
+        },
         [26683] = { -- Look To The Stars
             [questKeys.preQuestSingle] = {26661},
         },
