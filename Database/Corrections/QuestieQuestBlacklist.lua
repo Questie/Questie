@@ -1611,6 +1611,8 @@ function QuestieQuestBlacklist:Load()
         [29242] = true, -- Putting a Price on Priceless
         [29251] = true, -- Booty Bay's Interests
         [29252] = true, -- Booty Bay's Interests
+        [29261] = true, -- Zul'Aman Voodoo
+        [29262] = true, -- Zul'Gurub Voodoo
 
         -- Phase 3 - Rage of the Firelands
 
