@@ -1903,6 +1903,9 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 26597,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [26602] = { -- A Dish Best Served Huge
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Negolash"), 0, {{"object", 2289}}}},
+        },
         [26609] = { -- The Bloodsail Buccaneers
             [questKeys.preQuestSingle] = {26595,26601,26606},
         },

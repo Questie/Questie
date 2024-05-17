@@ -14,6 +14,9 @@ function CataNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
+        [1494] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{50.75,79.65}}},
+        },
         [1514] = { -- Mokk the Savage
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{52.99,50.22}}},
         },
