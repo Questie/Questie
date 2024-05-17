@@ -2300,6 +2300,9 @@ function CataQuestFixes.Load()
         [27067] = { -- Rejuvenating Touch
             [questKeys.objectives] = {{{45199}},nil,nil,nil,nil,{{774}}},
         },
+        [27073] = { -- Give 'em Hell!
+            [questKeys.preQuestSingle] = {27065},
+        },
         [27091] = { -- Charge!
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{100}}},
         },
