@@ -117,7 +117,7 @@ function QuestieEventHandler:RegisterLateEvents()
     end)
 
     -- UI Achievement Events
-    if Questie.IsWotlk or Questie.IsCata then
+    if Questie.IsWotlk or Questie.IsCata and Questie.db.profile.trackerEnabled then
         -- Earned Achievement update
         Questie:RegisterEvent("ACHIEVEMENT_EARNED", function(index, achieveId, alreadyEarned)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ACHIEVEMENT_EARNED")
@@ -150,14 +150,17 @@ function QuestieEventHandler:RegisterLateEvents()
             end)
         end)
 
-        --[[ TODO: This fires FAR too often. Until Blizzard figures out a way to allow us to trigger achievement updates this needs to remain disabled for now.
-        Questie:RegisterEvent("CRITERIA_UPDATE", function()
+        -- This fires pretty often, multiple times for a single Achievement change and also for things most likely not related to Achievements at all.
+        -- We use a bucket to hinder this from spamming
+        Questie:RegisterBucketEvent("CRITERIA_UPDATE", 2, function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CRITERIA_UPDATE")
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-            end)
+
+            if Questie.db.char.trackedAchievementIds and next(Questie.db.char.trackedAchievementIds) then
+                QuestieCombatQueue:Queue(function()
+                    QuestieTracker:Update()
+                end)
+            end
         end)
-        --]]
         -- Money based Achievement updates
         Questie:RegisterEvent("CHAT_MSG_MONEY", function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_MONEY")
