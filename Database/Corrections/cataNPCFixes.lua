@@ -46,6 +46,9 @@ function CataNpcFixes.Load()
             [npcKeys.questEnds] = {749,24459,26179,26180},
             [npcKeys.waypoints] = {},
         },
+        [3475] = { -- Echeyakee
+            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{56.4,34.9}}},
+        },
         [3515] = { -- Corithras Moonrage
             [npcKeys.spawns] = {
                 [zoneIDs.TELDRASSIL] = {
