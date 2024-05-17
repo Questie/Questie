@@ -29,10 +29,10 @@ QuestieDB.objectCompilerTypes = {
 
 QuestieDB.objectCompilerOrder = { -- order easily skipable data first for efficiency
     --static size
-    'zoneID', 'factionID', 'nodeType',
+    'zoneID', 'factionID',
 
     -- variable size
-    'name', 'spawns', 'questStarts', 'questEnds'
+    'name', 'spawns', 'questStarts', 'questEnds', 'nodeType',
 }
 
 -- temporary, until we remove the old db funcitons
