@@ -1930,6 +1930,9 @@ function CataQuestFixes.Load()
         [26683] = { -- Look To The Stars
             [questKeys.preQuestSingle] = {26661},
         },
+        [26695] = { -- Prepare for Takeoff
+            [questKeys.preQuestSingle] = {26679},
+        },
         [26697] = { -- The Final Voyage of the Brashtide
             [questKeys.preQuestSingle] = {26695},
         },
