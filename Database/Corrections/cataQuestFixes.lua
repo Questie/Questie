@@ -498,6 +498,39 @@ function CataQuestFixes.Load()
         [13659] = { -- Explorers' League Document (6 of 6)
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [13684] = { -- A Valiant Of Stormwind
+            [questKeys.requiredRaces] = raceKeys.HUMAN,
+        },
+        [13685] = { -- A Valiant Of Ironforge
+            [questKeys.requiredRaces] = raceKeys.DWARF,
+        },
+        [13688] = { -- A Valiant Of Gnomeregan
+            [questKeys.requiredRaces] = raceKeys.GNOME,
+        },
+        [13689] = { -- A Valiant Of Darnassus
+            [questKeys.requiredRaces] = raceKeys.NIGHT_ELF,
+        },
+        [13690] = { -- A Valiant Of The Exodar
+            [questKeys.requiredRaces] = raceKeys.DRAENEI,
+        },
+        [13691] = { -- A Valiant Of Orgrimmar
+            [questKeys.requiredRaces] = raceKeys.ORC,
+        },
+        [13693] = { -- A Valiant Of Sen'jin
+            [questKeys.requiredRaces] = raceKeys.TROLL,
+        },
+        [13694] = { -- A Valiant Of Thunder Bluff
+            [questKeys.requiredRaces] = raceKeys.TAUREN,
+        },
+        [13695] = { -- A Valiant Of Undercity
+            [questKeys.requiredRaces] = raceKeys.UNDEAD,
+        },
+        [13696] = { -- A Valiant Of Silvermoon
+            [questKeys.requiredRaces] = raceKeys.BLOOD_ELF,
+        },
+        [13708] = { -- Valiant Of Sen'jin
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [13831] = { -- A Troubling Prescription
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {13528},
