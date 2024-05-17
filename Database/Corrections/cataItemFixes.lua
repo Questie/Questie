@@ -12,6 +12,13 @@ function CataItemFixes.Load()
         [5169] = { -- Timberling Sprout
             [itemKeys.objectDrops] = {4608}
         },
+        [5508] = { -- Fallen Moonstone
+            [itemKeys.npcDrops] = {3758,3759,3762,3763},
+        },
+        [5519] = { -- Iron Pommel
+            [itemKeys.npcDrops] = {},
+            [itemKeys.objectDrops] = {195111},
+        },
         [10458] = { -- Prayer to Elune
             [itemKeys.npcDrops] = {}
         },
@@ -69,6 +76,9 @@ function CataItemFixes.Load()
         [45066] = { -- Bathed Concoction
             [itemKeys.objectDrops] = {194651},
         },
+        [45573] = { -- The Forest HEart
+            [itemKeys.npcDrops] = {},
+        },
         [45885] = { -- Thistle Bear Fur
             [itemKeys.npcDrops] = {33978},
         },
@@ -86,6 +96,9 @@ function CataItemFixes.Load()
         },
         [46397] = { -- Oracle Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [46543] = { -- Laughing Sister's Corpse
+            [itemKeys.npcDrops] = {34426},
         },
         [46696] = { -- Panther Figurine
             [itemKeys.class] = itemClasses.QUEST,

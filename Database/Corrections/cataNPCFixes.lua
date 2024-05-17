@@ -84,6 +84,10 @@ function CataNpcFixes.Load()
         [3943] = { -- Ruuzel
             [npcKeys.waypoints] = {},
         },
+        [3987] = { -- Dal Bloodclaw
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{41.66,35.7}}},
+            [npcKeys.waypoints] = {},
+        },
         [7319] = { -- Lady Sathrah
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{40.66,22.16}}},
         },
@@ -97,6 +101,10 @@ function CataNpcFixes.Load()
         [10920] = { -- Kelek Skykeeper
             [npcKeys.questStarts] = {28479,28537,28848},
             [npcKeys.questEnds] = {28471,28536,28537},
+        },
+        [12759] = { -- Fury Shelda
+            [npcKeys.waypoints] = {},
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{48.22,69.74}}},
         },
         [14431] = { -- Fury Shelda
             [npcKeys.waypoints] = {},
@@ -140,6 +148,9 @@ function CataNpcFixes.Load()
         [34009] = { -- Withered Ent
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{48.23,44.64},{48.01,43.58},{48.55,43.19},{48.19,43},{47.34,42.59},{47.94,42.46},{46.88,42.33},{47.3,42.24},{48.71,42.11},{48.24,41.84},{47.45,41.65},{46.98,41.56},{47.89,41.45},{48.85,40.95},{47.71,40.82},{47.21,40.45},{47.99,40.22},{48.43,40.11},{49.01,39.94},{46.87,39.79},{47.82,39.65},{47.3,39.51},{47.87,38.86},{49.05,38.86},{48.38,38.73},{49.24,38.19}}},
         },
+        [34295] = { -- Lord Magmathar
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE]={{48.14,39.22}}},
+        },
         [34365] = { -- Orphan Matron Aria
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{49.36,63.26}}},
         },
@@ -154,6 +165,13 @@ function CataNpcFixes.Load()
                     {37.41,63.35,phases.GILNEAS_CHAPTER_6},
                 },
             },
+        },
+        [34604] = { -- Big Baobob
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{22.22,52.88}}},
+        },
+        [34609] = { -- Demonic Invader
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{22.38,53.06},{22.4,52.89},{22.31,52.63},{22.18,52.61},{22.03,52.75},{22.07,53.04},{22.25,53.1},{22.36,52.96}}},
+            [npcKeys.zoneID] = zoneIDs.ASHENVALE,
         },
         [34872] = { -- Foreman Dampwick
             [npcKeys.spawns] = {
@@ -335,6 +353,9 @@ function CataNpcFixes.Load()
                     {42.19,17.4,phases.LOST_ISLES_CHAPTER_10},
                 },
             },
+        },
+        [39096] = { -- Painmaster Thundrak
+            [npcKeys.waypoints] = {[zoneIDs.ASHENVALE] = {{45.09,65.07},{44.87,65.16},{44.71,65.23},{44.62,65.15},{44.42,64.94},{44.32,64.84},{44.21,64.72},{44.18,64.68},{44.07,64.58},{43.88,64.38},{43.77,64.23},{43.66,64.08},{43.48,63.85},{43.46,63.82},{43.35,63.67},{43.33,63.65},{43.21,63.46},{43.12,63.36},{43.06,63.33},{42.92,63.45},{42.92,63.64},{42.93,63.75},{43.08,63.94},{43.19,63.94},{43.34,63.95},{43.44,63.98},{43.53,64.08},{43.61,64.16},{43.72,64.27},{43.91,64.47},{44.03,64.58},{44.18,64.75},{44.36,64.93},{44.39,64.96},{44.51,65.06},{44.58,65.14},{44.70,65.27},{44.86,65.30},{44.93,65.31},{45.13,65.28},{45.20,65.25},{45.34,65.19},{45.50,65.13},{45.57,65.11},{45.76,65.09},{45.90,65.07},{45.96,64.88},{45.97,64.67},{45.87,64.49},{45.77,64.52},{45.56,64.67},{45.46,64.85},{45.28,65.03},{45.22,65.05},{44.99,65.10}}},
         },
         [39432] = { -- Takrik Ragehowl
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
@@ -522,6 +543,19 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {
                 [zoneIDs.DUN_MOROGH] = {{83.97,51.69}},
             },
+        },
+        -- Fake NPCs for Auto Accept and Auto Turn in
+        [100000] = { -- "Burn, Baby, Burn!", "Bombs Away: Windshear Mine!"
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS] = {{73.23,46.61}}},
+            [npcKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
+            [npcKeys.questStarts] = {25622,25640},
+        },
+        [100001] = { -- Burn, Baby, Burn!
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS] = {{73.23,46.61}}},
+            [npcKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
+            [npcKeys.questEnds] = {25622},
         },
     }
 end

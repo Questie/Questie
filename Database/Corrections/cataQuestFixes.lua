@@ -498,6 +498,9 @@ function CataQuestFixes.Load()
         [13659] = { -- Explorers' League Document (6 of 6)
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [13683] = { -- Stopping the Rituals
+            [questKeys.preQuestSingle] = {26468},
+        },
         [13684] = { -- A Valiant Of Stormwind
             [questKeys.requiredRaces] = raceKeys.HUMAN,
         },
@@ -528,8 +531,20 @@ function CataQuestFixes.Load()
         [13696] = { -- A Valiant Of Silvermoon
             [questKeys.requiredRaces] = raceKeys.BLOOD_ELF,
         },
+        [13698] = { -- Explosives Shredding
+            [questKeys.objectives] = {nil,{{194482}},nil,nil,{{{17287},17287,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in the Shredder"), 0, {{"monster", 33706}}}},
+        },
         [13708] = { -- Valiant Of Sen'jin
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [13766] = { -- Closure is Only Natural
+            [questKeys.objectives] = {{{33767,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [13796] = { -- The Forest Heart
+            [questKeys.preQuestSingle] = {13792},
+            [questKeys.requiredSourceItems] = {45571,45572},
+            [questKeys.sourceItemId] = 45571,
         },
         [13831] = { -- A Troubling Prescription
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -547,6 +562,19 @@ function CataQuestFixes.Load()
         [13844] = { -- The Looting of Althalaxx
             [questKeys.preQuestSingle] = {13509},
         },
+        [13849] = { -- Astranaar's Burning!
+            [questKeys.objectives] = {{{34123,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [13853] = { -- Return Fire
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 34132}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{34160,34163},34160}}},
+        },
+        [13868] = { -- Corrupting Influence?
+            [questKeys.startedBy] = {{3924,3925,3926},nil,{46128}},
+        },
+        [13869] = { -- Recover the Remains
+            [questKeys.preQuestSingle] = {26454},
+        },
         [13871] = { -- Security!
             [questKeys.preQuestSingle] = {13870},
         },
@@ -555,13 +583,24 @@ function CataQuestFixes.Load()
         },
         [13876] = { -- Too Far Gone
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {13868},
+        },
+        [13880] = { -- Hot Lava
+            [questKeys.preQuestSingle] = {13877},
         },
         [13881] = { -- Consumed
             [questKeys.triggerEnd] = {"Watering Hole Investigated", {[zoneIDs.DARKSHORE]={{45,79.1}}}},
         },
+        [13884] = { -- Put Out The Fire
+            [questKeys.preQuestSingle] = {13877},
+        },
         [13885] = { -- In Defense of Darkshore
             [questKeys.objectives] = {nil,nil,nil,nil,{{{2165,34417},2165,nil,Questie.ICON_TYPE_EVENT},{{2071,2237,2070},2071,nil,Questie.ICON_TYPE_EVENT},{{34318,34396},34318,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ask Orseus for a hippogryph"), 0, {{"monster", 34392}}}},
+        },
+        [13886] = { -- Vortex
+            [questKeys.preQuestGroup] = {13880,13884},
+            [questKeys.objectives] = {{{34295}}},
         },
         [13891] = { -- The Devourer of Darkshore
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Destroy the Devouring Artifact"), 0, {{"object", 195057}}}},
@@ -605,6 +644,12 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26475},
             [questKeys.objectives] = {nil,{{301015,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [13922] = { -- In the Hands of the Perverse
+            [questKeys.preQuestSingle] = {13921},
+        },
+        [13924] = { -- All's Well
+            [questKeys.preQuestSingle] = {13922},
+        },
         [13925] = { -- An Ounce of Prevention
             [questKeys.objectives] = {nil,nil,nil,nil,{{{2071,2165,2237,34318},2071,"Lifebringer Sapling Tested",Questie.ICON_TYPE_INTERACT}}},
         },
@@ -613,6 +658,9 @@ function CataQuestFixes.Load()
         },
         [13927] = { -- Little Orphan Kekek Of The Wolvar
             [questKeys.exclusiveTo] = {13926},
+        },
+        [13935] = { -- Defend the Tree!
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Summon the shade of Shadumbra"), 0, {{"monster", 34377}}}},
         },
         [13937] = { -- A Trip To The Wonderworks
             [questKeys.preQuestSingle] = {},
@@ -650,9 +698,11 @@ function CataQuestFixes.Load()
         },
         [13964] = { -- To the Spire
             [questKeys.preQuestSingle] = {26478},
+            [questKeys.nextQuestInChain] = 26470,
         },
         [13965] = { -- Check in on the Edunes
             [questKeys.preQuestSingle] = {26478},
+            [questKeys.nextQuestInChain] = 13976,
         },
         [13975] = { -- Crossroads Caravan Delivery
             [questKeys.objectives] = {},
@@ -660,6 +710,15 @@ function CataQuestFixes.Load()
         },
         [13976] = { -- Three Friends of the Forest
             [questKeys.preQuestSingle] = {},
+        },
+        [13982] = { -- In a Bind
+            [questKeys.preQuestSingle] = {13976},
+        },
+        [13985] = { -- Clear the Shrine
+            [questKeys.preQuestSingle] = {13982},
+        },
+        [13989] = { -- King of the Foulweald
+            [questKeys.requiredSourceItems] = {46777,46739},
         },
         [13998] = { -- In Fungus We Trust
             [questKeys.triggerEnd] = {"Fungal Culture Planted", {[zoneIDs.THE_BARRENS]={{55.1,80.4},{57,78.9},{57.7,81.1}}}},
@@ -1511,6 +1570,15 @@ function CataQuestFixes.Load()
         [25602] = { -- Can't Start a Fire Without a Spark
             [questKeys.preQuestSingle] = {25598},
         },
+        [25613] = { -- Do Yourself a Favor
+            [questKeys.preQuestSingle] = {13913},
+        },
+        [25614] = { -- The Only Way Down is in a Body Bag
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Shoot the wyvern"),0,{{"monster",34832}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Use the cannon"),0,{{"monster",32254}}},
+            },
+        },
         [25617] = { -- Into the Maw!
             [questKeys.exclusiveTo] = {25624},
         },
@@ -1519,6 +1587,13 @@ function CataQuestFixes.Load()
         },
         [25621] = { -- Field Test: Gnomecorder
             [questKeys.triggerEnd] = {"Gnomecorder Tested", {[zoneIDs.STONETALON_MOUNTAINS]={{73.2,46.6}}}},
+            [questKeys.preQuestSingle] = {25615},
+        },
+        [25622] = { -- Burn, Baby, Burn!
+            [questKeys.startedBy] = {{40895,100000}},
+            [questKeys.finishedBy] = {{40895,100001}},
+            [questKeys.preQuestSingle] = {25615},
+            [questKeys.requiredSourceItems] = {55152},
         },
         [25623] = { -- Into the Maw!
             [questKeys.preQuestSingle] = {25353},
@@ -1532,8 +1607,21 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25611,25612},
             [questKeys.exclusiveTo] = {25381},
         },
+        [25640] = { -- Bombs Away: Windshear Mine!
+            [questKeys.startedBy] = {{40895,100000}},
+        },
+        [25646] = { -- Windshear Mine Cleanup
+            [questKeys.preQuestSingle] = {25640},
+        },
+        [25647] = { -- Illegible Orc Letter
+            [questKeys.startedBy] = {{40905},nil,{55181}},
+        },
         [25651] = { -- Oh, the Insanity!
             [questKeys.requiredSourceItems] = {55185},
+        },
+        [25652] = { -- Commandeer That Balloon!
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Climb into the balloon"), 0, {{"monster", 41019}}}},
+            [questKeys.objectives] = {{{40984,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25657] = { -- Dah, Nunt... Dah, Nunt...
             [questKeys.objectives] = {nil,{{203137,"Explosive Grub fed to Gnaws",Questie.ICON_TYPE_EVENT}}},
@@ -1878,14 +1966,23 @@ function CataQuestFixes.Load()
         [26466] = { -- Ruuzel
             [questKeys.preQuestSingle] = {26465},
         },
+        [26469] = { -- Satyr Slaying!
+            [questKeys.preQuestSingle] = {26468},
+        },
         [26470] = { -- Retaking Mystral Lake
             [questKeys.preQuestSingle] = {},
+        },
+        [26472] = { -- Insane Druids
+            [questKeys.preQuestSingle] = {13792},
         },
         [26475] = { -- Elune's Tear
             [questKeys.preQuestSingle] = {26474},
         },
         [26476] = { -- Dryad Delivery
             [questKeys.preQuestSingle] = {26475},
+        },
+        [26482] = { -- True Power of the Rod
+            [questKeys.objectives] = {{{34618,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26488] = { -- Big Gulp
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26536},
@@ -2074,6 +2171,12 @@ function CataQuestFixes.Load()
         [26881] = { -- In Search of Thaelrid
             [questKeys.finishedBy] = {{4787}},
         },
+        [26882] = { -- Blackfathom Villainy
+            [questKeys.questFlags] = 128,
+        },
+        [26892] = { -- Deep in the Deeps
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [26893] = { -- Blackfathom Deeps
             [questKeys.finishedBy] = {{12736}},
             [questKeys.exclusiveTo] = {26894},
@@ -2084,9 +2187,11 @@ function CataQuestFixes.Load()
         },
         [26897] = { -- Blackfathom Deeps
             [questKeys.exclusiveTo] = {26898},
+            [questKeys.finishedBy] = {{33260}},
         },
         [26898] = { -- Blackfathom Deeps
             [questKeys.exclusiveTo] = {26897},
+            [questKeys.finishedBy] = {{33260}},
         },
         [26904] = { -- Corruption
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{348}}},
