@@ -15,6 +15,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 QuestieCorrections.objectObjectiveFirst[24817] = true
 QuestieCorrections.objectObjectiveFirst[25371] = true
 QuestieCorrections.objectObjectiveFirst[25731] = true
+QuestieCorrections.objectObjectiveFirst[26809] = true
 QuestieCorrections.killCreditObjectiveFirst[52] = true
 QuestieCorrections.killCreditObjectiveFirst[26621] = true
 QuestieCorrections.killCreditObjectiveFirst[26875] = true
@@ -1989,6 +1990,9 @@ function CataQuestFixes.Load()
         },
         [26803] = { -- Missing Reports
             [questKeys.preQuestSingle] = {},
+        },
+        [26809] = { -- Backdoor Dealings
+            [questKeys.objectives] = {{{43245}},{{204361}}},
         },
         [26815] = { -- Zanzil's Secret
             [questKeys.preQuestSingle] = {26817},
