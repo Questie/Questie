@@ -2059,6 +2059,9 @@ function CataQuestFixes.Load()
         [26630] = { -- Looks Like a Tauren Pirate to Me
             [questKeys.parentQuest] = 26629,
         },
+        [26634] = { -- The Bane of Many A Pirate
+            [questKeys.preQuestSingle] = {26631},
+        },
         [26635] = { -- Cannonball Swim
             [questKeys.preQuestSingle] = {26631},
         },
