@@ -1927,6 +1927,9 @@ function CataQuestFixes.Load()
         [26717] = { -- The Yorgen Worgen
             [questKeys.preQuestSingle] = {26785},
         },
+        [26720] = { -- A Curse We Cannot Lift
+            [questKeys.objectives] = {{{43814}}},
+        },
         [26723] = { -- The Fate of Morbent Fel
             [questKeys.preQuestSingle] = {26760},
         },
