@@ -2109,6 +2109,9 @@ function CataQuestFixes.Load()
         [27225] = { -- A Summons from Ander Germaine
             [questKeys.exclusiveTo] = {27337},
         },
+        [27261] = { -- Questioning Reethe
+            [questKeys.triggerEnd] = {"Question Reethe with Ogron", {[zoneIDs.DUSTWALLOW_MARSH]={{42.47,38.07}}}},
+        },
         [27273] = { -- An Invitation from Moonglade
             [questKeys.exclusiveTo] = {27356},
         },
