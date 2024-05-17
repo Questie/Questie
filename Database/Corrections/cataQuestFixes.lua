@@ -1836,6 +1836,9 @@ function CataQuestFixes.Load()
         [26466] = { -- Ruuzel
             [questKeys.preQuestSingle] = {26465},
         },
+        [26470] = { -- Retaking Mystral Lake
+            [questKeys.preQuestSingle] = {},
+        },
         [26475] = { -- Elune's Tear
             [questKeys.preQuestSingle] = {26474},
         },
