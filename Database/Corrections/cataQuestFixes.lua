@@ -1894,6 +1894,14 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26572,26557,26543,26556,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{71.1,7.9}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Giant Furious Pike")}},
         },
+        [26597] = { -- Stranglethorn Fever
+            [questKeys.childQuests] = {26598},
+        },
+        [26598] = { -- The Heart of Mokk
+            [questKeys.objectivesText] = {},
+            [questKeys.parentQuest] = 26597,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [26621] = { -- Insurrection
             [questKeys.objectives] = {{{43575},{43394}},nil,nil,nil,{{{43577,43578},43577,"Dragonmaw Civilian Armed"}}},
         },
