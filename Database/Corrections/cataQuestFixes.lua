@@ -1905,6 +1905,9 @@ function CataQuestFixes.Load()
         [26609] = { -- The Bloodsail Buccaneers
             [questKeys.preQuestSingle] = {26595,26601,26606},
         },
+        [26613] = { -- Up to Snuff
+            [questKeys.preQuestSingle] = {26611},
+        },
         [26614] = { -- Keep An Eye Out
             [questKeys.preQuestSingle] = {26611},
         },
