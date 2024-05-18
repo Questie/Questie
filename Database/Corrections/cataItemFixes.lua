@@ -323,6 +323,9 @@ function CataItemFixes.Load()
         [55200] = { -- Horde Cage Key
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [55212] = { -- Gnaws' Tooth
+            [itemKeys.npcDrops] = {},
+        },
         [55213] = { -- Huntress Illiona's Cage Key
             [itemKeys.class] = itemClasses.QUEST,
         },

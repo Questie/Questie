@@ -996,6 +996,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {14001},
         },
         [14482] = { -- Call of Duty
+            [questKeys.objectives] = {{{36915,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{18.3,25.5}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for the Mercenary Ship to arrive")}},
         },
         [14491] = { -- The Restless Earth
@@ -1371,6 +1372,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25273},
             [questKeys.exclusiveTo] = {25278},
         },
+        [25281] = { -- Pay It Forward
+            [questKeys.objectives] = {{{39663,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [25291] = { -- Twilight Training
             [questKeys.preQuestSingle] = {25330},
         },
@@ -1454,7 +1458,11 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Feed Juniper Berries"), 0, {{"monster", 39921}}}},
         },
         [25371] = { -- The Abyssal Ride
-            [questKeys.objectives] = {{{39996}},{{202766}}},
+            [questKeys.objectives] = {{{39996,nil,Questie.ICON_TYPE_MOUNT_UP}},{{202766}}},
+        },
+        [25377] = { -- The Horde's Hoard
+            [questKeys.startedBy] = {{39918},nil,{53053}},
+            [questKeys.preQuestSingle] = {25558},
         },
         [25381] = { -- Fighting Fire With ... Anything
             [questKeys.preQuestSingle] = {25584},
@@ -1482,6 +1490,8 @@ function CataQuestFixes.Load()
         },
         [25419] = { -- Lady La-La's Medallion
             [questKeys.requiredSourceItems] = {55188},
+            [questKeys.startedBy] = {{41017},nil,{55186}},
+            [questKeys.preQuestSingle] = {25602},
         },
         [25439] = { -- Vengeful Heart
             [questKeys.preQuestSingle] = {25359},
@@ -1511,8 +1521,9 @@ function CataQuestFixes.Load()
         [25464] = { -- The Return of Baron Geddon
             [questKeys.objectives] = {{{40147}}},
         },
-        [25499] = { -- Agility Training: Run Like Hell!
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Run away from the Blazing Trainer"),0,{{"monster",40434}}}},
+        [25467] = { -- Kliklak's Craw
+            [questKeys.startedBy] = {{40276},nil,{54345}},
+            [questKeys.preQuestSingle] = {25558},
         },
         [25473] = { -- Kaja'Cola
             [questKeys.startedBy] = {{34872}},
@@ -1520,10 +1531,16 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {14075,14069},
         },
         [25477] = { -- Better Late Than Dead
-            [questKeys.objectives] = {{{40223}}},
+            [questKeys.objectives] = {{{40223,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25496] = { -- Grudge Match
             [questKeys.preQuestSingle] = {25494},
+        },
+        [25499] = { -- Agility Training: Run Like Hell!
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Run away from the Blazing Trainer"),0,{{"monster",40434}}}},
+        },
+        [25503] = { -- Blackfin's Booty
+            [questKeys.startedBy] = {{41183},nil,{54639}},
         },
         [25523] = { -- Flight in the Firelands
             [questKeys.requiredSourceItems] = {52716},
@@ -1537,10 +1554,17 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {52716},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"),0,{{"monster",40720}}}},
         },
+        [25547] = { -- On Our Own Terms
+            [questKeys.finishedBy] = {{40690}},
+        },
         [25551] = { -- The Firelord
             [questKeys.startedBy] = {{40773}},
             [questKeys.preQuestSingle] = {25553},
             [questKeys.extraObjectives] = {{{[zoneIDs.MOUNT_HYJAL]={{55.5,66.2}}}, Questie.ICON_TYPE_EVENT, l10n("Go through the portal")}},
+        },
+        [25558] = { -- All or Nothing
+            [questKeys.startedBy] = {{40690}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.KELP_THAR_FOREST]={{44.59,25.37}}}, Questie.ICON_TYPE_EVENT, l10n("Defend The Briny Cutter")}},
         },
         [25575] = { -- Forged of Shadow and Flame
             [questKeys.objectives] = {nil,{{203066}}},
@@ -1558,6 +1582,9 @@ function CataQuestFixes.Load()
         [25593] = { -- Shelled Salvation
             [questKeys.objectives] = {nil,nil,nil,nil,{{{39729,41203,41219,42404},39729,"Shell Survivors rescued",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSourceItems] = {55141},
+        },
+        [25598] = { -- Ain't Too Proud to Beg
+            [questKeys.objectives] = {{{39669,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25599] = { -- Cindermaul, the Portal Master
             [questKeys.preQuestSingle] = {},
@@ -1618,6 +1645,7 @@ function CataQuestFixes.Load()
         },
         [25651] = { -- Oh, the Insanity!
             [questKeys.requiredSourceItems] = {55185},
+            [questKeys.preQuestSingle] = {25602},
         },
         [25652] = { -- Commandeer That Balloon!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Climb into the balloon"), 0, {{"monster", 41019}}}},
@@ -1646,6 +1674,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25731,25664},
         },
+        [25743] = { -- Decisions, Decisions
+            [questKeys.objectives] = {nil,{{203194}}},
+        },
         [25764] = { -- Egg Hunt
             [questKeys.objectives] = {nil,{{203208}}},
         },
@@ -1671,7 +1702,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25887},
         },
         [25887] = { -- Wake of Destruction
-            [questKeys.objectives] = {{{41481}}},
+            [questKeys.objectives] = {{{41996}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Subdue a Famished Great Shark"), 0, {{"monster", 41997},{"monster", 41998}}}},
         },
         [25890] = { -- Nespirah
@@ -2522,6 +2553,7 @@ function CataQuestFixes.Load()
         },
         [27729] = { -- Once More, With Eeling
             [questKeys.preQuestSingle] = {14482,25924},
+            [questKeys.finishedBy] = {{100004}},
         },
         [27742] = { -- A Little on the Side
             [questKeys.preQuestSingle] = {28885},
@@ -2783,6 +2815,9 @@ function CataQuestFixes.Load()
         [28527] = { -- Warchief's Command: Silithus!
             [questKeys.objectives] = {},
         },
+        [28529] = { -- Writings of the Void
+            [questKeys.startedBy] = {{48764},nil,{64450}},
+        },
         [28530] = { -- Scalding Signs
             [questKeys.preQuestSingle] = {28467},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
@@ -2860,6 +2895,7 @@ function CataQuestFixes.Load()
         },
         [28790] = { -- A Personal Summons
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.startedBy] = {{100003}},
         },
         [28805] = { -- The Eye of the Storm
             [questKeys.objectives] = {nil,{{197196}}},
@@ -2873,6 +2909,13 @@ function CataQuestFixes.Load()
         },
         [28825] = { -- A Personal Summons
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.startedBy] = {{100002}},
+        },
+        [28825] = { -- The Eye of the Storm
+            [questKeys.objectives] = {nil,{{207414}}},
+        },
+        [28826] = { -- The Eye of the Storm
+            [questKeys.objectives] = {nil,{{207416}}},
         },
         [28849] = { -- Twilight Skies
             [questKeys.preQuestGroup] = {26337,26372,26374},

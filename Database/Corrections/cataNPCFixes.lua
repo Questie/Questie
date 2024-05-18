@@ -396,6 +396,9 @@ function CataNpcFixes.Load()
         [39926] = { -- Twilight Inciter
             [npcKeys.spawns] = {},
         },
+        [39996] = { -- Abyssal Seahorse
+            [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{45.06,47}}},
+        },
         [40065] = { -- Unbound Flame Spirit
             [npcKeys.spawns] = {},
         },
@@ -417,6 +420,10 @@ function CataNpcFixes.Load()
         [40545] = { -- Rod of Subjugation 02
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{25.2,54.8}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
+        [40690] = { -- Captain Taylor
+            [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{45.05,23.58}}},
+            [npcKeys.zoneID] = zoneIDs.KELP_THAR_FOREST,
         },
         [41003] = { -- Morthis Whisperwing
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{44.1,45.9}}},
@@ -556,6 +563,24 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS] = {{73.23,46.61}}},
             [npcKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
             [npcKeys.questEnds] = {25622},
+        },
+        [100002] = { -- A Personal Summons - Stormwind
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{49.59,86.53}}},
+            [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+            [npcKeys.questStarts] = {28825},
+        },
+        [100003] = { -- A Personal Summons - Orgrimmar
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{48.28,64.53}}},
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
+            [npcKeys.questStarts] = {28790},
+        },
+        [100004] = { -- Once More, With Eeling
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST] = {{47.22,21.56}}},
+            [npcKeys.zoneID] = zoneIDs.KELP_THAR_FOREST,
+            [npcKeys.questEnds] = {27729},
         },
     }
 end
