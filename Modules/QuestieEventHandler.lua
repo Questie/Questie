@@ -92,7 +92,11 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("QUEST_FINISHED", function()
         QuestieAuto.QUEST_FINISHED()
         if Questie.IsCata then
-            AutoCompleteFrame.CheckAutoCompleteQuests()
+            -- There might be other quest events which need to finish first, so we wait a bit before checking.
+            -- This is easier, than actually figuring out which events are fired in which order for this logic.
+            C_Timer.After(0.5, function()
+                AutoCompleteFrame.CheckAutoCompleteQuests()
+            end)
         end
     end)
     Questie:RegisterEvent("QUEST_ACCEPTED", QuestieAuto.QUEST_ACCEPTED)
