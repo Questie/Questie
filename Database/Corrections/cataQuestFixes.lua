@@ -1749,7 +1749,7 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"	Krom'gar Wagon taken to the Fold", {[zoneIDs.STONETALON_MOUNTAINS]={{74.5,43.9}}}},
         },
         [25946] = { -- Helm's Deep
-            [questKeys.preQuestSingle] = {25405},
+            [questKeys.preQuestGroup] = {25942,25943},
             [questKeys.exclusiveTo] = {},
         },
         [25948] = { -- Bring It On!
