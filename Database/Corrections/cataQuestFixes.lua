@@ -1752,6 +1752,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {25942,25943},
             [questKeys.exclusiveTo] = {},
         },
+        [25947] = { -- Finders, Keepers
+            [questKeys.exclusiveTo] = {},
+        },
         [25948] = { -- Bring It On!
             [questKeys.preQuestGroup] = {25944,25947},
         },
