@@ -1759,6 +1759,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25944,25947},
         },
+        [25949] = { -- Blood and Thunder!
+            [questKeys.startedBy] = {{41750,41769}},
+        },
         [25969] = { -- Hostile Waters
             [questKeys.preQuestSingle] = {25968},
         },
