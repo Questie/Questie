@@ -80,7 +80,7 @@ function _QuestieTooltips:AddItemDataToTooltip()
     QuestieTooltips.lastFrameName = self:GetName();
 end
 
-function _QuestieTooltips:AddObjectDataToTooltip(name)
+function _QuestieTooltips.AddObjectDataToTooltip(name)
     if (not Questie.db.profile.enableTooltips) or (not name) then
         return
     end

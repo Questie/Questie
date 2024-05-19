@@ -30,7 +30,7 @@ describe("TooltipHandler", function()
                 Show = spy.new()
             }
 
-            _QuestieTooltips:AddObjectDataToTooltip(name)
+            _QuestieTooltips.AddObjectDataToTooltip(name)
 
             assert.spy(GameTooltip.AddLine).was_called(3)
             assert.spy(GameTooltip.AddLine).was_called_with(GameTooltip, "Quest Name")
@@ -57,7 +57,7 @@ describe("TooltipHandler", function()
                 Show = spy.new()
             }
 
-            _QuestieTooltips:AddObjectDataToTooltip(name)
+            _QuestieTooltips.AddObjectDataToTooltip(name)
 
             assert.spy(GameTooltip.AddLine).was_called(2)
             assert.spy(GameTooltip.AddLine).was_called_with(GameTooltip, "Quest Name")
@@ -81,7 +81,7 @@ describe("TooltipHandler", function()
 
             _G.Questie.db.profile.enableTooltipsObjectID = true
 
-            _QuestieTooltips:AddObjectDataToTooltip(name)
+            _QuestieTooltips.AddObjectDataToTooltip(name)
 
             assert.spy(GameTooltip.AddDoubleLine).was_called_with(GameTooltip, "Object ID", "|cFFFFFFFF" .. objectId .. "|r")
         end)
@@ -99,7 +99,7 @@ describe("TooltipHandler", function()
 
             _G.Questie.db.profile.enableTooltipsObjectID = true
 
-            _QuestieTooltips:AddObjectDataToTooltip(name)
+            _QuestieTooltips.AddObjectDataToTooltip(name)
 
             assert.spy(GameTooltip.AddDoubleLine).was_called_with(GameTooltip, "Object ID", "|cFFFFFFFF1 (2)|r")
         end)
