@@ -2898,7 +2898,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{100003}},
         },
         [28805] = { -- The Eye of the Storm
-            [questKeys.objectives] = {nil,{{197196}}},
+            [questKeys.objectives] = {nil,{{207414}}},
         },
         [28809] = { -- Fear No Evil
             [questKeys.preQuestSingle] = {28809},
