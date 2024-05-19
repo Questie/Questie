@@ -1543,6 +1543,7 @@ function QuestieQuestBlacklist:Load()
         [24427] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [24503] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28414
         [25474] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27729
+        [26125] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26124
         [26565] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26588
         [26825] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26826
         [26951] = QuestieCorrections.CATA_HIDE, -- Seems to not be available
