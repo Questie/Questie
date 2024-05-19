@@ -29,7 +29,7 @@ function _QuestieTooltips:AddUnitDataToTooltip()
         lastGuid ~= guid
     ) then
         QuestieTooltips.lastGametooltipUnit = name
-        local tooltipData = QuestieTooltips:GetTooltip("m_" .. npcId);
+        local tooltipData = QuestieTooltips.GetTooltip("m_" .. npcId);
         if tooltipData then
             if Questie.db.profile.enableTooltipsNPCID == true then
                 GameTooltip:AddDoubleLine("NPC ID", "|cFFFFFFFF" .. npcId .. "|r")
@@ -64,7 +64,7 @@ function _QuestieTooltips:AddItemDataToTooltip()
         QuestieTooltips.lastFrameName ~= self:GetName()
     ) then
         QuestieTooltips.lastGametooltipItem = name
-        local tooltipData = QuestieTooltips:GetTooltip("i_" .. (itemId or 0));
+        local tooltipData = QuestieTooltips.GetTooltip("i_" .. (itemId or 0));
         if tooltipData then
             if Questie.db.profile.enableTooltipsItemID == true then
                 GameTooltip:AddDoubleLine("Item ID", "|cFFFFFFFF" .. itemId .. "|r")
@@ -99,7 +99,7 @@ function _QuestieTooltips:AddObjectDataToTooltip(name)
 
         local alreadyAddedObjectiveLines = {}
         for _, gameObjectId in pairs(lookup) do
-            local tooltipData = QuestieTooltips:GetTooltip("o_" .. gameObjectId);
+            local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId);
 
             if type(gameObjectId) == "number" and tooltipData then
                 if (not titleAdded) then
