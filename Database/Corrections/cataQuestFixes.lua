@@ -1523,7 +1523,7 @@ function CataQuestFixes.Load()
         },
         [25467] = { -- Kliklak's Craw
             [questKeys.startedBy] = {{40276},nil,{54345}},
-            [questKeys.preQuestSingle] = {25558},
+            [questKeys.preQuestSingle] = {25558,25949},
         },
         [25473] = { -- Kaja'Cola
             [questKeys.startedBy] = {{34872}},
