@@ -39,5 +39,32 @@ describe("TooltipHandler", function()
             assert.spy(GameTooltip.Show).was_called()
             assert.spy(QuestieTooltips.GetTooltip).was_called_with("o_" .. objectId)
         end)
+
+        it("should add list of quest names", function()
+            local name = "test"
+            l10n.objectNameLookup[name] = {1, 2}
+
+            QuestieTooltips.GetTooltip = spy.new(function(id)
+                if id == "o_1" then
+                    return {"Quest Name"}
+                elseif id == "o_2" then
+                    return {"Quest Name", "Quest Name 2"}
+                end
+            end)
+
+            _G.GameTooltip = {
+                AddLine = spy.new(),
+                Show = spy.new()
+            }
+
+            _QuestieTooltips:AddObjectDataToTooltip(name)
+
+            assert.spy(GameTooltip.AddLine).was_called(2)
+            assert.spy(GameTooltip.AddLine).was_called_with(GameTooltip, "Quest Name")
+            assert.spy(GameTooltip.AddLine).was_called_with(GameTooltip, "Quest Name 2")
+            assert.spy(GameTooltip.Show).was_called()
+            assert.spy(QuestieTooltips.GetTooltip).was_called_with("o_1")
+            assert.spy(QuestieTooltips.GetTooltip).was_called_with("o_2")
+        end)
     end)
 end)
