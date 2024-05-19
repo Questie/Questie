@@ -1841,10 +1841,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26221},
         },
         [26124] = { -- Secure Seabrush
-            [questKeys.exclusiveTo] = {26125},
-        },
-        [26125] = { -- Secure Seabrush
-            [questKeys.exclusiveTo] = {26124},
+            [questKeys.startedBy] = {{42114}},
         },
         [26126] = { -- The Perfect Fuel
             [questKeys.requiredSourceItems] = {56819,56820},
