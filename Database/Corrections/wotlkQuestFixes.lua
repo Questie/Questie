@@ -5435,7 +5435,8 @@ function QuestieWotlkQuestFixes:Load()
         [14090] = {
             [questKeys.objectives] = {{{29618,"Snowblind Follower captured"}}},
         },
-        [14092] = {
+        [14092] = { -- Breakfast Of Champions
+            [questKeys.exclusiveTo] = {14141,14145},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use your drum near a Mysterious Snow Mound"), 0, {{"object", 195309}}}},
         },
         [14101] = {
@@ -5462,10 +5463,24 @@ function QuestieWotlkQuestFixes:Load()
         [14112] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Take chum"), 0, {{"object", 195352}}}},
         },
-        [14141] = {
+        [14136] = { -- Rescue at Sea
+            [questKeys.exclusiveTo] = {14140,14144,14143},
+        },
+        [14140] = { -- Stop The Aggressors
+            [questKeys.exclusiveTo] = {14144,14136,14143},
+        },
+        [14141] = { -- Gormok Wants His Snobolds
+            [questKeys.exclusiveTo] = {14092,14145},
             [questKeys.objectives] = {{{29618,"Snowblind Follower captured"}}},
         },
-        [14145] = {
+        [14143] = { -- A Leg Up
+            [questKeys.exclusiveTo] = {14136,14140,14144},
+        },
+        [14144] = { -- The Light's Mercy
+            [questKeys.exclusiveTo] = {14136,14140,14143},
+        },
+        [14145] = { -- What Do You Feed a Yeti, Anyway?
+            [questKeys.exclusiveTo] = {14092,14141},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Take chum"), 0, {{"object", 195353}}}},
         },
         [14151] = {
