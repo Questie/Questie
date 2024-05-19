@@ -2911,9 +2911,6 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.startedBy] = {{100002}},
         },
-        [28825] = { -- The Eye of the Storm
-            [questKeys.objectives] = {nil,{{207414}}},
-        },
         [28826] = { -- The Eye of the Storm
             [questKeys.objectives] = {nil,{{207416}}},
         },
