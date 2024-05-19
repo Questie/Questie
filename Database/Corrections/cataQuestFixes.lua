@@ -2519,6 +2519,9 @@ function CataQuestFixes.Load()
         [27674] = { -- To the Surface
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast."), 0, {{"monster", 46293}}}},
         },
+        [27685] = { -- Good Deed Left Undone
+            [questKeys.exclusiveTo] = {25587},
+        },
         [27689] = { -- Distract Them for Me
             [questKeys.preQuestSingle] = {27655},
             [questKeys.exclusiveTo] = {},
