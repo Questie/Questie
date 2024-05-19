@@ -66,5 +66,42 @@ describe("TooltipHandler", function()
             assert.spy(QuestieTooltips.GetTooltip).was_called_with("o_1")
             assert.spy(QuestieTooltips.GetTooltip).was_called_with("o_2")
         end)
+
+        it("should add object IDs", function()
+            local name = "test"
+            local objectId = 1
+            l10n.objectNameLookup[name] = {objectId}
+
+            QuestieTooltips.GetTooltip = spy.new()
+
+            _G.GameTooltip = {
+                AddDoubleLine = spy.new(),
+                Show = spy.new()
+            }
+
+            _G.Questie.db.profile.enableTooltipsObjectID = true
+
+            _QuestieTooltips:AddObjectDataToTooltip(name)
+
+            assert.spy(GameTooltip.AddDoubleLine).was_called_with(GameTooltip, "Object ID", "|cFFFFFFFF" .. objectId .. "|r")
+        end)
+
+        it("should add multiple object IDs", function()
+            local name = "test"
+            l10n.objectNameLookup[name] = {1, 2}
+
+            QuestieTooltips.GetTooltip = spy.new()
+
+            _G.GameTooltip = {
+                AddDoubleLine = spy.new(),
+                Show = spy.new()
+            }
+
+            _G.Questie.db.profile.enableTooltipsObjectID = true
+
+            _QuestieTooltips:AddObjectDataToTooltip(name)
+
+            assert.spy(GameTooltip.AddDoubleLine).was_called_with(GameTooltip, "Object ID", "|cFFFFFFFF1 (2)|r")
+        end)
     end)
 end)
