@@ -1801,15 +1801,16 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25887},
         },
         [26056] = { -- The Wavespeaker
-            [questKeys.exclusiveTo] = {26057,26065},
+            [questKeys.exclusiveTo] = {26065},
             [questKeys.nextQuestInChain] = 26065,
         },
         [26057] = { -- The Wavespeaker
-            [questKeys.exclusiveTo] = {26056,26065},
+            [questKeys.preQuestSingle] = {25988},
+            [questKeys.exclusiveTo] = {26065},
             [questKeys.nextQuestInChain] = 26065,
         },
         [26065] = { -- Free Wil'hai
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {25987,},
         },
         [26072] = { -- Into the Totem
             [questKeys.objectives] = {{{42051}}},
