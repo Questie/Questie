@@ -1532,6 +1532,7 @@ function CataQuestFixes.Load()
         },
         [25477] = { -- Better Late Than Dead
             [questKeys.objectives] = {{{40223,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {25949},
         },
         [25496] = { -- Grudge Match
             [questKeys.preQuestSingle] = {25494},
