@@ -141,3 +141,5 @@ function _QuestieTooltips:CountTooltip()
     end
     return tooltipCount
 end
+
+return _QuestieTooltips
