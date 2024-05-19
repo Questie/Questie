@@ -1746,7 +1746,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {25942,25943},
         },
         [25945] = { -- We're Here to Do One Thing, Maybe Two...
-            [questKeys.triggerEnd] = {"	Krom'gar Wagon taken to the Fold", {[zoneIDs.STONETALON_MOUNTAINS]={{74.5,43.9}}}},
+            [questKeys.triggerEnd] = {"Krom'gar Wagon taken to the Fold", {[zoneIDs.STONETALON_MOUNTAINS]={{74.5,43.9}}}},
         },
         [25946] = { -- Helm's Deep
             [questKeys.preQuestGroup] = {25942,25943},
@@ -1761,6 +1761,7 @@ function CataQuestFixes.Load()
         },
         [25949] = { -- Blood and Thunder!
             [questKeys.startedBy] = {{41750,41769}},
+            [questKeys.objectives] = {{{41805}}},
         },
         [25969] = { -- Hostile Waters
             [questKeys.preQuestSingle] = {25968},
