@@ -1756,6 +1756,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {},
         },
         [25948] = { -- Bring It On!
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25944,25947},
         },
         [25969] = { -- Hostile Waters
