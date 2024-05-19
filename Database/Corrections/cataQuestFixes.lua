@@ -1575,6 +1575,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {55123},
         },
         [25587] = { -- Gimme Shelter!
+            [questKeys.preQuestSingle] = {25949},
             [questKeys.extraObjectives] = {
                 {{[zoneIDs.KELP_THAR_FOREST]={{56.74,30.41}}}, Questie.ICON_TYPE_EVENT, l10n("Smuggler's Scar Scouted"), 1},
                 {{[zoneIDs.KELP_THAR_FOREST]={{54.1,34.4}}}, Questie.ICON_TYPE_EVENT, l10n("Adarrah Signaled"), 2},
