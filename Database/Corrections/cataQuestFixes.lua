@@ -1462,7 +1462,7 @@ function CataQuestFixes.Load()
         },
         [25377] = { -- The Horde's Hoard
             [questKeys.startedBy] = {{39918},nil,{53053}},
-            [questKeys.preQuestSingle] = {25558},
+            [questKeys.preQuestSingle] = {25558,25949},
         },
         [25381] = { -- Fighting Fire With ... Anything
             [questKeys.preQuestSingle] = {25584},
