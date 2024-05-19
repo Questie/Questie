@@ -1654,12 +1654,14 @@ function QuestieQuestBlacklist:Load()
         [29458] = true, -- The Captured Journal
         [29463] = true, -- It's Hammer Time
         [29464] = true, -- Tools of Divination
+        [29473] = true, -- Putting the Carnies Back Together Again
         [29506] = true, -- A Fizzy Fusion
         [29507] = true, -- Fun for the Little Ones
         [29508] = true, -- Baby Needs Two Pair of Shoes
         [29509] = true, -- Putting the Crunch in the Frog
         [29510] = true, -- Putting Trash to Good Use
         [29511] = true, -- Talkin' Tonks
+        [29512] = true, -- Putting the Carnies Back Together Again
         [29513] = true, -- Spoilin' for Salty Sea Dogs
         [29514] = true, -- Herbs for Healing
         [29515] = true, -- Writing the Future
