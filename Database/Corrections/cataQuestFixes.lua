@@ -1826,6 +1826,7 @@ function CataQuestFixes.Load()
         },
         [26090] = { -- I Brought You This Egg
             [questKeys.startedBy] = {{41925,41926},nil,{56812}},
+            [questKeys.preQuestSingle] = {26087},
         },
         [26092] = { -- Orako's Report
             [questKeys.preQuestGroup] = {26088,26089},
