@@ -1809,6 +1809,7 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Merciless One worn",{[zoneIDs.ABYSSAL_DEPTHS]={{51.5,60.8}}}},
         },
         [25989] = { -- Capture the Crab
+            [questKeys.objectives] = {{{41520}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25907,25908},
         },
