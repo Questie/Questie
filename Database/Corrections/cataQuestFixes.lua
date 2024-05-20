@@ -1586,6 +1586,9 @@ function CataQuestFixes.Load()
                 {{[zoneIDs.KELP_THAR_FOREST]={{54.1,34.4}}}, Questie.ICON_TYPE_EVENT, l10n("Adarrah Signaled"), 2},
             },
         },
+        [25592] = { -- Deep Attraction
+            [questKeys.preQuestSingle] = {25996},
+        },
         [25593] = { -- Shelled Salvation
             [questKeys.objectives] = {nil,nil,nil,nil,{{{39729,41203,41219,42404},39729,"Shell Survivors rescued",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSourceItems] = {55141},
