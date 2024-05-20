@@ -1259,6 +1259,9 @@ function CataQuestFixes.Load()
         [25162] = { -- Elemental Goo
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING, 475}
         },
+        [25164] = { -- Backed Into a Corner
+            [questKeys.objectives] = {{{39397},{40161}}},
+        },
         [25171] = { -- Riding On
             [questKeys.preQuestSingle] = {25169},
         },
