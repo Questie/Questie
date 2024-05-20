@@ -1816,6 +1816,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25747},
         },
         [25960] = { -- Not Entirely Unprepared
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{41780,46468},41780,"Horde Lookout restocked",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {25747},
         },
         [25969] = { -- Hostile Waters

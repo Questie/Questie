@@ -78,6 +78,8 @@ local phases = {
     CORITHRAS_AT_CROSSROAD = 1006,
     CERELLEAN_NEAR_EDGE = 1007,
     CERELLEAN_NEAR_TREE = 1008,
+    VASHJIR_LEGIONS_REST = 1009,
+    VASHJIR_NORTHERN_GARDEN = 1010,
 }
 Phasing.phases = phases
 
@@ -126,6 +128,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE then
         return complete[25272] or complete[25273] or false
+    end
+
+    if phase == phases.VASHJIR_LEGIONS_REST then
+        return (not complete[25958])
+    end
+
+    if phase == phases.VASHJIR_NORTHERN_GARDEN then
+        return complete[25958] or false
     end
 
     if phase >= phases.DRAGONMAW_PORT_CHAPTER_1 and phase <= phases.DRAGONMAW_PORT_CHAPTER_3 then

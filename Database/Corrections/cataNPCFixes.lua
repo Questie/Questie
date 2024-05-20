@@ -428,6 +428,34 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{45.05,23.58}}},
             [npcKeys.zoneID] = zoneIDs.KELP_THAR_FOREST,
         },
+        [40916] = { -- Captain Vilethorn
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {51.19,62.99,phases.VASHJIR_LEGIONS_REST},
+                {39.8,54.0,phases.VASHJIR_NORTHERN_GARDEN},
+            }},
+            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
+        [40917] = { -- Legionnaire Nazgrim
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {51.24,63.02,phases.VASHJIR_LEGIONS_REST},
+                {39.5,54.0,phases.VASHJIR_NORTHERN_GARDEN},
+            }},
+            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
+        [40918] = { -- Fiasco Sizzlegrin
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {51.75,62.5,phases.VASHJIR_LEGIONS_REST},
+                {39.4,54.6,phases.VASHJIR_NORTHERN_GARDEN},
+            }},
+            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
+        [40920] = { -- Elendri Goldenbrow
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {51.27,62.42,phases.VASHJIR_LEGIONS_REST},
+                {39.6,53.7,phases.VASHJIR_NORTHERN_GARDEN},
+            }},
+            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
         [40963] = { -- Vashj'ir Gardens Credit
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{39.1,57.5}}},
             [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,

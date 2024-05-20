@@ -461,6 +461,19 @@ describe("Phasing", function()
         end)
     end)
 
+    describe("Vash'jir", function()
+        it("should return true for Legions Rest till 25958 is complete", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_LEGIONS_REST))
+        end)
+
+        it("should return true for Northern Garden when 25958 is complete", function()
+            Questie.db.char.complete[25958] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_NORTHERN_GARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_LEGIONS_REST))
+        end)
+    end)
+
     describe("Deepholm", function()
         it("should return true for The Stone March when 26827 is complete", function()
             Questie.db.char.complete[26827] = true
