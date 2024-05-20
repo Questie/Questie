@@ -1822,6 +1822,10 @@ function CataQuestFixes.Load()
         [25994] = { -- Still Valuable
             [questKeys.preQuestSingle] = {25991},
         },
+        [25995] = { -- Overseer Idra'kess
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25992,25993,25994},
+        },
         [26000] = { -- Spelunking
             [questKeys.preQuestSingle] = {25794},
         },
