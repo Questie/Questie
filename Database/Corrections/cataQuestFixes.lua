@@ -1799,6 +1799,9 @@ function CataQuestFixes.Load()
         [25956] = { -- Upon the Scene of Battle
             [questKeys.preQuestSingle] = {25593},
         },
+        [25957] = { -- Visions of the Past: The Invasion of Vashj'ir
+            [questKeys.preQuestGroup] = {25952,25955,25956},
+        },
         [25969] = { -- Hostile Waters
             [questKeys.preQuestSingle] = {25968},
         },
