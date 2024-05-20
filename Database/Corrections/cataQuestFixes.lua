@@ -1594,6 +1594,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25996},
             [questKeys.requiredSourceItems] = {55141},
         },
+        [25594] = { -- Crafty Crabs
+            [questKeys.preQuestSingle] = {25996},
+        },
         [25595] = { -- Something Edible
             [questKeys.preQuestSingle] = {25996},
         },
