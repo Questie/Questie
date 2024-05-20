@@ -1697,15 +1697,6 @@ function CataQuestFixes.Load()
         [25743] = { -- Decisions, Decisions
             [questKeys.objectives] = {nil,{{203194}}},
         },
-        [25747] = { -- Looking Forward
-            [questKeys.preQuestSingle] = {25957},
-        },
-        [25748] = { -- Clear Goals
-            [questKeys.preQuestSingle] = {25747},
-        },
-        [25749] = { -- Not Entirely Unprepared
-            [questKeys.preQuestSingle] = {25747},
-        },
         [25764] = { -- Egg Hunt
             [questKeys.objectives] = {nil,{{203208}}},
         },
@@ -1818,8 +1809,14 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {25952,25955,25956},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE]={{40,75}}}, Questie.ICON_TYPE_EVENT, l10n("Attune the with the Broken Blade's owner")}},
         },
-        [25960] = { --
-            [questKeys.objectives] = {},
+        [25958] = { -- Looking Forward
+            [questKeys.preQuestSingle] = {25957},
+        },
+        [25959] = { -- Clear Goals
+            [questKeys.preQuestSingle] = {25747},
+        },
+        [25960] = { -- Not Entirely Unprepared
+            [questKeys.preQuestSingle] = {25747},
         },
         [25969] = { -- Hostile Waters
             [questKeys.preQuestSingle] = {25968},
