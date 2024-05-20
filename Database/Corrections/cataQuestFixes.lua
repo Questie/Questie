@@ -1594,6 +1594,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25996},
             [questKeys.requiredSourceItems] = {55141},
         },
+        [25595] = { -- Something Edible
+            [questKeys.preQuestSingle] = {25996},
+        },
         [25598] = { -- Ain't Too Proud to Beg
             [questKeys.objectives] = {{{39669,nil,Questie.ICON_TYPE_EVENT}}},
         },
