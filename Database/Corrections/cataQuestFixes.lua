@@ -1819,6 +1819,9 @@ function CataQuestFixes.Load()
         [25992] = { -- Hopelessly Gearless
             [questKeys.preQuestSingle] = {25991},
         },
+        [25994] = { -- Still Valuable
+            [questKeys.preQuestSingle] = {25991},
+        },
         [26000] = { -- Spelunking
             [questKeys.preQuestSingle] = {25794},
         },
