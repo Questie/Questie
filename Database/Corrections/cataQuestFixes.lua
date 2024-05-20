@@ -1786,6 +1786,9 @@ function CataQuestFixes.Load()
         [25952] = { -- Caught Off-Guard
             [questKeys.preQuestSingle] = {25593},
         },
+        [25955] = { -- A Better Vantage
+            [questKeys.preQuestSingle] = {25593},
+        },
         [25969] = { -- Hostile Waters
             [questKeys.preQuestSingle] = {25968},
         },
