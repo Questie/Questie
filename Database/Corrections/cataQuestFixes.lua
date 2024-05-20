@@ -1813,6 +1813,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25907,25908},
         },
+        [25990] = { -- Breaking Through
+            [questKeys.triggerEnd] = {"Speak with Earthmender Duarn",{[zoneIDs.ABYSSAL_DEPTHS]={{51.6,52.3}}}},
+        },
         [26000] = { -- Spelunking
             [questKeys.preQuestSingle] = {25794},
         },
