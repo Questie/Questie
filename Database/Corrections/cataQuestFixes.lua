@@ -1819,6 +1819,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{41780,46468},41780,"Horde Lookout restocked",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {25747},
         },
+        [25963] = { -- Swift Action
+            [questKeys.preQuestGroup] = {25959,25960,25962},
+        },
         [25969] = { -- Hostile Waters
             [questKeys.preQuestSingle] = {25968},
         },
