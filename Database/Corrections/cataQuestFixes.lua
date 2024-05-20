@@ -1789,6 +1789,9 @@ function CataQuestFixes.Load()
         [25953] = { -- Swift Approach
             [questKeys.preQuestSingle] = {25593},
         },
+        [25954] = { -- An Occupation of Time
+            [questKeys.preQuestSingle] = {25593},
+        },
         [25955] = { -- A Better Vantage
             [questKeys.preQuestSingle] = {25593},
         },
