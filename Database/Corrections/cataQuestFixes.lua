@@ -1491,7 +1491,7 @@ function CataQuestFixes.Load()
         [25419] = { -- Lady La-La's Medallion
             [questKeys.requiredSourceItems] = {55188},
             [questKeys.startedBy] = {{41017},nil,{55186}},
-            [questKeys.preQuestSingle] = {25602},
+            [questKeys.preQuestSingle] = {25459},
         },
         [25439] = { -- Vengeful Heart
             [questKeys.preQuestSingle] = {25359},
