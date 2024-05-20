@@ -1783,6 +1783,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{41750,41769}},
             [questKeys.objectives] = {{{41805}}},
         },
+        [25952] = { -- Caught Off-Guard
+            [questKeys.preQuestSingle] = {25593},
+        },
         [25969] = { -- Hostile Waters
             [questKeys.preQuestSingle] = {25968},
         },
