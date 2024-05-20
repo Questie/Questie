@@ -544,6 +544,30 @@ local debugMessagesLocales = {
         ["zhCN"] = false,
     },
     -- End Debug Offers
+    ["Welcome to Cataclysm Classic! During the launch of Cataclysm you may notice many issues with Questie, including quests appearing on the map before they're eligible to be picked up, quests not showing on the map at all, and incorrect or missing objectives."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
+    ["Questie relies on private server data to function, and Cataclysm private server data is of poor quality. Fixing all of these issues is a manual process, so it will take some time. Please report any issues you encounter on our Discord or GitHub."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(debugMessagesLocales) do
