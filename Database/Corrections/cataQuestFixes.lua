@@ -1795,6 +1795,9 @@ function CataQuestFixes.Load()
         [25955] = { -- A Better Vantage
             [questKeys.preQuestSingle] = {25593},
         },
+        [25956] = { -- Upon the Scene of Battle
+            [questKeys.preQuestSingle] = {25593},
+        },
         [25969] = { -- Hostile Waters
             [questKeys.preQuestSingle] = {25968},
         },
