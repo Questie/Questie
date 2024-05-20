@@ -1309,6 +1309,7 @@ function CataQuestFixes.Load()
         },
         [25215] = { -- A Distracting Scent
             [questKeys.preQuestSingle] = {25222},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE]={{49.7,47.4}}}, Questie.ICON_TYPE_EVENT, l10n("Drag the corpses here")}},
         },
         [25216] = { -- The Great Sambino
             [questKeys.preQuestSingle] = {25222},
