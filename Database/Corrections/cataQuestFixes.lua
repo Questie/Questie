@@ -1697,6 +1697,9 @@ function CataQuestFixes.Load()
         [25743] = { -- Decisions, Decisions
             [questKeys.objectives] = {nil,{{203194}}},
         },
+        [25747] = { -- Looking Forward
+            [questKeys.preQuestSingle] = {25957},
+        },
         [25764] = { -- Egg Hunt
             [questKeys.objectives] = {nil,{{203208}}},
         },
