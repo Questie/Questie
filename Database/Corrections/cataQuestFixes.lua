@@ -1591,6 +1591,7 @@ function CataQuestFixes.Load()
         },
         [25593] = { -- Shelled Salvation
             [questKeys.objectives] = {nil,nil,nil,nil,{{{39729,41203,41219,42404},39729,"Shell Survivors rescued",Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {25996},
             [questKeys.requiredSourceItems] = {55141},
         },
         [25598] = { -- Ain't Too Proud to Beg
