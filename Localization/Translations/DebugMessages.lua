@@ -545,7 +545,7 @@ local debugMessagesLocales = {
     },
     -- End Debug Offers
     ["Welcome to Cataclysm Classic! During the launch of Cataclysm you may notice many issues with Questie, including quests appearing on the map before they're eligible to be picked up, quests not showing on the map at all, and incorrect or missing objectives."] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Bem-vindo ao Cataclysm Classic! Durante o lançamento do Cataclysm, você pode notar muitos problemas com o Questie, incluindo missões aparecendo no mapa antes de estarem disponíveis para serem aceitas, missões que não aparecem no mapa de jeito nenhum e objetivos incorretos ou ausentes.",
         ["ruRU"] = "Добро пожаловать в Cataclysm Classic! Во время запуска Cataclysm вы можете заметить различные проблемы с Questie, включая: задания, появляющиеся на карте до того, как они могут быть приняты; задания, вообще не отображающиеся на карте; неверные или отсутствующие цели заданий.",
         ["deDE"] = "Willkommen bei Cataclysm Classic! Während des Starts von Cataclysm kann es einige Probleme mit Questie geben, sodass Quests zu früh oder gar nicht angezeigt werden, sowie, dass Quest-Ziele fehlen.",
         ["koKR"] = false,
@@ -557,7 +557,7 @@ local debugMessagesLocales = {
         ["zhCN"] = false,
     },
     ["Questie relies on private server data to function, and Cataclysm private server data is of poor quality. Fixing all of these issues is a manual process, so it will take some time. Please report any issues you encounter on our Discord or GitHub."] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "O Questie depende de dados de servidores privados para funcionar, e os dados de servidores privados do Cataclysm são de baixa qualidade. Corrigir todos esses problemas é um processo manual, então levará algum tempo. Por favor, relate quaisquer problemas que encontrar em nosso Discord ou GitHub.",
         ["ruRU"] = "Questie основывается на базе данных приватного сервера Cataclysm, но такие сервера неудовлетворительного качества. Исправление всех этих проблем - ручной процесс, и поэтому он займет некоторое время. Пожалуйста, сообщайте обо всех найденных проблемах в нашем Discord или на GitHub.",
         ["deDE"] = "Questie benötigt eine eigene Datenbank, um zu funktionieren. Die initialen Daten für Cataclysm stammen von Privatservern und sind leider von besonders schlechter Qualität. Das Beheben all dieser Probleme ist ein manueller Prozess und wird einige Zeit in Anspruch nehmen. Bitte melde alle Probleme, die du findest auf unserem Discord oder GitHub.",
         ["koKR"] = false,
