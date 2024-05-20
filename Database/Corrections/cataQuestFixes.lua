@@ -1825,6 +1825,7 @@ function CataQuestFixes.Load()
         [25995] = { -- Overseer Idra'kess
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25992,25993,25994},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE]={{62.9,57.1}}}, Questie.ICON_TYPE_EVENT, l10n("Head to the top of Nespirah")}},
         },
         [26000] = { -- Spelunking
             [questKeys.preQuestSingle] = {25794},
