@@ -1700,6 +1700,9 @@ function CataQuestFixes.Load()
         [25747] = { -- Looking Forward
             [questKeys.preQuestSingle] = {25957},
         },
+        [25748] = { -- Clear Goals
+            [questKeys.preQuestSingle] = {25747},
+        },
         [25749] = { -- Not Entirely Unprepared
             [questKeys.preQuestSingle] = {25747},
         },
