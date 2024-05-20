@@ -1793,6 +1793,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25593},
         },
         [25955] = { -- A Better Vantage
+            [questKeys.objectives] = {{{40963,nil,Questie.ICON_TYPE_EVENT},{40964,nil,Questie.ICON_TYPE_EVENT},{40965,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {25593},
         },
         [25956] = { -- Upon the Scene of Battle

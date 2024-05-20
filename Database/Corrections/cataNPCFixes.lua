@@ -428,6 +428,18 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{45.05,23.58}}},
             [npcKeys.zoneID] = zoneIDs.KELP_THAR_FOREST,
         },
+        [40963] = { -- Vashj'ir Gardens Credit
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{39.1,57.5}}},
+            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
+        [40964] = { -- Vashj'ir Underpass Credit
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{36.2,63}}},
+            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
+        [40965] = { -- Vashj'ir Southern Structures Credit
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{40.5,74.4}}},
+            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
         [41003] = { -- Morthis Whisperwing
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{44.1,45.9}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
