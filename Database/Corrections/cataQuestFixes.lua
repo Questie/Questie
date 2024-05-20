@@ -1726,6 +1726,9 @@ function CataQuestFixes.Load()
         [25901] = { -- Hyjal Recycling Program
             [questKeys.preQuestSingle] = {25372},
         },
+        [25907] = { -- Slave Labor
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{41494,41495},41494,"Pearl Miners rescued",Questie.ICON_TYPE_INTERACT}}},
+        },
         [25909] = { -- Capture the Crab
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25907,25908},
