@@ -1761,6 +1761,9 @@ function CataQuestFixes.Load()
         [25924] = { -- Call of Duty
             [questKeys.extraObjectives] = {{{[zoneIDs.DUROTAR]={{57.8,10.4}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for the Mercenary Ship to arrive")}},
         },
+        [25962] = { -- Properly Inspired
+            [questKeys.preQuestSingle] = {25747},
+        },
         [25930] = { -- Ascending the Vale
             [questKeys.triggerEnd] = {"Ascend the Charred Vale", {[zoneIDs.STONETALON_MOUNTAINS]={{31.3,73.2}}}},
         },
@@ -1814,6 +1817,9 @@ function CataQuestFixes.Load()
         [25957] = { -- Visions of the Past: The Invasion of Vashj'ir
             [questKeys.preQuestGroup] = {25952,25955,25956},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE]={{40,75}}}, Questie.ICON_TYPE_EVENT, l10n("Attune the with the Broken Blade's owner")}},
+        },
+        [25960] = { --
+            [questKeys.objectives] = {},
         },
         [25969] = { -- Hostile Waters
             [questKeys.preQuestSingle] = {25968},
