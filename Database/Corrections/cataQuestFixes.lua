@@ -1505,6 +1505,7 @@ function CataQuestFixes.Load()
         },
         [25442] = { -- A Pearl of Wisdom
             [questKeys.startedBy] = {{40510},nil,{54614}},
+            [questKeys.preQuestSingle] = {25439},
             [questKeys.exclusiveTo] = {25890},
         },
         [25443] = { -- The Name Never Spoken
