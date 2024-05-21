@@ -2599,6 +2599,10 @@ function CataQuestFixes.Load()
         [27685] = { -- Good Deed Left Undone
             [questKeys.exclusiveTo] = {25587},
         },
+        [27687] = { -- An Opened Can of Whoop Gnash
+            [questKeys.startedBy] = {{40987},nil,{62138}},
+            [questKeys.preQuestSingle] = {25598},
+        },
         [27689] = { -- Distract Them for Me
             [questKeys.preQuestSingle] = {27655},
             [questKeys.exclusiveTo] = {},
