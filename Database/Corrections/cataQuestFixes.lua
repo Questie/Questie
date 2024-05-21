@@ -1828,6 +1828,7 @@ function CataQuestFixes.Load()
         },
         [25964] = { -- Fallen But Not Forgotten
             [questKeys.preQuestSingle] = {25963},
+            [questKeys.objectives] = {{{41784}}},
         },
         [25965] = { -- Gauging Success
             [questKeys.preQuestSingle] = {25963},
