@@ -2504,6 +2504,9 @@ function CataQuestFixes.Load()
         [27123] = { -- Deepholm, Realm of Earth
             [questKeys.exclusiveTo] = {26244,26245,26246},
         },
+        [27126] = { -- Rush Delivery
+            [questKeys.preQuestSingle] = {26625},
+        },
         [27139] = { -- Hobart Needs You
             [questKeys.exclusiveTo] = {24671},
         },
