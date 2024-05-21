@@ -2348,6 +2348,9 @@ function CataQuestFixes.Load()
         [26840] = { -- Return to the Highlands
             [questKeys.startedBy] = {{39605}},
         },
+        [26861] = { -- Block the Gates
+            [questKeys.preQuestSingle] = {26771},
+        },
         [26881] = { -- In Search of Thaelrid
             [questKeys.finishedBy] = {{4787}},
         },
