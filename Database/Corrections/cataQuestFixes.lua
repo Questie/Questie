@@ -1826,6 +1826,9 @@ function CataQuestFixes.Load()
         [25963] = { -- Swift Action
             [questKeys.preQuestGroup] = {25959,25960,25962},
         },
+        [25964] = { -- Fallen But Not Forgotten
+            [questKeys.preQuestSingle] = {25963},
+        },
         [25965] = { -- Gauging Success
             [questKeys.preQuestSingle] = {25963},
         },
