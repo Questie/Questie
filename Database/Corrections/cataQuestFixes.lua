@@ -1753,7 +1753,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.DUROTAR]={{57.8,10.4}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for the Mercenary Ship to arrive")}},
         },
         [25962] = { -- Properly Inspired
-            [questKeys.preQuestSingle] = {25747},
+            [questKeys.preQuestSingle] = {25957},
         },
         [25930] = { -- Ascending the Vale
             [questKeys.triggerEnd] = {"Ascend the Charred Vale", {[zoneIDs.STONETALON_MOUNTAINS]={{31.3,73.2}}}},
@@ -1775,6 +1775,7 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Krom'gar Wagon taken to the Fold", {[zoneIDs.STONETALON_MOUNTAINS]={{74.5,43.9}}}},
         },
         [25946] = { -- Helm's Deep
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25942,25943},
             [questKeys.exclusiveTo] = {},
         },
