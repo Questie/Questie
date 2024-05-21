@@ -2773,6 +2773,9 @@ function CataQuestFixes.Load()
         [27929] = { -- Drag 'em Down
             [questKeys.preQuestSingle] = {27690},
         },
+        [27932] = { -- The Axe of Earthly Sundering
+            [questKeys.preQuestSingle] = {27931},
+        },
         [27945] = { -- Paint it Black
             [questKeys.preQuestSingle] = {27690},
         },
