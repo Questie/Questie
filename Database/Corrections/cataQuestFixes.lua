@@ -2080,6 +2080,9 @@ function CataQuestFixes.Load()
         [26409] = { -- Where's Goldmine?
             [questKeys.preQuestSingle] = {},
         },
+        [26411] = { -- Apply and Flash Dry
+            [questKeys.preQuestSingle] = {27135},
+        },
         [26414] = { -- Hitting a Walleye
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26420,26442,26488,26536},
             [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{50.84,32.69}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Hardened Walleye")}},
