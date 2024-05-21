@@ -380,6 +380,9 @@ function CataItemFixes.Load()
         [58864] = { -- Precious Locket
             [itemKeys.itemDrops] = {58856},
         },
+        [58886] = { -- Thunder Stone
+            [itemKeys.npcDrops] = {},
+        },
         [58899] = { -- Violet Perch
             [itemKeys.npcDrops] = {},
         },
