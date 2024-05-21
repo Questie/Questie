@@ -3148,7 +3148,7 @@ function CataQuestFixes.Load()
         },
         [29067] = { -- Potion Master
             [questKeys.name] = "Potion Master",
-            [questKeys.objectivesText] = "Bring a large supply of potions to an alchemy trainer in any capital city.",
+            [questKeys.objectivesText] = {"Bring a large supply of potions to an alchemy trainer in any capital city."},
             [questKeys.objectives] = {nil,nil,{{57191},{57192},{58488}}},
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
         },
