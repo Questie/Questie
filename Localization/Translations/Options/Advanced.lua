@@ -439,11 +439,11 @@ local advancedOptionsLocales = {
         ["ruRU"] = false,
         ["deDE"] = false,
         ["koKR"] = false,
-        ["esMX"] = "Desactiva el mensaje de 'Bienvenido a Cataclysm Classic' al inicio.",
+        ["esMX"] = "Deshabilita el mensaje de 'Bienvenido a Cataclysm Classic' al inicio.",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = false,
-        ["esES"] = "Desactiva el mensaje de 'Bienvenido a Cataclysm Classic' al inicio.",
+        ["esES"] = "Deshabilita el mensaje de 'Bienvenido a Cataclysm Classic' al inicio.",
         ["frFR"] = "Désactive le message 'Bienvenue sur Cataclysm Classic' au démarrage.",
     },
 }
