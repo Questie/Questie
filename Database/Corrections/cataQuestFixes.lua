@@ -3146,6 +3146,12 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {},
             [questKeys.preQuestSingle] = {25428},
         },
+        [29067] = { -- Potion Master
+            [questKeys.name] = "Potion Master",
+            [questKeys.objectivesText] = "Bring a large supply of potions to an alchemy trainer in any capital city.",
+            [questKeys.objectives] = {nil,nil,{{57191},{57192},{58488}}},
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
+        },
         [29071] = { -- Make Haste to Stormwind!
             [questKeys.exclusiveTo] = {25316,27724,27726},
         },
@@ -3387,9 +3393,13 @@ function CataQuestFixes.Load()
         },
         [29481] = { -- Elixir Master
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
+            [questKeys.requiredLevel] = 75,
+            [questKeys.objectives] = {nil,nil,{{58086},{58087},{58085},{58088}}},
         },
         [29482] = { -- Transmutation Master
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
+            [questKeys.requiredLevel] = 75,
+            [questKeys.objectives] = {nil,nil,{{58480}}},
         },
         [29507] = { -- Fun for the Little Ones
             [questKeys.objectives] = {nil,{{460001}}},
