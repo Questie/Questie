@@ -2008,6 +2008,9 @@ function CataQuestFixes.Load()
         [26247] = { -- Diplomacy First
             [questKeys.preQuestGroup] = {26244,27136},
         },
+        [26249] = { -- The Admiral's Cabin
+            [questKeys.preQuestSingle] = {26247},
+        },
         [26258] = { -- Deathwing's Fall
             [questKeys.triggerEnd] = {"Deathwing's Fall reached", {[zoneIDs.DEEPHOLM]={{61.3,57.5}}}},
         },
