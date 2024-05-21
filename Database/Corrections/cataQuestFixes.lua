@@ -1725,6 +1725,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{41996}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Subdue a Famished Great Shark"), 0, {{"monster", 41997},{"monster", 41998}}}},
         },
+        [25888] = { -- Decompression
+            [questKeys.objectives] = {{{41955}}},
+        },
         [25890] = { -- Nespirah
             [questKeys.triggerEnd] = {"Find a way to communicate with Nespirah", {[zoneIDs.SHIMMERING_EXPANSE]={{51.7,52.1}}}},
             [questKeys.preQuestSingle] = {25440},
