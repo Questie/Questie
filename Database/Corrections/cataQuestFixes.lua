@@ -2296,6 +2296,9 @@ function CataQuestFixes.Load()
         [26750] = { -- At the Stonemother's Call
             [questKeys.preQuestSingle] = {26659},
         },
+        [26770] = { -- Mystic Masters
+            [questKeys.preQuestSingle] = {26755},
+        },
         [26777] = { -- Soothing Spirits
             [questKeys.objectives] = {{{43923}}},
         },
