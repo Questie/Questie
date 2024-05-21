@@ -2638,6 +2638,9 @@ function CataQuestFixes.Load()
         [27517] = { -- Be Prepared
             [questKeys.objectives] = {nil,nil,{{61321}}},
         },
+        [27519] = { -- Under the Choking Sands
+            [questKeys.preQuestSingle] = {28135},
+        },
         [27583] = { -- The Northern Flank
             [questKeys.preQuestSingle] = {26840},
         },
