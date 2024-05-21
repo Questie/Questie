@@ -431,6 +431,9 @@ function CataItemFixes.Load()
         [60739] = { -- Twilight Slaver's Key
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [60791] = { -- Painite Mote
+            [itemKeys.npcDrops] = {},
+        },
         [60835] = { -- Depleted Totem
             [itemKeys.class] = itemClasses.QUEST,
         },
