@@ -2033,6 +2033,9 @@ function CataQuestFixes.Load()
         [26312] = { -- Crumbling Defenses
             [questKeys.preQuestSingle] = {26326},
         },
+        [26313] = { -- Core of Our Troubles
+            [questKeys.preQuestSingle] = {26326},
+        },
         [26320] = { -- A Vision of the Past
             [questKeys.triggerEnd] = {"Vision of the Past uncovered", {[zoneIDs.THE_DEADMINES]={{-1,-1}}}},
         },
