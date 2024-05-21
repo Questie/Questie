@@ -2008,6 +2008,9 @@ function CataQuestFixes.Load()
         [26258] = { -- Deathwing's Fall
             [questKeys.triggerEnd] = {"Deathwing's Fall reached", {[zoneIDs.DEEPHOLM]={{61.3,57.5}}}},
         },
+        [26259] = { -- Blood of the Earthwarder
+            [questKeys.preQuestSingle] = {26255},
+        },
         [26293] = { -- Machines of War
             [questKeys.startedBy] = {{39605}},
         },
