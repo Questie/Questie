@@ -2671,6 +2671,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{46100},{46098}}},
             [questKeys.preQuestSingle] = {27611},
         },
+        [27629] = { -- The Vizier's Vote
+            [questKeys.preQuestSingle] = {27628},
+        },
         [27668] = { -- Pay Attention!
             [questKeys.preQuestSingle] = {25944},
             [questKeys.exclusiveTo] = {25946},
