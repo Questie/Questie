@@ -2008,6 +2008,9 @@ function CataQuestFixes.Load()
         [26247] = { -- Diplomacy First
             [questKeys.preQuestGroup] = {26244,27136},
         },
+        [26248] = { -- All Our Friends Are Dead
+            [questKeys.preQuestSingle] = {26247},
+        },
         [26249] = { -- The Admiral's Cabin
             [questKeys.preQuestSingle] = {26247},
         },
