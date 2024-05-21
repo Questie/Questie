@@ -2674,6 +2674,9 @@ function CataQuestFixes.Load()
         [27629] = { -- The Vizier's Vote
             [questKeys.preQuestSingle] = {27628},
         },
+        [27631] = { -- The High Commander's Vote
+            [questKeys.preQuestSingle] = {27628},
+        },
         [27668] = { -- Pay Attention!
             [questKeys.preQuestSingle] = {25944},
             [questKeys.exclusiveTo] = {25946},
