@@ -2030,6 +2030,9 @@ function CataQuestFixes.Load()
         [26311] = { -- Unfamiliar Waters
             [questKeys.preQuestSingle] = {26294},
         },
+        [26312] = { -- Crumbling Defenses
+            [questKeys.preQuestSingle] = {26326},
+        },
         [26320] = { -- A Vision of the Past
             [questKeys.triggerEnd] = {"Vision of the Past uncovered", {[zoneIDs.THE_DEADMINES]={{-1,-1}}}},
         },
