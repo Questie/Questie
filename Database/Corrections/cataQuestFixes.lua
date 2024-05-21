@@ -1864,7 +1864,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26092},
         },
         [25985] = { -- Wings Over Mount Hyjal
-            [questKeys.startedBy] = {{40254}},
+            [questKeys.startedBy] = {{40833}},
             [questKeys.exclusiveTo] = {25663,27874},
         },
         [25987] = { -- Put It On
