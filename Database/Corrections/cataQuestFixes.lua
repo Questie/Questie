@@ -2880,6 +2880,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28112},
         },
         [28145] = { -- Venomblood Antidote
+            [questKeys.preQuestSingle] = {28112},
+        },
+        [28145] = { -- Venomblood Antidote
             [questKeys.objectives] = {{{45859}}},
         },
         [28170] = { -- Night Terrors
