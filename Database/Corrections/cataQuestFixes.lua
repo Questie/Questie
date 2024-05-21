@@ -2892,10 +2892,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28112},
         },
         [28145] = { -- Venomblood Antidote
-            [questKeys.preQuestSingle] = {28112},
-        },
-        [28145] = { -- Venomblood Antidote
             [questKeys.objectives] = {{{45859}}},
+            [questKeys.preQuestSingle] = {28112},
         },
         [28170] = { -- Night Terrors
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Uchek"), 0, {{"monster", 47826}}}},
