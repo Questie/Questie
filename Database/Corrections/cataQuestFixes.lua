@@ -2876,6 +2876,9 @@ function CataQuestFixes.Load()
         [28134] = { -- Impending Retribution
             [questKeys.objectives] = {{{46603},{47715},{47930}}}
         },
+        [28141] = { -- Relics of the Sun King
+            [questKeys.preQuestSingle] = {28112},
+        },
         [28145] = { -- Venomblood Antidote
             [questKeys.objectives] = {{{45859}}},
         },
