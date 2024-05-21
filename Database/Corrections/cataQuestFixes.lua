@@ -2628,6 +2628,14 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27798},
             [questKeys.exclusiveTo] = {},
         },
+        [27716] = { -- Piece of the Past
+            [questKeys.startedBy] = {{39638},nil,{62281}},
+            [questKeys.preQuestSingle] = {25747},
+        },
+        [27717] = { -- Piece of the Past
+            [questKeys.startedBy] = {{39638},nil,{62282}},
+            [questKeys.preQuestSingle] = {25958},
+        },
         [27721] = { -- Warchief's Command: Mount Hyjal!
             [questKeys.objectives] = {{{15188, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.exclusiveTo] = {25316},
