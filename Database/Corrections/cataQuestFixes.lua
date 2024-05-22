@@ -2878,6 +2878,7 @@ function CataQuestFixes.Load()
         },
         [27932] = { -- The Axe of Earthly Sundering
             [questKeys.preQuestSingle] = {27931},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Sunder the Emerald Colossus"), 0, {{"monster", 44218}}}},
         },
         [27933] = { -- Elemental Ore
             [questKeys.preQuestSingle] = {27931},
