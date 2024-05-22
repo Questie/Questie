@@ -2659,6 +2659,9 @@ function CataQuestFixes.Load()
         [27381] = { -- Traveling Companions
             [questKeys.objectives] = {{{45451}}},
         },
+        [27394] = { -- The Call of the Blade
+            [questKeys.preQuestSingle] = {25953},
+        },
         [27398] = { -- The Battle Is Won, The War Goes On
             [questKeys.preQuestSingle] = {25551},
             [questKeys.exclusiveTo] = {27203,27443,27727},
