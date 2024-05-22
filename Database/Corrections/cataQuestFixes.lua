@@ -2742,6 +2742,7 @@ function CataQuestFixes.Load()
         },
         [27690] = { -- Narkrall, the Drake-Tamer
             [questKeys.preQuestSingle] = {27606},
+            [questKeys.exclusiveTo] = {27947},
         },
         [27696] = { -- The Elementium Axe
             [questKeys.preQuestSingle] = {27689},
@@ -2873,10 +2874,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27931},
         },
         [27945] = { -- Paint it Black
-            [questKeys.preQuestSingle] = {27690},
+            [questKeys.preQuestSingle] = {27751,27929},
         },
         [27947] = { -- A Vision of Twilight
-            [questKeys.preQuestSingle] = {27690},
+            [questKeys.preQuestSingle] = {27751,27929},
         },
         [27950] = { -- Gobbles!
             [questKeys.objectives] = {{{47191}}},
