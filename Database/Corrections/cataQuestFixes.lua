@@ -2780,14 +2780,16 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{100004}},
         },
         [27742] = { -- A Little on the Side
+            [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {28885},
         },
         [27743] = { -- While We're Here
+            [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {28885},
         },
         [27744] = { -- Rune Ruination
             [questKeys.exclusiveTo] = {},
-            [questKeys.preQuestSingle] = {27711,27712},
+            [questKeys.preQuestSingle] = {28885},
         },
         [27745] = { -- A Fiery Reunion
             [questKeys.objectives] = {nil,{{301087}},{{62394}}},
