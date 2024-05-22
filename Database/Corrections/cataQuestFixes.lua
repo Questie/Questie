@@ -2293,6 +2293,9 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Opalescent Guardians Escorted to safety", {[zoneIDs.DEEPHOLM]={{51,14.8}}}},
             [questKeys.objectives] = {{{42466},{43597}},nil,nil,nil,},
         },
+        [26657] = { -- Hard Falls
+            [questKeys.preQuestSingle] = {26656},
+        },
         [26662] = { -- The Brashtide Crew
             [questKeys.preQuestSingle] = {26650},
         },
