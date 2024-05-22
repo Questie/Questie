@@ -2579,6 +2579,9 @@ function CataQuestFixes.Load()
         [27176] = { -- A Strange Disc
             [questKeys.requiredSourceItems] = {60865},
         },
+        [27196] = { -- On to Something
+            [questKeys.preQuestSingle] = {27176},
+        },
         [27203] = { -- The Maelstrom
             [questKeys.preQuestSingle] = {},
         },
