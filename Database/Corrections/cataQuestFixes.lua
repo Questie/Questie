@@ -2123,6 +2123,7 @@ function CataQuestFixes.Load()
         [26440] = { -- Clingy
             [questKeys.triggerEnd] = {"Pebble brought to crystal formation",{[zoneIDs.DEEPHOLM]={{29,45}}}},
             [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {26439},
         },
         [26437] = { -- Making Things Crystal Clear
             [questKeys.preQuestSingle] = {26436},
@@ -3149,6 +3150,9 @@ function CataQuestFixes.Load()
         },
         [28849] = { -- Twilight Skies
             [questKeys.preQuestGroup] = {26337,26372,26374},
+        },
+        [28869] = { -- Pebble
+            [questKeys.exclusiveTo] = {26440},
         },
         [28870] = { -- Return to the Lost City
             [questKeys.preQuestSingle] = {28520},
