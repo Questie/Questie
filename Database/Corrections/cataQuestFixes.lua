@@ -2320,7 +2320,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26656},
         },
         [26659] = { -- Resonating Blow
-            [questKeys.objectives] = {{{43641}},{204837}},
+            [questKeys.objectives] = {{{43641}},{{204837}}},
         },
         [26662] = { -- The Brashtide Crew
             [questKeys.preQuestSingle] = {26650},
