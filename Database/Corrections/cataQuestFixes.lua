@@ -2370,6 +2370,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26674},
             [questKeys.exclusiveTo] = {26717},
         },
+        [26788] = { -- Cementing Our Victory
+            [questKeys.preQuestSingle] = {26622},
+        },
         [26798] = { -- The Warchief Will Be Pleased
             [questKeys.finishedBy] = {{39605}},
         },
