@@ -449,6 +449,9 @@ function CataItemFixes.Load()
         [62324] = { -- Wildhammer Food Store
             [itemKeys.npcDrops] = {},
         },
+        [61376] = { -- Suspended Starlight
+            [itemKeys.npcDrops] = {},
+        },
         [62534] = { -- Horn of Ramkahen
             [itemKeys.class] = itemClasses.QUEST,
         },
