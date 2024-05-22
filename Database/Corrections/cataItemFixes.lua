@@ -365,6 +365,9 @@ function CataItemFixes.Load()
         [57766] = { -- Prickly Pear Fruit
             [itemKeys.npcDrops] = {},
         },
+        [58141] = { -- Twilight Highlands Coastal Chart
+            [itemKeys.npcDrops] = {42638},
+        },
         [58167] = { -- Spirit Totem
             [itemKeys.class] = itemClasses.QUEST,
         },
