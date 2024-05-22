@@ -2079,6 +2079,9 @@ function CataQuestFixes.Load()
         [26375] = { -- Loose Stones
             [questKeys.preQuestSingle] = {26328},
         },
+        [26376] = { -- Hatred Runs Deep
+            [questKeys.preQuestSingle] = {26328},
+        },
         [26377] = { -- Unsolid Ground
             [questKeys.requiredSourceItems] = {58500,58783},
         },
