@@ -3127,6 +3127,7 @@ function CataQuestFixes.Load()
         },
         [28872] = { -- Total War
             [questKeys.objectives] = {nil,{{206195}}},
+            [questKeys.preQuestSingle] = {28133},
         },
         [28873] = { -- Another Maw to Feed
             [questKeys.preQuestSingle] = {28133},
