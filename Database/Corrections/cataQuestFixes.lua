@@ -3180,6 +3180,7 @@ function CataQuestFixes.Load()
         },
         [28869] = { -- Pebble
             [questKeys.exclusiveTo] = {26440},
+            [questKeys.preQuestGroup] = {26437,26438,26439},
         },
         [28870] = { -- Return to the Lost City
             [questKeys.preQuestSingle] = {28520},
