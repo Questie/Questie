@@ -15,6 +15,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 QuestieCorrections.objectObjectiveFirst[24817] = true
 QuestieCorrections.objectObjectiveFirst[25371] = true
 QuestieCorrections.objectObjectiveFirst[25731] = true
+QuestieCorrections.objectObjectiveFirst[26659] = true
 QuestieCorrections.objectObjectiveFirst[26809] = true
 QuestieCorrections.killCreditObjectiveFirst[52] = true
 QuestieCorrections.killCreditObjectiveFirst[26621] = true
@@ -2306,6 +2307,9 @@ function CataQuestFixes.Load()
         },
         [26658] = { -- Fragile Values
             [questKeys.preQuestSingle] = {26656},
+        },
+        [26659] = { -- Resonating Blow
+            [questKeys.objectives] = {{{43641}},{204837}},
         },
         [26662] = { -- The Brashtide Crew
             [questKeys.preQuestSingle] = {26650},
