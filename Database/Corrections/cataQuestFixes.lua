@@ -2677,6 +2677,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [27442] = { -- The War Has Many Fronts
+            [questKeys.preQuestSingle] = {26006},
             [questKeys.exclusiveTo] = {27203,27399,27722},
         },
         [27443] = { -- The War Has Many Fronts
