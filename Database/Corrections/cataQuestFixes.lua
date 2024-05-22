@@ -2167,6 +2167,9 @@ function CataQuestFixes.Load()
         [26500] = { -- We're Surrounded
             [questKeys.preQuestSingle] = {27935},
         },
+        [26507] = { -- Petrified Delicacies
+            [questKeys.preQuestSingle] = {26441},
+        },
         [26512] = { -- Tuning the Gnomecorder
             [questKeys.triggerEnd] = {"Test the Gnomecorder at the Lakeshire Graveyard", {[zoneIDs.REDRIDGE_MOUNTAINS]={{32.3,39.5}}}},
         },
