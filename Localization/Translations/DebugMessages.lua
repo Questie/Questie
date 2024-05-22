@@ -553,7 +553,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["frFR"] = "Bienvenue sur Cataclysm Classic ! Durant le lancement de Cataclysm vous rencontrerez peut-être des problèmes avec Questie, comme des quêtes qui apparaissent sur la carte avant que vous ne soyez éligible pour les faire, des quêtes qui n'apparaissent pas du tout sur la carte, ou encore des objectifs manquants ou incorrects.",
         ["esES"] = "¡Bienvenido a Cataclysm Classic! Durante el lanzamiento de Cataclysm, es posible que notes muchos problemas con Questie, incluyendo misiones que aparecen en el mapa antes de ser elegibles para recogerlas, misiones que no aparecen en el mapa en absoluto y objetivos incorrectos o faltantes.",
-        ["zhTW"] = false,
+        ["zhTW"] = "歡迎來到《浩劫與重生》經典版！在《浩劫與重生》推出期間，您可能會注意到任務位置提示插件 Questie  有許多問題，包括地圖上出現的任務在符合領取條件之前就顯示了，或是任務根本沒有在地圖上顯示，以及不正確或缺少的目標。",
         ["zhCN"] = false,
     },
     ["Questie relies on private server data to function, and Cataclysm private server data is of poor quality. Fixing all of these issues is a manual process, so it will take some time. Please report any issues you encounter on our Discord or GitHub."] = {
@@ -565,7 +565,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["frFR"] = "Questie repose sur des données de serveur privé, or celles de Cataclysm sont de basse qualité. Tous ces problèmes doivent être résolus manuellement, cela demande donc du temps. Merci de signaler les problèmes que vous rencontrez sur notre Discord ou Github.",
         ["esES"] = "Questie depende de datos de servidores privados para funcionar, y los datos de servidores privados de Cataclysm son de baja calidad. Arreglar todos estos problemas es un proceso manual, por lo que tomará algo de tiempo. Por favor, reporta cualquier problema que encuentres en nuestro Discord o GitHub.",
-        ["zhTW"] = false,
+        ["zhTW"] = "任務位置提示插件 Questie 依賴私人伺服器數據來運作，而《浩劫與重生》的私人伺服器數據品質不佳。只能用手動的方式來修復所有這些問題，因此將會需要一些時間。請在我們的 Discord 或 GitHub 上報告您遇到的任何問題。",
         ["zhCN"] = false,
     },
 }
