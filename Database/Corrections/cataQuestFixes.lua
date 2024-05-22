@@ -1958,6 +1958,9 @@ function CataQuestFixes.Load()
         [26133] = { -- Fiends from the Netherworld
             [questKeys.preQuestSingle] = {26111},
         },
+        [26135] = { -- Visions of the Past: Rise from the Deep
+            [questKeys.preQuestSingle] = {25973},
+        },
         [26150] = { -- A Visit With Maybell
             [questKeys.exclusiveTo] = {106},
             [questKeys.nextQuestInChain] = 106,
