@@ -1995,6 +1995,9 @@ function CataQuestFixes.Load()
         [26207] = { -- The Arts of a Rogue
             [questKeys.objectives] = {{{44171}},nil,nil,nil,nil,{{2098}}},
         },
+        [26221] = { -- Full Circle
+            [questKeys.preQuestSingle] = {26006},
+        },
         [26228] = { -- Livin' the Life
             [questKeys.triggerEnd] = {"Livin' the Life!", {[zoneIDs.WESTFALL]={{61,25}}}},
         },
