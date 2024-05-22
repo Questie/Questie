@@ -2040,6 +2040,7 @@ function CataQuestFixes.Load()
         },
         [26314] = { -- On Even Ground
             [questKeys.preQuestSingle] = {26326},
+            [questKeys.objectives] = {{{42479}}},
         },
         [26315] = { -- Imposing Confrontation
             [questKeys.preQuestGroup] = {26312,26313,26314},
