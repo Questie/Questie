@@ -2258,6 +2258,9 @@ function CataQuestFixes.Load()
         [26614] = { -- Keep An Eye Out
             [questKeys.preQuestSingle] = {26611},
         },
+        [26619] = { -- You Say You Want a Revolution
+            [questKeys.preQuestGroup] = {26540,26608},
+        },
         [26621] = { -- Insurrection
             [questKeys.objectives] = {{{43575},{43394}},nil,nil,nil,{{{43577,43578},43577,"Dragonmaw Civilian Armed"}}},
         },
