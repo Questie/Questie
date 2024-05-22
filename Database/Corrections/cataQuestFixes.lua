@@ -2572,7 +2572,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [27301] = { -- Unbroken
-            [questKeys.preQuestSingle] = {27300},
+            [questKeys.preQuestSingle] = {27299},
         },
         [27302] = { -- Simple Solutions
             [questKeys.preQuestSingle] = {27299},
