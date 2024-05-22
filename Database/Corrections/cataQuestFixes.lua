@@ -2124,6 +2124,9 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Pebble brought to crystal formation",{[zoneIDs.DEEPHOLM]={{29,45}}}},
             [questKeys.objectives] = {},
         },
+        [26437] = { -- Making Things Crystal Clear
+            [questKeys.preQuestSingle] = {26436},
+        },
         [26442] = { -- Rock Lobster
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26488,26536},
         },
