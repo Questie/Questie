@@ -2043,6 +2043,7 @@ function CataQuestFixes.Load()
         },
         [26315] = { -- Imposing Confrontation
             [questKeys.preQuestGroup] = {26312,26313,26314},
+            [questKeys.objectives] = {{{42471}}},
         },
         [26320] = { -- A Vision of the Past
             [questKeys.triggerEnd] = {"Vision of the Past uncovered", {[zoneIDs.THE_DEADMINES]={{-1,-1}}}},
