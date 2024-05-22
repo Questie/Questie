@@ -2076,6 +2076,9 @@ function CataQuestFixes.Load()
         [26374] = { -- Ready the Ground Troops
             [questKeys.objectives] = {{{42646}}},
         },
+        [26375] = { -- Loose Stones
+            [questKeys.preQuestSingle] = {26328},
+        },
         [26377] = { -- Unsolid Ground
             [questKeys.requiredSourceItems] = {58500,58783},
         },
