@@ -2205,6 +2205,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {58955,58958},
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
         },
+        [26575] = { -- Rock Bottom
+            [questKeys.preQuestSingle] = {26441},
+        },
         [26576] = { -- Steady Hand
             [questKeys.preQuestSingle] = {26575},
         },
