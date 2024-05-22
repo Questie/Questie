@@ -3091,6 +3091,7 @@ function CataQuestFixes.Load()
         },
         [28584] = { -- Quality Construction
             [questKeys.preQuestSingle] = {28583},
+            [questKeys.objectives] = {nil,{{207298}}},
         },
         [28586] = { -- Pool Pony Rescue
             [questKeys.preQuestSingle] = {28583},
