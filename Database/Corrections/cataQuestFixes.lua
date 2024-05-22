@@ -2296,6 +2296,9 @@ function CataQuestFixes.Load()
         [26657] = { -- Hard Falls
             [questKeys.preQuestSingle] = {26656},
         },
+        [26658] = { -- Fragile Values
+            [questKeys.preQuestSingle] = {26656},
+        },
         [26662] = { -- The Brashtide Crew
             [questKeys.preQuestSingle] = {26650},
         },
