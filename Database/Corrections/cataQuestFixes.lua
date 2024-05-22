@@ -2087,6 +2087,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {58500,58783},
             [questKeys.preQuestSingle] = {26328},
         },
+        [26388] = { -- Twilight Skies
+            [questKeys.extraObjectives] = {{{[zoneIDs.AZSHARA]={{50.7,73.9}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for the Zeppelin")}},
+        },
         [26391] = { -- Extinguishing Hope
             [questKeys.preQuestSingle] = {28817,28818,28819,28820,28821,28822,28823,29083},
         },
