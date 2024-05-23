@@ -2683,21 +2683,21 @@ function CataQuestFixes.Load()
         },
         [27398] = { -- The Battle Is Won, The War Goes On
             [questKeys.preQuestSingle] = {25551},
-            [questKeys.exclusiveTo] = {27203,27443,27727},
+            [questKeys.exclusiveTo] = {27203,27443},
         },
         [27399] = { -- The Battle Is Won, The War Goes On
             [questKeys.preQuestSingle] = {25551},
-            [questKeys.exclusiveTo] = {27203,27442,27722},
+            [questKeys.exclusiveTo] = {27203,27442},
         },
         [27404] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
         },
         [27442] = { -- The War Has Many Fronts
             [questKeys.preQuestSingle] = {26006},
-            [questKeys.exclusiveTo] = {27203,27399,27722},
+            [questKeys.exclusiveTo] = {27203,27399},
         },
         [27443] = { -- The War Has Many Fronts
-            [questKeys.exclusiveTo] = {27203,27398,27727},
+            [questKeys.exclusiveTo] = {27203,27398},
         },
         [27490] = { -- SI:7 Drop
             [questKeys.objectives] = {{{45904},{45877}}},
@@ -2807,7 +2807,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {25316},
         },
         [27722] = { -- Warchief's Command: Deepholm!
-            [questKeys.exclusiveTo] = {27203,27399,27442},
+            [questKeys.exclusiveTo] = {27203},
         },
         [27724] = { -- Hero's Call: Vashj'ir!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
@@ -2819,7 +2819,7 @@ function CataQuestFixes.Load()
         },
         [27727] = { -- Hero's Call: Deepholm!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
-            [questKeys.exclusiveTo] = {27203,27398,27443},
+            [questKeys.exclusiveTo] = {27203},
         },
         [27729] = { -- Once More, With Eeling
             [questKeys.preQuestSingle] = {14482,25924},
