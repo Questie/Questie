@@ -1249,6 +1249,7 @@ function CataQuestFixes.Load()
         [25157] = { -- The Latest Fashion!
             [questKeys.exclusiveTo] = {25105,25154,25155,25156},
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
+            [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY] = {{63.8,60.8}}},Questie.ICON_TYPE_EVENT,l10n("Use Stardust No. 2 on ten Humanoids")}},
         },
         [25158] = { -- Nibbler!  No!
             [questKeys.exclusiveTo] = {25159,25160,25161,25162},
@@ -1257,6 +1258,7 @@ function CataQuestFixes.Load()
         [25159] = { -- The Latest Fashion!
             [questKeys.exclusiveTo] = {25158,25160,25161,25162},
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR] = {{72.5,36.2}}},Questie.ICON_TYPE_EVENT,l10n("Use Stardust No. 2 on ten Humanoids")}},
         },
         [25160] = { -- A Present for Lila
             [questKeys.exclusiveTo] = {25158,25159,25161,25162},
