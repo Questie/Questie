@@ -9,7 +9,7 @@ function QuestieQuestBlacklist:Load()
         [7462] = true, -- Duplicate of 7877. See #1583
         [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
         [5658] = true, -- Touch of Weakness of Father Lankester -- See #1603
-        [2358] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.TBC_HIDE, -- See #921
+        [2358] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE, -- See #921
         [787] = true, -- The New Horde is not in the game. See #830
         [6606] = true, -- Quest is not in the game. See #1338
         [6072] = true, -- Ayanna Everstride doesn't start "Hunter's Path" (this quest is most likely simply not in the game) #700
@@ -20,7 +20,7 @@ function QuestieQuestBlacklist:Load()
         --[960] = true, -- Duplicate of 961 -- different quests, not duplicate
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
-        [7704] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.TBC_HIDE, -- Not implemented in Era, added in Wrath
+        [7704] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE, -- Not implemented in Era, added in Wrath
         [7668] = true, -- Not in the game (yet) Replaced with 8258 in Ph 4-- #1805
         [636] = true, -- Not in the game - #1900
         [6066] = true, -- Not in the game - #1957
@@ -31,7 +31,7 @@ function QuestieQuestBlacklist:Load()
         [11402] = true, -- GM Island quest
         [11189] = true, -- Removed
         [13417] = true, -- Duplicate of 12973
-        [936] = QuestieCorrections.CLASSIC_HIDE,
+        [936] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
         [535] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Valik
         [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
@@ -801,16 +801,16 @@ function QuestieQuestBlacklist:Load()
         [8156] = true,
         [8297] = true,
         -- Alterac Valley
-        [6861] = QuestieCorrections.CLASSIC_HIDE,
-        [6862] = QuestieCorrections.CLASSIC_HIDE,
-        [6864] = QuestieCorrections.CLASSIC_HIDE,
-        [6901] = QuestieCorrections.CLASSIC_HIDE,
+        [6861] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [6862] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [6864] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [6901] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
         [7221] = true,
         [7222] = true,
-        [7281] = QuestieCorrections.CLASSIC_HIDE,
-        [7282] = QuestieCorrections.CLASSIC_HIDE,
-        [7301] = QuestieCorrections.CLASSIC_HIDE,
-        [7302] = QuestieCorrections.CLASSIC_HIDE,
+        [7281] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [7282] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [7301] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [7302] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
         [7367] = true,
         [7368] = true,
         -- Master Ryson's All Seeing Eye
