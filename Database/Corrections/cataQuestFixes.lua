@@ -2711,6 +2711,9 @@ function CataQuestFixes.Load()
         [27443] = { -- The War Has Many Fronts
             [questKeys.exclusiveTo] = {27203,27398},
         },
+        [27485] = { -- Warm Welcome
+            [questKeys.preQuestSingle] = {27380},
+        },
         [27490] = { -- SI:7 Drop
             [questKeys.objectives] = {{{45904},{45877}}},
         },
@@ -2878,9 +2881,6 @@ function CataQuestFixes.Load()
         [27783] = { -- Garona Needs You
             [questKeys.preQuestSingle] = {27745},
             [questKeys.exclusiveTo] = {27786},
-        },
-        [27485] = { -- Warm Welcome
-            [questKeys.preQuestSingle] = {27380},
         },
         [27814] = { -- Anything We Can Get
             [questKeys.preQuestSingle] = {27809},
