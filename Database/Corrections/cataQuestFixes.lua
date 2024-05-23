@@ -2135,6 +2135,9 @@ function CataQuestFixes.Load()
         [26409] = { -- Where's Goldmine?
             [questKeys.preQuestSingle] = {},
         },
+        [26410] = { -- Explosive Bonding Compound
+            [questKeys.preQuestSingle] = {26409},
+        },
         [26411] = { -- Apply and Flash Dry
             [questKeys.preQuestSingle] = {27135},
         },
