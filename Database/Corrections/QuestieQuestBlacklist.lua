@@ -1870,8 +1870,9 @@ function QuestieQuestBlacklist:Load()
         [29742] = true, -- Menkhaf the Elder
 
         ----- SoD -------------- SoD quests --------------- SoD -----
-        [2950] = QuestieCorrections.SOD_HIDE,
-        [3446] = QuestieCorrections.SOD_HIDE,
+        [2950] = QuestieCorrections.SOD_HIDE, -- Nogg's Ring Redo
+        [3446] = QuestieCorrections.SOD_HIDE, -- Into the Depths
+        [4146] = QuestieCorrections.SOD_HIDE, -- Zapper Fuel
         [78611] = true, -- A Waylaid Shipment (no longer available in P2)
         [79100] = true, -- A Waylaid Shipment (no longer available in P2)
         [79482] = true, -- Stolen Winter Veil Treats
