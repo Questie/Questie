@@ -3105,6 +3105,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28467},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
         },
+        [28533] = { -- The High Council's Decision
+            [questKeys.preQuestGroup] = {27738,27838,28277},
+        },
         [28544] = { -- Hero's Call: Winterspring!
             [questKeys.exclusiveTo] = {28524,28545,28460,28768},
         },
