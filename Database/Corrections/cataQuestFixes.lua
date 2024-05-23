@@ -3010,6 +3010,9 @@ function CataQuestFixes.Load()
         [28228] = { -- Rejoining the Forest
             [questKeys.triggerEnd] = {"Protector brought to hill", {[zoneIDs.FELWOOD]={{48.7,25.2}}}},
         },
+        [28233] = { -- The Lost Brother
+            [questKeys.preQuestSingle] = {27809},
+        },
         [28247] = { -- Last of Her Kind
             [questKeys.objectives] = {{{47929,"Obsidia defeated"}}},
         },
