@@ -2370,6 +2370,9 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Gunship destroyed",{[zoneIDs.GILNEAS]={{42.4,29.2}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Hop on a Hippogryph"), 0, {{"monster", 43747}}}},
         },
+        [26710] = { -- Lost In The Deeps
+            [questKeys.exclusiveTo] = {27048,28488},
+        },
         [26711] = { -- Off to the Bank (female)
             [questKeys.exclusiveTo] = {26712},
         },
@@ -2574,6 +2577,9 @@ function CataQuestFixes.Load()
         [27044] = { -- Peasant Problems
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.triggerEnd] = {"Anduin Escorted to Farmer Wollerton", {[zoneIDs.STORMWIND_CITY]={{52.1,6.5}}}},
+        },
+        [27048] = { -- Underground Economy
+            [questKeys.exclusiveTo] = {26710,28488},
         },
         [27059] = { -- The Wrong Sequence
             [questKeys.preQuestSingle] = {27041},
@@ -3095,6 +3101,9 @@ function CataQuestFixes.Load()
         [28486] = { -- Salhet's Gambit
             [questKeys.triggerEnd] = {"Higher ground secured", {[zoneIDs.ULDUM]={{54.,71.1}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Ranmkahen Ranger Captain"), 0, {{"monster", 49244}}}},
+        },
+        [28488] = { -- Beneath the Surface
+            [questKeys.exclusiveTo] = {26710,27048},
         },
         [28501] = { -- The Defense of Nahom
             [questKeys.objectives] = {{{49228}}},
