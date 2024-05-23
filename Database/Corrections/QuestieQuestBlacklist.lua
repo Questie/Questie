@@ -1870,6 +1870,7 @@ function QuestieQuestBlacklist:Load()
         [29742] = true, -- Menkhaf the Elder
 
         ----- SoD -------------- SoD quests --------------- SoD -----
+        [3446] = QuestieCorrections.SOD_HIDE,
         [78611] = true, -- A Waylaid Shipment (no longer available in P2)
         [79100] = true, -- A Waylaid Shipment (no longer available in P2)
         [79482] = true, -- Stolen Winter Veil Treats
