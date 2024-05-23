@@ -1257,7 +1257,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81570] = { -- Jarl Needs a Blade
             [questKeys.finishedBy] = {{4792}},
             [questKeys.preQuestSingle] = {1206},
-            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.zoneOrSort] = zoneIDs.DUSTWALLOW_MARSH,
         },
 
         -- P3 Incursion Intro Quests
