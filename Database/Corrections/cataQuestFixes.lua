@@ -3243,6 +3243,12 @@ function CataQuestFixes.Load()
         [28875] = { -- Bring Down the High Shaman
             [questKeys.preQuestSingle] = {28133},
         },
+        [28882] = { -- Victory in Tol Barad
+            [questKeys.triggerEnd] = {"Victory in Tol Barad",{[zoneIDs.TOL_BARAD]={{51.1,49.9}}}},
+        },
+        [28884] = { -- Victory in Tol Barad
+            [questKeys.triggerEnd] = {"Victory in Tol Barad",{[zoneIDs.TOL_BARAD]={{51.1,49.9}}}},
+        },
         [28909] = { -- Sauranok Will Point the Way
             [questKeys.startedBy] = {{39605}},
             [questKeys.preQuestSingle] = {26294},
