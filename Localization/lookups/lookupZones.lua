@@ -1,6 +1,7 @@
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+-- These need to match with QuestieJourney.questCategoryKeys
 l10n.continentLookup = {
     [1] = "Eastern Kingdoms",
     [2] = "Kalimdor",

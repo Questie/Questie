@@ -33,7 +33,8 @@ _QuestieJourney.lastZoneSelection = {}
 local notesPopupWin
 local notesPopupWinIsOpen = false
 
-QuestieJourney.questCategoryKeys = {
+-- These need to match with l10n.continentLookup
+local questCategoryKeys = {
     EASTERN_KINGDOMS = 1,
     KALIMDOR = 2,
     OUTLAND = 3,
@@ -44,17 +45,18 @@ QuestieJourney.questCategoryKeys = {
     PROFESSIONS = 8,
     EVENTS = 9,
 }
+QuestieJourney.questCategoryKeys = questCategoryKeys
 
 
 function QuestieJourney:Initialize()
     local continents = {}
     for id, name in pairs(l10n.continentLookup) do
-        if not (name == "Outland" and Questie.IsClassic) and not (name == "Northrend" and (Questie.IsClassic or Questie.IsTBC)) then
+        if not (questCategoryKeys.OUTLAND == id and Questie.IsClassic) and not (questCategoryKeys.NORTHREND == id and (Questie.IsClassic or Questie.IsTBC)) then
             continents[id] = l10n(name)
         end
     end
     coroutine.yield()
-    continents[QuestieJourney.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
+    continents[questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
 
     coroutine.yield()
     self.continents = continents
