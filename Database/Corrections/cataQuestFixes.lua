@@ -2081,6 +2081,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{42777}}},
         },
         [26353] = { -- Captain Sanders' Hidden Treasure
+            [questKeys.startedBy] = {{513,515,126,171,456,127,517,458,391},nil,{1357}},
             [questKeys.finishedBy] = {nil,{35}},
         },
         [26354] = { -- Captain Sanders' Hidden Treasure
