@@ -32,6 +32,12 @@ local MAX_GROUP_MEMBER_COUNT = 6
 
 local _InitObjectiveTexts
 
+--[[
+IMPORTANT!
+If you change the way the tooltip keys are structured and/or the return value of GetTooltip,
+we need to let the Plater addon devs know about it.
+--]]
+
 ---@param questId number
 ---@param key string monster: m_, items: i_, objects: o_ + string name of the objective
 ---@param objective table
