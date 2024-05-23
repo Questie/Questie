@@ -2882,6 +2882,9 @@ function CataQuestFixes.Load()
         [27485] = { -- Warm Welcome
             [questKeys.preQuestSingle] = {27380},
         },
+        [27814] = { -- Anything We Can Get
+            [questKeys.preQuestSingle] = {27809},
+        },
         [27863] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
             [questKeys.objectives] = {{{46944}}},
         },
