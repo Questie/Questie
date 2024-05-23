@@ -2605,6 +2605,9 @@ function CataQuestFixes.Load()
         [27126] = { -- Rush Delivery
             [questKeys.preQuestSingle] = {26625},
         },
+        [27135] = { -- Something that Burns
+            [questKeys.preQuestSingle] = {26409},
+        },
         [27139] = { -- Hobart Needs You
             [questKeys.exclusiveTo] = {24671},
         },
