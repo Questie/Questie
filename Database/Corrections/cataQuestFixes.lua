@@ -2912,6 +2912,13 @@ function CataQuestFixes.Load()
         [27933] = { -- Elemental Ore
             [questKeys.preQuestSingle] = {27931},
         },
+        [27935] = { -- Bring Down the Avalanche
+            [questKeys.preQuestSingle] = {27934},
+        },
+        [27936] = { -- Bring Down the Avalanche
+            [questKeys.startedBy] = {},
+            [questKeys.preQuestSingle] = {27934},
+        },
         [27945] = { -- Paint it Black
             [questKeys.preQuestSingle] = {27751,27929},
         },
