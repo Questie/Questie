@@ -3042,6 +3042,12 @@ function CataQuestFixes.Load()
         [28376] = { -- Myzerian's Head
             [questKeys.startedBy] = {{48428},nil,{63700}},
         },
+        [28390] = { -- Glop, Son of Glop
+            [questKeys.exclusiveTo] = {28391},
+        },
+        [28391] = { -- The Restless Brood
+            [questKeys.exclusiveTo] = {28390},
+        },
         [28394] = { -- The Golem Lord's Creations
             [questKeys.startedBy] = {{44247}},
             [questKeys.finishedBy] = {{44247}},
