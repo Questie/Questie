@@ -1197,7 +1197,8 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Battlescar Flag Scouted",{[zoneIDs.THE_BARRENS] = {{45.2,69.4}}}},
         },
         [25105] = { -- Nibbler!  No!
-            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475}
+            [questKeys.exclusiveTo] = {25154,25155,25156,25157},
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
         },
         [25122] = { -- Morale Boost
             [questKeys.requiredSourceItems] = {52484},
@@ -1234,31 +1235,40 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{5143}}},
         },
         [25154] = { -- A Present for Lila
-            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475}
+            [questKeys.exclusiveTo] = {25105,25155,25156,25157},
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
         },
         [25155] = { -- Ogrezonians in the Mood
-            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475}
+            [questKeys.exclusiveTo] = {25105,25154,25156,25157},
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
         },
         [25156] = { -- Elemental Goo
-            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475}
+            [questKeys.exclusiveTo] = {25105,25154,25155,25157},
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
         },
         [25157] = { -- The Latest Fashion!
-            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475}
+            [questKeys.exclusiveTo] = {25105,25154,25155,25156},
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
         },
         [25158] = { -- Nibbler!  No!
-            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475}
+            [questKeys.exclusiveTo] = {25159,25160,25161,25162},
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
         },
         [25159] = { -- The Latest Fashion!
-            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475}
+            [questKeys.exclusiveTo] = {25158,25160,25161,25162},
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
         },
         [25160] = { -- A Present for Lila
-            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475}
+            [questKeys.exclusiveTo] = {25158,25159,25161,25162},
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
         },
         [25161] = { -- Ogrezonians in the Mood
-            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475}
+            [questKeys.exclusiveTo] = {25158,25159,25160,25162},
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
         },
         [25162] = { -- Elemental Goo
-            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475}
+            [questKeys.exclusiveTo] = {25158,25159,25160,25161},
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
         },
         [25164] = { -- Backed Into a Corner
             [questKeys.objectives] = {{{39397},{40161}}},
