@@ -2928,6 +2928,9 @@ function CataQuestFixes.Load()
         [27950] = { -- Gobbles!
             [questKeys.objectives] = {{{47191}}},
         },
+        [27953] = { -- The Reliquary
+            [questKeys.exclusiveTo] = {27005,27008},
+        },
         [27969] = { -- Make Yourself Useful
             [questKeys.objectives] = {{{47292}}},
         },
