@@ -3123,6 +3123,9 @@ function CataQuestFixes.Load()
         [28558] = { -- Hero's Call: Uldum!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
+        [28561] = { -- Nahom Must Hold
+            [questKeys.preQuestSingle] = {28533},
+        },
         [28571] = { -- Warchief's Command: Hillsbrad Foothills!
             [questKeys.exclusiveTo] = {28096},
         },
