@@ -3058,6 +3058,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {28391},
         },
         [28391] = { -- The Restless Brood
+            [questKeys.objectives] = {{{43641}},{{204837}}},
             [questKeys.exclusiveTo] = {28390},
         },
         [28394] = { -- The Golem Lord's Creations
