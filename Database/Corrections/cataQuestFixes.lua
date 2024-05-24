@@ -3273,6 +3273,9 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 14121,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [28611] = { -- The Defilers' Ritual
+            [questKeys.extraObjectives] = {{{[zoneIDs.ULDUM]={{51.4,39.7}}}, Questie.ICON_TYPE_EVENT, l10n("Dive into the underwater cave")}},
+        },
         [28622] = { -- Three if by Air
             [questKeys.objectives] = {{{49211},{49215},{49216}}},
         },
