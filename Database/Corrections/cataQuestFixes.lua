@@ -2894,6 +2894,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27745},
             [questKeys.exclusiveTo] = {27786},
         },
+        [27809] = { -- Firebeard Bellows
+            [questKeys.preQuestSingle] = {27806},
+        },
         [27811] = { -- The Scent of Battle
             [questKeys.preQuestSingle] = {27807},
         },
