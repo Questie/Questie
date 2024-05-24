@@ -2894,6 +2894,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27745},
             [questKeys.exclusiveTo] = {27786},
         },
+        [27805] = { -- Small Comforts
+            [questKeys.preQuestSingle] = {27621},
+        },
         [27807] = { -- Clan Mullan
             [questKeys.preQuestSingle] = {27806},
         },
