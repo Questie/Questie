@@ -2897,6 +2897,9 @@ function CataQuestFixes.Load()
         [27803] = { -- Welcome Relief
             [questKeys.preQuestSingle] = {27621},
         },
+        [27804] = { -- The Only Homes We Have
+            [questKeys.preQuestSingle] = {27621},
+        },
         [27805] = { -- Small Comforts
             [questKeys.preQuestSingle] = {27621},
         },
