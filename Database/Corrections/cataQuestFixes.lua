@@ -2984,6 +2984,9 @@ function CataQuestFixes.Load()
         [27955] = { -- Eye Spy
             [questKeys.objectives] = {{{47274}}},
         },
+        [27999] = { -- The Fate of the Doyles
+            [questKeys.preQuestSingle] = {27808},
+        },
         [28001] = { -- A Coward's Due
             [questKeys.preQuestSingle] = {27817},
         },
