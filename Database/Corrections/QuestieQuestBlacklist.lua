@@ -1566,6 +1566,8 @@ function QuestieQuestBlacklist:Load()
         [27862] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27863
         [28236] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28233
         [28412] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [28095] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [28110] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28585] = QuestieCorrections.CATA_HIDE, -- Not in the game
 
         -- ICC weekly quests
