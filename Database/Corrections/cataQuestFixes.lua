@@ -2677,6 +2677,7 @@ function CataQuestFixes.Load()
         },
         [27341] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
+            [questKeys.preQuestSingle] = {27338},
         },
         [27344] = { -- A Well-Earned Reward
             [questKeys.startedBy] = {{44247}},
