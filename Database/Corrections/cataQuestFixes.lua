@@ -2832,11 +2832,11 @@ function CataQuestFixes.Load()
         },
         [27711] = { -- Back to the Elementium Depths
             [questKeys.preQuestSingle] = {27719},
-            [questKeys.exclusiveTo] = {},
+            [questKeys.exclusiveTo] = {27720},
         },
         [27712] = { -- Back to the Elementium Depths
             [questKeys.preQuestSingle] = {27798},
-            [questKeys.exclusiveTo] = {},
+            [questKeys.exclusiveTo] = {28885},
         },
         [27716] = { -- Piece of the Past
             [questKeys.startedBy] = {{39638},nil,{62281}},
