@@ -561,6 +561,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [48533] = { -- Enormous Gyreworm
+            [npcKeys.spawns] = {},
+        },
         [49456] = { -- Finkle\'s Mole Machine
             [npcKeys.spawns] = {
                 [zoneIDs.MOUNT_HYJAL] = {{42.7,28.8}},
