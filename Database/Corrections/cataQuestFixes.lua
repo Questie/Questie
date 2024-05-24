@@ -2157,6 +2157,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {26439},
         },
+        [26436] = { -- Entrenched
+            [questKeys.preQuestSingle] = {26871},
+        },
         [26437] = { -- Making Things Crystal Clear
             [questKeys.preQuestSingle] = {26436},
         },
