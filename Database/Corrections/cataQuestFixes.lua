@@ -2581,6 +2581,9 @@ function CataQuestFixes.Load()
         [27048] = { -- Underground Economy
             [questKeys.exclusiveTo] = {26710,28488},
         },
+        [27050] = { -- Fungal Fury
+            [questKeys.objectives] = {nil,{{205146},{205147},{205151},{205152}}},
+        },
         [27059] = { -- The Wrong Sequence
             [questKeys.preQuestSingle] = {27041},
         },
