@@ -2671,6 +2671,9 @@ function CataQuestFixes.Load()
         [27302] = { -- Simple Solutions
             [questKeys.preQuestSingle] = {27299},
         },
+        [27366] = { -- Landgrab
+            [questKeys.preQuestSingle] = {27338},
+        },
         [27337] = { -- A Fitting Weapon
             [questKeys.startedBy] = {{914}},
             [questKeys.preQuestSingle] = {},
