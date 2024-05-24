@@ -2894,6 +2894,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27745},
             [questKeys.exclusiveTo] = {27786},
         },
+        [27811] = { -- The Scent of Battle
+            [questKeys.preQuestSingle] = {27807},
+        },
         [27814] = { -- Anything We Can Get
             [questKeys.preQuestSingle] = {27809},
         },
