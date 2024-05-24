@@ -3258,6 +3258,69 @@ function CataQuestFixes.Load()
         [28670] = { -- Food From Below
             [questKeys.exclusiveTo] = {28668,28669},
         },
+        [28678] = { -- Captain P. Harris
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28679] = { -- Rattling Their Cages
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28680] = { -- Boosting Morale
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28681] = { -- Shark Tank
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28682] = { -- Claiming The Keep
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28683] = { -- Thinning the Brood
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28684] = { -- A Sticky Task
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28685] = { -- Leave No Weapon Behind
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28686] = { -- Not The Friendliest Town
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28687] = { -- Teach A Man To Fish.... Or Steal
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28689] = { -- The Forgotten
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28690] = { -- Salvaging the Remains
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28691] = { -- First Lieutenant Connor
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28692] = { -- Magnets, How Do They Work?
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28693] = { -- Finish The Job
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28694] = { -- Watch Out For Splinters!
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28695] = { -- WANTED: Foreman Wellson
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28696] = { -- Bombs Away!
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28697] = { -- Ghostbuster
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28698] = { -- Cannonball!
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28700] = { -- Taking the Overlook Back
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [28708] = { -- Hero's Call: Outland!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
@@ -3273,7 +3336,10 @@ function CataQuestFixes.Load()
         [28717] = { -- Warchief's Command: Twilight Highlands!
             [questKeys.finishedBy] = {{39605}},
         },
-        [28732] = { --This Can Only Mean One Thing...
+        [28721] = { -- Walk A Mile In Their Shoes
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28732] = { -- This Can Only Mean One Thing...
             [questKeys.triggerEnd] = {"Arrive at Blackrock Caverns", {[zoneIDs.BLACKROCK_CAVERNS]={{33,66.4}}}},
             [questKeys.objectives] = {{{49456}},nil,nil,nil,},
         },
