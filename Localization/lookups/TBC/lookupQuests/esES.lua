@@ -1,7 +1,7 @@
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["esES"] = {
+l10n.questLookup["esES"] = loadstring([[return {
 [1] = {"Alexander's Quest",nil, {"Find the forgotten location and cast the magical spell."}},
 [2] = {"La garfa de Garrafilada",nil, {"Llévale la garra de Garrafilada a Senani Truenozón en el Puesto del Hachazo, Vallefresno."}},
 [5] = {"La hambruna de Alterio",nil, {"Habla con el Chef Grual."}},
@@ -6535,4 +6535,4 @@ l10n.questLookup["esES"] = {
 [64063] = {"El Portal Oscuro",nil, {"Busca al Señor de la Guerra Dar'toon en Las Tierras Devastadas. Espera tu llegada frente al Portal Oscuro."}},
 [64064] = {"Las Tierras de la Peste del Este",nil, {"Viaja a las Tierras de la Peste del Este y busca a Leonid Barthalomew. Te está esperando en la Capilla de la Esperanza de la Luz."}},
 [64217] = {"El Portal Oscuro",nil, {"Busca al Señor de la Guerra Dar'toon en Las Tierras Devastadas. Espera tu llegada frente al Portal Oscuro."}},
-}
+}]])

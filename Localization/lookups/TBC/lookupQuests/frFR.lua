@@ -1,7 +1,7 @@
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["frFR"] = {
+l10n.questLookup["frFR"] = loadstring([[return {
 [1] = {"La quête d'Alexander",nil, {"Trouvez l'endroit oublié et lancez un sort."}},
 [2] = {"La griffe de Serres-tranchantes",nil, {"Apporter la griffe de Serres-tranchantes à Senani Cœur-de-tonnerre, au poste de Bois-brisé, en Orneval."}},
 [5] = {"L'estomac qui gargouille",nil, {"Parler au chef Grual."}},
@@ -6532,4 +6532,4 @@ l10n.questLookup["frFR"] = {
 [64052] = {"Quel talent !",nil, {"Activez l’interface des Talents et dépensez 5 Points de talent."}},
 [64063] = {"La Porte des ténèbres",nil, {"Trouvez le Seigneur de guerre Dar’toon dans les terres Foudroyées. Il attend votre arrivée près de la Porte des ténèbres."}},
 [64064] = {"Maleterres de l’Est",nil, {"Rendez-vous dans les Maleterres de l’Est et trouvez Leonid Barthalomew. Il vous attend à la Chapelle de l’Espoir de Lumière."}},
-}
+}]])

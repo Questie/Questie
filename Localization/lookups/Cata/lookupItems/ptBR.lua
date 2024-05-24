@@ -5,7 +5,7 @@ end
 -- - @type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.itemLookup["ptBR"] = { 
+l10n.itemLookup["ptBR"] = loadstring([[return {
 [25] = "Espadim Usado",
 [35] = "Cajado Curvado",
 [36] = "Maça Gasta",
@@ -65260,4 +65260,4 @@ l10n.itemLookup["ptBR"] = {
 [224383] = "Omoplatas dos Paramentos do Martelo do Crepúsculo",
 [224452] = "Pergaminho de Teleporte: Porto de Ventobravo",
 [224458] = "Pergaminho de Teleporte: Torre de Zepelim de Orgrimmar",
-}
+}]])

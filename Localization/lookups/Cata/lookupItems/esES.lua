@@ -5,7 +5,7 @@ end
 -- - @type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.itemLookup["esES"] = { 
+l10n.itemLookup["esES"] = loadstring([[return {
 [25] = "Espada corta desgastada",
 [35] = "Bastón doblado",
 [36] = "Maza desgastada",
@@ -65260,4 +65260,4 @@ l10n.itemLookup["esES"] = {
 [224383] = "Sobrehombros del traje del Martillo Crepuscular",
 [224452] = "Pergamino de teletransporte: Ventormenta",
 [224458] = "Pergamino de teletransporte: Orgrimmar",
-}
+}]])

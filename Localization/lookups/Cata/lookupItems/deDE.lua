@@ -5,7 +5,7 @@ end
 -- - @type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.itemLookup["deDE"] = { 
+l10n.itemLookup["deDE"] = loadstring([[return {
 [25] = "Abgenutztes Kurzschwert",
 [35] = "Gebogener Stab",
 [36] = "Abgenutzter Streitkolben",
@@ -65260,4 +65260,4 @@ l10n.itemLookup["deDE"] = {
 [224383] = "Schattenhammerornat: Schulterstücke",
 [224452] = "Teleportrolle: Sturmwind",
 [224458] = "Teleportrolle: Orgrimmar",
-}
+}]])

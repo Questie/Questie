@@ -5,7 +5,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["esMX"] = {
+l10n.questLookup["esMX"] = loadstring([[return {
 [1] = {"La misión \"Masticar\" (123)aa", nil, {"Mata dos alimañas kóbold."}},
 [2] = {"La garfa de Garrafilada", {"El poderoso hipogrifo Garfafilada ha sido ejecutado, con la garfa de la bestia derribada como testimonio de tu victoria. Sin duda, Senani Corazón Atronador, en Puesto del Hachazo, estará interesado en ver este trofeo que prueba tu hazaña."}, {"Llévale la garfa de Garfafilada a Senani Corazón Atronador en el Puesto del Hachazo, Vallefresno."}},
 [5] = {"La hambruna de Alterio", {"¡Llevo semanas escondiéndome en esta ciudad fantasma y no he comido más que larvas y hierbajos! Necesito algo de comida decente. Estoy en disposición de pagar bien.","Si me traes un festín, te pagaré generosamente.","He oído que el chef Grual del Mesón del Cuervo Escarlata de Villa Oscura hace unos estupendos pasteles de cangrejo oscuro..."}, {"Habla con el Chef Grual."}},
@@ -4369,4 +4369,4 @@ l10n.questLookup["esMX"] = {
 [9556] = {"Para el vencedor...", nil, {"Hazte con una botella de agua Sagrada de Stratholme en la ciudad de Stratholme y entrégasela al mago de Lordaeron, en el Barrio de los Magos de Ventormenta o Entrañas, una vez consigas la victoria para tu bando en las Tierras de la Peste del Este."}},
 [9664] = {"Nuevas avanzadas", {"<Bienvenido/Bienvenida> a las Tierras de la Peste, <nombre>. Como ya sabrás, los Renegados y sus aliados controlan las tierras al oeste de aquí, muy a nuestro pesar. Los Comandantes de la Alianza han decidido establecer nuevas fortificaciones aquí en el este con el objetivo de presionar al enemigo.","Las torres, abandonadas desde los días de Lordaeron, han de ser recuperadas y reconstruidas. Estas tierras son peligrosas y tu ayuda será más que bienvenida."}, {"Captura la Torre de la Corona, la Torre de la Muralla del Este, la Torre del Paso Norte y la Torre del Bosque de la Peste en las Tierras de la Peste del Este. Tras hacerlo, regresa y habla con el Emisario Barbablanca en la Capilla de la Esperanza de la Luz."}},
 [9665] = {"Fortalecimiento de nuestras defensas", {"Algunos agentes de los Renegados descubrieron un plan de la Alianza para establecer nuevas bases en las Tierras de la Peste del Este utilizando las torres abandonadas de la zona.","Es realmente imperativo que no logren establecerse en nuestra frontera del este, por lo que debemos detener esta incursión de la Alianza. Nuestros planes actuales consisten en expulsarlos de las torres que ya hayan conquistado y en ocupar aquellas que tenemos bajo nuestro control para defenderlas de futuras agresiones."}, {"Captura la Torre de la Corona, la Torre de la Muralla del Este, la Torre del Paso Norte y la Torre del Bosque de la Peste en las Tierras de la Peste del Este. Tras hacerlo, regresa y habla con el Emisario Gormok en la Capilla de la Esperanza de la Luz."}},
-}
+}]])

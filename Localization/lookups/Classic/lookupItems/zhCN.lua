@@ -6,7 +6,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.itemLookup["zhCN"] = {
+l10n.itemLookup["zhCN"] = loadstring([[return {
 [118] = "初级治疗药水",
 [159] = "清凉的泉水",
 [182] = "加瑞克的头颅",
@@ -3049,4 +3049,4 @@ l10n.itemLookup["zhCN"] = {
 [23183] = "铁炉堡烈焰",
 [23184] = "达纳苏斯烈焰",
 [23250] = "虹彩贝壳",
-}
+}]])

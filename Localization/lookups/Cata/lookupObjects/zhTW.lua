@@ -5,7 +5,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.objectLookup["zhTW"] = {
+l10n.objectLookup["zhTW"] = loadstring([[return {
 [31] = "老舊獅子雕像",
 [32] = "沉沒的箱子",
 [33] = "鎖住的箱子",
@@ -18893,4 +18893,4 @@ l10n.objectLookup["zhTW"] = {
 [203079] = "紅龍蛋(大)",
 [203080] = "破掉的紅龍蛋(大)",
 [203624] = "海萊恩暮光環",
-}
+}]])
