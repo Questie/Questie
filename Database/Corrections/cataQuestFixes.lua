@@ -2981,6 +2981,9 @@ function CataQuestFixes.Load()
         [27955] = { -- Eye Spy
             [questKeys.objectives] = {{{47274}}},
         },
+        [28001] = { -- A Coward's Due
+            [questKeys.preQuestSingle] = {27817},
+        },
         [28038] = { -- Blood in the Highlands
             [questKeys.preQuestSingle] = {27955},
             [questKeys.exclusiveTo] = {27863},
