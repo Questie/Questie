@@ -2580,6 +2580,12 @@ function CataQuestFixes.Load()
         },
         [27048] = { -- Underground Economy
             [questKeys.exclusiveTo] = {26710,28488},
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.DEEPHOLM]={{63.4,22.6}}}, Questie.ICON_TYPE_EVENT, l10n("Place Ricket's Tickers next to the white rocks"), 1},
+                {{[zoneIDs.DEEPHOLM]={{61.8,19.3}}}, Questie.ICON_TYPE_EVENT, l10n("Place Ricket's Tickers next to the blue rocks"), 2},
+                {{[zoneIDs.DEEPHOLM]={{64.5,18.7}}}, Questie.ICON_TYPE_EVENT, l10n("Place Ricket's Tickers next to the purple rocks"), 3},
+                {{[zoneIDs.DEEPHOLM]={{66.5,20.6}}}, Questie.ICON_TYPE_EVENT, l10n("Place Ricket's Tickers next to the red rocks"), 4},
+            },
         },
         [27050] = { -- Fungal Fury
             [questKeys.objectives] = {nil,{{205146},{205147},{205151},{205152}}},

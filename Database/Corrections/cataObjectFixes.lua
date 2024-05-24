@@ -78,6 +78,18 @@ function CataObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.THE_EXODAR,
             [objectKeys.questStarts] = {27724,27726,27727,28492,28503,28507,28511,28525,28528,28531,28539,28543,28544,28550,28552,28558,28559,28708},
         },
+        [207381] = { -- Deep Alabaster Crystal Chunk
+            [objectKeys.spawns] = {},
+        },
+        [207382] = { -- Deep Celestite Crystal Chunk
+            [objectKeys.spawns] = {},
+        },
+        [207383] = { -- Deep Amethyst Crystal Chunk
+            [objectKeys.spawns] = {},
+        },
+        [207384] = { -- Deep Garnet Crystal Chunk
+            [objectKeys.spawns] = {},
+        },
         [208316] = { -- Hero's Call Board -- Dalaran
             [objectKeys.spawns] = {[zoneIDs.DALARAN] = {{37.41,63.21}}},
             [objectKeys.zoneID] = zoneIDs.DALARAN,

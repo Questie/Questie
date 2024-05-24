@@ -506,6 +506,12 @@ function CataItemFixes.Load()
         [63685] = { -- Ancient Copper Scroll
             [itemKeys.npcDrops] = {},
         },
+        [65504] = { -- Deep Alabaster Crystal
+            [itemKeys.npcDrops] = {},
+        },
+        [65507] = { -- Deep Celestite Crystal
+            [itemKeys.npcDrops] = {},
+        },
         [65734] = { -- Twilight Documents
             [itemKeys.class] = itemClasses.QUEST,
         },
