@@ -2717,6 +2717,9 @@ function CataQuestFixes.Load()
         [27404] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
         },
+        [27433] = { -- Shredderectomy
+            [questKeys.preQuestSingle] = {27338},
+        },
         [27442] = { -- The War Has Many Fronts
             [questKeys.preQuestSingle] = {26006},
             [questKeys.exclusiveTo] = {27203,27399},
