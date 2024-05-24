@@ -2157,6 +2157,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {26439},
         },
+        [26436] = { -- Entrenched
+            [questKeys.preQuestSingle] = {26871},
+        },
         [26437] = { -- Making Things Crystal Clear
             [questKeys.preQuestSingle] = {26436},
         },
@@ -2641,6 +2644,10 @@ function CataQuestFixes.Load()
         [27196] = { -- On to Something
             [questKeys.preQuestSingle] = {27176},
         },
+        [27200] = { -- Siren's Song
+            [questKeys.objectives] = {{{45183}}},
+            [questKeys.preQuestSingle] = {28599},
+        },
         [27203] = { -- The Maelstrom
             [questKeys.preQuestSingle] = {},
         },
@@ -2671,12 +2678,16 @@ function CataQuestFixes.Load()
         [27302] = { -- Simple Solutions
             [questKeys.preQuestSingle] = {27299},
         },
+        [27366] = { -- Landgrab
+            [questKeys.preQuestSingle] = {27338},
+        },
         [27337] = { -- A Fitting Weapon
             [questKeys.startedBy] = {{914}},
             [questKeys.preQuestSingle] = {},
         },
         [27341] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
+            [questKeys.preQuestSingle] = {27338},
         },
         [27344] = { -- A Well-Earned Reward
             [questKeys.startedBy] = {{44247}},
@@ -2713,6 +2724,9 @@ function CataQuestFixes.Load()
         [27404] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
         },
+        [27433] = { -- Shredderectomy
+            [questKeys.preQuestSingle] = {27338},
+        },
         [27442] = { -- The War Has Many Fronts
             [questKeys.preQuestSingle] = {26006},
             [questKeys.exclusiveTo] = {27203,27399},
@@ -2741,6 +2755,9 @@ function CataQuestFixes.Load()
         },
         [27519] = { -- Under the Choking Sands
             [questKeys.preQuestSingle] = {28135},
+        },
+        [27545] = { -- The Way is Open
+            [questKeys.preQuestSingle] = {27537},
         },
         [27583] = { -- The Northern Flank
             [questKeys.preQuestSingle] = {26840},
@@ -2777,6 +2794,9 @@ function CataQuestFixes.Load()
         },
         [27631] = { -- The High Commander's Vote
             [questKeys.preQuestSingle] = {27628},
+        },
+        [27640] = { -- Dunwalds Don't Die
+            [questKeys.preQuestSingle] = {27817},
         },
         [27668] = { -- Pay Attention!
             [questKeys.preQuestSingle] = {25944},
@@ -2891,6 +2911,27 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27745},
             [questKeys.exclusiveTo] = {27786},
         },
+        [27803] = { -- Welcome Relief
+            [questKeys.preQuestSingle] = {27621},
+        },
+        [27804] = { -- The Only Homes We Have
+            [questKeys.preQuestSingle] = {27621},
+        },
+        [27805] = { -- Small Comforts
+            [questKeys.preQuestSingle] = {27621},
+        },
+        [27807] = { -- Clan Mullan
+            [questKeys.preQuestSingle] = {27806},
+        },
+        [27808] = { -- Stubborn as a Doyle
+            [questKeys.preQuestSingle] = {27806},
+        },
+        [27809] = { -- Firebeard Bellows
+            [questKeys.preQuestSingle] = {27806},
+        },
+        [27811] = { -- The Scent of Battle
+            [questKeys.preQuestSingle] = {27807},
+        },
         [27814] = { -- Anything We Can Get
             [questKeys.preQuestSingle] = {27809},
         },
@@ -2965,6 +3006,7 @@ function CataQuestFixes.Load()
         },
         [27993] = { -- Take it to 'Em!
             [questKeys.triggerEnd] = {"Khartut's Tomb Investigated",{[zoneIDs.ULDUM]={{64.6,28.6}}}},
+            [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {28112},
             [questKeys.exclusiveTo] = {27141},
         },
@@ -2979,6 +3021,12 @@ function CataQuestFixes.Load()
         },
         [27955] = { -- Eye Spy
             [questKeys.objectives] = {{{47274}}},
+        },
+        [27999] = { -- The Fate of the Doyles
+            [questKeys.preQuestSingle] = {27808},
+        },
+        [28001] = { -- A Coward's Due
+            [questKeys.preQuestSingle] = {27817},
         },
         [28038] = { -- Blood in the Highlands
             [questKeys.preQuestSingle] = {27955},
@@ -3225,6 +3273,9 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 14121,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [28611] = { -- The Defilers' Ritual
+            [questKeys.extraObjectives] = {{{[zoneIDs.ULDUM]={{51.4,39.7}}}, Questie.ICON_TYPE_EVENT, l10n("Dive into the underwater cave")}},
+        },
         [28622] = { -- Three if by Air
             [questKeys.objectives] = {{{49211},{49215},{49216}}},
         },
@@ -3258,6 +3309,69 @@ function CataQuestFixes.Load()
         [28670] = { -- Food From Below
             [questKeys.exclusiveTo] = {28668,28669},
         },
+        [28678] = { -- Captain P. Harris
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28679] = { -- Rattling Their Cages
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28680] = { -- Boosting Morale
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28681] = { -- Shark Tank
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28682] = { -- Claiming The Keep
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28683] = { -- Thinning the Brood
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28684] = { -- A Sticky Task
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28685] = { -- Leave No Weapon Behind
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28686] = { -- Not The Friendliest Town
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28687] = { -- Teach A Man To Fish.... Or Steal
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28689] = { -- The Forgotten
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28690] = { -- Salvaging the Remains
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28691] = { -- First Lieutenant Connor
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28692] = { -- Magnets, How Do They Work?
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28693] = { -- Finish The Job
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28694] = { -- Watch Out For Splinters!
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28695] = { -- WANTED: Foreman Wellson
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28696] = { -- Bombs Away!
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28697] = { -- Ghostbuster
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28698] = { -- Cannonball!
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28700] = { -- Taking the Overlook Back
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [28708] = { -- Hero's Call: Outland!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
@@ -3273,7 +3387,10 @@ function CataQuestFixes.Load()
         [28717] = { -- Warchief's Command: Twilight Highlands!
             [questKeys.finishedBy] = {{39605}},
         },
-        [28732] = { --This Can Only Mean One Thing...
+        [28721] = { -- Walk A Mile In Their Shoes
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28732] = { -- This Can Only Mean One Thing...
             [questKeys.triggerEnd] = {"Arrive at Blackrock Caverns", {[zoneIDs.BLACKROCK_CAVERNS]={{33,66.4}}}},
             [questKeys.objectives] = {{{49456}},nil,nil,nil,},
         },

@@ -91,6 +91,9 @@ function CataNpcFixes.Load()
         [7319] = { -- Lady Sathrah
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{40.66,22.16}}},
         },
+        [9684] = { -- Lar'korwi
+            [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{69.98,40.96}}},
+        },
         [10878] = { -- Herald Moonstalker
             [npcKeys.waypoints] = {}, -- to do
         },
