@@ -1,3 +1,7 @@
+if GetLocale() ~= "frFR" then
+    return
+end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
