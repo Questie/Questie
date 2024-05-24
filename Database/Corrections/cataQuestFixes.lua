@@ -2641,6 +2641,9 @@ function CataQuestFixes.Load()
         [27196] = { -- On to Something
             [questKeys.preQuestSingle] = {27176},
         },
+        [27200] = { -- Siren's Song
+            [questKeys.objectives] = {{{45183}}},
+        },
         [27203] = { -- The Maelstrom
             [questKeys.preQuestSingle] = {},
         },
