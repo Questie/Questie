@@ -3003,6 +3003,15 @@ function CataQuestFixes.Load()
         [28100] = { -- A Talking Totem
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 12}},
         },
+        [28117] = { -- Clearing the Depths
+            [questKeys.exclusiveTo] = {28118,28120},
+        },
+        [28118] = { -- The Imprisoned Archmage
+            [questKeys.exclusiveTo] = {28117,28120},
+        },
+        [28120] = { -- Learning From The Past
+            [questKeys.exclusiveTo] = {28117,28118},
+        },
         [28134] = { -- Impending Retribution
             [questKeys.objectives] = {{{46603},{47715},{47930}}}
         },
@@ -3016,11 +3025,29 @@ function CataQuestFixes.Load()
         [28170] = { -- Night Terrors
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Uchek"), 0, {{"monster", 47826}}}},
         },
+        [28165] = { -- D-Block
+            [questKeys.exclusiveTo] = {28185,28186},
+        },
+        [28185] = { -- Svarnos
+            [questKeys.exclusiveTo] = {28165,28186},
+        },
+        [28186] = { -- Cursed Shackles
+            [questKeys.exclusiveTo] = {28165,28185},
+        },
+        [28188] = { -- Prison Revolt
+            [questKeys.exclusiveTo] = {28223,28232},
+        },
         [28191] = { -- A Fitting End
             [questKeys.preQuestSingle] = {28171},
         },
+        [28223] = { -- The Warden
+            [questKeys.exclusiveTo] = {28188,28232},
+        },
         [28228] = { -- Rejoining the Forest
             [questKeys.triggerEnd] = {"Protector brought to hill", {[zoneIDs.FELWOOD]={{48.7,25.2}}}},
+        },
+        [28232] = { -- Food From Below
+            [questKeys.exclusiveTo] = {28188,28223},
         },
         [28233] = { -- The Lost Brother
             [questKeys.preQuestSingle] = {27809},
@@ -3203,6 +3230,33 @@ function CataQuestFixes.Load()
         },
         [28635] = { -- A Haunting in Hillsbrad
             [questKeys.triggerEnd] = {"Search Dun Garok for Evidence of a Haunting", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.9,84.5}}}},
+        },
+        [28660] = { -- Clearing the Depths
+            [questKeys.exclusiveTo] = {28661,28662},
+        },
+        [28661] = { -- The Imprisoned Archmage
+            [questKeys.exclusiveTo] = {28660,28662},
+        },
+        [28662] = { -- Learning From The Past
+            [questKeys.exclusiveTo] = {28660,28661},
+        },
+        [28663] = { -- D-Block
+            [questKeys.exclusiveTo] = {28664,28665},
+        },
+        [28664] = { -- Svarnos
+            [questKeys.exclusiveTo] = {28663,28665},
+        },
+        [28665] = { -- Cursed Shackles
+            [questKeys.exclusiveTo] = {28663,28664},
+        },
+        [28668] = { -- Prison Revolt
+            [questKeys.exclusiveTo] = {28669,28670},
+        },
+        [28669] = { -- The Warden
+            [questKeys.exclusiveTo] = {28668,28670},
+        },
+        [28670] = { -- Food From Below
+            [questKeys.exclusiveTo] = {28668,28669},
         },
         [28708] = { -- Hero's Call: Outland!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
