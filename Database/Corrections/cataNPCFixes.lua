@@ -519,6 +519,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [44968] = { -- Ricket
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{61.4,26.2}}}
+        },
         [45362] = { -- Earthcaller Yevaa
             [npcKeys.spawns] = {
                 [zoneIDs.TWILIGHT_HIGHLANDS] = {
