@@ -2778,6 +2778,9 @@ function CataQuestFixes.Load()
         [27631] = { -- The High Commander's Vote
             [questKeys.preQuestSingle] = {27628},
         },
+        [27640] = { -- Dunwalds Don't Die
+            [questKeys.preQuestSingle] = {27817},
+        },
         [27668] = { -- Pay Attention!
             [questKeys.preQuestSingle] = {25944},
             [questKeys.exclusiveTo] = {25946},
