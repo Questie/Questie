@@ -938,6 +938,7 @@ function CataQuestFixes.Load()
         },
         [14424] = { -- Need More Science
             [questKeys.preQuestSingle] = {14423},
+            [questKeys.exclusiveTo] = {14308},
         },
         [14442] = { -- My Favorite Subject
             [questKeys.exclusiveTo] = {14408},
