@@ -2044,6 +2044,9 @@ function CataQuestFixes.Load()
         [26234] = { -- Stealing From Our Own
             [questKeys.requiredRaces] = raceKeys.TROLL,
         },
+        [26245] = { -- Gunship Down
+            [questKeys.objectives] = {{{43048,nil,Questie.ICON_TYPE_EVENT},{43032,nil,Questie.ICON_TYPE_EVENT},{43044,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [26247] = { -- Diplomacy First
             [questKeys.preQuestGroup] = {26244,27136},
         },
