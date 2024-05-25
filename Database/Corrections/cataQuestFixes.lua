@@ -3733,6 +3733,9 @@ function CataQuestFixes.Load()
         [29539] = { -- Heart of Rage
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.THE_BLOOD_FURNACE]={{64.9,41.5}}}},
         },
+        [29829] = { -- Discretion is Key
+            [questKeys.exclusiveTo] = {29830},
+        },
         [29851] = { -- Champion of the Tournament
             [questKeys.objectives] = {{{35451}}},
             [questKeys.requiredRaces] = raceKeys.NONE,
