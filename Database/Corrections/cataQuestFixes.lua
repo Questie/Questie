@@ -1538,7 +1538,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Climb the tree"),0,{{"monster",40190}}}},
         },
         [25464] = { -- The Return of Baron Geddon
-            [questKeys.objectives] = {{{40147,nil,ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{40147,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25467] = { -- Kliklak's Craw
             [questKeys.startedBy] = {{40276},nil,{54345}},
