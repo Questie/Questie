@@ -3406,6 +3406,7 @@ function CataQuestFixes.Load()
         [28732] = { -- This Can Only Mean One Thing...
             [questKeys.triggerEnd] = {"Arrive at Blackrock Caverns", {[zoneIDs.BLACKROCK_CAVERNS]={{33,66.4}}}},
             [questKeys.objectives] = {{{49456}},nil,nil,nil,},
+            [questKeys.exclusiveTo] = {28735,28737,28738,28740,28741},
         },
         [28734] = { -- A Favor for Melithar
             [questKeys.exclusiveTo] = {28715},
