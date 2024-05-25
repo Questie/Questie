@@ -1714,6 +1714,9 @@ function CataQuestFixes.Load()
         [25743] = { -- Decisions, Decisions
             [questKeys.objectives] = {nil,{{203194}}},
         },
+        [25753] = { -- Fallen But Not Forgotten
+            [questKeys.objectives] = {{{41281}}},
+        },
         [25754] = { -- Gauging Success
             [questKeys.extraObjectives] = {
                 {{[zoneIDs.SHIMMERING_EXPANSE]={{31.77,67.70}}},Questie.ICON_TYPE_EVENT,l10n("Scout the Tunnel to the North")},
