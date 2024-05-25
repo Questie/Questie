@@ -2149,8 +2149,15 @@ function CataQuestFixes.Load()
         [26388] = { -- Twilight Skies
             [questKeys.extraObjectives] = {{{[zoneIDs.AZSHARA]={{50.7,73.9}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for the Zeppelin")}},
         },
+        [26389] = { -- Blackrock Invasion
+            [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
+        },
+        [26390] = { -- Ending the Invasion!
+            [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
+        },
         [26391] = { -- Extinguishing Hope
             [questKeys.preQuestSingle] = {28817,28818,28819,28820,28821,28822,28823,29083},
+            [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
         },
         [26397] = { -- Walk With The Earth Mother
             [questKeys.finishedBy] = {{39605}},
@@ -2766,6 +2773,9 @@ function CataQuestFixes.Load()
         },
         [27381] = { -- Traveling Companions
             [questKeys.objectives] = {{{45451}}},
+        },
+        [27393] = { -- The Call of the Blade
+            [questKeys.nextQuestInChain] = {25583},
         },
         [27394] = { -- The Call of the Blade
             [questKeys.preQuestSingle] = {25953},
