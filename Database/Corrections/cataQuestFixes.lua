@@ -1946,6 +1946,9 @@ function CataQuestFixes.Load()
         [26040] = { -- What? What? In My Gut...?
             [questKeys.preQuestSingle] = {25887},
         },
+        [26043] = { -- BEWARE OF CRAGJAW!
+            [questKeys.preQuestSingle] = {26004},
+        },
         [26056] = { -- The Wavespeaker
             [questKeys.exclusiveTo] = {26065},
             [questKeys.nextQuestInChain] = 26065,
