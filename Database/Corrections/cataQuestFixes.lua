@@ -2638,6 +2638,9 @@ function CataQuestFixes.Load()
         [27059] = { -- The Wrong Sequence
             [questKeys.preQuestSingle] = {27041},
         },
+        [27061] = { -- The Twilight Overlook
+            [questKeys.exclusiveTo] = {26766,26768,28866},
+        },
         [27062] = { -- Looming Threat
             [questKeys.finishedBy] = {{44837}},
         },
