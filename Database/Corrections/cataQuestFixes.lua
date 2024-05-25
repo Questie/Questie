@@ -1592,6 +1592,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{203067}}},
             [questKeys.requiredSourceItems] = {55123},
         },
+        [25583] = { -- Upon the Scene of Battle
+            [questKeys.preQuestSingle] = {25922},
+        },
         [25587] = { -- Gimme Shelter!
             [questKeys.preQuestSingle] = {25949},
             [questKeys.extraObjectives] = {
@@ -1821,7 +1824,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25593},
         },
         [25956] = { -- Upon the Scene of Battle
-            [questKeys.preQuestSingle] = {25593},
+            [questKeys.preQuestSingle] = {25996},
         },
         [25957] = { -- Visions of the Past: The Invasion of Vashj'ir
             [questKeys.preQuestGroup] = {25952,25955,25956},
