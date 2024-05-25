@@ -2443,6 +2443,9 @@ function CataQuestFixes.Load()
         [26791] = { -- Sprout No More
             [questKeys.preQuestSingle] = {26834},
         },
+        [26792] = { -- Fungal Monstrosities
+            [questKeys.preQuestSingle] = {26834},
+        },
         [26798] = { -- The Warchief Will Be Pleased
             [questKeys.finishedBy] = {{39605}},
         },
