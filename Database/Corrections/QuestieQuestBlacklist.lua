@@ -1648,6 +1648,10 @@ function QuestieQuestBlacklist:Load()
 
         [29129] = true, -- A Legendary Engagement
         [29132] = true, -- A Legendary Engagement
+        [29202] = true, -- The Fate of Runetotem
+        [29280] = true, -- Nourishing Waters
+        [29282] = true, -- Well Armed
+        [29284] = true, -- Aid of the Ancients
         [29326] = true, -- The Nordrassil Summit
         [29387] = true, -- Guardians of Hyjal: Firelands Invasion!
         [29388] = true, -- Guardians of Hyjal: Firelands Invasion!
