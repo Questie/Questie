@@ -2377,7 +2377,10 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Hop on a Hippogryph"), 0, {{"monster", 43747}}}},
         },
         [26710] = { -- Lost In The Deeps
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Pebble brought to safety",{[zoneIDs.DEEPHOLM]={{58.4,25.6}}}},
             [questKeys.exclusiveTo] = {27048,28488},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Pebble"), 0, {{"monster", 49956}}}},
         },
         [26711] = { -- Off to the Bank (female)
             [questKeys.exclusiveTo] = {26712},
