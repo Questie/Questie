@@ -64,6 +64,9 @@ function CataQuestFixes.Load()
         [824] = { -- Je'neu of the Earthen Ring
             [questKeys.finishedBy] = {{12736}},
         },
+        [840] = { -- Conscript of the Horde
+            [questKeys.exclusiveTo] = {},
+        },
         [869] = { -- To Track a Thief
             [questKeys.triggerEnd] = {"Source of Tracks Discovered",{[zoneIDs.THE_BARRENS] = {{63.5,61.5}}}},
         },
@@ -3265,6 +3268,9 @@ function CataQuestFixes.Load()
         },
         [28488] = { -- Beneath the Surface
             [questKeys.exclusiveTo] = {26710,27048},
+        },
+        [28494] = { -- Warchief's Command: Northern Barrens!
+            [questKeys.exclusiveTo] = {26642},
         },
         [28501] = { -- The Defense of Nahom
             [questKeys.objectives] = {{{49228}}},
