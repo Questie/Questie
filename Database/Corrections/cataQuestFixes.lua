@@ -3425,6 +3425,9 @@ function CataQuestFixes.Load()
         [28826] = { -- The Eye of the Storm
             [questKeys.objectives] = {nil,{{207416}}},
         },
+        [28845] = { -- The Vortex Pinnacle
+            [questKeys.exclusiveTo] = {28760,28779},
+        },
         [28849] = { -- Twilight Skies
             [questKeys.preQuestGroup] = {26337,26372,26374},
         },
