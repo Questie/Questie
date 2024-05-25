@@ -1753,7 +1753,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25372},
         },
         [25900] = { -- Making Contact
-            [questKeys.objectives] = {{{41531}}},
+            [questKeys.objectives] = {{{41531,nil,Questie.ICON_TYPE_TALK}}},
         },
         [25901] = { -- Hyjal Recycling Program
             [questKeys.preQuestSingle] = {25372},
@@ -1768,6 +1768,9 @@ function CataQuestFixes.Load()
         },
         [25915] = { -- The Strength of Tortolla
             [questKeys.preQuestSingle] = {25906},
+        },
+        [25916] = { -- Breaking Through
+            [questKeys.objectives] = {{{41531,nil,Questie.ICON_TYPE_TALK}}},
         },
         [25924] = { -- Call of Duty
             [questKeys.extraObjectives] = {{{[zoneIDs.DUROTAR] = {{57.8,10.4}}},Questie.ICON_TYPE_EVENT,l10n("Wait for the Mercenary Ship to arrive")}},
@@ -1895,8 +1898,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25907,25908},
         },
-        [25990] = { -- Breaking Through
-            [questKeys.triggerEnd] = {"Speak with Earthmender Duarn",{[zoneIDs.ABYSSAL_DEPTHS]={{51.6,52.3}}}},
+        [25916] = { -- Breaking Through
+            [questKeys.objectives] = {{{41531,nil,Questie.ICON_TYPE_TALK}}},
         },
         [25992] = { -- Hopelessly Gearless
             [questKeys.preQuestSingle] = {25991},
