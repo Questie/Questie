@@ -2293,6 +2293,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26572,26557,26543,26556,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{71.1,7.9}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Giant Furious Pike")}},
         },
+        [26591] = { -- Battlefront Triage
+            [questKeys.preQuestSingle] = {26501},
+        },
         [26597] = { -- Stranglethorn Fever
             [questKeys.childQuests] = {26598},
         },
