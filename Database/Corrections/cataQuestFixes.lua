@@ -2228,6 +2228,11 @@ function CataQuestFixes.Load()
         [26500] = { -- We're Surrounded
             [questKeys.preQuestSingle] = {27935},
         },
+        [26501] = { -- Sealing the Way
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Use Rockslide Reagent on Earthen Geomancer"),0,{{"monster",43170}}},
+            },
+        },
         [26507] = { -- Petrified Delicacies
             [questKeys.preQuestSingle] = {26441},
         },
