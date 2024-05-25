@@ -1967,6 +1967,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{42114}},
         },
         [26126] = { -- The Perfect Fuel
+            [questKeys.objectives] = {nil,{{203461}}},
             [questKeys.requiredSourceItems] = {56819,56820},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring three Hammerhead Oil and two Remora Oil to Fiasco Sizzlegrin."), 0, {{"monster", 41666}}}},
         },
