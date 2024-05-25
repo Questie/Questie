@@ -1440,7 +1440,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [25314] = { -- Speech Writing for Dummies
-            [questKeys.preQuestSingle] = {25308},
+            [questKeys.preQuestGroup] = {25308,25310,25311},
         },
         [25323] = { -- Flamebreaker
             [questKeys.objectives] = {{{40080}}},
