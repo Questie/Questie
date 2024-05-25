@@ -2690,6 +2690,9 @@ function CataQuestFixes.Load()
         [27280] = { -- The Dreamseeker Calls
             [questKeys.finishedBy] = {{3344}},
         },
+        [27281] = { -- Grezz Ragefist
+            [questKeys.exclusiveTo] = {28290,27365,28457},
+        },
         [27282] = { -- Zevrost's Behest
             [questKeys.finishedBy] = {{3326}},
         },
