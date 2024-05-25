@@ -1713,6 +1713,9 @@ function CataQuestFixes.Load()
         [25743] = { -- Decisions, Decisions
             [questKeys.objectives] = {nil,{{203194}}},
         },
+        [25760] = { -- Visions of the Past: The Invasion of Vashj'ir
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE] = {{40,75}}},Questie.ICON_TYPE_EVENT,l10n("Attune the with the Broken Blade's owner")}},
+        },
         [25764] = { -- Egg Hunt
             [questKeys.objectives] = {nil,{{203208}}},
         },
@@ -1831,8 +1834,7 @@ function CataQuestFixes.Load()
         },
         [25957] = { -- Visions of the Past: The Invasion of Vashj'ir
             [questKeys.preQuestGroup] = {25952,25955,25956},
-            [questKeys.extraObjectives] = {
-                {{[zoneIDs.SHIMMERING_EXPANSE] = {{40,75}}},Questie.ICON_TYPE_EVENT,l10n("Attune the with the Broken Blade's owner")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE] = {{40,75}}},Questie.ICON_TYPE_EVENT,l10n("Attune the with the Broken Blade's owner")}},
         },
         [25958] = { -- Looking Forward
             [questKeys.preQuestSingle] = {25957},
