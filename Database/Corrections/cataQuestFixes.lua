@@ -66,12 +66,20 @@ function CataQuestFixes.Load()
         },
         [840] = { -- Conscript of the Horde
             [questKeys.exclusiveTo] = {},
+            [questKeys.nextQuestInChain] = 871,
         },
         [869] = { -- To Track a Thief
             [questKeys.triggerEnd] = {"Source of Tracks Discovered",{[zoneIDs.THE_BARRENS] = {{63.5,61.5}}}},
         },
         [870] = { -- The Forgotten Pools
             [questKeys.triggerEnd] = {"Explore the waters of the Forgotten Pools",{[zoneIDs.THE_BARRENS] = {{37.1,45.4}}}},
+        },
+        [871] = { -- In Defense of Far Watch
+            [questKeys.preQuestSingle] = {840, 26642, 28494},
+            [questKeys.nextQuestInChain] = 872,
+        },
+        [872] = { -- The Far Watch Offensive
+            [questKeys.preQuestSingle] = {871},
         },
         [918] = { -- Timberling Seeds
             [questKeys.preQuestSingle] = {997},
@@ -2367,6 +2375,7 @@ function CataQuestFixes.Load()
         },
         [26642] = { -- Preserving the Barrens
             [questKeys.exclusiveTo] = {28494},
+            [questKeys.nextQuestInChain] = 871,
         },
         [26645] = { -- The Night Watch
             [questKeys.preQuestSingle] = {26618},
@@ -3271,6 +3280,7 @@ function CataQuestFixes.Load()
         },
         [28494] = { -- Warchief's Command: Northern Barrens!
             [questKeys.exclusiveTo] = {26642},
+            [questKeys.nextQuestInChain] = 871,
         },
         [28501] = { -- The Defense of Nahom
             [questKeys.objectives] = {{{49228}}},
