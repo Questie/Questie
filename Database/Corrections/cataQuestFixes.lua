@@ -3137,6 +3137,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{48040,48041,48043},48040,"Thieving plucker smashed"}}},
             [questKeys.preQuestSingle] = {28112},
         },
+        [28290] = { -- Meet with Grezz Ragefist
+            [questKeys.exclusiveTo] = {27281,27365,28457},
+        },
         [28299] = { -- Meet with Zevrost
             [questKeys.finishedBy] = {{3326}},
         },
