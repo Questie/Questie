@@ -2440,6 +2440,9 @@ function CataQuestFixes.Load()
         [26788] = { -- Cementing Our Victory
             [questKeys.preQuestSingle] = {26622},
         },
+        [26791] = { -- Sprout No More
+            [questKeys.preQuestSingle] = {26834},
+        },
         [26798] = { -- The Warchief Will Be Pleased
             [questKeys.finishedBy] = {{39605}},
         },
