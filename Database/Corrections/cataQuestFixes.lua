@@ -2094,7 +2094,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {26294,26311},
         },
         [26326] = { -- The Very Earth Beneath Our Feet
-            [questKeys.preQuestSingle] = {27938},
+            [questKeys.preQuestSingle] = {26876,27938},
         },
         [26335] = { -- Ready the Navy
             [questKeys.preQuestSingle] = {26324},
