@@ -1910,7 +1910,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25907,25908},
         },
-        [25916] = { -- Breaking Through
+        [25990] = { -- Breaking Through
             [questKeys.objectives] = {{{41531,nil,Questie.ICON_TYPE_TALK}}},
         },
         [25992] = { -- Hopelessly Gearless
