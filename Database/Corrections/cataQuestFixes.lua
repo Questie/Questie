@@ -2056,6 +2056,9 @@ function CataQuestFixes.Load()
         [26249] = { -- The Admiral's Cabin
             [questKeys.preQuestSingle] = {26247},
         },
+        [26250] = { -- On Second Thought, Take One Prisoner
+            [questKeys.preQuestSingle] = {26248},
+        },
         [26258] = { -- Deathwing's Fall
             [questKeys.triggerEnd] = {"Deathwing's Fall reached", {[zoneIDs.DEEPHOLM]={{61.3,57.5}}}},
         },
