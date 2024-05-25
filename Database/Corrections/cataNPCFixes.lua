@@ -481,6 +481,9 @@ function CataNpcFixes.Load()
                 {32.79,70.75,phases.HYJAL_THISALEE_AT_SETHRIAS_ROOST},
             }},
         },
+        [41084] = { -- Blaithe
+            [npcKeys.spawns] = {[616]={{36.72,33.68},{39.22,37.15},{35.67,42.33},{40.24,37.24},{44.54,38.16},{47.13,40.08},{49.55,41.54}}},
+        },
         [41098] = { -- Gnaws
             [npcKeys.spawns] = {},
         },
