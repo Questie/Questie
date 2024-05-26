@@ -722,6 +722,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26478},
             [questKeys.nextQuestInChain] = 13976,
         },
+        [13969] = { -- Grol'dom's Missing Kodo
+          [questKeys.preQuestSingle] = {13963},  
+        },
         [13975] = { -- Crossroads Caravan Delivery
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Crossroads Caravan Escorted",{[zoneIDs.THE_BARRENS] = {{50.3,58.5}}}},
