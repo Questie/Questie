@@ -1156,7 +1156,7 @@ function QuestieDBCompiler:ValidateObjects()
 
     validator.stream:finished()
     Questie:Debug(Questie.DEBUG_INFO, "Finished objects validation without issues!")
-    end
+end
 
 
 function QuestieDBCompiler:ValidateItems()
