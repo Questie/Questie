@@ -2793,7 +2793,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{45451}}},
         },
         [27393] = { -- The Call of the Blade
-            [questKeys.nextQuestInChain] = {25583},
+            [questKeys.nextQuestInChain] = 25583,
         },
         [27394] = { -- The Call of the Blade
             [questKeys.preQuestSingle] = {25953},
