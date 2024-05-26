@@ -31,6 +31,9 @@ function CataQuestFixes.Load()
     local specialFlags = QuestieDB.specialFlags
 
     return {
+        [54] = { -- Report to Goldshire
+            [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
+        },
         [106] = { -- Young Lovers
             [questKeys.preQuestSingle] = {},
         },
@@ -118,6 +121,9 @@ function CataQuestFixes.Load()
         },
         [1918] = { -- The Befouled Element
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [2158] = { -- Rest and Relaxation
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
