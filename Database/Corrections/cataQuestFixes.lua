@@ -694,7 +694,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{34326,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [13949] = { -- Crossroads Caravan Pickup
-            [questKeys.preQuestSingle] = {872},
+            [questKeys.preQuestGroup] = {872, 5041},
         },
         [13953] = { -- Naga In Our Midst
             [questKeys.preQuestSingle] = {13895},
