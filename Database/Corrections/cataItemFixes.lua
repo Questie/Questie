@@ -19,6 +19,9 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {195111},
         },
+        [5533] = { -- Ilkrud Magthrull's Tome
+            [itemKeys.npcDrops] = {},
+        },
         [10458] = { -- Prayer to Elune
             [itemKeys.npcDrops] = {}
         },
