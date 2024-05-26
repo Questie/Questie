@@ -132,6 +132,9 @@ function CataQuestFixes.Load()
         [3101] = { -- Consecrated Letter
             [questKeys.startedBy] = {{197}},
         },
+        [5041] = { -- Supplies for the Crossroads
+            [questKeys.preQuestSingle] = {871}
+        },
         [5502] = { -- A Warden of the Horde
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29190,29191},
@@ -689,6 +692,9 @@ function CataQuestFixes.Load()
         },
         [13948] = { -- Stepping Up Surveillance
             [questKeys.objectives] = {{{34326,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [13949] = { -- Crossroads Caravan Pickup
+            [questKeys.preQuestSingle] = {872},
         },
         [13953] = { -- Naga In Our Midst
             [questKeys.preQuestSingle] = {13895},
