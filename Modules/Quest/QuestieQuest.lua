@@ -743,7 +743,7 @@ local function _AddSourceItemObjective(quest)
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_AddSourceItemObjective] Adding Source Item Id for:", quest.sourceItemId)
 
             -- We fake an objective for the sourceItems because this allows us
-            -- to simply reuse "QuestieTooltips:GetTooltip".
+            -- to simply reuse "QuestieTooltips.GetTooltip".
             -- This should be all the data required for the tooltip
             local fakeObjective = {
                 Id = quest.Id,
@@ -810,7 +810,7 @@ local function _AddRequiredSourceItemObjective(quest)
                 Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_AddRequiredSourceItemObjective] Adding Source Item Id for:", requiredSourceItemId)
 
                 -- We fake an objective for the requiredSourceItem because this allows us
-                -- to simply reuse "QuestieTooltips:GetTooltip".
+                -- to simply reuse "QuestieTooltips.GetTooltip".
                 -- This should be all the data required for the tooltip
                 local fakeObjective = {
                     Id = quest.Id,
@@ -956,9 +956,9 @@ function QuestieQuest:AddFinisher(quest)
 
             -- Clear duplicate keys if they exist
             if QuestieTooltips.lookupByKey[key] then
-                if QuestieTooltips:GetTooltip(key) ~= nil and #QuestieTooltips:GetTooltip(key) > 1 then
-                    for ttline = 1, #QuestieTooltips:GetTooltip(key) do
-                        for index, line in pairs(QuestieTooltips:GetTooltip(key)) do
+                if QuestieTooltips.GetTooltip(key) ~= nil and #QuestieTooltips.GetTooltip(key) > 1 then
+                    for ttline = 1, #QuestieTooltips.GetTooltip(key) do
+                        for index, line in pairs(QuestieTooltips.GetTooltip(key)) do
                             if (ttline == index) then
                                 Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing duplicate Quest Title!")
 

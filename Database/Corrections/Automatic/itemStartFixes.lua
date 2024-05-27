@@ -1742,6 +1742,16 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       [44725] = {
         [itemKeys.startQuest] = 13420,
       },
+      --* Item 44927 https://wotlk.wowhead.com/wotlk/item=44927
+      --* Starts: Bearer of Good Fortune(13557)(https://wotlk.wowhead.com/wotlk/quest=13557)
+      [44927] = {
+        [itemKeys.startQuest] = 13557,
+      },
+      --* Item 44979 https://wotlk.wowhead.com/wotlk/item=44979
+      --* Starts: Reason to Worry(13506)(https://wotlk.wowhead.com/wotlk/quest=13506)
+      [44979] = {
+        [itemKeys.startQuest] = 13506,
+      },
       --* Item 45039 https://wotlk.wowhead.com/wotlk/item=45039
       --* Starts: Ancient History(13622)(https://wotlk.wowhead.com/wotlk/quest=13622)
       [45039] = {
@@ -1771,6 +1781,16 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       --* Starts: Heroic: All Is Well That Ends Well(13819)(https://wotlk.wowhead.com/wotlk/quest=13819)
       [46053] = {
         [itemKeys.startQuest] = 13819,
+      },
+      --* Item 46128 https://wotlk.wowhead.com/wotlk/item=46128
+      --* Starts: Corrupting Influence?(13868)(https://wotlk.wowhead.com/wotlk/quest=13868)
+      [46128] = {
+        [itemKeys.startQuest] = 13868,
+      },
+      --* Item 46318 https://wotlk.wowhead.com/wotlk/item=46318
+      --* Starts: Disturbing Connections(13591)(https://wotlk.wowhead.com/wotlk/quest=13591)
+      [46318] = {
+        [itemKeys.startQuest] = 13591,
       },
       --* Item 46875 https://wotlk.wowhead.com/wotlk/item=46875
       --* Starts: Learn to Ride in Elwynn Forest(14079)(https://wotlk.wowhead.com/wotlk/quest=14079)
@@ -1827,6 +1847,11 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       [46955] = {
         [itemKeys.startQuest] = 14095,
       },
+      --* Item 47039 https://wotlk.wowhead.com/wotlk/item=47039
+      --* Starts: Return of the Highborne?(14127)(https://wotlk.wowhead.com/wotlk/quest=14127)
+      [47039] = {
+        [itemKeys.startQuest] = 14127,
+      },
       --* Item 47246 https://wotlk.wowhead.com/wotlk/item=47246
       --* Starts: Writ of Merit(14160)(https://wotlk.wowhead.com/wotlk/quest=14160)
       [47246] = {
@@ -1837,10 +1862,35 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       [48679] = {
         [itemKeys.startQuest] = 14203,
       },
+      --* Item 49010 https://wotlk.wowhead.com/wotlk/item=49010
+      --* Starts: Ears Are Burning(14232)(https://wotlk.wowhead.com/wotlk/quest=14232)
+      [49010] = {
+        [itemKeys.startQuest] = 14232,
+      },
+      --* Item 49200 https://wotlk.wowhead.com/wotlk/item=49200
+      --* Starts: Jugkar's Undoing(14344)(https://wotlk.wowhead.com/wotlk/quest=14344)
+      [49200] = {
+        [itemKeys.startQuest] = 14344,
+      },
+      --* Item 49203 https://wotlk.wowhead.com/wotlk/item=49203
+      --* Starts: Ears Are Burning(14362)(https://wotlk.wowhead.com/wotlk/quest=14362)
+      [49203] = {
+        [itemKeys.startQuest] = 14362,
+      },
       --* Item 49205 https://wotlk.wowhead.com/wotlk/item=49205
       --* Starts: An Unholy Alliance(14352)(https://wotlk.wowhead.com/wotlk/quest=14352)
       [49205] = {
         [itemKeys.startQuest] = 14352,
+      },
+      --* Item 49219 https://wotlk.wowhead.com/wotlk/item=49219
+      --* Starts: Jugkar's Undoing(14376)(https://wotlk.wowhead.com/wotlk/quest=14376)
+      [49219] = {
+        [itemKeys.startQuest] = 14376,
+      },
+      --* Item 49220 https://wotlk.wowhead.com/wotlk/item=49220
+      --* Starts: Jugkar's Undoing(14376)(https://wotlk.wowhead.com/wotlk/quest=14376)
+      [49220] = {
+        [itemKeys.startQuest] = 14376,
       },
       --* Item 49641 https://wotlk.wowhead.com/wotlk/item=49641
       --* Starts: Something is in the Air (and it Ain't Love)(14483)(https://wotlk.wowhead.com/wotlk/quest=14483)
@@ -1857,6 +1907,16 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       [49676] = {
         [itemKeys.startQuest] = 24442,
       },
+      --* Item 49776 https://wotlk.wowhead.com/wotlk/item=49776
+      --* Starts: The Low Road(24518)(https://wotlk.wowhead.com/wotlk/quest=24518)
+      [49776] = {
+        [itemKeys.startQuest] = 24518,
+      },
+      --* Item 49932 https://wotlk.wowhead.com/wotlk/item=49932
+      --* Starts: Blood of the Barrens(24606)(https://wotlk.wowhead.com/wotlk/quest=24606)
+      [49932] = {
+        [itemKeys.startQuest] = 24606,
+      },
       --* Item 50320 https://wotlk.wowhead.com/wotlk/item=50320
       --* Starts: Something is in the Air (and it Ain't Love)(24745)(https://wotlk.wowhead.com/wotlk/quest=24745)
       [50320] = {
@@ -1871,6 +1931,306 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       --* Starts: The Battered Hilt(24554)(https://wotlk.wowhead.com/wotlk/quest=24554)
       [50380] = {
         [itemKeys.startQuest] = 24554,
+      },
+      --* Item 52079 https://wotlk.wowhead.com/wotlk/item=52079
+      --* Starts: A Scarlet Letter(24979)(https://wotlk.wowhead.com/wotlk/quest=24979)
+      [52079] = {
+        [itemKeys.startQuest] = 24979,
+      },
+      --* Item 52197 https://wotlk.wowhead.com/wotlk/item=52197
+      --* Starts: Broken Panther Figurine(25047)(https://wotlk.wowhead.com/wotlk/quest=25047)
+      [52197] = {
+        [itemKeys.startQuest] = 25047,
+      },
+      --* Item 53053 https://wotlk.wowhead.com/wotlk/item=53053
+      --* Starts: The Horde's Hoard(25377)(https://wotlk.wowhead.com/wotlk/quest=25377)
+      [53053] = {
+        [itemKeys.startQuest] = 25377,
+      },
+      --* Item 54345 https://wotlk.wowhead.com/wotlk/item=54345
+      --* Starts: Kliklak's Craw(25467)(https://wotlk.wowhead.com/wotlk/quest=25467)
+      [54345] = {
+        [itemKeys.startQuest] = 25467,
+      },
+      --* Item 54614 https://wotlk.wowhead.com/wotlk/item=54614
+      --* Starts: A Pearl of Wisdom(25442)(https://wotlk.wowhead.com/wotlk/quest=25442)
+      [54614] = {
+        [itemKeys.startQuest] = 25442,
+      },
+      --* Item 54639 https://wotlk.wowhead.com/wotlk/item=54639
+      --* Starts: Blackfin's Booty(25503)(https://wotlk.wowhead.com/wotlk/quest=25503)
+      [54639] = {
+        [itemKeys.startQuest] = 25503,
+      },
+      --* Item 55166 https://wotlk.wowhead.com/wotlk/item=55166
+      --* Starts: Pristine Yeti Hide(25451)(https://wotlk.wowhead.com/wotlk/quest=25451)
+      [55166] = {
+        [itemKeys.startQuest] = 25451,
+      },
+      --* Item 55167 https://wotlk.wowhead.com/wotlk/item=55167
+      --* Starts: Perfect Yeti Hide(25454)(https://wotlk.wowhead.com/wotlk/quest=25454)
+      [55167] = {
+        [itemKeys.startQuest] = 25454,
+      },
+      --* Item 55181 https://wotlk.wowhead.com/wotlk/item=55181
+      --* Starts: Illegible Orc Letter(25647)(https://wotlk.wowhead.com/wotlk/quest=25647)
+      [55181] = {
+        [itemKeys.startQuest] = 25647,
+      },
+      --* Item 55186 https://wotlk.wowhead.com/wotlk/item=55186
+      --* Starts: Lady La-La's Medallion(25419)(https://wotlk.wowhead.com/wotlk/quest=25419)
+      [55186] = {
+        [itemKeys.startQuest] = 25419,
+      },
+      --* Item 55243 https://wotlk.wowhead.com/wotlk/item=55243
+      --* Starts: The Floodsurge Core(25736)(https://wotlk.wowhead.com/wotlk/quest=25736)
+      [55243] = {
+        [itemKeys.startQuest] = 25736,
+      },
+      --* Item 56474 https://wotlk.wowhead.com/wotlk/item=56474
+      --* Starts: Orders from Base Camp(26016)(https://wotlk.wowhead.com/wotlk/quest=26016)
+      [56474] = {
+        [itemKeys.startQuest] = 26016,
+      },
+      --* Item 56571 https://wotlk.wowhead.com/wotlk/item=56571
+      --* Starts: Enormous Eel Egg(26019)(https://wotlk.wowhead.com/wotlk/quest=26019)
+      [56571] = {
+        [itemKeys.startQuest] = 26019,
+      },
+      --* Item 56812 https://wotlk.wowhead.com/wotlk/item=56812
+      --* Starts: I Brought You This Egg(26090)(https://wotlk.wowhead.com/wotlk/quest=26090)
+      [56812] = {
+        [itemKeys.startQuest] = 26090,
+      },
+      --* Item 57102 https://wotlk.wowhead.com/wotlk/item=57102
+      --* Starts: Prisoners(26144)(https://wotlk.wowhead.com/wotlk/quest=26144)
+      [57102] = {
+        [itemKeys.startQuest] = 26144,
+      },
+      --* Item 57118 https://wotlk.wowhead.com/wotlk/item=57118
+      --* Starts: Prisoners(26149)(https://wotlk.wowhead.com/wotlk/quest=26149)
+      [57118] = {
+        [itemKeys.startQuest] = 26149,
+      },
+      --* Item 57935 https://wotlk.wowhead.com/wotlk/item=57935
+      --* Starts: Heart of the Watcher(26252)(https://wotlk.wowhead.com/wotlk/quest=26252)
+      [57935] = {
+        [itemKeys.startQuest] = 26252,
+      },
+      --* Item 58117 https://wotlk.wowhead.com/wotlk/item=58117
+      --* Starts: Evidence Collection(26296)(https://wotlk.wowhead.com/wotlk/quest=26296)
+      [58117] = {
+        [itemKeys.startQuest] = 26296,
+      },
+      --* Item 58491 https://wotlk.wowhead.com/wotlk/item=58491
+      --* Starts: Mosh'Ogg Handiwork(26407)(https://wotlk.wowhead.com/wotlk/quest=26407)
+      [58491] = {
+        [itemKeys.startQuest] = 26407,
+      },
+      --* Item 58898 https://wotlk.wowhead.com/wotlk/item=58898
+      --* Starts: He Who Controls the Ettins(26519)(https://wotlk.wowhead.com/wotlk/quest=26519)
+      [58898] = {
+        [itemKeys.startQuest] = 26519,
+      },
+      --* Item 59143 https://wotlk.wowhead.com/wotlk/item=59143
+      --* Starts: An Old Sea Dog(26617)(https://wotlk.wowhead.com/wotlk/quest=26617)
+      [59143] = {
+        [itemKeys.startQuest] = 26617,
+      },
+      --* Item 60816 https://wotlk.wowhead.com/wotlk/item=60816
+      --* Starts: Twilight Research(27100)(https://wotlk.wowhead.com/wotlk/quest=27100)
+      [60816] = {
+        [itemKeys.startQuest] = 27100,
+      },
+      --* Item 60886 https://wotlk.wowhead.com/wotlk/item=60886
+      --* Starts: Weapons for War(27230)(https://wotlk.wowhead.com/wotlk/quest=27230)
+      [60886] = {
+        [itemKeys.startQuest] = 27230,
+      },
+      --* Item 60956 https://wotlk.wowhead.com/wotlk/item=60956
+      --* Starts: Korok the Colossus(27322)(https://wotlk.wowhead.com/wotlk/quest=27322)
+      [60956] = {
+        [itemKeys.startQuest] = 27322,
+      },
+      --* Item 61310 https://wotlk.wowhead.com/wotlk/item=61310
+      --* Starts: Ley Energies(27480)(https://wotlk.wowhead.com/wotlk/quest=27480)
+      [61310] = {
+        [itemKeys.startQuest] = 27480,
+      },
+      --* Item 61322 https://wotlk.wowhead.com/wotlk/item=61322
+      --* Starts: Be Prepared(27517)(https://wotlk.wowhead.com/wotlk/quest=27517)
+      [61322] = {
+        [itemKeys.startQuest] = 27517,
+      },
+      --* Item 61378 https://wotlk.wowhead.com/wotlk/item=61378
+      --* Starts: The Baroness' Missive(27551)(https://wotlk.wowhead.com/wotlk/quest=27551)
+      [61378] = {
+        [itemKeys.startQuest] = 27551,
+      },
+      --* Item 61505 https://wotlk.wowhead.com/wotlk/item=61505
+      --* Starts: I Never Forget a Face(27574)(https://wotlk.wowhead.com/wotlk/quest=27574)
+      [61505] = {
+        [itemKeys.startQuest] = 27574,
+      },
+      --* Item 62021 https://wotlk.wowhead.com/wotlk/item=62021
+      --* Starts: Darkmoon Volcanic Deck(27664)(https://wotlk.wowhead.com/wotlk/quest=27664)
+      [62021] = {
+        [itemKeys.startQuest] = 27664,
+      },
+      --* Item 62044 https://wotlk.wowhead.com/wotlk/item=62044
+      --* Starts: Darkmoon Tsunami Deck(27666)(https://wotlk.wowhead.com/wotlk/quest=27666)
+      [62044] = {
+        [itemKeys.startQuest] = 27666,
+      },
+      --* Item 62045 https://wotlk.wowhead.com/wotlk/item=62045
+      --* Starts: Darkmoon Hurricane Deck(27665)(https://wotlk.wowhead.com/wotlk/quest=27665)
+      [62045] = {
+        [itemKeys.startQuest] = 27665,
+      },
+      --* Item 62046 https://wotlk.wowhead.com/wotlk/item=62046
+      --* Starts: Darkmoon Earthquake Deck(27667)(https://wotlk.wowhead.com/wotlk/quest=27667)
+      [62046] = {
+        [itemKeys.startQuest] = 27667,
+      },
+      --* Item 62056 https://wotlk.wowhead.com/wotlk/item=62056
+      --* Starts: Forged Documents(27675)(https://wotlk.wowhead.com/wotlk/quest=27675)
+      [62056] = {
+        [itemKeys.startQuest] = 27675,
+      },
+      --* Item 62138 https://wotlk.wowhead.com/wotlk/item=62138
+      --* Starts: An Opened Can of Whoop Gnash(27687)(https://wotlk.wowhead.com/wotlk/quest=27687)
+      [62138] = {
+        [itemKeys.startQuest] = 27687,
+      },
+      --* Item 62281 https://wotlk.wowhead.com/wotlk/item=62281
+      --* Starts: Piece of the Past(27716)(https://wotlk.wowhead.com/wotlk/quest=27716)
+      [62281] = {
+        [itemKeys.startQuest] = 27716,
+      },
+      --* Item 62282 https://wotlk.wowhead.com/wotlk/item=62282
+      --* Starts: Piece of the Past(27717)(https://wotlk.wowhead.com/wotlk/quest=27717)
+      [62282] = {
+        [itemKeys.startQuest] = 27717,
+      },
+      --* Item 62483 https://wotlk.wowhead.com/wotlk/item=62483
+      --* Starts: Artificial Intelligence(27760)(https://wotlk.wowhead.com/wotlk/quest=27760)
+      [62483] = {
+        [itemKeys.startQuest] = 27760,
+      },
+      --* Item 62768 https://wotlk.wowhead.com/wotlk/item=62768
+      --* Starts: Efficient Excavations(28132)(https://wotlk.wowhead.com/wotlk/quest=28132)
+      [62768] = {
+        [itemKeys.startQuest] = 28132,
+      },
+      --* Item 62933 https://wotlk.wowhead.com/wotlk/item=62933
+      --* Starts: Look at the Size of It!(28058)(https://wotlk.wowhead.com/wotlk/quest=28058)
+      [62933] = {
+        [itemKeys.startQuest] = 28058,
+      },
+      --* Item 63090 https://wotlk.wowhead.com/wotlk/item=63090
+      --* Starts: Muckgill's Flipper or Something...(28154)(https://wotlk.wowhead.com/wotlk/quest=28154)
+      [63090] = {
+        [itemKeys.startQuest] = 28154,
+      },
+      --* Item 63250 https://wotlk.wowhead.com/wotlk/item=63250	
+      --* Starts: The Battle for Hillsbrad(28196)(https://wotlk.wowhead.com/wotlk/quest=28196)
+      [63250] = {
+        [itemKeys.startQuest] = 28196,
+      },
+      --* Item 63276 https://wotlk.wowhead.com/wotlk/item=63276
+      --* Starts: Forged Documents(27686)(https://wotlk.wowhead.com/wotlk/quest=27686)
+      [63276] = {
+        [itemKeys.startQuest] = 27686,
+      },
+      --* Item 63686 https://wotlk.wowhead.com/wotlk/item=63686
+      --* Starts: Preemptive Strike(28356)(https://wotlk.wowhead.com/wotlk/quest=28356)
+      [63686] = {
+        [itemKeys.startQuest] = 28356,
+      },
+      --* Item 63700 https://wotlk.wowhead.com/wotlk/item=63700
+      --* Starts: Myzerian's Head(28376)(https://wotlk.wowhead.com/wotlk/quest=28376)
+      [63700] = {
+        [itemKeys.startQuest] = 28376,
+      },
+      --* Item 64353 https://wotlk.wowhead.com/wotlk/item=64353
+      --* Starts: Winterfall Firewater(28462)(https://wotlk.wowhead.com/wotlk/quest=28462)
+      [64353] = {
+        [itemKeys.startQuest] = 28462,
+      },
+      --* Item 64450 https://wotlk.wowhead.com/wotlk/item=64450
+      --* Starts: Writings of the Void(28529)(https://wotlk.wowhead.com/wotlk/quest=28529)
+      [64450] = {
+        [itemKeys.startQuest] = 28529,
+      },
+      --* Item 65894 https://wotlk.wowhead.com/wotlk/item=65894
+      --* Starts: Broken Owl Figurine(28777)(https://wotlk.wowhead.com/wotlk/quest=28777)
+      [65894] = {
+        [itemKeys.startQuest] = 28777,
+      },
+      --* Item 65895 https://wotlk.wowhead.com/wotlk/item=65895
+      --* Starts: Broken Boar Figurine(28778)(https://wotlk.wowhead.com/wotlk/quest=28778)
+      [65895] = {
+        [itemKeys.startQuest] = 28778,
+      },
+      --* Item 65896 https://wotlk.wowhead.com/wotlk/item=65896
+      --* Starts: Broken Serpent Figurine(28775)(https://wotlk.wowhead.com/wotlk/quest=28775)
+      [65896] = {
+        [itemKeys.startQuest] = 28775,
+      },
+      --* Item 65897 https://wotlk.wowhead.com/wotlk/item=65897
+      --* Starts: Broken Earthen Figurine(28776)(https://wotlk.wowhead.com/wotlk/quest=28776)
+      [65897] = {
+        [itemKeys.startQuest] = 28776,
+      },
+      --* Item 70928 https://wotlk.wowhead.com/wotlk/item=70928
+      --* Starts: Thanks, But No Thanks(29382)(https://wotlk.wowhead.com/wotlk/quest=29382)
+      [70928] = {
+        [itemKeys.startQuest] = 29382,
+      },
+      --* Item 70932 https://wotlk.wowhead.com/wotlk/item=70932
+      --* Starts: Thanks, But No Thanks(29383)(https://wotlk.wowhead.com/wotlk/quest=29383)
+      [70932] = {
+        [itemKeys.startQuest] = 29383,
+      },
+      --* Item 71635 https://wotlk.wowhead.com/wotlk/item=71635
+      --* Starts: A Curious Crystal(29443)(https://wotlk.wowhead.com/wotlk/quest=29443)
+      [71635] = {
+        [itemKeys.startQuest] = 29443,
+      },
+      --* Item 71636 https://wotlk.wowhead.com/wotlk/item=71636
+      --* Starts: An Exotic Egg(29444)(https://wotlk.wowhead.com/wotlk/quest=29444)
+      [71636] = {
+        [itemKeys.startQuest] = 29444,
+      },
+      --* Item 71637 https://wotlk.wowhead.com/wotlk/item=71637
+      --* Starts: An Intriguing Grimoire(29445)(https://wotlk.wowhead.com/wotlk/quest=29445)
+      [71637] = {
+        [itemKeys.startQuest] = 29445,
+      },
+      --* Item 71638 https://wotlk.wowhead.com/wotlk/item=71638
+      --* Starts: A Wondrous Weapon(29446)(https://wotlk.wowhead.com/wotlk/quest=29446)
+      [71638] = {
+        [itemKeys.startQuest] = 29446,
+      },
+      --* Item 71951 https://wotlk.wowhead.com/wotlk/item=71951
+      --* Starts: A Captured Banner(29456)(https://wotlk.wowhead.com/wotlk/quest=29456)
+      [71951] = {
+        [itemKeys.startQuest] = 29456,
+      },
+      --* Item 71952 https://wotlk.wowhead.com/wotlk/item=71952
+      --* Starts: The Enemy's Insignia(29457)(https://wotlk.wowhead.com/wotlk/quest=29457)
+      [71952] = {
+        [itemKeys.startQuest] = 29457,
+      },
+      --* Item 71953 https://wotlk.wowhead.com/wotlk/item=71953
+      --* Starts: The Captured Journal(29458)(https://wotlk.wowhead.com/wotlk/quest=29458)
+      [71953] = {
+        [itemKeys.startQuest] = 29458,
+      },
+      --* Item 74034 https://wotlk.wowhead.com/wotlk/item=74034
+      --* Starts: Pit Fighter(29760)(https://wotlk.wowhead.com/wotlk/quest=29760)
+      [74034] = {
+        [itemKeys.startQuest] = 29760,
       },
     }
 end

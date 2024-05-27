@@ -3,6 +3,11 @@ dofile("Modules/Libs/QuestieLoader.lua")
 local EMTPY_FUNC = function() end
 
 _G.bit = {band = function() return 0 end}
+_G.table.getn = function(table)
+    local count = 0
+    for _ in pairs(table) do count = count + 1 end
+    return count
+end
 _G.GetTime = function() return 0 end
 
 _G.QUEST_MONSTERS_KILLED = ""
