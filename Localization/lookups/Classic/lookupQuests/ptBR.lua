@@ -5,7 +5,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["prBR"] = loadstring([[return {
+l10n.questLookup["ptBR"] = loadstring([[return {
 [2] = {"Garra de Garraguda", {"O poderoso hipogrifo Garraguda foi abatido, e a garra da fera serve como prova da sua vitória. Senani Coração Trovejante, do Posto Machadada, sem dúvida ficará interessada em ver esse troféu como prova do seu feito."}, {"Leve a Garra de Garraguda para Senani Coração Trovejante no Posto Machadada, Vale Gris."}},
 [5] = {"A barriga roncante de Medrisco", {"Eu estou preso, escondido nesta cidade fantasma há semanas, e não tenho comido nada além de larvas e ervas daninhas! Eu preciso de alguma comida decente, e estou disposto a pagar bem por isso.","Traga-me um banquete e lhe pagarei generosamente.","Ouvi dizer que o Chef Goroba, da Taberna Corvo Escarlate, lá da Vila Sombria, faz uns bolinhos de caranguejo crepuscular deliciosos..."}, {"Fale com o Chef Goroba."}},
 [6] = {"Recompensa por Garrick Patatenra", {"Garrick Patatenra — um criminoso que atormenta nossos fazendeiros e mercadores há semanas — foi visto em uma cabana perto dos vinhedos, que ficam a leste da Abadia e do outro lado da ponte. Traga-me a cabeça do patife e ganhe a recompensa por matá-lo!","Mas tenha cuidado, <name>. Garrick reuniu uma gangue de brutamontes. Não será fácil chegar até ele."}, {"Mate Garrick Patatenra e leve a cabeça dele para o Cabo Vilém na Abadia de Vila Norte."}},

@@ -5,7 +5,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.itemLookup["prBR"] = loadstring([[return {
+l10n.itemLookup["ptBR"] = loadstring([[return {
 [25] = "Espadim Usado",
 [35] = "Cajado Curvado",
 [36] = "Maça Gasta",
