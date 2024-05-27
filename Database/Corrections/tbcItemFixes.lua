@@ -464,9 +464,6 @@ function QuestieTBCItemFixes:Load()
         [34477] = {
             [itemKeys.class] = 12,
         },
-        [34864] = {
-            [itemKeys.objectDrops] = {500004,500005,500006},
-        },
         [35229] = {
             [itemKeys.objectDrops] = {400013},
         },

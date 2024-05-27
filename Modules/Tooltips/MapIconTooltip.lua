@@ -278,7 +278,7 @@ function MapIconTooltip:Show()
                         end
 
                         if Questie.db.profile.enableTooltipsQuestLevel then
-                            nextQuestTitleString = string.format("%s", QuestieLib:GetLevelString(nextQuest.Id, "", nextQuest.level, true) .. nextQuest.name)
+                            nextQuestTitleString = string.format("%s", QuestieLib:GetLevelString(nextQuest.Id, nextQuest.level, true) .. nextQuest.name)
                         else
                             nextQuestTitleString = string.format("%s", nextQuest.name)
                         end
