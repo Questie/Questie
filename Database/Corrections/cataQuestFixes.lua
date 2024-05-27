@@ -1629,6 +1629,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{203066}}},
             [questKeys.preQuestSingle] = {25355},
         },
+        [25576] = { -- Rage of the Wolf Ancient
+            [questKeys.preQuestSingle] = {25355},
+        },
         [25577] = { -- Crushing the Cores
             [questKeys.objectives] = {nil,{{203067}}},
             [questKeys.requiredSourceItems] = {55123},
