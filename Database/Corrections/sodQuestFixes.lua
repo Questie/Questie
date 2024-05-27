@@ -5498,6 +5498,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432291,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90297] = {
+            [questKeys.name] = "Tidal Waves",
+            [questKeys.startedBy] = {nil,{442688,442685}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Loot the Old Crate behind the empty tent and loot the Old Key, then go to the bottom of the waterfall and open the Old Chest to receive the rune. NOTE: Opening the Old Chest will spawn 4 non-elite elementals."},
+            [questKeys.requiredSpell] = -432234,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 

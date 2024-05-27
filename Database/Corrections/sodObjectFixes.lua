@@ -341,6 +341,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.BLASTED_LANDS] = {{45.3,16.4}},
             },
         },
+        [442685] = { -- Old Chest
+            [objectKeys.zoneID] = zoneIDs.FERALAS,
+            [objectKeys.spawns] = {
+                [zoneIDs.FERALAS] = {{79.2,49.4}},
+            },
+        },
 
         -- fake ID - no clue yet what the correct ones are
         [450000] = {
