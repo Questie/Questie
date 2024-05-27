@@ -1634,6 +1634,7 @@ function CataQuestFixes.Load()
         },
         [25577] = { -- Crushing the Cores
             [questKeys.objectives] = {nil,{{203067}}},
+            [questKeys.preQuestSingle] = {25355},
             [questKeys.requiredSourceItems] = {55123},
         },
         [25583] = { -- Upon the Scene of Battle
