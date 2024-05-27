@@ -512,6 +512,9 @@ function CataItemFixes.Load()
         [64404] = { -- Ruby Crystal Cluster
             [itemKeys.npcDrops] = {48533,48639},
         },
+        [64585] = { -- Cannon Powder
+            [itemKeys.npcDrops] = {49143},
+        },
         [65504] = { -- Deep Alabaster Crystal
             [itemKeys.npcDrops] = {},
         },
