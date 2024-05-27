@@ -2726,6 +2726,9 @@ function CataQuestFixes.Load()
         [27176] = { -- A Strange Disc
             [questKeys.requiredSourceItems] = {60865},
         },
+        [27177] = { -- Salvage Operation
+            [questKeys.preQuestSingle] = {28599},
+        },
         [27196] = { -- On to Something
             [questKeys.preQuestSingle] = {27176},
         },
