@@ -9,7 +9,7 @@ function QuestieQuestBlacklist:Load()
         [7462] = true, -- Duplicate of 7877. See #1583
         [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
         [5658] = true, -- Touch of Weakness of Father Lankester -- See #1603
-        [2358] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.TBC_HIDE, -- See #921
+        [2358] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE, -- See #921
         [787] = true, -- The New Horde is not in the game. See #830
         [6606] = true, -- Quest is not in the game. See #1338
         [6072] = true, -- Ayanna Everstride doesn't start "Hunter's Path" (this quest is most likely simply not in the game) #700
@@ -20,7 +20,7 @@ function QuestieQuestBlacklist:Load()
         --[960] = true, -- Duplicate of 961 -- different quests, not duplicate
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
-        [7704] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.TBC_HIDE, -- Not implemented in Era, added in Wrath
+        [7704] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE, -- Not implemented in Era, added in Wrath
         [7668] = true, -- Not in the game (yet) Replaced with 8258 in Ph 4-- #1805
         [636] = true, -- Not in the game - #1900
         [6066] = true, -- Not in the game - #1957
@@ -31,7 +31,7 @@ function QuestieQuestBlacklist:Load()
         [11402] = true, -- GM Island quest
         [11189] = true, -- Removed
         [13417] = true, -- Duplicate of 12973
-        [936] = QuestieCorrections.CLASSIC_HIDE,
+        [936] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
         [535] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Valik
         [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
@@ -801,16 +801,16 @@ function QuestieQuestBlacklist:Load()
         [8156] = true,
         [8297] = true,
         -- Alterac Valley
-        [6861] = QuestieCorrections.CLASSIC_HIDE,
-        [6862] = QuestieCorrections.CLASSIC_HIDE,
-        [6864] = QuestieCorrections.CLASSIC_HIDE,
-        [6901] = QuestieCorrections.CLASSIC_HIDE,
+        [6861] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [6862] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [6864] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [6901] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
         [7221] = true,
         [7222] = true,
-        [7281] = QuestieCorrections.CLASSIC_HIDE,
-        [7282] = QuestieCorrections.CLASSIC_HIDE,
-        [7301] = QuestieCorrections.CLASSIC_HIDE,
-        [7302] = QuestieCorrections.CLASSIC_HIDE,
+        [7281] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [7282] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [7301] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
+        [7302] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
         [7367] = true,
         [7368] = true,
         -- Master Ryson's All Seeing Eye
@@ -1491,17 +1491,38 @@ function QuestieQuestBlacklist:Load()
         ----- Cata ------------- starting here -------------- Cata -----
 
         [109] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [136] = QuestieCorrections.CATA_HIDE, -- Replaced by 26353
+        [138] = QuestieCorrections.CATA_HIDE, -- Replaced by 26355
+        [139] = QuestieCorrections.CATA_HIDE, -- Replaced by 26356
+        [140] = QuestieCorrections.CATA_HIDE, -- Replaced by 26354
         [178] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [337] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [595] = QuestieCorrections.CATA_HIDE, -- Replaced by 26609
         [764] = QuestieCorrections.CATA_HIDE, -- Replaced by 26179
         [765] = QuestieCorrections.CATA_HIDE, -- Replaced by 26180
+        [819] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [830] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [832] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [842] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [882] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [883] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [884] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [897] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1273] = QuestieCorrections.CATA_HIDE, -- Replaced by 27261
+        [1361] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1431] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [2781] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [2875] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5121] = QuestieCorrections.CATA_HIDE, -- Replaced by 28470
         [5123] = QuestieCorrections.CATA_HIDE, -- Replaced by 28471
+        [5923] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5924] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5925] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5926] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5927] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5928] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6564] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [6981] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [7492] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [8552] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11335] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1543,6 +1564,7 @@ function QuestieQuestBlacklist:Load()
         [24427] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [24503] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28414
         [25474] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27729
+        [25635] = QuestieCorrections.CATA_HIDE, -- Duplicate of 25583 and 25956
         [26125] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26124
         [26565] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26588
         [26825] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26826
@@ -1552,6 +1574,12 @@ function QuestieQuestBlacklist:Load()
         [27609] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27501
         [27861] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27863
         [27862] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27863
+        [28236] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28233
+        [28412] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [28095] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [28110] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [28585] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [28754] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28758
 
         -- ICC weekly quests
         [24869] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1620,6 +1648,10 @@ function QuestieQuestBlacklist:Load()
 
         [29129] = true, -- A Legendary Engagement
         [29132] = true, -- A Legendary Engagement
+        [29202] = true, -- The Fate of Runetotem
+        [29280] = true, -- Nourishing Waters
+        [29282] = true, -- Well Armed
+        [29284] = true, -- Aid of the Ancients
         [29326] = true, -- The Nordrassil Summit
         [29387] = true, -- Guardians of Hyjal: Firelands Invasion!
         [29388] = true, -- Guardians of Hyjal: Firelands Invasion!
@@ -1870,6 +1902,9 @@ function QuestieQuestBlacklist:Load()
         [29742] = true, -- Menkhaf the Elder
 
         ----- SoD -------------- SoD quests --------------- SoD -----
+        [2950] = QuestieCorrections.SOD_HIDE, -- Nogg's Ring Redo
+        [3446] = QuestieCorrections.SOD_HIDE, -- Into the Depths
+        [4146] = QuestieCorrections.SOD_HIDE, -- Zapper Fuel
         [78611] = true, -- A Waylaid Shipment (no longer available in P2)
         [79100] = true, -- A Waylaid Shipment (no longer available in P2)
         [79482] = true, -- Stolen Winter Veil Treats
