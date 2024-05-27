@@ -48,6 +48,17 @@ function QuestieOptions.tabs.advanced:Initialize()
                 order = 1,
                 name = function() return l10n('Advanced Settings'); end,
             },
+            hideStartupWarnings = {
+                type = "toggle",
+                order = 1.05,
+                name = function() return l10n('Hide Startup Warnings'); end,
+                desc = function() return l10n("Disables the 'Welcome to Cataclysm Classic' message on startup."); end,
+                width = "full",
+                get = function() return Questie.db.profile.hideStartupWarnings; end,
+                set = function (_, value)
+                    Questie.db.profile.hideStartupWarnings = value
+                end
+            },
             enableIconLimit = {
                 type = "toggle",
                 order = 1.1,

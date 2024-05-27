@@ -385,8 +385,8 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_CHAPTER_2))
         end)
 
-        it("should return false for Hyjal Chapter 1 when 25520 is complete", function()
-            Questie.db.char.complete[25520] = true
+        it("should return false for Hyjal Chapter 1 when 25372 is complete", function()
+            Questie.db.char.complete[25372] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_CHAPTER_1))
         end)
@@ -395,12 +395,45 @@ describe("Phasing", function()
             Questie.db.char.complete[25272] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_CHAPTER_2))
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE))
         end)
 
         it("should return false for Hyjal Chapter 2 when 25273 is complete", function()
             Questie.db.char.complete[25273] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_CHAPTER_2))
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE))
+        end)
+
+        it("should handle Hyjal Hamuul Runetotem positioning when 25520 and 25502 are complete", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_HAMUUL_RUNETOTEM_AT_SANCTUARY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_HAMUUL_RUNETOTEM_AT_GROVE))
+
+            Questie.db.char.complete[25520] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_HAMUUL_RUNETOTEM_AT_SANCTUARY))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_HAMUUL_RUNETOTEM_AT_GROVE))
+
+            Questie.db.char.complete[25502] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_HAMUUL_RUNETOTEM_AT_SANCTUARY))
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_HAMUUL_RUNETOTEM_AT_GROVE))
+        end)
+
+        it("should handle Thisalee Crow positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SHRINE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SETHRIAS_ROOST))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25740]={}}
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SHRINE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SETHRIAS_ROOST))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[25740] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SHRINE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SETHRIAS_ROOST))
+
+            Questie.db.char.complete[25807] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SHRINE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_THISALEE_AT_SETHRIAS_ROOST))
         end)
 
         it("should return true for Hyjal Daily when 25560 is active", function()
@@ -425,6 +458,19 @@ describe("Phasing", function()
             Questie.db.char.complete[25531] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_TWILIGHT_CHAPTER))
+        end)
+    end)
+
+    describe("Vash'jir", function()
+        it("should return true for Legions Rest till 25958 is complete", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_LEGIONS_REST))
+        end)
+
+        it("should return true for Northern Garden when 25958 is complete", function()
+            Questie.db.char.complete[25958] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_NORTHERN_GARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_LEGIONS_REST))
         end)
     end)
 
@@ -571,6 +617,34 @@ describe("Phasing", function()
             Questie.db.char.complete[28104] = true
 
             assert.is_true(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
+        end)
+    end)
+
+    describe("Teldrassil", function()
+        it("should handle Corithras Moonrage positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_DOLANAAR))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_CROSSROAD))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[7383]={}}
+            assert.is_false(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_DOLANAAR))
+            assert.is_true(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_CROSSROAD))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[7383] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_DOLANAAR))
+            assert.is_true(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_CROSSROAD))
+        end)
+    end)
+
+    describe("Darkshore", function()
+        it("should handle Cerellean Whiteclaw positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.CERELLEAN_NEAR_EDGE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.CERELLEAN_NEAR_TREE))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[13515] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.CERELLEAN_NEAR_EDGE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.CERELLEAN_NEAR_TREE))
         end)
     end)
 end)

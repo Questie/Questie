@@ -29,7 +29,7 @@ function _QuestieTooltips:AddUnitDataToTooltip()
         lastGuid ~= guid
     ) then
         QuestieTooltips.lastGametooltipUnit = name
-        local tooltipData = QuestieTooltips:GetTooltip("m_" .. npcId);
+        local tooltipData = QuestieTooltips.GetTooltip("m_" .. npcId);
         if tooltipData then
             if Questie.db.profile.enableTooltipsNPCID == true then
                 GameTooltip:AddDoubleLine("NPC ID", "|cFFFFFFFF" .. npcId .. "|r")
@@ -64,7 +64,7 @@ function _QuestieTooltips:AddItemDataToTooltip()
         QuestieTooltips.lastFrameName ~= self:GetName()
     ) then
         QuestieTooltips.lastGametooltipItem = name
-        local tooltipData = QuestieTooltips:GetTooltip("i_" .. (itemId or 0));
+        local tooltipData = QuestieTooltips.GetTooltip("i_" .. (itemId or 0));
         if tooltipData then
             if Questie.db.profile.enableTooltipsItemID == true then
                 GameTooltip:AddDoubleLine("Item ID", "|cFFFFFFFF" .. itemId .. "|r")
@@ -80,52 +80,42 @@ function _QuestieTooltips:AddItemDataToTooltip()
     QuestieTooltips.lastFrameName = self:GetName();
 end
 
-function _QuestieTooltips:AddObjectDataToTooltip(name)
-    if (not Questie.db.profile.enableTooltips) then
+function _QuestieTooltips.AddObjectDataToTooltip(name)
+    if (not Questie.db.profile.enableTooltips) or (not name) then
         return
     end
-    if name then
-        local titleAdded = false
-        local lookup = l10n.objectNameLookup[name] or {}
-        local count = table.getn(lookup)
 
-        if Questie.db.profile.enableTooltipsObjectID == true and count ~= 0 then
-            if count == 1 then
-                GameTooltip:AddDoubleLine("Object ID", "|cFFFFFFFF" .. lookup[1] .. "|r")
-            else
-                GameTooltip:AddDoubleLine("Object ID", "|cFFFFFFFF" .. lookup[1] .. " (" .. count .. ")|r")
-            end
+    local lookup = l10n.objectNameLookup[name] or {}
+    local count = table.getn(lookup)
+
+    if Questie.db.profile.enableTooltipsObjectID == true and count > 0 then
+        if count == 1 then
+            GameTooltip:AddDoubleLine("Object ID", "|cFFFFFFFF" .. lookup[1] .. "|r")
+        else
+            GameTooltip:AddDoubleLine("Object ID", "|cFFFFFFFF" .. lookup[1] .. " (" .. count .. ")|r")
         end
-
-        local alreadyAddedObjectiveLines = {}
-        for _, gameObjectId in pairs(lookup) do
-            local tooltipData = QuestieTooltips:GetTooltip("o_" .. gameObjectId);
-
-            if type(gameObjectId) == "number" and tooltipData then
-                if (not titleAdded) then
-                    GameTooltip:AddLine(tooltipData[1])
-                    titleAdded = true
-                end
-
-                if tooltipData[2] then
-                    -- Quest has objectives
-                    for index, line in pairs (tooltipData) do
-                        if index > 1 and (not alreadyAddedObjectiveLines[line]) then -- skip the first entry, it's the title
-                            local _, _, acquired, needed = string.find(line, "(%d+)/(%d+)")
-                            -- We need "tonumber", because acquired can contain parts of the color string
-                            if acquired and tonumber(acquired) == tonumber(needed) then
-                                -- We don't want to show completed objectives on game objects
-                                break;
-                            end
-                            alreadyAddedObjectiveLines[line] = true
-                            GameTooltip:AddLine(line)
-                        end
-                    end
-                end
-            end
-        end
-        GameTooltip:Show()
     end
+
+    local alreadyAddedObjectiveLines = {}
+    for _, gameObjectId in pairs(lookup) do
+        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId);
+
+        if tooltipData then
+            for _, line in pairs (tooltipData) do
+                if (not alreadyAddedObjectiveLines[line]) then
+                    local _, _, acquired, needed = string.find(line, "(%d+)/(%d+)")
+                    -- We need "tonumber", because acquired can contain parts of the color string
+                    if acquired and tonumber(acquired) == tonumber(needed) then
+                        -- We don't want to show completed objectives on game objects
+                        break;
+                    end
+                    alreadyAddedObjectiveLines[line] = true
+                    GameTooltip:AddLine(line)
+                end
+            end
+        end
+    end
+    GameTooltip:Show()
     QuestieTooltips.lastGametooltipType = "object";
 end
 
@@ -141,3 +131,5 @@ function _QuestieTooltips:CountTooltip()
     end
     return tooltipCount
 end
+
+return _QuestieTooltips
