@@ -1667,6 +1667,8 @@ function CataQuestFixes.Load()
         [25599] = { -- Cindermaul, the Portal Master
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25575,25576,25577},
+        },
+        [25600] = { -- Forgemaster Pyrendius
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Activate"),0,{{"object",203092}}}},
         },
         [25601] = { -- Head of the Class
