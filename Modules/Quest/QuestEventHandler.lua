@@ -412,7 +412,7 @@ function _QuestEventHandler:QuestAutoComplete(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_AUTOCOMPLETE", questId)
 
     if Questie.db.profile.trackerEnabled then
-        WatchFrameHook.Hide()
+        QuestieCombatQueue:Queue(WatchFrameHook.Hide)
         AutoCompleteFrame.ShowAutoComplete(questId)
     end
 end

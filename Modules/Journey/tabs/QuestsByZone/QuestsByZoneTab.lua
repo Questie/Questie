@@ -67,17 +67,18 @@ _CreateContinentDropdown = function()
 
     local currentContinentId = QuestiePlayer:GetCurrentContinentId()
 
+    local questCategoryKeys = QuestieJourney.questCategoryKeys
     -- This mapping translates the actual continent ID to the keys of l10n.continentLookup
     if currentContinentId == 0 then -- Eastern Kingdom
-        selectedContinentId = 1
+        selectedContinentId = questCategoryKeys.EASTERN_KINGDOMS
     elseif currentContinentId == 1 then -- Kalimdor
-        selectedContinentId = 2
+        selectedContinentId = questCategoryKeys.KALIMDOR
     elseif currentContinentId == 530 then -- Outland
-        selectedContinentId = 3
+        selectedContinentId = questCategoryKeys.OUTLAND
     elseif currentContinentId == 571 then -- Northrend
-        selectedContinentId = 4
+        selectedContinentId = questCategoryKeys.NORTHREND
     elseif l10n.zoneLookup[currentContinentId] then -- Dungeon
-        selectedContinentId = 5
+        selectedContinentId = questCategoryKeys.DUNGEONS
     end
 
     if _QuestieJourney.lastZoneSelection[1] then

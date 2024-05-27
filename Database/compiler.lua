@@ -11,9 +11,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 
-local type = type
+local pcall, type = pcall, type
 local abs, min, floor = math.abs, math.min, math.floor
-local lshift = bit.lshift
 
 
 -- how fast to run operations (lower = slower but less lag)
@@ -946,7 +945,6 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
     local stream = Questie.db.profile.debugEnabled and QuestieStream:GetStream("raw_assert") or QuestieStream:GetStream("raw")
 
     -- Localize functions
-    local pcall, type = pcall, type
     local writers = QuestieDBCompiler.writers
     local supportedTypes = QuestieDBCompiler.supportedTypes
 
@@ -977,17 +975,16 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
                 local t = types[key]
 
                 if v and not supportedTypes[type(v)][t] then
-                    Questie:Error("|cFFFF0000Invalid datatype!|r   " .. kind .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\" is not compatible with type \"" .. t .."\"")
+                    error("|cFFFF0000Invalid datatype!|r   " .. kind .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\" is not compatible with type \"" .. t .."\"")
                     return
                 end
                 if not writers[t] then
-                    Questie:Error("Invalid datatype: " .. key .. " " .. tostring(t))
+                    error("Invalid datatype: " .. key .. " " .. tostring(t))
                 end
                 --print(key .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\"")
                 local result, errorMessage = pcall(writers[t], stream, v)
                 if not result then
-                    Questie:Error("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..tostring(key).."\":")
-                    Questie:Error(errorMessage)
+                    error("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..tostring(key).."\":")
                     error(errorMessage)
                 end
             end
@@ -1159,7 +1156,7 @@ function QuestieDBCompiler:ValidateObjects()
 
     validator.stream:finished()
     Questie:Debug(Questie.DEBUG_INFO, "Finished objects validation without issues!")
-    end
+end
 
 
 function QuestieDBCompiler:ValidateItems()

@@ -2,12 +2,14 @@ quest_data.json
 quest_data.lua
 
 npc_data.json
+npc_zone_id_data.json
 npc_data.lua
 
 item_data.json
 item_data.lua
 
 object_data.json
+object_zone_id_data.json
 object_data.lua
 
 response.html

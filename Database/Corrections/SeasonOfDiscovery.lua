@@ -458,6 +458,9 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90287] = 3, -- Shaman Mental Dexterity
     [90288] = 3, -- Priest Pain and Suffering
     [90289] = 3, -- Warrior Taste for Blood
+    [90290] = 3, -- Druid Improved Barkskin
+    [90291] = 3, -- Hunter Focus Fire
+    [90292] = 3, -- Hunter Catlike Reflexes
     [90293] = 3, -- Mage Balefire Bolt
 }
 

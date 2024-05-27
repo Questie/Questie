@@ -9,7 +9,7 @@
 -- make into AceComm.
 -- @class file
 -- @name AceComm-3.0
--- @release $Id: AceComm-3.0.lua 1284 2022-09-25 09:15:30Z nevcairiel $
+-- @release $Id: AceComm-3.0.lua 1333 2024-05-05 16:24:39Z nevcairiel $
 
 --[[ AceComm-3.0
 
@@ -20,7 +20,7 @@ TODO: Time out old data rotting around from dead senders? Not a HUGE deal since 
 local CallbackHandler = LibStub("CallbackHandler-1.0")
 local CTL = assert(ChatThrottleLib, "AceComm-3.0 requires ChatThrottleLib")
 
-local MAJOR, MINOR = "AceComm-3.0", 12
+local MAJOR, MINOR = "AceComm-3.0", 14
 local AceComm,oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceComm then return end
@@ -93,12 +93,12 @@ function AceComm:SendCommMessage(prefix, text, distribution, target, prio, callb
 
 	local textlen = #text
 	local maxtextlen = 255  -- Yes, the max is 255 even if the dev post said 256. I tested. Char 256+ get silently truncated. /Mikk, 20110327
-	local queueName = prefix..distribution..(target or "")
+	local queueName = prefix
 
 	local ctlCallback = nil
 	if callbackFn then
-		ctlCallback = function(sent)
-			return callbackFn(callbackArg, sent, textlen)
+		ctlCallback = function(sent, sendResult)
+			return callbackFn(callbackArg, sent, textlen, sendResult)
 		end
 	end
 

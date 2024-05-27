@@ -458,15 +458,26 @@ function QuestieDB:GetZoneOrSortForClass(class)
     return QuestieDB.sortKeys[class]
 end
 
+local questTagInfoCache = {}
+
 --- Wrapper function for the GetQuestTagInfo API to correct
---- quests that are falsely marked by Blizzard
+--- quests that are falsely marked by Blizzard and cache the results.
 ---@param questId number
 ---@return number|nil questType, string|nil questTag
 function QuestieDB.GetQuestTagInfo(questId)
-    if questTagCorrections[questId] then
-        return questTagCorrections[questId][1], questTagCorrections[questId][2]
+    if questTagInfoCache[questId] then
+        return questTagInfoCache[questId][1], questTagInfoCache[questId][2]
     end
-    local questType, questTag = GetQuestTagInfo(questId)
+
+    local questType, questTag
+    if questTagCorrections[questId] then
+        questType, questTag = questTagCorrections[questId][1], questTagCorrections[questId][2]
+    else
+        questType, questTag = GetQuestTagInfo(questId)
+    end
+
+    -- cache the result to avoid hitting the API throttling limit
+    questTagInfoCache[questId] = {questType, questTag}
 
     return questType, questTag
 end
@@ -474,7 +485,7 @@ end
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsActiveEventQuest(questId)
-    --! If you edit the logic here, also edit in QuestieDB:IsLevelRequirementsFulfilled
+    --! If you edit the logic here, also edit in AvailableQuests.IsLevelRequirementsFulfilled
     return QuestieEvent.activeQuests[questId] == true
 end
 
@@ -493,62 +504,10 @@ function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
     return false
 end
 
----@param questId QuestId
----@param minLevel Level @The level a quest must have at least to be shown
----@param maxLevel Level @The level a quest can have at most to be shown
----@param playerLevel Level? @Pass player level to avoid calling UnitLevel or to use custom level
----@return boolean
-function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)
-    local level, requiredLevel, requiredMaxLevel = QuestieLib.GetTbcLevel(questId, playerLevel)
-
-    --* QuestiePlayer.currentQuestlog[parentQuestId] logic is from QuestieDB.IsParentQuestActive, if you edit here, also edit there
-    local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
-    if parentQuestId and QuestiePlayer.currentQuestlog[parentQuestId] then
-        -- If the quest is in the player's log already, there's no need to do any logic here, it must already be available
-        return true
-    end
-
-    --* QuestieEvent.activeQuests[questId] logic is from QuestieDB.IsParentQuestActive, if you edit here, also edit there
-    if (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) and
-        minLevel > requiredLevel and
-        QuestieEvent.activeQuests[questId]  then
-        return true
-    end
-
-    if (Questie.IsSoD == true) and (QuestieDB.IsSoDRuneQuest(questId) == true) and (requiredLevel <= playerLevel) then
-        -- Season of Discovery Rune quests are still shown when trivial
-        return true
-    end
-
-    if maxLevel >= level then
-        if (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_ALL) and minLevel > level then
-            -- The quest level is too low and trivial quests are not shown
-            return false
-        end
-    else
-        if (Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_RANGE) or maxLevel < requiredLevel then
-            -- Either an absolute level range is set and maxLevel < level OR the maxLevel is manually set to a lower value
-            return false
-        end
-    end
-
-    if maxLevel < requiredLevel then
-        -- Either the players level is not high enough or the maxLevel is manually set to a lower value
-        return false
-    end
-
-    if requiredMaxLevel ~= 0 and playerLevel > requiredMaxLevel then
-        -- The players level exceeds the requiredMaxLevel of a quest
-        return false
-    end
-
-    return true
-end
-
 ---@param parentID number
 ---@return boolean
 function QuestieDB.IsParentQuestActive(parentID)
-    --! If you edit the logic here, also edit in QuestieDB:IsLevelRequirementsFulfilled
+    --! If you edit the logic here, also edit in AvailableQuests.IsLevelRequirementsFulfilled
     if (not parentID) or (parentID == 0) then
         return false
     end
@@ -1433,114 +1392,6 @@ local factionReactions = {
     A = (playerFaction == "Alliance") or nil,
     H = (playerFaction == "Horde") or nil,
     AH = true,
-}
---
---
---function __TEST()
---    local questsWithoutTriggerEnd = {
---        869,
---        944,
---        1448,
---        6185,
---        9260,
---        9261,
---        9262,
---        9263,
---        9264,
---        9265,
---        12032,
---        12036,
---        12816,
---        12817,
---        13564,
---        13639,
---        13881,
---        13961,
---        14066,
---        14165,
---        14389,
---        24452,
---        24618,
---        25081,
---        25325,
---        25621,
---        25715,
---        25930,
---        26258,
---        26512,
---        26930,
---        26975,
---        27007,
---        27044,
---        27152,
---        27341,
---        27349,
---        27610,
---        27704,
---        28228,
---        28635,
---        28732,
---        29392,
---        29415,
---        29536,
---        29539,
---    }
---
---    local corrections = {}
---
---    -- Read QuestieDB to check if the quest has a triggerEnd
---    for _, questId in pairs(questsWithoutTriggerEnd) do
---        local quest = QuestieDB.GetQuest(questId)
---        if (not quest) then
---            print("Quest " .. questId .. " not found in QuestieDB")
---            corrections[questId] = true
---        else
---            if quest.triggerEnd then
---                print("Quest " .. questId .. " has a triggerEnd")
---            else
---                print("Quest " .. questId .. " does not have a triggerEnd")
---                corrections[questId] = true
---            end
---        end
---    end
---
---    Questie.db.global.__TEST = corrections
---end
-local a = {
-    [869] = true,
-    [13564] = true,
-    [13639] = true,
-    [13881] = true,
-    [13961] = true,
-    [14165] = true,
-
-    [27610] = true,
-    [27044] = true,
-    [26930] = true,
-    [14066] = true,
-    [28635] = true,
-    [25930] = true,
-    [27007] = true,
-    [14389] = true,
-    [27704] = true,
-    [24618] = true,
-    [26258] = true,
-    [26512] = true,
-    [29539] = true,
-    [27341] = true,
-    [29536] = true,
-    [29415] = true,
-    [29392] = true,
-    [28732] = true,
-    [28228] = true,
-    [27152] = true,
-    [27349] = true,
-    [24452] = true,
-    [25325] = true,
-    [26975] = true,
-    [25621] = true,
-    [25715] = true,
-    [25081] = true,
 }
 
 ---@param npcId number
