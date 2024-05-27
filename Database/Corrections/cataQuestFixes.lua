@@ -2729,6 +2729,9 @@ function CataQuestFixes.Load()
         [27177] = { -- Salvage Operation
             [questKeys.preQuestSingle] = {28599},
         },
+        [27178] = { -- Naga Reinforcements
+            [questKeys.preQuestSingle] = {28599},
+        },
         [27196] = { -- On to Something
             [questKeys.preQuestSingle] = {27176},
         },
