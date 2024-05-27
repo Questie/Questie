@@ -1627,6 +1627,7 @@ function CataQuestFixes.Load()
         },
         [25575] = { -- Forged of Shadow and Flame
             [questKeys.objectives] = {nil,{{203066}}},
+            [questKeys.preQuestSingle] = {25355},
         },
         [25577] = { -- Crushing the Cores
             [questKeys.objectives] = {nil,{{203067}}},
