@@ -32,6 +32,12 @@ local MAX_GROUP_MEMBER_COUNT = 6
 
 local _InitObjectiveTexts
 
+--[[
+IMPORTANT!
+If you change the way the tooltip keys are structured and/or the return value of GetTooltip,
+we need to let the Plater addon devs know about it.
+--]]
+
 ---@param questId number
 ---@param key string monster: m_, items: i_, objects: o_ + string name of the objective
 ---@param objective table
@@ -185,8 +191,8 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
 end
 
 ---@param key string
-function QuestieTooltips:GetTooltip(key)
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTooltips:GetTooltip]", key)
+function QuestieTooltips.GetTooltip(key)
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTooltips.GetTooltip]", key)
     if (not key) then
         return nil
     end
@@ -390,7 +396,7 @@ function QuestieTooltips:Initialize()
                     _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
                     or QuestieTooltips.lastGametooltipType ~= "object"
                 ) and (not self.ShownAsMapIcon) then -- We are hovering over a Questie map icon which adds it's own tooltip
-                _QuestieTooltips:AddObjectDataToTooltip(GameTooltipTextLeft1:GetText())
+                _QuestieTooltips.AddObjectDataToTooltip(GameTooltipTextLeft1:GetText())
                 QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
             end
             QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()

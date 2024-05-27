@@ -62,6 +62,18 @@ local zoneSectionLocales = {
         ["zhTW"] = "北裂境",
         ["zhCN"] = "诺森德",
     },
+    ["The Maelstrom"] = {
+        ["ptBR"] = "Voragem",
+        ["ruRU"] = "Водоворот",
+        ["deDE"] = "Der Mahlstrom",
+        ["koKR"] = "혼돈의 소용돌이",
+        ["esMX"] = "La Vorágine",
+        ["enUS"] = true,
+        ["frFR"] = "Le Maelström",
+        ["esES"] = "La Vorágine",
+        ["zhTW"] = "大漩渦",
+        ["zhCN"] = "大漩涡",
+    },
     ["Professions"] = {
         ["ptBR"] = "Profissões",
         ["ruRU"] = "Профессии",

@@ -111,6 +111,10 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     created:SetText(l10n('Quest %s: %s', state, timestamp));
                     f:AddChild(created);
 
+                    local questIdLabel = AceGUI:Create("Label");
+                    questIdLabel:SetFullWidth(true);
+                    questIdLabel:SetText(l10n("Quest ID") .. ": " .. entry.Quest);
+                    f:AddChild(questIdLabel);
                 else
                     header:SetText("ERROR!!");
                 end

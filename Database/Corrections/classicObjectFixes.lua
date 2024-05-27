@@ -327,27 +327,6 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{13.5,15.7},{19.5,20.9},{22.2,19.8},{24.4,18.8},{24.5,65.7},{24.6,18.9},{25,58.3},{25.3,45.2},{25.4,49.3},{25.5,19.9},{25.7,66.9},{26.2,48.5},{26.3,67.8},{26.9,20.4},{27,39.7},{27.1,40.5},{27.3,68},{27.4,68.9},{27.7,21},{28.7,21.8},{29.2,23.2},{29.4,23.7},{29.4,24.6},{29.4,27.4},{29.4,27.7},{29.5,24.3},{29.5,25.1},{29.5,27.4},{29.5,27.7},{29.6,25.7},{31.9,32.1},{33,31.3},{33,32.1},{33.1,32.5},{34.2,32.4},{34.2,32.5},{34.2,34.7},{34.7,34.5},{34.8,33.7},{34.9,32.4},{35.1,35.6}}},
             [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE
         },
-        [500004] = {
-            [objectKeys.name] = "Stormwind City Fishing Location",
-            [objectKeys.questStarts] = {},
-            [objectKeys.questEnds] = {},
-            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{48.5,67.9},{45.7,60.5},{45.4,53.3},{35.7,45.6},{34.3,59},{51.8,47.1},{60.2,46.6},{65.2,53.7},{61.1,37},{65.6,32},{55.9,33.5},{50.9,23.8}}},
-            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY
-        },
-        [500005] = {
-            [objectKeys.name] = "Ironforge City Fishing Location",
-            [objectKeys.questStarts] = {},
-            [objectKeys.questEnds] = {},
-            [objectKeys.spawns] = {[zoneIDs.IRONFORGE]={{46.9,14.5}}},
-            [objectKeys.zoneID] = zoneIDs.IRONFORGE
-        },
-        [500006] = {
-            [objectKeys.name] = "Orgrimmar City Fishing Location",
-            [objectKeys.questStarts] = {},
-            [objectKeys.questEnds] = {},
-            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{70.4,28.3},{67.8,33.7},{64.8,26},{35.2,78.6},{37.6,81.7},{33.3,84.4},{36.3,86}}},
-            [objectKeys.zoneID] = zoneIDs.ORGRIMMAR
-        },
     }
 end
 

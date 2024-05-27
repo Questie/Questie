@@ -335,6 +335,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.STRANGLETHORN_VALE] = {{40.75,85.72}},
             },
         },
+        [442405] = { -- Abandoned Cache
+            [objectKeys.zoneID] = zoneIDs.BLASTED_LANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.BLASTED_LANDS] = {{45.3,16.4}},
+            },
+        },
         [442685] = { -- Old Chest
             [objectKeys.zoneID] = zoneIDs.FERALAS,
             [objectKeys.spawns] = {

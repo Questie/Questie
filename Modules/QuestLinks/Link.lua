@@ -119,7 +119,7 @@ _AddColoredTooltipLine = function (text, color, wrapText)
 end
 
 _AddQuestTitle = function(quest)
-    local questLevel = QuestieLib:GetLevelString(quest.Id, quest.name, quest.level, false)
+    local questLevel = QuestieLib:GetLevelString(quest.Id, quest.level, false)
 
     local titleColor = "gold"
     if quest.specialFlags == 1 then
