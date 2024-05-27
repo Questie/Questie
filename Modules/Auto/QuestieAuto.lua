@@ -265,24 +265,16 @@ end
 
 function QuestieAuto:QUEST_ACCEPTED()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto][EVENT] QUEST_ACCEPTED")
+    if (not Questie.db.profile.autoaccept) then
+        -- Auto-accept quests added with Cataclysm will trigger this event, but we want the details frame to still show without auto-accepting
+        return
+    end
+
     if Questie.db.profile.bugWorkarounds == true and QuestFrameDetailPanel:IsVisible() == true then
         QuestFrameCloseButton:Click()
     end
 end
 
---[[ TODO: This function already exsists in Privates.lua line 8. Does it belong here or in Privates?
-function _QuestieAuto:AllQuestWindowsClosed()
-    if GossipFrame and (not GossipFrame:IsVisible())
-        and GossipFrameGreetingPanel and (not GossipFrameGreetingPanel:IsVisible())
-        and QuestFrameGreetingPanel and (not QuestFrameGreetingPanel:IsVisible())
-        and QuestFrameDetailPanel and (not QuestFrameDetailPanel:IsVisible())
-        and QuestFrameProgressPanel and (not QuestFrameProgressPanel:IsVisible())
-        and QuestFrameRewardPanel and (not QuestFrameRewardPanel:IsVisible()) then
-        return true
-    end
-    return false
-end
---]]
 --- The closingCounter needs to reach 1 for QuestieAuto to reset
 --- Whenever the gossip frame is closed this event is called once, HOWEVER
 --- when totally stop talking to an NPC this event is called twice.

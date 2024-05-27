@@ -133,7 +133,7 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
     local level, _ = QuestieLib.GetTbcLevel(questId);
 
     if showLevel then
-        name = QuestieLib:GetQuestString(questId, name, level, blizzLike)
+        name = QuestieLib:GetLevelString(questId, level, blizzLike) .. name
     end
 
     if Questie.db.profile.enableTooltipsQuestID then
@@ -203,55 +203,6 @@ function QuestieLib:GetRandomColor()
     return colors[math_random(numColors)]
 end
 
----@param questId number
----@param name string @The (localized) name of the quest
----@param level number @The quest level
----@param blizzLike boolean @True = [40+], false/nil = [40D/R]
-function QuestieLib:GetQuestString(questId, name, level, blizzLike)
-    local questType, questTag = QuestieDB.GetQuestTagInfo(questId)
-
-    if questType and questTag then
-        local char = "+"
-        if (not blizzLike) then
-            char = stringSub(questTag, 1, 1)
-        end
-
-        -- The string.sub above doesn't work for multi byte characters in Chinese
-        local langCode = l10n:GetUILocale()
-        if questType == 1 then
-            -- Elite quest
-            name = "[" .. level .. "+" .. "] " .. name
-        elseif questType == 81 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
-                char = "D"
-            end
-            -- Dungeon quest
-            name = "[" .. level .. char .. "] " .. name
-        elseif questType == 62 then
-            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
-                char = "R"
-            end
-            -- Raid quest
-            name = "[" .. level .. char .. "] " .. name
-        elseif questType == 41 then
-            -- Which one? This is just default.
-            name = "[" .. level .. "] " .. name
-            -- PvP quest
-            -- name = "[" .. level .. questTag .. "] " .. name
-        elseif questType == 83 then
-            -- Legendary quest
-            name = "[" .. level .. "++" .. "] " .. name
-        else
-            -- Some other irrelevant type
-            name = "[" .. level .. "] " .. name
-        end
-    else
-        name = "[" .. level .. "] " .. name
-    end
-
-    return name
-end
-
 --- There are quests in TBC which have a quest level of -1. This indicates that the quest level is the
 --- same as the player level. This function should be used whenever accessing the quest or required level.
 ---@param questId QuestId
@@ -278,7 +229,7 @@ end
 ---@param level Level @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 ---@return string levelString @String of format "[40+]"
-function QuestieLib:GetLevelString(questId, _, level, blizzLike)
+function QuestieLib:GetLevelString(questId, level, blizzLike)
     local questType, questTag = QuestieDB.GetQuestTagInfo(questId)
 
     local retLevel = tostring(level)

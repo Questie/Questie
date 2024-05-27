@@ -1,5 +1,6 @@
 local trinity =  require('cataNpcDB-trinity')
 local mangos = require('cataNpcDB')
+local wotlk = require('wotlkNpcDB')
 
 local npcKeys = {
     ['name'] = 1, -- string
@@ -24,8 +25,22 @@ for npcId, data in pairs(mangos) do
     local tNPC = trinity[npcId]
 
     -- get spawns from trinity and add them to mangos
-    if tNPC and tNPC[npcKeys.spawns] then
-        data[npcKeys.spawns] = tNPC[npcKeys.spawns]
+    if tNPC then
+        if (not data[npcKeys.spawns]) and tNPC[npcKeys.spawns] then
+            data[npcKeys.spawns] = tNPC[npcKeys.spawns]
+            data[npcKeys.zoneID] = tNPC[npcKeys.zoneID]
+        end
+        if tNPC[npcKeys.questStarts] then
+            data[npcKeys.questStarts] = tNPC[npcKeys.questStarts]
+        end
+        if tNPC[npcKeys.questEnds] then
+            data[npcKeys.questEnds] = tNPC[npcKeys.questEnds]
+        end
+    end
+
+    -- get waypoints from wotlk and add them to mangos
+    if wotlk[npcId] and wotlk[npcId][npcKeys.waypoints] then
+        data[npcKeys.waypoints] = wotlk[npcId][npcKeys.waypoints]
     end
 end
 
@@ -105,6 +120,9 @@ for npcId, data in pairsByKeys(mangos) do
         for i, questID in ipairs(data[npcKeys.questStarts]) do
             printString = printString .. questID .. ","
         end
+        if printString:sub(-1) == "," then
+            printString = printString:sub(1, -2) -- remove trailing comma
+        end
         printString = printString .. "},"
     else
         printString = printString .. "nil,"
@@ -113,6 +131,9 @@ for npcId, data in pairsByKeys(mangos) do
         printString = printString .. "{"
         for i, questID in ipairs(data[npcKeys.questEnds]) do
             printString = printString .. questID .. ","
+        end
+        if printString:sub(-1) == "," then
+            printString = printString:sub(1, -2) -- remove trailing comma
         end
         printString = printString .. "},"
     else

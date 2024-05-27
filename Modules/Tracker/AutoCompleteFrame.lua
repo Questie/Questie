@@ -88,7 +88,7 @@ function AutoCompleteFrame.CheckAutoCompleteQuests()
         -- TODO: Handle multiple quests
         local questId = GetAutoQuestPopUp(1)
         AutoCompleteFrame.ShowAutoComplete(questId)
-    elseif autoCompleteFrame then -- The QUEST_FINISHED event might fire before the auto quest pop up is initialized
+    elseif autoCompleteFrame then -- The QUEST_REMOVED event might fire before the auto quest pop up is initialized
         autoCompleteFrame:Hide()
     end
 end

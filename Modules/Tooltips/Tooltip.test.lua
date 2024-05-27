@@ -52,7 +52,7 @@ describe("Tooltip", function()
             Questie.db.profile.showQuestsInNpcTooltip = true
             QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {questId = 1, name = "test", starterId = 2}}}
 
-            local tooltip = QuestieTooltips:GetTooltip("key")
+            local tooltip = QuestieTooltips.GetTooltip("key")
 
             assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
             assert.are.same({"Quest Name"}, tooltip)
@@ -62,7 +62,7 @@ describe("Tooltip", function()
             Questie.db.profile.showQuestsInNpcTooltip = false
             QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {questId = 1, name = "test", starterId = 2}}}
 
-            local tooltip = QuestieTooltips:GetTooltip("key")
+            local tooltip = QuestieTooltips.GetTooltip("key")
 
             assert.spy(QuestieLib.GetColoredQuestName).was_not_called()
             assert.are.same({}, tooltip)
@@ -83,7 +83,7 @@ describe("Tooltip", function()
             }}}
             QuestiePlayer.currentQuestlog[1] = {}
 
-            local tooltip = QuestieTooltips:GetTooltip("m_123")
+            local tooltip = QuestieTooltips.GetTooltip("m_123")
 
             assert.spy(QuestieDB.QueryItemSingle).was_called_with(5, "name")
             assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
@@ -103,7 +103,7 @@ describe("Tooltip", function()
             }}}
             QuestiePlayer.currentQuestlog[1] = {}
 
-            local tooltip = QuestieTooltips:GetTooltip("key")
+            local tooltip = QuestieTooltips.GetTooltip("key")
 
             assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
             assert.are.same({"Quest Name", "   gold3/5 do it"}, tooltip)
@@ -120,7 +120,7 @@ describe("Tooltip", function()
             }}}
             QuestiePlayer.currentQuestlog[1] = {}
 
-            local tooltip = QuestieTooltips:GetTooltip("key")
+            local tooltip = QuestieTooltips.GetTooltip("key")
 
             assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)
@@ -165,7 +165,7 @@ describe("Tooltip", function()
             QuestiePlayer.currentQuestlog[1] = {}
             QuestiePlayer.currentQuestlog[2] = {}
 
-            local tooltip = QuestieTooltips:GetTooltip("key")
+            local tooltip = QuestieTooltips.GetTooltip("key")
 
             assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
             assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 2, nil, true, true)
@@ -190,7 +190,7 @@ describe("Tooltip", function()
             }}}
             QuestiePlayer.currentQuestlog[1] = {}
 
-            QuestieTooltips:GetTooltip("key")
+            QuestieTooltips.GetTooltip("key")
 
             assert.spy(updateSpy).was_not_called()
         end)
@@ -210,7 +210,7 @@ describe("Tooltip", function()
             }}}
             QuestiePlayer.currentQuestlog[1] = {}
 
-            QuestieTooltips:GetTooltip("key")
+            QuestieTooltips.GetTooltip("key")
 
             assert.spy(updateSpy).was_not_called()
         end)
