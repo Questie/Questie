@@ -5438,6 +5438,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431601,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90292] = {
+            [questKeys.name] = "Catlike Reflexes",
+            [questKeys.startedBy] = {{222376,222406}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Find the Groddoc Infant in the yeti cave and feed it either Soft Banana Bread or Tel'Abim Banana and bring it to the Groddoc Matriarch in the east within 10 minutes to receive the rune."},
+            [questKeys.requiredSpell] = -416083,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
