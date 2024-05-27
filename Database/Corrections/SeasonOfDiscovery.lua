@@ -462,6 +462,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90291] = 3, -- Hunter Focus Fire
     [90292] = 3, -- Hunter Catlike Reflexes
     [90293] = 3, -- Mage Balefire Bolt
+    [90294] = 3, -- Rogue Unfair Advantage
 }
 
 --- "automatic" phase detection for the first few phases;
