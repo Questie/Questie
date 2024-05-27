@@ -73,7 +73,6 @@ def main():
     if len(includedExpansions) == 0:
         # If expansions go online/offline their major version needs to be added/removed here
         includedExpansions.append(1)
-        includedExpansions.append(3) # TODO: Remove this after Cata release
         includedExpansions.append(4)
 
     release_dir = get_version_dir(isReleaseBuild, versionOverride)
