@@ -2924,6 +2924,12 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27689},
             [questKeys.exclusiveTo] = {},
         },
+        [27700] = { -- Dragon, Unchained
+            [questKeys.preQuestGroup] = {27695,27688},
+        },
+        [27701] = { -- Dragon, Unchained
+            [questKeys.preQuestGroup] = {27696,27689},
+        },
         [27703] = { -- Coup de Grace
             [questKeys.preQuestSingle] = {27701},
         },
