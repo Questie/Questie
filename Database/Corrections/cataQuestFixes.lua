@@ -2831,6 +2831,9 @@ function CataQuestFixes.Load()
         [27443] = { -- The War Has Many Fronts
             [questKeys.exclusiveTo] = {27203,27398},
         },
+        [27468] = { -- Siege Tank Rescue
+            [questKeys.objectives] = {{{45524},{45526}}},
+        },
         [27485] = { -- Warm Welcome
             [questKeys.preQuestSingle] = {27380},
         },
