@@ -1,12 +1,12 @@
 ## Interface: 11502
-## Title: Questie|cFF00FF00 v10.0.7|r
+## Title: Questie|cFF00FF00 v10.1.8|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
 ## Notes-esMX: Ayundante de misión
 ## Notes-esES: Ayundante de misión
 ## Notes-ptBR: Ajudante de missão
 ## Notes-frFR: Assistant de quête
-## Version: 10.0.7
+## Version: 10.1.8
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
@@ -163,7 +163,8 @@ Modules\Map\HBDHooks.lua
 Modules\Map\WeaponMasterSkills.lua
 
 # Quest
-Modules\Quest\AvailableQuests.lua
+Modules\Quest\AvailableQuests\IsLevelRequirementFulfilled.lua
+Modules\Quest\AvailableQuests\AvailableQuests.lua
 Modules\Quest\QuestLogCache.lua
 Modules\Quest\DailyQuests.lua
 Modules\Quest\IsleOfQuelDanas.lua

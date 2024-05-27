@@ -1,16 +1,18 @@
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+-- These need to match with QuestieJourney.questCategoryKeys
 l10n.continentLookup = {
     [1] = "Eastern Kingdoms",
     [2] = "Kalimdor",
     [3] = "Outland",
     [4] = "Northrend",
-    [5] = "Dungeons",
-    [6] = "Battlegrounds",
-    [7] = "Class",
-    [8] = "Professions",
-    [9] = "Events",
+    [5] = "The Mealstrom",
+    [6] = "Dungeons",
+    [7] = "Battlegrounds",
+    [8] = "Class",
+    [9] = "Professions",
+    [10] = "Events",
 }
 
 -- Table was generated with the ExternalScripts(DONOTINCLUDEINRELEASE)/getAreaRelations.py script
@@ -2755,12 +2757,24 @@ l10n.zoneLookup = {
     },
 }
 
+local maelstromZones = {}
+if Questie.IsCata then
+    for id, name in pairs(l10n.zoneLookup[646]) do -- Deepholm
+        maelstromZones[id] = name
+    end
+    for id, name in pairs(l10n.zoneLookup[648]) do -- Kezan & The Lost Isles
+        maelstromZones[id] = name
+    end
+end
+
+-- The keys need to match with QuestieJourney.questCategoryKeys
 l10n.zoneCategoryLookup = {
     [1] = l10n.zoneLookup[0],
     [2] = l10n.zoneLookup[1],
     [3] = l10n.zoneLookup[530],
     [4] = l10n.zoneLookup[571],
-    [5] = {
+    [5] = maelstromZones,
+    [6] = {
         [206] = "Utgarde Keep",
         [209] = "Shadowfang Keep",
         [491] = "Razorfen Kraul",
@@ -2844,7 +2858,7 @@ l10n.zoneCategoryLookup = {
         [5844] = "Hour of Twilight",
         [5892] = "Dragon Soul",
     },
-    [6] = {
+    [7] = {
         [-25] = "Battlegrounds",
         [2597] = "Alterac Valley",
         [3277] = "Warsong Gulch",
@@ -2858,7 +2872,7 @@ l10n.zoneCategoryLookup = {
         [14287] = "Dragonblight",
         [14288] = "Battle for Wintergrasp",
     },
-    [7] = {
+    [8] = {
         [-61] = "Warlock",
         [-81] = "Warrior",
         [-82] = "Shaman",
@@ -2870,7 +2884,7 @@ l10n.zoneCategoryLookup = {
         [-263] = "Druid",
         [-372] = "Death Knight",
     },
-    [8] = {
+    [9] = {
         [-24] = "Herbalism",
         [-101] = "Fishing",
         [-121] = "Blacksmithing",
@@ -2886,7 +2900,7 @@ l10n.zoneCategoryLookup = {
         [-667] = "Mining", -- Dummy ID
         [-668] = "Enchanting", -- Dummy ID
     },
-    [9] = {
+    [10] = {
         [-1] = "Epic",
         [-22] = "Seasonal",
         [-41] = "Day of the Dead",

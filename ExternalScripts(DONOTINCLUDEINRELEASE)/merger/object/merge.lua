@@ -15,8 +15,13 @@ for objId, data in pairs(mangos) do
     local tObj = trinity[objId]
 
     -- get spawns from trinity and add them to mangos
-    if tObj and tObj[objectKeys.spawns] then
-        data[objectKeys.spawns] = tObj[objectKeys.spawns]
+    if tObj then
+        data[objectKeys.questStarts] = tObj[objectKeys.questStarts]
+        data[objectKeys.questEnds] = tObj[objectKeys.questEnds]
+        if (not data[objectKeys.spawns]) and tObj[objectKeys.spawns] then
+            data[objectKeys.spawns] = tObj[objectKeys.spawns]
+            data[objectKeys.zoneID] = tObj[objectKeys.zoneID]
+        end
     end
 end
 
@@ -52,6 +57,11 @@ for objId, data in pairsByKeys(wotlk) do
         print("Mangos is missing the following object: " .. objId .. " " .. data[objectKeys.name])
         mangos[objId] = data
     end
+
+    if mangos[objId] and (not mangos[objId][objectKeys.spawns]) and data[objectKeys.spawns] then
+        mangos[objId][objectKeys.spawns] = data[objectKeys.spawns]
+        mangos[objId][objectKeys.zoneID] = data[objectKeys.zoneID]
+    end
 end
 
 -- print to "merged-file.lua"
@@ -66,6 +76,7 @@ for objId, data in pairsByKeys(mangos) do
         for i, questID in ipairs(data[objectKeys.questStarts]) do
             printString = printString .. questID .. ","
         end
+        printString = printString:sub(1, -2) -- remove trailing comma
         printString = printString .. "},"
     else
         printString = printString .. "nil,"
@@ -75,6 +86,7 @@ for objId, data in pairsByKeys(mangos) do
         for i, questID in ipairs(data[objectKeys.questEnds]) do
             printString = printString .. questID .. ","
         end
+        printString = printString:sub(1, -2) -- remove trailing comma
         printString = printString .. "},"
     else
         printString = printString .. "nil,"
