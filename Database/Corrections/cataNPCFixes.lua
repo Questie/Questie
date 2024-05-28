@@ -14,7 +14,10 @@ function CataNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
-        [1494] = {
+        [658] = { -- Sten Stoutarm
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{36.55,70.41}}},
+        },
+        [1494] = { -- Negolash
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{50.75,79.65}}},
         },
         [1514] = { -- Mokk the Savage
@@ -276,6 +279,9 @@ function CataNpcFixes.Load()
                     {26.44,46.91,phases.GILNEAS_CHAPTER_8},
                 },
             },
+        },
+        [37115] = { -- Teo Hammerstorm
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{35.82,64.59}}},
         },
         [37602] = { -- Claims Adjuster
             [npcKeys.spawns] = {

@@ -48,7 +48,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{51989}},
         },
         [218] = { -- Ice and Fire
-            [questKeys.objectives] = {{{808},{37514},{37112}}},
+            [questKeys.objectives] = {{{808}},nil,nil,nil,{{{946,37507},946},{{37112},37112}}},
+            [questKeys.startedBy] = {{786}},
+            [questKeys.nextQuestInChain] = 24490,
         },
         [487] = { -- The Road to Darnassus
             [questKeys.preQuestSingle] = {483},
@@ -159,6 +161,21 @@ function CataQuestFixes.Load()
         },
         [3105] = { -- Tainted Letter -- Human Warlock
             [questKeys.nextQuestInChain] = 26914,
+        },
+        [3106] = { -- Simple Rune -- Dwarf Warrior
+            [questKeys.requiredRaces] = raceKeys.DWARF,
+        },
+        [3107] = { -- Consecrated Rune -- Dwarf Paladin
+            [questKeys.requiredRaces] = raceKeys.DWARF,
+        },
+        [3108] = { -- Etched Rune -- Dwarf Hunter
+            [questKeys.requiredRaces] = raceKeys.DWARF,
+        },
+        [3110] = { -- Hallowed Rune -- Dwarf Priest
+            [questKeys.requiredRaces] = raceKeys.DWARF,
+        },
+        [3361] = { -- A Refugee's Quandary
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [5041] = { -- Supplies for the Crossroads
             [questKeys.preQuestSingle] = {871}
@@ -1089,6 +1106,34 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{37067,"Crash Survivor rescued",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Rescue the Crash Survivor"),0,{{"monster",37078}}}},
         },
+        [24471] = { -- Aid For The Wounded
+            [questKeys.objectives] = {{{37080,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [24473] = { -- Lockdown in Anvilmar
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24470,24471},
+        },
+        [24487] = { -- Whitebeard Needs Ye
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24475,24486},
+        },
+        [24489] = { -- Trolling For Information
+            [questKeys.objectives] = {{{37108,nil,Questie.ICON_TYPE_EVENT},{37173,nil,Questie.ICON_TYPE_EVENT},{37174,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 218,
+        },
+        [24490] = { -- A Trip to Ironforge
+            [questKeys.nextQuestInChain] = 24491,
+        },
+        [24491] = { -- Follow that Gyro-Copter!
+            [questKeys.nextQuestInChain] = 24492,
+        },
+        [24494] = { -- Empowered Rune -- Dwarf Shaman
+            [questKeys.requiredRaces] = raceKeys.DWARF,
+        },
+        [24496] = { -- Arcane Rune -- Dwarf Mage
+            [questKeys.requiredRaces] = raceKeys.DWARF,
+        },
         [24502] = { -- Necessary Roughness
             [questKeys.objectives] = {{{48526},{37114}}},
         },
@@ -1100,24 +1145,41 @@ function CataQuestFixes.Load()
         },
         [24526] = { -- Filling Up the Spellbook
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 37121}}}},
+            [questKeys.requiredRaces] = raceKeys.DWARF,
         },
         [24527] = { -- Your Path Begins Here
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{73899}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Primal Strike"), 2, {{"monster", 37115}}}},
+            [questKeys.requiredRaces] = raceKeys.DWARF,
         },
         [24528] = { -- The Power of the Light
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{20271},{20154}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Judgement"), 2, {{"monster", 926}}},
+                {nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Seal of Righteousness"), 3, {{"monster", 926}}},
+            },
+            [questKeys.requiredRaces] = raceKeys.DWARF,
         },
         [24530] = { -- Oh, A Hunter's Life For Me
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 895}}}},
+            [questKeys.requiredRaces] = raceKeys.DWARF,
         },
         [24531] = { -- Getting Battle-Ready
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{100}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 912}}}},
+            [questKeys.requiredRaces] = raceKeys.DWARF,
         },
         [24532] = { -- Evisceratin' the Enemy
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Eviscerate"), 2, {{"monster", 916}}}},
+            [questKeys.requiredRaces] = raceKeys.DWARF,
         },
         [24533] = { -- Words of Power
-            [questKeys.objectives] = {{{44405}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{44405,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 837}}}},
+            [questKeys.requiredRaces] = raceKeys.DWARF,
         },
         [24457] = { -- Rite of Vision
             [questKeys.nextQuestInChain] = 20441,
@@ -2617,8 +2679,10 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26897},
             [questKeys.finishedBy] = {{33260}},
         },
-        [26904] = { -- Corruption
+        [26904] = { -- Harnessing the Flames
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{348}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Immolate"), 2, {{"monster", 43455}}}},
+            [questKeys.requiredRaces] = raceKeys.DWARF,
         },
         [26907] = { -- Take Them Down!
             [questKeys.objectives] = {{{4424},{4428},{4420},{4422}}},
