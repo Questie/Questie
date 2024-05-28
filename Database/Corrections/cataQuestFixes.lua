@@ -156,6 +156,7 @@ function CataQuestFixes.Load()
         },
         [3105] = { -- Tainted Letter -- Human Warlock
             [questKeys.nextQuestInChain] = 26914,
+        },
         [5041] = { -- Supplies for the Crossroads
             [questKeys.preQuestSingle] = {871}
         },
