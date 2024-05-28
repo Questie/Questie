@@ -3571,6 +3571,7 @@ function CataQuestFixes.Load()
         },
         [28756] = { -- Aberrations of Bone
             [questKeys.objectives] = {{{11622}}},
+            [questKeys.preQuestSingle] = {27464},
         },
         [28757] = { -- Beating Them Back! -- Human Mage
             [questKeys.requiredRaces] = raceKeys.HUMAN,
