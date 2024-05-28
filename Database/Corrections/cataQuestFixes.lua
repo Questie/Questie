@@ -2402,6 +2402,7 @@ function CataQuestFixes.Load()
         },
         [26616] = { -- It's Never Over
             [questKeys.preQuestSingle] = {26607},
+            [questKeys.objectives] = {{{43450,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
         [26619] = { -- You Say You Want a Revolution
             [questKeys.preQuestGroup] = {26540,26608},
