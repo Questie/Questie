@@ -344,6 +344,9 @@ function CataItemFixes.Load()
         [56178] = { -- Duarn's Rope
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [56254] = { -- Merciless Head
+            [itemKeys.npcDrops] = {41601,41729},
+        },
         [56819] = { -- Remora Oil
             [itemKeys.npcDrops] = {42112},
         },
