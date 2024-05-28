@@ -2462,6 +2462,9 @@ function CataQuestFixes.Load()
         [26664] = { -- Making Mutiny
             [questKeys.preQuestSingle] = {26650},
         },
+        [26668] = { -- Detonation
+            [questKeys.triggerEnd] = {"Blow up Render's Valley.", {[zoneIDs.REDRIDGE_MOUNTAINS]={{77.19,65.64}}}},
+        },
         [26683] = { -- Look To The Stars
             [questKeys.preQuestSingle] = {26661},
         },
