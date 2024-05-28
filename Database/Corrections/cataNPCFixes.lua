@@ -52,6 +52,9 @@ function CataNpcFixes.Load()
             [npcKeys.questEnds] = {749,24459,26179,26180},
             [npcKeys.waypoints] = {},
         },
+        [3389] = { -- Regthar Deathgate
+            [npcKeys.questStarts] = {851,852,855,4021},
+        },
         [3475] = { -- Echeyakee
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{56.4,34.9}}},
         },
