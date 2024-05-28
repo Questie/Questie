@@ -2400,6 +2400,9 @@ function CataQuestFixes.Load()
         [26614] = { -- Keep An Eye Out
             [questKeys.preQuestSingle] = {26611},
         },
+        [26616] = { -- It's Never Over
+            [questKeys.preQuestSingle] = {26607},
+        },
         [26619] = { -- You Say You Want a Revolution
             [questKeys.preQuestGroup] = {26540,26608},
         },
