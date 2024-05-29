@@ -528,6 +528,9 @@ function CataNpcFixes.Load()
                 [zoneIDs.STORMWIND_CITY] = {{50.56,71.89}},
             },
         },
+        [42463] = { -- Operation: Gnomeregan Recap Credit
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{33.54,36.52}}},
+        },
         [42465] = { -- Therazane
             [npcKeys.questEnds] = {26709,26750,28824,29337},
         },

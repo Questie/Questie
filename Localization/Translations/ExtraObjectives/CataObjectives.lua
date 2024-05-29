@@ -2,22 +2,22 @@
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local cataObjectiveLocales = {
-    ["Talk to Torben Zapblast."] = {
-        ["ptBR"] = "Converse com Toninho Despachante.",
-        ["ruRU"] = "Поговорите с Торбен Взрывошок.",
-        ["deDE"] = "Sprich mit Torben Knallschock.",
+    ["Talk to Torben Zapblast"] = {
+        ["ptBR"] = "Converse com Toninho Despachante",
+        ["ruRU"] = "Поговорите с Торбен Взрывошок",
+        ["deDE"] = "Sprich mit Torben Knallschock",
         ["koKR"] = false,
-        ["esMX"] = "Habla con Torben Pumzas.",
+        ["esMX"] = "Habla con Torben Pumzas",
         ["enUS"] = true,
-        ["frFR"] = "Parlez à Torben Zoupépaf.",
-        ["esES"] = "Habla con Torben Pumzas.",
+        ["frFR"] = "Parlez à Torben Zoupépaf",
+        ["esES"] = "Habla con Torben Pumzas",
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Take the Swift Seahorse to Nespirah."] = {
+    ["Take the Swift Seahorse to Nespirah"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["deDE"] = "Nimm das schnelle Seepferdchen nach Nespirah.",
+        ["deDE"] = "Nimm das schnelle Seepferdchen nach Nespirah",
         ["koKR"] = false,
         ["esMX"] = false,
         ["enUS"] = false,
@@ -1275,6 +1275,18 @@ local cataObjectiveLocales = {
         ["zhCN"] = false,
     },
     ["Learn Spell: Primal Strike"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
+    ["Talk to High Tinker Mekkatorque"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,

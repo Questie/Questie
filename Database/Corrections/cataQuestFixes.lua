@@ -1150,6 +1150,9 @@ function CataQuestFixes.Load()
         [24491] = { -- Follow that Gyro-Copter!
             [questKeys.nextQuestInChain] = 24492,
         },
+        [24493] = { -- Don't Forget About Us
+            [questKeys.exclusiveTo] = {25724},
+        },
         [24494] = { -- Empowered Rune -- Dwarf Shaman
             [questKeys.requiredRaces] = raceKeys.DWARF,
         },
@@ -1908,7 +1911,7 @@ function CataQuestFixes.Load()
         [25890] = { -- Nespirah
             [questKeys.triggerEnd] = {"Find a way to communicate with Nespirah",{[zoneIDs.SHIMMERING_EXPANSE] = {{51.7,52.1}}}},
             [questKeys.preQuestSingle] = {25440},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take the Swift Seahorse to Nespirah."),0,{{"monster",40851}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take the Swift Seahorse to Nespirah"),0,{{"monster",40851}}}},
         },
         [25899] = { -- Breakthrough
             [questKeys.preQuestSingle] = {25372},
@@ -2162,23 +2165,54 @@ function CataQuestFixes.Load()
         [26194] = { -- Defending the Rift
             [questKeys.preQuestSingle] = {26182},
         },
+        [26197] = { -- The Future of Gnomeregan
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
         [26198] = { -- The Arts of a Mage
             [questKeys.objectives] = {{{44171}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 42331}}}},
+        },
+        [26199] = { -- The Future of Gnomeregan
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
         [26200] = { -- The Arts of a Priest
-            [questKeys.objectives] = {{{42501}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{42501,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 42323}}}},
         },
         [26201] = { -- The Power of a Warlock
             [questKeys.objectives] = {{{44171}},nil,nil,nil,nil,{{348}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Immolate"), 2, {{"monster", 460}}}},
+        },
+        [26202] = { -- The Future of Gnomeregan
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
+        [26203] = { -- The Future of Gnomeregan
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
         [26204] = { -- The Arts of a Warrior
             [questKeys.objectives] = {{{44171}},nil,nil,nil,nil,{{100}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 42324}}}},
+        },
+        [26205] = { -- A Job for the Multi-Bot
+            [questKeys.objectives] = {{{42563,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
+        [26206] = { -- The Future of Gnomeregan
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
         [26207] = { -- The Arts of a Rogue
             [questKeys.objectives] = {{{44171}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Eviscerate"), 2, {{"monster", 42366}}}},
+        },
+        [26208] = { -- The Fight Continues
+            [questKeys.objectives] = {{{42463,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
         [26221] = { -- Full Circle
             [questKeys.preQuestSingle] = {26006},
+        },
+        [26221] = { -- Scrounging for Parts
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
         [26228] = { -- Livin' the Life
             [questKeys.triggerEnd] = {"Livin' the Life!", {[zoneIDs.WESTFALL]={{61,25}}}},
@@ -2216,6 +2250,19 @@ function CataQuestFixes.Load()
         [26259] = { -- Blood of the Earthwarder
             [questKeys.preQuestSingle] = {26255},
         },
+        [26264] = { -- What's Left Behind
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
+        [26265] = { -- Dealing with the Fallout
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
+        [26284] = { -- Missing in Action
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",460002}}}},
+        },
+        [26285] = { -- Get Me Explosives Back!
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
         [26293] = { -- Machines of War
             [questKeys.startedBy] = {{39605}},
         },
@@ -2240,6 +2287,15 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {26312,26313,26314},
             [questKeys.objectives] = {{{42471}}},
         },
+        [26316] = { -- What's Keeping Jessup?
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
+        [26318] = { -- Finishin' the Job
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.objectives] = {nil,{{204042}},nil,nil,{{{42773},42773}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26284,26285},
+        },
         [26320] = { -- A Vision of the Past
             [questKeys.triggerEnd] = {"Vision of the Past uncovered", {[zoneIDs.THE_DEADMINES]={{-1,-1}}}},
         },
@@ -2250,11 +2306,29 @@ function CataQuestFixes.Load()
         [26326] = { -- The Very Earth Beneath Our Feet
             [questKeys.preQuestSingle] = {26876,27938},
         },
+        [26329] = { -- One More Thing
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
+        [26331] = { -- Crushcog's Minions
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
+        [26333] = { -- No Tanks!
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
         [26335] = { -- Ready the Navy
             [questKeys.preQuestSingle] = {26324},
         },
         [26337] = { -- Beating the Market
             [questKeys.objectives] = {{{42777}}},
+        },
+        [26339] = { -- Staging in Brewnall
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26331,26333},
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
+        [26342] = { -- Paint it Black
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.objectives] = {{{42291,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26353] = { -- Captain Sanders' Hidden Treasure
             [questKeys.startedBy] = {{513,515,126,171,456,127,517,458,391},nil,{1357}},
@@ -2274,6 +2348,15 @@ function CataQuestFixes.Load()
         },
         [26358] = { -- Ready the Air Force
             [questKeys.preQuestSingle] = {26324},
+        },
+        [26364] = { -- Down with Crushcog!
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to High Tinker Mekkatorque"),0,{{"monster",42849}}}},
+            [questKeys.objectives] = {{{42839}}},
+        },
+        [26373] = { -- On to Kharanos
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.exclusiveTo] = {25724},
         },
         [26374] = { -- Ready the Ground Troops
             [questKeys.objectives] = {{{42646}}},
@@ -2335,6 +2418,21 @@ function CataQuestFixes.Load()
                 {{[zoneIDs.STORMWIND_CITY]={{59.92,15.33}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Crystal Bass")},
             },
             [questKeys.requiredSourceItems] = {58788},
+        },
+        [26421] = { -- Meet the High Tinker
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
+        [26422] = { -- Meet the High Tinker
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
+        [26423] = { -- Meet the High Tinker
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
+        [26424] = { -- Meet the High Tinker
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
+        [26425] = { -- Meet the High Tinker
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
         [26440] = { -- Clingy
             [questKeys.triggerEnd] = {"Pebble brought to crystal formation",{[zoneIDs.DEEPHOLM]={{29,45}}}},
@@ -2428,6 +2526,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26572,26543,26556,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
             [questKeys.requiredSourceItems] = {58949},
             [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{47.1,46.3}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Attach a Stag Eye to your Fishing Pole and fish for Sandy Carp")}},
+        },
+        [26566] = { -- A Triumph of Gnomish Ingenuity
+            [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
         [26572] = { -- A Golden Opportunity
             [questKeys.requiredSourceItems] = {58955,58958},
@@ -3055,6 +3156,10 @@ function CataQuestFixes.Load()
         [27631] = { -- The High Commander's Vote
             [questKeys.preQuestSingle] = {27628},
         },
+        [27635] = { -- Decontamination
+            [questKeys.objectives] = {{{46185,nil,Questie.ICON_TYPE_MOUNT_UP}}},
+            [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
+        },
         [27640] = { -- Dunwalds Don't Die
             [questKeys.preQuestSingle] = {27817},
         },
@@ -3062,8 +3167,18 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25944},
             [questKeys.exclusiveTo] = {25946},
         },
+        [27670] = { -- Pinned Down
+            [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
+            [questKeys.requiredClasses] = classKeys.WARRIOR + classKeys.MAGE + classKeys.WARLOCK + classKeys.ROGUE + classKeys.PRIEST, -- gnome DKs don't get these quests
+        },
+        [27671] = { -- See to the Survivors
+            [questKeys.objectives] = {{{46268,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.startedBy] = {{47250}},
+            [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
+        },
         [27674] = { -- To the Surface
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast."), 0, {{"monster", 46293}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast"), 0, {{"monster", 46293}}}},
+            [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
         [27685] = { -- Good Deed Left Undone
             [questKeys.exclusiveTo] = {25587},
@@ -3335,6 +3450,12 @@ function CataQuestFixes.Load()
         [28145] = { -- Venomblood Antidote
             [questKeys.objectives] = {{{45859}}},
             [questKeys.preQuestSingle] = {28112},
+        },
+        [28167] = { -- Venomblood Antidote
+            [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
+        },
+        [28169] = { -- Withdraw to the Loading Room!
+            [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
         [28170] = { -- Night Terrors
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Uchek"), 0, {{"monster", 47826}}}},

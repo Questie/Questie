@@ -114,5 +114,10 @@ function CataObjectFixes.Load()
         [460001] = {
             [objectKeys.name] = "Fossil Archaeology Object",
         },
+        [460002] = {
+            [objectKeys.name] = "Makeshift Cage",
+            [objectKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{37.43,51.86},{37.4,50.15},{33.18,53.23},{31.99,48.64},{34.11,53.54},{36.81,51.81},{34.89,51.89},{34.4,52.17},{33.66,52.11},{33.36,51.43},{36.77,50.89},{32.83,49.93},{33.42,50.07},{36.03,51.78},{34.56,50.42},{35.59,50.61},{36.31,50.26}}},
+        },
     }
 end
