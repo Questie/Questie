@@ -80,6 +80,8 @@ local phases = {
     CERELLEAN_NEAR_TREE = 1008,
     VASHJIR_LEGIONS_REST = 1009,
     VASHJIR_NORTHERN_GARDEN = 1010,
+    ILTHALAINE_AT_BENCH = 1011,
+    ILTHALAINE_AT_ROAD = 1012,
 }
 Phasing.phases = phases
 
@@ -208,6 +210,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.CERELLEAN_NEAR_TREE then
         return complete[13515] or false
+    end
+
+    if phase == phases.ILTHALAINE_AT_BENCH then
+        return (not complete[28715]) and (not questLog[28715])
+    end
+
+    if phase == phases.ILTHALAINE_AT_ROAD then
+        return (complete[28715] or questLog[28715] and true) or false
     end
 
     return false

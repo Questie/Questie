@@ -174,6 +174,28 @@ function CataQuestFixes.Load()
         [3110] = { -- Hallowed Rune -- Dwarf Priest
             [questKeys.requiredRaces] = raceKeys.DWARF,
         },
+        [3116] = { -- Simple Sigil -- Night Elf Warrior
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28714,28715},
+        },
+        [3117] = { -- Etched Sigil -- Night Elf Hunter
+            [questKeys.startedBy] = {{2077,2079}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28714,28715},
+        },
+        [3118] = { -- Encrypted Sigil -- Night Elf Rogue
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28714,28715},
+        },
+        [3119] = { -- Hallowed Sigil -- Night Elf Priest
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28714,28715},
+        },
+        [3120] = { -- Verdant Sigil -- Night Elf Druid
+            [questKeys.startedBy] = {{2077,2079}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28714,28715},
+        },
         [3361] = { -- A Refugee's Quandary
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
@@ -1213,9 +1235,6 @@ function CataQuestFixes.Load()
         },
         [24681] = { -- They Have Allies, But So Do We
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Hop in a Glaive Thrower"),0,{{"monster",38150}}}},
-        },
-        [28723] = { -- Priestess of the Moon
-            [questKeys.startedBy] = {{3593,3594,3595,3596,3597,43006}},
         },
         [24752] = { -- The Arts of a Mage
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{5143}}},
@@ -2651,6 +2670,10 @@ function CataQuestFixes.Load()
         [26840] = { -- Return to the Highlands
             [questKeys.startedBy] = {{39605}},
         },
+        [26841] = { -- Forbidden Sigil -- Night Elf Mage
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28714,28715},
+        },
         [26861] = { -- Block the Gates
             [questKeys.preQuestSingle] = {26771},
         },
@@ -2735,21 +2758,27 @@ function CataQuestFixes.Load()
         [26940] = { -- Arcane Missiles
             [questKeys.startedBy] = {{43006}},
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 43006}}}},
         },
         [26945] = { -- Learning New Techniques
-            [questKeys.objectives] = {{{44614},{3593,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{100}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 3593}}}},
         },
         [26946] = { -- A Rogue's Advantage
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Eviscerate"), 2, {{"monster", 3594}}}},
         },
         [26947] = { -- A Woodsman's Training
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 3596}}}},
         },
         [26948] = { -- Rejuvenating Touch
-            [questKeys.objectives] = {{{44617}},nil,nil,nil,nil,{{774}}},
+            [questKeys.objectives] = {{{44617,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{774}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Rejuvenation"), 2, {{"monster", 3597}}}},
         },
         [26949] = { -- Healing for the Wounded
-            [questKeys.objectives] = {{{44617}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{44617,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 3595}}}},
         },
         [26958] = { -- Your First Lesson
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{100}}},
@@ -3622,8 +3651,15 @@ function CataQuestFixes.Load()
         [28709] = { -- Hero's Call: Borean Tundra!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
         },
+        [28713] = { -- The Balance of Nature
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [28714] = { -- Fel Moss Corruption
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [28715] = { -- Demonic Thieves
             [questKeys.preQuestSingle] = {28713},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [28716] = { -- Hero's Call: Twilight Highlands!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
@@ -3634,6 +3670,31 @@ function CataQuestFixes.Load()
         [28721] = { -- Walk A Mile In Their Shoes
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [28723] = { -- Priestess of the Moon
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.startedBy] = {{3593,3594,3595,3596,3597,43006}},
+        },
+        [28724] = { -- Iverron's Antidote
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [28725] = { -- The Woodland Protector
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [28726] = { -- Webwood Corruption
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [28728] = { -- Signs of Things to Come
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [28729] = { -- Teldrassil: Crown of Azeroth
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [28730] = { -- Precious Waters
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [28731] = { -- Teldrassil: Passing Awareness
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [28732] = { -- This Can Only Mean One Thing...
             [questKeys.triggerEnd] = {"Arrive at Blackrock Caverns", {[zoneIDs.BLACKROCK_CAVERNS]={{33,66.4}}}},
             [questKeys.objectives] = {{{49456}},nil,nil,nil,},
@@ -3642,6 +3703,7 @@ function CataQuestFixes.Load()
         [28734] = { -- A Favor for Melithar
             [questKeys.exclusiveTo] = {28715},
             [questKeys.nextQuestInChain] = 28715,
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [28756] = { -- Aberrations of Bone
             [questKeys.objectives] = {{{11622}}},

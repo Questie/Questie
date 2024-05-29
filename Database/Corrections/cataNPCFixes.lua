@@ -27,7 +27,12 @@ function CataNpcFixes.Load()
             [npcKeys.waypoints] = {},
         },
         [2079] = { -- Ilthalaine
-            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{57.97,39.2}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.TELDRASSIL] = {
+                    {57.97,39.2,phases.ILTHALAINE_AT_BENCH},
+                    {58.13,38.94,phases.ILTHALAINE_AT_ROAD},
+                },
+            },
             [npcKeys.waypoints] = {},
         },
         [2070] = { -- Moonstalker Runt
