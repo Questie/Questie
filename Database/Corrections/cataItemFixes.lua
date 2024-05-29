@@ -19,6 +19,9 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {195111},
         },
+        [5533] = { -- Ilkrud Magthrull's Tome
+            [itemKeys.npcDrops] = {},
+        },
         [10458] = { -- Prayer to Elune
             [itemKeys.npcDrops] = {}
         },
@@ -341,6 +344,9 @@ function CataItemFixes.Load()
         [56178] = { -- Duarn's Rope
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [56254] = { -- Merciless Head
+            [itemKeys.npcDrops] = {41601,41729},
+        },
         [56819] = { -- Remora Oil
             [itemKeys.npcDrops] = {42112},
         },
@@ -508,6 +514,9 @@ function CataItemFixes.Load()
         },
         [64404] = { -- Ruby Crystal Cluster
             [itemKeys.npcDrops] = {48533,48639},
+        },
+        [64585] = { -- Cannon Powder
+            [itemKeys.npcDrops] = {49143},
         },
         [65504] = { -- Deep Alabaster Crystal
             [itemKeys.npcDrops] = {},

@@ -197,7 +197,9 @@ function QuestieEventHandler:RegisterLateEvents()
 
     if Questie.IsCata and Questie.db.profile.trackerEnabled then
        -- This is fired pretty often when an auto complete quest frame is showing. We want the default one to be hidden though.
-        Questie:RegisterEvent("UPDATE_ALL_UI_WIDGETS", WatchFrameHook.Hide)
+        Questie:RegisterEvent("UPDATE_ALL_UI_WIDGETS", function()
+            QuestieCombatQueue:Queue(WatchFrameHook.Hide)
+        end)
     end
 
     -- Questie Comms Events

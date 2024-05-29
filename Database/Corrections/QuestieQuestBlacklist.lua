@@ -1503,6 +1503,7 @@ function QuestieQuestBlacklist:Load()
         [819] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [830] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [832] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [842] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [882] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [883] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [884] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1510,8 +1511,16 @@ function QuestieQuestBlacklist:Load()
         [1273] = QuestieCorrections.CATA_HIDE, -- Replaced by 27261
         [1361] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1431] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [2781] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [2875] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5121] = QuestieCorrections.CATA_HIDE, -- Replaced by 28470
         [5123] = QuestieCorrections.CATA_HIDE, -- Replaced by 28471
+        [5923] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5924] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5925] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5926] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5927] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5928] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6564] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6981] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [7492] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1554,7 +1563,16 @@ function QuestieQuestBlacklist:Load()
         [24426] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [24427] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [24503] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28414
+        [24860] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [24935] = QuestieCorrections.CATA_HIDE, -- Not in the game		
+        [24936] = QuestieCorrections.CATA_HIDE, -- Not in the game		
+        [25124] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [25225] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [25231] = QuestieCorrections.CATA_HIDE, -- Not in the game		
         [25474] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27729
+        [25635] = QuestieCorrections.CATA_HIDE, -- Duplicate of 25583 and 25956
+		[25902] = QuestieCorrections.CATA_HIDE, -- Not in the game
+		[25903] = QuestieCorrections.CATA_HIDE, -- Not in the game		
         [26125] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26124
         [26565] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26588
         [26825] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26826
@@ -1564,6 +1582,12 @@ function QuestieQuestBlacklist:Load()
         [27609] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27501
         [27861] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27863
         [27862] = QuestieCorrections.CATA_HIDE, -- Duplicate of 27863
+        [28236] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28233
+        [28412] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [28095] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [28110] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [28585] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [28754] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28758
 
         -- ICC weekly quests
         [24869] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1632,6 +1656,10 @@ function QuestieQuestBlacklist:Load()
 
         [29129] = true, -- A Legendary Engagement
         [29132] = true, -- A Legendary Engagement
+        [29202] = true, -- The Fate of Runetotem
+        [29280] = true, -- Nourishing Waters
+        [29282] = true, -- Well Armed
+        [29284] = true, -- Aid of the Ancients
         [29326] = true, -- The Nordrassil Summit
         [29387] = true, -- Guardians of Hyjal: Firelands Invasion!
         [29388] = true, -- Guardians of Hyjal: Firelands Invasion!

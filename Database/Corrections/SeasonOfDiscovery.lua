@@ -458,6 +458,15 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90287] = 3, -- Shaman Mental Dexterity
     [90288] = 3, -- Priest Pain and Suffering
     [90289] = 3, -- Warrior Taste for Blood
+    [90290] = 3, -- Druid Improved Barkskin
+    [90291] = 3, -- Hunter Focus Fire
+    [90292] = 3, -- Hunter Catlike Reflexes
+    [90293] = 3, -- Mage Balefire Bolt
+    [90294] = 3, -- Rogue Unfair Advantage
+    [90295] = 3, -- Rogue Carnage
+    [90296] = 3, -- Rogue Focused Attacks
+    [90297] = 3, -- Shaman Tidal Waves
+    [90298] = 3, -- Shaman Rolling Thunder
 }
 
 --- "automatic" phase detection for the first few phases;

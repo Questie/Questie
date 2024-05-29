@@ -634,6 +634,20 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_DOLANAAR))
             assert.is_true(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_CROSSROAD))
         end)
+
+        it("should handle Ilthalaine positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_BENCH))
+            assert.is_false(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_ROAD))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[28715]={}}
+            assert.is_false(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_BENCH))
+            assert.is_true(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_ROAD))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[28715] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_BENCH))
+            assert.is_true(Phasing.IsSpawnVisible(phases.ILTHALAINE_AT_ROAD))
+        end)
     end)
 
     describe("Darkshore", function()
