@@ -2751,6 +2751,7 @@ function CataQuestFixes.Load()
         },
         [26771] = { -- Testing the Trap
             [questKeys.preQuestGroup] = {26766,26768},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DEEPHOLM]={{50.9,85.3}}}, Questie.ICON_TYPE_EVENT, l10n("Place Trapped Basilisk Meat to spawn Stonescale Matriarch")}},
         },
         [26777] = { -- Soothing Spirits
             [questKeys.objectives] = {{{43923}}},

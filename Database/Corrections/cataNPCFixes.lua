@@ -609,6 +609,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [44148] = { -- Stonescale Matriarch
+            [npcKeys.spawns] = {},
+        },
         [44968] = { -- Ricket
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{61.4,26.2}}}
         },

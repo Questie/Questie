@@ -1298,6 +1298,18 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Place Trapped Basilisk Meat to lure Stonescale Matriarch"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Lege den Basiliskenfleischköder ab, um die Steinschuppenmatriarchin anzulocken",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(cataObjectiveLocales) do
