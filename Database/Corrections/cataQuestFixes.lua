@@ -2741,7 +2741,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26760},
         },
         [26750] = { -- At the Stonemother's Call
-            [questKeys.preQuestSingle] = {26659},
+            [questKeys.preQuestGroup] = {26584,26585,26659},
         },
         [26766] = { -- Big Game, Big Bait
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Mylra's Knife on dead Jadecrest Basilisks"), 0, {{"monster",43981}}}},
