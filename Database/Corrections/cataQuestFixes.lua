@@ -1818,6 +1818,9 @@ function CataQuestFixes.Load()
         [25626] = { -- Visions of the Past: Rise from the Deep
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE]={{33.1,77.81}}},Questie.ICON_TYPE_EVENT,l10n("Attune the with the Broken Blade's owner")}},
         },
+        [25629] = { -- Her Lady's Hand
+            [questKeys.preQuestSingle] = {25911,25973},
+        },
         [25630] = { -- The Fires of Mount Hyjal
             [questKeys.preQuestSingle] = {25611,25612},
             [questKeys.exclusiveTo] = {25381},
