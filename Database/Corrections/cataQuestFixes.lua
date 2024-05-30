@@ -556,6 +556,9 @@ function CataQuestFixes.Load()
         [13617] = { -- West to the Strand
             [questKeys.exclusiveTo] = {26465},
         },
+        [13621] = { -- Gorat's Vengeance
+            [questKeys.preQuestSingle] = {13620},
+        },
         [13639] = { -- Resupplying the Excavation
             [questKeys.triggerEnd] = {"Find Huldar, Miran, and Saean",{[zoneIDs.LOCH_MODAN] = {{55.6,68.5}}}},
         },
