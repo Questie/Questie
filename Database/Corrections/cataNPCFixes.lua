@@ -416,7 +416,7 @@ function CataNpcFixes.Load()
         [39877] = { -- Toshe Chaosrender
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{55.5,12.5},{53.3,33.1}}},
         },
-        [40919] = { -- Wavespeaker Valoren
+        [45514] = { -- Wavespeaker Valoren
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {64.38,62.56,phases.VASHJIR_LEGIONS_REST},
                 {39.2,78.6,phases.VASHJIR_NAR_SHOLA_TERRACE},
