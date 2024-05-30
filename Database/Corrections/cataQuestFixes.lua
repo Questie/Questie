@@ -224,6 +224,22 @@ function CataQuestFixes.Load()
         [8481] = { -- The Root of All Evil
             [questKeys.objectives] = {nil,nil,{{21145}},{576,42000}},
         },
+        [9283] = { -- Rescue the Survivors!
+            [questKeys.objectives] = {{{16483,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [9294] = { -- Healing the Lake
+            [questKeys.objectives] = {nil,{{181433,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [9303] = { -- Inoculation
+            [questKeys.startedBy] = {{16535}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [9305] = { -- Spare Parts
+            [questKeys.preQuestSingle] = {},
+        },
+        [9369] = { -- Replenishing the Healing Crystals
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE - raceKeys.DRAENEI,
+        },
         [9612] = { -- A Hearty Thanks!
             [questKeys.requiredRaces] = raceKeys.DRAENEI,
         },
@@ -260,6 +276,9 @@ function CataQuestFixes.Load()
         },
         [10073] = { -- Corruption
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{348}}},
+        },
+        [10302] = { -- Volatile Mutations
+            [questKeys.preQuestSingle] = {9369,9280},
         },
         [10647] = { -- Wanted: Uvuros, Scourge of Shadowmoon
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -2932,21 +2951,36 @@ function CataQuestFixes.Load()
         },
         [26958] = { -- Your First Lesson
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{100}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 16503}}}},
+            [questKeys.preQuestSingle] = {},
         },
         [26963] = { -- Steadying Your Shot
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 16499}}}},
+            [questKeys.preQuestSingle] = {},
         },
         [26966] = { -- The Light's Power
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{20271},{20154}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Judgement"), 2, {{"monster", 16501}}},
+                {nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Seal of Righteousness"), 3, {{"monster", 16501}}},
+            },
+            [questKeys.preQuestSingle] = {},
         },
-        [26968] = { -- Frost Nova
+        [26968] = { -- Arcane Missiles
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 16500}}}},
+            [questKeys.preQuestSingle] = {},
         },
         [26969] = { -- Primal Strike
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{73899}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Primal Strike"), 2, {{"monster", 17089}}}},
+            [questKeys.preQuestSingle] = {},
         },
         [26970] = { -- Aiding the Injured
-            [questKeys.objectives] = {{{16971}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{16971,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 16502}}}},
+            [questKeys.preQuestSingle] = {},
         },
         [26975] = { -- Rallying the Fleet
             [questKeys.triggerEnd] = {"Prince Anduin Escorted to Graves", {[zoneIDs.STORMWIND_CITY]={{33.5,40.9}}}},

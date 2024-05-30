@@ -34,6 +34,12 @@ function CataItemFixes.Load()
         [21145] = { -- Essence of Xandivious
             [itemKeys.npcDrops] = {},
         },
+        [22978] = { -- Emitter Spare Part
+            [itemKeys.npcDrops] = {},
+        },
+        [24416] = { -- Corrupted Flower
+            [itemKeys.npcDrops] = {},
+        },
         [31880] = { -- Blood Elf Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
