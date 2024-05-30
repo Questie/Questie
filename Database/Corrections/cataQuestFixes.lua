@@ -2250,8 +2250,12 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{42463,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
+        [26219] = { -- Full Circle
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE]={{69.6,75.2}}},Questie.ICON_TYPE_EVENT,l10n("Wait for the Pincer X2 to arrive")}},
+        },
         [26221] = { -- Full Circle
             [questKeys.preQuestSingle] = {26006},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE]={{64.5,68.6}}},Questie.ICON_TYPE_EVENT,l10n("Wait for the Verne to arrive")}},
         },
         [26222] = { -- Scrounging for Parts
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
