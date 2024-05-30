@@ -2749,6 +2749,9 @@ function CataQuestFixes.Load()
         [26770] = { -- Mystic Masters
             [questKeys.preQuestSingle] = {26755},
         },
+        [26771] = { -- Testing the Trap
+            [questKeys.preQuestGroup] = {26766,26768},
+        },
         [26777] = { -- Soothing Spirits
             [questKeys.objectives] = {{{43923}}},
         },
