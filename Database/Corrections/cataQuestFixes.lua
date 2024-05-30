@@ -1931,6 +1931,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25440},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take the Swift Seahorse to Nespirah"),0,{{"monster",40851}}}},
         },
+        [25892] = { -- Losing Ground
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",48910}}}},
+        },
         [25899] = { -- Breakthrough
             [questKeys.preQuestSingle] = {25372},
         },
@@ -2042,6 +2045,9 @@ function CataQuestFixes.Load()
         [25966] = { -- Visions of the Past: The Slaughter of Biel'aran Ridge
             [questKeys.preQuestGroup] = {25964,25965},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE] = {{28.92,78.64}}},Questie.ICON_TYPE_EVENT,l10n("Attune the with the Broken Blade's owner")}},
+        },
+        [25967] = { -- Losing Ground
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",48910}}}},
         },
         [25969] = { -- Hostile Waters
             [questKeys.preQuestSingle] = {25968},
