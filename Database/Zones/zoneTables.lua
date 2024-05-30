@@ -812,6 +812,7 @@ ZoneDB.private.dungeonLocations = {
     [5788] = {Questie.IsCata and {440, 64.8, 50}}, -- Well of Eternity, Dungeon
     [5789] = {Questie.IsCata and {440, 64.8, 50}}, -- End Time, Dungeon
     [5844] = {Questie.IsCata and {440, 64.8, 50}}, -- Hour of Twilight, Dungeon
+    [5861] = {{12, 41.79, 69.52},{215, 36.85, 35.86}}, -- Darkmoon Faire Island (coords are object 210177)
     [5892] = {Questie.IsCata and {440, 64.8, 50}}, -- Dragon Soul, Raid
     [7307] = {(Questie.IsCata and {51, 34.9, 83.9}) or {51, 34.8, 85.3}, (Questie.IsCata and {46, 21, 37.9}) or {46, 29.4, 38.3}}, -- Upper Blackrock Spire
 }
