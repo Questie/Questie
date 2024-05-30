@@ -2103,6 +2103,9 @@ function CataQuestFixes.Load()
         [26065] = { -- Free Wil'hai
             [questKeys.preQuestSingle] = {25987,},
         },
+        [26068] = { -- Kobold Fury!
+            [questKeys.objectives] = {nil,{{203446}}},
+        },
         [26072] = { -- Into the Totem
             [questKeys.objectives] = {{{42051}}},
         },
