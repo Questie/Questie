@@ -516,6 +516,9 @@ function CataNpcFixes.Load()
         [41455] = { -- Overseer Idra'kess
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{36.84,79.75}}},
         },
+        [41476] = { -- Naz'jar Honor Guard
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.33,78.57}}},
+        },
         [41600] = { -- Erunak Stonespeaker
             [npcKeys.spawns] = {
                 [zoneIDs.ABYSSAL_DEPTHS] = {{51.57,60.9}},
