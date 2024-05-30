@@ -1904,6 +1904,9 @@ function CataQuestFixes.Load()
         [25843] = { -- Tortolla's Revenge
             [questKeys.preQuestSingle] = {25372},
         },
+        [25858] = { -- By Her Lady's Word
+            [questKeys.objectives] = {{{42072,nil,Questie.ICON_TYPE_TALK},{42071,nil,Questie.ICON_TYPE_TALK},{41455,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [25881] = { -- Lost Wardens
             [questKeys.preQuestSingle] = {25372},
             [questKeys.objectives] = {{{41499}}},
