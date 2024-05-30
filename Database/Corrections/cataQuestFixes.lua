@@ -1882,6 +1882,7 @@ function CataQuestFixes.Load()
         },
         [25755] = { -- Visions of the Past: The Slaughter of Biel'aran Ridge
             [questKeys.preQuestGroup] = {25753,25754},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE] = {{28.92,78.64}}},Questie.ICON_TYPE_EVENT,l10n("Attune the with the Broken Blade's owner")}},
         },
         [25760] = { -- Visions of the Past: The Invasion of Vashj'ir
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE] = {{40,75}}},Questie.ICON_TYPE_EVENT,l10n("Attune the with the Broken Blade's owner")}},
@@ -2032,6 +2033,7 @@ function CataQuestFixes.Load()
         },
         [25966] = { -- Visions of the Past: The Slaughter of Biel'aran Ridge
             [questKeys.preQuestGroup] = {25964,25965},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE] = {{28.92,78.64}}},Questie.ICON_TYPE_EVENT,l10n("Attune the with the Broken Blade's owner")}},
         },
         [25969] = { -- Hostile Waters
             [questKeys.preQuestSingle] = {25968},
