@@ -2167,8 +2167,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{42115}},
         },
         [26106] = { -- Fuel-ology 101
-            [questKeys.requiredSourceItems] = {56819,56820},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring three Hammerhead Oil and two Remora Oil to Engineer Hexascrub."), 0, {{"monster", 41666}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Three Hammerhead Oil and two Remora Oil"), 0, {{"object", 203461}}}},
         },
         [26122] = { -- Environmental Awareness
             [questKeys.preQuestSingle] = {26221},
