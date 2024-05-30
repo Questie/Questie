@@ -529,6 +529,9 @@ function CataNpcFixes.Load()
                 [zoneIDs.ABYSSAL_DEPTHS] = {{42.66,37.82}},
             },
         },
+        [41770] = { -- Fiasco Sizzlegrin
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{50.35,78.99}}},
+        },
         [42074] = { -- Fathom-Stalker Azjentus
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.2,79.55}}},
         },
