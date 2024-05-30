@@ -1940,6 +1940,9 @@ function CataQuestFixes.Load()
         [25892] = { -- Losing Ground
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",48910}}}},
         },
+        [25896] = { -- Devout Assembly
+            [questKeys.objectives] = {{{41985,nil,Questie.ICON_TYPE_TALK},{41980,nil,Questie.ICON_TYPE_TALK}}}
+        },
         [25899] = { -- Breakthrough
             [questKeys.preQuestSingle] = {25372},
         },
