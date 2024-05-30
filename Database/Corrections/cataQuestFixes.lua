@@ -4500,6 +4500,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSkill] = {profKeys.COOKING,75},
         },
         [29510] = { -- Putting Trash to Good Use
+            [questKeys.requiredSourceItems] = {72018},
             [questKeys.requiredSkill] = {profKeys.ENCHANTING,75},
         },
         [29511] = { -- Talkin' Tonks
