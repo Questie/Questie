@@ -416,6 +416,14 @@ function CataNpcFixes.Load()
         [39877] = { -- Toshe Chaosrender
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{55.5,12.5},{53.3,33.1}}},
         },
+        [40919] = { -- Wavespeaker Valoren
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {64.38,62.56,phases.VASHJIR_LEGIONS_REST},
+                {39.2,78.6,phases.VASHJIR_NAR_SHOLA_TERRACE},
+                {29.6,78.9,phases.VASHJIR_NAR_SHOLA_TERRACE_WEST},
+            }},
+            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
         [39926] = { -- Twilight Inciter
             [npcKeys.spawns] = {},
         },
@@ -443,6 +451,36 @@ function CataNpcFixes.Load()
         [40545] = { -- Rod of Subjugation 02
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{25.2,54.8}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
+        [40639] = { -- Engineer Hexascrub
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {48.99,49.2,phases.VASHJIR_LEGIONS_REST},
+                {32.8,69.2,phases.VASHJIR_NORTHERN_GARDEN},
+            }},
+            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
+        [40642] = { -- Captain Taylor
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {49.16,56.98,phases.VASHJIR_LEGIONS_REST},
+                {33.2,68.2,phases.VASHJIR_NORTHERN_GARDEN},
+                {39.1,78.5,phases.VASHJIR_NAR_SHOLA_TERRACE},
+            }},
+            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
+        [40643] = { -- Admiral Dvorek
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {49.17,56.95,phases.VASHJIR_LEGIONS_REST},
+                {33.0,67.8,phases.VASHJIR_NORTHERN_GARDEN},
+                {39.1,78.7,phases.VASHJIR_NAR_SHOLA_TERRACE},
+            }},
+            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
+        [40644] = { -- Levia Dreamwaker
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {49.69,57.15,phases.VASHJIR_LEGIONS_REST},
+                {33.0,67.2,phases.VASHJIR_NORTHERN_GARDEN},
+            }},
+            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
         [40690] = { -- Captain Taylor
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{45.05,23.58}}},

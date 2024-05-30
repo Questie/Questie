@@ -78,7 +78,7 @@ local phases = {
     CORITHRAS_AT_CROSSROAD = 1006,
     CERELLEAN_NEAR_EDGE = 1007,
     CERELLEAN_NEAR_TREE = 1008,
-    VASHJIR_LEGIONS_REST = 1009,
+    VASHJIR_LEGIONS_REST = 1009, -- Also the Alliance cave Tranquil Wash
     VASHJIR_NORTHERN_GARDEN = 1010,
     ILTHALAINE_AT_BENCH = 1011,
     ILTHALAINE_AT_ROAD = 1012,
@@ -137,19 +137,21 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.VASHJIR_LEGIONS_REST then
-        return complete[25966] or (not complete[25958])
+        return complete[25966] or complete[25755] or ((not complete[25958]) and (not complete[25747]))
     end
 
     if phase == phases.VASHJIR_NORTHERN_GARDEN then
-        return (not complete[25966] and complete[25958]) or false
+        return (not complete[25966]) and (not complete[25755]) and (complete[25958] or complete[25747]) or false
     end
 
     if phase == phases.VASHJIR_NAR_SHOLA_TERRACE_WEST then
-        return (not complete[25966]) and complete[26191] or false
+        return (not complete[25966]) and (not complete[25755]) and (complete[26191] or complete[25750]) or false
     end
 
     if phase == phases.VASHJIR_NAR_SHOLA_TERRACE then
-        return (not complete[25966]) and (not complete[26191]) and (complete[25959] and complete[25960] and complete[25962]) or false
+        return (not complete[25966]) and (not complete[26191]) and
+            ((complete[25959] and complete[25960] and complete[25962]) or
+                (complete[25748] and complete[25749] and complete[25751])) or false
     end
 
     if phase == phases.VASHJIR_LADY_NAZ_JAR_AT_TEMPLE then
