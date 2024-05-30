@@ -4508,6 +4508,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,75},
         },
         [29512] = { -- Putting the Carnies Back Together Again
+            [questKeys.objectives] = {{{54518,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSkill] = {profKeys.FIRST_AID,75},
         },
         [29513] = { -- Spoilin' for Salty Sea Dogs
