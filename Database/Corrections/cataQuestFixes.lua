@@ -1880,6 +1880,9 @@ function CataQuestFixes.Load()
                 {{[zoneIDs.SHIMMERING_EXPANSE]={{30.81,71.79}}},Questie.ICON_TYPE_EVENT,l10n("Scout the Northwestern Terrace"),2},
             },
         },
+        [25755] = { -- Visions of the Past: The Slaughter of Biel'aran Ridge
+            [questKeys.preQuestGroup] = {25753,25754},
+        },
         [25760] = { -- Visions of the Past: The Invasion of Vashj'ir
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE] = {{40,75}}},Questie.ICON_TYPE_EVENT,l10n("Attune the with the Broken Blade's owner")}},
         },
@@ -2026,6 +2029,9 @@ function CataQuestFixes.Load()
                 {{[zoneIDs.SHIMMERING_EXPANSE]={{31.77,67.70}}},Questie.ICON_TYPE_EVENT,l10n("Scout the Tunnel to the North"),1},
                 {{[zoneIDs.SHIMMERING_EXPANSE]={{30.81,71.79}}},Questie.ICON_TYPE_EVENT,l10n("Scout the Northwestern Terrace"),2},
             },
+        },
+        [25966] = { -- Visions of the Past: The Slaughter of Biel'aran Ridge
+            [questKeys.preQuestGroup] = {25964,25965},
         },
         [25969] = { -- Hostile Waters
             [questKeys.preQuestSingle] = {25968},
