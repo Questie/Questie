@@ -422,7 +422,6 @@ function CataNpcFixes.Load()
                 {39.2,78.6,phases.VASHJIR_NAR_SHOLA_TERRACE},
                 {29.6,78.9,phases.VASHJIR_NAR_SHOLA_TERRACE_WEST},
             }},
-            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
         [39926] = { -- Twilight Inciter
             [npcKeys.spawns] = {},
@@ -457,7 +456,6 @@ function CataNpcFixes.Load()
                 {48.99,49.2,phases.VASHJIR_LEGIONS_REST},
                 {32.8,69.2,phases.VASHJIR_NORTHERN_GARDEN},
             }},
-            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
         [40642] = { -- Captain Taylor
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
@@ -465,7 +463,6 @@ function CataNpcFixes.Load()
                 {33.2,68.2,phases.VASHJIR_NORTHERN_GARDEN},
                 {39.1,78.5,phases.VASHJIR_NAR_SHOLA_TERRACE},
             }},
-            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
         [40643] = { -- Admiral Dvorek
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
@@ -473,18 +470,15 @@ function CataNpcFixes.Load()
                 {33.0,67.8,phases.VASHJIR_NORTHERN_GARDEN},
                 {39.1,78.7,phases.VASHJIR_NAR_SHOLA_TERRACE},
             }},
-            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
         [40644] = { -- Levia Dreamwaker
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {49.69,57.15,phases.VASHJIR_LEGIONS_REST},
                 {33.0,67.2,phases.VASHJIR_NORTHERN_GARDEN},
             }},
-            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
         [40690] = { -- Captain Taylor
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{45.05,23.58}}},
-            [npcKeys.zoneID] = zoneIDs.KELP_THAR_FOREST,
         },
         [40916] = { -- Captain Vilethorn
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
@@ -492,7 +486,6 @@ function CataNpcFixes.Load()
                 {39.8,54.0,phases.VASHJIR_NORTHERN_GARDEN},
                 {39.1,78.7,phases.VASHJIR_NAR_SHOLA_TERRACE},
             }},
-            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
         [40917] = { -- Legionnaire Nazgrim
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
@@ -500,14 +493,12 @@ function CataNpcFixes.Load()
                 {39.5,54.0,phases.VASHJIR_NORTHERN_GARDEN},
                 {39.1,78.5,phases.VASHJIR_NAR_SHOLA_TERRACE},
             }},
-            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
         [40918] = { -- Fiasco Sizzlegrin
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {51.75,62.5,phases.VASHJIR_LEGIONS_REST},
                 {39.4,54.6,phases.VASHJIR_NORTHERN_GARDEN},
             }},
-            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
         [40919] = { -- Wavespeaker Tulra
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
@@ -515,14 +506,12 @@ function CataNpcFixes.Load()
                 {39.2,78.6,phases.VASHJIR_NAR_SHOLA_TERRACE},
                 {29.6,78.9,phases.VASHJIR_NAR_SHOLA_TERRACE_WEST},
             }},
-            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
         [40920] = { -- Elendri Goldenbrow
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {51.27,62.42,phases.VASHJIR_LEGIONS_REST},
                 {39.6,53.7,phases.VASHJIR_NORTHERN_GARDEN},
             }},
-            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
         [40921] = { -- Bloodguard Toldrek
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{50.4,79.0}}},
