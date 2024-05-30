@@ -2211,7 +2211,7 @@ function CataQuestFixes.Load()
         [26221] = { -- Full Circle
             [questKeys.preQuestSingle] = {26006},
         },
-        [26221] = { -- Scrounging for Parts
+        [26222] = { -- Scrounging for Parts
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
         [26228] = { -- Livin' the Life
