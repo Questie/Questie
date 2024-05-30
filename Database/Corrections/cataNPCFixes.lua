@@ -105,6 +105,9 @@ function CataNpcFixes.Load()
         [9684] = { -- Lar'korwi
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{69.98,40.96}}},
         },
+        [10445] = { -- Selina Dourman
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{55.56,55.01}}},
+        },
         [10878] = { -- Herald Moonstalker
             [npcKeys.waypoints] = {}, -- to do
         },
@@ -125,6 +128,69 @@ function CataNpcFixes.Load()
         },
         [14444] = { -- Orcish Orphan
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{58.18,57.5}}},
+        },
+        [14822] = { -- Sayge
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{53.24,75.84}}},
+        },
+        [14823] = { -- Silas Darkmoon
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{49.49,71.01}}},
+        },
+        [14827] = { -- Burth
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{49.52,71.35}}},
+        },
+        [14828] = { -- Gelvas Grimegate
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{47.77,64.78}}},
+        },
+        [14829] = { -- Yebb Neblegear
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{51.1,82.05}}},
+        },
+        [14832] = { -- Yebb Neblegear
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{47.9,67.12}}},
+        },
+        [14833] = { -- Chronos
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{55,70.77}}},
+        },
+        [14841] = { -- Rinling
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{49.17,60.71}}},
+        },
+        [14844] = { -- Sylannia
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{50.54,69.56}}},
+        },
+        [14845] = { -- Stamp Thunderhorn
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{52.9,67.94}}},
+        },
+        [14846] = { -- Lhara
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{48.09,69.55}}},
+        },
+        [14847] = { -- Professor Thaddeus Paleo
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{51.89,60.93}}},
+        },
+        [14849] = { -- Darkmoon Faire Carnie
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{44.79,88.94},{44.65,87.63},{48.75,69.37},{46.68,65.47},{44.88,87.5},{44.88,89.13},{43.65,87.1},{43.51,87.66},{51.59,68.07},{56.28,87.47},{51.97,55.09},{56.28,88.91},{53.47,84.33},{48.04,78.48},{56.38,87.15},{55.78,55.78}}},
+        },
+        [14860] = { -- Flik
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{56.34,63.38}}},
+        },
+        [14864] = { -- Khaz Modan Ram
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{58.16,82.88},{56.22,82.64},{57.76,81.98}}},
+        },
+        [14865] = { -- Felinni
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{55.23,82.77}}},
+        },
+        [14866] = { -- Flik's Frog
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{56.3,63.33}}},
+        },
+        [14867] = { -- Jubjub
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{59.53,65.77},{57.38,64.09}}},
+        },
+        [14868] = { -- Hornsley
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{53.71,82.42}}},
+        },
+        [14871] = { -- Morja
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{55.93,70.73}}},
+        },
+        [15303] = { -- Maxima Blastenheimer
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{52.5,56.14}}},
         },
         [15623] = { -- Xandivious
             [npcKeys.spawns] = {},

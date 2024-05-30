@@ -3242,6 +3242,7 @@ ZoneDB.private.zoneIDs = {
     SHIMMERING_EXPANSE = 5144, -- Vashj'ir sub zone
     ABYSSAL_DEPTHS = 5145, -- Vashj'ir sub zone
     THE_CAPE_OF_STRANGLETHORN = 5287,
+    DARKMOON_FAIRE_ISLAND = 5861,
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic
