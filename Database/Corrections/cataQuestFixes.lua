@@ -2969,6 +2969,12 @@ function CataQuestFixes.Load()
         [27027] = { -- Primal Strike
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{73899}}},
         },
+        [27042] = { -- Fight Fire and Water and Air with...
+            [questKeys.objectives] = {{{44887},{44886},{44885},{44835}}},
+        },
+        [27043] = { -- Fight Fire and Water and Air with...
+            [questKeys.objectives] = {{{44887},{44886},{44885},{44835}}},
+        },
         [27044] = { -- Peasant Problems
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.triggerEnd] = {"Anduin Escorted to Farmer Wollerton", {[zoneIDs.STORMWIND_CITY]={{52.1,6.5}}}},
