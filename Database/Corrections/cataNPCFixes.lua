@@ -678,6 +678,9 @@ function CataNpcFixes.Load()
         [44148] = { -- Stonescale Matriarch
             [npcKeys.spawns] = {},
         },
+        [44806] = { -- Fargo Flintlocke
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{26.2,47.2}}},
+        },
         [44968] = { -- Ricket
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{61.4,26.2}}}
         },
