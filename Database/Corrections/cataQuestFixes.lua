@@ -1883,6 +1883,9 @@ function CataQuestFixes.Load()
         [25670] = { -- DUN-dun-DUN-dun-DUN-dun
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Use Budd's Chain"),0,{{"object",203137}}}},
         },
+        [25678] = { -- Pick Your Fate
+            [questKeys.objectives] = {{{5996},{5997},{5998}}},
+        },
         [25731] = { -- A Bird in Hand
             [questKeys.objectives] = {{{41112}},{{460000}}},
         },
