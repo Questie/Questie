@@ -4442,7 +4442,7 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.DUROTAR]={{60,46.1}}}},
         },
         [29434] = { -- Tonk Commander
-            [questKeys.objectives] = {{{54642}}},
+            [questKeys.objectives] = {{{33081}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Finlay Coolshot to start the game"),0,{{"monster",54605}}}},
         },
         [29436] = { -- The Humanoid Cannonball
