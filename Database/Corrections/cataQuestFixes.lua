@@ -1872,7 +1872,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{203194}}},
         },
         [25753] = { -- Fallen But Not Forgotten
-            [questKeys.objectives] = {{{41281}}},
+            [questKeys.objectives] = {{{41281,nil,Questie.ICON_TYPE_TALK}}},
         },
         [25754] = { -- Gauging Success
             [questKeys.extraObjectives] = {
@@ -2018,7 +2018,7 @@ function CataQuestFixes.Load()
         },
         [25964] = { -- Fallen But Not Forgotten
             [questKeys.preQuestSingle] = {25963},
-            [questKeys.objectives] = {{{41784}}},
+            [questKeys.objectives] = {{{41784,nil,Questie.ICON_TYPE_TALK}}},
         },
         [25965] = { -- Gauging Success
             [questKeys.preQuestSingle] = {25963},
