@@ -1612,6 +1612,7 @@ function QuestieQuestBlacklist:Load()
         [29483] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29516
         [29484] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29509
         [29485] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29507
+        [29761] = QuestieCorrections.CATA_HIDE, -- Not in the game
 
         -- ICC weekly quests
         [24869] = QuestieCorrections.CATA_HIDE, -- Removed with cata
