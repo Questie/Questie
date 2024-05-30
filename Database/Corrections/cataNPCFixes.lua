@@ -513,6 +513,9 @@ function CataNpcFixes.Load()
         [41294] = { -- Undersea Sanctuary
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{46.14,46.64}}},
         },
+        [41455] = { -- Overseer Idra'kess
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{36.84,79.75}}},
+        },
         [41600] = { -- Erunak Stonespeaker
             [npcKeys.spawns] = {
                 [zoneIDs.ABYSSAL_DEPTHS] = {{51.57,60.9}},
