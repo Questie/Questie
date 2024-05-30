@@ -350,6 +350,9 @@ function CataItemFixes.Load()
         [56254] = { -- Merciless Head
             [itemKeys.npcDrops] = {41601,41729},
         },
+        [56569] = { -- Underlight Nibbler
+            [itemKeys.npcDrops] = {41916},
+        },
         [56819] = { -- Remora Oil
             [itemKeys.npcDrops] = {42112},
         },
