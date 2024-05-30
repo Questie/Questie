@@ -4441,6 +4441,16 @@ function CataQuestFixes.Load()
         [29415] = { -- Missing Heirlooms
             [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.DUROTAR]={{60,46.1}}}},
         },
+        [29434] = { -- Tonk Commander
+            [questKeys.objectives] = {{{54642}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Finlay Coolshot to start the game"),0,{{"monster",54605}}}},
+        },
+        [29436] = { -- The Humanoid Cannonball
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Maxima Blastenheimer to start the game"),0,{{"monster",15303}}}},
+        },
+        [29438] = { -- He Shoots, He Scores!
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Rinling to start the game"),0,{{"monster",14841}}}},
+        },
         [29439] = { -- The Call of the World-Shaman
             [questKeys.exclusiveTo] = {29326},
             [questKeys.nextQuestInChain] = 29326,
@@ -4448,6 +4458,13 @@ function CataQuestFixes.Load()
         [29440] = { -- The Call of the World-Shaman
             [questKeys.exclusiveTo] = {29326},
             [questKeys.nextQuestInChain] = 29326,
+        },
+        [29455] = { -- Target: Turtle
+            [questKeys.objectives] = {{{54490}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Jessica Rogers to start the game"),0,{{"monster",54485}}}},
+        },
+        [29463] = { -- It's Hammer Time
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mola to start the game"),0,{{"monster",54601}}}},
         },
         [29464] = { -- Tools of Divination
             [questKeys.startedBy] = {nil,nil,{71716}},
@@ -4486,6 +4503,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSkill] = {profKeys.ENCHANTING,75},
         },
         [29511] = { -- Talkin' Tonks
+            [questKeys.objectives] = {{{54504,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,75},
         },
         [29512] = { -- Putting the Carnies Back Together Again
