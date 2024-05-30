@@ -526,6 +526,9 @@ function CataNpcFixes.Load()
                 [zoneIDs.ABYSSAL_DEPTHS] = {{42.66,37.82}},
             },
         },
+        [42074] = { -- Fathom-Stalker Azjentus
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.2,79.55}}},
+        },
         [42288] = { -- Robby Flay
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY] = {{50.56,71.89}},
