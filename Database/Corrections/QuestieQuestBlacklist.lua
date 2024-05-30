@@ -1588,6 +1588,21 @@ function QuestieQuestBlacklist:Load()
         [28110] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28585] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28754] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28758
+        [29465] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29464
+        [29467] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29511
+        [29468] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29508
+        [29469] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29518
+        [29470] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29519
+        [29471] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29515
+        [29472] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29517
+        [29473] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29512
+        [29474] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29510
+        [29478] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29506
+        [29479] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29514
+        [29480] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29520
+        [29483] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29516
+        [29484] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29509
+        [29485] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29507
 
         -- ICC weekly quests
         [24869] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1694,7 +1709,6 @@ function QuestieQuestBlacklist:Load()
         --[29458] = true, -- The Captured Journal
         --[29463] = true, -- It's Hammer Time
         --[29464] = true, -- Tools of Divination
-        --[29473] = true, -- Putting the Carnies Back Together Again
         --[29506] = true, -- A Fizzy Fusion
         --[29507] = true, -- Fun for the Little Ones
         --[29508] = true, -- Baby Needs Two Pair of Shoes

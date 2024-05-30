@@ -796,7 +796,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 13976,
         },
         [13969] = { -- Grol'dom's Missing Kodo
-          [questKeys.preQuestSingle] = {13963},  
+          [questKeys.preQuestSingle] = {13963},
         },
         [13975] = { -- Crossroads Caravan Delivery
             [questKeys.objectives] = {},
@@ -4415,6 +4415,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29326},
             [questKeys.nextQuestInChain] = 29326,
         },
+        [29464] = { -- Tools of Divination
+            [questKeys.startedBy] = {nil,nil,{71716}},
+        },
         [29475] = { -- Goblin Engineering
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,200},
         },
@@ -4431,8 +4434,52 @@ function CataQuestFixes.Load()
             [questKeys.requiredLevel] = 75,
             [questKeys.objectives] = {nil,nil,{{58480}}},
         },
+        [29506] = { -- A Fizzy Fusion
+            [questKeys.objectives] = {nil,{{460001}}},
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY,75},
+        },
         [29507] = { -- Fun for the Little Ones
             [questKeys.objectives] = {nil,{{460001}}},
+            [questKeys.requiredSkill] = {profKeys.ARCHAEOLOGY,75},
+        },
+        [29508] = { -- Baby Needs Two Pair of Shoes
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,75},
+        },
+        [29509] = { -- Putting the Crunch in the Frog
+            [questKeys.requiredSkill] = {profKeys.COOKING,75},
+        },
+        [29510] = { -- Putting Trash to Good Use
+            [questKeys.requiredSkill] = {profKeys.ENCHANTING,75},
+        },
+        [29511] = { -- Talkin' Tonks
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,75},
+        },
+        [29512] = { -- Putting the Carnies Back Together Again
+            [questKeys.requiredSkill] = {profKeys.FIRST_AID,75},
+        },
+        [29513] = { -- Spoilin' for Salty Sea Dogs
+            [questKeys.requiredSkill] = {profKeys.FISHING,75},
+        },
+        [29514] = { -- Herbs for Healing
+            [questKeys.requiredSkill] = {profKeys.HERBALISM,75},
+        },
+        [29515] = { -- Writing the Future
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,75},
+        },
+        [29516] = { -- Keeping the Faire Sparkling
+            [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,75},
+        },
+        [29517] = { -- Eyes on the Prizes
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,75},
+        },
+        [29518] = { -- Rearm, Reuse, Recycle
+            [questKeys.requiredSkill] = {profKeys.MINING,75},
+        },
+        [29519] = { -- Tan My Hide
+            [questKeys.requiredSkill] = {profKeys.SKINNING,75},
+        },
+        [29520] = { -- Rearm, Reuse, Recycle
+            [questKeys.requiredSkill] = {profKeys.TAILORING,75},
         },
         [29536] = { -- Heart of Rage
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.THE_BLOOD_FURNACE]={{64.9,41.5}}}},
