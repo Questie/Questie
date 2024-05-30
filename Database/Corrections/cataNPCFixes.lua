@@ -452,6 +452,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {51.19,62.99,phases.VASHJIR_LEGIONS_REST},
                 {39.8,54.0,phases.VASHJIR_NORTHERN_GARDEN},
+                {39.1,78.7,phases.VASHJIR_NAR_SHOLA_TERRACE},
             }},
             [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
@@ -459,6 +460,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {51.24,63.02,phases.VASHJIR_LEGIONS_REST},
                 {39.5,54.0,phases.VASHJIR_NORTHERN_GARDEN},
+                {39.1,78.5,phases.VASHJIR_NAR_SHOLA_TERRACE},
             }},
             [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
@@ -469,12 +471,23 @@ function CataNpcFixes.Load()
             }},
             [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
+        [40919] = { -- Wavespeaker Tulra
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {51.62,62.75,phases.VASHJIR_LEGIONS_REST},
+                {39.2,78.6,phases.VASHJIR_NAR_SHOLA_TERRACE},
+                {29.6,78.9,phases.VASHJIR_NAR_SHOLA_TERRACE_WEST},
+            }},
+            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
         [40920] = { -- Elendri Goldenbrow
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {51.27,62.42,phases.VASHJIR_LEGIONS_REST},
                 {39.6,53.7,phases.VASHJIR_NORTHERN_GARDEN},
             }},
             [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
+        [40921] = { -- Bloodguard Toldrek
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{50.4,79.0}}},
         },
         [40963] = { -- Vashj'ir Gardens Credit
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{39.1,57.5}}},
@@ -534,6 +547,12 @@ function CataNpcFixes.Load()
         },
         [42074] = { -- Fathom-Stalker Azjentus
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.2,79.55}}},
+        },
+        [42077] = { -- Lady Naz'jar
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {33.13,75.88,phases.VASHJIR_LADY_NAZ_JAR_AT_TEMPLE},
+                {42.51,78.62,phases.VASHJIR_LADY_NAZ_JAR_AT_BRIDGE},
+            }},
         },
         [42288] = { -- Robby Flay
             [npcKeys.spawns] = {
