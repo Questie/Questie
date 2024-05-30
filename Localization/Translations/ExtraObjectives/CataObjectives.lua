@@ -62,10 +62,10 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Bring three Hammerhead Oil and two Remora Oil to Fiasco Sizzlegrin."] = {
+    ["Three Hammerhead Oil and two Remora Oil"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["deDE"] = "Bring drei Hammerhaiöl und zwei Schiffshalteröl zu Fiasco Siedefeix.",
+        ["deDE"] = "Drei Hammerhaiöl und zwei Schiffshalteröl",
         ["koKR"] = false,
         ["esMX"] = false,
         ["enUS"] = true,
