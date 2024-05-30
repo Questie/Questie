@@ -3097,10 +3097,14 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{45451}}},
         },
         [27393] = { -- The Call of the Blade
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.nextQuestInChain] = 25583,
+            [questKeys.exclusiveTo] = {25583},
         },
         [27394] = { -- The Call of the Blade
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.preQuestSingle] = {25953},
+            [questKeys.exclusiveTo] = {25956},
         },
         [27398] = { -- The Battle Is Won, The War Goes On
             [questKeys.preQuestSingle] = {25551},
