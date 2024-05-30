@@ -2059,6 +2059,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25968},
         },
         [25972] = { -- Honor and Privilege
+            [questKeys.objectives] = {{{41590}},{{203410}}},
             [questKeys.preQuestGroup] = {25968,25970,25971},
         },
         [25974] = { -- Sira'kess Slaying
