@@ -3250,6 +3250,9 @@ function CataQuestFixes.Load()
         [27384] = { -- Pamela's Doll
             [questKeys.preQuestSingle] = {27383},
         },
+        [27392] = { -- I'm Not Supposed to Tell You This
+            [questKeys.preQuestSingle] = {27383},
+        },
         [27393] = { -- The Call of the Blade
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.nextQuestInChain] = 25583,
