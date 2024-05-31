@@ -3250,6 +3250,9 @@ function CataQuestFixes.Load()
         [27384] = { -- Pamela's Doll
             [questKeys.preQuestSingle] = {27383},
         },
+        [27387] = { -- Villains of Darrowshire
+            [questKeys.preQuestSingle] = {27386},
+        },
         [27389] = { -- Marauders of Darrowshire
             [questKeys.preQuestSingle] = {27386},
         },
