@@ -261,6 +261,9 @@ function CataQuestFixes.Load()
         [9626] = { -- Meeting the Warchief
             [questKeys.finishedBy] = {{39605}},
         },
+        [9731] = { -- Drain Schematics
+            [questKeys.preQuestSingle] = {9720},
+        },
         [9813] = { -- Meeting the Warchief
             [questKeys.finishedBy] = {{39605}},
         },
