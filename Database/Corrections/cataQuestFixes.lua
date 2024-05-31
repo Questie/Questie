@@ -3841,6 +3841,9 @@ function CataQuestFixes.Load()
         [28592] = { -- Parting Packages
             [questKeys.preQuestSingle] = {28591},
         },
+        [28597] = { -- Burnin' at Both Ends
+            [questKeys.preQuestSingle] = {28596},
+        },
         [28606] = { -- The Keys to the Hot Rod
             [questKeys.startedBy] = {{34874}},
             [questKeys.parentQuest] = 14071,
