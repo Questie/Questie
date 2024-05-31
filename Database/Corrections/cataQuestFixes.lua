@@ -3242,6 +3242,7 @@ function CataQuestFixes.Load()
         },
         [27381] = { -- Traveling Companions
             [questKeys.objectives] = {{{45451}}},
+            [questKeys.preQuestSingle] = {27373},
         },
         [27393] = { -- The Call of the Blade
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
