@@ -3244,6 +3244,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{45451}}},
             [questKeys.preQuestSingle] = {27373},
         },
+        [27382] = { -- Rough Roads
+            [questKeys.preQuestSingle] = {27373},
+        },
         [27393] = { -- The Call of the Blade
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.nextQuestInChain] = 25583,
