@@ -141,6 +141,18 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 0,-- there are some weird things happening if you completed these quests before prepatch
         },
+        [3091] = { -- Simple Note -- Tauren Warrior
+            [questKeys.preQuestSingle] = {},
+        },
+        [3092] = { -- Etched Note -- Tauren Hunter
+            [questKeys.preQuestSingle] = {},
+        },
+        [3093] = { -- Rune-Inscribed Note -- Tauren Shaman
+            [questKeys.preQuestSingle] = {},
+        },
+        [3094] = { -- Verdant Note -- Tauren Druid
+            [questKeys.preQuestSingle] = {},
+        },
         [3100] = { -- Simple Letter -- Human Warrior
             [questKeys.nextQuestInChain] = 26913,
             [questKeys.startedBy] = {{197}},
@@ -602,6 +614,9 @@ function CataQuestFixes.Load()
         [13659] = { -- Explorers' League Document (6 of 6)
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [13660] = { -- Explorers' League Document (5 of 6)
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [13683] = { -- Stopping the Rituals
             [questKeys.preQuestSingle] = {26468},
         },
@@ -653,9 +668,6 @@ function CataQuestFixes.Load()
         [13831] = { -- A Troubling Prescription
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {13528},
-        },
-        [13660] = { -- Explorers' League Document (5 of 6)
-            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [13841] = { -- All Apologies
             [questKeys.finishedBy] = {{39605}},
@@ -1227,7 +1239,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.DWARF,
         },
         [24533] = { -- Words of Power
-            [questKeys.objectives] = {{{44405,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{44405,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 837}}}},
             [questKeys.requiredRaces] = raceKeys.DWARF,
         },
@@ -1285,7 +1297,7 @@ function CataQuestFixes.Load()
         [24852] = { -- Our Tribe, Imprisoned
             [questKeys.zoneOrSort] = 215,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",202112}}}},
-            [questKeys.objectives] = {{{38345}}},
+            [questKeys.objectives] = {{{38345,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [24861] = { -- Last Rites, First Rites
             [questKeys.zoneOrSort] = 215,
@@ -3027,17 +3039,30 @@ function CataQuestFixes.Load()
         [27010] = { -- Quicksilver Submersion
             [questKeys.requiredSourceItems] = {60809},
         },
+        [27014] = { -- Hallowed Note -- Tauren Priest
+            [questKeys.preQuestSingle] = {},
+        },
+        [27015] = { -- Consecrated Note -- Tauren Paladin
+            [questKeys.preQuestSingle] = {},
+        },
         [27020] = { -- The First Lesson
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{100}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 3059}}}},
         },
         [27021] = { -- The Hunter's Path
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 3061}}}},
         },
         [27023] = { -- The Way of the Sunwalkers
-            [questKeys.objectives] = {{{44848},{37737,nil,Questie.ICON_TYPE_TALK},{37737,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{20271},{20154}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Judgement"), 2, {{"monster", 37737}}},
+                {nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Seal of Righteousness"), 3, {{"monster", 37737}}},
+            },
         },
         [27027] = { -- Primal Strike
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{73899}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Primal Strike"), 2, {{"monster", 3062}}}},
         },
         [27042] = { -- Fight Fire and Water and Air with...
             [questKeys.objectives] = {{{44887},{44886},{44885},{44835}}},
@@ -3074,10 +3099,12 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{44837}},
         },
         [27066] = { -- Healing in a Flash
-            [questKeys.objectives] = {{{45199}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{45199,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 37724}}}},
         },
         [27067] = { -- Rejuvenating Touch
-            [questKeys.objectives] = {{{45199}},nil,nil,nil,nil,{{774}}},
+            [questKeys.objectives] = {{{45199,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{774}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Rejuvenation"), 2, {{"monster", 3060}}}},
         },
         [27073] = { -- Give 'em Hell!
             [questKeys.preQuestSingle] = {27065},
