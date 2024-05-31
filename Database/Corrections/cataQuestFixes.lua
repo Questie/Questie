@@ -3091,6 +3091,7 @@ function CataQuestFixes.Load()
         [27044] = { -- Peasant Problems
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.triggerEnd] = {"Anduin Escorted to Farmer Wollerton", {[zoneIDs.STORMWIND_CITY]={{52.1,6.5}}}},
+            [questKeys.preQuestSingle] = {26975},
         },
         [27048] = { -- Underground Economy
             [questKeys.exclusiveTo] = {26710,28488},
