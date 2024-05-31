@@ -3253,6 +3253,9 @@ function CataQuestFixes.Load()
         [27387] = { -- Villains of Darrowshire
             [questKeys.preQuestSingle] = {27386},
         },
+        [27388] = { -- Heroes of Darrowshire
+            [questKeys.preQuestSingle] = {27386},
+        },
         [27389] = { -- Marauders of Darrowshire
             [questKeys.preQuestSingle] = {27386},
         },
