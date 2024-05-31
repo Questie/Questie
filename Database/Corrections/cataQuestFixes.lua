@@ -2637,6 +2637,9 @@ function CataQuestFixes.Load()
         [26566] = { -- A Triumph of Gnomish Ingenuity
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
+        [26567] = { -- John J. Keeshan
+            [questKeys.preQuestSingle] = {26520},
+        },
         [26569] = { -- Surveying Equipment
             [questKeys.preQuestSingle] = {26568},
         },
@@ -3618,6 +3621,12 @@ function CataQuestFixes.Load()
         [28145] = { -- Venomblood Antidote
             [questKeys.objectives] = {{{45859}}},
             [questKeys.preQuestSingle] = {28112},
+        },
+        [28147] = { -- Purple is Your Color
+            [questKeys.preQuestSingle] = {28133},
+        },
+        [28149] = { -- Whispers in the Wind
+            [questKeys.preQuestSingle] = {28133},
         },
         [28167] = { -- Venomblood Antidote
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
