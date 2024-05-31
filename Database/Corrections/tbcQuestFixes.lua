@@ -955,7 +955,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {9280},
         },
         [9303] = {
-            [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
+            [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated",Questie.ICON_TYPE_INTERACT}}},
         },
         [9355] = {
             [questKeys.preQuestSingle] = {10143,10483},
@@ -1291,6 +1291,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9798] = {
             [questKeys.startedBy] = {{16522},nil,{24414}},
+            [questKeys.preQuestSingle] = {9309},
         },
         [9802] = {
             [questKeys.requiredMaxRep] = {},

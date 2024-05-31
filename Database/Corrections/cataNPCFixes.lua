@@ -14,7 +14,10 @@ function CataNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
-        [1494] = {
+        [658] = { -- Sten Stoutarm
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{36.55,70.41}}},
+        },
+        [1494] = { -- Negolash
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{50.75,79.65}}},
         },
         [1514] = { -- Mokk the Savage
@@ -24,7 +27,12 @@ function CataNpcFixes.Load()
             [npcKeys.waypoints] = {},
         },
         [2079] = { -- Ilthalaine
-            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{57.97,39.2}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.TELDRASSIL] = {
+                    {57.97,39.2,phases.ILTHALAINE_AT_BENCH},
+                    {58.13,38.94,phases.ILTHALAINE_AT_ROAD},
+                },
+            },
             [npcKeys.waypoints] = {},
         },
         [2070] = { -- Moonstalker Runt
@@ -51,6 +59,9 @@ function CataNpcFixes.Load()
             [npcKeys.questStarts] = {749,26179,26180},
             [npcKeys.questEnds] = {749,24459,26179,26180},
             [npcKeys.waypoints] = {},
+        },
+        [3389] = { -- Regthar Deathgate
+            [npcKeys.questStarts] = {851,852,855,4021},
         },
         [3475] = { -- Echeyakee
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{56.4,34.9}}},
@@ -94,6 +105,9 @@ function CataNpcFixes.Load()
         [9684] = { -- Lar'korwi
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{69.98,40.96}}},
         },
+        [10445] = { -- Selina Dourman
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{55.56,55.01},{-1,-1}}},
+        },
         [10878] = { -- Herald Moonstalker
             [npcKeys.waypoints] = {}, -- to do
         },
@@ -114,6 +128,69 @@ function CataNpcFixes.Load()
         },
         [14444] = { -- Orcish Orphan
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{58.18,57.5}}},
+        },
+        [14822] = { -- Sayge
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{53.24,75.84},{-1,-1}}},
+        },
+        [14823] = { -- Silas Darkmoon
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{49.49,71.01},{-1,-1}}},
+        },
+        [14827] = { -- Burth
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{49.52,71.35},{-1,-1}}},
+        },
+        [14828] = { -- Gelvas Grimegate
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{47.77,64.78},{-1,-1}}},
+        },
+        [14829] = { -- Yebb Neblegear
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{51.1,82.05},{-1,-1}}},
+        },
+        [14832] = { -- Yebb Neblegear
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{47.9,67.12},{-1,-1}}},
+        },
+        [14833] = { -- Chronos
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{55,70.77},{-1,-1}}},
+        },
+        [14841] = { -- Rinling
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{49.17,60.71},{-1,-1}}},
+        },
+        [14844] = { -- Sylannia
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{50.54,69.56},{-1,-1}}},
+        },
+        [14845] = { -- Stamp Thunderhorn
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{52.9,67.94},{-1,-1}}},
+        },
+        [14846] = { -- Lhara
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{48.09,69.55},{-1,-1}}},
+        },
+        [14847] = { -- Professor Thaddeus Paleo
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{51.89,60.93},{-1,-1}}},
+        },
+        [14849] = { -- Darkmoon Faire Carnie
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{44.79,88.94},{44.65,87.63},{48.75,69.37},{46.68,65.47},{44.88,87.5},{44.88,89.13},{43.65,87.1},{43.51,87.66},{51.59,68.07},{56.28,87.47},{51.97,55.09},{56.28,88.91},{53.47,84.33},{48.04,78.48},{56.38,87.15},{55.78,55.78},{-1,-1}}},
+        },
+        [14860] = { -- Flik
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{56.34,63.38},{-1,-1}}},
+        },
+        [14864] = { -- Khaz Modan Ram
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{58.16,82.88},{56.22,82.64},{57.76,81.98},{-1,-1}}},
+        },
+        [14865] = { -- Felinni
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{55.23,82.77},{-1,-1}}},
+        },
+        [14866] = { -- Flik's Frog
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{56.3,63.33},{-1,-1}}},
+        },
+        [14867] = { -- Jubjub
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{59.53,65.77},{57.38,64.09},{-1,-1}}},
+        },
+        [14868] = { -- Hornsley
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{53.71,82.42},{-1,-1}}},
+        },
+        [14871] = { -- Morja
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{55.93,70.73},{-1,-1}}},
+        },
+        [15303] = { -- Maxima Blastenheimer
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{52.5,56.14},{-1,-1}}},
         },
         [15623] = { -- Xandivious
             [npcKeys.spawns] = {},
@@ -147,6 +224,9 @@ function CataNpcFixes.Load()
         },
         [33181] = { -- Anaya Dawnrunner
             [npcKeys.waypoints] = {},
+        },
+        [33889] = { -- Krokk
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE]={{82.5,53.6}}},
         },
         [34009] = { -- Withered Ent
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{48.23,44.64},{48.01,43.58},{48.55,43.19},{48.19,43},{47.34,42.59},{47.94,42.46},{46.88,42.33},{47.3,42.24},{48.71,42.11},{48.24,41.84},{47.45,41.65},{46.98,41.56},{47.89,41.45},{48.85,40.95},{47.71,40.82},{47.21,40.45},{47.99,40.22},{48.43,40.11},{49.01,39.94},{46.87,39.79},{47.82,39.65},{47.3,39.51},{47.87,38.86},{49.05,38.86},{48.38,38.73},{49.24,38.19}}},
@@ -270,6 +350,9 @@ function CataNpcFixes.Load()
                     {26.44,46.91,phases.GILNEAS_CHAPTER_8},
                 },
             },
+        },
+        [37115] = { -- Teo Hammerstorm
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{35.82,64.59}}},
         },
         [37602] = { -- Claims Adjuster
             [npcKeys.spawns] = {
@@ -399,6 +482,13 @@ function CataNpcFixes.Load()
         [39877] = { -- Toshe Chaosrender
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{55.5,12.5},{53.3,33.1}}},
         },
+        [39881] = { -- Wavespeaker Valoren
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {64.38,62.56,phases.VASHJIR_LEGIONS_REST},
+                {39.2,78.6,phases.VASHJIR_NAR_SHOLA_TERRACE},
+                {29.6,78.9,phases.VASHJIR_NAR_SHOLA_TERRACE_WEST},
+            }},
+        },
         [39926] = { -- Twilight Inciter
             [npcKeys.spawns] = {},
         },
@@ -427,37 +517,70 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{25.2,54.8}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
+        [40639] = { -- Engineer Hexascrub
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {48.99,49.2,phases.VASHJIR_LEGIONS_REST},
+                {32.8,69.2,phases.VASHJIR_NORTHERN_GARDEN},
+            }},
+        },
+        [40642] = { -- Captain Taylor
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {49.16,56.98,phases.VASHJIR_LEGIONS_REST},
+                {33.2,68.2,phases.VASHJIR_NORTHERN_GARDEN},
+                {39.1,78.5,phases.VASHJIR_NAR_SHOLA_TERRACE},
+            }},
+        },
+        [40643] = { -- Admiral Dvorek
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {49.17,56.95,phases.VASHJIR_LEGIONS_REST},
+                {33.0,67.8,phases.VASHJIR_NORTHERN_GARDEN},
+                {39.1,78.7,phases.VASHJIR_NAR_SHOLA_TERRACE},
+            }},
+        },
+        [40644] = { -- Levia Dreamwaker
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {49.69,57.15,phases.VASHJIR_LEGIONS_REST},
+                {33.0,67.2,phases.VASHJIR_NORTHERN_GARDEN},
+            }},
+        },
         [40690] = { -- Captain Taylor
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{45.05,23.58}}},
-            [npcKeys.zoneID] = zoneIDs.KELP_THAR_FOREST,
         },
         [40916] = { -- Captain Vilethorn
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {51.19,62.99,phases.VASHJIR_LEGIONS_REST},
                 {39.8,54.0,phases.VASHJIR_NORTHERN_GARDEN},
+                {39.1,78.7,phases.VASHJIR_NAR_SHOLA_TERRACE},
             }},
-            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
         [40917] = { -- Legionnaire Nazgrim
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {51.24,63.02,phases.VASHJIR_LEGIONS_REST},
                 {39.5,54.0,phases.VASHJIR_NORTHERN_GARDEN},
+                {39.1,78.5,phases.VASHJIR_NAR_SHOLA_TERRACE},
             }},
-            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
         [40918] = { -- Fiasco Sizzlegrin
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {51.75,62.5,phases.VASHJIR_LEGIONS_REST},
                 {39.4,54.6,phases.VASHJIR_NORTHERN_GARDEN},
             }},
-            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
+        [40919] = { -- Wavespeaker Tulra
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {51.62,62.75,phases.VASHJIR_LEGIONS_REST},
+                {39.2,78.6,phases.VASHJIR_NAR_SHOLA_TERRACE},
+                {29.6,78.9,phases.VASHJIR_NAR_SHOLA_TERRACE_WEST},
+            }},
         },
         [40920] = { -- Elendri Goldenbrow
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {51.27,62.42,phases.VASHJIR_LEGIONS_REST},
                 {39.6,53.7,phases.VASHJIR_NORTHERN_GARDEN},
             }},
-            [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
+        [40921] = { -- Bloodguard Toldrek
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{50.4,79.0}}},
         },
         [40963] = { -- Vashj'ir Gardens Credit
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{39.1,57.5}}},
@@ -496,6 +619,12 @@ function CataNpcFixes.Load()
         [41294] = { -- Undersea Sanctuary
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{46.14,46.64}}},
         },
+        [41455] = { -- Overseer Idra'kess
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{36.84,79.75}}},
+        },
+        [41476] = { -- Naz'jar Honor Guard
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.33,78.57}}},
+        },
         [41600] = { -- Erunak Stonespeaker
             [npcKeys.spawns] = {
                 [zoneIDs.ABYSSAL_DEPTHS] = {{51.57,60.9}},
@@ -506,10 +635,25 @@ function CataNpcFixes.Load()
                 [zoneIDs.ABYSSAL_DEPTHS] = {{42.66,37.82}},
             },
         },
+        [41770] = { -- Fiasco Sizzlegrin
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{50.35,78.99}}},
+        },
+        [42074] = { -- Fathom-Stalker Azjentus
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.2,79.55}}},
+        },
+        [42077] = { -- Lady Naz'jar
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {33.13,75.88,phases.VASHJIR_LADY_NAZ_JAR_AT_TEMPLE},
+                {42.51,78.62,phases.VASHJIR_LADY_NAZ_JAR_AT_BRIDGE},
+            }},
+        },
         [42288] = { -- Robby Flay
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY] = {{50.56,71.89}},
             },
+        },
+        [42463] = { -- Operation: Gnomeregan Recap Credit
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{33.54,36.52}}},
         },
         [42465] = { -- Therazane
             [npcKeys.questEnds] = {26709,26750,28824,29337},
@@ -530,6 +674,9 @@ function CataNpcFixes.Load()
                     {63.33,24.95,phases.TEMPLE_OF_EARTH_CHAPTER_1},
                 },
             },
+        },
+        [44148] = { -- Stonescale Matriarch
+            [npcKeys.spawns] = {},
         },
         [44968] = { -- Ricket
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{61.4,26.2}}}

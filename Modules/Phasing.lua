@@ -78,8 +78,14 @@ local phases = {
     CORITHRAS_AT_CROSSROAD = 1006,
     CERELLEAN_NEAR_EDGE = 1007,
     CERELLEAN_NEAR_TREE = 1008,
-    VASHJIR_LEGIONS_REST = 1009,
+    VASHJIR_LEGIONS_REST = 1009, -- Also the Alliance cave Tranquil Wash
     VASHJIR_NORTHERN_GARDEN = 1010,
+    ILTHALAINE_AT_BENCH = 1011,
+    ILTHALAINE_AT_ROAD = 1012,
+    VASHJIR_NAR_SHOLA_TERRACE = 1013,
+    VASHJIR_NAR_SHOLA_TERRACE_WEST = 1014,
+    VASHJIR_LADY_NAZ_JAR_AT_TEMPLE = 1015,
+    VASHJIR_LADY_NAZ_JAR_AT_BRIDGE = 1016,
 }
 Phasing.phases = phases
 
@@ -131,11 +137,29 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.VASHJIR_LEGIONS_REST then
-        return (not complete[25958])
+        return complete[25966] or complete[25755] or ((not complete[25958]) and (not complete[25747]))
     end
 
     if phase == phases.VASHJIR_NORTHERN_GARDEN then
-        return complete[25958] or false
+        return (not complete[25966]) and (not complete[25755]) and (complete[25958] or complete[25747]) or false
+    end
+
+    if phase == phases.VASHJIR_NAR_SHOLA_TERRACE_WEST then
+        return (not complete[25966]) and (not complete[25755]) and (complete[26191] or complete[25750]) or false
+    end
+
+    if phase == phases.VASHJIR_NAR_SHOLA_TERRACE then
+        return (not complete[25966]) and (not complete[26191]) and
+            ((complete[25959] and complete[25960] and complete[25962]) or
+                (complete[25748] and complete[25749] and complete[25751])) or false
+    end
+
+    if phase == phases.VASHJIR_LADY_NAZ_JAR_AT_TEMPLE then
+        return (not complete[25629]) or (not complete[25896])
+    end
+
+    if phase == phases.VASHJIR_LADY_NAZ_JAR_AT_BRIDGE then
+        return (complete[25629] and complete[25896]) or false
     end
 
     if phase >= phases.DRAGONMAW_PORT_CHAPTER_1 and phase <= phases.DRAGONMAW_PORT_CHAPTER_3 then
@@ -208,6 +232,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.CERELLEAN_NEAR_TREE then
         return complete[13515] or false
+    end
+
+    if phase == phases.ILTHALAINE_AT_BENCH then
+        return (not complete[28715]) and (not questLog[28715])
+    end
+
+    if phase == phases.ILTHALAINE_AT_ROAD then
+        return (complete[28715] or questLog[28715] and true) or false
     end
 
     return false

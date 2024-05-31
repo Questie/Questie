@@ -34,6 +34,12 @@ function CataItemFixes.Load()
         [21145] = { -- Essence of Xandivious
             [itemKeys.npcDrops] = {},
         },
+        [22978] = { -- Emitter Spare Part
+            [itemKeys.npcDrops] = {},
+        },
+        [24416] = { -- Corrupted Flower
+            [itemKeys.npcDrops] = {},
+        },
         [31880] = { -- Blood Elf Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -235,6 +241,9 @@ function CataItemFixes.Load()
         [52505] = { -- Poison Extraction Totem
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [52506] = { -- Elemental Goo
+            [itemKeys.npcDrops] = {38896,39370,39373,39414,39415,39844,39873,39994,40004,40021,40023,40033,40170,40229,40272,40273,40464,40709,40925,42210,42475,42527,42766,42789,42810,43026,43123,43254,43258,43374,43480,44011,44220,44257,44259,45084,45477,45755,45912,45915,46327,46328,46329,46911,47081,47150,47151,47226,47728,48016,51672,52219,52300,52503,52794,52816,53264},
+        },
         [52514] = { -- Thonk's Spyglass
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -343,6 +352,12 @@ function CataItemFixes.Load()
         },
         [56178] = { -- Duarn's Rope
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [56254] = { -- Merciless Head
+            [itemKeys.npcDrops] = {41601,41729},
+        },
+        [56569] = { -- Underlight Nibbler
+            [itemKeys.npcDrops] = {41916},
         },
         [56819] = { -- Remora Oil
             [itemKeys.npcDrops] = {42112},
