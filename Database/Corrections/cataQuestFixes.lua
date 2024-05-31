@@ -1368,32 +1368,39 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{39194}}},
             [questKeys.requiredSourceItems] = {52481},
         },
-        [25128] = { -- Hana'zua
-            [questKeys.exclusiveTo] = {25129},
-        },
         [25129] = { -- Sarkoth
             [questKeys.preQuestSingle] = {},
         },
         [25133] = { -- Report to Sen'jin Village
             [questKeys.exclusiveTo] = {25073},
         },
+        [25134] = { -- Lazy Peons
+            [questKeys.sourceItemId] = 16114,
+            [questKeys.objectives] = {{{10556,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [25139] = { -- Steady Shot
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 39214}}}},
         },
         [25141] = { -- Eviscerate
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Eviscerate"), 2, {{"monster", 3155}}}},
         },
         [25143] = { -- Primal Strike
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{73899}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Primal Strike"), 2, {{"monster", 3157}}}},
         },
-        [25145] = { -- Corruption
+        [25145] = { -- Immolate
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{348}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Immolate"), 2, {{"monster", 3156}}}},
         },
         [25147] = { -- Charge
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{100}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 3153}}}},
         },
-        [25149] = { -- Frost Nova
+        [25149] = { -- Arcane Missiles
             [questKeys.objectives] = {{{44820}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 39206}}}},
         },
         [25154] = { -- A Present for Lila
             [questKeys.exclusiveTo] = {25105,25155,25156,25157},
@@ -2891,7 +2898,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 28789,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 911}}}},
         },
-        [26914] = { -- Corruption -- Human Warlock
+        [26914] = { -- Immolation -- Human Warlock
             [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{348}}},
             [questKeys.nextQuestInChain] = 28788,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Immolate"), 2, {{"monster", 459}}}},
