@@ -3649,6 +3649,9 @@ function CataQuestFixes.Load()
         [28247] = { -- Last of Her Kind
             [questKeys.objectives] = {{{47929,"Obsidia defeated"}}},
         },
+        [28248] = { -- Victors' Point
+            [questKeys.preQuestSingle] = {28247},
+        },
         [28250] = { -- Thieving Little Pluckers
             [questKeys.objectives] = {nil,nil,nil,nil,{{{48040,48041,48043},48040,"Thieving plucker smashed"}}},
             [questKeys.preQuestSingle] = {28112},
