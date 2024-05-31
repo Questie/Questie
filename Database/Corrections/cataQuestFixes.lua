@@ -3051,6 +3051,9 @@ function CataQuestFixes.Load()
         [26975] = { -- Rallying the Fleet
             [questKeys.triggerEnd] = {"Prince Anduin Escorted to Graves", {[zoneIDs.STORMWIND_CITY]={{33.5,40.9}}}},
         },
+        [26977] = { -- Twilight Investigation
+            [questKeys.preQuestSingle] = {26960},
+        },
         [27007] = { -- Silvermarsh Rendezvous
             [questKeys.triggerEnd] = {"Upper Silvermarsh reached", {[zoneIDs.DEEPHOLM]={{72.3,62.3}}}},
         },
