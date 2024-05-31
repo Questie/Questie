@@ -1332,21 +1332,39 @@ function CataQuestFixes.Load()
         },
         [24960] = { -- The Wakening
             [questKeys.preQuestSingle] = {28608},
+            [questKeys.startedBy] = {{2307}},
+            [questKeys.objectives] = {{{38895,nil,Questie.ICON_TYPE_TALK},{49230,nil,Questie.ICON_TYPE_TALK},{49231,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [24961] = { -- The Truth of the Grave
+            [questKeys.preQuestSingle] = {26801},
+            [questKeys.objectives] = {{{38910,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [24962] = { -- Trail-Worn Scroll
+            [questKeys.startedBy] = {{1569}},
         },
         [24964] = { -- The Thrill of the Hunt
             [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 38911}}}},
+        },
+        [24965] = { -- Arcane Missiles
+            [questKeys.objectives] = {{{44795}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 2124}}}},
         },
         [24966] = { -- Of Light and Shadows
-            [questKeys.objectives] = {{{44795}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{44795,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 2123}}}},
         },
         [24967] = { -- Stab!
             [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Eviscerate"), 2, {{"monster", 2122}}}},
         },
         [24968] = { -- Dark Deeds
             [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{348}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Immolate"), 2, {{"monster", 2126}}}},
         },
         [24969] = { -- Charging into Battle
             [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{100}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 2119}}}},
         },
         [25037] = { -- Crab Fishin'
             [questKeys.preQuestSingle] = {24769},
@@ -2804,6 +2822,14 @@ function CataQuestFixes.Load()
         [26798] = { -- The Warchief Will Be Pleased
             [questKeys.finishedBy] = {{39605}},
         },
+        [26800] = { -- Recruitment
+            [questKeys.objectives] = {{{49340,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.startedBy] = {{1740}},
+            [questKeys.requiredRaces] = raceKeys.UNDEAD,
+        },
+        [26801] = { -- Scourge on our Perimeter
+            [questKeys.preQuestSingle] = {},
+        },
         [26803] = { -- Missing Reports
             [questKeys.preQuestSingle] = {},
         },
@@ -3778,6 +3804,18 @@ function CataQuestFixes.Load()
         },
         [28635] = { -- A Haunting in Hillsbrad
             [questKeys.triggerEnd] = {"Search Dun Garok for Evidence of a Haunting", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.9,84.5}}}},
+        },
+        [28651] = { -- Novice Elreth
+            [questKeys.startedBy] = {{2119,2122,2123,2124,2126,38911}},
+            [questKeys.exclusiveTo] = {24961},
+            [questKeys.requiredRaces] = raceKeys.UNDEAD,
+        },
+        [28652] = { -- Caretaker Caice
+            [questKeys.exclusiveTo] = {24960},
+        },
+        [28653] = { -- Shadow Priest Sarvis
+            [questKeys.exclusiveTo] = {26801},
+            [questKeys.requiredRaces] = raceKeys.UNDEAD,
         },
         [28660] = { -- Clearing the Depths
             [questKeys.exclusiveTo] = {28661,28662},
