@@ -3309,6 +3309,9 @@ function CataQuestFixes.Load()
         [27545] = { -- The Way is Open
             [questKeys.preQuestSingle] = {27537},
         },
+        [27560] = { -- Argus' Journal
+            [questKeys.preQuestSingle] = {27381},
+        },
         [27583] = { -- The Northern Flank
             [questKeys.preQuestSingle] = {26840},
         },
