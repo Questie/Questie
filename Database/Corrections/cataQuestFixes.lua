@@ -3281,6 +3281,9 @@ function CataQuestFixes.Load()
         [27443] = { -- The War Has Many Fronts
             [questKeys.exclusiveTo] = {27203,27398},
         },
+        [27448] = { -- The Trek Continues
+            [questKeys.preQuestSingle] = {27381},
+        },
         [27468] = { -- Siege Tank Rescue
             [questKeys.objectives] = {{{45524},{45526}}},
         },
