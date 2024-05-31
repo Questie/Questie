@@ -3261,6 +3261,9 @@ function CataQuestFixes.Load()
         [27404] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
         },
+        [27420] = { -- Postponing the Inevitable
+            [questKeys.preQuestSingle] = {},
+        },
         [27433] = { -- Shredderectomy
             [questKeys.preQuestSingle] = {27338},
         },
