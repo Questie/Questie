@@ -2209,6 +2209,9 @@ function CataQuestFixes.Load()
         [26072] = { -- Into the Totem
             [questKeys.objectives] = {{{42051}}},
         },
+        [26079] = { -- Wanted!  Otto and Falconcrest
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [26086] = { -- Orako
             [questKeys.preQuestSingle] = {26126},
         },
