@@ -685,6 +685,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",34132}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{34160,34163},34160}}},
         },
+        [13865] = { -- Wet Work
+            [questKeys.preQuestSingle] = {13808},
+        },
         [13868] = { -- Corrupting Influence?
             [questKeys.startedBy] = {{3924,3925,3926},nil,{46128}},
         },
