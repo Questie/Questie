@@ -2640,6 +2640,9 @@ function CataQuestFixes.Load()
         [26569] = { -- Surveying Equipment
             [questKeys.preQuestSingle] = {26568},
         },
+        [26570] = { -- Render's Army
+            [questKeys.preQuestSingle] = {26568},
+        },
         [26572] = { -- A Golden Opportunity
             [questKeys.requiredSourceItems] = {58955,58958},
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
