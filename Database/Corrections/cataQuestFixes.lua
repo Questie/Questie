@@ -3050,6 +3050,7 @@ function CataQuestFixes.Load()
         },
         [26975] = { -- Rallying the Fleet
             [questKeys.triggerEnd] = {"Prince Anduin Escorted to Graves", {[zoneIDs.STORMWIND_CITY]={{33.5,40.9}}}},
+            [questKeys.preQuestSingle] = {26960},
         },
         [26977] = { -- Twilight Investigation
             [questKeys.preQuestSingle] = {26960},
