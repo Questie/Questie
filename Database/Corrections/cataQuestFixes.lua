@@ -3247,6 +3247,9 @@ function CataQuestFixes.Load()
         [27382] = { -- Rough Roads
             [questKeys.preQuestSingle] = {27373},
         },
+        [27384] = { -- Pamela's Doll
+            [questKeys.preQuestSingle] = {27383},
+        },
         [27393] = { -- The Call of the Blade
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.nextQuestInChain] = 25583,
