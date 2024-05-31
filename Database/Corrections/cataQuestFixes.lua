@@ -3231,6 +3231,9 @@ function CataQuestFixes.Load()
         [27356] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
         },
+        [27369] = { -- Greasing the Wheel
+            [questKeys.preQuestSingle] = {27368},
+        },
         [27376] = { -- The Maw of Iso'rath
             [questKeys.preQuestSingle] = {27303},
         },
