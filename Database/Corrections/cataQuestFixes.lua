@@ -394,6 +394,36 @@ function CataQuestFixes.Load()
         [12602] = { -- The Alchemist's Apprentice
             [questKeys.startedBy] = {},
         },
+        [12739] = { -- A Special Surprise (Tauren)
+            [questKeys.preQuestSingle] = {12738}
+        },
+        [12742] = { -- A Special Surprise (Human)
+            [questKeys.preQuestSingle] = {12738}
+        },
+        [12743] = { -- A Special Surprise (Night Elf)
+            [questKeys.preQuestSingle] = {12738}
+        },
+        [12744] = { -- A Special Surprise (Dwarf)
+            [questKeys.preQuestSingle] = {12738}
+        },
+        [12745] = { -- A Special Surprise (Gnome)
+            [questKeys.preQuestSingle] = {12738}
+        },
+        [12746] = { -- A Special Surprise (Draenei)
+            [questKeys.preQuestSingle] = {12738}
+        },
+        [12747] = { -- A Special Surprise (Blood Elf)
+            [questKeys.preQuestSingle] = {12738}
+        },
+        [12748] = { -- A Special Surprise (Orc)
+            [questKeys.preQuestSingle] = {12738}
+        },
+        [12749] = { -- A Special Surprise (Troll)
+            [questKeys.preQuestSingle] = {12738}
+        },
+        [12750] = { -- A Special Surprise (Undead)
+            [questKeys.preQuestSingle] = {12738}
+        },
         [12821] = { -- Opening the Backdoor
             [questKeys.objectives] = {nil,nil,{{40731}}}
         },
@@ -3902,6 +3932,12 @@ function CataQuestFixes.Load()
         },
         [28635] = { -- A Haunting in Hillsbrad
             [questKeys.triggerEnd] = {"Search Dun Garok for Evidence of a Haunting", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.9,84.5}}}},
+        },
+        [28649] = { -- A Special Surprise (Worgen)
+            [questKeys.preQuestSingle] = {12738}
+        },
+        [28650] = { -- A Special Surprise (Goblin)
+            [questKeys.preQuestSingle] = {12738}
         },
         [28651] = { -- Novice Elreth
             [questKeys.startedBy] = {{2119,2122,2123,2124,2126,38911}},
