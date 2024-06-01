@@ -3156,14 +3156,16 @@ function CataQuestFixes.Load()
         [27139] = { -- Hobart Needs You
             [questKeys.exclusiveTo] = {24671},
         },
-        [27141] = { -- Premature Explosionation
+        [27141] = { -- Exploding Through
             [questKeys.preQuestSingle] = {28134},
+            [questKeys.name] = "Exploding Through",
         },
         [27152] = { -- Unusual Behavior... Even For Gnolls
             [questKeys.triggerEnd] = {"Gnoll camp investigated", {[zoneIDs.WESTERN_PLAGUELANDS]={{57.5,35.6}}}},
         },
         [27176] = { -- A Strange Disc
             [questKeys.requiredSourceItems] = {60865},
+            [questKeys.name] = "A Strange Disc",
         },
         [27177] = { -- Salvage Operation
             [questKeys.preQuestSingle] = {28599},
