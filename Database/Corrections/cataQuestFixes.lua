@@ -3142,6 +3142,9 @@ function CataQuestFixes.Load()
         [27050] = { -- Fungal Fury
             [questKeys.objectives] = {nil,{{205146},{205147},{205151},{205152}}},
         },
+        [27051] = { -- Through Persistence
+            [questKeys.requiredSourceItems] = {60768},
+        },
         [27059] = { -- The Wrong Sequence
             [questKeys.preQuestSingle] = {27041},
         },
