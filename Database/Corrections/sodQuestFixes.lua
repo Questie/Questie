@@ -114,6 +114,7 @@ function SeasonOfDiscovery:LoadQuests()
         [77617] = { -- Relics of the Light
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410002, nil, 205420}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.exclusiveTo] = {77657},
         },
         [77618] = { -- Thrice Stolen
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{400105, nil, 204795}}},
@@ -173,6 +174,7 @@ function SeasonOfDiscovery:LoadQuests()
         [77657] = { -- Relics of the Light
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410002, nil, 205420}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.exclusiveTo] = {77617},
         },
         [77658] = { -- Thrice Stolen
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{400105, nil, 204795}}},
