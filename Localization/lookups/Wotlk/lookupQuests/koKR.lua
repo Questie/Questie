@@ -1,7 +1,11 @@
+if GetLocale() ~= "koKR" then
+    return
+end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["koKR"] = { 
+l10n.questLookup["koKR"] = loadstring([[return {
 [1] = {"칸레타드의 임무", nil, {"칸레타드와 다시 대화하여 특성, 무기와 탈것을 받아야 합니다."}},
 [2] = {"뾰족발톱의 발톱", nil, {"뾰족발톱의 발톱을 잿빛 골짜기의 토막나무 주둔지에 있는 세나니 썬더하트에게 가져가야 합니다."}},
 [5] = {"굶주린 지터스", nil, {"주방장 그루얼과 대화해야 합니다."}},
@@ -8474,4 +8478,4 @@ l10n.questLookup["koKR"] = {
 [70344] = {"분노 (80) E", nil, nil},
 [70347] = {"분노 (80) E", nil, nil},
 [70348] = {"분노 (80) E", nil, nil},
-}
+}]])

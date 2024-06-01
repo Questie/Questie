@@ -21,23 +21,6 @@ local optionsDefaults = QuestieOptionsDefaults:Load()
 local _GetLanguages
 
 function QuestieOptions.tabs.advanced:Initialize()
-    -- This needs to be called inside of the Init process for l10n to be fully loaded
-    StaticPopupDialogs["QUESTIE_LANG_CHANGED_RELOAD"] = {
-        button1 = l10n('Reload UI'),
-        button2 = l10n('Cancel'),
-        OnAccept = function()
-            ReloadUI()
-        end,
-        text = l10n('The database needs to be updated to change language. Press reload to apply the new language'),
-        OnShow = function(self)
-            self:SetFrameStrata("TOOLTIP")
-        end,
-        timeout = 0,
-        whileDead = true,
-        hideOnEscape = true,
-        preferredIndex = 3
-    }
-
     return {
         name = function() return l10n('Advanced'); end,
         type = "group",
@@ -184,7 +167,6 @@ function QuestieOptions.tabs.advanced:Initialize()
                     end
                 end,
                 set = function(_, lang)
-                    local previousLocale = Questie.db.global.questieLocale
                     if lang == 'auto' then
                         local clientLocale = GetLocale()
                         if QUESTIE_LOCALES_OVERRIDE ~= nil then
@@ -197,15 +179,6 @@ function QuestieOptions.tabs.advanced:Initialize()
                         l10n:SetUILocale(lang);
                         Questie.db.global.questieLocale = lang;
                         Questie.db.global.questieLocaleDiff = true;
-                    end
-
-                    if previousLocale ~= Questie.db.global.questieLocale then
-                        if Questie.IsSoD then
-                            Questie.db.global.sod.dbIsCompiled = nil -- recompile db with new lang if locale changed
-                        else
-                            Questie.db.global.dbIsCompiled = nil -- recompile db with new lang if locale changed
-                        end
-                        StaticPopup_Show("QUESTIE_LANG_CHANGED_RELOAD")
                     end
                 end,
             },

@@ -5,7 +5,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.objectLookup["ptBR"] = {
+l10n.objectLookup["ptBR"] = loadstring([[return {
 [31] = "Estátua de Leão Antiga",
 [32] = "Baú Afundado",
 [33] = "Baú Trancado",
@@ -1110,4 +1110,4 @@ l10n.objectLookup["ptBR"] = {
 [181598] = "Gêiser Silitista",
 [181605] = "Ciranda da Fita",
 [182106] = "Estandarte da Torre",
-}
+}]])

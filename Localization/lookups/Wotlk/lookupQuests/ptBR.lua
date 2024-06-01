@@ -1,7 +1,11 @@
+if GetLocale() ~= "ptBR" then
+    return
+end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["ptBR"] = { 
+l10n.questLookup["ptBR"] = loadstring([[return {
 [1] = {"A missão de Kanrethad", nil, {"Fale com Kanrethad para restaurar seus talentos, seu armamento e sua montaria."}},
 [2] = {"Garra de Garraguda", nil, {"Leve a Garra de Garraguda para Senani Coração Trovejante no Posto Machadada, Vale Gris."}},
 [5] = {"A barriga roncante de Medrisco", nil, {"Fale com o Chef Goroba."}},
@@ -8497,4 +8501,4 @@ l10n.questLookup["ptBR"] = {
 [70344] = {"Ira (80) E", nil, nil},
 [70347] = {"Ira (80) E", nil, nil},
 [70348] = {"Ira (80) E", nil, nil},
-}
+}]])

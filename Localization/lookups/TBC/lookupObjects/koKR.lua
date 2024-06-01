@@ -1,11 +1,11 @@
-
 if GetLocale() ~= "koKR" then
     return
 end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.objectLookup["koKR"] = {
+l10n.objectLookup["koKR"] = loadstring([[return {
 [31] = "오래된 사자상",
 [32] = "가라앉은 상자",
 [33] = "잠긴 궤짝",
@@ -1915,4 +1915,4 @@ l10n.objectLookup["koKR"] = {
 [211021] = "민물조개",
 [211022] = "윤의 학딸기",
 [211023] = "특제 무쇠솥",
-}
+}]])

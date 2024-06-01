@@ -1,7 +1,11 @@
+if GetLocale() ~= "zhCN" then
+    return
+end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["zhCN"] = {
+l10n.questLookup["zhCN"] = loadstring([[return {
 [1] = {"Kanrethad's Quest", nil, {"Speak to Kanrethad to restore your talents, weapon and mount."}},
 [2] = {"沙普塔隆的爪子", nil, {"将沙普塔隆的爪子交给灰谷碎木哨岗的塞娜尼·雷心。"}},
 [5] = {"饥肠辘辘的基特斯", nil, {"和厨师格鲁奥谈一谈。"}},
@@ -9300,4 +9304,4 @@ l10n.questLookup["zhCN"] = {
 [70344] = {"Wrath (80) E", nil, nil},
 [70347] = {"Wrath (80) E", nil, nil},
 [70348] = {"Wrath (80) E", nil, nil},
-}
+}]])

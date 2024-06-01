@@ -1,11 +1,11 @@
-
 if GetLocale() ~= "esES" then
     return
 end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.objectLookup["esES"] = {
+l10n.objectLookup["esES"] = loadstring([[return {
 [31] = "Estatua de león antigua",
 [32] = "Cofre sumergido",
 [33] = "Cofre cerrado",
@@ -18756,4 +18756,4 @@ l10n.objectLookup["esES"] = {
 [203079] = "Huevo de dragón Rojo (grande)",
 [203080] = "Huevo de dragón Rojo roto (grande)",
 [203624] = "Anillo Crepuscular de Halion",
-}
+}]])

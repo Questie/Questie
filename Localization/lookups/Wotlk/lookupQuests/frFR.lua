@@ -1,7 +1,11 @@
+if GetLocale() ~= "frFR" then
+    return
+end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["frFR"] = {
+l10n.questLookup["frFR"] = loadstring([[return {
 [1] = {"La quête de Kanrethad", nil, {"Parlez à Kanrethad pour que vos talents, votre arme et votre monture vous soient rendus."}},
 [2] = {"La griffe de Serres-tranchantes", nil, {"Apportez la Griffe de Serres-tranchantes à Senani Cœur-de-tonnerre, au poste de Bois-brisé, en Orneval."}},
 [5] = {"L'estomac qui gargouille", nil, {"Parlez au Chef Grual."}},
@@ -9300,4 +9304,4 @@ l10n.questLookup["frFR"] = {
 [70344] = {"Wrath (80) E", nil, nil},
 [70347] = {"Wrath (80) E", nil, nil},
 [70348] = {"Wrath (80) E", nil, nil},
-}
+}]])

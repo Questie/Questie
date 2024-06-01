@@ -5,7 +5,7 @@ end
 -- - @type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.itemLookup["koKR"] = { 
+l10n.itemLookup["koKR"] = loadstring([[return {
 [25] = "낡은 쇼트소드",
 [35] = "구부러진 지팡이",
 [36] = "낡은 철퇴",
@@ -36749,4 +36749,4 @@ l10n.itemLookup["koKR"] = {
 [54847] = "꼬마 해체자",
 [54860] = "X-53 관광 로켓",
 [56806] = "꼬마 토르",
-}
+}]])

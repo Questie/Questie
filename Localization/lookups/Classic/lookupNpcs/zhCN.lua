@@ -5,7 +5,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.npcNameLookup["zhCN"] = {
+l10n.npcNameLookup["zhCN"] = loadstring([[return {
 [3] = {"食腐者",nil},
 [6] = {"狗头人歹徒",nil},
 [30] = {"森林蜘蛛",nil},
@@ -9194,4 +9194,4 @@ l10n.npcNameLookup["zhCN"] = {
 [19280] = {"杜隆塔尔, 北杜隆塔尔",nil},
 [19282] = {"诅咒之地, 巨槌要塞",nil},
 [19283] = {"尘泥沼泽, 塞拉摩",nil},
-}
+}]])

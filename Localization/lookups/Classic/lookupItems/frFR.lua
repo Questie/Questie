@@ -5,7 +5,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.itemLookup["frFR"] = {
+l10n.itemLookup["frFR"] = loadstring([[return {
 [159] = "Eau de source",
 [182] = "Tête de Garrick",
 [723] = "Foie de Broche-tripes",
@@ -1674,4 +1674,4 @@ l10n.itemLookup["frFR"] = {
 [22734] = "Talon d'Atiesh",
 [22892] = "Pierre nécrotique pâle",
 [23250] = "Coquille prismatique",
-}
+}]])

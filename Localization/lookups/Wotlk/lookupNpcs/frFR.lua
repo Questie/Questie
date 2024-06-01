@@ -5,7 +5,7 @@ end
 -- - @type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.npcNameLookup["frFR"] = { 
+l10n.npcNameLookup["frFR"] = loadstring([[return {
 [3] = {"Dévoreur",nil},
 [6] = {"Vermine kobold",nil},
 [19] = {"Benny Questgiver","NPC"},
@@ -26456,4 +26456,4 @@ l10n.npcNameLookup["frFR"] = {
 [40842] = {"Drake rubis",nil},
 [40870] = {"Dragon rubis",nil},
 [42078] = {"Mini Thor","Le destructeur"},
-}
+}]])

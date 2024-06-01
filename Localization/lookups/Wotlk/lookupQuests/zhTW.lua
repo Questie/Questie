@@ -1,7 +1,11 @@
+if GetLocale() ~= "zhTW" then
+    return
+end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["zhTW"] = {
+l10n.questLookup["zhTW"] = loadstring([[return {
 [1] = {"坎瑞薩德的任務", nil, {"與坎瑞薩德交談，回復你的天賦、武器、與坐騎。"}},
 [2] = {"沙普塔隆的爪子", nil, {"將沙普塔隆的爪子交給梣谷碎木崗哨的塞娜尼·雷心。"}},
 [5] = {"饑腸轆轆的基特斯", nil, {"和格魯奧廚師談話。"}},
@@ -9012,4 +9016,4 @@ l10n.questLookup["zhTW"] = {
 [70344] = {"巫妖王之怒 (80) E", nil, nil},
 [70347] = {"巫妖王之怒 (80) E", nil, nil},
 [70348] = {"巫妖王之怒 (80) E", nil, nil},
-}
+}]])

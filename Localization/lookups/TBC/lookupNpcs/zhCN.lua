@@ -1,11 +1,11 @@
-
 if GetLocale() ~= "zhCN" then
     return
 end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.npcNameLookup["zhCN"] = {
+l10n.npcNameLookup["zhCN"] = loadstring([[return {
 [3] = {"食腐者",nil},
 [6] = {"狗头人歹徒",nil},
 [19] = {"Benny Questgiver","非玩家角色"},
@@ -17397,4 +17397,4 @@ l10n.npcNameLookup["zhCN"] = {
 [29093] = {"伊安·达克","长者"},
 [29095] = {"爱德华·凯恩","长者"},
 [39623] = {"侏儒平民",nil},
-}
+}]])

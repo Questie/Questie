@@ -5,7 +5,7 @@ end
 -- - @type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.itemLookup["frFR"] = { 
+l10n.itemLookup["frFR"] = loadstring([[return {
 [25] = "Epée courte usée",
 [35] = "Bâton tordu",
 [36] = "Masse détériorée",
@@ -65260,4 +65260,4 @@ l10n.itemLookup["frFR"] = {
 [224383] = "Épaulières de parade du Marteau du crépuscule",
 [224452] = "Parchemin de téléportation : Hurlevent",
 [224458] = "Parchemin de téléportation : Orgrimmar",
-}
+}]])

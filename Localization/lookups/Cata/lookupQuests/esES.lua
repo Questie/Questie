@@ -1,6 +1,11 @@
+if GetLocale() ~= "esES" then
+    return
+end
+
+---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["esES"] = {
+l10n.questLookup["esES"] = loadstring([[return {
 [1] = {"Misión de Kanrethad", nil, {"Habla con Kanrethad para que restaure tus talentos, armas y montura."}},
 [2] = {"La garfa de Garrafilada", nil, {"Llévale la garfa de Garrafilada a Senani Corazón Atronador en el Refugio Brisa de Plata, Vallefresno."}},
 [5] = {"La hambruna de Alterio", nil, {"Habla con el Chef Grual."}},
@@ -12436,4 +12441,4 @@ l10n.questLookup["esES"] = {
 [82948] = {"Tablero de ¡Se busca héroe!", nil, {"Dirígete al Distrito de Mercaderes en Ventormenta y habla con Melris Malagan."}},
 [82949] = {"Tablón de mando del Jefe de Guerra", nil, {"Dirígete al Valle de la Fuerza en Orgrimmar y habla con el heraldo del Jefe de Guerra."}},
 [82984] = {"Tienes talento", nil, {"Activa la interfaz de talentos y asigna 5 puntos de talento."}},
-}
+}]])

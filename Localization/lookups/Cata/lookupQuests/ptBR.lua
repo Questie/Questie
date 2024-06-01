@@ -1,6 +1,11 @@
+if GetLocale() ~= "ptBR" then
+    return
+end
+
+---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["ptBR"] = {
+l10n.questLookup["ptBR"] = loadstring([[return {
 [1] = {"A missão de Kanrethad", nil, {"Fale com Kanrethad para restaurar seus talentos, seu armamento e sua montaria."}},
 [2] = {"Garra de Garraguda", nil, {"Leve a Garra de Garraguda para Senani Coração Trovejante no Refúgio Brisaprata."}},
 [5] = {"A barriga roncante de Medrisco", nil, {"Fale com o Chef Goroba."}},
@@ -12455,4 +12460,4 @@ l10n.questLookup["ptBR"] = {
 [82983] = {"Mural do Chamado ao Heroísmo", nil, {"Use o pergaminho de teleporte do seu inventário para chegar a Ventobravo e falar com Melris Malagan."}},
 [82984] = {"Talento é para quem tem", nil, {"Ative a interface de Talentos e atribua 5 Pontos de Talento."}},
 [82985] = {"Mural de Ordens do Chefe Guerreiro", nil, {"Use o pergaminho de teleporte do seu inventário para chegar a Orgrimmar e falar com o Arauto do Chefe Guerreiro."}},
-}
+}]])

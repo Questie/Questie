@@ -5,7 +5,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.objectLookup["esMX"] = {
+l10n.objectLookup["esMX"] = loadstring([[return {
 [31] = "Estatua de león antigua",
 [32] = "Cofre sumergido",
 [33] = "Cofre cerrado",
@@ -1249,7 +1249,7 @@ l10n.objectLookup["esMX"] = {
 [19878] = "Cajón con piezas",
 [19879] = "Gema de alma roja",
 [19897] = "Barril de cerveza de tontos",
-[19901] = "Círculo de Encarcelamiento",    
+[19901] = "Círculo de Encarcelamiento",
 [19903] = "Filón de indurio",
 [19904] = "Barril de tabaco de Mok'Morokk",
 [19905] = "Grog de Mok'Morokk",
@@ -5849,4 +5849,4 @@ l10n.objectLookup["esMX"] = {
 [190396] = "Humo de jarra",
 [190483] = "Cofre de documentos n.º 2",
 [190484] = "Cofre de documentos n.º 3",
-}
+}]])

@@ -1,6 +1,11 @@
+if GetLocale() ~= "deDE" then
+    return
+end
+
+---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["deDE"] = {
+l10n.questLookup["deDE"] = loadstring([[return {
 [1] = {"Kanrethads Quest", nil, {"Sprecht mit Kanrethad, um Eure Talente, Waffen und Euer Reittier wiederherzustellen."}},
 [2] = {"Klaue von Scharfkralle", nil, {"Bringt Senani Donnerherz in der Silberwindzuflucht die Klaue von Scharfkralle."}},
 [5] = {"Bibbers' knurrender Magen", nil, {"Sprecht mit Küchenchef Grual."}},
@@ -12745,4 +12750,4 @@ l10n.questLookup["deDE"] = {
 [82983] = {"Heldenruftafel", nil, {"Nutzt eine Schriftrolle der Teleportation aus Eurem Inventar, um Sturmwind zu erreichen, und sprecht dort mit Melris Malagan."}},
 [82984] = {"Talentiert", nil, {"Öffnet das Talentfenster und verteilt 5 Talentpunkte."}},
 [82985] = {"Befehlstafel des Kriegshäuptlings", nil, {"Nutzt eine Schriftrolle der Teleportation aus Eurem Inventar, um Orgrimmar zu erreichen, und sprecht dort mit dem Herold des Kriegshäuptlings."}},
-}
+}]])
