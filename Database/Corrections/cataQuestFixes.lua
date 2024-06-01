@@ -4680,6 +4680,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION,75},
         },
         [29516] = { -- Keeping the Faire Sparkling
+            [questKeys.requiredSourceItems] = {72052},
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,75},
         },
         [29517] = { -- Eyes on the Prizes
