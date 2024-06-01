@@ -195,6 +195,9 @@ function CataNpcFixes.Load()
         [14871] = { -- Morja
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{55.93,70.73},{-1,-1}}},
         },
+        [15295] = { -- Well Watcher Solanian
+            [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{38.97,20.26}}},
+        },
         [15303] = { -- Maxima Blastenheimer
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{52.5,56.14},{-1,-1}}},
         },

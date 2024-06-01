@@ -1026,7 +1026,7 @@ function QuestieQuestBlacklist:Load()
 
         [1] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
         [2881] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Wildhammer faction removed in TBC. Repeatable to gain rep
-        [8329] = true, -- Warrior Training / Not in the game
+        [8329] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE, --* Warrior Training (https://www.wowhead.com/wotlk/quest=8329) (Retail Data)
         [8547] = true, -- Welcome!
         [9065] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
         [9278] = true, -- Welcome!
@@ -2240,7 +2240,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         [7522] = true, --* Examine the Vessel (https://www.wowhead.com/wotlk/quest=7522) (Retail Data)
 
         -- Eastern Kingdoms -> Eversong Woods (0 -> 3430)
-        [8329] = true, --* Warrior Training (https://www.wowhead.com/wotlk/quest=8329) (Retail Data)
         [8478] = true, --* Choose Your Weapon (https://www.wowhead.com/wotlk/quest=8478) (Retail Data)
 
 

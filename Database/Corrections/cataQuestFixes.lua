@@ -233,6 +233,15 @@ function CataQuestFixes.Load()
         [7783] = { -- The Lord of Blackrock
             [questKeys.finishedBy] = {{39605}},
         },
+        [8329] = { -- Warrior Training
+            [questKeys.finishedBy] = {{43010}},
+        },
+        [8334] = { -- Aggression
+            [questKeys.startedBy] = {{15281}},
+        },
+        [8335] = { -- Felendren the Banished
+            [questKeys.startedBy] = {{15281}},
+        },
         [8481] = { -- The Root of All Evil
             [questKeys.objectives] = {nil,nil,{{21145}},{576,42000}},
         },
@@ -274,23 +283,44 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{18238},nil,{24558}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
-        [10068] = { -- Frost Nova
+        [10068] = { -- Arcane Missiles
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 15279}}}},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.finishedBy] = {{15279}},
         },
         [10069] = { -- Ways of the Light
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{20271},{20154}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Judgement"), 2, {{"monster", 15280}}},
+                {nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Seal of Righteousness"), 3, {{"monster", 15280}}},
+            },
+            [questKeys.exclusiveTo] = {},
+            [questKeys.finishedBy] = {{15280}},
         },
         [10070] = { -- Steady Shot
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 15513}}}},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.finishedBy] = {{15513}},
         },
         [10071] = { -- Evisceration
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Eviscerate"), 2, {{"monster", 15285}}}},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.finishedBy] = {{15285}},
         },
         [10072] = { -- Healing the Wounded
-            [questKeys.objectives] = {{{44857}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{44857,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 15284}}}},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.finishedBy] = {{15284}},
         },
-        [10073] = { -- Corruption
+        [10073] = { -- Immolation
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{348}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Immolate"), 2, {{"monster", 15283}}}},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.finishedBy] = {{15283}},
         },
         [10302] = { -- Volatile Mutations
             [questKeys.preQuestSingle] = {9369,9280},
@@ -3343,6 +3373,7 @@ function CataQuestFixes.Load()
         },
         [27091] = { -- Charge!
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{100}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 43010}}}},
         },
         [27509] = { -- Breach in the Defenses
             [questKeys.objectives] = {nil,{{205486,"Twilight Portal destroyed"}}},
