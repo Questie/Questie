@@ -1293,11 +1293,46 @@ function CataQuestFixes.Load()
         [24618] = { -- Claim the Battle Scar
             [questKeys.triggerEnd] = {"Battlescar Flag Scouted",{[zoneIDs.THE_BARRENS] = {{45.2,69.4}}}},
         },
+        [24622] = { -- A Troll's Truest Companion
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24623] = { -- Saving the Young
+            [questKeys.objectives] = {{{39157,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24624] = { -- Mercy for the Lost
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24625] = { -- Consort of the Sea Witch
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24626] = { -- Young and Vicious
+            [questKeys.startedBy] = {{37969}},
+            [questKeys.objectives] = {{{37989,nil,Questie.ICON_TYPE_INTERACT},{38002,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24623,24624,24625},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [24628] = { -- Preparations
             [questKeys.preQuestSingle] = {24617},
         },
+        [24639] = { -- The Basics: Hitting Things
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [24640] = { -- The Arts of a Warrior
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{100}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 38037}}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24641] = { -- A Rough Start
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24642] = { -- Proving Pit
+            [questKeys.objectives] = {{{39062,nil,Questie.ICON_TYPE_TALK},{38142}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24643] = { -- More Than Expected
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [24671] = { -- Cluster Cluck
             [questKeys.objectives] = {{{38111}}},
@@ -1312,20 +1347,128 @@ function CataQuestFixes.Load()
         [24681] = { -- They Have Allies, But So Do We
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Hop in a Glaive Thrower"),0,{{"monster",38150}}}},
         },
+        [24751] = { -- The Basics: Hitting Things
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [24752] = { -- The Arts of a Mage
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 38246}}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24753] = { -- A Rough Start
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24754] = { -- Proving Pit
+            [questKeys.objectives] = {{{39062,nil,Questie.ICON_TYPE_TALK},{38142}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24755] = { -- More Than Expected
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24759] = { -- The Basics: Hitting Things
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24760] = { -- The Arts of a Shaman
+            [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{73899}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Primal Strike"), 2, {{"monster", 38242}}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24761] = { -- A Rough Start
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24762] = { -- Proving Pit
+            [questKeys.objectives] = {{{39062,nil,Questie.ICON_TYPE_TALK},{38142}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24763] = { -- More Than Expected
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24765] = { -- The Basics: Hitting Things
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [24766] = { -- The Arts of a Druid
-            [questKeys.objectives] = {{{47057}},nil,nil,nil,nil,{{774}}},
+            [questKeys.objectives] = {{{47057,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{774}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Rejuvenation"), 2, {{"monster", 38243}}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24767] = { -- A Rough Start
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24768] = { -- Proving Pit
+            [questKeys.objectives] = {{{39062,nil,Questie.ICON_TYPE_TALK},{38142}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24769] = { -- More Than Expected
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24771] = { -- The Basics: Hitting Things
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [24772] = { -- The Arts of a Rogue
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Eviscerate"), 2, {{"monster", 38244}}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24773] = { -- A Rough Start
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24774] = { -- Proving Pit
+            [questKeys.objectives] = {{{39062,nil,Questie.ICON_TYPE_TALK},{38142}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24775] = { -- More Than Expected
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24777] = { -- The Basics: Hitting Things
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [24778] = { -- The Arts of a Hunter
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 38247}}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
-        [24784] = { -- Learnin' tha Word
-            [questKeys.objectives] = {{{47057}},nil,nil,nil,nil,{{2061}}},
+        [24779] = { -- A Rough Start
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24780] = { -- Proving Pit
+            [questKeys.objectives] = {{{39062,nil,Questie.ICON_TYPE_TALK},{38142}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24781] = { -- More Than Expected
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24783] = { -- The Basics: Hitting Things
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24784] = { -- The Arts of a Priest
+            [questKeys.objectives] = {{{47057,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 38245}}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24785] = { -- A Rough Start
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24786] = { -- Proving Pit
+            [questKeys.objectives] = {{{39062,nil,Questie.ICON_TYPE_TALK},{38142}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24787] = { -- More Than Expected
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24812] = { -- No More Mercy
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24813] = { -- Territorial Fetish
+            [questKeys.objectives] = {nil,{{202113}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24814] = { -- An Ancient Enemy
+            [questKeys.objectives] = {{{38225,nil,Questie.ICON_TYPE_TALK},{38306}}},
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_TALK,l10n("After Zar'jira is defeated, take a portal back to Darkspear Hold"),0,{{"monster",38437}}},
+                {nil,Questie.ICON_TYPE_INTERACT,l10n("Put out the fires"),0,{{"monster",38542}}},
+            },
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [24817] = { -- A Goblin in Shark's Clothing
             [questKeys.objectives] = {{{36682}},{{202108}}},
@@ -1414,11 +1557,20 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{100}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 2119}}}},
         },
+        [25035] = { -- Breaking the Line
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Jornun"), 0, {{"monster", 38989}}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [25037] = { -- Crab Fishin'
-            [questKeys.preQuestSingle] = {24769},
+            [questKeys.preQuestSingle] = {24643,24755,24763,24769,24775,24781,24787,26277},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [25064] = { -- Moraya
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [25073] = { -- Sen'jin Village
             [questKeys.exclusiveTo] = {25133},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [25081] = { -- Claim the Battlescar
             [questKeys.triggerEnd] = {"Battlescar Flag Scouted",{[zoneIDs.THE_BARRENS] = {{45.2,69.4}}}},
@@ -2398,6 +2550,24 @@ function CataQuestFixes.Load()
         },
         [26265] = { -- Dealing with the Fallout
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
+        [26273] = { -- The Basics: Hitting Things
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [26274] = { -- Immolate
+            [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{348}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Immolate"), 2, {{"monster", 42618}}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [26275] = { -- A Rough Start
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [26276] = { -- Proving Pit
+            [questKeys.objectives] = {{{39062,nil,Questie.ICON_TYPE_TALK},{38142}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [26277] = { -- More Than Expected
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [26284] = { -- Missing in Action
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
