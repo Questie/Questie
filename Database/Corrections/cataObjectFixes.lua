@@ -12,13 +12,19 @@ function CataObjectFixes.Load()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
-        [7510] = { --Sprouted Frond
+        [7510] = { -- Sprouted Frond
             [objectKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{43.91,43.99},{43.93,44.04},{43.95,44.08},{59.88,59.89},{59.84,59.86},{59.81,59.84}}},
         },
         [126158] = { -- Tallonkai's Dresser
             [objectKeys.spawns] = {
-                [zoneIDs.TELDRASSIL] = {{66.1,52}}
-            }
+                [zoneIDs.TELDRASSIL] = {{66.1,52}},
+            },
+        },
+        [144052] = { -- Sandsorrow Watch Water Hole
+            [objectKeys.name] = "Sandsorrow Watch Water Hole",
+        },
+        [181781] = { -- Axxarien Crystal
+            [objectKeys.name] = "Axxarien Crystal",
         },
         [194102] = { -- Shatterspear Armaments
             [objectKeys.spawns] = {[141]={{90.96,99.06},{87.07,99.87},{91.69,98.44}},[148]={{62.81,7.27},{62.38,7.8},{63.28,10.48},{61.29,10.61},{61.2,7.71},{63.53,8.07},{63.21,8.92},{61.96,8.94},{61.52,9.23},{61.38,9.81},{62.9,10.82},{62.76,11.37},{62.06,11.44},{62.2,8.98},{61.66,9.22},{63.08,9.56},{62.78,9.64},{61.94,9.95},{61.89,11.07}}},
