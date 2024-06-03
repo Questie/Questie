@@ -170,6 +170,13 @@ function QuestieWotlkObjectFixes:Load()
         [191349] = {
             [objectKeys.spawns] = {[zoneIDs.BAND_OF_ALIGNMENT]={{47.6,85.9}},[4228]={{-1,-1}}},
         },
+        [191577] = {
+            [objectKeys.name] = "Acherus Soul Prison",
+            [objectKeys.spawns] = {[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{48.09,29.6},{48.57,30.83},{48.86,30.91},{49.17,30.83},{49.43,30.56},{49.59,30.17},{49.65,29.73},{49.16,28.66},{48.87,28.58},{48.57,28.67},{48.31,28.94},{48.15,29.29}}},
+        },
+        [191746] = {
+            [objectKeys.spawns] = {[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{50.42,28.18},{47.32,31.31},{47.83,27.42}}},
+        },
         [191761] = {
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS]={{37.54,46.9}}},
         },
@@ -214,6 +221,12 @@ function QuestieWotlkObjectFixes:Load()
         },
         [193051] = {
             [objectKeys.spawns] = {[zoneIDs.THE_GILDED_GATE] = {{-1,-1}},[zoneIDs.HADRONOXS_LAIR] = {{-1,-1}},[4277] = {{-1,-1}}},
+        },
+        [193052] = {
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{84.55,50.45}}},
+        },
+        [193053] = {
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{83.66,51.34}}},
         },
         [193057] = {
             [objectKeys.spawns] = {[zoneIDs.AHNKAHET_MAP] = {{12.29,50.82}},[4494] = {{-1,-1}}},

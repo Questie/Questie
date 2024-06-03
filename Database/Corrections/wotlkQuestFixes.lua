@@ -2230,6 +2230,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12641] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Eye of Acherus Control Mechanism"), 0, {{"object", 191609}}}},
+            [questKeys.objectives] = {{{28525,nil,Questie.ICON_TYPE_EVENT},{28543,nil,Questie.ICON_TYPE_EVENT},{28542,nil,Questie.ICON_TYPE_EVENT},{28544,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [12643] = {
             [questKeys.preQuestSingle] = {},
@@ -2302,6 +2303,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{28503,"Drakuru's task complete"},{28739,"Blight Cauldrons diluted"}}},
             [questKeys.requiredSourceItems] = {39154,38699,41390},
         },
+        [12670] = {
+            [questKeys.preQuestSingle] = {12850},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Take the gryphon to ground level"),0,{{"monster",29488}}}},
+        },
         [12671] = {
             [questKeys.triggerEnd] = {"Reconnaissance Flight",{[zoneIDs.SHOLAZAR_BASIN]={{50.04,61.43,},},},},
         },
@@ -2323,8 +2328,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{28503,"Drakuru's task complete"}},nil,{{39159}}},
         },
         [12680] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{28605,28606,28607},28605,"Horse Successfully Stolen"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Deliver Stolen Horse"), 0, {{"monster", 28653}}}},
+            [questKeys.objectives] = {{{28653,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 28605},{"monster", 28606},{"monster", 28607}}}},
         },
         [12683] = {
             [questKeys.objectives] = {{{28003,},{28003}}},
@@ -2340,8 +2345,11 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [12687] = {
-            [questKeys.triggerEnd] = {"The Horseman's Challenge",{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{52.41,34.59,},},},},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Dark Rider of Acherus and take his horse"), 0, {{"monster", 28768},{"monster", 28782}}}},
+            [questKeys.objectives] = {{{28788,"The Horseman's Challenge",Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Dark Rider of Acherus and take his horse"), 0, {{"monster", 28768}}},
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 28782}}},
+            },
         },
         [12688] = {
             [questKeys.triggerEnd] = {"Escort Engineer Helice out of Swindlegrin's Dig",{[zoneIDs.SHOLAZAR_BASIN]={{37.29,50.59,},},},},
@@ -2360,10 +2368,15 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12697] = {
             [questKeys.preQuestGroup] = {12678,12679,12687,12733,},
+            [questKeys.startedBy] = {{28377}},
+            [questKeys.preQuestSingle] = {},
         },
         [12698] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{28819,28822,28891},28819,"Scarlet Ghoul Returned"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Return Scarlet Ghouls"), 0, {{"monster", 28658}}}},
+            [questKeys.objectives] = {{{28845,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Return Scarlet Ghouls"), 0, {{"monster", 28658}}},
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Gift of the Harvester on it"), 0, {{"monster", 28819},{"monster", 28822},{"monster", 28891}}},
+            },
         },
         [12699] = {
             [questKeys.preQuestSingle] = {12523},
@@ -2394,6 +2407,9 @@ function QuestieWotlkQuestFixes:Load()
             },
             [questKeys.requiredMinRep] = {1105,9000},
         },
+        [12706] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Take the gryphon to Acherus"), 0, {{"monster", 29501}}}},
+        },
         [12707] = {
             [questKeys.objectives] = {{{28861,"Mam'toth Disciples trampled to death"}}},
             [questKeys.extraObjectives] = {
@@ -2422,8 +2438,11 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("After defeating Drakuru, go back down using this portal"), 0, {{"object", 202357}}},
             },
         },
+        [12714] = {
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Take the gryphon to ground level"),0,{{"monster",29488}}}},
+        },
         [12720] = {
-            [questKeys.triggerEnd] = {"\"Crimson Dawn\" Revealed",{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{55.09,66.12},},},},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{28610,28936,28939,28940},28610,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Equip Keleseth's Persuaders and persuade Scarlet Crusaders"), 0, {{"monster", 28610},{"monster", 28936},{"monster", 28939},{"monster", 28940},}}},
         },
         [12721] = {
@@ -2467,11 +2486,45 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,{{191136,}}},
             [questKeys.requiredMinRep] = {1105,9000},
         },
+        [12739] = { -- A Special Surprise (Tauren)
+            [questKeys.preQuestSingle] = {12738}
+        },
         [12740] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28028,28029},28028,}}},
         },
         [12741] = {
             [questKeys.requiredMinRep] = {1104,9000},
+        },
+        [12742] = { -- A Special Surprise (Human)
+            [questKeys.preQuestSingle] = {12738},
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
+        },
+        [12743] = { -- A Special Surprise (Night Elf)
+            [questKeys.preQuestSingle] = {12738},
+        },
+        [12744] = { -- A Special Surprise (Dwarf)
+            [questKeys.preQuestSingle] = {12738},
+            [questKeys.requiredRaces] = raceIDs.DWARF,
+        },
+        [12745] = { -- A Special Surprise (Gnome)
+            [questKeys.preQuestSingle] = {12738},
+        },
+        [12746] = { -- A Special Surprise (Draenei)
+            [questKeys.preQuestSingle] = {12738},
+        },
+        [12747] = { -- A Special Surprise (Blood Elf)
+            [questKeys.preQuestSingle] = {12738},
+        },
+        [12748] = { -- A Special Surprise (Orc)
+            [questKeys.preQuestSingle] = {12738},
+            [questKeys.requiredRaces] = raceIDs.ORC,
+        },
+        [12749] = { -- A Special Surprise (Troll)
+            [questKeys.preQuestSingle] = {12738},
+            [questKeys.requiredRaces] = raceIDs.TROLL,
+        },
+        [12750] = { -- A Special Surprise (Undead)
+            [questKeys.preQuestSingle] = {12738},
         },
         [12752] = {
             [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}},
@@ -2481,6 +2534,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12754] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{60.9,75.5}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Makeshift Cover"),}},
+        },
+        [12757] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Portal to Acherus"),0,{{"object", 191155}}}},
         },
         [12758] = {
             [questKeys.requiredMinRep] = {1104,9000},
@@ -2522,8 +2578,12 @@ function QuestieWotlkQuestFixes:Load()
         [12777] = {
             [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
         },
+        [12778] = {
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Take the gryphon to ground level"),0,{{"monster",29488}}}},
+        },
         [12779] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{53.5,36.7}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Horn of the Frostbrood"),}},
+            [questKeys.startedBy] = {{29110}},
         },
         [12782] = {
             [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}},
@@ -2550,10 +2610,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.UN_GORO_CRATER]={{50.54,7.74,}}}, Questie.ICON_TYPE_EVENT, l10n("Travel through the Waygate"),}},
         },
         [12801] = {
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Talk to Highlord Darion Mograine"), 0, {{"monster", 29173}}},
-                {{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{38.8,38.4}}}, Questie.ICON_TYPE_EVENT, l10n("The Light of Dawn Uncovered"),},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Highlord Darion Mograine"), 0, {{"monster", 29173}}}},
+            [questKeys.objectives] = {nil,{{191330,"The Light of Dawn Uncovered",Questie.ICON_TYPE_EVENT}}},
         },
         [12802] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Desperate Mojo"),0,{{"object", 188358}}}},
@@ -2630,10 +2688,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12807},
         },
         [12842] = {
-            [questKeys.triggerEnd] = {"Weapon emblazoned",{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{47.28,31.36},{47.82,27.42},{50.43,28.17},},},},
+            [questKeys.objectives] = {nil,{{191746}}}
         },
         [12847] = {
             [questKeys.triggerEnd] = {"Arete's Gate summoned",{[zoneIDs.ICECROWN]={{9.53,47.01}}}},
+        },
+        [12848] = {
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Unlock the chains"),0,{{"object",191577}}}},
         },
         [12851] = {
             [questKeys.name] = "Bearly Hanging On",
@@ -3351,6 +3412,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13186] = {
             [questKeys.exclusiveTo] = {13222},
+        },
+        [13188] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Go to Stormwind"), 0, {{"object", 193053}}}},
+        },
+        [13189] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Go to Orgrimmar"), 0, {{"object", 193052}}}},
         },
         [13190] = {
             [questKeys.requiredSourceItems] = {43494},

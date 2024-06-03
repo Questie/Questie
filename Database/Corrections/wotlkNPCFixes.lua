@@ -1111,6 +1111,9 @@ function QuestieWotlkNpcFixes:Load()
         [28734] = {
             [npcKeys.spawns] = {[zoneIDs.THE_GILDED_GATE]={{-1,-1}},[4277]={{-1,-1}}},
         },
+        [28788] = {
+            [npcKeys.spawns] = {[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{52.61,34.38}}},
+        },
         [28826] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TERRESTRIAL_WATCHTOWER]={{-1,-1}},[zoneIDs.HALLS_OF_LIGHTNING]={{-1,-1}}},
         },
@@ -1173,6 +1176,7 @@ function QuestieWotlkNpcFixes:Load()
         },
         [29173] = {
             [npcKeys.waypoints] = {},
+            [npcKeys.spawns] = {[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{39.06,39.16}}},
         },
         [29194] = {
             [npcKeys.subName] = "Death Knight Trainer",

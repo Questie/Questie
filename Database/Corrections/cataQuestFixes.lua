@@ -457,6 +457,9 @@ function CataQuestFixes.Load()
         [12821] = { -- Opening the Backdoor
             [questKeys.objectives] = {nil,nil,{{40731}}}
         },
+        [13188] = { -- Where Kings Walk
+            [questKeys.finishedBy] = {{29611}},
+        },
         [13189] = { -- Warchief's Blessing
             [questKeys.finishedBy] = {{39605}},
         },
@@ -4138,10 +4141,12 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Search Dun Garok for Evidence of a Haunting", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.9,84.5}}}},
         },
         [28649] = { -- A Special Surprise (Worgen)
-            [questKeys.preQuestSingle] = {12738}
+            [questKeys.preQuestSingle] = {12738},
+            [questKeys.nextQuestInChain] = 12751,
         },
         [28650] = { -- A Special Surprise (Goblin)
-            [questKeys.preQuestSingle] = {12738}
+            [questKeys.preQuestSingle] = {12738},
+            [questKeys.nextQuestInChain] = 12751,
         },
         [28651] = { -- Novice Elreth
             [questKeys.startedBy] = {{2119,2122,2123,2124,2126,38911}},
