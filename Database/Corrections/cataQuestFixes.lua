@@ -424,36 +424,6 @@ function CataQuestFixes.Load()
         [12602] = { -- The Alchemist's Apprentice
             [questKeys.startedBy] = {},
         },
-        [12739] = { -- A Special Surprise (Tauren)
-            [questKeys.preQuestSingle] = {12738}
-        },
-        [12742] = { -- A Special Surprise (Human)
-            [questKeys.preQuestSingle] = {12738}
-        },
-        [12743] = { -- A Special Surprise (Night Elf)
-            [questKeys.preQuestSingle] = {12738}
-        },
-        [12744] = { -- A Special Surprise (Dwarf)
-            [questKeys.preQuestSingle] = {12738}
-        },
-        [12745] = { -- A Special Surprise (Gnome)
-            [questKeys.preQuestSingle] = {12738}
-        },
-        [12746] = { -- A Special Surprise (Draenei)
-            [questKeys.preQuestSingle] = {12738}
-        },
-        [12747] = { -- A Special Surprise (Blood Elf)
-            [questKeys.preQuestSingle] = {12738}
-        },
-        [12748] = { -- A Special Surprise (Orc)
-            [questKeys.preQuestSingle] = {12738}
-        },
-        [12749] = { -- A Special Surprise (Troll)
-            [questKeys.preQuestSingle] = {12738}
-        },
-        [12750] = { -- A Special Surprise (Undead)
-            [questKeys.preQuestSingle] = {12738}
-        },
         [12821] = { -- Opening the Backdoor
             [questKeys.objectives] = {nil,nil,{{40731}}}
         },
