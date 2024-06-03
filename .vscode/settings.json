@@ -2762,6 +2762,8 @@
         "ElvUF_Target",
         "AzeriteUnitFrameTarget",
         "PitBull4_Frames_Target",
+        "GwTargetUnitFrame",
+        "InvenUnitFrames_Target",
         "UIDROPDOWNMENU_MAXLEVELS",
         "L_UIDROPDOWNMENU_MAXLEVELS",
         "Questie",
