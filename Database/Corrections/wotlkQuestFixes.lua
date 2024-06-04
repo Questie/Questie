@@ -3793,12 +3793,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13309] = {
             [questKeys.preQuestSingle] = {13341},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Hop on the turret"), 0, {{"monster", 32227}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get on the turret"), 0, {{"monster", 32227}}}},
             [questKeys.objectives] = {{{32222,"Skybreaker Infiltrators dropped"}}},
         },
         [13310] = {
             [questKeys.preQuestSingle] = {13340},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Hop on the turret"), 0, {{"monster", 31884}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get on the turret"), 0, {{"monster", 31884}}}},
             [questKeys.objectives] = {{{31882,"Skybreaker Infiltrators dropped"}}},
         },
         [13312] = {
@@ -6662,7 +6662,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{39675}},
             [questKeys.preQuestSingle] = {25199},
             [questKeys.nextQuestInChain] = 25289,
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Hop in"), 0, {{"monster", 39715}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 39715}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{39682,39715},39715,"Ejection System Tested"}}},
         },
         [25286] = {
@@ -6678,14 +6678,14 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{39675}},
             [questKeys.preQuestSingle] = {25285},
             [questKeys.nextQuestInChain] = 25295,
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Hop in"), 0, {{"monster", 39716}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 39716}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{39713,39716},39716,"Left Leg Servos Tested"},{{39713,39716},39716,"Right Leg Servos Tested"},{{39713,39716},39716,"Evasive Maneuver System Tested"}}},
         },
         [25295] = {
             [questKeys.startedBy] = {{39675}},
             [questKeys.finishedBy] = {{39675}},
             [questKeys.preQuestSingle] = {25289},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Hop in"), 0, {{"monster", 39717}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 39717}}}},
             [questKeys.objectives] = {{{39711,"Weapon System Tested"}}},
         },
         [25393] = {

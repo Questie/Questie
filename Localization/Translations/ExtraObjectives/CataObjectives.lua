@@ -62,7 +62,7 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Hop on Aronus"] = {
+    ["Get on Aronus"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Spring auf Aronus",
@@ -158,7 +158,7 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Hop in a cannon"] = {
+    ["Get in a cannon"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Steige in eine Kanone",
@@ -206,7 +206,7 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Hop on the Captured Riding Bat"] = {
+    ["Get on the Captured Riding Bat"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Steige auf die gefangene Reitfledermaus",
@@ -218,7 +218,7 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Hop in a Glaive Thrower"] = {
+    ["Get in a Glaive Thrower"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Steige in einen Glevenwerfer",
@@ -230,7 +230,7 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Hop on a Hippogryph"] = {
+    ["Get on a Hippogryph"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Steige auf einen Hippogryphen",

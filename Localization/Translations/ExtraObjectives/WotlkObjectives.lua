@@ -3302,7 +3302,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Hop on the turret"] = { -- 13309
+    ["Get on the turret"] = { -- 13309
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,

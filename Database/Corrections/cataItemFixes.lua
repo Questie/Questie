@@ -118,6 +118,9 @@ function CataItemFixes.Load()
         [46858] = { -- Personal Riches
             [itemKeys.objectDrops] = {195525},
         },
+        [46896] = { -- Salvaged Supplies
+            [itemKeys.npcDrops] = {},
+        },
         [47044] = { -- Shiny Bling
             [itemKeys.vendors] = {35120},
         },
@@ -183,6 +186,7 @@ function CataItemFixes.Load()
         },
         [49881] = { -- Slaver's Key
             [itemKeys.class] = itemClasses.QUEST,
+            [itemKeys.npcDrops] = {37701},
         },
         [49921] = { -- Unearthed Memento
             [itemKeys.npcDrops] = {},
