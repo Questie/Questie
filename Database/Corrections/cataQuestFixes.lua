@@ -3034,8 +3034,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26698},
         },
         [26706] = { -- Endgame
-            [questKeys.objectives] = {},
-            [questKeys.triggerEnd] = {"Gunship destroyed",{[zoneIDs.GILNEAS]={{42.4,29.2}}}},
+            [questKeys.objectives] = {{{43729,"Gunship destroyed",Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get on a Hippogryph"), 0, {{"monster", 43747}}}},
         },
         [26710] = { -- Lost In The Deeps

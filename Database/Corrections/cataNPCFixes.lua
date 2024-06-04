@@ -699,6 +699,9 @@ function CataNpcFixes.Load()
         [43006] = { -- Rhyanda
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.39,35.53}}},
         },
+        [43729] = { -- Finale Credit
+            [npcKeys.spawns] = {[zoneIDs.GILNEAS] = {{56.37,16.16}}},
+        },
         [43792] = { -- Therazane
             [npcKeys.questStarts] = {26709,28824},
         },
