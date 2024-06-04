@@ -922,6 +922,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{48323},{34890,nil,Questie.ICON_TYPE_EVENT},{34892,nil,Questie.ICON_TYPE_EVENT},{34954,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.childQuests] = {28606},
         },
+        [14078] = { -- Lockdown!
+            [questKeys.requiredClasses] = classKeys.WARRIOR + classKeys.HUNTER + classKeys.ROGUE + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
+        },
         [14094] = { -- Salvage the Supplies
             [questKeys.preQuestSingle] = {14078},
         },
