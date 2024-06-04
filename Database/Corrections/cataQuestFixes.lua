@@ -1225,6 +1225,9 @@ function CataQuestFixes.Load()
         [24456] = { -- Thunderhorn Cleansing
             [questKeys.triggerEnd] = {"Cleanse the Thunderhorn Water Well",{[zoneIDs.MULGORE] = {{44.8,45.56}}}},
         },
+        [24457] = { -- Rite of Vision
+            [questKeys.nextQuestInChain] = 20441,
+        },
         [24459] = { -- Morin Cloudstalker
             [questKeys.nextQuestInChain] = 749,
         },
@@ -1310,13 +1313,14 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 837}}}},
             [questKeys.requiredRaces] = raceKeys.DWARF,
         },
-        [24457] = { -- Rite of Vision
-            [questKeys.nextQuestInChain] = 20441,
-        },
         [24575] = { -- Liberation Day
             [questKeys.requiredSourceItems] = {49881},
             [questKeys.objectives] = {{{37694,"Enslaved Gilnean freed",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Unlock the Ball and Chain"),0,{{"object",205098}}}},
+        },
+        [24593] = { -- Neither Human Nor Beast
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24646,24628},
         },
         [24612] = { -- A Gift for the Emissary of Orgrimmar
             [questKeys.finishedBy] = {{39605}},
