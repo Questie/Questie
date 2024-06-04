@@ -1698,6 +1698,7 @@ function QuestieQuestBlacklist:Load()
         [29100] = true, -- Bwemba's Spirit
         [29102] = true, -- To Fort Livingston
         [29153] = true, -- Booty Bay's Interests
+        [29156] = true, -- The Troll Incursion
         [29157] = true, -- The Zandalari Menace
         [29158] = true, -- The Zandalar Representative
         [29172] = true, -- The Beasts Within
