@@ -2428,7 +2428,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 26065,
         },
         [26065] = { -- Free Wil'hai
-            [questKeys.preQuestSingle] = {25987,},
+            [questKeys.preQuestSingle] = {26080},
         },
         [26068] = { -- Kobold Fury!
             [questKeys.objectives] = {nil,{{203446}}},
