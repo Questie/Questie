@@ -3458,8 +3458,8 @@ function CataQuestFixes.Load()
         [27302] = { -- Simple Solutions
             [questKeys.preQuestSingle] = {27299},
         },
-        [27366] = { -- Landgrab
-            [questKeys.preQuestSingle] = {27338},
+        [27317] = { -- The Rattle of Bones
+            [questKeys.preQuestSingle] = {},
         },
         [27337] = { -- A Fitting Weapon
             [questKeys.startedBy] = {{914}},
@@ -3480,6 +3480,9 @@ function CataQuestFixes.Load()
         },
         [27356] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
+        },
+        [27366] = { -- Landgrab
+            [questKeys.preQuestSingle] = {27338},
         },
         [27369] = { -- Greasing the Wheel
             [questKeys.preQuestSingle] = {27368},
@@ -3962,6 +3965,9 @@ function CataQuestFixes.Load()
         [28250] = { -- Thieving Little Pluckers
             [questKeys.objectives] = {nil,nil,nil,nil,{{{48040,48041,48043},48040,"Thieving plucker smashed"}}},
             [questKeys.preQuestSingle] = {28112},
+        },
+        [28284] = { -- What's that Rattle?
+            [questKeys.exclusiveTo] = {27317},
         },
         [28290] = { -- Meet with Grezz Ragefist
             [questKeys.exclusiveTo] = {27281,27365,28457},
