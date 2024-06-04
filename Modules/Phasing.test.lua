@@ -554,10 +554,10 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_LADY_NAZ_JAR_AT_TEMPLE))
         end)
 
-        it("should return true for Erunak Stonespeaker at Tenebrous Cavern before 25988 is complete", function()
+        it("should return true for Erunak Stonespeaker at Cavern before 25988 is complete", function()
             Questie.db.char.complete[25988] = false
 
-            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_TENEBROUS_CAVERN))
+            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_CAVERN))
             assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT))
         end)
 
@@ -565,7 +565,7 @@ describe("Phasing", function()
             Questie.db.char.complete[25988] = true
 
             assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT))
-            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_TENEBROUS_CAVERN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_CAVERN))
         end)
     end)
 

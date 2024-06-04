@@ -939,7 +939,7 @@ function CataNpcFixes:LoadFactionFixes()
         },
         [41600] = { -- Erunak Stonespeaker
             [npcKeys.spawns] = {
-                [zoneIDs.ABYSSAL_DEPTHS] = {{51.57,60.9,phases.VASHJIR_ERANUK_AT_TENEBROUS_CAVERN}},
+                [zoneIDs.ABYSSAL_DEPTHS] = {{51.57,60.9,phases.VASHJIR_ERANUK_AT_CAVERN}},
                 [zoneIDs.ABYSSAL_DEPTHS] = {{42.69,37.91,phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT}},
             },
         },
@@ -1049,7 +1049,7 @@ function CataNpcFixes:LoadFactionFixes()
         },
         [41600] = { -- Erunak Stonespeaker
             [npcKeys.spawns] = {
-                [zoneIDs.ABYSSAL_DEPTHS] = {{55.6,72.8,phases.VASHJIR_ERANUK_AT_TENEBROUS_CAVERN}},
+                [zoneIDs.ABYSSAL_DEPTHS] = {{55.6,72.8,phases.VASHJIR_ERANUK_AT_CAVERN}},
                 [zoneIDs.ABYSSAL_DEPTHS] = {{42.69,37.91,phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT}},
             },
         },
