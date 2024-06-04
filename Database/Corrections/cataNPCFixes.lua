@@ -660,11 +660,6 @@ function CataNpcFixes.Load()
         [41476] = { -- Naz'jar Honor Guard
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.33,78.57}}},
         },
-        [41600] = { -- Erunak Stonespeaker
-            [npcKeys.spawns] = {
-                [zoneIDs.ABYSSAL_DEPTHS] = {{51.57,60.9}},
-            },
-        },
         [41636] = { -- Legionnaire Nazgrim
             [npcKeys.spawns] = {
                 [zoneIDs.ABYSSAL_DEPTHS] = {{42.66,37.82}},
@@ -844,6 +839,7 @@ end
 function CataNpcFixes:LoadFactionFixes()
     local npcKeys = QuestieDB.npcKeys
     local zoneIDs = ZoneDB.zoneIDs
+    local phases = Phasing.phases
 
     local npcFixesHorde = {
         --[[[15898] = {
@@ -940,6 +936,12 @@ function CataNpcFixes:LoadFactionFixes()
         [35071] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{74.14,10.52},{74.7,9.72},{74.15,9.14},{73.76,9.69}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [41600] = { -- Erunak Stonespeaker
+            [npcKeys.spawns] = {
+                [zoneIDs.ABYSSAL_DEPTHS] = {{51.57,60.9,phases.VASHJIR_ERANUK_AT_TENEBROUS_CAVERN}},
+                [zoneIDs.ABYSSAL_DEPTHS] = {{42.69,37.91,phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT}},
+            },
         },
         [42790] = { -- Bloodlord Mandokir
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{38.4,48.6}}},
@@ -1044,6 +1046,12 @@ function CataNpcFixes:LoadFactionFixes()
         [35071] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{66.87,8.97},{66.36,8.08},{67.31,8.2},{66.92,7.55}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [41600] = { -- Erunak Stonespeaker
+            [npcKeys.spawns] = {
+                [zoneIDs.ABYSSAL_DEPTHS] = {{55.6,72.8,phases.VASHJIR_ERANUK_AT_TENEBROUS_CAVERN}},
+                [zoneIDs.ABYSSAL_DEPTHS] = {{42.69,37.91,phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT}},
+            },
         },
         [42790] = { -- Bloodlord Mandokir
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{47.2,10.6}}},

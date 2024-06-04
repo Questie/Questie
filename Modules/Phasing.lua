@@ -86,6 +86,8 @@ local phases = {
     VASHJIR_NAR_SHOLA_TERRACE_WEST = 1014,
     VASHJIR_LADY_NAZ_JAR_AT_TEMPLE = 1015,
     VASHJIR_LADY_NAZ_JAR_AT_BRIDGE = 1016,
+    VASHJIR_ERANUK_AT_TENEBROUS_CAVERN = 1017,
+    VASHJIR_ERANUK_AT_PROMONTORY_POINT = 1018,
 }
 Phasing.phases = phases
 
@@ -160,6 +162,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.VASHJIR_LADY_NAZ_JAR_AT_BRIDGE then
         return (complete[25629] and complete[25896]) or false
+    end
+
+    if phase == phases.VASHJIR_ERANUK_AT_TENEBROUS_CAVERN then
+        return (not complete[25988])
+    end
+
+    if phase == phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT then
+        return complete[25988] or false
     end
 
     if phase >= phases.DRAGONMAW_PORT_CHAPTER_1 and phase <= phases.DRAGONMAW_PORT_CHAPTER_3 then
