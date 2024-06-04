@@ -510,6 +510,12 @@ function CataItemFixes.Load()
         [63027] = { -- Brazier Torch
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [63034] = { -- Dusty Prison Journal
+            [itemKeys.npcDrops] = {},
+        },
+        [63315] = { -- Cellblock Rations
+            [itemKeys.npcDrops] = {47550},
+        },
         [63333] = { -- Obsidian Piston
             [itemKeys.npcDrops] = {7039},
         },
