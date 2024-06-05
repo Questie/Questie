@@ -887,23 +887,40 @@ function CataQuestFixes.Load()
         [13998] = { -- In Fungus We Trust
             [questKeys.triggerEnd] = {"Fungal Culture Planted",{[zoneIDs.THE_BARRENS] = {{55.1,80.4},{57,78.9},{57.7,81.1}}}},
         },
-        [14008] = { -- Frost Nova
+        [14007] = { -- Steady Shot
+            [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{56641}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 34673}}}},
+        },
+        [14008] = { -- Arcane Missiles
             [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{5143}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 34689}}}},
         },
         [14009] = { -- Flash Heal
-            [questKeys.objectives] = {{{48305}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.objectives] = {{{48305,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 34692}}}},
         },
         [14010] = { -- Eviscerate
-            [questKeys.objectives] = {{{48305}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{2098}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Eviscerate"), 2, {{"monster", 34693}}}},
         },
         [14011] = { -- Primal Strike
             [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{73899}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Primal Strike"), 2, {{"monster", 34695}}}},
         },
-        [14012] = { -- Corruption
+        [14012] = { -- Immolate
             [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{348}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Immolate"), 2, {{"monster", 34696}}}},
         },
         [14013] = { -- Charge
             [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{100}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 34697}}}},
         },
         [14019] = { -- Monkey Business
             [questKeys.objectives] = {{{34699}}},
@@ -921,6 +938,7 @@ function CataQuestFixes.Load()
         [14071] = { -- Rolling with my Homies
             [questKeys.objectives] = {{{48323},{34890,nil,Questie.ICON_TYPE_EVENT},{34892,nil,Questie.ICON_TYPE_EVENT},{34954,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.childQuests] = {28606},
+            [questKeys.startedBy] = {{34874}},
         },
         [14078] = { -- Lockdown!
             [questKeys.requiredClasses] = classKeys.WARRIOR + classKeys.HUNTER + classKeys.ROGUE + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
