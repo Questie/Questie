@@ -513,6 +513,9 @@ function CataItemFixes.Load()
         [63034] = { -- Dusty Prison Journal
             [itemKeys.npcDrops] = {},
         },
+        [63149] = { -- Cursed Shackles
+            [itemKeys.npcDrops] = {},
+        },
         [63315] = { -- Cellblock Rations
             [itemKeys.npcDrops] = {47550},
         },
