@@ -5024,6 +5024,10 @@ function CataQuestFixes.Load()
         [29642] = { -- Trouble at Auchindoun
             [questKeys.exclusiveTo] = {10177},
         },
+        [29692] = { -- Bring Me Another Shrubbery!
+            [questKeys.preQuestSingle] = {29691},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [29829] = { -- Discretion is Key
             [questKeys.exclusiveTo] = {29830},
         },
