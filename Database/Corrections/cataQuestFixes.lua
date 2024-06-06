@@ -5021,6 +5021,9 @@ function CataQuestFixes.Load()
         [29539] = { -- Heart of Rage
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.THE_BLOOD_FURNACE]={{64.9,41.5}}}},
         },
+        [29642] = { -- Trouble at Auchindoun
+            [questKeys.exclusiveTo] = {10177},
+        },
         [29829] = { -- Discretion is Key
             [questKeys.exclusiveTo] = {29830},
         },
