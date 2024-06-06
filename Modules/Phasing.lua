@@ -88,6 +88,10 @@ local phases = {
     VASHJIR_LADY_NAZ_JAR_AT_BRIDGE = 1016,
     VASHJIR_ERANUK_AT_CAVERN = 1017,
     VASHJIR_ERANUK_AT_PROMONTORY_POINT = 1018,
+    KEZAN_SASSY_IN_HQ = 1019,
+    KEZAN_SASSY_OUTSIDE_HQ = 1020,
+    KEZAN_GALLYWIX_AT_HQ = 1021,
+    KEZAN_GALLYWIX_ON_BOAT = 1022,
 }
 Phasing.phases = phases
 
@@ -250,6 +254,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.ILTHALAINE_AT_ROAD then
         return (complete[28715] or questLog[28715] and true) or false
+    end
+
+    if phase == phases.KEZAN_SASSY_IN_HQ then
+        return (not complete[14116])
+    end
+
+    if phase == phases.KEZAN_SASSY_OUTSIDE_HQ then
+        return complete[14116] or false
+    end
+
+    if phase == phases.KEZAN_GALLYWIX_AT_HQ then
+        return (not complete[14120])
+    end
+
+    if phase == phases.KEZAN_GALLYWIX_ON_BOAT then
+        return complete[14120] or false
     end
 
     return false

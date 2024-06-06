@@ -124,6 +124,26 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_6))
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_7))
         end)
+
+        it("should handle Sassy Hardwrench positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.KEZAN_SASSY_IN_HQ))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_SASSY_OUTSIDE_HQ))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[14116] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_SASSY_IN_HQ))
+            assert.is_true(Phasing.IsSpawnVisible(phases.KEZAN_SASSY_OUTSIDE_HQ))
+        end)
+
+        it("should handle Trade Prince Gallywix positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.KEZAN_GALLYWIX_AT_HQ))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_GALLYWIX_ON_BOAT))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[14120] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_GALLYWIX_AT_HQ))
+            assert.is_true(Phasing.IsSpawnVisible(phases.KEZAN_GALLYWIX_ON_BOAT))
+        end)
     end)
 
     describe("The Lost Isles", function()

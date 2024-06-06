@@ -12,6 +12,7 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+QuestieCorrections.objectObjectiveFirst[14125] = true
 QuestieCorrections.objectObjectiveFirst[24817] = true
 QuestieCorrections.objectObjectiveFirst[25371] = true
 QuestieCorrections.objectObjectiveFirst[25731] = true
@@ -887,6 +888,10 @@ function CataQuestFixes.Load()
         [13998] = { -- In Fungus We Trust
             [questKeys.triggerEnd] = {"Fungal Culture Planted",{[zoneIDs.THE_BARRENS] = {{55.1,80.4},{57,78.9},{57.7,81.1}}}},
         },
+        [14001] = { -- Goblin Escape Pods
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{34748,35649},34748,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Open the Goblin Escape Pod"), 2, {{"object", 195188}}}},
+        },
         [14007] = { -- Steady Shot
             [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{56641}}},
             [questKeys.preQuestSingle] = {},
@@ -935,6 +940,9 @@ function CataQuestFixes.Load()
         [14069] = { -- Good Help is Hard to Find
             [questKeys.objectives] = {{{34830,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [14070] = { -- Do it Yourself
+            [questKeys.sourceItemId] = 46856,
+        },
         [14071] = { -- Rolling with my Homies
             [questKeys.objectives] = {{{48323},{34890,nil,Questie.ICON_TYPE_EVENT},{34892,nil,Questie.ICON_TYPE_EVENT},{34954,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.childQuests] = {28606},
@@ -957,24 +965,45 @@ function CataQuestFixes.Load()
         [14109] = { -- The New You
             [questKeys.requiredSourceItems] = {47044},
             [questKeys.exclusiveTo] = {14110},
+            [questKeys.sourceItemId] = 46856,
         },
         [14110] = { -- The New You
             [questKeys.requiredSourceItems] = {47044},
             [questKeys.exclusiveTo] = {14109},
+            [questKeys.sourceItemId] = 46856,
         },
         [14113] = { -- Life of the Party
             [questKeys.preQuestSingle] = {14109},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{35186,35175},35175,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [14115] = { -- Pirate Party Crashers
+            [questKeys.sourceItemId] = 46856,
         },
         [14121] = { -- Robbing Hoods
             [questKeys.childQuests] = {28607},
+            [questKeys.sourceItemId] = 46856,
         },
         [14122] = { -- The Great Bank Heist
             [questKeys.startedBy] = {{34668}},
+            [questKeys.sourceItemId] = 46856,
+            [questKeys.objectives] = {{{35486,nil,Questie.ICON_TYPE_EVENT}},nil,{{46858}}},
+        },
+        [14123] = { -- Waltz Right In
+            [questKeys.sourceItemId] = 46856,
+        },
+        [14124] = { -- Liberate the Kaja'mite
+            [questKeys.requiredSourceItems] = {46856,48768},
         },
         [14125] = { -- 447
             [questKeys.startedBy] = {{34668}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14121,14122,14123,14124},
+            [questKeys.objectives] = {{{37598,nil,Questie.ICON_TYPE_EVENT}},{{201734},{201733},{201735}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Activate Gasbot after preparing the Headquarters"),0,{{"object",201736}}}},
+        },
+        [14126] = { -- Life Savings
+            [questKeys.sourceItemId] = 46856,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Get on the yacht"),0,{{"object",207355}}}},
         },
         [14127] = { -- Return of the Highborne?
             [questKeys.startedBy] = {{35095},nil,{47039}},
@@ -985,6 +1014,7 @@ function CataQuestFixes.Load()
         },
         [14153] = { -- Life of the Party
             [questKeys.preQuestSingle] = {14110},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{35186,35175},35175,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [14154] = { -- By the Skin of His Teeth
             [questKeys.triggerEnd] = {"Survive while holding back the worgen for 2 minutes",{[zoneIDs.GILNEAS_CITY] = {{55.1,62.7}}}},
@@ -1285,10 +1315,15 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.DWARF,
         },
         [24502] = { -- Necessary Roughness
-            [questKeys.objectives] = {{{48526},{37114}}},
+            [questKeys.objectives] = {{{48526,nil,Questie.ICON_TYPE_MOUNT_UP},{37114}}},
+            [questKeys.finishedBy] = {{100005}},
         },
         [24503] = { -- Fourth and Goal
             [questKeys.objectives] = {{{37203,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.startedBy] = {{37106,100006}},
+        },
+        [24520] = { -- Give Sassy the News
+            [questKeys.sourceItemId] = 46856,
         },
         [24524] = { -- Wildmane Cleansing
             [questKeys.triggerEnd] = {"Cleanse the Wildmane Well",{[zoneIDs.MULGORE] = {{43.18,16.09}}}},
@@ -1330,6 +1365,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44405,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 837}}}},
             [questKeys.requiredRaces] = raceKeys.DWARF,
+        },
+        [24567] = { -- Report for Tryouts
+            [questKeys.sourceItemId] = 46856,
         },
         [24575] = { -- Liberation Day
             [questKeys.requiredSourceItems] = {49881},
@@ -3066,9 +3104,11 @@ function CataQuestFixes.Load()
         },
         [26711] = { -- Off to the Bank (female)
             [questKeys.exclusiveTo] = {26712},
+            [questKeys.sourceItemId] = 46856,
         },
         [26712] = { -- Off to the Bank (male)
             [questKeys.exclusiveTo] = {26711},
+            [questKeys.sourceItemId] = 46856,
         },
         [26717] = { -- The Yorgen Worgen
             [questKeys.preQuestSingle] = {26785},
@@ -4050,6 +4090,8 @@ function CataQuestFixes.Load()
         },
         [28414] = { -- Fourth and Goal
             [questKeys.objectives] = {{{37203,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.startedBy] = {{37106,100006}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 48526}}}},
         },
         [28459] = { -- Stones of Binding
             [questKeys.finishedBy] = {{3326}},

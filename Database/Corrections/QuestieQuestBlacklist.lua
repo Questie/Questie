@@ -1583,6 +1583,10 @@ function QuestieQuestBlacklist:Load()
         [13407] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13427] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13428] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [14114] = QuestieCorrections.CATA_HIDE, -- Hidden quest in cata
+        [14137] = QuestieCorrections.CATA_HIDE, -- Hidden quest in cata
+        [14139] = QuestieCorrections.CATA_HIDE, -- Hidden quest in cata
+        [14158] = QuestieCorrections.CATA_HIDE, -- Hidden quest in cata
         [14163] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [14164] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [14178] = QuestieCorrections.CATA_HIDE, -- Removed with cata
