@@ -31,6 +31,9 @@ function CataItemFixes.Load()
         [18598] = { -- Human Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [18960] = { -- Lookout's Spyglass
+            [itemKeys.npcDrops] = {5840},
+        },
         [21145] = { -- Essence of Xandivious
             [itemKeys.npcDrops] = {},
         },
