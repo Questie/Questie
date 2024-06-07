@@ -2561,6 +2561,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26065},
             [questKeys.nextQuestInChain] = 26065,
         },
+        [26059] = { -- Eyes and Ears: Malaka'jin
+            [questKeys.preQuestSingle] = {26115},
+        },
         [26065] = { -- Free Wil'hai
             [questKeys.preQuestSingle] = {26080},
         },
