@@ -23,6 +23,9 @@ function CataObjectFixes.Load()
         [144052] = { -- Sandsorrow Watch Water Hole
             [objectKeys.name] = "Sandsorrow Watch Water Hole",
         },
+        [154357] = {
+            [objectKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS]={{25.88,47.15},{23.94,49.78},{34.8,49.43},{32.07,51.94},{19.77,47.27},{27.09,50.94},{35.73,49.6},{35.71,49.6},{21.92,48.48}}},
+        },
         [181781] = { -- Axxarien Crystal
             [objectKeys.name] = "Axxarien Crystal",
         },
