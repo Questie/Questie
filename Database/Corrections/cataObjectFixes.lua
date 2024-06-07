@@ -32,6 +32,9 @@ function CataObjectFixes.Load()
         [195492] = { -- Kaja'mite Chunk
             [objectKeys.spawns] = {[zoneIDs.KEZAN]={{57.4,99.51},{60.23,99.83},{77.28,86.03},{78.67,84.77},{78.65,86.94},{80.2,89.35},{68.99,83.12},{64.46,83.48},{66.56,84.01},{66.03,87.42},{67.22,77.64},{69.64,79.33},{77.22,85.91},{63.89,92.22},{63.87,89.37},{63.38,95.11},{72.87,72.8},{72.24,69.93},{72.17,75.36},{74.68,71.35},{72.28,85.55},{73.59,69.35},{70.44,87.2},{73.92,84.08},{72.72,80.01},{72.65,78.12},{71.13,76.9}}},
         },
+        [195622] = { -- Kaja'mite Ore
+            [objectKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{31.76,73.52}}},
+        },
         [196472] = { -- Grandma's Good Clothes
             [objectKeys.spawns] = {[zoneIDs.GILNEAS]={{32.03,75.45}}},
         },
@@ -41,11 +44,14 @@ function CataObjectFixes.Load()
                 [zoneIDs.ORGRIMMAR] = {{50.9,37.9}},
             }
         },
-        [201974] = { -- Raptor Trap
-            [objectKeys.spawns] = {},
+        [201974] = { -- Raptor Egg
+            [objectKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{47.32,74.75},{53.56,72.47},{50.67,74.99},{48.78,75.77},{50.19,73.17},{47.74,72.83},{49.24,73.88},{46.7,71.89},{52.34,69.56},{52.9,68.11},{53.43,70.49},{50.64,68.34},{50.46,69.96},{49.07,62.85},{50.19,63.86},{50.25,65.79},{49.33,64.54},{51.54,65.54},{51.7,67.45},{49.67,69.15},{47.63,68.45},{45.93,69.88},{48.47,67.66},{47.67,70.16}}},
+        },
+        [202574] = { -- Blastshadow's Soulstone
+            [objectKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{55.36,31.64},{55.52,31.87},{55.23,33.08},{53.69,37.14}}},
         },
         [201977] = { -- The Biggest Egg Ever
-            [objectKeys.spawns] = {},
+            [objectKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{43.78,56.02}}},
         },
         [203092] = { -- Portal Rune - Fully added here, because we don't scrape "objectType = button" objects
             [objectKeys.name] = "Portal Rune",

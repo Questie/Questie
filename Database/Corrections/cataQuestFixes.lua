@@ -928,11 +928,15 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 34697}}}},
         },
         [14019] = { -- Monkey Business
-            [questKeys.objectives] = {{{34699}}},
+            [questKeys.objectives] = {{{34699,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {14001},
         },
         [14021] = { -- Miner Troubles
             [questKeys.triggerEnd] = {"Kaja'mite Ore mining a success!",{[zoneIDs.THE_LOST_ISLES] = {{31.9,73.6}}}},
+            [questKeys.objectives] = {nil,{{195622,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [14031] = { -- Capturing the Unknown
+            [questKeys.objectives] = {{{37872,nil,Questie.ICON_TYPE_EVENT},{37895,nil,Questie.ICON_TYPE_EVENT},{37896,nil,Questie.ICON_TYPE_EVENT},{37897,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [14066] = { -- Investigate the Wreckage
             [questKeys.triggerEnd] = {"Caravan Scene Searched",{[zoneIDs.THE_BARRENS] = {{59.2,67.5}}}},
@@ -1012,6 +1016,9 @@ function CataQuestFixes.Load()
         [14135] = { -- Up a Tree
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Cut down the tree"),0,{{"monster",35162}}}},
         },
+        [14138] = { -- Taking Care of Business
+            [questKeys.requiredClasses] = classKeys.WARRIOR + classKeys.HUNTER + classKeys.ROGUE + classKeys.PRIEST + classKeys.SHAMAN + classKeys.MAGE + classKeys.WARLOCK, -- no DKs for goblin starter quests
+        },
         [14153] = { -- Life of the Party
             [questKeys.preQuestSingle] = {14110},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{35186,35175},35175,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -1066,6 +1073,9 @@ function CataQuestFixes.Load()
         [14234] = { -- The Enemy of My Enemy
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14031,14233},
+        },
+        [14242] = { -- Precious Cargo
+            [questKeys.objectives] = {{{36145,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [14244] = { -- Up, Up & Away!
             [questKeys.objectives] = {nil,{{196439}}},
@@ -1430,7 +1440,7 @@ function CataQuestFixes.Load()
         },
         [24671] = { -- Cluster Cluck
             [questKeys.objectives] = {{{38111}}},
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {14245},
         },
         [24676] = { -- Push Them Out
             [questKeys.preQuestSingle] = {},
@@ -1444,6 +1454,12 @@ function CataQuestFixes.Load()
         },
         [24681] = { -- They Have Allies, But So Do We
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in a Glaive Thrower"),0,{{"monster",38150}}}},
+        },
+        [24741] = { -- Trading Up
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Place the Wild Clucker Eggs in the trap"),0,{{"object",201972}}}},
+        },
+        [24744] = { -- The Biggest Egg Ever
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Mechachicken"),0,{{"monster",38224}}}},
         },
         [24751] = { -- The Basics: Hitting Things
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -1586,7 +1602,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {24858,24859},
         },
         [24901] = { -- Town-In-A-Box: Under Attack
-            [questKeys.objectives] = {{{38526}}},
+            [questKeys.objectives] = {{{38531}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get on the B.C. Eliminator"),0,{{"monster",38526}}}},
         },
         [24902] = { -- The Hunt For Sylvanas
             [questKeys.triggerEnd] = {"Hunt for Sylvanas",{[zoneIDs.GILNEAS_CITY] = {{44.9,52.3}}}},
@@ -1598,6 +1615,10 @@ function CataQuestFixes.Load()
         [24920] = { -- Slowing the Inevitable
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get on the Captured Riding Bat"),0,{{"monster",38615}}}},
         },
+        [24925] = { -- Free the Captives
+            [questKeys.objectives] = {{{38643,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Oomlot Shaman"),0,{{"monster",38644}}}},
+        },
         [24930] = { -- While You're At It
             [questKeys.startedBy] = {{35115}},
             [questKeys.preQuestSingle] = {14285,14286,14287,14288,14289,14290,14291},
@@ -1608,6 +1629,7 @@ function CataQuestFixes.Load()
         },
         [24942] = { -- Zombies vs. Super Booster Rocket Boots
             [questKeys.objectives] = {nil,nil,nil,nil,{{{38753,38813,38815,38816},38813,"Goblin Zombies slain"}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_LOST_ISLES] = {{51.8,47.11}}},Questie.ICON_TYPE_EVENT,l10n("Use Super Booster Rocket Boots in the vicinity of Coach Crosscheck")}},
         },
         [24945] = { -- Three Little Pygmies
             [questKeys.preQuestSingle] = {24940},
@@ -1615,6 +1637,7 @@ function CataQuestFixes.Load()
         [24952] = { -- Rocket Boot Boost
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24942,24945,24946},
+            [questKeys.objectives] = {{{38842,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24958] = { -- Volcanoth!
             [questKeys.objectives] = {{{38855}}},
@@ -1666,6 +1689,11 @@ function CataQuestFixes.Load()
         [25064] = { -- Moraya
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [25066] = { -- The Pride of Kezan
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25024,25058,25093},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Sassy Hardwrench"), 0, {{"monster", 38387}}}},
+        },
         [25073] = { -- Sen'jin Village
             [questKeys.exclusiveTo] = {25133},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -1679,10 +1707,17 @@ function CataQuestFixes.Load()
         },
         [25122] = { -- Morale Boost
             [questKeys.requiredSourceItems] = {52484},
+            [questKeys.objectives] = {{{38441,nil,Questie.ICON_TYPE_INTERACT},{38647,nil,Questie.ICON_TYPE_INTERACT},{38746,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,{{{38745,38409},38409,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.exclusiveTo] = {},
         },
         [25123] = { -- Throw It On the Ground!
             [questKeys.objectives] = {{{39194}}},
             [questKeys.requiredSourceItems] = {52481},
+            [questKeys.exclusiveTo] = {},
+        },
+        [25125] = { -- Light at the End of the Tunnel
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25122,25123},
         },
         [25129] = { -- Sarkoth
             [questKeys.preQuestSingle] = {},
@@ -1762,6 +1797,9 @@ function CataQuestFixes.Load()
         [25171] = { -- Riding On
             [questKeys.preQuestSingle] = {25169},
         },
+        [25184] = { -- Wild Mine Cart Ride
+            [questKeys.objectives] = {{{39335,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [25187] = { -- Lost in the Floods
             [questKeys.preQuestSingle] = {},
         },
@@ -1787,11 +1825,13 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 25188,
         },
         [25202] = { -- The Fastest Way to His Heart
-            [questKeys.preQuestSingle] = {25213},
-            [questKeys.exclusiveTo] = {25243},
+            [questKeys.preQuestGroup] = {25200,25201},
+            [questKeys.exclusiveTo] = {25203},
         },
         [25203] = { -- What Kind of Name is Chip, Anyway?
-            [questKeys.exclusiveTo] = {25244},
+            [questKeys.preQuestGroup] = {25200,25201},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {25202},
         },
         [25204] = { -- Release the Valves
             [questKeys.preQuestSingle] = {},
@@ -1803,6 +1843,9 @@ function CataQuestFixes.Load()
         [25213] = { -- The Slave Pits
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25203,25207},
+        },
+        [25214] = { -- Escape Velocity
+            [questKeys.objectives] = {{{39456,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25215] = { -- A Distracting Scent
             [questKeys.preQuestSingle] = {25222},
@@ -1830,12 +1873,13 @@ function CataQuestFixes.Load()
         [25234] = { -- In the Rear With the Gear
             [questKeys.preQuestSingle] = {25584},
         },
-        [25243] = { -- She Loves Me, She Loves Me NOT!
-            [questKeys.exclusiveTo] = {25202},
-        },
         [25244] = { -- What Kind of Name is Candy, Anyway?
-            [questKeys.preQuestSingle] = {25243},
-            [questKeys.exclusiveTo] = {25203},
+            [questKeys.preQuestSingle] = {25213},
+        },
+        [25251] = { -- Final Confrontation
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25214,25243 or 25244},
+            [questKeys.objectives] = {{{39592,nil,Questie.ICON_TYPE_INTERACT},{39582}}},
         },
         [25266] = { -- Warchief's Emissary
             [questKeys.finishedBy] = {{39609}},

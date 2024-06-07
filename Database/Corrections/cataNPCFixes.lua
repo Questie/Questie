@@ -389,6 +389,15 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [36471] = { -- Foreman Dampwick
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_LOST_ISLES] = {
+                    {45.36,64.75,phases.LOST_ISLES_CHAPTER_4},
+                    {45.36,64.75,phases.LOST_ISLES_CHAPTER_5},
+                    {51.85,47.2,phases.LOST_ISLES_CHAPTER_7},
+                },
+            },
+        },
         [36600] = { -- Geargrinder Gizmo
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{24.65,77.95}}},
         },
@@ -398,6 +407,10 @@ function CataNpcFixes.Load()
         [36644] = { -- Ahmo Thunderhorn
             [npcKeys.questStarts] = {24459,14438,14491},
             [npcKeys.questEnds] = {24215,14438,14491},
+        },
+        [36682] = { -- The Hammer
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{41.93,65.96}}},
+            [npcKeys.waypoints] = {[zoneIDs.THE_LOST_ISLES] = {{{41.93,65.96},{41.47,66.06},{41.54,66.09},{40.64,66.37}}}},
         },
         [36743] = { -- King Genn Greymane
             [npcKeys.spawns] = {
@@ -443,6 +456,28 @@ function CataNpcFixes.Load()
         [38002] = { -- Swiftclaw
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{66.04,88.08}}},
         },
+        [38120] = { -- Hobart Grapplehammer
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_LOST_ISLES] = {
+                    {45.34,65.21,phases.LOST_ISLES_CHAPTER_5},
+                    {68.93,46.44,phases.LOST_ISLES_CHAPTER_7},
+                    {43.85,25.3,phases.LOST_ISLES_CHAPTER_9},
+                },
+            },
+        },
+        [38122] = { -- Bamm Megabomb
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{45.25,64.85}}},
+        },
+        [38124] = { -- Assistant Greely
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_LOST_ISLES] = {
+                    {45.27,65.57,phases.LOST_ISLES_CHAPTER_5},
+                    {51.72,47.38,phases.LOST_ISLES_CHAPTER_7},
+                    {53.16,36.55,phases.LOST_ISLES_CHAPTER_8},
+                    {54.39,16.93,phases.LOST_ISLES_CHAPTER_9},
+                },
+            },
+        },
         [38142] = { -- Captive Spitescale Scout
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{67.27,83.93},{65.28,83.52}}},
         },
@@ -462,6 +497,13 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [38224] = { -- Mechachicken
+            [npcKeys.waypoints] = {[zoneIDs.THE_LOST_ISLES]={{{43.76,56.00},{43.70,55.84},{43.63,55.63},{43.52,55.25},{43.56,54.83},{43.62,54.27},{43.63,54.23},{43.78,54.01},{43.91,53.84},{44.32,53.66},{44.42,53.78},{44.89,54.45},{45.02,54.65},{45.18,54.91},{45.20,54.97},{45.35,55.30},{45.48,55.61},{45.64,56.11},{45.57,56.39},{45.55,56.45},{45.27,56.86},{45.07,56.93},{44.81,56.98},{44.70,56.98},{44.46,56.92},{44.21,56.74},{44.07,56.54},{43.76,56.00}}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{43.78,56.02}}},
+        },
+        [38381] = { -- Brett "Coins" McQuid
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{52.2,73.22}}},
+        },
         [38387] = { -- Sassy Hardwrench
             [npcKeys.spawns] = {
                 [zoneIDs.THE_LOST_ISLES] = {
@@ -470,9 +512,30 @@ function CataNpcFixes.Load()
                     {45.18,64.9,phases.LOST_ISLES_CHAPTER_7},
                     {37.3,41.9,phases.LOST_ISLES_CHAPTER_8},
                     {43.63,25.32,phases.LOST_ISLES_CHAPTER_9},
-                    {42.57,16.38,phases.LOST_ISLES_CHAPTER_10},
+                    {43.63,25.32,phases.LOST_ISLES_CHAPTER_10},
                 },
             },
+        },
+        [38409] = { -- Goblin Survivor
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_LOST_ISLES] = {
+                    {54.81,34.49,phases.LOST_ISLES_CHAPTER_8},
+                    {53.03,36.86,phases.LOST_ISLES_CHAPTER_8},
+                    {54.03,34.47,phases.LOST_ISLES_CHAPTER_8},
+                    {53.93,37.43,phases.LOST_ISLES_CHAPTER_8},
+                    {56.85,35.68,phases.LOST_ISLES_CHAPTER_8},
+                    {54.26,37.19,phases.LOST_ISLES_CHAPTER_8},
+                    {53.66,36.65,phases.LOST_ISLES_CHAPTER_8},
+                    {55.26,36.65,phases.LOST_ISLES_CHAPTER_8},
+                    {55.94,35.57,phases.LOST_ISLES_CHAPTER_8},
+                    {53.62,37.39,phases.LOST_ISLES_CHAPTER_8},
+                    {56.85,35.68,phases.LOST_ISLES_CHAPTER_8},
+                    {55.69,32.97,phases.LOST_ISLES_CHAPTER_8},
+                },
+            },
+        },
+        [38432] = { -- Megs Dreadshredder
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{52.2,73.15}}},
         },
         [38437] = { -- Vanira
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{68.43,71.57}}},
@@ -480,8 +543,19 @@ function CataNpcFixes.Load()
         [38440] = { -- Tortunga
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{67.97,89.03}}},
         },
+        [38441] = { -- Ace
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_LOST_ISLES] = {
+                    {56.99,37.14,phases.LOST_ISLES_CHAPTER_8},
+                    {54.16,17.2,phases.LOST_ISLES_CHAPTER_9},
+                },
+            },
+        },
         [38442] = { -- Morakki
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{67.96,74.08}}},
+        },
+        [38517] = { -- Slinky Sharpshiv
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{53.72,34.93}}},
         },
         [38553] = { -- Krennan Aranas
             [npcKeys.spawns] = {
@@ -507,6 +581,59 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [38647] = { -- Izzy
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_LOST_ISLES] = {
+                    {56.56,71.95,phases.LOST_ISLES_CHAPTER_6},
+                    {56.56,71.95,phases.LOST_ISLES_CHAPTER_7},
+                    {57.01,35.03,phases.LOST_ISLES_CHAPTER_8},
+                    {54.01,16.98,phases.LOST_ISLES_CHAPTER_9},
+                },
+            },
+        },
+        [38696] = { -- Yngwie
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{62.91,68.56}}},
+        },
+        [38738] = { -- Coach Crosscheck
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_LOST_ISLES] = {
+                    {51.8,47.1,phases.LOST_ISLES_CHAPTER_7},
+                    {54.44,16.93,phases.LOST_ISLES_CHAPTER_9},
+                },
+            },
+        },
+        [38745] = { -- Kezan Citizen
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_LOST_ISLES] = {
+                    {54.36,35.1,phases.LOST_ISLES_CHAPTER_8},
+                    {54.09,36.2,phases.LOST_ISLES_CHAPTER_8},
+                    {56.81,33.02,phases.LOST_ISLES_CHAPTER_8},
+                    {56.49,31.61,phases.LOST_ISLES_CHAPTER_8},
+                    {56.77,32.11,phases.LOST_ISLES_CHAPTER_8},
+                    {56.77,32.11,phases.LOST_ISLES_CHAPTER_8},
+                    {56.79,34.77,phases.LOST_ISLES_CHAPTER_8},
+                    {55.42,31.06,phases.LOST_ISLES_CHAPTER_8},
+                    {55.8,31.92,phases.LOST_ISLES_CHAPTER_8},
+                    {56.61,33.43,phases.LOST_ISLES_CHAPTER_8},
+                    {56.54,33.86,phases.LOST_ISLES_CHAPTER_8},
+                    {56.15,32.55,phases.LOST_ISLES_CHAPTER_8},
+                    {54.95,32.16,phases.LOST_ISLES_CHAPTER_8},
+                    {56.32,37.03,phases.LOST_ISLES_CHAPTER_8},
+                    {56.48,35.33,phases.LOST_ISLES_CHAPTER_8},
+                    {56.63,37.02,phases.LOST_ISLES_CHAPTER_8},
+                },
+            },
+        },
+        [38746] = { -- Gobber
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_LOST_ISLES] = {
+                    {57.05,32.15,phases.LOST_ISLES_CHAPTER_8},
+                },
+            },
+        },
+        [38842] = { -- Rocket Boot Boost Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{51.8,47.1}}},
+        },
         [38935] = { -- Thrall
             [npcKeys.spawns] = {
                 [zoneIDs.THE_LOST_ISLES] = {
@@ -526,8 +653,35 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [39066] = { -- Kilag Gorefang
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{33.79,38.78}}},
+        },
         [39096] = { -- Painmaster Thundrak
             [npcKeys.waypoints] = {[zoneIDs.ASHENVALE]={{{45.09,65.07},{44.87,65.16},{44.71,65.23},{44.62,65.15},{44.42,64.94},{44.32,64.84},{44.21,64.72},{44.18,64.68},{44.07,64.58},{43.88,64.38},{43.77,64.23},{43.66,64.08},{43.48,63.85},{43.46,63.82},{43.35,63.67},{43.33,63.65},{43.21,63.46},{43.12,63.36},{43.06,63.33},{42.92,63.45},{42.92,63.64},{42.93,63.75},{43.08,63.94},{43.19,63.94},{43.34,63.95},{43.44,63.98},{43.53,64.08},{43.61,64.16},{43.72,64.27},{43.91,64.47},{44.03,64.58},{44.18,64.75},{44.36,64.93},{44.39,64.96},{44.51,65.06},{44.58,65.14},{44.70,65.27},{44.86,65.30},{44.93,65.31},{45.13,65.28},{45.20,65.25},{45.34,65.19},{45.50,65.13},{45.57,65.11},{45.76,65.09},{45.90,65.07},{45.96,64.88},{45.97,64.67},{45.87,64.49},{45.77,64.52},{45.56,64.67},{45.46,64.85},{45.28,65.03},{45.22,65.05},{44.99,65.10}}}},
+        },
+        [39141] = { -- Commander Arrington
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{32.3,42.88}}},
+        },
+        [39142] = { -- Darkblade Cyn
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{33.44,27.88}}},
+        },
+        [39143] = { -- Alexi Silenthowl
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{30.81,33.93}}},
+        },
+        [39199] = { -- Assistant Greely
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{53.16,36.55}}},
+        },
+        [39335] = { -- Wild Mine Cart Ride Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{54.28,17.15}}},
+        },
+        [39341] = { -- Mine Cart
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{56.29,27.33}}},
+        },
+        [39363] = { -- Chip Endale
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{49.86,13.89}}},
+        },
+        [39426] = { -- Candy Cane
+            [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{39.69,27.17}}},
         },
         [39432] = { -- Takrik Ragehowl
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
