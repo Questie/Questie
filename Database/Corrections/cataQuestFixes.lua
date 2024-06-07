@@ -3500,6 +3500,9 @@ function CataQuestFixes.Load()
         [27063] = { -- Looming Threat
             [questKeys.finishedBy] = {{44837}},
         },
+        [27064] = { -- He's Holding Out on Us
+            [questKeys.triggerEnd] = {"Samuelson's Papers Examined by Anduin", {[zoneIDs.STORMWIND_CITY]={{80.2,62.3}}}},
+        },
         [27066] = { -- Healing in a Flash
             [questKeys.objectives] = {{{45199,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 37724}}}},
