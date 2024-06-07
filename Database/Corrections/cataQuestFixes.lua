@@ -4067,6 +4067,9 @@ function CataQuestFixes.Load()
         [28163] = { -- The Leftovers
             [questKeys.objectives] = {nil,nil,nil,nil,{{{47607,47608,47609,47610},47607},},},
         },
+        [28165] = { -- D-Block
+            [questKeys.exclusiveTo] = {28185,28186},
+        },
         [28167] = { -- Venomblood Antidote
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
@@ -4075,9 +4078,6 @@ function CataQuestFixes.Load()
         },
         [28170] = { -- Night Terrors
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Uchek"), 0, {{"monster", 47826}}}},
-        },
-        [28165] = { -- D-Block
-            [questKeys.exclusiveTo] = {28185,28186},
         },
         [28185] = { -- Svarnos
             [questKeys.exclusiveTo] = {28165,28186},
