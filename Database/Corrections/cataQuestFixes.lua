@@ -1076,6 +1076,11 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{35618}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in a cannon"),0,{{"monster",35317}}}},
         },
+        [14219] = { -- To the Hilt!
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.objectives] = {nil,{{195517}}},
+            [questKeys.requiredSourceItems] = {48943},
+        },
         [14222] = { -- Last Stand
             [questKeys.startedBy] = {{35566}},
         },
@@ -1140,6 +1145,11 @@ function CataQuestFixes.Load()
         [14348] = { -- You Can't Take 'Em Alone
             [questKeys.objectives] = {{{36231}}},
             [questKeys.requiredSourceItems] = {49202},
+        },
+        [14357] = { -- To the Hilt!
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.objectives] = {nil,{{195517}}},
+            [questKeys.requiredSourceItems] = {48943},
         },
         [14366] = { -- Holding Steady
             [questKeys.preQuestGroup] = {14347,14348},
