@@ -1295,6 +1295,9 @@ function CataNpcFixes:LoadFactionFixes()
         [42790] = { -- Bloodlord Mandokir
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{47.2,10.6}}},
         },
+        [43116] = { -- Pebble
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM]={{32.6,44.4}}},
+        },
     }
 
     if UnitFactionGroup("Player") == "Horde" then
