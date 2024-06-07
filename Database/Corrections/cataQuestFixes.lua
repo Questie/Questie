@@ -4098,6 +4098,15 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{48040,48041,48043},48040,"Thieving plucker smashed"}}},
             [questKeys.preQuestSingle] = {28112},
         },
+        [28353] = { -- Jonesy Sent For You
+            [questKeys.exclusiveTo] = {28271},
+        },
+        [28271] = { -- Reduced Productivity
+            [questKeys.preQuestSingle] = {},
+        },
+        [28272] = { -- Missing Pieces
+            [questKeys.preQuestSingle] = {},
+        },
         [28284] = { -- What's that Rattle?
             [questKeys.exclusiveTo] = {27317},
         },
