@@ -1261,6 +1261,9 @@ function CataQuestFixes.Load()
         [14473] = { -- It's Our Problem Now
             [questKeys.preQuestSingle] = {14001},
         },
+        [14477] = { -- Push the Button!
+            [questKeys.objectives] = {nil,{{184856}}},
+        },
         [14482] = { -- Call of Duty
             [questKeys.objectives] = {{{36915,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY] = {{18.3,25.5}}},Questie.ICON_TYPE_EVENT,l10n("Wait for the Mercenary Ship to arrive")}},
