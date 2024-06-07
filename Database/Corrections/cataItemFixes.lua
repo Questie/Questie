@@ -486,6 +486,9 @@ function CataItemFixes.Load()
         [62777] = { -- The Desert Fox
             [itemKeys.npcDrops] = {47201},
         },
+        [62789] = { -- Trooper Uniform
+            [itemKeys.npcDrops] = {47207},
+        },
         [62792] = { -- Well-preserved Idol
             [itemKeys.npcDrops] = {},
         },
