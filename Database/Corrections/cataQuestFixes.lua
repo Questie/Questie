@@ -4079,6 +4079,9 @@ function CataQuestFixes.Load()
         [28170] = { -- Night Terrors
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Uchek"), 0, {{"monster", 47826}}}},
         },
+        [28176] = { -- Following the Young Home
+            [questKeys.preQuestGroup] = {28173,28191},
+        },
         [28185] = { -- Svarnos
             [questKeys.exclusiveTo] = {28165,28186},
         },
