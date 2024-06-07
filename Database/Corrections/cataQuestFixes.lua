@@ -2053,6 +2053,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{39918},nil,{53053}},
             [questKeys.preQuestSingle] = {25558,25949},
         },
+        [25379] = { -- Taerar's Fall
+            [questKeys.objectives] = {{{39853}}},
+        },
         [25381] = { -- Fighting Fire With ... Anything
             [questKeys.preQuestSingle] = {25584},
         },
