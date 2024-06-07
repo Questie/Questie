@@ -3747,6 +3747,9 @@ function CataQuestFixes.Load()
         [27610] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
         },
+        [27621] = { -- Firebeard's Patrol
+            [questKeys.preQuestSingle] = {27545},
+        },
         [27622] = { -- Mo' Better Shredder
             [questKeys.objectives] = {{{46100},{46098}}},
             [questKeys.preQuestSingle] = {27611},
