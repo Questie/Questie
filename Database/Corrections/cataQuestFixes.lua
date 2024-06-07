@@ -3428,6 +3428,9 @@ function CataQuestFixes.Load()
         [26977] = { -- Twilight Investigation
             [questKeys.preQuestSingle] = {26960},
         },
+        [26997] = { -- The Usual Suspects
+            [questKeys.objectives] = {{{29152,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [27007] = { -- Silvermarsh Rendezvous
             [questKeys.triggerEnd] = {"Upper Silvermarsh reached", {[zoneIDs.DEEPHOLM]={{72.3,62.3}}}},
         },
