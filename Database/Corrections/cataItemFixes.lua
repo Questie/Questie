@@ -480,6 +480,9 @@ function CataItemFixes.Load()
         [62542] = { -- Mech Control Scrambler
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [62607] = { -- Titan Activation Device
+            [itemKeys.objectDrops] = {},
+        },
         [62608] = { -- Uldum Chest Key Code
             [itemKeys.class] = itemClasses.QUEST,
         },

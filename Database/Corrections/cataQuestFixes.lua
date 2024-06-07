@@ -3943,6 +3943,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25611,25612},
             [questKeys.exclusiveTo] = {25663,25985},
         },
+        [27901] = { -- They Don't Know What They've Got Here
+            [questKeys.requiredSourceItems] = {62608,62610},
+        },
         [27922] = { -- Traitors!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Hide behind Neferset Frond"), 0, {{"object", 206579}}}},
         },
