@@ -3712,6 +3712,9 @@ function CataQuestFixes.Load()
         [27519] = { -- Under the Choking Sands
             [questKeys.preQuestSingle] = {28135},
         },
+        [27538] = { -- The Perfect Poultice
+            [questKeys.preQuestSingle] = {27516},
+        },
         [27545] = { -- The Way is Open
             [questKeys.preQuestSingle] = {27537},
         },
