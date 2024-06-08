@@ -4026,6 +4026,9 @@ function CataQuestFixes.Load()
         [28149] = { -- Whispers in the Wind
             [questKeys.preQuestSingle] = {28133},
         },
+        [28163] = { -- The Leftovers
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{47607,47608,47609,47610},47607},},},
+        },
         [28167] = { -- Venomblood Antidote
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
@@ -4282,6 +4285,9 @@ function CataQuestFixes.Load()
         [28653] = { -- Shadow Priest Sarvis
             [questKeys.exclusiveTo] = {26801},
             [questKeys.requiredRaces] = raceKeys.UNDEAD,
+        },
+        [28659] = { -- The Leftovers
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{47595,47598,47599,47600},47595}}},
         },
         [28660] = { -- Clearing the Depths
             [questKeys.exclusiveTo] = {28661,28662},
