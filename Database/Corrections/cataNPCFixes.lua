@@ -945,6 +945,18 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{34.33,37.75}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
         },
+        [48039] = { -- Commander Stevens
+            [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{54.37,45.63}}},
+        },
+        [48061] = { -- 2nd Lieutenant Wansworth
+            [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{53.11,46.41}}},
+        },
+        [48066] = { -- Sergeant Parker
+            [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{54.56,46.34}}},
+        },
+        [48074] = { -- Marshal Fallows
+            [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{53.53,47.01}}},
+        },
         [48264] = { -- Golluck Rockfist
             [npcKeys.spawns] = {
                 [zoneIDs.TWILIGHT_HIGHLANDS] = {
