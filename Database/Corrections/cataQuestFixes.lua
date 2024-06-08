@@ -977,7 +977,8 @@ function CataQuestFixes.Load()
             [questKeys.sourceItemId] = 46856,
         },
         [14113] = { -- Life of the Party
-            [questKeys.preQuestSingle] = {14109},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {14109,24520},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{35186,35175},35175,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [14115] = { -- Pirate Party Crashers
@@ -1003,11 +1004,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14121,14122,14123,14124},
             [questKeys.objectives] = {{{37598,nil,Questie.ICON_TYPE_EVENT}},{{201734},{201733},{201735}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Activate Gasbot after preparing the Headquarters"),0,{{"object",201736}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Activate Gasbot after sabotaging the Headquarters"),0,{{"object",201736}}}},
         },
         [14126] = { -- Life Savings
             [questKeys.sourceItemId] = 46856,
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Get on the yacht"),0,{{"object",207355}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Get on the yacht"),0,{{"object",207355},{"object",201791}}}},
         },
         [14127] = { -- Return of the Highborne?
             [questKeys.startedBy] = {{35095},nil,{47039}},
@@ -1020,8 +1021,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredClasses] = classKeys.WARRIOR + classKeys.HUNTER + classKeys.ROGUE + classKeys.PRIEST + classKeys.SHAMAN + classKeys.MAGE + classKeys.WARLOCK, -- no DKs for goblin starter quests
         },
         [14153] = { -- Life of the Party
-            [questKeys.preQuestSingle] = {14110},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{35186,35175},35175,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {14110,24520},
         },
         [14154] = { -- By the Skin of His Teeth
             [questKeys.triggerEnd] = {"Survive while holding back the worgen for 2 minutes",{[zoneIDs.GILNEAS_CITY] = {{55.1,62.7}}}},
@@ -1072,7 +1074,7 @@ function CataQuestFixes.Load()
         },
         [14234] = { -- The Enemy of My Enemy
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {14031,14233},
+            [questKeys.preQuestGroup] = {14021,14031,14233},
         },
         [14242] = { -- Precious Cargo
             [questKeys.objectives] = {{{36145,nil,Questie.ICON_TYPE_EVENT}}},
@@ -1331,6 +1333,8 @@ function CataQuestFixes.Load()
         [24503] = { -- Fourth and Goal
             [questKeys.objectives] = {{{37203,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.startedBy] = {{37106,100006}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 48526}}}},
+            [questKeys.exclusiveTo] = {28414},
         },
         [24520] = { -- Give Sassy the News
             [questKeys.sourceItemId] = 46856,
@@ -4136,6 +4140,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{37203,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.startedBy] = {{37106,100006}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 48526}}}},
+            [questKeys.exclusiveTo] = {24503},
         },
         [28459] = { -- Stones of Binding
             [questKeys.finishedBy] = {{3326}},

@@ -1406,7 +1406,7 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Activate Gasbot after preparing the Headquarters"] = {
+    ["Activate Gasbot after sabotaging the Headquarters"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
