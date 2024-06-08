@@ -3239,10 +3239,11 @@ ZoneDB.private.zoneIDs = {
     BLACKROCK_CAVERNS = 4926,
     ULDUM = 5034,
     DEEPHOLM = 5042,
-    TOL_BARAD = 5095,
+    TOL_BARAD = 5095, -- the southern isle
     SHIMMERING_EXPANSE = 5144, -- Vashj'ir sub zone
     ABYSSAL_DEPTHS = 5145, -- Vashj'ir sub zone
     THE_CAPE_OF_STRANGLETHORN = 5287,
+    TOL_BARAD_PENINSULA = 5389, -- the northern isle
     DARKMOON_FAIRE_ISLAND = 5861,
 }
 
