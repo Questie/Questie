@@ -617,3 +617,26 @@ function CataItemFixes.Load()
         },
     }
 end
+
+-- This should allow manual fix for item availability
+function CataItemFixes:LoadFactionFixes()
+    local itemKeys = QuestieDB.itemKeys
+
+    local itemFixesHorde = {
+        [71034] = { -- Windswept Balloon
+            [itemKeys.objectDrops] = {209058},
+        },
+    }
+
+    local itemFixesAlliance = {
+        [71034] = { -- Windswept Balloon
+            [itemKeys.objectDrops] = {209242},
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return itemFixesHorde
+    else
+        return itemFixesAlliance
+    end
+end
