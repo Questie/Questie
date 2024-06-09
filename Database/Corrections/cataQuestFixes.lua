@@ -2876,12 +2876,7 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.preQuestSingle] = {24540},
             [questKeys.requiredRaces] = raceKeys.TAUREN,
-        },
-        [26398] = { -- Walk With The Earth Mother
-            [questKeys.startedBy] = {{36648}},
-            [questKeys.finishedBy] = {{39605}},
-            [questKeys.preQuestSingle] = {24540},
-            [questKeys.requiredRaces] = raceKeys.ALL_HORDE - raceKeys.TAUREN,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk with Tal"),0,{{"monster",2995}}}},
         },
         [26408] = { -- Ashes in Ashenvale
             [questKeys.preQuestSingle] = {13897},

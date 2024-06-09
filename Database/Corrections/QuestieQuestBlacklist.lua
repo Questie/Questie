@@ -1583,13 +1583,16 @@ function QuestieQuestBlacklist:Load()
         [745] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [746] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [747] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [748] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [750] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [752] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [753] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [754] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [755] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [756] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [757] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [758] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [759] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [760] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [762] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [763] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1608,6 +1611,7 @@ function QuestieQuestBlacklist:Load()
         [830] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [832] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [842] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [854] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [882] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [883] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [884] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1960,6 +1964,7 @@ function QuestieQuestBlacklist:Load()
         [25902] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [25903] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [26125] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26124
+        [26398] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [26565] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26588
         [26825] = QuestieCorrections.CATA_HIDE, -- Duplicate of 26826
         [26951] = QuestieCorrections.CATA_HIDE, -- Seems to not be available
