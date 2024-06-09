@@ -66,6 +66,13 @@ function CataNpcFixes.Load()
         [3056] = { -- Ghost Howl
             [npcKeys.waypoints] = {},
         },
+        [3140] = { -- Lar Prowltusk
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{55.42,75.1}}},
+            [npcKeys.waypoints] = {},
+        },
+        [3203] = { -- Fizzle Darkclaw
+            [npcKeys.waypoints] = {},
+        },
         [3389] = { -- Regthar Deathgate
             [npcKeys.questStarts] = {851,852,855,4021},
         },
@@ -677,14 +684,36 @@ function CataNpcFixes.Load()
         [39199] = { -- Assistant Greely
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{53.16,36.55}}},
         },
+        [39325] = { -- Grandmatron Tekla
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{40.49,35.36}}},
+        },
         [39335] = { -- Wild Mine Cart Ride Kill Credit
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{54.28,17.15}}},
+        },
+        [39357] = { -- Durotar Telescope Quest KC 1
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{49.53,40.33}}},
+        },
+        [39358] = { -- Durotar Telescope Quest KC 2
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{49.53,40.33}}},
+        },
+        [39359] = { -- Durotar Telescope Quest KC 3
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{49.53,40.33}}},
+        },
+        [39360] = { -- Durotar Telescope Quest KC 4
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{49.53,40.33}}},
         },
         [39341] = { -- Mine Cart
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{56.29,27.33}}},
         },
         [39363] = { -- Chip Endale
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{49.86,13.89}}},
+        },
+        [39365] = { -- The Kodo
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{52.38,16.48},{52.5,16.48},{54.12,15.2},{54.17,15.03},{53.1,13.81},{53.15,13.63},{56.6,15.31},{56.77,15.23},{55.72,17.68},{55.87,17.69}}},
+        },
+        [39385] = { -- Screamslash
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{35.83,29.09}}},
+            [npcKeys.waypoints] = {[zoneIDs.DUROTAR]={{{35.50,33.06},{35.63,33.11},{35.76,33.15},{35.89,33.19},{36.02,33.20},{36.08,33.06},{36.09,32.86},{36.10,32.66},{36.12,32.46},{36.13,32.26},{36.14,32.07},{36.14,31.87},{36.11,31.67},{36.07,31.49},{36.00,31.31},{35.98,31.25},{35.95,31.19},{35.89,31.02},{35.82,30.85},{35.75,30.68},{35.75,30.67},{35.72,30.59},{35.69,30.53},{35.67,30.49},{35.61,30.34},{35.54,30.17},{35.47,30.00},{35.45,29.96},{35.46,29.84},{35.50,29.65},{35.54,29.46},{35.61,29.30},{35.72,29.19},{35.83,29.09}}}},
         },
         [39426] = { -- Candy Cane
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES]={{39.69,27.17}}},

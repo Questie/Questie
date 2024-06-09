@@ -257,6 +257,9 @@ function CataItemFixes.Load()
         [52568] = { -- Twilight Supplies
             [itemKeys.npcDrops] = {},
         },
+        [52580] = { -- Fizzle's Orb
+            [itemKeys.npcDrops] = {3203},
+        },
         [52716] = { -- Twilight Firelance
             [itemKeys.objectDrops] = {202967},
         },

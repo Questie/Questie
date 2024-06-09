@@ -72,6 +72,12 @@ function CataQuestFixes.Load()
         [824] = { -- Je'neu of the Earthen Ring
             [questKeys.finishedBy] = {{12736}},
         },
+        [834] = { -- Winds in the Desert
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [835] = { -- Securing the Lines
+            [questKeys.preQuestSingle] = {},
+        },
         [840] = { -- Conscript of the Horde
             [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 871,
@@ -1832,20 +1838,34 @@ function CataQuestFixes.Load()
         [25164] = { -- Backed Into a Corner
             [questKeys.objectives] = {{{39397},{40161}}},
         },
+        [25165] = { -- Never Trust a Big Barb and a Smile
+            [questKeys.objectives] = {{{3125,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [25171] = { -- Riding On
             [questKeys.preQuestSingle] = {25169},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Razor Hill"), 2, {{"monster", 10676}}}},
+        },
+        [25178] = { -- Shipwreck Searching
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25173,25176},
+        },
+        [25179] = { -- Loss Reduction
+            [questKeys.objectives] = {{{39270,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25184] = { -- Wild Mine Cart Ride
             [questKeys.objectives] = {{{39335,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25187] = { -- Lost in the Floods
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{39357,nil,Questie.ICON_TYPE_EVENT},{39358,nil,Questie.ICON_TYPE_EVENT},{39359,nil,Questie.ICON_TYPE_EVENT},{39360,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25188] = { -- Watershed Patrol
             [questKeys.childQuests] = {25189,25190,25192,25193,25194,25195},
+            [questKeys.objectives] = {{{39325,nil,Questie.ICON_TYPE_EVENT},{39326,nil,Questie.ICON_TYPE_EVENT},{3193,nil,Questie.ICON_TYPE_EVENT},{39324,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25189] = { -- Spirits Be Praised
             [questKeys.parentQuest] = 25188,
+            [questKeys.triggerEnd] = {"Escort Grandmatron Tekla to Raggaran",{[zoneIDs.DUROTAR] = {{42.6,49.96}}}},
         },
         [25190] = { -- Raggaran's Rage
             [questKeys.parentQuest] = 25188,
@@ -1858,6 +1878,7 @@ function CataQuestFixes.Load()
         },
         [25194] = { -- Unbidden Visitors
             [questKeys.parentQuest] = 25188,
+            [questKeys.objectives] = {{{39337,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25195] = { -- That's the End of That Raptor
             [questKeys.parentQuest] = 25188,
@@ -1877,6 +1898,11 @@ function CataQuestFixes.Load()
         },
         [25205] = { -- The Wolf and The Kodo
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{39365,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start listening to the story"),0,{{"monster",39380}}}},
+        },
+        [25206] = { -- Ignoring the Warnings
+            [questKeys.preQuestSingle] = {25205},
         },
         [25207] = { -- Good-bye, Sweet Oil
             [questKeys.objectives] = {nil,{{205061}}},
@@ -1916,6 +1942,7 @@ function CataQuestFixes.Load()
         },
         [25236] = { -- Thunder Down Under
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{39464,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25244] = { -- What Kind of Name is Candy, Anyway?
             [questKeys.preQuestSingle] = {25213},
@@ -2266,6 +2293,9 @@ function CataQuestFixes.Load()
         },
         [25647] = { -- Illegible Orc Letter
             [questKeys.startedBy] = {{40905},nil,{55181}},
+        },
+        [25648] = { -- Beyond Durotar
+            [questKeys.preQuestSingle] = {25206},
         },
         [25651] = { -- Oh, the Insanity!
             [questKeys.requiredSourceItems] = {55185},
@@ -2895,7 +2925,7 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.preQuestSingle] = {24540},
             [questKeys.requiredRaces] = raceKeys.TAUREN,
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk with Tal"),0,{{"monster",2995}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Tal"),0,{{"monster",2995}}}},
         },
         [26408] = { -- Ashes in Ashenvale
             [questKeys.preQuestSingle] = {13897},
