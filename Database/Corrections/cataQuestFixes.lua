@@ -4846,6 +4846,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {29093,29106,29107},
             [questKeys.requiredSourceItems] = {18598,69027},
         },
+        [29134] = { -- A Wrinkle in Time
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Anachronos"),0,{{"monster",15192}}}},
+        },
         [29146] = { -- Ridin' the Rocketway
             [questKeys.objectives] = {{{52585,nil,Questie.ICON_TYPE_MOUNT_UP}}},
             [questKeys.preQuestSingle] = {172},
