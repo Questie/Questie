@@ -46,6 +46,9 @@ function CataItemFixes.Load()
         [31881] = { -- Draenei Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [33009] = { -- Tender Strider Meat
+            [itemKeys.npcDrops] = {2956,2957},
+        },
         [39684] = { -- Hair Trigger
             [itemKeys.npcDrops] = {},
         },

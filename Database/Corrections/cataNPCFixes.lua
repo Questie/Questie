@@ -63,6 +63,9 @@ function CataNpcFixes.Load()
             [npcKeys.questEnds] = {749,24459,26179,26180},
             [npcKeys.waypoints] = {},
         },
+        [3056] = { -- Ghost Howl
+            [npcKeys.waypoints] = {},
+        },
         [3389] = { -- Regthar Deathgate
             [npcKeys.questStarts] = {851,852,855,4021},
         },

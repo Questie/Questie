@@ -67,6 +67,7 @@ function CataQuestFixes.Load()
         },
         [773] = { -- Rite of Wisdom
             [questKeys.preQuestSingle] = {20441},
+            [questKeys.requiredRaces] = raceKeys.TAUREN,
         },
         [824] = { -- Je'neu of the Earthen Ring
             [questKeys.finishedBy] = {{12736}},
@@ -223,6 +224,15 @@ function CataQuestFixes.Load()
         },
         [6031] = { -- Runecloth
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,8}},
+        },
+        [6362] = { -- Ride to Thunder Bluff
+            [questKeys.requiredRaces] = raceKeys.TAUREN,
+        },
+        [6363] = { -- Tal the Wind Rider Master
+            [questKeys.requiredRaces] = raceKeys.TAUREN,
+        },
+        [6364] = { -- Return to Varg
+            [questKeys.requiredRaces] = raceKeys.TAUREN,
         },
         [7383] = { -- Teldrassil: The Burden of the Kaldorei
             [questKeys.preQuestSingle] = {},
@@ -1261,6 +1271,7 @@ function CataQuestFixes.Load()
         [20441] = { -- Rite of Vision
             [questKeys.preQuestSingle] = {24456},
             [questKeys.objectives] = {nil,{{18035}}},
+            [questKeys.requiredRaces] = raceKeys.TAUREN,
         },
         [23733] = { -- Rites of the Earthmother
             [questKeys.zoneOrSort] = 215,
@@ -1287,6 +1298,7 @@ function CataQuestFixes.Load()
         },
         [24457] = { -- Rite of Vision
             [questKeys.nextQuestInChain] = 20441,
+            [questKeys.requiredRaces] = raceKeys.TAUREN,
         },
         [24459] = { -- Morin Cloudstalker
             [questKeys.nextQuestInChain] = 749,
@@ -1380,6 +1392,12 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 837}}}},
             [questKeys.requiredRaces] = raceKeys.DWARF,
         },
+        [24540] = { -- War Dance
+            [questKeys.requiredRaces] = raceKeys.TAUREN,
+        },
+        [24550] = { -- Journey into Thunder Bluff
+            [questKeys.requiredRaces] = raceKeys.TAUREN,
+        },
         [24567] = { -- Report for Tryouts
             [questKeys.sourceItemId] = 46856,
         },
@@ -1431,6 +1449,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{100}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 38037}}}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.zoneOrSort] = 6453,
         },
         [24641] = { -- A Rough Start
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -1472,6 +1491,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{5143}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 38246}}}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.zoneOrSort] = 6453,
         },
         [24753] = { -- A Rough Start
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -1490,6 +1510,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{73899}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Primal Strike"), 2, {{"monster", 38242}}}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.zoneOrSort] = 6453,
         },
         [24761] = { -- A Rough Start
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -1508,6 +1529,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{47057,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{774}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Rejuvenation"), 2, {{"monster", 38243}}}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.zoneOrSort] = 6453,
         },
         [24767] = { -- A Rough Start
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -1526,6 +1548,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{2098}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Eviscerate"), 2, {{"monster", 38244}}}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.zoneOrSort] = 6453,
         },
         [24773] = { -- A Rough Start
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -1544,6 +1567,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{56641}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 38247}}}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.zoneOrSort] = 6453,
         },
         [24779] = { -- A Rough Start
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -1562,6 +1586,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{47057,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 38245}}}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.zoneOrSort] = 6453,
         },
         [24785] = { -- A Rough Start
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -1699,7 +1724,6 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Sassy Hardwrench"), 0, {{"monster", 38387}}}},
         },
         [25073] = { -- Sen'jin Village
-            [questKeys.exclusiveTo] = {25133},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [25081] = { -- Claim the Battlescar
@@ -1725,9 +1749,6 @@ function CataQuestFixes.Load()
         },
         [25129] = { -- Sarkoth
             [questKeys.preQuestSingle] = {},
-        },
-        [25133] = { -- Report to Sen'jin Village
-            [questKeys.exclusiveTo] = {25073},
         },
         [25134] = { -- Lazy Peons
             [questKeys.sourceItemId] = 16114,
@@ -1841,6 +1862,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25200,25201},
         },
+        [25205] = { -- The Wolf and The Kodo
+            [questKeys.preQuestSingle] = {},
+        },
         [25207] = { -- Good-bye, Sweet Oil
             [questKeys.objectives] = {nil,{{205061}}},
         },
@@ -1876,6 +1900,9 @@ function CataQuestFixes.Load()
         },
         [25234] = { -- In the Rear With the Gear
             [questKeys.preQuestSingle] = {25584},
+        },
+        [25236] = { -- Thunder Down Under
+            [questKeys.preQuestSingle] = {},
         },
         [25244] = { -- What Kind of Name is Candy, Anyway?
             [questKeys.preQuestSingle] = {25213},
@@ -2700,10 +2727,11 @@ function CataQuestFixes.Load()
         [26273] = { -- The Basics: Hitting Things
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
-        [26274] = { -- Immolate
+        [26274] = { -- The Arts of a Warlock
             [questKeys.objectives] = {{{38038}},nil,nil,nil,nil,{{348}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Immolate"), 2, {{"monster", 42618}}}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.zoneOrSort] = 6453,
         },
         [26275] = { -- A Rough Start
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
