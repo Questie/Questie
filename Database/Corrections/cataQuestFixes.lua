@@ -4229,6 +4229,7 @@ function CataQuestFixes.Load()
         },
         [28529] = { -- Writings of the Void
             [questKeys.startedBy] = {{48764},nil,{64450}},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [28530] = { -- Scalding Signs
             [questKeys.preQuestSingle] = {28467},
