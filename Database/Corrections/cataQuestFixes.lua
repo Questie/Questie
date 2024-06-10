@@ -2773,6 +2773,9 @@ function CataQuestFixes.Load()
         [26265] = { -- Dealing with the Fallout
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
+        [26269] = { -- The Green Hills of Stranglethorn
+            [questKeys.preQuestSingle] = {583},
+        },
         [26273] = { -- The Basics: Hitting Things
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
@@ -3238,6 +3241,12 @@ function CataQuestFixes.Load()
         },
         [26723] = { -- The Fate of Morbent Fel
             [questKeys.preQuestSingle] = {26760},
+        },
+        [26734] = { -- The Source of the Madness
+            [questKeys.preQuestSingle] = {26733},
+        },
+        [26738] = { -- Just Hatched
+            [questKeys.preQuestSingle] = {26732},
         },
         [26750] = { -- At the Stonemother's Call
             [questKeys.preQuestGroup] = {26584,26585,26659},
