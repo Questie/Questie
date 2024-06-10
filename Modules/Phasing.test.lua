@@ -776,4 +776,26 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.CERELLEAN_NEAR_TREE))
         end)
     end)
+
+    describe("Azshara", function()
+
+        it("should handle Ag'tor Bloodfist and Labor Captain Grabbit positioning", function()
+            Questie.db.char.complete[14135] = false
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_OUTSIDE_ATTACK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_DURING_ATTACK))
+
+            Questie.db.char.complete[14135] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[14155]={}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_DURING_ATTACK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_OUTSIDE_ATTACK))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[14155] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_OUTSIDE_ATTACK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_DURING_ATTACK))
+        end)
+    end)
 end)

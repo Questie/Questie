@@ -84,6 +84,7 @@ function CataQuestFixes.Load()
         [840] = { -- Conscript of the Horde
             [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 871,
+            [questKeys.zoneOrSort] = 14,
         },
         [850] = { -- Kolkar Leaders
             [questKeys.startedBy] = {{34841}},
@@ -915,7 +916,7 @@ function CataQuestFixes.Load()
         },
         [14001] = { -- Goblin Escape Pods
             [questKeys.objectives] = {nil,nil,nil,nil,{{{34748,35649},34748,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Open the Goblin Escape Pod"), 2, {{"object", 195188}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Open the Goblin Escape Pod"), 0, {{"object", 195188}}}},
         },
         [14007] = { -- Steady Shot
             [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{56641}}},
@@ -1042,6 +1043,11 @@ function CataQuestFixes.Load()
         [14135] = { -- Up a Tree
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Cut down the tree"),0,{{"monster",35162}}}},
         },
+        [14146] = { -- Defend the Gates!
+            [questKeys.startedBy] = {{35086,35195}},
+            [questKeys.finishedBy] = {{100007}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Get in if you don't have a shredder"),0,{{"monster",35196}}}},
+        },
         [14138] = { -- Taking Care of Business
             [questKeys.requiredClasses] = classKeys.WARRIOR + classKeys.HUNTER + classKeys.ROGUE + classKeys.PRIEST + classKeys.SHAMAN + classKeys.MAGE + classKeys.WARLOCK, -- no DKs for goblin starter quests
         },
@@ -1053,6 +1059,10 @@ function CataQuestFixes.Load()
         [14154] = { -- By the Skin of His Teeth
             [questKeys.triggerEnd] = {"Survive while holding back the worgen for 2 minutes",{[zoneIDs.GILNEAS_CITY] = {{55.1,62.7}}}},
         },
+        [14155] = { -- Arborcide
+            [questKeys.startedBy] = {{35195}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Get in if you don't have a shredder"),0,{{"monster",35196}}}},
+        },
         [14159] = { -- The Rebel Lord's Arsenal
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24930,26129},
@@ -1061,7 +1071,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {14155},
         },
         [14165] = { -- Stone Cold
-            [questKeys.triggerEnd] = {"Stonified Miner Delivered",{[zoneIDs.AZSHARA] = {{59.9,40.2}}}},
+            [questKeys.objectives] = {{{35257,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.AZSHARA] = {{29.06,66.41}}},Questie.ICON_TYPE_EVENT,l10n("Deliver the Stonified Miner here")}},
         },
         [14194] = { -- Refleshification
             [questKeys.objectives] = {{{35257,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -1112,17 +1123,23 @@ function CataQuestFixes.Load()
         [14244] = { -- Up, Up & Away!
             [questKeys.objectives] = {nil,{{196439}}},
         },
-        [14266] = { -- Charge
-            [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{100}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 35839}}}},
-            [questKeys.requiredRaces] = raceKeys.WORGEN,
-        },
         [14245] = { -- It's a Town-In-A-Box
             [questKeys.objectives] = {nil,{{201938}}},
         },
         [14248] = { -- Help Wanted
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14014,14019,14473}
+        },
+        [14262] = { -- To Gut a Fish
+            [questKeys.preQuestSingle] = {14258},
+        },
+        [14266] = { -- Charge
+            [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{100}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 35839}}}},
+            [questKeys.requiredRaces] = raceKeys.WORGEN,
+        },
+        [14267] = { -- Investigating the Sea Shrine
+            [questKeys.preQuestSingle] = {14258},
         },
         [14272] = { -- Eviscerate
             [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{2098}}},
@@ -1157,6 +1174,13 @@ function CataQuestFixes.Load()
         [14293] = { -- Save Krennan Aranas
             [questKeys.objectives] = {{{35753,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [14308] = { -- When Science Attacks
+            [questKeys.objectives] = {{{36025,nil,Questie.ICON_TYPE_EVENT},{36061,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [14310] = { -- Segmentation Fault: Core Dumped
+            [questKeys.objectives] = {{{36105,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Reactor Control Console"), 0, {{"object", 195683}}}},
+        },
         [14348] = { -- You Can't Take 'Em Alone
             [questKeys.objectives] = {{{36231}}},
             [questKeys.requiredSourceItems] = {49202},
@@ -1176,14 +1200,27 @@ function CataQuestFixes.Load()
         [14369] = { -- Unleash the Beast
             [questKeys.objectives] = {nil,nil,nil,nil,{{{36236,36396,36810},36236}}},
         },
+        [14370] = { -- Mysterious Azsharite
+            [questKeys.preQuestSingle] = {14310},
+        },
+        [14371] = { -- A Gigantic Snack
+            [questKeys.preQuestSingle] = {14310},
+        },
         [14372] = { -- Thargad's Camp
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [14377] = { -- Befriending Giants
+            [questKeys.preQuestGroup] = {14370,14371},
+            [questKeys.objectives] = {{{36297,nil,Questie.ICON_TYPE_TALK}}},
         },
         [14382] = { -- Two By Sea
             [questKeys.extraObjectives] = {
                 {nil,Questie.ICON_TYPE_INTERACT,l10n("Use the catapult to board the ship"),0,{{"monster",36283}}},
                 {nil,Questie.ICON_TYPE_SLAY,l10n("Take out the Forsaken Machinist"),0,{{"monster",36292}}},
             },
+        },
+        [14385] = { -- Azsharite Experiment Number One
+            [questKeys.objectives] = {{{36297,nil,Questie.ICON_TYPE_TALK}},nil,{{49230}}},
         },
         [14386] = { -- Leader of the Pack
             [questKeys.preQuestGroup] = {14368,14369,14382},
@@ -1216,6 +1253,7 @@ function CataQuestFixes.Load()
         },
         [14408] = { -- Nine's Plan
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{36472,nil,Questie.ICON_TYPE_INTERACT}},nil,{{49204}}},
         },
         [14412] = { -- Washed Up
             [questKeys.preQuestSingle] = {14403},
@@ -1225,12 +1263,20 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Bring the horses to Lorna Crowley"),0,{{"monster",36457}}}},
             [questKeys.exclusiveTo] = {},
         },
+        [14422] = { -- Raptor Raptor Rocket
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",196486}}},
+                {nil,Questie.ICON_TYPE_EVENT,l10n("Bring the raptors to The Velocistar"),0,{{"monster",36527}}},
+            },
+            [questKeys.objectives] = {{{36509,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [14424] = { -- Need More Science
             [questKeys.preQuestSingle] = {14423},
             [questKeys.exclusiveTo] = {14308},
         },
         [14442] = { -- My Favorite Subject
             [questKeys.exclusiveTo] = {14408},
+            [questKeys.preQuestSingle] = {14322},
         },
         [14449] = { -- The First Step
             [questKeys.zoneOrSort] = 215,
@@ -1281,7 +1327,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the mortar"),0,{{"monster",36768}}}},
         },
         [14472] = { -- In The Face!
-            [questKeys.preQuestSingle] = {14471},
+            [questKeys.preQuestGroup] = {14469,14470,14471},
         },
         [14473] = { -- It's Our Problem Now
             [questKeys.preQuestSingle] = {14001},
@@ -1858,7 +1904,7 @@ function CataQuestFixes.Load()
         },
         [25171] = { -- Riding On
             [questKeys.preQuestSingle] = {25169},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Razor Hill"), 2, {{"monster", 10676}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Razor Hill"), 0, {{"monster", 10676}}}},
         },
         [25178] = { -- Shipwreck Searching
             [questKeys.preQuestSingle] = {},
@@ -1966,6 +2012,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25214,25243 or 25244},
             [questKeys.objectives] = {{{39592,nil,Questie.ICON_TYPE_INTERACT},{39582}}},
+        },
+        [25264] = { -- Ak'Zeloth
+            [questKeys.zoneOrSort] = 14,
         },
         [25266] = { -- Warchief's Emissary
             [questKeys.finishedBy] = {{39609}},
@@ -2311,6 +2360,7 @@ function CataQuestFixes.Load()
         },
         [25648] = { -- Beyond Durotar
             [questKeys.preQuestSingle] = {25206},
+            [questKeys.zoneOrSort] = 14,
         },
         [25651] = { -- Oh, the Insanity!
             [questKeys.requiredSourceItems] = {55185},
@@ -3799,6 +3849,21 @@ function CataQuestFixes.Load()
         },
         [27545] = { -- The Way is Open
             [questKeys.preQuestSingle] = {27537},
+        },
+        [27555] = { -- Fiona's Lucky Charm
+            [questKeys.preQuestGroup] = {27372,27369},
+        },
+        [27556] = { -- Gidwin's Weapon Oil
+            [questKeys.preQuestGroup] = {27372,27369},
+        },
+        [27557] = { -- Tarenar's Talisman
+            [questKeys.preQuestGroup] = {27372,27369},
+        },
+        [27558] = { -- Pamela's Doll
+            [questKeys.preQuestSingle] = {27391},
+        },
+        [27559] = { -- Vex'tul's Armbands
+            [questKeys.preQuestSingle] = {27449},
         },
         [27560] = { -- Argus' Journal
             [questKeys.preQuestSingle] = {27381},

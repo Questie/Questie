@@ -92,6 +92,8 @@ local phases = {
     KEZAN_SASSY_OUTSIDE_HQ = 1020,
     KEZAN_GALLYWIX_AT_HQ = 1021,
     KEZAN_GALLYWIX_ON_BOAT = 1022,
+    AGTOR_GRABBIT_OUTSIDE_ATTACK = 1023,
+    AGTOR_GRABBIT_DURING_ATTACK = 1024,
 }
 Phasing.phases = phases
 
@@ -270,6 +272,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.KEZAN_GALLYWIX_ON_BOAT then
         return complete[14120] or false
+    end
+
+    if phase == phases.AGTOR_GRABBIT_OUTSIDE_ATTACK then
+        return not complete[14135] or (complete[14155] or questLog[14155] and true)
+    end
+
+    if phase == phases.AGTOR_GRABBIT_DURING_ATTACK then
+        return complete[14135] and questLog[14155] or false
     end
 
     return false
