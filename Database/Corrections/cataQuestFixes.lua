@@ -444,6 +444,12 @@ function CataQuestFixes.Load()
         [12602] = { -- The Alchemist's Apprentice
             [questKeys.startedBy] = {},
         },
+        [12618] = { -- Blessing of Zim'Torga
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [12656] = { -- Blessing of Zim'Rhuk
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [12821] = { -- Opening the Backdoor
             [questKeys.objectives] = {nil,nil,{{40731}}}
         },
