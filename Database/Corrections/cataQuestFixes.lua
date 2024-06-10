@@ -3488,9 +3488,18 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 16502}}}},
             [questKeys.preQuestSingle] = {},
         },
+        [26973] = { -- The Only True Path
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [26974] = { -- The False Champion
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [26975] = { -- Rallying the Fleet
             [questKeys.triggerEnd] = {"Prince Anduin Escorted to Graves", {[zoneIDs.STORMWIND_CITY]={{33.5,40.9}}}},
             [questKeys.preQuestSingle] = {26960},
+        },
+        [26976] = { -- Battle for the Scarlet Monastery
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [26977] = { -- Twilight Investigation
             [questKeys.preQuestSingle] = {26960},
