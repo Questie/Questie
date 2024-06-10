@@ -1506,6 +1506,9 @@ function CataQuestFixes.Load()
         [24681] = { -- They Have Allies, But So Do We
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in a Glaive Thrower"),0,{{"monster",38150}}}},
         },
+        [24735] = { -- A Little Help From My Friends
+            [questKeys.preQuestSingle] = {24734},
+        },
         [24741] = { -- Trading Up
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Place the Wild Clucker Eggs in the trap"),0,{{"object",201972}}}},
         },
