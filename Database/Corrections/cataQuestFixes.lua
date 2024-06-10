@@ -3931,6 +3931,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast"), 0, {{"monster", 46293}}}},
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
+        [27684] = { -- Visitors
+            [questKeys.exclusiveTo] = {27367,27370},
+        },
         [27685] = { -- Good Deed Left Undone
             [questKeys.exclusiveTo] = {25587},
         },
