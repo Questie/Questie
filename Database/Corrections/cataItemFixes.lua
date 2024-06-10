@@ -22,6 +22,9 @@ function CataItemFixes.Load()
         [5533] = { -- Ilkrud Magthrull's Tome
             [itemKeys.npcDrops] = {},
         },
+        [10441] = { -- Glowing Shard
+            [itemKeys.startQuest] = 0,
+        },
         [10458] = { -- Prayer to Elune
             [itemKeys.npcDrops] = {}
         },
