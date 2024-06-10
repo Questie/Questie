@@ -2010,6 +2010,7 @@ function QuestieQuestBlacklist:Load()
         [11214] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11217] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11222] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11252] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11335] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11336] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11337] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2020,6 +2021,7 @@ function QuestieQuestBlacklist:Load()
         [11342] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11992] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [12765] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [13205] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13405] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13407] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13427] = QuestieCorrections.CATA_HIDE, -- Removed with cata
