@@ -1775,6 +1775,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25122,25123},
         },
+        [25128] = { -- Hana'zua
+            [questKeys.exclusiveTo] = {790},
+        },
         [25129] = { -- Sarkoth
             [questKeys.preQuestSingle] = {},
         },
