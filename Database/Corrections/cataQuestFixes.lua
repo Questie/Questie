@@ -62,6 +62,9 @@ function CataQuestFixes.Load()
         [579] = { -- Stormwind Library
             [questKeys.parentQuest] = 578,
         },
+        [583] = { -- Welcome to the Jungle
+            [questKeys.preQuestSingle] = {},
+        },
         [749] = { -- The Ravaged Caravan
             [questKeys.preQuestSingle] = {},
         },
