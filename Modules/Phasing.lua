@@ -279,7 +279,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.AGTOR_GRABBIT_DURING_ATTACK then
-        return (questLog[14155] and (not (questLog[14155].isComplete == 1))) and true or false
+        return questLog[14155] and questLog[14155].isComplete ~= 1 and true or false
     end
 
     return false
