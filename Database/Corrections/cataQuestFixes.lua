@@ -4011,6 +4011,7 @@ function CataQuestFixes.Load()
         },
         [27420] = { -- Postponing the Inevitable
             [questKeys.preQuestSingle] = {},
+            [questKeys.requiredSourceItems] = {61037},
         },
         [27433] = { -- Shredderectomy
             [questKeys.preQuestSingle] = {27338},
