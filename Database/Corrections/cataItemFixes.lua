@@ -483,6 +483,15 @@ function CataItemFixes.Load()
         [60879] = { -- Commander's Holy Symbol
             [itemKeys.npcDrops] = {4278},
         },
+        [61292] = { -- Plague Puffer
+            [itemKeys.npcDrops] = {45650},
+        },
+        [61293] = { -- Infectis Incher
+            [itemKeys.npcDrops] = {45655},
+        },
+        [61294] = { -- Infectis Scuttler
+            [itemKeys.npcDrops] = {45657},
+        },
         [61317] = { -- Vermillion Egg
             [itemKeys.npcDrops] = {45506,45508,45651,45682},
         },
