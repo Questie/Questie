@@ -4030,6 +4030,9 @@ function CataQuestFixes.Load()
         [27451] = { -- To Kill With Purpose
             [questKeys.requiredSourceItems] = {15447},
         },
+        [27453] = { -- Catalysm
+            [questKeys.preQuestSingle] = {27451},
+        },
         [27468] = { -- Siege Tank Rescue
             [questKeys.objectives] = {{{45524},{45526}}},
         },
