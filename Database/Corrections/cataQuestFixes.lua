@@ -3972,6 +3972,7 @@ function CataQuestFixes.Load()
         },
         [27384] = { -- Pamela's Doll
             [questKeys.preQuestSingle] = {27383},
+            [questKeys.requiredSourceItems] = {12886,12887,12888},
         },
         [27387] = { -- Villains of Darrowshire
             [questKeys.preQuestSingle] = {27386},
