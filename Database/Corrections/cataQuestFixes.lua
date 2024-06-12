@@ -4052,21 +4052,33 @@ function CataQuestFixes.Load()
         },
         [27555] = { -- Fiona's Lucky Charm
             [questKeys.preQuestGroup] = {27372,27369},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [27556] = { -- Gidwin's Weapon Oil
             [questKeys.preQuestGroup] = {27372,27369},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [27557] = { -- Tarenar's Talisman
             [questKeys.preQuestGroup] = {27372,27369},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [27558] = { -- Pamela's Doll
             [questKeys.preQuestSingle] = {27391},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [27559] = { -- Vex'tul's Armbands
             [questKeys.preQuestSingle] = {27449},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [27560] = { -- Argus' Journal
             [questKeys.preQuestSingle] = {27381},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [27561] = { -- Rimblat's Stone
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [27562] = { -- Beezil's Cog
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [27583] = { -- The Northern Flank
             [questKeys.preQuestSingle] = {26840},
