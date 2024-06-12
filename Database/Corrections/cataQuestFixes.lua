@@ -4032,6 +4032,7 @@ function CataQuestFixes.Load()
         },
         [27453] = { -- Catalysm
             [questKeys.preQuestSingle] = {27451},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Betina's Flasks on living Blighted Surge or Plague Ravager"), 0, {{"monster", 8519},{"monster",8520}}}},
         },
         [27468] = { -- Siege Tank Rescue
             [questKeys.objectives] = {{{45524},{45526}}},
