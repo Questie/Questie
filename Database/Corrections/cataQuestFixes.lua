@@ -4027,6 +4027,9 @@ function CataQuestFixes.Load()
         [27448] = { -- The Trek Continues
             [questKeys.preQuestSingle] = {27381},
         },
+        [27451] = { -- To Kill With Purpose
+            [questKeys.requiredSourceItems] = {15447},
+        },
         [27468] = { -- Siege Tank Rescue
             [questKeys.objectives] = {{{45524},{45526}}},
         },
