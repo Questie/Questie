@@ -3704,6 +3704,9 @@ function CataQuestFixes.Load()
         [27273] = { -- An Invitation from Moonglade
             [questKeys.exclusiveTo] = {27356},
         },
+        [27278] = { -- Grimshot's Call
+            [questKeys.exclusiveTo] = {27395},
+        },
         [27280] = { -- The Dreamseeker Calls
             [questKeys.finishedBy] = {{3344}},
         },
@@ -3791,6 +3794,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.preQuestSingle] = {25953},
             [questKeys.exclusiveTo] = {25956},
+        },
+        [27395] = { -- A Marksman's Weapon
+            [questKeys.preQuestSingle] = {},
         },
         [27398] = { -- The Battle Is Won, The War Goes On
             [questKeys.preQuestSingle] = {25551},
