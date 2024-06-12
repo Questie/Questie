@@ -1040,6 +1040,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{35095},nil,{47039}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [14129] = { -- Runaway Shredder!
+            [questKeys.preQuestSingle] = {},
+        },
         [14130] = { -- Friends Come In All Colors
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in"),0,{{"monster",36917}}}},
         },
@@ -1076,8 +1079,12 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24930,26129},
         },
+        [14161] = { -- Basilisk Bashin'
+            [questKeys.preQuestSingle] = {},
+        },
         [14162] = { -- Report to Horzak
             [questKeys.preQuestSingle] = {14155},
+            [questKeys.exclusiveTo] = {14161},
         },
         [14165] = { -- Stone Cold
             [questKeys.objectives] = {{{35257,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -1233,6 +1240,7 @@ function CataQuestFixes.Load()
         },
         [14308] = { -- When Science Attacks
             [questKeys.objectives] = {{{36025,nil,Questie.ICON_TYPE_EVENT},{36061,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {},
         },
         [14310] = { -- Segmentation Fault: Core Dumped
             [questKeys.objectives] = {{{36105,nil,Questie.ICON_TYPE_EVENT}}},
@@ -1287,6 +1295,9 @@ function CataQuestFixes.Load()
                 {nil,Questie.ICON_TYPE_INTERACT,l10n("Use the catapult to board the ship"),0,{{"monster",36283}}},
                 {nil,Questie.ICON_TYPE_SLAY,l10n("Take out the Forsaken Machinist"),0,{{"monster",36292}}},
             },
+        },
+        [14383] = { -- The Terrible Tinkers of the Ruined Reaches
+            [questKeys.preQuestSingle] = {14377},
         },
         [14385] = { -- Azsharite Experiment Number One
             [questKeys.objectives] = {{{36297,nil,Questie.ICON_TYPE_TALK}},nil,{{49230}}},
@@ -1440,6 +1451,9 @@ function CataQuestFixes.Load()
         },
         [14477] = { -- Push the Button!
             [questKeys.objectives] = {nil,{{460003,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [14478] = { -- Operation Fishgut
+            [questKeys.preQuestSingle] = {24452},
         },
         [14480] = { -- Extermination
             [questKeys.preQuestSingle] = {24448},
@@ -2216,6 +2230,7 @@ function CataQuestFixes.Load()
         },
         [25275] = { -- Report to the Labor Captain
             [questKeys.startedBy] = {{39605}},
+            [questKeys.exclusiveTo] = {14129},
         },
         [25277] = { -- Cleaning House
             [questKeys.preQuestSingle] = {25272},
@@ -4561,6 +4576,9 @@ function CataQuestFixes.Load()
         [28494] = { -- Warchief's Command: Northern Barrens!
             [questKeys.exclusiveTo] = {26642},
             [questKeys.nextQuestInChain] = 871,
+        },
+        [28496] = { -- Warchief's Command: Azshara!
+            [questKeys.exclusiveTo] = {14129},
         },
         [28501] = { -- The Defense of Nahom
             [questKeys.objectives] = {{{49228}}},
