@@ -4054,6 +4054,9 @@ function CataQuestFixes.Load()
         [27538] = { -- The Perfect Poultice
             [questKeys.preQuestSingle] = {27516},
         },
+        [27544] = { -- Cenarion Tenacity
+            [questKeys.preQuestSingle] = {27386},
+        },
         [27545] = { -- The Way is Open
             [questKeys.preQuestSingle] = {27537},
         },
