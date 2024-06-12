@@ -154,6 +154,9 @@ function CataItemFixes.Load()
         [48766] = { -- Kaja\'mite Chunk
             [itemKeys.npcDrops] = {},
         },
+        [49172] = { -- Simmering Water Droplet
+            [itemKeys.npcDrops] = {36131},
+        },
         [49281] = { -- Chance the Cat
             [itemKeys.npcDrops] = {36459,36461},
         },
@@ -165,6 +168,9 @@ function CataItemFixes.Load()
         },
         [49599] = { -- Military Supplies
             [itemKeys.npcDrops] = {36756,36987},
+        },
+        [49642] = { -- Heart of Arkkoroc
+            [itemKeys.npcDrops] = {},
         },
         [49743] = { -- Sten's First Aid Kit
             [itemKeys.class] = itemClasses.QUEST,

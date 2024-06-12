@@ -1040,6 +1040,15 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{35095},nil,{47039}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [14130] = { -- Friends Come In All Colors
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in"),0,{{"monster",36917}}}},
+        },
+        [14131] = { -- A Little Pick-me-up
+            [questKeys.preQuestSingle] = {14130},
+        },
+        [14132] = { -- That's Just Rude!
+            [questKeys.preQuestSingle] = {14130},
+        },
         [14135] = { -- Up a Tree
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Cut down the tree"),0,{{"monster",35162}}}},
         },
@@ -1110,6 +1119,13 @@ function CataQuestFixes.Load()
         [14222] = { -- Last Stand
             [questKeys.startedBy] = {{35566}},
         },
+        [14226] = { -- Trouble Under Foot
+            [questKeys.preQuestGroup] = {14249,14250,14263},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use Polymorph Insect on it"),0,{{"monster",6200},{"monster",6201},{"monster",6202}}}},
+        },
+        [14230] = { -- Manual Labor
+            [questKeys.preQuestGroup] = {14249,14250,14263},
+        },
         [14233] = { -- Orcs Can Write?
             [questKeys.exclusiveTo] = {},
         },
@@ -1130,8 +1146,21 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14014,14019,14473}
         },
+        [14249] = { -- Shear Will
+            [questKeys.preQuestSingle] = {14340},
+        },
+        [14250] = { -- Renewable Resource
+            [questKeys.preQuestSingle] = {14340},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Arcane Charge in Balboa's path"), 0, {{"monster", 35759}}}},
+        },
+        [14261] = { -- Ice Cold
+            [questKeys.preQuestSingle] = {14391},
+        },
         [14262] = { -- To Gut a Fish
             [questKeys.preQuestSingle] = {14258},
+        },
+        [14263] = { -- Waste of Thyme
+            [questKeys.preQuestSingle] = {14340},
         },
         [14266] = { -- Charge
             [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{100}}},
@@ -1174,12 +1203,52 @@ function CataQuestFixes.Load()
         [14293] = { -- Save Krennan Aranas
             [questKeys.objectives] = {{{35753,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [14295] = { -- Sisters of the Sea
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Break the Power Stone"), 0, {{"monster", 35892},{"monster", 35968}}},
+            },
+        },
+        [14296] = { -- Watch Your Step
+            [questKeys.objectives] = {nil,{{195365,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [14297] = { -- Pro-liberation
+            [questKeys.preQuestSingle] = {14391},
+            [questKeys.requiredSourceItems] = {49533},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 197332}}}},
+            [questKeys.objectives] = {{{36722,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [14299] = { -- Xylem's Asylum
+            [questKeys.preQuestGroup] = {14300,24478,24479},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Take the portal to Xylem's Tower"), 0, {{"object", 201606}}}},
+        },
+        [14300] = { -- The Trial of Fire
+            [questKeys.preQuestSingle] = {14296},
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_EVENT,l10n("Touch the Fire Portal Stone"),0,{{"object",196460}}},
+                {nil,Questie.ICON_TYPE_INTERACT,l10n("Go to your trial"),0,{{"object",195678}}},
+                {nil,Questie.ICON_TYPE_INTERACT,l10n("Go back"),0,{{"object",195681}}},
+            },
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Fire Trial Completed",{[zoneIDs.AZSHARA] = {{33.43,23.39}}}},
+        },
         [14308] = { -- When Science Attacks
             [questKeys.objectives] = {{{36025,nil,Questie.ICON_TYPE_EVENT},{36061,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [14310] = { -- Segmentation Fault: Core Dumped
             [questKeys.objectives] = {{{36105,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Reactor Control Console"), 0, {{"object", 195683}}}},
+        },
+        [14323] = { -- Absorbent
+            [questKeys.preQuestSingle] = {14130},
+        },
+        [14324] = { -- Full of Hot Water
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Scalding Water Lord"), 0, {{"object", 195711}}}},
+        },
+        [14340] = { -- Dressed to Impress
+            [questKeys.objectives] = {{{35187,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [14345] = { -- Wash Out
+            [questKeys.preQuestGroup] = {14131,14132,14324},
         },
         [14348] = { -- You Can't Take 'Em Alone
             [questKeys.objectives] = {{{36231}}},
@@ -1226,8 +1295,25 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {14368,14369,14382},
             [questKeys.preQuestSingle] = {},
         },
+        [14388] = { -- Azsharite Experiment Number Two
+            [questKeys.objectives] = {{{36297,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get on a Rocketway Rat after you got shrunk"),0,{{"monster",36437}}},
+                {nil,Questie.ICON_TYPE_TALK,l10n("Talk to Assistant Greely"),0,{{"monster",36077}}},
+            },
+        },
         [14389] = { -- Wasn't It Obvious?
             [questKeys.triggerEnd] = {"Find Anara, and hopefully, Azuregos",{[zoneIDs.AZSHARA] = {{27.7,40.4}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Take the portal"), 0, {{"object", 196474}}}},
+        },
+        [14390] = { -- Easy is Boring
+            [questKeys.objectives] = {{{36436,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [14391] = { -- Turning the Tables
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Revive"), 0, {{"monster", 37040}}}},
+        },
+        [14392] = { -- Farewell, Minnow
+            [questKeys.preQuestGroup] = {24467,14261,14297},
         },
         [14395] = { -- Gasping for Breath
             [questKeys.objectives] = {{{36440,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -1258,6 +1344,9 @@ function CataQuestFixes.Load()
         [14412] = { -- Washed Up
             [questKeys.preQuestSingle] = {14403},
         },
+        [14413] = { -- The Pinnacle of Learning
+            [questKeys.preQuestGroup] = {14226,14230},
+        },
         [14416] = { -- The Hungry Ettin
             [questKeys.objectives] = {{{36540,nil,Questie.ICON_TYPE_MOUNT_UP}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Bring the horses to Lorna Crowley"),0,{{"monster",36457}}}},
@@ -1273,6 +1362,20 @@ function CataQuestFixes.Load()
         [14424] = { -- Need More Science
             [questKeys.preQuestSingle] = {14423},
             [questKeys.exclusiveTo] = {14308},
+        },
+        [14430] = { -- Hacking the Construct
+            [questKeys.objectives] = {{{36599,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [14432] = { -- A Pale Brew
+            [questKeys.preQuestSingle] = {14431},
+        },
+        [14433] = { -- Diplomacy by Another Means
+            [questKeys.preQuestSingle] = {14431},
+        },
+        [14435] = { -- The Blackmaw Doublecross
+            [questKeys.preQuestGroup] = {14432,14433},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Andorel Sunsworn while in disguise"),0,{{"monster",36596}}}},
+            [questKeys.objectives] = {{{36618},{36013},{36012}}},
         },
         [14442] = { -- My Favorite Subject
             [questKeys.exclusiveTo] = {14408},
@@ -1313,6 +1416,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {14401,14404,14412,14416},
             [questKeys.exclusiveTo] = {14402,14405},
         },
+        [14464] = { -- Lightning Strike Assassination
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Jump on!"),0,{{"monster",36761}}}},
+        },
         [14468] = { -- Another Warm Body
             [questKeys.preQuestGroup] = {14161,14194,14197},
         },
@@ -1333,11 +1439,27 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {14001},
         },
         [14477] = { -- Push the Button!
-            [questKeys.objectives] = {nil,{{184856}}},
+            [questKeys.objectives] = {nil,{{460003,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [14480] = { -- Extermination
+            [questKeys.preQuestSingle] = {24448},
         },
         [14482] = { -- Call of Duty
             [questKeys.objectives] = {{{36915,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY] = {{18.3,25.5}}},Questie.ICON_TYPE_EVENT,l10n("Wait for the Mercenary Ship to arrive")}},
+        },
+        [14484] = { -- Head of the Snake
+            [questKeys.preQuestSingle] = {24448},
+        },
+        [14485] = { -- Ticker Required
+            [questKeys.preQuestSingle] = {24448},
+            [questKeys.objectives] = {nil,{{199333,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [14486] = { -- Handling the Goods
+            [questKeys.preQuestSingle] = {24448},
+        },
+        [14487] = { -- Still Beating Heart
+            [questKeys.preQuestSingle] = {24448},
         },
         [14491] = { -- The Restless Earth
             [questKeys.objectives] = {{{36845,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -1356,12 +1478,33 @@ function CataQuestFixes.Load()
         [24429] = { -- A Most Puzzling Circumstance
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [24430] = { -- Blacken the Skies
+            [questKeys.preQuestSingle] = {14477},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",36900}}}},
+            [questKeys.objectives] = {{{36890},{36906,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [24436] = { -- Halo Drops
+            [questKeys.preQuestSingle] = {14479},
+            [questKeys.objectives] = {{{36922,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [24437] = { -- First Come, First Served
+            [questKeys.objectives] = {{{36953,nil,Questie.ICON_TYPE_EVENT},{36952,nil,Questie.ICON_TYPE_EVENT},{36951,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [24438] = { -- Exodus
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Board the carriage"),0,{{"monster",38755},{"monster",44928}}}},
+        },
+        [24439] = { -- The Conquest of Azshara
+            [questKeys.preQuestSingle] = {24430},
         },
         [24440] = { -- Winterhoof Cleansing
             [questKeys.preQuestSingle] = {20440},
             [questKeys.triggerEnd] = {"Cleanse the Winterhoof Water Well",{[zoneIDs.MULGORE] = {{53.51,65.38}}}},
+        },
+        [24448] = { -- Field Promotion
+            [questKeys.preQuestGroup] = {24435,24436,24437},
+        },
+        [24449] = { -- Shore Leave
+            [questKeys.preQuestGroup] = {14480,14484,14485,14486,14487},
         },
         [24452] = { -- Profitability Scouting
             [questKeys.objectives] = {nil,{{200298,"Heart of Arkkoroc identified"}}},
@@ -1374,8 +1517,19 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 20441,
             [questKeys.requiredRaces] = raceKeys.TAUREN,
         },
+        [24458] = { -- A Hello to Arms
+            [questKeys.preQuestSingle] = {14388}, -- might need 14295 too
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a free airlift"),0,{{"monster",37005}}}},
+            [questKeys.objectives] = {{{37009,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [24459] = { -- Morin Cloudstalker
             [questKeys.nextQuestInChain] = 749,
+        },
+        [24463] = { -- Probing into Ashenvale
+            [questKeys.preQuestSingle] = {24439},
+        },
+        [24467] = { -- Fade to Black
+            [questKeys.preQuestSingle] = {14391},
         },
         [24468] = { -- Stranded at the Marsh
             [questKeys.objectives] = {{{37067,"Crash Survivor rescued",Questie.ICON_TYPE_INTERACT}}},
@@ -1388,6 +1542,27 @@ function CataQuestFixes.Load()
         [24473] = { -- Lockdown in Anvilmar
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24470,24471},
+        },
+        [24478] = { -- The Trial of Frost
+            [questKeys.preQuestSingle] = {14296},
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_EVENT,l10n("Touch the Frost Portal Stone"),0,{{"object",196459}}},
+                {nil,Questie.ICON_TYPE_INTERACT,l10n("Go to your trial"),0,{{"object",195680}}},
+                {nil,Questie.ICON_TYPE_INTERACT,l10n("Go back"),0,{{"object",195681}}},
+            },
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Frost Trial Completed",{[zoneIDs.AZSHARA] = {{61.81,20.46}}}},
+        },
+        [24479] = { -- The Trial of Shadow
+            [questKeys.preQuestSingle] = {14296},
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_EVENT,l10n("Touch the Shadow Portal Stone"),0,{{"object",196461}}},
+                {nil,Questie.ICON_TYPE_INTERACT,l10n("Go to your trial"),0,{{"object",195364}}},
+                {nil,Questie.ICON_TYPE_INTERACT,l10n("Go back"),0,{{"object",195681}}},
+                {nil,Questie.ICON_TYPE_INTERACT,l10n("Begin your trial"),0,{{"object",201597}}},
+            },
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Shadow Trial Completed",{[zoneIDs.AZSHARA] = {{31.02,27.82}}}},
         },
         [24487] = { -- Whitebeard Needs Ye
             [questKeys.preQuestSingle] = {},
@@ -1411,6 +1586,10 @@ function CataQuestFixes.Load()
         },
         [24496] = { -- Arcane Rune -- Dwarf Mage
             [questKeys.requiredRaces] = raceKeys.DWARF,
+        },
+        [24497] = { -- Airborne Again
+            [questKeys.preQuestSingle] = {14392},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Secure a ride to Valormok"),0,{{"monster",37139}}}},
         },
         [24502] = { -- Necessary Roughness
             [questKeys.objectives] = {{{48526,nil,Questie.ICON_TYPE_MOUNT_UP},{37114}}},

@@ -94,6 +94,10 @@ local phases = {
     KEZAN_GALLYWIX_ON_BOAT = 1022,
     AGTOR_GRABBIT_OUTSIDE_ATTACK = 1023,
     AGTOR_GRABBIT_DURING_ATTACK = 1024,
+    MOLOTOV_AT_RUINS = 1025,
+    MOLOTOV_AT_HARBOR = 1026,
+    SORATA_AT_EXCHANGE = 1027,
+    SORATA_AT_HARBOR = 1028,
 }
 Phasing.phases = phases
 
@@ -280,6 +284,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.AGTOR_GRABBIT_DURING_ATTACK then
         return questLog[14155] and questLog[14155].isComplete ~= 1 and true or false
+    end
+
+    if phase == phases.MOLOTOV_AT_RUINS then
+        return (not complete[24453])
+    end
+
+    if phase == phases.MOLOTOV_AT_HARBOR then
+        return complete[24453] or false
+    end
+
+    if phase == phases.SORATA_AT_EXCHANGE then
+        return (not complete[14340])
+    end
+
+    if phase == phases.SORATA_AT_HARBOR then
+        return complete[14340] or false
     end
 
     return false

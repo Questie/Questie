@@ -778,7 +778,6 @@ describe("Phasing", function()
     end)
 
     describe("Azshara", function()
-
         it("should handle Ag'tor Bloodfist and Labor Captain Grabbit positioning", function()
             Questie.db.char.complete[14135] = false
 
@@ -801,6 +800,26 @@ describe("Phasing", function()
 
             assert.is_true(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_OUTSIDE_ATTACK))
             assert.is_false(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_DURING_ATTACK))
+        end)
+
+        it("should handle Commander Molotov positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.MOLOTOV_AT_RUINS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.MOLOTOV_AT_HARBOR))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[24453] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.MOLOTOV_AT_RUINS))
+            assert.is_true(Phasing.IsSpawnVisible(phases.MOLOTOV_AT_HARBOR))
+        end)
+
+        it("should handle Sorata Firespinner positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.SORATA_AT_EXCHANGE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SORATA_AT_HARBOR))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[14340] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.SORATA_AT_EXCHANGE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.SORATA_AT_HARBOR))
         end)
     end)
 end)
