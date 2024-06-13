@@ -1758,6 +1758,15 @@ function CataQuestFixes.Load()
         [24681] = { -- They Have Allies, But So Do We
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in a Glaive Thrower"),0,{{"monster",38150}}}},
         },
+        [24721] = { -- The Eastern Pylon
+            [questKeys.objectives] = {nil,{{164957,"Discover and examine the Eastern Crystal Pylon"}}},
+        },
+        [24722] = { -- The Northern Pylon
+            [questKeys.objectives] = {nil,{{164955,"Discover and examine the Northern Crystal Pylon"}}},
+        },
+        [24723] = { -- The Western Pylon
+            [questKeys.objectives] = {nil,{{164956,"Discover and examine the Western Crystal Pylon"}}},
+        },
         [24735] = { -- A Little Help From My Friends
             [questKeys.preQuestSingle] = {24734},
         },
