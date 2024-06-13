@@ -4060,6 +4060,9 @@ function CataQuestFixes.Load()
         [27461] = { -- To Take the Abbey
             [questKeys.preQuestSingle] = {27460},
         },
+        [27462] = { -- To Take the Barracks
+            [questKeys.preQuestSingle] = {27460},
+        },
         [27467] = { -- Buried Blades
             [questKeys.preQuestSingle] = {27464},
         },
