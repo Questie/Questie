@@ -4057,6 +4057,9 @@ function CataQuestFixes.Load()
         [27454] = { -- Just a Drop in the Bucket
             [questKeys.objectives] = {nil,{{205485,"Disturb Mereldar Plague Cauldron",Questie.ICON_TYPE_TALK}}},
         },
+        [27461] = { -- To Take the Abbey
+            [questKeys.preQuestSingle] = {27460},
+        },
         [27467] = { -- Buried Blades
             [questKeys.preQuestSingle] = {27464},
         },
