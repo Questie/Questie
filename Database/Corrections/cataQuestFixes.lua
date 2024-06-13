@@ -665,6 +665,9 @@ function CataQuestFixes.Load()
         [13621] = { -- Gorat's Vengeance
             [questKeys.preQuestSingle] = {13620},
         },
+        [13628] = { -- Got Wood?
+            [questKeys.preQuestSingle] = {13621},
+        },
         [13639] = { -- Resupplying the Excavation
             [questKeys.triggerEnd] = {"Find Huldar, Miran, and Saean",{[zoneIDs.LOCH_MODAN] = {{55.6,68.5}}}},
         },
