@@ -4057,6 +4057,9 @@ function CataQuestFixes.Load()
         [27454] = { -- Just a Drop in the Bucket
             [questKeys.objectives] = {nil,{{205485,"Disturb Mereldar Plague Cauldron",Questie.ICON_TYPE_TALK}}},
         },
+        [27467] = { -- Buried Blades
+            [questKeys.preQuestSingle] = {27464},
+        },
         [27468] = { -- Siege Tank Rescue
             [questKeys.objectives] = {{{45524},{45526}}},
         },
