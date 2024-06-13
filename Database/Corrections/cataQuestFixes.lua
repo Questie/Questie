@@ -1004,7 +1004,7 @@ function CataQuestFixes.Load()
         },
         [14113] = { -- Life of the Party
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {14109,24520},
+            [questKeys.preQuestGroup] = {14109,24520,14007 or 14008 or 14009 or 14010 or 14011 or 14012 or 14013},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{35186,35175},35175,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [14115] = { -- Pirate Party Crashers
@@ -1066,7 +1066,7 @@ function CataQuestFixes.Load()
         [14153] = { -- Life of the Party
             [questKeys.objectives] = {nil,nil,nil,nil,{{{35186,35175},35175,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {14110,24520},
+            [questKeys.preQuestGroup] = {14110,24520,14007 or 14008 or 14009 or 14010 or 14011 or 14012 or 14013},
         },
         [14154] = { -- By the Skin of His Teeth
             [questKeys.triggerEnd] = {"Survive while holding back the worgen for 2 minutes",{[zoneIDs.GILNEAS_CITY] = {{55.1,62.7}}}},
