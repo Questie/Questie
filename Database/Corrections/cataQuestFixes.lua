@@ -4177,6 +4177,9 @@ function CataQuestFixes.Load()
         [27616] = { -- The Huntsman
             [questKeys.preQuestSingle] = {27462},
         },
+        [27619] = { -- The Commander
+            [questKeys.preQuestSingle] = {27462},
+        },
         [27621] = { -- Firebeard's Patrol
             [questKeys.preQuestSingle] = {27545},
         },
