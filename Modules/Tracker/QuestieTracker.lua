@@ -624,6 +624,8 @@ function QuestieTracker:Update()
             local quest = questDetails[questId].quest
             local complete = quest:IsComplete()
             local zoneName = questDetails[questId].zoneName
+
+            TrackerQuestTimers:UpdateAndGetRemainingTime(quest, nil, true)
             local timedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
 
             if (complete ~= 1 or Questie.db.profile.trackerShowCompleteQuests or timedQuest)
@@ -1024,7 +1026,7 @@ function QuestieTracker:Update()
                             if quest.timedBlizzardQuest then
                                 line.label:SetText(Questie:Colorize(l10n("Blizzard Timer Active") .. "!", "blue"))
                             else
-                                local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTime(quest, line, false)
+                                local timeRemainingString, timeRemaining = TrackerQuestTimers:UpdateAndGetRemainingTime(quest, line, false)
                                 if timeRemaining then
                                     if timeRemaining <= 1 then
                                         line.label:SetText(Questie:Colorize("0 Seconds", "blue"))
