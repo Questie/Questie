@@ -450,6 +450,12 @@ function CataItemFixes.Load()
         [59146] = { -- Head of Fleet Master Seahorn
             [itemKeys.npcDrops] = {2487},
         },
+        [59147] = { -- Cow Head
+            [itemKeys.npcDrops] = {43505},
+        },
+        [59148] = { -- Oversized Pirate Hat
+            [itemKeys.npcDrops] = {2663},
+        },
         [59261] = { -- Blackrock Holding Pen Key
             [itemKeys.class] = itemClasses.QUEST,
         },

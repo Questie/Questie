@@ -3433,6 +3433,7 @@ function CataQuestFixes.Load()
         },
         [26630] = { -- Looks Like a Tauren Pirate to Me
             [questKeys.parentQuest] = 26629,
+            [questKeys.objectives] = {{{2487,nil,Questie.ICON_TYPE_TALK}},nil,{{59148,nil,Questie.ICON_TYPE_TALK},{59147,nil,Questie.ICON_TYPE_TALK}},nil,},
         },
         [26634] = { -- The Bane of Many A Pirate
             [questKeys.preQuestSingle] = {26631},
