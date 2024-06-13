@@ -4288,6 +4288,9 @@ function CataQuestFixes.Load()
         [27704] = { -- Legends of the Sunken Temple
             [questKeys.triggerEnd] = {"Hall of Masks found", {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR]={{74,44.4}}}},
         },
+        [27707] = { -- Neferset Prison
+            [questKeys.objectives] = {{{46425,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [27711] = { -- Back to the Elementium Depths
             [questKeys.preQuestSingle] = {27719},
             [questKeys.exclusiveTo] = {27720},
