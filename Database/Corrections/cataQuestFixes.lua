@@ -35,6 +35,9 @@ function CataQuestFixes.Load()
         [2] = { -- Sharptalon's Claw
             [questKeys.preQuestSingle] = {},
         },
+        [23] = { -- Ursangous's Paw
+            [questKeys.preQuestSingle] = {},
+        },
         [54] = { -- Report to Goldshire
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
             [questKeys.preQuestSingle] = {26390},
