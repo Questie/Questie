@@ -4168,6 +4168,9 @@ function CataQuestFixes.Load()
         [27612] = { -- Victory From Within
             [questKeys.objectives] = {nil,{{205876},{205877}}},
         },
+        [27613] = { -- The Assassin
+            [questKeys.preQuestSingle] = {27461},
+        },
         [27614] = { -- Scarlet Salvage
             [questKeys.preQuestSingle] = {27462},
         },
