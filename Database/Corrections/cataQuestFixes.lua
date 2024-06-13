@@ -38,6 +38,9 @@ function CataQuestFixes.Load()
         [23] = { -- Ursangous's Paw
             [questKeys.preQuestSingle] = {},
         },
+        [24] = { -- Shadumbra's Head
+            [questKeys.preQuestSingle] = {},
+        },
         [54] = { -- Report to Goldshire
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
             [questKeys.preQuestSingle] = {26390},
