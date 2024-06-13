@@ -98,6 +98,8 @@ local phases = {
     MOLOTOV_AT_HARBOR = 1026,
     SORATA_AT_EXCHANGE = 1027,
     SORATA_AT_HARBOR = 1028,
+    SCARLET_ENCLAVE_ENTRACE = 1029,
+    SCARLET_ENCLAVE = 1030,
 }
 Phasing.phases = phases
 
@@ -300,6 +302,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SORATA_AT_HARBOR then
         return complete[14340] or false
+    end
+
+    if phase == phases.SCARLET_ENCLAVE_ENTRACE then
+        return (not complete[27460])
+    end
+
+    if phase == phases.SCARLET_ENCLAVE then
+        return complete[27460] or false
     end
 
     return false

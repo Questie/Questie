@@ -822,4 +822,16 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.SORATA_AT_HARBOR))
         end)
     end)
+
+    describe("Eastern Plague Lands", function()
+        it("should handle The Scarlet Enclave positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.SCARLET_ENCLAVE_ENTRACE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SCARLET_ENCLAVE))
+
+            Questie.db.char.complete[27460] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.SCARLET_ENCLAVE_ENTRACE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.SCARLET_ENCLAVE))
+        end)
+    end)
 end)

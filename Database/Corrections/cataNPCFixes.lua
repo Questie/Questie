@@ -221,6 +221,24 @@ function CataNpcFixes.Load()
         [15623] = { -- Xandivious
             [npcKeys.spawns] = {},
         },
+        [16112] = { -- Crusade Commander Korfax
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={
+                {72.53,74.78,phases.SCARLET_ENCLAVE_ENTRACE},
+                {75.4,76.2,phases.SCARLET_ENCLAVE},
+            }},
+        },
+        [16115] = { -- Crusade Commander Eligor Dawnbringer
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={
+                {72.54,74.91,phases.SCARLET_ENCLAVE_ENTRACE},
+                {76.6,73.2,phases.SCARLET_ENCLAVE},
+            }},
+        },
+        [16116] = { -- Archmage Angela Dosantos
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={
+                {72.64,74.84,phases.SCARLET_ENCLAVE_ENTRACE},
+                {76,75.4,phases.SCARLET_ENCLAVE},
+            }},
+        },
         [17310] = { -- Gnarl
             [npcKeys.waypoints] = {},
         },
