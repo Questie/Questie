@@ -32,6 +32,9 @@ function CataQuestFixes.Load()
     local specialFlags = QuestieDB.specialFlags
 
     return {
+        [2] = { -- Sharptalon's Claw
+            [questKeys.preQuestSingle] = {},
+        },
         [54] = { -- Report to Goldshire
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
             [questKeys.preQuestSingle] = {26390},
