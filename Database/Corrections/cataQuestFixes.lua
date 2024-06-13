@@ -244,6 +244,18 @@ function CataQuestFixes.Load()
         [6364] = { -- Return to Varg
             [questKeys.requiredRaces] = raceKeys.TAUREN,
         },
+        [6365] = { -- Meats to Orgrimmar
+            [questKeys.requiredRaces] = raceKeys.ORC + raceKeys.TROLL,
+        },
+        [6384] = { -- Ride to Orgrimmar
+            [questKeys.requiredRaces] = raceKeys.ORC + raceKeys.TROLL,
+        },
+        [6385] = { -- Doras the Wind Rider Master
+            [questKeys.requiredRaces] = raceKeys.ORC + raceKeys.TROLL,
+        },
+        [6386] = { -- Return to Razor Hill
+            [questKeys.requiredRaces] = raceKeys.ORC + raceKeys.TROLL,
+        },
         [7383] = { -- Teldrassil: The Burden of the Kaldorei
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {918,919},
