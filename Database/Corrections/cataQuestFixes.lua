@@ -4171,6 +4171,9 @@ function CataQuestFixes.Load()
         [27614] = { -- Scarlet Salvage
             [questKeys.preQuestSingle] = {27462},
         },
+        [27615] = { -- The Wrathcaster
+            [questKeys.preQuestSingle] = {27462},
+        },
         [27621] = { -- Firebeard's Patrol
             [questKeys.preQuestSingle] = {27545},
         },
