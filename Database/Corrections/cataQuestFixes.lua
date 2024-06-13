@@ -1608,6 +1608,7 @@ function CataQuestFixes.Load()
         [24502] = { -- Necessary Roughness
             [questKeys.objectives] = {{{48526,nil,Questie.ICON_TYPE_MOUNT_UP},{37114}}},
             [questKeys.finishedBy] = {{100005}},
+            [questKeys.startedBy] = {{37106}},
         },
         [24503] = { -- Fourth and Goal
             [questKeys.objectives] = {{{37203,nil,Questie.ICON_TYPE_EVENT}}},
