@@ -76,6 +76,14 @@ function CataObjectFixes.Load()
         [204360] = { -- Monstrous Clam
             [objectKeys.spawns] = {[14]={{59.03,14.08},{59.42,9.93},{59.37,12.45},{58.24,11.4},{58.08,13.54},{57.51,10.09},{56.24,9.64},{58.2,3.99},{58.96,5.17},{58.49,6.23},{56.88,6.68},{58.26,8.28}}},
         },
+        [205876] = { -- Argent Portal
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{78.58,73.03}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [205877] = { -- Argent Portal
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{77.86,70.85}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
         [206585] = { -- Totem of Ruumbo
             [objectKeys.questStarts] = {27989,27994,27995},
             [objectKeys.questEnds] = {27989,27994,28100},

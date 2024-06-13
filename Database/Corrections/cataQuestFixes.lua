@@ -4165,6 +4165,9 @@ function CataQuestFixes.Load()
         [27610] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
         },
+        [27612] = { -- Victory From Within
+            [questKeys.objectives] = {nil,{{205876},{205877}}},
+        },
         [27621] = { -- Firebeard's Patrol
             [questKeys.preQuestSingle] = {27545},
         },
