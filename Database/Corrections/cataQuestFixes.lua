@@ -2018,6 +2018,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {25024,25058,25093},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Sassy Hardwrench"), 0, {{"monster", 38387}}}},
         },
+        [25067] = { -- Thunderdrome: The Ginormus!
+            [questKeys.objectives] = {{{39075}}},
+        },
         [25073] = { -- Sen'jin Village
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
