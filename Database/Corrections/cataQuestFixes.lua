@@ -4911,6 +4911,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 28715,
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [28755] = { -- Annals of the Silver Hand
+            [questKeys.preQuestSingle] = {27464},
+        },
         [28756] = { -- Aberrations of Bone
             [questKeys.objectives] = {{{11622}}},
             [questKeys.preQuestSingle] = {27464},
