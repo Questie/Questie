@@ -2449,6 +2449,9 @@ function CataQuestFixes.Load()
         [25503] = { -- Blackfin's Booty
             [questKeys.startedBy] = {{41183},nil,{54639}},
         },
+        [25522] = { -- Gargantapid
+            [questKeys.preQuestSingle] = {25521},
+        },
         [25523] = { -- Flight in the Firelands
             [questKeys.requiredSourceItems] = {52716},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",40720}}}},
