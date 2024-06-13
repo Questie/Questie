@@ -4168,6 +4168,9 @@ function CataQuestFixes.Load()
         [27612] = { -- Victory From Within
             [questKeys.objectives] = {nil,{{205876},{205877}}},
         },
+        [27614] = { -- Scarlet Salvage
+            [questKeys.preQuestSingle] = {27462},
+        },
         [27621] = { -- Firebeard's Patrol
             [questKeys.preQuestSingle] = {27545},
         },
