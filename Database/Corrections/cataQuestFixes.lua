@@ -1140,6 +1140,8 @@ function CataQuestFixes.Load()
         },
         [14213] = { -- Ten Pounds of Flesh
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.objectives] = {nil,{{195497}}},
+            [questKeys.requiredSourceItems] = {48857},
         },
         [14215] = { -- Memories of the Dead
             [questKeys.objectives] = {{{35595,nil,Questie.ICON_TYPE_INTERACT}}},
