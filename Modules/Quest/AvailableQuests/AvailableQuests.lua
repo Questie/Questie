@@ -180,22 +180,6 @@ _CalculateAvailableQuests = function()
         end
 
         availableQuests[questId] = true
-
-        if QuestieMap.questIdFrames[questId] then
-            -- We already drew this quest so we might need to update the icon (config changed/level up)
-            for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
-                if frame and frame.data and frame.data.QuestData then
-                    local newIcon = _GetQuestIcon(frame.data.QuestData)
-
-                    if newIcon ~= frame.data.Icon then
-                        frame:UpdateTexture(Questie.usedIcons[newIcon])
-                    end
-                end
-            end
-            return
-        end
-
-        _DrawAvailableQuest(questId)
     end
 
     -- Measure performance
@@ -212,6 +196,29 @@ _CalculateAvailableQuests = function()
         --    yield()
         --end
     end
+
+    local calcEndTime = debugprofilestop()
+    print("Calculation", calcEndTime - startTime, "ms")
+
+    for questId in pairs(availableQuests) do
+
+        if QuestieMap.questIdFrames[questId] then
+            -- We already drew this quest so we might need to update the icon (config changed/level up)
+            for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
+                if frame and frame.data and frame.data.QuestData then
+                    local newIcon = _GetQuestIcon(frame.data.QuestData)
+
+                    if newIcon ~= frame.data.Icon then
+                        frame:UpdateTexture(Questie.usedIcons[newIcon])
+                    end
+                end
+            end
+        else
+            _DrawAvailableQuest(questId)
+        end
+    end
+
+    print("Drawing", debugprofilestop() - calcEndTime, "ms")
 
     print("Total:", debugprofilestop() - startTime, "ms")
 end
