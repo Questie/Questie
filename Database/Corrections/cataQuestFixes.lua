@@ -5743,6 +5743,38 @@ function CataQuestFixes.Load()
         [30112] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {11272},
         },
+        [82949] = {
+            [questKeys.name] = "Warchief's Command Board",
+            [questKeys.startedBy] = {{3324,3328,3344,3353,23128,45339,47246,47788}},
+            [questKeys.finishedBy] = {{49750}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.objectivesText] = {"Use the scroll of teleportation from your inventory to reach Orgrimmar and speak to the Warchief's Herald."},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [82985] = {
+            [questKeys.name] = "Warchief's Command Board",
+            [questKeys.startedBy] = {{29194,29195,29196}},
+            [questKeys.finishedBy] = {{49750}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.requiredClasses] = classKeys.DEATH_KNIGHT,
+            [questKeys.objectivesText] = {"Use the scroll of teleportation from your inventory to reach Orgrimmar and speak to the Warchief's Herald."},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [82989] = {
+            [questKeys.name] = "Warchief's Command Board",
+            [questKeys.startedBy] = {{3036}},
+            [questKeys.finishedBy] = {{49750}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.requiredClasses] = classKeys.DRUID,
+            [questKeys.objectivesText] = {"Use the scroll of teleportation from your inventory to reach Orgrimmar and speak to the Warchief's Herald."},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
     }
 end
 
