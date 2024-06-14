@@ -1322,9 +1322,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {48857},
         },
         [14359] = { -- Blessings From Above
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.objectives] = {nil,{{195497}}},
+            [questKeys.preQuestSingle] = {14358},
             [questKeys.requiredSourceItems] = {48857},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [14366] = { -- Holding Steady
             [questKeys.preQuestGroup] = {14347,14348},
