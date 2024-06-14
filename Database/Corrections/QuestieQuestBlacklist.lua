@@ -2552,6 +2552,12 @@ function QuestieQuestBlacklist:Load()
         [29741] = true, -- Sekhemi the Elder
         [29742] = true, -- Menkhaf the Elder
 
+        [82948] = true, -- Boosted quest
+        [82949] = true, -- Boosted quest
+        [82983] = true, -- Boosted quest
+        [82985] = true, -- Boosted quest
+        [82989] = true, -- Boosted quest
+
         ----- SoD -------------- SoD quests --------------- SoD -----
         [2950] = QuestieCorrections.SOD_HIDE, -- Nogg's Ring Redo
         [3446] = QuestieCorrections.SOD_HIDE, -- Into the Depths
