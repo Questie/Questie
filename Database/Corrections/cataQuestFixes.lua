@@ -1149,6 +1149,8 @@ function CataQuestFixes.Load()
         },
         [14217] = { -- Satyrical Offerings
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.objectives] = {nil,{{195497}}},
+            [questKeys.requiredSourceItems] = {48857},
             [questKeys.preQuestSingle] = {14213},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
