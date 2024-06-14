@@ -244,6 +244,15 @@ function CataQuestFixes.Load()
         [6031] = { -- Runecloth
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,8}},
         },
+        [6322] = { -- Michael Garrett
+            [questKeys.requiredRaces] = raceKeys.UNDEAD,
+        },
+        [6323] = { -- Ride to the Undercity
+            [questKeys.requiredRaces] = raceKeys.UNDEAD,
+        },
+        [6324] = { -- Return to Morris
+            [questKeys.requiredRaces] = raceKeys.UNDEAD,
+        },
         [6362] = { -- Ride to Thunder Bluff
             [questKeys.requiredRaces] = raceKeys.TAUREN,
         },
@@ -2014,9 +2023,64 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{100}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 2119}}}},
         },
+        [24974] = { -- Ever So Lonely
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{1543,1544},1543,nil,Questie.ICON_TYPE_INTERACT},{{38925},38925,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [24979] = { -- A Scarlet Letter
+            [questKeys.startedBy] = {{1535},nil,{52079}},
+            [questKeys.objectives] = {{{38999,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [24982] = { -- The New Forsaken
+            [questKeys.exclusiveTo] = {24983},
+        },
+        [24983] = { -- Forsaken Duties
+            [questKeys.preQuestSingle] = {},
+        },
+        [24988] = { -- The Chill of Death
+            [questKeys.preQuestSingle] = {24983},
+        },
+        [24989] = { -- Return to the Magistrate
+            [questKeys.preQuestSingle] = {24988},
+        },
+        [24991] = { -- Garren's Haunt
+            [questKeys.preQuestSingle] = {24996},
+            [questKeys.exclusiveTo] = {24994},
+        },
+        [24999] = { -- Garren's Haunt
+            [questKeys.preQuestSingle] = {24994},
+            [questKeys.objectives] = {{{38937,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25003] = { -- The Family Crypt
+            [questKeys.preQuestSingle] = {},
+        },
+        [25004] = { -- The Mills Overrun
+            [questKeys.preQuestSingle] = {25003},
+        },
+        [25005] = { -- Speak with Sevren
+            [questKeys.preQuestGroup] = {25004,25029},
+        },
+        [25006] = { -- The Grasp Weakens
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the procedure"), 0, {{"monster", 39117}}}},
+        },
+        [25012] = { -- Take to the Skies
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Brill"), 0, {{"monster", 37915}}}},
+        },
+        [25029] = { -- Deaths in the Family
+            [questKeys.preQuestSingle] = {25003},
+        },
+        [25030] = { -- The Haunted Mills
+            [questKeys.startedBy] = {{1658},nil,{3082}},
+        },
+        [25031] = { -- Head for the Mills
+            [questKeys.exclusiveTo] = {25003},
+            [questKeys.preQuestSingle] = {24995},
+        },
         [25035] = { -- Breaking the Line
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Jornun"), 0, {{"monster", 38989}}}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [25046] = { -- A Daughter's Embrace
+            [questKeys.objectives] = {{{39097,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25037] = { -- Crab Fishin'
             [questKeys.preQuestSingle] = {24643,24755,24763,24769,24775,24781,24787,26277},
@@ -3786,6 +3850,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 16499}}}},
             [questKeys.preQuestSingle] = {},
         },
+        [26964] = { -- Warchief's Command: Silverpine Forest!
+            [questKeys.preQuestSingle] = {},
+        },
         [26966] = { -- The Light's Power
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{20271},{20154}}},
             [questKeys.extraObjectives] = {
@@ -4930,6 +4997,7 @@ function CataQuestFixes.Load()
         },
         [28716] = { -- Hero's Call: Twilight Highlands!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+            [questKeys.finishedBy] = {{29611}},
         },
         [28717] = { -- Warchief's Command: Twilight Highlands!
             [questKeys.finishedBy] = {{39605}},
