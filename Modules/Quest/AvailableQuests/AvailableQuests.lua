@@ -142,6 +142,7 @@ _CalculateAndDrawAvailableQuests = function()
             hidden[questId] or              -- Don't show quests hidden by the player
             activeChildQuests[questId]      -- We already drew this quest in a previous loop iteration
         ) then
+            availableQuests[questId] = false
             return
         end
 
@@ -149,6 +150,7 @@ _CalculateAndDrawAvailableQuests = function()
             _DrawChildQuests(questId, currentQuestlog, completedQuests)
 
             if QIsComplete(questId) ~= -1 then -- The quest in the quest log is not failed, so we don't show it as available
+                availableQuests[questId] = false
                 return
             end
         end
@@ -162,6 +164,7 @@ _CalculateAndDrawAvailableQuests = function()
             (IsClassic and currentIsleOfQuelDanasQuests[questId]) or        -- Don't show Isle of Quel'Danas quests for Era/HC/SoX
             (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId))          -- Don't show SoD Rune quests with the option disabled
         ) then
+            availableQuests[questId] = false
             return
         end
 
@@ -176,6 +179,7 @@ _CalculateAndDrawAvailableQuests = function()
                 QuestieMap:UnloadQuestFrames(questId)
                 QuestieTooltips:RemoveQuest(questId)
             end
+            availableQuests[questId] = false
             return
         end
 
@@ -191,6 +195,8 @@ _CalculateAndDrawAvailableQuests = function()
 
     local calcEndTime = debugprofilestop()
     print("Calculation", calcEndTime - startTime, "ms")
+
+    -- TODO: availableQuests is never reset
 
     local questCount = 0
     for questId in pairs(availableQuests) do
