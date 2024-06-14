@@ -1134,6 +1134,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{35229,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount Crowley's Horse"),0,{{"monster",44427}}}},
         },
+        [14213] = { -- Ten Pounds of Flesh
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [14215] = { -- Memories of the Dead
             [questKeys.objectives] = {{{35595,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Touch the spirit"),0,{{"monster",35567}}}},
@@ -1295,6 +1298,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,{{195517}}},
             [questKeys.requiredSourceItems] = {48943},
+        },
+        [14358] = { -- Ten Pounds of Flesh
+            [questKeys.objectives] = {nil,{{195497}}},
+            [questKeys.requiredSourceItems] = {48857},
         },
         [14366] = { -- Holding Steady
             [questKeys.preQuestGroup] = {14347,14348},
