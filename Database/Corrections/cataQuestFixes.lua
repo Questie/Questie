@@ -5743,6 +5743,16 @@ function CataQuestFixes.Load()
         [30112] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {11272},
         },
+        [82948] = {
+            [questKeys.name] = "Hero's Call Board",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5515,13283,20407,44395}},
+            [questKeys.finishedBy] = {{12480}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Use the scroll of teleportation from your inventory to reach Stormwind City and speak to Melris Malagan."},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
         [82949] = {
             [questKeys.name] = "Warchief's Command Board",
             [questKeys.startedBy] = {{3324,3328,3344,3353,23128,45339,47246,47788}},
@@ -5752,6 +5762,17 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.objectivesText] = {"Use the scroll of teleportation from your inventory to reach Orgrimmar and speak to the Warchief's Herald."},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [82983] = {
+            [questKeys.name] = "Hero's Call Board",
+            [questKeys.startedBy] = {{29194,29195,29196}},
+            [questKeys.finishedBy] = {{12480}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classKeys.DEATH_KNIGHT,
+            [questKeys.objectivesText] = {"Use the scroll of teleportation from your inventory to reach Stormwind City and speak to Melris Malagan."},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [82985] = {
             [questKeys.name] = "Warchief's Command Board",
