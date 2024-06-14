@@ -9,8 +9,14 @@ function CataItemFixes.Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [2859] = { -- Vile Fin Scale
+            [itemKeys.npcDrops] = {1541,1543,1544,1545},
+        },
+        [3082] = { -- Dargol's Skull
+            [itemKeys.startQuest] = 25030,
+        },
         [5169] = { -- Timberling Sprout
-            [itemKeys.objectDrops] = {4608}
+            [itemKeys.objectDrops] = {4608},
         },
         [5508] = { -- Fallen Moonstone
             [itemKeys.npcDrops] = {3758,3759,3762,3763},
@@ -250,6 +256,9 @@ function CataItemFixes.Load()
         },
         [52024] = { -- Rockin' Powder
             [itemKeys.npcDrops] = {},
+        },
+        [52068] = { -- Briny Sea Cucumber
+            [itemKeys.npcDrops] = {38933},
         },
         [52481] = { -- Blastshadow's Soulstone
             [itemKeys.npcDrops] = {},
