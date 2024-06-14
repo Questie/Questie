@@ -1152,6 +1152,8 @@ function CataQuestFixes.Load()
         },
         [14217] = { -- Satyrical Offerings
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.preQuestSingle] = {14213},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [14218] = { -- By Blood and Ash
             [questKeys.startedBy] = {{35618}},
