@@ -303,6 +303,9 @@ function CataQuestFixes.Load()
         [9369] = { -- Replenishing the Healing Crystals
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE - raceKeys.DRAENEI,
         },
+        [9563] = { -- Gaining Mirren's Trust
+            [questKeys.objectives] = {nil,nil,{{23848}},{946,3000}},
+        },
         [9612] = { -- A Hearty Thanks!
             [questKeys.requiredRaces] = raceKeys.DRAENEI,
         },
