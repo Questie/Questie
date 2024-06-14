@@ -39,7 +39,7 @@ local availableQuests = {}
 local dungeons = ZoneDB:GetDungeons()
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
 
-local _CalculateAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
+local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
 
 ---@param callback function | nil
 function AvailableQuests.CalculateAndDrawAll(callback)
@@ -49,7 +49,7 @@ function AvailableQuests.CalculateAndDrawAll(callback)
     if timer then
         timer:Cancel()
     end
-    timer = ThreadLib.Thread(_CalculateAvailableQuests, 0, "Error in AvailableQuests.CalculateAndDrawAll", callback)
+    timer = ThreadLib.Thread(_CalculateAndDrawAvailableQuests, 0, "Error in AvailableQuests.CalculateAndDrawAll", callback)
 end
 
 --Draw a single available quest, it is used by the CalculateAndDrawAll function.
@@ -95,7 +95,7 @@ function AvailableQuests.UnloadUndoable()
     end
 end
 
-_CalculateAvailableQuests = function()
+_CalculateAndDrawAvailableQuests = function()
     -- Localize the variables for speeeeed
     local debugEnabled = Questie.db.profile.debugEnabled
 
@@ -135,7 +135,7 @@ _CalculateAvailableQuests = function()
 
     -- We create a local function here to improve readability but use the localized variables above.
     -- The order of checks is important here to bring the speed to a max
-    local function _DrawQuestIfAvailable(questId)
+    local function _CheckAvailability(questId)
         if (autoBlacklist[questId] or       -- Don't show autoBlacklist quests marked as such by IsDoable
             completedQuests[questId] or     -- Don't show completed quests
             hiddenQuests[questId] or        -- Don't show blacklisted quests
@@ -187,7 +187,7 @@ _CalculateAvailableQuests = function()
 
     --local questCount = 0
     for questId in pairs(questData) do
-        _DrawQuestIfAvailable(questId)
+        _CheckAvailability(questId)
 
         -- Reset the questCount
         --questCount = questCount + 1
