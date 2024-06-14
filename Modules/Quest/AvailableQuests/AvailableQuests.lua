@@ -187,13 +187,6 @@ _CalculateAndDrawAvailableQuests = function()
 
     for questId in pairs(questData) do
         _CheckAvailability(questId)
-
-        -- Reset the questCount
-        --questCount = questCount + 1
-        --if questCount > QUESTS_PER_YIELD then
-        --    questCount = 0
-        --    yield()
-        --end
     end
 
     local calcEndTime = debugprofilestop()
