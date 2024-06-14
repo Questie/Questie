@@ -2467,6 +2467,9 @@ function CataQuestFixes.Load()
         [25503] = { -- Blackfin's Booty
             [questKeys.startedBy] = {{41183},nil,{54639}},
         },
+        [25520] = { -- An Ancient Awakens
+            [questKeys.preQuestGroup] = {25514,25519},
+        },
         [25522] = { -- Gargantapid
             [questKeys.preQuestSingle] = {25521},
         },
