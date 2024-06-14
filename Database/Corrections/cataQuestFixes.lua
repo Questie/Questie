@@ -3041,6 +3041,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{42463,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
+        [26213] = { -- Hot On the Trail: The Riverpaw Clan
+            [questKeys.preQuestSingle] = {26209},
+        },
         [26214] = { -- Hot On the Trail: Murlocs
             [questKeys.preQuestSingle] = {26209},
         },
