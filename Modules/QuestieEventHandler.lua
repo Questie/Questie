@@ -222,20 +222,6 @@ function QuestieEventHandler:RegisterLateEvents()
         QuestieTracker.QuestItemLooted(_, text)
         QuestieAnnounce.ItemLooted(_, text, notPlayerName, _, _, playerName)
     end)
-
-    -- since icon updates are disabled in instances, we need to reset on P_E_W
-    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
-        if Questie.started then
-            QuestieMap:InitializeQueue()
-            local isInInstance, instanceType = IsInInstance()
-            local skipInstance = isInInstance and (instanceType == "raid" or instanceType == "pvp" or instanceType == "arena")
-
-            -- Only run map updates when not in a raid or battleground
-            if not skipInstance then
-                QuestieQuest:SmoothReset()
-            end
-        end
-    end)
 end
 
 function _EventHandler:PlayerLogin()
