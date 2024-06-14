@@ -198,17 +198,22 @@ _CalculateAvailableQuests = function()
         _DrawAvailableQuest(questId)
     end
 
-    local questCount = 0
+    -- Measure performance
+    local startTime = debugprofilestop()
+
+    --local questCount = 0
     for questId in pairs(questData) do
         _DrawQuestIfAvailable(questId)
 
         -- Reset the questCount
-        questCount = questCount + 1
-        if questCount > QUESTS_PER_YIELD then
-            questCount = 0
-            yield()
-        end
+        --questCount = questCount + 1
+        --if questCount > QUESTS_PER_YIELD then
+        --    questCount = 0
+        --    yield()
+        --end
     end
+
+    print("Total:", debugprofilestop() - startTime, "ms")
 end
 
 --- Mark all child quests as active when the parent quest is in the quest log
