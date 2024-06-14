@@ -2976,6 +2976,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25973},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE]={{33.1,77.81}}},Questie.ICON_TYPE_EVENT,l10n("Attune the with the Broken Blade's owner")}},
         },
+        [26147] = { -- Bigger and Uglier
+            [questKeys.preQuestSingle] = {26146},
+        },
         [26150] = { -- A Visit With Maybell
             [questKeys.exclusiveTo] = {106},
             [questKeys.nextQuestInChain] = 106,
