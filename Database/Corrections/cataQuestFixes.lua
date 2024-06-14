@@ -3120,6 +3120,7 @@ function CataQuestFixes.Load()
         },
         [26229] = { -- "I TAKE Candle!"
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {26215},
         },
         [26230] = { -- Feast or Famine
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
