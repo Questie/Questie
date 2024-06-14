@@ -145,6 +145,9 @@ function CataItemFixes.Load()
         [47050] = { -- The Captain's Logs
             [itemKeys.objectDrops] = {195361},
         },
+        [48106] = { -- Melonfruit
+            [itemKeys.npcDrops] = {},
+        },
         [48128] = { -- Mountainfoot Iron
             [itemKeys.npcDrops] = {},
         },
