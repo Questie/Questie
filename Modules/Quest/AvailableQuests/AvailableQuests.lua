@@ -185,7 +185,6 @@ _CalculateAndDrawAvailableQuests = function()
     -- Measure performance
     local startTime = debugprofilestop()
 
-    --local questCount = 0
     for questId in pairs(questData) do
         _CheckAvailability(questId)
 
@@ -200,8 +199,8 @@ _CalculateAndDrawAvailableQuests = function()
     local calcEndTime = debugprofilestop()
     print("Calculation", calcEndTime - startTime, "ms")
 
+    local questCount = 0
     for questId in pairs(availableQuests) do
-
         if QuestieMap.questIdFrames[questId] then
             -- We already drew this quest so we might need to update the icon (config changed/level up)
             for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
@@ -215,6 +214,13 @@ _CalculateAndDrawAvailableQuests = function()
             end
         else
             _DrawAvailableQuest(questId)
+        end
+
+        -- Reset the questCount
+        questCount = questCount + 1
+        if questCount > QUESTS_PER_YIELD then
+            questCount = 0
+            yield()
         end
     end
 
