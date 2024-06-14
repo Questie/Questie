@@ -3123,6 +3123,7 @@ function CataQuestFixes.Load()
         },
         [26230] = { -- Feast or Famine
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {26215},
         },
         [26233] = { -- Stealing From Our Own
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE - raceKeys.TROLL,
