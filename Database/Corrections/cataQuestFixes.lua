@@ -1150,6 +1150,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{35595,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Touch the spirit"),0,{{"monster",35567}}}},
         },
+        [14217] = { -- Satyrical Offerings
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [14218] = { -- By Blood and Ash
             [questKeys.startedBy] = {{35618}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in a cannon"),0,{{"monster",35317}}}},
