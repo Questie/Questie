@@ -3038,6 +3038,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{42463,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
+        [26214] = { -- Hot On the Trail: Murlocs
+            [questKeys.preQuestSingle] = {26209},
+        },
         [26219] = { -- Full Circle
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE]={{69.6,75.2}}},Questie.ICON_TYPE_EVENT,l10n("Wait for the Pincer X2 to arrive")}},
         },
