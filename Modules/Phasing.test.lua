@@ -20,6 +20,7 @@ describe("Phasing", function()
         Questie = _G["Questie"]
 
         QuestLogCache = require("Modules.Quest.QuestLogCache")
+        QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
         Phasing = require("Modules.Phasing")
         phases = Phasing.phases
@@ -482,11 +483,20 @@ describe("Phasing", function()
     end)
 
     describe("Vash'jir", function()
-        it("should return true for Legions Rest till 25958 is complete", function()
+        it("should return true for Legions Rest till 25958 or 25747 is accepted", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_LEGIONS_REST))
         end)
 
-        it("should return true for Northern Garden when 25958 or 25747 is complete", function()
+        it("should return true for Northern Garden when 25958 or 25747 is accepted or complete", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25958]={}}
+            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_NORTHERN_GARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_LEGIONS_REST))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25747]={}}
+            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_NORTHERN_GARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_LEGIONS_REST))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
             Questie.db.char.complete[25958] = true
 
             assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_NORTHERN_GARDEN))
