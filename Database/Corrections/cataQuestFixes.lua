@@ -4565,11 +4565,20 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {},
             [questKeys.preQuestSingle] = {27934},
         },
+        [27944] = { -- Thinning the Brood
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [27945] = { -- Paint it Black
             [questKeys.preQuestSingle] = {27751,27929},
         },
         [27947] = { -- A Vision of Twilight
             [questKeys.preQuestSingle] = {27751,27929},
+        },
+        [27948] = { -- A Sticky Task
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [27949] = { -- The Forgotten
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [27950] = { -- Gobbles!
             [questKeys.objectives] = {{{47191}}},
@@ -4583,6 +4592,33 @@ function CataQuestFixes.Load()
         [27969] = { -- Make Yourself Useful
             [questKeys.objectives] = {{{47292}}},
         },
+        [27966] = { -- Salvaging the Remains
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [27967] = { -- First Lieutenant Connor
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [27970] = { -- Captain P. Harris
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [27971] = { -- Rattling Their Cages
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [27972] = { -- Boosting Morale
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [27973] = { -- Watch Out For Splinters!
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [27975] = { -- WANTED: Foreman Wellson
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [27978] = { -- Ghostbuster
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [27987] = { -- Cannonball!
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [27989] = { -- Ruumbo Demands Honey
             [questKeys.preQuestSingle] = {28100},
             [questKeys.reputationReward] = {},
@@ -4590,6 +4626,12 @@ function CataQuestFixes.Load()
         [27990] = { -- Battlezone
             [questKeys.objectives] = {{{47385},{47940}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Man the Siege Tank"), 0, {{"monster", 47732}}}},
+        },
+        [27991] = { -- Bombs Away!
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [27992] = { -- Magnets, How Do They Work?
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [27993] = { -- Take it to 'Em!
             [questKeys.triggerEnd] = {"Khartut's Tomb Investigated",{[zoneIDs.ULDUM]={{64.6,22.6}}}},
@@ -4625,6 +4667,21 @@ function CataQuestFixes.Load()
         [28043] = { -- How to Maim Your Dragon
             [questKeys.objectives] = {{{47391}}},
         },
+        [28046] = { -- Finish The Job
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [28050] = { -- Shark Tank
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [28059] = { -- Claiming The Keep
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [28063] = { -- Leave No Weapon Behind
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [28065] = { -- Walk A Mile In Their Shoes
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [28089] = { -- Warchief's Command: Hillsbrad Foothills!
             [questKeys.exclusiveTo] = {28096},
         },
@@ -4647,8 +4704,14 @@ function CataQuestFixes.Load()
         [28120] = { -- Learning From The Past
             [questKeys.exclusiveTo] = {28117,28118},
         },
+        [28130] = { -- Not The Friendliest Town
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [28134] = { -- Impending Retribution
             [questKeys.objectives] = {{{46603},{47715},{47930}}}
+        },
+        [28137] = { -- Teach A Man To Fish.... Or Steal
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [28141] = { -- Relics of the Sun King
             [questKeys.preQuestSingle] = {28112},
@@ -4723,6 +4786,10 @@ function CataQuestFixes.Load()
         },
         [28272] = { -- Missing Pieces
             [questKeys.preQuestSingle] = {},
+        },
+        [28275] = { -- Bombs Away!
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the cannon"),0,{{"monster",48283}}}},
         },
         [28284] = { -- What's that Rattle?
             [questKeys.exclusiveTo] = {27317},
@@ -5025,6 +5092,7 @@ function CataQuestFixes.Load()
         },
         [28696] = { -- Bombs Away!
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the cannon"),0,{{"monster",48283}}}},
         },
         [28697] = { -- Ghostbuster
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
