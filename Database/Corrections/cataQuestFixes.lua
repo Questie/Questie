@@ -2923,7 +2923,7 @@ function CataQuestFixes.Load()
         },
         [25960] = { -- Not Entirely Unprepared
             [questKeys.objectives] = {nil,nil,nil,nil,{{{41780,46468},41780,"Horde Lookout restocked",Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.preQuestSingle] = {25747},
+            [questKeys.preQuestSingle] = {25958},
         },
         [25962] = { -- Properly Inspired
             [questKeys.preQuestSingle] = {25958},
