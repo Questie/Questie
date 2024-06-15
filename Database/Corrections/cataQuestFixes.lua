@@ -2905,7 +2905,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {25592,25593,25595},
         },
         [25954] = { -- An Occupation of Time
-            [questKeys.preQuestSingle] = {25593},
+            [questKeys.preQuestGroup] = {25592,25593,25595},
         },
         [25955] = { -- A Better Vantage
             [questKeys.objectives] = {{{40963,nil,Questie.ICON_TYPE_EVENT},{40964,nil,Questie.ICON_TYPE_EVENT},{40965,nil,Questie.ICON_TYPE_EVENT}}},
