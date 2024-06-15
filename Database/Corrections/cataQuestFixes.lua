@@ -4695,15 +4695,6 @@ function CataQuestFixes.Load()
         [28100] = { -- A Talking Totem
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 12}},
         },
-        [28117] = { -- Clearing the Depths
-            [questKeys.exclusiveTo] = {28118,28120},
-        },
-        [28118] = { -- The Imprisoned Archmage
-            [questKeys.exclusiveTo] = {28117,28120},
-        },
-        [28120] = { -- Learning From The Past
-            [questKeys.exclusiveTo] = {28117,28118},
-        },
         [28130] = { -- Not The Friendliest Town
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
@@ -4729,9 +4720,6 @@ function CataQuestFixes.Load()
         [28163] = { -- The Leftovers
             [questKeys.objectives] = {nil,nil,nil,nil,{{{47607,47608,47609,47610},47607},},},
         },
-        [28165] = { -- D-Block
-            [questKeys.exclusiveTo] = {28185,28186},
-        },
         [28167] = { -- Venomblood Antidote
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
@@ -4744,26 +4732,11 @@ function CataQuestFixes.Load()
         [28176] = { -- Following the Young Home
             [questKeys.preQuestGroup] = {28173,28191},
         },
-        [28185] = { -- Svarnos
-            [questKeys.exclusiveTo] = {28165,28186},
-        },
-        [28186] = { -- Cursed Shackles
-            [questKeys.exclusiveTo] = {28165,28185},
-        },
-        [28188] = { -- Prison Revolt
-            [questKeys.exclusiveTo] = {28223,28232},
-        },
         [28191] = { -- A Fitting End
             [questKeys.preQuestSingle] = {28171},
         },
-        [28223] = { -- The Warden
-            [questKeys.exclusiveTo] = {28188,28232},
-        },
         [28228] = { -- Rejoining the Forest
             [questKeys.triggerEnd] = {"Protector brought to hill", {[zoneIDs.FELWOOD]={{48.7,25.2}}}},
-        },
-        [28232] = { -- Food From Below
-            [questKeys.exclusiveTo] = {28188,28223},
         },
         [28233] = { -- The Lost Brother
             [questKeys.preQuestSingle] = {27809},
