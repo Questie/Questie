@@ -196,8 +196,6 @@ _CalculateAndDrawAvailableQuests = function()
     local calcEndTime = debugprofilestop()
     print("Calculation", calcEndTime - startTime, "ms")
 
-    -- TODO: availableQuests is never reset
-
     local questCount = 0
     for questId in pairs(availableQuests) do
         if QuestieMap.questIdFrames[questId] then
