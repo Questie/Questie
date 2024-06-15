@@ -75,7 +75,7 @@ end
 ---@param frame frame
 ---@param clear boolean
 ---@return string|nil timeRemainingString, number|nil timeRemaining
-function TrackerQuestTimers:GetRemainingTime(quest, frame, clear)
+function TrackerQuestTimers:UpdateAndGetRemainingTime(quest, frame, clear)
     local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(quest.Id)
 
     if (timeRemainingString == nil) then

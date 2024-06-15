@@ -124,6 +124,26 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_6))
             assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_CHAPTER_7))
         end)
+
+        it("should handle Sassy Hardwrench positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.KEZAN_SASSY_IN_HQ))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_SASSY_OUTSIDE_HQ))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[14116] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_SASSY_IN_HQ))
+            assert.is_true(Phasing.IsSpawnVisible(phases.KEZAN_SASSY_OUTSIDE_HQ))
+        end)
+
+        it("should handle Trade Prince Gallywix positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.KEZAN_GALLYWIX_AT_HQ))
+            assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_GALLYWIX_ON_BOAT))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[14120] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.KEZAN_GALLYWIX_AT_HQ))
+            assert.is_true(Phasing.IsSpawnVisible(phases.KEZAN_GALLYWIX_ON_BOAT))
+        end)
     end)
 
     describe("The Lost Isles", function()
@@ -553,6 +573,20 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_LADY_NAZ_JAR_AT_BRIDGE))
             assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_LADY_NAZ_JAR_AT_TEMPLE))
         end)
+
+        it("should return true for Erunak Stonespeaker at Cavern before 25988 is complete", function()
+            Questie.db.char.complete[25988] = false
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_CAVERN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT))
+        end)
+
+        it("should return true for Erunak Stonespeaker at Promontory Point when 25988 is complete", function()
+            Questie.db.char.complete[25988] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT))
+            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_CAVERN))
+        end)
     end)
 
     describe("Deepholm", function()
@@ -740,6 +774,64 @@ describe("Phasing", function()
             Questie.db.char.complete[13515] = true
             assert.is_false(Phasing.IsSpawnVisible(phases.CERELLEAN_NEAR_EDGE))
             assert.is_true(Phasing.IsSpawnVisible(phases.CERELLEAN_NEAR_TREE))
+        end)
+    end)
+
+    describe("Azshara", function()
+        it("should handle Ag'tor Bloodfist and Labor Captain Grabbit positioning", function()
+            Questie.db.char.complete[14135] = false
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_OUTSIDE_ATTACK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_DURING_ATTACK))
+
+            Questie.db.char.complete[14135] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[14155]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_DURING_ATTACK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_OUTSIDE_ATTACK))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[14155]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_OUTSIDE_ATTACK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_DURING_ATTACK))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[14155] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_OUTSIDE_ATTACK))
+            assert.is_false(Phasing.IsSpawnVisible(phases.AGTOR_GRABBIT_DURING_ATTACK))
+        end)
+
+        it("should handle Commander Molotov positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.MOLOTOV_AT_RUINS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.MOLOTOV_AT_HARBOR))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[24453] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.MOLOTOV_AT_RUINS))
+            assert.is_true(Phasing.IsSpawnVisible(phases.MOLOTOV_AT_HARBOR))
+        end)
+
+        it("should handle Sorata Firespinner positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.SORATA_AT_EXCHANGE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SORATA_AT_HARBOR))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[14340] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.SORATA_AT_EXCHANGE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.SORATA_AT_HARBOR))
+        end)
+    end)
+
+    describe("Eastern Plague Lands", function()
+        it("should handle The Scarlet Enclave positioning", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.SCARLET_ENCLAVE_ENTRACE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SCARLET_ENCLAVE))
+
+            Questie.db.char.complete[27460] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.SCARLET_ENCLAVE_ENTRACE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.SCARLET_ENCLAVE))
         end)
     end)
 end)
