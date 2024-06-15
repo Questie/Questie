@@ -2458,6 +2458,9 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Kristoff Escorted Out",{[zoneIDs.MOUNT_HYJAL] = {{27.1,35.9}}}},
             [questKeys.preQuestSingle] = {25328},
         },
+        [25334] = { -- The Looming Threat
+            [questKeys.objectives] = {{{39226,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [25352] = { -- Sweeping the Shelf
             [questKeys.preQuestSingle] = {25278},
         },
