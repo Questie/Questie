@@ -2899,7 +2899,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{41805}}},
         },
         [25952] = { -- Caught Off-Guard
-            [questKeys.preQuestSingle] = {25593},
+            [questKeys.preQuestGroup] = {25592,25593,25595},
         },
         [25953] = { -- Swift Approach
             [questKeys.preQuestSingle] = {25593},
