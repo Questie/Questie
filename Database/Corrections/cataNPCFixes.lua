@@ -892,6 +892,7 @@ function CataNpcFixes.Load()
         [39881] = { -- Wavespeaker Valoren
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {64.38,62.56,phases.VASHJIR_LEGIONS_REST},
+                {40.6,75.1,phases.WAVESPEAKER_AT_RUINS},
                 {39.2,78.6,phases.VASHJIR_NAR_SHOLA_TERRACE},
                 {29.6,78.9,phases.VASHJIR_NAR_SHOLA_TERRACE_WEST},
             }},
@@ -976,6 +977,7 @@ function CataNpcFixes.Load()
         [40919] = { -- Wavespeaker Tulra
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {51.62,62.75,phases.VASHJIR_LEGIONS_REST},
+                {40.6,75.1,phases.WAVESPEAKER_AT_RUINS},
                 {39.2,78.6,phases.VASHJIR_NAR_SHOLA_TERRACE},
                 {29.6,78.9,phases.VASHJIR_NAR_SHOLA_TERRACE_WEST},
             }},
