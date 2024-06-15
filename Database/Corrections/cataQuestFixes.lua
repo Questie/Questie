@@ -2930,7 +2930,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {25592,25593,25595},
         },
         [25953] = { -- Swift Approach
-            [questKeys.preQuestSingle] = {25593},
+            [questKeys.preQuestGroup] = {25592,25593,25595},
         },
         [25954] = { -- An Occupation of Time
             [questKeys.preQuestSingle] = {25593},
