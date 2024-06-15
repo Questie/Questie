@@ -2882,6 +2882,9 @@ function CataQuestFixes.Load()
         [25916] = { -- Breaking Through
             [questKeys.objectives] = {{{41531,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [25922] = { -- Waking the Beast
+            [questKeys.objectives] = {{{41531},{41776,nil,Questie.ICON_TYPE_MOUNT_UP}}},
+        },
         [25924] = { -- Call of Duty
             [questKeys.extraObjectives] = {{{[zoneIDs.DUROTAR] = {{57.8,10.4}}},Questie.ICON_TYPE_EVENT,l10n("Wait for the Mercenary Ship to arrive")}},
         },
@@ -3028,6 +3031,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25992,25993,25994},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE]={{62.9,57.1}}}, Questie.ICON_TYPE_EVENT, l10n("Head to the top of Nespirah")}},
+        },
+        [25996] = { -- Waking the Beast
+            [questKeys.objectives] = {{{41531},{41776,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
         [26000] = { -- Spelunking
             [questKeys.preQuestSingle] = {25794},
