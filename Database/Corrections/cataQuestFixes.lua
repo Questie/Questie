@@ -5440,6 +5440,7 @@ function CataQuestFixes.Load()
             [questKeys.name] = "Potion Master",
             [questKeys.objectivesText] = {"Bring a large supply of potions to an alchemy trainer in any capital city."},
             [questKeys.objectives] = {nil,nil,{{57191},{57192},{58488}}},
+            [questKeys.exclusiveTo] = {29481,29482},
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
         },
         [29071] = { -- Make Haste to Stormwind!
@@ -5739,14 +5740,16 @@ function CataQuestFixes.Load()
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,200},
         },
         [29481] = { -- Elixir Master
-            [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
             [questKeys.requiredLevel] = 75,
             [questKeys.objectives] = {nil,nil,{{58086},{58087},{58085},{58088}}},
+            [questKeys.exclusiveTo] = {29067,29482},
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
         },
         [29482] = { -- Transmutation Master
-            [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
             [questKeys.requiredLevel] = 75,
             [questKeys.objectives] = {nil,nil,{{58480}}},
+            [questKeys.exclusiveTo] = {29067,29481},
+            [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
         },
         [29506] = { -- A Fizzy Fusion
             [questKeys.objectives] = {nil,{{460001}}},
