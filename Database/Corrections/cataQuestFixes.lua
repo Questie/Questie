@@ -2071,6 +2071,9 @@ function CataQuestFixes.Load()
         [24989] = { -- Return to the Magistrate
             [questKeys.preQuestSingle] = {24988},
         },
+        [24990] = { -- Darkhound Pounding
+            [questKeys.preQuestSingle] = {24989},
+        },
         [24991] = { -- Garren's Haunt
             [questKeys.preQuestSingle] = {24996},
             [questKeys.exclusiveTo] = {24994},
@@ -2102,11 +2105,14 @@ function CataQuestFixes.Load()
         },
         [25031] = { -- Head for the Mills
             [questKeys.exclusiveTo] = {25003},
-            [questKeys.preQuestSingle] = {24995},
+            [questKeys.preQuestGroup] = {24995,24999},
         },
         [25035] = { -- Breaking the Line
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Jornun"), 0, {{"monster", 38989}}}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [25038] = { -- Gordo's Task
+            [questKeys.preQuestSingle] = {24976},
         },
         [25046] = { -- A Daughter's Embrace
             [questKeys.objectives] = {{{39097,nil,Questie.ICON_TYPE_EVENT}}},
@@ -3895,6 +3901,10 @@ function CataQuestFixes.Load()
         },
         [26964] = { -- Warchief's Command: Silverpine Forest!
             [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {26965,28568},
+        },
+        [26965] = { -- The Warchief Cometh
+            [questKeys.preQuestSingle] = {},
         },
         [26966] = { -- The Light's Power
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{20271},{20154}}},
@@ -4874,6 +4884,9 @@ function CataQuestFixes.Load()
         },
         [28561] = { -- Nahom Must Hold
             [questKeys.preQuestSingle] = {28533},
+        },
+        [28568] = { -- Warchief's Command: Silverpine Forest!
+            [questKeys.exclusiveTo] = {26964,26965},
         },
         [28571] = { -- Warchief's Command: Hillsbrad Foothills!
             [questKeys.exclusiveTo] = {28096},
