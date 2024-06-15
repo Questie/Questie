@@ -2923,6 +2923,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{41750,41769}},
             [questKeys.objectives] = {{{41805}}},
         },
+        [25951] = { -- Final Judgement
+            [questKeys.objectives] = {{{42077},{42063}},nil,nil,nil,},
+        },
         [25952] = { -- Caught Off-Guard
             [questKeys.preQuestGroup] = {25592,25593,25595},
         },
