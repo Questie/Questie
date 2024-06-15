@@ -126,9 +126,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.exclusiveTo] = {77574,77661},
         },
-        [77620] = { -- Spell Research
+        [77620] = { -- Spell Research (Human)
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{401760, nil, 203751}}},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
+            [questKeys.exclusiveTo] = {77643,77667,77671},
         },
         [77621] = { -- Stolen Power
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
@@ -139,9 +140,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.exclusiveTo] = {77670},
         },
-        [77643] = { -- Spell Research
+        [77643] = { -- Spell Research (Troll)
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{401760, nil, 203751}}},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
+            [questKeys.exclusiveTo] = {77620,77667,77671},
         },
         [77648] = { -- Relics of the Tauren
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{410061, nil, 208414}}},
@@ -200,9 +202,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [77667] = { -- Spell Research
+        [77667] = { -- Spell Research (Gnome)
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{401760, nil, 203751}}},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
+            [questKeys.exclusiveTo] = {77620,77643,77671},
         },
         [77668] = { -- The Lost Rune
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403470, nil, 204806}}},
@@ -219,9 +222,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
             [questKeys.exclusiveTo] = {77642},
         },
-        [77671] = { -- Spell Research
+        [77671] = { -- Spell Research (Undead)
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{401760, nil, 203751}}},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
+            [questKeys.exclusiveTo] = {77620,77643,77667},
         },
         [77672] = { -- The Lost Rune
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
