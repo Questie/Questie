@@ -5905,6 +5905,9 @@ function CataQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
 
     local questFixesHorde = {
+        [29067] = { -- Potion Master
+            [questKeys.startedBy] = {{3347}},
+        },
         [29475] = { -- Goblin Engineering
             [questKeys.startedBy] = {{11017,11031,16667,29513,52651}},
             [questKeys.finishedBy] = {{11017,11031,16667,29513,52651}},
@@ -5916,14 +5919,17 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.exclusiveTo] = {3630,3632,3634,3635,3637,29475,29476,3526,3629,3633,4181},
         },
         [29481] = { -- Elixir Master
-            [questKeys.startedBy] = {{3347}}
+            [questKeys.startedBy] = {{3347}},
         },
         [29482] = { -- Transmutation Master
-            [questKeys.startedBy] = {{3347}}
+            [questKeys.startedBy] = {{3347}},
         },
     }
 
     local questFixesAlliance = {
+        [29067] = { -- Potion Master
+            [questKeys.startedBy] = {{5499}},
+        },
         [29475] = { -- Goblin Engineering
             [questKeys.startedBy] = {{5174,5518,16726,29513,52636}},
             [questKeys.finishedBy] = {{5174,5518,16726,29513,52636}},
@@ -5935,10 +5941,10 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.exclusiveTo] = {3630,3632,3634,3635,3637,29475,29476,3526,3629,3633,4181},
         },
         [29481] = { -- Elixir Master
-            [questKeys.startedBy] = {{5499}}
+            [questKeys.startedBy] = {{5499}},
         },
         [29482] = { -- Transmutation Master
-            [questKeys.startedBy] = {{5499}}
+            [questKeys.startedBy] = {{5499}},
         },
     }
 
