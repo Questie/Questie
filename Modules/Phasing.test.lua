@@ -20,6 +20,7 @@ describe("Phasing", function()
         Questie = _G["Questie"]
 
         QuestLogCache = require("Modules.Quest.QuestLogCache")
+        QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
         Phasing = require("Modules.Phasing")
         phases = Phasing.phases
@@ -482,11 +483,20 @@ describe("Phasing", function()
     end)
 
     describe("Vash'jir", function()
-        it("should return true for Legions Rest till 25958 is complete", function()
+        it("should return true for Legions Rest till 25958 or 25747 is accepted", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_LEGIONS_REST))
         end)
 
-        it("should return true for Northern Garden when 25958 or 25747 is complete", function()
+        it("should return true for Northern Garden when 25958 or 25747 is accepted or complete", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25958]={}}
+            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_NORTHERN_GARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_LEGIONS_REST))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25747]={}}
+            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_NORTHERN_GARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_LEGIONS_REST))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
             Questie.db.char.complete[25958] = true
 
             assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_NORTHERN_GARDEN))
@@ -586,6 +596,41 @@ describe("Phasing", function()
 
             assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT))
             assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_CAVERN))
+        end)
+
+        it("should return true for Sira'kess Tide Priestess at Garden when 25658 is not complete", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.SIRA_KESS_AT_GARDEN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.SIRA_KESS_AT_NAR_SHOLA_TERRACE))
+        end)
+
+        it("should return true for Sira'kess Tide Priestess at Northern Terrace when 25658 is complete", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25658]={}}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.SIRA_KESS_AT_GARDEN))
+            assert.is_true(Phasing.IsSpawnVisible(phases.SIRA_KESS_AT_NAR_SHOLA_TERRACE))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[25658] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.SIRA_KESS_AT_GARDEN))
+            assert.is_true(Phasing.IsSpawnVisible(phases.SIRA_KESS_AT_NAR_SHOLA_TERRACE))
+        end)
+
+        it("should return true for Wavespeaker Tulra at Ruins when 25957 or 25760 is in the quest log and complete", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            assert.is_false(Phasing.IsSpawnVisible(phases.WAVESPEAKER_AT_RUINS))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25957]={isComplete=0}}
+            assert.is_false(Phasing.IsSpawnVisible(phases.WAVESPEAKER_AT_RUINS))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25957]={isComplete=1}}
+            assert.is_true(Phasing.IsSpawnVisible(phases.WAVESPEAKER_AT_RUINS))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25760]={isComplete=0}}
+            assert.is_false(Phasing.IsSpawnVisible(phases.WAVESPEAKER_AT_RUINS))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25760]={isComplete=1}}
+            assert.is_true(Phasing.IsSpawnVisible(phases.WAVESPEAKER_AT_RUINS))
         end)
     end)
 

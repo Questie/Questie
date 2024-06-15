@@ -883,6 +883,7 @@ function CataNpcFixes.Load()
         [39881] = { -- Wavespeaker Valoren
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {64.38,62.56,phases.VASHJIR_LEGIONS_REST},
+                {40.6,75.1,phases.WAVESPEAKER_AT_RUINS},
                 {39.2,78.6,phases.VASHJIR_NAR_SHOLA_TERRACE},
                 {29.6,78.9,phases.VASHJIR_NAR_SHOLA_TERRACE_WEST},
             }},
@@ -967,6 +968,7 @@ function CataNpcFixes.Load()
         [40919] = { -- Wavespeaker Tulra
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {51.62,62.75,phases.VASHJIR_LEGIONS_REST},
+                {40.6,75.1,phases.WAVESPEAKER_AT_RUINS},
                 {39.2,78.6,phases.VASHJIR_NAR_SHOLA_TERRACE},
                 {29.6,78.9,phases.VASHJIR_NAR_SHOLA_TERRACE_WEST},
             }},
@@ -1003,6 +1005,12 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
                 {42.18,45.46,phases.HYJAL_THISALEE_AT_SHRINE},
                 {32.79,70.75,phases.HYJAL_THISALEE_AT_SETHRIAS_ROOST},
+            }},
+        },
+        [41050] = { -- Sira'kess Tide Priestess
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {38.98,58.59,phases.SIRA_KESS_AT_GARDEN},
+                {37.21,77.53,phases.SIRA_KESS_AT_NAR_SHOLA_TERRACE},
             }},
         },
         [41084] = { -- Blaithe

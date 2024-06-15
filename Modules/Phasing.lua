@@ -100,6 +100,9 @@ local phases = {
     SORATA_AT_HARBOR = 1028,
     SCARLET_ENCLAVE_ENTRACE = 1029,
     SCARLET_ENCLAVE = 1030,
+    SIRA_KESS_AT_GARDEN = 1031,
+    SIRA_KESS_AT_NAR_SHOLA_TERRACE = 1032,
+    WAVESPEAKER_AT_RUINS = 1033,
 }
 Phasing.phases = phases
 
@@ -151,11 +154,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.VASHJIR_LEGIONS_REST then
-        return complete[25966] or complete[25755] or ((not complete[25958]) and (not complete[25747]))
+        return complete[25966] or complete[25755] or ((not complete[25958]) and (not complete[25747]) and (not questLog[25958]) and (not questLog[25747])) or false
     end
 
     if phase == phases.VASHJIR_NORTHERN_GARDEN then
-        return (not complete[25966]) and (not complete[25755]) and (complete[25958] or complete[25747]) or false
+        return (not complete[25966]) and (not complete[25755]) and ((complete[25958] or complete[25747] or questLog[25958] or questLog[25747]) and true) or false
     end
 
     if phase == phases.VASHJIR_NAR_SHOLA_TERRACE_WEST then
@@ -182,6 +185,18 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT then
         return complete[25988] or false
+    end
+
+    if phase == phases.SIRA_KESS_AT_GARDEN then
+        return ((not complete[25658]) and (not questLog[25658])) or false
+    end
+
+    if phase == phases.SIRA_KESS_AT_NAR_SHOLA_TERRACE then
+        return (complete[25658] or questLog[25658]) and true or false
+    end
+
+    if phase == phases.WAVESPEAKER_AT_RUINS then
+        return ((questLog[25957] and questLog[25957].isComplete == 1) or (questLog[25760] and questLog[25760].isComplete == 1)) or false
     end
 
     if phase >= phases.DRAGONMAW_PORT_CHAPTER_1 and phase <= phases.DRAGONMAW_PORT_CHAPTER_3 then
