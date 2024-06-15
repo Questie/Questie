@@ -1005,6 +1005,12 @@ function CataNpcFixes.Load()
                 {32.79,70.75,phases.HYJAL_THISALEE_AT_SETHRIAS_ROOST},
             }},
         },
+        [41050] = { -- Sira'kess Tide Priestess
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {38.98,58.59,phases.SIRA_KESS_AT_GARDEN},
+                {37.21,77.53,phases.SIRA_KESS_AT_NAR_SHOLA_TERRACE},
+            }},
+        },
         [41084] = { -- Blaithe
             [npcKeys.spawns] = {[616]={{36.72,33.68},{39.22,37.15},{35.67,42.33},{40.24,37.24},{44.54,38.16},{47.13,40.08},{49.55,41.54}}},
         },
