@@ -5907,6 +5907,8 @@ function CataQuestFixes:LoadFactionFixes()
     local questFixesHorde = {
         [29067] = { -- Potion Master
             [questKeys.startedBy] = {{3347}},
+            [questKeys.finishedBy] = {{3347}},
+            --[questKeys.finishedBy] = {{3347,3009,4611,16642}}, -- TODO: Add when multiple turn-in locations are handled
         },
         [29475] = { -- Goblin Engineering
             [questKeys.startedBy] = {{11017,11031,16667,29513,52651}},
@@ -5920,15 +5922,21 @@ function CataQuestFixes:LoadFactionFixes()
         },
         [29481] = { -- Elixir Master
             [questKeys.startedBy] = {{3347}},
+            [questKeys.finishedBy] = {{3347}},
+            --[questKeys.finishedBy] = {{3347,3009,4611,16642}}, -- TODO: Add when multiple turn-in locations are handled
         },
         [29482] = { -- Transmutation Master
             [questKeys.startedBy] = {{3347}},
+            [questKeys.finishedBy] = {{3347}},
+            --[questKeys.finishedBy] = {{3347,3009,4611,16642}}, -- TODO: Add when multiple turn-in locations are handled
         },
     }
 
     local questFixesAlliance = {
         [29067] = { -- Potion Master
             [questKeys.startedBy] = {{5499}},
+            [questKeys.finishedBy] = {{5499}},
+            --[questKeys.finishedBy] = {{5499,1537,4160,16723}}, -- TODO: Add when multiple turn-in locations are handled
         },
         [29475] = { -- Goblin Engineering
             [questKeys.startedBy] = {{5174,5518,16726,29513,52636}},
@@ -5942,9 +5950,13 @@ function CataQuestFixes:LoadFactionFixes()
         },
         [29481] = { -- Elixir Master
             [questKeys.startedBy] = {{5499}},
+            [questKeys.finishedBy] = {{5499}},
+            --[questKeys.finishedBy] = {{5499,1537,4160,16723}}, -- TODO: Add when multiple turn-in locations are handled
         },
         [29482] = { -- Transmutation Master
             [questKeys.startedBy] = {{5499}},
+            [questKeys.finishedBy] = {{5499}},
+            --[questKeys.finishedBy] = {{5499,1537,4160,16723}}, -- TODO: Add when multiple turn-in locations are handled
         },
     }
 
