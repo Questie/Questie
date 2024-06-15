@@ -2860,9 +2860,6 @@ function CataQuestFixes.Load()
         [25924] = { -- Call of Duty
             [questKeys.extraObjectives] = {{{[zoneIDs.DUROTAR] = {{57.8,10.4}}},Questie.ICON_TYPE_EVENT,l10n("Wait for the Mercenary Ship to arrive")}},
         },
-        [25962] = { -- Properly Inspired
-            [questKeys.preQuestSingle] = {25957},
-        },
         [25930] = { -- Ascending the Vale
             [questKeys.triggerEnd] = {"Ascend the Charred Vale",{[zoneIDs.STONETALON_MOUNTAINS] = {{31.3,73.2}}}},
         },
@@ -2927,6 +2924,9 @@ function CataQuestFixes.Load()
         [25960] = { -- Not Entirely Unprepared
             [questKeys.objectives] = {nil,nil,nil,nil,{{{41780,46468},41780,"Horde Lookout restocked",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {25747},
+        },
+        [25962] = { -- Properly Inspired
+            [questKeys.preQuestSingle] = {25958},
         },
         [25963] = { -- Swift Action
             [questKeys.preQuestGroup] = {25959,25960,25962},
