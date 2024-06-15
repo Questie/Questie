@@ -605,6 +605,23 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.SIRA_KESS_AT_GARDEN))
             assert.is_true(Phasing.IsSpawnVisible(phases.SIRA_KESS_AT_NAR_SHOLA_TERRACE))
         end)
+
+        it("should return true for Wavespeaker Tulra at Ruins when 25957 or 25760 is in the quest log and complete", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            assert.is_false(Phasing.IsSpawnVisible(phases.WAVESPEAKER_AT_RUINS))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25957]={isComplete=0}}
+            assert.is_false(Phasing.IsSpawnVisible(phases.WAVESPEAKER_AT_RUINS))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25957]={isComplete=1}}
+            assert.is_true(Phasing.IsSpawnVisible(phases.WAVESPEAKER_AT_RUINS))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25760]={isComplete=0}}
+            assert.is_false(Phasing.IsSpawnVisible(phases.WAVESPEAKER_AT_RUINS))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[25760]={isComplete=1}}
+            assert.is_true(Phasing.IsSpawnVisible(phases.WAVESPEAKER_AT_RUINS))
+        end)
     end)
 
     describe("Deepholm", function()

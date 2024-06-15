@@ -102,6 +102,7 @@ local phases = {
     SCARLET_ENCLAVE = 1030,
     SIRA_KESS_AT_GARDEN = 1031,
     SIRA_KESS_AT_NAR_SHOLA_TERRACE = 1032,
+    WAVESPEAKER_AT_RUINS = 1033,
 }
 Phasing.phases = phases
 
@@ -192,6 +193,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SIRA_KESS_AT_NAR_SHOLA_TERRACE then
         return (complete[25658] or questLog[25658]) and true or false
+    end
+
+    if phase == phases.WAVESPEAKER_AT_RUINS then
+        return ((questLog[25957] and questLog[25957].isComplete == 1) or (questLog[25760] and questLog[25760].isComplete == 1)) or false
     end
 
     if phase >= phases.DRAGONMAW_PORT_CHAPTER_1 and phase <= phases.DRAGONMAW_PORT_CHAPTER_3 then
