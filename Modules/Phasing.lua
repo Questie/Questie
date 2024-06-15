@@ -100,6 +100,8 @@ local phases = {
     SORATA_AT_HARBOR = 1028,
     SCARLET_ENCLAVE_ENTRACE = 1029,
     SCARLET_ENCLAVE = 1030,
+    SIRA_KESS_AT_GARDEN = 1031,
+    SIRA_KESS_AT_NAR_SHOLA_TERRACE = 1032,
 }
 Phasing.phases = phases
 
@@ -182,6 +184,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT then
         return complete[25988] or false
+    end
+
+    if phase == phases.SIRA_KESS_AT_GARDEN then
+        return ((not complete[25658]) and (not questLog[25658])) or false
+    end
+
+    if phase == phases.SIRA_KESS_AT_NAR_SHOLA_TERRACE then
+        return (complete[25658] or questLog[25658]) and true or false
     end
 
     if phase >= phases.DRAGONMAW_PORT_CHAPTER_1 and phase <= phases.DRAGONMAW_PORT_CHAPTER_3 then
