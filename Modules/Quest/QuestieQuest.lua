@@ -589,6 +589,7 @@ function QuestieQuest:UpdateQuest(questId)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is: Complete!")
 
             QuestieMap:UnloadQuestFrames(questId)
+            QuestieTooltips:RemoveQuest(questId) -- Remove any tooltips, the finisher will be added in AddFinisher
             QuestieQuest:AddFinisher(quest)
             quest.WasComplete = true
         elseif isComplete == -1 then
@@ -647,6 +648,7 @@ function QuestieQuest:UpdateQuest(questId)
                     if numCompleteObjectives == #quest.Objectives then
                         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] All Quest Objective(s) are Complete! Manually setting quest to Complete!")
                         QuestieMap:UnloadQuestFrames(questId)
+                        QuestieTooltips:RemoveQuest(questId) -- Remove any tooltips, the finisher will be added in AddFinisher
                         QuestieQuest:AddFinisher(quest)
                         quest.WasComplete = true
                         quest.isComplete = true
@@ -1521,6 +1523,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
         -- check assumes the Quest should have been flagged questLogEngtry.isComplete == 1. We're specifically looking for a quest.triggerEnd or
         -- a quest.Finisher.Id because this might throw an error if there is nothing to populate when we call QuestieQuest:AddFinisher().
         QuestieMap:UnloadQuestFrames(quest.Id)
+        QuestieTooltips:RemoveQuest(quest.Id) -- Remove any tooltips, the finisher will be added in AddFinisher
         QuestieQuest:AddFinisher(quest)
         quest.isComplete = true
     end
