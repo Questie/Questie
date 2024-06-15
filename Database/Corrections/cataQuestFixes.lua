@@ -264,9 +264,11 @@ function CataQuestFixes.Load()
         },
         [6365] = { -- Meats to Orgrimmar
             [questKeys.requiredRaces] = raceKeys.ORC + raceKeys.TROLL,
+            [questKeys.startedBy] = {{3881}},
         },
         [6384] = { -- Ride to Orgrimmar
             [questKeys.requiredRaces] = raceKeys.ORC + raceKeys.TROLL,
+            [questKeys.startedBy] = {{41140}},
         },
         [6385] = { -- Doras the Wind Rider Master
             [questKeys.requiredRaces] = raceKeys.ORC + raceKeys.TROLL,
@@ -286,6 +288,7 @@ function CataQuestFixes.Load()
         },
         [8329] = { -- Warrior Training
             [questKeys.finishedBy] = {{43010}},
+            [questKeys.zoneOrSort] = 6455,
         },
         [8334] = { -- Aggression
             [questKeys.startedBy] = {{15281}},
@@ -295,6 +298,18 @@ function CataQuestFixes.Load()
         },
         [8481] = { -- The Root of All Evil
             [questKeys.objectives] = {nil,nil,{{21145}},{576,42000}},
+        },
+        [9062] = { -- Soaked Pages
+            [questKeys.preQuestSingle] = {},
+        },
+        [9130] = { -- Goods from Silvermoon City
+            [questKeys.preQuestSingle] = {},
+        },
+        [9144] = { -- Missing in the Ghostlands
+            [questKeys.exclusiveTo] = {28560},
+        },
+        [9252] = { -- Defending Fairbreeze Village
+            [questKeys.preQuestSingle] = {},
         },
         [9283] = { -- Rescue the Survivors!
             [questKeys.objectives] = {{{16483,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -308,6 +323,13 @@ function CataQuestFixes.Load()
         },
         [9305] = { -- Spare Parts
             [questKeys.preQuestSingle] = {},
+        },
+        [9327] = { -- The Forsaken
+            [questKeys.preQuestSingle] = {},
+        },
+        [9329] = { -- The Forsaken
+            [questKeys.preQuestSingle] = {},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE - raceKeys.BLOOD_ELF,
         },
         [9369] = { -- Replenishing the Healing Crystals
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE - raceKeys.DRAENEI,
@@ -342,6 +364,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 15279}}}},
             [questKeys.exclusiveTo] = {},
             [questKeys.finishedBy] = {{15279}},
+            [questKeys.zoneOrSort] = 6455,
         },
         [10069] = { -- Ways of the Light
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{20271},{20154}}},
@@ -351,30 +374,35 @@ function CataQuestFixes.Load()
             },
             [questKeys.exclusiveTo] = {},
             [questKeys.finishedBy] = {{15280}},
+            [questKeys.zoneOrSort] = 6455,
         },
         [10070] = { -- Steady Shot
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{56641}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 15513}}}},
             [questKeys.exclusiveTo] = {},
             [questKeys.finishedBy] = {{15513}},
+            [questKeys.zoneOrSort] = 6455,
         },
         [10071] = { -- Evisceration
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{2098}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Eviscerate"), 2, {{"monster", 15285}}}},
             [questKeys.exclusiveTo] = {},
             [questKeys.finishedBy] = {{15285}},
+            [questKeys.zoneOrSort] = 6455,
         },
         [10072] = { -- Healing the Wounded
             [questKeys.objectives] = {{{44857,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 15284}}}},
             [questKeys.exclusiveTo] = {},
             [questKeys.finishedBy] = {{15284}},
+            [questKeys.zoneOrSort] = 6455,
         },
         [10073] = { -- Immolation
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{348}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Immolate"), 2, {{"monster", 15283}}}},
             [questKeys.exclusiveTo] = {},
             [questKeys.finishedBy] = {{15283}},
+            [questKeys.zoneOrSort] = 6455,
         },
         [10302] = { -- Volatile Mutations
             [questKeys.preQuestSingle] = {9369,9280},
@@ -4041,6 +4069,7 @@ function CataQuestFixes.Load()
         [27091] = { -- Charge!
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{100}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 43010}}}},
+            [questKeys.zoneOrSort] = 6455,
         },
         [27509] = { -- Breach in the Defenses
             [questKeys.objectives] = {nil,{{205486,"Twilight Portal destroyed"}}},
@@ -4925,6 +4954,9 @@ function CataQuestFixes.Load()
         },
         [28558] = { -- Hero's Call: Uldum!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+        },
+        [28560] = { -- Warchief's Command: Ghostlands!
+            [questKeys.exclusiveTo] = {9144,9327,9329},
         },
         [28561] = { -- Nahom Must Hold
             [questKeys.preQuestSingle] = {28533},
