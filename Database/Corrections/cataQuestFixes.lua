@@ -3002,6 +3002,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25794},
         },
         [26007] = { -- Debriefing
+            [questKeys.objectives] = {{{41885,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {26000},
         },
         [26008] = { -- Decompression
