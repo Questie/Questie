@@ -2212,6 +2212,16 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       [71638] = {
         [itemKeys.startQuest] = 29446,
       },
+      --* Item 71715 https://wotlk.wowhead.com/wotlk/item=71715
+      --* Starts: A Treatise on Strategy(29451)(https://wotlk.wowhead.com/wotlk/quest=29451)
+      [71715] = {
+        [itemKeys.startQuest] = 29451,
+      },
+      --* Item 71716 https://wotlk.wowhead.com/wotlk/item=71716
+      --* Starts: Tools of Divination(29464)(https://wotlk.wowhead.com/wotlk/quest=29464)
+      [71716] = {
+        [itemKeys.startQuest] = 29464,
+      },
       --* Item 71951 https://wotlk.wowhead.com/wotlk/item=71951
       --* Starts: A Captured Banner(29456)(https://wotlk.wowhead.com/wotlk/quest=29456)
       [71951] = {
