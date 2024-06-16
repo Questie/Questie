@@ -1960,6 +1960,7 @@ function QuestieQuestBlacklist:Load()
         [7321] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [7463] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [7492] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [7494] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [7962] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [8244] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [8245] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2012,10 +2013,26 @@ function QuestieQuestBlacklist:Load()
         [9480] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9481] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9482] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9492] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9493] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9494] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9495] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9496] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9497] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9507] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9524] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9525] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9572] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9575] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9587] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9588] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9589] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9590] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9596] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [9597] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9601] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9607] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [9608] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9609] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9610] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9613] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2216,7 +2233,15 @@ function QuestieQuestBlacklist:Load()
         [29259] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29260] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29266] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29465] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29464
+        [29447] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29448] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29449] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29450] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29454] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29459] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29460] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29461] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29465] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29466] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29467] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29511
         [29468] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29508
@@ -2233,6 +2258,15 @@ function QuestieQuestBlacklist:Load()
         [29484] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29509
         [29485] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29507
         [29761] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [30552] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [30553] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [30554] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [30555] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [30556] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [30557] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [30558] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [30559] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [30560] = QuestieCorrections.CATA_HIDE, -- Not in the game
 
         -- ICC weekly quests
         [24869] = QuestieCorrections.CATA_HIDE, -- Removed with cata

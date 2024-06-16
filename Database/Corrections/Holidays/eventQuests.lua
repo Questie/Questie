@@ -247,6 +247,8 @@ tinsert(eventQuests, {"Darkmoon Faire", 7932}) -- 12 Tickets - Lesser Darkmoon P
 tinsert(eventQuests, {"Darkmoon Faire", 7930}) -- 5 Tickets - Darkmoon Flower
 tinsert(eventQuests, {"Darkmoon Faire", 7931}) -- 5 Tickets - Minor Darkmoon Prize
 tinsert(eventQuests, {"Darkmoon Faire", 7936}) -- 50 Tickets - Last Year's Mutton
+tinsert(eventQuests, {"Darkmoon Faire", 7905}) -- The Darkmoon Faire
+tinsert(eventQuests, {"Darkmoon Faire", 7926}) -- The Darkmoon Faire
 -- New SoD quests
 tinsert(eventQuests, {"Darkmoon Faire", 79588}) -- Small Furry Paws
 tinsert(eventQuests, {"Darkmoon Faire", 79589}) -- Torn Bear Pelts

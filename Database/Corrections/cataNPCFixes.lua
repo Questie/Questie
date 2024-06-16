@@ -249,8 +249,14 @@ function CataNpcFixes.Load()
         [15303] = { -- Maxima Blastenheimer
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{52.5,56.14},{-1,-1}}},
         },
+        [15401] = { -- Ley-Keeper Velania
+            [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{36.7,57.44}}},
+        },
         [15623] = { -- Xandivious
             [npcKeys.spawns] = {},
+        },
+        [15968] = { -- Darnassian Scout
+            [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{34.19,58.49},{34.65,62.03},{34.05,60.81},{33.28,59.46},{36.77,60.99}}},
         },
         [16112] = { -- Crusade Commander Korfax
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={
@@ -269,6 +275,9 @@ function CataNpcFixes.Load()
                 {72.64,74.84,phases.SCARLET_ENCLAVE_ENTRACE},
                 {76,75.4,phases.SCARLET_ENCLAVE},
             }},
+        },
+        [16261] = { -- Sathiel
+            [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{43.7,71.56}}},
         },
         [17310] = { -- Gnarl
             [npcKeys.waypoints] = {},

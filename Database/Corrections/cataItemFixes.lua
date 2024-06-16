@@ -43,6 +43,9 @@ function CataItemFixes.Load()
         [18960] = { -- Lookout's Spyglass
             [itemKeys.npcDrops] = {5840},
         },
+        [20743] = { -- Unstable Mana Crystal
+            [itemKeys.npcDrops] = {},
+        },
         [21145] = { -- Essence of Xandivious
             [itemKeys.npcDrops] = {},
         },
