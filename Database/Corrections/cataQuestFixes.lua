@@ -2676,6 +2676,7 @@ function CataQuestFixes.Load()
         },
         [25591] = { -- Thunderdrome: Grudge Match!
             [questKeys.objectives] = {{{40876}}},
+            [questKeys.preQuestSingle] = {25095},
         },
         [25592] = { -- Deep Attraction
             [questKeys.preQuestSingle] = {25996},
@@ -6027,6 +6028,9 @@ function CataQuestFixes:LoadFactionFixes()
     }
 
     local questFixesAlliance = {
+        [25513] = { -- Thunderdrome: Grudge Match!
+            [questKeys.preQuestSingle] = {25065,25095},
+        },
         [29067] = { -- Potion Master
             [questKeys.startedBy] = {{5499}},
             [questKeys.finishedBy] = {{5499}},
