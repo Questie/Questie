@@ -286,6 +286,12 @@ function CataQuestFixes.Load()
         [7783] = { -- The Lord of Blackrock
             [questKeys.finishedBy] = {{39605}},
         },
+        [7905] = { -- The Darkmoon Faire
+            [questKeys.objectivesText] = {"Deliver the Free Ticket Voucher to Gelvas Grimgate, located inside the Darkmoon Faire."},
+        },
+        [7926] = { -- The Darkmoon Faire
+            [questKeys.objectivesText] = {"Deliver the Free Ticket Voucher to Gelvas Grimgate, located inside the Darkmoon Faire."},
+        },
         [8329] = { -- Warrior Training
             [questKeys.finishedBy] = {{43010}},
             [questKeys.zoneOrSort] = 6455,
