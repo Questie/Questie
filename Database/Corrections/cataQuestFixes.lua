@@ -3283,6 +3283,9 @@ function CataQuestFixes.Load()
         [26285] = { -- Get Me Explosives Back!
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
+        [26290] = { -- Secrets of the Tower
+            [questKeys.objectives] = {{{42662}}},
+        },
         [26293] = { -- Machines of War
             [questKeys.startedBy] = {{39605}},
         },
