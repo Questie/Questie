@@ -2181,6 +2181,7 @@ function CataQuestFixes.Load()
         },
         [25094] = { -- Thunderdrome: Zumonga!
             [questKeys.objectives] = {{{39148}}},
+            [questKeys.preQuestSingle] = {25067},
         },
         [25095] = { -- Thunderdrome: Sarinexx!
             [questKeys.objectives] = {{{39149}}},
