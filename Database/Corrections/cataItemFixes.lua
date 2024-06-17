@@ -603,6 +603,9 @@ function CataItemFixes.Load()
         [65734] = { -- Twilight Documents
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [68638] = { -- Frostsaber Cub
+            [itemKeys.npcDrops] = {51681},
+        },
         [68890] = { -- Dragon Kite 2-Pack
             [itemKeys.class] = itemClasses.QUEST,
         },

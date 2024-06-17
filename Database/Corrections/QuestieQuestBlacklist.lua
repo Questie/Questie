@@ -2278,6 +2278,10 @@ function QuestieQuestBlacklist:Load()
         [28851] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28876] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28877] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29035] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29052
+        [29037] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29039
+        [29038] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29053
+        [29040] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29051
         [29212] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29256] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29259] = QuestieCorrections.CATA_HIDE, -- Not in the game

@@ -2303,20 +2303,20 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 25188,
             [questKeys.triggerEnd] = {"Escort Grandmatron Tekla to Raggaran",{[zoneIDs.DUROTAR] = {{42.6,49.96}}}},
         },
-        [25190] = { -- Raggaran's Rage
+        [25190] = { -- Raggaran's Rage TODO: add preQuestSingle to childQuests
             [questKeys.parentQuest] = 25188,
         },
-        [25192] = { -- Raggaran's Fury
+        [25192] = { -- Raggaran's Fury TODO: add preQuestSingle to childQuests
             [questKeys.parentQuest] = 25188,
         },
         [25193] = { -- Lost But Not Forgotten
             [questKeys.parentQuest] = 25188,
         },
-        [25194] = { -- Unbidden Visitors
+        [25194] = { -- Unbidden Visitors TODO: add preQuestSingle to childQuests
             [questKeys.parentQuest] = 25188,
             [questKeys.objectives] = {{{39337,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [25195] = { -- That's the End of That Raptor
+        [25195] = { -- That's the End of That Raptor TODO: add preQuestSingle to childQuests
             [questKeys.parentQuest] = 25188,
         },
         [25202] = { -- The Fastest Way to His Heart
@@ -5458,6 +5458,75 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{39605}},
             [questKeys.preQuestSingle] = {26294},
             [questKeys.exclusiveTo] = {26311},
+        },
+        [29034] = { -- They Grow Up So Fast
+            [questKeys.childQuests] = {29035,29037,29038,29039,29040,29051,29052,29053},
+        },
+        [29035] = { -- A Cub's Cravings
+            [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
+            [questKeys.requiredSourceItems] = {12622},
+            [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
+            --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.parentQuest] = 29034,
+            [questKeys.exclusiveTo] = {29037,29038,29039,29040,29051,29052,29053},
+        },
+        [29037] = { -- Hunting Practice
+            [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
+            --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.parentQuest] = 29034,
+            [questKeys.exclusiveTo] = {29035,29038,29039,29040,29051,29052,29053},
+        },
+        [29038] = { -- 'Borrowing' From the Winterfall
+            [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
+            [questKeys.requiredSourceItems] = {68645},
+            [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
+            --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.parentQuest] = 29034,
+            [questKeys.exclusiveTo] = {29035,29037,29039,29040,29051,29052,29053},
+        },
+        [29039] = { -- Hunting Practice
+            --[questKeys.requiredRaces] = raceKeys.HUMAN + raceKeys.DWARF + raceKeys.WORGEN, -- these are the correct races
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.parentQuest] = 29034,
+            [questKeys.exclusiveTo] = {29035,29037,29038,29040,29051,29052,29053},
+        },
+        [29040] = { -- Cub's First Toy
+            [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
+            [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
+            --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.parentQuest] = 29034,
+            [questKeys.requiredSourceItems] = {68662,68663,68668},
+            [questKeys.sourceItemId] = 68668,
+            [questKeys.exclusiveTo] = {29035,29037,29038,29039,29051,29052,29053},
+        },
+        [29051] = { -- Cub's First Toy
+            [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
+            --[questKeys.requiredRaces] = raceKeys.HUMAN + raceKeys.DWARF + raceKeys.WORGEN, -- these are the correct races
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.parentQuest] = 29034,
+            [questKeys.requiredSourceItems] = {68662,68663,68668},
+            [questKeys.sourceItemId] = 68668,
+            [questKeys.exclusiveTo] = {29035,29037,29038,29039,29040,29052,29053},
+        },
+        [29052] = { -- A Cub's Cravings
+            [questKeys.requiredSourceItems] = {12622},
+            [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
+            --[questKeys.requiredRaces] = raceKeys.HUMAN + raceKeys.DWARF + raceKeys.WORGEN, -- these are the correct races
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.parentQuest] = 29034,
+            [questKeys.exclusiveTo] = {29035,29037,29038,29039,29040,29051,29053},
+        },
+        [29053] = { -- 'Borrowing' From the Winterfall
+            [questKeys.requiredSourceItems] = {68645},
+            [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
+            --[questKeys.requiredRaces] = raceKeys.HUMAN + raceKeys.DWARF + raceKeys.WORGEN, -- these are the correct races
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.parentQuest] = 29034,
+            [questKeys.exclusiveTo] = {29035,29037,29038,29039,29040,29051,29052},
         },
         [29066] = { -- Good News... and Bad News
             [questKeys.startedBy] = {},

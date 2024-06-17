@@ -1211,6 +1211,10 @@ function CataNpcFixes.Load()
         [51314] = { -- Azshara Event Credit
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{32.89,84.09}}},
         },
+        [51677] = { -- Winterspring Cub
+            [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{46.59,17.7}}},
+            [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
+        },
         [51989] = { -- Orphan Matron Battlewail
             [npcKeys.spawns] = {
                 [zoneIDs.ORGRIMMAR] = {{57.96,57.62}},
