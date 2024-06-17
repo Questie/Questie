@@ -2616,6 +2616,9 @@ function CataQuestFixes.Load()
         [25503] = { -- Blackfin's Booty
             [questKeys.startedBy] = {{41183},nil,{54639}},
         },
+        [25513] = { -- Thunderdrome: Grudge Match!
+            [questKeys.objectives] = {{{40875}}},
+        },
         [25520] = { -- An Ancient Awakens
             [questKeys.preQuestGroup] = {25514,25519},
         },
@@ -2670,6 +2673,9 @@ function CataQuestFixes.Load()
                 {{[zoneIDs.KELP_THAR_FOREST] = {{56.74,30.41}}},Questie.ICON_TYPE_EVENT,l10n("Smuggler's Scar Scouted"),1},
                 {{[zoneIDs.KELP_THAR_FOREST] = {{54.1,34.4}}},Questie.ICON_TYPE_EVENT,l10n("Adarrah Signaled"),2},
             },
+        },
+        [25591] = { -- Thunderdrome: Grudge Match!
+            [questKeys.objectives] = {{{40876}}},
         },
         [25592] = { -- Deep Attraction
             [questKeys.preQuestSingle] = {25996},
