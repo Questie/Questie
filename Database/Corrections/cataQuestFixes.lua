@@ -2179,6 +2179,9 @@ function CataQuestFixes.Load()
         [25081] = { -- Claim the Battlescar
             [questKeys.triggerEnd] = {"Battlescar Flag Scouted",{[zoneIDs.THE_BARRENS] = {{45.2,69.4}}}},
         },
+        [25095] = { -- Thunderdrome: Sarinexx!
+            [questKeys.objectives] = {{{39149}}},
+        },
         [25105] = { -- Nibbler!  No!
             [questKeys.exclusiveTo] = {25154,25155,25156,25157},
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
