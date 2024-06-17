@@ -255,6 +255,9 @@ function CataNpcFixes.Load()
         [15623] = { -- Xandivious
             [npcKeys.spawns] = {},
         },
+        [15951] = { -- Magister Duskwither
+            [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{60.32,61.38}}},
+        },
         [15968] = { -- Darnassian Scout
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{34.19,58.49},{34.65,62.03},{34.05,60.81},{33.28,59.46},{36.77,60.99}}},
         },

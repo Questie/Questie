@@ -382,6 +382,9 @@ function QuestieWotlkQuestFixes:Load()
         [8875] = {
             [questKeys.startedBy] = {},
         },
+        [8888] = {
+            [questKeys.exclusiveTo] = {8889},
+        },
         [8892] = {
             [questKeys.preQuestSingle] = {},
         },

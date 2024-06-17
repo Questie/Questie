@@ -302,6 +302,9 @@ function CataQuestFixes.Load()
         [9062] = { -- Soaked Pages
             [questKeys.preQuestSingle] = {},
         },
+        [9067] = { -- The Party Never Ends
+            [questKeys.preQuestSingle] = {},
+        },
         [9130] = { -- Goods from Silvermoon City
             [questKeys.preQuestSingle] = {},
         },

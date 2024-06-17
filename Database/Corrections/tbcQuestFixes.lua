@@ -663,11 +663,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [8488] = {
-            [questKeys.triggerEnd] = {"Protect Apprentice Mirveda", {[zoneIDs.EVERSONG_WOODS]={{54.3,71.02}}}},
+            [questKeys.objectives] = {{{15402,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [8490] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Infused Crystal and protect it from the Scourge for 1 minute"), 0, {{"object", 181164}}}},
+            [questKeys.objectives] = {{{16364,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [8548] = {
             [questKeys.specialFlags] = 1,
@@ -869,9 +870,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [8887] = {
             [questKeys.startedBy] = {{15668,15669,15670,15950},nil,{21776}},
-        },
-        [8888] = {
-            [questKeys.exclusiveTo] = {8889,8890,9394,},
         },
         [8894] = {
             [questKeys.preQuestSingle] = {},
