@@ -2179,6 +2179,9 @@ function CataQuestFixes.Load()
         [25081] = { -- Claim the Battlescar
             [questKeys.triggerEnd] = {"Battlescar Flag Scouted",{[zoneIDs.THE_BARRENS] = {{45.2,69.4}}}},
         },
+        [25094] = { -- Thunderdrome: Zumonga!
+            [questKeys.objectives] = {{{39148}}},
+        },
         [25095] = { -- Thunderdrome: Sarinexx!
             [questKeys.objectives] = {{{39149}}},
         },
