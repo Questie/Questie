@@ -2184,6 +2184,7 @@ function CataQuestFixes.Load()
         },
         [25095] = { -- Thunderdrome: Sarinexx!
             [questKeys.objectives] = {{{39149}}},
+            [questKeys.preQuestSingle] = {25094},
         },
         [25105] = { -- Nibbler!  No!
             [questKeys.exclusiveTo] = {25154,25155,25156,25157},
