@@ -154,6 +154,7 @@ function CataQuestFixes.Load()
         },
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = 0,
+            [questKeys.nextQuestInChain] = 0,-- there are some weird things happening if you completed these quests before prepatch
         },
         [2499] = { -- Oakenscowl
             [questKeys.preQuestSingle] = {923},
