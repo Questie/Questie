@@ -5454,6 +5454,9 @@ function CataQuestFixes.Load()
         [28849] = { -- Twilight Skies
             [questKeys.preQuestGroup] = {26337,26372,26374},
         },
+        [28866] = { -- Into the Stonecore
+            [questKeys.preQuestSingle] = {27061},
+        },
         [28869] = { -- Pebble
             [questKeys.exclusiveTo] = {26440},
             [questKeys.preQuestGroup] = {26437,26438,26439},
