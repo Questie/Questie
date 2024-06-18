@@ -5431,6 +5431,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.HUMAN,
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
         },
+        [28824] = { -- Wayward Child
+            [questKeys.preQuestSingle] = {26871},
+        },
         [28825] = { -- A Personal Summons
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.startedBy] = {{100002}},
