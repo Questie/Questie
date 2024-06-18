@@ -3600,6 +3600,9 @@ function CataQuestFixes.Load()
         [26580] = { -- Familiar Intruders
             [questKeys.preQuestSingle] = {26577},
         },
+        [26583] = { -- Wrath of the Fungalmancer
+            [questKeys.preQuestSingle] = {26582},
+        },
         [26584] = { -- Shaken and Stirred
             [questKeys.preQuestSingle] = {26582},
         },
