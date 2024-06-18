@@ -4133,6 +4133,9 @@ function CataQuestFixes.Load()
         [27135] = { -- Something that Burns
             [questKeys.preQuestSingle] = {26409},
         },
+        [27136] = { -- Elemental Energy
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{43254,43258},43254,"Totem energized"}}},
+        },
         [27139] = { -- Hobart Needs You
             [questKeys.exclusiveTo] = {24671},
         },
