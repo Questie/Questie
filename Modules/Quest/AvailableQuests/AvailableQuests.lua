@@ -186,15 +186,9 @@ _CalculateAndDrawAvailableQuests = function()
         availableQuests[questId] = true
     end
 
-    -- Measure performance
-    local startTime = debugprofilestop()
-
     for questId in pairs(questData) do
         _CheckAvailability(questId)
     end
-
-    local calcEndTime = debugprofilestop()
-    print("Calculation", calcEndTime - startTime, "ms")
 
     local questCount = 0
     for questId in pairs(availableQuests) do
@@ -220,10 +214,6 @@ _CalculateAndDrawAvailableQuests = function()
             yield()
         end
     end
-
-    print("Drawing", debugprofilestop() - calcEndTime, "ms")
-
-    print("Total:", debugprofilestop() - startTime, "ms")
 end
 
 --- Mark all child quests as active when the parent quest is in the quest log
