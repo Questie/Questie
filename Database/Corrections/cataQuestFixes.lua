@@ -3763,6 +3763,9 @@ function CataQuestFixes.Load()
         [26766] = { -- Big Game, Big Bait
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Mylra's Knife on dead Jadecrest Basilisks"), 0, {{"monster",43981}}}},
         },
+        [26768] = { -- To Catch a Dragon
+            [questKeys.preQuestSingle] = {27061},
+        },
         [26770] = { -- Mystic Masters
             [questKeys.preQuestSingle] = {26755},
         },
