@@ -3597,6 +3597,9 @@ function CataQuestFixes.Load()
         [26580] = { -- Familiar Intruders
             [questKeys.preQuestSingle] = {26577},
         },
+        [26584] = { -- Shaken and Stirred
+            [questKeys.preQuestSingle] = {26582},
+        },
         [26585] = { -- Corruption Destruction
             [questKeys.preQuestGroup] = {26578,26579,26582},
         },
