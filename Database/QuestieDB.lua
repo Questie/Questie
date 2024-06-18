@@ -593,13 +593,6 @@ function QuestieDB.IsDoable(questId, debugPrint)
         return false
     end
 
-    if QuestieDB.activeChildQuests[questId] then -- The parent quest is active, so this quest is doable
-        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " is eligible because it's a child quest and the parent is active!") end
-        return true
-        -- this scenario actually returns true, so it skips the rest of the later checks, because
-        -- if we're on the parent quest then we implicitly know all other requirements are met
-    end
-
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
     if (requiredRaces and not checkRace[requiredRaces]) then
         QuestieDB.autoBlacklist[questId] = "race"
@@ -788,6 +781,8 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
+    -- We keep this here, even though it is removed from QuestieDB.IsDoable because AvailableQuests.CalculateAndDrawAll
+    -- checks child quests differently and before IsDoable
     if QuestieDB.activeChildQuests[questId] then -- The parent quest is active, so this quest is doable
         local msg = "Quest " .. questId .. " is eligible because it's a child quest and the parent is active!"
         if returnText and returnBrief then

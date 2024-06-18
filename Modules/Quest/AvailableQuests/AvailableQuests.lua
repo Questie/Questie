@@ -128,7 +128,6 @@ _CalculateAndDrawAvailableQuests = function()
     local aqWarEffortQuests = QuestieQuestBlacklist.AQWarEffortQuests
 
     QuestieDB.activeChildQuests = {} -- Reset here so we don't need to keep track in the quest event system
-    local activeChildQuests = QuestieDB.activeChildQuests
 
     local IsClassic = Questie.IsClassic
     local IsSoD = Questie.IsSoD
