@@ -39,7 +39,7 @@ local availableQuests = {}
 local dungeons = ZoneDB:GetDungeons()
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
 
-local _CalculateAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
+local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
 
 ---@param callback function | nil
 function AvailableQuests.CalculateAndDrawAll(callback)
@@ -49,7 +49,7 @@ function AvailableQuests.CalculateAndDrawAll(callback)
     if timer then
         timer:Cancel()
     end
-    timer = ThreadLib.Thread(_CalculateAvailableQuests, 0, "Error in AvailableQuests.CalculateAndDrawAll", callback)
+    timer = ThreadLib.Thread(_CalculateAndDrawAvailableQuests, 0, "Error in AvailableQuests.CalculateAndDrawAll", callback)
 end
 
 --Draw a single available quest, it is used by the CalculateAndDrawAll function.
@@ -95,7 +95,7 @@ function AvailableQuests.UnloadUndoable()
     end
 end
 
-_CalculateAvailableQuests = function()
+_CalculateAndDrawAvailableQuests = function()
     -- Localize the variables for speeeeed
     local debugEnabled = Questie.db.profile.debugEnabled
 
@@ -135,13 +135,14 @@ _CalculateAvailableQuests = function()
 
     -- We create a local function here to improve readability but use the localized variables above.
     -- The order of checks is important here to bring the speed to a max
-    local function _DrawQuestIfAvailable(questId)
+    local function _CheckAvailability(questId)
         if (autoBlacklist[questId] or       -- Don't show autoBlacklist quests marked as such by IsDoable
             completedQuests[questId] or     -- Don't show completed quests
             hiddenQuests[questId] or        -- Don't show blacklisted quests
             hidden[questId] or              -- Don't show quests hidden by the player
             activeChildQuests[questId]      -- We already drew this quest in a previous loop iteration
         ) then
+            availableQuests[questId] = nil
             return
         end
 
@@ -149,6 +150,7 @@ _CalculateAvailableQuests = function()
             _DrawChildQuests(questId, currentQuestlog, completedQuests)
 
             if QIsComplete(questId) ~= -1 then -- The quest in the quest log is not failed, so we don't show it as available
+                availableQuests[questId] = nil
                 return
             end
         end
@@ -162,6 +164,7 @@ _CalculateAvailableQuests = function()
             (IsClassic and currentIsleOfQuelDanasQuests[questId]) or        -- Don't show Isle of Quel'Danas quests for Era/HC/SoX
             (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId))          -- Don't show SoD Rune quests with the option disabled
         ) then
+            availableQuests[questId] = nil
             return
         end
 
@@ -176,11 +179,19 @@ _CalculateAvailableQuests = function()
                 QuestieMap:UnloadQuestFrames(questId)
                 QuestieTooltips:RemoveQuest(questId)
             end
+            availableQuests[questId] = nil
             return
         end
 
         availableQuests[questId] = true
+    end
 
+    for questId in pairs(questData) do
+        _CheckAvailability(questId)
+    end
+
+    local questCount = 0
+    for questId in pairs(availableQuests) do
         if QuestieMap.questIdFrames[questId] then
             -- We already drew this quest so we might need to update the icon (config changed/level up)
             for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
@@ -192,15 +203,9 @@ _CalculateAvailableQuests = function()
                     end
                 end
             end
-            return
+        else
+            _DrawAvailableQuest(questId)
         end
-
-        _DrawAvailableQuest(questId)
-    end
-
-    local questCount = 0
-    for questId in pairs(questData) do
-        _DrawQuestIfAvailable(questId)
 
         -- Reset the questCount
         questCount = questCount + 1
