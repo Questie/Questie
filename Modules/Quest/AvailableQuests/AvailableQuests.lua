@@ -139,8 +139,7 @@ _CalculateAndDrawAvailableQuests = function()
         if (autoBlacklist[questId] or       -- Don't show autoBlacklist quests marked as such by IsDoable
             completedQuests[questId] or     -- Don't show completed quests
             hiddenQuests[questId] or        -- Don't show blacklisted quests
-            hidden[questId] or              -- Don't show quests hidden by the player
-            activeChildQuests[questId]      -- We already drew this quest in a previous loop iteration
+            hidden[questId]                 -- Don't show quests hidden by the player
         ) then
             availableQuests[questId] = nil
             return
