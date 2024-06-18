@@ -72,7 +72,7 @@ describe("Tooltip", function()
             QuestieDB.QueryItemSingle = spy.new(function()
                 return "Item Name"
             end)
-            QuestieTooltips.lookupByKey = {["m_123"] = {["1 test 2"] = {
+            QuestieTooltips.lookupByKey = {["m_123"] = {["1 1"] = {
                 questId = 1,
                 objective = {
                     Index = 1,
@@ -91,7 +91,7 @@ describe("Tooltip", function()
         end)
 
         it("should return quest name and objective when tooltip has objective and Needed", function()
-            QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {
+            QuestieTooltips.lookupByKey = {["key"] = {["1 1"] = {
                 questId = 1,
                 objective = {
                     Index = 1,
@@ -110,7 +110,7 @@ describe("Tooltip", function()
         end)
 
         it("should return quest name and objective description when tooltip has objective without Needed", function()
-            QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {
+            QuestieTooltips.lookupByKey = {["key"] = {["1 1"] = {
                 questId = 1,
                 objective = {
                     Index = 1,
@@ -131,7 +131,7 @@ describe("Tooltip", function()
                  if questId == 1 then return "Quest Name" else return "Quest Name 2" end
             end)
             QuestieTooltips.lookupByKey = {["key"] = {
-                ["1 test 2"] = {
+                ["1 1"] = {
                     questId = 1,
                     objective = {
                         Index = 1,
@@ -141,7 +141,7 @@ describe("Tooltip", function()
                         Update = function() end,
                     }
                 },
-                ["1 test 3"] = {
+                ["1 2"] = {
                     questId = 1,
                     objective = {
                         Index = 2,
@@ -151,7 +151,7 @@ describe("Tooltip", function()
                         Update = function() end,
                     }
                 },
-                ["2 test 4"] = {
+                ["2 1"] = {
                     questId = 2,
                     objective = {
                         Index = 1,
@@ -177,7 +177,7 @@ describe("Tooltip", function()
 
         it("should not Update objective for IsSourceItem", function()
             local updateSpy = spy.new(function() end)
-            QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {
+            QuestieTooltips.lookupByKey = {["key"] = {["1 1"] = {
                 questId = 1,
                 objective = {
                     Index = 1,
@@ -197,7 +197,7 @@ describe("Tooltip", function()
 
         it("should not Update objective for IsRequiredSourceItem", function()
             local updateSpy = spy.new(function() end)
-            QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {
+            QuestieTooltips.lookupByKey = {["key"] = {["1 1"] = {
                 questId = 1,
                 objective = {
                     Index = 1,
