@@ -3246,6 +3246,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{43048,nil,Questie.ICON_TYPE_EVENT},{43032,nil,Questie.ICON_TYPE_EVENT},{43044,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26247] = { -- Diplomacy First
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26244,27136},
         },
         [26248] = { -- All Our Friends Are Dead
