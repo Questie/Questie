@@ -237,10 +237,25 @@ _DrawChildQuests = function(questId, currentQuestlog, completedQuests, hiddenQue
                 end
             end
             if (not blockedByExclusiveTo) then
-                QuestieDB.activeChildQuests[childQuestId] = true
-                availableQuests[childQuestId] = true
-                -- Draw them right away and skip all other irrelevant checks
-                _DrawAvailableQuest(childQuestId)
+                local isPreQuestSingleFulfilled = true
+                local isPreQuestGroupFulfilled = true
+
+                local preQuestSingle = QuestieDB.QueryQuestSingle(childQuestId, "preQuestSingle")
+                if preQuestSingle then
+                    isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
+                else
+                    local preQuestGroup = QuestieDB.QueryQuestSingle(childQuestId, "preQuestGroup")
+                    if preQuestGroup then
+                        isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
+                    end
+                end
+
+                if isPreQuestSingleFulfilled and isPreQuestGroupFulfilled then
+                    QuestieDB.activeChildQuests[childQuestId] = true
+                    availableQuests[childQuestId] = true
+                    -- Draw them right away and skip all other irrelevant checks
+                    _DrawAvailableQuest(childQuestId)
+                end
             end
         end
     end
