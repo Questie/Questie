@@ -147,7 +147,7 @@ _CalculateAndDrawAvailableQuests = function()
         end
 
         if currentQuestlog[questId] then
-            _DrawChildQuests(questId, currentQuestlog, completedQuests)
+            _DrawChildQuests(questId, currentQuestlog, completedQuests, hiddenQuests)
 
             if QIsComplete(questId) ~= -1 then -- The quest in the quest log is not failed, so we don't show it as available
                 availableQuests[questId] = nil
@@ -220,14 +220,14 @@ end
 ---@param questId number
 ---@param currentQuestlog table<number, boolean>
 ---@param completedQuests table<number, boolean>
-_DrawChildQuests = function(questId, currentQuestlog, completedQuests)
+_DrawChildQuests = function(questId, currentQuestlog, completedQuests, hiddenQuests)
     local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
     if (not childQuests) then
         return
     end
 
     for _, childQuestId in pairs(childQuests) do
-        if (not completedQuests[childQuestId]) and (not currentQuestlog[childQuestId]) then
+        if (not completedQuests[childQuestId]) and (not currentQuestlog[childQuestId]) and (not hiddenQuests[childQuestId]) then
             local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(childQuestId, "exclusiveTo")
             local blockedByExclusiveTo = false
             for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
