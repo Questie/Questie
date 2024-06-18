@@ -1234,6 +1234,26 @@ function CataNpcFixes.Load()
                 [zoneIDs.DUN_MOROGH] = {{83.97,51.69}},
             },
         },
+        [54334] = { -- Darkmoon Faire Mystic Mage
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{62.1,32.17},{62.26,72.96}},
+                [zoneIDs.IRONFORGE] = {{27.5,73.35}},
+                [zoneIDs.DARNASSUS] = {{38.56,49.4}},
+                [zoneIDs.THE_EXODAR] = {{51.33,42.02}},
+                [zoneIDs.SHATTRATH_CITY] = {{52.02,29.16}},
+                [zoneIDs.DALARAN] = {{49.88,50.37}},
+            },
+        },
+        [55382] = { -- Darkmoon Faire Mystic Mage
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY] = {{61.87,47.34}},
+                [zoneIDs.ORGRIMMAR] = {{48.23,62.17}},
+                [zoneIDs.THUNDER_BLUFF] = {{43.93,52.6}},
+                [zoneIDs.SILVERMOON_CITY] = {{74.32,81.88}},
+                [zoneIDs.SHATTRATH_CITY] = {{51.8,29.26}},
+                [zoneIDs.DALARAN] = {{50.29,50.38}},
+            },
+        },
         -- Fake NPCs for Auto Accept and Auto Turn in
         [100000] = { -- "Burn, Baby, Burn!", "Bombs Away: Windshear Mine!"
             [npcKeys.name] = "!",
