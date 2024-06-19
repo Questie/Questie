@@ -3799,6 +3799,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26433},
         },
         [26591] = { -- Battlefront Triage
+            [questKeys.objectives] = {{{43229,"Injured Earthen patched up",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {26501},
         },
         [26597] = { -- Stranglethorn Fever
