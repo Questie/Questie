@@ -3802,6 +3802,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26732},
         },
         [26750] = { -- At the Stonemother's Call
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26584,26585,26659},
         },
         [26766] = { -- Big Game, Big Bait
