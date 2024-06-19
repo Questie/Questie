@@ -3988,6 +3988,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26622},
         },
         [26791] = { -- Sprout No More
+            [questKeys.objectives] = {{{44126,nil,Questie.ICON_TYPE_INTERACT},{44049}},nil,nil,nil,},
             [questKeys.preQuestSingle] = {26834},
         },
         [26792] = { -- Fungal Monstrosities
