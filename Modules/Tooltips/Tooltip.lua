@@ -221,9 +221,11 @@ function QuestieTooltips.GetTooltip(key)
         local playerName = UnitName("player")
 
         local finishedQuests = {}
-        for _, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
-            if tooltip.name then
-                finishedQuests[tooltip.questId] = true
+        if Questie.db.profile.showQuestsInNpcTooltip then
+            for _, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
+                if tooltip.name then
+                    finishedQuests[tooltip.questId] = true
+                end
             end
         end
 
