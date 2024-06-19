@@ -306,6 +306,141 @@ function CataQuestFixes.Load()
         [8481] = { -- The Root of All Evil
             [questKeys.objectives] = {nil,nil,{{21145}},{576,42000}},
         },
+        [8544] = { -- Conqueror's Spaulders
+            [questKeys.objectives] = {nil,nil,{{20928},{20875},{20863},{20858}},{910,0}},
+        },
+        [8559] = { -- Conqueror's Greaves
+            [questKeys.objectives] = {nil,nil,{{20928},{20882},{20865},{20859}},{910,0}},
+        },
+        [8560] = { -- Conqueror's Legguards
+            [questKeys.objectives] = {nil,nil,{{20927},{20876},{20861},{20865}},{910,3000}},
+        },
+        [8561] = { -- Conqueror's Crown
+            [questKeys.objectives] = {nil,nil,{{20926},{20874},{20862},{20858}},{910,3000}},
+        },
+        [8562] = { -- Conqueror's Breastplate
+            [questKeys.objectives] = {nil,nil,{{20929},{20882},{20860},{20864}},{910,9000}},
+        },
+        [8592] = { -- Tiara of the Oracle
+            [questKeys.objectives] = {nil,nil,{{20926},{20877},{20860},{20864}},{910,3000}},
+        },
+        [8593] = { -- Trousers of the Oracle
+            [questKeys.objectives] = {nil,nil,{{20927},{20879},{20859},{20863}},{910,3000}},
+        },
+        [8594] = { -- Mantle of the Oracle
+            [questKeys.objectives] = {nil,nil,{{20928},{20878},{20860},{20865}},{910,0}},
+        },
+        [8596] = { -- Footwraps of the Oracle
+            [questKeys.objectives] = {nil,nil,{{20928},{20876},{20861},{20859}},{910,0}},
+        },
+        [8602] = { -- Stormcaller's Pauldrons
+            [questKeys.objectives] = {nil,nil,{{20932},{20879},{20859},{20862}},{910,0}},
+        },
+        [8603] = { -- Vestments of the Oracle
+            [questKeys.objectives] = {nil,nil,{{20933},{20876},{20858},{20862}},{910,9000}},
+        },
+        [8621] = { -- Stormcaller's Footguards
+            [questKeys.objectives] = {nil,nil,{{20932},{20877},{20861},{20863}},{910,0}},
+        },
+        [8622] = { -- Stormcaller's Hauberk
+            [questKeys.objectives] = {nil,nil,{{20929},{20877},{20860},{20864}},{910,9000}},
+        },
+        [8623] = { -- Stormcaller's Diadem
+            [questKeys.objectives] = {nil,nil,{{20930},{20878},{20858},{20862}},{910,3000}},
+        },
+        [8624] = { -- Stormcaller's Leggings
+            [questKeys.objectives] = {nil,nil,{{20931},{20881},{20865},{20861}},{910,3000}},
+        },
+        [8625] = { -- Enigma Shoulderpads
+            [questKeys.objectives] = {nil,nil,{{20932},{20876},{20858},{20861}},{910,0}},
+        },
+        [8626] = { -- Striker's Footguards
+            [questKeys.objectives] = {nil,nil,{{20928},{20879},{20858},{20864}},{910,0}},
+        },
+        [8627] = { -- Avenger's Breastplate
+            [questKeys.objectives] = {nil,nil,{{20929},{20877},{20860},{20864}},{910,9000}},
+        },
+        [8628] = { -- Avenger's Crown
+            [questKeys.objectives] = {nil,nil,{{20930},{20878},{20858},{20862}},{910,3000}},
+        },
+        [8629] = { -- Avenger's Legguards
+            [questKeys.objectives] = {nil,nil,{{20931},{20881},{20865},{20861}},{910,3000}},
+        },
+        [8630] = { -- Avenger's Pauldrons
+            [questKeys.objectives] = {nil,nil,{{20932},{20879},{20859},{20862}},{910,0}},
+        },
+        [8631] = { -- Enigma Leggings
+            [questKeys.objectives] = {nil,nil,{{20927},{20877},{20860},{20864}},{910,3000}},
+        },
+        [8632] = { -- Enigma Circlet
+            [questKeys.objectives] = {nil,nil,{{20926},{20875},{20861},{20865}},{910,3000}},
+        },
+        [8633] = { -- Enigma Robes
+            [questKeys.objectives] = {nil,nil,{{20933},{20874},{20859},{20863}},{910,9000}},
+        },
+        [8634] = { -- Enigma Boots
+            [questKeys.objectives] = {nil,nil,{{20932},{20874},{20860},{20862}},{910,0}},
+        },
+        [8637] = { -- Deathdealer's Boots
+            [questKeys.objectives] = {nil,nil,{{20928},{20881},{20862},{20864}},{910,0}},
+        },
+        [8638] = { -- Deathdealer's Vest
+            [questKeys.objectives] = {nil,nil,{{20929},{20881},{20861},{20865}},{910,9000}},
+        },
+        [8639] = { -- Deathdealer's Helm
+            [questKeys.objectives] = {nil,nil,{{20930},{20882},{20863},{20859}},{910,3000}},
+        },
+        [8640] = { -- Deathdealer's Leggings
+            [questKeys.objectives] = {nil,nil,{{20927},{20875},{20858},{20862}},{910,3000}},
+        },
+        [8641] = { -- Deathdealer's Spaulders
+            [questKeys.objectives] = {nil,nil,{{20928},{20874},{20860},{20863}},{910,0}},
+        },
+        [8655] = { -- Avenger's Greaves
+            [questKeys.objectives] = {nil,nil,{{20932},{20877},{20861},{20863}},{910,0}},
+        },
+        [8656] = { -- Striker's Hauberk
+            [questKeys.objectives] = {nil,nil,{{20929},{20879},{20859},{20863}},{910,9000}},
+        },
+        [8657] = { -- Striker's Diadem
+            [questKeys.objectives] = {nil,nil,{{20930},{20881},{20861},{20865}},{910,3000}},
+        },
+        [8658] = { -- Striker's Leggings
+            [questKeys.objectives] = {nil,nil,{{20931},{20874},{20860},{20864}},{910,3000}},
+        },
+        [8659] = { -- Striker's Pauldrons
+            [questKeys.objectives] = {nil,nil,{{20928},{20882},{20862},{20865}},{910,0}},
+        },
+        [8660] = { -- Doomcaller's Footwraps
+            [questKeys.objectives] = {nil,nil,{{20932},{20875},{20863},{20865}},{910,0}},
+        },
+        [8661] = { -- Doomcaller's Robes
+            [questKeys.objectives] = {nil,nil,{{20933},{20875},{20862},{20858}},{910,9000}},
+        },
+        [8662] = { -- Doomcaller's Circlet
+            [questKeys.objectives] = {nil,nil,{{20926},{20876},{20860},{20864}},{910,3000}},
+        },
+        [8663] = { -- Doomcaller's Trousers
+            [questKeys.objectives] = {nil,nil,{{20931},{20878},{20859},{20863}},{910,3000}},
+        },
+        [8664] = { -- Doomcaller's Mantle
+            [questKeys.objectives] = {nil,nil,{{20932},{20877},{20861},{20864}},{910,0}},
+        },
+        [8665] = { -- Genesis Boots
+            [questKeys.objectives] = {nil,nil,{{20932},{20878},{20858},{20860}},{910,0}},
+        },
+        [8666] = { -- Genesis Vest
+            [questKeys.objectives] = {nil,nil,{{20933},{20878},{20861},{20865}},{910,9000}},
+        },
+        [8667] = { -- Genesis Helm
+            [questKeys.objectives] = {nil,nil,{{20930},{20879},{20859},{20863}},{910,3000}},
+        },
+        [8668] = { -- Genesis Trousers
+            [questKeys.objectives] = {nil,nil,{{20931},{20882},{20858},{20862}},{910,3000}},
+        },
+        [8669] = { -- Genesis Shoulderpads
+            [questKeys.objectives] = {nil,nil,{{20932},{20881},{20859},{20864}},{910,0}},
+        },
         [9062] = { -- Soaked Pages
             [questKeys.preQuestSingle] = {},
         },
