@@ -219,13 +219,21 @@ function QuestieTooltips.GetTooltip(key)
 
     if QuestieTooltips.lookupByKey[key] then
         local playerName = UnitName("player")
+
+        local finishedQuests = {}
+        for _, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
+            if tooltip.name then
+                finishedQuests[tooltip.questId] = true
+            end
+        end
+
         for k, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
             if tooltip.name then
                 if Questie.db.profile.showQuestsInNpcTooltip then
                     local questString = QuestieLib:GetColoredQuestName(tooltip.questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
                     tinsert(tooltipLines, questString)
                 end
-            else
+            elseif (not finishedQuests[tooltip.questId]) then
                 local objective = tooltip.objective
                 if not (objective.IsSourceItem or objective.IsRequiredSourceItem) then
                     -- Tooltip was registered for a sourceItem or requiredSourceItem and not a real "objective"
@@ -251,8 +259,10 @@ function QuestieTooltips.GetTooltip(key)
                         text = "   " .. color .. tostring(QuestieDB.QueryItemSingle(objective.spawnList[tonumber(key:sub(3))].ItemId, "name"));
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                     elseif objective.Needed then
-                        text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description);
-                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
+                        if (not finishedQuests[questId]) or objective.Collected ~= objective.Needed then
+                            text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description);
+                            tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
+                        end
                     else
                         text = "   " .. color .. tostring(objective.Description);
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
