@@ -242,7 +242,7 @@ function QuestieTooltips.GetTooltip(key)
             elseif (not finishedAndUnacceptedQuests[questId]) then
                 local objective = tooltip.objective
                 if not (objective.IsSourceItem or objective.IsRequiredSourceItem) then
-                    -- Tooltip was registered for a sourceItem or requiredSourceItem and not a real "objective"
+                    -- Tooltip was registered for a real "objective" and not for a sourceItem or requiredSourceItem
                     objective:Update()
                 end
                 local objectiveIndex = objective.Index;
