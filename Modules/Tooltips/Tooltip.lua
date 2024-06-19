@@ -222,6 +222,8 @@ function QuestieTooltips.GetTooltip(key)
 
         local finishedAndUnacceptedQuests = {}
         if Questie.db.profile.showQuestsInNpcTooltip then
+            -- We built a table of all quests in the tooltip that can be accepted or turned in, to not show the objectives for those
+            -- and also don't add the quest title twice.
             for _, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
                 if tooltip.name then
                     finishedAndUnacceptedQuests[tooltip.questId] = true
