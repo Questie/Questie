@@ -4825,6 +4825,18 @@ function CataQuestFixes.Load()
         [28100] = { -- A Talking Totem
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 12}},
         },
+        [28117] = { -- Clearing the Depths
+            [questKeys.finishedBy] = {{48039}}, -- temporary until Questie can show multiple turn ins
+        },
+        [28118] = { -- The Imprisoned Archmage
+            [questKeys.finishedBy] = {{48039}}, -- temporary until Questie can show multiple turn ins
+        },
+        [28120] = { -- Learning From The Past
+            [questKeys.finishedBy] = {{48039}}, -- temporary until Questie can show multiple turn ins
+        },
+        [28122] = { -- A Huge Problem
+            [questKeys.finishedBy] = {{48066}}, -- temporary until Questie can show multiple turn ins
+        },
         [28130] = { -- Not The Friendliest Town
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
@@ -4847,8 +4859,15 @@ function CataQuestFixes.Load()
         [28149] = { -- Whispers in the Wind
             [questKeys.preQuestSingle] = {28133},
         },
+        [28162] = { -- Swamp Bait
+            [questKeys.finishedBy] = {{48066}}, -- temporary until Questie can show multiple turn ins
+        },
         [28163] = { -- The Leftovers
+            [questKeys.finishedBy] = {{48066}}, -- temporary until Questie can show multiple turn ins
             [questKeys.objectives] = {nil,nil,nil,nil,{{{47607,47608,47609,47610},47607},},},
+        },
+        [28165] = { -- D-Block
+            [questKeys.finishedBy] = {{48061}}, -- temporary until Questie can show multiple turn ins
         },
         [28167] = { -- Venomblood Antidote
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
@@ -4862,11 +4881,26 @@ function CataQuestFixes.Load()
         [28176] = { -- Following the Young Home
             [questKeys.preQuestGroup] = {28173,28191},
         },
+        [28185] = { -- D-Svarnos
+            [questKeys.finishedBy] = {{48061}}, -- temporary until Questie can show multiple turn ins
+        },
+        [28186] = { -- Cursed Shackles
+            [questKeys.finishedBy] = {{48061}}, -- temporary until Questie can show multiple turn ins
+        },
+        [28188] = { -- Prison Revolt
+            [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
+        },
         [28191] = { -- A Fitting End
             [questKeys.preQuestSingle] = {28171},
         },
+        [28223] = { -- The Warden
+            [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
+        },
         [28228] = { -- Rejoining the Forest
             [questKeys.triggerEnd] = {"Protector brought to hill", {[zoneIDs.FELWOOD]={{48.7,25.2}}}},
+        },
+        [28232] = { -- Food From Below
+            [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
         },
         [28233] = { -- The Lost Brother
             [questKeys.preQuestSingle] = {27809},
@@ -5129,35 +5163,42 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26801},
             [questKeys.requiredRaces] = raceKeys.UNDEAD,
         },
+        [28657] = { -- A Huge Problem
+            [questKeys.finishedBy] = {{48069}}, -- temporary until Questie can show multiple turn ins
+        },
+        [28658] = { -- Swamp Bait
+            [questKeys.finishedBy] = {{48069}}, -- temporary until Questie can show multiple turn ins
+        },
         [28659] = { -- The Leftovers
+            [questKeys.finishedBy] = {{48069}}, -- temporary until Questie can show multiple turn ins
             [questKeys.objectives] = {nil,nil,nil,nil,{{{47595,47598,47599,47600},47595}}},
         },
         [28660] = { -- Clearing the Depths
-            [questKeys.exclusiveTo] = {28661,28662},
+            [questKeys.finishedBy] = {{48071}}, -- temporary until Questie can show multiple turn ins
         },
         [28661] = { -- The Imprisoned Archmage
-            [questKeys.exclusiveTo] = {28660,28662},
+            [questKeys.finishedBy] = {{48071}}, -- temporary until Questie can show multiple turn ins
         },
         [28662] = { -- Learning From The Past
-            [questKeys.exclusiveTo] = {28660,28661},
+            [questKeys.finishedBy] = {{48071}}, -- temporary until Questie can show multiple turn ins
         },
         [28663] = { -- D-Block
-            [questKeys.exclusiveTo] = {28664,28665},
+            [questKeys.finishedBy] = {{48070}}, -- temporary until Questie can show multiple turn ins
         },
         [28664] = { -- Svarnos
-            [questKeys.exclusiveTo] = {28663,28665},
+            [questKeys.finishedBy] = {{48070}}, -- temporary until Questie can show multiple turn ins
         },
         [28665] = { -- Cursed Shackles
-            [questKeys.exclusiveTo] = {28663,28664},
+            [questKeys.finishedBy] = {{48070}}, -- temporary until Questie can show multiple turn ins
         },
         [28668] = { -- Prison Revolt
-            [questKeys.exclusiveTo] = {28669,28670},
+            [questKeys.finishedBy] = {{48062}}, -- temporary until Questie can show multiple turn ins
         },
         [28669] = { -- The Warden
-            [questKeys.exclusiveTo] = {28668,28670},
+            [questKeys.finishedBy] = {{48062}}, -- temporary until Questie can show multiple turn ins
         },
         [28670] = { -- Food From Below
-            [questKeys.exclusiveTo] = {28668,28669},
+            [questKeys.finishedBy] = {{48062}}, -- temporary until Questie can show multiple turn ins
         },
         [28678] = { -- Captain P. Harris
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
