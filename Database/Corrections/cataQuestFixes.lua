@@ -4214,10 +4214,10 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Question Reethe with Ogron", {[zoneIDs.DUSTWALLOW_MARSH]={{42.47,38.07}}}},
         },
         [27273] = { -- An Invitation from Moonglade
-            [questKeys.exclusiveTo] = {27356},
+            [questKeys.nextQuestInChain] = 27356,
         },
         [27278] = { -- Grimshot's Call
-            [questKeys.exclusiveTo] = {27395},
+            [questKeys.nextQuestInChain] = 27395,
         },
         [27280] = { -- The Dreamseeker Calls
             [questKeys.finishedBy] = {{3344}},
@@ -4229,7 +4229,7 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{3326}},
         },
         [27283] = { -- A Journey to Moonglade
-            [questKeys.exclusiveTo] = {27404},
+            [questKeys.nextQuestInChain] = 27404,
         },
         [27299] = { -- Torn Ground
             [questKeys.preQuestSingle] = {},
@@ -4318,6 +4318,9 @@ function CataQuestFixes.Load()
         [27399] = { -- The Battle Is Won, The War Goes On
             [questKeys.preQuestSingle] = {25551},
             [questKeys.exclusiveTo] = {27203,27442},
+        },
+        [27402] = { -- Token of Power
+            [questKeys.preQuestSingle] = {},
         },
         [27404] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
@@ -4754,7 +4757,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{47385},{47940}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Man the Siege Tank"), 0, {{"monster", 47732}}}},
         },
-        [27991] = { -- Bombs Away!
+        [27991] = { -- Taking the Overlook Back
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [27992] = { -- Magnets, How Do They Work?
@@ -4894,6 +4897,9 @@ function CataQuestFixes.Load()
         [28284] = { -- What's that Rattle?
             [questKeys.exclusiveTo] = {27317},
         },
+        [28289] = { -- Moonglade Calls
+            [questKeys.nextQuestInChain] = 28343,
+        },
         [28290] = { -- Meet with Grezz Ragefist
             [questKeys.exclusiveTo] = {27281,27365,28457},
         },
@@ -4903,12 +4909,19 @@ function CataQuestFixes.Load()
         [28301] = { -- Meet with Kardris Dreamseeker
             [questKeys.finishedBy] = {{3344}},
         },
+        [28309] = { -- Meet with Shadow-Walker Zuru
+            [questKeys.requiredRaces] = raceKeys.TROLL,
+            [questKeys.requiredClasses] = classKeys.PRIEST,
+            [questKeys.nextQuestInChain] = 28477,
+        },
         [28338] = { -- Deadwood of the North
             [questKeys.preQuestSingle] = {},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
         },
         [28343] = { -- The Breath of Cenarius
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {nil,{{207103}},{{63469}}},
+            [questKeys.sourceItemId] = 63469,
         },
         [28351] = { -- Unlimited Potential
             [questKeys.objectives] = {{{51217}}},
@@ -4981,6 +4994,10 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{10738},nil,{12842}},
             [questKeys.preQuestSingle] = {28470},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
+        },
+        [28477] = { -- Twilight Scheming
+            [questKeys.preQuestSingle] = {},
+            [questKeys.requiredRaces] = raceKeys.TROLL,
         },
         [28486] = { -- Salhet's Gambit
             [questKeys.triggerEnd] = {"Higher ground secured", {[zoneIDs.ULDUM]={{54.,71.1}}}},
