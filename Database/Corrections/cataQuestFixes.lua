@@ -2493,6 +2493,10 @@ function CataQuestFixes.Load()
         [25190] = { -- Raggaran's Rage TODO: add preQuestSingle to childQuests
             [questKeys.parentQuest] = 25188,
         },
+        [25191] = { -- Survey the Destruction
+            [questKeys.objectives] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Nibb Spindlegear"), 0, {{"monster", 38383}}}},
+        },
         [25192] = { -- Raggaran's Fury TODO: add preQuestSingle to childQuests
             [questKeys.parentQuest] = 25188,
         },
