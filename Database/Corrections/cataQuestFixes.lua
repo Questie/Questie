@@ -4280,9 +4280,13 @@ function CataQuestFixes.Load()
         },
         [27042] = { -- Fight Fire and Water and Air with...
             [questKeys.objectives] = {{{44887},{44886},{44885},{44835}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27004,27006},
         },
         [27043] = { -- Fight Fire and Water and Air with...
             [questKeys.objectives] = {{{44887},{44886},{44885},{44835}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27005,27008},
         },
         [27044] = { -- Peasant Problems
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
