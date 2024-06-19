@@ -897,7 +897,7 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Archaeologist Hollee escorted to safety.",{[zoneIDs.DARKSHORE] = {{41.18,43.36}}}},
         },
         [13617] = { -- West to the Strand
-            [questKeys.exclusiveTo] = {26465},
+            [questKeys.nextQuestInChain] = 26465,
         },
         [13621] = { -- Gorat's Vengeance
             [questKeys.preQuestSingle] = {13620},
