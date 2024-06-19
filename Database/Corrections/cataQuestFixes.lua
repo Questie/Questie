@@ -3833,6 +3833,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{43575},{43394}},nil,nil,nil,{{{43577,43578},43577,"Dragonmaw Civilian Armed"}}},
         },
         [26625] = { -- Troggzor the Earthinator
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26564,26591},
         },
         [26627] = { -- The Hermit
