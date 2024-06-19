@@ -1244,6 +1244,21 @@ function CataNpcFixes.Load()
                 [zoneIDs.DALARAN] = {{49.88,50.37}},
             },
         },
+        [54485] = { -- Jessica Rogers
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{51.65,77.84},{-1,-1}}},
+        },
+        [54490] = { -- Dubenko
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{52.35,78.53},{-1,-1}}},
+        },
+        [54601] = { -- Mola
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{53.29,54.36},{-1,-1}}},
+        },
+        [54510] = { -- Baby
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{51.29,82.06},{-1,-1}}},
+        },
+        [54605] = { -- Finlay Coolshot
+            [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{50.7,65.15},{-1,-1}}},
+        },
         [55382] = { -- Darkmoon Faire Mystic Mage
             [npcKeys.spawns] = {
                 [zoneIDs.UNDERCITY] = {{61.87,47.34}},
