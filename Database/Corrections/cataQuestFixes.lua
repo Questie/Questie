@@ -4278,6 +4278,14 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{73899}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Primal Strike"), 2, {{"monster", 3062}}}},
         },
+        [27040] = { -- Decryption Made Easy
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27004,27006},
+        },
+        [27041] = { -- Decryption Made Easy
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27004,27006},
+        },
         [27042] = { -- Fight Fire and Water and Air with...
             [questKeys.objectives] = {{{44887},{44886},{44885},{44835}}},
             [questKeys.preQuestSingle] = {},
