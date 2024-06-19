@@ -4239,8 +4239,16 @@ function CataQuestFixes.Load()
         [27005] = { -- The Twilight Plot
             [questKeys.preQuestSingle] = {},
         },
+        [27006] = { -- Fly Over
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Master's Gate investigated", {[zoneIDs.DEEPHOLM]={{38.79,74.4}}}},
+        },
         [27007] = { -- Silvermarsh Rendezvous
             [questKeys.triggerEnd] = {"Upper Silvermarsh reached", {[zoneIDs.DEEPHOLM]={{72.3,62.3}}}},
+        },
+        [27008] = { -- Fly Over
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Master's Gate investigated", {[zoneIDs.DEEPHOLM]={{38.79,74.4}}}},
         },
         [27010] = { -- Quicksilver Submersion
             [questKeys.requiredSourceItems] = {60809},
