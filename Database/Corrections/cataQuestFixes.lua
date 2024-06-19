@@ -315,8 +315,38 @@ function CataQuestFixes.Load()
         [9130] = { -- Goods from Silvermoon City
             [questKeys.preQuestSingle] = {},
         },
+        [9143] = { -- Dealing with Zeb'Sora
+            [questKeys.preQuestSingle] = {},
+        },
         [9144] = { -- Missing in the Ghostlands
             [questKeys.exclusiveTo] = {28560},
+        },
+        [9145] = { -- Help Ranger Valanna!
+            [questKeys.requiredMinRep] = {922,3000},
+        },
+        [9150] = { -- Salvaging the Past
+            [questKeys.requiredMinRep] = {922,3000},
+        },
+        [9155] = { -- Down the Dead Scar
+            [questKeys.requiredMinRep] = {922,3000},
+        },
+        [9160] = { -- Investigate An'daroth
+            [questKeys.requiredMinRep] = {922,3000},
+        },
+        [9171] = { -- Culinary Crunch
+            [questKeys.requiredMinRep] = {922,3000},
+        },
+        [9173] = { -- Retaking Windrunner Spire
+            [questKeys.requiredMinRep] = {922,9000},
+        },
+        [9175] = { -- The Lady's Necklace
+            [questKeys.startedBy] = {{16314,16315},nil,{22597}},
+        },
+        [9192] = { -- Trouble at the Underlight Mines
+            [questKeys.requiredMinRep] = {922,3000},
+        },
+        [9220] = { -- War on Deatholme
+            [questKeys.preQuestSingle] = {},
         },
         [9252] = { -- Defending Fairbreeze Village
             [questKeys.preQuestSingle] = {},
@@ -359,8 +389,15 @@ function CataQuestFixes.Load()
         [9731] = { -- Drain Schematics
             [questKeys.preQuestSingle] = {9720},
         },
+        [9811] = { -- Friend of the Sin'dorei
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE - raceKeys.BLOOD_ELF,
+        },
+        [9812] = { -- Envoy to the Horde
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE - raceKeys.BLOOD_ELF,
+        },
         [9813] = { -- Meeting the Warchief
             [questKeys.finishedBy] = {{39605}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE - raceKeys.BLOOD_ELF,
         },
         [9871] = { -- Murkblood Invaders
             [questKeys.startedBy] = {{18238},nil,{24559}},
@@ -3862,6 +3899,9 @@ function CataQuestFixes.Load()
         },
         [26861] = { -- Block the Gates
             [questKeys.preQuestSingle] = {26771},
+        },
+        [26867] = { -- Enemies Below
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [26881] = { -- In Search of Thaelrid
             [questKeys.finishedBy] = {{4787}},

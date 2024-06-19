@@ -49,6 +49,9 @@ function CataItemFixes.Load()
         [21145] = { -- Essence of Xandivious
             [itemKeys.npcDrops] = {},
         },
+        [22674] = { -- Wavefront Medallion
+            [itemKeys.npcDrops] = {},
+        },
         [22978] = { -- Emitter Spare Part
             [itemKeys.npcDrops] = {},
         },
