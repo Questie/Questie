@@ -4046,6 +4046,9 @@ function CataQuestFixes.Load()
         [26832] = { -- Therazane's Mercy
             [questKeys.preQuestSingle] = {26828},
         },
+        [26834] = { -- Down Into the Chasm
+            [questKeys.preQuestGroup] = {26762,26770},
+        },
         [26840] = { -- Return to the Highlands
             [questKeys.startedBy] = {{39605}},
         },
