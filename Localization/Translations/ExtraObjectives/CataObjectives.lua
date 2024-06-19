@@ -1814,6 +1814,18 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Talk to Peak Grindstone"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Sprich mit Spitz Schleifstein",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(cataObjectiveLocales) do

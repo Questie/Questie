@@ -3846,6 +3846,11 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 26629,
             [questKeys.objectives] = {{{2487,nil,Questie.ICON_TYPE_TALK}},nil,{{59148,nil,Questie.ICON_TYPE_TALK},{59147,nil,Questie.ICON_TYPE_TALK}},nil,},
         },
+        [26632] = { -- Close Escort
+            [questKeys.triggerEnd] = {"Earthen Catapult safely escorted", {[zoneIDs.DEEPHOLM]={{21.8,51.7}}}},
+            [questKeys.objectives] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Peak Grindstone"), 0, {{"monster", 45043}}}},
+        },
         [26634] = { -- The Bane of Many A Pirate
             [questKeys.preQuestSingle] = {26631},
         },
