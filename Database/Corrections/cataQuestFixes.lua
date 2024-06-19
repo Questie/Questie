@@ -3992,6 +3992,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26834},
         },
         [26792] = { -- Fungal Monstrosities
+            [questKeys.objectives] = {{{44126,nil,Questie.ICON_TYPE_INTERACT},{44035}},nil,nil,nil,},
             [questKeys.preQuestSingle] = {26834},
         },
         [26798] = { -- The Warchief Will Be Pleased
