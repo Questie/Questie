@@ -406,6 +406,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{18238},nil,{24558}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [10066] = { -- Oh, the Tangled Webs They Weave
+            [questKeys.startedBy] = {{17986}},
+        },
         [10067] = { -- Fouled Water Spirits
             [questKeys.startedBy] = {{17986}},
         },
