@@ -3521,7 +3521,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {26294,26311},
         },
         [26326] = { -- The Very Earth Beneath Our Feet
-            [questKeys.preQuestSingle] = {26876,27938},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26876,27938},
         },
         [26329] = { -- One More Thing
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
