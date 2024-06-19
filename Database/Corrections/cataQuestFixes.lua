@@ -4837,6 +4837,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {},
             [questKeys.preQuestSingle] = {27934},
         },
+        [27934] = { -- One With the Ground
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Slate Quicksand"),0,{{"monster", 47195}}}},
+        },
         [27944] = { -- Thinning the Brood
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
