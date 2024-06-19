@@ -4279,10 +4279,12 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Primal Strike"), 2, {{"monster", 3062}}}},
         },
         [27040] = { -- Decryption Made Easy
+            [questKeys.finishedBy] = {{100008}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27004,27006},
         },
         [27041] = { -- Decryption Made Easy
+            [questKeys.finishedBy] = {{100008}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27004,27006},
         },

@@ -1337,6 +1337,12 @@ function CataNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.AZSHARA,
             [npcKeys.questEnds] = {14146},
         },
+        [100008] = { -- Decryption Made Easy
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{39.6,73.1}}},
+            [npcKeys.zoneID] = zoneIDs.DEEPHOLM,
+            [npcKeys.questEnds] = {27040,27041},
+        },
     }
 end
 
