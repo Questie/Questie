@@ -4063,11 +4063,21 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {28714,28715},
         },
+        [26858] = { -- Taragaman the Hungerer
+            [questKeys.preQuestSingle] = {},
+        },
         [26861] = { -- Block the Gates
             [questKeys.preQuestSingle] = {26771},
         },
+        [26865] = { -- Enemies Below
+            [questKeys.nextQuestInChain] = 26858,
+        },
+        [26866] = { -- Enemies Below
+            [questKeys.nextQuestInChain] = 26858,
+        },
         [26867] = { -- Enemies Below
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 26858,
         },
         [26881] = { -- In Search of Thaelrid
             [questKeys.finishedBy] = {{4787}},
@@ -4410,6 +4420,9 @@ function CataQuestFixes.Load()
         [27273] = { -- An Invitation from Moonglade
             [questKeys.nextQuestInChain] = 27356,
         },
+        [27277] = { -- An Audience with Ureda
+            [questKeys.nextQuestInChain] = 27400,
+        },
         [27278] = { -- Grimshot's Call
             [questKeys.nextQuestInChain] = 27395,
         },
@@ -4512,6 +4525,9 @@ function CataQuestFixes.Load()
         [27399] = { -- The Battle Is Won, The War Goes On
             [questKeys.preQuestSingle] = {25551},
             [questKeys.exclusiveTo] = {27203,27442},
+        },
+        [27400] = { -- Mastering the Arcane
+            [questKeys.preQuestSingle] = {},
         },
         [27402] = { -- Token of Power
             [questKeys.preQuestSingle] = {},
@@ -5115,9 +5131,6 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{48040,48041,48043},48040,"Thieving plucker smashed"}}},
             [questKeys.preQuestSingle] = {28112},
         },
-        [28353] = { -- Jonesy Sent For You
-            [questKeys.exclusiveTo] = {28271},
-        },
         [28271] = { -- Reduced Productivity
             [questKeys.preQuestSingle] = {},
         },
@@ -5162,6 +5175,9 @@ function CataQuestFixes.Load()
         },
         [28352] = { -- Camelraderie
             [questKeys.objectives] = {{{51193}}},
+        },
+        [28353] = { -- Jonesy Sent For You
+            [questKeys.exclusiveTo] = {28271},
         },
         [28362] = { -- Stupid Drizle!
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
@@ -5240,12 +5256,17 @@ function CataQuestFixes.Load()
         [28488] = { -- Beneath the Surface
             [questKeys.exclusiveTo] = {26710,27048},
         },
+        [28493] = { -- Warchief's Command: Ashenvale!
+            [questKeys.requiredMaxLevel] = 23,
+        },
         [28494] = { -- Warchief's Command: Northern Barrens!
             [questKeys.exclusiveTo] = {26642},
             [questKeys.nextQuestInChain] = 871,
+            [questKeys.requiredMaxLevel] = 18,
         },
         [28496] = { -- Warchief's Command: Azshara!
             [questKeys.exclusiveTo] = {14129},
+            [questKeys.requiredMaxLevel] = 18,
         },
         [28501] = { -- The Defense of Nahom
             [questKeys.objectives] = {{{49228}}},
@@ -5302,15 +5323,18 @@ function CataQuestFixes.Load()
         },
         [28560] = { -- Warchief's Command: Ghostlands!
             [questKeys.exclusiveTo] = {9144,9327,9329},
+            [questKeys.requiredMaxLevel] = 18,
         },
         [28561] = { -- Nahom Must Hold
             [questKeys.preQuestSingle] = {28533},
         },
         [28568] = { -- Warchief's Command: Silverpine Forest!
             [questKeys.exclusiveTo] = {26964,26965},
+            [questKeys.requiredMaxLevel] = 18,
         },
         [28571] = { -- Warchief's Command: Hillsbrad Foothills!
             [questKeys.exclusiveTo] = {28096},
+            [questKeys.requiredMaxLevel] = 23,
         },
         [28584] = { -- Quality Construction
             [questKeys.preQuestSingle] = {28583},
