@@ -5,6 +5,8 @@ local QuestieWotlkNpcFixes = QuestieLoader:CreateModule("QuestieWotlkNpcFixes")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type Phasing
+local Phasing = QuestieLoader:ImportModule("Phasing")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -13,6 +15,7 @@ function QuestieWotlkNpcFixes:Load()
     local zoneIDs = ZoneDB.zoneIDs
     local npcFlags = QuestieDB.npcFlags
     local waypointPresets = QuestieDB.waypointPresets
+    local phases = Phasing.phases
 
     return {
         [658] = {
@@ -1065,6 +1068,12 @@ function QuestieWotlkNpcFixes:Load()
         },
         [28389] = {
             [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{46.23,27.47},{48.85,27.4},{48.17,21.12},{47.81,22.72},{47.63,24.05},{47.67,22.57},{48.86,24.45},{49.71,28.79},{45.21,31.17},{47.62,27.79},{49.45,22.81},{44.8,28.62},{45.54,30.47}}},
+        },
+        [28401] = { -- Har'koa
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={
+                {60.25,57.74,phases.HAR_KOA_AT_ZIM_TORGA},
+                {63.72,70.42,phases.HAR_KOA_AT_ALTAR},
+            }},
         },
         [28402] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{59,69.2},{59.8,68},{60.4,69.69},{60.95,66.35},{60.96,70.45},{61.96,64.81},{62.2,74},{62.4,69.4},{62.43,72.23},{62.67,69.67},{62.86,63.39},{63.39,74.79},{63.4,68.2},{63.6,76.6},{64.04,62.56},{65.04,63.98},{64.7,63.52},{65.2,69.2},{65.6,67.8},{66,74.2}}},

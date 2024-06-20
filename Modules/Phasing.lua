@@ -103,6 +103,8 @@ local phases = {
     SIRA_KESS_AT_GARDEN = 1031,
     SIRA_KESS_AT_NAR_SHOLA_TERRACE = 1032,
     WAVESPEAKER_AT_RUINS = 1033,
+    HAR_KOA_AT_ALTAR = 1034,
+    HAR_KOA_AT_ZIM_TORGA = 1035,
 }
 Phasing.phases = phases
 
@@ -325,6 +327,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SCARLET_ENCLAVE then
         return complete[27460] or false
+    end
+
+    if phase == phases.HAR_KOA_AT_ALTAR then
+        return (not complete[12684])
+    end
+
+    if phase == phases.HAR_KOA_AT_ZIM_TORGA then
+        return complete[12684] or false
     end
 
     return false

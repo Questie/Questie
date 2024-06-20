@@ -879,4 +879,15 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.SCARLET_ENCLAVE))
         end)
     end)
+
+    describe("Zul Drak", function()
+        it("should correctly position Har'koa", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.HAR_KOA_AT_ALTAR))
+            assert.is_false(Phasing.IsSpawnVisible(phases.HAR_KOA_AT_ZIM_TORGA))
+
+            Questie.db.char.complete[12684] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.HAR_KOA_AT_ALTAR))
+            assert.is_true(Phasing.IsSpawnVisible(phases.HAR_KOA_AT_ZIM_TORGA))
+        end)
+    end)
 end)
