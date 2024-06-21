@@ -799,6 +799,7 @@ function CataQuestFixes.Load()
         },
         [12012] = { -- Inform the Elder
             [questKeys.exclusiveTo] = {29092},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [12563] = { -- Troll Patrol
             [questKeys.startedBy] = {},
@@ -6089,6 +6090,7 @@ function CataQuestFixes.Load()
         [29092] = { -- Inform the Elder
             [questKeys.preQuestSingle] = {11891},
             [questKeys.exclusiveTo] = {12012},
+            [questKeys.startedBy] = {{25324}},
         },
         [29093] = { -- Cruisin' the Chasm
             [questKeys.objectives] = {{{52189,"Chopper Tour of the Raging Chasm",Questie.ICON_TYPE_MOUNT_UP}}},

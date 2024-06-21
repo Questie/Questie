@@ -600,7 +600,7 @@ tinsert(eventQuests, {"Midsummer", 11964}) -- Incense for the Summer Scorchlings
 tinsert(eventQuests, {"Midsummer", 11966}) -- Incense for the Festival Scorchlings
 tinsert(eventQuests, {"Midsummer", 11970}) -- The Master of Summer Lore
 tinsert(eventQuests, {"Midsummer", 11971}) -- The Spinner of Summer Tales
-tinsert(eventQuests, {"Midsummer", 12012, nil, nil, QuestieCorrections.CATA_HIDE}) -- Inform the Elder
+tinsert(eventQuests, {"Midsummer", 12012}) -- Inform the Elder
 
 tinsert(eventQuests, {"Winter Veil", 11528, "25/12", "2/1"}) -- A Winter Veil Gift
 tinsert(eventQuests, {"Winter Veil", 13203, "25/12", "2/1"}) -- A Winter Veil Gift
