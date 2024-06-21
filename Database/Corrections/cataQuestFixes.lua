@@ -799,7 +799,7 @@ function CataQuestFixes.Load()
         },
         [12012] = { -- Inform the Elder
             [questKeys.exclusiveTo] = {29092},
-            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.startedBy] = {{25324}},
         },
         [12563] = { -- Troll Patrol
             [questKeys.startedBy] = {},
