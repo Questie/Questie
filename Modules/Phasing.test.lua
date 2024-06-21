@@ -890,4 +890,20 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.HAR_KOA_AT_ZIM_TORGA))
         end)
     end)
+
+    describe("Ashenvale", function()
+        it("should correctly position Earthen Ring Guide for the holiday event", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.EARTHEN_GUIDE_BFD))
+            assert.is_false(Phasing.IsSpawnVisible(phases.EARTHEN_GUIDE_SHORE))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[11891]={}}
+            assert.is_false(Phasing.IsSpawnVisible(phases.EARTHEN_GUIDE_BFD))
+            assert.is_true(Phasing.IsSpawnVisible(phases.EARTHEN_GUIDE_SHORE))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[11891] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.EARTHEN_GUIDE_BFD))
+            assert.is_true(Phasing.IsSpawnVisible(phases.EARTHEN_GUIDE_SHORE))
+        end)
+    end)
 end)

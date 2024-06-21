@@ -388,6 +388,24 @@ function CataNpcFixes.Load()
         [16403] = { -- Withered Grimscale
             [npcKeys.spawns] = {[zoneIDs.GHOSTLANDS]={{18.64,8.29},{18.54,6.19},{19.31,6.95},{17.88,10.47},{18.3,8.59},{18.07,7.42},{19.01,11.24},{18.14,11.12},{19.16,13.01},{19.05,13.94},{19.04,17.3},{18.18,17.73},{18.85,18.4},{19.48,20.04},{21.06,23.64},{19.35,21.66},{18.4,18.71},{20.16,23.03},{18.15,21.96},{19.96,23.7},{18.13,26.11},{18.06,26.59},{16.93,29.2},{18.47,31.45},{19.08,31.37},{16.18,31.98},{13.72,31.36},{13.85,32.6},{12.04,33.85},{13.15,32.47},{14.83,32.35},{12.89,35.45},{14.12,38.43},{12.91,38.49},{13.02,34.0},{14.54,40.2},{13.19,41.47},{14.01,42.99},{14.22,44.48},{14.2,46.49},{14.23,47.65},{18.33,32.64},{17.11,32.71},{20.14,35.92},{21.0,34.78},{21.16,34.36},{20.99,34.93},{23.41,34.52}}},
         },
+        [16817] = { -- Festival Loremaster
+            [npcKeys.spawns] = {
+                [zoneIDs.DARNASSUS]={{62.17,48.67}},
+                [zoneIDs.STORMWIND_CITY]={{49.53,72.27}},
+                [zoneIDs.IRONFORGE]={{63.81,25.31}},
+                [zoneIDs.SHATTRATH_CITY]={{61.39,31.91}},
+                [zoneIDs.THE_EXODAR]={{41.62,25.28}},
+            },
+        },
+        [16818] = { -- Festival Talespinner
+            [npcKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES]={{62.16,66.8}},
+                [zoneIDs.THUNDER_BLUFF]={{21.63,27.72}},
+                [zoneIDs.ORGRIMMAR]={{47.73,38.19}},
+                [zoneIDs.SHATTRATH_CITY]={{62.16,32.04}},
+                [zoneIDs.SILVERMOON_CITY]={{69.84,42.97}},
+            },
+        },
         [17310] = { -- Gnarl
             [npcKeys.waypoints] = {},
         },
@@ -397,17 +415,62 @@ function CataNpcFixes.Load()
         [23616] = { -- Kyle the Frenzied
             [npcKeys.spawns] = {[zoneIDs.MULGORE]={{48.48,61.57}}},
         },
-        [26221] = { -- Earthen Ring Elder
+        [25324] = { -- Earthen Ring Guide
             [npcKeys.spawns] = {
-                [zoneIDs.TIRISFAL_GLADES]={{62.01,67.92}},
-                [zoneIDs.STORMWIND_CITY]={{49.31,72.29}},
-                [zoneIDs.IRONFORGE]={{65.14,27.71}},
-                [zoneIDs.ORGRIMMAR]={{47.25,37.89}},
-                [zoneIDs.THUNDER_BLUFF]={{21.21,24.05}},
-                [zoneIDs.DARNASSUS]={{62.1,49.14}},
-                [zoneIDs.SILVERMOON_CITY]={{68.67,42.94}},
-                [zoneIDs.THE_EXODAR]={{43.28,26.28}},
-                [zoneIDs.SHATTRATH_CITY]={{60.68,30.62}}},
+                [zoneIDs.ASHENVALE]={
+                    {15.5,19.0,phases.EARTHEN_GUIDE_BFD},
+                    {9.36,12.99,phases.EARTHEN_GUIDE_SHORE},
+                },
+            },
+        },
+        [25892] = { -- Burning Steppes Flame Warden
+            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{68.34,60.64}}},
+        },
+        [25899] = { -- Feralas Flame Warden
+            [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{46.82,43.7}}},
+        },
+        [25975] = { -- Master Fire Eater
+            [npcKeys.spawns] = {
+                [zoneIDs.DARNASSUS]={{63.19,47.48}},
+                [zoneIDs.IRONFORGE]={{65.36,25.06}},
+                [zoneIDs.STORMWIND_CITY]={{50.13,72.56}},
+                [zoneIDs.THE_EXODAR]={{40.90,25.59}},
+            },
+        },
+        [26113] = { -- Frostwave Lieutenant
+            [npcKeys.spawns] = {[85]={{62.43,66.85}},[1637]={{46.59,37.25}},[1638]={{21,26.44}},[3487]={{69.48,42.44}}},
+        },
+        [26116] = { -- Frostwave Lieutenant
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{9.64,12.18},{9.26,11.46},{9.67,11.14}}},
+        },
+        [26123] = { -- Midsummer Supplier
+            [npcKeys.spawns] = {
+                [zoneIDs.IRONFORGE]={{64.82,26.28}},
+                [zoneIDs.DARNASSUS]={{61.9,48.3}},
+                [zoneIDs.THE_EXODAR]={{42.51,25.97}},
+                [zoneIDs.STORMWIND_CITY]={{49.02,71.95}},
+            },
+        },
+        [26178] = { -- Hailstone Lieutenant
+            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{40.23,31.37},{40.33,30.23},{39.24,30.39}}},
+        },
+        [26204] = { -- Chillwind Lieutenant
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{21.44,43.34},{21.33,41.01},{21.51,41.88}}},
+        },
+        [26214] = { -- Frigid Lieutenant
+            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{14.73,34.39},{16.1,36.92},{13.54,37.12}}},
+        },
+        [26215] = { -- Glacial Lieutenant
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{68.12,20.82},{68.91,20.48},{68.53,19.17}}},
+        },
+        [26216] = { -- Glacial Templar
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{85.59,47.14},{84.19,47.1},{85.62,53.26},{84.13,53.4}}},
+        },
+        [26401] = { -- Summer Scorchling
+            [npcKeys.spawns] = {[1]={{53.8,45.14}},[3]={{18.97,56.32}},[4]={{55.55,14.76}},[8]={{70.13,15.73}},[10]={{73.77,54.5}},[11]={{13.5,46.97}},[12]={{43.48,62.5}},[15]={{61.87,40.5}},[28]={{43.43,82.24}},[38]={{32.59,41.1}},[40]={{44.8,62.18}},[44]={{25.64,53.48}},[45]={{44.22,46}},[46]={{68.32,60.78}},[47]={{14.93,50.5}},[65]={{75.24,43.78}},[66]={{40.38,61.39}},[67]={{41.42,86.74}},[141]={{54.83,52.77}},[148]={{48.69,22.7}},[331]={{86.89,41.85}},[357]={{46.78,43.67}},[394]={{33.94,60.51}},[405]={{66.19,17.1}},[406]={{49.35,51.34}},[440]={{52.67,30.22}},[490]={{59.78,63.26}},[495]={{57.84,16.17}},[618]={{61.36,47.31}},[1377]={{60.38,33.5}},[2817]={{78.07,74.91}},[3483]={{62.45,57.99}},[3518]={{49.57,69.4}},[3519]={{54.01,55.57}},[3520]={{39.63,54.56}},[3521]={{68.73,51.95}},[3522]={{41.52,65.87}},[3523]={{31.16,62.65}},[3524]={{44.41,52.47}},[3525]={{55.82,67.75}},[3537]={{55.15,19.91}},[3711]={{48.37,65.53}},[4709]={{48.34,72.29}},[4922]={{47.32,28.94}},[5034]={{53.6,31.92}},[5287]={{52.03,67.71}},[5339]={{51.44,40.96}}},
+        },
+        [26520] = { -- Festival Scorchling
+            [npcKeys.spawns] = {[3]={{23.19,37.42}},[4]={{46.3,13.74}},[8]={{76.29,13.59}},[14]={{52.15,47.25}},[15]={{33.49,30.92}},[16]={{60.8,53.55}},[17]={{49.96,54.54}},[28]={{29.23,57.34}},[33]={{40.51,50.96}},[45]={{69.41,42.46}},[46]={{51.2,29.24}},[47]={{76.66,75.07}},[65]={{38.31,48.45}},[66]={{43.42,71.81}},[67]={{40.27,85.41}},[85]={{57.29,51.75}},[130]={{49.59,38.31}},[215]={{51.77,59.21}},[267]={{54.71,50.15}},[331]={{51.35,66.23}},[357]={{72.41,47.75}},[394]={{19.26,61.17}},[405]={{26.13,77.01}},[406]={{52.95,62.4}},[440]={{49.8,27.93}},[490]={{56.24,66.33}},[495]={{48.64,13.08}},[618]={{58.16,47.43}},[1377]={{50.82,41.4}},[2817]={{80.08,53.21}},[3430]={{46.41,50.51}},[3433]={{46.89,26.48}},[3483]={{57.16,42}},[3518]={{50.97,34.13}},[3519]={{51.97,42.96}},[3520]={{33.65,30.78}},[3521]={{35.47,51.69}},[3522]={{49.92,58.75}},[3523]={{32.16,68.33}},[3537]={{51.16,11.47}},[3711]={{47.4,61.75}},[4709]={{40.85,67.73}},[4922]={{52.96,45.93}},[5034]={{53.1,34.54}},[5287]={{50.34,70.33}}},
         },
         [28092] = { -- The Etymidian
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{47.38,9.21}}},
@@ -1462,11 +1525,17 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.SILVERMOON_CITY]={{73.41,82.17}},
                 [zoneIDs.DALARAN]={{47.93,43.32}},
             },
-        },
+        },]]
         [26221] = {
-            [npcKeys.spawns] = {[zoneIDs.UNDERCITY]={{66.9,13.53}},[zoneIDs.ORGRIMMAR]={{46.44,38.69}},[zoneIDs.THUNDER_BLUFF]={{22.16,23.98}},[zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},[zoneIDs.SILVERMOON_CITY]={{68.67,42.94}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY]={{66.9,13.53}},
+                [zoneIDs.ORGRIMMAR]={{47.26,37.89}},
+                [zoneIDs.THUNDER_BLUFF]={{21.21,24.06}},
+                [zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},
+                [zoneIDs.SILVERMOON_CITY]={{68.67,42.94}},
+            },
         },
-        [34806] = {
+        --[[[34806] = {
             [npcKeys.name] = "Spirit of Sharing",
             [npcKeys.spawns] = {
                 [zoneIDs.STORM_PEAKS]={{40.38,85.5}},
@@ -1525,7 +1594,7 @@ function CataNpcFixes:LoadFactionFixes()
         },
         [37214] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{40.3,15.8},{40.1,15.5},{40.5,15.5},{40.5,15.2},{40.3,15.0}}},
-        },]] -- copied from wotlk fixes, need to edit these when we get the events live
+        },]]
         [29579] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{36.62,49.27}}},
         },
@@ -1569,11 +1638,17 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.THE_EXODAR]={{74.02,58.23}},
                 [zoneIDs.DALARAN]={{47.93,43.32}},
             },
-        },
+        },]]
         [26221] = {
-            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{56.1,92.16}},[zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},[zoneIDs.IRONFORGE]={{65.14,27.71}},[zoneIDs.STORMWIND_CITY]={{49.32,72.3}},[zoneIDs.THE_EXODAR]={{43.27,26.26}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.DARNASSUS]={{62.11,49.13}},
+                [zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},
+                [zoneIDs.IRONFORGE]={{65.14,27.71}},
+                [zoneIDs.STORMWIND_CITY]={{49.31,72.29}},
+                [zoneIDs.THE_EXODAR]={{43.27,26.26}},
+            },
         },
-        [34806] = {
+        --[[[34806] = {
             [npcKeys.name] = "Spirit of Sharing",
             [npcKeys.spawns] = {
                 [zoneIDs.STORM_PEAKS]={{40.38,85.5}},
@@ -1635,7 +1710,7 @@ function CataNpcFixes:LoadFactionFixes()
         },
         [38342] = {
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{61.33,65.64}}},
-        },]] -- copied from wotlk fixes, need to edit these when we get the events live
+        },]]
         [29579] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{30.1,73.9}}},
         },

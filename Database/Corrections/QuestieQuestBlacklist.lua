@@ -2571,7 +2571,10 @@ function QuestieQuestBlacklist:Load()
         [29037] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29039
         [29038] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29053
         [29040] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29051
+        [29118] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29154] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29212] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [29217] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29256] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29259] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29260] = QuestieCorrections.CATA_HIDE, -- Not in the game
@@ -2602,6 +2605,10 @@ function QuestieQuestBlacklist:Load()
         [29484] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29509
         [29485] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29507
         [29761] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [30097] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [30102] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [30104] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [30105] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [30552] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [30553] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [30554] = QuestieCorrections.CATA_HIDE, -- Not in the game
