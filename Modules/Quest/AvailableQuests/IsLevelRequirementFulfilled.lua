@@ -35,7 +35,7 @@ function AvailableQuests.IsLevelRequirementsFulfilled(questId, minLevel, maxLeve
 
     --* QuestieEvent.activeQuests[questId] logic is from QuestieDB.IsParentQuestActive, if you edit here, also edit there
     if (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) and
-        minLevel > requiredLevel and QuestieEvent.activeQuests[questId] then
+        minLevel > requiredLevel and QuestieEvent.activeQuests[questId] and (requiredMaxLevel == 0 or playerLevel < requiredMaxLevel) then
         levelRequirementCache[questId] = true
         return true
     end
