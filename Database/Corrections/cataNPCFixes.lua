@@ -397,6 +397,18 @@ function CataNpcFixes.Load()
         [23616] = { -- Kyle the Frenzied
             [npcKeys.spawns] = {[zoneIDs.MULGORE]={{48.48,61.57}}},
         },
+        [26221] = { -- Earthen Ring Elder
+            [npcKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES]={{62.01,67.92}},
+                [zoneIDs.STORMWIND_CITY]={{49.31,72.29}},
+                [zoneIDs.IRONFORGE]={{65.14,27.71}},
+                [zoneIDs.ORGRIMMAR]={{47.25,37.89}},
+                [zoneIDs.THUNDER_BLUFF]={{21.21,24.05}},
+                [zoneIDs.DARNASSUS]={{62.1,49.14}},
+                [zoneIDs.SILVERMOON_CITY]={{68.67,42.94}},
+                [zoneIDs.THE_EXODAR]={{43.28,26.28}},
+                [zoneIDs.SHATTRATH_CITY]={{60.68,30.62}}},
+        },
         [28092] = { -- The Etymidian
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{47.38,9.21}}},
         },
