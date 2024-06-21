@@ -5303,6 +5303,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28467},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
         },
+        [28532] = { -- Warchief's Command: Stonetalon Mountains!
+            [questKeys.requiredMaxLevel] = 28,
+        },
         [28533] = { -- The High Council's Decision
             [questKeys.preQuestGroup] = {27738,27838,28277},
         },
@@ -5335,6 +5338,9 @@ function CataQuestFixes.Load()
         [28571] = { -- Warchief's Command: Hillsbrad Foothills!
             [questKeys.exclusiveTo] = {28096},
             [questKeys.requiredMaxLevel] = 23,
+        },
+        [28572] = { -- Warchief's Command: Arathi Highlands!
+            [questKeys.requiredMaxLevel] = 28,
         },
         [28584] = { -- Quality Construction
             [questKeys.preQuestSingle] = {28583},
@@ -5453,6 +5459,9 @@ function CataQuestFixes.Load()
         },
         [28687] = { -- Teach A Man To Fish.... Or Steal
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28688] = { -- Warchief's Command: Northern Stranglethorn Vale!
+            [questKeys.requiredMaxLevel] = 28,
         },
         [28689] = { -- The Forgotten
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
