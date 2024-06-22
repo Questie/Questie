@@ -2671,7 +2671,6 @@ function QuestieQuestBlacklist:Load()
         [29172] = true, -- The Beasts Within
         [29173] = true, -- Secondary Targets
         [29175] = true, -- Break Their Spirits
-        [29177] = true, -- Vigilance on Wings
         [29208] = true, -- An Old Friend
         [29219] = true, -- Bwemba's Spirit
         [29220] = true, -- To Bambala
