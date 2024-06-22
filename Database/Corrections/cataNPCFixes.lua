@@ -432,6 +432,9 @@ function CataNpcFixes.Load()
         [25905] = { -- Shadowmoon Valley Flame Warden
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{39.62,54.64}}},
         },
+        [25936] = { -- Mulgore Flame Keeper
+            [npcKeys.spawns] = {[zoneIDs.MULGORE] = {{51.81,59.26}}},
+        },
         [25975] = { -- Master Fire Eater
             [npcKeys.spawns] = {
                 [zoneIDs.DARNASSUS]={{63.19,47.48}},
