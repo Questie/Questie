@@ -351,6 +351,9 @@ function CataItemFixes.Load()
         [55122] = { -- Tholo's Horn
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [55136] = { -- Tome of Openings
+            [itemKeys.npcDrops] = {40844},
+        },
         [55137] = { -- Ogre Disguise
             [itemKeys.class] = itemClasses.QUEST,
         },
