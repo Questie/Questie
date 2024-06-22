@@ -429,6 +429,9 @@ function CataNpcFixes.Load()
         [25899] = { -- Feralas Flame Warden
             [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{46.82,43.7}}},
         },
+        [25905] = { -- Shadowmoon Valley Flame Warden
+            [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{39.62,54.64}}},
+        },
         [25975] = { -- Master Fire Eater
             [npcKeys.spawns] = {
                 [zoneIDs.DARNASSUS]={{63.19,47.48}},
