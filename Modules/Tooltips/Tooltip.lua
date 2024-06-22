@@ -219,8 +219,10 @@ function QuestieTooltips.GetTooltip(key)
 
     if QuestieTooltips.lookupByKey[key] then
 
-        local objectIsInCurrentZone = false
-        if key:sub(1, 2) == "o_" then
+        local isObjectTooltip = key:sub(1, 2) == "o_"
+        local objectIsInCurrentZone = true
+        if isObjectTooltip then
+            objectIsInCurrentZone = false
             local objectId = tonumber(key:sub(3))
             local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
             if spawns then
