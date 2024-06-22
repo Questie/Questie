@@ -1,8 +1,5 @@
 dofile("setupTests.lua")
 
----@type QuestiePlayer
-local QuestiePlayer = require("Modules.QuestiePlayer")
-
 require("Modules.Network.QuestieComms")
 
 describe("Tooltip", function()
@@ -10,6 +7,8 @@ describe("Tooltip", function()
     local QuestieDB
     ---@type QuestieLib
     local QuestieLib
+    ---@type QuestiePlayer
+    local QuestiePlayer
     ---@type QuestieTooltips
     local QuestieTooltips
 
@@ -44,6 +43,7 @@ describe("Tooltip", function()
         QuestieLib.GetRGBForObjective = spy.new(function()
             return "gold"
         end)
+        QuestiePlayer = require("Modules.QuestiePlayer")
         QuestieTooltips = require("Modules.Tooltips.Tooltip")
     end)
 
@@ -124,6 +124,27 @@ describe("Tooltip", function()
 
             assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)
+        end)
+
+        it("should only return quest names for objectives of the zone the player is in", function()
+            QuestieTooltips.lookupByKey = {["o_123"] = {
+                ["1 1"] = {questId = 1, name = "test", starterId = 2},
+                ["2 1"] = {questId = 2, name = "test 2", starterId = 2},
+            }}
+            QuestieDB.QueryObjectSingle = spy.new(function(objectId)
+                if objectId == 123 then
+                    return {[440]={{50,50}}}
+                end
+                return {[1]={{10,10}}}
+            end)
+            QuestiePlayer.GetCurrentZoneId = spy.new(function()
+                return 440
+            end)
+
+            local tooltip = QuestieTooltips.GetTooltip("o_123")
+
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
+            assert.are.same({"Quest Name"}, tooltip)
         end)
 
         it("should return multiple objectives for same key", function()
