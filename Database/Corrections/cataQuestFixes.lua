@@ -2753,7 +2753,7 @@ function CataQuestFixes.Load()
         [25294] = { -- Walking the Dog
             [questKeys.objectives] = {{{40427}}},
             [questKeys.preQuestSingle] = {25291},
-            [questKeys.requiredSourceItems] = {52708},
+            [questKeys.requiredSourceItems] = {52708,52717},
         },
         [25296] = { -- Gather the Intelligence
             [questKeys.preQuestSingle] = {25291},
