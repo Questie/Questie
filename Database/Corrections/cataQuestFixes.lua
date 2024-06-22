@@ -4904,15 +4904,15 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {27203},
         },
         [27724] = { -- Hero's Call: Vashj'ir!
-            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
         },
         [27726] = { -- Hero's Call: Mount Hyjal!
             [questKeys.objectives] = {{{15187, nil, Questie.ICON_TYPE_TALK}}},
-            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
             [questKeys.exclusiveTo] = {25316},
         },
         [27727] = { -- Hero's Call: Deepholm!
-            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
             [questKeys.exclusiveTo] = {27203},
         },
         [27729] = { -- Once More, With Eeling
@@ -5452,7 +5452,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
         },
         [28558] = { -- Hero's Call: Uldum!
-            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
         },
         [28560] = { -- Warchief's Command: Ghostlands!
             [questKeys.exclusiveTo] = {9144,9327,9329},
@@ -5634,10 +5634,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 33,
         },
         [28708] = { -- Hero's Call: Outland!
-            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
         },
         [28709] = { -- Hero's Call: Borean Tundra!
-            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
         },
         [28713] = { -- The Balance of Nature
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -5650,7 +5650,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [28716] = { -- Hero's Call: Twilight Highlands!
-            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
             [questKeys.finishedBy] = {{29611}},
         },
         [28717] = { -- Warchief's Command: Twilight Highlands!
@@ -6138,7 +6138,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {172},
         },
         [29156] = { -- The Troll Incursion
-            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
         },
         [29167] = { -- The Banshee Queen
             [questKeys.objectives] = {{{10181,"Meeting with Lady Sylvanas Windrunner",Questie.ICON_TYPE_EVENT}}},
@@ -6319,10 +6319,10 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{209139}}},
         },
         [29387] = { -- Guardians of Hyjal: Firelands Invasion!
-            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
         },
         [29391] = { -- Guardians of Hyjal: Call of the Ancients
-            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322,281339}},
+            [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
         },
         [29392] = { -- Missing Heirlooms
             [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.STORMWIND_CITY]={{41.4,72.5}}}},
