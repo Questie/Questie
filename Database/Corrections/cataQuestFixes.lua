@@ -813,6 +813,9 @@ function CataQuestFixes.Load()
         [12602] = { -- The Alchemist's Apprentice
             [questKeys.startedBy] = {},
         },
+        [12614] = { -- Post-partum Aggression
+            [questKeys.preQuestSingle] = {12607},
+        },
         [12618] = { -- Blessing of Zim'Torga
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
