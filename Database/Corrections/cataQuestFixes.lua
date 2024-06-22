@@ -1897,6 +1897,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",36900}}}},
             [questKeys.objectives] = {{{36890},{36906,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [24432] = { -- Sea Legs
+            [questKeys.preQuestSingle] = {},
+        },
         [24436] = { -- Halo Drops
             [questKeys.preQuestSingle] = {14479},
             [questKeys.objectives] = {{{36922,nil,Questie.ICON_TYPE_INTERACT}}},
