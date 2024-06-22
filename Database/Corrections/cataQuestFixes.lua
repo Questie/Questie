@@ -3204,6 +3204,7 @@ function CataQuestFixes.Load()
         },
         [25915] = { -- The Strength of Tortolla
             [questKeys.preQuestSingle] = {25906},
+            [questKeys.objectives] = {nil,{{203375,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25916] = { -- Breaking Through
             [questKeys.objectives] = {{{41531,nil,Questie.ICON_TYPE_TALK}}},
