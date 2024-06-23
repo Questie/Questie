@@ -5482,6 +5482,9 @@ function CataQuestFixes.Load()
         [28575] = { -- Warchief's Command: Western Plaguelands!
             [questKeys.requiredMaxLevel] = 38,
         },
+        [28581] = { -- Warchief's Command: Searing Gorge!
+            [questKeys.startedBy] = {nil,{207324,207325}},
+        },
         [28584] = { -- Quality Construction
             [questKeys.preQuestSingle] = {28583},
             [questKeys.objectives] = {nil,{{207298}}},
