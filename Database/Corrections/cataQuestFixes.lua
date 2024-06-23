@@ -5434,6 +5434,7 @@ function CataQuestFixes.Load()
         },
         [28526] = { -- Warchief's Command: Un'Goro Crater!
             [questKeys.objectives] = {},
+            [questKeys.requiredMaxLevel] = 53,
         },
         [28527] = { -- Warchief's Command: Silithus!
             [questKeys.objectives] = {},
@@ -5460,6 +5461,7 @@ function CataQuestFixes.Load()
         },
         [28545] = { -- Warchief's Command: Winterspring!
             [questKeys.exclusiveTo] = {28524,28544,28460,28768},
+            [questKeys.requiredMaxLevel] = 53,
         },
         [28548] = { -- Warchief's Command: Desolace!
             [questKeys.requiredMaxLevel] = 33,
@@ -5588,6 +5590,9 @@ function CataQuestFixes.Load()
         [28665] = { -- Cursed Shackles
             [questKeys.finishedBy] = {{48070}}, -- temporary until Questie can show multiple turn ins
         },
+        [28667] = { -- Warchief's Command: Burning Steppes!
+            [questKeys.requiredMaxLevel] = 51,
+        },
         [28668] = { -- Prison Revolt
             [questKeys.finishedBy] = {{48062}}, -- temporary until Questie can show multiple turn ins
         },
@@ -5596,6 +5601,9 @@ function CataQuestFixes.Load()
         },
         [28670] = { -- Food From Below
             [questKeys.finishedBy] = {{48062}}, -- temporary until Questie can show multiple turn ins
+        },
+        [28677] = { -- Warchief's Command: Swamp of Sorrows!
+            [questKeys.requiredMaxLevel] = 53,
         },
         [28678] = { -- Captain P. Harris
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
