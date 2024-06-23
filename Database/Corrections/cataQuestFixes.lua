@@ -5157,6 +5157,12 @@ function CataQuestFixes.Load()
         [28065] = { -- Walk A Mile In Their Shoes
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [28068] = { -- Adventurers Wanted: Blackrock Depths
+            [questKeys.requiredMaxLevel] = 56,
+        },
+        [28069] = { -- Adventurers Wanted: Blackrock Depths
+            [questKeys.requiredMaxLevel] = 56,
+        },
         [28089] = { -- Warchief's Command: Hillsbrad Foothills!
             [questKeys.exclusiveTo] = {28096},
         },
@@ -5409,6 +5415,7 @@ function CataQuestFixes.Load()
         },
         [28509] = { -- Warchief's Command: Tanaris!
             [questKeys.objectives] = {},
+            [questKeys.requiredMaxLevel] = 48,
         },
         [28510] = { -- Warchief's Command: Feralas!
             [questKeys.requiredMaxLevel] = 38,
@@ -5444,6 +5451,9 @@ function CataQuestFixes.Load()
         },
         [28533] = { -- The High Council's Decision
             [questKeys.preQuestGroup] = {27738,27838,28277},
+        },
+        [28542] = { -- Warchief's Command: Felwood!
+            [questKeys.requiredMaxLevel] = 48,
         },
         [28544] = { -- Hero's Call: Winterspring!
             [questKeys.exclusiveTo] = {28524,28545,28460,28768},
@@ -5492,8 +5502,12 @@ function CataQuestFixes.Load()
         [28577] = { -- Warchief's Command: Eastern Plaguelands!
             [questKeys.requiredMaxLevel] = 43,
         },
+        [28580] = { -- Warchief's Command: Badlands!
+            [questKeys.requiredMaxLevel] = 47,
+        },
         [28581] = { -- Warchief's Command: Searing Gorge!
             [questKeys.startedBy] = {nil,{207324,207325}},
+            [questKeys.requiredMaxLevel] = 48,
         },
         [28584] = { -- Quality Construction
             [questKeys.preQuestSingle] = {28583},
