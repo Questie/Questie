@@ -65,6 +65,9 @@ function CataQuestFixes.Load()
         [487] = { -- The Road to Darnassus
             [questKeys.preQuestSingle] = {483},
         },
+        [495] = { -- The Crown of Will
+            [questKeys.nextQuestInChain] = 0,
+        },
         [578] = { -- The Stone of the Tides
             [questKeys.childQuests] = {579},
         },
