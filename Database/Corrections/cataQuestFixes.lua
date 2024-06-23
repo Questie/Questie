@@ -5353,6 +5353,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 48526}}}},
             [questKeys.exclusiveTo] = {24503},
         },
+        [28458] = { -- The Pyromancer's Grimoire
+            [questKeys.preQuestSingle] = {},
+        },
         [28459] = { -- Stones of Binding
             [questKeys.finishedBy] = {{3326}},
         },
