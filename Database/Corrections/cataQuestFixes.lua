@@ -5399,6 +5399,7 @@ function CataQuestFixes.Load()
         },
         [28504] = { -- Warchief's Command: Thousand Needles!
             [questKeys.objectives] = {},
+            [questKeys.requiredMaxLevel] = 43,
         },
         [28509] = { -- Warchief's Command: Tanaris!
             [questKeys.objectives] = {},
@@ -5481,6 +5482,9 @@ function CataQuestFixes.Load()
         },
         [28575] = { -- Warchief's Command: Western Plaguelands!
             [questKeys.requiredMaxLevel] = 38,
+        },
+        [28577] = { -- Warchief's Command: Eastern Plaguelands!
+            [questKeys.requiredMaxLevel] = 43,
         },
         [28581] = { -- Warchief's Command: Searing Gorge!
             [questKeys.startedBy] = {nil,{207324,207325}},
