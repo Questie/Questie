@@ -2896,7 +2896,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [25462] = { -- The Bears Up There
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {25428},
             [questKeys.objectives] = {{{40240}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Climb the tree"),0,{{"monster",40190}}}},
         },
