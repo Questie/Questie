@@ -1534,7 +1534,7 @@ function CataNpcFixes:LoadFactionFixes()
         },]]
         [26221] = {
             [npcKeys.spawns] = {
-                [zoneIDs.UNDERCITY]={{66.9,13.53}},
+                [zoneIDs.TIRISFAL_GLADES]={{62.01,67.92}},
                 [zoneIDs.ORGRIMMAR]={{47.26,37.89}},
                 [zoneIDs.THUNDER_BLUFF]={{21.21,24.06}},
                 [zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},

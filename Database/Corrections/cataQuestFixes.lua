@@ -5438,6 +5438,7 @@ function CataQuestFixes.Load()
         },
         [28527] = { -- Warchief's Command: Silithus!
             [questKeys.objectives] = {},
+            [questKeys.requiredMaxLevel] = 57,
         },
         [28529] = { -- Writings of the Void
             [questKeys.startedBy] = {{48764},nil,{64450}},
@@ -5601,6 +5602,10 @@ function CataQuestFixes.Load()
         },
         [28670] = { -- Food From Below
             [questKeys.finishedBy] = {{48062}}, -- temporary until Questie can show multiple turn ins
+        },
+        [28671] = { -- Warchief's Command: Blasted Lands!
+            [questKeys.startedBy] = {nil,{207324,207325}},
+            [questKeys.requiredMaxLevel] = 57,
         },
         [28677] = { -- Warchief's Command: Swamp of Sorrows!
             [questKeys.requiredMaxLevel] = 53,
