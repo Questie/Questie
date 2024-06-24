@@ -5680,6 +5680,9 @@ function CataQuestFixes.Load()
         [28704] = { -- Warchief's Command: The Cape of Stranglethorn!
             [questKeys.requiredMaxLevel] = 33,
         },
+        [28705] = { -- Warchief's Command: Outland!
+            [questKeys.requiredMaxLevel] = 67,
+        },
         [28708] = { -- Hero's Call: Outland!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
         },
