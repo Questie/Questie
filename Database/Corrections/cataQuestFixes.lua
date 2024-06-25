@@ -5699,7 +5699,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
         },
         [28711] = { -- Warchief's Command: Northrend!
-            [questKeys.requiredMaxLevel] = 79,
+            [questKeys.requiredMaxLevel] = 77,
         },
         [28713] = { -- The Balance of Nature
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
