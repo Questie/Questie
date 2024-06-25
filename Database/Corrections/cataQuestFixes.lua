@@ -686,6 +686,9 @@ function CataQuestFixes.Load()
         [11272] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {30112},
         },
+        [11585] = { -- Hellscream's Vigil
+            [questKeys.preQuestSingle] = {},
+        },
         [11632] = { -- What the Cold Wind Brings...
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
