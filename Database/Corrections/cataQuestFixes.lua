@@ -4905,6 +4905,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{39638,41227},nil,{62282}},
             [questKeys.preQuestSingle] = {25958},
         },
+        [27718] = { -- Warchief's Command: Vashj'ir!
+            [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
+        },
         [27721] = { -- Warchief's Command: Mount Hyjal!
             [questKeys.objectives] = {{{15188, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.exclusiveTo] = {25316},
