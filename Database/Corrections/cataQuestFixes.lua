@@ -613,6 +613,9 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{15283}},
             [questKeys.zoneOrSort] = 6455,
         },
+        [10186] = { -- You're Hired!
+            [questKeys.preQuestSingle] = {},
+        },
         [10302] = { -- Volatile Mutations
             [questKeys.preQuestSingle] = {9369,9280},
         },
