@@ -176,6 +176,7 @@ _GetQuestSoundChoices = function()
         ["Worgen Female"]    = "Worgen Female",
         ["Gilnean Male"]     = "Gilnean Male",
         ["Gilnean Female"]   = "Gilnean Female",
+        ["Zug Zug"]          = "Zug Zug",
     }
 end
 
@@ -210,6 +211,7 @@ _GetQuestSoundChoicesSort = function()
         "Worgen Female",
         "Gilnean Male",
         "Gilnean Female",
+        "Zug Zug",
     }
 end
 

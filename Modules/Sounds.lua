@@ -80,6 +80,7 @@ soundTable = {
     ["Worgen Female"]      = "Sound/Character/PCWorgenFemale/VO_PCWorgenFemale_Cheer03.ogg",
     ["Gilnean Male"]       = "Sound/Character/PCGilneanMale/VO_PCGilneanMale_Cheer02.ogg",
     ["Gilnean Female"]     = "Sound/Character/PCGilneanFemale/VO_PCGilneanFemale_Cheer01.ogg",
+    ["Zug Zug"]            = "Sound/Creature/OrcMaleShadyNPC/OrcMaleShadyNPCGreeting05.ogg",
     ["ObjectiveDefault"]   = "Sound/Interface/iquestupdate.ogg",
     ["Map Ping"]           = "Sound/Interface/MapPing.ogg",
     ["Window Close"]       = "Sound/Interface/AuctionWindowClose.ogg",
