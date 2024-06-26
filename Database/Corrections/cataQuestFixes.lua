@@ -2946,6 +2946,7 @@ function CataQuestFixes.Load()
         [25523] = { -- Flight in the Firelands
             [questKeys.requiredSourceItems] = {52716},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",40720}}}},
+            [questKeys.objectives] = {nil,{{202973}}},
         },
         [25525] = { -- Wave One
             [questKeys.requiredSourceItems] = {52716},
@@ -2954,6 +2955,7 @@ function CataQuestFixes.Load()
         [25544] = { -- Wave Two
             [questKeys.requiredSourceItems] = {52716},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",40720}}}},
+            [questKeys.objectives] = {{{40650}}},
         },
         [25547] = { -- On Our Own Terms
             [questKeys.finishedBy] = {{40690}},
@@ -3229,6 +3231,9 @@ function CataQuestFixes.Load()
         },
         [25924] = { -- Call of Duty
             [questKeys.extraObjectives] = {{{[zoneIDs.DUROTAR] = {{57.8,10.4}}},Questie.ICON_TYPE_EVENT,l10n("Wait for the Mercenary Ship to arrive")}},
+        },
+        [25929] = { -- Sea Legs
+            [questKeys.preQuestSingle] = {},
         },
         [25930] = { -- Ascending the Vale
             [questKeys.triggerEnd] = {"Ascend the Charred Vale",{[zoneIDs.STONETALON_MOUNTAINS] = {{31.3,73.2}}}},
@@ -4914,6 +4919,7 @@ function CataQuestFixes.Load()
         },
         [27722] = { -- Warchief's Command: Deepholm!
             [questKeys.exclusiveTo] = {27203},
+            [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
         },
         [27724] = { -- Hero's Call: Vashj'ir!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
@@ -4922,10 +4928,12 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{15187, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
             [questKeys.exclusiveTo] = {25316},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [27727] = { -- Hero's Call: Deepholm!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
             [questKeys.exclusiveTo] = {27203},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [27729] = { -- Once More, With Eeling
             [questKeys.preQuestSingle] = {14482,25924},
@@ -5337,6 +5345,7 @@ function CataQuestFixes.Load()
         },
         [28390] = { -- Glop, Son of Glop
             [questKeys.exclusiveTo] = {28391},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the chase"), 0, {{"monster", 43503}}}},
         },
         [28391] = { -- The Restless Brood
             [questKeys.objectives] = {{{43641}},{{204837}}},
@@ -5483,6 +5492,9 @@ function CataQuestFixes.Load()
         [28554] = { -- Warchief's Command: Dustwallow Marsh!
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 38,
+        },
+        [28557] = { -- Warchief's Command: Uldum!
+            [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
         },
         [28558] = { -- Hero's Call: Uldum!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
@@ -5717,6 +5729,7 @@ function CataQuestFixes.Load()
         },
         [28717] = { -- Warchief's Command: Twilight Highlands!
             [questKeys.finishedBy] = {{39605}},
+            [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
         },
         [28721] = { -- Walk A Mile In Their Shoes
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -6214,6 +6227,9 @@ function CataQuestFixes.Load()
         },
         [29177] = { -- Vigilance on Wings
             [questKeys.preQuestSingle] = {25560},
+            [questKeys.requiredSourceItems] = {52716},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",40720}}}},
+            [questKeys.objectives] = {{{40650}}},
         },
         [29190] = { -- Let's Go Fly a Kite
             [questKeys.triggerEnd] = {"Fly Dragon Kites with your orphan", {[zoneIDs.ORGRIMMAR]={{58.5,58.3}}}},
