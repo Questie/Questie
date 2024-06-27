@@ -3231,6 +3231,8 @@ function CataQuestFixes.Load()
         },
         [25924] = { -- Call of Duty
             [questKeys.extraObjectives] = {{{[zoneIDs.DUROTAR] = {{57.8,10.4}}},Questie.ICON_TYPE_EVENT,l10n("Wait for the Mercenary Ship to arrive")}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [25929] = { -- Sea Legs
             [questKeys.preQuestSingle] = {},
@@ -4387,6 +4389,9 @@ function CataQuestFixes.Load()
         [26997] = { -- The Usual Suspects
             [questKeys.objectives] = {{{29152,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [27003] = { -- Easy Money
+            [questKeys.preQuestSingle] = {},
+        },
         [27004] = { -- The Twilight Plot
             [questKeys.preQuestSingle] = {},
         },
@@ -4659,12 +4664,16 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [27398] = { -- The Battle Is Won, The War Goes On
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {25551},
-            [questKeys.exclusiveTo] = {27203,27443},
+            [questKeys.exclusiveTo] = {27443},
+            [questKeys.nextQuestInChain] = 27203,
         },
         [27399] = { -- The Battle Is Won, The War Goes On
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.preQuestSingle] = {25551},
-            [questKeys.exclusiveTo] = {27203,27442},
+            [questKeys.exclusiveTo] = {27442},
+            [questKeys.nextQuestInChain] = 27203,
         },
         [27400] = { -- Mastering the Arcane
             [questKeys.preQuestSingle] = {},
@@ -4912,14 +4921,18 @@ function CataQuestFixes.Load()
         },
         [27718] = { -- Warchief's Command: Vashj'ir!
             [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [27721] = { -- Warchief's Command: Mount Hyjal!
             [questKeys.objectives] = {{{15188, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.exclusiveTo] = {25316},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [27722] = { -- Warchief's Command: Deepholm!
-            [questKeys.exclusiveTo] = {27203},
+            [questKeys.exclusiveTo] = {27399,27442},
+            [questKeys.nextQuestInChain] = 27203,
             [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [27724] = { -- Hero's Call: Vashj'ir!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
@@ -5495,9 +5508,13 @@ function CataQuestFixes.Load()
         },
         [28557] = { -- Warchief's Command: Uldum!
             [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
+            [questKeys.zoneOrSort] = 989,
+            [questKeys.nextQuestInChain] = 27003,
         },
         [28558] = { -- Hero's Call: Uldum!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
+            [questKeys.zoneOrSort] = 989,
+            [questKeys.nextQuestInChain] = 27003,
         },
         [28560] = { -- Warchief's Command: Ghostlands!
             [questKeys.exclusiveTo] = {9144,9327,9329},
