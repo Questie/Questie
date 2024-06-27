@@ -276,6 +276,9 @@ function CataNpcFixes.Load()
         [15401] = { -- Ley-Keeper Velania
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{36.7,57.44}}},
         },
+        [15502] = { -- Andorgos
+            [npcKeys.spawns] = {[3428]={{-1,-1}}},
+        },
         [15623] = { -- Xandivious
             [npcKeys.spawns] = {},
         },
