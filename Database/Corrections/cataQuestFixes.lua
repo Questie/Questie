@@ -6609,6 +6609,9 @@ function CataQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
 
     local questFixesHorde = {
+        [27203] = { -- The Maelstrom
+            [questKeys.startedBy] = {{45244}},
+        },
         [29067] = { -- Potion Master
             [questKeys.startedBy] = {{3347}},
             [questKeys.finishedBy] = {{3347}},
@@ -6639,6 +6642,9 @@ function CataQuestFixes:LoadFactionFixes()
     local questFixesAlliance = {
         [25513] = { -- Thunderdrome: Grudge Match!
             [questKeys.preQuestSingle] = {25065,25095},
+        },
+        [27203] = { -- The Maelstrom
+            [questKeys.startedBy] = {{45226}},
         },
         [29067] = { -- Potion Master
             [questKeys.startedBy] = {{5499}},
