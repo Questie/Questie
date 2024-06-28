@@ -1405,8 +1405,11 @@ function CataNpcFixes.Load()
                 [zoneIDs.STORMWIND_CITY] = {{51.62,72.38}},
             },
         },
+        [49956] = { -- Pebble
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM]={{63.07,20.88}}},
+        },
         [50482] = { -- Marith Lazuria
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{72.6,34.4}}}
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{72.6,34.4}}},
         },
         [51314] = { -- Azshara Event Credit
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{32.89,84.09}}},
