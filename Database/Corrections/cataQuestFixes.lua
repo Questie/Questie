@@ -527,6 +527,13 @@ function CataQuestFixes.Load()
         [9332] = { -- Stealing Darnassus's Flame
             [questKeys.startedBy] = {nil,{181334},{23184}},
         },
+        [9339] = { -- A Thief's Reward
+            [questKeys.startedBy] = {{16818}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [9365] = { -- A Thief's Reward
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [9369] = { -- Replenishing the Healing Crystals
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE - raceKeys.DRAENEI,
         },

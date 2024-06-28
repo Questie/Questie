@@ -961,6 +961,9 @@ function QuestieTBCQuestFixes:Load()
         [9303] = {
             [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated",Questie.ICON_TYPE_INTERACT}}},
         },
+        [9339] = {
+            [questKeys.objectivesText] = nil,
+        },
         [9355] = {
             [questKeys.preQuestSingle] = {10143,10483},
         },
@@ -969,6 +972,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9360] = {
             [questKeys.startedBy] = {{15407},nil,{23249}},
+        },
+        [9365] = {
+            [questKeys.objectivesText] = nil,
         },
         [9370] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Signaling Gem"), 0, {{"object", 181449}}}},
