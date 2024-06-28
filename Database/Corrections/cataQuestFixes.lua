@@ -4922,6 +4922,7 @@ function CataQuestFixes.Load()
         [27718] = { -- Warchief's Command: Vashj'ir!
             [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 25924,
         },
         [27721] = { -- Warchief's Command: Mount Hyjal!
             [questKeys.objectives] = {{{15188, nil, Questie.ICON_TYPE_TALK}}},
@@ -6533,7 +6534,11 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.THE_BLOOD_FURNACE]={{64.9,41.5}}}},
         },
         [29642] = { -- Trouble at Auchindoun
-            [questKeys.exclusiveTo] = {10177},
+            [questKeys.exclusiveTo] = {10094,10177},
+            [questKeys.nextQuestInChain] = 29643,
+        },
+        [29684] = { -- Severed Communications
+            [questKeys.objectives] = {{{24822,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29692] = { -- Bring Me Another Shrubbery!
             [questKeys.preQuestSingle] = {29691},
