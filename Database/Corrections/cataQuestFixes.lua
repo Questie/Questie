@@ -3635,13 +3635,14 @@ function CataQuestFixes.Load()
         },
         [26293] = { -- Machines of War
             [questKeys.startedBy] = {{39605}},
+            [questKeys.preQuestSingle] = {},
         },
         [26294] = { -- Weapons of Mass Dysfunction
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectives] = {{{42673},{42671}}},
         },
         [26311] = { -- Unfamiliar Waters
-            [questKeys.preQuestSingle] = {26294},
+            [questKeys.preQuestSingle] = {},
         },
         [26312] = { -- Crumbling Defenses
             [questKeys.preQuestSingle] = {26326},
@@ -5755,6 +5756,7 @@ function CataQuestFixes.Load()
         [28717] = { -- Warchief's Command: Twilight Highlands!
             [questKeys.finishedBy] = {{39605}},
             [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
+            [questKeys.nextQuestInChain] = 26293,
         },
         [28721] = { -- Walk A Mile In Their Shoes
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -6068,7 +6070,7 @@ function CataQuestFixes.Load()
         [28909] = { -- Sauranok Will Point the Way
             [questKeys.startedBy] = {{39605}},
             [questKeys.preQuestSingle] = {26294},
-            [questKeys.exclusiveTo] = {26311},
+            [questKeys.nextQuestInChain] = 26311,
         },
         [29030] = { -- Honor the Flame
             [questKeys.objectives] = {nil,{{208184}}},
