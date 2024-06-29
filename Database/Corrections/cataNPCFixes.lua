@@ -1653,7 +1653,7 @@ function CataNpcFixes.Load()
         },
         [100002] = { -- A Personal Summons - Stormwind
             [npcKeys.name] = "!",
-            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{49.59,86.53}}},
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{63.5,72.6}}},
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
             [npcKeys.questStarts] = {28825},
         },

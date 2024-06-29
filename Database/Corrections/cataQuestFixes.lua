@@ -5991,6 +5991,10 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{50047,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {28789},
         },
+        [28816] = { -- To the Depths
+            [questKeys.requiredMaxLevel] = 81,
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [28817] = { -- The Rear is Clear -- Human Hunter
             [questKeys.requiredRaces] = raceKeys.HUMAN,
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
@@ -6028,6 +6032,10 @@ function CataQuestFixes.Load()
         },
         [28826] = { -- The Eye of the Storm
             [questKeys.objectives] = {nil,{{207416}}},
+        },
+        [28827] = { -- To the Depths
+            [questKeys.requiredMaxLevel] = 81,
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [28845] = { -- The Vortex Pinnacle
             [questKeys.exclusiveTo] = {28760,28779},
