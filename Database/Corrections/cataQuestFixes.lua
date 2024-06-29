@@ -6454,6 +6454,12 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29326},
             [questKeys.nextQuestInChain] = 29326,
         },
+        [29452] = { -- Your Time Has Come
+            [questKeys.nextQuestInChain] = 29129,
+        },
+        [29453] = { -- Your Time Has Come
+            [questKeys.nextQuestInChain] = 29132,
+        },
         [29455] = { -- Target: Turtle
             [questKeys.objectives] = {{{54490}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Jessica Rogers to start the game"),0,{{"monster",54485}}}},
