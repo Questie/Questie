@@ -615,6 +615,9 @@ function CataNpcFixes.Load()
         [28701] = { -- Timothy Jones
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{40.68,35.35}}},
         },
+        [28705] = { -- Katherine Lee
+            [npcKeys.spawns] = {[zoneIDs.DALARAN]={{40.28,66.1}}},
+        },
         [28742] = { -- Marcia Chase
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{53.05,64.94}}},
         },
@@ -622,7 +625,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{69.96,39.01}}},
         },
         [30490] = { -- Rin Duoctane
-            [npcKeys.spawns] = {[zoneIDs.DALARAN]={{37.68,50.17}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_UNDERBELLY]={{31.27,49.62}}},
         },
         [31080] = { -- Warden Alturas
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{61.32,63.73}}},
