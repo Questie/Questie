@@ -1192,7 +1192,6 @@ function QuestieQuestBlacklist:Load()
         [8439] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
 
         -- Phase 4 Zul'Aman
-        [11195] = true, -- Not in the game
         [11196] = true, -- Not in the game
 
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
@@ -2410,6 +2409,8 @@ function QuestieQuestBlacklist:Load()
         [11088] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11123] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11124] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11130] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11132] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11137] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11138] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11139] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2432,11 +2433,17 @@ function QuestieQuestBlacklist:Load()
         [11160] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11161] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11162] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11163] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11164] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11165] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11166] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11169] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11171] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11172] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11173] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11174] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11177] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11178] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11184] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11185] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11186] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2444,6 +2451,7 @@ function QuestieQuestBlacklist:Load()
         [11192] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11193] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11194] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [11195] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11198] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11200] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11201] = QuestieCorrections.CATA_HIDE, -- Removed with cata
