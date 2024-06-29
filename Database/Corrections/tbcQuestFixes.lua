@@ -906,9 +906,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Bundle of Medallions"), 0, {{"object", 181157}}}},
         },
         [9177] = {
+            [questKeys.startedBy] = {{16252},nil},
             [questKeys.finishedBy] = {{10181},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE - raceIDs.BLOOD_ELF, -- 9180 is the blood elf version of this quest
             [questKeys.preQuestSingle] = {9175},
+        },
+        [9180] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9181] = {
             [questKeys.specialFlags] = 1,

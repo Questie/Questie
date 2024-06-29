@@ -556,11 +556,11 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE - raceKeys.BLOOD_ELF,
         },
         [9812] = { -- Envoy to the Horde
-            [questKeys.requiredRaces] = raceKeys.ALL_HORDE - raceKeys.BLOOD_ELF,
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE - raceKeys.BLOOD_ELF - raceKeys.GOBLIN,
         },
         [9813] = { -- Meeting the Warchief
             [questKeys.finishedBy] = {{39605}},
-            [questKeys.requiredRaces] = raceKeys.ALL_HORDE - raceKeys.BLOOD_ELF,
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE - raceKeys.BLOOD_ELF - raceKeys.GOBLIN,
         },
         [9871] = { -- Murkblood Invaders
             [questKeys.startedBy] = {{18238},nil,{24559}},
