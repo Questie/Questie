@@ -899,6 +899,9 @@ function QuestieTBCQuestFixes:Load()
         [9161] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9164] = {
+            [questKeys.objectives] = {{{16208,nil,Questie.ICON_TYPE_INTERACT},{16206,nil,Questie.ICON_TYPE_INTERACT},{16209,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [9174] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Bundle of Medallions"), 0, {{"object", 181157}}}},
         },
