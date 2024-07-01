@@ -1878,8 +1878,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {24448},
         },
         [14482] = { -- Call of Duty
-            [questKeys.objectives] = {{{36915,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {},
             [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY] = {{18.3,25.5}}},Questie.ICON_TYPE_EVENT,l10n("Wait for the Mercenary Ship to arrive")}},
+            [questKeys.zoneOrSort] = 4411,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.triggerEnd] = {"Ride the mercenary ship to Vashj'ir",{[zoneIDs.KELP_THAR_FOREST] = {{53.9,39.9}}}},
         },
         [14484] = { -- Head of the Snake
             [questKeys.preQuestSingle] = {24448},
@@ -2685,13 +2688,17 @@ function CataQuestFixes.Load()
         [25215] = { -- A Distracting Scent
             [questKeys.preQuestSingle] = {25222},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE] = {{49.7,47.4}}},Questie.ICON_TYPE_EVENT,l10n("Drag the corpses here")}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{40847,39911},39911,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25216] = { -- The Great Sambino
             [questKeys.preQuestSingle] = {25222},
         },
         [25217] = { -- Totem Modification
-            [questKeys.requiredSourceItems] = {53052,54214,54216,54217},
+            [questKeys.requiredSourceItems] = {53052,54214,54216,54217}, -- can't be fixed, we need to able to show one item from multiple requiredSourceItems in QIB.
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE] = {{40.4,34.2}}},Questie.ICON_TYPE_EVENT,l10n("Place a totem on the ground and defend it")}},
+        },
+        [25218] = { -- Undersea Inflation
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Fill the balloon"),0,{{"object",202887}}}},
         },
         [25219] = { -- Don't be Shellfish
             [questKeys.preQuestSingle] = {25222},
@@ -2843,6 +2850,9 @@ function CataQuestFixes.Load()
         [25355] = { -- Lightning in a Bottle
             [questKeys.preQuestSingle] = {25277},
         },
+        [25359] = { -- Toshe's Vengeance
+            [questKeys.nextQuestInChain] = 25439,
+        },
         [25370] = { -- Inciting the Elements
             [questKeys.preQuestSingle] = {},
             [questKeys.requiredSourceItems] = {53009},
@@ -2853,7 +2863,6 @@ function CataQuestFixes.Load()
         },
         [25377] = { -- The Horde's Hoard
             [questKeys.startedBy] = {{39918},nil,{53053}},
-            [questKeys.preQuestSingle] = {25558,25949},
         },
         [25379] = { -- Taerar's Fall
             [questKeys.objectives] = {{{39853}}},
@@ -2866,6 +2875,9 @@ function CataQuestFixes.Load()
         },
         [25385] = { -- Save the Wee Animals
             [questKeys.preQuestSingle] = {25584},
+        },
+        [25388] = { -- Crate of Crab Meat
+            [questKeys.name] = 'Crate of Crab Meat',
         },
         [25392] = { -- Oh, Deer!
             [questKeys.objectives] = {{{39999,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -2883,15 +2895,16 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {25443},
         },
         [25419] = { -- Lady La-La's Medallion
-            [questKeys.requiredSourceItems] = {55188},
+            [questKeys.requiredSourceItems] = {55188}, -- can't be fixed, we need to able to show both sourceItemId and requiredSourceItems in both QIB in same time.
             [questKeys.startedBy] = {{41017},nil,{55186}},
             [questKeys.preQuestSingle] = {25459},
+            [questKeys.finishedBy] = {{100009}},
         },
         [25439] = { -- Vengeful Heart
-            [questKeys.preQuestSingle] = {25359},
+            [questKeys.preQuestSingle] = {25222},
         },
         [25441] = { -- Vortex
-            [questKeys.objectives] = {{{40280}}},
+            [questKeys.objectives] = {{{40280,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25442] = { -- A Pearl of Wisdom
             [questKeys.startedBy] = {{40510},nil,{54614}},
@@ -2918,7 +2931,6 @@ function CataQuestFixes.Load()
         },
         [25467] = { -- Kliklak's Craw
             [questKeys.startedBy] = {{40276},nil,{54345}},
-            [questKeys.preQuestSingle] = {25558,25949},
         },
         [25473] = { -- Kaja'Cola
             [questKeys.startedBy] = {{34872}},
@@ -2930,7 +2942,7 @@ function CataQuestFixes.Load()
         },
         [25477] = { -- Better Late Than Dead
             [questKeys.objectives] = {{{40223,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.preQuestSingle] = {25949},
+            [questKeys.preQuestSingle] = {25949,25558},
         },
         [25496] = { -- Grudge Match
             [questKeys.preQuestSingle] = {25494},
@@ -2959,13 +2971,29 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {52716},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",40720}}}},
         },
+        [25536] = { -- Cold Welcome
+            [questKeys.finishedBy] = {{40642}},
+        },
+        [25537] = { -- Art of Attraction
+            [questKeys.objectives] = {{{40654,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25540] = { -- Bellies Await
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25538,25539},
+        },
         [25544] = { -- Wave Two
             [questKeys.requiredSourceItems] = {52716},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",40720}}}},
             [questKeys.objectives] = {{{40650}}},
         },
+        [25545] = { -- To Arms!
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25357,25546},
+        },
         [25547] = { -- On Our Own Terms
             [questKeys.finishedBy] = {{40690}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25545,25564},
         },
         [25551] = { -- The Firelord
             [questKeys.startedBy] = {{40773}},
@@ -2975,6 +3003,11 @@ function CataQuestFixes.Load()
         [25558] = { -- All or Nothing
             [questKeys.startedBy] = {{40690}},
             [questKeys.extraObjectives] = {{{[zoneIDs.KELP_THAR_FOREST] = {{44.59,25.37}}},Questie.ICON_TYPE_EVENT,l10n("Defend The Briny Cutter")}},
+            [questKeys.objectives] = {{{40714,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25564] = { -- Stormwind Elite Aquatic and Land Forces
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25357,25546},
         },
         [25574] = { -- Flames from Above
             [questKeys.objectives] = {{{40856,nil,Questie.ICON_TYPE_EVENT}}},
@@ -2991,11 +3024,14 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25355},
             [questKeys.requiredSourceItems] = {55123},
         },
+        [25582] = { -- A Better Vantage
+            [questKeys.objectives] = {{{40963,nil,Questie.ICON_TYPE_EVENT},{40964,nil,Questie.ICON_TYPE_EVENT},{40965,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [25583] = { -- Upon the Scene of Battle
             [questKeys.preQuestSingle] = {25922},
         },
         [25587] = { -- Gimme Shelter!
-            [questKeys.preQuestSingle] = {25949},
+            [questKeys.preQuestSingle] = {25949,25558},
             [questKeys.extraObjectives] = {
                 {{[zoneIDs.KELP_THAR_FOREST] = {{56.74,30.41}}},Questie.ICON_TYPE_EVENT,l10n("Smuggler's Scar Scouted"),1},
                 {{[zoneIDs.KELP_THAR_FOREST] = {{54.1,34.4}}},Questie.ICON_TYPE_EVENT,l10n("Adarrah Signaled"),2},
@@ -3050,6 +3086,9 @@ function CataQuestFixes.Load()
         [25618] = { -- Into the Maw!
             [questKeys.exclusiveTo] = {25623},
         },
+        [25619] = { -- Reoccupation
+            [questKeys.preQuestSingle] = {},
+        },
         [25621] = { -- Field Test: Gnomecorder
             [questKeys.triggerEnd] = {"Gnomecorder Tested",{[zoneIDs.STONETALON_MOUNTAINS] = {{73.2,46.6}}}},
             [questKeys.preQuestSingle] = {25615},
@@ -3070,9 +3109,11 @@ function CataQuestFixes.Load()
         },
         [25626] = { -- Visions of the Past: Rise from the Deep
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE]={{33.1,77.81}}},Questie.ICON_TYPE_EVENT,l10n("Attune the with the Broken Blade's owner")}},
+            [questKeys.objectives] = {{{41982,nil,Questie.ICON_TYPE_EVENT},{41222}}},
         },
         [25629] = { -- Her Lady's Hand
             [questKeys.preQuestSingle] = {25911,25973},
+            [questKeys.objectives] = {{{41999,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25630] = { -- The Fires of Mount Hyjal
             [questKeys.preQuestSingle] = {25611,25612},
@@ -3137,6 +3178,9 @@ function CataQuestFixes.Load()
         [25743] = { -- Decisions, Decisions
             [questKeys.objectives] = {nil,{{203194}}},
         },
+        [25749] = { -- Not Entirely Unprepared
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{41235,46470},41235,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [25753] = { -- Fallen But Not Forgotten
             [questKeys.objectives] = {{{41281,nil,Questie.ICON_TYPE_TALK}}},
         },
@@ -3151,7 +3195,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE] = {{28.92,78.64}}},Questie.ICON_TYPE_EVENT,l10n("Attune the with the Broken Blade's owner")}},
         },
         [25760] = { -- Visions of the Past: The Invasion of Vashj'ir
-            [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE] = {{40,75}}},Questie.ICON_TYPE_EVENT,l10n("Attune the with the Broken Blade's owner")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE] = {{40.49,75.58}}},Questie.ICON_TYPE_EVENT,l10n("Attune the with the Broken Blade's owner")}},
         },
         [25764] = { -- Egg Hunt
             [questKeys.objectives] = {nil,{{203208}}},
@@ -3161,13 +3205,16 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {25761,25764}
         },
         [25798] = { -- Defend the Drill
-            [questKeys.triggerEnd] = {"Oil Drilling Rig defended",[zoneIDs.THOUSAND_NEEDLES]={{85.9,44.6},{90.2,50.7},{87.2,49.5},{88.3,44.4}}}
+            [questKeys.triggerEnd] = {"Oil Drilling Rig defended",[zoneIDs.THOUSAND_NEEDLES]={{85.9,44.6},{90.2,50.7},{87.2,49.5},{88.3,44.4}}},
         },
         [25799] = { -- Defend the Drill
-            [questKeys.triggerEnd] = {"Oil Drilling Rig defended",[zoneIDs.THOUSAND_NEEDLES]={{85.9,44.6},{90.2,50.7},{87.2,49.5},{88.3,44.4}}}
+            [questKeys.triggerEnd] = {"Oil Drilling Rig defended",[zoneIDs.THOUSAND_NEEDLES]={{85.9,44.6},{90.2,50.7},{87.2,49.5},{88.3,44.4}}},
         },
         [25807] = { -- An Ancient Reborn
             [questKeys.objectives] = {{{41300}}},
+        },
+        [25824] = { -- Debriefing
+            [questKeys.objectives] = {{{41340,nil,Questie.ICON_TYPE_TALK}}},
         },
         [25830] = { -- The Last Living Lorekeeper
             [questKeys.preQuestSingle] = {},
@@ -3196,18 +3243,19 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Subdue a Famished Great Shark"),0,{{"monster",41997},{"monster",41998}}}},
         },
         [25888] = { -- Decompression
-            [questKeys.objectives] = {{{41955}}},
+            [questKeys.objectives] = {{{41548,nil,Questie.ICON_TYPE_INTERACT}}}, -- it's this npc id for alliance
         },
         [25890] = { -- Nespirah
             [questKeys.triggerEnd] = {"Find a way to communicate with Nespirah",{[zoneIDs.SHIMMERING_EXPANSE] = {{51.7,52.1}}}},
             [questKeys.preQuestSingle] = {25440},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take the Swift Seahorse to Nespirah"),0,{{"monster",40851}}}},
         },
-        [25892] = { -- Losing Ground
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",48910}}}},
-        },
         [25896] = { -- Devout Assembly
-            [questKeys.objectives] = {{{41985,nil,Questie.ICON_TYPE_TALK},{41980,nil,Questie.ICON_TYPE_TALK}}}
+            [questKeys.objectives] = {{{41985,nil,Questie.ICON_TYPE_TALK},{41980,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [25898] = { -- Honor and Privilege
+            [questKeys.requiredSourceItems] = {56188},
+            [questKeys.objectives] = {{{42340,nil,Questie.ICON_TYPE_EVENT},{40645,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25899] = { -- Breakthrough
             [questKeys.preQuestSingle] = {25372},
@@ -3240,6 +3288,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.DUROTAR] = {{57.8,10.4}}},Questie.ICON_TYPE_EVENT,l10n("Wait for the Mercenary Ship to arrive")}},
             [questKeys.preQuestSingle] = {},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.objectives] = {{{36901,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25929] = { -- Sea Legs
             [questKeys.preQuestSingle] = {},
@@ -3280,7 +3329,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{41805}}},
         },
         [25951] = { -- Final Judgement
-            [questKeys.objectives] = {{{42077},{42063}},nil,nil,nil,},
+            [questKeys.objectives] = {{{42135,nil,Questie.ICON_TYPE_EVENT},{42063}}},
         },
         [25952] = { -- Caught Off-Guard
             [questKeys.preQuestGroup] = {25592,25593,25595},
@@ -3346,8 +3395,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25968},
         },
         [25972] = { -- Honor and Privilege
-            [questKeys.objectives] = {{{41590}},{{203410}}},
+            [questKeys.objectives] = {{{41572,nil,Questie.ICON_TYPE_EVENT},{40921,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestGroup] = {25968,25970,25971},
+            [questKeys.requiredSourceItems] = {56188},
         },
         [25974] = { -- Sira'kess Slaying
             [questKeys.preQuestSingle] = {26092},
@@ -4661,7 +4711,6 @@ function CataQuestFixes.Load()
         [27393] = { -- The Call of the Blade
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.nextQuestInChain] = 25583,
-            [questKeys.exclusiveTo] = {25583},
         },
         [27394] = { -- The Call of the Blade
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -4878,7 +4927,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {27367,27370},
         },
         [27685] = { -- Good Deed Left Undone
-            [questKeys.exclusiveTo] = {25587},
+            [questKeys.nextQuestInChain] = 25587,
         },
         [27687] = { -- An Opened Can of Whoop Gnash
             [questKeys.startedBy] = {{40987},nil,{62138}},
@@ -4921,7 +4970,7 @@ function CataQuestFixes.Load()
         },
         [27716] = { -- Piece of the Past
             [questKeys.startedBy] = {{39638,41227},nil,{62281}},
-            [questKeys.preQuestSingle] = {25747},
+            [questKeys.preQuestSingle] = {25922},
         },
         [27717] = { -- Piece of the Past
             [questKeys.startedBy] = {{39638,41227},nil,{62282}},
@@ -4945,6 +4994,7 @@ function CataQuestFixes.Load()
         },
         [27724] = { -- Hero's Call: Vashj'ir!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
+            [questKeys.nextQuestInChain] = 14482,
         },
         [27726] = { -- Hero's Call: Mount Hyjal!
             [questKeys.objectives] = {{{15187, nil, Questie.ICON_TYPE_TALK}}},
@@ -5994,6 +6044,7 @@ function CataQuestFixes.Load()
         [28816] = { -- To the Depths
             [questKeys.requiredMaxLevel] = 81,
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 25924,
         },
         [28817] = { -- The Rear is Clear -- Human Hunter
             [questKeys.requiredRaces] = raceKeys.HUMAN,
@@ -6036,6 +6087,7 @@ function CataQuestFixes.Load()
         [28827] = { -- To the Depths
             [questKeys.requiredMaxLevel] = 81,
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 14482,
         },
         [28845] = { -- The Vortex Pinnacle
             [questKeys.exclusiveTo] = {28760,28779},
@@ -6094,7 +6146,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {12622},
             [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
             --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
-            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29037,29038,29039,29040,29051,29052,29053},
         },
@@ -6104,7 +6156,7 @@ function CataQuestFixes.Load()
         [29037] = { -- Hunting Practice
             [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
             --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
-            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29035,29038,29039,29040,29051,29052,29053},
         },
@@ -6113,13 +6165,13 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {68645},
             [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
             --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
-            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29035,29037,29039,29040,29051,29052,29053},
         },
         [29039] = { -- Hunting Practice
             --[questKeys.requiredRaces] = raceKeys.HUMAN + raceKeys.DWARF + raceKeys.WORGEN, -- these are the correct races
-            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29035,29037,29038,29040,29051,29052,29053},
         },
@@ -6127,7 +6179,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
             [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
             --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
-            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.requiredSourceItems] = {68662,68663,68668},
             [questKeys.sourceItemId] = 68668,
@@ -6136,7 +6188,7 @@ function CataQuestFixes.Load()
         [29051] = { -- Cub's First Toy
             [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
             --[questKeys.requiredRaces] = raceKeys.HUMAN + raceKeys.DWARF + raceKeys.WORGEN, -- these are the correct races
-            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.requiredSourceItems] = {68662,68663,68668},
             [questKeys.sourceItemId] = 68668,
@@ -6146,7 +6198,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {12622},
             [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
             --[questKeys.requiredRaces] = raceKeys.HUMAN + raceKeys.DWARF + raceKeys.WORGEN, -- these are the correct races
-            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29035,29037,29038,29039,29040,29051,29053},
         },
@@ -6154,7 +6206,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {68645},
             [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
             --[questKeys.requiredRaces] = raceKeys.HUMAN + raceKeys.DWARF + raceKeys.WORGEN, -- these are the correct races
-            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once. TODO: add exclusiveTo to childQuests
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29035,29037,29038,29039,29040,29051,29052},
         },
@@ -6170,10 +6222,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
         },
         [29071] = { -- Make Haste to Stormwind!
-            [questKeys.exclusiveTo] = {25316,27724,27726},
+            [questKeys.exclusiveTo] = {25316}, -- it's not this one, needs to be discovered the actual one. Also no HS to Dalaran, that's silly
         },
         [29073] = { -- Make Haste to Orgrimmar!
-            [questKeys.exclusiveTo] = {25316,27718,27721},
+            [questKeys.exclusiveTo] = {25316}, -- same as above
         },
         [29078] = { -- Beating Them Back! -- non Human
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE - raceKeys.HUMAN,
@@ -6238,6 +6290,7 @@ function CataQuestFixes.Load()
         },
         [29129] = { -- A Legendary Engagement
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Ziradormi"),0,{{"monster",52382}}}},
         },
         [29132] = { -- A Legendary Engagement
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -6666,6 +6719,9 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.finishedBy] = {{3347}},
             --[questKeys.finishedBy] = {{3347,3009,4611,16642}}, -- TODO: Add when multiple turn-in locations are handled
         },
+        [25892] = { -- Losing Ground
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",48910}}}},
+        },
     }
 
     local questFixesAlliance = {
@@ -6699,6 +6755,9 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{5499}},
             [questKeys.finishedBy] = {{5499}},
             --[questKeys.finishedBy] = {{5499,1537,4160,16723}}, -- TODO: Add when multiple turn-in locations are handled
+        },
+        [25892] = { -- Losing Ground
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",48901}}}},
         },
     }
 
