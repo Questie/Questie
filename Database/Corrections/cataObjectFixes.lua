@@ -94,6 +94,16 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{31.64,46.03},{32.03,45.79},{31.68,46.61},{32.36,46.16},{31.92,46.92}}},
             [objectKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
+        [203305] = { -- Crucible of Nazsharin
+            [objectKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{57.25,89.96}}},
+        },
+        [203312] = { -- Coil of Kvaldir Rope
+            [objectKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{56.12,85.89},{55.28,86.21},{55.94,86.92},{58.18,85.92},{55.81,86.03},{58.9,86.11},{56.44,89.27},{57.26,89.64},{56.92,88.93},{57.49,84.87},{52.2,85.53},{50.68,85.34},{48.9,78.83},{47.77,80.3},{52.08,82.99},{52.46,83.77},{51.84,80.56},{51.65,85.05},{50.57,84.95},{51.87,85.31},{51.26,85.24}}},
+        },
+        [203403] = { -- Survival Kit Remnants
+            [objectKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{56.56,80.29}}},
+            [objectKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
         [203461] = { -- Fuel Sampling Station
             [objectKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{51.49,60.41},{55.8,72.5}}}
         },
