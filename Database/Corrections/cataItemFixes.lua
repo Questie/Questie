@@ -689,12 +689,18 @@ function CataItemFixes:LoadFactionFixes()
     local itemKeys = QuestieDB.itemKeys
 
     local itemFixesHorde = {
+        [56188] = { -- Rescue Flare
+            [itemKeys.objectDrops] = {203410},
+        },
         [71034] = { -- Windswept Balloon
             [itemKeys.objectDrops] = {209058},
         },
     }
 
     local itemFixesAlliance = {
+        [56188] = { -- Rescue Flare
+            [itemKeys.objectDrops] = {203403},
+        },
         [71034] = { -- Windswept Balloon
             [itemKeys.objectDrops] = {209242},
         },

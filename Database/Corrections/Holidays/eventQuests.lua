@@ -595,7 +595,7 @@ tinsert(eventQuests, {"Midsummer", 11952}) -- Striking Back (level 51)
 tinsert(eventQuests, {"Midsummer", 11953}) -- Striking Back (level 60)
 tinsert(eventQuests, {"Midsummer", 11954}) -- Striking Back (level 67)
 tinsert(eventQuests, {"Midsummer", 11955, nil, nil, QuestieCorrections.CATA_HIDE}) -- Ahune, the Frost Lord
-tinsert(eventQuests, {"Midsummer", 11972, nil, nil, QuestieCorrections.CATA_HIDE}) -- Shards of Ahune
+tinsert(eventQuests, {"Midsummer", 11972}) -- Shards of Ahune
 tinsert(eventQuests, {"Midsummer", 11964}) -- Incense for the Summer Scorchlings
 tinsert(eventQuests, {"Midsummer", 11966}) -- Incense for the Festival Scorchlings
 tinsert(eventQuests, {"Midsummer", 11970}) -- The Master of Summer Lore

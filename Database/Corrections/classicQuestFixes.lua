@@ -558,7 +558,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = nil,
             [questKeys.objectivesText] = nil,
             [questKeys.triggerEnd] = nil,
-            [questKeys.objectives] = nil,
+            [questKeys.objectives] = {},
             [questKeys.sourceItemId] = nil,
             [questKeys.preQuestGroup] = nil,
             [questKeys.preQuestSingle] = nil,
