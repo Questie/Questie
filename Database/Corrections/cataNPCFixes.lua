@@ -943,6 +943,10 @@ function CataNpcFixes.Load()
         [36845] = { -- Agitated Earth Spirit
             [npcKeys.spawns] = {[zoneIDs.MULGORE] = {{34.11,47.71},{33.59,49.07},{33.41,48.97},{33.42,48.45},{33.26,47.86},{33.11,47.9},{33,47.71},{33.24,49.35},{32.93,49.22},{32.86,48.98},{33.06,48.77},{32.84,48.31},{32.7,48.47},{32.55,48.64},{32.46,48.57},{32.72,47.8},{32.26,48.28},{32.07,49.08},{32.53,49.15},{32.65,49.35},{32.87,49.63},{32.9,50.21},{32.78,50.18},{32.61,50.18},{32.43,50.22},{32.19,49.7},{32.27,49.44}}},
         },
+        [36915] = { -- Submerge Bunny
+            [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST] = {{45.79,33.96}}},
+            [npcKeys.zoneID] = zoneIDs.KELP_THAR_FOREST,
+        },
         [36906] = { -- Talrendis Command Center Kill Credit
             [npcKeys.spawns] = {[zoneIDs.AZSHARA] = {{9.29,72.55}}},
             [npcKeys.zoneID] = zoneIDs.AZSHARA,
@@ -1473,8 +1477,17 @@ function CataNpcFixes.Load()
         [41636] = { -- Legionnaire Nazgrim
             [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS] = {{42.66,37.82}}},
         },
+        [41666] = { -- Engineer Hexascrub
+            [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS] = {{55.5,72.9}}},
+        },
         [41731] = { -- Overseer Idra'kess
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{57.53,56.34}}},
+        },
+        [41750] = { -- Legionnaire Nazgrim
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{38.85,31.48}}},
+        },
+        [41759] = { -- Blood and Thunder Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{46.27,46.56}}},
         },
         [41770] = { -- Fiasco Sizzlegrin
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{50.35,78.99}}},
@@ -1890,8 +1903,14 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.ABYSSAL_DEPTHS] = {{42.69,37.91,phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT}},
             },
         },
+        [42486] = { -- Boarding Submarine Credit Bunny
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{50.72,66.47}}},
+        },
         [42790] = { -- Bloodlord Mandokir
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{38.4,48.6}}},
+        },
+        [48416] = { -- Ozumat
+            [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{55.83,76.21}}},
         },
     }
 
@@ -2006,11 +2025,17 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.ABYSSAL_DEPTHS] = {{42.69,37.91,phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT}},
             },
         },
+        [42486] = { -- Boarding Submarine Credit Bunny
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{56.68,76.62}}},
+        },
         [42790] = { -- Bloodlord Mandokir
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{47.2,10.6}}},
         },
         [43116] = { -- Pebble
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM]={{32.6,44.4}}},
+        },
+        [48416] = { -- Ozumat
+            [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{55.83,76.21}}},
         },
     }
 

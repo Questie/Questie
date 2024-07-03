@@ -2768,7 +2768,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {25278},
         },
         [25281] = { -- Pay It Forward
-            [questKeys.objectives] = {{{39663,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{39663,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25291] = { -- Twilight Training
             [questKeys.preQuestSingle] = {25330},
@@ -2991,7 +2991,6 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {25357,25546},
         },
         [25547] = { -- On Our Own Terms
-            [questKeys.finishedBy] = {{40690}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25545,25564},
         },
@@ -3001,7 +3000,6 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.MOUNT_HYJAL] = {{55.5,66.2}}},Questie.ICON_TYPE_EVENT,l10n("Go through the portal")}},
         },
         [25558] = { -- All or Nothing
-            [questKeys.startedBy] = {{40690}},
             [questKeys.extraObjectives] = {{{[zoneIDs.KELP_THAR_FOREST] = {{44.59,25.37}}},Questie.ICON_TYPE_EVENT,l10n("Defend The Briny Cutter")}},
             [questKeys.objectives] = {{{40714,nil,Questie.ICON_TYPE_EVENT}}},
         },
@@ -3299,6 +3297,9 @@ function CataQuestFixes.Load()
         [25930] = { -- Ascending the Vale
             [questKeys.triggerEnd] = {"Ascend the Charred Vale",{[zoneIDs.STONETALON_MOUNTAINS] = {{31.3,73.2}}}},
         },
+        [25936] = { -- Pay It Forward
+            [questKeys.objectives] = {{{41672,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [25940] = { -- Last Stand at Whistling Grove
             [questKeys.preQuestSingle] = {25428},
             [questKeys.exclusiveTo] = {25462},
@@ -3329,7 +3330,8 @@ function CataQuestFixes.Load()
         },
         [25949] = { -- Blood and Thunder!
             [questKeys.startedBy] = {{41750,41769}},
-            [questKeys.objectives] = {{{41805}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.KELP_THAR_FOREST] = {{39.81,30.65}}},Questie.ICON_TYPE_EVENT,l10n("Defend The Immortal Coil")}},
+            [questKeys.objectives] = {{{41759,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25951] = { -- Final Judgement
             [questKeys.objectives] = {{{42135,nil,Questie.ICON_TYPE_EVENT},{42063}}},
@@ -3506,9 +3508,12 @@ function CataQuestFixes.Load()
         },
         [26105] = { -- Claim Korthun's End
             [questKeys.startedBy] = {{42115}},
+            [questKeys.exclusiveTo] = {26121},
         },
         [26106] = { -- Fuel-ology 101
+            [questKeys.objectives] = {nil,{{203461}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Three Hammerhead Oil and two Remora Oil"), 0, {{"object", 203461}}}},
+            [questKeys.requiredSourceItems] = {56833},
         },
         [26122] = { -- Environmental Awareness
             [questKeys.preQuestSingle] = {26221},
@@ -3520,6 +3525,7 @@ function CataQuestFixes.Load()
         [26126] = { -- The Perfect Fuel
             [questKeys.objectives] = {nil,{{203461}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Three Hammerhead Oil and two Remora Oil"), 0, {{"object", 203461}}}},
+            [questKeys.requiredSourceItems] = {56833},
         },
         [26133] = { -- Fiends from the Netherworld
             [questKeys.preQuestSingle] = {26111},
@@ -3600,7 +3606,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26209},
         },
         [26219] = { -- Full Circle
-            [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE]={{69.6,75.2}}},Questie.ICON_TYPE_EVENT,l10n("Wait for the Pincer X2 to arrive")}},
+            [questKeys.objectives] = {{{42486,nil,Questie.ICON_TYPE_EVENT},{48416,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26221] = { -- Full Circle
             [questKeys.preQuestSingle] = {26006},
