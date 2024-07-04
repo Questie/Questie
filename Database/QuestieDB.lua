@@ -43,7 +43,7 @@ local _QuestieQuest = QuestieQuest.private
 ---@type table<number, AutoBlacklistString>
 QuestieDB.autoBlacklist = {}
 
-local tinsert, tremove = table.insert, table.remove
+local tinsert, tremove, next = table.insert, table.remove, next
 local bitband = bit.band
 
 -- questFlags https://github.com/cmangos/issues/wiki/Quest_template#questflags
@@ -521,7 +521,7 @@ end
 ---@param preQuestGroup table<number, number>
 ---@return boolean
 function QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
-    if not preQuestGroup then
+    if (not preQuestGroup) or (not next(preQuestGroup)) then
         return true
     end
     for preQuestIndex=1, #preQuestGroup do
@@ -550,7 +550,7 @@ end
 ---@param preQuestSingle number[]
 ---@return boolean
 function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
-    if (not preQuestSingle) then
+    if (not preQuestSingle) or (not next(preQuestSingle)) then
         return true
     end
     for preQuestIndex=1, #preQuestSingle do
