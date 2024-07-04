@@ -208,3 +208,20 @@ function CataObjectFixes.Load()
         },
     }
 end
+
+function CataObjectFixes:LoadFactionFixes()
+    local objectKeys = QuestieDB.objectKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
+    local objectFixesHorde = {
+    }
+
+    local objectFixesAlliance = {
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return objectFixesHorde
+    else
+        return objectFixesAlliance
+    end
+end
