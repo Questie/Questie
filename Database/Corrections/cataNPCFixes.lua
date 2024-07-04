@@ -1931,7 +1931,7 @@ function CataNpcFixes:LoadFactionFixes()
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{38.4,48.6}}},
         },
         [48416] = { -- Ozumat
-            [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{55.83,76.21}}},
+            [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{53.83,61.91}}},
         },
     }
 

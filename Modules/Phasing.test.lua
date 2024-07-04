@@ -557,15 +557,8 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_NORTHERN_GARDEN))
         end)
 
-        it("should return true for Nar'Shola Terrace West when 26191 or 25750 is complete", function()
+        it("should return true for Nar'Shola Terrace West when 26191 is complete", function()
             Questie.db.char.complete[26191] = true
-
-            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_NAR_SHOLA_TERRACE_WEST))
-            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_NORTHERN_GARDEN))
-            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_NAR_SHOLA_TERRACE))
-
-            Questie.db.char.complete[26191] = false
-            Questie.db.char.complete[25750] = true
 
             assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_NAR_SHOLA_TERRACE_WEST))
             assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_NORTHERN_GARDEN))
@@ -584,15 +577,21 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_LADY_NAZ_JAR_AT_TEMPLE))
         end)
 
-        it("should return true for Erunak Stonespeaker at Cavern before 25988 is complete", function()
+        it("should return true for Erunak Stonespeaker at Cavern before 25988 is complete or after 26143 is complete", function()
             Questie.db.char.complete[25988] = false
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_CAVERN))
+            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT))
+
+            Questie.db.char.complete[26143] = true
 
             assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_CAVERN))
             assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT))
         end)
 
-        it("should return true for Erunak Stonespeaker at Promontory Point when 25988 is complete", function()
+        it("should return true for Erunak Stonespeaker at Promontory Point when 25988 is complete and 26143 is not", function()
             Questie.db.char.complete[25988] = true
+            Questie.db.char.complete[26143] = false
 
             assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT))
             assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_CAVERN))

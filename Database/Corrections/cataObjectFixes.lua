@@ -104,9 +104,6 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{56.56,80.29}}},
             [objectKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
-        [203461] = { -- Fuel Sampling Station
-            [objectKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{51.49,60.41},{55.8,72.5}}}
-        },
         [204281] = { -- Worm Mound
             [objectKeys.spawns] = {[1519]={{49.24,18.03},{52.53,14.86},{64.01,16.59},{63.39,5.73},{64.93,8.47},{56.45,22.58},{55.73,16.51},{53.73,19.56},{60.51,6.85},{58.05,10.49},{62.12,17.65},{59.07,20.64}}},
         },
@@ -206,6 +203,21 @@ function CataObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.AZSHARA,
             [objectKeys.spawns] = {[zoneIDs.AZSHARA] = {{14.41,75.74}}},
         },
+        [460004] = {
+            [objectKeys.name] = "Vision of the Battlemaiden",
+            [objectKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+            [objectKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{40.49,75.58}}},
+        },
+        [460005] = {
+            [objectKeys.name] = "Vision of the Battlemaiden",
+            [objectKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+            [objectKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{33.1,77.81}}},
+        },
+        [460006] = {
+            [objectKeys.name] = "Vision of the Battlemaiden",
+            [objectKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+            [objectKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{28.92,78.64}}},
+        },
     }
 end
 
@@ -214,9 +226,15 @@ function CataObjectFixes:LoadFactionFixes()
     local zoneIDs = ZoneDB.zoneIDs
 
     local objectFixesHorde = {
+        [203461] = { -- Fuel Sampling Station
+            [objectKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{51.49,60.41}}}
+        },
     }
 
     local objectFixesAlliance = {
+        [203461] = { -- Fuel Sampling Station
+            [objectKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{55.8,72.44}}}
+        },
     }
 
     if UnitFactionGroup("Player") == "Horde" then

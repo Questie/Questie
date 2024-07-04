@@ -184,11 +184,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.VASHJIR_ERANUK_AT_CAVERN then
-        return (not complete[25988])
+        return (not complete[25988]) or complete[26143] or false
     end
 
     if phase == phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT then
-        return complete[25988] or false
+        return (complete[25988] and (not complete[26143])) or false
     end
 
     if phase == phases.SIRA_KESS_AT_GARDEN then
