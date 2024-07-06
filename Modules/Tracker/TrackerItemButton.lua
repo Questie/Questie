@@ -137,6 +137,12 @@ function TrackerItemButton.New(buttonName)
 
         return false
     end
+    btn.OnEvent = function(self, event, ...)
+        if (event == "PLAYER_TARGET_CHANGED") then
+            self.rangeTimer = -1
+            self.range:Hide()
+        end
+    end
     btn.OnUpdate = function(self, elapsed)
         if not self.itemId or not self:IsVisible() then
             return
@@ -195,12 +201,6 @@ function TrackerItemButton.New(buttonName)
 
                 self.rangeTimer = rangeTimer
             end
-        end
-    end
-    btn.OnEvent = function(self, event, ...)
-        if (event == "PLAYER_TARGET_CHANGED") then
-            self.rangeTimer = -1
-            self.range:Hide()
         end
     end
     btn.OnShow = function(self)
