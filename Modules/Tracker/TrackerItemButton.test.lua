@@ -53,9 +53,9 @@ describe("TrackerItemButton", function()
                 Id = 1,
                 sourceItemId = 123
             }
-            QuestieDB.QueryItemSingle = spy.new(function()
+            QuestieDB.QueryItemSingle = function()
                 return QuestieDB.itemClasses.QUEST
-            end)
+            end
 
             local trackerItemButton = TrackerItemButton.New("TestButton")
 

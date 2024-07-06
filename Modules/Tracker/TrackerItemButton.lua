@@ -10,6 +10,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type TrackerFadeTicker
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 
+local LSM30 = LibStub("LibSharedMedia-3.0")
+
 ---@param buttonName string
 function TrackerItemButton.New(buttonName)
     local btn = CreateFrame("Button", buttonName, UIParent, "SecureActionButtonTemplate")
@@ -58,6 +60,25 @@ function TrackerItemButton.New(buttonName)
             self:SetAttribute("type1", "item")
             self:SetAttribute("item1", "item:" .. self.itemId)
             self:Show()
+
+            -- Cooldown Updates
+            cooldown:SetSize(size - 4, size - 4)
+            cooldown:SetPoint("CENTER", self, "CENTER", 0, 0)
+            cooldown:Hide()
+
+            -- Range Updates
+            self.range:SetText("●")
+            self.range:SetPoint("TOPRIGHT", self, "TOPRIGHT", 3, 0)
+            self.range:Hide()
+
+            -- Charges Updates
+            self.count:Hide()
+            self.count:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontQuest), Questie.db.profile.trackerFontSizeQuest, "OUTLINE")
+            if self.charges > 1 then
+                self.count:SetText(self.charges)
+                self.count:Show()
+            end
+            self.count:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -2, 3)
 
             return true
         end

@@ -77,6 +77,8 @@ setmetatable(_G.CreateFrame, {
                     SetText = EMTPY_FUNC,
                     SetPoint = EMTPY_FUNC,
                     SetFont = EMTPY_FUNC,
+                    Hide = EMTPY_FUNC,
+                    Show = EMTPY_FUNC,
                 }
             end,
             CreateTexture = function()
