@@ -1,5 +1,7 @@
 dofile("Modules/Libs/QuestieLoader.lua")
 
+dofile("Database/itemDB.lua")
+
 local EMTPY_FUNC = function() end
 
 _G.bit = {band = function() return 0 end}
