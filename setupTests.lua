@@ -138,6 +138,7 @@ setmetatable(_G.CreateFrame, {
             IsVisible = function()
                 return isShown
             end,
+            HookScript = EMTPY_FUNC,
             scripts = scripts,
             attributes = attributes,
         }
