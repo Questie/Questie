@@ -36,13 +36,20 @@ _G.CreateFrame = {
 }
 setmetatable(_G.CreateFrame, {
     __call = function(_, frameType, frameName)
+        local alpha
+
         local mockFrame = {
             ClearAllPoints = EMTPY_FUNC,
             SetScript = EMTPY_FUNC,
             SetWidth = EMTPY_FUNC,
             SetHeight = EMTPY_FUNC,
             SetSize = EMTPY_FUNC,
-            SetAlpha = EMTPY_FUNC,
+            SetAlpha = function(_, value)
+                alpha = value
+            end,
+            GetAlpha = function()
+                return alpha
+            end,
             SetBackdrop = EMTPY_FUNC,
             SetBackdropColor = EMTPY_FUNC,
             SetBackdropBorderColor = EMTPY_FUNC,

@@ -9,6 +9,10 @@ function TrackerItemButton.New(buttonName)
     btn.count = btn:CreateFontString(nil, "ARTWORK", "Game10Font_o1")
     btn:Hide()
 
+    if Questie.db.profile.trackerFadeQuestItemButtons then
+        btn:SetAlpha(0)
+    end
+
     return btn
 end
 
