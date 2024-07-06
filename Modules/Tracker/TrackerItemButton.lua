@@ -75,6 +75,15 @@ function TrackerItemButton.New(buttonName)
                         self.itemId = questItemId
                         break
                     end
+                    -- These type of quest items can never be primary buttons
+                elseif type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems > 1 then
+                    for _, questItemId in pairs(quest.requiredSourceItems) do
+                        if questItemId and questItemId ~= quest.sourceItemId and QuestieDB.QueryItemSingle(questItemId, "class") == 12 and questItemId == itemId and buttonType == "secondary" then
+                            validTexture = GetInventoryItemTexture("player", inventorySlot)
+                            self.itemId = questItemId
+                            break
+                        end
+                    end
                 end
             end
         end
