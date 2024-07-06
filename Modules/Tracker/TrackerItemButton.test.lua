@@ -12,6 +12,14 @@ _G.QuestieCompat = {
     end
 }
 
+_G.GetInventoryItemID = function()
+    return 123
+end
+
+_G.GetInventoryItemTexture = function()
+    return 11111
+end
+
 describe("TrackerItemButton", function()
     ---@type QuestieDB
     local QuestieDB
@@ -116,6 +124,29 @@ describe("TrackerItemButton", function()
             local trackerItemButton = TrackerItemButton.New("TestButton")
 
             local isValid = trackerItemButton:SetItem(quest, "secondary", 15)
+
+            assert.is_true(isValid)
+            assert.is_true(trackerItemButton:IsVisible())
+            assert.equals(123, trackerItemButton.itemId)
+        end)
+
+        it("should set itemId to sourceItemId for primary button when item is equipped", function()
+            _G.QuestieCompat = {
+                GetContainerNumSlots = function()
+                    return 0
+                end,
+            }
+            local quest = {
+                Id = 1,
+                sourceItemId = 123
+            }
+            QuestieDB.QueryItemSingle = function()
+                return QuestieDB.itemClasses.QUEST
+            end
+
+            local trackerItemButton = TrackerItemButton.New("TestButton")
+
+            local isValid = trackerItemButton:SetItem(quest, "primary", 15)
 
             assert.is_true(isValid)
             assert.is_true(trackerItemButton:IsVisible())
