@@ -36,6 +36,15 @@ function TrackerItemButton.New(buttonName)
                     self.itemId = quest.sourceItemId
                     break
                 end
+                -- These type of quest items are technically secondary buttons but are assigned primary button slots
+                if (not quest.sourceItemId or quest.sourceItemId == 0) and type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
+                    local questItemId = quest.requiredSourceItems[1]
+                    if questItemId and questItemId ~= quest.sourceItemId and QuestieDB.QueryItemSingle(questItemId, "class") == 12 and questItemId == itemId then
+                        validTexture = texture
+                        self.itemId = questItemId
+                        break
+                    end
+                end
             end
         end
 
