@@ -130,6 +130,29 @@ describe("TrackerItemButton", function()
             assert.equals(123, trackerItemButton.itemId)
         end)
 
+        it("should set itemId to first entry of requiredSourceItems when item is equipped", function()
+            _G.QuestieCompat = {
+                GetContainerNumSlots = function()
+                    return 0
+                end,
+            }
+            local quest = {
+                Id = 1,
+                requiredSourceItems = {123}
+            }
+            QuestieDB.QueryItemSingle = function()
+                return QuestieDB.itemClasses.QUEST
+            end
+
+            local trackerItemButton = TrackerItemButton.New("TestButton")
+
+            local isValid = trackerItemButton:SetItem(quest, "primary", 15)
+
+            assert.is_true(isValid)
+            assert.is_true(trackerItemButton:IsVisible())
+            assert.equals(123, trackerItemButton.itemId)
+        end)
+
         it("should set itemId to sourceItemId for primary button when item is equipped", function()
             _G.QuestieCompat = {
                 GetContainerNumSlots = function()

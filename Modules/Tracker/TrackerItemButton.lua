@@ -57,8 +57,6 @@ function TrackerItemButton.New(buttonName)
             end
         end
 
-
-
         -- Edge case to find "equipped" quest items since they will no longer be in the players bag
         if (not validTexture) then
             for inventorySlot = 1, 19 do
@@ -68,6 +66,15 @@ function TrackerItemButton.New(buttonName)
                     validTexture = GetInventoryItemTexture("player", inventorySlot)
                     self.itemId = quest.sourceItemId
                     break
+                end
+                -- These type of quest items are technically secondary buttons but are assigned primary button slots
+                if type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
+                    local questItemId = quest.requiredSourceItems[1]
+                    if questItemId and questItemId ~= quest.sourceItemId and QuestieDB.QueryItemSingle(questItemId, "class") == 12 and questItemId == itemId then
+                        validTexture = GetInventoryItemTexture("player", inventorySlot)
+                        self.itemId = questItemId
+                        break
+                    end
                 end
             end
         end
