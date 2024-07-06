@@ -58,6 +58,8 @@ function TrackerItemButton.New(buttonName)
             self:SetAttribute("type1", "item")
             self:SetAttribute("item1", "item:" .. self.itemId)
             self:Show()
+
+            return true
         end
     end
     btn.OnUpdate = function(self, elapsed)

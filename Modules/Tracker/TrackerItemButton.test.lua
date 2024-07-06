@@ -59,8 +59,9 @@ describe("TrackerItemButton", function()
 
             local trackerItemButton = TrackerItemButton.New("TestButton")
 
-            trackerItemButton:SetItem(quest, "primary", 15)
+            local isValid = trackerItemButton:SetItem(quest, "primary", 15)
 
+            assert.is_true(isValid)
             assert.equals(123, trackerItemButton.itemId)
             assert.equals(1, trackerItemButton.questID)
             assert.equals(0, trackerItemButton.charges)
