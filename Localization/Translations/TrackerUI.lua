@@ -413,6 +413,18 @@ local trackerUILocales = {
         ["esES"] = "No se puede abrir el registro de misiones durante el combate. Ábrelo manualmente.",
         ["frFR"] = "Impossible d'ouvrir le journal des quêtes en combat. Ouvrez-le manuellement.",
     },
+    ["Maximize Quest"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(trackerUILocales) do
