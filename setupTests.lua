@@ -18,6 +18,7 @@ _G.QUEST_OBJECTS_FOUND = ""
 _G.UIParent = {GetEffectiveScale = function() return 1 end}
 
 _G.C_QuestLog = {IsQuestFlaggedCompleted = function() return false end}
+_G.GetItemCount = function() return 0 end
 _G.GetQuestLogTitle = function() return "Test Quest" end
 _G.GetQuestLogIndexByID = function() return 1 end
 _G.ExpandFactionHeader = EMTPY_FUNC
@@ -39,13 +40,27 @@ _G.CreateFrame = {
 setmetatable(_G.CreateFrame, {
     __call = function(_, frameType, frameName)
         local alpha
+        local width, height
+        local normalTexture
+        local pushedTexture
+        local highlightTexture
+        local scripts = {}
+        local attributes = {}
 
         local mockFrame = {
             ClearAllPoints = EMTPY_FUNC,
-            SetScript = EMTPY_FUNC,
+            SetScript = function(_, name, callback)
+                scripts[name] = callback
+            end,
             SetWidth = EMTPY_FUNC,
             SetHeight = EMTPY_FUNC,
-            SetSize = EMTPY_FUNC,
+            SetSize = function(_, w, h)
+                width = w
+                height = h
+            end,
+            GetSize = function()
+                return width, height
+            end,
             SetAlpha = function(_, value)
                 alpha = value
             end,
@@ -71,14 +86,50 @@ setmetatable(_G.CreateFrame, {
                     SetPoint = EMTPY_FUNC
                 }
             end,
+            SetNormalTexture = function(_, texture)
+                normalTexture = {
+                    GetTexture = function()
+                        return texture
+                    end
+                }
+            end,
+            GetNormalTexture = function()
+                return normalTexture
+            end,
+            SetPushedTexture = function(_, texture)
+                pushedTexture = {
+                    GetTexture = function()
+                        return texture
+                    end
+                }
+            end,
+            GetPushedTexture = function()
+                return pushedTexture
+            end,
+            SetHighlightTexture = function(_, texture)
+                highlightTexture = {
+                    GetTexture = function()
+                        return texture
+                    end
+                }
+            end,
+            GetHighlightTexture = function()
+                return highlightTexture
+            end,
             GetName = function()
                 return frameName
             end,
             GetObjectType = function()
                 return frameType
             end,
+            RegisterForClicks = EMTPY_FUNC,
+            SetAttribute = function(_, key, value)
+                attributes[key] = value
+            end,
             Show = EMTPY_FUNC,
             Hide = EMTPY_FUNC,
+            scripts = scripts,
+            attributes = attributes,
         }
         table.insert(mockedFrames, mockFrame)
         return mockFrame
