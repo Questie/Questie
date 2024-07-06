@@ -222,6 +222,16 @@ function TrackerItemButton.New(buttonName)
         TrackerFadeTicker.Fade(self)
     end
 
+    btn.FakeHide = function(self)
+        self:RegisterForClicks()
+        self:SetScript("OnEnter", nil)
+        self:SetScript("OnLeave", nil)
+    end
+
+    btn:HookScript("OnUpdate", btn.OnUpdate)
+
+    btn:FakeHide()
+
     return btn
 end
 
