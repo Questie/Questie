@@ -81,7 +81,12 @@ function TrackerItemButton.New(buttonName)
             self.count:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -2, 3)
 
             return true
+        else
+            self:SetAttribute("item1", nil)
+            self:Hide()
         end
+
+        return false
     end
     btn.OnUpdate = function(self, elapsed)
         if not self.itemId or not self:IsVisible() then

@@ -84,5 +84,26 @@ describe("TrackerItemButton", function()
             assert.equals("item", trackerItemButton.attributes["type1"])
             assert.equals("item:123", trackerItemButton.attributes["item1"])
         end)
+
+        it("should return false when item is not found", function()
+            _G.GetInventoryItemID = function()
+                return 0
+            end
+            local quest = {
+                Id = 1,
+                sourceItemId = 123
+            }
+            QuestieDB.QueryItemSingle = function()
+                return 0
+            end
+
+            local trackerItemButton = TrackerItemButton.New("TestButton")
+
+            local isValid = trackerItemButton:SetItem(quest, "primary", 15)
+
+            assert.is_false(isValid)
+            assert.equals(0, table.getn(trackerItemButton.scripts))
+            assert.equals(0, table.getn(trackerItemButton.attributes))
+        end)
     end)
 end)
