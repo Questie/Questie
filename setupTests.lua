@@ -35,7 +35,7 @@ _G.CreateFrame = {
     end
 }
 setmetatable(_G.CreateFrame, {
-    __call = function()
+    __call = function(_, frameType, frameName)
         local mockFrame = {
             ClearAllPoints = EMTPY_FUNC,
             SetScript = EMTPY_FUNC,
@@ -61,6 +61,12 @@ setmetatable(_G.CreateFrame, {
                     SetSize = EMTPY_FUNC,
                     SetPoint = EMTPY_FUNC
                 }
+            end,
+            GetName = function()
+                return frameName
+            end,
+            GetObjectType = function()
+                return frameType
             end,
             Show = EMTPY_FUNC,
             Hide = EMTPY_FUNC,
