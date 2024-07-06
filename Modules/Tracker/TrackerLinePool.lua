@@ -26,8 +26,6 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
