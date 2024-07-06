@@ -2761,11 +2761,11 @@ function CataQuestFixes.Load()
         },
         [25279] = { -- The Shrine Reclaimed
             [questKeys.preQuestSingle] = {25272},
-            [questKeys.exclusiveTo] = {25277},
+            [questKeys.nextQuestInChain] = 25277,
         },
         [25280] = { -- The Shrine Reclaimed
             [questKeys.preQuestSingle] = {25273},
-            [questKeys.exclusiveTo] = {25278},
+            [questKeys.nextQuestInChain] = 25278,
         },
         [25281] = { -- Pay It Forward
             [questKeys.objectives] = {{{39663,nil,Questie.ICON_TYPE_EVENT}}},
@@ -2842,6 +2842,7 @@ function CataQuestFixes.Load()
         },
         [25353] = { -- Lightning in a Bottle
             [questKeys.preQuestSingle] = {25278},
+            [questKeys.finishedBy] = {{39627}},
         },
         [25354] = { -- Sweeping the Shelf
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -3012,14 +3013,14 @@ function CataQuestFixes.Load()
         },
         [25575] = { -- Forged of Shadow and Flame
             [questKeys.objectives] = {nil,{{203066}}},
-            [questKeys.preQuestSingle] = {25355},
+            [questKeys.preQuestSingle] = {}, -- quest is available by default in Mount Hyjal. Blizzard things
         },
         [25576] = { -- Rage of the Wolf Ancient
-            [questKeys.preQuestSingle] = {25355},
+            [questKeys.preQuestSingle] = {}, -- quest is available by default in Mount Hyjal. Blizzard things
         },
         [25577] = { -- Crushing the Cores
             [questKeys.objectives] = {nil,{{203067}}},
-            [questKeys.preQuestSingle] = {25355},
+            [questKeys.preQuestSingle] = {}, -- quest is available by default in Mount Hyjal. Blizzard things
             [questKeys.requiredSourceItems] = {55123},
         },
         [25582] = { -- A Better Vantage
@@ -3084,7 +3085,8 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {25624},
         },
         [25618] = { -- Into the Maw!
-            [questKeys.exclusiveTo] = {25623},
+            --[questKeys.exclusiveTo] = {25623}, -- curiously, this one is NOT exclusiveTo 25623. That one IS exclusiveTo this one. Blizzard things
+            [questKeys.exclusiveTo] = {25575,25576,25577}, -- using these as followups so we don't get stuck with the quest marker on map if you chose the other "Into the Maw!"
         },
         [25621] = { -- Field Test: Gnomecorder
             [questKeys.triggerEnd] = {"Gnomecorder Tested",{[zoneIDs.STONETALON_MOUNTAINS] = {{73.2,46.6}}}},
@@ -3447,7 +3449,8 @@ function CataQuestFixes.Load()
         },
         [25985] = { -- Wings Over Mount Hyjal
             [questKeys.startedBy] = {{40833}},
-            [questKeys.exclusiveTo] = {25663,27874},
+            [questKeys.exclusiveTo] = {27874},
+            [questKeys.nextQuestInChain] = 25663,
         },
         [25987] = { -- Put It On
             [questKeys.objectives] = {{{41814,nil,Questie.ICON_TYPE_EVENT}}},
@@ -5201,7 +5204,8 @@ function CataQuestFixes.Load()
         [27874] = { -- Aviana's Legacy
             [questKeys.startedBy] = {{40289}},
             [questKeys.preQuestSingle] = {25611,25612},
-            [questKeys.exclusiveTo] = {25663,25985},
+            [questKeys.exclusiveTo] = {25985},
+            [questKeys.nextQuestInChain] = 25663,
         },
         [27901] = { -- They Don't Know What They've Got Here
             [questKeys.requiredSourceItems] = {62608,62610},
