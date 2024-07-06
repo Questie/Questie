@@ -1486,6 +1486,12 @@ function CataNpcFixes.Load()
         [41636] = { -- Legionnaire Nazgrim
             [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS] = {{42.66,37.82}}},
         },
+        [41639] = { -- Wavespeaker Tulra
+            [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={
+                {51.63,60.93,phases.VASHJIR_ERANUK_AT_CAVERN},
+                {42.73,37.93,phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT},
+            }},
+        },
         [41657] = { -- Twilight Candidate
             [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS] = {{32.13,62.64},{32.96,62.54},{32.63,63.62},{32.78,64.97},{32.54,66.07},{33.35,65.83},{34.59,64.6},{35.39,64.47},{35.14,65.56},{34.22,62.44},{34.54,61.33},{35.01,62.31},{28.75,55.76},{28.49,57.58},{28.8,54.53},{30.07,56.71},{29.89,55.49},{26.83,59.55},{26.93,58.42},{29.45,57.47},{29.29,58.7},{29.91,59.64},{30.22,57.91},{27.26,55.25},{28.07,55.04},{26.57,55.66},{27.1,56.53},{28.12,56.53},{27.5,60.3},{26.32,56.77},{27.66,57.51},{27.6,59.14},{28.69,62.22},{28.95,59.85},{28.28,61.18},{28.55,58.81},{33.01,60.63},{31.59,60.64},{32.23,60.44},{29.01,61.04}}},
         },
@@ -1507,9 +1513,6 @@ function CataNpcFixes.Load()
         [41810] = { -- Legionnaire Nazgrim
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{60.24,63.7}}},
         },
-        [41814] = { -- Merciless One in Control of You
-            [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{55.51,72.9}}},
-        },
         [41982] = { -- Quel'Dormir Temple Credit Bunny
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{33.11,76.77}}},
             [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
@@ -1529,6 +1532,12 @@ function CataNpcFixes.Load()
         },
         [42197] = { -- L'ghorek
             [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{38.67,44.86},{38.75,44.75}}},
+        },
+        [42225] = { -- Alliance Prisoner
+            [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{31.5,65.62},{32.04,64.44},{33.6,64.37},{27.49,62.49},{28.55,63.23},{35.18,63.06},{34.29,59.9},{31.26,61},{31.2,59.36},{30.1,60.09},{27.21,60.92},{26.28,55.96},{28.27,56.05},{29.22,57.71},{30.11,55.01},{27.08,54.66}}},
+        },
+        [42234] = { -- Horde Prisoner
+            [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{31.5,65.62},{32.04,64.44},{33.6,64.37},{27.49,62.49},{28.55,63.23},{35.18,63.06},{34.29,59.9},{31.26,61},{31.2,59.36},{30.1,60.09},{27.21,60.92},{26.28,55.96},{28.27,56.05},{29.22,57.71},{30.11,55.01},{27.08,54.66}}},
         },
         [42288] = { -- Robby Flay
             [npcKeys.spawns] = {
@@ -1663,15 +1672,15 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {},
         },
         [49444] = { -- Pip Quickwit
-            [npcKeys.name] = 'Pip Quickwit',
+            [npcKeys.name] = "Pip Quickwit",
         },
-        [49456] = { -- Finkle\'s Mole Machine
-            [npcKeys.spawns] = {
-                [zoneIDs.MOUNT_HYJAL] = {{42.7,28.8}},
-            },
-            [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        [49456] = { -- Pip's Mole Machine
+            [npcKeys.name] = "Pip's Mole Machine",
+            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{26.74,26.92}}},
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
         },
-        [49476] = { -- Finkle Einhorn
+        [49476] = { -- Pip Quickwit
+            [npcKeys.name] = "Pip Quickwit",
             [npcKeys.questStarts] = {28735,28737,28738,28740,28741},
         },
         [49893] = { -- Lisa McKeever
@@ -1817,7 +1826,7 @@ function CataNpcFixes:LoadFactionFixes()
     local phases = Phasing.phases
 
     local npcFixesHorde = {
-        --[[[15898] = {
+        --[[[15898] = { -- Lunar Festival Vendor
             [npcKeys.spawns] = {
                 [zoneIDs.ORGRIMMAR]={{41.27,32.36}},
                 [zoneIDs.THUNDER_BLUFF]={{70.56,27.83}},
@@ -1828,7 +1837,7 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.DALARAN]={{47.93,43.32}},
             },
         },]]
-        [26221] = {
+        [26221] = { -- Earthen Ring Elder
             [npcKeys.spawns] = {
                 [zoneIDs.TIRISFAL_GLADES]={{62.01,67.92}},
                 [zoneIDs.ORGRIMMAR]={{47.26,37.89}},
@@ -1837,7 +1846,7 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.SILVERMOON_CITY]={{68.67,42.94}},
             },
         },
-        --[[[34806] = {
+        --[[[34806] = { -- Spirit of Sharing
             [npcKeys.name] = "Spirit of Sharing",
             [npcKeys.spawns] = {
                 [zoneIDs.STORM_PEAKS]={{40.38,85.5}},
@@ -1897,32 +1906,37 @@ function CataNpcFixes:LoadFactionFixes()
         [37214] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{40.3,15.8},{40.1,15.5},{40.5,15.5},{40.5,15.2},{40.3,15.0}}},
         },]]
-        [29579] = {
+        [29579] = { -- Brann Bronzebeard
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{36.62,49.27}}},
         },
-        [34907] = {
+        [34907] = { -- Kvaldir Harpooner
             [npcKeys.spawns] = {[zoneIDs.HROTHGARS_LANDING]={{43.43,53.57},{43.1,53.5},{42.94,53.83},{43.92,54.36},{44.07,54.44},{43.82,54.64},{42.62,53.3},{42.85,53.33},{44.23,54.41},{43.36,53.87}}},
         },
-        [34947] = {
+        [34947] = { -- Kvaldir Berserker
             [npcKeys.spawns] = {[zoneIDs.HROTHGARS_LANDING]={{43.43,53.57},{43.1,53.5},{42.94,53.83},{43.92,54.36},{44.07,54.44},{43.82,54.64},{42.62,53.3},{42.85,53.33},{44.23,54.41},{43.36,53.87}}},
         },
-        [35060] = {
+        [35060] = { -- North Sea Thresher
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{74.14,10.52},{74.7,9.72},{74.15,9.14},{73.76,9.69}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
-        [35061] = {
+        [35061] = { -- North Sea Blue Shark
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{74.14,10.52},{74.7,9.72},{74.15,9.14},{73.76,9.69}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
-        [35071] = {
+        [35071] = { -- North Sea Mako
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{74.14,10.52},{74.7,9.72},{74.15,9.14},{73.76,9.69}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [41600] = { -- Erunak Stonespeaker
             [npcKeys.spawns] = {
-                [zoneIDs.ABYSSAL_DEPTHS] = {{51.57,60.9,phases.VASHJIR_ERANUK_AT_CAVERN}},
-                [zoneIDs.ABYSSAL_DEPTHS] = {{42.69,37.91,phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT}},
+                [zoneIDs.ABYSSAL_DEPTHS] = {
+                    {51.57,60.9,phases.VASHJIR_ERANUK_AT_CAVERN},
+                    {42.69,37.91,phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT},
+                },
             },
+        },
+        [41814] = { -- Merciless One in Control of You
+            [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{51.49,60.85}}},
         },
         [42486] = { -- Boarding Submarine Credit Bunny
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{50.72,66.47}}},
@@ -1936,7 +1950,7 @@ function CataNpcFixes:LoadFactionFixes()
     }
 
     local npcFixesAlliance = {
-        --[[[15898] = {
+        --[[[15898] = { -- Lunar Festival Vendor
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY]={{37.32,64.04}},
                 [zoneIDs.IRONFORGE]={{29.92,14.21}},
@@ -1947,7 +1961,7 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.DALARAN]={{47.93,43.32}},
             },
         },]]
-        [26221] = {
+        [26221] = { -- Earthen Ring Elder
             [npcKeys.spawns] = {
                 [zoneIDs.DARNASSUS]={{62.11,49.13}},
                 [zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},
@@ -1956,7 +1970,7 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.THE_EXODAR]={{43.27,26.26}},
             },
         },
-        --[[[34806] = {
+        --[[[34806] = { -- Spirit of Sharing
             [npcKeys.name] = "Spirit of Sharing",
             [npcKeys.spawns] = {
                 [zoneIDs.STORM_PEAKS]={{40.38,85.5}},
@@ -2019,32 +2033,37 @@ function CataNpcFixes:LoadFactionFixes()
         [38342] = {
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{61.33,65.64}}},
         },]]
-        [29579] = {
+        [29579] = { -- Brann Bronzebeard
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{30.1,73.9}}},
         },
-        [34907] = {
+        [34907] = { -- Kvaldir Harpooner
             [npcKeys.spawns] = {[zoneIDs.HROTHGARS_LANDING]={{50.21,49.08},{50.14,49.47},{49.75,49.51},{50.06,49.08},{50.63,48.98},{51.18,48.81},{50.43,49.05},{49.9,49.59},{50.3,49.61},{51,48.53}}},
         },
-        [34947] = {
+        [34947] = { -- Kvaldir Berserker
             [npcKeys.spawns] = {[zoneIDs.HROTHGARS_LANDING]={{50.21,49.08},{50.14,49.47},{49.75,49.51},{50.06,49.08},{50.63,48.98},{51.18,48.81},{50.43,49.05},{49.9,49.59},{50.3,49.61},{51,48.53}}},
         },
-        [35060] = {
+        [35060] = { -- North Sea Thresher
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{66.87,8.97},{66.36,8.08},{67.31,8.2},{66.92,7.55}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
-        [35061] = {
+        [35061] = { -- North Sea Blue Shark
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{66.87,8.97},{66.36,8.08},{67.31,8.2},{66.92,7.55}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
-        [35071] = {
+        [35071] = { -- North Sea Mako
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{66.87,8.97},{66.36,8.08},{67.31,8.2},{66.92,7.55}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [41600] = { -- Erunak Stonespeaker
             [npcKeys.spawns] = {
-                [zoneIDs.ABYSSAL_DEPTHS] = {{55.6,72.8,phases.VASHJIR_ERANUK_AT_CAVERN}},
-                [zoneIDs.ABYSSAL_DEPTHS] = {{42.69,37.91,phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT}},
+                [zoneIDs.ABYSSAL_DEPTHS] = {
+                    {55.71,72.98,phases.VASHJIR_ERANUK_AT_CAVERN},
+                    {42.69,37.91,phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT},
+                },
             },
+        },
+        [41814] = { -- Merciless One in Control of You
+            [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{55.51,72.9}}},
         },
         [42486] = { -- Boarding Submarine Credit Bunny
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{56.68,76.62}}},

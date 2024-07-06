@@ -1232,7 +1232,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {13926},
         },
         [13935] = { -- Defend the Tree!
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Summon the shade of Shadumbra"),0,{{"monster",34377}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Summon the Shade of Shadumbra"),0,{{"monster",34377}}}},
         },
         [13937] = { -- A Trip To The Wonderworks
             [questKeys.preQuestSingle] = {},
@@ -3493,7 +3493,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26015},
         },
         [26021] = { -- The Brothers Digsong 2: Eel-Egg-Trick Boogaloo
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{42006,41927},41927,nil,Questie.ICON_TYPE_EVENT},{{42006,41927},41927}}},
+            [questKeys.objectives] = {{{41927,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{42006,41927},41927}}},
         },
         [26040] = { -- What? What? In My Gut...?
             [questKeys.preQuestSingle] = {25887},
@@ -3506,14 +3506,13 @@ function CataQuestFixes.Load()
         },
         [26057] = { -- The Wavespeaker
             [questKeys.preQuestSingle] = {25988},
-            [questKeys.exclusiveTo] = {26065},
             [questKeys.nextQuestInChain] = 26065,
         },
         [26059] = { -- Eyes and Ears: Malaka'jin
             [questKeys.preQuestSingle] = {26115},
         },
         [26065] = { -- Free Wil'hai
-            [questKeys.preQuestSingle] = {26080},
+            [questKeys.preQuestSingle] = {26080,26092},
             [questKeys.objectives] = {{{41642,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill all three Tentacle Horrors"),0,{{"monster",41641}}}},
         },
@@ -3528,6 +3527,7 @@ function CataQuestFixes.Load()
         },
         [26072] = { -- Into the Totem
             [questKeys.objectives] = {{{42051}}},
+            [questKeys.preQuestSingle] = {25987,25988},
         },
         [26079] = { -- Wanted!  Otto and Falconcrest
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -3549,8 +3549,14 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{41925,41926},nil,{56812}},
             [questKeys.preQuestSingle] = {26087},
         },
+        [26091] = { -- Here Fishie Fishie 2: Eel-Egg-Trick Boogaloo
+            [questKeys.objectives] = {{{41927,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{42006,41927},41927}}},
+        },
         [26092] = { -- Orako's Report
             [questKeys.preQuestGroup] = {26088,26089},
+        },
+        [26096] = { -- Scalding Shrooms
+            [questKeys.preQuestSingle] = {25987,25988},
         },
         [26105] = { -- Claim Korthun's End
             [questKeys.startedBy] = {{42115}},
@@ -3598,7 +3604,7 @@ function CataQuestFixes.Load()
         },
         [26144] = { -- Prisoners
             [questKeys.startedBy] = {{41652,41657},nil,{57102}},
-            [questKeys.preQuestSingle] = {26111},
+            [questKeys.preQuestSingle] = {26140},
             [questKeys.objectives] = {{{42225,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",203709}}}},
         },
@@ -3607,8 +3613,8 @@ function CataQuestFixes.Load()
         },
         [26149] = { -- Prisoners
             [questKeys.startedBy] = {{41652,41657},nil,{57118}},
-            [questKeys.preQuestSingle] = {26111},
-            [questKeys.objectives] = {{{42225,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {26140},
+            [questKeys.objectives] = {{{42234,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",203709}}}},
         },
         [26150] = { -- A Visit With Maybell
@@ -3616,7 +3622,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 106,
         },
         [26154] = { -- Twilight Extermination
-            [questKeys.objectives] = {{{47969},{42285}},nil,nil,nil,{{{42281,42280},42280}}},
+            [questKeys.objectives] = {{{47969,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,{{{42281,42280},42280},{{42285},42285}}},
         },
         [26179] = { -- The Venture Co.
             [questKeys.preQuestSingle] = {751},
@@ -3631,8 +3637,16 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25859,25863},
         },
+        [26193] = { -- Defending the Rift
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Erunak"), 0, {{"monster", 41600}}}},
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Fight in the Battle for the Abyssal Breach", {[zoneIDs.ABYSSAL_DEPTHS] = {{69.57,34.79}}}},
+        },
         [26194] = { -- Defending the Rift
             [questKeys.preQuestSingle] = {26182},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Erunak"), 0, {{"monster", 41600}}}},
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Fight in the Battle for the Abyssal Breach", {[zoneIDs.ABYSSAL_DEPTHS] = {{69.57,34.79}}}},
         },
         [26197] = { -- The Future of Gnomeregan
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
@@ -3712,6 +3726,7 @@ function CataQuestFixes.Load()
         },
         [26245] = { -- Gunship Down
             [questKeys.objectives] = {{{43048,nil,Questie.ICON_TYPE_EVENT},{43032,nil,Questie.ICON_TYPE_EVENT},{43044,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {},
         },
         [26247] = { -- Diplomacy First
             [questKeys.preQuestSingle] = {},
@@ -3814,6 +3829,7 @@ function CataQuestFixes.Load()
         [26326] = { -- The Very Earth Beneath Our Feet
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26876,27938},
+            [questKeys.nextQuestInChain] = 27952,
         },
         [26329] = { -- One More Thing
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
@@ -5070,7 +5086,7 @@ function CataQuestFixes.Load()
         },
         [27721] = { -- Warchief's Command: Mount Hyjal!
             [questKeys.objectives] = {{{15188, nil, Questie.ICON_TYPE_TALK}}},
-            [questKeys.exclusiveTo] = {25316},
+            [questKeys.nextQuestInChain] = 25316,
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [27722] = { -- Warchief's Command: Deepholm!
@@ -5086,7 +5102,7 @@ function CataQuestFixes.Load()
         [27726] = { -- Hero's Call: Mount Hyjal!
             [questKeys.objectives] = {{{15187, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
-            [questKeys.exclusiveTo] = {25316},
+            [questKeys.nextQuestInChain] = 25316,
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [27727] = { -- Hero's Call: Deepholm!
@@ -5236,6 +5252,7 @@ function CataQuestFixes.Load()
         },
         [27952] = { -- The Explorers
             [questKeys.exclusiveTo] = {27004,27006},
+            [questKeys.preQuestSingle] = {},
         },
         [27953] = { -- The Reliquary
             [questKeys.exclusiveTo] = {27005,27008},
@@ -5460,6 +5477,12 @@ function CataQuestFixes.Load()
         },
         [28290] = { -- Meet with Grezz Ragefist
             [questKeys.exclusiveTo] = {27281,27365,28457},
+        },
+        [28295] = { -- Meetup with the Caravan
+            [questKeys.nextQuestInChain] = 27003,
+        },
+        [28296] = { -- Meetup with the Caravan
+            [questKeys.nextQuestInChain] = 27003,
         },
         [28299] = { -- Meet with Zevrost
             [questKeys.finishedBy] = {{3326}},
@@ -5936,14 +5959,28 @@ function CataQuestFixes.Load()
             [questKeys.requiredClasses] = classKeys.WARRIOR + classKeys.HUNTER + classKeys.MAGE + classKeys.DRUID + classKeys.ROGUE + classKeys.PRIEST, -- night elf DKs don't get these quests
         },
         [28732] = { -- This Can Only Mean One Thing...
-            [questKeys.triggerEnd] = {"Arrive at Blackrock Caverns", {[zoneIDs.BLACKROCK_CAVERNS]={{33,66.4}}}},
-            [questKeys.objectives] = {{{49456}},nil,nil,nil,},
-            [questKeys.exclusiveTo] = {28735,28737,28738,28740,28741},
+            [questKeys.objectives] = {{{49456,nil,Questie.ICON_TYPE_EVENT},{49456,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 28735,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Get in"),0,{{"object",207327}}}},
+            [questKeys.objectivesText] = {"Take Pip's Mole Machine to Blackrock Mountain."},
         },
         [28734] = { -- A Favor for Melithar
             [questKeys.exclusiveTo] = {28715},
             [questKeys.nextQuestInChain] = 28715,
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [28735] = { -- To the Chamber of Incineration!
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 28737,
+        },
+        [28737] = { -- What Is This Place?
+            [questKeys.nextQuestInChain] = 28738,
+        },
+        [28738] = { -- The Twilight Forge
+            [questKeys.nextQuestInChain] = 28740,
+        },
+        [28740] = { -- Do My Eyes Deceive Me?
+            [questKeys.nextQuestInChain] = 28741,
         },
         [28755] = { -- Annals of the Silver Hand
             [questKeys.preQuestSingle] = {27464},
@@ -6793,6 +6830,10 @@ function CataQuestFixes:LoadFactionFixes()
         [25896] = { -- Devout Assembly
             [questKeys.preQuestSingle] = {25973},
         },
+        [26111] = { -- ... It Will Come
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26071,26072,26096},
+        },
         [26191] = { -- The Culmination of Our Efforts
             [questKeys.nextQuestInChain] = {25967},
         },
@@ -6844,6 +6885,10 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.objectives] = {{{42072,nil,Questie.ICON_TYPE_TALK},{42071,nil,Questie.ICON_TYPE_TALK},{41455,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25753,25754},
+        },
+        [26111] = { -- ... It Will Come
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26070,26072,26096},
         },
         [26191] = { -- The Culmination of Our Efforts
             [questKeys.nextQuestInChain] = {25892},

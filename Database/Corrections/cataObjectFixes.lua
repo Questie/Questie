@@ -147,6 +147,12 @@ function CataObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.THE_EXODAR,
             [objectKeys.questStarts] = {27724,27726,27727,28492,28503,28507,28511,28525,28528,28531,28539,28543,28544,28550,28552,28558,28559,28708},
         },
+        [207327] = { -- Pip's Mole Machine
+            [objectKeys.name] = "Pip's Mole Machine",
+        },
+        [207328] = { -- Pip's Mole Machine
+            [objectKeys.name] = "Pip's Mole Machine",
+        },
         [207381] = { -- Deep Alabaster Crystal Chunk
             [objectKeys.spawns] = {},
         },
@@ -227,13 +233,13 @@ function CataObjectFixes:LoadFactionFixes()
 
     local objectFixesHorde = {
         [203461] = { -- Fuel Sampling Station
-            [objectKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{51.49,60.41}}}
+            [objectKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{51.49,60.41}}},
         },
     }
 
     local objectFixesAlliance = {
         [203461] = { -- Fuel Sampling Station
-            [objectKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{55.8,72.44}}}
+            [objectKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{55.8,72.44}}},
         },
     }
 
