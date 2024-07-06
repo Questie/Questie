@@ -805,26 +805,26 @@ function QuestieTracker:Update()
                     local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
                     local sourceItem = sourceItemId and TrackerUtils:IsQuestItemUsable(sourceItemId)
                     local requiredItems = quest.requiredSourceItems
-                    local requiredItem = requiredItems and TrackerUtils:IsQuestItemUsable(requiredItems[1])
+                    local hasUsableRequiredItem = requiredItems and TrackerUtils:IsQuestItemUsable(requiredItems[1])
                     local isComplete = (quest.isComplete ~= true and #quest.Objectives == 0) or quest.isComplete == true
 
                     -- Occasionally a quest will be in a complete state and still have a usable Quest Item. Sometimes these usable
                     -- items spawn an NPC that is needed to finish the quest. Or an item that teleports you to the quest finisher.
-                    if complete == 1 and isComplete and (sourceItem or requiredItem) then
+                    if complete == 1 and isComplete and (sourceItem or hasUsableRequiredItem) then
                         -- This shows QIB's for Quest Itmes that are needed after a quest is complete with objectives
-                        if sourceItemId > 1 and requiredItem and sourceItemId ~= requiredItems[1] then
+                        if sourceItemId > 1 and hasUsableRequiredItem and sourceItemId ~= requiredItems[1] then
                             quest.sourceItemId = 0
                             usableQIB = true
                         end
 
                         -- This shows QIB's for Quest Items that are needed after a quest is complete without objectives
-                        if sourceItemId > 1 and not requiredItem and quest.isComplete ~= true then
+                        if sourceItemId > 1 and not hasUsableRequiredItem and quest.isComplete ~= true then
                             usableQIB = true
                         end
                     end
 
                     -- Adds the primary Quest Item button
-                    if complete ~= 1 and (sourceItem or (requiredItems and #requiredItems == 1 and requiredItem)) or usableQIB then
+                    if complete ~= 1 and (sourceItem or (requiredItems and #requiredItems == 1 and hasUsableRequiredItem)) or usableQIB then
                         -- Get button from buttonPool
                         local button = TrackerLinePool.GetNextItemButton()
                         if not button then break end -- stop populating the tracker
