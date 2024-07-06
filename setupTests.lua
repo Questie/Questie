@@ -46,6 +46,7 @@ setmetatable(_G.CreateFrame, {
         local highlightTexture
         local scripts = {}
         local attributes = {}
+        local isShown = true
 
         local mockFrame = {
             ClearAllPoints = EMTPY_FUNC,
@@ -128,8 +129,15 @@ setmetatable(_G.CreateFrame, {
             SetAttribute = function(_, key, value)
                 attributes[key] = value
             end,
-            Show = EMTPY_FUNC,
-            Hide = EMTPY_FUNC,
+            Show = function()
+                isShown = true
+            end,
+            Hide = function()
+                isShown = false
+            end,
+            IsVisible = function()
+                return isShown
+            end,
             scripts = scripts,
             attributes = attributes,
         }
