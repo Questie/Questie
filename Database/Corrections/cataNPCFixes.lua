@@ -11,6 +11,7 @@ local Phasing = QuestieLoader:ImportModule("Phasing")
 function CataNpcFixes.Load()
     local npcKeys = QuestieDB.npcKeys
     local zoneIDs = ZoneDB.zoneIDs
+    local waypointPresets = QuestieDB.waypointPresets
     local phases = Phasing.phases
 
     return {
@@ -1604,8 +1605,67 @@ function CataNpcFixes.Load()
         [42644] = { -- Smoot
             [npcKeys.waypoints] = {[zoneIDs.AZSHARA]={{{56.89,49.26},{56.84,49.43},{56.73,49.64},{56.65,49.86},{56.60,50.03},{56.58,50.19},{56.65,49.94},{56.72,49.70},{56.80,49.46},{56.89,49.26},{56.98,49.33},{57.12,49.49},{57.28,49.60},{57.45,49.67},{57.50,49.69},{57.58,49.85},{57.71,49.96},{57.85,49.79},{58.00,49.65},{58.13,49.77},{58.13,49.89},{58.17,49.70},{58.21,49.45},{58.06,49.42},{57.89,49.49},{57.73,49.60},{57.56,49.61},{57.51,49.57},{57.36,49.53},{57.19,49.47},{57.02,49.38},{56.90,49.20},{56.81,48.97},{56.70,48.75},{56.58,48.56},{56.45,48.37},{56.31,48.22},{56.27,48.18},{56.26,48.20},{56.13,48.38},{56.00,48.57},{55.87,48.75},{55.75,48.94},{55.63,49.14},{55.56,49.25},{55.51,49.32},{55.39,49.51},{55.27,49.71},{55.23,49.78},{55.22,49.92},{55.24,50.18},{55.36,50.32},{55.46,50.12},{55.37,49.90},{55.29,49.89},{55.22,50.09},{55.26,50.35},{55.33,50.60},{55.40,50.84},{55.50,51.06},{55.62,51.24},{55.76,51.41},{55.90,51.58},{56.07,51.64},{56.24,51.74},{56.33,51.86},{56.35,51.71},{56.40,51.45},{56.46,51.20},{56.54,50.96},{56.60,50.71},{56.61,50.45},{56.61,50.18},{56.47,50.20},{56.43,50.24},{56.51,50.46},{56.58,50.69},{56.53,50.95},{56.45,51.19},{56.35,51.41},{56.27,51.64},{56.25,51.72},{56.36,51.93},{56.38,52.02},{56.30,51.87},{56.17,51.70},{56.01,51.58},{55.95,51.54},{55.80,51.40},{55.66,51.24},{55.53,51.07},{55.41,50.87},{55.37,50.70},{55.36,50.67},{55.32,50.41},{55.22,50.20},{55.17,49.94},{55.29,49.81},{55.30,49.81},{55.35,49.89},{55.48,50.06},{55.62,50.22},{55.79,50.31},{55.94,50.19},{55.94,50.18},{55.95,50.15},{56.00,49.94},{56.15,50.09},{56.31,50.21},{56.47,50.23},{56.58,50.42},{56.60,50.68},{56.54,50.93},{56.52,51.04},{56.46,51.29},{56.47,51.30},{56.64,51.34},{56.82,51.36},{57.00,51.39},{57.17,51.41},{57.35,51.39},{57.48,51.23},{57.53,51.07},{57.61,50.88},{57.69,50.80},{57.83,50.93},{57.84,51.18},{57.72,51.36},{57.64,51.37},{57.46,51.38},{57.28,51.36},{57.22,51.36},{57.09,51.39},{56.91,51.38},{56.74,51.39},{56.56,51.36},{56.46,51.27},{56.50,51.15},{56.56,50.90},{56.63,50.65},{56.64,50.52},{56.60,50.36},{56.56,50.21},{56.56,50.20},{56.63,49.95},{56.72,49.73},{56.81,49.49},{56.89,49.36},{57.01,49.42},{57.17,49.54},{57.35,49.58},{57.42,49.60},{57.55,49.79},{57.66,49.99},{57.69,50.03},{57.69,50.05},{57.71,50.31},{57.67,50.56},{57.57,50.78},{57.52,50.94},{57.46,51.03},{57.32,51.19},{57.17,51.31},{56.99,51.36},{56.82,51.34},{56.64,51.30},{56.51,51.27},{56.51,51.16},{56.55,50.90},{56.61,50.65},{56.59,50.38},{56.57,50.19},{56.43,50.18},{56.25,50.18},{56.07,50.17},{55.90,50.22},{55.72,50.26},{55.59,50.21},{55.53,50.12},{55.39,49.95},{55.31,49.88},{55.32,49.89},{55.41,49.98},{55.42,49.99},{55.56,50.15},{55.71,50.29},{55.87,50.23},{56.03,50.16},{56.21,50.17},{56.39,50.20},{56.56,50.21},{56.58,50.21},{56.60,50.05},{56.66,49.80},{56.75,49.57},{56.86,49.36},{56.89,49.29}}}},
         },
+        [42681] = { -- Slain Crew Member
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{64.01,45.93}}},
+            [npcKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
+        },
+        [42682] = { -- Slain Crew Member
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{64.01,45.93}}},
+            [npcKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
+        },
+        [42684] = { -- Stormcaller Mylra
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{64.01,45.93}}},
+            [npcKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
+        },
+        [42716] = { -- Stormbeak
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{64.01,45.93}}},
+            [npcKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
+        },
+        [42747] = { -- Slain Crew Member's Spirit
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{64.01,45.93}}},
+            [npcKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
+        },
+        [42757] = { -- Slain Crew Member's Spirit
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{64.01,45.93}}},
+            [npcKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
+        },
+        [42801] = { -- Mor'norokk the Hateful
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{64.01,45.93}}},
+            [npcKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
+        },
+        [42885] = { -- Twilight Saboteur
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{64.01,45.93}}},
+            [npcKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
+        },
+        [42964] = { -- Mor'norokk the Hateful
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{64.01,45.93}}},
+            [npcKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
+        },
         [43006] = { -- Rhyanda
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.39,35.53}}},
+        },
+        [43082] = { -- First Mate Moody
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{64.01,45.93}}},
+            [npcKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
+        },
+        [43164] = { -- Sealing the Way 01 Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{27.47,70.3}}},
+            [npcKeys.zoneID] = zoneIDs.DEEPHOLM,
+        },
+        [43165] = { -- Sealing the Way 02 Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{25.99,70.13}}},
+            [npcKeys.zoneID] = zoneIDs.DEEPHOLM,
+        },
+        [43166] = { -- Sealing the Way 03 Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{25.62,68.89}}},
+            [npcKeys.zoneID] = zoneIDs.DEEPHOLM,
+        },
+        [43167] = { -- Sealing the Way 04 Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{27.48,67.49}}},
+            [npcKeys.zoneID] = zoneIDs.DEEPHOLM,
+        },
+        [43170] = { -- Earthen Geomancer
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{26.16,69.85},{27.3,67.79},{25.97,68.78},{27.31,70.13}}},
         },
         [43729] = { -- Finale Credit
             [npcKeys.spawns] = {[zoneIDs.GILNEAS] = {{56.37,16.16}}},
@@ -1622,13 +1682,19 @@ function CataNpcFixes.Load()
             },
         },
         [44148] = { -- Stonescale Matriarch
-            [npcKeys.spawns] = {},
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{50.92,85.28}}},
         },
         [44806] = { -- Fargo Flintlocke
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{26.2,47.2}}},
         },
+        [44938] = { -- Eavesdropping Credit
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{74.91,64.81}}},
+        },
         [44968] = { -- Ricket
-            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{61.4,26.2}}}
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{61.4,26.2}}},
+        },
+        [45042] = { -- Thrall
+            [npcKeys.spawns] = {[5416] = {{33.37,50.17}}},
         },
         [45362] = { -- Earthcaller Yevaa
             [npcKeys.spawns] = {
@@ -1866,6 +1932,18 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST] = {{54,55.6}}},
             [npcKeys.zoneID] = zoneIDs.KELP_THAR_FOREST,
             [npcKeys.questEnds] = {25419},
+        },
+        [100010] = { -- One With the Ground
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{47.11,90.17}}},
+            [npcKeys.zoneID] = zoneIDs.DEEPHOLM,
+            [npcKeys.questEnds] = {27934},
+        },
+        [100011] = { -- Bring Down the Avalanche
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{47.11,90.17}}},
+            [npcKeys.zoneID] = zoneIDs.DEEPHOLM,
+            [npcKeys.questStarts] = {27935},
         },
     }
 end

@@ -447,6 +447,9 @@ function CataItemFixes.Load()
         [58899] = { -- Violet Perch
             [itemKeys.npcDrops] = {},
         },
+        [58944] = { -- Catapult Part
+            [itemKeys.npcDrops] = {}
+        },
         [58945] = { -- Toxic Puddlefish
             [itemKeys.npcDrops] = {}
         },
@@ -486,11 +489,17 @@ function CataItemFixes.Load()
         [59522] = { -- Key of Ilgalar
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [60297] = { -- Side of Basilisk Meat
+            [itemKeys.npcDrops] = {43981},
+        },
         [60337] = { -- Verrall River Muck
             [itemKeys.npcDrops] = {},
         },
         [60382] = { -- Mylra's Knife
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [60574] = { -- The Upper World Pillar Fragment
+            [itemKeys.npcDrops] = {},
         },
         [60680] = { -- S.A.F.E. "Parachute"
             [itemKeys.class] = itemClasses.QUEST,
