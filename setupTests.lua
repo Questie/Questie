@@ -87,4 +87,7 @@ _G["Questie"] = {
 
 ---@type ZoneDB
 local ZoneDB = require("Database.Zones.zoneDB")
-ZoneDB.zoneIDs = {ICECROWN = 210}
+ZoneDB.zoneIDs = {
+    ICECROWN = 210,
+    DEEPHOLM = 5042,
+}
