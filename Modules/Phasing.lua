@@ -107,6 +107,8 @@ local phases = {
     HAR_KOA_AT_ZIM_TORGA = 1035,
     EARTHEN_GUIDE_BFD = 1036,
     EARTHEN_GUIDE_SHORE = 1037,
+    JAROD_NEAR_PORTAL = 1038,
+    JAROD_MIDDLE_ISLAND = 1039,
 }
 Phasing.phases = phases
 
@@ -345,6 +347,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.EARTHEN_GUIDE_SHORE then
         return (complete[11891] or questLog[11891] and true) or false
+    end
+
+    if phase == phases.JAROD_NEAR_PORTAL then
+        return (not complete[25608])
+    end
+
+    if phase == phases.JAROD_MIDDLE_ISLAND then
+        return complete[25608] or false
     end
 
     return false

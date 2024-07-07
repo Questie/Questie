@@ -480,6 +480,15 @@ describe("Phasing", function()
 
             assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_TWILIGHT_CHAPTER))
         end)
+
+        it("should correctly position Commander Jarod Shadowsong", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.JAROD_NEAR_PORTAL))
+            assert.is_false(Phasing.IsSpawnVisible(phases.JAROD_MIDDLE_ISLAND))
+
+            Questie.db.char.complete[25608] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.JAROD_NEAR_PORTAL))
+            assert.is_true(Phasing.IsSpawnVisible(phases.JAROD_MIDDLE_ISLAND))
+        end)
     end)
 
     describe("Vash'jir", function()
