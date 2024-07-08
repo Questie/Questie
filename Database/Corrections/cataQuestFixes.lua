@@ -3865,11 +3865,11 @@ function CataQuestFixes.Load()
         },
         [26314] = { -- On Even Ground
             [questKeys.preQuestSingle] = {26326},
-            [questKeys.objectives] = {{{42479}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{42479,42781},42781}}},
         },
         [26315] = { -- Imposing Confrontation
             [questKeys.preQuestGroup] = {26312,26313,26314},
-            [questKeys.objectives] = {{{42471}}},
+            [questKeys.objectives] = {{{42471,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26316] = { -- What's Keeping Jessup?
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
@@ -3948,13 +3948,17 @@ function CataQuestFixes.Load()
         },
         [26375] = { -- Loose Stones
             [questKeys.preQuestSingle] = {26328},
+            [questKeys.objectives] = {{{42900,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26376] = { -- Hatred Runs Deep
             [questKeys.preQuestSingle] = {26328},
+            [questKeys.exclusiveTo] = {},
         },
         [26377] = { -- Unsolid Ground
             [questKeys.requiredSourceItems] = {58500,58783},
             [questKeys.preQuestSingle] = {26328},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.objectives] = {{{43031,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26388] = { -- Twilight Skies
             [questKeys.extraObjectives] = {{{[zoneIDs.AZSHARA]={{50.7,73.9}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for the Zeppelin")}},
@@ -4018,11 +4022,15 @@ function CataQuestFixes.Load()
         [26425] = { -- Meet the High Tinker
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
+        [26426] = { -- Violent Gale
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26376,26377},
+        },
         [26433] = { -- The Holy Water of Clarity
             [questKeys.exclusiveTo] = {26590},
         },
         [26440] = { -- Clingy
-            [questKeys.triggerEnd] = {"Pebble brought to crystal formation",{[zoneIDs.DEEPHOLM]={{29,45}}}},
+            [questKeys.triggerEnd] = {"Pebble brought to crystal formation",{[zoneIDs.DEEPHOLM]={{29.45,47.47}}}},
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {26439},
         },
@@ -4037,6 +4045,7 @@ function CataQuestFixes.Load()
         },
         [26439] = { -- Putting the Pieces Together
             [questKeys.preQuestSingle] = {26436},
+            [questKeys.objectives] = {{{43115,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26442] = { -- Rock Lobster
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26488,26536},
@@ -4135,10 +4144,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26441},
         },
         [26576] = { -- Steady Hand
-            [questKeys.preQuestSingle] = {26575},
+            [questKeys.preQuestGroup] = {26507,26575},
         },
         [26577] = { -- Rocky Upheaval
-            [questKeys.preQuestSingle] = {26575},
+            [questKeys.preQuestGroup] = {26507,26575},
         },
         [26578] = { -- Doomshrooms
             [questKeys.preQuestSingle] = {26577},
@@ -4149,14 +4158,19 @@ function CataQuestFixes.Load()
         [26580] = { -- Familiar Intruders
             [questKeys.preQuestSingle] = {26577},
         },
+        [26581] = { -- A Head Full of Wind
+            [questKeys.objectives] = {{{43370,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [26583] = { -- Wrath of the Fungalmancer
             [questKeys.preQuestSingle] = {26582},
+            [questKeys.objectives] = {{{43503,nil,Questie.ICON_TYPE_TALK},{43372}}},
         },
         [26584] = { -- Shaken and Stirred
             [questKeys.preQuestSingle] = {26582},
+            [questKeys.exclusiveTo] = {},
         },
         [26585] = { -- Corruption Destruction
-            [questKeys.preQuestGroup] = {26578,26579,26582},
+            [questKeys.preQuestSingle] = {26582},
         },
         [26586] = { -- In Search of Bravo Company
             [questKeys.preQuestSingle] = {26568},
@@ -4244,8 +4258,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26649},
         },
         [26656] = { -- Don't. Stop. Moving.
-            [questKeys.triggerEnd] = {"Opalescent Guardians Escorted to safety", {[zoneIDs.DEEPHOLM]={{51,14.8}}}},
-            [questKeys.objectives] = {{{42466},{43597}},nil,nil,nil,},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DEEPHOLM]={{50.61,13.76}}}, Questie.ICON_TYPE_EVENT, l10n("Bring the Opalescent Guardians here")}},
+            [questKeys.objectives] = {{{42466,nil,Questie.ICON_TYPE_TALK},{43591,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26657] = { -- Hard Falls
             [questKeys.preQuestSingle] = {26656},
@@ -4255,6 +4269,8 @@ function CataQuestFixes.Load()
         },
         [26659] = { -- Resonating Blow
             [questKeys.objectives] = {{{43641}},{{204837}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26657,26658},
         },
         [26662] = { -- The Brashtide Crew
             [questKeys.preQuestSingle] = {26650},
@@ -4322,6 +4338,9 @@ function CataQuestFixes.Load()
         [26750] = { -- At the Stonemother's Call
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26584,26585,26659},
+        },
+        [26752] = { -- Audience with the Stonemother
+            [questKeys.objectives] = {{{42465,nil,Questie.ICON_TYPE_TALK}}},
         },
         [26755] = { -- Keep Them off the Front
             [questKeys.objectives] = {nil,nil,nil,nil,{{{43954,43960},43954,"Reinforcements bombarded",Questie.ICON_TYPE_SLAY}}},
@@ -4402,7 +4421,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26815},
         },
         [26827] = { -- Rallying the Earthen Ring
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{43836,44633,44634,44642,44644,44646,44647},44642,"Earthen Ring rallied",Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{43836,44631,44633,44634,44642,44644,44646,44647,45034},44642,"Earthen Ring rallied",Questie.ICON_TYPE_TALK}}},
         },
         [26829] = { -- The Stone March
             [questKeys.preQuestSingle] = {26828},
@@ -4418,6 +4437,10 @@ function CataQuestFixes.Load()
         },
         [26832] = { -- Therazane's Mercy
             [questKeys.preQuestSingle] = {26828},
+        },
+        [26833] = { -- Word In Stone
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26829,26831,26832},
         },
         [26834] = { -- Down Into the Chasm
             [questKeys.preQuestSingle] = {},
@@ -5624,10 +5647,12 @@ function CataQuestFixes.Load()
         [28390] = { -- Glop, Son of Glop
             [questKeys.exclusiveTo] = {28391},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the chase"), 0, {{"monster", 43503}}}},
+            [questKeys.requiredMinRep] = {1171,21000},
         },
         [28391] = { -- The Restless Brood
             [questKeys.objectives] = {{{43641}},{{204837}}},
             [questKeys.exclusiveTo] = {28390},
+            [questKeys.requiredMinRep] = {1171,21000},
         },
         [28394] = { -- The Golem Lord's Creations
             [questKeys.startedBy] = {{44247}},
@@ -6297,6 +6322,8 @@ function CataQuestFixes.Load()
         },
         [28824] = { -- Wayward Child
             [questKeys.preQuestSingle] = {26871},
+            [questKeys.startedBy] = {{42465}},
+            [questKeys.finishedBy] = {{42465}},
         },
         [28825] = { -- A Personal Summons
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -6320,7 +6347,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27061},
         },
         [28869] = { -- Pebble
-            [questKeys.exclusiveTo] = {26440},
+            [questKeys.nextQuestInChain] = 26440,
             [questKeys.preQuestGroup] = {26437,26438,26439},
         },
         [28870] = { -- Return to the Lost City

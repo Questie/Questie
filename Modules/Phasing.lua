@@ -109,6 +109,10 @@ local phases = {
     EARTHEN_GUIDE_SHORE = 1037,
     JAROD_NEAR_PORTAL = 1038,
     JAROD_MIDDLE_ISLAND = 1039,
+    PEBBLE_AT_KOR = 1040,
+    PEBBLE_AT_CRYSTALS = 1041,
+    TERRATH_AT_AEOSERA = 1042,
+    NPCS_AT_THERAZANES_THRONE = 1043,
 }
 Phasing.phases = phases
 
@@ -355,6 +359,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.JAROD_MIDDLE_ISLAND then
         return complete[25608] or false
+    end
+
+    if phase == phases.PEBBLE_AT_KOR then
+        return complete[26441] or (not complete[26440]) or false
+    end
+
+    if phase == phases.PEBBLE_AT_CRYSTALS then
+        return (complete[26440] and not complete[26441]) or (questLog[26440] and questLog[26440].isComplete == 1) or false
+    end
+
+    if phase == phases.TERRATH_AT_AEOSERA then
+        return complete[26659] or (questLog[26659] and questLog[26659].isComplete == 1) or false
+    end
+
+    if phase == phases.NPCS_AT_THERAZANES_THRONE then
+        return complete[26659] and complete[26584] and complete[26585] or false
     end
 
     return false

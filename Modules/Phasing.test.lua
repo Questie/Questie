@@ -682,6 +682,49 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.TEMPLE_OF_EARTH_CHAPTER_1))
             assert.is_false(Phasing.IsSpawnVisible(phases.TEMPLE_OF_EARTH_CHAPTER_2))
         end)
+
+        it("should handle Pebble positioning", function()
+            Questie.db.char.complete[26441] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.PEBBLE_AT_KOR))
+            assert.is_false(Phasing.IsSpawnVisible(phases.PEBBLE_AT_CRYSTALS))
+
+            Questie.db.char.complete[26440] = false
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.PEBBLE_AT_KOR))
+            assert.is_false(Phasing.IsSpawnVisible(phases.PEBBLE_AT_CRYSTALS))
+
+            Questie.db.char.complete[26440] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[26440]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.PEBBLE_AT_KOR))
+            assert.is_false(Phasing.IsSpawnVisible(phases.PEBBLE_AT_CRYSTALS))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[26440]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.PEBBLE_AT_CRYSTALS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.PEBBLE_AT_KOR))
+        end)
+
+        it("should show Terrath at Aeosera crystal once you complete objectives for quest 26659 or afterwards", function()
+            Questie.db.char.complete[26659] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[26659]={isComplete=0}}
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.TERRATH_AT_AEOSERA))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[26659]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.TERRATH_AT_AEOSERA))
+        end)
+
+        it("should show the NPCs at Therazane's Throne after quests 26584 26585 26659 are completed", function()
+            Questie.db.char.complete[26584] = true
+            Questie.db.char.complete[26585] = true
+            Questie.db.char.complete[26659] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.NPCS_AT_THERAZANES_THRONE))
+
+        end)
     end)
 
     describe("Dragonmaw Port", function()

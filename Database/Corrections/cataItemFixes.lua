@@ -166,7 +166,7 @@ function CataItemFixes.Load()
         [48707] = { -- Gilnean Mastiff Collar
             [itemKeys.class] = itemClasses.QUEST,
         },
-        [48766] = { -- Kaja\'mite Chunk
+        [48766] = { -- Kaja'mite Chunk
             [itemKeys.npcDrops] = {},
         },
         [49172] = { -- Simmering Water Droplet
@@ -435,6 +435,9 @@ function CataItemFixes.Load()
         [58365] = { -- Horn of the Ancients
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [58500] = { -- Jade Crystal Cluster
+            [itemKeys.npcDrops] = {},
+        },
         [58809] = { -- Rock Lobster
             [itemKeys.npcDrops] = {},
         },
@@ -461,6 +464,9 @@ function CataItemFixes.Load()
         },
         [58958] = { -- Drowned Thunder Lizard Tail
             [itemKeys.npcDrops] = {39464},
+        },
+        [58959] = { -- Petrified Stone Bat
+            [itemKeys.npcDrops] = {43181,43182},
         },
         [58969] = { -- Jorgensen's Cage Key
             [itemKeys.class] = itemClasses.QUEST,
