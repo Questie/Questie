@@ -1061,3 +1061,59 @@ function TrackerUtils:UpdateVoiceOverPlayButtons()
         end
     end
 end
+
+---@param quest Quest
+---@param complete number
+---@param line table
+---@param questItemButtonSize number
+---@param trackerQuestFrame table
+function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame)
+    local usableQIB = false
+    local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
+    local sourceItem = sourceItemId and TrackerUtils:IsQuestItemUsable(sourceItemId)
+    local requiredItems = quest.requiredSourceItems
+    local hasUsableRequiredItem = requiredItems and TrackerUtils:IsQuestItemUsable(requiredItems[1])
+    local isComplete = (quest.isComplete ~= true and #quest.Objectives == 0) or quest.isComplete == true
+
+    if complete ~= 1 and (sourceItem or (requiredItems and #requiredItems == 1 and hasUsableRequiredItem)) or usableQIB then
+        -- Get button from buttonPool
+        local button = TrackerLinePool.GetNextItemButton()
+        if not button then
+            return false -- stop populating the tracker
+        end
+
+        -- Get and save Quest Title linePool to buttonPool
+        button.line = line
+
+        -- Setup button and set attributes
+        if button:SetItem(quest, "primary", questItemButtonSize) then
+            local height = 0
+            local frame = button.line
+            while frame and frame ~= trackerQuestFrame do
+                local _, parent, _, _, yOff = frame:GetPoint()
+                height = height - (frame:GetHeight() - yOff)
+                frame = parent
+            end
+
+            -- If the Quest is minimized show the Expand Quest button
+            if Questie.db.char.collapsedQuests[quest.Id] then
+                if Questie.db.profile.collapseCompletedQuests and isMinimizable and not timedQuest then
+                    button.line.expandQuest:Hide()
+                else
+                    button.line.expandQuest:Show()
+                end
+            else
+                button.line.expandQuest:Hide()
+            end
+
+            -- Attach button to Quest Title linePool
+            button:SetPoint("TOPLEFT", button.line, "TOPLEFT", 0, 0)
+            button:SetParent(button.line)
+            button:Show()
+        end
+    end
+
+    return true
+end
+
+return TrackerUtils

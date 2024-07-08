@@ -18,6 +18,9 @@ _G.QUEST_OBJECTS_FOUND = ""
 _G.UIParent = {GetEffectiveScale = function() return 1 end}
 
 _G.C_QuestLog = {IsQuestFlaggedCompleted = function() return false end}
+_G.QuestLogListScrollFrame = {
+    ScrollBar = {}
+}
 _G.GetItemCount = function() return 0 end
 _G.GetQuestLogTitle = function() return "Test Quest" end
 _G.GetQuestLogIndexByID = function() return 1 end
@@ -41,6 +44,7 @@ setmetatable(_G.CreateFrame, {
     __call = function(_, frameType, frameName)
         local alpha
         local width, height
+        local point
         local normalTexture
         local pushedTexture
         local highlightTexture
@@ -53,8 +57,18 @@ setmetatable(_G.CreateFrame, {
             SetScript = function(_, name, callback)
                 scripts[name] = callback
             end,
-            SetWidth = EMTPY_FUNC,
-            SetHeight = EMTPY_FUNC,
+            SetHeight = function(_, value)
+                height = value
+            end,
+            GetHeight = function()
+                return height
+            end,
+            SetWidth = function(_, value)
+                width = value
+            end,
+            GetWidth = function()
+                return width
+            end,
             SetSize = function(_, w, h)
                 width = w
                 height = h
@@ -71,8 +85,13 @@ setmetatable(_G.CreateFrame, {
             SetBackdrop = EMTPY_FUNC,
             SetBackdropColor = EMTPY_FUNC,
             SetBackdropBorderColor = EMTPY_FUNC,
-            SetPoint = EMTPY_FUNC,
-            GetPoint = EMTPY_FUNC,
+            SetPoint = function(_, l, x, y)
+                point = {l, nil, nil, x, y}
+            end,
+            GetPoint = function()
+                return table.unpack(point)
+            end,
+            SetParent = EMTPY_FUNC,
             CreateFontString = function()
                 return {
                     SetText = EMTPY_FUNC,
@@ -147,11 +166,17 @@ setmetatable(_G.CreateFrame, {
     end
 })
 
-_G.LibStub = function()
-    return {
-        Fetch = function() return "Font" end
-    }
-end
+_G.LibStub = {
+    GetLibrary = function() return {} end
+}
+
+setmetatable(_G.LibStub, {
+    __call = function()
+        return {
+            Fetch = function() return "Font" end
+        }
+    end
+})
 
 _G["Questie"] = {
     db = {

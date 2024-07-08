@@ -889,3 +889,5 @@ TrackerLinePool.SetMode = function(self, mode)
         end
     end
 end
+
+return TrackerLinePool
