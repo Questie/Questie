@@ -5730,6 +5730,10 @@ function CataQuestFixes.Load()
         [28501] = { -- The Defense of Nahom
             [questKeys.objectives] = {{{49228}}},
         },
+        [28502] = { -- The Bandit Warlord
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28141,28145},
+        },
         [28504] = { -- Warchief's Command: Thousand Needles!
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 43,
