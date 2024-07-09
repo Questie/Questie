@@ -24,7 +24,7 @@ You can also help as a tester, developer or translator. To do so please join the
 
 
 ## Wowhead link
-<!-- If this issue is about a quest/npc/item/... then please include a link to it from Wowhead: https://wowhead.com/classic or https://wowhead.com/wotlk -->
+<!-- If this issue is about a quest/npc/item/... then please include a link to it from Wowhead: https://wowhead.com/classic or https://wowhead.com/wotlk or https://wowhead.com/cata -->
 
 
 ## Screenshots
