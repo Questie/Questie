@@ -201,6 +201,26 @@ function QuestieTooltips.GetTooltip(key)
         return nil -- temporary disable tooltips in raids, we should make a proper fix
     end
 
+    local isObjectTooltip = key:sub(1, 2) == "o_"
+    if isObjectTooltip then
+        local objectIsInCurrentZone = false
+        local objectId = tonumber(key:sub(3))
+        local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
+        if spawns then
+            local playerZone = QuestiePlayer:GetCurrentZoneId()
+            for zoneId in pairs(spawns) do
+                if zoneId == playerZone then
+                    objectIsInCurrentZone = true
+                    break
+                end
+            end
+        end
+
+        if (not objectIsInCurrentZone) then
+            return nil
+        end
+    end
+
     --Do not remove! This is the datastrucutre for tooltipData!
     --[[tooltipdata[questId] = {
         title = coloredTitle,

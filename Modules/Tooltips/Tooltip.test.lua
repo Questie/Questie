@@ -1,8 +1,5 @@
 dofile("setupTests.lua")
 
----@type QuestiePlayer
-local QuestiePlayer = require("Modules.QuestiePlayer")
-
 require("Modules.Network.QuestieComms")
 
 describe("Tooltip", function()
@@ -10,6 +7,8 @@ describe("Tooltip", function()
     local QuestieDB
     ---@type QuestieLib
     local QuestieLib
+    ---@type QuestiePlayer
+    local QuestiePlayer
     ---@type QuestieTooltips
     local QuestieTooltips
 
@@ -44,6 +43,7 @@ describe("Tooltip", function()
         QuestieLib.GetRGBForObjective = spy.new(function()
             return "gold"
         end)
+        QuestiePlayer = require("Modules.QuestiePlayer")
         QuestieTooltips = require("Modules.Tooltips.Tooltip")
     end)
 
@@ -110,7 +110,7 @@ describe("Tooltip", function()
         end)
 
         it("should return quest name and objective description when tooltip has objective without Needed", function()
-            QuestieTooltips.lookupByKey = {["key"] = {["1 1"] = {
+            QuestieTooltips.lookupByKey = {["o_123"] = {["1 1"] = {
                 questId = 1,
                 objective = {
                     Index = 1,
@@ -119,11 +119,37 @@ describe("Tooltip", function()
                 }
             }}}
             QuestiePlayer.currentQuestlog[1] = {}
+            QuestieDB.QueryObjectSingle = spy.new(function()
+                return {[440]={{10,10}}}
+            end)
+            QuestiePlayer.GetCurrentZoneId = spy.new(function()
+                return 440
+            end)
 
-            local tooltip = QuestieTooltips.GetTooltip("key")
+            local tooltip = QuestieTooltips.GetTooltip("o_123")
 
             assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)
+            assert.spy(QuestieDB.QueryObjectSingle).was_called_with(123, "spawns")
+            assert.spy(QuestiePlayer.GetCurrentZoneId).was_called_with(QuestiePlayer)
+        end)
+
+        it("should return nil for objects which are not in the zone of the player", function()
+            QuestieTooltips.lookupByKey = {["o_123"] = {
+                ["1 1"] = {questId = 1, name = "test", starterId = 2},
+            }}
+            QuestieDB.QueryObjectSingle = spy.new(function()
+                return {[1]={{10,10}}}
+            end)
+            QuestiePlayer.GetCurrentZoneId = spy.new(function()
+                return 440
+            end)
+
+            local tooltip = QuestieTooltips.GetTooltip("o_123")
+
+            assert.is_nil(tooltip)
+            assert.spy(QuestieDB.QueryObjectSingle).was_called_with(123, "spawns")
+            assert.spy(QuestiePlayer.GetCurrentZoneId).was_called_with(QuestiePlayer)
         end)
 
         it("should only return quest name when tooltip has completed objective and showQuestsInNpcTooltip is true", function()
