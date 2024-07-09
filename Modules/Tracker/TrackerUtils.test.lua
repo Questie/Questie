@@ -37,7 +37,7 @@ describe("TrackerUtils", function()
         end)
         local quest = {
             Id = 1,
-            Objectives = {}
+            Objectives = {},
         }
         local line = CreateFrame("Frame")
         line:SetPoint("TOPLEFT", 0, 0)
@@ -53,10 +53,37 @@ describe("TrackerUtils", function()
         assert.not_nil(button.line)
     end)
 
-    --it("should add sourceItemId as primary button and single requiredSourceItems as secondary button", function()
-    --
-    --end)
-    --
+    it("should add sourceItemId as primary button and single requiredSourceItems as secondary button", function()
+        _G.GetItemSpell = function() return 111 end
+        QuestieDB.QueryQuestSingle = spy.new(function()
+            return nil
+        end)
+        local button = CreateFrame("Button")
+        TrackerLinePool.GetNextItemButton = spy.new(function()
+            button.SetItem = spy.new(function()
+                return true
+            end)
+            return button
+        end)
+        local quest = {
+            Id = 1,
+            requiredSourceItems = {123},
+            Objectives = {},
+        }
+        local line = CreateFrame("Frame")
+        line:SetPoint("TOPLEFT", 0, 0)
+        line:SetSize(1, 1)
+        line.expandQuest = CreateFrame("Button")
+
+        local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {})
+
+        assert.is_true(shouldContinue)
+        assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
+        assert.spy(TrackerLinePool.GetNextItemButton).was_called()
+        assert.spy(button.SetItem).was_called_with(button, quest, "primary", 12)
+        assert.not_nil(button.line)
+    end)
+
     --it("should add single requiredSourceItems entry as primary button", function()
     --
     --end)
