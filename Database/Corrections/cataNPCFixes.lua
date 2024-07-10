@@ -1750,6 +1750,9 @@ function CataNpcFixes.Load()
         [45042] = { -- Thrall
             [npcKeys.spawns] = {[5416] = {{33.37,50.17}}},
         },
+        [45238] = { -- Harrison Jones
+            [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.56,28.6}}},
+        },
         [45362] = { -- Earthcaller Yevaa
             [npcKeys.spawns] = {
                 [zoneIDs.TWILIGHT_HIGHLANDS] = {
@@ -1758,12 +1761,30 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [45757] = { -- Floor Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.48,29.87}}},
+        },
+        [45759] = { -- Southern Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{65.62,33.97},{63.38,33.97}}},
+        },
+        [45760] = { -- Northern Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{65.62,25.68},{63.38,25.68}}},
+        },
+        [46283] = { -- Chamber of Stars Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.48,29.87}}},
+        },
         [46316] = { -- Gimme Shelter Kill Credit 00
             [npcKeys.spawns] = {},
+        },
+        [46920] = { -- Cursed Expedition Member
+            [npcKeys.name] = "Cursed Expedition Member",
         },
         [46998] = { -- Vision of Ysera
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{27.03,62.64}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
+        [47255] = { -- Gobbles
+            [npcKeys.spawns] = {[zoneIDs.ULDUM]={{24.49,64.46}}},
         },
         [47493] = { -- Warlord Krogg
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{29.6,41,phases.GRIM_BATOL_ATTACK_HORDE}}},
@@ -1811,6 +1832,14 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{34.33,37.75}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
         },
+        [47970] = { -- Schnottz Guests
+            [npcKeys.spawns] = {[zoneIDs.ULDUM]={{21.91,64.1}}},
+            [npcKeys.zoneID] = zoneIDs.ULDUM,
+        },
+        [48022] = { -- Salhet
+            [npcKeys.spawns] = {[zoneIDs.ULDUM]={{54.07,58.14}}},
+            [npcKeys.zoneID] = zoneIDs.ULDUM,
+        },
         [48039] = { -- Commander Stevens
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{54.37,45.63}}},
         },
@@ -1822,6 +1851,12 @@ function CataNpcFixes.Load()
         },
         [48074] = { -- Marshal Fallows
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{53.53,47.01}}},
+        },
+        [48189] = { -- Firing Squad Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.ULDUM]={{23.67,60.99}}},
+        },
+        [48199] = { -- Bloodsnarl Scavenger
+            [npcKeys.spawns] = {[zoneIDs.ULDUM]={{56.27,63.32},{56.1,62.7}}},
         },
         [48264] = { -- Golluck Rockfist
             [npcKeys.spawns] = {
@@ -1839,6 +1874,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [48490] = { -- Greater Colossus
+            [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{66.61,41.73}}},
+        },
         [48533] = { -- Enormous Gyreworm
             [npcKeys.spawns] = {},
         },
@@ -1854,10 +1892,11 @@ function CataNpcFixes.Load()
             [npcKeys.name] = "Pip Quickwit",
             [npcKeys.questStarts] = {28735,28737,28738,28740,28741},
         },
+        [48529] = { -- Lunar Crystal
+            [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{39.51,24.3},{39.81,23.65},{40.11,23}}},
+        },
         [49893] = { -- Lisa McKeever
-            [npcKeys.spawns] = {
-                [zoneIDs.STORMWIND_CITY] = {{51.62,72.38}},
-            },
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{51.62,72.38}}},
         },
         [49956] = { -- Pebble
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM]={{63.07,20.88}}},
@@ -1873,23 +1912,17 @@ function CataNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
         },
         [51989] = { -- Orphan Matron Battlewail
-            [npcKeys.spawns] = {
-                [zoneIDs.ORGRIMMAR] = {{57.96,57.62}},
-            },
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{57.96,57.62}}},
         },
         [52189] = { -- Rental Chopper
-            [npcKeys.spawns] = {
-                [zoneIDs.WESTFALL] = {{57.78,53.06},{57.71,53.28}},
-            },
+            [npcKeys.spawns] = {[zoneIDs.WESTFALL] = {{57.78,53.06},{57.71,53.28}}},
             [npcKeys.zoneID] = zoneIDs.WESTFALL,
         },
         [53517] = { -- Squirming Slime Mold
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY]={{44,34.8},{48.1,44.7},{48.2,43.6},{48.3,45.5},{49.6,55},{50.5,30.4},{50.6,44.8},{50.7,41.8},{50.9,45.6},{51.3,41.3},{52,52.6},{52.3,35.8},{52.5,26},{52.7,31.7},{53,31.4},{53.2,57.3},{53.9,24.7},{55,60.4},{55,60.9},{55.1,64.4},{55.7,64.2},{56.3,21.6},{56.6,21.5},{56.6,62.4},{56.6,62.8},{57.3,64.9},{58,21.5},{58.4,21.1},{58.5,20.9},{58.6,68},{58.7,68.6},{59.7,18.9},{63.6,47},{63.7,39.7},{63.9,46.1},{64,48},{64,71.2},{64.1,21.7},{64.7,21.1},{64.7,66.9},{64.8,17.6},{64.9,21.8},{65,40.9},{65.3,70.6},{65.5,17.2},{65.5,39.9},{65.8,47.4},{65.9,21.1},{66,40.9},{66.3,47.5},{66.4,17.8},{66.6,40.5},{66.8,47.7},{67,71},{67.1,22.2},{67.9,40.3},{68.1,21.4},{68.4,47},{71.7,65.2},{72.9,68.5},{73,24.2},{73.3,68.4},{73.9,24.1},{74.3,65.4},{74.4,24.5},{74.5,24.4},{75.8,26.9},{75.9,66.2},{76.5,65.8},{77.3,23.3},{77.4,60.3},{77.5,26.6},{77.5,60.2},{77.6,24.2},{77.8,30.6},{77.9,29.6},{78.7,60.1},{78.9,31.1},{79,26.3},{79.1,32.1},{79.4,26.5},{79.4,61.6},{79.5,33.5},{79.8,27.4},{79.8,35.3},{79.9,27.6},{79.9,35.8},{80,36.6},{80,57.1},{80.3,59.4},{80.5,59.2},{80.7,28.4},{80.7,28.9},{80.7,45.5},{81,29.6},{81,46.5},{81.1,31.4},{81.1,32},{81.2,44.2},{81.2,44.9},{81.4,43},{81.6,31.5},{81.6,33.6},{81.7,56},{81.8,31.3},{82.7,33.9},{82.8,34.5},{83.6,41.9},{83.6,42.8},{83.7,40.1},{83.7,41.4},{83.7,44.9},{83.7,45.5},{83.8,43.6}}},
         },
         [53540] = { -- Cold Water Crayfish
-            [npcKeys.spawns] = {
-                [zoneIDs.DUN_MOROGH] = {{83.97,51.69}},
-            },
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{83.97,51.69}}},
         },
         [54334] = { -- Darkmoon Faire Mystic Mage
             [npcKeys.spawns] = {
@@ -1998,6 +2031,30 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{47.11,90.17}}},
             [npcKeys.zoneID] = zoneIDs.DEEPHOLM,
             [npcKeys.questStarts] = {27935},
+        },
+        [100012] = { -- Do the World a Favor
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.43,28.49}}},
+            [npcKeys.zoneID] = zoneIDs.ULDUM,
+            [npcKeys.questEnds] = {27187,27627},
+        },
+        [100013] = { -- Neferset Prison
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{71.2,73.79}}},
+            [npcKeys.zoneID] = zoneIDs.ULDUM,
+            [npcKeys.questEnds] = {27707},
+        },
+        [100014] = { -- Gobbles!
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{24.46,64.25}}},
+            [npcKeys.zoneID] = zoneIDs.ULDUM,
+            [npcKeys.questEnds] = {27950},
+        },
+        [100015] = { -- Dirty Birds
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{42.54,68.42}}},
+            [npcKeys.zoneID] = zoneIDs.ULDUM,
+            [npcKeys.questEnds] = {27940},
         },
     }
 end

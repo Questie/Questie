@@ -537,10 +537,16 @@ function CataItemFixes.Load()
         [61317] = { -- Vermillion Egg
             [itemKeys.npcDrops] = {45506,45508,45651,45682},
         },
-        [62324] = { -- Wildhammer Food Store
+        [61376] = { -- Suspended Starlight
             [itemKeys.npcDrops] = {},
         },
-        [61376] = { -- Suspended Starlight
+        [61929] = { -- Broken Spectacles
+            [itemKeys.npcDrops] = {45874},
+        },
+        [61976] = { -- Orb of the North Star
+            [itemKeys.npcDrops] = {},
+        },
+        [62324] = { -- Wildhammer Food Store
             [itemKeys.npcDrops] = {},
         },
         [62534] = { -- Horn of Ramkahen
@@ -559,7 +565,7 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {47201},
         },
         [62789] = { -- Trooper Uniform
-            [itemKeys.npcDrops] = {47207},
+            [itemKeys.npcDrops] = {47207,47213,47216,47219},
         },
         [62792] = { -- Well-preserved Idol
             [itemKeys.npcDrops] = {},
