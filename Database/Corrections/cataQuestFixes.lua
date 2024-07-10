@@ -5447,6 +5447,9 @@ function CataQuestFixes.Load()
         [27953] = { -- The Reliquary
             [questKeys.exclusiveTo] = {27005,27008},
         },
+        [27955] = { -- Eye Spy
+            [questKeys.objectives] = {{{47274}}},
+        },
         [27966] = { -- Salvaging the Remains
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
@@ -5482,7 +5485,7 @@ function CataQuestFixes.Load()
             [questKeys.reputationReward] = {},
         },
         [27990] = { -- Battlezone
-            [questKeys.objectives] = {{{47385},{47940}}},
+            [questKeys.objectives] = {{{47778},{47159,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Man the Siege Tank"), 0, {{"monster", 47732}}}},
         },
         [27991] = { -- Taking the Overlook Back
@@ -5505,12 +5508,6 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Ruumbo's Secret Discovered",{[zoneIDs.FELWOOD]={{51.5,83.7}}}},
             [questKeys.reputationReward] = {},
-        },
-        [27955] = { -- Eye Spy
-            [questKeys.objectives] = {{{47274}}},
-        },
-        [27990] = { -- Battlezone
-            [questKeys.objectives] = {{{47778},{47159,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27999] = { -- The Fate of the Doyles
             [questKeys.preQuestSingle] = {27808},
