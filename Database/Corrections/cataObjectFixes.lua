@@ -10,6 +10,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 function CataObjectFixes.Load()
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs
+    local nodeTypes = QuestieDB.nodeTypes
 
     return {
         [7510] = { -- Sprouted Frond

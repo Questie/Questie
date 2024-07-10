@@ -216,7 +216,21 @@ item = function(itemId, objective)
                         if (not ret[id]) then
                             local icon, GetIconScale
                             if source.Type == "object" then
-                                icon = objective.Icon or Questie.ICON_TYPE_OBJECT
+                                local nodeType = QuestieDB.QueryObjectSingle(id, "nodeType")
+                                if not nodeType then
+                                    icon = objective.Icon or Questie.ICON_TYPE_OBJECT
+                                elseif nodeType == QuestieDB.nodeTypes.FISH then
+                                    icon = objective.Icon or Questie.ICON_TYPE_NODE_FISH
+                                elseif nodeType == QuestieDB.nodeTypes.HERB then
+                                    icon = objective.Icon or Questie.ICON_TYPE_NODE_HERB
+                                elseif nodeType == QuestieDB.nodeTypes.ORE then
+                                    icon = objective.Icon or Questie.ICON_TYPE_NODE_ORE
+                                elseif nodeType == QuestieDB.nodeTypes.CHEST then
+                                    icon = objective.Icon or Questie.ICON_TYPE_CHEST
+                                else
+                                    Questie:Error("Unknown nodeType", nodeType, "for object", id)
+                                    icon = objective.Icon or Questie.ICON_TYPE_OBJECT
+                                end
                                 GetIconScale = _GetIconScaleForObject
                             else
                                 icon = objective.Icon or Questie.ICON_TYPE_LOOT

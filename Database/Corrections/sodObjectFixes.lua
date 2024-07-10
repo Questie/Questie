@@ -8,6 +8,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 function SeasonOfDiscovery:LoadObjects()
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs
+    local nodeTypes = QuestieDB.nodeTypes
 
     return {
         [386675] = { -- Buried Treasure
@@ -328,6 +329,30 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.spawns] = {
                 [zoneIDs.ARATHI_HIGHLANDS] = {{62,54}},
             },
+        },
+        [439557] = { -- Nightmare Moss
+            [objectKeys.nodeType] = nodeTypes.HERB,
+        },
+        [439558] = { -- Cold Iron Deposit
+            [objectKeys.nodeType] = nodeTypes.ORE,
+        },
+        [439627] = { -- Dreamroot
+            [objectKeys.nodeType] = nodeTypes.HERB,
+        },
+        [439628] = { -- Fool's Gold Vein
+            [objectKeys.nodeType] = nodeTypes.ORE,
+        },
+        [439762] = { -- Star Lotus
+            [objectKeys.nodeType] = nodeTypes.HERB,
+        },
+        [439778] = { -- Starsilver Vein
+            [objectKeys.nodeType] = nodeTypes.ORE,
+        },
+        [439810] = { -- Moonroot
+            [objectKeys.nodeType] = nodeTypes.HERB,
+        },
+        [439815] = { -- Greater Moonstone Formation
+            [objectKeys.nodeType] = nodeTypes.ORE,
         },
         [441848] = { -- Small Burrow
             [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
