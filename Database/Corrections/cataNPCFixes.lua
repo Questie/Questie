@@ -1732,11 +1732,25 @@ function CataNpcFixes.Load()
         [44282] = { -- Crumbling Depths Entrance Credit
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{58.45,25.68}}},
         },
+        [44293] = { -- Anduin Wrynn
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{85.72,31.56}}},
+            [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
         [44633] = { -- Stormcaller Jalara
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{51.39,52.21}}},
         },
         [44806] = { -- Fargo Flintlocke
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {
+                    {34.79,38.22,phases.FARGO_AT_CATAPULTS},
+                    {26.12,47.3,phases.FARGO_AT_DOCKS},
+                },
+            },
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{26.2,47.2}}},
+        },
+        [44910] = { -- Anduin Farm Ambush Quest Tracker
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{43.6,4.62}}},
+            [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
         [44938] = { -- Eavesdropping Credit
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{74.91,64.81}}},

@@ -113,6 +113,8 @@ local phases = {
     PEBBLE_AT_CRYSTALS = 1041,
     TERRATH_AT_AEOSERA = 1042,
     NPCS_AT_THERAZANES_THRONE = 1043,
+    FARGO_AT_CATAPULTS = 1044,
+    FARGO_AT_DOCKS = 1045,
 }
 Phasing.phases = phases
 
@@ -375,6 +377,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.NPCS_AT_THERAZANES_THRONE then
         return complete[26659] and complete[26584] and complete[26585] or false
+    end
+
+    if phase == phases.FARGO_AT_CATAPULTS then
+        return (not complete[27106])
+    end
+
+    if phase == phases.FARGO_AT_DOCKS then
+        return complete[27106] or false
     end
 
     return false

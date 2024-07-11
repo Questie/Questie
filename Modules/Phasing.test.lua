@@ -923,4 +923,15 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.EARTHEN_GUIDE_SHORE))
         end)
     end)
+
+    describe("Stormwind City", function()
+        it("should correctly position Fargo Flintlocke during the Twilight Highlands quest chain", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.FARGO_AT_CATAPULTS))
+            assert.is_false(Phasing.IsSpawnVisible(phases.FARGO_AT_DOCKS))
+
+            Questie.db.char.complete[12684] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.FARGO_AT_CATAPULTS))
+            assert.is_true(Phasing.IsSpawnVisible(phases.FARGO_AT_DOCKS))
+        end)
+    end)
 end)

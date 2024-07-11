@@ -4725,6 +4725,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.triggerEnd] = {"Anduin Escorted to Farmer Wollerton", {[zoneIDs.STORMWIND_CITY]={{52.1,6.5}}}},
             [questKeys.preQuestSingle] = {26975},
+            [questKeys.exclusiveTo] = {},
         },
         [27048] = { -- Underground Economy
             [questKeys.exclusiveTo] = {26710,28488},
@@ -4744,6 +4745,11 @@ function CataQuestFixes.Load()
         [27059] = { -- The Wrong Sequence
             [questKeys.preQuestSingle] = {27041},
         },
+        [27060] = { -- Unholy Cow
+            [questKeys.exclusiveTo] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Follow the trail of gore"), 0, {{"object", 205162},{"object", 205163}}}},
+            [questKeys.objectives] = {nil,{{205164}},nil,nil,{{{44910},44910,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [27061] = { -- The Twilight Overlook
             [questKeys.exclusiveTo] = {26766,26768,28866},
         },
@@ -4755,6 +4761,10 @@ function CataQuestFixes.Load()
         },
         [27064] = { -- He's Holding Out on Us
             [questKeys.triggerEnd] = {"Samuelson's Papers Examined by Anduin", {[zoneIDs.STORMWIND_CITY]={{80.2,62.3}}}},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27038,26997},
+            [questKeys.objectives] = {nil,{{205190,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27066] = { -- Healing in a Flash
             [questKeys.objectives] = {{{45199,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
@@ -4778,6 +4788,9 @@ function CataQuestFixes.Load()
         [27100] = { -- Twilight Research
             [questKeys.startedBy] = {{43158,44936,44988},nil,{60816}},
             [questKeys.preQuestSingle] = {27007},
+        },
+        [27106] = { -- A Villain Unmasked
+            [questKeys.objectives] = {{{2439,nil,Questie.ICON_TYPE_TALK},{2439}}},
         },
         [27123] = { -- Deepholm, Realm of Earth
             [questKeys.exclusiveTo] = {26244,26245,26246},
@@ -6397,6 +6410,10 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
             [questKeys.objectives] = {{{50047,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [28807] = { -- Expert Opinion
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27060,27064},
+        },
         [28808] = { -- Fear No Evil -- Human Mage
             [questKeys.requiredRaces] = raceKeys.HUMAN,
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
@@ -6479,6 +6496,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 81,
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.nextQuestInChain] = 14482,
+        },
+        [28832] = { -- Twilight Shores
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 50262}}}},
         },
         [28845] = { -- The Vortex Pinnacle
             [questKeys.exclusiveTo] = {28760,28779},
