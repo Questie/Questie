@@ -929,7 +929,7 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.FARGO_AT_CATAPULTS))
             assert.is_false(Phasing.IsSpawnVisible(phases.FARGO_AT_DOCKS))
 
-            Questie.db.char.complete[12684] = true
+            Questie.db.char.complete[27106] = true
             assert.is_false(Phasing.IsSpawnVisible(phases.FARGO_AT_CATAPULTS))
             assert.is_true(Phasing.IsSpawnVisible(phases.FARGO_AT_DOCKS))
         end)
