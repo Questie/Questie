@@ -55,7 +55,7 @@ class QuestSpider(scrapy.Spider):
         if objectives_text:
             result["objectivesText"] = objectives_text.strip()
 
-        kill_objectives = response.xpath('//tr[@data-icon-list-quantity]/td/a[1]/@href').getall()
+        kill_objectives = response.xpath('//tr[@data-icon-list-quantity]/td/a[contains(@href, "/npc=")]/@href').getall()
         if kill_objectives:
             result["killObjective"] = [re.search(r'npc=(\d+)', kill_objective).group(1) for kill_objective in kill_objectives]
 
