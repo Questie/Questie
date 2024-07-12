@@ -1994,6 +1994,41 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
             [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING,
         },
+        [84348] = { -- Priority Target: Duke Tectonis
+            [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [84349] = { -- Priority Target: Duke Searbrand
+            [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [84350] = { -- Grinding Them Down
+            [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [84351] = { -- Work Smarter, Not Harder
+            [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [84355] = { -- More Like Lame-bringers!
+            [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [84356] = { -- Oh, Shiny!
+            [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
+        },
+        [84359] = { -- Sleepless Nights
+            [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [84360] = { -- Firefighting
+            [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [84372] = { -- Lava Diving
+            [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
 
         --- Fake rune quests
         [90000] = {
