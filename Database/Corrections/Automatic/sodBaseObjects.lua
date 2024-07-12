@@ -2172,5 +2172,44 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = {82097},
         },
+        [456814] = {
+            [objectKeys.name] = "Vertically Composited Patch Hampler",
+            [objectKeys.zoneID] = 0,
+            [objectKeys.spawns] = nil,
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
+        [457097] = {
+            [objectKeys.name] = "Elements for Dummies Volume II: Fire",
+            [objectKeys.zoneID] = 51,
+            [objectKeys.spawns] = {
+                [51] = {{40.4, 35.1},{40.5, 35.4},{40.5, 35.5},},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
+        [457099] = {
+            [objectKeys.name] = "Zirene's Guide to Getting Punched",
+            [objectKeys.zoneID] = 0,
+            [objectKeys.spawns] = nil,
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
+        [462233] = {
+            [objectKeys.name] = "Shimmering Molten Crag",
+            [objectKeys.zoneID] = 51,
+            [objectKeys.spawns] = {
+                [51] = {{48.7, 37.3},{48.8, 37.5},},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
+        [463206] = {
+            [objectKeys.name] = "Book",
+            [objectKeys.zoneID] = 0,
+            [objectKeys.spawns] = nil,
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
     }
 end
