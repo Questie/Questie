@@ -66,7 +66,10 @@ local migrationFunctions = {
     end,
     [5] = function()
         Questie.db.profile.enableTooltipsNextInChain = true
-    end
+    end,
+    [6] = function()
+        Questie.db.profile.tutorialShowRunesDone = false
+    end,
 }
 
 function Migration:Migrate()
