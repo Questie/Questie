@@ -3020,6 +3020,8 @@ function QuestieQuestBlacklist:Load()
         [4146] = QuestieCorrections.SOD_HIDE, -- Zapper Fuel
         [78287] = true, -- Let Me Make You An Offer (not longer in the game)
         [78288] = true, -- Let Me Make You An Offer (not longer in the game)
+        [78297] = true, -- You've Got Yourself A Deal (not longer in the game)
+        [78304] = true, -- You've Got Yourself A Deal (not longer in the game)
         [78611] = true, -- A Waylaid Shipment (no longer available in P2)
         [79100] = true, -- A Waylaid Shipment (no longer available in P2)
         [79482] = true, -- Stolen Winter Veil Treats
