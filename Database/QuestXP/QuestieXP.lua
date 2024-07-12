@@ -23,8 +23,8 @@ function QuestXP.Init()
             end
 
             if buffSpellId == 436412 then
-                -- Discoverer's Delight is active - 100% bonus XP
-                globalXPMultiplier = 2
+                -- Discoverer's Delight is active - 150% bonus XP
+                globalXPMultiplier = 2.5
                 isDiscovererDelightActive = true
                 break
             end
