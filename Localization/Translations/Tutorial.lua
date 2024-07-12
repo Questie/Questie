@@ -72,7 +72,7 @@ local tutorialLocals = {
         ["zhCN"] = false,
         ["zhTW"] = false,
         ["esES"] = "Questie puede mostrarte las ubicaciones de las runas para tu clase de fases anteriores de SoD.\n\n",
-        ["frFR"] = "Questie peut vous montrer les emplacements des runes pour votre classe des phases précédentes de SoD.\n\n",
+        ["frFR"] = "Questie peut vous afficher les emplacements des runes pour votre classe des phases précédentes de SoD.\n\n",
     },
     ["Rune locations are marked with the following symbol:"] = {
         ["ptBR"] = "As localizações das runas são marcadas com o seguinte símbolo:",
