@@ -3018,6 +3018,8 @@ function QuestieQuestBlacklist:Load()
         [2950] = QuestieCorrections.SOD_HIDE, -- Nogg's Ring Redo
         [3446] = QuestieCorrections.SOD_HIDE, -- Into the Depths
         [4146] = QuestieCorrections.SOD_HIDE, -- Zapper Fuel
+        [78287] = true, -- Let Me Make You An Offer (not longer in the game)
+        [78288] = true, -- Let Me Make You An Offer (not longer in the game)
         [78611] = true, -- A Waylaid Shipment (no longer available in P2)
         [79100] = true, -- A Waylaid Shipment (no longer available in P2)
         [79482] = true, -- Stolen Winter Veil Treats
