@@ -812,6 +812,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [79536] = { -- Greater Friend of the Library
             [questKeys.zoneOrSort] = sortKeys.MAGE,
+            [questKeys.preQuestSingle] = {78150},
         },
         [79588] = { -- Small Furry Paws
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 500},
@@ -1962,6 +1963,10 @@ function SeasonOfDiscovery:LoadQuests()
         [82115] = { -- Trolls of a Feather
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.preQuestSingle] = {8421},
+        },
+        [82208] = { -- Greater Friend of the Library
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+            [questKeys.preQuestSingle] = {79536},
         },
         [82209] = { -- Water Pouch Bounty  (repeatable)
             [questKeys.preQuestSingle] = {1707},
@@ -5716,6 +5721,46 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = {{214070,214096,214098}},
         },
+        [81947] = { -- Sanguine Sorcery
+            [questKeys.startedBy] = {nil,{441247}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Sanguine Sorcery' and bring it to Owen Thadd in Undercity."},
+        },
+        [81949] = { -- Legends of the Tidesages
+            [questKeys.startedBy] = {nil,{441248}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Legends of the Tidesages' and bring it to Owen Thadd in Undercity."},
+        },
+        [81951] = { -- The Liminal and the Arcane
+            [questKeys.startedBy] = {nil,{441249}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'The Liminal and the Arcane' and bring it to Owen Thadd in Undercity."},
+        },
+        [81952] = { -- Everyday Etiquette
+            [questKeys.startedBy] = {nil,{441250}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Everyday Etiquette' and bring it to Owen Thadd in Undercity."},
+        },
+        [81953] = { -- Stonewrought Design
+            [questKeys.startedBy] = {nil,{441251}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Stonewrought Design' and bring it to Owen Thadd in Undercity."},
+        },
+        [81954] = { -- Venomous Journeys
+            [questKeys.startedBy] = {nil,{441252}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Venomous Journeys' and bring it to Owen Thadd in Undercity."},
+        },
+        [81955] = { -- A Mind of Metal
+            [questKeys.startedBy] = {nil,{441253}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'A Mind of Metal' and bring it to Owen Thadd in Undercity."},
+        },
+        [81956] = { -- Conjurer's Codex
+            [questKeys.startedBy] = {nil,{441254}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Conjurer's Codex' and bring it to Owen Thadd in Undercity."},
+        },
         [82307] = { -- A Full Shipment
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = {{214070,214096,214098}},
@@ -5870,6 +5915,46 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
         [80309] = { -- A Full Shipment
             [questKeys.startedBy] = {{213077,214099,214101}},
             [questKeys.finishedBy] = {{213077,214099,214101}},
+        },
+        [81947] = { -- Sanguine Sorcery
+            [questKeys.startedBy] = {nil,{441247}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Sanguine Sorcery' and bring it to Garion Wendell in Stormwind."},
+        },
+        [81949] = { -- Legends of the Tidesages
+            [questKeys.startedBy] = {nil,{441248}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Legends of the Tidesages' and bring it to Garion Wendell in Stormwind."},
+        },
+        [81951] = { -- The Liminal and the Arcane
+            [questKeys.startedBy] = {nil,{441249}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'The Liminal and the Arcane' and bring it to Garion Wendell in Stormwind."},
+        },
+        [81952] = { -- Everyday Etiquette
+            [questKeys.startedBy] = {nil,{441250}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Everyday Etiquette' and bring it to Garion Wendell in Stormwind."},
+        },
+        [81953] = { -- Stonewrought Design
+            [questKeys.startedBy] = {nil,{441251}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Stonewrought Design' and bring it to Garion Wendell in Stormwind."},
+        },
+        [81954] = { -- Venomous Journeys
+            [questKeys.startedBy] = {nil,{441252}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Venomous Journeys' and bring it to Garion Wendell in Stormwind."},
+        },
+        [81955] = { -- A Mind of Metal
+            [questKeys.startedBy] = {nil,{441253}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'A Mind of Metal' and bring it to Garion Wendell in Stormwind."},
+        },
+        [81956] = { -- Conjurer's Codex
+            [questKeys.startedBy] = {nil,{441254}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Conjurer's Codex' and bring it to Garion Wendell in Stormwind."},
         },
         [82307] = { -- A Full Shipment
             [questKeys.startedBy] = {{213077,214099,214101}},

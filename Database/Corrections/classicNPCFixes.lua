@@ -1021,6 +1021,10 @@ function QuestieNPCFixes:Load()
         [8580] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
         },
+        [8888] = {
+            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{28.96,28.93}}},
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+        },
         [8925] = {
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},

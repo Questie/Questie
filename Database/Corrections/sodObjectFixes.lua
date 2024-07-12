@@ -329,6 +329,18 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.ARATHI_HIGHLANDS] = {{62,54}},
             },
         },
+        [441247] = { -- Book
+            [objectKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
+            [objectKeys.spawns] = {
+                [zoneIDs.SWAMP_OF_SORROWS] = {{70,51}},
+            },
+        },
+        [441251] = { -- Book
+            [objectKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+            [objectKeys.spawns] = {
+                [zoneIDs.BURNING_STEPPES] = {{28.96,28.93}},
+            },
+        },
         [441848] = { -- Small Burrow
             [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
             [objectKeys.spawns] = {

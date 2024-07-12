@@ -154,6 +154,15 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [80150] = 2, -- Curious Dalaran Relic
     [80151] = 2, -- Curious Dalaran Relic
     [80152] = 2, -- Curious Dalaran Relic
+    [81947] = 3, -- Mage Book Sanguine Sorcery
+    [81949] = 3, -- Mage Book Legends of the Tidesages
+    [81951] = 3, -- Mage Book The Liminal and the Arcane
+    [81952] = 3, -- Mage Book Everyday Etiquette
+    [81953] = 3, -- Mage Book Stonewrought Design
+    [81954] = 3, -- Mage Book Venomous Journeys
+    [81955] = 3, -- Mage Book A Mind of Metal
+    [81956] = 3, -- Mage Book Conjurer's Codex
+    [82208] = 3, -- Mage Deep Freeze
 
     -- fake IDs
     --- Mage runes
