@@ -1937,6 +1937,7 @@ function QuestieQuestBlacklist:Load()
         [5516] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5520] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5523] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5541] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5664] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5665] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5666] = QuestieCorrections.CATA_HIDE, -- Removed with cata
