@@ -1522,6 +1522,9 @@ function QuestieQuestBlacklist:Load()
         [260] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [266] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [272] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [287] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [310] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [317] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [326] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [327] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [335] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1556,6 +1559,7 @@ function QuestieQuestBlacklist:Load()
         [383] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [390] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [398] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [400] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [404] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [405] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [406] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1564,6 +1568,7 @@ function QuestieQuestBlacklist:Load()
         [409] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [410] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [411] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [415] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [426] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [427] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [431] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1937,6 +1942,7 @@ function QuestieQuestBlacklist:Load()
         [5516] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5520] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5523] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5541] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5664] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5665] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5666] = QuestieCorrections.CATA_HIDE, -- Removed with cata
