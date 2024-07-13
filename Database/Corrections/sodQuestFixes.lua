@@ -5573,6 +5573,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432236,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90309] = {
+            [questKeys.name] = "Nature Specialization",
+            [questKeys.startedBy] = {nil,{457092}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID + classIDs.ROGUE + classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Read the book 'The Fury of Stormrage' to receive the rune. NOTE: The book is located near Chieftan Bloodmaw at Felpaw Village."},
+            [questKeys.requiredSpell] = -453698,
+            [questKeys.zoneOrSort] = classIDs.DRUID + classIDs.ROGUE + classIDs.SHAMAN,
+        },
     }
 end
 
