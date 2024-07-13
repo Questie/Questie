@@ -5586,7 +5586,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
     }
-    }
 end
 
 function SeasonOfDiscovery:LoadFactionQuestFixes()
