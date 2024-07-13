@@ -5573,6 +5573,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432236,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90310] = {
+            [questKeys.name] = "Ranged Weapon Specialization",
+            [questKeys.startedBy] = {nil,{457090}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.ROGUE + classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Read the book 'Famous (and Infamous) Rangers of Azeroth' to receive the rune. NOTE: The book is located in the Marris Stead."},
+            [questKeys.requiredSpell] = -453692,
+            [questKeys.zoneOrSort] = classIDs.HUNTER + classIDs.ROGUE + classIDs.WARRIOR,
+        },
     }
 end
 
