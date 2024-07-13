@@ -5581,7 +5581,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.DRUID,
-            [questKeys.objectivesText] = {"Talk to the Veneful Wisp, and move to the middle of the area until you get the 'Shimmering Light' buff, talk to the wisp again and it will put Gift of the Wisp on the ground, loot it to receive the rune."},
+            [questKeys.objectivesText] = {"Talk to the Vengeful Wisp, and move to the middle of the area until you get the 'Shimmering Light' buff, talk to the wisp again and it will put Gift of the Wisp on the ground, loot it to receive the rune."},
             [questKeys.requiredSpell] = -439767,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
