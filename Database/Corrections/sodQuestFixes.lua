@@ -5573,6 +5573,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432236,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90303] = {
+            [questKeys.name] = "Vampiric Touch",
+            [questKeys.startedBy] = {{227028}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill Hellscream's Phantom, the final boss in the Demon Fall Canyon dungeon and loot him to receive the rune."},
+            [questKeys.requiredSpell] = -402857,
+            [questKeys.zoneOrSort] = classIDs.PRIEST,
+        },
     }
 end
 
