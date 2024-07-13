@@ -5573,6 +5573,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432236,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90307] = {
+            [questKeys.name] = "Frost Specialization",
+            [questKeys.startedBy] = {nil,{457095}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.MAGE + classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Read the book 'Elements for Dummies Volume I: Frost' to receive the rune. NOTE: The book is located in the Owlbeast camp."},
+            [questKeys.requiredSpell] = -453697,
+            [questKeys.zoneOrSort] = classIDs.HUNTER + classIDs.MAGE + classIDs.SHAMAN,
+        },
     }
 end
 
