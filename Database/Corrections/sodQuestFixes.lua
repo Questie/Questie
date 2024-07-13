@@ -5573,6 +5573,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432236,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90302] = {
+            [questKeys.name] = "Axe Specialization",
+            [questKeys.startedBy] = {nil,{457101}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.PALADIN + classIDs.SHAMAN + classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Read the book 'The Rites of Mak'Gora' to receive the rune."},
+            [questKeys.requiredSpell] = -453688,
+            [questKeys.zoneOrSort] = classIDs.HUNTER + classIDs.PALADIN + classIDs.SHAMAN + classIDs.WARRIOR,
+        },
     }
 end
 
