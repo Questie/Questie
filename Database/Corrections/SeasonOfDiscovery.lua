@@ -476,6 +476,9 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90296] = 3, -- Rogue Focused Attacks
     [90297] = 3, -- Shaman Tidal Waves
     [90298] = 3, -- Shaman Rolling Thunder
+
+    -- P4 SoD Runes
+    [90306] = 4, -- Feral Combat Specialization (Druid)
 }
 
 --- "automatic" phase detection for the first few phases;
