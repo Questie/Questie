@@ -5573,6 +5573,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432236,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90308] = {
+            [questKeys.name] = "Holy Specialization",
+            [questKeys.startedBy] = {nil,{457094}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN + classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Read the book 'The True Nature of the Light' to receive the rune. NOTE: The book is located on top of a bookshelf in the Library of the northern building."},
+            [questKeys.requiredSpell] = -453702,
+            [questKeys.zoneOrSort] = classIDs.PALADIN + classIDs.PRIEST,
+        },
     }
 end
 
