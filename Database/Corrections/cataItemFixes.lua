@@ -522,6 +522,9 @@ function CataItemFixes.Load()
         [60835] = { -- Depleted Totem
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [60857] = { -- Recovered Supplies
+            [itemKeys.npcDrops] = {},
+        },
         [60879] = { -- Commander's Holy Symbol
             [itemKeys.npcDrops] = {4278},
         },
@@ -535,7 +538,7 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {45657},
         },
         [61317] = { -- Vermillion Egg
-            [itemKeys.npcDrops] = {45506,45508,45651,45682},
+            [itemKeys.npcDrops] = {45651,45682},
         },
         [61376] = { -- Suspended Starlight
             [itemKeys.npcDrops] = {},
@@ -548,6 +551,9 @@ function CataItemFixes.Load()
         },
         [62324] = { -- Wildhammer Food Store
             [itemKeys.npcDrops] = {},
+        },
+        [62330] = { -- Keg of Thundermar Ale
+            [itemKeys.objectDrops] = {206195},
         },
         [62534] = { -- Horn of Ramkahen
             [itemKeys.class] = itemClasses.QUEST,

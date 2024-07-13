@@ -115,6 +115,8 @@ local phases = {
     NPCS_AT_THERAZANES_THRONE = 1043,
     FARGO_AT_CATAPULTS = 1044,
     FARGO_AT_DOCKS = 1045,
+    THORDUN_AT_TREE = 1046,
+    THORDUN_IN_KEEP = 1047,
 }
 Phasing.phases = phases
 
@@ -236,11 +238,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.GRIM_BATOL_ATTACK_HORDE then
-        return complete[28090] and complete[28091] or false
+        return (complete[28090] or (questLog[28090] and questLog[28090].isComplete == 1)) or (complete[28091] or (questLog[28091] and questLog[28091].isComplete == 1)) or false
     end
 
     if phase == phases.GRIM_BATOL_ATTACK_ALLIANCE then
-        return complete[28103] and complete[28104] or false
+        return (complete[28103] or (questLog[28103] and questLog[28103].isComplete == 1)) or (complete[28104] or (questLog[28104] and questLog[28104].isComplete == 1)) or false
     end
 
     if phase == phases.ISORATH_NIGHTMARE then
@@ -385,6 +387,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.FARGO_AT_DOCKS then
         return complete[27106] or false
+    end
+
+    if phase == phases.THORDUN_AT_TREE then
+        return (not complete[27516])
+    end
+
+    if phase == phases.THORDUN_IN_KEEP then
+        return complete[27516] or false
     end
 
     return false

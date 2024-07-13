@@ -189,6 +189,10 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[5042] = {{48.82,53.06,169}}},
             [objectKeys.zoneID] = 5042,
         },
+        [301087] = { -- Fire Portal
+            [objectKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{36.4,83.76}}},
+            [objectKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+        },
 
         --- fake object IDs
         [460000] = {

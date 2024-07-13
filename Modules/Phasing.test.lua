@@ -693,110 +693,6 @@ describe("Phasing", function()
         end)
     end)
 
-    describe("Dragonmaw Port", function()
-        it("should return true for chapter 1", function()
-            assert.is_true(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_1))
-        end)
-
-        it("should return true for chapter 2 when 26608 is complete", function()
-            Questie.db.char.complete[26608] = true
-
-            assert.is_true(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_2))
-            assert.is_false(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_1))
-        end)
-
-        it("should return true for chapter 3 when 26622 is complete", function()
-            Questie.db.char.complete[26622] = true
-
-            assert.is_true(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_3))
-            assert.is_false(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_2))
-        end)
-
-        it("should return false for chapter 3 when 26830 is complete", function()
-            Questie.db.char.complete[26830] = true
-
-            assert.is_false(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_3))
-        end)
-    end)
-
-    describe("Isorath Nightmare", function()
-        it("should return true for Isorath Nightmare when 27303 is complete", function()
-            Questie.db.char.complete[27303] = true
-
-            assert.is_true(Phasing.IsSpawnVisible(phases.ISORATH_NIGHTMARE))
-        end)
-
-        it("should return false for Isorath Nightmare when 27303 is not complete", function()
-            assert.is_false(Phasing.IsSpawnVisible(phases.ISORATH_NIGHTMARE))
-        end)
-    end)
-
-    describe("Grim Batol attack", function()
-        it("should return true for Twilight Gate Pre Invasion when 28249 is complete", function()
-            Questie.db.char.complete[28249] = true
-
-            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE_PRE_INVASION))
-        end)
-
-        it("should return false for Twilight Gate when 28249 is not complete", function()
-            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE_PRE_INVASION))
-        end)
-
-        it("should return false for Twilight Gate when 27301 is complete", function()
-            Questie.db.char.complete[27301] = true
-
-            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE_PRE_INVASION))
-        end)
-
-        it("should return true for Twilight Gate when 27301 is complete", function()
-            Questie.db.char.complete[27301] = true
-
-            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE))
-        end)
-
-        it("should return false for Twilight Gate when 27301 is not complete", function()
-            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE))
-        end)
-
-        it("should return true for Twilight Ambush Horde & Alliance when 27509 is complete", function()
-            Questie.db.char.complete[27509] = true
-
-            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_HORDE))
-            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE))
-        end)
-
-        it("should return false for Twilight Ambush Horde & Alliance when 27509 is not complete", function()
-            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_HORDE))
-            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE))
-        end)
-
-        it("should return false for Twilight Ambush Horde when 27576 is complete", function()
-            Questie.db.char.complete[27576] = true
-
-            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_HORDE))
-        end)
-
-        it("should return false for Twilight Ambush Alliance when 28101 is complete", function()
-            Questie.db.char.complete[28101] = true
-
-            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE))
-        end)
-
-        it("should return true for Grim Batol Attack Horde when 28090 and 28091 are complete", function()
-            Questie.db.char.complete[28090] = true
-            Questie.db.char.complete[28091] = true
-
-            assert.is_true(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_HORDE))
-        end)
-
-        it("should return true for Grim Batol Attack Alliance when 28103 and 28104 are complete", function()
-            Questie.db.char.complete[28103] = true
-            Questie.db.char.complete[28104] = true
-
-            assert.is_true(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
-        end)
-    end)
-
     describe("Teldrassil", function()
         it("should handle Corithras Moonrage positioning", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.CORITHRAS_AT_DOLANAAR))
@@ -932,6 +828,147 @@ describe("Phasing", function()
             Questie.db.char.complete[27106] = true
             assert.is_false(Phasing.IsSpawnVisible(phases.FARGO_AT_CATAPULTS))
             assert.is_true(Phasing.IsSpawnVisible(phases.FARGO_AT_DOCKS))
+        end)
+    end)
+
+    describe("Twilight Highlands", function()
+        it("should return true for chapter 1 Dragonmaw Port", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_1))
+        end)
+
+        it("should return true for chapter 2 when 26608 is complete Dragonmaw Port", function()
+            Questie.db.char.complete[26608] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_2))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_1))
+        end)
+
+        it("should return true for chapter 3 when 26622 is complete Dragonmaw Port", function()
+            Questie.db.char.complete[26622] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_3))
+            assert.is_false(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_2))
+        end)
+
+        it("should return false for chapter 3 when 26830 is complete Dragonmaw Port", function()
+            Questie.db.char.complete[26830] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_3))
+        end)
+
+        it("should return true for Isorath Nightmare when 27303 is complete", function()
+            Questie.db.char.complete[27303] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.ISORATH_NIGHTMARE))
+        end)
+
+        it("should return false for Isorath Nightmare when 27303 is not complete", function()
+            assert.is_false(Phasing.IsSpawnVisible(phases.ISORATH_NIGHTMARE))
+        end)
+
+        it("should return true for Twilight Gate Pre Invasion when 28249 is complete", function()
+            Questie.db.char.complete[28249] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE_PRE_INVASION))
+        end)
+
+        it("should return false for Twilight Gate when 28249 is not complete", function()
+            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE_PRE_INVASION))
+        end)
+
+        it("should return false for Twilight Gate when 27301 is complete", function()
+            Questie.db.char.complete[27301] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE_PRE_INVASION))
+        end)
+
+        it("should return true for Twilight Gate when 27301 is complete", function()
+            Questie.db.char.complete[27301] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE))
+        end)
+
+        it("should return false for Twilight Gate when 27301 is not complete", function()
+            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE))
+        end)
+
+        it("should return true for Twilight Ambush Horde & Alliance when 27509 is complete", function()
+            Questie.db.char.complete[27509] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_HORDE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE))
+        end)
+
+        it("should return false for Twilight Ambush Horde & Alliance when 27509 is not complete", function()
+            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_HORDE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE))
+        end)
+
+        it("should return false for Twilight Ambush Horde when 27576 is complete", function()
+            Questie.db.char.complete[27576] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_HORDE))
+        end)
+
+        it("should return false for Twilight Ambush Alliance when 28101 is complete", function()
+            Questie.db.char.complete[28101] = true
+
+            assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE))
+        end)
+
+        it("should return true for Grim Batol Attack Horde when 28090 and 28091 are complete", function()
+            Questie.db.char.complete[28090] = true
+            Questie.db.char.complete[28091] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_HORDE))
+        end)
+
+        it("should return true for Grim Batol Attack Alliance when 28103 and 28104 are complete", function()
+            Questie.db.char.complete[28103] = true
+            Questie.db.char.complete[28104] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
+
+            Questie.db.char.complete[28103] = false
+            Questie.db.char.complete[28104] = false
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
+
+            Questie.db.char.complete[28103] = true
+            Questie.db.char.complete[28104] = true
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[28103]={isComplete=0}}
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[28104]={isComplete=0}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[28103]={isComplete=1}}
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[28104]={isComplete=1}}
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[28103] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+            Questie.db.char.complete[28104] = true
+
+            assert.is_true(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
+        end)
+
+        it("should correctly position Thordun Hammerblow", function()
+            assert.is_true(Phasing.IsSpawnVisible(phases.THORDUN_AT_TREE))
+            assert.is_false(Phasing.IsSpawnVisible(phases.THORDUN_IN_KEEP))
+
+            Questie.db.char.complete[27516] = true
+            assert.is_false(Phasing.IsSpawnVisible(phases.THORDUN_AT_TREE))
+            assert.is_true(Phasing.IsSpawnVisible(phases.THORDUN_IN_KEEP))
         end)
     end)
 end)

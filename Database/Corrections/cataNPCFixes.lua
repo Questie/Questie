@@ -1764,6 +1764,14 @@ function CataNpcFixes.Load()
         [45042] = { -- Thrall
             [npcKeys.spawns] = {[5416] = {{33.37,50.17}}},
         },
+        [45172] = { -- Thordun Hammerblow
+            [npcKeys.spawns] = {
+                [zoneIDs.TWILIGHT_HIGHLANDS] = {
+                    {67.66,65.96,phases.THORDUN_AT_TREE},
+                    {79.22,78.29,phases.THORDUN_IN_KEEP},
+                },
+            },
+        },
         [45238] = { -- Harrison Jones
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.56,28.6}}},
         },
@@ -1775,6 +1783,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [45708] = { -- Lirastrasza
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{27.6,21.01}}},
+        },
         [45757] = { -- Floor Kill Credit
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.48,29.87}}},
         },
@@ -1784,18 +1795,66 @@ function CataNpcFixes.Load()
         [45760] = { -- Northern Kill Credit
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{65.62,25.68},{63.38,25.68}}},
         },
+        [45796] = { -- Master Mathias Shaw
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{36.37,65.95}}},
+        },
+        [45862] = { -- "Call in the Artillery" Southern Building Bunny
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{41.51,72.6}}},
+        },
+        [45865] = { -- "Call in the Artillery" Northern Building Bunny
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{39.21,62.05}}},
+        },
+        [46076] = { -- SI:7 Squad Commander
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{38.93,64.01}}},
+        },
         [46283] = { -- Chamber of Stars Kill Credit
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.48,29.87}}},
         },
         [46316] = { -- Gimme Shelter Kill Credit 00
             [npcKeys.spawns] = {},
         },
+        [46459] = { -- "Mr. Goldmine's Wild Ride" Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{38.35,93.88}}},
+        },
+        [46513] = { -- Initiate Goldmine
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{38.32,93.92}}},
+        },
+        [46585] = { -- Eoin Dunwald
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{46,65.55}}},
+        },
+        [46599] = { -- Dunwald Hovel, South Credit
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{45.42,60.06}}},
+            [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+        },
+        [46600] = { -- Dunwald Hovel, Northwest Credit
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{46.25,54.08}}},
+            [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+        },
+        [46601] = { -- Dunwald Hovel, East Credit
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{48.4,52.56}}},
+            [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+        },
         [46920] = { -- Cursed Expedition Member
             [npcKeys.name] = "Cursed Expedition Member",
+        },
+        [46936] = { -- Wodin the Troll-Servant
+            [npcKeys.questEnds] = {27861,27862,27863,27864,27865,27866,27867,27868,28038},
+        },
+        [46939] = { -- Mullan Gryphon
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{58.22,62.52},{62.13,61.74},{56,65.2},{56.2,68.4},{57,74.2},{57.4,68.4},{57.6,68.4},{60,64}}},
+        },
+        [46968] = { -- Mullan Gryphon
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{59.82,62.08},{61.45,62.85},{53.8,68.8},{54,65.6},{54.8,63.2},{56.8,64},{56.8,71.8}}},
+        },
+        [46969] = { -- Mullan Gryphon
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{54.2,73.16},{57.48,70.39},{55.91,69.84},{53.8,66.6},{58.2,65.2}}},
         },
         [46998] = { -- Vision of Ysera
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{27.03,62.64}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
+        [47241] = { -- Mullan Gryphon Mount
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{60.87,58.14},{60.63,57.78},{60.82,58.06},{60.78,57.98},{60.7,57.94}}},
         },
         [47255] = { -- Gobbles
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{24.49,64.46}}},
@@ -1805,6 +1864,9 @@ function CataNpcFixes.Load()
         },
         [47591] = { -- Baradin Crocolisk
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{44.78,55.45},{37.67,51.43},{39.25,47.63},{37.78,52.88},{43.23,50.08},{38.76,53.22},{43.35,44.55},{36.99,48.26},{36.89,42.55},{35.6,42.25},{34.66,46.94},{38.67,47.15},{34.98,51.4},{40.58,43.79},{39.3,40.69},{45,42.88},{37.32,49.52},{41.7,53.48},{40.63,48.52},{37.72,55.84},{39.04,45.1},{38.93,42.14},{38.03,42.54},{43.62,44.08},{38.3,43.78}}},
+        },
+        [47592] = { -- Master Mathias Shaw
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{25.99,38.78}}},
         },
         [47593] = { -- Problim
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{50.94,36.89}}},
@@ -1834,6 +1896,14 @@ function CataNpcFixes.Load()
         [47610] = { -- Horde Shaman Infantry
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{48.74,20.97},{51.09,20.51},{53.6,20.37},{54.09,29.27},{53.86,24.05},{51.43,24.07},{49.14,24.26},{49.24,26.41},{48.69,29.94},{51.13,28.64},{51.22,30.18},{34.79,64.19},{34.2,72.8},{33.57,68.16},{33.11,66.55},{31.34,69.65},{30.59,69.59},{33.62,74.83},{36.79,72.08},{38.62,69.74},{36.83,66.02},{65.72,70.05},{66.68,71.3},{67.98,68.56},{69.26,64.66},{67.51,64.89},{64.57,61.4},{65.97,60.7},{67.53,62.23},{66.49,63.61},{64.55,66.71},{63.86,63.17},{62.45,66.21}}},
         },
+        [47611] = { -- Highbank Lieutenant
+            [npcKeys.spawns] = {
+                [zoneIDs.TWILIGHT_HIGHLANDS] = {
+                    {25.93,38.83,phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE},
+                    {29.31,52.39,phases.GRIM_BATOL_ATTACK_ALLIANCE},
+                },
+            },
+        },
         [47838] = { -- Shrine 1 Cleansed
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{34.18,35.74}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
@@ -1846,6 +1916,18 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{34.33,37.75}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
         },
+        [47874] = { -- Obsidian Lair Pathing Credit
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{49.82,85.49}}},
+        },
+        [47876] = { -- Obsidian Flower Bunny
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{64.07,78.04}}},
+        },
+        [47905] = { -- Baleflame
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{44.91,90.91}}},
+        },
+        [47929] = { -- Obsidia
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{45.15,91.73}}},
+        },
         [47970] = { -- Schnottz Guests
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{21.91,64.1}}},
             [npcKeys.zoneID] = zoneIDs.ULDUM,
@@ -1857,6 +1939,10 @@ function CataNpcFixes.Load()
         [48039] = { -- Commander Stevens
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{54.37,45.63}}},
         },
+        [48051] = { -- Thrall
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{33.35,50.39}}},
+            [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+        },
         [48061] = { -- 2nd Lieutenant Wansworth
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{53.11,46.41}}},
         },
@@ -1866,11 +1952,18 @@ function CataNpcFixes.Load()
         [48074] = { -- Marshal Fallows
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{53.53,47.01}}},
         },
+        [48108] = { -- Iso'rath Nightmare Credit
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{48.27,14.49}}},
+            [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+        },
         [48189] = { -- Firing Squad Kill Credit
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{23.67,60.99}}},
         },
         [48199] = { -- Bloodsnarl Scavenger
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{56.27,63.32},{56.1,62.7}}},
+        },
+        [48257] = { -- Narkrall Rakeclaw
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{48.7,29.79}}},
         },
         [48264] = { -- Golluck Rockfist
             [npcKeys.spawns] = {
@@ -1909,8 +2002,15 @@ function CataNpcFixes.Load()
         [48529] = { -- Lunar Crystal
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{39.51,24.3},{39.81,23.65},{40.11,23}}},
         },
+        [49212] = { -- Skyshredder Bomb Controller Bunny
+            [npcKeys.waypoints] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{{81.33,80.21},{80.80,80.52},{80.19,80.70},{79.57,80.72},{79.01,80.58},{78.49,80.22},{78.05,79.59},{77.70,78.84},{77.44,78.08},{77.23,77.28},{77.11,76.40},{77.15,75.46},{77.32,74.70},{77.58,73.89},{77.90,73.09},{78.26,72.37},{78.64,71.72},{79.10,71.10},{79.59,70.56},{80.11,70.20},{80.66,70.09},{81.24,70.24},{81.82,70.57},{82.35,71.05},{82.78,71.61},{83.14,72.31},{83.45,73.12},{83.68,73.98},{83.80,74.80},{83.79,75.67},{83.65,76.54},{83.40,77.36},{83.08,78.11},{82.70,78.74},{82.24,79.35},{81.74,79.87},{81.33,80.21}}}},
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{77.17,75.31}}},
+        },
         [49893] = { -- Lisa McKeever
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{51.62,72.38}}},
+        },
+        [49358] = { -- Kurdran Wildhammer
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{55.25,17.33}}},
         },
         [49956] = { -- Pebble
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM]={{63.07,20.88}}},
@@ -2069,6 +2169,42 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{42.54,68.42}}},
             [npcKeys.zoneID] = zoneIDs.ULDUM,
             [npcKeys.questEnds] = {27940},
+        },
+        [100016] = { -- Move the Mountain
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{37.95,66.19}}},
+            [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+            [npcKeys.questEnds] = {27494},
+        },
+        [100017] = { -- Signal the Attack
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{37.95,66.19}}},
+            [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+            [npcKeys.questStarts] = {27498,27499},
+        },
+        [100018] = { -- Signal the Attack
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{42.33,68.8},{40.62,62.21}}},
+            [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+            [npcKeys.questEnds] = {27498,27499,27588,27590},
+        },
+        [100019] = { -- Four Heads are Better than None
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{42.33,68.8},{40.62,62.21}}},
+            [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+            [npcKeys.questStarts] = {27500,27501},
+        },
+        [100020] = { -- Up to the Citadel
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{37.63,65.84}}},
+            [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+            [npcKeys.questEnds] = {27502,27503},
+        },
+        [100021] = { -- Just You and Mathias, Just You and Garona
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{37.63,65.84}}},
+            [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+            [npcKeys.questStarts] = {27636,27638},
         },
     }
 end
