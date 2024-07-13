@@ -5581,7 +5581,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.DRUID,
-            [questKeys.objectivesText] = {"Kill Venomhide Ravasaurs until Idol of the Huntress drops, equip it and follow its instructions to receive the rune. to receive the rune."},
+            [questKeys.objectivesText] = {"Kill Venomhide Ravasaurs until Idol of the Huntress drops, equip it and follow its instructions to receive the rune."},
             [questKeys.requiredSpell] = -439765,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
