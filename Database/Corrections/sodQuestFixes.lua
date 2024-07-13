@@ -5573,6 +5573,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432236,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90311] = {
+            [questKeys.name] = "Shadow Specialization",
+            [questKeys.startedBy] = {nil,{457089}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST + classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Read the book 'The Shadow Connection' to receive the rune. NOTE: The book is located on the alter in the Tainted Scar."},
+            [questKeys.requiredSpell] = -453700,
+            [questKeys.zoneOrSort] = classIDs.PRIEST + classIDs.WARLOCK,
+        },
     }
 end
 
