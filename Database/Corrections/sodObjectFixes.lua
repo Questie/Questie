@@ -32,12 +32,6 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.STORMWIND_CITY] = {{33,24.7}},
             },
         },
-        [403041] = { -- Blasting Supplies
-            [objectKeys.zoneID] = zoneIDs.MULGORE,
-            [objectKeys.spawns] = {
-                [zoneIDs.MULGORE] = {{63.8,44.1}},
-            },
-        },
         [403105] = { -- Windfury Cone
             [objectKeys.zoneID] = zoneIDs.MULGORE,
             [objectKeys.spawns] = {
