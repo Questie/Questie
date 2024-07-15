@@ -1311,7 +1311,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [208215] = {
             [itemKeys.name] = "Top-Left Map Piece",
-            [itemKeys.npcDrops] = {707,724,1115,1116,1718},
+            [itemKeys.npcDrops] = {707,724,1115,1116,1118,1718},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
