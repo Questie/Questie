@@ -923,7 +923,7 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_HORDE))
         end)
 
-        it("should return true for Grim Batol Attack Alliance when 28103 and 28104 are complete", function()
+        it("should return true for Grim Batol Attack Alliance when 28103 or 28104 are complete", function()
             Questie.db.char.complete[28103] = true
             Questie.db.char.complete[28104] = true
 
