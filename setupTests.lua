@@ -42,7 +42,7 @@ _G.CreateFrame = {
 }
 setmetatable(_G.CreateFrame, {
     __call = function(_, frameType, frameName)
-        local alpha
+        local alpha = 1
         local width, height
         local point
         local normalTexture

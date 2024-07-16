@@ -42,7 +42,7 @@ describe("TrackerItemButton", function()
         assert.equals("TestButton", trackerItemButton:GetName())
         assert.equals("Cooldown", CreateFrame.mockedFrames[2]:GetObjectType())
 
-        assert.is_nil(trackerItemButton:GetAlpha())
+        assert.equals(1, trackerItemButton:GetAlpha())
 
         assert.equals(0, table.getn(trackerItemButton.scripts))
         assert.equals(0, table.getn(trackerItemButton.attributes))
