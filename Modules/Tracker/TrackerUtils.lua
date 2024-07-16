@@ -1075,7 +1075,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
     local hasUsableRequiredItem = requiredItems and TrackerUtils:IsQuestItemUsable(requiredItems[1])
     local isComplete = (quest.isComplete ~= true and #quest.Objectives == 0) or quest.isComplete == true
 
-    if complete ~= 1 and (hasUsableSourceItem or hasUsableRequiredItem) or usableQIB then
+    if (complete ~= 1 and (hasUsableSourceItem or hasUsableRequiredItem)) or usableQIB then
         -- Get button from buttonPool
         local button = TrackerLinePool.GetNextItemButton()
         if not button then
@@ -1120,7 +1120,6 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
 
             local secondaryButtonAdded = false
             if hasUsableRequiredItem and (hasUsableSourceItem or #requiredItems > 1) then
-                -- TODO: This needs to be moved to only be called when required
                 local secondaryButton = TrackerLinePool.GetNextItemButton()
                 if not secondaryButton then
                     return false -- stop populating the tracker
