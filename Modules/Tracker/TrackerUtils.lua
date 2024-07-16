@@ -1075,7 +1075,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
     local hasUsableRequiredItem = requiredItems and TrackerUtils:IsQuestItemUsable(requiredItems[1])
     local isComplete = (quest.isComplete ~= true and #quest.Objectives == 0) or quest.isComplete == true
 
-    if complete ~= 1 and (hasUsableSourceItem or (requiredItems and #requiredItems == 1 and hasUsableRequiredItem)) or usableQIB then
+    if complete ~= 1 and (hasUsableSourceItem or hasUsableRequiredItem) or usableQIB then
         -- Get button from buttonPool
         local button = TrackerLinePool.GetNextItemButton()
         if not button then
@@ -1117,6 +1117,40 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
             button:SetPoint("TOPLEFT", button.line, "TOPLEFT", 0, 0)
             button:SetParent(button.line)
             button:Show()
+
+            local secondaryButtonAdded = false
+            if hasUsableRequiredItem and (hasUsableSourceItem or #requiredItems > 1) then
+                -- TODO: This needs to be moved to only be called when required
+                local secondaryButton = TrackerLinePool.GetNextItemButton()
+                if not secondaryButton then
+                    return false -- stop populating the tracker
+                end
+
+                secondaryButton.line = line
+
+                if hasUsableSourceItem then
+                    secondaryButtonAdded = secondaryButton:SetItem(requiredItems[1], "secondary", questItemButtonSize)
+                elseif #requiredItems > 1 then
+                    -- TODO: Handle more than 2 buttons if required
+                    secondaryButtonAdded = secondaryButton:SetItem(requiredItems[2], "secondary", questItemButtonSize)
+                end
+
+                if secondaryButtonAdded then
+                    height = 0
+                    frame = secondaryButton.line
+
+                    while frame and frame ~= trackerQuestFrame do
+                        local _, parent, _, _, yOff = frame:GetPoint()
+                        height = height - (frame:GetHeight() - yOff)
+                        frame = parent
+                    end
+
+                    -- Attach button to Quest Title linePool
+                    secondaryButton:SetPoint("TOPLEFT", secondaryButton.line, "TOPLEFT", 2 + questItemButtonSize, 0)
+                    secondaryButton:SetParent(secondaryButton.line)
+                    secondaryButton:Show()
+                end
+            end
         end
     end
 
