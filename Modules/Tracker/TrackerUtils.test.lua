@@ -53,7 +53,7 @@ describe("TrackerUtils", function()
         assert.not_nil(button.line)
     end)
 
-    it("should add sourceItemId as primary button and single requiredSourceItems as secondary button", function()
+    it("should add single requiredSourceItems entry as primary button", function()
         _G.GetItemSpell = function() return 111 end
         QuestieDB.QueryQuestSingle = spy.new(function()
             return nil
@@ -84,7 +84,7 @@ describe("TrackerUtils", function()
         assert.not_nil(button.line)
     end)
 
-    --it("should add single requiredSourceItems entry as primary button", function()
+    --it("should add sourceItemId as primary button and single requiredSourceItems as secondary button", function()
     --
     --end)
     --
