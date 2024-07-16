@@ -24637,14 +24637,6 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
-        [227911] = {
-            [itemKeys.name] = "Head of Rend Blackhand",
-            [itemKeys.npcDrops] = {10429},
-            [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
-            [itemKeys.startQuest] = 84377,
-        },
         [227912] = {
             [itemKeys.name] = "Applied Divinity",
             [itemKeys.npcDrops] = nil,
