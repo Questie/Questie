@@ -203,7 +203,6 @@ do
             addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadFactionQuestFixes())
         end
 
-        -- TODO: Add proper blacklisting for Cata
         QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
         QuestieCorrections.questNPCBlacklist = filterExpansion(QuestieNPCBlacklist:Load())
         QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load())
