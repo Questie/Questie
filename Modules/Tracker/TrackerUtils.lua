@@ -1091,9 +1091,9 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
 
         local primaryButtonAdded = false
         if hasUsableSourceItem then
-            primaryButtonAdded = button:SetItem(sourceItemId, "primary", questItemButtonSize)
+            primaryButtonAdded = button:SetItem(sourceItemId, quest.Id, questItemButtonSize)
         elseif hasUsableRequiredItem then
-            primaryButtonAdded = button:SetItem(requiredItems[1], "primary", questItemButtonSize)
+            primaryButtonAdded = button:SetItem(requiredItems[1], quest.Id, questItemButtonSize)
         end
 
         -- Setup button and set attributes
@@ -1142,10 +1142,10 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                 line.altButton = secondaryButton
 
                 if hasUsableSourceItem then
-                    secondaryButtonAdded = secondaryButton:SetItem(requiredItems[1], "secondary", questItemButtonSize)
+                    secondaryButtonAdded = secondaryButton:SetItem(requiredItems[1], quest.Id, questItemButtonSize)
                 elseif #requiredItems > 1 then
                     -- TODO: Handle more than 2 buttons if required
-                    secondaryButtonAdded = secondaryButton:SetItem(requiredItems[2], "secondary", questItemButtonSize)
+                    secondaryButtonAdded = secondaryButton:SetItem(requiredItems[2], quest.Id, questItemButtonSize)
                 end
 
                 if secondaryButtonAdded then

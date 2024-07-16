@@ -52,7 +52,7 @@ describe("TrackerUtils", function()
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-        assert.spy(button.SetItem).was_called_with(_, 123, "primary", 12)
+        assert.spy(button.SetItem).was_called_with(_, 123, 1, 12)
         assert.is_true(button:IsVisible())
 
         assert.equals(line, button.line)
@@ -84,7 +84,7 @@ describe("TrackerUtils", function()
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-        assert.spy(button.SetItem).was_called_with(_, 456, "primary", 12)
+        assert.spy(button.SetItem).was_called_with(_, 456, 1, 12)
         assert.is_true(button:IsVisible())
 
         assert.equals(line, button.line)
@@ -126,8 +126,8 @@ describe("TrackerUtils", function()
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-        assert.spy(primaryButton.SetItem).was_called_with(_, 123, "primary", 12)
-        assert.spy(secondaryButton.SetItem).was_called_with(_, 456, "secondary", 12)
+        assert.spy(primaryButton.SetItem).was_called_with(_, 123, 1, 12)
+        assert.spy(secondaryButton.SetItem).was_called_with(_, 456, 1, 12)
         assert.is_true(primaryButton:IsVisible())
         assert.is_true(secondaryButton:IsVisible())
 
@@ -171,8 +171,8 @@ describe("TrackerUtils", function()
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-        assert.spy(primaryButton.SetItem).was_called_with(_, 123, "primary", 12)
-        assert.spy(secondaryButton.SetItem).was_called_with(_, 456, "secondary", 12)
+        assert.spy(primaryButton.SetItem).was_called_with(_, 123, 1, 12)
+        assert.spy(secondaryButton.SetItem).was_called_with(_, 456, 1, 12)
         assert.is_true(primaryButton:IsVisible())
         assert.is_true(secondaryButton:IsVisible())
 
