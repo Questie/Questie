@@ -34,7 +34,13 @@ ZoneDB.zoneIDs = ZoneDB.private.zoneIDs or {}
 
 -- Overrides for UiMapId to AreaId
 local UiMapIdOverrides = {
-    [246] = 3713
+    [246] = 3713,
+    -- We map "Eastern Kingdom" and "Kalimdor" zone to 0, because they are not used for any NPC/object, but can be returned from
+    -- C_Map.GetBestMapForUnit("player") when the player is in a cave for example.
+    [113] = 0, -- Northrend
+    [1414] = 0, -- Kalimdor
+    [1415] = 0, -- Eastern Kingdom
+    [1945] = 0, -- Outland
 }
 local parentZoneToSubZone = {} -- Generated
 local zoneMap = {} -- Generated

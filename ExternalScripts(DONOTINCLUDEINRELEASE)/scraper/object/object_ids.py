@@ -1,4 +1,4 @@
-# https://www.wowhead.com/classic/objects?filter=6;2;11502
+# https://www.wowhead.com/classic/objects?filter=6;2;11503
 # r = []
 # document.getElementsByClassName("listview-cleartext").forEach(l => r.push(parseInt(l.href.substr(39, 6)))); r; // run for each page
 # [...new Set(r)].sort();

@@ -107,6 +107,16 @@ local phases = {
     HAR_KOA_AT_ZIM_TORGA = 1035,
     EARTHEN_GUIDE_BFD = 1036,
     EARTHEN_GUIDE_SHORE = 1037,
+    JAROD_NEAR_PORTAL = 1038,
+    JAROD_MIDDLE_ISLAND = 1039,
+    PEBBLE_AT_KOR = 1040,
+    PEBBLE_AT_CRYSTALS = 1041,
+    TERRATH_AT_AEOSERA = 1042,
+    NPCS_AT_THERAZANES_THRONE = 1043,
+    FARGO_AT_CATAPULTS = 1044,
+    FARGO_AT_DOCKS = 1045,
+    THORDUN_AT_TREE = 1046,
+    THORDUN_IN_KEEP = 1047,
 }
 Phasing.phases = phases
 
@@ -228,11 +238,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.GRIM_BATOL_ATTACK_HORDE then
-        return complete[28090] and complete[28091] or false
+        return (complete[28090] or (questLog[28090] and questLog[28090].isComplete == 1)) or (complete[28091] or (questLog[28091] and questLog[28091].isComplete == 1)) or false
     end
 
     if phase == phases.GRIM_BATOL_ATTACK_ALLIANCE then
-        return complete[28103] and complete[28104] or false
+        return (complete[28103] or (questLog[28103] and questLog[28103].isComplete == 1)) or (complete[28104] or (questLog[28104] and questLog[28104].isComplete == 1)) or false
     end
 
     if phase == phases.ISORATH_NIGHTMARE then
@@ -345,6 +355,46 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.EARTHEN_GUIDE_SHORE then
         return (complete[11891] or questLog[11891] and true) or false
+    end
+
+    if phase == phases.JAROD_NEAR_PORTAL then
+        return (not complete[25608])
+    end
+
+    if phase == phases.JAROD_MIDDLE_ISLAND then
+        return complete[25608] or false
+    end
+
+    if phase == phases.PEBBLE_AT_KOR then
+        return complete[26441] or (not complete[26440]) or false
+    end
+
+    if phase == phases.PEBBLE_AT_CRYSTALS then
+        return (complete[26440] and not complete[26441]) or (questLog[26440] and questLog[26440].isComplete == 1) or false
+    end
+
+    if phase == phases.TERRATH_AT_AEOSERA then
+        return complete[26659] or (questLog[26659] and questLog[26659].isComplete == 1) or false
+    end
+
+    if phase == phases.NPCS_AT_THERAZANES_THRONE then
+        return complete[26659] and complete[26584] and complete[26585] or false
+    end
+
+    if phase == phases.FARGO_AT_CATAPULTS then
+        return (not complete[27106])
+    end
+
+    if phase == phases.FARGO_AT_DOCKS then
+        return complete[27106] or false
+    end
+
+    if phase == phases.THORDUN_AT_TREE then
+        return (not complete[27516])
+    end
+
+    if phase == phases.THORDUN_IN_KEEP then
+        return complete[27516] or false
     end
 
     return false

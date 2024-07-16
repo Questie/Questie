@@ -201,6 +201,26 @@ function QuestieTooltips.GetTooltip(key)
         return nil -- temporary disable tooltips in raids, we should make a proper fix
     end
 
+    local isObjectTooltip = key:sub(1, 2) == "o_"
+    if isObjectTooltip then
+        local objectIsInCurrentZone = false
+        local objectId = tonumber(key:sub(3))
+        local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
+        if spawns then
+            local playerZone = QuestiePlayer:GetCurrentZoneId()
+            for zoneId in pairs(spawns) do
+                if zoneId == playerZone then
+                    objectIsInCurrentZone = true
+                    break
+                end
+            end
+        end
+
+        if (not objectIsInCurrentZone) then
+            return nil
+        end
+    end
+
     --Do not remove! This is the datastrucutre for tooltipData!
     --[[tooltipdata[questId] = {
         title = coloredTitle,
@@ -219,20 +239,32 @@ function QuestieTooltips.GetTooltip(key)
 
     if QuestieTooltips.lookupByKey[key] then
         local playerName = UnitName("player")
+
+        local finishedAndUnacceptedQuests = {}
+        if Questie.db.profile.showQuestsInNpcTooltip then
+            -- We built a table of all quests in the tooltip that can be accepted or turned in, to not show the objectives for those
+            -- and also don't add the quest title twice.
+            for _, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
+                if tooltip.name then
+                    finishedAndUnacceptedQuests[tooltip.questId] = true
+                end
+            end
+        end
+
         for k, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
+            local questId = tooltip.questId
+
             if tooltip.name then
                 if Questie.db.profile.showQuestsInNpcTooltip then
-                    local questString = QuestieLib:GetColoredQuestName(tooltip.questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
+                    local questString = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
                     tinsert(tooltipLines, questString)
                 end
-            else
+            elseif (not finishedAndUnacceptedQuests[questId]) then
                 local objective = tooltip.objective
                 if not (objective.IsSourceItem or objective.IsRequiredSourceItem) then
-                    -- Tooltip was registered for a sourceItem or requiredSourceItem and not a real "objective"
+                    -- Tooltip was registered for a real "objective" and not for a sourceItem or requiredSourceItem
                     objective:Update()
                 end
-
-                local questId = tooltip.questId
                 local objectiveIndex = objective.Index;
                 if (not tooltipData[questId]) then
                     tooltipData[questId] = {
@@ -251,8 +283,10 @@ function QuestieTooltips.GetTooltip(key)
                         text = "   " .. color .. tostring(QuestieDB.QueryItemSingle(objective.spawnList[tonumber(key:sub(3))].ItemId, "name"));
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                     elseif objective.Needed then
-                        text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description);
-                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
+                        if (not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed then
+                            text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description);
+                            tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
+                        end
                     else
                         text = "   " .. color .. tostring(objective.Description);
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };

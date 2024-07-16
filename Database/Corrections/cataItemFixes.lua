@@ -166,7 +166,7 @@ function CataItemFixes.Load()
         [48707] = { -- Gilnean Mastiff Collar
             [itemKeys.class] = itemClasses.QUEST,
         },
-        [48766] = { -- Kaja\'mite Chunk
+        [48766] = { -- Kaja'mite Chunk
             [itemKeys.npcDrops] = {},
         },
         [49172] = { -- Simmering Water Droplet
@@ -435,6 +435,9 @@ function CataItemFixes.Load()
         [58365] = { -- Horn of the Ancients
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [58500] = { -- Jade Crystal Cluster
+            [itemKeys.npcDrops] = {},
+        },
         [58809] = { -- Rock Lobster
             [itemKeys.npcDrops] = {},
         },
@@ -447,6 +450,9 @@ function CataItemFixes.Load()
         [58899] = { -- Violet Perch
             [itemKeys.npcDrops] = {},
         },
+        [58944] = { -- Catapult Part
+            [itemKeys.npcDrops] = {}
+        },
         [58945] = { -- Toxic Puddlefish
             [itemKeys.npcDrops] = {}
         },
@@ -458,6 +464,9 @@ function CataItemFixes.Load()
         },
         [58958] = { -- Drowned Thunder Lizard Tail
             [itemKeys.npcDrops] = {39464},
+        },
+        [58959] = { -- Petrified Stone Bat
+            [itemKeys.npcDrops] = {43181,43182},
         },
         [58969] = { -- Jorgensen's Cage Key
             [itemKeys.class] = itemClasses.QUEST,
@@ -486,11 +495,17 @@ function CataItemFixes.Load()
         [59522] = { -- Key of Ilgalar
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [60297] = { -- Side of Basilisk Meat
+            [itemKeys.npcDrops] = {43981},
+        },
         [60337] = { -- Verrall River Muck
             [itemKeys.npcDrops] = {},
         },
         [60382] = { -- Mylra's Knife
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [60574] = { -- The Upper World Pillar Fragment
+            [itemKeys.npcDrops] = {},
         },
         [60680] = { -- S.A.F.E. "Parachute"
             [itemKeys.class] = itemClasses.QUEST,
@@ -507,6 +522,9 @@ function CataItemFixes.Load()
         [60835] = { -- Depleted Totem
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [60857] = { -- Recovered Supplies
+            [itemKeys.npcDrops] = {},
+        },
         [60879] = { -- Commander's Holy Symbol
             [itemKeys.npcDrops] = {4278},
         },
@@ -520,13 +538,22 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {45657},
         },
         [61317] = { -- Vermillion Egg
-            [itemKeys.npcDrops] = {45506,45508,45651,45682},
+            [itemKeys.npcDrops] = {45651,45682},
+        },
+        [61376] = { -- Suspended Starlight
+            [itemKeys.npcDrops] = {},
+        },
+        [61929] = { -- Broken Spectacles
+            [itemKeys.npcDrops] = {45874},
+        },
+        [61976] = { -- Orb of the North Star
+            [itemKeys.npcDrops] = {},
         },
         [62324] = { -- Wildhammer Food Store
             [itemKeys.npcDrops] = {},
         },
-        [61376] = { -- Suspended Starlight
-            [itemKeys.npcDrops] = {},
+        [62330] = { -- Keg of Thundermar Ale
+            [itemKeys.objectDrops] = {206195},
         },
         [62534] = { -- Horn of Ramkahen
             [itemKeys.class] = itemClasses.QUEST,
@@ -544,7 +571,7 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {47201},
         },
         [62789] = { -- Trooper Uniform
-            [itemKeys.npcDrops] = {47207},
+            [itemKeys.npcDrops] = {47207,47213,47216,47219},
         },
         [62792] = { -- Well-preserved Idol
             [itemKeys.npcDrops] = {},

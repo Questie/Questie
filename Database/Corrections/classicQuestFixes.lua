@@ -4007,6 +4007,19 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {65593},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
+        -----------------
+        [84377] = {
+            [questKeys.name] = "End of the Dark Horde",
+            [questKeys.startedBy] = {{10429},nil,{227911}},
+            [questKeys.finishedBy] = {{466,}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Take the Head of Rend Blackhand to General Marcus Jonathan in Stormwind."},
+            [questKeys.objectives] = nil,
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
     }
 end
 

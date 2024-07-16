@@ -147,6 +147,12 @@ function CataObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.THE_EXODAR,
             [objectKeys.questStarts] = {27724,27726,27727,28492,28503,28507,28511,28525,28528,28531,28539,28543,28544,28550,28552,28558,28559,28708},
         },
+        [207327] = { -- Pip's Mole Machine
+            [objectKeys.name] = "Pip's Mole Machine",
+        },
+        [207328] = { -- Pip's Mole Machine
+            [objectKeys.name] = "Pip's Mole Machine",
+        },
         [207381] = { -- Deep Alabaster Crystal Chunk
             [objectKeys.spawns] = {},
         },
@@ -183,12 +189,16 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[5042] = {{48.82,53.06,169}}},
             [objectKeys.zoneID] = 5042,
         },
+        [301087] = { -- Fire Portal
+            [objectKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{36.4,83.76}}},
+            [objectKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+        },
 
         --- fake object IDs
         [460000] = {
             [objectKeys.name] = "Harpy Signal Fire",
             [objectKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
-            [objectKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{32.8,46.6},{36.6,44.7},{38.3,44.1},{44.6,51.3}}},
+            [objectKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{32.81,46.53},{35.59,47.3},{36.53,44.72},{38.33,44.18},{49.77,46.3},{44.66,51.24}}},
         },
         [460001] = {
             [objectKeys.name] = "Fossil Archaeology Object",
@@ -218,6 +228,21 @@ function CataObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
             [objectKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE] = {{28.92,78.64}}},
         },
+        [460007] = {
+            [objectKeys.name] = "Flameward",
+            [objectKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+            [objectKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{34.78,52.74},{33.04,64.58},{38.31,63.93},{41.83,56.12},{40.51,53.14}}},
+        },
+        [460008] = {
+            [objectKeys.name] = "Rod of Subjugation",
+            [objectKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{23.9,55.9}}},
+            [objectKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
+        [460009] = {
+            [objectKeys.name] = "Rod of Subjugation",
+            [objectKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{25.25,54.8}}},
+            [objectKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
     }
 end
 
@@ -227,13 +252,13 @@ function CataObjectFixes:LoadFactionFixes()
 
     local objectFixesHorde = {
         [203461] = { -- Fuel Sampling Station
-            [objectKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{51.49,60.41}}}
+            [objectKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{51.49,60.41}}},
         },
     }
 
     local objectFixesAlliance = {
         [203461] = { -- Fuel Sampling Station
-            [objectKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{55.8,72.44}}}
+            [objectKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{55.8,72.44}}},
         },
     }
 

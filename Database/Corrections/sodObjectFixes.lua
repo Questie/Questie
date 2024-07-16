@@ -32,12 +32,6 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.STORMWIND_CITY] = {{33,24.7}},
             },
         },
-        [403041] = { -- Blasting Supplies
-            [objectKeys.zoneID] = zoneIDs.MULGORE,
-            [objectKeys.spawns] = {
-                [zoneIDs.MULGORE] = {{63.8,44.1}},
-            },
-        },
         [403105] = { -- Windfury Cone
             [objectKeys.zoneID] = zoneIDs.MULGORE,
             [objectKeys.spawns] = {
@@ -329,6 +323,18 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.ARATHI_HIGHLANDS] = {{62,54}},
             },
         },
+        [441247] = { -- Book
+            [objectKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
+            [objectKeys.spawns] = {
+                [zoneIDs.SWAMP_OF_SORROWS] = {{70,51}},
+            },
+        },
+        [441251] = { -- Book
+            [objectKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+            [objectKeys.spawns] = {
+                [zoneIDs.BURNING_STEPPES] = {{28.96,28.93}},
+            },
+        },
         [441848] = { -- Small Burrow
             [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
             [objectKeys.spawns] = {
@@ -494,6 +500,12 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.zoneID] = zoneIDs.SEARING_GORGE,
             [objectKeys.spawns] = {
                 [zoneIDs.SEARING_GORGE] = {{65.0,45.0}},
+            },
+        },
+        [463211] = { -- Book
+            [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.WESTERN_PLAGUELANDS] = {{69.41,72.84}},
             },
         },
     }
