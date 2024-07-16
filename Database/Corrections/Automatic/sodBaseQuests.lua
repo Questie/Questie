@@ -4933,5 +4933,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring a chunk of Shimmering Molten Mineral to Hansel Heavyhands. You can find the shimmering molten crag within the Slag Pit lava pools, deep within the Cauldron."},
             [questKeys.objectives] = {nil,nil,{{228191}}},
         },
+        [84384] = {
+            [questKeys.name] = "Demonic Deceptions",
+            [questKeys.startedBy] = {{222408}},
+            [questKeys.finishedBy] = {{222408,}},
+            [questKeys.requiredLevel] = 55,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Collect 6 Owlbeast Pineal Glands from owlbeasts in Winterspring, then return to the Shadowtooth Emissary in Felwood."},
+            [questKeys.objectives] = {nil,nil,{{227914}}},
+        },
     }
 end

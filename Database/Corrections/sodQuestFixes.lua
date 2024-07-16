@@ -2042,6 +2042,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [84384] = { -- Demonic Deceptions
+            [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
+        },
 
         --- Fake rune quests
         [90000] = {
