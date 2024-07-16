@@ -171,6 +171,32 @@ describe("TrackerUtils", function()
         assert.equals(line, secondaryButton.line)
         assert.is_false(line.expandQuest:IsVisible())
     end)
+
+    it("should show expandQuest button and hide primary button when quest is collapsed", function()
+        Questie.db.char.collapsedQuests[1] = true
+        _G.GetItemSpell = function() return 111 end
+        QuestieDB.QueryQuestSingle = spy.new(function()
+            return 123
+        end)
+        local button = CreateFrame("Button")
+        TrackerLinePool.GetNextItemButton = spy.new(function()
+            button.SetItem = spy.new(function()
+                return true
+            end)
+            return button
+        end)
+        local quest = {
+            Id = 1,
+            Objectives = {},
+        }
+        local line = _GetMockedLine()
+
+        local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {})
+        assert.is_true(shouldContinue)
+        assert.spy(button.SetItem).was_called_with(button, 123, "primary", 12)
+        assert.is_false(button:IsVisible())
+        assert.is_true(line.expandQuest:IsVisible())
+    end)
 end)
 
 function _GetMockedLine()
