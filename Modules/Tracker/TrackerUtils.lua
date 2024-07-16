@@ -1156,6 +1156,11 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                     secondaryButton:SetPoint("TOPLEFT", secondaryButton.line, "TOPLEFT", 2 + questItemButtonSize, 0)
                     secondaryButton:SetParent(secondaryButton.line)
                     secondaryButton:Show()
+
+                    if Questie.db.char.collapsedQuests[quest.Id] then
+                        secondaryButton:SetParent(UIParent)
+                        secondaryButton:Hide()
+                    end
                 end
             end
         end
