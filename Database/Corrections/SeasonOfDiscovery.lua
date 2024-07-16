@@ -834,7 +834,7 @@ local questsToBlacklistBySoDPhase = {
         [9419] = true,
         [9416] = true,
     },
-    [17] = { -- Never appearing in Season of Discovery
+    [9] = { -- Never appearing in Season of Discovery
         [1203] = true, -- Jarl Needs a Blade - Replaced by 81570
         [1878] = true, -- Water Pouch Bounty - Replaced by 82209
         [2758] = true, -- The Origins of Smithing - Replaced by 80241

@@ -90,4 +90,10 @@ local ZoneDB = require("Database.Zones.zoneDB")
 ZoneDB.zoneIDs = {
     ICECROWN = 210,
     DEEPHOLM = 5042,
+    STORMWIND_CITY = 1519,
+    IRONFORGE = 1537,
+    TELDRASSIL = 141,
+    ORGRIMMAR = 1637,
+    THUNDER_BLUFF = 1638,
+    UNDERCITY = 1497,
 }

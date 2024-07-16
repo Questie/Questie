@@ -3878,3 +3878,4 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
     }
 end
 
+return QuestieQuestBlacklist
