@@ -1070,12 +1070,12 @@ end
 function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame)
     local usableQIB = false
     local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
-    local sourceItem = sourceItemId and TrackerUtils:IsQuestItemUsable(sourceItemId)
+    local hasUsableSourceItem = sourceItemId and TrackerUtils:IsQuestItemUsable(sourceItemId)
     local requiredItems = quest.requiredSourceItems
     local hasUsableRequiredItem = requiredItems and TrackerUtils:IsQuestItemUsable(requiredItems[1])
     local isComplete = (quest.isComplete ~= true and #quest.Objectives == 0) or quest.isComplete == true
 
-    if complete ~= 1 and (sourceItem or (requiredItems and #requiredItems == 1 and hasUsableRequiredItem)) or usableQIB then
+    if complete ~= 1 and (hasUsableSourceItem or (requiredItems and #requiredItems == 1 and hasUsableRequiredItem)) or usableQIB then
         -- Get button from buttonPool
         local button = TrackerLinePool.GetNextItemButton()
         if not button then
