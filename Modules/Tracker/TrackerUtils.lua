@@ -1084,8 +1084,9 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
             return false -- stop populating the tracker
         end
 
-        -- Get and save Quest Title linePool to buttonPool
+        -- TODO: WTF - Cleanup this cyclic reference mess
         button.line = line
+        line.button = button
 
         local primaryButtonAdded = false
         if hasUsableSourceItem then
@@ -1135,7 +1136,9 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                     return false -- stop populating the tracker
                 end
 
+                -- TODO: WTF - Cleanup this cyclic reference mess
                 secondaryButton.line = line
+                line.altButton = secondaryButton
 
                 if hasUsableSourceItem then
                     secondaryButtonAdded = secondaryButton:SetItem(requiredItems[1], "secondary", questItemButtonSize)
