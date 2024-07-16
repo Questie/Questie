@@ -1085,8 +1085,15 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
         -- Get and save Quest Title linePool to buttonPool
         button.line = line
 
+        local primaryButtonAdded = false
+        if hasUsableSourceItem then
+            primaryButtonAdded = button:SetItem(sourceItemId, "primary", questItemButtonSize)
+        elseif hasUsableRequiredItem then
+            primaryButtonAdded = button:SetItem(requiredItems[1], "primary", questItemButtonSize)
+        end
+
         -- Setup button and set attributes
-        if button:SetItem(quest, "primary", questItemButtonSize) then
+        if primaryButtonAdded then
             local height = 0
             local frame = button.line
             while frame and frame ~= trackerQuestFrame do

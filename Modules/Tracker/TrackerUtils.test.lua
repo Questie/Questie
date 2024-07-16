@@ -49,7 +49,7 @@ describe("TrackerUtils", function()
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
         assert.spy(TrackerLinePool.GetNextItemButton).was_called()
-        assert.spy(button.SetItem).was_called_with(button, quest, "primary", 12)
+        assert.spy(button.SetItem).was_called_with(button, 123, "primary", 12)
         assert.not_nil(button.line)
     end)
 
@@ -67,7 +67,7 @@ describe("TrackerUtils", function()
         end)
         local quest = {
             Id = 1,
-            requiredSourceItems = {123},
+            requiredSourceItems = {456},
             Objectives = {},
         }
         local line = CreateFrame("Frame")
@@ -80,7 +80,7 @@ describe("TrackerUtils", function()
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
         assert.spy(TrackerLinePool.GetNextItemButton).was_called()
-        assert.spy(button.SetItem).was_called_with(button, quest, "primary", 12)
+        assert.spy(button.SetItem).was_called_with(button, 456, "primary", 12)
         assert.not_nil(button.line)
     end)
 
