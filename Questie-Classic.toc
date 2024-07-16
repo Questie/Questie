@@ -60,6 +60,7 @@ Database\MeetingStones.lua
 
 # Corrections
 Database\Corrections\AutoTableUpdates.lua
+Database\Corrections\BlacklistFilter.lua
 Database\Corrections\QuestieCorrections.lua
 Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieNPCBlacklist.lua
