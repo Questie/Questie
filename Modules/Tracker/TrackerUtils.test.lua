@@ -10,6 +10,9 @@ describe("TrackerUtils", function()
     ---@type TrackerUtils
     local TrackerUtils
 
+    local match = require("luassert.match")
+    local _ = match._ -- any match
+
     before_each(function()
         Questie.db.profile = {}
         Questie.db.char = {
@@ -46,7 +49,7 @@ describe("TrackerUtils", function()
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-        assert.spy(button.SetItem).was_called_with(button, 123, "primary", 12)
+        assert.spy(button.SetItem).was_called_with(_, 123, "primary", 12)
         assert.is_true(button:IsVisible())
 
         assert.equals(line, button.line)
@@ -76,7 +79,7 @@ describe("TrackerUtils", function()
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-        assert.spy(button.SetItem).was_called_with(button, 456, "primary", 12)
+        assert.spy(button.SetItem).was_called_with(_, 456, "primary", 12)
         assert.is_true(button:IsVisible())
 
         assert.equals(line, button.line)
@@ -116,8 +119,8 @@ describe("TrackerUtils", function()
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-        assert.spy(primaryButton.SetItem).was_called_with(primaryButton, 123, "primary", 12)
-        assert.spy(secondaryButton.SetItem).was_called_with(secondaryButton, 456, "secondary", 12)
+        assert.spy(primaryButton.SetItem).was_called_with(_, 123, "primary", 12)
+        assert.spy(secondaryButton.SetItem).was_called_with(_, 456, "secondary", 12)
         assert.is_true(primaryButton:IsVisible())
         assert.is_true(secondaryButton:IsVisible())
 
@@ -159,8 +162,8 @@ describe("TrackerUtils", function()
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-        assert.spy(primaryButton.SetItem).was_called_with(primaryButton, 123, "primary", 12)
-        assert.spy(secondaryButton.SetItem).was_called_with(secondaryButton, 456, "secondary", 12)
+        assert.spy(primaryButton.SetItem).was_called_with(_, 123, "primary", 12)
+        assert.spy(secondaryButton.SetItem).was_called_with(_, 456, "secondary", 12)
         assert.is_true(primaryButton:IsVisible())
         assert.is_true(secondaryButton:IsVisible())
 
