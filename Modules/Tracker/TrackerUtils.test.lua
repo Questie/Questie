@@ -13,7 +13,8 @@ describe("TrackerUtils", function()
     before_each(function()
         Questie.db.profile = {}
         Questie.db.char = {
-            collapsedQuests = {}
+            collapsedQuests = {},
+            collapsedZones = {},
         }
         CreateFrame.resetMockedFrames()
 
@@ -208,6 +209,44 @@ describe("TrackerUtils", function()
         assert.is_false(secondaryButton:IsVisible())
         assert.is_true(line.expandQuest:IsVisible())
     end)
+
+
+    it("should hide item buttons when zone is collapsed", function()
+        Questie.db.char.collapsedZones["Durotar"] = true
+        _G.GetItemSpell = function() return 111 end
+        QuestieDB.QueryQuestSingle = spy.new(function()
+            return 123
+        end)
+        local primaryButton, secondaryButton = CreateFrame("Button"), CreateFrame("Button")
+        local buttonIndex = 0
+
+        TrackerLinePool.GetNextItemButton = spy.new(function()
+            if buttonIndex == 0 then
+                primaryButton.SetItem = spy.new(function()
+                    return true
+                end)
+                buttonIndex = buttonIndex + 1
+                return primaryButton
+            else
+                secondaryButton.SetItem = spy.new(function()
+                    return true
+                end)
+                return secondaryButton
+            end
+        end)
+        local quest = {
+            Id = 1,
+            requiredSourceItems = {456},
+            Objectives = {},
+        }
+        local line = _GetMockedLine()
+
+        TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {})
+
+        assert.is_false(primaryButton:IsVisible())
+        assert.is_false(secondaryButton:IsVisible())
+        assert.is_false(line.expandQuest:IsVisible())
+    end)
 end)
 
 function _GetMockedLine()
@@ -215,5 +254,6 @@ function _GetMockedLine()
     line:SetPoint("TOPLEFT", 0, 0)
     line:SetSize(1, 1)
     line.expandQuest = CreateFrame("Button")
+    line.expandZone = {zoneId = "Durotar"}
     return line
 end

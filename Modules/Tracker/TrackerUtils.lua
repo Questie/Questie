@@ -1121,7 +1121,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
             -- If the Quest Zone or Quest is minimized then set UIParent and hide buttons since the buttons are normally attached to the Quest frame.
             -- If buttons are left attached to the Quest frame and if the Tracker frame is hidden in combat, then it would also try and hide the
             -- buttons which you can't do in combat. This helps avoid violating the Blizzard SecureActionButtonTemplate restrictions relating to combat.
-            if Questie.db.char.collapsedQuests[quest.Id] then
+            if Questie.db.char.collapsedZones[line.expandZone.zoneId] or Questie.db.char.collapsedQuests[quest.Id] then
                 button:SetParent(UIParent)
                 button:Hide()
             end
@@ -1157,7 +1157,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                     secondaryButton:SetParent(secondaryButton.line)
                     secondaryButton:Show()
 
-                    if Questie.db.char.collapsedQuests[quest.Id] then
+                    if Questie.db.char.collapsedZones[line.expandZone.zoneId] or Questie.db.char.collapsedQuests[quest.Id] then
                         secondaryButton:SetParent(UIParent)
                         secondaryButton:Hide()
                     end
