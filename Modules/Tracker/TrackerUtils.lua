@@ -1068,7 +1068,8 @@ end
 ---@param questItemButtonSize number
 ---@param trackerQuestFrame table
 ---@param isMinimizable boolean
-function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame, isMinimizable)
+---@param rePositionLine function
+function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame, isMinimizable, rePositionLine)
     local usableQIB = false
     local isTimedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
     local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
@@ -1156,6 +1157,8 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                         height = height - (frame:GetHeight() - yOff)
                         frame = parent
                     end
+
+                    rePositionLine(secondaryButton:GetAlpha())
 
                     -- Attach button to Quest Title linePool
                     secondaryButton:SetPoint("TOPLEFT", secondaryButton.line, "TOPLEFT", 2 + questItemButtonSize, 0)
