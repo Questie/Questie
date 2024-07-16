@@ -1277,10 +1277,17 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{89.39,58.83}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
+        [39622] = { -- Spirit of Lo'gosh
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
+                {32.33,37.11,phases.HYJAL_CHAPTER_2},
+                {29.64,29.28,phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE},
+            }},
+            [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
         [39627] = { -- Spirit of Goldrinn
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={
                 {32.33,37.11,phases.HYJAL_CHAPTER_2},
-                {29.63,29.29,phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE},
+                {29.64,29.28,phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE},
             }},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
@@ -1849,8 +1856,16 @@ function CataNpcFixes.Load()
         [46969] = { -- Mullan Gryphon
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{54.2,73.16},{57.48,70.39},{55.91,69.84},{53.8,66.6},{58.2,65.2}}},
         },
+        [46987] = { -- Vision of Ysera
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{28.41,29.81}}},
+            [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
         [46998] = { -- Vision of Ysera
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{27.03,62.64}}},
+            [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
+        [47002] = { -- Vision of Ysera
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{43.8,45.95}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
         [47241] = { -- Mullan Gryphon Mount

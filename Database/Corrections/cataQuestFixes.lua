@@ -2771,7 +2771,8 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{39663,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25291] = { -- Twilight Training
-            [questKeys.preQuestSingle] = {25330},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {25223,25224,25330},
         },
         [25294] = { -- Walking the Dog
             [questKeys.objectives] = {{{39659,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -3023,7 +3024,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {25550,25553,25555},
             [questKeys.extraObjectives] = {
                 {{[zoneIDs.MOUNT_HYJAL] = {{55.5,66.2}}},Questie.ICON_TYPE_EVENT,l10n("Go through the portal")},
-                {nil,Questie.ICON_TYPE_TALK,l10n("Start the fight"),0,{{"monster",41631}}},
+                {nil,Questie.ICON_TYPE_TALK,l10n("Start the fight"),0,{{"monster",40803},{"monster",41631}}},
             },
         },
         [25558] = { -- All or Nothing
@@ -3115,7 +3116,8 @@ function CataQuestFixes.Load()
             },
         },
         [25617] = { -- Into the Maw!
-            [questKeys.exclusiveTo] = {25624},
+            --[questKeys.exclusiveTo] = {25624}, -- curiously, this one is NOT exclusiveTo 25624. That one IS exclusiveTo this one. Blizzard things
+            [questKeys.exclusiveTo] = {25575,25576,25577}, -- using these as followups so we don't get stuck with the quest marker on map if you chose the other "Into the Maw!"
         },
         [25618] = { -- Into the Maw!
             --[questKeys.exclusiveTo] = {25623}, -- curiously, this one is NOT exclusiveTo 25623. That one IS exclusiveTo this one. Blizzard things
@@ -5435,7 +5437,6 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [27722] = { -- Warchief's Command: Deepholm!
-            [questKeys.exclusiveTo] = {27399,27442},
             [questKeys.nextQuestInChain] = 27203,
             [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
@@ -5452,7 +5453,7 @@ function CataQuestFixes.Load()
         },
         [27727] = { -- Hero's Call: Deepholm!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
-            [questKeys.exclusiveTo] = {27203},
+            [questKeys.nextQuestInChain] = 27203,
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [27729] = { -- Once More, With Eeling
