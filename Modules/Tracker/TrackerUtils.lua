@@ -1172,6 +1172,9 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                 end
             end
         end
+    -- Hide button if quest complete or failed
+    elseif (Questie.db.profile.collapseCompletedQuests and isMinimizable and (not isTimedQuest)) then
+        line.expandQuest:Hide()
     else
         line.expandQuest:Show()
     end

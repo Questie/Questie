@@ -197,6 +197,21 @@ describe("TrackerUtils", function()
         assert.spy(rePositionLineMock).was_not_called()
     end)
 
+    it("should hide expandQuest button for complete quests without quest item and collapseCompletedQuests is true", function()
+        Questie.db.profile.collapseCompletedQuests = true
+        local quest = {
+            Id = 1,
+            Objectives = {},
+        }
+        local line = _GetMockedLine()
+
+        TrackerUtils.AddQuestItemButtons(quest, 1, line, 12, {}, true, rePositionLineMock)
+
+        assert.is_false(line.expandQuest:IsVisible())
+
+        assert.spy(rePositionLineMock).was_not_called()
+    end)
+
     it("should show expandQuest button and hide item buttons when quest is collapsed", function()
         Questie.db.char.collapsedQuests[1] = true
         _G.GetItemSpell = function() return 111 end
