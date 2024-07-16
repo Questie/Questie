@@ -30,12 +30,12 @@ describe("TrackerUtils", function()
             return 123
         end)
         local button = CreateFrame("Button")
-        TrackerLinePool.GetNextItemButton = spy.new(function()
+        TrackerLinePool.GetNextItemButton = function()
             button.SetItem = spy.new(function()
                 return true
             end)
             return button
-        end)
+        end
         local quest = {
             Id = 1,
             Objectives = {},
@@ -46,7 +46,6 @@ describe("TrackerUtils", function()
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-        assert.spy(TrackerLinePool.GetNextItemButton).was_called()
         assert.spy(button.SetItem).was_called_with(button, 123, "primary", 12)
         assert.is_true(button:IsVisible())
 
@@ -60,12 +59,12 @@ describe("TrackerUtils", function()
             return nil
         end)
         local button = CreateFrame("Button")
-        TrackerLinePool.GetNextItemButton = spy.new(function()
+        TrackerLinePool.GetNextItemButton = function()
             button.SetItem = spy.new(function()
                 return true
             end)
             return button
-        end)
+        end
         local quest = {
             Id = 1,
             requiredSourceItems = {456},
@@ -77,7 +76,6 @@ describe("TrackerUtils", function()
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-        assert.spy(TrackerLinePool.GetNextItemButton).was_called()
         assert.spy(button.SetItem).was_called_with(button, 456, "primary", 12)
         assert.is_true(button:IsVisible())
 
@@ -93,7 +91,7 @@ describe("TrackerUtils", function()
         local primaryButton, secondaryButton = CreateFrame("Button"), CreateFrame("Button")
         local buttonIndex = 0
 
-        TrackerLinePool.GetNextItemButton = spy.new(function()
+        TrackerLinePool.GetNextItemButton = function()
             if buttonIndex == 0 then
                 primaryButton.SetItem = spy.new(function()
                     return true
@@ -106,7 +104,7 @@ describe("TrackerUtils", function()
                 end)
                 return secondaryButton
             end
-        end)
+        end
         local quest = {
             Id = 1,
             requiredSourceItems = {456},
@@ -118,7 +116,6 @@ describe("TrackerUtils", function()
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-        assert.spy(TrackerLinePool.GetNextItemButton).was_called()
         assert.spy(primaryButton.SetItem).was_called_with(primaryButton, 123, "primary", 12)
         assert.spy(secondaryButton.SetItem).was_called_with(secondaryButton, 456, "secondary", 12)
         assert.is_true(primaryButton:IsVisible())
@@ -137,7 +134,7 @@ describe("TrackerUtils", function()
         local primaryButton, secondaryButton = CreateFrame("Button"), CreateFrame("Button")
         local buttonIndex = 0
 
-        TrackerLinePool.GetNextItemButton = spy.new(function()
+        TrackerLinePool.GetNextItemButton = function()
             if buttonIndex == 0 then
                 primaryButton.SetItem = spy.new(function()
                     return true
@@ -150,7 +147,7 @@ describe("TrackerUtils", function()
                 end)
                 return secondaryButton
             end
-        end)
+        end
         local quest = {
             Id = 1,
             requiredSourceItems = {123,456},
@@ -162,7 +159,6 @@ describe("TrackerUtils", function()
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-        assert.spy(TrackerLinePool.GetNextItemButton).was_called()
         assert.spy(primaryButton.SetItem).was_called_with(primaryButton, 123, "primary", 12)
         assert.spy(secondaryButton.SetItem).was_called_with(secondaryButton, 456, "secondary", 12)
         assert.is_true(primaryButton:IsVisible())
@@ -182,7 +178,7 @@ describe("TrackerUtils", function()
         local primaryButton, secondaryButton = CreateFrame("Button"), CreateFrame("Button")
         local buttonIndex = 0
 
-        TrackerLinePool.GetNextItemButton = spy.new(function()
+        TrackerLinePool.GetNextItemButton = function()
             if buttonIndex == 0 then
                 primaryButton.SetItem = spy.new(function()
                     return true
@@ -195,7 +191,7 @@ describe("TrackerUtils", function()
                 end)
                 return secondaryButton
             end
-        end)
+        end
         local quest = {
             Id = 1,
             requiredSourceItems = {456},
@@ -220,7 +216,7 @@ describe("TrackerUtils", function()
         local primaryButton, secondaryButton = CreateFrame("Button"), CreateFrame("Button")
         local buttonIndex = 0
 
-        TrackerLinePool.GetNextItemButton = spy.new(function()
+        TrackerLinePool.GetNextItemButton = function()
             if buttonIndex == 0 then
                 primaryButton.SetItem = spy.new(function()
                     return true
@@ -233,7 +229,7 @@ describe("TrackerUtils", function()
                 end)
                 return secondaryButton
             end
-        end)
+        end
         local quest = {
             Id = 1,
             requiredSourceItems = {456},
@@ -257,7 +253,7 @@ describe("TrackerUtils", function()
         local primaryButton, secondaryButton = CreateFrame("Button"), CreateFrame("Button")
         local buttonIndex = 0
 
-        TrackerLinePool.GetNextItemButton = spy.new(function()
+        TrackerLinePool.GetNextItemButton = function()
             if buttonIndex == 0 then
                 primaryButton.SetItem = spy.new(function()
                     return true
@@ -270,7 +266,7 @@ describe("TrackerUtils", function()
                 end)
                 return secondaryButton
             end
-        end)
+        end
         local quest = {
             Id = 1,
             requiredSourceItems = {456},
@@ -290,6 +286,7 @@ function _GetMockedLine()
     local line = CreateFrame("Frame")
     line:SetPoint("TOPLEFT", 0, 0)
     line:SetSize(1, 1)
+    line.label = CreateFrame("Button")
     line.expandQuest = CreateFrame("Button")
     line.expandZone = {zoneId = "Durotar"}
     return line
