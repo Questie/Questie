@@ -612,7 +612,6 @@ function QuestieTracker:Update()
     local firstQuestInZone = false
     local zoneCheck
 
-    local primaryButton = false
     local secondaryButton = false
     local secondaryButtonAlpha
 
@@ -1270,7 +1269,6 @@ function QuestieTracker:Update()
                     line:SetHeight(line.label:GetHeight() + (Questie.db.profile.trackerQuestPadding + 2))
                 end
 
-                primaryButton = false
                 secondaryButton = false
             end
         end

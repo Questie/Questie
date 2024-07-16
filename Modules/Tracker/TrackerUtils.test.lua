@@ -1,12 +1,12 @@
 dofile("setupTests.lua")
 
+local _GetMockedLine
+
 describe("TrackerUtils", function()
     ---@type QuestieDB
     local QuestieDB
     ---@type TrackerLinePool
     local TrackerLinePool
-    ---@type TrackerItemButton
-    local TrackerItemButton
     ---@type TrackerUtils
     local TrackerUtils
 
@@ -24,7 +24,7 @@ describe("TrackerUtils", function()
 
         QuestieDB = require("Database.QuestieDB")
         TrackerLinePool = require("Modules.Tracker.TrackerLinePool")
-        TrackerItemButton = require("Modules.Tracker.TrackerItemButton")
+        require("Modules.Tracker.TrackerItemButton")
         TrackerUtils = require("Modules.Tracker.TrackerUtils")
         
         rePositionLineMock = spy.new(function() end)
@@ -325,7 +325,7 @@ describe("TrackerUtils", function()
     end)
 end)
 
-function _GetMockedLine()
+_GetMockedLine = function()
     local line = CreateFrame("Frame")
     line:SetPoint("TOPLEFT", 0, 0)
     line:SetSize(1, 1)
