@@ -172,6 +172,18 @@ describe("TrackerUtils", function()
         assert.is_false(line.expandQuest:IsVisible())
     end)
 
+    it("should show expandQuest button without quest item", function()
+        local quest = {
+            Id = 1,
+            Objectives = {},
+        }
+        local line = _GetMockedLine()
+
+        TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false)
+
+        assert.is_true(line.expandQuest:IsVisible())
+    end)
+
     it("should show expandQuest button and hide item buttons when quest is collapsed", function()
         Questie.db.char.collapsedQuests[1] = true
         _G.GetItemSpell = function() return 111 end

@@ -1169,6 +1169,8 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                 end
             end
         end
+    else
+        line.expandQuest:Show()
     end
 
     return true
