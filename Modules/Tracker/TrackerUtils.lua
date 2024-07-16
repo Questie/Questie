@@ -1067,8 +1067,10 @@ end
 ---@param line table
 ---@param questItemButtonSize number
 ---@param trackerQuestFrame table
-function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame)
+---@param isMinimizable boolean
+function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame, isMinimizable)
     local usableQIB = false
+    local isTimedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
     local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
     local hasUsableSourceItem = sourceItemId and TrackerUtils:IsQuestItemUsable(sourceItemId)
     local requiredItems = quest.requiredSourceItems
@@ -1104,7 +1106,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
 
             -- If the Quest is minimized show the Expand Quest button
             if Questie.db.char.collapsedQuests[quest.Id] then
-                if Questie.db.profile.collapseCompletedQuests and isMinimizable and not timedQuest then
+                if Questie.db.profile.collapseCompletedQuests and isMinimizable and (not isTimedQuest) then
                     button.line.expandQuest:Hide()
                 else
                     button.line.expandQuest:Show()

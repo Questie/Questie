@@ -42,7 +42,7 @@ describe("TrackerUtils", function()
         }
         local line = _GetMockedLine()
 
-        local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {})
+        local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false)
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
@@ -73,7 +73,7 @@ describe("TrackerUtils", function()
         }
         local line = _GetMockedLine()
 
-        local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {})
+        local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false)
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
@@ -114,7 +114,7 @@ describe("TrackerUtils", function()
         }
         local line = _GetMockedLine()
 
-        local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {})
+        local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false)
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
@@ -158,7 +158,7 @@ describe("TrackerUtils", function()
         }
         local line = _GetMockedLine()
 
-        local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {})
+        local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false)
 
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
@@ -203,13 +203,50 @@ describe("TrackerUtils", function()
         }
         local line = _GetMockedLine()
 
-        TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {})
+        TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false)
 
         assert.is_false(primaryButton:IsVisible())
         assert.is_false(secondaryButton:IsVisible())
         assert.is_true(line.expandQuest:IsVisible())
     end)
 
+    it("should hide expandQuest button and hide item buttons when quest is collapsed and collapseCompletedQuests is true", function()
+        Questie.db.char.collapsedQuests[1] = true
+        Questie.db.profile.collapseCompletedQuests = true
+        _G.GetItemSpell = function() return 111 end
+        QuestieDB.QueryQuestSingle = spy.new(function()
+            return 123
+        end)
+        local primaryButton, secondaryButton = CreateFrame("Button"), CreateFrame("Button")
+        local buttonIndex = 0
+
+        TrackerLinePool.GetNextItemButton = spy.new(function()
+            if buttonIndex == 0 then
+                primaryButton.SetItem = spy.new(function()
+                    return true
+                end)
+                buttonIndex = buttonIndex + 1
+                return primaryButton
+            else
+                secondaryButton.SetItem = spy.new(function()
+                    return true
+                end)
+                return secondaryButton
+            end
+        end)
+        local quest = {
+            Id = 1,
+            requiredSourceItems = {456},
+            Objectives = {},
+        }
+        local line = _GetMockedLine()
+
+        TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, true)
+
+        assert.is_false(primaryButton:IsVisible())
+        assert.is_false(secondaryButton:IsVisible())
+        assert.is_false(line.expandQuest:IsVisible())
+    end)
 
     it("should hide item buttons when zone is collapsed", function()
         Questie.db.char.collapsedZones["Durotar"] = true
@@ -241,7 +278,7 @@ describe("TrackerUtils", function()
         }
         local line = _GetMockedLine()
 
-        TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {})
+        TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false)
 
         assert.is_false(primaryButton:IsVisible())
         assert.is_false(secondaryButton:IsVisible())
