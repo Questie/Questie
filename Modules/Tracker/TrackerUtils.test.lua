@@ -39,10 +39,7 @@ describe("TrackerUtils", function()
             Id = 1,
             Objectives = {},
         }
-        local line = CreateFrame("Frame")
-        line:SetPoint("TOPLEFT", 0, 0)
-        line:SetSize(1, 1)
-        line.expandQuest = CreateFrame("Button")
+        local line = _GetMockedLine()
 
         local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {})
 
@@ -51,7 +48,9 @@ describe("TrackerUtils", function()
         assert.spy(TrackerLinePool.GetNextItemButton).was_called()
         assert.spy(button.SetItem).was_called_with(button, 123, "primary", 12)
         assert.is_true(button:IsVisible())
-        assert.not_nil(button.line)
+
+        assert.equals(line, button.line)
+        assert.is_false(line.expandQuest:IsVisible())
     end)
 
     it("should add single requiredSourceItems entry as primary button", function()
@@ -71,10 +70,7 @@ describe("TrackerUtils", function()
             requiredSourceItems = {456},
             Objectives = {},
         }
-        local line = CreateFrame("Frame")
-        line:SetPoint("TOPLEFT", 0, 0)
-        line:SetSize(1, 1)
-        line.expandQuest = CreateFrame("Button")
+        local line = _GetMockedLine()
 
         local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {})
 
@@ -83,7 +79,9 @@ describe("TrackerUtils", function()
         assert.spy(TrackerLinePool.GetNextItemButton).was_called()
         assert.spy(button.SetItem).was_called_with(button, 456, "primary", 12)
         assert.is_true(button:IsVisible())
-        assert.not_nil(button.line)
+
+        assert.equals(line, button.line)
+        assert.is_false(line.expandQuest:IsVisible())
     end)
 
     it("should add sourceItemId as primary button and single requiredSourceItems as secondary button", function()
@@ -113,10 +111,7 @@ describe("TrackerUtils", function()
             requiredSourceItems = {456},
             Objectives = {},
         }
-        local line = CreateFrame("Frame")
-        line:SetPoint("TOPLEFT", 0, 0)
-        line:SetSize(1, 1)
-        line.expandQuest = CreateFrame("Button")
+        local line = _GetMockedLine()
 
         local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {})
 
@@ -127,8 +122,10 @@ describe("TrackerUtils", function()
         assert.spy(secondaryButton.SetItem).was_called_with(secondaryButton, 456, "secondary", 12)
         assert.is_true(primaryButton:IsVisible())
         assert.is_true(secondaryButton:IsVisible())
-        assert.not_nil(primaryButton.line)
-        assert.not_nil(secondaryButton.line)
+
+        assert.equals(line, primaryButton.line)
+        assert.equals(line, secondaryButton.line)
+        assert.is_false(line.expandQuest:IsVisible())
     end)
 
     it("should add multiple requiredSourceItems entries as primary and secondary buttons", function()
@@ -158,10 +155,7 @@ describe("TrackerUtils", function()
             requiredSourceItems = {123,456},
             Objectives = {},
         }
-        local line = CreateFrame("Frame")
-        line:SetPoint("TOPLEFT", 0, 0)
-        line:SetSize(1, 1)
-        line.expandQuest = CreateFrame("Button")
+        local line = _GetMockedLine()
 
         local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {})
 
@@ -172,7 +166,17 @@ describe("TrackerUtils", function()
         assert.spy(secondaryButton.SetItem).was_called_with(secondaryButton, 456, "secondary", 12)
         assert.is_true(primaryButton:IsVisible())
         assert.is_true(secondaryButton:IsVisible())
-        assert.not_nil(primaryButton.line)
-        assert.not_nil(secondaryButton.line)
+
+        assert.equals(line, primaryButton.line)
+        assert.equals(line, secondaryButton.line)
+        assert.is_false(line.expandQuest:IsVisible())
     end)
 end)
+
+function _GetMockedLine()
+    local line = CreateFrame("Frame")
+    line:SetPoint("TOPLEFT", 0, 0)
+    line:SetSize(1, 1)
+    line.expandQuest = CreateFrame("Button")
+    return line
+end
