@@ -4834,6 +4834,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"To become a Weaponsmith, you must make the following items and return them to Borgosh: 4 Moonsteel Broadswords, 4 Massive Iron Axes, 2 Heavy Mithril Axes, and 2 Big Black Maces."},
             [questKeys.objectives] = {nil,nil,{{217281},{3855},{7941},{7945}}},
         },
+        [83934] = {
+            [questKeys.name] = "Show Me The Money!",
+            [questKeys.startedBy] = {{227853}},
+            [questKeys.finishedBy] = {{227853,}},
+            [questKeys.requiredLevel] = 55,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring a Tarnished Undermine Real to Pix Xizzix in Booty Bay."},
+            [questKeys.objectives] = {nil,nil,{{226404}}},
+        },
         [84348] = {
             [questKeys.name] = "Priority Target: Duke Tectonis",
             [questKeys.startedBy] = {{14627}},
