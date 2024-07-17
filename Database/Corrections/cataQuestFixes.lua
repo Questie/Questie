@@ -3248,8 +3248,8 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Disable the Shadow Cloak Generator"),0,{{"object",203208}}}},
         },
         [25766] = { -- Arcane Legacy
-            [questKeys.objectives] = {{{34931,nil,Questie.ICON_TYPE_INTERACT},{34932,nil,Questie.ICON_TYPE_INTERACT},{34938,nil,Questie.ICON_TYPE_INTERACT}}},
-        },
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{34931,34932,34938},34931,"Use Highborne Prison on the Highborne spirits",Questie.ICON_TYPE_INTERACT}}},
+
         [25765] = { -- Tell 'Em Koko Sent You
             [questKeys.preQuestSingle] = {25739},
         },
