@@ -384,6 +384,9 @@ function CataItemFixes.Load()
         [55238] = { -- Concentrated Solvent
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [55280] = { -- Deepmoss Venom Sac
+            [itemKeys.npcDrops] = {41185,4005,4006,4007},
+        },
         [55809] = { -- Twilight Armor Plate
             [itemKeys.npcDrops] = {},
         },

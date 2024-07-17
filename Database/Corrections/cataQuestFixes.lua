@@ -3250,6 +3250,9 @@ function CataQuestFixes.Load()
         [25766] = { -- Arcane Legacy
             [questKeys.objectives] = {{{34931,nil,Questie.ICON_TYPE_EVENT},{34932,nil,Questie.ICON_TYPE_EVENT},{34938,,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [25765] = { -- Tell 'Em Koko Sent You
+            [questKeys.preQuestSingle] = {25739},
+        },
         [25776] = { -- Sethria's Demise
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25761,25764},
