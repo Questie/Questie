@@ -5651,6 +5651,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432236,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90300] = {
+            [questKeys.name] = "Displacement",
+            [questKeys.startedBy] = {{222405}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 47,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Channel in to the 4 Leyline Confluxes found in Feralas, Hinterlands, Azshara and Searing Gorge using Worldcore Fragments or Scroll of Geomany. Kill the Enraged Leywalker, and loot it to receive a Leycyst. Combine all four to receive the rune."},
+            [questKeys.requiredSpell] = -429309,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end
 
