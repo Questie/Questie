@@ -1442,7 +1442,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81765] = { -- Elrick, Paladin of the Silver Hand
             [questKeys.preQuestSingle] = {81764},
             [questKeys.nextQuestInChain] = 81766,
-            [questKeys.zoneOrSort] = zoneIDs.DUSTWALLOW_MARSH,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [81766] = { -- The Bloody Missive
             [questKeys.preQuestSingle] = {81765},
