@@ -5651,6 +5651,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432236,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90305] = {
+            [questKeys.name] = "Pandemic",
+            [questKeys.startedBy] = {{223123},{443727,443728}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 43,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Loot the Grimtotem Chest and Woodpaw Bag and combine the Grimtotem Necklace and Broken Woodpaw Staff, then use the Diseased Nature Staff on a Diseased Forest Walker and kill it to receive the rune."},
+            [questKeys.requiredSpell] = -431743,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
     }
 end
 
