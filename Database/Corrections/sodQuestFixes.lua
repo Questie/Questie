@@ -1437,7 +1437,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81764] = { -- The Mysterious Merchant
             [questKeys.preQuestSingle] = {79970},
             [questKeys.nextQuestInChain] = 81765,
-            [questKeys.zoneOrSort] = zoneIDs.DUSTWALLOW_MARSH,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [81765] = { -- Elrick, Paladin of the Silver Hand
             [questKeys.preQuestSingle] = {81764},
