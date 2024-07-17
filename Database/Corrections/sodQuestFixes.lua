@@ -25,6 +25,12 @@ function SeasonOfDiscovery:LoadQuests()
     -- TODO: ZoneIDs, sort keys
 
     return {
+        [5166] = { -- Breastplate of the Chromatic Flight
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [5167] = { -- Legplates of the Chromatic Flight
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [76156] = { -- Stalk With The Earthmother
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
