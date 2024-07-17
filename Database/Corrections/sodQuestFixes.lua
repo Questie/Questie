@@ -1434,6 +1434,21 @@ function SeasonOfDiscovery:LoadQuests()
         },
         -- End Duskwood Incursion
 
+        [81764] = { -- The Mysterious Merchant
+            [questKeys.preQuestSingle] = {79970},
+            [questKeys.nextQuestInChain] = 81765,
+            [questKeys.zoneOrSort] = zoneIDs.DUSTWALLOW_MARSH,
+        },
+        [81765] = { -- Elrick, Paladin of the Silver Hand
+            [questKeys.preQuestSingle] = {81764},
+            [questKeys.nextQuestInChain] = 81766,
+            [questKeys.zoneOrSort] = zoneIDs.DUSTWALLOW_MARSH,
+        },
+        [81766] = { -- The Bloody Missive
+            [questKeys.preQuestSingle] = {81765},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
+
         -- Begin Ashenvale Incursion
         [81768] = { -- Ashenvale Mission I: Defeat Satyrs
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5650,6 +5665,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Click the Odd Totem which will give you the Totem Challenge debuff which increases your damage taken by 50%, quickly run to the opposite Odd Totem and click it. Open the chest to receive the rune."},
             [questKeys.requiredSpell] = -432236,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [90301] = {
+            [questKeys.name] = "Fanaticism",
+            [questKeys.startedBy] = {{222856,222857}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 20,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"to receive the rune."},
+            [questKeys.requiredSpell] = -429251,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
     }
 end
