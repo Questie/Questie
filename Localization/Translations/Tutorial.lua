@@ -7,11 +7,11 @@ local tutorialLocals = {
         ["ruRU"] = "Добро пожаловать в Questie",
         ["deDE"] = "Willkommen bei Questie",
         ["koKR"] = "퀘스티에 오신 것을 환영합니다",
-        ["esMX"] = "Bienvenidos a Questie",
+        ["esMX"] = "Bienvenido a Questie",
         ["enUS"] = true,
         ["zhCN"] = "欢迎来到 Questie",
         ["zhTW"] = "歡迎使用任務位置提示插件 Questie",
-        ["esES"] = "Bienvenidos a Questie",
+        ["esES"] = "Bienvenido a Questie",
         ["frFR"] = "Bienvenue sur Questie",
     },
     ["With WotLK Phase 4 Blizzard introduced their own quest objective system.\n\nPlease choose the objective style you want to use:"] = {
