@@ -3248,7 +3248,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Disable the Shadow Cloak Generator"),0,{{"object",203208}}}},
         },
         [25766] = { -- Arcane Legacy
-            [questKeys.objectives] = {{{34931,34932,34938}}},
+            [questKeys.objectives] = {{{34931,nil,Questie.ICON_TYPE_EVENT},{34932,nil,Questie.ICON_TYPE_EVENT},{34938,,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25776] = { -- Sethria's Demise
             [questKeys.preQuestSingle] = {},
