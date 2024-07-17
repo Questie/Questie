@@ -1981,6 +1981,10 @@ function SeasonOfDiscovery:LoadQuests()
         [82309] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [82316] = { -- Seven Eyes I Seek...
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.preQuestSingle] = {90304},
+        },
         [82656] = { -- Wild Leather Vest (Horde)
             [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
@@ -5650,6 +5654,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Click the Odd Totem which will give you the Totem Challenge debuff which increases your damage taken by 50%, quickly run to the opposite Odd Totem and click it. Open the chest to receive the rune."},
             [questKeys.requiredSpell] = -432236,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [90304] = {
+            [questKeys.name] = "Eye of the Void",
+            [questKeys.startedBy] = {{223590},{445039,445036,445037,445044,445041,445040,445042}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Find 7 eyes around Azeroth, and head to Azshara where you'll find the Shrine of the Watcher, target it and /kneel, hand in the quest to receive the rune."},
+            [questKeys.requiredSpell] = -402864,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
     }
 end
