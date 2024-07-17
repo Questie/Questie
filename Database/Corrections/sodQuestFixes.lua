@@ -5666,18 +5666,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432236,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90301] = {
-            [questKeys.name] = "Fanaticism",
-            [questKeys.startedBy] = {{222856,222857}},
-            [questKeys.finishedBy] = nil,
-            [questKeys.requiredLevel] = 1,
-            [questKeys.questLevel] = 20,
-            [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.requiredClasses] = classIDs.PALADIN,
-            [questKeys.objectivesText] = {"to receive the rune."},
-            [questKeys.requiredSpell] = -429251,
-            [questKeys.zoneOrSort] = sortKeys.PALADIN,
-        },
     }
 end
 
