@@ -4232,7 +4232,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26653},
         },
         [26628] = { -- Death from Below
-            [questKeys.objectivesText] = {"Protect Shakes O'Breen during the attack."},
+            [questKeys.triggerEnd] = {"Defend Shakes O'Breen", {[zoneIDs.ARATHI_HIGHLANDS]={{32.20,81.40}}}},
         },
         [26629] = { -- Seeing Where Your Loyalties Lie
             [questKeys.childQuests] = {26630},
