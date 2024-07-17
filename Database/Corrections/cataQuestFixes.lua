@@ -4231,6 +4231,9 @@ function CataQuestFixes.Load()
         [26627] = { -- The Hermit
             [questKeys.exclusiveTo] = {26653},
         },
+        [26628] = { -- Death from Below
+            [questKeys.objectivesText] = {"Protect Shakes O'Breen during the attack."},
+        },
         [26629] = { -- Seeing Where Your Loyalties Lie
             [questKeys.childQuests] = {26630},
         },
