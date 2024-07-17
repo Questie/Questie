@@ -40,6 +40,7 @@ describe("TrackerUtils", function()
             button.SetItem = spy.new(function()
                 return true
             end)
+            button:Hide() -- initially item buttons are hidden
             return button
         end
         local quest = {
@@ -71,6 +72,7 @@ describe("TrackerUtils", function()
             button.SetItem = spy.new(function()
                 return true
             end)
+            button:Hide() -- initially item buttons are hidden
             return button
         end
         local quest = {
@@ -106,12 +108,14 @@ describe("TrackerUtils", function()
                 primaryButton.SetItem = spy.new(function()
                     return true
                 end)
+                primaryButton:Hide() -- initially item buttons are hidden
                 buttonIndex = buttonIndex + 1
                 return primaryButton
             else
                 secondaryButton.SetItem = spy.new(function()
                     return true
                 end)
+                secondaryButton:Hide() -- initially item buttons are hidden
                 return secondaryButton
             end
         end
@@ -151,12 +155,14 @@ describe("TrackerUtils", function()
                 primaryButton.SetItem = spy.new(function()
                     return true
                 end)
+                primaryButton:Hide() -- initially item buttons are hidden
                 buttonIndex = buttonIndex + 1
                 return primaryButton
             else
                 secondaryButton.SetItem = spy.new(function()
                     return true
                 end)
+                secondaryButton:Hide() -- initially item buttons are hidden
                 return secondaryButton
             end
         end
@@ -226,12 +232,14 @@ describe("TrackerUtils", function()
                 primaryButton.SetItem = spy.new(function()
                     return true
                 end)
+                primaryButton:Hide() -- initially item buttons are hidden
                 buttonIndex = buttonIndex + 1
                 return primaryButton
             else
                 secondaryButton.SetItem = spy.new(function()
                     return true
                 end)
+                secondaryButton:Hide() -- initially item buttons are hidden
                 return secondaryButton
             end
         end
@@ -246,6 +254,34 @@ describe("TrackerUtils", function()
 
         assert.is_false(primaryButton:IsVisible())
         assert.is_false(secondaryButton:IsVisible())
+        assert.is_true(line.expandQuest:IsVisible())
+    end)
+
+    it("should show expandQuest button when no primary button is added", function()
+        Questie.db.char.collapsedQuests[1] = true
+        _G.GetItemSpell = function() return 111 end
+        QuestieDB.QueryQuestSingle = spy.new(function()
+            return 123
+        end)
+        local primaryButton = CreateFrame("Button")
+
+        TrackerLinePool.GetNextItemButton = function()
+            primaryButton.SetItem = spy.new(function()
+                return false
+            end)
+            primaryButton:Hide() -- initially item buttons are hidden
+            return primaryButton
+        end
+        local quest = {
+            Id = 1,
+            requiredSourceItems = {456},
+            Objectives = {},
+        }
+        local line = _GetMockedLine()
+
+        TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
+
+        assert.is_false(primaryButton:IsVisible())
         assert.is_true(line.expandQuest:IsVisible())
     end)
 
@@ -264,12 +300,14 @@ describe("TrackerUtils", function()
                 primaryButton.SetItem = spy.new(function()
                     return true
                 end)
+                primaryButton:Hide() -- initially item buttons are hidden
                 buttonIndex = buttonIndex + 1
                 return primaryButton
             else
                 secondaryButton.SetItem = spy.new(function()
                     return true
                 end)
+                secondaryButton:Hide() -- initially item buttons are hidden
                 return secondaryButton
             end
         end
@@ -301,12 +339,14 @@ describe("TrackerUtils", function()
                 primaryButton.SetItem = spy.new(function()
                     return true
                 end)
+                primaryButton:Hide() -- initially item buttons are hidden
                 buttonIndex = buttonIndex + 1
                 return primaryButton
             else
                 secondaryButton.SetItem = spy.new(function()
                     return true
                 end)
+                secondaryButton:Hide() -- initially item buttons are hidden
                 return secondaryButton
             end
         end

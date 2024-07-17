@@ -1171,6 +1171,9 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                     end
                 end
             end
+        -- Show button when primary button was not added (e.g. the requiredSourceItems are not in the bag yet)
+        else
+            line.expandQuest:Show()
         end
     -- Hide button if quest complete or failed
     elseif (Questie.db.profile.collapseCompletedQuests and isMinimizable and (not isTimedQuest)) then
