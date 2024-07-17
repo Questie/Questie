@@ -3249,7 +3249,7 @@ function CataQuestFixes.Load()
         },
         [25766] = { -- Arcane Legacy
             [questKeys.objectives] = {nil,nil,nil,nil,{{{34931,34932,34938},34931,"Use Highborne Prison on the Highborne spirits",Questie.ICON_TYPE_INTERACT}}},
-
+        },
         [25765] = { -- Tell 'Em Koko Sent You
             [questKeys.preQuestSingle] = {25739},
         },
