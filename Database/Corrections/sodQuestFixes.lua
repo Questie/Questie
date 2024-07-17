@@ -1446,7 +1446,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [81766] = { -- The Bloody Missive
             [questKeys.preQuestSingle] = {81765},
-            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
 
         -- Begin Ashenvale Incursion
