@@ -1445,6 +1445,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [81766] = { -- The Bloody Missive
+            [questKeys.startedBy] = {{6272},nil,{219930}},
             [questKeys.preQuestSingle] = {81765},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
