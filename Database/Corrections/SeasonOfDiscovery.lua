@@ -946,6 +946,24 @@ local questsToBlacklistBySoDPhase = {
         [8743] = true, -- Shifting Sands questline - Bang a Gong!
         [8745] = true, -- Shifting Sands questline - Treasure of the Timeless One
 
+        -- Old T0.5 exchange quests
+        [8905] = true, -- An Earnest Proposition
+        [8906] = true, -- An Earnest Proposition
+        [8907] = true, -- An Earnest Proposition
+        [8908] = true, -- An Earnest Proposition
+        [8909] = true, -- An Earnest Proposition
+        [8910] = true, -- An Earnest Proposition
+        [8911] = true, -- An Earnest Proposition
+        [8912] = true, -- An Earnest Proposition
+        [8913] = true, -- An Earnest Proposition
+        [8914] = true, -- An Earnest Proposition
+        [8915] = true, -- An Earnest Proposition
+        [8916] = true, -- An Earnest Proposition
+        [8917] = true, -- An Earnest Proposition
+        [8918] = true, -- An Earnest Proposition
+        [8919] = true, -- An Earnest Proposition
+        [8920] = true, -- An Earnest Proposition
+
         -- Darkmoon Faire quests
         [7902] = true,
         [7903] = true,

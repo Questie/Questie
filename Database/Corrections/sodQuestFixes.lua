@@ -2002,6 +2002,70 @@ function SeasonOfDiscovery:LoadQuests()
         [83934] = { -- Show Me The Money!
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
         },
+        [84147] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84148] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84149] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84150] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84151] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84152] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84153] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84154] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84155] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84156] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84157] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84158] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84159] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84160] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84161] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84162] = { -- An Earnest Proposition
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
         [84348] = { -- Priority Target: Duke Tectonis
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
             [questKeys.questFlags] = questFlags.DAILY,
