@@ -5651,6 +5651,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432236,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90299] = {
+            [questKeys.name] = "Elune's Fires",
+            [questKeys.startedBy] = {{6375},{441865,441870}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 18,
+            [questKeys.questLevel] = 46,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Go inside the temple and loot the Traveller's Knapsack, open it and read Keldara's Log. Then go find 3 Satyrweed Brambles and combine them with the Mortar and Pestle found in the knapsack. Then find a Thunderhead Hippogryph with the Satyr Corruption debuff, use Hibernate on them and then use the Satyrweed Tincture to dispel the debuff, you will then receive the rune."},
+            [questKeys.requiredSpell] = -416051,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
         [90300] = {
             [questKeys.name] = "Displacement",
             [questKeys.startedBy] = {{222405}},

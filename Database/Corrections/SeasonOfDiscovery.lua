@@ -476,6 +476,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90296] = 3, -- Rogue Focused Attacks
     [90297] = 3, -- Shaman Tidal Waves
     [90298] = 3, -- Shaman Rolling Thunder
+    [90299] = 3, -- Druid Elune's Fires
     [90300] = 3, -- Mage Displacement
 }
 
