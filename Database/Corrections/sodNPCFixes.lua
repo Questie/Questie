@@ -659,6 +659,11 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.MOONGLADE] = {{52.12,40.89}},
             },
         },
+        [223591] = { -- Echo of a Lost Soul
+            [npcKeys.spawns] = {
+                [zoneIDs.STRANGLETHORN_VALE] = {{30.0,73.0}},
+            },
+        },
 
         -- fake NPCs
         [900000] = {
