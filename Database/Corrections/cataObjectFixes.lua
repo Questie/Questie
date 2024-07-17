@@ -44,6 +44,9 @@ function CataObjectFixes.Load()
         [181781] = { -- Axxarien Crystal
             [objectKeys.name] = "Axxarien Crystal",
         },
+        [185309] = { -- Altar of Goc
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{64.15,18.5}}},
+        },
         [187922] = { -- Alliance Bonfire - Burning Steppes
             [objectKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{68.57,60.2}}},
         },
