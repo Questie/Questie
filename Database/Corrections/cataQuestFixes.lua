@@ -3279,6 +3279,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25520,25807},
         },
+        [25839] = { -- The Ultrasafe Personnel Launcher
+            [questKeys.triggerEnd] = {"Use the Ultrasafe Personnel Launcher to deploy to Frostmane Retreat.", {[zoneIDs.DUN_MOROGH] = {{56.85,46.65}}}},
+        },
         [25843] = { -- Tortolla's Revenge
             [questKeys.preQuestSingle] = {25372},
             [questKeys.nextQuestInChain] = 25904,
