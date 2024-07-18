@@ -5120,6 +5120,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring a chunk of Shimmering Molten Mineral to Hansel Heavyhands. You can find the shimmering molten crag within the Slag Pit lava pools, deep within the Cauldron."},
             [questKeys.objectives] = {nil,nil,{{228191}}},
         },
+        [84377] = {
+            [questKeys.name] = "End of the Dark Horde",
+            [questKeys.startedBy] = {{10429},nil,{227911}},
+            [questKeys.finishedBy] = {{466,}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Take the Head of Rend Blackhand to General Marcus Jonathan in Stormwind."},
+            [questKeys.objectives] = nil,
+        },
         [84384] = {
             [questKeys.name] = "Demonic Deceptions",
             [questKeys.startedBy] = {{222408}},

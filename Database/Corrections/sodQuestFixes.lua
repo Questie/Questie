@@ -2011,6 +2011,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [84377] = {
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
         [84384] = { -- Demonic Deceptions
             [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
         },
