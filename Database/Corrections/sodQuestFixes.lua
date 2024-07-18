@@ -1787,6 +1787,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [82083] = { -- A Broken Ritual
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+        },
         [82084] = { --A Lesson in Literacy
             [questKeys.startedBy] = {{211022,211033}},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
@@ -1823,6 +1826,9 @@ function SeasonOfDiscovery:LoadQuests()
         [82100] = { -- The Temple of Atal'Hakkar
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
             [questKeys.preQuestSingle] = {1444},
+        },
+        [82101] = { -- Zapper Fuel
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
         },
         [82102] = { -- The Essence of Eranikus
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
