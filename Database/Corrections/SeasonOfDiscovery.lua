@@ -484,6 +484,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90301] = 3, -- Paladin Purifying Power
     [90302] = 3, -- Priest Surge of Light
     [90303] = 3, -- Priest Despair
+    [90304] = 3, -- Priest Eye of the Void
     [90305] = 3, -- Warlock Pandemic
     [90306] = 3, -- Warlock Backdraft
 }
