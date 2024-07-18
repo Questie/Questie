@@ -1410,6 +1410,22 @@ function SeasonOfDiscovery:LoadQuests()
         },
         -- End Duskwood Incursion
 
+        [81764] = { -- The Mysterious Merchant
+            [questKeys.preQuestSingle] = {79970},
+            [questKeys.nextQuestInChain] = 81765,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [81765] = { -- Elrick, Paladin of the Silver Hand
+            [questKeys.preQuestSingle] = {81764},
+            [questKeys.nextQuestInChain] = 81766,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [81766] = { -- The Bloody Missive
+            [questKeys.startedBy] = {{6272},nil,{219930}},
+            [questKeys.preQuestSingle] = {81765},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+
         -- Begin Ashenvale Incursion
         [81768] = { -- Ashenvale Mission I: Defeat Satyrs
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
