@@ -8,5 +8,4 @@
   <Script file="ruRU.lua"/>
   <Script file="zhCN.lua"/>
   <Script file="zhTW.lua"/>
-  <Script file="lookupOverrides.lua"/>
 </Ui>

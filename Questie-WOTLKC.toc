@@ -100,6 +100,7 @@ Localization\Translations\Translations.xml
 
 Localization\lookups\lookupQuestCategories.lua
 Localization\lookups\lookupZones.lua
+Localization\lookups\lookupOverrides.lua
 Localization\lookups\Wotlk\lookupItems\lookupItems.xml
 Localization\lookups\Wotlk\lookupNpcs\lookupNpcs.xml
 Localization\lookups\Wotlk\lookupObjects\lookupObjects.xml
