@@ -447,6 +447,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [80454] = 3, -- Rogue Honor Among Thieves
     [80455] = 3, -- Rogue Honor Among Thieves
     [80526] = 3, -- Rogue Honor Among Thieves
+    [82043] = 3, -- Mage Advanced Warding
+    [82044] = 3, -- Mage Advanced Warding
     [82084] = 3, -- Mage Temporal Anomaly
     [82316] = 3, -- Priest Eye of the Void
     [90269] = 3, -- Druid Gale Winds
@@ -484,6 +486,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90301] = 3, -- Paladin Purifying Power
     [90302] = 3, -- Priest Surge of Light
     [90303] = 3, -- Priest Despair
+    [90304] = 3, -- Priest Eye of the Void
     [90305] = 3, -- Warlock Pandemic
     [90306] = 3, -- Warlock Backdraft
 }
