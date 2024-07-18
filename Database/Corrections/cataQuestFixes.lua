@@ -3632,6 +3632,9 @@ function CataQuestFixes.Load()
         [26111] = { -- ... It Will Come
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon Ick'thys the Unfathomable"), 0, {{"object", 203456}}}},
         },
+        [26116] = { -- Kinelory Strikes
+            [questKeys.triggerEnd] = {"Protect Kinelory", {[zoneIDs.ARATHI_HIGHLANDS] = {{54.85,55.55}}}},
+        },
         [26121] = { -- Claim Korthun's End
             [questKeys.preQuestSingle] = {27443},
             [questKeys.exclusiveTo] = {26105},
