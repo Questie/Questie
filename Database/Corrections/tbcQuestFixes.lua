@@ -3930,7 +3930,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [11875] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.startedBy] = {},
+            [questKeys.startedBy] = {}, -- we use fake quests, so we don't show the real quest -- this needs proper fix
+            [questKeys.exclusiveTo] = {64997,64998,64999},
         },
         [11877] = {
             [questKeys.preQuestSingle] = {},
@@ -5325,7 +5326,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Bring 8 Nether Residue to Emissary Mordin in Shattrath City."},
             [questKeys.objectives] = {nil,nil,{{35229}}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.exclusiveTo] = {64998,64999},
+            [questKeys.exclusiveTo] = {11875,64998,64999},
             [questKeys.zoneOrSort] = 3703,
             [questKeys.requiredSkill] = {profKeys.HERBALISM,301}, -- this needs proper fix
             [questKeys.questFlags] = 4232,
@@ -5343,7 +5344,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Bring 8 Nether Residue to Emissary Mordin in Shattrath City."},
             [questKeys.objectives] = {nil,nil,{{35229}}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.exclusiveTo] = {64997,64999},
+            [questKeys.exclusiveTo] = {11875,64997,64999},
             [questKeys.zoneOrSort] = 3703,
             [questKeys.requiredSkill] = {profKeys.MINING,301}, -- this needs proper fix
             [questKeys.questFlags] = 4232,
@@ -5361,7 +5362,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Bring 8 Nether Residue to Emissary Mordin in Shattrath City."},
             [questKeys.objectives] = {nil,nil,{{35229}}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.exclusiveTo] = {64997,64998},
+            [questKeys.exclusiveTo] = {11875,64997,64998},
             [questKeys.zoneOrSort] = 3703,
             [questKeys.requiredSkill] = {profKeys.SKINNING,301}, -- this needs proper fix
             [questKeys.questFlags] = 4232,
