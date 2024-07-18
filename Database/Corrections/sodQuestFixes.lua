@@ -5597,7 +5597,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PRIEST,
-            [questKeys.objectivesText] = {"Kill Echo of a Lost Soul to receive the rune. NOTE: This mob only spawns between 21:00 and 06:00 server time, and is immune to fire, frost, holy, nature, physical and shadow damage. It is best to bring an arcane damage wand with you."},
+            [questKeys.objectivesText] = {"Kill Echo of a Lost Soul to receive the rune. NOTE: This mob only spawns between 21:00 and 06:00 server time, and only takes damage from arcane spells. You might want to bring an arcane damage wand with you."},
             [questKeys.requiredSpell] = -431669,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },

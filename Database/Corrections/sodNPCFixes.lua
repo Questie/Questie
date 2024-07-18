@@ -662,6 +662,9 @@ function SeasonOfDiscovery:LoadNPCs()
         [223591] = { -- Echo of a Lost Soul
             [npcKeys.spawns] = {
                 [zoneIDs.STRANGLETHORN_VALE] = {{30.0,73.0}},
+                [zoneIDs.THE_HINTERLANDS] = {{72.8,68.6}},
+                [zoneIDs.SWAMP_OF_SORROWS] = {{50.2,62.0}},
+                [zoneIDs.TANARIS] = {{53.8,29.0}},
             },
         },
 
