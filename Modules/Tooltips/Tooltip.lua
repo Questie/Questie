@@ -208,10 +208,14 @@ function QuestieTooltips.GetTooltip(key)
         local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
         if spawns then
             local playerZone = QuestiePlayer:GetCurrentZoneId()
-            for zoneId in pairs(spawns) do
-                if zoneId == playerZone then
-                    objectIsInCurrentZone = true
-                    break
+            if playerZone == 0 then
+                objectIsInCurrentZone = true
+            else
+                for zoneId in pairs(spawns) do
+                    if zoneId == playerZone then
+                        objectIsInCurrentZone = true
+                        break
+                    end
                 end
             end
         end
