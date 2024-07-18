@@ -486,6 +486,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90302] = 3, -- Priest Surge of Light
     [90303] = 3, -- Priest Despair
     [90304] = 3, -- Priest Eye of the Void
+    [90305] = 3, -- Warlock Pandemic
+    [90306] = 3, -- Warlock Backdraft
 }
 
 --- "automatic" phase detection for the first few phases;
@@ -592,6 +594,9 @@ local questsToBlacklistBySoDPhase = {
         [7787] = true, -- Rise, Thunderfury!
     },
     [6] = { -- SoD Phase 6 == Era Phase 4: Zul'Gurub
+        [4788] = true, -- The Final Tablets
+        [5065] = true, -- The Lost Tablets of Mosh'aru
+        [8181] = true, -- Confront Yeh'kinya
         [8411] = true,
         [8056] = true,
         [8057] = true,

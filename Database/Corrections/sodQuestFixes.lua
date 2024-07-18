@@ -1787,6 +1787,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [82083] = { -- A Broken Ritual
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+        },
         [82084] = { --A Lesson in Literacy
             [questKeys.startedBy] = {{211022,211033}},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
@@ -1823,6 +1826,9 @@ function SeasonOfDiscovery:LoadQuests()
         [82100] = { -- The Temple of Atal'Hakkar
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
             [questKeys.preQuestSingle] = {1444},
+        },
+        [82101] = { -- Zapper Fuel
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
         },
         [82102] = { -- The Essence of Eranikus
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
@@ -2014,6 +2020,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [84377] = {
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [84384] = { -- Demonic Deceptions
             [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
@@ -5583,11 +5592,6 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90301] = {
             [questKeys.name] = "Purifying Power",
-            [questKeys.startedBy] = {{222405}},
-            [questKeys.finishedBy] = nil,
-            [questKeys.requiredLevel] = 1,
-            [questKeys.questLevel] = 47,
-            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Collect Worldcore Fragments or Scroll of Geomancy to have four in total. Then visit all four Leyline Confluxes found in Feralas, Hinterlands, Azshara and Searing Gorge and attune to them with the collected items. Kill the Enraged Leywalker, and loot it to receive a Leycryst. Combine all four to receive the rune."},
             [questKeys.requiredSpell] = -429255,
@@ -5627,6 +5631,31 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.PRIEST,
             [questKeys.objectivesText] = {"Find 7 eyes around Azeroth, and head to Azshara where you'll find the Shrine of the Watcher, target it and /kneel, hand in the quest to receive the rune."},
             [questKeys.requiredSpell] = -402864,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [90305] = {
+            [questKeys.name] = "Pandemic",
+            [questKeys.startedBy] = {{223123},{443727,443728}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 43,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Loot the Grimtotem Chest and Woodpaw Bag and combine the Grimtotem Necklace and Broken Woodpaw Staff, then use the Diseased Nature Staff on a Diseased Forest Walker and kill it to receive the rune."},
+            [questKeys.requiredSpell] = -431743,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [90306] = {
+            [questKeys.name] = "Backdraft",
+            [questKeys.startedBy] = {{222405}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 47,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Collect Worldcore Fragments or Scroll of Geomancy to have four in total. Then visit all four Leyline Confluxes found in Feralas, Hinterlands, Azshara and Searing Gorge and attune to them with the collected items. Kill the Enraged Leywalker, and loot it to receive a Leycryst. Combine all four to receive the rune."},
+            [questKeys.requiredSpell] = -431745,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
     }
 end

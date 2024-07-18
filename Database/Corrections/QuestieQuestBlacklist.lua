@@ -1802,6 +1802,7 @@ function QuestieQuestBlacklist:Load()
         [1445] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1460] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1461] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1480] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1483] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1656] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1659] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2487,6 +2488,7 @@ function QuestieQuestBlacklist:Load()
         [11342] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11992] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [12765] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [13204] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13205] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13405] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13407] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -3051,6 +3053,7 @@ function QuestieQuestBlacklist:Load()
         [80169] = true, -- Cluster Launcher
         [80421] = true, -- Green Iron Bracers
         [80422] = true, -- Green Fireworks
+        [82323] = true, -- Vibrant Plumes
         [80423] = true, -- The World's Largest Gnome!
 
         --- Automatic Overrides (for when Wowhead data is wrong)
