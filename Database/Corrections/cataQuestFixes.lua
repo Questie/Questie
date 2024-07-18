@@ -1655,6 +1655,9 @@ function CataQuestFixes.Load()
         [14312] = { -- An Introduction Is In Order
             [questKeys.preQuestSingle] = {14311},
         },
+        [14316] = { -- Cenarion Property
+            [questKeys.preQuestSingle] = {14312},
+        },
         [14323] = { -- Absorbent
             [questKeys.preQuestSingle] = {14130},
         },
