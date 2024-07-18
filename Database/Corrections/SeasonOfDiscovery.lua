@@ -483,6 +483,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90300] = 3, -- Mage Displacement
     [90301] = 3, -- Paladin Purifying Power
     [90302] = 3, -- Priest Surge of Light
+    [90303] = 3, -- Priest Despair
 }
 
 --- "automatic" phase detection for the first few phases;
