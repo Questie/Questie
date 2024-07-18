@@ -154,6 +154,9 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [80150] = 2, -- Curious Dalaran Relic
     [80151] = 2, -- Curious Dalaran Relic
     [80152] = 2, -- Curious Dalaran Relic
+    [81764] = 3, -- Paladin Fanaticism
+    [81765] = 3, -- Paladin Fanaticism
+    [81766] = 3, -- Paladin Fanaticism
     [81947] = 3, -- Mage Book Sanguine Sorcery
     [81949] = 3, -- Mage Book Legends of the Tidesages
     [81951] = 3, -- Mage Book The Liminal and the Arcane
@@ -476,6 +479,10 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90296] = 3, -- Rogue Focused Attacks
     [90297] = 3, -- Shaman Tidal Waves
     [90298] = 3, -- Shaman Rolling Thunder
+    [90299] = 3, -- Druid Elune's Fires
+    [90300] = 3, -- Mage Displacement
+    [90301] = 3, -- Paladin Purifying Power
+    [90302] = 3, -- Priest Surge of Light
     [90303] = 3, -- Priest Despair
 }
 
