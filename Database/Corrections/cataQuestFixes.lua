@@ -4231,6 +4231,9 @@ function CataQuestFixes.Load()
         [26627] = { -- The Hermit
             [questKeys.exclusiveTo] = {26653},
         },
+        [26628] = { -- Death from Below
+            [questKeys.triggerEnd] = {"Defend Shakes O'Breen", {[zoneIDs.ARATHI_HIGHLANDS]={{32.20,81.40}}}},
+        },
         [26629] = { -- Seeing Where Your Loyalties Lie
             [questKeys.childQuests] = {26630},
         },
