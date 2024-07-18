@@ -1652,6 +1652,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{36105,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Reactor Control Console"), 0, {{"object", 195683}}}},
         },
+        [14312] = { -- An Introduction Is In Order
+            [questKeys.preQuestSingle] = {14311},
+        },
         [14316] = { -- Cenarion Property
             [questKeys.preQuestSingle] = {14312},
         },
@@ -1687,6 +1690,9 @@ function CataQuestFixes.Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [14361] = { -- Peace of Mind
+            [questKeys.preQuestSingle] = {14354},
+        },
+        [14365] = { -- Ethel Rethor
             [questKeys.preQuestSingle] = {14354},
         },
         [14366] = { -- Holding Steady
@@ -6633,6 +6639,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{11622}}},
             [questKeys.preQuestSingle] = {27464},
             [questKeys.requiredMaxRep] = {529,42999},
+            [questKeys.zoneOrSort] = zoneIDs.SCHOLOMANCE,
         },
         [28757] = { -- Beating Them Back! -- Human Mage
             [questKeys.requiredRaces] = raceKeys.HUMAN,
