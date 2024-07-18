@@ -1644,6 +1644,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Fire Trial Completed",{[zoneIDs.AZSHARA] = {{33.43,23.39}}}},
         },
+        [14304] = { -- Blood Theory
+            [questKeys.objectives] = {{{25412,nil,Questie.ICON_TYPE_INTERACT},nil,{{49136}},nil}},
+        },
         [14308] = { -- When Science Attacks
             [questKeys.objectives] = {{{36025,nil,Questie.ICON_TYPE_EVENT},{36061,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
