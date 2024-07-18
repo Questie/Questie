@@ -1686,6 +1686,9 @@ function CataQuestFixes.Load()
         [14361] = { -- Peace of Mind
             [questKeys.preQuestSingle] = {14354},
         },
+        [14365] = { -- Ethel Rethor
+            [questKeys.preQuestSingle] = {14354},
+        },
         [14366] = { -- Holding Steady
             [questKeys.preQuestGroup] = {14347,14348},
             [questKeys.preQuestSingle] = {},
