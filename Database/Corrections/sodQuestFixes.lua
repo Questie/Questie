@@ -5609,7 +5609,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 47,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PRIEST,
-            [questKeys.objectivesText] = {"Channel in to the 4 Leyline Confluxes found in Feralas, Hinterlands, Azshara and Searing Gorge using Worldcore Fragments or Scroll of Geomany. Kill the Enraged Leywalker, and loot it to receive a Leycyst. Combine all four to receive the rune."},
+            [questKeys.objectivesText] = {"Collect Worldcore Fragments or Scroll of Geomancy to have four in total. Then visit all four Leyline Confluxes found in Feralas, Hinterlands, Azshara and Searing Gorge and attune to them with the collected items. Kill the Enraged Leywalker, and loot it to receive a Leycryst. Combine all four to receive the rune."},
             [questKeys.requiredSpell] = -431673,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
