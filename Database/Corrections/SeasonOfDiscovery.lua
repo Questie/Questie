@@ -485,6 +485,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90302] = 3, -- Priest Surge of Light
     [90303] = 3, -- Priest Despair
     [90305] = 3, -- Warlock Pandemic
+    [90306] = 3, -- Warlock Backdraft
 }
 
 --- "automatic" phase detection for the first few phases;
