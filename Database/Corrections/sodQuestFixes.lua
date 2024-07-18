@@ -5577,6 +5577,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -429309,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [90301] = {
+            [questKeys.name] = "Purifying Power",
+            [questKeys.startedBy] = {{222405}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 47,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Collect Worldcore Fragments or Scroll of Geomancy to have four in total. Then visit all four Leyline Confluxes found in Feralas, Hinterlands, Azshara and Searing Gorge and attune to them with the collected items. Kill the Enraged Leywalker, and loot it to receive a Leycryst. Combine all four to receive the rune."},
+            [questKeys.requiredSpell] = -429255,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
     }
 end
 
