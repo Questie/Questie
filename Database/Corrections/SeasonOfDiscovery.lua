@@ -578,13 +578,13 @@ local questsToBlacklistBySoDPhase = {
     [4] = { -- SoD Phase 4 == Era Phase 1+2: level cap 60, MC, Ony, world bosses
     },
     [5] = { -- SoD Phase 5 == Era Phase 3: BWL + Darkmoon Faire
-        [4788] = true, -- The Final Tablets
-        [5065] = true, -- The Lost Tablets of Mosh'aru
-        [8181] = true, -- Confront Yeh'kinya
         [7761] = true, -- Blackhand's Command; BWL attune
         [7787] = true, -- Rise, Thunderfury!
     },
     [6] = { -- SoD Phase 6 == Era Phase 4: Zul'Gurub
+        [4788] = true, -- The Final Tablets
+        [5065] = true, -- The Lost Tablets of Mosh'aru
+        [8181] = true, -- Confront Yeh'kinya
         [8411] = true,
         [8056] = true,
         [8057] = true,
