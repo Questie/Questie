@@ -163,6 +163,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [81955] = 3, -- Mage Book A Mind of Metal
     [81956] = 3, -- Mage Book Conjurer's Codex
     [82208] = 3, -- Mage Deep Freeze
+    [82316] = 3, -- Priest Eye of the Void
 
     -- fake IDs
     --- Mage runes

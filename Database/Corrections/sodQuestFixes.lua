@@ -5660,7 +5660,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{223590},{445039,445036,445037,445044,445041,445040,445042}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
-            [questKeys.questLevel] = 1,
+            [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PRIEST,
             [questKeys.objectivesText] = {"Find 7 eyes around Azeroth, and head to Azshara where you'll find the Shrine of the Watcher, target it and /kneel, hand in the quest to receive the rune."},
