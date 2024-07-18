@@ -482,6 +482,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90299] = 3, -- Druid Elune's Fires
     [90300] = 3, -- Mage Displacement
     [90301] = 3, -- Paladin Purifying Power
+    [90302] = 3, -- Priest Surge of Light
 }
 
 --- "automatic" phase detection for the first few phases;
