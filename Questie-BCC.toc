@@ -94,6 +94,7 @@ Localization\Translations\Translations.xml
 
 Localization\lookups\lookupQuestCategories.lua
 Localization\lookups\lookupZones.lua
+Localization\lookups\lookupOverrides.lua
 Localization\lookups\TBC\lookupItems\lookupItems.xml
 Localization\lookups\TBC\lookupNpcs\lookupNpcs.xml
 Localization\lookups\TBC\lookupObjects\lookupObjects.xml

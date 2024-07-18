@@ -3930,6 +3930,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [11875] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.startedBy] = {}, -- we use fake quests, so we don't show the real quest -- this needs proper fix
+            [questKeys.exclusiveTo] = {64997,64998,64999},
         },
         [11877] = {
             [questKeys.preQuestSingle] = {},
@@ -5312,7 +5314,61 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {64053},
             [questKeys.exclusiveTo] = {64063,64064,64128},
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
-        }
+        },
+        [64997] = {
+            [questKeys.name] = "Gaining the Advantage",
+            [questKeys.startedBy] = {{19202}},
+            [questKeys.finishedBy] = {{19202}},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = 0,
+            [questKeys.requiredClasses] = 0,
+            [questKeys.objectivesText] = {"Bring 8 Nether Residue to Emissary Mordin in Shattrath City."},
+            [questKeys.objectives] = {nil,nil,{{35229}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {11875,64998,64999},
+            [questKeys.zoneOrSort] = 3703,
+            [questKeys.requiredSkill] = {profKeys.HERBALISM,301}, -- this needs proper fix
+            [questKeys.questFlags] = 4232,
+            [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{1077,250}},
+        },
+        [64998] = {
+            [questKeys.name] = "Gaining the Advantage",
+            [questKeys.startedBy] = {{19202}},
+            [questKeys.finishedBy] = {{19202}},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = 0,
+            [questKeys.requiredClasses] = 0,
+            [questKeys.objectivesText] = {"Bring 8 Nether Residue to Emissary Mordin in Shattrath City."},
+            [questKeys.objectives] = {nil,nil,{{35229}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {11875,64997,64999},
+            [questKeys.zoneOrSort] = 3703,
+            [questKeys.requiredSkill] = {profKeys.MINING,301}, -- this needs proper fix
+            [questKeys.questFlags] = 4232,
+            [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{1077,250}},
+        },
+        [64999] = {
+            [questKeys.name] = "Gaining the Advantage",
+            [questKeys.startedBy] = {{19202}},
+            [questKeys.finishedBy] = {{19202}},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = 0,
+            [questKeys.requiredClasses] = 0,
+            [questKeys.objectivesText] = {"Bring 8 Nether Residue to Emissary Mordin in Shattrath City."},
+            [questKeys.objectives] = {nil,nil,{{35229}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {11875,64997,64998},
+            [questKeys.zoneOrSort] = 3703,
+            [questKeys.requiredSkill] = {profKeys.SKINNING,301}, -- this needs proper fix
+            [questKeys.questFlags] = 4232,
+            [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{1077,250}},
+        },
     }
 end
 

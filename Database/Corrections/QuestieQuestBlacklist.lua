@@ -3051,6 +3051,7 @@ function QuestieQuestBlacklist:Load()
         [80169] = true, -- Cluster Launcher
         [80421] = true, -- Green Iron Bracers
         [80422] = true, -- Green Fireworks
+        [82323] = true, -- Vibrant Plumes
         [80423] = true, -- The World's Largest Gnome!
 
         --- Automatic Overrides (for when Wowhead data is wrong)
