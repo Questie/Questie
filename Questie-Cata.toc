@@ -105,6 +105,7 @@ Localization\Translations\Translations.xml
 
 Localization\lookups\lookupQuestCategories.lua
 Localization\lookups\lookupZones.lua
+Localization\lookups\lookupOverrides.lua
 Localization\lookups\Cata\lookupZones.lua
 Localization\lookups\Cata\lookupItems\lookupItems.xml
 Localization\lookups\Cata\lookupNpcs\lookupNpcs.xml

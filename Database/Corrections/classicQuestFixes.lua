@@ -466,7 +466,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {860,844}, -- #1109
         },
         [862] = {
-            [questKeys.requiredSkill] = {185,76}, -- You need to be a Journeyman for this quest
+            [questKeys.requiredSkill] = {185,76}, -- You need to be a Journeyman for this quest -- this needs proper fix
         },
         [863] = {
             [questKeys.triggerEnd] = {"Escort Wizzlecrank out of the Venture Co. drill site", {[zoneIDs.THE_BARRENS]={{55.36,7.68}}}},
@@ -1356,7 +1356,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Protect Captain Vanessa Beltis from the naga attack", {[zoneIDs.AZSHARA]={{52.86,87.77}}}},
         },
         [3385] = {
-            [questKeys.requiredSkill] = {197,226}, -- You need to be an Artisan for this quest
+            [questKeys.requiredSkill] = {197,226}, -- You need to be an Artisan for this quest -- this needs proper fix
         },
         [3441] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{8479},8479,"Kalaran Story"}}},
@@ -4006,19 +4006,6 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{190232}},nil,nil},
             [questKeys.exclusiveTo] = {65593},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-        },
-        -----------------
-        [84377] = {
-            [questKeys.name] = "End of the Dark Horde",
-            [questKeys.startedBy] = {{10429},nil,{227911}},
-            [questKeys.finishedBy] = {{466,}},
-            [questKeys.requiredLevel] = 60,
-            [questKeys.questLevel] = 60,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"Take the Head of Rend Blackhand to General Marcus Jonathan in Stormwind."},
-            [questKeys.objectives] = nil,
-            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
     }
 end
