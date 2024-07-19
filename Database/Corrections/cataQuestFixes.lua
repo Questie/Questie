@@ -3284,6 +3284,19 @@ function CataQuestFixes.Load()
         [25810] = { -- The Hatchery Must Burn
             [questKeys.startedBy] = {{41003}},
         },
+        [25815] = { -- The Third Fleet
+            [questKeys.nextQuestInChain] = 25816,
+        },
+        [25816] = { -- Cursed To Roam
+            [questKeys.nextQuestInChain] = 25817,
+        },
+        [25817] = { -- The Cursed Crew
+            [questKeys.nextQuestInChain] = 25818,
+        },
+        [25818] = { -- Lifting the Curse
+            [questKeys.nextQuestInChain] = 25819,
+            [questKeys.objectives] = {{{41429,nil,Questie.ICON_TYPE_SLAY}}},
+        },
         [25824] = { -- Debriefing
             [questKeys.objectives] = {{{41340,nil,Questie.ICON_TYPE_TALK}}},
         },
