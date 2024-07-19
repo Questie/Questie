@@ -2903,6 +2903,10 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{39999,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Escort the Injured Fawn back home"),0,{{"monster",39930}}}},
         },
+        [25395] = { -- The Stolen Keg
+            [questKeys.preQuestSingle] = {}, -- Remove breadcrumb pre-quests
+            [questKeys.nextQuestInChain] = 25770,
+        },
         [25404] = { -- If You're Not Against Us...
             [questKeys.objectives] = {{{39933,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {25584},
@@ -3213,11 +3217,20 @@ function CataQuestFixes.Load()
         [25678] = { -- Pick Your Fate
             [questKeys.objectives] = {{{5996},{5997},{5998}}},
         },
+        [25721] = { -- Fight the Flood
+            [questKeys.nextQuestInChain] = 25727,
+        },
+        [25727] = { -- Drungeld Glowerglare
+            [questKeys.nextQuestInChain] = 25733,
+        },
         [25731] = { -- A Bird in Hand
             [questKeys.objectives] = {{{41112,nil,Questie.ICON_TYPE_EVENT},{41112,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25655,25656},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Extinguish the fire"),0,{{"object",460000}}}},
+        },
+        [25733] = { -- Get Out Of Here, Stalkers
+            [questKeys.nextQuestInChain] = 25777,
         },
         [25715] = { -- A Closer Look
             [questKeys.triggerEnd] = {"Scout the ships on the Shattershore",{[zoneIDs.BLASTED_LANDS] = {{69,32.7}}}},
@@ -3265,9 +3278,18 @@ function CataQuestFixes.Load()
         [25765] = { -- Tell 'Em Koko Sent You
             [questKeys.preQuestSingle] = {25739},
         },
+        [25770] = { -- Keg Run
+            [questKeys.nextQuestInChain] = 25721,
+        },
         [25776] = { -- Sethria's Demise
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25761,25764},
+        },
+        [25777] = { -- Onwards to Menethil
+            [questKeys.nextQuestInChain] = 25780,
+        },
+        [25780] = { -- Assault on Menethil Keep
+            [questKeys.preQuestSingle] = {}, -- Remove breadcrumb pre-quest
         },
         [25794] = { -- Undersea Sanctuary
             [questKeys.objectives] = {{{41294,nil,Questie.ICON_TYPE_EVENT}}},
@@ -3675,6 +3697,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25973},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Use the Blade to become a naga"),0,{{"object",460005}}}},
             [questKeys.objectives] = {{{41982,nil,Questie.ICON_TYPE_EVENT},{41222}}},
+        },
+        [26137] = { -- Checking on the Boys
+            [questKeys.nextQuestInChain] = 25395, -- Breadcrumb quest for 25395
         },
         [26143] = { -- All That Rises
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Control the Bound Torrent"),0,{{"monster",47969}}}},
@@ -6337,6 +6362,10 @@ function CataQuestFixes.Load()
         },
         [28561] = { -- Nahom Must Hold
             [questKeys.preQuestSingle] = {28533},
+        },
+        [28565] = { -- Hero's Call: Wetlands!
+            [questKeys.nextQuestInChain] = 25395, -- Breadcrumb quest for 25395
+            [questKeys.requiredMaxLevel] = 24,
         },
         [28568] = { -- Warchief's Command: Silverpine Forest!
             [questKeys.exclusiveTo] = {26964,26965},
