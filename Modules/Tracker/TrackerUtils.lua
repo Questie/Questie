@@ -1070,7 +1070,6 @@ end
 ---@param isMinimizable boolean
 ---@param rePositionLine function
 function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame, isMinimizable, rePositionLine)
-    local usableQIB = false
     local isTimedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
     local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
     local hasUsableSourceItem = sourceItemId and GetItemCount(sourceItemId) > 0 and TrackerUtils:IsQuestItemUsable(sourceItemId)
@@ -1084,7 +1083,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
     end
     local isComplete = (quest.isComplete ~= true and #quest.Objectives == 0) or quest.isComplete == true
 
-    if (complete ~= 1 and (hasUsableSourceItem or hasUsableRequiredItem)) or usableQIB then
+    if complete ~= 1 and (hasUsableSourceItem or hasUsableRequiredItem) then
         -- Get button from buttonPool
         local button = TrackerLinePool.GetNextItemButton()
         if not button then
