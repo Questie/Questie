@@ -157,6 +157,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [81764] = 3, -- Paladin Fanaticism
     [81765] = 3, -- Paladin Fanaticism
     [81766] = 3, -- Paladin Fanaticism
+    [81790] = 3, -- Paladin Hammer of the Righteous
     [81947] = 3, -- Mage Book Sanguine Sorcery
     [81949] = 3, -- Mage Book Legends of the Tidesages
     [81951] = 3, -- Mage Book The Liminal and the Arcane

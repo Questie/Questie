@@ -1423,6 +1423,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81766] = { -- The Bloody Missive
             [questKeys.startedBy] = {{6272},nil,{219930}},
             [questKeys.preQuestSingle] = {81765},
+            [questKeys.nextQuestInChain] = 81790,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
 
@@ -1732,6 +1733,10 @@ function SeasonOfDiscovery:LoadQuests()
         },
         -- End Feralas Incursion
 
+        [81790] = { -- Materials of Significance
+            [questKeys.preQuestSingle] = {81766},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [81900] = { -- The Burning Beast
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
