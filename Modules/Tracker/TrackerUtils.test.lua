@@ -32,6 +32,7 @@ describe("TrackerUtils", function()
 
     it("should add sourceItemId as primary button", function()
         _G.GetItemSpell = function() return 111 end
+        _G.GetItemCount = function() return 1 end
         QuestieDB.QueryQuestSingle = spy.new(function()
             return 123
         end)
@@ -257,6 +258,7 @@ describe("TrackerUtils", function()
     it("should show expandQuest button and hide item buttons when quest is collapsed", function()
         Questie.db.char.collapsedQuests[1] = true
         _G.GetItemSpell = function() return 111 end
+        _G.GetItemCount = function() return 1 end
         QuestieDB.QueryQuestSingle = spy.new(function()
             return 123
         end)
@@ -296,6 +298,7 @@ describe("TrackerUtils", function()
     it("should show expandQuest button when no primary button is added", function()
         Questie.db.char.collapsedQuests[1] = true
         _G.GetItemSpell = function() return 111 end
+        _G.GetItemCount = function() return 1 end
         QuestieDB.QueryQuestSingle = spy.new(function()
             return 123
         end)
@@ -325,6 +328,7 @@ describe("TrackerUtils", function()
         Questie.db.char.collapsedQuests[1] = true
         Questie.db.profile.collapseCompletedQuests = true
         _G.GetItemSpell = function() return 111 end
+        _G.GetItemCount = function() return 1 end
         QuestieDB.QueryQuestSingle = spy.new(function()
             return 123
         end)
@@ -364,6 +368,7 @@ describe("TrackerUtils", function()
     it("should hide item buttons when zone is collapsed", function()
         Questie.db.char.collapsedZones["Durotar"] = true
         _G.GetItemSpell = function() return 111 end
+        _G.GetItemCount = function() return 1 end
         QuestieDB.QueryQuestSingle = spy.new(function()
             return 123
         end)

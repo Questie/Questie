@@ -1073,7 +1073,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
     local usableQIB = false
     local isTimedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
     local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
-    local hasUsableSourceItem = sourceItemId and TrackerUtils:IsQuestItemUsable(sourceItemId)
+    local hasUsableSourceItem = sourceItemId and GetItemCount(sourceItemId) > 0 and TrackerUtils:IsQuestItemUsable(sourceItemId)
     local hasUsableRequiredItem = false
     local usableRequiredItems = {}
     for _, itemId in pairs(quest.requiredSourceItems or {}) do
