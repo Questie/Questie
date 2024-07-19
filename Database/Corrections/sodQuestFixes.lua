@@ -1732,6 +1732,17 @@ function SeasonOfDiscovery:LoadQuests()
         },
         -- End Feralas Incursion
 
+        [81900] = { -- The Burning Beast
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [81917] = { -- Chains That Bind
+            [questKeys.preQuestSingle] = {81900},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [81919] = { -- Brought to Heel
+            [questKeys.preQuestSingle] = {81917},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [81986] = { -- Waking the Nightmare
             [questKeys.preQuestSingle] = {82022},
             [questKeys.objectives] = {{{222198}},nil,{{220570}}},

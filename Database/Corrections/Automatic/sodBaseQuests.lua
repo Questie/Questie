@@ -3670,7 +3670,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [81900] = {
             [questKeys.name] = "The Burning Beast",
-            [questKeys.startedBy] = {{7506}},
+            [questKeys.startedBy] = {nil,{441061}},
             [questKeys.finishedBy] = {{7506,}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
