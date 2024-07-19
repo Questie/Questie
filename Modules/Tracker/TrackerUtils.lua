@@ -1077,7 +1077,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
     local hasUsableRequiredItem = false
     local usableRequiredItems = {}
     for _, itemId in pairs(quest.requiredSourceItems or {}) do
-        if TrackerUtils:IsQuestItemUsable(itemId) then
+        if GetItemCount(itemId) > 0 and TrackerUtils:IsQuestItemUsable(itemId) then
             hasUsableRequiredItem = true
             tinsert(usableRequiredItems, itemId)
         end

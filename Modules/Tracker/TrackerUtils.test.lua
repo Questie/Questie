@@ -64,6 +64,7 @@ describe("TrackerUtils", function()
 
     it("should add single requiredSourceItems entry as primary button", function()
         _G.GetItemSpell = function() return 111 end
+        _G.GetItemCount = function() return 1 end
         QuestieDB.QueryQuestSingle = spy.new(function()
             return nil
         end)
@@ -97,6 +98,7 @@ describe("TrackerUtils", function()
 
     it("should add sourceItemId as primary button and single requiredSourceItems as secondary button", function()
         _G.GetItemSpell = function() return 111 end
+        _G.GetItemCount = function() return 1 end
         QuestieDB.QueryQuestSingle = spy.new(function()
             return 123
         end)
@@ -144,6 +146,7 @@ describe("TrackerUtils", function()
 
     it("should add multiple requiredSourceItems entries as primary and secondary buttons", function()
         _G.GetItemSpell = function() return 111 end
+        _G.GetItemCount = function() return 1 end
         QuestieDB.QueryQuestSingle = spy.new(function()
             return nil
         end)
@@ -190,7 +193,8 @@ describe("TrackerUtils", function()
     end)
 
     it("should add second item of requiredSourceItems as primary button", function()
-        _G.GetItemSpell = function(itemId) return itemId == 456 end
+        _G.GetItemSpell = function() return 111 end
+        _G.GetItemCount = function(itemId) return itemId == 456 and 1 or 0 end
         QuestieDB.QueryQuestSingle = spy.new(function()
             return nil
         end)
