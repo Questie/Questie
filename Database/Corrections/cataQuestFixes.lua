@@ -6379,7 +6379,7 @@ function CataQuestFixes.Load()
         },
         [28565] = { -- Hero's Call: Wetlands!
             [questKeys.nextQuestInChain] = 25395, -- Breadcrumb quest for 25395
-            [questKeys.requiredMaxLevel] = 24,
+            [questKeys.requiredMaxLevel] = 23,
         },
         [28568] = { -- Warchief's Command: Silverpine Forest!
             [questKeys.exclusiveTo] = {26964,26965},
