@@ -9,7 +9,7 @@ function QuestieQuestBlacklist:Load()
         [7462] = true, -- Duplicate of 7877. See #1583
         [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
         [5658] = true, -- Touch of Weakness of Father Lankester -- See #1603
-        [2358] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE, -- See #921
+        [2358] = true, -- See #921
         [787] = true, -- The New Horde is not in the game. See #830
         [6606] = true, -- Quest is not in the game. See #1338
         [6072] = true, -- Ayanna Everstride doesn't start "Hunter's Path" (this quest is most likely simply not in the game) #700
@@ -1802,6 +1802,7 @@ function QuestieQuestBlacklist:Load()
         [1445] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1460] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1461] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1480] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1483] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1656] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1659] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2487,6 +2488,7 @@ function QuestieQuestBlacklist:Load()
         [11342] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [11992] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [12765] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [13204] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13205] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13405] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13407] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -3051,6 +3053,7 @@ function QuestieQuestBlacklist:Load()
         [80169] = true, -- Cluster Launcher
         [80421] = true, -- Green Iron Bracers
         [80422] = true, -- Green Fireworks
+        [82323] = true, -- Vibrant Plumes
         [80423] = true, -- The World's Largest Gnome!
 
         --- Automatic Overrides (for when Wowhead data is wrong)

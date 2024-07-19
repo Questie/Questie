@@ -1652,6 +1652,15 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{36105,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Reactor Control Console"), 0, {{"object", 195683}}}},
         },
+        [14311] = { -- Taking Part
+            [questKeys.preQuestGroup] = {14305,14306},
+        },
+        [14312] = { -- An Introduction Is In Order
+            [questKeys.preQuestSingle] = {14311},
+        },
+        [14316] = { -- Cenarion Property
+            [questKeys.preQuestSingle] = {14312},
+        },
         [14323] = { -- Absorbent
             [questKeys.preQuestSingle] = {14130},
         },
@@ -1684,6 +1693,9 @@ function CataQuestFixes.Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [14361] = { -- Peace of Mind
+            [questKeys.preQuestSingle] = {14354},
+        },
+        [14365] = { -- Ethel Rethor
             [questKeys.preQuestSingle] = {14354},
         },
         [14366] = { -- Holding Steady
@@ -3560,6 +3572,9 @@ function CataQuestFixes.Load()
         [26043] = { -- BEWARE OF CRAGJAW!
             [questKeys.preQuestSingle] = {26004},
         },
+        [26050] = { -- Goggle Boggle
+            [questKeys.triggerEnd] = {"Defend Professor Phizzlethorpe", {[zoneIDs.ARATHI_HIGHLANDS]={{33.80,80.40}}}},
+        },
         [26056] = { -- The Wavespeaker
             [questKeys.nextQuestInChain] = 26065,
         },
@@ -3628,6 +3643,9 @@ function CataQuestFixes.Load()
         },
         [26111] = { -- ... It Will Come
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon Ick'thys the Unfathomable"), 0, {{"object", 203456}}}},
+        },
+        [26116] = { -- Kinelory Strikes
+            [questKeys.triggerEnd] = {"Protect Kinelory", {[zoneIDs.ARATHI_HIGHLANDS] = {{54.85,55.55}}}},
         },
         [26121] = { -- Claim Korthun's End
             [questKeys.preQuestSingle] = {27443},
@@ -3867,6 +3885,7 @@ function CataQuestFixes.Load()
         },
         [26312] = { -- Crumbling Defenses
             [questKeys.preQuestSingle] = {26326},
+            [questKeys.objectives] = {{{44352,nil,Questie.ICON_TYPE_EVENT},{44353,nil,Questie.ICON_TYPE_EVENT},{42788,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26313] = { -- Core of Our Troubles
             [questKeys.preQuestSingle] = {26326},
@@ -3998,7 +4017,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26409},
         },
         [26411] = { -- Apply and Flash Dry
-            [questKeys.preQuestSingle] = {27135},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26410,27135},
             [questKeys.objectives] = {{{43036,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26413] = { -- Take Him to the Earthcaller
@@ -4032,7 +4052,8 @@ function CataQuestFixes.Load()
         },
         [26426] = { -- Violent Gale
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {26376,26377},
+            [questKeys.preQuestGroup] = {26375,26376,26377},
+            [questKeys.objectives] = {{{44281,nil,Questie.ICON_TYPE_EVENT},{44282,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26433] = { -- The Holy Water of Clarity
             [questKeys.exclusiveTo] = {26590},
@@ -4192,7 +4213,7 @@ function CataQuestFixes.Load()
         },
         [26591] = { -- Battlefront Triage
             [questKeys.objectives] = {{{43229,"Injured Earthen patched up",Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.preQuestSingle] = {26501},
+            [questKeys.preQuestGroup] = {26501,26502},
         },
         [26597] = { -- Stranglethorn Fever
             [questKeys.childQuests] = {26598},
@@ -4226,10 +4247,13 @@ function CataQuestFixes.Load()
         },
         [26625] = { -- Troggzor the Earthinator
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {26564,26591},
+            [questKeys.preQuestGroup] = {26537,26564,26591},
         },
         [26627] = { -- The Hermit
             [questKeys.exclusiveTo] = {26653},
+        },
+        [26628] = { -- Death from Below
+            [questKeys.triggerEnd] = {"Defend Shakes O'Breen", {[zoneIDs.ARATHI_HIGHLANDS]={{32.20,81.40}}}},
         },
         [26629] = { -- Seeing Where Your Loyalties Lie
             [questKeys.childQuests] = {26630},
@@ -4271,14 +4295,17 @@ function CataQuestFixes.Load()
         },
         [26657] = { -- Hard Falls
             [questKeys.preQuestSingle] = {26656},
+            [questKeys.exclusiveTo] = {},
         },
         [26658] = { -- Fragile Values
             [questKeys.preQuestSingle] = {26656},
+            [questKeys.exclusiveTo] = {},
         },
         [26659] = { -- Resonating Blow
             [questKeys.objectives] = {{{43641}},{{204837}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26657,26658},
+            [questKeys.exclusiveTo] = {},
         },
         [26662] = { -- The Brashtide Crew
             [questKeys.preQuestSingle] = {26650},
@@ -4433,6 +4460,7 @@ function CataQuestFixes.Load()
         },
         [26829] = { -- The Stone March
             [questKeys.preQuestSingle] = {26828},
+            [questKeys.exclusiveTo] = {},
         },
         [26830] = { -- Traitor's Bait
             [questKeys.startedBy] = {{39605}},
@@ -4445,6 +4473,7 @@ function CataQuestFixes.Load()
         },
         [26832] = { -- Therazane's Mercy
             [questKeys.preQuestSingle] = {26828},
+            [questKeys.exclusiveTo] = {},
         },
         [26833] = { -- Word In Stone
             [questKeys.preQuestSingle] = {},
@@ -4470,6 +4499,7 @@ function CataQuestFixes.Load()
         },
         [26861] = { -- Block the Gates
             [questKeys.preQuestSingle] = {26771},
+            [questKeys.objectives] = {{{44930,nil,Questie.ICON_TYPE_EVENT},{44931,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26865] = { -- Enemies Below
             [questKeys.nextQuestInChain] = 26858,
@@ -4486,6 +4516,8 @@ function CataQuestFixes.Load()
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Summon Abyssion"), 0, {{"object", 205205}}},
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Abyssion"), 0, {{"monster", 44289}}},
             },
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26857,26861},
         },
         [26881] = { -- In Search of Thaelrid
             [questKeys.finishedBy] = {{4787}},
@@ -4640,6 +4672,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 16502}}}},
             [questKeys.preQuestSingle] = {},
         },
+        [26971] = { -- The Binding
+            [questKeys.startedBy] = {{43835}},
+        },
         [26973] = { -- The Only True Path
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
@@ -4717,7 +4752,7 @@ function CataQuestFixes.Load()
         [27041] = { -- Decryption Made Easy
             [questKeys.finishedBy] = {{100008}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27004,27006},
+            [questKeys.preQuestGroup] = {27005,27008},
         },
         [27042] = { -- Fight Fire and Water and Air with...
             [questKeys.objectives] = {{{44887},{44886},{44885},{44835}}},
@@ -5653,10 +5688,12 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27934},
             [questKeys.startedBy] = {{100011}},
             [questKeys.nextQuestInChain] = 26499,
+            [questKeys.exclusiveTo] = {27936},
         },
         [27936] = { -- Bring Down the Avalanche
             [questKeys.preQuestSingle] = {27934},
             [questKeys.nextQuestInChain] = 26499,
+            [questKeys.exclusiveTo] = {27935},
         },
         [27939] = { -- The Desert Fox
             [questKeys.preQuestSingle] = {27926},
@@ -5700,7 +5737,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [27953] = { -- The Reliquary
-            [questKeys.exclusiveTo] = {27005,27008},
+            [questKeys.nextQuestInChain] = 27005, -- curiously this one needs prequestsingle, unlike alliance counterpart
         },
         [27955] = { -- Eye Spy
             [questKeys.objectives] = {{{47274}}},
@@ -6024,6 +6061,12 @@ function CataQuestFixes.Load()
         },
         [28290] = { -- Meet with Grezz Ragefist
             [questKeys.exclusiveTo] = {27281,27365,28457},
+        },
+        [28292] = { -- That's No Pyramid!
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
+        [28293] = { -- That's No Pyramid!
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [28295] = { -- Meetup with the Caravan
             [questKeys.exclusiveTo] = {28296,28558},
@@ -6621,6 +6664,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{11622}}},
             [questKeys.preQuestSingle] = {27464},
             [questKeys.requiredMaxRep] = {529,42999},
+            [questKeys.zoneOrSort] = zoneIDs.SCHOLOMANCE,
         },
         [28757] = { -- Beating Them Back! -- Human Mage
             [questKeys.requiredRaces] = raceKeys.HUMAN,
@@ -6838,8 +6882,7 @@ function CataQuestFixes.Load()
         },
         [28824] = { -- Wayward Child
             [questKeys.preQuestSingle] = {26871},
-            [questKeys.startedBy] = {{42465}},
-            [questKeys.finishedBy] = {{42465}},
+            [questKeys.finishedBy] = {{42465}}, -- needs the 2nd npcid, but questie can't show multiple turn in NPCs
         },
         [28825] = { -- A Personal Summons
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -6888,7 +6931,7 @@ function CataQuestFixes.Load()
         },
         [28869] = { -- Pebble
             [questKeys.nextQuestInChain] = 26440,
-            [questKeys.preQuestGroup] = {26437,26438,26439},
+            [questKeys.preQuestSingle] = {26439},
         },
         [28870] = { -- Return to the Lost City
             [questKeys.preQuestSingle] = {28520},
