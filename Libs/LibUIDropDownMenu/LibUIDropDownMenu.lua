@@ -118,6 +118,10 @@ function lib:UIDropDownMenu_InitializeHelper(frame)
     frame:SetHeight(L_UIDROPDOWNMENUQUESTIE_BUTTON_HEIGHT * 2);
 end
 
+function lib:getOpen() 
+    return L_UIDROPDOWNMENUQUESTIE_OPEN_MENU
+end
+
 function lib:UIDropDownMenuButton_ShouldShowIconTooltip(self)
     if self.Icon and (self.iconTooltipTitle or self.iconTooltipText) and (self.icon or self.mouseOverIcon) then
         return GetMouseFocus() == self.Icon;

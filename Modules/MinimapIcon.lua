@@ -37,7 +37,7 @@ function _MinimapIcon:CreateDataBrokerObject()
                 return
             end
 
-            if button == "LeftButton" then
+            if button == "LeftButton" and not QuestieMenu:isOpen() then
                 if IsShiftKeyDown() and IsControlKeyDown() then
                     Questie.db.profile.enabled = (not Questie.db.profile.enabled)
                     QuestieQuest:ToggleNotes(Questie.db.profile.enabled)
@@ -57,6 +57,8 @@ function _MinimapIcon:CreateDataBrokerObject()
                 end
 
                 return;
+            elseif button == "LeftButton" and QuestieMenu:isOpen() then
+                QuestieMenu:Hide()
             elseif button == "RightButton" then
                 if (not IsModifierKeyDown()) then
                     -- CLose config window if it's open to avoid desyncing the Checkbox
