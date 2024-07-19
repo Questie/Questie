@@ -4295,14 +4295,17 @@ function CataQuestFixes.Load()
         },
         [26657] = { -- Hard Falls
             [questKeys.preQuestSingle] = {26656},
+            [questKeys.exclusiveTo] = {},
         },
         [26658] = { -- Fragile Values
             [questKeys.preQuestSingle] = {26656},
+            [questKeys.exclusiveTo] = {},
         },
         [26659] = { -- Resonating Blow
             [questKeys.objectives] = {{{43641}},{{204837}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26657,26658},
+            [questKeys.exclusiveTo] = {},
         },
         [26662] = { -- The Brashtide Crew
             [questKeys.preQuestSingle] = {26650},
@@ -4457,6 +4460,7 @@ function CataQuestFixes.Load()
         },
         [26829] = { -- The Stone March
             [questKeys.preQuestSingle] = {26828},
+            [questKeys.exclusiveTo] = {},
         },
         [26830] = { -- Traitor's Bait
             [questKeys.startedBy] = {{39605}},
@@ -4469,6 +4473,7 @@ function CataQuestFixes.Load()
         },
         [26832] = { -- Therazane's Mercy
             [questKeys.preQuestSingle] = {26828},
+            [questKeys.exclusiveTo] = {},
         },
         [26833] = { -- Word In Stone
             [questKeys.preQuestSingle] = {},
@@ -4666,6 +4671,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{16971,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 16502}}}},
             [questKeys.preQuestSingle] = {},
+        },
+        [26971] = { -- The Binding
+            [questKeys.startedBy] = {{43835}},
         },
         [26973] = { -- The Only True Path
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -5729,7 +5737,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [27953] = { -- The Reliquary
-            [questKeys.exclusiveTo] = {27005,27008},
+            [questKeys.nextQuestInChain] = 27005, -- curiously this one needs prequestsingle, unlike alliance counterpart
         },
         [27955] = { -- Eye Spy
             [questKeys.objectives] = {{{47274}}},
@@ -6874,8 +6882,7 @@ function CataQuestFixes.Load()
         },
         [28824] = { -- Wayward Child
             [questKeys.preQuestSingle] = {26871},
-            [questKeys.startedBy] = {{42465}},
-            [questKeys.finishedBy] = {{42465}},
+            [questKeys.finishedBy] = {{42465}}, -- needs the 2nd npcid, but questie can't show multiple turn in NPCs
         },
         [28825] = { -- A Personal Summons
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
