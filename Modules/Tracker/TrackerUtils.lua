@@ -1090,8 +1090,6 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
         end
     end
 
-    local isComplete = (quest.isComplete ~= true and #quest.Objectives == 0) or quest.isComplete == true
-
     if complete ~= 1 and #usableQuestItems > 0 then
         -- Get button from buttonPool
         local button = TrackerLinePool.GetNextItemButton()
