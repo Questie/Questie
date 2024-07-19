@@ -1618,6 +1618,9 @@ function CataNpcFixes.Load()
         [42465] = { -- Therazane
             [npcKeys.questEnds] = {26709,26750,28824,29337},
         },
+        [42471] = { -- Boden the Imposing
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{48.94,40.26}}},
+        },
         [42472] = { -- Gorsik the Tumultuous
             [npcKeys.spawns] = {
                 [zoneIDs.DEEPHOLM] = {

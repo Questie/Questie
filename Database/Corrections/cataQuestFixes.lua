@@ -3885,6 +3885,7 @@ function CataQuestFixes.Load()
         },
         [26312] = { -- Crumbling Defenses
             [questKeys.preQuestSingle] = {26326},
+            [questKeys.objectives] = {{{44352,nil,Questie.ICON_TYPE_EVENT},{44353,nil,Questie.ICON_TYPE_EVENT},{42788,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26313] = { -- Core of Our Troubles
             [questKeys.preQuestSingle] = {26326},
@@ -4016,7 +4017,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26409},
         },
         [26411] = { -- Apply and Flash Dry
-            [questKeys.preQuestSingle] = {27135},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26410,27135},
             [questKeys.objectives] = {{{43036,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26413] = { -- Take Him to the Earthcaller
@@ -4050,7 +4052,8 @@ function CataQuestFixes.Load()
         },
         [26426] = { -- Violent Gale
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {26376,26377},
+            [questKeys.preQuestGroup] = {26375,26376,26377},
+            [questKeys.objectives] = {{{44281,nil,Questie.ICON_TYPE_EVENT},{44282,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26433] = { -- The Holy Water of Clarity
             [questKeys.exclusiveTo] = {26590},
@@ -4210,7 +4213,7 @@ function CataQuestFixes.Load()
         },
         [26591] = { -- Battlefront Triage
             [questKeys.objectives] = {{{43229,"Injured Earthen patched up",Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.preQuestSingle] = {26501},
+            [questKeys.preQuestGroup] = {26501,26502},
         },
         [26597] = { -- Stranglethorn Fever
             [questKeys.childQuests] = {26598},
@@ -4244,7 +4247,7 @@ function CataQuestFixes.Load()
         },
         [26625] = { -- Troggzor the Earthinator
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {26564,26591},
+            [questKeys.preQuestGroup] = {26537,26564,26591},
         },
         [26627] = { -- The Hermit
             [questKeys.exclusiveTo] = {26653},
@@ -4491,6 +4494,7 @@ function CataQuestFixes.Load()
         },
         [26861] = { -- Block the Gates
             [questKeys.preQuestSingle] = {26771},
+            [questKeys.objectives] = {{{44930,nil,Questie.ICON_TYPE_EVENT},{44931,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26865] = { -- Enemies Below
             [questKeys.nextQuestInChain] = 26858,
@@ -4507,6 +4511,8 @@ function CataQuestFixes.Load()
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Summon Abyssion"), 0, {{"object", 205205}}},
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Abyssion"), 0, {{"monster", 44289}}},
             },
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26857,26861},
         },
         [26881] = { -- In Search of Thaelrid
             [questKeys.finishedBy] = {{4787}},
@@ -4738,7 +4744,7 @@ function CataQuestFixes.Load()
         [27041] = { -- Decryption Made Easy
             [questKeys.finishedBy] = {{100008}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27004,27006},
+            [questKeys.preQuestGroup] = {27005,27008},
         },
         [27042] = { -- Fight Fire and Water and Air with...
             [questKeys.objectives] = {{{44887},{44886},{44885},{44835}}},
@@ -5674,10 +5680,12 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27934},
             [questKeys.startedBy] = {{100011}},
             [questKeys.nextQuestInChain] = 26499,
+            [questKeys.exclusiveTo] = {27936},
         },
         [27936] = { -- Bring Down the Avalanche
             [questKeys.preQuestSingle] = {27934},
             [questKeys.nextQuestInChain] = 26499,
+            [questKeys.exclusiveTo] = {27935},
         },
         [27939] = { -- The Desert Fox
             [questKeys.preQuestSingle] = {27926},
@@ -6045,6 +6053,12 @@ function CataQuestFixes.Load()
         },
         [28290] = { -- Meet with Grezz Ragefist
             [questKeys.exclusiveTo] = {27281,27365,28457},
+        },
+        [28292] = { -- That's No Pyramid!
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
+        [28293] = { -- That's No Pyramid!
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [28295] = { -- Meetup with the Caravan
             [questKeys.exclusiveTo] = {28296,28558},
@@ -6910,7 +6924,7 @@ function CataQuestFixes.Load()
         },
         [28869] = { -- Pebble
             [questKeys.nextQuestInChain] = 26440,
-            [questKeys.preQuestGroup] = {26437,26438,26439},
+            [questKeys.preQuestSingle] = {26439},
         },
         [28870] = { -- Return to the Lost City
             [questKeys.preQuestSingle] = {28520},

@@ -366,7 +366,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.PEBBLE_AT_KOR then
-        return complete[26441] or (not complete[26440]) or false
+        return complete[26441] or ((not complete[26440]) and (not questLog[26440])) or false
     end
 
     if phase == phases.PEBBLE_AT_CRYSTALS then
