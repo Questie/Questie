@@ -1721,6 +1721,10 @@ function CataNpcFixes.Load()
             [npcKeys.questStarts] = {26709,28824},
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{49.74,53.35,phases.THERAZANE_AT_TEMPLE}}},
         },
+        [43804] = { -- Gorsik the Tumultuous
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{57.34,12.49}}},
+            [npcKeys.waypoints] = {[zoneIDs.DEEPHOLM] = {{{59.31,14.23},{59.19,14.11},{59.04,14.00},{58.71,13.80},{58.57,13.64},{58.45,13.52},{58.32,13.42},{58.19,13.33},{58.06,13.22},{57.94,13.10},{57.81,12.98},{57.68,12.87},{57.56,12.75},{57.44,12.62},{57.35,12.52},{57.34,12.50}}}},
+        },
         [43835] = { -- Earthcaller Torunscar
             [npcKeys.spawns] = {
                 [zoneIDs.DEEPHOLM] = {
