@@ -5328,7 +5328,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {11875,64998,64999},
             [questKeys.zoneOrSort] = 3703,
-            [questKeys.requiredSkill] = {profKeys.HERBALISM,301}, -- this needs proper fix
+            [questKeys.requiredSkill] = {profKeys.HERBALISM,275}, -- this needs proper fix, you need master or higher mining, skinning OR herbalism
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
             [questKeys.reputationReward] = {{1077,250}},
@@ -5346,7 +5346,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {11875,64997,64999},
             [questKeys.zoneOrSort] = 3703,
-            [questKeys.requiredSkill] = {profKeys.MINING,301}, -- this needs proper fix
+            [questKeys.requiredSkill] = {profKeys.MINING,275}, -- this needs proper fix, you need master or higher mining, skinning OR herbalism
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
             [questKeys.reputationReward] = {{1077,250}},
@@ -5364,7 +5364,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {11875,64997,64998},
             [questKeys.zoneOrSort] = 3703,
-            [questKeys.requiredSkill] = {profKeys.SKINNING,301}, -- this needs proper fix
+            [questKeys.requiredSkill] = {profKeys.SKINNING,275}, -- this needs proper fix, you need master or higher mining, skinning OR herbalism
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
             [questKeys.reputationReward] = {{1077,250}},

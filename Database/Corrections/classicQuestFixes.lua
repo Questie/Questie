@@ -730,7 +730,6 @@ function QuestieQuestFixes:Load()
         },
         [1221] = {
             [questKeys.sourceItemId] = 6684,
-            [questKeys.requiredSourceItems] = {5880, 6684},
         },
         [1222] = {
             [questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[zoneIDs.DUSTWALLOW_MARSH]={{48.87,24.58}}}},
