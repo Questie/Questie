@@ -3296,6 +3296,12 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 25904,
             [questKeys.startedBy] = {{41480}},
         },
+        [25854] = { -- I'll Call Him Bitey
+            [questKeys.nextQuestInChain] = 25855,
+        },
+        [25856] = { -- Crocolisk Hides
+            [questKeys.nextQuestInChain] = 25857,
+        },
         [25860] = { -- At All Costs
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25629,25896},
