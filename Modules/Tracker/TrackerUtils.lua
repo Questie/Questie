@@ -1070,20 +1070,23 @@ end
 ---@param isMinimizable boolean
 ---@param rePositionLine function
 function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame, isMinimizable, rePositionLine)
+    local usableQuestItems = {}
+
     local isTimedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
     local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
-    local hasUsableSourceItem = sourceItemId and GetItemCount(sourceItemId) > 0 and TrackerUtils:IsQuestItemUsable(sourceItemId)
-    local hasUsableRequiredItem = false
-    local usableRequiredItems = {}
+    if sourceItemId and GetItemCount(sourceItemId) > 0 and TrackerUtils:IsQuestItemUsable(sourceItemId) then
+        tinsert(usableQuestItems, sourceItemId)
+    end
+
     for _, itemId in pairs(quest.requiredSourceItems or {}) do
         if GetItemCount(itemId) > 0 and TrackerUtils:IsQuestItemUsable(itemId) then
-            hasUsableRequiredItem = true
-            tinsert(usableRequiredItems, itemId)
+            tinsert(usableQuestItems, itemId)
         end
     end
+
     local isComplete = (quest.isComplete ~= true and #quest.Objectives == 0) or quest.isComplete == true
 
-    if complete ~= 1 and (hasUsableSourceItem or hasUsableRequiredItem) then
+    if complete ~= 1 and #usableQuestItems > 0 then
         -- Get button from buttonPool
         local button = TrackerLinePool.GetNextItemButton()
         if not button then
@@ -1094,12 +1097,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
         button.line = line
         line.button = button
 
-        local primaryButtonAdded = false
-        if hasUsableSourceItem then
-            primaryButtonAdded = button:SetItem(sourceItemId, quest.Id, questItemButtonSize)
-        elseif hasUsableRequiredItem then
-            primaryButtonAdded = button:SetItem(usableRequiredItems[1], quest.Id, questItemButtonSize)
-        end
+        local primaryButtonAdded = button:SetItem(usableQuestItems[1], quest.Id, questItemButtonSize)
 
         -- Setup button and set attributes
         if primaryButtonAdded then
@@ -1135,8 +1133,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                 button:Hide()
             end
 
-            local secondaryButtonAdded = false
-            if hasUsableRequiredItem and (hasUsableSourceItem or #usableRequiredItems > 1) then
+            if #usableQuestItems > 1 then
                 local secondaryButton = TrackerLinePool.GetNextItemButton()
                 if not secondaryButton then
                     return false -- stop populating the tracker
@@ -1146,12 +1143,8 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                 secondaryButton.line = line
                 line.altButton = secondaryButton
 
-                if hasUsableSourceItem then
-                    secondaryButtonAdded = secondaryButton:SetItem(usableRequiredItems[1], quest.Id, questItemButtonSize)
-                elseif #usableRequiredItems > 1 then
-                    -- TODO: Handle more than 2 buttons if required
-                    secondaryButtonAdded = secondaryButton:SetItem(usableRequiredItems[2], quest.Id, questItemButtonSize)
-                end
+                -- TODO: Handle more than 2 buttons if required
+                local secondaryButtonAdded = secondaryButton:SetItem(usableQuestItems[2], quest.Id, questItemButtonSize)
 
                 if secondaryButtonAdded then
                     height = 0
