@@ -289,7 +289,7 @@ describe("TrackerUtils", function()
         assert.spy(rePositionLineMock).was_called_with(1)
     end)
 
-    it("should add second item of requiredSourceItems as primary button", function()
+    it("should add second item of requiredSourceItems as primary button if first is not in the inventory", function()
         _G.GetItemSpell = function() return 111 end
         _G.GetItemCount = function(itemId) return itemId == 456 and 1 or 0 end
         QuestieDB.QueryQuestSingle = spy.new(function()
