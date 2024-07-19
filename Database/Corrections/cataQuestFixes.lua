@@ -3305,6 +3305,26 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25858},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Attack an Kvaldir High-Shaman and kite him to Executioner Verathress"),0,{{"monster",41997},{"monster",41537}}}},
         },
+        [25864] = { -- Dinosaur Crisis
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 25865,
+        },
+        [25866] = { -- Dark Iron Trappers
+            [questKeys.preQuestSingle] = {25865}, -- Requires The Mosshide Job to be completed before unlocking
+            [questKeys.inGroupWith] = {25867},
+            [questKeys.nextQuestInChain] = 25868,
+            [questKeys.exclusiveTo] = {},
+        },
+        [25867] = { -- Gnoll Escape
+            [questKeys.preQuestSingle] = {25865}, -- Requires The Mosshide Job to be completed before unlocking
+            [questKeys.inGroupWith] = {25866},
+            [questKeys.nextQuestInChain] = 25868,
+            [questKeys.exclusiveTo] = {},
+        },
+        [25868] = { -- Yorla Darksnare
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25866,25867},
+        },
         [25881] = { -- Lost Wardens
             [questKeys.preQuestSingle] = {25372},
             [questKeys.objectives] = {{{41499,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -4682,6 +4702,9 @@ function CataQuestFixes.Load()
         },
         [26977] = { -- Twilight Investigation
             [questKeys.preQuestSingle] = {26960},
+        },
+        [26980] = { -- Swiftgear Station
+            [questKeys.nextQuestInChain] = 25864,
         },
         [26997] = { -- The Usual Suspects
             [questKeys.objectives] = {{{29152,nil,Questie.ICON_TYPE_TALK}}},
