@@ -25,6 +25,7 @@ _G.GetItemCount = function() return 0 end
 _G.GetQuestLogTitle = function() return "Test Quest" end
 _G.GetQuestLogIndexByID = function() return 1 end
 _G.ExpandFactionHeader = EMTPY_FUNC
+_G.IsEquippableItem = function() return false end
 _G.IsInGroup = function() return false end
 _G.UnitInParty = function() return false end
 _G.UnitInRaid = function() return false end

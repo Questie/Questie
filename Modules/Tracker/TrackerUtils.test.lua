@@ -189,6 +189,38 @@ describe("TrackerUtils", function()
         assert.spy(rePositionLineMock).was_called_with(1)
     end)
 
+    it("should add second item of requiredSourceItems as primary button", function()
+        _G.GetItemSpell = function(itemId) return itemId == 456 end
+        QuestieDB.QueryQuestSingle = spy.new(function()
+            return nil
+        end)
+        local primaryButton = CreateFrame("Button")
+
+        TrackerLinePool.GetNextItemButton = function()
+            primaryButton.SetItem = spy.new(function()
+                return true
+            end)
+            primaryButton:Hide() -- initially item buttons are hidden
+            return primaryButton
+        end
+        local quest = {
+            Id = 1,
+            requiredSourceItems = {123,456},
+            Objectives = {},
+        }
+        local line = _GetMockedLine()
+
+        local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
+
+        assert.is_true(shouldContinue)
+        assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
+        assert.spy(primaryButton.SetItem).was_called_with(_, 456, 1, 12)
+        assert.is_true(primaryButton:IsVisible())
+
+        assert.equals(line, primaryButton.line)
+        assert.is_false(line.expandQuest:IsVisible())
+    end)
+
     it("should show expandQuest button without quest item", function()
         local quest = {
             Id = 1,
