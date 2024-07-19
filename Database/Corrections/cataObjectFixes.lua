@@ -24,7 +24,7 @@ function CataObjectFixes.Load()
             [objectKeys.name] = "Sandsorrow Watch Water Hole",
         },
         [147557] = { -- Stolen Silver
-            [objectKeys.spawns] = {[zoneIDs.NORTHERN_BARRENS]={{63.72,58.80}}},
+            [objectKeys.spawns] = {[zoneIDs.THE_BARRENS]={{63.72,58.80}}},
         },
         [154357] = {
             [objectKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS]={{25.88,47.15},{23.94,49.78},{34.8,49.43},{32.07,51.94},{19.77,47.27},{27.09,50.94},{35.73,49.6},{35.71,49.6},{21.92,48.48}}},
