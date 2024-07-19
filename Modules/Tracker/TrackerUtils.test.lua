@@ -47,6 +47,7 @@ describe("TrackerUtils", function()
         local quest = {
             Id = 1,
             Objectives = {},
+            ObjectiveData = {},
         }
         local line = _GetMockedLine()
 
@@ -81,6 +82,7 @@ describe("TrackerUtils", function()
             Id = 1,
             requiredSourceItems = {456},
             Objectives = {},
+            ObjectiveData = {},
         }
         local line = _GetMockedLine()
 
@@ -89,6 +91,45 @@ describe("TrackerUtils", function()
         assert.is_true(shouldContinue)
         assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
         assert.spy(button.SetItem).was_called_with(_, 456, 1, 12)
+        assert.is_true(button:IsVisible())
+
+        assert.equals(line, button.line)
+        assert.is_false(line.expandQuest:IsVisible())
+
+        assert.spy(rePositionLineMock).was_not_called()
+    end)
+
+    it("should add single objective item entry as primary button", function()
+        _G.GetItemSpell = function() return 111 end
+        _G.GetItemCount = function() return 1 end
+        QuestieDB.QueryQuestSingle = spy.new(function()
+            return nil
+        end)
+        local button = CreateFrame("Button")
+        TrackerLinePool.GetNextItemButton = function()
+            button.SetItem = spy.new(function()
+                return true
+            end)
+            button:Hide() -- initially item buttons are hidden
+            return button
+        end
+        local quest = {
+            Id = 1,
+            Objectives = {},
+            ObjectiveData = {
+                [1] = {
+                    Id = 123,
+                    Type = "item",
+                },
+            },
+        }
+        local line = _GetMockedLine()
+
+        local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
+
+        assert.is_true(shouldContinue)
+        assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
+        assert.spy(button.SetItem).was_called_with(_, 123, 1, 12)
         assert.is_true(button:IsVisible())
 
         assert.equals(line, button.line)
@@ -126,6 +167,60 @@ describe("TrackerUtils", function()
             Id = 1,
             requiredSourceItems = {456},
             Objectives = {},
+            ObjectiveData = {},
+        }
+        local line = _GetMockedLine()
+
+        local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
+
+        assert.is_true(shouldContinue)
+        assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
+        assert.spy(primaryButton.SetItem).was_called_with(_, 123, 1, 12)
+        assert.spy(secondaryButton.SetItem).was_called_with(_, 456, 1, 12)
+        assert.is_true(primaryButton:IsVisible())
+        assert.is_true(secondaryButton:IsVisible())
+
+        assert.equals(line, primaryButton.line)
+        assert.equals(line, secondaryButton.line)
+        assert.is_false(line.expandQuest:IsVisible())
+
+        assert.spy(rePositionLineMock).was_called_with(1)
+    end)
+
+    it("should add sourceItemId as primary button and single objective item as secondary button", function()
+        _G.GetItemSpell = function() return 111 end
+        _G.GetItemCount = function() return 1 end
+        QuestieDB.QueryQuestSingle = spy.new(function()
+            return 123
+        end)
+        local primaryButton, secondaryButton = CreateFrame("Button"), CreateFrame("Button")
+        local buttonIndex = 0
+
+        TrackerLinePool.GetNextItemButton = function()
+            if buttonIndex == 0 then
+                primaryButton.SetItem = spy.new(function()
+                    return true
+                end)
+                primaryButton:Hide() -- initially item buttons are hidden
+                buttonIndex = buttonIndex + 1
+                return primaryButton
+            else
+                secondaryButton.SetItem = spy.new(function()
+                    return true
+                end)
+                secondaryButton:Hide() -- initially item buttons are hidden
+                return secondaryButton
+            end
+        end
+        local quest = {
+            Id = 1,
+            Objectives = {},
+            ObjectiveData = {
+                [1] = {
+                    Id = 456,
+                    Type = "item",
+                },
+            },
         }
         local line = _GetMockedLine()
 
@@ -174,6 +269,7 @@ describe("TrackerUtils", function()
             Id = 1,
             requiredSourceItems = {123,456},
             Objectives = {},
+            ObjectiveData = {},
         }
         local line = _GetMockedLine()
 
@@ -212,6 +308,7 @@ describe("TrackerUtils", function()
             Id = 1,
             requiredSourceItems = {123,456},
             Objectives = {},
+            ObjectiveData = {},
         }
         local line = _GetMockedLine()
 
@@ -230,6 +327,7 @@ describe("TrackerUtils", function()
         local quest = {
             Id = 1,
             Objectives = {},
+            ObjectiveData = {},
         }
         local line = _GetMockedLine()
 
@@ -245,6 +343,7 @@ describe("TrackerUtils", function()
         local quest = {
             Id = 1,
             Objectives = {},
+            ObjectiveData = {},
         }
         local line = _GetMockedLine()
 
@@ -285,6 +384,7 @@ describe("TrackerUtils", function()
             Id = 1,
             requiredSourceItems = {456},
             Objectives = {},
+            ObjectiveData = {},
         }
         local line = _GetMockedLine()
 
@@ -315,6 +415,7 @@ describe("TrackerUtils", function()
             Id = 1,
             requiredSourceItems = {456},
             Objectives = {},
+            ObjectiveData = {},
         }
         local line = _GetMockedLine()
 
@@ -355,6 +456,7 @@ describe("TrackerUtils", function()
             Id = 1,
             requiredSourceItems = {456},
             Objectives = {},
+            ObjectiveData = {},
         }
         local line = _GetMockedLine()
 
@@ -395,6 +497,7 @@ describe("TrackerUtils", function()
             Id = 1,
             requiredSourceItems = {456},
             Objectives = {},
+            ObjectiveData = {},
         }
         local line = _GetMockedLine()
 

@@ -1084,6 +1084,12 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
         end
     end
 
+    for _, objective in pairs(quest.ObjectiveData) do
+        if objective.Type == "item" and GetItemCount(objective.Id) > 0 and TrackerUtils:IsQuestItemUsable(objective.Id) then
+            tinsert(usableQuestItems, objective.Id)
+        end
+    end
+
     local isComplete = (quest.isComplete ~= true and #quest.Objectives == 0) or quest.isComplete == true
 
     if complete ~= 1 and #usableQuestItems > 0 then
