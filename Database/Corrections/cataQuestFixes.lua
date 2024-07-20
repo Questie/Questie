@@ -1583,6 +1583,9 @@ function CataQuestFixes.Load()
         [14267] = { -- Investigating the Sea Shrine
             [questKeys.preQuestSingle] = {14258},
         },
+        [14268] = { -- Deep Impact
+            [questKeys.objectives] = {nil,{{195659,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [14272] = { -- Eviscerate
             [questKeys.objectives] = {{{35118}},nil,nil,nil,nil,{{2098}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Eviscerate"), 2, {{"monster", 35871}}}},
