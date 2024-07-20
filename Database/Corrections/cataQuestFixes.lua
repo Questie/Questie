@@ -248,6 +248,9 @@ function CataQuestFixes.Load()
         [6031] = { -- Runecloth
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,8}},
         },
+        [6132] = { -- Get Me Out of Here!
+            [questKeys.triggerEnd] = {"Escort Melizza Brimbuzzle", {[zoneIDs.DESOLACE]={{39.84,61.49}}}},
+        },
         [6322] = { -- Michael Garrett
             [questKeys.requiredRaces] = raceKeys.UNDEAD,
         },
