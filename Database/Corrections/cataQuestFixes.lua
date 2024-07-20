@@ -1645,7 +1645,7 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Fire Trial Completed",{[zoneIDs.AZSHARA] = {{33.43,23.39}}}},
         },
         [14304] = { -- Blood Theory
-            [questKeys.extraObjective] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Collect 10 Blood-filled Leeches"), 0, {{"npc", 25412}}}},
+            [questKeys.extraObjective] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Collect 10 Blood-filled Leeches"), 0, {{"monster", 25412}}}},
         },
         [14308] = { -- When Science Attacks
             [questKeys.objectives] = {{{36025,nil,Questie.ICON_TYPE_EVENT},{36061,nil,Questie.ICON_TYPE_INTERACT}}},
