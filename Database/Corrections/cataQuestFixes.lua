@@ -4883,7 +4883,8 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {24671},
         },
         [27141] = { -- Exploding Through
-            [questKeys.preQuestSingle] = {28112},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27923,27924,28105},
             [questKeys.name] = "Exploding Through",
             [questKeys.objectives] = {nil,{{205241}}},
         },
@@ -5068,6 +5069,8 @@ function CataQuestFixes.Load()
         },
         [27431] = { -- Tipping the Balance
             [questKeys.objectives] = {{{45296,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27549,28602}, -- thanks to exclusiveTo, 28602 is same as 27517
         },
         [27433] = { -- Shredderectomy
             [questKeys.preQuestSingle] = {27338},
@@ -5178,6 +5181,7 @@ function CataQuestFixes.Load()
         [27517] = { -- Be Prepared
             [questKeys.objectives] = {nil,nil,{{61321}}},
             [questKeys.preQuestSingle] = {27196},
+            [questKeys.startedBy] = {{45296,45765},nil,{61322}},
         },
         [27519] = { -- Under the Choking Sands
             [questKeys.preQuestSingle] = {28135},
@@ -5194,6 +5198,9 @@ function CataQuestFixes.Load()
         },
         [27545] = { -- The Way is Open
             [questKeys.preQuestSingle] = {27537},
+        },
+        [27549] = { -- By the Light of the Stars
+            [questKeys.startedBy] = {{45296,45874}},
         },
         [27555] = { -- Fiona's Lucky Charm
             [questKeys.preQuestGroup] = {27372,27369},
@@ -5692,10 +5699,11 @@ function CataQuestFixes.Load()
         },
         [27925] = { -- Efficient Excavations
             [questKeys.exclusiveTo] = {28132},
-            [questKeys.preQuestSingle] = {27899},
+            [questKeys.preQuestSingle] = {27669},
         },
         [27926] = { -- Eastern Hospitality
             [questKeys.objectives] = {{{47176,nil,Questie.ICON_TYPE_TALK},{47185,nil,Questie.ICON_TYPE_TALK},{47187,nil,Questie.ICON_TYPE_TALK},{47189,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {27669},
         },
         [27929] = { -- Drag 'em Down
             [questKeys.preQuestSingle] = {27690},
@@ -5808,8 +5816,8 @@ function CataQuestFixes.Load()
             [questKeys.reputationReward] = {},
         },
         [27990] = { -- Battlezone
-            [questKeys.objectives] = {{{47778},{47159,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Man the Siege Tank"), 0, {{"monster", 47732}}}},
+            [questKeys.objectives] = {{{47385},{47159,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Man the Siege Tank"), 0, {{"monster", 47732},{"monster", 47743}}}},
         },
         [27991] = { -- Taking the Overlook Back
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -5928,9 +5936,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [28132] = { -- Efficient Excavations
-            [questKeys.preQuestSingle] = {27899},
+            [questKeys.preQuestSingle] = {27669},
             [questKeys.startedBy] = {{46993},nil,{62768}},
             [questKeys.exclusiveTo] = {27925},
+            [questKeys.nextQuestInChain] = 27926,
         },
         [28134] = { -- Impending Retribution
             [questKeys.objectives] = {{{46603,nil,Questie.ICON_TYPE_TALK},{47715,nil,Questie.ICON_TYPE_TALK},{47930,nil,Questie.ICON_TYPE_TALK}}}
@@ -6055,6 +6064,8 @@ function CataQuestFixes.Load()
         [28267] = { -- Firing Squad
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Commander Schnottz"),0,{{"monster",47972}}}},
             [questKeys.objectives] = {{{48189,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28194,28195},
         },
         [28271] = { -- Reduced Productivity
             [questKeys.preQuestSingle] = {28274},
@@ -6100,11 +6111,11 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [28295] = { -- Meetup with the Caravan
-            [questKeys.exclusiveTo] = {28296,28558},
+            [questKeys.exclusiveTo] = {28558},
             [questKeys.zoneOrSort] = zoneIDs.TANARIS,
         },
         [28296] = { -- Meetup with the Caravan
-            [questKeys.exclusiveTo] = {28295,28557},
+            [questKeys.exclusiveTo] = {28557},
             [questKeys.zoneOrSort] = zoneIDs.TANARIS,
         },
         [28299] = { -- Meet with Zevrost
@@ -6423,6 +6434,9 @@ function CataQuestFixes.Load()
         },
         [28598] = { -- Burnin' at Both Ends
             [questKeys.objectives] = {nil,{{207277,nil,Questie.ICON_TYPE_EVENT}},nil,nil,{{{49212},49212}}},
+        },
+        [28602] = { -- Be Prepared
+            [questKeys.preQuestSingle] = {27541},
         },
         [28606] = { -- The Keys to the Hot Rod
             [questKeys.startedBy] = {{34874}},
