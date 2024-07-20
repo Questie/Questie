@@ -1727,6 +1727,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {14370,14371},
             [questKeys.objectives] = {{{36297,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [14381] = { -- Cleansing Our Crevasse
+            [questKeys.objectives] = {{{90},{35605},{35606}}},
+        },
         [14382] = { -- Two By Sea
             [questKeys.extraObjectives] = {
                 {nil,Questie.ICON_TYPE_INTERACT,l10n("Use the catapult to board the ship"),0,{{"monster",36283}}},
