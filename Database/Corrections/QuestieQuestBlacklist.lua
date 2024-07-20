@@ -34,6 +34,7 @@ function QuestieQuestBlacklist:Load()
         [936] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
         [535] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Valik
         [2000] = true, -- Not in the game - #4487
+        [84377] = QuestieCorrections.CLASSIC_HIDE -- Spillover from SoD
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
         [5841] = true,
