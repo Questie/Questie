@@ -39,10 +39,12 @@ QuestieWorldMapButtonMixin = {
         if button == "LeftButton" then
             Questie.db.profile.enabled = (not Questie.db.profile.enabled)
             QuestieQuest:ToggleNotes(Questie.db.profile.enabled)
-        elseif button == "RightButton" and not QuestieMenu.IsOpen() then
-            QuestieMenu:Show()
-        elseif  button == "RightButton" and QuestieMenu.IsOpen() then 
-            QuestieMenu:Hide()
+        elseif button == "RightButton" then
+            if QuestieMenu.IsOpen() then
+                QuestieMenu:Hide()
+            else
+                QuestieMenu:Show()
+            end
         end
     end,
     OnMouseUp = function() end,
