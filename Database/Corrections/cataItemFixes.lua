@@ -67,6 +67,9 @@ function CataItemFixes.Load()
         [33009] = { -- Tender Strider Meat
             [itemKeys.npcDrops] = {2956,2957},
         },
+        [38567] = { -- Maraudine Prisoner Manifest
+            [itemKeys.startQuest] = 14330,
+        },
         [39684] = { -- Hair Trigger
             [itemKeys.npcDrops] = {},
         },

@@ -1606,6 +1606,15 @@ function CataNpcFixes.Load()
         [42463] = { -- Operation: Gnomeregan Recap Credit
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{33.54,36.52}}},
         },
+        [42465] = { -- Therazane
+            [npcKeys.questEnds] = {26709,26750,28824,29337},
+            [npcKeys.spawns] = {
+                [zoneIDs.DEEPHOLM] = {
+                    {56.33,12.14,phases.THERAZANE_AT_THRONE_BEFORE_MARCH},
+                    {56.33,12.14,phases.NPCS_AT_THERAZANES_THRONE},
+                },
+            },
+        },
         [42466] = { -- Terrath the Steady
             [npcKeys.spawns] = {
                 [zoneIDs.DEEPHOLM] = {
@@ -1614,9 +1623,6 @@ function CataNpcFixes.Load()
                     {55.34,12.99,phases.NPCS_AT_THERAZANES_THRONE},
                 },
             },
-        },
-        [42465] = { -- Therazane
-            [npcKeys.questEnds] = {26709,26750,28824,29337},
         },
         [42471] = { -- Boden the Imposing
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{48.94,40.26}}},
@@ -1713,25 +1719,25 @@ function CataNpcFixes.Load()
         },
         [43792] = { -- Therazane
             [npcKeys.questStarts] = {26709,28824},
-            [npcKeys.spawns] = {
-                [zoneIDs.DEEPHOLM] = {
-                    {49.66,53.17,phases.TEMPLE_OF_EARTH_CHAPTER_3},
-                },
-            },
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{49.74,53.35,phases.THERAZANE_AT_TEMPLE}}},
+        },
+        [43804] = { -- Gorsik the Tumultuous
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{57.34,12.49}}},
+            [npcKeys.waypoints] = {[zoneIDs.DEEPHOLM] = {{{59.31,14.23},{59.19,14.11},{59.04,14.00},{58.71,13.80},{58.57,13.64},{58.45,13.52},{58.32,13.42},{58.19,13.33},{58.06,13.22},{57.94,13.10},{57.81,12.98},{57.68,12.87},{57.56,12.75},{57.44,12.62},{57.35,12.52},{57.34,12.50}}}},
         },
         [43835] = { -- Earthcaller Torunscar
-            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{49.27,52.81}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.DEEPHOLM] = {
+                    {49.27,52.81,phases.TORUNSCAR_START},
+                    {49.59,52.94,phases.TORUNSCAR_END},
+                },
+            },
         },
         [43836] = { -- Windspeaker Lorvarius
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{47.97,53.7}}},
         },
         [44025] = { -- Therazane
-            [npcKeys.spawns] = {
-                [zoneIDs.DEEPHOLM] = {
-                    {63.33,24.95,phases.THE_STONE_MARCH},
-                    {63.33,24.95,phases.TEMPLE_OF_EARTH_CHAPTER_1},
-                },
-            },
+            [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{63.33,24.95}}},
         },
         [44148] = { -- Stonescale Matriarch
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{50.92,85.28}}},
@@ -1876,6 +1882,9 @@ function CataNpcFixes.Load()
         },
         [47255] = { -- Gobbles
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{24.49,64.46}}},
+        },
+        [47385] = { -- Decrepit Watcher
+            [npcKeys.spawns] = {[zoneIDs.ULDUM]={{23.65,56.57},{18.93,64.06},{17.37,63.04},{16.25,60.62},{18.16,58.97},{19.73,56.2},{22.56,54.46},{25.38,54.72},{26.14,57.43},{25.39,61.82},{23.83,61.42},{21.14,59.25},{22.4,61.11},{20.03,62.27}}},
         },
         [47493] = { -- Warlord Krogg
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{29.6,41,phases.GRIM_BATOL_ATTACK_HORDE}}},
