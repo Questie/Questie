@@ -2930,6 +2930,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25459},
             [questKeys.finishedBy] = {{100009}},
         },
+        [25434] = { -- Taming The Tamers
+            [questKeys.preQuestSingle] = {25432},
+        },
         [25439] = { -- Vengeful Heart
             [questKeys.preQuestSingle] = {25222},
         },
