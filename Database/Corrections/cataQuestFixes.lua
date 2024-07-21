@@ -2962,6 +2962,9 @@ function CataQuestFixes.Load()
         [25467] = { -- Kliklak's Craw
             [questKeys.startedBy] = {{40276},nil,{54345}},
         },
+        [25469] = { -- Forces of Nature: Mountain Giants
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{40026},40026,"Mountain Giants Rallied",Questie.ICON_TYPE_INTERACT}}},
+        },
         [25473] = { -- Kaja'Cola
             [questKeys.startedBy] = {{34872}},
             [questKeys.preQuestSingle] = {},
