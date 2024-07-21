@@ -839,7 +839,7 @@ function CataQuestFixes.Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [12821] = { -- Opening the Backdoor
-            [questKeys.objectives] = {nil,nil,{{40731}}}
+            [questKeys.objectives] = {nil,nil,{{40731}}},
         },
         [13188] = { -- Where Kings Walk
             [questKeys.finishedBy] = {{29611}},
@@ -5649,7 +5649,7 @@ function CataQuestFixes.Load()
         },
         [27738] = { -- The Pit of Scales
             [questKeys.startedBy] = {{46136,47709}},
-            [questKeys.objectives] = {{{46496,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{46276}}},
         },
         [27742] = { -- A Little on the Side
             [questKeys.exclusiveTo] = {},
@@ -5796,7 +5796,6 @@ function CataQuestFixes.Load()
         [27901] = { -- They Don't Know What They've Got Here
             [questKeys.requiredSourceItems] = {62608,62610},
             [questKeys.preQuestSingle] = {27899},
-            [questKeys.sourceItemId] = 62610,
         },
         [27905] = { -- Tailgunner!
             [questKeys.objectives] = {},
@@ -5937,7 +5936,7 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Khartut's Tomb Investigated",{[zoneIDs.ULDUM]={{64.6,22.6}}}},
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {28112},
-            [questKeys.exclusiveTo] = {27141},
+            [questKeys.nextQuestInChain] = 27141,
         },
         [27994] = { -- Ruumbo Demands Justice
             [questKeys.preQuestSingle] = {28100},
@@ -6050,7 +6049,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 27926,
         },
         [28134] = { -- Impending Retribution
-            [questKeys.objectives] = {{{46603,nil,Questie.ICON_TYPE_TALK},{47715,nil,Questie.ICON_TYPE_TALK},{47930,nil,Questie.ICON_TYPE_TALK}}}
+            [questKeys.objectives] = {{{46603,nil,Questie.ICON_TYPE_TALK},{47715,nil,Questie.ICON_TYPE_TALK},{47930,nil,Questie.ICON_TYPE_TALK}}},
         },
         [28137] = { -- Teach A Man To Fish.... Or Steal
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -6122,7 +6121,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28187},
         },
         [28201] = { -- Ploughshares to Swords
-            [questKeys.objectives] = {{{46333,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{46333,nil,Questie.ICON_TYPE_TALK}}},
         },
         [28211] = { -- Tempered in Elemental Flame
             [questKeys.preQuestGroup] = {27752,27754}, -- could also be 27753
@@ -6254,7 +6253,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{51193,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [28353] = { -- Jonesy Sent For You
-            [questKeys.exclusiveTo] = {28271},
+            [questKeys.nextQuestInChain] = 28271,
         },
         [28362] = { -- Stupid Drizle!
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
@@ -6562,6 +6561,10 @@ function CataQuestFixes.Load()
         },
         [28612] = { -- Harrison Jones and the Temple of Uldum
             [questKeys.objectives] = {nil,{{205939}}},
+            [questKeys.zoneOrSort] = 989,
+        },
+        [28613] = { -- See You on the Other Side!
+            [questKeys.zoneOrSort] = 989,
         },
         [28622] = { -- Three if by Air
             [questKeys.objectives] = {{{49211,nil,Questie.ICON_TYPE_EVENT},{49215,nil,Questie.ICON_TYPE_EVENT},{49216,nil,Questie.ICON_TYPE_EVENT}}},
@@ -6803,6 +6806,7 @@ function CataQuestFixes.Load()
         [28736] = { -- Fire From the Sky
             [questKeys.preQuestSingle] = {28613},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 49499}}}},
+            [questKeys.zoneOrSort] = 989,
         },
         [28737] = { -- What Is This Place?
             [questKeys.nextQuestInChain] = 28738,
@@ -7092,6 +7096,7 @@ function CataQuestFixes.Load()
         },
         [28870] = { -- Return to the Lost City
             [questKeys.preQuestSingle] = {28520},
+            [questKeys.nextQuestInChain] = 28781,
         },
         [28871] = { -- Crushing the Wildhammer
             [questKeys.preQuestSingle] = {28133},
