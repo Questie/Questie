@@ -3333,6 +3333,12 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 25904,
             [questKeys.startedBy] = {{41480}},
         },
+        [25854] = { -- I'll Call Him Bitey
+            [questKeys.nextQuestInChain] = 25855,
+        },
+        [25856] = { -- Crocolisk Hides
+            [questKeys.nextQuestInChain] = 25857,
+        },
         [25860] = { -- At All Costs
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25629,25896},
@@ -3341,6 +3347,26 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{41457,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {25858},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Attack an Kvaldir High-Shaman and kite him to Executioner Verathress"),0,{{"monster",41997},{"monster",41537}}}},
+        },
+        [25864] = { -- Dinosaur Crisis
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 25865,
+        },
+        [25866] = { -- Dark Iron Trappers
+            [questKeys.preQuestSingle] = {25865}, -- Requires The Mosshide Job to be completed before unlocking
+            [questKeys.inGroupWith] = {25867},
+            [questKeys.nextQuestInChain] = 25868,
+            [questKeys.exclusiveTo] = {},
+        },
+        [25867] = { -- Gnoll Escape
+            [questKeys.preQuestSingle] = {25865}, -- Requires The Mosshide Job to be completed before unlocking
+            [questKeys.inGroupWith] = {25866},
+            [questKeys.nextQuestInChain] = 25868,
+            [questKeys.exclusiveTo] = {},
+        },
+        [25868] = { -- Yorla Darksnare
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25866,25867},
         },
         [25881] = { -- Lost Wardens
             [questKeys.preQuestSingle] = {25372},
@@ -4738,6 +4764,9 @@ function CataQuestFixes.Load()
         },
         [26977] = { -- Twilight Investigation
             [questKeys.preQuestSingle] = {26960},
+        },
+        [26980] = { -- Swiftgear Station
+            [questKeys.nextQuestInChain] = 25864,
         },
         [26997] = { -- The Usual Suspects
             [questKeys.objectives] = {{{29152,nil,Questie.ICON_TYPE_TALK}}},
