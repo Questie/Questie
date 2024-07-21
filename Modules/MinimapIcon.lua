@@ -36,8 +36,11 @@ function _MinimapIcon:CreateDataBrokerObject()
             if (not Questie.started) then
                 return
             end
-
             if button == "LeftButton" then
+                if QuestieMenu.IsOpen() then
+                    QuestieMenu:Hide()
+                    return
+                end
                 if IsShiftKeyDown() and IsControlKeyDown() then
                     Questie.db.profile.enabled = (not Questie.db.profile.enabled)
                     QuestieQuest:ToggleNotes(Questie.db.profile.enabled)
@@ -55,7 +58,6 @@ function _MinimapIcon:CreateDataBrokerObject()
                 if QuestieJourney:IsShown() then
                     QuestieJourney.ToggleJourneyWindow();
                 end
-
                 return;
             elseif button == "RightButton" then
                 if (not IsModifierKeyDown()) then
