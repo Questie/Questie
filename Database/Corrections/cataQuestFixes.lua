@@ -2930,6 +2930,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25459},
             [questKeys.finishedBy] = {{100009}},
         },
+        [25431] = { -- Stinglasher
+            [questKeys.preQuestSingle] = {25427},
+        },
         [25439] = { -- Vengeful Heart
             [questKeys.preQuestSingle] = {25222},
         },
