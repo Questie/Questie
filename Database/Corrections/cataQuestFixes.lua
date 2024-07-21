@@ -2952,6 +2952,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25459},
             [questKeys.finishedBy] = {{100009}},
         },
+        [25431] = { -- Stinglasher
+            [questKeys.preQuestSingle] = {25427},
+        },
         [25433] = { -- Sasquatch Sighting
             [questKeys.preQuestSingle] = {25432},
         },
