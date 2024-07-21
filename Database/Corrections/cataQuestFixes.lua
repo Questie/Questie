@@ -3743,6 +3743,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Three Hammerhead Oil and two Remora Oil"), 0, {{"object", 203461}}}},
             [questKeys.requiredSourceItems] = {56833},
         },
+        [26127] = { -- The Twilight's Hammer Revealed
+            [questKeys.preQuestSingle] = {},
+        },
         [26133] = { -- Fiends from the Netherworld
             [questKeys.preQuestSingle] = {26111},
         },
@@ -3998,6 +4001,9 @@ function CataQuestFixes.Load()
         [26326] = { -- The Very Earth Beneath Our Feet
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26876,27938},
+        },
+        [26327] = { -- Anvilmar the Hero
+            [questKeys.nextQuestInChain] = 26127,
         },
         [26329] = { -- One More Thing
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
