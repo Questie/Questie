@@ -1295,6 +1295,9 @@ function CataQuestFixes.Load()
         [13982] = { -- In a Bind
             [questKeys.preQuestSingle] = {13976},
         },
+        [13983] = { -- Building Your Own Coffin
+            [questKeys.preQuestSingle] = {13977},
+        },
         [13985] = { -- Clear the Shrine
             [questKeys.preQuestSingle] = {13982},
         },
