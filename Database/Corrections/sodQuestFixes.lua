@@ -5673,6 +5673,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431745,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
+        [90307] = {
+            [questKeys.name] = "Improved Swipe",
+            [questKeys.startedBy] = {{6505,6506,6507,6508,}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Kill Venomhide Ravasaurs until Idol of the Huntress drops, equip it and follow its instructions to receive the rune."},
+            [questKeys.requiredSpell] = -439765,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 
