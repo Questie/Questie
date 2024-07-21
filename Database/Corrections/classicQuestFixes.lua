@@ -466,7 +466,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {860,844}, -- #1109
         },
         [862] = {
-            [questKeys.requiredSkill] = {185,76}, -- You need to be a Journeyman for this quest
+            [questKeys.requiredSkill] = {185,76}, -- You need to be a Journeyman for this quest -- this needs proper fix
         },
         [863] = {
             [questKeys.triggerEnd] = {"Escort Wizzlecrank out of the Venture Co. drill site", {[zoneIDs.THE_BARRENS]={{55.36,7.68}}}},
@@ -730,7 +730,6 @@ function QuestieQuestFixes:Load()
         },
         [1221] = {
             [questKeys.sourceItemId] = 6684,
-            [questKeys.requiredSourceItems] = {5880, 6684},
         },
         [1222] = {
             [questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[zoneIDs.DUSTWALLOW_MARSH]={{48.87,24.58}}}},
@@ -1356,7 +1355,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Protect Captain Vanessa Beltis from the naga attack", {[zoneIDs.AZSHARA]={{52.86,87.77}}}},
         },
         [3385] = {
-            [questKeys.requiredSkill] = {197,226}, -- You need to be an Artisan for this quest
+            [questKeys.requiredSkill] = {197,226}, -- You need to be an Artisan for this quest -- this needs proper fix
         },
         [3441] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{8479},8479,"Kalaran Story"}}},

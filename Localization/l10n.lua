@@ -50,6 +50,9 @@ end
 function l10n:Initialize()
     local itemLookup = l10n.itemLookup[locale] and l10n.itemLookup[locale]() or {}
     local questLookup = l10n.questLookup[locale] and l10n.questLookup[locale]() or {}
+    for id, data in pairs(l10n.questLookupOverrides and l10n.questLookupOverrides() or {}) do
+        questLookup[id] = data
+    end
     local npcNameLookup = l10n.npcNameLookup[locale] and l10n.npcNameLookup[locale]() or {}
     local objectLookup = l10n.objectLookup[locale] and l10n.objectLookup[locale]() or {}
 

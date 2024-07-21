@@ -176,5 +176,8 @@ function SeasonOfDiscovery:LoadItems()
         [220349] = { -- Stonewrought Design
             [itemKeys.objectDrops] = {441251},
         },
+        [228141] = { -- Necromancy 101
+            [itemKeys.objectDrops] = {463211},
+        },
     }
 end

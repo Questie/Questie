@@ -203,7 +203,7 @@ tinsert(eventQuests, {"Winter Veil", 8828, "25/12", "2/1"}) -- Winter's Presents
 tinsert(eventQuests, {"Winter Veil", 8860, "31/12", "1/1"}) -- New Year Celebrations!
 tinsert(eventQuests, {"Winter Veil", 8861, "31/12", "1/1"}) -- New Year Celebrations!
 
-tinsert(eventQuests, {"Darkmoon Faire", 7902}) -- Vibrant Plumes
+tinsert(eventQuests, {"Darkmoon Faire", 7902, nil, nil, QuestieCorrections.SOD_HIDE}) -- Vibrant Plumes
 tinsert(eventQuests, {"Darkmoon Faire", 7903}) -- Evil Bat Eyes
 tinsert(eventQuests, {"Darkmoon Faire", 8222}) -- Glowing Scorpid Blood
 tinsert(eventQuests, {"Darkmoon Faire", 7901, nil, nil, QuestieCorrections.SOD_HIDE}) -- Soft Bushy Tails
@@ -261,6 +261,7 @@ tinsert(eventQuests, {"Darkmoon Faire", 79595}) -- Carnival Boots
 tinsert(eventQuests, {"Darkmoon Faire", 80421}) -- Green Iron Bracers
 tinsert(eventQuests, {"Darkmoon Faire", 80422}) -- Green Fireworks
 tinsert(eventQuests, {"Darkmoon Faire", 80423}) -- The World's Largest Gnome!
+tinsert(eventQuests, {"Darkmoon Faire", 82323}) -- Vibrant Plumes
 tinsert(eventQuests, {"Lunar Festival", 80169}) -- Cluster Launcher
 
 -- New TBC event quests
