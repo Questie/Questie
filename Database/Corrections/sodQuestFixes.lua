@@ -5685,6 +5685,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -439765,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90308] = {
+            [questKeys.name] = "Starfall",
+            [questKeys.startedBy] = {{228814}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Kill Arcterris to receive the rune. NOTE: This is an elite mob, and may require a group."},
+            [questKeys.requiredSpell] = -439770,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 
