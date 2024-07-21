@@ -800,7 +800,7 @@ function QuestieTracker:Update()
                     -- Adds the AI_VoiceOver Play Buttons
                     line.playButton:SetPlayButton(questId)
 
-                    TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerBaseFrame, isMinimizable, function(alpha)
+                    local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerBaseFrame, isMinimizable, function(alpha)
                         if (not Questie.db.char.collapsedQuests[quest.Id]) and alpha > 0 then
                             -- Set and indent Quest Title linePool
                             line.label:ClearAllPoints()
@@ -834,6 +834,11 @@ function QuestieTracker:Update()
                         secondaryButton = true
                         secondaryButtonAlpha = alpha
                     end)
+
+                    if (not shouldContinue) then
+                        -- We exceeded the button pool
+                        break
+                    end
 
                     --local usableQIB = false
                     --local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
