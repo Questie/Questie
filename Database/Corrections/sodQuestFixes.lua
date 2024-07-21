@@ -5575,7 +5575,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90299] = {
             [questKeys.name] = "Improved Swipe",
-            [questKeys.startedBy] = {{6508}},
+            [questKeys.startedBy] = {{6505,6506,6507,6508,}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 50,
