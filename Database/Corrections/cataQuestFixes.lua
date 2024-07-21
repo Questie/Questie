@@ -1789,6 +1789,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{36472,nil,Questie.ICON_TYPE_INTERACT}},nil,{{49204}}},
         },
+        [14410] = { -- The Wilds of Feralas
+            [questKeys.preQuestGroup] = {14381,14394},
+            [questKeys.exclusiveTo] = {25447,28511},
+        },
         [14412] = { -- Washed Up
             [questKeys.preQuestSingle] = {14403},
         },
