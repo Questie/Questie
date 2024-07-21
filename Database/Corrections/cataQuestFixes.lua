@@ -2926,6 +2926,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {}, -- Remove breadcrumb pre-quests
             [questKeys.nextQuestInChain] = 25770,
         },
+        [25396] = { -- Tears of Stone
+            [questKeys.preQuestSingle] = {25394},
+        },
         [25404] = { -- If You're Not Against Us...
             [questKeys.objectives] = {{{39933,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {25584},
