@@ -67,6 +67,9 @@ function CataItemFixes.Load()
         [33009] = { -- Tender Strider Meat
             [itemKeys.npcDrops] = {2956,2957},
         },
+        [38567] = { -- Maraudine Prisoner Manifest
+            [itemKeys.startQuest] = 14330,
+        },
         [39684] = { -- Hair Trigger
             [itemKeys.npcDrops] = {},
         },
@@ -383,6 +386,9 @@ function CataItemFixes.Load()
         },
         [55238] = { -- Concentrated Solvent
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [55280] = { -- Deepmoss Venom Sac
+            [itemKeys.npcDrops] = {41185,4005,4006,4007},
         },
         [55809] = { -- Twilight Armor Plate
             [itemKeys.npcDrops] = {},

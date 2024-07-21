@@ -16889,7 +16889,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.name] = "Legion Portal Tuner",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = {228615},
+            [itemKeys.itemDrops] = {224836,224849,228615},
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
@@ -16945,7 +16945,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.name] = "Portal Tuner Tuner",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
+            [itemKeys.itemDrops] = {224836,224849},
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
@@ -16969,7 +16969,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.name] = "Rune of Decimation",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
+            [itemKeys.itemDrops] = {224850},
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
@@ -17288,7 +17288,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         [226404] = {
             [itemKeys.name] = "Tarnished Undermine Real",
             [itemKeys.npcDrops] = {1853,8983,9016,9017,9019,9033,9056,9156,9196,9236,9237,9502,9537,9568,9816,9938,10220,10268,10363,10429,10430,10432,10433,10435,10436,10437,10438,10439,10440,10502,10503,10504,10505,10506,10507,10508,10516,10584,10596,10808,10811,10812,10901,10997,11032,11058,11143,11261,11486,11487,11488,11489,11490,11492,11496,11501,11622,13280,14327,14354,226922,226923,227019,227028,227140,228022},
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {456775},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -17397,6 +17397,14 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
+        [226418] = {
+            [itemKeys.name] = "Rune of Holy Specialization",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = {457094},
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
         [226419] = {
             [itemKeys.name] = "Rune of Feral Combat Specialization",
             [itemKeys.npcDrops] = nil,
@@ -17481,6 +17489,14 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.name] = "Nightslayer Chestpiece",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
+        [226472] = {
+            [itemKeys.name] = "Stratholme Shadow Jar",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = {176360},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -17695,7 +17711,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [226526] = {
             [itemKeys.name] = "Busted Gizmo",
-            [itemKeys.npcDrops] = {11736,11739,11880,12178},
+            [itemKeys.npcDrops] = {11736,11739,11744,11880,11881,12178,12179},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -18167,7 +18183,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [226587] = {
             [itemKeys.name] = "Rune of Shelling",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {227493},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -18903,7 +18919,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [226698] = {
             [itemKeys.name] = "Vertically Composited Patch Hampler",
-            [itemKeys.npcDrops] = {228609,228610},
+            [itemKeys.npcDrops] = {228232,228609,228610},
             [itemKeys.objectDrops] = {456814},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -18922,7 +18938,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10363},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226701] = {
@@ -18930,7 +18946,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9097,9259,9260,9265,9716,9736,10318},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226702] = {
@@ -18938,7 +18954,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9236},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226703] = {
@@ -18946,7 +18962,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {11622},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226704] = {
@@ -18954,7 +18970,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10405,10472,10488,10505},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226705] = {
@@ -18962,7 +18978,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10440},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853,230319,230565},
             [itemKeys.startQuest] = nil,
         },
         [226706] = {
@@ -18970,7 +18986,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10997},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226707] = {
@@ -18978,7 +18994,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {1853},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226708] = {
@@ -18986,7 +19002,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {1853},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226709] = {
@@ -18994,7 +19010,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10440},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853,230319,230565},
             [itemKeys.startQuest] = nil,
         },
         [226710] = {
@@ -19002,7 +19018,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10268},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226711] = {
@@ -19010,7 +19026,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10516},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226712] = {
@@ -19018,7 +19034,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9258,9692,9736,10499,10500,10507,11257},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226713] = {
@@ -19026,7 +19042,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10596},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226714] = {
@@ -19034,7 +19050,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10426,10463,10464,10495},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226715] = {
@@ -19042,7 +19058,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10363},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226716] = {
@@ -19050,7 +19066,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9568},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226717] = {
@@ -19058,7 +19074,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9096,10406,10407,10421},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226718] = {
@@ -19066,7 +19082,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9241,9258,9259,9260,9692,9736,10366},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226719] = {
@@ -19074,7 +19090,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10440},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853,230319,230565},
             [itemKeys.startQuest] = nil,
         },
         [226720] = {
@@ -19082,7 +19098,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {1853},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226721] = {
@@ -19090,7 +19106,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9237},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226722] = {
@@ -19098,7 +19114,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10437},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226723] = {
@@ -19106,7 +19122,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10363},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226724] = {
@@ -19114,7 +19130,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9239,10398,10400,10419,10422,10425,10469},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226725] = {
@@ -19122,7 +19138,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9098,9262,9264,9693,9736,10372},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226726] = {
@@ -19130,7 +19146,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10508},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226727] = {
@@ -19138,7 +19154,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10440},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853,230319,230565},
             [itemKeys.startQuest] = nil,
         },
         [226728] = {
@@ -19146,7 +19162,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {1853},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226729] = {
@@ -19154,7 +19170,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10363},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226730] = {
@@ -19162,7 +19178,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10558},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226731] = {
@@ -19170,7 +19186,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {11261},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226732] = {
@@ -19178,7 +19194,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10408,10409,10418,10424},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226733] = {
@@ -19186,7 +19202,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {1853},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226734] = {
@@ -19194,7 +19210,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10363},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226735] = {
@@ -19202,7 +19218,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10430},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226736] = {
@@ -19210,7 +19226,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10440},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853,230319,230565},
             [itemKeys.startQuest] = nil,
         },
         [226737] = {
@@ -19218,7 +19234,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10808},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226738] = {
@@ -19226,7 +19242,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10812},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226739] = {
@@ -19234,7 +19250,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10486,10487,10504},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226740] = {
@@ -19242,7 +19258,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10811},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226741] = {
@@ -19250,7 +19266,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10264},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226742] = {
@@ -19258,7 +19274,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10398,10400,10419,10420,10423},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226743] = {
@@ -19266,7 +19282,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10438},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226744] = {
@@ -19274,7 +19290,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9098,9240,9261,9263,9717,9736,9818},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226745] = {
@@ -19282,7 +19298,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10363},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226746] = {
@@ -19290,7 +19306,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {1853},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226747] = {
@@ -19298,7 +19314,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10440},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853,230319,230565},
             [itemKeys.startQuest] = nil,
         },
         [226748] = {
@@ -19306,7 +19322,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9816},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226749] = {
@@ -19314,7 +19330,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10363},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226750] = {
@@ -19322,7 +19338,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10440},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853,230319,230565},
             [itemKeys.startQuest] = nil,
         },
         [226751] = {
@@ -19330,7 +19346,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10412,10413,10478,11043},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226752] = {
@@ -19338,7 +19354,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9196},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226753] = {
@@ -19346,7 +19362,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10339},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226754] = {
@@ -19354,7 +19370,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9257,9262,9264,9266,9693,9736,10083},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226755] = {
@@ -19362,7 +19378,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {1853},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226756] = {
@@ -19370,7 +19386,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10503},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226757] = {
@@ -19378,7 +19394,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10363},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226758] = {
@@ -19386,7 +19402,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10901},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226759] = {
@@ -19394,7 +19410,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9257,9261,9263,9269,9717,9736,9817},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226760] = {
@@ -19402,7 +19418,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10440},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853,230319,230565},
             [itemKeys.startQuest] = nil,
         },
         [226761] = {
@@ -19410,7 +19426,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10398,10400,10419,10477},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226762] = {
@@ -19418,7 +19434,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {1853},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226763] = {
@@ -19426,7 +19442,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10436},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226764] = {
@@ -19434,7 +19450,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10506},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226765] = {
@@ -19442,7 +19458,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9268,10414,10416,10417},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226766] = {
@@ -19450,7 +19466,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {9097,9259,9260,9267,9716,9736,10319},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226767] = {
@@ -19458,7 +19474,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10440},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853,230319,230565},
             [itemKeys.startQuest] = nil,
         },
         [226768] = {
@@ -19466,7 +19482,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10429},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226769] = {
@@ -19474,7 +19490,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {1853},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226770] = {
@@ -19482,7 +19498,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10363},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226771] = {
@@ -19490,7 +19506,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = {10439},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [226772] = {
@@ -19498,7 +19514,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226773] = {
@@ -19506,7 +19522,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226774] = {
@@ -19514,7 +19530,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226775] = {
@@ -19522,7 +19538,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226776] = {
@@ -19530,7 +19546,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226777] = {
@@ -19538,7 +19554,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226778] = {
@@ -19546,7 +19562,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226779] = {
@@ -19554,7 +19570,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226780] = {
@@ -19562,7 +19578,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226781] = {
@@ -19570,7 +19586,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226782] = {
@@ -19578,7 +19594,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226783] = {
@@ -19586,7 +19602,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226784] = {
@@ -19594,7 +19610,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226785] = {
@@ -19602,7 +19618,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226786] = {
@@ -19610,7 +19626,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226787] = {
@@ -19618,7 +19634,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226788] = {
@@ -19626,31 +19642,31 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226789] = {
             [itemKeys.name] = "Feralheart Girdle",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227337},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226790] = {
             [itemKeys.name] = "Feralheart Epaulets",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.itemDrops] = {227359},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226791] = {
             [itemKeys.name] = "Feralheart Trousers",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.itemDrops] = {227359},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226792] = {
@@ -19658,23 +19674,23 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226793] = {
             [itemKeys.name] = "Feralheart Fists",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227337},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226794] = {
             [itemKeys.name] = "Feralheart Walkers",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.itemDrops] = {227359},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226795] = {
@@ -19682,7 +19698,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226796] = {
@@ -19690,7 +19706,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226797] = {
@@ -19698,7 +19714,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226798] = {
@@ -19706,7 +19722,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226799] = {
@@ -19714,7 +19730,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226801] = {
@@ -19722,7 +19738,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226802] = {
@@ -19730,7 +19746,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226803] = {
@@ -19738,7 +19754,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226804] = {
@@ -19746,7 +19762,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226815] = {
@@ -19818,31 +19834,31 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226826] = {
             [itemKeys.name] = "Darkmantle Spaulders",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.itemDrops] = {227373},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226827] = {
             [itemKeys.name] = "Darkmantle Pants",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.itemDrops] = {227373},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226828] = {
             [itemKeys.name] = "Darkmantle Grips",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227348},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226829] = {
@@ -19850,7 +19866,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226830] = {
@@ -19858,23 +19874,23 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226831] = {
             [itemKeys.name] = "Darkmantle Footpads",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.itemDrops] = {227373},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226832] = {
             [itemKeys.name] = "Darkmantle Belt",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227348},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226835] = {
@@ -19882,7 +19898,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226836] = {
@@ -19890,7 +19906,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226837] = {
@@ -19898,7 +19914,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226838] = {
@@ -19906,7 +19922,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226840] = {
@@ -19914,7 +19930,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226841] = {
@@ -19922,7 +19938,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226842] = {
@@ -19930,7 +19946,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226843] = {
@@ -19938,7 +19954,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226845] = {
@@ -20010,7 +20026,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {214954},
             [itemKeys.startQuest] = nil,
         },
         [226857] = {
@@ -20018,7 +20034,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226858] = {
@@ -20026,7 +20042,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226859] = {
@@ -20034,7 +20050,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226860] = {
@@ -20042,15 +20058,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226861] = {
             [itemKeys.name] = "Gauntlets of Heroism",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227357},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226862] = {
@@ -20058,7 +20074,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226863] = {
@@ -20066,15 +20082,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226864] = {
             [itemKeys.name] = "Belt of Heroism",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227357},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226865] = {
@@ -20082,15 +20098,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226866] = {
             [itemKeys.name] = "Waistguard of Heroism",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227356},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226867] = {
@@ -20098,7 +20114,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226868] = {
@@ -20106,7 +20122,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226869] = {
@@ -20114,15 +20130,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226870] = {
             [itemKeys.name] = "Handguards of Heroism",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227356},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226871] = {
@@ -20130,7 +20146,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226872] = {
@@ -20138,7 +20154,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226873] = {
@@ -20210,7 +20226,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226882] = {
@@ -20218,15 +20234,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226883] = {
             [itemKeys.name] = "Beastmaster's Gauntlets",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227341},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226884] = {
@@ -20234,7 +20250,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226885] = {
@@ -20242,7 +20258,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226886] = {
@@ -20250,7 +20266,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226887] = {
@@ -20258,15 +20274,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226888] = {
             [itemKeys.name] = "Beastmaster's Belt",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227341},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226889] = {
@@ -20274,7 +20290,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226890] = {
@@ -20282,7 +20298,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226891] = {
@@ -20290,7 +20306,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226892] = {
@@ -20298,7 +20314,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226893] = {
@@ -20306,7 +20322,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226894] = {
@@ -20314,7 +20330,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226895] = {
@@ -20322,7 +20338,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226896] = {
@@ -20330,7 +20346,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226897] = {
@@ -20401,8 +20417,8 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.name] = "Deathmist Belt",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227354},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226906] = {
@@ -20410,7 +20426,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226907] = {
@@ -20418,7 +20434,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226908] = {
@@ -20426,7 +20442,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226909] = {
@@ -20434,7 +20450,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226910] = {
@@ -20442,15 +20458,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226911] = {
             [itemKeys.name] = "Deathmist Wraps",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227354},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226912] = {
@@ -20458,7 +20474,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226913] = {
@@ -20466,15 +20482,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226914] = {
             [itemKeys.name] = "Deathmist Cord",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227355},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226915] = {
@@ -20482,7 +20498,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226916] = {
@@ -20490,7 +20506,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226917] = {
@@ -20498,15 +20514,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226918] = {
             [itemKeys.name] = "Deathmist Grasps",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227355},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226919] = {
@@ -20514,7 +20530,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226920] = {
@@ -20522,7 +20538,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226921] = {
@@ -20594,7 +20610,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226930] = {
@@ -20602,7 +20618,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226931] = {
@@ -20610,7 +20626,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226932] = {
@@ -20618,7 +20634,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226933] = {
@@ -20626,7 +20642,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226934] = {
@@ -20634,7 +20650,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226935] = {
@@ -20642,7 +20658,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226936] = {
@@ -20650,7 +20666,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226937] = {
@@ -20722,7 +20738,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226946] = {
@@ -20730,7 +20746,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226947] = {
@@ -20738,15 +20754,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226948] = {
             [itemKeys.name] = "Virtuous Belt",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227346},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226949] = {
@@ -20754,15 +20770,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226950] = {
             [itemKeys.name] = "Virtuous Mitts",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227346},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226951] = {
@@ -20770,7 +20786,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226952] = {
@@ -20778,7 +20794,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226953] = {
@@ -20786,15 +20802,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226954] = {
             [itemKeys.name] = "Virtuous Cord",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227347},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226955] = {
@@ -20802,7 +20818,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226956] = {
@@ -20810,7 +20826,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226957] = {
@@ -20818,15 +20834,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226958] = {
             [itemKeys.name] = "Virtuous Hands",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227347},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226959] = {
@@ -20834,7 +20850,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226960] = {
@@ -20842,7 +20858,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226961] = {
@@ -20914,7 +20930,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226970] = {
@@ -20922,7 +20938,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226971] = {
@@ -20930,7 +20946,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226972] = {
@@ -20938,7 +20954,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226973] = {
@@ -20946,7 +20962,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226974] = {
@@ -20954,7 +20970,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226975] = {
@@ -20962,7 +20978,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226976] = {
@@ -20970,7 +20986,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226977] = {
@@ -20978,7 +20994,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226978] = {
@@ -20986,7 +21002,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226979] = {
@@ -20994,7 +21010,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226980] = {
@@ -21002,7 +21018,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226981] = {
@@ -21010,7 +21026,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226982] = {
@@ -21018,7 +21034,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226983] = {
@@ -21026,7 +21042,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226984] = {
@@ -21034,7 +21050,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226985] = {
@@ -21042,15 +21058,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226986] = {
             [itemKeys.name] = "Soulforge Waistguard",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227345},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226987] = {
@@ -21058,7 +21074,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226988] = {
@@ -21066,7 +21082,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226989] = {
@@ -21074,15 +21090,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226990] = {
             [itemKeys.name] = "Soulforge Handguards",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227345},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226991] = {
@@ -21090,7 +21106,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [226992] = {
@@ -21098,7 +21114,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [226993] = {
@@ -21170,7 +21186,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227002] = {
@@ -21178,7 +21194,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [227003] = {
@@ -21186,7 +21202,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227004] = {
@@ -21194,7 +21210,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [227005] = {
@@ -21202,15 +21218,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227006] = {
             [itemKeys.name] = "Gauntlets of The Five Thunders",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227351},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227007] = {
@@ -21218,15 +21234,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227008] = {
             [itemKeys.name] = "Cord of The Five Thunders",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227351},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227009] = {
@@ -21234,7 +21250,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227010] = {
@@ -21242,7 +21258,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227011] = {
@@ -21250,7 +21266,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227012] = {
@@ -21258,7 +21274,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227013] = {
@@ -21266,7 +21282,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [227014] = {
@@ -21274,7 +21290,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227015] = {
@@ -21282,7 +21298,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227016] = {
@@ -21290,7 +21306,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [227017] = {
@@ -21298,15 +21314,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227018] = {
             [itemKeys.name] = "Girdle of The Five Thunders",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227352},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227019] = {
@@ -21314,7 +21330,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227020] = {
@@ -21322,7 +21338,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227021] = {
@@ -21330,15 +21346,15 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [227022] = {
             [itemKeys.name] = "Fists of The Five Thunders",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.itemDrops] = {227352},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227023] = {
@@ -21346,7 +21362,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227024] = {
@@ -21354,7 +21370,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [227025] = {
@@ -21362,7 +21378,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230317,230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227026] = {
@@ -21370,7 +21386,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227027] = {
@@ -21378,7 +21394,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227028] = {
@@ -21386,7 +21402,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227029] = {
@@ -21394,7 +21410,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [227030] = {
@@ -21402,7 +21418,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = {230319},
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227031] = {
@@ -21410,7 +21426,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317,230319,230565,230566},
             [itemKeys.startQuest] = nil,
         },
         [227032] = {
@@ -21418,7 +21434,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {230317},
             [itemKeys.startQuest] = nil,
         },
         [227033] = {
@@ -21487,7 +21503,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [227041] = {
             [itemKeys.name] = "Scourge Shadow Scalpel",
-            [itemKeys.npcDrops] = {8550},
+            [itemKeys.npcDrops] = {8528,8550},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -21690,7 +21706,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227067] = {
@@ -21706,7 +21722,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227069] = {
@@ -21722,7 +21738,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227071] = {
@@ -21738,7 +21754,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227073] = {
@@ -21770,7 +21786,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227077] = {
@@ -21778,7 +21794,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227078] = {
@@ -21834,7 +21850,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227085] = {
@@ -21842,7 +21858,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227086] = {
@@ -21850,7 +21866,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227087] = {
@@ -21858,7 +21874,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227088] = {
@@ -21866,7 +21882,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227089] = {
@@ -21874,7 +21890,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227090] = {
@@ -21978,7 +21994,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227103] = {
@@ -21986,7 +22002,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227104] = {
@@ -22026,7 +22042,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227109] = {
@@ -22034,7 +22050,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227110] = {
@@ -22058,7 +22074,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227113] = {
@@ -22066,7 +22082,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227114] = {
@@ -22074,7 +22090,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {12777},
             [itemKeys.startQuest] = nil,
         },
         [227115] = {
@@ -23815,7 +23831,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [227801] = {
             [itemKeys.name] = "Firelands Ember",
-            [itemKeys.npcDrops] = {228718,228719,228721,228724,228726,228727,228747,228969,228970},
+            [itemKeys.npcDrops] = {228718,228719,228721,228724,228725,228726,228727,228747,228969,228970},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -24591,7 +24607,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [227905] = {
             [itemKeys.name] = "Plans: Skyrider's Masterwork Stormhammer",
-            [itemKeys.npcDrops] = {10363},
+            [itemKeys.npcDrops] = {1853,10363,10440},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -24632,14 +24648,22 @@ function SeasonOfDiscovery:LoadBaseItems()
         [227910] = {
             [itemKeys.name] = "Pattern: Brilliant Chromatic Cloak",
             [itemKeys.npcDrops] = nil,
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {179501},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
+        [227911] = {
+            [itemKeys.name] = "Head of Rend Blackhand",
+            [itemKeys.npcDrops] = {10429},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = 84377,
+        },
         [227912] = {
             [itemKeys.name] = "Applied Divinity",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {11487},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -24793,7 +24817,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.name] = "Shard of Light",
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
+            [itemKeys.itemDrops] = {227937},
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
@@ -25210,7 +25234,7 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
-            [itemKeys.vendors] = nil,
+            [itemKeys.vendors] = {227853},
             [itemKeys.startQuest] = nil,
         },
         [227991] = {
@@ -25271,7 +25295,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [227998] = {
             [itemKeys.name] = "Bloodmail Boots",
-            [itemKeys.npcDrops] = {10504,10505,10507,10901,11261},
+            [itemKeys.npcDrops] = {10502,10504,10505,10507,10901,11261},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25287,7 +25311,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228000] = {
             [itemKeys.name] = "Deathbone Chestplate",
-            [itemKeys.npcDrops] = {10502,10504,10505,10507,11261},
+            [itemKeys.npcDrops] = {10502,10504,10505,10507,10901,11261},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25303,7 +25327,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228002] = {
             [itemKeys.name] = "Deathbone Girdle",
-            [itemKeys.npcDrops] = {10502,10504,10507,10901,11261},
+            [itemKeys.npcDrops] = {10502,10504,10505,10507,10901,11261},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25311,7 +25335,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228003] = {
             [itemKeys.name] = "Bloodmail Legguards",
-            [itemKeys.npcDrops] = {10502,10504,10507,11261},
+            [itemKeys.npcDrops] = {10502,10504,10505,10507,10901,11261},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25351,7 +25375,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228008] = {
             [itemKeys.name] = "Deathbone Legguards",
-            [itemKeys.npcDrops] = {10502,10504,10505,10507,11261},
+            [itemKeys.npcDrops] = {10502,10504,10505,10507,10901,11261},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25367,7 +25391,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228010] = {
             [itemKeys.name] = "Necropile Mantle",
-            [itemKeys.npcDrops] = {10502,10504,10507,10901,11261},
+            [itemKeys.npcDrops] = {10502,10504,10505,10507,10901,11261},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25375,7 +25399,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228011] = {
             [itemKeys.name] = "Necropile Cuffs",
-            [itemKeys.npcDrops] = {10502,10504,10507,10901,11261},
+            [itemKeys.npcDrops] = {10502,10504,10505,10507,10901,11261},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25383,7 +25407,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228012] = {
             [itemKeys.name] = "Bloodmail Hauberk",
-            [itemKeys.npcDrops] = {10505,10507,11261},
+            [itemKeys.npcDrops] = {10502,10504,10505,10507,10901,11261},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25391,7 +25415,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228013] = {
             [itemKeys.name] = "Necropile Robe",
-            [itemKeys.npcDrops] = {10502,10504,10507,10901,11261},
+            [itemKeys.npcDrops] = {10502,10504,10505,10507,10901,11261},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25399,7 +25423,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228014] = {
             [itemKeys.name] = "Bloodmail Belt",
-            [itemKeys.npcDrops] = {10502,10504,10505,10507,11261},
+            [itemKeys.npcDrops] = {10502,10504,10505,10507,10901,11261},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25415,7 +25439,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228016] = {
             [itemKeys.name] = "Dimly Opalescent Ring",
-            [itemKeys.npcDrops] = {10502,10505,10507,10901,11261},
+            [itemKeys.npcDrops] = {10502,10504,10505,10507,10901,11261},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25495,7 +25519,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228026] = {
             [itemKeys.name] = "Blade of Blackwood",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {16118},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25511,7 +25535,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228028] = {
             [itemKeys.name] = "Blade of Necromancy",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {16118},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25551,7 +25575,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228033] = {
             [itemKeys.name] = "Hammer of Divine Might",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {16118},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25591,7 +25615,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228038] = {
             [itemKeys.name] = "Ironweave Pants",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {16118},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25647,7 +25671,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228045] = {
             [itemKeys.name] = "Necromantic Band",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {14516},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25663,7 +25687,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228047] = {
             [itemKeys.name] = "Amalgam's Band",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {16118},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25759,7 +25783,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228059] = {
             [itemKeys.name] = "Denwatcher's Shoulders",
-            [itemKeys.npcDrops] = {14326},
+            [itemKeys.npcDrops] = {14323,14326},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25767,7 +25791,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228060] = {
             [itemKeys.name] = "Heliotrope Cloak",
-            [itemKeys.npcDrops] = {14326},
+            [itemKeys.npcDrops] = {14323,14326},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25808,14 +25832,14 @@ function SeasonOfDiscovery:LoadBaseItems()
         [228065] = {
             [itemKeys.name] = "Cyclone Spaulders",
             [itemKeys.npcDrops] = nil,
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {179564},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
         [228066] = {
             [itemKeys.name] = "Ironweave Gloves",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {16097},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -25848,7 +25872,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         [228070] = {
             [itemKeys.name] = "Ogre Forged Hauberk",
             [itemKeys.npcDrops] = nil,
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {179564},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -26127,7 +26151,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228114] = {
             [itemKeys.name] = "Plans: Refined Arcanite Reaper",
-            [itemKeys.npcDrops] = {10440},
+            [itemKeys.npcDrops] = {1853,10363,10440},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -26151,7 +26175,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228117] = {
             [itemKeys.name] = "Plans: Refined Arcanite Champion",
-            [itemKeys.npcDrops] = {10440},
+            [itemKeys.npcDrops] = {1853,10440,230302},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -26208,7 +26232,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         [228124] = {
             [itemKeys.name] = "Oneiric Epiphany",
             [itemKeys.npcDrops] = nil,
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {456775},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -26775,7 +26799,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228250] = {
             [itemKeys.name] = "Plans: Stronger-hold Gauntlets",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {6109,10400},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -26984,7 +27008,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         [228276] = {
             [itemKeys.name] = "Pattern: Mastercrafted Shifting Cloak",
             [itemKeys.npcDrops] = nil,
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {179501},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -27176,7 +27200,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         [228301] = {
             [itemKeys.name] = "Pattern: Swift Flight Vambraces",
             [itemKeys.npcDrops] = nil,
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {179501},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -27199,7 +27223,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228305] = {
             [itemKeys.name] = "Plans: Refined Hammer of the Titans",
-            [itemKeys.npcDrops] = {10440},
+            [itemKeys.npcDrops] = {1853,10363,10440},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27224,7 +27248,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         [228308] = {
             [itemKeys.name] = "Plans: Tranquility",
             [itemKeys.npcDrops] = nil,
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {176325},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -27239,7 +27263,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228310] = {
             [itemKeys.name] = "Plans: Hardened Frostguard",
-            [itemKeys.npcDrops] = {1853,10363},
+            [itemKeys.npcDrops] = {1853,6109,10363,10440},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27263,15 +27287,15 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228313] = {
             [itemKeys.name] = "Plans: Tempest Gauntlets",
-            [itemKeys.npcDrops] = {9262},
+            [itemKeys.npcDrops] = {9259,9262},
             [itemKeys.objectDrops] = {153464},
-            [itemKeys.itemDrops] = nil,
+            [itemKeys.itemDrops] = {5759},
             [itemKeys.vendors] = {11278},
             [itemKeys.startQuest] = nil,
         },
         [228314] = {
             [itemKeys.name] = "Plans: Warcrest of the Great Chief",
-            [itemKeys.npcDrops] = {228911},
+            [itemKeys.npcDrops] = {228911,228969},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27279,7 +27303,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228315] = {
             [itemKeys.name] = "Plans: Sageblade of the Archmagus",
-            [itemKeys.npcDrops] = {228721},
+            [itemKeys.npcDrops] = {6109,228721},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27287,15 +27311,15 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228316] = {
             [itemKeys.name] = "Pattern: Incandescent Mooncloth Vest",
-            [itemKeys.npcDrops] = {9216},
+            [itemKeys.npcDrops] = {9216,10507,13036},
             [itemKeys.objectDrops] = nil,
-            [itemKeys.itemDrops] = nil,
+            [itemKeys.itemDrops] = {5759},
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
         [228317] = {
             [itemKeys.name] = "Pattern: Incandescent Mooncloth Circlet",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {228721},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27303,7 +27327,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228318] = {
             [itemKeys.name] = "Pattern: Incandescent Mooncloth Leggings",
-            [itemKeys.npcDrops] = {9239,10487,13136},
+            [itemKeys.npcDrops] = {6109,8899,9239,9240,9259,10398,10487,13136},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27312,7 +27336,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         [228319] = {
             [itemKeys.name] = "Pattern: Girdle of Arcane Insight",
             [itemKeys.npcDrops] = nil,
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {179501},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -27391,7 +27415,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228340] = {
             [itemKeys.name] = "Unmelting Ice Girdle",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {6109},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27399,7 +27423,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228345] = {
             [itemKeys.name] = "Leggings of Arcane Supremacy",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {6109},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27407,7 +27431,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228347] = {
             [itemKeys.name] = "Typhoon",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {6109},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27415,7 +27439,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228349] = {
             [itemKeys.name] = "Eskhandar's Left Claw",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {6109},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27431,7 +27455,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228351] = {
             [itemKeys.name] = "Doomhide Gauntlets",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {230302},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27439,7 +27463,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228352] = {
             [itemKeys.name] = "Fel Infused Leggings",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {230302},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27447,7 +27471,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228353] = {
             [itemKeys.name] = "Infernal Headcage",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {230302},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27455,7 +27479,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228354] = {
             [itemKeys.name] = "Blazefury Medallion",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {230302},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27463,7 +27487,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228355] = {
             [itemKeys.name] = "Flayed Doomguard Belt",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {230302},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27471,7 +27495,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228356] = {
             [itemKeys.name] = "Amberseal Keeper",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {230302},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27479,7 +27503,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228357] = {
             [itemKeys.name] = "Blacklight Bracer",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {230302},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27487,7 +27511,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228359] = {
             [itemKeys.name] = "Ring of Entropy",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {230302},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27495,7 +27519,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228360] = {
             [itemKeys.name] = "Eskhandar's Pelt",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {230302},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27503,7 +27527,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228381] = {
             [itemKeys.name] = "Cold Snap",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {6109},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27511,7 +27535,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228382] = {
             [itemKeys.name] = "Fang of the Mystics",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {6109},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27519,7 +27543,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228383] = {
             [itemKeys.name] = "Puissant Cape",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {6109},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27527,7 +27551,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228384] = {
             [itemKeys.name] = "Snowblind Shoes",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {6109},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27535,7 +27559,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228385] = {
             [itemKeys.name] = "Crystal Adorned Crown",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {6109},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27543,7 +27567,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228389] = {
             [itemKeys.name] = "Drape of Benediction",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {6109},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27551,7 +27575,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228397] = {
             [itemKeys.name] = "Empyrean Demolisher",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {230302},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -27656,7 +27680,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         [228469] = {
             [itemKeys.name] = "Tarnished Elven Ring",
             [itemKeys.npcDrops] = nil,
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {179564},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -27688,7 +27712,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         [228473] = {
             [itemKeys.name] = "Unyielding Maul",
             [itemKeys.npcDrops] = nil,
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {179564},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -27696,7 +27720,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         [228474] = {
             [itemKeys.name] = "Mindsurge Robe",
             [itemKeys.npcDrops] = nil,
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {179564},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -27752,7 +27776,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         [228484] = {
             [itemKeys.name] = "Rod of the Ogre Magi",
             [itemKeys.npcDrops] = nil,
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {179564},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -27928,7 +27952,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         [228523] = {
             [itemKeys.name] = "Cannonball Runner",
             [itemKeys.npcDrops] = {10997},
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {176215},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -27991,7 +28015,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228532] = {
             [itemKeys.name] = "Morlune's Bracer",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {10405,10407,10464},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -28007,7 +28031,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228534] = {
             [itemKeys.name] = "Plaguehound Leggings",
-            [itemKeys.npcDrops] = {10436},
+            [itemKeys.npcDrops] = nil,
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -28079,7 +28103,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228543] = {
             [itemKeys.name] = "Runeblade of Baron Rivendare",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {10440},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -28112,7 +28136,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         [228547] = {
             [itemKeys.name] = "Ironweave Robe",
             [itemKeys.npcDrops] = nil,
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {181083},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -28120,7 +28144,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         [228548] = {
             [itemKeys.name] = "Scepter of Interminable Focus",
             [itemKeys.npcDrops] = nil,
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {181083},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -28447,7 +28471,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228596] = {
             [itemKeys.name] = "Ironweave Belt",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {16080},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -28479,7 +28503,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228600] = {
             [itemKeys.name] = "The Jaw Breaker",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {16080},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -28711,7 +28735,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228680] = {
             [itemKeys.name] = "Nostro's Compendium of Dragon Slaying",
-            [itemKeys.npcDrops] = {11487},
+            [itemKeys.npcDrops] = {11487,14354},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -28719,7 +28743,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228681] = {
             [itemKeys.name] = "Ironweave Cowl",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {16042},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -28735,7 +28759,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228683] = {
             [itemKeys.name] = "Rune Band of Wizardry",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {16042},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -28743,7 +28767,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228684] = {
             [itemKeys.name] = "Pendant of Celerity",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {16042},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -28791,7 +28815,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228690] = {
             [itemKeys.name] = "The Light and How to Swing It",
-            [itemKeys.npcDrops] = {11487,11489,11492},
+            [itemKeys.npcDrops] = {11487,11489,11490,11492,11501},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -28799,7 +28823,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228691] = {
             [itemKeys.name] = "Garona: A Study on Stealth and Treachery",
-            [itemKeys.npcDrops] = {11487,11489,11496,14354},
+            [itemKeys.npcDrops] = {11487,11488,11489,11490,11496,14321,14323,14354},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -28807,7 +28831,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228692] = {
             [itemKeys.name] = "Codex of Defense",
-            [itemKeys.npcDrops] = {11487,11490,14354},
+            [itemKeys.npcDrops] = {11487,11488,11489,11490,11501,14323,14354},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -28815,7 +28839,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228693] = {
             [itemKeys.name] = "The Arcanist's Cookbook",
-            [itemKeys.npcDrops] = {11488,11490,11496,14354},
+            [itemKeys.npcDrops] = {11488,11489,11490,11492,11496,11501,14321,14354},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -28856,7 +28880,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         [228700] = {
             [itemKeys.name] = "Ironweave Mantle",
             [itemKeys.npcDrops] = nil,
-            [itemKeys.objectDrops] = nil,
+            [itemKeys.objectDrops] = {181074},
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
@@ -29037,6 +29061,30 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.vendors] = nil,
             [itemKeys.startQuest] = nil,
         },
+        [228978] = {
+            [itemKeys.name] = "Enchanted Sigil: Flowing Waters",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
+        [228979] = {
+            [itemKeys.name] = "Enchanted Sigil: Flowing Waters",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
+        [228982] = {
+            [itemKeys.name] = "Formula: Enchant Shield - Law of Nature",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = {11557},
+            [itemKeys.startQuest] = nil,
+        },
         [228992] = {
             [itemKeys.name] = "Onyxia Hide Backpack",
             [itemKeys.npcDrops] = nil,
@@ -29047,7 +29095,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [228993] = {
             [itemKeys.name] = "Pattern: Bottomless Bag",
-            [itemKeys.npcDrops] = nil,
+            [itemKeys.npcDrops] = {6109},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
@@ -29059,6 +29107,22 @@ function SeasonOfDiscovery:LoadBaseItems()
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = nil,
+        },
+        [229008] = {
+            [itemKeys.name] = "Formula: Enchant Cloak - Greater Fire Resistance",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = {12944},
+            [itemKeys.startQuest] = nil,
+        },
+        [229009] = {
+            [itemKeys.name] = "Formula: Enchant Cloak - Greater Nature Resistance",
+            [itemKeys.npcDrops] = nil,
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = {12944},
             [itemKeys.startQuest] = nil,
         },
     }

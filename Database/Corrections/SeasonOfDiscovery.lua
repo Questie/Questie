@@ -154,6 +154,10 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [80150] = 2, -- Curious Dalaran Relic
     [80151] = 2, -- Curious Dalaran Relic
     [80152] = 2, -- Curious Dalaran Relic
+    [81764] = 3, -- Paladin Fanaticism
+    [81765] = 3, -- Paladin Fanaticism
+    [81766] = 3, -- Paladin Fanaticism
+    [81790] = 3, -- Paladin Hammer of the Righteous
     [81947] = 3, -- Mage Book Sanguine Sorcery
     [81949] = 3, -- Mage Book Legends of the Tidesages
     [81951] = 3, -- Mage Book The Liminal and the Arcane
@@ -444,6 +448,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [80454] = 3, -- Rogue Honor Among Thieves
     [80455] = 3, -- Rogue Honor Among Thieves
     [80526] = 3, -- Rogue Honor Among Thieves
+    [81900] = 3, -- Hunter Rapid Killing
+    [81917] = 3, -- Hunter Rapid Killing
+    [81919] = 3, -- Hunter Rapid Killing
+    [82043] = 3, -- Mage Advanced Warding
+    [82044] = 3, -- Mage Advanced Warding
     [82084] = 3, -- Mage Temporal Anomaly
     [82316] = 3, -- Priest Eye of the Void
     [90269] = 3, -- Druid Gale Winds
@@ -476,6 +485,14 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90296] = 3, -- Rogue Focused Attacks
     [90297] = 3, -- Shaman Tidal Waves
     [90298] = 3, -- Shaman Rolling Thunder
+    [90299] = 3, -- Druid Elune's Fires
+    [90300] = 3, -- Mage Displacement
+    [90301] = 3, -- Paladin Purifying Power
+    [90302] = 3, -- Priest Surge of Light
+    [90303] = 3, -- Priest Despair
+    [90304] = 3, -- Priest Eye of the Void
+    [90305] = 3, -- Warlock Pandemic
+    [90306] = 3, -- Warlock Backdraft
 }
 
 --- "automatic" phase detection for the first few phases;
@@ -582,6 +599,9 @@ local questsToBlacklistBySoDPhase = {
         [7787] = true, -- Rise, Thunderfury!
     },
     [6] = { -- SoD Phase 6 == Era Phase 4: Zul'Gurub
+        [4788] = true, -- The Final Tablets
+        [5065] = true, -- The Lost Tablets of Mosh'aru
+        [8181] = true, -- Confront Yeh'kinya
         [8411] = true,
         [8056] = true,
         [8057] = true,
@@ -889,7 +909,9 @@ local questsToBlacklistBySoDPhase = {
         [1446] = true,
         [1475] = true,
         [3373] = true,
+        [3374] = true,
         [3447] = true,
+        [3512] = true,
         [3528] = true,
         [4143] = true,
         [8232] = true,
@@ -945,6 +967,24 @@ local questsToBlacklistBySoDPhase = {
         [8742] = true, -- Shifting Sands questline - The Might of Kalimdor
         [8743] = true, -- Shifting Sands questline - Bang a Gong!
         [8745] = true, -- Shifting Sands questline - Treasure of the Timeless One
+
+        -- Old T0.5 exchange quests
+        [8905] = true, -- An Earnest Proposition
+        [8906] = true, -- An Earnest Proposition
+        [8907] = true, -- An Earnest Proposition
+        [8908] = true, -- An Earnest Proposition
+        [8909] = true, -- An Earnest Proposition
+        [8910] = true, -- An Earnest Proposition
+        [8911] = true, -- An Earnest Proposition
+        [8912] = true, -- An Earnest Proposition
+        [8913] = true, -- An Earnest Proposition
+        [8914] = true, -- An Earnest Proposition
+        [8915] = true, -- An Earnest Proposition
+        [8916] = true, -- An Earnest Proposition
+        [8917] = true, -- An Earnest Proposition
+        [8918] = true, -- An Earnest Proposition
+        [8919] = true, -- An Earnest Proposition
+        [8920] = true, -- An Earnest Proposition
 
         -- Darkmoon Faire quests
         [7902] = true,

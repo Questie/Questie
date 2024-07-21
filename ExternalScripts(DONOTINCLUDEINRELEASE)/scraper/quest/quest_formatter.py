@@ -15,7 +15,7 @@ class QuestFormatter:
             for item in quest_input:
                 g.write("    [{id}] = {{\n".format(id=item["questId"]))
                 g.write("        [questKeys.name] = \"{name}\",\n".format(name=item["name"]))
-                g.write("        [questKeys.startedBy] = {npc_start},\n".format(npc_start=self.__get_start(item["start"])))
+                g.write("        [questKeys.startedBy] = {npc_start},\n".format(npc_start=self.__get_start(item)))
                 g.write("        [questKeys.finishedBy] = {npc_end},\n".format(npc_end=self.__get_end(item["end"])))
                 g.write("        [questKeys.requiredLevel] = {reqLevel},\n".format(reqLevel=item["reqLevel"]))
                 g.write("        [questKeys.questLevel] = {level},\n".format(level=item["level"]))
@@ -43,10 +43,12 @@ class QuestFormatter:
                 filtered_sorted_data.append(x)
         return filtered_sorted_data
 
-    def __get_start(self, start_entry):
-        if start_entry == "nil":
-            return "nil"
-        return "{{" + start_entry + "}}"
+    def __get_start(self, item):
+        if "npcStart" in item:
+            return "{{" + item["npcStart"] + "}}"
+        if "objectStart" in item:
+            return "{nil,{" + item["objectStart"] + "}}"
+        return "nil"
 
     def __get_end(self, end_entry):
         if end_entry == "nil":
