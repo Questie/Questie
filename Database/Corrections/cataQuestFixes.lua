@@ -3415,6 +3415,9 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
             [questKeys.objectives] = {{{36901,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [25926] = { -- Mired in Hatred
+            [questKeys.nextQuestInChain] = 25927,
+        },
         [25929] = { -- Sea Legs
             [questKeys.preQuestSingle] = {},
         },
@@ -3423,6 +3426,11 @@ function CataQuestFixes.Load()
         },
         [25936] = { -- Pay It Forward
             [questKeys.objectives] = {{{41672,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25939] = { -- For Peat's Sake
+            [questKeys.preQuestSingle] = {25926},
+            [questKeys.nextQuestInChain] = 26196,
+            [questKeys.objectives] = {{{41628,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25940] = { -- Last Stand at Whistling Grove
             [questKeys.preQuestSingle] = {25428},
