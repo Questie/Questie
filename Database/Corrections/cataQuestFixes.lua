@@ -2996,6 +2996,9 @@ function CataQuestFixes.Load()
         [25467] = { -- Kliklak's Craw
             [questKeys.startedBy] = {{40276},nil,{54345}},
         },
+        [25468] = { -- Forces of Nature: Faerie Dragons
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{5276,5278},5276,"Faerie Dragons Rallied",Questie.ICON_TYPE_INTERACT}}},
+        },
         [25473] = { -- Kaja'Cola
             [questKeys.startedBy] = {{34872}},
             [questKeys.preQuestSingle] = {},
