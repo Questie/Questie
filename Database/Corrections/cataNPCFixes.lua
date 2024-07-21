@@ -1883,6 +1883,9 @@ function CataNpcFixes.Load()
         [47255] = { -- Gobbles
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{24.49,64.46}}},
         },
+        [47385] = { -- Decrepit Watcher
+            [npcKeys.spawns] = {[zoneIDs.ULDUM]={{23.65,56.57},{18.93,64.06},{17.37,63.04},{16.25,60.62},{18.16,58.97},{19.73,56.2},{22.56,54.46},{25.38,54.72},{26.14,57.43},{25.39,61.82},{23.83,61.42},{21.14,59.25},{22.4,61.11},{20.03,62.27}}},
+        },
         [47493] = { -- Warlord Krogg
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{29.6,41,phases.GRIM_BATOL_ATTACK_HORDE}}},
         },
