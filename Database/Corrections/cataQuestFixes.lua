@@ -2949,6 +2949,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25459},
             [questKeys.finishedBy] = {{100009}},
         },
+        [25433] = { -- Sasquatch Sighting
+            [questKeys.preQuestSingle] = {25432},
+        },
         [25434] = { -- Taming The Tamers
             [questKeys.preQuestSingle] = {25432},
         },
