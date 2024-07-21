@@ -495,7 +495,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90306] = 3, -- Warlock Backdraft
 
     -- P4 SoD Runes
-    [90299] = 4, -- Druid Improved Swipe
+    [90307] = 4, -- Druid Improved Swipe
 }
 
 --- "automatic" phase detection for the first few phases;
