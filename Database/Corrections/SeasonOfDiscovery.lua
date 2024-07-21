@@ -497,6 +497,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     -- P4 SoD Runes
     [90307] = 4, -- Druid Improved Swipe
     [90308] = 4, -- Druid Starfall
+    [90309] = 4, -- Druid Tree of Life
 }
 
 --- "automatic" phase detection for the first few phases;

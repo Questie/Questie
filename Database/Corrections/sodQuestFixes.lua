@@ -5697,6 +5697,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -439770,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [90309] = {
+            [questKeys.name] = "Tree of Life",
+            [questKeys.startedBy] = {{228596}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Talk to the Vengeful Wisp and kill Satyrs in Jadefire Run until you get the 'Shimmering Light' buff. Then talk to the wisp again and it will put Gift of the Wisp on the ground, loot it to receive the rune."},
+            [questKeys.requiredSpell] = -439767,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
     }
 end
 
