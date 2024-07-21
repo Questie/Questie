@@ -1727,6 +1727,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {14370,14371},
             [questKeys.objectives] = {{{36297,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [14378] = { -- Hunting Brendol
+            [questKeys.preQuestGroup] = {14373,14374},
+        },
         [14379] = { -- Rock Lobstrock!
             [questKeys.preQuestGroup] = {14373,14374},
         },
