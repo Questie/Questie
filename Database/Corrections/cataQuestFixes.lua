@@ -2879,6 +2879,9 @@ function CataQuestFixes.Load()
         [25359] = { -- Toshe's Vengeance
             [questKeys.nextQuestInChain] = 25439,
         },
+        [25367] = { -- Zukk'ash Infestation
+            [questKeys.preQuestSingle] = {25427},
+        },
         [25370] = { -- Inciting the Elements
             [questKeys.preQuestSingle] = {},
             [questKeys.requiredSourceItems] = {53009},
