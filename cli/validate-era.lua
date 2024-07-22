@@ -1,4 +1,5 @@
 require("cli.dump")
+require("cli.validators")
 
 WOW_PROJECT_ID = 2
 WOW_PROJECT_CLASSIC = 2
@@ -209,6 +210,8 @@ local function _CheckClassicDatabase()
     QuestieDBCompiler:ValidateQuests()
 
     print("\n\27[32mClassic database compiled successfully\27[0m")
+
+    Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
 end
 
 _CheckClassicDatabase()
