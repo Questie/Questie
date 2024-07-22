@@ -149,6 +149,24 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = -378,
             [questKeys.startedBy] = {{51988}},
         },
+        [1471] = { -- The Binding
+            [questKeys.requiredSourceItems] = {},
+        },
+        [1474] = { -- The Binding
+            [questKeys.requiredSourceItems] = {},
+        },
+        [1504] = { -- The Binding
+            [questKeys.requiredSourceItems] = {},
+        },
+        [1513] = { -- The Binding
+            [questKeys.requiredSourceItems] = {},
+        },
+        [1689] = { -- The Binding
+            [questKeys.requiredSourceItems] = {},
+        },
+        [1739] = { -- The Binding
+            [questKeys.requiredSourceItems] = {},
+        },
         [1918] = { -- The Befouled Element
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },

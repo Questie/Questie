@@ -327,9 +327,6 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {596,629},
         },
-        [611]  = {
-            [questKeys.requiredSourceItems] = {4034, 4027},
-        },
         [619] = {
             [questKeys.parentQuest] = 8554, -- #1691
         },
@@ -1688,7 +1685,7 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{10299}},
         },
         [4743] = {
-            [questKeys.requiredSourceItems] = {12339,12300,12323},
+            [questKeys.requiredSourceItems] = {12300,12323},
             [questKeys.startedBy] = {{10299}},
             [questKeys.finishedBy] = {{10299}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy."), 0, {{"monster", 10321}}},
@@ -2027,7 +2024,6 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Protect Aynasha", {[zoneIDs.DARKSHORE]={{45.87,90.42}}}},
         },
         [5721] = {
-            [questKeys.requiredSourceItems] = {15209}, -- #857
             [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{38.8,91.2}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Relic Bundle in the Town Square."),}},
         },
         -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting non repeatable quests
@@ -2473,8 +2469,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{1365},nil,nil},
         },
         [7067] = {
-            [questKeys.requiredSourceItems] = {17757,17761,17762,17763,17764,17765,17781},
-            [questKeys.sourceItemId] = 17757,
+            [questKeys.requiredSourceItems] = {17757,17761,17762,17763,17764,17765},
         },
         [7068] = {
             [questKeys.requiredLevel] = 39,
@@ -2610,7 +2605,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"The Balance of Light and Shadow", {[zoneIDs.EASTERN_PLAGUELANDS]={{21.19,17.79}}}}, -- #2332
         },
         [7631] = {
-            [questKeys.requiredSourceItems] = {18663,18629,18670,18818},
+            [questKeys.requiredSourceItems] = {18663,18629,18670},
         },
         [7632] = {
             [questKeys.startedBy] = {{12018},{179703},{18703}},
