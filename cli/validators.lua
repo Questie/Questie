@@ -17,7 +17,7 @@ function Validators.checkRequiredSourceItems(quests, questKeys)
         end
 
         local objectives = questData[questKeys.objectives]
-        if objectives and objectives[3] then
+        if requiredSourceItems and objectives and objectives[3] then
             for _, itemObjective in pairs(objectives[3]) do
                 for index = 1, #requiredSourceItems do
                     if requiredSourceItems[index] == itemObjective[1] then
