@@ -32,12 +32,6 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.STORMWIND_CITY] = {{33,24.7}},
             },
         },
-        [403041] = { -- Blasting Supplies
-            [objectKeys.zoneID] = zoneIDs.MULGORE,
-            [objectKeys.spawns] = {
-                [zoneIDs.MULGORE] = {{63.8,44.1}},
-            },
-        },
         [403105] = { -- Windfury Cone
             [objectKeys.zoneID] = zoneIDs.MULGORE,
             [objectKeys.spawns] = {
@@ -506,6 +500,12 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.zoneID] = zoneIDs.SEARING_GORGE,
             [objectKeys.spawns] = {
                 [zoneIDs.SEARING_GORGE] = {{65.0,45.0}},
+            },
+        },
+        [463211] = { -- Book
+            [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.WESTERN_PLAGUELANDS] = {{69.41,72.84}},
             },
         },
     }

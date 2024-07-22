@@ -340,7 +340,7 @@ local easternKingdomsLocales = {
     },
     ["Northern Stranglethorn"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Северная Тернистая долина",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -352,7 +352,7 @@ local easternKingdomsLocales = {
     },
     ["The Cape of Stranglethorn"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Мыс Тернистой долины",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -364,7 +364,7 @@ local easternKingdomsLocales = {
     },
     ["Tol Barad"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Тол Барад",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -376,7 +376,7 @@ local easternKingdomsLocales = {
     },
     ["Tol Barad Peninsula"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Полуостров Тол Барад",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -388,7 +388,7 @@ local easternKingdomsLocales = {
     },
     ["Kelp'thar Forest"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Лес Келп'тар",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -400,7 +400,7 @@ local easternKingdomsLocales = {
     },
     ["Shimmering Expanse"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Мерцающий простор",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -412,7 +412,7 @@ local easternKingdomsLocales = {
     },
     ["Abyssal Depths"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Бездонные глубины",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -424,7 +424,7 @@ local easternKingdomsLocales = {
     },
     ["Coldridge Valley"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Холодная долина",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -436,7 +436,7 @@ local easternKingdomsLocales = {
     },
     ["Twilight Highlands"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Сумеречное нагорье",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -448,7 +448,7 @@ local easternKingdomsLocales = {
     },
     ["Vashj'ir"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Вайш'ир",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -460,7 +460,7 @@ local easternKingdomsLocales = {
     },
     ["Gilneas"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Гилнеас",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -472,7 +472,7 @@ local easternKingdomsLocales = {
     },
     ["Gilneas City"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Гилнеас",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -483,6 +483,18 @@ local easternKingdomsLocales = {
         ["zhCN"] = false,
     },
     ["Ruins of Gilneas"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = "Руины Гилнеаса",
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
+    ["Deathknell"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
