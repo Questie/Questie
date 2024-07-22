@@ -3295,7 +3295,6 @@ function CataQuestFixes.Load()
         },
         [25818] = { -- Lifting the Curse
             [questKeys.nextQuestInChain] = 25819,
-            [questKeys.objectives] = {{{41429,nil,Questie.ICON_TYPE_SLAY}}},
         },
         [25824] = { -- Debriefing
             [questKeys.objectives] = {{{41340,nil,Questie.ICON_TYPE_TALK}}},
