@@ -2976,6 +2976,9 @@ function CataQuestFixes.Load()
         [25422] = { -- The Darkmist Legacy
             [questKeys.preQuestSingle] = {25350},
         },
+        [25423] = { -- Ancient Suffering
+            [questKeys.preQuestSingle] = {25350},
+        },
         [25431] = { -- Stinglasher
             [questKeys.preQuestSingle] = {25427},
         },
