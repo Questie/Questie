@@ -28,7 +28,7 @@ function Validators.checkRequiredSourceItems(quests, questKeys)
         end
     end
 
-    if table.getn(matchingQuests) > 0 then
+    if next(matchingQuests) then
         print("\27[31mFound " .. #matchingQuests .. " quests with sourceItemId or itemObjectiveId in requiredSourceItems:\27[0m")
         for questId, reason in pairs(matchingQuests) do
             print("\27[31m- Quest " .. questId .. " (" .. reason .. ")\27[0m")
