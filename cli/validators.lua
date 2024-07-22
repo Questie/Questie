@@ -10,7 +10,6 @@ function Validators.checkRequiredSourceItems(quests, questKeys)
             for index = 1, #requiredSourceItems do
                 if requiredSourceItems[index] == sourceItemId then
                     matchingQuests[questId] = "sourceItemId in requiredSourceItems: " .. requiredSourceItems[index] .. " == " .. sourceItemId
-                    table.insert(matchingQuests, questId)
                     break
                 end
             end
