@@ -1,13 +1,11 @@
 Validators = {}
 
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-
-function Validators.checkRequiredSourceItems()
+function Validators.checkRequiredSourceItems(quests, questKeys)
     print("\n\27[36mSearching for sourceItemId entries in quest.requiredSourceItems...\27[0m")
     local matchingQuests = {}
-    for questId, questData in pairs(QuestieDB.questData) do
-        local sourceItemId = questData[QuestieDB.questKeys.sourceItemId]
-        local requiredSourceItems = questData[QuestieDB.questKeys.requiredSourceItems]
+    for questId, questData in pairs(quests) do
+        local sourceItemId = questData[questKeys.sourceItemId]
+        local requiredSourceItems = questData[questKeys.requiredSourceItems]
         if sourceItemId and requiredSourceItems then
             for _, itemId in ipairs(requiredSourceItems) do
                 if itemId == sourceItemId then

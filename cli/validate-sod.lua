@@ -220,7 +220,7 @@ local function _CheckSoDDatabase()
 
     print("\n\27[32mSoD database compiled successfully\27[0m")
 
-    Validators.checkRequiredSourceItems()
+    Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
 end
 
 _CheckSoDDatabase()
