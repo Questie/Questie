@@ -4012,7 +4012,7 @@ function CataQuestFixes.Load()
         },
         [26294] = { -- Weapons of Mass Dysfunction
             [questKeys.finishedBy] = {{39605}},
-            [questKeys.objectives] = {{{42673},{42671}}},
+            [questKeys.objectives] = {{{42673,nil,Questie.ICON_TYPE_INTERACT},{42671,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26311] = { -- Unfamiliar Waters
             [questKeys.preQuestSingle] = {},
@@ -4047,6 +4047,7 @@ function CataQuestFixes.Load()
         [26324] = { -- Where Is My Warfleet?
             [questKeys.startedBy] = {{39605}},
             [questKeys.preQuestGroup] = {26294,26311},
+            [questKeys.preQuestSingle] = {},
         },
         [26326] = { -- The Very Earth Beneath Our Feet
             [questKeys.preQuestSingle] = {},
@@ -4098,6 +4099,9 @@ function CataQuestFixes.Load()
         [26358] = { -- Ready the Air Force
             [questKeys.preQuestSingle] = {26324},
         },
+        [26361] = { -- Smoot's Samophlange
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Stop Smoot"),0,{{"monster",42644}}}},
+        },
         [26364] = { -- Down with Crushcog!
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to High Tinker Mekkatorque"),0,{{"monster",42849}}}},
@@ -4126,6 +4130,7 @@ function CataQuestFixes.Load()
         },
         [26388] = { -- Twilight Skies
             [questKeys.extraObjectives] = {{{[zoneIDs.AZSHARA]={{50.7,73.9}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for the Zeppelin")}},
+            [questKeys.preQuestSingle] = {28849},
         },
         [26389] = { -- Blackrock Invasion
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
@@ -4275,7 +4280,14 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.ELWYNN_FOREST]={{26.50,60.57},{24.5,59.57},{21.49,59.4}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Violet Perch")}},
         },
         [26538] = { -- Emergency Aid
-            [questKeys.objectives] = {{{43191}}},
+            [questKeys.objectives] = {{{43191,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {26388},
+        },
+        [26539] = { -- Stalled Negotiations
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Go to the shore"),0,{{"monster",43188}}}},
+        },
+        [26540] = { -- Dangerous Compassion
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Go back to the ship"),0,{{"monster",43188}}}},
         },
         [26549] = { -- Madness
             [questKeys.objectives] = {},
@@ -4383,7 +4395,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {26540,26608},
         },
         [26621] = { -- Insurrection
-            [questKeys.objectives] = {{{43575},{43394}},nil,nil,nil,{{{43577,43578},43577,"Dragonmaw Civilian Armed"}}},
+            [questKeys.objectives] = {{{43575},{43394}},nil,nil,nil,{{{43577,43578},43577,"Dragonmaw Civilian Armed",Questie.ICON_TYPE_TALK}}},
         },
         [26625] = { -- Troggzor the Earthinator
             [questKeys.preQuestSingle] = {},
@@ -4562,6 +4574,8 @@ function CataQuestFixes.Load()
         },
         [26798] = { -- The Warchief Will Be Pleased
             [questKeys.finishedBy] = {{39605}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26784,26788},
         },
         [26800] = { -- Recruitment
             [questKeys.objectives] = {{{49340,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -4605,7 +4619,7 @@ function CataQuestFixes.Load()
         [26830] = { -- Traitor's Bait
             [questKeys.startedBy] = {{39605}},
             [questKeys.finishedBy] = {{39605}},
-            [questKeys.objectives] = {{{44160},{44120}}},
+            [questKeys.objectives] = {{{44160,nil,Questie.ICON_TYPE_TALK},{44120}}},
         },
         [26831] = { -- The Twilight Flight
             [questKeys.finishedBy] = {{44080}},
@@ -5255,6 +5269,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.startedBy] = {{100017}},
             [questKeys.finishedBy] = {{100018}},
+            [questKeys.preQuestSingle] = {27495},
         },
         [27500] = { -- Four Heads are Better than None
             [questKeys.preQuestSingle] = {27498,27588},
@@ -5821,6 +5836,7 @@ function CataQuestFixes.Load()
         },
         [27929] = { -- Drag 'em Down
             [questKeys.preQuestSingle] = {27690},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Throw the Barbed Fleshhook at them"), 0, {{"monster", 47186}}}},
         },
         [27932] = { -- The Axe of Earthly Sundering
             [questKeys.preQuestSingle] = {27931},
@@ -5867,10 +5883,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [27945] = { -- Paint it Black
-            [questKeys.preQuestSingle] = {27751,27929},
+            [questKeys.preQuestGroup] = {27751,27929},
         },
         [27947] = { -- A Vision of Twilight
-            [questKeys.preQuestSingle] = {27751,27929},
+            [questKeys.preQuestGroup] = {27751,27929},
         },
         [27948] = { -- A Sticky Task
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -5965,7 +5981,7 @@ function CataQuestFixes.Load()
         },
         [28038] = { -- Blood in the Highlands
             [questKeys.preQuestSingle] = {27955},
-            [questKeys.exclusiveTo] = {27863},
+            [questKeys.nextQuestInChain] = 27863,
         },
         [28041] = { -- Bait and Throttle
             [questKeys.preQuestGroup] = {27751,27929},
@@ -6754,6 +6770,7 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
             [questKeys.nextQuestInChain] = 26293,
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [28721] = { -- Walk A Mile In Their Shoes
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -7074,6 +7091,7 @@ function CataQuestFixes.Load()
         },
         [28849] = { -- Twilight Skies
             [questKeys.preQuestGroup] = {26337,26372,26374},
+            [questKeys.exclusiveTo] = {},
         },
         [28860] = { -- Keeping the Dragonmaw at Bay
             [questKeys.preQuestSingle] = {28655},

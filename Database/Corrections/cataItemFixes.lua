@@ -436,7 +436,7 @@ function CataItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
         },
         [58224] = { -- Induction Samophlange
-            [itemKeys.npcDrops] = {42644},
+            [itemKeys.objectDrops] = {204091},
         },
         [58365] = { -- Horn of the Ancients
             [itemKeys.class] = itemClasses.QUEST,
