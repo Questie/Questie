@@ -3768,6 +3768,10 @@ function CataQuestFixes.Load()
         [26116] = { -- Kinelory Strikes
             [questKeys.triggerEnd] = {"Protect Kinelory", {[zoneIDs.ARATHI_HIGHLANDS] = {{54.85,55.55}}}},
         },
+        [26118] = { -- Seize the Ambassador
+            [questKeys.triggerEnd] = {"Arrest Ambassador Slaghammer and bring him to the High Seat", {[zoneIDs.IRONFORGE] = {{39.65,56.85}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Arrest Ambassador Slaghammer"),0,{{"monster",42146}}}},
+        },
         [26121] = { -- Claim Korthun's End
             [questKeys.preQuestSingle] = {27443},
             [questKeys.exclusiveTo] = {26105},
