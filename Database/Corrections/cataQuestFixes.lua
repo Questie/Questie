@@ -3006,7 +3006,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{5276,5278},5276,"Faerie Dragons Rallied",Questie.ICON_TYPE_INTERACT}}},
         },
         [25469] = { -- Forces of Nature: Mountain Giants
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mountain Giants Rallied"),0,{{"monster",40026}}}},
+            [questKeys.objectives] = {{{40026}}},
         },
         [25473] = { -- Kaja'Cola
             [questKeys.startedBy] = {{34872}},
