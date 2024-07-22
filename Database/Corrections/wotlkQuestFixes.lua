@@ -2713,7 +2713,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12721] = {
             [questKeys.objectives] = {{{28952,"Akali unfettered from his chains."}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Release Akali from his chains"), 0, {{"object", 191018}}}},39371
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Release Akali from his chains"), 0, {{"object", 191018}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12723] = {
             [questKeys.preQuestGroup] = {12717,12720,12722},
