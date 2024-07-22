@@ -9,6 +9,9 @@ function CataItemFixes.Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [2629] = { -- Intrepid Strongbox Key
+            [itemKeys.npcDrops] = {41429},
+        },
         [2859] = { -- Vile Fin Scale
             [itemKeys.npcDrops] = {1541,1543,1544,1545},
         },
@@ -436,7 +439,7 @@ function CataItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
         },
         [58224] = { -- Induction Samophlange
-            [itemKeys.npcDrops] = {42644},
+            [itemKeys.objectDrops] = {204091},
         },
         [58365] = { -- Horn of the Ancients
             [itemKeys.class] = itemClasses.QUEST,

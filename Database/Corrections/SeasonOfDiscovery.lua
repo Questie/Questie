@@ -493,6 +493,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90304] = 3, -- Priest Eye of the Void
     [90305] = 3, -- Warlock Pandemic
     [90306] = 3, -- Warlock Backdraft
+
+    -- P4 SoD Runes
+    [90307] = 4, -- Druid Improved Swipe
+    [90308] = 4, -- Druid Starfall
+    [90309] = 4, -- Druid Tree of Life
 }
 
 --- "automatic" phase detection for the first few phases;
@@ -909,7 +914,9 @@ local questsToBlacklistBySoDPhase = {
         [1446] = true,
         [1475] = true,
         [3373] = true,
+        [3374] = true,
         [3447] = true,
+        [3512] = true,
         [3528] = true,
         [4143] = true,
         [8232] = true,
