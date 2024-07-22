@@ -4292,6 +4292,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{69.12,88.51},{73.31,83.29}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Royal Monkfish")}},
             [questKeys.requiredSourceItems] = {58856},
         },
+        [26493] = { -- There's Somebody Out There Who Wants It
+            [questKeys.preQuestGroup] = {26450,26487},
+        },
         [26494] = { -- Mixmaster Jasper
             [questKeys.preQuestSingle] = {26493},
         },
