@@ -117,6 +117,10 @@ local phases = {
     FARGO_AT_DOCKS = 1045,
     THORDUN_AT_TREE = 1046,
     THORDUN_IN_KEEP = 1047,
+    TORUNSCAR_START = 1048,
+    TORUNSCAR_END = 1049,
+    THERAZANE_AT_TEMPLE = 1050,
+    THERAZANE_AT_THRONE_BEFORE_MARCH = 1051,
 }
 Phasing.phases = phases
 
@@ -366,7 +370,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.PEBBLE_AT_KOR then
-        return complete[26441] or (not complete[26440]) or false
+        return complete[26441] or ((not complete[26440]) and (not questLog[26440])) or false
     end
 
     if phase == phases.PEBBLE_AT_CRYSTALS then
@@ -378,7 +382,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.NPCS_AT_THERAZANES_THRONE then
-        return complete[26659] and complete[26584] and complete[26585] or false
+        return (complete[26659] and complete[26584] and complete[26585] and not complete[26827]) or complete[26971] or false
     end
 
     if phase == phases.FARGO_AT_CATAPULTS then
@@ -395,6 +399,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.THORDUN_IN_KEEP then
         return complete[27516] or false
+    end
+
+    if phase == phases.TORUNSCAR_START then
+        return (not complete[26971]) and (not questLog[26971])
+    end
+
+    if phase == phases.TORUNSCAR_END then
+        return complete[26971] or (questLog[26971] and questLog[26971].isComplete == 1) or false
+    end
+
+    if phase == phases.THERAZANE_AT_TEMPLE then
+        return (complete[26971] and (not complete[26709])) or (questLog[26971]) or false
+    end
+
+    if phase == phases.THERAZANE_AT_THRONE_BEFORE_MARCH then
+        return (complete[26871] and (not complete[26750])) or false
     end
 
     return false

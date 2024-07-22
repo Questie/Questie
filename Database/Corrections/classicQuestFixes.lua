@@ -327,9 +327,6 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {596,629},
         },
-        [611]  = {
-            [questKeys.requiredSourceItems] = {4034, 4027},
-        },
         [619] = {
             [questKeys.parentQuest] = 8554, -- #1691
         },
@@ -730,7 +727,6 @@ function QuestieQuestFixes:Load()
         },
         [1221] = {
             [questKeys.sourceItemId] = 6684,
-            [questKeys.requiredSourceItems] = {5880, 6684},
         },
         [1222] = {
             [questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[zoneIDs.DUSTWALLOW_MARSH]={{48.87,24.58}}}},
@@ -862,6 +858,7 @@ function QuestieQuestFixes:Load()
         },
         [1471] = {
             [questKeys.exclusiveTo] = {1504}, -- #1542
+            [questKeys.requiredSourceItems] = {},
         },
         [1472] = {
             [questKeys.exclusiveTo] = {},
@@ -871,6 +868,7 @@ function QuestieQuestFixes:Load()
         },
         [1474] = {
             [questKeys.exclusiveTo] = {1513},
+            [questKeys.requiredSourceItems] = {},
         },
         [1477] = {
             [questKeys.exclusiveTo] = {1395}, -- #1727
@@ -895,6 +893,7 @@ function QuestieQuestFixes:Load()
         },
         [1504] = {
             [questKeys.exclusiveTo] = {1471}, -- #1542
+            [questKeys.requiredSourceItems] = {},
         },
         [1506] = {
             [questKeys.exclusiveTo] = {1478}, -- #1427
@@ -904,6 +903,7 @@ function QuestieQuestFixes:Load()
         },
         [1513] = {
             [questKeys.exclusiveTo] = {1474},
+            [questKeys.requiredSourceItems] = {},
         },
         [1516] = {
             [questKeys.exclusiveTo] = {1519},
@@ -1006,6 +1006,9 @@ function QuestieQuestFixes:Load()
         [1687] = {
             [questKeys.triggerEnd] = {"Go to the Westfall Lighthouse.", {[zoneIDs.WESTFALL]={{30.41,85.61}}}},
         },
+        [1689] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [1700] = {
             [questKeys.requiredRaces] = raceIDs.HUMAN,
             [questKeys.exclusiveTo] = {1703,1704,1705}, -- #1857
@@ -1027,6 +1030,9 @@ function QuestieQuestFixes:Load()
         },
         [1718] = {
             [questKeys.startedBy] = {{3041,3354,4595,5113,5479},nil,nil}, -- #1034
+        },
+        [1739] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [1789] = {
             [questKeys.exclusiveTo] = {1785},
@@ -1225,7 +1231,6 @@ function QuestieQuestFixes:Load()
         },
         [2845] = {
             [questKeys.triggerEnd] = {"Take Shay Leafrunner to Rockbiter's camp", {[zoneIDs.FERALAS]={{42.33,21.85}}}},
-            [questKeys.requiredSourceItems] = {9189},
         },
         [2861] = {
             [questKeys.startedBy] = {{4568,5144,5497,5885},nil,nil}, -- #1152
@@ -1592,12 +1597,6 @@ function QuestieQuestFixes:Load()
         [4288] = {
             [questKeys.triggerEnd] = {"Discover and examine the Western Crystal Pylon",{[zoneIDs.UN_GORO_CRATER]={{23,59}}}},
         },
-        [4294] = {
-            [questKeys.requiredSourceItems] = {12235,12236},
-        },
-        [4293] = {
-            [questKeys.requiredSourceItems] = {12230,12234},
-        },
         [4322] = {
             [questKeys.triggerEnd] = {"Jail Break!", {[zoneIDs.BLACKROCK_DEPTHS]={{-1,-1}}}},
         },
@@ -1689,7 +1688,7 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{10299}},
         },
         [4743] = {
-            [questKeys.requiredSourceItems] = {12339,12300,12323},
+            [questKeys.requiredSourceItems] = {12300,12323},
             [questKeys.startedBy] = {{10299}},
             [questKeys.finishedBy] = {{10299}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy."), 0, {{"monster", 10321}}},
@@ -1910,7 +1909,6 @@ function QuestieQuestFixes:Load()
         },
         [5321] = {
             [questKeys.triggerEnd] = {"Escort Kerlonian Evershade to Maestra's Post", {[zoneIDs.ASHENVALE]={{26.77,36.91}}}},
-            [questKeys.requiredSourceItems] = {13536},
         },
         [5402] = {
             [questKeys.preQuestSingle] = {5401,5503,5405},
@@ -2028,7 +2026,6 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Protect Aynasha", {[zoneIDs.DARKSHORE]={{45.87,90.42}}}},
         },
         [5721] = {
-            [questKeys.requiredSourceItems] = {15209}, -- #857
             [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{38.8,91.2}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Relic Bundle in the Town Square."),}},
         },
         -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting non repeatable quests
@@ -2474,8 +2471,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{1365},nil,nil},
         },
         [7067] = {
-            [questKeys.requiredSourceItems] = {17757,17761,17762,17763,17764,17765,17781},
-            [questKeys.sourceItemId] = 17757,
+            [questKeys.requiredSourceItems] = {17757,17761,17762,17763,17764,17765},
         },
         [7068] = {
             [questKeys.requiredLevel] = 39,
@@ -2611,7 +2607,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"The Balance of Light and Shadow", {[zoneIDs.EASTERN_PLAGUELANDS]={{21.19,17.79}}}}, -- #2332
         },
         [7631] = {
-            [questKeys.requiredSourceItems] = {18663,18629,18670,18818},
+            [questKeys.requiredSourceItems] = {18663,18629,18670},
         },
         [7632] = {
             [questKeys.startedBy] = {{12018},{179703},{18703}},

@@ -157,6 +157,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [81764] = 3, -- Paladin Fanaticism
     [81765] = 3, -- Paladin Fanaticism
     [81766] = 3, -- Paladin Fanaticism
+    [81790] = 3, -- Paladin Hammer of the Righteous
     [81947] = 3, -- Mage Book Sanguine Sorcery
     [81949] = 3, -- Mage Book Legends of the Tidesages
     [81951] = 3, -- Mage Book The Liminal and the Arcane
@@ -447,6 +448,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [80454] = 3, -- Rogue Honor Among Thieves
     [80455] = 3, -- Rogue Honor Among Thieves
     [80526] = 3, -- Rogue Honor Among Thieves
+    [81900] = 3, -- Hunter Rapid Killing
+    [81917] = 3, -- Hunter Rapid Killing
+    [81919] = 3, -- Hunter Rapid Killing
+    [82043] = 3, -- Mage Advanced Warding
+    [82044] = 3, -- Mage Advanced Warding
     [82084] = 3, -- Mage Temporal Anomaly
     [82316] = 3, -- Priest Eye of the Void
     [90269] = 3, -- Druid Gale Winds
@@ -484,8 +490,14 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90301] = 3, -- Paladin Purifying Power
     [90302] = 3, -- Priest Surge of Light
     [90303] = 3, -- Priest Despair
+    [90304] = 3, -- Priest Eye of the Void
     [90305] = 3, -- Warlock Pandemic
     [90306] = 3, -- Warlock Backdraft
+
+    -- P4 SoD Runes
+    [90307] = 4, -- Druid Improved Swipe
+    [90308] = 4, -- Druid Starfall
+    [90309] = 4, -- Druid Tree of Life
 }
 
 --- "automatic" phase detection for the first few phases;
@@ -902,7 +914,9 @@ local questsToBlacklistBySoDPhase = {
         [1446] = true,
         [1475] = true,
         [3373] = true,
+        [3374] = true,
         [3447] = true,
+        [3512] = true,
         [3528] = true,
         [4143] = true,
         [8232] = true,

@@ -1423,6 +1423,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81766] = { -- The Bloody Missive
             [questKeys.startedBy] = {{6272},nil,{219930}},
             [questKeys.preQuestSingle] = {81765},
+            [questKeys.nextQuestInChain] = 81790,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
 
@@ -1732,6 +1733,21 @@ function SeasonOfDiscovery:LoadQuests()
         },
         -- End Feralas Incursion
 
+        [81790] = { -- Materials of Significance
+            [questKeys.preQuestSingle] = {81766},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [81900] = { -- The Burning Beast
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [81917] = { -- Chains That Bind
+            [questKeys.preQuestSingle] = {81900},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [81919] = { -- Brought to Heel
+            [questKeys.preQuestSingle] = {81917},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [81986] = { -- Waking the Nightmare
             [questKeys.preQuestSingle] = {82022},
             [questKeys.objectives] = {{{222198}},nil,{{220570}}},
@@ -1888,6 +1904,10 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [82309] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [82316] = { -- Seven Eyes I Seek...
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.preQuestSingle] = {90304},
         },
         [82656] = { -- Wild Leather Vest (Horde)
             [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
@@ -5617,6 +5637,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431673,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90304] = {
+            [questKeys.name] = "Eye of the Void",
+            [questKeys.startedBy] = {{223590},{445039,445036,445037,445044,445041,445040,445042}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Find 7 eyes around Azeroth, and head to Azshara where you'll find the Shrine of the Watcher, target it and /kneel, hand in the quest to receive the rune."},
+            [questKeys.requiredSpell] = -402864,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [90305] = {
             [questKeys.name] = "Pandemic",
             [questKeys.startedBy] = {{223123},{443727,443728}},
@@ -5640,6 +5672,42 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Collect Worldcore Fragments or Scroll of Geomancy to have four in total. Then visit all four Leyline Confluxes found in Feralas, Hinterlands, Azshara and Searing Gorge and attune to them with the collected items. Kill the Enraged Leywalker, and loot it to receive a Leycryst. Combine all four to receive the rune."},
             [questKeys.requiredSpell] = -431745,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [90307] = {
+            [questKeys.name] = "Improved Swipe",
+            [questKeys.startedBy] = {{6505,6506,6507,6508,}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Kill Venomhide Ravasaurs until Idol of the Huntress drops, equip it and follow its instructions to receive the rune."},
+            [questKeys.requiredSpell] = -439765,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [90308] = {
+            [questKeys.name] = "Starfall",
+            [questKeys.startedBy] = {{228814}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Kill Arcterris to receive the rune. NOTE: This is an elite mob, and may require a group."},
+            [questKeys.requiredSpell] = -439770,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [90309] = {
+            [questKeys.name] = "Tree of Life",
+            [questKeys.startedBy] = {{228596}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Talk to the Vengeful Wisp and kill Satyrs in Jadefire Run until you get the 'Shimmering Light' buff. Then talk to the wisp again and it will put Gift of the Wisp on the ground, loot it to receive the rune."},
+            [questKeys.requiredSpell] = -439767,
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
     }
 end

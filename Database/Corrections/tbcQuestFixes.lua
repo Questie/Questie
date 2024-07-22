@@ -669,6 +669,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Infused Crystal and protect it from the Scourge for 1 minute"), 0, {{"object", 181164}}}},
             [questKeys.objectives] = {{{16364,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [8548] = {
             [questKeys.specialFlags] = 1,
@@ -1042,7 +1043,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Pickpocket the Lacy Handkerchief from the Sentinel Leader"), 0, {{"monster", 17210}}}},
         },
         [9467] = {
-            [questKeys.sourceItemId] = 24335,
             [questKeys.requiredSourceItems] = {23682,24335},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Hauteur using the Ritual Torch"), 0, {{"object", 181672}}}},
         },
@@ -1151,6 +1151,9 @@ function QuestieTBCQuestFixes:Load()
         [9576] = {
             [questKeys.startedBy] = {{17496},nil,{23870}},
         },
+        [9582] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [9587] = {
             [questKeys.startedBy] = {{17537},nil,{23890}},
         },
@@ -1183,6 +1186,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9618] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [9619] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [9635] = {
             [questKeys.requiredSkill] = {202,305},
@@ -2297,7 +2303,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to him while disguised"), 0, {{"monster", 22019}}}},
             [questKeys.objectives] = {{{22019,"Meeting with Kolphis Darkscale attended"}}},
             [questKeys.requiredSourceItems] = {31121,31122},
-            [questKeys.sourceItemId] = 31121,
         },
         [10723] = {
             [questKeys.extraObjectives] = {
@@ -2339,7 +2344,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{5675,5875},nil,nil},
         },
         [10792] = {
-            [questKeys.sourceItemId] = 31347,
             [questKeys.requiredSourceItems] = {31347,31346},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Light the torches"), 0, {{"object", 185144}}}},
         },
@@ -2360,8 +2364,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [10804] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Kill flayers and take their carcasses. Place a carcass in the field"), 0, {{"monster", 21477}, {"monster", 21478}}}},
-            [questKeys.sourceItemId] = 31372,
-            [questKeys.objectives] = {{{21648,"Mature Netherwing Drake fed"}}},
+            [questKeys.requiredSourceItems] = {31372,31373},
+            [questKeys.objectives] = {{{21648,"Mature Netherwing Drake fed",Questie.ICON_TYPE_EVENT}}},
         },
         [10806] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sablemane's Signet at the Altar of Goc"), 0, {{"object", 185309}}}},
@@ -2405,7 +2409,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10830] = {
             [questKeys.requiredSourceItems] = {31517,31495,31518},
-            [questKeys.sourceItemId] = 31517,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use Exorcism Feathers to summon Koi-Koi Spirits"), 0, {{"monster", 21326}}}},
         },
         [10831] = {
@@ -5328,7 +5331,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {11875,64998,64999},
             [questKeys.zoneOrSort] = 3703,
-            [questKeys.requiredSkill] = {profKeys.HERBALISM,301}, -- this needs proper fix
+            [questKeys.requiredSkill] = {profKeys.HERBALISM,275}, -- this needs proper fix, you need master or higher mining, skinning OR herbalism
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
             [questKeys.reputationReward] = {{1077,250}},
@@ -5346,7 +5349,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {11875,64997,64999},
             [questKeys.zoneOrSort] = 3703,
-            [questKeys.requiredSkill] = {profKeys.MINING,301}, -- this needs proper fix
+            [questKeys.requiredSkill] = {profKeys.MINING,275}, -- this needs proper fix, you need master or higher mining, skinning OR herbalism
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
             [questKeys.reputationReward] = {{1077,250}},
@@ -5364,7 +5367,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {11875,64997,64998},
             [questKeys.zoneOrSort] = 3703,
-            [questKeys.requiredSkill] = {profKeys.SKINNING,301}, -- this needs proper fix
+            [questKeys.requiredSkill] = {profKeys.SKINNING,275}, -- this needs proper fix, you need master or higher mining, skinning OR herbalism
             [questKeys.questFlags] = 4232,
             [questKeys.specialFlags] = 1,
             [questKeys.reputationReward] = {{1077,250}},

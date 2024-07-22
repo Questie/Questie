@@ -9,6 +9,9 @@ function CataItemFixes.Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [2629] = { -- Intrepid Strongbox Key
+            [itemKeys.npcDrops] = {41429},
+        },
         [2859] = { -- Vile Fin Scale
             [itemKeys.npcDrops] = {1541,1543,1544,1545},
         },
@@ -66,6 +69,9 @@ function CataItemFixes.Load()
         },
         [33009] = { -- Tender Strider Meat
             [itemKeys.npcDrops] = {2956,2957},
+        },
+        [38567] = { -- Maraudine Prisoner Manifest
+            [itemKeys.startQuest] = 14330,
         },
         [39684] = { -- Hair Trigger
             [itemKeys.npcDrops] = {},
@@ -433,7 +439,7 @@ function CataItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
         },
         [58224] = { -- Induction Samophlange
-            [itemKeys.npcDrops] = {42644},
+            [itemKeys.objectDrops] = {204091},
         },
         [58365] = { -- Horn of the Ancients
             [itemKeys.class] = itemClasses.QUEST,
