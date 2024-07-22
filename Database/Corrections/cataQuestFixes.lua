@@ -4128,6 +4128,9 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
             [questKeys.objectives] = {{{42291,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [26350] = { -- Priestess Hu'rala
+            [questKeys.preQuestSingle] = {26334},
+        },
         [26353] = { -- Captain Sanders' Hidden Treasure
             [questKeys.startedBy] = {{513,515,126,171,456,127,517,458,391},nil,{1357}},
             [questKeys.finishedBy] = {nil,{35}},
