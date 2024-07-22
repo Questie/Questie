@@ -3677,7 +3677,7 @@ function CataQuestFixes.Load()
         },
         [26118] = { -- Seize the Ambassador
             [questKeys.triggerEnd] = {"Arrest Ambassador Slaghammer and bring him to the High Seat", {[zoneIDs.IRONFORGE] = {{39.65,56.85}}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Arrest Ambassador Slaghammer"),0,{{"monster",42146}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Arrest Ambassador Slaghammer"),0,{{"monster",42146}}}},
         },
         [26121] = { -- Claim Korthun's End
             [questKeys.preQuestSingle] = {27443},
