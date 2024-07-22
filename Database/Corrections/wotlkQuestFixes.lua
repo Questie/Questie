@@ -463,12 +463,6 @@ function QuestieWotlkQuestFixes:Load()
         [10110] = {
             [questKeys.preQuestSingle] = {13409},
         },
-        [10137] = {
-            [questKeys.requiredSourceItems] = {},
-        },
-        [10155] = {
-            [questKeys.requiredSourceItems] = {},
-        },
         [10173] = {
             [questKeys.requiredSourceItems] = {},
         },
@@ -1316,10 +1310,6 @@ function QuestieWotlkQuestFixes:Load()
         [11890] = {
             [questKeys.triggerEnd] = {"Fizzcrank Pumping Station environs inspected.",{[zoneIDs.BOREAN_TUNDRA]={{64.38,23.81}}}},
         },
-        [11891] = {
-            [questKeys.requiredSourceItems] = {35828},
-            [questKeys.sourceItemId] = 35237,
-        },
         [11892] = {
             [questKeys.requiredSourceItems] = {},
         },
@@ -1394,13 +1384,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring the captured drake to Raelorasz"),0,{{"monster", 26117}}}},
             [questKeys.zoneOrSort] = 3537,
-            [questKeys.requiredSourceItems] = {},
         },
         [11945] = {
             [questKeys.reputationReward] = {{factionIDs.THE_KALUAK,500}},
         },
         [11946] = {
-            [questKeys.sourceItemId] = 35671,
+            [questKeys.requiredSourceItems] = {35671},
         },
         [11951] = {
             [questKeys.requiredSourceItems] = {35671},
@@ -5704,8 +5693,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13954,13956},
             [questKeys.nextQuestInChain] = 13959,
             [questKeys.exclusiveTo] = {13927},
-            [questKeys.requiredSourceItems] = {46693},
-            [questKeys.sourceItemId] = 46397,
+            [questKeys.requiredSourceItems] = {46397,46693},
         },
         [13938] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Buy a Small Paper Zeppelin"), 0, {{"monster", 29478}}}},
@@ -5713,8 +5701,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13955,13957},
             [questKeys.nextQuestInChain] = 13960,
             [questKeys.exclusiveTo] = {13926},
-            [questKeys.requiredSourceItems] = {46693},
-            [questKeys.sourceItemId] = 46396,
+            [questKeys.requiredSourceItems] = {46396,46693},
         },
         [13950] = {
             [questKeys.triggerEnd] = {"Roo taken to visit Winterfin Retreat", {[zoneIDs.BOREAN_TUNDRA]={{43.5,13.6}}}}, -- oracle orphan

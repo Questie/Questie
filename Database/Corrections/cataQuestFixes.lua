@@ -739,6 +739,9 @@ function CataQuestFixes.Load()
             }},
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [11891] = { -- An Innocent Disguise
+            [questKeys.requiredSourceItems] = {35237,35828},
+        },
         [11917] = { -- Striking Back
             [questKeys.preQuestSingle] = {12012,29092},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188049},{"object",188137},{"object",188138}}}},
@@ -1125,6 +1128,7 @@ function CataQuestFixes.Load()
         [13796] = { -- The Forest Heart
             [questKeys.preQuestSingle] = {13792},
             [questKeys.requiredSourceItems] = {45571,45572},
+            [questKeys.sourceItemId] = 45571,
         },
         [13831] = { -- A Troubling Prescription
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -1218,7 +1222,7 @@ function CataQuestFixes.Load()
         },
         [13918] = { -- The Titans' Terminal
             [questKeys.extraObjectives] = {{{[zoneIDs.DARKSHORE] = {{37.1,80.4},{35.4,83.8},{35.2,86.5}}},Questie.ICON_TYPE_EVENT,l10n("Use the Buried Artifact Detector to collect 5 Ancient Device Fragment")}},
-            [questKeys.requiredSourceItems] = {46702},
+            [questKeys.requiredSourceItems] = {46388,46702},
         },
         [13919] = { -- A Trip to the Moonwell
             [questKeys.preQuestSingle] = {26475},
@@ -1310,7 +1314,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {13982},
         },
         [13989] = { -- King of the Foulweald
-            [questKeys.requiredSourceItems] = {46739},
+            [questKeys.requiredSourceItems] = {46777,46739},
         },
         [13998] = { -- In Fungus We Trust
             [questKeys.triggerEnd] = {"Fungal Culture Planted",{[zoneIDs.THE_BARRENS] = {{55.1,80.4},{57,78.9},{57.7,81.1}}}},
@@ -1424,7 +1428,7 @@ function CataQuestFixes.Load()
             [questKeys.sourceItemId] = 46856,
         },
         [14124] = { -- Liberate the Kaja'mite
-            [questKeys.requiredSourceItems] = {46856},
+            [questKeys.requiredSourceItems] = {46856,48768},
         },
         [14125] = { -- 447
             [questKeys.startedBy] = {{34668}},
@@ -2825,7 +2829,7 @@ function CataQuestFixes.Load()
         [25294] = { -- Walking the Dog
             [questKeys.objectives] = {{{39659,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {25291},
-            [questKeys.requiredSourceItems] = {52708},
+            [questKeys.requiredSourceItems] = {52708,52717},
         },
         [25296] = { -- Gather the Intelligence
             [questKeys.preQuestSingle] = {25291},
@@ -4362,7 +4366,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26568},
         },
         [26572] = { -- A Golden Opportunity
-            [questKeys.requiredSourceItems] = {58958},
+            [questKeys.requiredSourceItems] = {58955,58958},
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
         },
         [26575] = { -- Rock Bottom
@@ -5732,6 +5736,7 @@ function CataQuestFixes.Load()
         [27745] = { -- A Fiery Reunion
             [questKeys.objectives] = {nil,{{301087}},{{62394}}},
             [questKeys.preQuestSingle] = {27742,27743,27744},
+            [questKeys.requiredSourceItems] = {62394},
         },
         [27747] = { -- Total War
             [questKeys.objectives] = {nil,{{206195}}},
@@ -7243,6 +7248,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.requiredSourceItems] = {68662,68663,68668},
+            [questKeys.sourceItemId] = 68668,
             [questKeys.exclusiveTo] = {29035,29037,29038,29039,29051,29052,29053},
         },
         [29051] = { -- Cub's First Toy
@@ -7251,6 +7257,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.requiredSourceItems] = {68662,68663,68668},
+            [questKeys.sourceItemId] = 68668,
             [questKeys.exclusiveTo] = {29035,29037,29038,29039,29040,29052,29053},
         },
         [29052] = { -- A Cub's Cravings
@@ -7341,12 +7348,12 @@ function CataQuestFixes.Load()
         [29117] = { -- Let's Go Fly a Kite
             [questKeys.triggerEnd] = {"Fly Dragon Kites with your orphan", {[zoneIDs.STORMWIND_CITY]={{59.2,63.4}}}},
             [questKeys.preQuestGroup] = {29093,29106,29107},
-            [questKeys.requiredSourceItems] = {68890},
+            [questKeys.requiredSourceItems] = {18598,68890},
         },
         [29119] = { -- You Scream, I Scream...
             [questKeys.triggerEnd] = {"Take your orphan out for ice cream.", {[zoneIDs.STORMWIND_CITY]={{49.28,89.8}}}},
             [questKeys.preQuestGroup] = {29093,29106,29107},
-            [questKeys.requiredSourceItems] = {69027},
+            [questKeys.requiredSourceItems] = {18598,69027},
         },
         [29129] = { -- A Legendary Engagement
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -7383,12 +7390,12 @@ function CataQuestFixes.Load()
         [29190] = { -- Let's Go Fly a Kite
             [questKeys.triggerEnd] = {"Fly Dragon Kites with your orphan", {[zoneIDs.ORGRIMMAR]={{58.5,58.3}}}},
             [questKeys.preQuestGroup] = {29146,29167,29176},
-            [questKeys.requiredSourceItems] = {69231},
+            [questKeys.requiredSourceItems] = {18597,69231},
         },
         [29191] = { -- You Scream, I Scream...
             [questKeys.triggerEnd] = {"Take your orphan out for ice cream.", {[zoneIDs.ORGRIMMAR]={{38.56,86.7}}}},
             [questKeys.preQuestGroup] = {29146,29167,29176},
-            [questKeys.requiredSourceItems] = {69233},
+            [questKeys.requiredSourceItems] = {18597,69233},
         },
         [29220] = { -- To Bambala
             [questKeys.triggerEnd] = {"Head to Bambala in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{64.6,40.4}}}},
@@ -7534,7 +7541,8 @@ function CataQuestFixes.Load()
         },
         [29361] = { -- Moat Monster!
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29317,29320,29319,29322},
-            [questKeys.requiredSourceItems] = {69995,69998},
+            [questKeys.sourceItemId] = 69998,
+            [questKeys.requiredSourceItems] = {69995,69998,69999},
             [questKeys.extraObjectives] = {{{[zoneIDs.TIRISFAL_GLADES]={{61.4,68.6}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Alliance Decoy Kit in the Ruins of Lordaeron and feed the Moat Monster")}},
         },
         [29363] = { -- Mulgore Spice Bread
