@@ -4310,6 +4310,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{69.12,88.51},{73.31,83.29}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Royal Monkfish")}},
             [questKeys.requiredSourceItems] = {58856},
         },
+        [26495] = { -- Chabal
+            [questKeys.preQuestSingle] = {26493},
+        },
         [26499] = { -- Stonefather's Boon
             [questKeys.objectives] = {{{43138,nil,Questie.ICON_TYPE_INTERACT}}},
         },
