@@ -9,7 +9,7 @@ function Validators.checkRequiredSourceItems(quests, questKeys)
         if sourceItemId and requiredSourceItems then
             for index = 1, #requiredSourceItems do
                 if requiredSourceItems[index] == sourceItemId then
-                    matchingQuests[questId] = "sourceItemId in requiredSourceItems: " .. requiredSourceItems[index] .. " == " .. sourceItemId
+                    matchingQuests[questId] = "sourceItemId in requiredSourceItems: " .. sourceItemId
                     break
                 end
             end
@@ -20,7 +20,7 @@ function Validators.checkRequiredSourceItems(quests, questKeys)
             for _, itemObjective in pairs(objectives[3]) do
                 for index = 1, #requiredSourceItems do
                     if requiredSourceItems[index] == itemObjective[1] then
-                        matchingQuests[questId] = "itemObjectiveId in requiredSourceItems: " .. requiredSourceItems[index] .. " == " .. itemObjective[1]
+                        matchingQuests[questId] = "itemObjectiveId in requiredSourceItems: " .. itemObjective[1]
                         break
                     end
                 end
