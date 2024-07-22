@@ -2733,6 +2733,9 @@ function CataQuestFixes.Load()
         [25207] = { -- Good-bye, Sweet Oil
             [questKeys.objectives] = {nil,{{205061}}},
         },
+        [25208] = { -- Tell Silvia
+            [questKeys.preQuestSingle] = {25403},
+        },
         [25213] = { -- The Slave Pits
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25203,25207},
