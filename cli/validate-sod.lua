@@ -1,5 +1,5 @@
 require("cli.dump")
-require("validators.lua")
+require("cli.validators")
 
 WOW_PROJECT_ID = 2
 WOW_PROJECT_CLASSIC = 2
