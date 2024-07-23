@@ -142,9 +142,6 @@ function CataQuestFixes.Load()
         [938] = { -- Mist
             [questKeys.triggerEnd] = {"Lead Mist safely to Sentinel Arynia Cloudsbreak",{[zoneIDs.TELDRASSIL] = {{39.5,29.86}}}},
         },
-        [974] = { -- Finding the Source
-            [questKeys.requiredSourceItems] = {},
-        },
         [997] = { -- Denalan's Earth
             [questKeys.preQuestSingle] = {486},
         },
@@ -282,12 +279,6 @@ function CataQuestFixes.Load()
         },
         [6386] = { -- Return to Razor Hill
             [questKeys.requiredRaces] = raceKeys.ORC + raceKeys.TROLL,
-        },
-        [6622] = { -- Triage
-            [questKeys.requiredSourceItems] = {},
-        },
-        [6624] = { -- Triage
-            [questKeys.requiredSourceItems] = {},
         },
         [7383] = { -- Teldrassil: The Burden of the Kaldorei
             [questKeys.preQuestSingle] = {},
@@ -822,9 +813,6 @@ function CataQuestFixes.Load()
         [12012] = { -- Inform the Elder
             [questKeys.exclusiveTo] = {29092},
             [questKeys.startedBy] = {{25324}},
-        },
-        [12154] = { -- Blackout
-            [questKeys.requiredSourceItems] = {},
         },
         [12563] = { -- Troll Patrol
             [questKeys.startedBy] = {},
