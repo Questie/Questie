@@ -38,7 +38,11 @@ function Validators.checkRequiredSourceItems(quests, questKeys)
         end
 
         os.exit(1)
+        return matchingQuests
     else
         print("\27[32mNo quests found with sourceItemId or itemObjectiveId in requiredSourceItems\27[0m")
+        return nil
     end
 end
+
+return Validators
