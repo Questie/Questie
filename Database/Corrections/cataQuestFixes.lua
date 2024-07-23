@@ -2984,6 +2984,9 @@ function CataQuestFixes.Load()
         [25434] = { -- Taming The Tamers
             [questKeys.preQuestSingle] = {25432},
         },
+        [25436] = { -- Spiteful Sisters
+            [questKeys.preQuestGroup] = {25433,25434},
+        },
         [25439] = { -- Vengeful Heart
             [questKeys.preQuestSingle] = {25222},
         },
