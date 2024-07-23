@@ -1951,8 +1951,25 @@ function SeasonOfDiscovery:LoadQuests()
         [83192] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
+        [83808] = { -- In a Bind
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [83822] = { -- The Fallen Knight
+            [questKeys.objectives] = {{{227519,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {83935},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [83934] = { -- Show Me The Money!
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+        },
+        [83808] = { -- Clearing the Path
+            [questKeys.preQuestSingle] = {83935},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [83936] = { -- Dalton's Quest
+            [questKeys.objectives] = {{{227672,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {83822},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [84147] = { -- An Earnest Proposition
             [questKeys.requiredClasses] = classIDs.DRUID,

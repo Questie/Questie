@@ -495,6 +495,10 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90306] = 3, -- Warlock Backdraft
 
     -- P4 SoD Runes
+    [83808] = 4, -- Paladin Righteous Vengeance
+    [83822] = 4, -- Paladin Righteous Vengeance
+    [83935] = 4, -- Paladin Righteous Vengeance
+    [83936] = 4, -- Paladin Righteous Vengeance
     [90307] = 4, -- Druid Improved Swipe
     [90308] = 4, -- Druid Starfall
     [90309] = 4, -- Druid Tree of Life
