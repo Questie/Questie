@@ -58,7 +58,6 @@ describe("TrackerUtils", function()
         assert.spy(button.SetItem).was_called_with(_, 123, 1, 12)
         assert.is_true(button:IsVisible())
 
-        assert.equals(line, button.line)
         assert.is_false(line.expandQuest:IsVisible())
 
         assert.spy(rePositionLineMock).was_not_called()
@@ -93,7 +92,6 @@ describe("TrackerUtils", function()
         assert.spy(button.SetItem).was_called_with(_, 456, 1, 12)
         assert.is_true(button:IsVisible())
 
-        assert.equals(line, button.line)
         assert.is_false(line.expandQuest:IsVisible())
 
         assert.spy(rePositionLineMock).was_not_called()
@@ -132,7 +130,6 @@ describe("TrackerUtils", function()
         assert.spy(button.SetItem).was_called_with(_, 123, 1, 12)
         assert.is_true(button:IsVisible())
 
-        assert.equals(line, button.line)
         assert.is_false(line.expandQuest:IsVisible())
 
         assert.spy(rePositionLineMock).was_not_called()
@@ -180,8 +177,6 @@ describe("TrackerUtils", function()
         assert.is_true(primaryButton:IsVisible())
         assert.is_true(secondaryButton:IsVisible())
 
-        assert.equals(line, primaryButton.line)
-        assert.equals(line, secondaryButton.line)
         assert.is_false(line.expandQuest:IsVisible())
 
         assert.spy(rePositionLineMock).was_called_with(1)
@@ -233,8 +228,6 @@ describe("TrackerUtils", function()
         assert.is_true(primaryButton:IsVisible())
         assert.is_true(secondaryButton:IsVisible())
 
-        assert.equals(line, primaryButton.line)
-        assert.equals(line, secondaryButton.line)
         assert.is_false(line.expandQuest:IsVisible())
 
         assert.spy(rePositionLineMock).was_called_with(1)
@@ -282,8 +275,6 @@ describe("TrackerUtils", function()
         assert.is_true(primaryButton:IsVisible())
         assert.is_true(secondaryButton:IsVisible())
 
-        assert.equals(line, primaryButton.line)
-        assert.equals(line, secondaryButton.line)
         assert.is_false(line.expandQuest:IsVisible())
 
         assert.spy(rePositionLineMock).was_called_with(1)
@@ -319,7 +310,6 @@ describe("TrackerUtils", function()
         assert.spy(primaryButton.SetItem).was_called_with(_, 456, 1, 12)
         assert.is_true(primaryButton:IsVisible())
 
-        assert.equals(line, primaryButton.line)
         assert.is_false(line.expandQuest:IsVisible())
     end)
 
