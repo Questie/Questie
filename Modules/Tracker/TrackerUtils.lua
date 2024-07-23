@@ -1062,13 +1062,14 @@ function TrackerUtils:UpdateVoiceOverPlayButtons()
     end
 end
 
----@param quest Quest
----@param complete number
----@param line table
----@param questItemButtonSize number
----@param trackerQuestFrame table
----@param isMinimizable boolean
----@param rePositionLine function
+---@param quest Quest @The quest to add the quest item buttons for
+---@param complete number @0 if the quest is not complete, 1 if the quest is complete, -1 if the quest is failed
+---@param line table @The line to add the quest item buttons to
+---@param questItemButtonSize number @The size of the quest item buttons
+---@param trackerQuestFrame table @The tracker quest frame
+---@param isMinimizable boolean @true if the quest is minimizable
+---@param rePositionLine function @Callback function to reposition the line
+---@return boolean @true if the quest item buttons were added successfully, false if the tracker should stop populating
 function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame, isMinimizable, rePositionLine)
     local usableQuestItems = {}
 
@@ -1101,7 +1102,9 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
         button.line = line
         line.button = button
 
-        local primaryButtonAdded = button:SetItem(usableQuestItems[1], quest.Id, questItemButtonSize)
+        local questId = quest.Id
+
+        local primaryButtonAdded = button:SetItem(usableQuestItems[1], questId, questItemButtonSize)
 
         -- Setup button and set attributes
         if primaryButtonAdded then
@@ -1114,7 +1117,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
             end
 
             -- If the Quest is minimized show the Expand Quest button
-            if Questie.db.char.collapsedQuests[quest.Id] then
+            if Questie.db.char.collapsedQuests[questId] then
                 if Questie.db.profile.collapseCompletedQuests and isMinimizable and (not isTimedQuest) then
                     button.line.expandQuest:Hide()
                 else
@@ -1132,7 +1135,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
             -- If the Quest Zone or Quest is minimized then set UIParent and hide buttons since the buttons are normally attached to the Quest frame.
             -- If buttons are left attached to the Quest frame and if the Tracker frame is hidden in combat, then it would also try and hide the
             -- buttons which you can't do in combat. This helps avoid violating the Blizzard SecureActionButtonTemplate restrictions relating to combat.
-            if Questie.db.char.collapsedZones[line.expandZone.zoneId] or Questie.db.char.collapsedQuests[quest.Id] then
+            if Questie.db.char.collapsedZones[line.expandZone.zoneId] or Questie.db.char.collapsedQuests[questId] then
                 button:SetParent(UIParent)
                 button:Hide()
             end
@@ -1148,7 +1151,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                 line.altButton = secondaryButton
 
                 -- TODO: Handle more than 2 buttons if required
-                local secondaryButtonAdded = secondaryButton:SetItem(usableQuestItems[2], quest.Id, questItemButtonSize)
+                local secondaryButtonAdded = secondaryButton:SetItem(usableQuestItems[2], questId, questItemButtonSize)
 
                 if secondaryButtonAdded then
                     height = 0
@@ -1167,7 +1170,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                     secondaryButton:SetParent(secondaryButton.line)
                     secondaryButton:Show()
 
-                    if Questie.db.char.collapsedZones[line.expandZone.zoneId] or Questie.db.char.collapsedQuests[quest.Id] then
+                    if Questie.db.char.collapsedZones[line.expandZone.zoneId] or Questie.db.char.collapsedQuests[questId] then
                         secondaryButton:SetParent(UIParent)
                         secondaryButton:Hide()
                     end
