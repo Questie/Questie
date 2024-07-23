@@ -307,6 +307,9 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     coYield()
     QuestieQuest:GetAllQuestIds()
 
+    coYield()
+    QuestieCombatQueue.Initialize()
+
     -- Initialize the tracker
     coYield()
     QuestieTracker.Initialize()
@@ -314,8 +317,6 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     coYield()
     QuestEventHandler:RegisterEvents()
     ChatFilter:RegisterEvents()
-    coYield()
-    QuestieCombatQueue.Initialize()
 
     local dateToday = date("%y-%m-%d")
 
