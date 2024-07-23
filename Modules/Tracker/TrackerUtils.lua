@@ -1098,9 +1098,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
             return false -- stop populating the tracker
         end
 
-        -- TODO: WTF - Cleanup this cyclic reference mess
         button.line = line
-        line.button = button
 
         local questId = quest.Id
 

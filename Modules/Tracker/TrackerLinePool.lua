@@ -731,33 +731,15 @@ end
 
 ---@param alpha number
 function TrackerLinePool.SetAllItemButtonAlpha(alpha)
-    local highestIndex = TrackerLinePool.GetHighestIndex()
-    -- TODO: I don't remember why I coded this hasButton variable. Going to leave it here for now.
-    --local hasButton = false
-
-    for i = 1, highestIndex do
-        local line = linePool[i]
-
-        if line.button then
-            line.button:SetAlpha(alpha)
-            --if line.button:GetAlpha() < 0.07 then
-            --    hasButton = true
-            --end
+    for i = 1, buttonIndex do
+        local button = buttonPool[i]
+        if (not button) then
+            -- This should not happen as we keep track of the buttonIndex
+            break
         end
 
-        if line.altButton then
-            line.altButton:SetAlpha(alpha)
-            --if line.altButton:GetAlpha() < 0.07 then
-            --    hasButton = true
-            --end
-        end
+        button:SetAlpha(alpha)
     end
-
-    --[[
-    if hasButton then
-        QuestieTracker:Update()
-    end
-    --]]
 end
 
 ---@param button string
@@ -881,7 +863,6 @@ TrackerLinePool.SetMode = function(self, mode)
             local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
             self.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontQuest), trackerFontSizeQuest, Questie.db.profile.trackerFontOutline)
             self.label:SetHeight(trackerFontSizeQuest)
-            self.button = nil
         elseif mode == "objective" then
             local trackerFontSizeObjective = Questie.db.profile.trackerFontSizeObjective
             self.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
