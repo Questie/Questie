@@ -1962,7 +1962,7 @@ function SeasonOfDiscovery:LoadQuests()
         [83934] = { -- Show Me The Money!
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
         },
-        [83808] = { -- Clearing the Path
+        [83935] = { -- Clearing the Path
             [questKeys.preQuestSingle] = {83935},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
