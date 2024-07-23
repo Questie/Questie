@@ -6026,8 +6026,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{47516,nil,Questie.ICON_TYPE_TALK},{47519,nil,Questie.ICON_TYPE_TALK},{47520,nil,Questie.ICON_TYPE_TALK},{47707,nil,Questie.ICON_TYPE_TALK}}},
         },
         [28038] = { -- Blood in the Highlands
-            [questKeys.preQuestSingle] = {27955},
+            [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 27863,
+            [questKeys.preQuestGroup] = {27751,27929},
         },
         [28041] = { -- Bait and Throttle
             [questKeys.preQuestGroup] = {27751,27929},
