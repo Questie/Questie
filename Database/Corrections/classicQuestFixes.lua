@@ -858,6 +858,7 @@ function QuestieQuestFixes:Load()
         },
         [1471] = {
             [questKeys.exclusiveTo] = {1504}, -- #1542
+            [questKeys.requiredSourceItems] = {},
         },
         [1472] = {
             [questKeys.exclusiveTo] = {},
@@ -867,6 +868,7 @@ function QuestieQuestFixes:Load()
         },
         [1474] = {
             [questKeys.exclusiveTo] = {1513},
+            [questKeys.requiredSourceItems] = {},
         },
         [1477] = {
             [questKeys.exclusiveTo] = {1395}, -- #1727
@@ -891,6 +893,7 @@ function QuestieQuestFixes:Load()
         },
         [1504] = {
             [questKeys.exclusiveTo] = {1471}, -- #1542
+            [questKeys.requiredSourceItems] = {},
         },
         [1506] = {
             [questKeys.exclusiveTo] = {1478}, -- #1427
@@ -900,6 +903,7 @@ function QuestieQuestFixes:Load()
         },
         [1513] = {
             [questKeys.exclusiveTo] = {1474},
+            [questKeys.requiredSourceItems] = {},
         },
         [1516] = {
             [questKeys.exclusiveTo] = {1519},
@@ -1002,6 +1006,9 @@ function QuestieQuestFixes:Load()
         [1687] = {
             [questKeys.triggerEnd] = {"Go to the Westfall Lighthouse.", {[zoneIDs.WESTFALL]={{30.41,85.61}}}},
         },
+        [1689] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [1700] = {
             [questKeys.requiredRaces] = raceIDs.HUMAN,
             [questKeys.exclusiveTo] = {1703,1704,1705}, -- #1857
@@ -1023,6 +1030,9 @@ function QuestieQuestFixes:Load()
         },
         [1718] = {
             [questKeys.startedBy] = {{3041,3354,4595,5113,5479},nil,nil}, -- #1034
+        },
+        [1739] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [1789] = {
             [questKeys.exclusiveTo] = {1785},
@@ -1221,7 +1231,6 @@ function QuestieQuestFixes:Load()
         },
         [2845] = {
             [questKeys.triggerEnd] = {"Take Shay Leafrunner to Rockbiter's camp", {[zoneIDs.FERALAS]={{42.33,21.85}}}},
-            [questKeys.requiredSourceItems] = {9189},
         },
         [2861] = {
             [questKeys.startedBy] = {{4568,5144,5497,5885},nil,nil}, -- #1152
@@ -1588,12 +1597,6 @@ function QuestieQuestFixes:Load()
         [4288] = {
             [questKeys.triggerEnd] = {"Discover and examine the Western Crystal Pylon",{[zoneIDs.UN_GORO_CRATER]={{23,59}}}},
         },
-        [4294] = {
-            [questKeys.requiredSourceItems] = {12235,12236},
-        },
-        [4293] = {
-            [questKeys.requiredSourceItems] = {12230,12234},
-        },
         [4322] = {
             [questKeys.triggerEnd] = {"Jail Break!", {[zoneIDs.BLACKROCK_DEPTHS]={{-1,-1}}}},
         },
@@ -1906,7 +1909,6 @@ function QuestieQuestFixes:Load()
         },
         [5321] = {
             [questKeys.triggerEnd] = {"Escort Kerlonian Evershade to Maestra's Post", {[zoneIDs.ASHENVALE]={{26.77,36.91}}}},
-            [questKeys.requiredSourceItems] = {13536},
         },
         [5402] = {
             [questKeys.preQuestSingle] = {5401,5503,5405},

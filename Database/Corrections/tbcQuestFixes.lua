@@ -1043,7 +1043,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Pickpocket the Lacy Handkerchief from the Sentinel Leader"), 0, {{"monster", 17210}}}},
         },
         [9467] = {
-            [questKeys.requiredSourceItems] = {23682,24335},
+            [questKeys.requiredSourceItems] = {24335},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Hauteur using the Ritual Torch"), 0, {{"object", 181672}}}},
         },
         [9472] = {
@@ -1897,17 +1897,11 @@ function QuestieTBCQuestFixes:Load()
         [10389] = {
             [questKeys.preQuestSingle] = {10392},
         },
-        [10392] = {
-            [questKeys.requiredSourceItems] = {29795},
-        },
         [10393] = {
             [questKeys.startedBy] = {{20798},nil,nil},
         },
         [10395] = {
             [questKeys.startedBy] = {{19298},nil,nil},
-        },
-        [10397] = {
-            [questKeys.requiredSourceItems] = {29795},
         },
         [10403] = {
             [questKeys.startedBy] = {{20677,20678,20679},nil,nil},
@@ -2088,7 +2082,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Oronok's Boar Whistle to dig up a Shadowmoon Tuber"), 0, {{"object", 184701}}}},
         },
         [10518] = {
-            [questKeys.requiredSourceItems] = {30416},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Bladespire Banner atop the Northmaul Tower"), 0, {{"object", 184704}}}},
         },
         [10519] = {
@@ -3024,7 +3017,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {12133},
         },
         [11140] = {
-            [questKeys.requiredSourceItems] = {33040,33044},
+            [questKeys.requiredSourceItems] = {33040},
         },
         [11142] = {
             [questKeys.objectives] = {nil,{{500007},{500007}}},
@@ -4115,6 +4108,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.objectives] = {nil,nil,{{35828,nil}},nil},
             [questKeys.preQuestSingle] = {11891},
+            [questKeys.requiredSourceItems] = {},
         },
         [12020] = {
             [questKeys.preQuestSingle] = {},
