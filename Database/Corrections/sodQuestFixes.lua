@@ -1896,6 +1896,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {1707},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [82301] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [82302] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [82303] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
         [82307] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
@@ -1926,6 +1935,21 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
             [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING,
+        },
+        [83188] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [83189] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [83190] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [83191] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [83192] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [83934] = { -- Show Me The Money!
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
