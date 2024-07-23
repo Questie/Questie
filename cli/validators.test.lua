@@ -16,7 +16,7 @@ describe("Validators", function()
         _G.print = function() end -- disable print
     end)
 
-    it("should find and reports a sourceItemId inside requiredSourceItems", function()
+    it("should find and reports requiredSourceItems which are also a sourceItemId or itemObjective", function()
         local quests = {
             [1] = {
                 sourceItemId = 1,
@@ -27,7 +27,7 @@ describe("Validators", function()
                 requiredSourceItems = {4, 5, 6},
             },
             [3] = {
-                sourceItemId = 3,
+                objectives = {nil,nil,{{3}}},
                 requiredSourceItems = {7, 8, 3},
             }
         }
@@ -36,31 +36,6 @@ describe("Validators", function()
 
         assert.are.same(matchingQuests, {
             [1] = "sourceItemId in requiredSourceItems: 1",
-            [3] = "sourceItemId in requiredSourceItems: 3"
-        })
-        assert.spy(exitMock).was_called_with(1)
-    end)
-
-    it("should find and reports an itemObjectiveId inside requiredSourceItems", function()
-        local quests = {
-            [1] = {
-                requiredSourceItems = {1, 2, 3},
-                objectives = {nil,nil,{{1}}},
-            },
-            [2] = {
-                requiredSourceItems = {4, 5, 6},
-                objectives = {nil,nil,{{7}}},
-            },
-            [3] = {
-                requiredSourceItems = {7, 8, 3},
-                objectives = {nil,nil,{{3}}},
-            }
-        }
-
-        local matchingQuests = Validators.checkRequiredSourceItems(quests, questKeys)
-
-        assert.are.same(matchingQuests, {
-            [1] = "itemObjectiveId in requiredSourceItems: 1",
             [3] = "itemObjectiveId in requiredSourceItems: 3"
         })
         assert.spy(exitMock).was_called_with(1)
