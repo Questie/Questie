@@ -31,6 +31,12 @@ function SeasonOfDiscovery:LoadQuests()
         [5167] = { -- Legplates of the Chromatic Flight
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [8922] = { -- A Supernatural Device
+            [questKeys.preQuestSingle] = {84147,84148,84149,84150,84151,84152,84153,84154},
+        },
+        [8923] = { -- A Supernatural Device
+            [questKeys.preQuestSingle] = {84155,84156,84157,84158,84159,84160,84161,84162},
+        },
         [8929] = { -- In Search of Anthion
             [questKeys.preQuestSingle] = {84163,84164,84165,84166,84167,84168,84169,84170},
         },
