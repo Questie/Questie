@@ -5719,7 +5719,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.PALADIN + classIDs.SHAMAN + classIDs.WARRIOR,
             [questKeys.objectivesText] = {"Read the book 'The Rites of Mak'Gora' to receive the rune."},
             [questKeys.requiredSpell] = -453688,
-            [questKeys.zoneOrSort] = classIDs.HUNTER + classIDs.PALADIN + classIDs.SHAMAN + classIDs.WARRIOR,
+            [questKeys.zoneOrSort] = zoneIDs.BURNING_STEPPES,
         },
     }
 end
