@@ -4977,6 +4977,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find Arkonos and end him."},
             [questKeys.objectives] = nil,
         },
+        [84124] = {
+            [questKeys.name] = "Legacy of Valor",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 55,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Return to the Altar of Reverence."},
+            [questKeys.objectives] = nil,
+        },
         [84125] = {
             [questKeys.name] = "Close Enough To Touch",
             [questKeys.startedBy] = {{227674}},

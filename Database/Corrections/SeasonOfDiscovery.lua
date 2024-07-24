@@ -502,6 +502,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [83936] = 4, -- Paladin Righteous Vengeance
     [84008] = 4, -- Paladin Shock and Awe
     [84017] = 4, -- Paladin Shock and Awe
+    [84124] = 4, -- Warrior Fresh Meat
     [84125] = 4, -- Paladin Shock and Awe
     [84126] = 4, -- Paladin Shock and Awe
     [90307] = 4, -- Druid Improved Swipe

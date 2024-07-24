@@ -1989,6 +1989,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84008},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [84124] = { -- Legacy of Valor
+            [questKeys.startedBy] = {{208841}},
+            [questKeys.finishedBy] = {nil,{456674}},
+            [questKeys.objectivesText] = {"Achieve five killing blows in a short amount of time, while fighting enemies in the Blackrock Stronghold. Once you get the Rhythm of War buff, /salute at the altar, defeat the Revered Champion and receive the rune."},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
         [84125] = { -- Close Enough To Touch
             [questKeys.preQuestSingle] = {84017},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
