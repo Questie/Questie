@@ -31,6 +31,12 @@ function SeasonOfDiscovery:LoadQuests()
         [5167] = { -- Legplates of the Chromatic Flight
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [8929] = { -- In Search of Anthion
+            [questKeys.preQuestSingle] = {84163,84164,84165,84166,84167,84168,84169,84170},
+        },
+        [8930] = { -- In Search of Anthion
+            [questKeys.preQuestSingle] = {84171,84172,84173,84174,84175,84176,84177,84178},
+        },
         [76156] = { -- Stalk With The Earthmother
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
