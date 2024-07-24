@@ -5135,6 +5135,9 @@ function CataQuestFixes.Load()
         [27310] = { -- No Weapons For You!
             [questKeys.preQuestSingle] = {27275},
         },
+        [27312] = { -- Darkcloud Grimtotem
+            [questKeys.preQuestSingle] = {27275},
+        },
         [27317] = { -- The Rattle of Bones
             [questKeys.preQuestSingle] = {},
         },
