@@ -1000,6 +1000,22 @@ local questsToBlacklistBySoDPhase = {
         [8918] = true, -- An Earnest Proposition
         [8919] = true, -- An Earnest Proposition
         [8920] = true, -- An Earnest Proposition
+        [8926] = true, -- Just Compensation
+        [8927] = true, -- Just Compensation
+        [8931] = true, -- Just Compensation
+        [8932] = true, -- Just Compensation
+        [8933] = true, -- Just Compensation
+        [8934] = true, -- Just Compensation
+        [8935] = true, -- Just Compensation
+        [8936] = true, -- Just Compensation
+        [8937] = true, -- Just Compensation
+        [8938] = true, -- Just Compensation
+        [8939] = true, -- Just Compensation
+        [8940] = true, -- Just Compensation
+        [8941] = true, -- Just Compensation
+        [8942] = true, -- Just Compensation
+        [8943] = true, -- Just Compensation
+        [8944] = true, -- Just Compensation
 
         -- Darkmoon Faire quests
         [7902] = true,
