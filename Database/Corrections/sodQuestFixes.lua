@@ -2069,66 +2069,82 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [84163] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {8977},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84164] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {8977},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84165] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {8977},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84166] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.preQuestSingle] = {8977},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84167] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {8977},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84168] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.preQuestSingle] = {8977},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84169] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {8977},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84170] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.preQuestSingle] = {8977},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84171] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {8978},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84172] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {8978},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84173] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {8978},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84174] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {8978},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84175] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.preQuestSingle] = {8978},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84176] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.preQuestSingle] = {8978},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84177] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {8978},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84178] = { -- Just Compensation
             [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.preQuestSingle] = {8978},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84348] = { -- Priority Target: Duke Tectonis
