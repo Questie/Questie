@@ -2224,6 +2224,10 @@ function SeasonOfDiscovery:LoadQuests()
         [84384] = { -- Demonic Deceptions
             [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
         },
+        [84777] = { -- Feathers for Nafien
+            [questKeys.preQuestSingle] = {8461},
+            [questKeys.zoneOrSort] = zoneIDs.FELWOOD,
+        },
 
         --- Fake rune quests
         [90000] = {

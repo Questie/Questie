@@ -5483,5 +5483,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Collect 6 Owlbeast Pineal Glands from owlbeasts in Winterspring, then return to the Shadowtooth Emissary in Felwood."},
             [questKeys.objectives] = {nil,nil,{{227914}}},
         },
+        [84777] = {
+            [questKeys.name] = "Feathers for Nafien",
+            [questKeys.startedBy] = {{15395}},
+            [questKeys.finishedBy] = {{15395,}},
+            [questKeys.requiredLevel] = 45,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"While you have proven yourself to me, you may need to continue to work toward proving yourself to the suspicious brethren of my tribe. &nbsp;To that end, I may be able to continue assisting you.Some of the Deadwood furbolgs wear a distinctive headdress that may be used as a means of proof in thinning their numbers. &nbsp;Bring me a feather from any headdresses you acquire; for every set of five you bring me, you will earn recognition amongst the Timbermaw."},
+            [questKeys.objectives] = {nil,nil,{{21377}}},
+        },
     }
 end
