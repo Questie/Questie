@@ -176,6 +176,9 @@ function SeasonOfDiscovery:LoadItems()
         [220349] = { -- Stonewrought Design
             [itemKeys.objectDrops] = {441251},
         },
+        [221326] = { -- Sacred Stag Heart
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [226122] = { -- Dalton's Horn
             [itemKeys.class] = itemClasses.QUEST,
         },

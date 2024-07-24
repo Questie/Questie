@@ -1760,6 +1760,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {81917},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [81924] = { -- Wisdom of the Guardians
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Part 1: Get shrunk and decurse it"), 0, {{"monster", 5240}}},
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Part 2: Get poisoned and abolish it"), 0, {{"monster", 5245}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Part 3: When buffed with the Mark of the Warden summon and defeat the Treant Avatar"), 0, {{"object", 441948}}},
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Part 1: Kill the Child of Apa'ro to receive a Sacred Stag Heart"), 0, {{"monster", 222580}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Part 2: Offer the Sacred Stag Heart and defeat the Hippogryph Avatar"), 0, {{"object", 441947}}},
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Cast Tranquility followed by Hurricane to summon the Moonkin Avatar and defeat him"), 0, {{"object", 441946}}},
+            },
+        },
         [81986] = { -- Waking the Nightmare
             [questKeys.preQuestSingle] = {82022},
             [questKeys.objectives] = {{{222198}},nil,{{220570}}},

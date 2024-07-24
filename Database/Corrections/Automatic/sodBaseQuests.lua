@@ -3710,7 +3710,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.objectivesText] = {"Prove yourself to the guardian spirits of Feralas, Azshara, and the Hinterlands, then return to Tyrisius in Feralas."},
-            [questKeys.objectives] = nil,
+            [questKeys.objectives] = {{{221935},{221933},{221928}}},
         },
         [81944] = {
             [questKeys.name] = "A Newly Discovered Purpose...",
