@@ -497,8 +497,13 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     -- P4 SoD Runes
     [83808] = 4, -- Paladin Righteous Vengeance
     [83822] = 4, -- Paladin Righteous Vengeance
+    [83823] = 4, -- Paladin Shock and Awe
     [83935] = 4, -- Paladin Righteous Vengeance
     [83936] = 4, -- Paladin Righteous Vengeance
+    [84008] = 4, -- Paladin Shock and Awe
+    [84017] = 4, -- Paladin Shock and Awe
+    [84125] = 4, -- Paladin Shock and Awe
+    [84126] = 4, -- Paladin Shock and Awe
     [90307] = 4, -- Druid Improved Swipe
     [90308] = 4, -- Druid Starfall
     [90309] = 4, -- Druid Tree of Life

@@ -1959,6 +1959,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {83935},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [83823] = { -- A Lesson in Violence
+            [questKeys.startedBy] = {{227673}},
+            [questKeys.objectivesText] = {"To accept this quest, summon your squire with Dalton's Horn and fight enemies alongside him."},
+            [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {83936},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [83934] = { -- Show Me The Money!
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
         },
@@ -1969,6 +1976,25 @@ function SeasonOfDiscovery:LoadQuests()
         [83936] = { -- Dalton's Quest
             [questKeys.objectives] = {{{227672,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {83822},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84008] = { -- A Lesson in Grace
+            [questKeys.startedBy] = {{227464}},
+            [questKeys.objectivesText] = {"To accept this quest, summon your squire with Dalton's Horn and fight enemies alongside him."},
+            [questKeys.preQuestSingle] = {83823},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84017] = { -- A Time to Kill
+            [questKeys.triggerEnd] = {"Find Arkonos the Cursed",{[zoneIDs.EASTERN_PLAGUELANDS]={{86.8,39.4}}}},
+            [questKeys.preQuestSingle] = {84008},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84125] = { -- Close Enough To Touch
+            [questKeys.preQuestSingle] = {84017},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84126] = { -- Finish the Fight
+            [questKeys.preQuestSingle] = {84125},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [84147] = { -- An Earnest Proposition
