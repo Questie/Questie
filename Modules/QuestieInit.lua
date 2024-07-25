@@ -264,7 +264,7 @@ QuestieInit.Stages[2] = function()
     end)
 
     -- Continue to the next Init Stage once Game Cache's Questlog is good
-    while (not QuestieValidateGameCache:IsCacheGood()) and keepWaiting do
+    while (not QuestieValidateGameCache.IsCacheGood()) and keepWaiting do
         coYield()
     end
     keepWaiting = false
