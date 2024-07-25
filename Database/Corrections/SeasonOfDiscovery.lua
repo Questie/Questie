@@ -1019,6 +1019,22 @@ local questsToBlacklistBySoDPhase = {
         [8942] = true, -- Just Compensation
         [8943] = true, -- Just Compensation
         [8944] = true, -- Just Compensation
+        [8951] = true, -- Anthion's Parting Words
+        [8952] = true, -- Anthion's Parting Words
+        [8953] = true, -- Anthion's Parting Words
+        [8954] = true, -- Anthion's Parting Words
+        [8955] = true, -- Anthion's Parting Words
+        [8956] = true, -- Anthion's Parting Words
+        [8957] = true, -- Anthion's Parting Words
+        [8958] = true, -- Anthion's Parting Words
+        [8959] = true, -- Anthion's Parting Words
+        [9016] = true, -- Anthion's Parting Words
+        [9017] = true, -- Anthion's Parting Words
+        [9018] = true, -- Anthion's Parting Words
+        [9019] = true, -- Anthion's Parting Words
+        [9020] = true, -- Anthion's Parting Words
+        [9021] = true, -- Anthion's Parting Words
+        [9022] = true, -- Anthion's Parting Words
 
         -- Darkmoon Faire quests
         [7902] = true,
