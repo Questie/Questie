@@ -5428,6 +5428,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27505,27506},
         },
+        [27576] = { -- Patchwork Command
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27507,27508,27509},
+        },
         [27583] = { -- The Northern Flank
             [questKeys.preQuestSingle] = {26840},
         },
@@ -6076,6 +6080,12 @@ function CataQuestFixes.Load()
         [28089] = { -- Warchief's Command: Hillsbrad Foothills!
             [questKeys.exclusiveTo] = {28096},
         },
+        [28090] = { -- Precious Goods
+            [questKeys.exclusiveTo] = {},
+        },
+        [28091] = { -- Easy Pickings
+            [questKeys.exclusiveTo] = {},
+        },
         [28094] = { -- Paving the Way
             [questKeys.preQuestSingle] = {28097},
         },
@@ -6083,11 +6093,15 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount the Skeletal Steed"), 0, {{"monster", 47445}}}},
         },
+        [28097] = { -- The Gates of Grim Batol
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28090,28091},
+        },
         [28100] = { -- A Talking Totem
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 12}},
         },
         [28101] = { -- Mathias' Command
-            [questKeys.preQuestGroup] = {27507,27508,27508},
+            [questKeys.preQuestGroup] = {27507,27508,27509},
         },
         [28103] = { -- Easy Pickings
             [questKeys.exclusiveTo] = {},
@@ -7209,7 +7223,7 @@ function CataQuestFixes.Load()
         },
         [28870] = { -- Return to the Lost City
             [questKeys.preQuestSingle] = {28520},
-            [questKeys.nextQuestInChain] = 28781,
+            [questKeys.nextQuestInChain] = 28783,
         },
         [28871] = { -- Crushing the Wildhammer
             [questKeys.preQuestSingle] = {28133},
