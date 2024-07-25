@@ -5901,6 +5901,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Collect 6 Owlbeast Pineal Glands from owlbeasts in Winterspring, then return to the Shadowtooth Emissary in Felwood."},
             [questKeys.objectives] = {nil,nil,{{227914}}},
         },
+        [84525] = {
+            [questKeys.name] = "Otherworldly Treasure",
+            [questKeys.startedBy] = {{222052}},
+            [questKeys.finishedBy] = {{222052,}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 10,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Here ya go, boss!"},
+            [questKeys.objectives] = nil,
+        },
         [84777] = {
             [questKeys.name] = "Feathers for Nafien",
             [questKeys.startedBy] = {{15395}},
