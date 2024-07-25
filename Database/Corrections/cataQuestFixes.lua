@@ -4199,6 +4199,9 @@ function CataQuestFixes.Load()
         [26401] = { -- Return to Vestia
             [questKeys.preQuestSingle] = {25368},
         },
+        [26403] = { -- Venture Company Mining
+            [questKeys.preQuestSingle] = {26399},
+        },
         [26408] = { -- Ashes in Ashenvale
             [questKeys.preQuestSingle] = {13897},
         },
