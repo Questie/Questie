@@ -158,6 +158,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [81765] = 3, -- Paladin Fanaticism
     [81766] = 3, -- Paladin Fanaticism
     [81790] = 3, -- Paladin Hammer of the Righteous
+    [81924] = 3, -- Druid Efflorescence
     [81947] = 3, -- Mage Book Sanguine Sorcery
     [81949] = 3, -- Mage Book Legends of the Tidesages
     [81951] = 3, -- Mage Book The Liminal and the Arcane
@@ -495,6 +496,16 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90306] = 3, -- Warlock Backdraft
 
     -- P4 SoD Runes
+    [83808] = 4, -- Paladin Righteous Vengeance
+    [83822] = 4, -- Paladin Righteous Vengeance
+    [83823] = 4, -- Paladin Shock and Awe
+    [83935] = 4, -- Paladin Righteous Vengeance
+    [83936] = 4, -- Paladin Righteous Vengeance
+    [84008] = 4, -- Paladin Shock and Awe
+    [84017] = 4, -- Paladin Shock and Awe
+    [84124] = 4, -- Warrior Fresh Meat
+    [84125] = 4, -- Paladin Shock and Awe
+    [84126] = 4, -- Paladin Shock and Awe
     [90307] = 4, -- Druid Improved Swipe
     [90308] = 4, -- Druid Starfall
     [90309] = 4, -- Druid Tree of Life
@@ -867,6 +878,7 @@ local questsToBlacklistBySoDPhase = {
         [2856] = true, -- Wild Leather Vest - Replaced by 82656
         [5284] = true, -- The Way of the Weaponsmith - Replaced by 82662
         [5302] = true, -- The Way of the Weaponsmith - Replaced by 82665
+        [8467] = true, -- Feathers for Nafien - Replaced by 84777
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,
@@ -990,6 +1002,22 @@ local questsToBlacklistBySoDPhase = {
         [8918] = true, -- An Earnest Proposition
         [8919] = true, -- An Earnest Proposition
         [8920] = true, -- An Earnest Proposition
+        [8926] = true, -- Just Compensation
+        [8927] = true, -- Just Compensation
+        [8931] = true, -- Just Compensation
+        [8932] = true, -- Just Compensation
+        [8933] = true, -- Just Compensation
+        [8934] = true, -- Just Compensation
+        [8935] = true, -- Just Compensation
+        [8936] = true, -- Just Compensation
+        [8937] = true, -- Just Compensation
+        [8938] = true, -- Just Compensation
+        [8939] = true, -- Just Compensation
+        [8940] = true, -- Just Compensation
+        [8941] = true, -- Just Compensation
+        [8942] = true, -- Just Compensation
+        [8943] = true, -- Just Compensation
+        [8944] = true, -- Just Compensation
 
         -- Darkmoon Faire quests
         [7902] = true,

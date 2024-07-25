@@ -31,6 +31,18 @@ function SeasonOfDiscovery:LoadQuests()
         [5167] = { -- Legplates of the Chromatic Flight
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [8922] = { -- A Supernatural Device
+            [questKeys.preQuestSingle] = {84147,84148,84149,84150,84151,84152,84153,84154},
+        },
+        [8923] = { -- A Supernatural Device
+            [questKeys.preQuestSingle] = {84155,84156,84157,84158,84159,84160,84161,84162},
+        },
+        [8929] = { -- In Search of Anthion
+            [questKeys.preQuestSingle] = {84163,84164,84165,84166,84167,84168,84169,84170},
+        },
+        [8930] = { -- In Search of Anthion
+            [questKeys.preQuestSingle] = {84171,84172,84173,84174,84175,84176,84177,84178},
+        },
         [76156] = { -- Stalk With The Earthmother
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
@@ -1748,6 +1760,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {81917},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [81924] = { -- Wisdom of the Guardians
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Part 1: Get shrunk and decurse it"), 0, {{"monster", 5240}}},
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Part 2: Get poisoned and abolish it"), 0, {{"monster", 5245}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Part 3: When buffed with the Mark of the Warden summon and defeat the Treant Avatar"), 0, {{"object", 441948}}},
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Part 1: Kill the Child of Apa'ro to receive a Sacred Stag Heart"), 0, {{"monster", 222580}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Part 2: Offer the Sacred Stag Heart and defeat the Hippogryph Avatar"), 0, {{"object", 441947}}},
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Cast Tranquility followed by Hurricane to summon the Moonkin Avatar and defeat him"), 0, {{"object", 441946}}},
+            },
+        },
         [81986] = { -- Waking the Nightmare
             [questKeys.preQuestSingle] = {82022},
             [questKeys.objectives] = {{{222198}},nil,{{220570}}},
@@ -1896,6 +1919,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {1707},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [82301] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [82302] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [82303] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
         [82307] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
@@ -1927,8 +1959,90 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
             [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING,
         },
+        [83188] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [83189] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [83190] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [83191] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [83192] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [83808] = { -- In a Bind
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [83822] = { -- The Fallen Knight
+            [questKeys.objectives] = {{{227519,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {83935},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [83823] = { -- A Lesson in Violence
+            [questKeys.startedBy] = {{227673}},
+            [questKeys.objectivesText] = {"To accept this quest, summon your squire with Dalton's Horn and fight enemies alongside him."},
+            [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {83936},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [83934] = { -- Show Me The Money!
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+        },
+        [83935] = { -- Clearing the Path
+            [questKeys.preQuestSingle] = {83935},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [83936] = { -- Dalton's Quest
+            [questKeys.objectives] = {{{227672,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {83822},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84008] = { -- A Lesson in Grace
+            [questKeys.startedBy] = {{227464}},
+            [questKeys.objectivesText] = {"To accept this quest, summon your squire with Dalton's Horn and fight enemies alongside him."},
+            [questKeys.preQuestSingle] = {83823},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84011] = { -- More Star Lotus
+            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+        },
+        [84012] = { -- More Starsilver Ore
+            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+        },
+        [84013] = { -- More Starshells
+            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+        },
+        [84014] = { -- More Moonroot
+            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+        },
+        [84015] = { -- More Greater Moonstones
+            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+        },
+        [84016] = { -- More Moondragon Scales
+            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+        },
+        [84017] = { -- A Time to Kill
+            [questKeys.triggerEnd] = {"Find Arkonos the Cursed",{[zoneIDs.EASTERN_PLAGUELANDS]={{86.8,39.4}}}},
+            [questKeys.preQuestSingle] = {84008},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84124] = { -- Legacy of Valor
+            [questKeys.startedBy] = {{208841}},
+            [questKeys.finishedBy] = {nil,{456674}},
+            [questKeys.objectivesText] = {"Achieve five killing blows in a short amount of time, while fighting enemies in the Blackrock Stronghold. Once you get the Rhythm of War buff, /salute at the altar, defeat the Revered Champion and receive the rune."},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
+        [84125] = { -- Close Enough To Touch
+            [questKeys.preQuestSingle] = {84017},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84126] = { -- Finish the Fight
+            [questKeys.preQuestSingle] = {84125},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [84147] = { -- An Earnest Proposition
             [questKeys.requiredClasses] = classIDs.DRUID,
@@ -1994,6 +2108,102 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
+        [84163] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84164] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84165] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84166] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84167] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84168] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84169] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84170] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84171] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
+        [84172] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
+        [84173] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
+        [84174] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
+        [84175] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
+        [84176] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
+        [84177] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
+        [84178] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
         [84348] = { -- Priority Target: Duke Tectonis
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
             [questKeys.questFlags] = questFlags.DAILY,
@@ -2042,6 +2252,10 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [84384] = { -- Demonic Deceptions
             [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
+        },
+        [84777] = { -- Feathers for Nafien
+            [questKeys.preQuestSingle] = {8461},
+            [questKeys.zoneOrSort] = zoneIDs.FELWOOD,
         },
 
         --- Fake rune quests
@@ -5242,7 +5456,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 23,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.DRUID,
-            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Gore rune from the Quartermaster."},
+            [questKeys.objectivesText] = {"Buy the Gore rune from the Quartermaster (no reputation required)."},
             [questKeys.requiredSpell] = -431447,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
@@ -5266,7 +5480,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 23,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.HUNTER,
-            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the T.N.T rune from the Quartermaster."},
+            [questKeys.objectivesText] = {"Buy the T.N.T rune from the Quartermaster (no reputation required)."},
             [questKeys.requiredSpell] = -431611,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
@@ -5278,7 +5492,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 23,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.MAGE,
-            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Molten Armor rune from the Quartermaster."},
+            [questKeys.objectivesText] = {"Buy the Molten Armor rune from the Quartermaster (no reputation required)."},
             [questKeys.requiredSpell] = -429308,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
@@ -5290,7 +5504,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 23,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PALADIN,
-            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Improved Hammer of Wrath rune from the Quartermaster."},
+            [questKeys.objectivesText] = {"Buy the Improved Hammer of Wrath rune from the Quartermaster (no reputation required)."},
             [questKeys.requiredSpell] = -429261,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
@@ -5314,7 +5528,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 23,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PRIEST,
-            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Void Zone rune from the Quartermaster."},
+            [questKeys.objectivesText] = {"Buy the Void Zone rune from the Quartermaster (no reputation required)."},
             [questKeys.requiredSpell] = -431705,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
@@ -5326,7 +5540,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 23,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.ROGUE,
-            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Cut to the Chase rune from the Quartermaster."},
+            [questKeys.objectivesText] = {"Buy the Cut to the Chase rune from the Quartermaster (no reputation required)."},
             [questKeys.requiredSpell] = -432297,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
@@ -5338,7 +5552,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 23,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.SHAMAN,
-            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Burn rune from the Quartermaster."},
+            [questKeys.objectivesText] = {"Buy the Burn rune from the Quartermaster (no reputation required)."},
             [questKeys.requiredSpell] = -416066,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
@@ -5350,7 +5564,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 23,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Unstable Affliction rune from the Quartermaster."},
+            [questKeys.objectivesText] = {"Buy the Unstable Affliction rune from the Quartermaster (no reputation required)."},
             [questKeys.requiredSpell] = -431747,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
@@ -5362,7 +5576,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questLevel] = 23,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.WARRIOR,
-            [questKeys.objectivesText] = {"Reach Friendly with the Emerald Wardens, then buy the Shield Mastery rune from the Quartermaster."},
+            [questKeys.objectivesText] = {"Buy the Shield Mastery rune from the Quartermaster (no reputation required)."},
             [questKeys.requiredSpell] = -431747,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },

@@ -3244,6 +3244,7 @@ ZoneDB.private.zoneIDs = {
     ABYSSAL_DEPTHS = 5145, -- Vashj'ir sub zone
     THE_CAPE_OF_STRANGLETHORN = 5287,
     TOL_BARAD_PENINSULA = 5389, -- the northern isle
+    THE_MAELSTROM = 5416,
     DARKMOON_FAIRE_ISLAND = 5861,
 }
 
