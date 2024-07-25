@@ -4106,6 +4106,9 @@ function CataQuestFixes.Load()
         [26337] = { -- Beating the Market
             [questKeys.objectives] = {{{42777}}},
         },
+        [26338] = { -- Population Con-Troll
+            [questKeys.preQuestSingle] = {26299},
+        },
         [26339] = { -- Staging in Brewnall
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26331,26333},
