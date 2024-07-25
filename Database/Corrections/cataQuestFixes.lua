@@ -4124,6 +4124,9 @@ function CataQuestFixes.Load()
         [26350] = { -- Priestess Hu'rala
             [questKeys.preQuestSingle] = {26334},
         },
+        [26352] = { -- Cozzle's Plan
+            [questKeys.preQuestSingle] = {26399},
+        },
         [26353] = { -- Captain Sanders' Hidden Treasure
             [questKeys.startedBy] = {{513,515,126,171,456,127,517,458,391},nil,{1357}},
             [questKeys.finishedBy] = {nil,{35}},
