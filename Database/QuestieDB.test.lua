@@ -86,14 +86,14 @@ describe("QuestieDB", function()
     end)
 
     describe("IsFriendlyToPlayer", function()
-        it("should return true for unset friendlyToFaction and Alliance players", function()
+        it("should return false for unset friendlyToFaction and Alliance players", function()
             QuestiePlayer.faction = "Alliance"
-            assert.is_true(QuestieDB.IsFriendlyToPlayer(nil))
+            assert.is_false(QuestieDB.IsFriendlyToPlayer(nil))
         end)
 
-        it("should return true for unset friendlyToFaction and Horde players", function()
+        it("should return false for unset friendlyToFaction and Horde players", function()
             QuestiePlayer.faction = "Horde"
-            assert.is_true(QuestieDB.IsFriendlyToPlayer(nil))
+            assert.is_false(QuestieDB.IsFriendlyToPlayer(nil))
         end)
 
         it("should return true for neutral NPCs and Alliance players", function()
