@@ -2606,7 +2606,7 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Collect 10 Blood-filled Leeches"] = {
+    ["Throw Bottle of Leeches"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
