@@ -2413,11 +2413,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [84377] = {
+        [84377] = { -- End of the Dark Horde
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [84384] = { -- Demonic Deceptions
             [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
+        },
+        [82303] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [84777] = { -- Feathers for Nafien
             [questKeys.preQuestSingle] = {8461},
