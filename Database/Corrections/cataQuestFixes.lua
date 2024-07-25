@@ -2972,6 +2972,9 @@ function CataQuestFixes.Load()
         [25434] = { -- Taming The Tamers
             [questKeys.preQuestSingle] = {25432},
         },
+        [25436] = { -- Spiteful Sisters
+            [questKeys.preQuestGroup] = {25433,25434},
+        },
         [25439] = { -- Vengeful Heart
             [questKeys.preQuestSingle] = {25222},
         },
@@ -5117,6 +5120,12 @@ function CataQuestFixes.Load()
         [27302] = { -- Simple Solutions
             [questKeys.preQuestSingle] = {27299},
         },
+        [27310] = { -- No Weapons For You!
+            [questKeys.preQuestSingle] = {27275},
+        },
+        [27312] = { -- Darkcloud Grimtotem
+            [questKeys.preQuestSingle] = {27275},
+        },
         [27317] = { -- The Rattle of Bones
             [questKeys.preQuestSingle] = {},
         },
@@ -5270,6 +5279,9 @@ function CataQuestFixes.Load()
         },
         [27485] = { -- Warm Welcome
             [questKeys.preQuestSingle] = {27380},
+            [questKeys.objectives] = {{{45708,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [27486] = { -- Warm Welcome
             [questKeys.objectives] = {{{45708,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27490] = { -- SI:7 Drop
@@ -5459,7 +5471,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27545},
         },
         [27622] = { -- Mo' Better Shredder
-            [questKeys.objectives] = {{{46100},{46098}}},
+            [questKeys.objectives] = {{{46100,nil,Questie.ICON_TYPE_INTERACT},{46100,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {27611},
         },
         [27627] = { -- Just a Fancy Cockroach
@@ -5914,10 +5926,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [27945] = { -- Paint it Black
-            [questKeys.preQuestGroup] = {27751,27929},
+            [questKeys.preQuestGroup] = {27747,27750,27751,27929},
         },
         [27947] = { -- A Vision of Twilight
-            [questKeys.preQuestGroup] = {27751,27929},
+            [questKeys.preQuestGroup] = {27747,27750,27751,27929},
         },
         [27948] = { -- A Sticky Task
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -5940,7 +5952,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 27005, -- curiously this one needs prequestsingle, unlike alliance counterpart
         },
         [27955] = { -- Eye Spy
-            [questKeys.objectives] = {{{47274}}},
+            [questKeys.objectives] = {{{47274,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27966] = { -- Salvaging the Remains
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -6011,14 +6023,16 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{47516,nil,Questie.ICON_TYPE_TALK},{47519,nil,Questie.ICON_TYPE_TALK},{47520,nil,Questie.ICON_TYPE_TALK},{47707,nil,Questie.ICON_TYPE_TALK}}},
         },
         [28038] = { -- Blood in the Highlands
-            [questKeys.preQuestSingle] = {27955},
+            [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 27863,
+            [questKeys.preQuestGroup] = {27751,27929},
         },
         [28041] = { -- Bait and Throttle
             [questKeys.preQuestGroup] = {27751,27929},
         },
         [28043] = { -- How to Maim Your Dragon
-            [questKeys.objectives] = {{{47391}}},
+            [questKeys.objectives] = {{{47422,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the bait near it"), 0, {{"monster", 47391}}}},
         },
         [28046] = { -- Finish The Job
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -6101,6 +6115,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{46993},nil,{62768}},
             [questKeys.exclusiveTo] = {27925},
             [questKeys.nextQuestInChain] = 27926,
+        },
+        [28133] = { -- Fury Unbound
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the fight"), 0, {{"monster", 47671}}}},
         },
         [28134] = { -- Impending Retribution
             [questKeys.objectives] = {{{46603,nil,Questie.ICON_TYPE_TALK},{47715,nil,Questie.ICON_TYPE_TALK},{47930,nil,Questie.ICON_TYPE_TALK}}},
@@ -6208,7 +6225,7 @@ function CataQuestFixes.Load()
         [28243] = { -- The Eyes Have It
             [questKeys.finishedBy] = {{48010}},
         },
-        [28244] = { -- The Eyes Have It
+        [28244] = { -- Eye Spy
             [questKeys.objectives] = {{{48116,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.finishedBy] = {{48010}},
         },
@@ -6586,9 +6603,31 @@ function CataQuestFixes.Load()
         },
         [28586] = { -- Pool Pony Rescue
             [questKeys.preQuestSingle] = {28583},
+            [questKeys.objectives] = {{{49548,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [28589] = { -- Everything But the Kitchen Sink
+            [questKeys.objectives] = {{{49680,nil,Questie.ICON_TYPE_MOUNT_UP},{49683}}},
+        },
+        [28591] = { -- Off the Wall
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 49135}}}},
         },
         [28592] = { -- Parting Packages
             [questKeys.preQuestSingle] = {28591},
+            [questKeys.objectives] = {{{49381,nil,Questie.ICON_TYPE_EVENT},{49380,nil,Questie.ICON_TYPE_EVENT},{49144,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [28593] = { -- Of Utmost Importance
+            [questKeys.startedBy] = {{49000,49378}},
+            [questKeys.exclusiveTo] = {},
+        },
+        [28594] = { -- Highbank, Crybank
+            [questKeys.startedBy] = {{49000,49378}},
+            [questKeys.exclusiveTo] = {},
+        },
+        [28595] = { -- Krazz Works!
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28592,28593,28594},
+            [questKeys.startedBy] = {{49000,49378}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 50268}}}},
         },
         [28597] = { -- Burnin' at Both Ends
             [questKeys.preQuestSingle] = {28596},
@@ -7166,6 +7205,7 @@ function CataQuestFixes.Load()
         },
         [28874] = { -- Hook 'em High
             [questKeys.preQuestSingle] = {28133},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Throw the Barbed Fleshhook at them"), 0, {{"monster", 47186}}}},
         },
         [28875] = { -- Bring Down the High Shaman
             [questKeys.preQuestSingle] = {28133},

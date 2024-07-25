@@ -1384,13 +1384,6 @@ function QuestieDB:GetCreatureLevels(quest)
     return creatureLevels
 end
 
-local playerFaction = UnitFactionGroup("player")
-local factionReactions = {
-    A = (playerFaction == "Alliance") or nil,
-    H = (playerFaction == "Horde") or nil,
-    AH = true,
-}
-
 ---@param npcId number
 ---@return table
 function QuestieDB:GetNPC(npcId)
@@ -1417,10 +1410,26 @@ function QuestieDB:GetNPC(npcId)
     end
 
     local friendlyToFaction = rawdata[npcKeys.friendlyToFaction]
-    npc.friendly = (not friendlyToFaction) and true or factionReactions[friendlyToFaction]
+    npc.friendly = QuestieDB.IsFriendlyToPlayer(friendlyToFaction)
 
     _QuestieDB.npcCache[npcId] = npc
     return npc
+end
+
+---@param friendlyToFaction string --The NPC database field friendlyToFaction - so either nil, "A", "H" or "AH"
+---@return boolean
+function QuestieDB.IsFriendlyToPlayer(friendlyToFaction)
+    if (not friendlyToFaction) or friendlyToFaction == "AH" then
+        return true
+    end
+
+    if friendlyToFaction == "H" then
+        return QuestiePlayer.faction == "Horde"
+    elseif friendlyToFaction == "A" then
+        return QuestiePlayer.faction == "Alliance"
+    end
+
+    return false
 end
 
 --[[
