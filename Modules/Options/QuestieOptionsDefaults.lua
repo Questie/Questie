@@ -3,7 +3,7 @@ local QuestieOptionsDefaults = QuestieLoader:CreateModule("QuestieOptionsDefault
 
 function QuestieOptionsDefaults:Load()
     return {
-        global = {
+        profile = {
             clusterLevelHotzone = 50,
             enableIconLimit = false,
             iconLimit = 200,
@@ -20,9 +20,6 @@ function QuestieOptionsDefaults:Load()
             fadeOverPlayer = true,
             fadeOverPlayerLevel = 0.5,
             fadeOverPlayerDistance = 5,
-            debugEnabled = false,
-            debugEnabledPrint = false,
-            debugLevel = 0,
             nameplateX = -17,
             nameplateY = -7,
             nameplateScale = 1,
@@ -44,8 +41,6 @@ function QuestieOptionsDefaults:Load()
             nameplateTargetFrameX = -30,
             nameplateTargetFrameY = 25,
             nameplateTargetFrameScale = 1.7,
-            questieLocale = 'enUS',
-            questieLocaleDiff = false,
             alwaysGlowMap = true,
             alwaysGlowMinimap = false,
             questObjectiveColors = false,
@@ -54,39 +49,51 @@ function QuestieOptionsDefaults:Load()
             enableTurnins = true,
             enableAvailable = true,
             enableTooltips = true,
+            enableTooltipsItemID = false,
+            enableTooltipsNPCID = false,
+            enableTooltipsObjectID = false,
+            enableTooltipsQuestID = false,
             enableTooltipsQuestLevel = true,
+            showQuestXpAtMaxLevel = true,
+            enableTooltipsNextInChain = true,
             enableMapIcons = true,
             enableMiniMapIcons = true,
             questieShutUp = false,
-
-            -- TBC Isle of Quel'Danas
-            isleOfQuelDanasPhase = 1,
-            isIsleOfQuelDanasPhaseReminderDisabled = false,
-            --
+            bugWorkarounds = true,
+            hideIconsOnContinents = false,
 
             -- Tracker Settings Tab
             autoTrackQuests = true,
             trackerShowCompleteQuests = true,
-            collapseCompletedQuests = false,
             trackerShowQuestLevel = true,
+            collapseCompletedQuests = false,
+            hideCompletedQuestObjectives = false,
+            hideBlizzardCompletionText = false,
+            hideCompletedAchieveObjectives = true,
             showBlizzardQuestTimer = false,
-            hookTracking = true,
             trackerHeaderEnabled = true,
-            trackerHeaderAutoMove = false,
+            moveHeaderToBottom = false,
             stickyDurabilityFrame = false,
             hideTrackerInCombat = false,
             hideTrackerInDungeons = true,
-            trackerFadeMinMaxButtons = true,
+            trackerFadeMinMaxButtons = false,
             trackerFadeQuestItemButtons = false,
             trackerBackdropEnabled = false,
+            currentBackdropEnabled = false,
             trackerBorderEnabled = false,
-            trackerBackgroundFader = false,
-            trackerColorObjectives = 'white',
+            currentBorderEnabled = false,
+            trackerBackdropFader = false,
+            currentBackdropFader = false,
+            sizerHidden = false,
+            listAchievementsFirst = false,
+            stickyVoiceOverFrame = false,
+            alwaysShowTracker = false,
+            trackerColorObjectives = 'minimal',
             trackerSortObjectives = 'byZone',
             trackerbindSetTomTom = 'ctrlleft',
             trackerbindOpenQuestLog = 'left',
             trackerbindUntrack = "shiftleft",
-            trackerSetpoint = "AUTO",
+            trackerSetpoint = "TOPLEFT",
             trackerFontSizeHeader = 12,
             trackerFontHeader = 'Friz Quadrata TT',
             trackerFontSizeZone = 12,
@@ -96,32 +103,15 @@ function QuestieOptionsDefaults:Load()
             trackerFontSizeObjective = 10,
             trackerFontObjective = 'Friz Quadrata TT',
             trackerQuestPadding = 4,
-            trackerFontOutline = nil,
+            trackerFontOutline = "None",
             trackerBackdropAlpha = 1,
-            --trackerReset = QuestieTracker:ResetLocation()
-            globalTrackerLocation = true,
-            showQuestXpAtMaxLevel = true,
-            questieTLoc = "char",
-        },
-        char = {
-            minLevelFilter = GetQuestGreenRange("player"), -- Raised the default to allow more quests to be shown
-            maxLevelFilter = 7,
-            complete = {},
-            hidden = {},
-            hiddenDailies = {
-                nhc = {},
-                hc = {},
-                cooking = {},
-                fishing = {},
-                pvp = {},
-            },
-            lastDailyRequestResetTime = 0,
-            lastDailySetDate = "",
+            trackerHeightRatio = 0.50,
+
+            lowLevelStyle = 1, -- Questie.LOWLEVEL_NONE
+            manualLevelOffset = 7,
+            minLevelFilter = 1,
+            maxLevelFilter = 10,
             enabled = true,
-            lowlevel = false,
-            manualMinLevelOffset = false,
-            absoluteLevelOffset = false,
-            journey = {},
             searchType = 1,
             autoaccept = false,
             autocomplete = false,
@@ -133,7 +123,7 @@ function QuestieOptionsDefaults:Load()
             questAnnounceAbandoned = false,
             questAnnounceObjectives = true,
             questAnnounceCompleted = false,
-            isTrackerExpanded = true,
+            questAnnounceLocally = false,
             hideUnexploredMapIcons = false,
             hideUntrackedQuestsMapIcons = false,
             showRepeatableQuests = true,
@@ -142,9 +132,81 @@ function QuestieOptionsDefaults:Load()
             showRaidQuests = true,
             showPvPQuests = true,
             showAQWarEffortQuests = false,
+            showSoDRunes = false,
+            showRunesOfPhase = {
+                phase1 = false,
+                phase2 = false,
+                phase3 = false,
+                phase4 = false,
+            },
             showQuestsInNpcTooltip = true,
-            ldbDisplayText = "Questie"
+            trackerEnabled = true,
+            ldbDisplayText = "Questie",
+            enableQuestFrameIcons = true,
+            soundOnQuestComplete = false,
+            questCompleteSoundChoiceName = "QuestDefault",
+            soundOnObjectiveComplete = false,
+            objectiveCompleteSoundChoiceName = "ObjectiveDefault",
+            soundOnObjectiveProgress = false,
+            objectiveProgressSoundChoiceName = "ObjectiveProgress",
+            iconTheme = "questie",
+
+            minimap = {
+                hide = false
+            },
+
+            TrackerWidth = 0,
+            TrackerHeight = 0,
+
+            townsfolkConfig = {
+                ["Repair"] = false,
+                ["Innkeeper"] = true,
+                ["Class Trainer"] = false,
+                ["Banker"] = false,
+                ["Spirit Healer"] = false,
+                ["Flight Master"] = true,
+                ["Battlemaster"] = false,
+                ["Weapon Master"] = false,
+                ["Mailbox"] = true,
+                ["Auctioneer"] = false,
+                ["Meeting Stones"] = true,
+                ["Reagents"] = false,
+            },
+
+            hideStartupWarnings = false,
+
+            -- Migration
+            migrationVersion = 0,
+            globalMigrationSteps = {},
+
+            debugEnabled = false,
+            debugEnabledPrint = false,
+            debugLevel = 0,
+            skipValidation = false,
+
+            -- TBC Isle of Quel'Danas
+            isleOfQuelDanasPhase = 1,
+            isIsleOfQuelDanasPhaseReminderDisabled = false,
         },
-        profile = { minimap = { hide = false } }
+        char = {
+            complete = {},
+            hidden = {},
+            hiddenDailies = {
+                nhc = {},
+                hc = {},
+                cooking = {},
+                fishing = {},
+                pvp = {},
+            },
+            journey = {},
+            isTrackerExpanded = true,
+        },
+        global = {
+            lastDailyRequestResetTime = 0,
+            lastDailyRequestDate = "",
+            questieLocale = 'enUS',
+            questieLocaleDiff = false,
+            sod = {}, -- Special place for the SoD database
+        }
     }
 end

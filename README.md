@@ -4,7 +4,7 @@
 [![Stars](https://img.shields.io/github/stars/Questie/Questie)](https://img.shields.io/github/stars/Questie/Questie)
 
 [![Downloads](https://img.shields.io/github/downloads/Questie/Questie/total.svg)](https://github.com/Questie/Questie/releases/)
-[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v7.4.5/total.svg)](https://github.com/Questie/Questie/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v10.3.7/total.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/Questie/Questie.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/Questie/Questie/latest.svg)](https://github.com/Questie/Questie/commits/master)
 
@@ -34,11 +34,17 @@ Trust us it's (Good)!
 - Translators can search for missing translations by: `["<yourLanguage>"] = false` (e.g. `["deDE"] = false`) and replace the `false` with a string of the new translation, e.g. `["<yourLanguage>"] = "YourTranslation"`. Current translations can be found in the [Translation folder](https://github.com/Questie/Questie/tree/master/Localization/Translations)
 - Additional information you might find interesting can be found [here](https://github.com/Questie/Questie/wiki/Contributing)
 
+### Unit Tests
+
+1. Install [busted](https://github.com/lunarmodules/busted) with `luarocks install busted`
+2. Run `busted -p ".test.lua" ."` in the root directory of the project
+3. When adding new tests, make sure to name them `<module>.test.lua` and place them next to the module
+
 
 ## Donation
 If you'd like to support the development of Questie by donating, you can do so via PayPal:
 
-<a href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=aero1861%40gmail%2ecom&lc=CA&item_name=Questie%20Devs&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted'><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"/></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JCUBJWKT395ME&source=url"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"/></a>
 
 ## Features
 

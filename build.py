@@ -8,17 +8,36 @@ import fileinput
 import re
 
 '''
-This program accepts two optional command line options:
+This program accepts optional command line options:
 
     -r
     --release
         Do not include commit hash in directory/zip/version names
+    -a
+    --all
+        Included files for all expansions
+    -c
+    --classic
+        Include Classic/Era files
+    -t
+    --tbc
+        Include TBC files
+    -w
+    --wotlk
+        Include WotLK files
+
+    -ca
+    --cata
+        Include Cata files
+
     -v <versionString>
     --version <versionString>
         Disregard git and toc versions, and use <versionString> instead
 
 '''
 addonDir = 'Questie'
+includedExpansions = []
+tocs = ['', 'Questie-Classic.toc', 'Questie-BCC.toc', 'Questie-WOTLKC.toc', 'Questie-Cata.toc']
 
 def main():
     isReleaseBuild = False
@@ -34,6 +53,28 @@ def main():
                 print("Creating a release build")
             elif arg in ['-v', '--version']:
                 ver = True
+            elif arg in ['-a', '--all']:
+                if 1 not in includedExpansions:
+                    includedExpansions.append(1)
+                if 2 not in includedExpansions:
+                    includedExpansions.append(2)
+                if 3 not in includedExpansions:
+                    includedExpansions.append(3)
+                if 4 not in includedExpansions:
+                    includedExpansions.append(4)
+            elif arg in ['-c', '--classic'] and 1 not in includedExpansions:
+                includedExpansions.append(1)
+            elif arg in ['-t', '--tbc'] and 2 not in includedExpansions:
+                includedExpansions.append(2)
+            elif arg in ['-w', '--wotlk'] and 3 not in includedExpansions:
+                includedExpansions.append(3)
+            elif arg in ['-ca', '--cata'] and 4 not in includedExpansions:
+                includedExpansions.append(4)
+    if len(includedExpansions) == 0:
+        # If expansions go online/offline their major version needs to be added/removed here
+        includedExpansions.append(1)
+        includedExpansions.append(3)
+        includedExpansions.append(4)
 
     release_dir = get_version_dir(isReleaseBuild, versionOverride)
 
@@ -47,7 +88,8 @@ def main():
     copy_content_to(release_addon_folder_path)
 
     if versionOverride != '':
-        for toc in ['/Questie-BCC.toc', '/Questie-Classic.toc']:
+        for tocN in includedExpansions:
+            toc = tocs[tocN]
             questie_toc_path = release_addon_folder_path + toc
             with fileinput.FileInput(questie_toc_path, inplace=True) as file:
                 for line in file:
@@ -62,6 +104,33 @@ def main():
     interface_classic = get_interface_version()
     interface_bcc = get_interface_version('BCC')
     interface_wotlk = get_interface_version('WOTLKC')
+    interface_cata = get_interface_version('Cata')
+
+    flavorString = ""
+    if 1 in includedExpansions:
+        flavorString += """
+                {
+                    "flavor": "classic",
+                    "interface": %s
+                },""" % interface_classic
+    if 2 in includedExpansions:
+        flavorString += """
+                {
+                    "flavor": "bcc",
+                    "interface": %s
+                },""" % interface_bcc
+    if 3 in includedExpansions:
+        flavorString += """
+                {
+                    "flavor": "wrath",
+                    "interface": %s
+                },""" % interface_wotlk
+    if 4 in includedExpansions:
+        flavorString += """
+                {
+                    "flavor": "cata",
+                    "interface": %s
+                },""" % interface_cata
 
     with open(release_folder_path + '/release.json', 'w') as rf:
         rf.write('''{
@@ -69,23 +138,11 @@ def main():
         {
             "filename": "%s.zip",
             "nolib": false,
-            "metadata": [
-                {
-                    "flavor": "classic",
-                    "interface": %s
-                },
-                {
-                    "flavor": "bcc",
-                    "interface": %s
-                },
-                {
-                    "flavor": "wrath",
-                    "interface": %s
-                }
+            "metadata": [%s
             ]
         }
     ]
-}''' % (zip_name, interface_classic, interface_bcc, interface_wotlk))
+}''' % (zip_name, flavorString[:-1]))
 
     print('New release "%s" created successfully' % release_dir)
 
@@ -102,22 +159,30 @@ def get_version_dir(is_release_build, versionOverride):
     print("Number of commits since tag: " + nr_of_commits)
     print("Most Recent commit: " + recent_commit)
     branch = get_branch()
-    if branch != "master":
+    if branch != "master" and branch != "HEAD":
         release_dir += "-%s" % branch
     print("Current branch: " + branch)
 
     return release_dir
 
-directoriesToSkip = ['.blizzardfunctions', '.git', '.github', '.history', '.idea', '.types', '.vscode', 'ExternalScripts(DONOTINCLUDEINRELEASE)', 'releases']
-filesToSkip = ['.gitattributes', '.gitignore', '.luacheckrc', 'build.py', 'changelog.py', 'cli.lua', '.DS_Store']
+directoriesToInclude = ['Database', 'Icons', 'Libs', 'Localization', 'Modules']
+filesToInclude = ['embeds.xml', 'Questie.lua', 'Questie.toc']
+expansionStrings = ['', 'Classic', 'TBC', 'Wotlk', "Cata"]
+ignorePatterns = ["*.test.lua"]
 
 def copy_content_to(release_folder_path):
+    for i in [1,2,3,4]:
+        if i in includedExpansions:
+            filesToInclude.append(tocs[i])
+        else:
+            ignorePatterns.append(f'{expansionStrings[i]}')
+
     for _, directories, files in os.walk('.'):
         for directory in directories:
-            if directory not in directoriesToSkip:
-                shutil.copytree(directory, '%s/%s' % (release_folder_path, directory))
+            if directory in directoriesToInclude:
+                shutil.copytree(directory, '%s/%s' % (release_folder_path, directory), ignore=shutil.ignore_patterns(*ignorePatterns))
         for file in files:
-            if file not in filesToSkip:
+            if file in filesToInclude:
                 shutil.copy2(file, '%s/%s' % (release_folder_path, file))
         break
 

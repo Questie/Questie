@@ -8,7 +8,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local lastGuid
 
 function _QuestieTooltips:AddUnitDataToTooltip()
-    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.global.enableTooltips) then
+    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) then
         return
     end
 
@@ -29,8 +29,11 @@ function _QuestieTooltips:AddUnitDataToTooltip()
         lastGuid ~= guid
     ) then
         QuestieTooltips.lastGametooltipUnit = name
-        local tooltipData = QuestieTooltips:GetTooltip("m_" .. npcId);
+        local tooltipData = QuestieTooltips.GetTooltip("m_" .. npcId);
         if tooltipData then
+            if Questie.db.profile.enableTooltipsNPCID == true then
+                GameTooltip:AddDoubleLine("NPC ID", "|cFFFFFFFF" .. npcId .. "|r")
+            end
             for _, v in pairs (tooltipData) do
                 GameTooltip:AddLine(v)
             end
@@ -43,7 +46,7 @@ end
 
 local lastItemId = 0;
 function _QuestieTooltips:AddItemDataToTooltip()
-    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.global.enableTooltips) then
+    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) then
         return
     end
 
@@ -61,8 +64,11 @@ function _QuestieTooltips:AddItemDataToTooltip()
         QuestieTooltips.lastFrameName ~= self:GetName()
     ) then
         QuestieTooltips.lastGametooltipItem = name
-        local tooltipData = QuestieTooltips:GetTooltip("i_" .. (itemId or 0));
+        local tooltipData = QuestieTooltips.GetTooltip("i_" .. (itemId or 0));
         if tooltipData then
+            if Questie.db.profile.enableTooltipsItemID == true then
+                GameTooltip:AddDoubleLine("Item ID", "|cFFFFFFFF" .. itemId .. "|r")
+            end
             for _, v in pairs (tooltipData) do
                 self:AddLine(v)
             end
@@ -74,33 +80,42 @@ function _QuestieTooltips:AddItemDataToTooltip()
     QuestieTooltips.lastFrameName = self:GetName();
 end
 
-function _QuestieTooltips:AddObjectDataToTooltip(name)
-    if (not Questie.db.global.enableTooltips) then
+function _QuestieTooltips.AddObjectDataToTooltip(name)
+    if (not Questie.db.profile.enableTooltips) or (not name) then
         return
     end
-    if name then
-        local tooltipAdded = false
-        for _, gameObjectId in pairs(l10n.objectNameLookup[name] or {}) do
-            local tooltipData = QuestieTooltips:GetTooltip("o_" .. gameObjectId);
 
-            if type(gameObjectId) == "number" and tooltipData then
-                for _, v in pairs (tooltipData) do
-                    if tooltipData[2] and string.find(tooltipData[2], "1/1") then
+    local lookup = l10n.objectNameLookup[name] or {}
+    local count = table.getn(lookup)
+
+    if Questie.db.profile.enableTooltipsObjectID == true and count > 0 then
+        if count == 1 then
+            GameTooltip:AddDoubleLine("Object ID", "|cFFFFFFFF" .. lookup[1] .. "|r")
+        else
+            GameTooltip:AddDoubleLine("Object ID", "|cFFFFFFFF" .. lookup[1] .. " (" .. count .. ")|r")
+        end
+    end
+
+    local alreadyAddedObjectiveLines = {}
+    for _, gameObjectId in pairs(lookup) do
+        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId);
+
+        if tooltipData then
+            for _, line in pairs (tooltipData) do
+                if (not alreadyAddedObjectiveLines[line]) then
+                    local _, _, acquired, needed = string.find(line, "(%d+)/(%d+)")
+                    -- We need "tonumber", because acquired can contain parts of the color string
+                    if acquired and tonumber(acquired) == tonumber(needed) then
                         -- We don't want to show completed objectives on game objects
                         break;
                     end
-
-                    GameTooltip:AddLine(v)
-                    tooltipAdded = true
-                end
-
-                if tooltipAdded then
-                    break;
+                    alreadyAddedObjectiveLines[line] = true
+                    GameTooltip:AddLine(line)
                 end
             end
         end
-        GameTooltip:Show()
     end
+    GameTooltip:Show()
     QuestieTooltips.lastGametooltipType = "object";
 end
 
@@ -116,3 +131,5 @@ function _QuestieTooltips:CountTooltip()
     end
     return tooltipCount
 end
+
+return _QuestieTooltips

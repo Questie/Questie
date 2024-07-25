@@ -1,190 +1,96 @@
 ---@class Migration
 local Migration = QuestieLoader:CreateModule("Migration")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 -- add functions to this table to migrate users who have not yet run said function.
 -- make sure to always add to the end of the table as it runs first to last
 local migrationFunctions = {
-    [1] = function(hasRunAccountWide)
-        Questie:Print("[Migration] Migrating Questie for v6.0.0")
-
-        -- This is not needed anymore since we calculate the quests with zones at each login.
-        -- If not we would have to store the zoneMap for each character because we only show
-        -- quests in the Journey a character (race + class) can accept.
-        if not hasRunAccountWide then
-            Questie.db.global.zoneMapCache = nil
+    [1] = function()
+        -- this is the big Questie v9.0 settings refactor, implementing profiles
+        if Questie.db.char then -- if you actually have previous settings, then on first startup we should notify you of this
+            Questie:Print("[Migration] Migrated Questie for v9.0. This will reset all Questie settings to default. Journey history has been preserved.")
         end
-
-        if Questie.db.char.manualMinLevelOffset and Questie.db.char.absoluteLevelOffset then
-            Questie.db.char.manualMinLevelOffset = false
-            Questie.db.char.absoluteLevelOffset = false
-        end
-
-        local removedPartyEntries = 0
-
-        for _, entry in pairs(Questie.db.char.journey) do
-            if entry.Party then
-                entry.Party = nil
-                removedPartyEntries = removedPartyEntries + 1
-            end
-        end
-
-        Questie:Print("[Migration] Migrated Questie to v6.0.0 and removed", removedPartyEntries, "party entries from the Journey")
+        -- theres no need to delete old settings, since we read/write to different addresses now;
+        -- old settings can linger unused unless you roll back versions, no harm no foul
     end,
-    [2] = function(hasRunAccountWide)
-        if not hasRunAccountWide then
-            Questie.db.global.stickyDurabilityFrame = false
+    [2] = function()
+        -- Blizzard removed some sounds from Era/SoD, which are present in WotLK
+        local objectiveSound = Questie.db.profile.objectiveCompleteSoundChoiceName
+        if (not Questie.IsWotlk) and (not Questie.IsCata) and
+            objectiveSound == "Explosion" or
+            objectiveSound == "Shing!" or
+            objectiveSound == "Wham!" or
+            objectiveSound == "Simon Chime" or
+            objectiveSound == "War Drums" or
+            objectiveSound == "Humm" or
+            objectiveSound == "Short Circuit"
+        then
+            Questie.db.profile.objectiveCompleteSoundChoiceName = "ObjectiveDefault"
+        end
+
+        local progressSound = Questie.db.profile.objectiveProgressSoundChoiceName
+        if (not Questie.IsWotlk) and (not Questie.IsCata) and
+            progressSound == "Explosion" or
+            progressSound == "Shing!" or
+            progressSound == "Wham!" or
+            progressSound == "Simon Chime" or
+            progressSound == "War Drums" or
+            progressSound == "Humm" or
+            progressSound == "Short Circuit"
+        then
+            Questie.db.profile.objectiveProgressSoundChoiceName = "ObjectiveProgress"
         end
     end,
-    [3] = function(hasRunAccountWide)
-        local optionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults"):Load()
-
-        local journey
-        local migrationTable, globalMigrationTable
-
-        if Questie.db.char then
-            journey = Questie.db.char.journey
-        end
-
-        if not hasRunAccountWide then
-            if Questie.db.global then
-                migrationTable = Questie.db.global.migrationVersion
-                globalMigrationTable = Questie.db.global.globalMigrationSteps
+    [3] = function()
+        if Questie.IsSoD then
+            if Questie.db.profile.showSoDRunes then
+                Questie.db.profile.showRunesOfPhase = {
+                    phase1 = true,
+                    phase2 = false,
+                    phase3 = false,
+                    phase4 = false,
+                }
+            else
+                Questie.db.profile.showRunesOfPhase = {
+                    phase1 = false,
+                    phase2 = false,
+                    phase3 = false,
+                    phase4 = false,
+                }
             end
-            Questie.db.global = {}
-        end
-
-        Questie.db.char = {}
-
-        if not hasRunAccountWide then
-            for k,v in pairs(optionsDefaults.global) do
-                Questie.db.global[k] = v
-            end
-        end
-
-        -- only toggle questie if it's off (must be called before resetting the value)
-        if (not Questie.db.char.enabled) then
-            Questie.db.char.enabled = true
-        end
-
-        for k,v in pairs(optionsDefaults.char) do
-            Questie.db.char[k] = v
-        end
-
-        Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide;
-
-        if journey then
-            Questie.db.char.journey = journey
-        end
-
-        if not hasRunAccountWide then
-            if migrationTable then
-                Questie.db.global.migrationVersion = migrationTable
-            end
-
-            if globalMigrationTable then
-                Questie.db.global.globalMigrationSteps = globalMigrationTable
-            end
-
-            Questie.db.global.dbIsCompiled = false
         end
     end,
     [4] = function()
-        Questie.db.char.enableMinimalisticIcons = nil -- Remove unused remnants of minimalistic icons
+        Questie.db.profile.tutorialShowRunesDone = false
     end,
     [5] = function()
-        Questie.db.char.showEventQuests = true -- Enable event quests again since some might have disabled it to hide the delayed Midsummer quests
-        if Questie.db.char.townsfolkConfig then
-            Questie.db.char.townsfolkConfig["Meeting Stones"] = true
-        end
+        Questie.db.profile.enableTooltipsNextInChain = true
     end,
     [6] = function()
-        if (not Questie.db.char.questAnnounce) or Questie.db.char.questAnnounce == "disabled" then
-            Questie.db.char.questAnnounce = false
-        else
-            Questie.db.char.questAnnounce = true
-        end
-    end,
-    [7] =  function()
-        Questie.db.global.hasSeenBetaMessage = nil
-    end,
-    [8] =  function()
-        if not Questie.db.char.questAnnounceChannel then
-            if (not Questie.db.char.questAnnounce) or Questie.db.char.questAnnounce == "disabled" then
-                Questie.db.char.questAnnounceChannel = "disabled"
-                Questie.db.char.questAnnounceObjectives = false
-            else
-                Questie.db.char.questAnnounceChannel = "party"
-                Questie.db.char.questAnnounceObjectives = true
-            end
-        end
-    end,
-    [9] = function()
-        if Questie.db.char.hiddenDailies and Questie.db.char.hiddenDailies.hc and next(Questie.db.char.hiddenDailies.hc) then
-            table.insert(Questie.db.char.hiddenDailies.hc, 11499, true) -- Add new HC daily to hiddenDailies
-        end
-    end,
-    [10] = function()
-        if Questie.db.char.questAnnounceObjectives == nil then
-            Questie.db.char.questAnnounceObjectives = true
-        end
-    end,
-    [11] = function()
-        Questie.db.global.trackerEnabled = true
-    end,
-    [12] = function()
-        Questie.db.char.collapsedQuests = {}
-    end,
-    [13] = function()
-        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
-    end,
-    [14] = function()
-        if Questie.db.char.isAchievementsExpanded == nil then
-            Questie.db.char.isAchievementsExpanded = true
-        end
-    end,
-    [15] = function()
-        if Questie.db.global.clusterLevelHotzone == 70 then -- old default value
-            Questie.db.global.clusterLevelHotzone = 50
-        end
-        if Questie.db.global.availableScale == 1.3 then -- old default value
-            Questie.db.global.availableScale = 1.2
-        end
-        if Questie.db.global.globalScale == 0.7 then -- old default value
-            Questie.db.global.globalScale = 0.6
-        end
-        if Questie.db.global.nameplateTargetFrameEnabled == false then -- old default value
-            Questie.db.global.nameplateTargetFrameEnabled = true
-        end
-    end,
-    [16] = function()
-        if Questie.db.char.questAnnounceChannel == "group" then
-            Questie.db.char.questAnnounceChannel = "party"
-        end
+        Questie.db.profile.tutorialShowRunesDone = false
     end,
 }
 
 function Migration:Migrate()
-
-    if not Questie.db.global.migrationVersion then
-        Questie.db.global.migrationVersion = {}
+    if not Questie.db.profile.migrationVersion then
+        Questie.db.profile.migrationVersion = 0
     end
 
-    if not Questie.db.global.globalMigrationSteps then
-        Questie.db.global.globalMigrationSteps = {}
-    end
-
-    local player = UnitName("Player") .. GetRealmName()
-    local currentVersion = Questie.db.global.migrationVersion[player] or 0
+    local currentVersion = Questie.db.profile.migrationVersion
     local targetVersion = table.getn(migrationFunctions)
+
+    if currentVersion == targetVersion then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[Migration] Nothing to migrate. Already on latest version:", targetVersion)
+        return
+    end
 
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Migration] Starting Questie migration for targetVersion", targetVersion)
 
     while currentVersion < targetVersion do
         currentVersion = currentVersion + 1
-        migrationFunctions[currentVersion](Questie.db.global.globalMigrationSteps[currentVersion])
-        Questie.db.global.globalMigrationSteps[currentVersion] = true
+        migrationFunctions[currentVersion]()
     end
 
-    Questie.db.global.migrationVersion[player] = currentVersion
-
+    Questie.db.profile.migrationVersion = currentVersion
 end

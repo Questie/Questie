@@ -5,7 +5,7 @@ local function doWorkaround()
     -- Blizzard's bugs
     -- https://github.com/Stanzilla/WoWUIBugs/issues/114 and https://github.com/Stanzilla/WoWUIBugs/issues/165
     -- HDB (and Questie fork of it) uses WorldMapFrame:AddDataProvider(  ).
-    print("|cff30fc96Questie|r: |cff00bc32Hiding drop-down menus on the World Map.|r This is currently necessary as a workaround for a bug in the default Blizzard UI related to drop-down menus.")
+    -- print("|cff30fc96Questie|r: |cff00bc32Hiding drop-down menus on the World Map.|r This is currently necessary as a workaround for a bug in the default Blizzard UI related to drop-down menus.")
     if WorldMapZoneMinimapDropDown then
         WorldMapZoneMinimapDropDown_Update = function() end
         WorldMapZoneMinimapDropDown:Hide()

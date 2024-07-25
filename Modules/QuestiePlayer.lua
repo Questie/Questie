@@ -1,6 +1,6 @@
 ---@class QuestiePlayer
----@field numberOfGroupMembers number ---The number of players currently in the group
----@field faction number ---"Horde" or "Alliance"
+---@field numberOfGroupMembers number @The number of players currently in the group
+---@field faction number @"Horde" or "Alliance"
 local QuestiePlayer = QuestieLoader:CreateModule("QuestiePlayer");
 local _QuestiePlayer = QuestiePlayer.private
 -------------------------
@@ -55,6 +55,13 @@ function QuestiePlayer.GetPlayerLevel()
     return math_max(_QuestiePlayer.playerLevel, level);
 end
 
+-- Find out if the player is at max level for the active expansion
+---@return boolean isMaxLevel
+function QuestiePlayer.IsMaxLevel()
+    local level = QuestiePlayer.GetPlayerLevel()
+    return (Questie.IsCata and level == 85) or (Questie.IsWotlk and level == 80) or (Questie.IsTBC and level == 70) or (Questie.IsClassic and level == 60)
+end
+
 ---@return number
 function QuestiePlayer:GetRaceId()
     return playerRaceId
@@ -68,6 +75,8 @@ end
 function QuestiePlayer:GetGroupType()
     if(UnitInRaid("player")) then
         return "raid";
+    elseif(IsInGroup(LE_PARTY_CATEGORY_INSTANCE)) then
+        return "instance";
     elseif(UnitInParty("player")) then
         return "party";
     else
@@ -88,7 +97,12 @@ function QuestiePlayer.HasRequiredClass(requiredClasses)
 end
 
 function QuestiePlayer:GetCurrentZoneId()
-    return ZoneDB:GetAreaIdByUiMapId(C_Map.GetBestMapForUnit("player"))
+    local uiMapId = C_Map.GetBestMapForUnit("player")
+    if uiMapId then
+        return ZoneDB:GetAreaIdByUiMapId(uiMapId)
+    end
+
+    return ZoneDB.instanceIdToUiMapId[select(8, GetInstanceInfo())]
 end
 
 ---@return number
@@ -166,3 +180,5 @@ function QuestiePlayer:GetPartyMemberList()
     end
     return members
 end
+
+return QuestiePlayer

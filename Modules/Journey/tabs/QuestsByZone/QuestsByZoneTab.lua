@@ -22,7 +22,7 @@ local RESET = -1000
 local _CreateContinentDropdown, _CreateZoneDropdown
 local _HandleContinentSelection, _HandleZoneSelection
 
-local currentContinentId
+local selectedContinentId
 local contDropdown, zoneDropdown, treegroup
 
 -- function that draws the Tab for Zone Quests
@@ -65,12 +65,27 @@ _CreateContinentDropdown = function()
     dropdown:SetText(l10n('Select Your Continent'))
     dropdown:SetCallback("OnValueChanged", _HandleContinentSelection)
 
-    currentContinentId = QuestiePlayer:GetCurrentContinentId()
-    if _QuestieJourney.lastZoneSelection[1] then
-        currentContinentId = _QuestieJourney.lastZoneSelection[1]
+    local currentContinentId = QuestiePlayer:GetCurrentContinentId()
+
+    local questCategoryKeys = QuestieJourney.questCategoryKeys
+    -- This mapping translates the actual continent ID to the keys of l10n.continentLookup
+    if currentContinentId == 0 then -- Eastern Kingdom
+        selectedContinentId = questCategoryKeys.EASTERN_KINGDOMS
+    elseif currentContinentId == 1 then -- Kalimdor
+        selectedContinentId = questCategoryKeys.KALIMDOR
+    elseif currentContinentId == 530 then -- Outland
+        selectedContinentId = questCategoryKeys.OUTLAND
+    elseif currentContinentId == 571 then -- Northrend
+        selectedContinentId = questCategoryKeys.NORTHREND
+    elseif l10n.zoneLookup[currentContinentId] then -- Dungeon
+        selectedContinentId = questCategoryKeys.DUNGEONS
     end
 
-    dropdown:SetValue(currentContinentId)
+    if _QuestieJourney.lastZoneSelection[1] then
+        selectedContinentId = _QuestieJourney.lastZoneSelection[1]
+    end
+
+    dropdown:SetValue(selectedContinentId)
     return dropdown
 end
 
@@ -82,7 +97,7 @@ _CreateZoneDropdown = function()
         currentZoneId = _QuestieJourney.lastZoneSelection[2]
     end
 
-    local zones = QuestieJourney.zones[currentContinentId]
+    local zones = QuestieJourney.zones[selectedContinentId]
     if currentZoneId and currentZoneId > 0 and zones then
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(zones)
         dropdown:SetList(zones, sortedZones)

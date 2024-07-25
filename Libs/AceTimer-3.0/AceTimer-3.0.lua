@@ -15,7 +15,7 @@
 -- make into AceTimer.
 -- @class file
 -- @name AceTimer-3.0
--- @release $Id: AceTimer-3.0.lua 1202 2019-05-15 23:11:22Z nevcairiel $
+-- @release $Id: AceTimer-3.0.lua 1284 2022-09-25 09:15:30Z nevcairiel $
 
 local MAJOR, MINOR = "AceTimer-3.0", 17 -- Bump minor on changes
 local AceTimer, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
@@ -61,11 +61,11 @@ local function new(self, loop, func, delay, ...)
 				-- Compensate delay to get a perfect average delay, even if individual times don't match up perfectly
 				-- due to fps differences
 				local time = GetTime()
-				local delay = timer.delay - (time - timer.ends)
+				local ndelay = timer.delay - (time - timer.ends)
 				-- Ensure the delay doesn't go below the threshold
-				if delay < 0.01 then delay = 0.01 end
-				C_TimerAfter(delay, timer.callback)
-				timer.ends = time + delay
+				if ndelay < 0.01 then ndelay = 0.01 end
+				C_TimerAfter(ndelay, timer.callback)
+				timer.ends = time + ndelay
 			else
 				activeTimers[timer.handle or timer] = nil
 			end

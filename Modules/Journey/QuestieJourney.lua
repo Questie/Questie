@@ -13,6 +13,8 @@ local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 -- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
@@ -31,28 +33,33 @@ _QuestieJourney.lastZoneSelection = {}
 local notesPopupWin
 local notesPopupWinIsOpen = false
 
-QuestieJourney.questCategoryKeys = {
+-- These need to match with l10n.continentLookup
+local questCategoryKeys = {
     EASTERN_KINGDOMS = 1,
     KALIMDOR = 2,
     OUTLAND = 3,
     NORTHREND = 4,
-    DUNGEONS = 5,
-    BATTLEGROUNDS = 6,
-    CLASS = 7,
-    PROFESSIONS = 8,
-    EVENTS = 9,
+    THE_MAELSTROM = 5,
+    DUNGEONS = 6,
+    BATTLEGROUNDS = 7,
+    CLASS = 8,
+    PROFESSIONS = 9,
+    EVENTS = 10,
 }
+QuestieJourney.questCategoryKeys = questCategoryKeys
 
 
 function QuestieJourney:Initialize()
     local continents = {}
     for id, name in pairs(l10n.continentLookup) do
-        if not (name == "Outland" and Questie.IsClassic) and not (name == "Northrend" and (Questie.IsClassic or Questie.IsTBC)) then
+        if not (questCategoryKeys.OUTLAND == id and Questie.IsClassic) and
+            not (questCategoryKeys.NORTHREND == id and (Questie.IsClassic or Questie.IsTBC)) and
+            not (questCategoryKeys.THE_MAELSTROM == id and (Questie.IsClassic or Questie.IsTBC or Questie.IsWotlk)) then
             continents[id] = l10n(name)
         end
     end
     coroutine.yield()
-    continents[QuestieJourney.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
+    continents[questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
 
     coroutine.yield()
     self.continents = continents
@@ -75,7 +82,8 @@ function QuestieJourney:BuildMainFrame()
         end)
         journeyFrame:SetTitle(l10n("%s's Journey", UnitName("player")))
         journeyFrame:SetLayout("Fill")
-        journeyFrame.frame:SetMinResize(550, 400)
+        journeyFrame:EnableResize(false)
+        QuestieCompat.SetResizeBounds(journeyFrame.frame, 550, 400)
 
         local tabGroup = AceGUI:Create("TabGroup")
         tabGroup:SetLayout("Flow")
@@ -104,8 +112,10 @@ function QuestieJourney:BuildMainFrame()
         settingsButton:SetPoint("TOPRIGHT", journeyFrame.frame, "TOPRIGHT", -50, -13)
         settingsButton:SetText(l10n('Questie Options'))
         settingsButton:SetCallback("OnClick", function()
-            QuestieJourney:ToggleJourneyWindow()
-            QuestieOptions:OpenConfigWindow()
+            QuestieCombatQueue:Queue(function()
+                QuestieJourney:ToggleJourneyWindow()
+                QuestieOptions:OpenConfigWindow()
+            end)
         end)
         journeyFrame:AddChild(settingsButton)
 

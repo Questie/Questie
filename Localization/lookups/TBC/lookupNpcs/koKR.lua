@@ -1,11 +1,11 @@
-
 if GetLocale() ~= "koKR" then
     return
 end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.npcNameLookup["koKR"] = {
+l10n.npcNameLookup["koKR"] = loadstring([[return {
 [3] = {"굶주린 시체",nil},
 [6] = {"코볼트 졸개",nil},
 [19] = {"퀘스트기버 베니","NPC"},
@@ -17397,4 +17397,4 @@ l10n.npcNameLookup["koKR"] = {
 [29093] = {"이안 드레이크","장로"},
 [29095] = {"에드워드 케른","장로"},
 [39623] = {"노움 시민",nil},
-}
+}]])

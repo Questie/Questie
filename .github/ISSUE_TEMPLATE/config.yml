@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questie Community Discord
+    url: https://discord.com/invite/s33MAYKeZd
+    about: If you need specific support or just want to connect to the Questie team, feel free to join our Discord.
+  - name: Questie on CurseForge
+    url: https://www.curseforge.com/wow/addons/questie
+    about: We encourage you to use the CurseForge client to install and update Questie.

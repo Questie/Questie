@@ -6,16 +6,39 @@ local QuestXP = QuestieLoader:CreateModule("QuestXP")
 QuestXP.db = {}
 
 local floor = floor
-local UnitLevel, GetExpansionLevel = UnitLevel, GetExpansionLevel
+local UnitLevel = UnitLevel
+
+local globalXPMultiplier = 1
+local isDiscovererDelightActive = false
+
+function QuestXP.Init()
+    if (Questie.IsWotlk or Questie.IsSoD) and globalXPMultiplier == 1 then
+        for i = 1, 40 do
+            local _, _, _, _, _, _, _, _, _, buffSpellId = UnitBuff("player", i)
+
+            if buffSpellId == 377749 then
+                -- Joyous Journeys is active - 50% bonus XP
+                globalXPMultiplier = 1.5
+                break
+            end
+
+            if buffSpellId == 436412 then
+                -- Discoverer's Delight is active - 150% bonus XP
+                globalXPMultiplier = 2.5
+                isDiscovererDelightActive = true
+                break
+            end
+        end
+    end
+end
 
 ---@param xp XP
 ---@param qLevel Level
 ---@param ignorePlayerLevel boolean
----@return XP experiance
+---@return XP experience
 local function getAdjustedXP(xp, qLevel, ignorePlayerLevel)
     local charLevel = UnitLevel("player")
-    local expansionLevel = GetExpansionLevel()
-    if (charLevel == 60 + 10 * expansionLevel) and (not ignorePlayerLevel) then -- 60 for classic, 70 for tbc and 80 for wotlk
+    if charLevel == GetMaxPlayerLevel() and (not ignorePlayerLevel) then
         return 0
     end
 
@@ -39,7 +62,7 @@ local function getAdjustedXP(xp, qLevel, ignorePlayerLevel)
         xp = 50 * floor((xp + 25) / 50)
     end
 
-    return xp
+    return floor(xp * globalXPMultiplier)
 end
 
 
@@ -60,4 +83,23 @@ function QuestXP:GetQuestLogRewardXP(questId, ignorePlayerLevel)
 
     -- Return 0 if questId or xp data is not found for some reason
     return 0
+end
+
+local exclusions = {
+    [78612] = true,
+    [78872] = true,
+    [79101] = true,
+    [79102] = true,
+    [79103] = true,
+    [80307] = true,
+    [80308] = true,
+    [80309] = true,
+}
+
+function QuestXP.GetQuestRewardMoney(questId)
+    local modifier = 1
+    if isDiscovererDelightActive and (not exclusions[questId]) then
+        modifier = 3
+    end
+    return floor(GetQuestLogRewardMoney(questId) * modifier)
 end

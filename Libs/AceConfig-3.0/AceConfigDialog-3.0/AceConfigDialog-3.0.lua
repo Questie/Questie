@@ -1,13 +1,13 @@
 --- AceConfigDialog-3.0 generates AceGUI-3.0 based windows based on option tables.
 -- @class file
 -- @name AceConfigDialog-3.0
--- @release $Id: AceConfigDialog-3.0.lua 1248 2021-02-05 14:27:49Z funkehdude $
+-- @release $Id: AceConfigDialog-3.0.lua 1296 2022-11-04 18:50:10Z nevcairiel $
 
 local LibStub = LibStub
 local gui = LibStub("AceGUI-3.0")
 local reg = LibStub("AceConfigRegistry-3.0")
 
-local MAJOR, MINOR = "AceConfigDialog-3.0", 81
+local MAJOR, MINOR = "AceConfigDialog-3.0", 86
 local AceConfigDialog, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceConfigDialog then return end
@@ -28,12 +28,6 @@ local error = error
 local pairs, next, select, type, unpack, ipairs = pairs, next, select, type, unpack, ipairs
 local tostring, tonumber = tostring, tonumber
 local math_min, math_max, math_floor = math.min, math.max, math.floor
-
--- Global vars/functions that we don't upvalue since they might get hooked, or upgraded
--- List them here for Mikk's FindGlobals script
--- GLOBALS: NORMAL_FONT_COLOR, ACCEPT, CANCEL
--- GLOBALS: PlaySound, GameFontHighlight, GameFontHighlightSmall, GameFontHighlightLarge
--- GLOBALS: CloseSpecialWindows, InterfaceOptions_AddCategory, geterrorhandler
 
 local emptyTbl = {}
 
@@ -153,6 +147,7 @@ local stringIsLiteral = {
 	width = true,
 	image = true,
 	fontSize = true,
+	tooltipHyperlink = true
 }
 
 --Is Never a function or method
@@ -194,9 +189,8 @@ local function GetOptionsMemberValue(membername, option, options, path, appName,
 		--We have a function to call
 		local info = new()
 		--traverse the options table, picking up the handler and filling the info with the path
-		local handler
 		local group = options
-		handler = group.handler or handler
+		local handler = group.handler
 
 		for i = 1, #path do
 			group = GetSubOption(group, path[i])
@@ -508,6 +502,14 @@ local function OptionOnMouseOver(widget, event)
 	local tooltip = AceConfigDialog.tooltip
 
 	tooltip:SetOwner(widget.frame, "ANCHOR_TOPRIGHT")
+
+	local tooltipHyperlink = GetOptionsMemberValue("tooltipHyperlink", opt, options, path, appName)
+	if tooltipHyperlink then
+		tooltip:SetHyperlink(tooltipHyperlink)
+		tooltip:Show()
+		return
+	end
+
 	local name = GetOptionsMemberValue("name", opt, options, path, appName)
 	local desc = GetOptionsMemberValue("desc", opt, options, path, appName)
 	local usage = GetOptionsMemberValue("usage", opt, options, path, appName)
@@ -535,8 +537,7 @@ local function OptionOnMouseLeave(widget, event)
 end
 
 local function GetFuncName(option)
-	local type = option.type
-	if type == "execute" then
+	if option.type == "execute" then
 		return "func"
 	else
 		return "set"
@@ -566,28 +567,17 @@ do
 			end
 		end)
 
-		if not frame.SetFixedFrameStrata then -- API capability check (classic check)
-			frame:SetBackdrop({
-				bgFile = [[Interface\DialogFrame\UI-DialogBox-Background-Dark]],
-				edgeFile = [[Interface\DialogFrame\UI-DialogBox-Border]],
-				tile = true,
-				tileSize = 32,
-				edgeSize = 32,
-				insets = { left = 11, right = 11, top = 11, bottom = 11 },
-			})
-		else
-			local border = CreateFrame("Frame", nil, frame, "DialogBorderOpaqueTemplate")
-			border:SetAllPoints(frame)
-			frame:SetFixedFrameStrata(true)
-			frame:SetFixedFrameLevel(true)
-		end
+		local border = CreateFrame("Frame", nil, frame, "DialogBorderOpaqueTemplate")
+		border:SetAllPoints(frame)
+		frame:SetFixedFrameStrata(true)
+		frame:SetFixedFrameLevel(true)
 
 		local text = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
 		text:SetSize(290, 0)
 		text:SetPoint("TOP", 0, -16)
 		frame.text = text
 
-		local function newButton(text)
+		local function newButton(newText)
 			local button = CreateFrame("Button", nil, frame)
 			button:SetSize(128, 21)
 			button:SetNormalFontObject(GameFontNormal)
@@ -598,7 +588,7 @@ do
 			button:GetPushedTexture():SetTexCoord(0.0, 1.0, 0.0, 0.71875)
 			button:SetHighlightTexture(130762) -- "Interface\\Buttons\\UI-DialogBox-Button-Highlight"
 			button:GetHighlightTexture():SetTexCoord(0.0, 1.0, 0.0, 0.71875)
-			button:SetText(text)
+			button:SetText(newText)
 			return button
 		end
 
@@ -685,7 +675,7 @@ local function ActivateControl(widget, event, ...)
 	if group[funcname] ~= nil then
 		func =  group[funcname]
 	end
-	handler = group.handler or handler
+	handler = group.handler
 	confirm = group.confirm
 	validate = group.validate
 	for i = 1, #path do
@@ -749,7 +739,6 @@ local function ActivateControl(widget, event, ...)
 		end
 	end
 
-	local rootframe = user.rootframe
 	if not validated or type(validated) == "string" then
 		if not validated then
 			if usage then
@@ -764,8 +753,8 @@ local function ActivateControl(widget, event, ...)
 		end
 
 		-- show validate message
-		if rootframe.SetStatusText then
-			rootframe:SetStatusText(validated)
+		if user.rootframe.SetStatusText then
+			user.rootframe:SetStatusText(validated)
 		else
 			validationErrorPopup(validated)
 		end
@@ -802,14 +791,14 @@ local function ActivateControl(widget, event, ...)
 		if type(confirm) == "boolean" then
 			if confirm then
 				if not confirmText then
-					local name, desc = option.name, option.desc
-					if type(name) == "function" then
-						name = name(info)
+					local option_name, desc = option.name, option.desc
+					if type(option_name) == "function" then
+						option_name = option_name(info)
 					end
 					if type(desc) == "function" then
 						desc = desc(info)
 					end
-					confirmText = name
+					confirmText = option_name
 					if desc then
 						confirmText = confirmText.." - "..desc
 					end
@@ -1151,8 +1140,6 @@ local function FeedOptions(appName, options,container,rootframe,path,group,inlin
 				--Control to feed
 				local control
 
-				local name = GetOptionsMemberValue("name", v, options, path, appName)
-
 				if v.type == "execute" then
 
 					local imageCoords = GetOptionsMemberValue("imageCoords",v, options, path, appName)
@@ -1255,7 +1242,7 @@ local function FeedOptions(appName, options,container,rootframe,path,group,inlin
 							end
 							tsort(sorting, sortTblAsStrings)
 						end
-						for k, value in ipairs(sorting) do
+						for _, value in ipairs(sorting) do
 							local text = values[value]
 							local radio = gui:Create("CheckBox")
 							radio:SetLabel(text)
@@ -1337,8 +1324,8 @@ local function FeedOptions(appName, options,container,rootframe,path,group,inlin
 							control:SetWidth(width_multiplier)
 						end
 						--check:SetTriState(v.tristate)
-						for i = 1, #valuesort do
-							local key = valuesort[i]
+						for s = 1, #valuesort do
+							local key = valuesort[s]
 							local value = GetOptionsMemberValue("get",v, options, path, appName, key)
 							control:SetItemValue(key,value)
 						end
@@ -1350,8 +1337,8 @@ local function FeedOptions(appName, options,container,rootframe,path,group,inlin
 
 						control:PauseLayout()
 						local width = GetOptionsMemberValue("width",v,options,path,appName)
-						for i = 1, #valuesort do
-							local value = valuesort[i]
+						for s = 1, #valuesort do
+							local value = valuesort[s]
 							local text = values[value]
 							local check = gui:Create("CheckBox")
 							check:SetLabel(text)
@@ -1368,7 +1355,7 @@ local function FeedOptions(appName, options,container,rootframe,path,group,inlin
 							elseif width == "half" then
 								check:SetWidth(width_multiplier / 2)
 							elseif (type(width) == "number") then
-								control:SetWidth(width_multiplier * width)
+								check:SetWidth(width_multiplier * width)
 							elseif width == "full" then
 								check.width = "fill"
 							else
@@ -1438,8 +1425,8 @@ local function FeedOptions(appName, options,container,rootframe,path,group,inlin
 						end
 						control:SetImageSize(width, height)
 					end
-					local width = GetOptionsMemberValue("width",v,options,path,appName)
-					control.width = not width and "fill"
+					local controlWidth = GetOptionsMemberValue("width",v,options,path,appName)
+					control.width = not controlWidth and "fill"
 				end
 
 				--Common Init
@@ -1694,29 +1681,29 @@ function AceConfigDialog:FeedGroup(appName,options,container,rootframe,path, isR
 
 		elseif grouptype == "select" then
 
-			local select = gui:Create("DropdownGroup")
-			select:SetTitle(name)
-			InjectInfo(select, options, group, path, rootframe, appName)
-			select:SetCallback("OnGroupSelected", GroupSelected)
+			local selectGroup = gui:Create("DropdownGroup")
+			selectGroup:SetTitle(name)
+			InjectInfo(selectGroup, options, group, path, rootframe, appName)
+			selectGroup:SetCallback("OnGroupSelected", GroupSelected)
 			local status = AceConfigDialog:GetStatusTable(appName, path)
 			if not status.groups then
 				status.groups = {}
 			end
-			select:SetStatusTable(status.groups)
+			selectGroup:SetStatusTable(status.groups)
 			local grouplist, orderlist = BuildSelect(group, options, path, appName)
-			select:SetGroupList(grouplist, orderlist)
-			select:SetUserData("grouplist", grouplist)
-			select:SetUserData("orderlist", orderlist)
+			selectGroup:SetGroupList(grouplist, orderlist)
+			selectGroup:SetUserData("grouplist", grouplist)
+			selectGroup:SetUserData("orderlist", orderlist)
 
 			local firstgroup = orderlist[1]
 			if firstgroup then
-				select:SetGroup((GroupExists(appName, options, path,status.groups.selected) and status.groups.selected) or firstgroup)
+				selectGroup:SetGroup((GroupExists(appName, options, path,status.groups.selected) and status.groups.selected) or firstgroup)
 			end
 
-			select.width = "fill"
-			select.height = "fill"
+			selectGroup.width = "fill"
+			selectGroup.height = "fill"
 
-			container:AddChild(select)
+			container:AddChild(selectGroup)
 
 		--assume tree group by default
 		--if parenttype is tree then this group is already a node on that tree
@@ -1944,13 +1931,13 @@ end
 -- convert pre-39 BlizOptions structure to the new format
 if oldminor and oldminor < 39 and AceConfigDialog.BlizOptions then
 	local old = AceConfigDialog.BlizOptions
-	local new = {}
+	local newOpt = {}
 	for key, widget in pairs(old) do
 		local appName = widget:GetUserData("appName")
-		if not new[appName] then new[appName] = {} end
-		new[appName][key] = widget
+		if not newOpt[appName] then newOpt[appName] = {} end
+		newOpt[appName][key] = widget
 	end
-	AceConfigDialog.BlizOptions = new
+	AceConfigDialog.BlizOptions = newOpt
 else
 	AceConfigDialog.BlizOptions = AceConfigDialog.BlizOptions or {}
 end
@@ -1983,6 +1970,7 @@ end
 -- @param parent The parent to use in the interface options tree.
 -- @param ... The path in the options table to feed into the interface options panel.
 -- @return The reference to the frame registered into the Interface Options.
+-- @return The category ID to pass to Settings.OpenToCategory (or InterfaceOptionsFrame_OpenToCategory)
 function AceConfigDialog:AddToBlizOptions(appName, name, parent, ...)
 	local BlizOptions = AceConfigDialog.BlizOptions
 
@@ -1998,7 +1986,6 @@ function AceConfigDialog:AddToBlizOptions(appName, name, parent, ...)
 	if not BlizOptions[appName][key] then
 		local group = gui:Create("BlizOptionsGroup")
 		BlizOptions[appName][key] = group
-		group:SetName(name or appName, parent)
 
 		group:SetTitle(name or appName)
 		group:SetUserData("appName", appName)
@@ -2011,8 +1998,30 @@ function AceConfigDialog:AddToBlizOptions(appName, name, parent, ...)
 		end
 		group:SetCallback("OnShow", FeedToBlizPanel)
 		group:SetCallback("OnHide", ClearBlizPanel)
-		InterfaceOptions_AddCategory(group.frame)
-		return group.frame
+		if Settings and Settings.RegisterCanvasLayoutCategory then
+			local categoryName = name or appName
+			if parent then
+				local category = Settings.GetCategory(parent)
+				if not category then
+					error(("The parent category '%s' was not found"):format(parent), 2)
+				end
+				local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, group.frame, categoryName)
+
+				-- force the generated ID to be used for subcategories, as these can have very simple names like "Profiles"
+				group:SetName(subcategory.ID, parent)
+			else
+				local category = Settings.RegisterCanvasLayoutCategory(group.frame, categoryName)
+				-- using appName here would be cleaner, but would not be 100% compatible
+				-- but for top-level categories it should be fine, as these are typically addon names
+				category.ID = categoryName
+				group:SetName(categoryName, parent)
+				Settings.RegisterAddOnCategory(category)
+			end
+		else
+			group:SetName(name or appName, parent)
+			InterfaceOptions_AddCategory(group.frame)
+		end
+		return group.frame, group.frame.name
 	else
 		error(("%s has already been added to the Blizzard Options Window with the given path"):format(appName), 2)
 	end

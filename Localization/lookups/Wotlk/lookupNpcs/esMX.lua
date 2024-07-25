@@ -5,7 +5,7 @@ end
 -- - @type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.npcNameLookup["esMX"] = { 
+l10n.npcNameLookup["esMX"] = loadstring([[return {
 [3] = {"Comecarnes",nil},
 [6] = {"Alimaña kóbold",nil},
 [19] = {"Benny Asignador","NPC"},
@@ -21322,9 +21322,9 @@ l10n.npcNameLookup["esMX"] = {
 [29191] = {"Nigromante de Acherus",nil},
 [29192] = {"[Chapter IV] Chapter IV Dummy",nil},
 [29193] = {"Desertor Escarlata",nil},
-[29194] = {"Amal'thazad",nil},
-[29195] = {"Lady Alistra",nil},
-[29196] = {"Lord Thorval",nil},
+[29194] = {"Amal'thazad","Instructor de caballeros de la Muerte"},
+[29195] = {"Lady Alistra","Instructora de caballeros de la Muerte"},
+[29196] = {"Lord Thorval","Instructor de caballeros de la Muerte"},
 [29197] = {"Sombra congelada, Climax",nil},
 [29198] = {"Montura de Mograine",nil},
 [29199] = {"Koltira Tejemuerte",nil},
@@ -26456,4 +26456,4 @@ l10n.npcNameLookup["esMX"] = {
 [40842] = {"Draco rubí",nil},
 [40870] = {"Dragón rubí",nil},
 [42078] = {"Mini thor","El Destructor"},
-}
+}]])

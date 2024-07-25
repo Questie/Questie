@@ -25,14 +25,13 @@ local QuestXP = QuestieLoader:ImportModule("QuestXP")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 
-local REPUTATION_ICON_PATH = QuestieLib.AddonPath.."Icons\\reputation.blp"
+local REPUTATION_ICON_PATH = QuestieLib.AddonPath .. "Icons\\reputation.blp"
 local REPUTATION_ICON_TEXTURE = "|T" .. REPUTATION_ICON_PATH .. ":14:14:2:0|t"
 
 local TRANSPARENT_ICON_PATH = "Interface\\Minimap\\UI-bonusobjectiveblob-inside.blp"
 local TRANSPARENT_ICON_TEXTURE = "|T" .. TRANSPARENT_ICON_PATH .. ":14:14:2:0|t"
 
-local WRAP_TEXT = 1;
-local DEFAULT_WAYPOINT_HOVER_COLOR = { 0.93, 0.46, 0.13, 0.8}
+local DEFAULT_WAYPOINT_HOVER_COLOR = { 0.93, 0.46, 0.13, 0.8 }
 
 local lastTooltipShowTimestamp = GetTime()
 
@@ -58,9 +57,9 @@ function MapIconTooltip:Show()
     if C_Map and C_Map.GetMapInfo then
         local mapInfo = C_Map.GetMapInfo(mapId)
         if mapInfo then
-            if(mapInfo.mapType == 0 or mapInfo.mapType == 1) then -- Cosmic or World
+            if (mapInfo.mapType == 0 or mapInfo.mapType == 1) then -- Cosmic or World
                 maxDistCluster = 6
-            elseif mapInfo.mapType == 2 then -- Continent
+            elseif mapInfo.mapType == 2 then                       -- Continent
                 maxDistCluster = 4
             end
         end
@@ -68,9 +67,9 @@ function MapIconTooltip:Show()
 
     if self.miniMapIcon then
         if _MapIconTooltip:IsMinimapInside() then
-            maxDistCluster = 0.3 / (1+Minimap:GetZoom())
+            maxDistCluster = 0.3 / (1 + Minimap:GetZoom())
         else
-            maxDistCluster = 0.5 / (1+Minimap:GetZoom())
+            maxDistCluster = 0.5 / (1 + Minimap:GetZoom())
         end
     end
 
@@ -94,7 +93,7 @@ function MapIconTooltip:Show()
     --end
 
     local usedText = {}
-    local npcOrder = {};
+    local npcAndObjectOrder = {};
     local questOrder = {};
     local manualOrder = {}
 
@@ -108,12 +107,13 @@ function MapIconTooltip:Show()
             return
         end
 
-        if (not icon.miniMapIcon) and self.data.Id == iconData.Id then -- Recolor hovered icons
+        -- Do not recolor MiniMap, Available and Completed Quest Icons.
+        if (not icon.miniMapIcon) and not (iconData.Type == "available" or iconData.Type == "complete") and self.data.Id == iconData.Id then -- Recolor hovered icons
             local entry = {}
-            entry.color = {icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a};
+            entry.color = { icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a };
             entry.icon = icon;
-            if Questie.db.global.questObjectiveColors then
-                icon.texture:SetVertexColor(1, 1, 1, 1); -- If different colors are active simply change it to the regular icon color
+            if Questie.db.profile.questObjectiveColors then
+                icon.texture:SetVertexColor(1, 1, 1, 1);   -- If different colors are active simply change it to the regular icon color
             else
                 icon.texture:SetVertexColor(0.6, 1, 1, 1); -- Without colors make it blueish
             end
@@ -123,12 +123,12 @@ function MapIconTooltip:Show()
             local dist = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y);
             if dist < maxDistCluster then
                 if iconData.Type == "available" or iconData.Type == "complete" then
-                    if not npcOrder[iconData.Name] then
-                        npcOrder[iconData.Name] = {};
+                    if not npcAndObjectOrder[iconData.Name] then
+                        npcAndObjectOrder[iconData.Name] = {};
                     end
 
                     local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
-                    npcOrder[iconData.Name][tip.title] = tip
+                    npcAndObjectOrder[iconData.Name][tip.title] = tip
                 elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
                     local key = iconData.Id
                     if not questOrder[key] then
@@ -138,7 +138,7 @@ function MapIconTooltip:Show()
                     local orderedTooltips = {}
                     iconData.ObjectiveData:Update()
                     if iconData.Type == "event" then
-                        local tip = _MapIconTooltip:GetEventObjectiveTooltip(icon)
+                        local tip = _MapIconTooltip:GetEventObjectiveTooltip(icon.data)
 
                         -- We need to check for duplicates.
                         local add = true;
@@ -180,151 +180,210 @@ function MapIconTooltip:Show()
     else
         for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
             handleMapIcon(pin.icon)
-            if pin.icon.data.lineFrames then
-                for _, line in pairs(pin.icon.data.lineFrames) do
-                    handleMapIcon(line)
-                end
-            end
         end
     end
 
-    Tooltip.npcOrder = npcOrder
+    Tooltip.npcAndObjectOrder = npcAndObjectOrder
     Tooltip.questOrder = questOrder
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
     Tooltip._Rebuild = function(self)
+        -- generate the tooltips
         local xpString = l10n('xp');
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
         local firstLine = true;
         local playerIsHuman = QuestiePlayer:GetRaceId() == 1
-        local playerIsHonoredWithShaTar = (not QuestieReputation:HasReputation(nil, {935, 8999}))
-        for questTitle, quests in pairs(self.npcOrder) do -- this logic really needs to be improved
+        local playerIsHonoredWithShaTar = (not QuestieReputation:HasReputation(nil, { 935, 8999 }))
+
+        -- tooltips for quest icons on the map
+        for npcOrObjectName, quests in pairs(self.npcAndObjectOrder) do -- this logic really needs to be improved
             haveGiver = true
             if shift and (not firstLine) then
                 -- Spacer between NPCs
                 self:AddLine("             ")
             end
             if (firstLine and not shift) then
-                self:AddDoubleLine(questTitle, "(".. l10n('Hold Shift')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43);
+                self:AddDoubleLine(npcOrObjectName, "(" .. l10n('Hold Shift') .. ")", 0.2, 1, 0.2, 0.43, 0.43, 0.43);
                 firstLine = false;
             elseif (firstLine and shift) then
-                self:AddLine(questTitle, 0.2, 1, 0.2);
+                self:AddLine(npcOrObjectName, 0.2, 1, 0.2);
                 firstLine = false;
             else
-                self:AddLine(questTitle, 0.2, 1, 0.2);
+                self:AddLine(npcOrObjectName, 0.2, 1, 0.2);
             end
 
             for _, questData in pairs(quests) do
-                local reputationReward = QuestieDB.QueryQuestSingle(questData.questId, "reputationReward")
+                local reputationReward = QuestieReputation.GetReputationReward(questData.questId)
 
                 if questData.title ~= nil then
-                    local quest = QuestieDB:GetQuest(questData.questId)
+                    local quest = QuestieDB.GetQuest(questData.questId)
                     local rewardString = ""
                     if (quest and shift) then
-                        local xpReward = QuestXP:GetQuestLogRewardXP(questData.questId, Questie.db.global.showQuestXpAtMaxLevel)
+                        local xpReward = QuestXP:GetQuestLogRewardXP(questData.questId, Questie.db.profile.showQuestXpAtMaxLevel)
                         if xpReward > 0 then
-                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ", QuestieDB.IsRepeatable(quest.Id))
+                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(" .. FormatLargeNumber(xpReward) .. xpString .. ") ", QuestieDB.IsRepeatable(questData.questId), QuestieDB.IsActiveEventQuest(questData.questId), QuestieDB.IsPvPQuest(questData.questId))
                         end
 
-                        local moneyReward = GetQuestLogRewardMoney(questData.questId)
+                        local moneyReward = QuestXP.GetQuestRewardMoney(questData.questId)
                         if moneyReward > 0 then
-                            rewardString = rewardString .. Questie:Colorize("("..GetCoinTextureString(moneyReward)..") ", "white")
+                            rewardString = rewardString .. Questie:Colorize("(" .. GetCoinTextureString(moneyReward) .. ") ", "white")
                         end
                     end
                     rewardString = rewardString .. questData.type
 
-                    if (not shift) and reputationReward and next(reputationReward) then
-                        self:AddDoubleLine(REPUTATION_ICON_TEXTURE .. " " ..questData.title, rewardString, 1, 1, 1, 1, 1, 0);
+                    if (not shift) and next(reputationReward) then
+                        self:AddDoubleLine(REPUTATION_ICON_TEXTURE .. " " .. questData.title, rewardString, 1, 1, 1, 1, 1, 0);
                     else
                         if shift then
                             self:AddDoubleLine(questData.title, rewardString, 1, 1, 1, 1, 1, 0);
                         else
                             -- We use a transparent icon because this eases setting the correct margin
-                            self:AddDoubleLine(TRANSPARENT_ICON_TEXTURE .. " " ..questData.title, rewardString, 1, 1, 1, 1, 1, 0);
+                            self:AddDoubleLine(TRANSPARENT_ICON_TEXTURE .. " " .. questData.title, rewardString, 1, 1, 1, 1, 1, 0);
                         end
-
                     end
                 end
                 if questData.subData and shift then
                     local dataType = type(questData.subData)
                     if dataType == "table" then
                         for _, rawLine in pairs(questData.subData) do
-                            local lines = QuestieLib:TextWrap(rawLine, "  ", true, true, math.max(375, Tooltip:GetWidth()), questData.questId) --275 is the default questlog width
+                            local lines = QuestieLib:TextWrap(rawLine, "  ", false, math.max(375, Tooltip:GetWidth()), questData.questId) --275 is the default questlog width
                             for _, line in pairs(lines) do
                                 self:AddLine(line, 0.86, 0.86, 0.86);
                             end
                         end
                     elseif dataType == "string" then
-                        local lines = QuestieLib:TextWrap(questData.subData, "  ", true, true, math.max(375, Tooltip:GetWidth())) --275 is the default questlog width
+                        local lines = QuestieLib:TextWrap(questData.subData, "  ", false, math.max(375, Tooltip:GetWidth())) --275 is the default questlog width
                         for _, line in pairs(lines) do
                             self:AddLine(line, 0.86, 0.86, 0.86);
                         end
                     end
+                end
 
-                    if reputationReward and next(reputationReward) then
-                        local rewardTable = {}
-                        local factionId, factionName
-                        local rewardValue
-                        local aldorPenalty, scryersPenalty
-                        for _, rewardPair in pairs(reputationReward) do
-                            factionId = rewardPair[1]
+                if Questie.db.profile.enableTooltipsNextInChain then
+                    local nextQuestInChain = QuestieDB.QueryQuestSingle(questData.questId, "nextQuestInChain")
+                    if shift and nextQuestInChain > 0 and (not Questie.db.char.hidden[nextQuestInChain]) then
+                        -- add quest chain info
+                        local nextQuest = QuestieDB.GetQuest(nextQuestInChain)
+                        local firstInChain = true;
+                        while nextQuest ~= nil and (not Questie.db.char.hidden[nextQuest.Id]) do
 
-                            if factionId == 935 and playerIsHonoredWithShaTar and (scryersPenalty or aldorPenalty) then
-                                -- Quests for Aldor and Scryers gives reputation to the Sha'tar but only before being Honored
-                                -- with the Sha'tar
+                            local nextQuestTitleString;
+                            local nextQuestXpRewardString = "";
+                            local nextQuestMoneyRewardString = "";
+                            local nextQuestIdString = "";
+                            local nextQuestTagString = "";
+                            if firstInChain then
+                                self:AddLine("  |TInterface\\Addons\\Questie\\Icons\\nextquest.blp:16|t " .. l10n("Next in chain:"), 0.86, 0.86, 0.86)
+                                firstInChain = false
+                            end
+
+                            if Questie.db.profile.enableTooltipsQuestLevel then
+                                nextQuestTitleString = string.format("%s", QuestieLib:GetLevelString(nextQuest.Id, nextQuest.level, true) .. nextQuest.name)
+                            else
+                                nextQuestTitleString = string.format("%s", nextQuest.name)
+                            end
+
+                            if Questie.db.profile.enableTooltipsQuestID then
+                                nextQuestIdString = string.format(" (%d)", nextQuest.Id)
+                            end
+
+                            local nextQuestXpReward = QuestXP:GetQuestLogRewardXP(nextQuest.Id, Questie.db.profile.showQuestXpAtMaxLevel)
+                            if nextQuestXpReward > 0 then
+                                nextQuestXpRewardString = string.format(" (%s%s)", FormatLargeNumber(nextQuestXpReward), xpString)
+                            end
+
+                            local nextQuestMoneyReward = QuestXP:GetQuestRewardMoney(nextQuest.Id);
+                            if nextQuestMoneyReward > 0 then
+                                nextQuestMoneyRewardString = Questie:Colorize(string.format(" (%s)", GetCoinTextureString(nextQuestMoneyReward)), "white")
+                            end
+
+                            if (QuestieDB.IsGroupQuest(nextQuest.Id) or QuestieDB.IsDungeonQuest(nextQuest.Id) or QuestieDB.IsRaidQuest(nextQuest.Id)) then
+                                local _, nextQuestTag = QuestieDB.GetQuestTagInfo(nextQuest.Id)
+                                nextQuestTagString = Questie:Colorize(string.format(" (%s)", nextQuestTag), "yellow")
+                            end
+
+                            local nextQuestString = string.format("      %s%s%s%s%s", nextQuestTitleString, nextQuestIdString, nextQuestXpRewardString, nextQuestMoneyRewardString, nextQuestTagString) -- we need an offset to align with description
+                            self:AddLine(QuestieLib:PrintDifficultyColor(nextQuest.level, nextQuestString, QuestieDB.IsRepeatable(nextQuest.Id), QuestieDB.IsActiveEventQuest(nextQuest.Id), QuestieDB.IsPvPQuest(nextQuest.Id)), 1, 1, 1)
+                            if nextQuest.nextQuestInChain > 0 then
+                                nextQuest = QuestieDB.GetQuest(nextQuest.nextQuestInChain)
+                            else
                                 break
                             end
-
-                            factionName = select(1, GetFactionInfoByID(factionId))
-                            if factionName then
-                                rewardValue = rewardPair[2]
-
-                                if playerIsHuman and rewardValue > 0 then
-                                    -- Humans get 10% more reputation
-                                    rewardValue = math.floor(rewardValue * 1.1)
-                                end
-
-                                if factionId == 932 then -- Aldor
-                                    scryersPenalty = 0 - math.floor(rewardValue * 1.1)
-                                elseif factionId == 934 then -- Scryers
-                                    aldorPenalty = 0 - math.floor(rewardValue * 1.1)
-                                end
-
-                                rewardTable[#rewardTable+1] = (rewardValue > 0 and "+" or "") .. rewardValue .. " " .. factionName
-                            end
                         end
-
-                        if aldorPenalty then
-                            factionName = select(1, GetFactionInfoByID(932))
-                            rewardTable[#rewardTable+1] = aldorPenalty .. " " .. factionName
-                        elseif scryersPenalty then
-                            factionName = select(1, GetFactionInfoByID(934))
-                            rewardTable[#rewardTable+1] = scryersPenalty .. " " .. factionName
-                        end
-
-                        self:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(table.concat(rewardTable, " / "), "reputationBlue"), 1, 1, 1, 1, 1, 0)
                     end
+                end
+
+                if shift and next(reputationReward) then
+                    local rewardTable = {}
+                    local factionId, factionName
+                    local rewardValue
+                    local aldorPenalty, scryersPenalty
+                    for _, rewardPair in pairs(reputationReward) do
+                        factionId = rewardPair[1]
+
+                        if factionId == 935 and playerIsHonoredWithShaTar and (scryersPenalty or aldorPenalty) then
+                            -- Quests for Aldor and Scryers gives reputation to the Sha'tar but only before being Honored
+                            -- with the Sha'tar
+                            break
+                        end
+
+                        factionName = select(1, GetFactionInfoByID(factionId))
+                        if factionName then
+                            rewardValue = rewardPair[2]
+
+                            if playerIsHuman and rewardValue > 0 then
+                                -- Humans get 10% more reputation
+                                rewardValue = math.floor(rewardValue * 1.1)
+                            end
+
+                            if factionId == 932 then     -- Aldor
+                                scryersPenalty = 0 - math.floor(rewardValue * 1.1)
+                            elseif factionId == 934 then -- Scryers
+                                aldorPenalty = 0 - math.floor(rewardValue * 1.1)
+                            end
+
+                            rewardTable[#rewardTable + 1] = (rewardValue > 0 and "+" or "") .. rewardValue .. " " .. factionName
+                        end
+                    end
+
+                    if aldorPenalty then
+                        factionName = select(1, GetFactionInfoByID(932))
+                        rewardTable[#rewardTable + 1] = aldorPenalty .. " " .. factionName
+                    elseif scryersPenalty then
+                        factionName = select(1, GetFactionInfoByID(934))
+                        rewardTable[#rewardTable + 1] = scryersPenalty .. " " .. factionName
+                    end
+
+                    self:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(table.concat(rewardTable, " / "), "reputationBlue"), 1, 1, 1, 1, 1, 0)
                 end
             end
         end
+
+        -- tooltips for objectives of active quests
         ---@param questId number
         for questId, textList in pairs(self.questOrder) do -- this logic really needs to be improved
             ---@type Quest
-            local quest = QuestieDB:GetQuest(questId);
-            local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, true, true);
+            local quest = QuestieDB.GetQuest(questId);
+            local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true, true);
+            local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.profile.showQuestXpAtMaxLevel);
+            r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
             if haveGiver then
-                self:AddLine(" ");
-                self:AddDoubleLine(questTitle, "(" .. l10n("Active") .. ")", 1, 1, 1, 1, 1, 0);
-                haveGiver = false -- looks better when only the first one shows (active)
+                if shift and xpReward then
+                    self:AddLine(" ");
+                    self:AddDoubleLine(questTitle, "(" .. FormatLargeNumber(xpReward) .. xpString .. ") (" .. l10n("Active") .. ")", 0.2, 1, 0.2, 1, 1, 0);
+                    haveGiver = false -- looks better when only the first one shows (active)
+                else
+                    self:AddLine(" ");
+                    self:AddDoubleLine(questTitle, "(" .. l10n("Active") .. ")", 1, 1, 1, 1, 1, 0);
+                    haveGiver = false -- looks better when only the first one shows (active)
+                end
             else
-                local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.global.showQuestXpAtMaxLevel)
                 if (quest and shift and xpReward > 0) then
-                    r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
-                    self:AddDoubleLine(questTitle, "("..FormatLargeNumber(xpReward)..xpString..")", 0.2, 1, 0.2, r, g, b);
+                    self:AddDoubleLine(questTitle, "(" .. FormatLargeNumber(xpReward) .. xpString .. ")", 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
                 elseif (firstLine and not shift) then
-                    self:AddDoubleLine(questTitle, "(".. l10n('Hold Shift')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
+                    self:AddDoubleLine(questTitle, "(" .. l10n('Hold Shift') .. ")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
                     firstLine = false;
                 else
                     self:AddLine(questTitle);
@@ -356,15 +415,20 @@ function MapIconTooltip:Show()
             local defaultQuestColor = QuestieLib:GetRGBForObjective({})
             if shift then
                 local creatureLevels = QuestieDB:GetCreatureLevels(quest) -- Data for min and max level
+                local addedCreatureNames = {}
                 for _, textData in pairs(textList) do
                     for textLine, nameData in pairs(textData) do
                         local dataType = type(nameData)
                         if dataType == "table" then
                             for name in pairs(nameData) do
-                                name = _GetLevelString(creatureLevels, name)
-                                self:AddLine("   |cFFDDDDDD" .. name);
+                                if (not addedCreatureNames[name]) then
+                                    addedCreatureNames[name] = true
+                                    name = _GetLevelString(creatureLevels, name)
+                                    self:AddLine("   |cFFDDDDDD" .. name);
+                                end
                             end
-                        elseif dataType == "string" then
+                        elseif dataType == "string" and (not addedCreatureNames[nameData]) then
+                            addedCreatureNames[nameData] = true
                             nameData = _GetLevelString(creatureLevels, nameData)
                             self:AddLine("   |cFFDDDDDD" .. nameData);
                         end
@@ -380,7 +444,7 @@ function MapIconTooltip:Show()
             end
         end
 
-        if next(self.npcOrder) and next(self.manualOrder) then
+        if next(self.npcAndObjectOrder) and next(self.manualOrder) then
             -- Spacer before townsfolk
             self:AddLine("             ")
         end
@@ -393,7 +457,7 @@ function MapIconTooltip:Show()
                 if dataType == "string" then
                     self:AddLine(stringOrTable)
                 elseif dataType == "table" then
-                    self:AddDoubleLine(stringOrTable[1], '|cFFffffff'..stringOrTable[2]..'|r') --normal, white
+                    self:AddDoubleLine(stringOrTable[1], '|cFFffffff' .. stringOrTable[2] .. '|r') --normal, white
                 end
             end
             if self.miniMapIcon == false and not data.disableShiftToRemove then
@@ -403,6 +467,7 @@ function MapIconTooltip:Show()
     end
     Tooltip:_Rebuild() -- we separate this so things like MODIFIER_STATE_CHANGED can redraw the tooltip
     Tooltip:SetFrameStrata("TOOLTIP");
+    Tooltip.ShownAsMapIcon = true
     Tooltip:Show();
 end
 
@@ -414,7 +479,7 @@ function _MapIconTooltip:IsMinimapInside()
     end
     local tempzoom = 0;
     if (GetCVar("minimapZoom") == GetCVar("minimapInsideZoom")) then
-        if (GetCVar("minimapInsideZoom")+0 >= 3) then
+        if (GetCVar("minimapInsideZoom") + 0 >= 3) then
             Minimap:SetZoom(Minimap:GetZoom() - 1);
             tempzoom = 1;
         else
@@ -422,7 +487,7 @@ function _MapIconTooltip:IsMinimapInside()
             tempzoom = -1;
         end
     end
-    if (GetCVar("minimapInsideZoom")+0 == Minimap:GetZoom()) then
+    if (GetCVar("minimapInsideZoom") + 0 == Minimap:GetZoom()) then
         Minimap:SetZoom(Minimap:GetZoom() + tempzoom);
         isLastMinimapInside = true
         lastMinimapInsideCheckTimestamp = GetTime()
@@ -435,41 +500,58 @@ function _MapIconTooltip:IsMinimapInside()
     end
 end
 
-function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
-    local tip = {};
-    if icon.data.Type == "complete" then
-        tip.type = "(" .. l10n("Complete") .. ")";
+--- Get the quest tag to display in the tooltip
+---@param quest Quest
+---@return string tag
+local function _GetQuestTag(quest)
+    if quest.Type == "complete" then
+        return "(" .. l10n("Complete") .. ")";
     else
+        local questType, questTag = QuestieDB.GetQuestTagInfo(quest.Id)
 
-        local questType, questTag = QuestieDB.GetQuestTagInfo(icon.data.Id)
-
-        if (QuestieDB.IsRepeatable(icon.data.Id)) then
-            tip.type = "(" .. l10n("Repeatable") .. ")";
-        elseif (questType == 41 or questType == 81 or questType == 83 or questType == 62 or questType == 1) then
+        if (QuestieEvent and QuestieEvent.activeQuests[quest.Id]) then
+            return "(" .. l10n("Event") .. ")";
+        elseif (questType == 41) then
+            return "(" .. l10n("PvP") .. ")";
+        elseif (QuestieDB.IsRepeatable(quest.Id)) then
+            return "(" .. l10n("Repeatable") .. ")";
+        elseif (questType == 81 or questType == 83 or questType == 62 or questType == 1) then
             -- Dungeon or Legendary or Raid or Group(Elite)
-            tip.type = "("..questTag..")";
-        elseif (QuestieEvent and QuestieEvent.activeQuests[icon.data.Id]) then
-            tip.type = "(" .. l10n("Event") .. ")";
+            return "(" .. questTag .. ")";
+        elseif (Questie.IsSoD and QuestieDB.IsSoDRuneQuest(quest.Id)) then
+            return "(" .. l10n("Rune") .. ")";
         else
-            tip.type = "(" .. l10n("Available") .. ")";
+            return "(" .. l10n("Available") .. ")";
         end
     end
-    tip.title = QuestieLib:GetColoredQuestName(icon.data.Id, Questie.db.global.enableTooltipsQuestLevel, false, true)
+end
+
+function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
+    local tip = {};
+    tip.type = _GetQuestTag(icon.data)
+    tip.title = QuestieLib:GetColoredQuestName(icon.data.Id, Questie.db.profile.enableTooltipsQuestLevel, false, true)
     tip.subData = icon.data.QuestData.Description
     tip.questId = icon.data.Id;
 
     return tip
 end
 
-function _MapIconTooltip:GetEventObjectiveTooltip(icon)
-    local tip = {
-        [icon.data.ObjectiveData.Description] = {},
-    }
-    if (icon.data.ObjectiveData.Index) then
-        local objectiveDesc = icon.data.QuestData.Objectives[icon.data.ObjectiveData.Index].Description;
-        tip[icon.data.ObjectiveData.Description][objectiveDesc] = true;
+function _MapIconTooltip:GetEventObjectiveTooltip(iconData)
+    if iconData.Name then
+        return {
+            [iconData.ObjectiveData.Index] = {
+                [iconData.ObjectiveData.Description] = {
+                    [iconData.Name] = true
+                }
+            }
+        }
+    else
+        return {
+            [iconData.ObjectiveData.Index] = {
+                [iconData.ObjectiveData.Description] = true
+            }
+        }
     end
-    return tip
 end
 
 function _MapIconTooltip:GetObjectiveTooltip(icon)
@@ -478,7 +560,11 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
     local text = iconData.ObjectiveData.Description
     local color = QuestieLib:GetRGBForObjective(iconData.ObjectiveData)
     if iconData.ObjectiveData.Needed then
-        text = color .. tostring(iconData.ObjectiveData.Collected) .. "/" .. tostring(iconData.ObjectiveData.Needed) .. " " .. text
+        if iconData.ObjectiveData.Type == "spell" and iconData.ObjectiveData.spawnList[iconData.ObjectiveTargetId].ItemId then
+            text = color .. tostring(QuestieDB.QueryItemSingle(iconData.ObjectiveData.spawnList[iconData.ObjectiveTargetId].ItemId, "name"))
+        else
+            text = color .. tostring(iconData.ObjectiveData.Collected) .. "/" .. tostring(iconData.ObjectiveData.Needed) .. " " .. text
+        end
     end
     if QuestieComms then
         local anotherPlayer = false;
@@ -494,7 +580,7 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
                     playerColor = QuestieComms.remotePlayerClasses[playerName]
                     if playerColor then
                         playerColor = Questie:GetClassColor(playerColor)
-                        playerType = " (".. l10n("Nearby")..")"
+                        playerType = " (" .. l10n("Nearby") .. ")"
                     end
                 end
                 if playerColor then
@@ -504,7 +590,7 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
                         objectiveEntry = {} -- This will make "GetRGBForObjective" return default color
                     end
                     local remoteColor = QuestieLib:GetRGBForObjective(objectiveEntry)
-                    local colorizedPlayerName = " ("..playerColor..playerName.."|r"..remoteColor..")|r"..playerType
+                    local colorizedPlayerName = " (" .. playerColor .. playerName .. "|r" .. remoteColor .. ")|r" .. playerType
                     local remoteText = iconData.ObjectiveData.Description
 
                     if objectiveEntry and objectiveEntry.fulfilled and objectiveEntry.required then
@@ -528,7 +614,7 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
                 local name = UnitName("player");
                 local _, classFilename = UnitClass("player");
                 local _, _, _, argbHex = GetClassColor(classFilename)
-                name = " (|c"..argbHex..name.."|r"..color..")|r";
+                name = " (|c" .. argbHex .. name .. "|r" .. color .. ")|r";
                 text = text .. name;
             end
         end
@@ -547,11 +633,17 @@ end
 function _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
     for text, nameTable in pairs(tip) do
         local data = {}
-        data[text] = nameTable;
-        --Add the data for the first time
-        if not usedText[text] then
+        data[text] = nameTable
+        -- Add the data for the first time
+        if not usedText[icon.data.Id] then
+            usedText[icon.data.Id] = {
+                [text] = true
+            }
             tinsert(quest, data)
-            usedText[text] = true;
+            -- add another line to an existing entry
+        elseif not usedText[icon.data.Id][text] then
+            tinsert(quest, data)
+            usedText[icon.data.Id][text] = true
         else
             --We want to add more NPCs as possible candidates when shift is pressed.
             if icon.data.Name then

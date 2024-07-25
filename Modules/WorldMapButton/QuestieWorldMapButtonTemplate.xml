@@ -1,0 +1,64 @@
+<Ui>
+    <Button name="QuestieWorldMapButtonTemplate" frameStrata="HIGH" mixin="QuestieWorldMapButtonMixin" motionScriptsWhileDisabled="true" virtual="true">
+        <Size x="32" y="32"/>
+        <Layers>
+            <Layer level="BACKGROUND" textureSubLevel="-1">
+                <Texture atlas="MapCornerShadow-Right" useAtlasSize="true" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="4" y="1"/>
+                    </Anchors>
+                    <TexCoords left="0" right="1" top="1" bottom="0"/>
+                </Texture>
+            </Layer>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background" file="Interface\Minimap\UI-Minimap-Background">
+                    <Size x="25" y="25"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="2" y="-4"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture parentKey="Icon" file="Interface\Addons\Questie\Icons\complete.blp">
+                    <Size x="20" y="20"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="6" y="-5"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <Texture parentKey="IconOverlay" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.Icon"/>
+                        <Anchor point="BOTTOMRIGHT" relativeKey="$parent.Icon"/>
+                    </Anchors>
+                    <Color r="0.0" g="0.0" b="0.0" a="0.5"/>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY" textureSubLevel="1">
+                <Texture parentKey="Border" file="Interface\Minimap\MiniMap-TrackingBorder">
+                    <Size x="54" y="54"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY" textureSubLevel="2">
+                <Texture parentKey="ActiveTexture" file="Interface\Minimap\UI-Minimap-ZoomButton-Toggle" alphaMode="ADD" hidden="true" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame parentKey="DropDown" inherits="UIDropDownMenuTemplate" clampedToScreen="true" hidden="true"/>
+        </Frames>
+        <HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+            <OnMouseDown method="OnMouseDown"/>
+            <OnMouseUp method="OnMouseUp"/>
+            <OnClick method="OnClick"/>
+            <OnEnter method="OnEnter"/>
+            <OnLeave function="GameTooltip_Hide"/>
+            <OnHide method="OnHide"/>
+        </Scripts>
+    </Button>
+</Ui>

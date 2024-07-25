@@ -34,7 +34,7 @@
 -- end
 -- @class file
 -- @name AceBucket-3.0.lua
--- @release $Id: AceBucket-3.0.lua 1202 2019-05-15 23:11:22Z nevcairiel $
+-- @release $Id: AceBucket-3.0.lua 1284 2022-09-25 09:15:30Z nevcairiel $
 
 local MAJOR, MINOR = "AceBucket-3.0", 4
 local AceBucket, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
@@ -52,10 +52,6 @@ local tconcat = table.concat
 local type, next, pairs, select = type, next, pairs, select
 local tonumber, tostring, rawset = tonumber, tostring, rawset
 local assert, loadstring, error = assert, loadstring, error
-
--- Global vars/functions that we don't upvalue since they might get hooked, or upgraded
--- List them here for Mikk's FindGlobals script
--- GLOBALS: LibStub, geterrorhandler
 
 local bucketCache = setmetatable({}, {__mode='k'})
 

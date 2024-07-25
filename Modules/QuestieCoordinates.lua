@@ -1,6 +1,9 @@
 ---@class QuestieCoords
 local QuestieCoords = QuestieLoader:CreateModule("QuestieCoords");
 
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 local posX = 0;
 local posY = 0;
 
@@ -11,12 +14,11 @@ local GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
 local GetCursorPosition = GetCursorPosition;
 
 local GetMinimapZoneText = GetMinimapZoneText;
+local IsInInstance = IsInInstance;
 local format = format;
 
 
-
 local function GetMapTitleText()
-
     local regions = {WorldMapFrame.BorderFrame:GetRegions()}
     for i = 1, #regions do
         if (regions[i].SetText) then
@@ -25,8 +27,17 @@ local function GetMapTitleText()
     end
 end
 
+local function GetMiniWorldMapTitleText()
+    local regions = {WorldMapFrame.MiniBorderFrame:GetRegions()}
+    for i = 1, #regions do
+        if regions[i].SetText then
+            return regions[i]
+        end
+    end
+end
+
 function QuestieCoords:WriteCoords()
-    if not ((Questie.db.global.mapCoordinatesEnabled and WorldMapFrame:IsVisible()) or (Questie.db.global.minimapCoordinatesEnabled and Minimap:IsVisible())) then
+    if not ((Questie.db.profile.mapCoordinatesEnabled and WorldMapFrame:IsVisible()) or (Questie.db.profile.minimapCoordinatesEnabled and Minimap:IsVisible())) then
         return -- no need to write coords
     end
     local isInInstance, instanceType = IsInInstance()
@@ -35,80 +46,83 @@ function QuestieCoords:WriteCoords()
         return -- dont write coords in raids
     end
 
-    local mapID;
-    local position;
+    local position = QuestieCoords.GetPlayerMapPosition()
+    if (not position) then
+        return
+    end
 
-    -- Player position
-    mapID = GetBestMapForUnit("player");
+    if position.x ~= 0 and position.y ~= 0 and (position.x ~= QuestieCoords._lastX or position.y ~= QuestieCoords._lastY) then
+        QuestieCoords._lastX = position.x
+        QuestieCoords._lastY = position.y
 
-    if mapID then
-        position = GetPlayerMapPosition(mapID, "player");
-        if position then
-            if position.x ~= 0 and position.y ~= 0 and (position.x ~= QuestieCoords._lastX or position.y ~= QuestieCoords._lastY) then
-                QuestieCoords._lastX = position.x
-                QuestieCoords._lastY = position.y
-                
-                posX = position.x * 100;
-                posY = position.y * 100;
+        posX = position.x * 100;
+        posY = position.y * 100;
 
-                -- if minimap
-                if Questie.db.global.minimapCoordinatesEnabled and Minimap:IsVisible() then
-                    MinimapZoneText:SetText(
-                                format("(%d, %d) ", posX, posY) .. GetMinimapZoneText()
-                            );
-                end
-            end
-            -- if main map
-            if Questie.db.global.mapCoordinatesEnabled and WorldMapFrame:IsVisible() then
-                -- get cursor position
-                local curX, curY = GetCursorPosition();
+        -- if minimap
+        if Questie.db.profile.minimapCoordinatesEnabled and Minimap:IsVisible() then
+            MinimapZoneText:SetText(format("(%d, %d) ", posX, posY) .. GetMinimapZoneText());
+        end
+    end
+    -- if main map
+    local mapTitleText = GetMapTitleText()
+    if Questie.db.profile.mapCoordinatesEnabled and WorldMapFrame:IsVisible() and mapTitleText then
+        -- get cursor position
+        local curX, curY = GetCursorPosition();
 
-                local scale = WorldMapFrame:GetCanvas():GetEffectiveScale();
-                curX = curX / scale;
-                curY = curY / scale;
+        local canvas = WorldMapFrame:GetCanvas()
 
-                local width = WorldMapFrame:GetCanvas():GetWidth();
-                local height = WorldMapFrame:GetCanvas():GetHeight();
-                local left = WorldMapFrame:GetCanvas():GetLeft();
-                local top = WorldMapFrame:GetCanvas():GetTop();
+        local scale = canvas:GetEffectiveScale();
+        curX = curX / scale;
+        curY = curY / scale;
 
-                curX = (curX - left) / width * 100;
-                curY = (top - curY) / height * 100;
-                local precision = "%.".. Questie.db.global.mapCoordinatePrecision .."f";
+        local width = canvas:GetWidth();
+        local height = canvas:GetHeight();
+        local left = canvas:GetLeft();
+        local top = canvas:GetTop();
 
-                local worldmapCoordsText = "Cursor: "..format(precision.. " X, ".. precision .." Y  ", curX, curY);
+        curX = (curX - left) / width * 100;
+        curY = (top - curY) / height * 100;
+        local precision = "%.".. Questie.db.profile.mapCoordinatePrecision .."f";
 
-                worldmapCoordsText = worldmapCoordsText.."|  Player: "..format(precision.. " X , ".. precision .." Y", posX, posY);
-                -- Add text to world map
-                GetMapTitleText():SetText(worldmapCoordsText)
-            end
+        local worldmapCoordsText = "Cursor: "..format(precision.. " X, ".. precision .." Y  ", curX, curY);
+
+        worldmapCoordsText = worldmapCoordsText.."|  Player: "..format(precision.. " X , ".. precision .." Y", posX, posY);
+        -- Add text to world map
+        mapTitleText:SetText(worldmapCoordsText)
+
+        -- Adding text to mini world map
+        local miniWorldMapTitleText = GetMiniWorldMapTitleText()
+        if miniWorldMapTitleText then
+            miniWorldMapTitleText:SetText(worldmapCoordsText)
         end
     end
 end
 
+---@return table<{x: number, y: number}>, number | nil
+function QuestieCoords.GetPlayerMapPosition()
+    local mapID = GetBestMapForUnit("player")
+    if (not mapID) then
+        return nil, nil
+    end
+
+    return GetPlayerMapPosition(mapID, "player"), mapID
+end
+
 function QuestieCoords:Initialize()
-    --QuestieCoords.coordFrame = CreateFrame("Frame");
-    --QuestieCoords.coordFrame:SetScript("OnUpdate", QuestieCoords.Update);
 
     -- Do not fight with Coordinates addon
-    if IsAddOnLoaded("Coordinates") and ((Questie.db.global.minimapCoordinatesEnabled) or (Questie.db.global.mapCoordinatesEnabled)) then
-        Questie:Print("|cFFFF0000WARNING!|r", "Coordinates addon is enabled and will cause buggy behavior. Disabling global map and mini map coordinates. These can be re-enabled in settings")
-        Questie.db.global.minimapCoordinatesEnabled = false
-        Questie.db.global.mapCoordinatesEnabled = false
+    if IsAddOnLoaded("Coordinates") and ((Questie.db.profile.minimapCoordinatesEnabled) or (Questie.db.profile.mapCoordinatesEnabled)) then
+        Questie:Print("|cFFFF0000", l10n("WARNING!"), "|r", l10n("Coordinates addon is enabled and will cause buggy behavior. Disabling global map and mini map coordinates. These can be re-enabled in settings"))
+        Questie.db.profile.minimapCoordinatesEnabled = false
+        Questie.db.profile.mapCoordinatesEnabled = false
     end
 
     C_Timer.NewTicker(QuestieCoords.updateInterval, QuestieCoords.Update)
 end
 
-function QuestieCoords:Update(elapsed)
-    if (Questie.db.global.minimapCoordinatesEnabled) or
-        (Questie.db.global.mapCoordinatesEnabled) then
-
-        --totalTime = totalTime + elapsed;
-        --if(totalTime > QuestieCoords.updateInterval) then
-        --    totalTime = 0;
-            QuestieCoords.WriteCoords();
-        --end
+function QuestieCoords:Update()
+    if (Questie.db.profile.minimapCoordinatesEnabled) or (Questie.db.profile.mapCoordinatesEnabled) then
+        QuestieCoords.WriteCoords();
     end
 end
 
@@ -118,4 +132,14 @@ end
 
 function QuestieCoords:ResetMapText()
     GetMapTitleText():SetText(WORLD_MAP);
+end
+
+function QuestieCoords:ResetMiniWorldMapText()
+    local currentMapId = WorldMapFrame:GetMapID();
+    if currentMapId then
+        local info = C_Map.GetMapInfo(currentMapId);
+        if info then
+            GetMiniWorldMapTitleText():SetText(info.name);
+        end
+    end
 end

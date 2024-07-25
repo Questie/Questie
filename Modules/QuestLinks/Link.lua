@@ -70,7 +70,7 @@ end
 
 ---@return string
 function QuestieLink:GetQuestHyperLink(questId, senderGUID)
-    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.global.trackerShowQuestLevel, true, false)
+    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.trackerShowQuestLevel, true, false)
     local questLevel, _ = QuestieLib.GetTbcLevel(questId)
     local isRepeatable = QuestieDB.IsRepeatable(questId)
 
@@ -78,7 +78,7 @@ function QuestieLink:GetQuestHyperLink(questId, senderGUID)
         senderGUID = UnitGUID("player")
     end
 
-    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[", isRepeatable)..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]", isRepeatable).."|h"
+    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[", isRepeatable, QuestieDB.IsActiveEventQuest(questId), QuestieDB.IsPvPQuest(questId))..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]", isRepeatable, QuestieDB.IsActiveEventQuest(questId), QuestieDB.IsPvPQuest(questId)).."|h"
 end
 
 function QuestieLink:CreateQuestTooltip(link)
@@ -87,7 +87,7 @@ function QuestieLink:CreateQuestTooltip(link)
         ---@type string
         local questIdStr = select(2, strsplit(":", link))
         local questId = tonumber(questIdStr)
-        local quest = QuestieDB:GetQuest(questId)
+        local quest = QuestieDB.GetQuest(questId)
 
         if quest then
             _AddQuestTitle(quest)
@@ -119,18 +119,18 @@ _AddColoredTooltipLine = function (text, color, wrapText)
 end
 
 _AddQuestTitle = function(quest)
-    local questLevel = QuestieLib:GetLevelString(quest.Id, quest.name, quest.level, false)
+    local questLevel = QuestieLib:GetLevelString(quest.Id, quest.level, false)
 
     local titleColor = "gold"
     if quest.specialFlags == 1 then
-        titleColor = "blizzardBlue"
+        titleColor = "blue"
     end
 
-    if Questie.db.global.trackerShowQuestLevel and Questie.db.global.enableTooltipsQuestID then
+    if Questie.db.profile.trackerShowQuestLevel and Questie.db.profile.enableTooltipsQuestID then
         _AddColoredTooltipLine(questLevel .. quest.name .. " (" .. quest.Id .. ")", titleColor)
-    elseif Questie.db.global.trackerShowQuestLevel and (not Questie.db.global.enableTooltipsQuestID) then
+    elseif Questie.db.profile.trackerShowQuestLevel and (not Questie.db.profile.enableTooltipsQuestID) then
         _AddColoredTooltipLine(questLevel .. quest.name, titleColor)
-    elseif Questie.db.global.enableTooltipsQuestID and (not Questie.db.global.trackerShowQuestLevel) then
+    elseif Questie.db.profile.enableTooltipsQuestID and (not Questie.db.profile.trackerShowQuestLevel) then
         _AddColoredTooltipLine(quest.name .. " (" .. quest.Id .. ")", titleColor)
     else
         _AddColoredTooltipLine(quest.name, titleColor)
@@ -169,7 +169,7 @@ _AddQuestDescription = function (quest)
         _AddColoredTooltipLine(quest.Description[1], "white", true)
         if #quest.Description > 2 then
             for i = 2, #quest.Description do
-                _AddTooltipLine(" ")
+                --_AddTooltipLine(" ") -- this is just adding extra lines between text definitions in DB files
                 _AddColoredTooltipLine(quest.Description[i], "white", true)
             end
         end
@@ -356,7 +356,7 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(...)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:OnHyperlinkShow] Relinking Quest Link to chat:", link)
             questId = tonumber(questId)
 
-            local quest = QuestieDB:GetQuest(questId)
+            local quest = QuestieDB.GetQuest(questId)
             if quest then
                 local msg = ChatFrame1EditBox:GetText()
                 if msg then

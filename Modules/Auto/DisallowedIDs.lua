@@ -44,6 +44,7 @@ _QuestieAuto.disallowedNPC = {
     [14828] = true, -- Gelvas Grimegate (Darkmoon Faire Ticket Redemption)
     [14921] = true, -- Rin'wosho the Trader (Zul'Gurub Isle, Stranglethorn Vale)
     [15192] = true, -- Anachronos (Caverns of Time)
+    [15909] = true, -- Fariel Starsong <Coin of Ancestry Collector> (Lunar Festival)
     [18166] = true, -- Khadgar (Allegiance to Aldor/Scryer, Shattrath)
     [18253] = true, -- Archmage Leryda (Violet Eye)
     [18471] = true, -- Gurgthock (The Ring of Blood)
@@ -51,6 +52,14 @@ _QuestieAuto.disallowedNPC = {
     [19936] = true, -- Arazmodu (The Scale of Sands)
     [25112] = true, -- Anchorite Ayuri (Shattered Sun Offensive Charity NPC)
     [25163] = true, -- Anchorite Kairthos (Shattered Sun Offensive Title NPC)
+
+    -- SoD Waylaid supply officers
+    [213077] = true,
+    [214070] = true,
+    [214096] = true,
+    [214098] = true,
+    [214099] = true,
+    [214101] = true,
 }
 
 ---@see QuestieAutoPrivate
@@ -76,6 +85,8 @@ _QuestieAuto.disallowedQuests = {
     [994] = true, -- Volcor (Escape Through Force)
     [995] = true, -- Volcor (Escape Through Stealth)
     [1144] = true, -- Willix the Importer (Willix the Importer)
+    [1120] = true, -- Get the Gnomes Drunk
+    [1121] = true, -- Get the Goblins Drunk
     [1222] = true, -- Stinky Ignatz (Stinky's Escape)
     [1270] = true, -- Stinky Ignatz (Stinky's Escape)
     [1273] = true, -- Ogron (Questioning Reethe)
@@ -99,6 +110,8 @@ _QuestieAuto.disallowedQuests = {
     [4770] = true, -- Pao'ka Swiftmountain (Homeward Bound)
     [4901] = true, -- Ranshalla (Guardians of the Altar)
     [4904] = true, -- Lakota Windsong (Free at Last)
+    [4962] = true, -- Shard of a Felhound Warlock special quest
+    [4963] = true, -- Shard of an Infernal Warlock special quest
     [4966] = true, -- Kanati Greycloud (Protect Kanati Greycloud)
     [5203] = true, -- Captured Arko'narin (Rescue From Jaedenar)
     [5321] = true, -- Kerlonian Evershade (The Sleeper Has Awakened)
@@ -200,4 +213,8 @@ _QuestieAuto.disallowedQuests = {
 
     [11705] = true, -- Foolish Endeavors
     [11733] = true, -- Traversing the Rift
+    [12671] = true, -- Reconnaissance Flight
+
+    [13926] = true, -- Little Orphan Roo of the Oracles
+    [13927] = true, -- Little Orphan Kekek of the Wolvar
 }

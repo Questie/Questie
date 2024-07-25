@@ -10,6 +10,8 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -30,6 +32,12 @@ local MAX_GROUP_MEMBER_COUNT = 6
 
 local _InitObjectiveTexts
 
+--[[
+IMPORTANT!
+If you change the way the tooltip keys are structured and/or the return value of GetTooltip,
+we need to let the Plater addon devs know about it.
+--]]
+
 ---@param questId number
 ---@param key string monster: m_, items: i_, objects: o_ + string name of the objective
 ---@param objective table
@@ -40,36 +48,60 @@ function QuestieTooltips:RegisterObjectiveTooltip(questId, key, objective)
     if not QuestieTooltips.lookupKeysByQuestId[questId] then
         QuestieTooltips.lookupKeysByQuestId[questId] = {}
     end
-    local tooltip = {};
-    tooltip.questId = questId;
-    tooltip.objective = objective
+    local tooltip = {
+        questId = questId,
+        objective = objective,
+    };
     QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. objective.Index] = tooltip
-    table.insert(QuestieTooltips.lookupKeysByQuestId[questId], key)
+    tinsert(QuestieTooltips.lookupKeysByQuestId[questId], key)
 end
 
 ---@param questId number
----@param npc table
-function QuestieTooltips:RegisterQuestStartTooltip(questId, npc)
-    local key = "m_" .. npc.id
+---@param name string The name of the object or NPC the tooltip should show on
+---@param starterId number The ID of the object or NPC the tooltip should show on
+---@param key string @Either m_<npcId> or o_<objectId>
+function QuestieTooltips:RegisterQuestStartTooltip(questId, name, starterId, key)
     if not QuestieTooltips.lookupByKey[key] then
         QuestieTooltips.lookupByKey[key] = {};
     end
     if not QuestieTooltips.lookupKeysByQuestId[questId] then
         QuestieTooltips.lookupKeysByQuestId[questId] = {}
     end
-    local tooltip = {};
-    tooltip.questId = questId
-    tooltip.npc = npc
-    QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. npc.name] = tooltip
-    table.insert(QuestieTooltips.lookupKeysByQuestId[questId], key)
+    local tooltip = {
+        questId = questId,
+        name = name,
+        starterId = starterId,
+    };
+    QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. name .. " " .. starterId] = tooltip
+    tinsert(QuestieTooltips.lookupKeysByQuestId[questId], key)
 end
 
 ---@param questId number
 function QuestieTooltips:RemoveQuest(questId)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:RemoveQuest]", questId)
     if (not QuestieTooltips.lookupKeysByQuestId[questId]) then
+        -- Tooltip has already been removed
         return
     end
+
+    -- Remove tooltip related keys from quest table so that
+    -- it can be readded/registered by other quest functions.
+    local quest = QuestieDB.GetQuest(questId)
+
+    if quest then
+        for _, objective in pairs(quest.Objectives) do
+            objective.AlreadySpawned = {}
+            objective.hasRegisteredTooltips = false
+            objective.registeredItemTooltips = false
+        end
+
+        for _, objective in pairs(quest.SpecialObjectives) do
+            objective.AlreadySpawned = {}
+            objective.hasRegisteredTooltips = false
+            objective.registeredItemTooltips = false
+        end
+    end
+
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:RemoveQuest]", questId)
 
     for _, key in pairs(QuestieTooltips.lookupKeysByQuestId[questId] or {}) do
         --Count to see if we should remove the main object
@@ -77,21 +109,21 @@ function QuestieTooltips:RemoveQuest(questId)
         local totalRemoved = 0
         for _, tooltipData in pairs(QuestieTooltips.lookupByKey[key] or {}) do
             --Remove specific quest
-            if(tooltipData.questId == questId and tooltipData.objective) then
+            if (tooltipData.questId == questId and tooltipData.objective) then
                 QuestieTooltips.lookupByKey[key][tostring(tooltipData.questId) .. " " .. tooltipData.objective.Index] = nil
                 totalRemoved = totalRemoved + 1
-            elseif(tooltipData.questId == questId and tooltipData.npc) then
-                QuestieTooltips.lookupByKey[key][tostring(tooltipData.questId) .. " " .. tooltipData.npc.name] = nil
+            elseif (tooltipData.questId == questId and tooltipData.name) then
+                QuestieTooltips.lookupByKey[key][tostring(tooltipData.questId) .. " " .. tooltipData.name .. " " .. tooltipData.starterId] = nil
                 totalRemoved = totalRemoved + 1
             end
             totalCount = totalCount + 1
         end
-        if(totalCount == totalRemoved) then
+        if (totalCount == totalRemoved) then
             QuestieTooltips.lookupByKey[key] = nil
         end
     end
 
-    QuestieTooltips.lookupKeysByQuestId[questId] = {}
+    QuestieTooltips.lookupKeysByQuestId[questId] = nil
 end
 
 -- This code is related to QuestieComms, here we fetch all the tooltip data that exist in QuestieCommsData
@@ -104,7 +136,7 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
         for questId, playerList in pairs(tooltipDataExternal) do
             if (not tooltipData[questId]) then
                 tooltipData[questId] = {
-                    title = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, true, true)
+                    title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
                 }
             end
             for playerName, _ in pairs(playerList) do
@@ -126,7 +158,7 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
         for questId, playerList in pairs(tooltipDataExternal) do
             if (not tooltipData[questId]) then
                 tooltipData[questId] = {
-                    title = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, true, true)
+                    title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
                 }
             end
             for playerName, objectives in pairs(playerList) do
@@ -138,7 +170,7 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
                             objective = {}
                         end
 
-                        tooltipData[questId].objectivesText =  _InitObjectiveTexts(tooltipData[questId].objectivesText, objectiveIndex, playerName)
+                        tooltipData[questId].objectivesText = _InitObjectiveTexts(tooltipData[questId].objectivesText, objectiveIndex, playerName)
 
                         local text;
                         local color = QuestieLib:GetRGBForObjective(objective)
@@ -149,7 +181,7 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
                             text = "   " .. color .. objective.text;
                         end
 
-                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text};
+                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                     end
                 end
             end
@@ -159,14 +191,38 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
 end
 
 ---@param key string
-function QuestieTooltips:GetTooltip(key)
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTooltips:GetTooltip]", key)
+function QuestieTooltips.GetTooltip(key)
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTooltips.GetTooltip]", key)
     if (not key) then
         return nil
     end
 
     if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
         return nil -- temporary disable tooltips in raids, we should make a proper fix
+    end
+
+    local isObjectTooltip = key:sub(1, 2) == "o_"
+    if isObjectTooltip then
+        local objectIsInCurrentZone = false
+        local objectId = tonumber(key:sub(3))
+        local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
+        if spawns then
+            local playerZone = QuestiePlayer:GetCurrentZoneId()
+            if playerZone == 0 then
+                objectIsInCurrentZone = true
+            else
+                for zoneId in pairs(spawns) do
+                    if zoneId == playerZone then
+                        objectIsInCurrentZone = true
+                        break
+                    end
+                end
+            end
+        end
+
+        if (not objectIsInCurrentZone) then
+            return nil
+        end
     end
 
     --Do not remove! This is the datastrucutre for tooltipData!
@@ -180,47 +236,64 @@ function QuestieTooltips:GetTooltip(key)
                 }
             }
         }
-    }]]--
+    }]]
+    --
     local tooltipData = {}
     local tooltipLines = {}
 
     if QuestieTooltips.lookupByKey[key] then
         local playerName = UnitName("player")
-        for k, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
-            if tooltip.npc then
-                if Questie.db.char.showQuestsInNpcTooltip then
-                    local questString = QuestieLib:GetColoredQuestName(tooltip.questId, Questie.db.global.enableTooltipsQuestLevel, true, true)
-                    table.insert(tooltipLines, questString)
+
+        local finishedAndUnacceptedQuests = {}
+        if Questie.db.profile.showQuestsInNpcTooltip then
+            -- We built a table of all quests in the tooltip that can be accepted or turned in, to not show the objectives for those
+            -- and also don't add the quest title twice.
+            for _, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
+                if tooltip.name then
+                    finishedAndUnacceptedQuests[tooltip.questId] = true
                 end
-            else
+            end
+        end
+
+        for k, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
+            local questId = tooltip.questId
+
+            if tooltip.name then
+                if Questie.db.profile.showQuestsInNpcTooltip then
+                    local questString = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
+                    tinsert(tooltipLines, questString)
+                end
+            elseif (not finishedAndUnacceptedQuests[questId]) then
                 local objective = tooltip.objective
-                if (not objective.IsSourceItem) then
-                    -- Tooltip was registered for a sourceItem and not a real "objective"
+                if not (objective.IsSourceItem or objective.IsRequiredSourceItem) then
+                    -- Tooltip was registered for a real "objective" and not for a sourceItem or requiredSourceItem
                     objective:Update()
                 end
-
-                local questId = tooltip.questId
                 local objectiveIndex = objective.Index;
                 if (not tooltipData[questId]) then
                     tooltipData[questId] = {
-                        title = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, true, true)
+                        title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true, true)
                     }
                 end
-
                 if not QuestiePlayer.currentQuestlog[questId] then
+                    -- TODO: Is this still required?
                     QuestieTooltips.lookupByKey[key][k] = nil
                 else
                     tooltipData[questId].objectivesText = _InitObjectiveTexts(tooltipData[questId].objectivesText, objectiveIndex, playerName)
-
                     local text;
                     local color = QuestieLib:GetRGBForObjective(objective)
 
-                    if objective.Needed then
-                        text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description);
-                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = {["color"] = color, ["text"] = text};
+                    if objective.Type == "spell" and objective.spawnList[tonumber(key:sub(3))].ItemId then
+                        text = "   " .. color .. tostring(QuestieDB.QueryItemSingle(objective.spawnList[tonumber(key:sub(3))].ItemId, "name"));
+                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
+                    elseif objective.Needed then
+                        if (not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed then
+                            text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description);
+                            tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
+                        end
                     else
                         text = "   " .. color .. tostring(objective.Description);
-                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = {["color"] = color, ["text"] = text};
+                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                     end
                 end
             end
@@ -244,19 +317,19 @@ function QuestieTooltips:GetTooltip(key)
                 local playerType = ""
                 if playerInfo then
                     playerColor = "|c" .. playerInfo.colorHex
-                elseif QuestieComms.remotePlayerEnabled[objectivePlayerName] and QuestieComms.remoteQuestLogs[questId] and QuestieComms.remoteQuestLogs[questId][objectivePlayerName] and (not Questie.db.global.onlyPartyShared or UnitInParty(objectivePlayerName)) then
+                elseif QuestieComms.remotePlayerEnabled[objectivePlayerName] and QuestieComms.remoteQuestLogs[questId] and QuestieComms.remoteQuestLogs[questId][objectivePlayerName] and (not Questie.db.profile.onlyPartyShared or UnitInParty(objectivePlayerName)) then
                     playerColor = QuestieComms.remotePlayerClasses[playerName]
                     if playerColor then
                         playerColor = Questie:GetClassColor(playerColor)
-                        playerType = " (".. l10n("Nearby")..")"
+                        playerType = " (" .. l10n("Nearby") .. ")"
                     end
                 end
                 if objectivePlayerName == playerName and anotherPlayer then -- why did we have this case
                     local _, classFilename = UnitClass("player");
                     local _, _, _, argbHex = GetClassColor(classFilename)
-                    objectiveInfo.text = objectiveInfo.text.." (|c"..argbHex.. objectivePlayerName .."|r"..objectiveInfo.color..")|r"
+                    objectiveInfo.text = objectiveInfo.text .. " (|c" .. argbHex .. objectivePlayerName .. "|r" .. objectiveInfo.color .. ")|r"
                 elseif playerColor and objectivePlayerName ~= playerName then
-                    objectiveInfo.text = objectiveInfo.text.." ("..playerColor.. objectivePlayerName .."|r"..objectiveInfo.color..")|r"..playerType
+                    objectiveInfo.text = objectiveInfo.text .. " (" .. playerColor .. objectivePlayerName .. "|r" .. objectiveInfo.color .. ")|r" .. playerType
                 end
                 -- We want the player to be on top.
                 if objectivePlayerName == playerName then
@@ -278,7 +351,7 @@ function QuestieTooltips:GetTooltip(key)
     return tooltipLines
 end
 
-_InitObjectiveTexts = function (objectivesText, objectiveIndex, playerName)
+_InitObjectiveTexts = function(objectivesText, objectiveIndex, playerName)
     if (not objectivesText) then
         objectivesText = {}
     end
@@ -356,12 +429,12 @@ function QuestieTooltips:Initialize()
             local iName, link = self:GetItem()
             local sName, spell = self:GetSpell()
             if (uName == nil and unit == nil and iName == nil and link == nil and sName == nil and spell == nil) and (
-                QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or
-                (not QuestieTooltips.lastGametooltipCount) or
-                _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
-                or QuestieTooltips.lastGametooltipType ~= "object"
-            ) then
-                _QuestieTooltips:AddObjectDataToTooltip(GameTooltipTextLeft1:GetText())
+                    QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or
+                    (not QuestieTooltips.lastGametooltipCount) or
+                    _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
+                    or QuestieTooltips.lastGametooltipType ~= "object"
+                ) and (not self.ShownAsMapIcon) then -- We are hovering over a Questie map icon which adds it's own tooltip
+                _QuestieTooltips.AddObjectDataToTooltip(GameTooltipTextLeft1:GetText())
                 QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
             end
             QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()
@@ -369,3 +442,4 @@ function QuestieTooltips:Initialize()
     end)
 end
 
+return QuestieTooltips

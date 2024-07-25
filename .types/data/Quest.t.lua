@@ -3,6 +3,7 @@
 ---@alias ZoneOrSort number -- >0: AreaTable.dbc ID; <0: QuestSort.dbc ID
 ---@alias Category string --- Used a lot in the tracker and questlog
 ---@alias ObjectiveIndex number --- The index of the objective in the quest
+---@alias SpellId number
 
 --------------------------------------------------------------------------------
 -- Starters
@@ -36,7 +37,7 @@
 
 --------------------------------------------------------------------------------
 -- Objectives
----@alias Objective NpcObjective|ObjectObjective|ItemObjective|ReputationObjective|KillObjective|TriggerEndObjective
+---@alias Objective NpcObjective|ObjectObjective|ItemObjective|ReputationObjective|KillObjective|TriggerEndObjective|SpellObjective
 
 ---@class NpcObjective
 ---@field Type "monster"
@@ -64,6 +65,11 @@
 ---@field RootId NpcId
 ----@field Text string
 
+---@class SpellObjective
+---@field Type "spell"
+---@field Id SpellId
+---@field Text string
+
 ---@class TriggerEndObjective
 ---@field Type "event"
 ---@field Text string
@@ -71,10 +77,10 @@
 
 
 ---@class QuestObjective
----@field Id FactionId|ItemId|NpcId|ObjectId The relevant ID for the objective
+---@field Id FactionId|ItemId|NpcId|ObjectId|SpellId The relevant ID for the objective
 ---@field Index ObjectiveIndex The index of the objective in the quest
 ---@field questId QuestId The QuestId for the quest
----@field QuestData Quest Basically contains the data from QuestieDB:GetQuest
+---@field QuestData Quest Basically contains the data from QuestieDB.GetQuest
 ---@field _lastUpdate number UNKNOWN
 ---@field Description string Objective description
 ---@field spawnList table<NpcId, SpawnListNPC>[]|table<ObjectId, SpawnListObject>|table<NpcId, SpawnListNPC>|{ [1]: SpawnListBase }|table<ItemId, SpawnListItem> UNKOWN
@@ -117,6 +123,9 @@
 ---@field public parentQuest QuestId
 ---@field public reputationReward ReputationPair[]
 ---@field public extraObjectives ExtraObjective[]
+---@field public requiredSpell number
+---@field public requiredSpecialization number
+---@field public requiredMaxLevel Level
 
 -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
 ---@class ExtraObjective

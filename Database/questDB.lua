@@ -23,6 +23,7 @@ QuestieDB.questKeys = {
         --['itemObjective'] = 3, -- table {{item(int), text(string)},...}
         --['reputationObjective'] = 4, -- table: {faction(int), value(int)}
         --['killCreditObjective'] = 5, -- table: {{creature(int), ...}, baseCreatureID, baseCreatureText}
+        --['spellObjective'] = 6, -- table: {{spell(int), text(string), item(int)},...}
     ['sourceItemId'] = 11, -- int, item provided by quest starter
     ['preQuestGroup'] = 12, -- table: {quest(int)}
     ['preQuestSingle'] = 13, -- table: {quest(int)}
@@ -40,6 +41,9 @@ QuestieDB.questKeys = {
     ['parentQuest'] = 25, -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
     ['reputationReward'] = 26, -- table: {{FACTION,VALUE}, ...}, A list of reputation reward for factions
     ['extraObjectives'] = 27, -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
+    ['requiredSpell'] = 28, -- int: quest is only available if character has this spellID
+    ['requiredSpecialization'] = 29, -- int: quest is only available if character meets the spec requirements. Use QuestieProfessions.specializationKeys for having a spec, or QuestieProfessions.professionKeys to indicate having the profession with no spec. See QuestieProfessions.lua for more info.
+    ['requiredMaxLevel'] = 30, -- int: quest is only available up to a certain level
 }
 
 QuestieDB.questKeysReversed = {}
@@ -53,7 +57,7 @@ QuestieDB.questCompilerTypes = {
     ['finishedBy'] = "questgivers", -- table
     ['requiredLevel'] = "u8", -- int
     ['questLevel'] = "s16", -- int
-    ['requiredRaces'] = "u16", -- bitmask
+    ['requiredRaces'] = "u24", -- bitmask
     ['requiredClasses'] = "u16", -- bitmask
     ['objectivesText'] = "u8u16stringarray", -- table: {string,...}, Description of the quest. Auto-complete if nil.
     ['triggerEnd'] = "trigger", -- table: {text, {[zoneID] = {coordPair,...},...}}
@@ -75,12 +79,16 @@ QuestieDB.questCompilerTypes = {
     ['parentQuest'] = "u24", -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
     ['reputationReward'] = "u8s24pairs",
     ['extraObjectives'] = "extraobjectives",
+    ['requiredSpell'] = "s24",
+    ['requiredSpecialization'] = "u24",
+    ['requiredMaxLevel'] = "u8",
 }
 
 QuestieDB.questCompilerOrder = { -- order easily skipable data first for efficiency
     --static size
     'requiredLevel', 'questLevel', 'requiredRaces', 'requiredClasses', 'sourceItemId', 'zoneOrSort', 'requiredSkill',
-    'requiredMinRep', 'requiredMaxRep', 'nextQuestInChain', 'questFlags', 'specialFlags', 'parentQuest',
+    'requiredMinRep', 'requiredMaxRep', 'nextQuestInChain', 'questFlags', 'specialFlags', 'parentQuest', 'requiredSpell',
+    'requiredSpecialization', 'requiredMaxLevel',
 
     -- variable size
     'name', 'preQuestGroup', 'preQuestSingle', 'childQuests', 'inGroupWith', 'exclusiveTo', 'requiredSourceItems',
@@ -99,7 +107,19 @@ QuestieDB.questFlags = {
     UNUSED2 = 128,
     UNKNOWN = 256,
     HIDDEN_REWARDS = 512,
-    AUTO_REWARDED = 1024
+    AUTO_REWARDED = 1024,
+    DAILY = 4096,
+    WEEKLY = 32768,
+}
+
+QuestieDB.factionIDs = {
+    UNDERCITY = 68,
+    DARNASSUS = 69,
+    TIMBERMAW_HOLD = 576,
+    DARKMOON_FAIRE = 909,
+    EXODAR = 930,
+    THE_KALUAK = 1073,
+    KIRIN_TOR = 1090,
 }
 
 -- temporary, until we remove the old db funcitons

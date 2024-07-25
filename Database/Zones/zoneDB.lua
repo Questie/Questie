@@ -22,6 +22,7 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local areaIdToUiMapId = ZoneDB.private.areaIdToUiMapId or {}
+local uiMapIdToAreaId = ZoneDB.private.uiMapIdToAreaId or {}
 local dungeons = ZoneDB.private.dungeons or {}
 local dungeonLocations = ZoneDB.private.dungeonLocations or {}
 local dungeonParentZones = ZoneDB.private.dungeonParentZones or {}
@@ -33,7 +34,13 @@ ZoneDB.zoneIDs = ZoneDB.private.zoneIDs or {}
 
 -- Overrides for UiMapId to AreaId
 local UiMapIdOverrides = {
-    [246] = 3713
+    [246] = 3713,
+    -- We map "Eastern Kingdom" and "Kalimdor" zone to 0, because they are not used for any NPC/object, but can be returned from
+    -- C_Map.GetBestMapForUnit("player") when the player is in a cave for example.
+    [113] = 0, -- Northrend
+    [1414] = 0, -- Kalimdor
+    [1415] = 0, -- Eastern Kingdom
+    [1945] = 0, -- Outland
 }
 local parentZoneToSubZone = {} -- Generated
 local zoneMap = {} -- Generated
@@ -43,7 +50,7 @@ function ZoneDB:Initialize()
     _ZoneDB:GenerateParentZoneToStartingZoneTable()
 
     -- Run tests if debug enabled
-    if Questie.db.global.debugEnabled then
+    if Questie.db.profile.debugEnabled then
         _ZoneDB:RunTests()
     end
 end
@@ -75,29 +82,37 @@ function ZoneDB:GetAreaIdByUiMapId(uiMapId)
 
     local foundId
     -- First we look for a direct match
-    for lAreaId, AreaUiMapId in pairs(areaIdToUiMapId) do
+    for AreaUiMapId, lAreaId in pairs(uiMapIdToAreaId) do
         local areaId = lAreaId
         if (AreaUiMapId == uiMapId and not foundId) then
+            --Questie:Debug(Questie.DEBUG_DEVELOP, "[ZoneDB:GetAreaIdByUiMapId] : ", " AreaUiMapId: ", AreaUiMapId, " ==  uiMapId: ", uiMapId, " and areaId = ", areaId, " foundID is nil")
             foundId = areaId
         elseif AreaUiMapId == uiMapId and foundId ~= AreaUiMapId then
             -- If we find a second match that does not match the first
             -- Print an error, but we still return the first one we found.
 
             -- Only print if debug is enabled.
-            if Questie.db.global.debugEnabled then
-                Questie:Error("UiMapId", uiMapId, "has multiple AreaIds:", foundId, areaId)
+            if Questie.db.profile.debugEnabled then
+                Questie:Error("[ZoneDB:GetAreaIdByUiMapId] : ", "UiMapId", uiMapId, "has multiple AreaIds:", foundId, areaId)
             end
         end
     end
-    if foundId then
+    if foundId then -- debug --TechnoHunter adding debug print to report found AreaId
+        --if Questie.db.profile.debugEnabled then
+            --local uiMapInfo = C_Map.GetMapInfo(uiMapId)
+            --local foundName = C_Map.GetAreaInfo(foundId)
+            --Questie:Debug(Questie.DEBUG_DEVELOP, "[ZoneDB:GetAreaIdByUiMapId] : ", "Found AreaId", foundName, ":", foundId, " for UiMapId", uiMapInfo.name, ":", uiMapId, "direct match")
+        --end
         return foundId
     else
         -- As a last resort we try to match AreaId and UiMapId by name
+        -- uses the original table in zoneTables as the area id's are
+        -- all in that and we dont care if the uiMapId is there or not
         for areaId in pairs(areaIdToUiMapId) do
             local mapInfo = C_Map.GetMapInfo(uiMapId)
             local areaName = C_Map.GetAreaInfo(areaId)
-            if mapInfo.name == areaName then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "Found AreaId", areaName, ":", areaId, "for UiMapId", mapInfo.name, ":", uiMapId, "by name")
+            if mapInfo and mapInfo.name == areaName then
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[ZoneDB:GetAreaIdByUiMapId] : ", "Found AreaId", areaName, ":", areaId, "for UiMapId", mapInfo.name, ":", uiMapId, "by name")
                 return areaId
             end
         end
@@ -112,7 +127,7 @@ function ZoneDB:GetDungeonLocation(areaId)
 end
 
 ---@param areaId AreaId
-function ZoneDB:IsDungeonZone(areaId)
+function ZoneDB.IsDungeonZone(areaId)
     return dungeonLocations[areaId] ~= nil
 end
 
@@ -277,7 +292,7 @@ end
 
 ---@return table
 function _ZoneDB:SplitSeasonalQuests()
-    if not zoneMap[QuestieDB.sortKeys.SPECIAL] then
+    if (not zoneMap[QuestieDB.sortKeys.SPECIAL]) or (not zoneMap[QuestieDB.sortKeys.SEASONAL]) then
         return zoneMap
     end
     local questsToSplit = zoneMap[QuestieDB.sortKeys.SEASONAL]
@@ -347,10 +362,12 @@ function _ZoneDB:RunTests()
         if map.mapType ~= Enum.UIMapType.World and map.mapType ~= Enum.UIMapType.Continent and map.mapType ~= Enum.UIMapType.Cosmic then
             local success, result = pcall(ZoneDB.GetAreaIdByUiMapId, ZoneDB, map.mapID)
             if not success and not buggedMaps[map.mapID] then
-                Questie:Error("[ZoneDBTests] ZoneDB.GetAreaIdByUiMapId should fail for " .. map.name .. " (" .. map.mapID .. ")")
+                Questie:Error("[ZoneDBTests] ZoneDB.GetAreaIdByUiMapId fails for " .. map.name .. " (" .. map.mapID .. "). Result: " .. result)
             end
 
         end
     end
     Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests", "yellow") .. "] Testing ZoneDB done")
 end
+
+return ZoneDB

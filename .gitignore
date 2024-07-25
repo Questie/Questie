@@ -12,6 +12,10 @@
 ## IntelliJ settings
 .idea/
 
+## Files for the upload scripts
+CHANGELOG.md
+response.txt
+
 #This is used for the atom build package, enables the build to happen on each save.
 .atom-build.yml
 
@@ -26,3 +30,4 @@ releases/
 
 #Log files
 *.log
+*.bak

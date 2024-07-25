@@ -24,7 +24,7 @@ end
 function QuestieNameplate:NameplateCreated(token)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateCreated]")
     -- if nameplates are disabled, don't create new nameplates.
-    if (not Questie.db.global.nameplateEnabled) then
+    if (not Questie.db.profile.nameplateEnabled) then
         return
     end
 
@@ -41,8 +41,8 @@ function QuestieNameplate:NameplateCreated(token)
     end
 
     local unitType, _, _, _, _, npcId, _ = strsplit("-", unitGUID)
-    if unitType ~= "Creature" then
-        -- We only draw name plates on NPCs/creatures and skip players, pets, etc
+    if unitType ~= "Creature" and unitType ~= "Vehicle" then
+        -- We only draw name plates on NPCs/creatures and Vehicles (oddness with Chillmaw being a Vehicle?!?!) and skip players, pets, etc
         return
     end
 
@@ -62,7 +62,7 @@ end
 function QuestieNameplate:NameplateDestroyed(token)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateDestroyed]")
 
-    if (not Questie.db.global.nameplateEnabled) then
+    if (not Questie.db.profile.nameplateEnabled) then
         return
     end
 
@@ -91,9 +91,8 @@ function QuestieNameplate:UpdateNameplate()
         if icon then
             local frame = _QuestieNameplate.GetFrame(guid)
             -- check if the texture needs to be changed
-            if (not frame.lastIcon) or icon ~= frame.lastIcon then
+            if frame.lastIcon ~= icon then
                 frame.lastIcon = icon
-                frame.Icon:SetTexture(nil)
                 frame.Icon:SetTexture(icon)
             end
         else
@@ -106,9 +105,9 @@ end
 
 function QuestieNameplate:RedrawIcons()
     for _, frame in pairs(npFrames) do
-        local iconScale = Questie.db.global.nameplateScale
+        local iconScale = Questie.db.profile.nameplateScale
 
-        frame:SetPoint("LEFT", Questie.db.global.nameplateX, Questie.db.global.nameplateY)
+        frame:SetPoint("LEFT", Questie.db.profile.nameplateX, Questie.db.profile.nameplateY)
         frame:SetWidth(16 * iconScale)
         frame:SetHeight(16 * iconScale)
     end
@@ -124,7 +123,7 @@ end
 function QuestieNameplate:DrawTargetFrame()
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:DrawTargetFrame]")
 
-    if (not Questie.db.global.nameplateEnabled) or (not Questie.db.global.nameplateTargetFrameEnabled) then
+    if (not Questie.db.profile.nameplateTargetFrameEnabled) then
         return
     end
 
@@ -143,8 +142,8 @@ function QuestieNameplate:DrawTargetFrame()
     end
 
     local unitType, _, _, _, _, npcId, _ = strsplit("-", unitGUID)
-    if unitType ~= "Creature" then
-        -- We only draw name plates on NPCs/creatures and skip players, pets, etc
+    if unitType ~= "Creature" and unitType ~= "Vehicle" then
+        -- We only draw name plates on NPCs/creatures and Vehicles (oddness with Chillmaw being a Vehicle?!?!) and skip players, pets, etc
         return
     end
 
@@ -172,14 +171,14 @@ function QuestieNameplate:HideCurrentTargetFrame()
 end
 
 function QuestieNameplate:RedrawFrameIcon()
-    if (not Questie.db.global.nameplateTargetFrameEnabled) or (not activeTargetFrame) then
+    if (not Questie.db.profile.nameplateTargetFrameEnabled) or (not activeTargetFrame) then
         return
     end
 
-    local iconScale = Questie.db.global.nameplateTargetFrameScale
+    local iconScale = Questie.db.profile.nameplateTargetFrameScale
     activeTargetFrame:SetWidth(16 * iconScale)
     activeTargetFrame:SetHeight(16 * iconScale)
-    activeTargetFrame:SetPoint("RIGHT", Questie.db.global.nameplateTargetFrameX, Questie.db.global.nameplateTargetFrameY)
+    activeTargetFrame:SetPoint("RIGHT", Questie.db.profile.nameplateTargetFrameX, Questie.db.profile.nameplateTargetFrameY)
 end
 
 
@@ -198,7 +197,7 @@ function _QuestieNameplate.GetFrame(guid)
         npFramesCount = npFramesCount + 1
     end
 
-    local iconScale = Questie.db.global.nameplateScale
+    local iconScale = Questie.db.profile.nameplateScale
 
     frame:SetFrameStrata("LOW")
     frame:SetFrameLevel(10)
@@ -206,7 +205,7 @@ function _QuestieNameplate.GetFrame(guid)
     frame:SetHeight(16 * iconScale)
     frame:EnableMouse(false)
     frame:SetParent(parent)
-    frame:SetPoint("LEFT", Questie.db.global.nameplateX, Questie.db.global.nameplateY)
+    frame:SetPoint("LEFT", Questie.db.profile.nameplateX, Questie.db.profile.nameplateY)
 
     frame.Icon = frame:CreateTexture(nil, "ARTWORK")
     frame.Icon:ClearAllPoints()
@@ -220,26 +219,37 @@ end
 function _QuestieNameplate.GetTargetFrameIconFrame()
     local frame = CreateFrame("Frame")
 
-    local iconScale = Questie.db.global.nameplateTargetFrameScale
-
-    frame:SetFrameStrata("LOW")
-    frame:SetFrameLevel(10)
-    frame:SetWidth(16 * iconScale)
-    frame:SetHeight(16 * iconScale)
-    frame:EnableMouse(false)
+    local iconScale = Questie.db.profile.nameplateTargetFrameScale
+    local strata = "MEDIUM"
 
     local targetFrame = TargetFrame -- Default Blizzard target frame
     if ElvUF_Target then
         targetFrame = ElvUF_Target
+        strata = "LOW"
     elseif PitBull4_Frames_Target then
         targetFrame = PitBull4_Frames_Target
+    elseif AzeriteUnitFrameTarget then
+        targetFrame = AzeriteUnitFrameTarget
+        strata = "LOW"
+    elseif GwTargetUnitFrame then
+        targetFrame = GwTargetUnitFrame
+        strata = "LOW"
+    elseif InvenUnitFrames_Target then
+        targetFrame = InvenUnitFrames_Target
+        strata = "LOW"
     elseif SUFUnittarget then
         targetFrame = SUFUnittarget
         frame:SetFrameLevel(SUFUnittarget:GetFrameLevel() + 1)
     end
 
     frame:SetParent(targetFrame)
-    frame:SetPoint("RIGHT", Questie.db.global.nameplateTargetFrameX, Questie.db.global.nameplateTargetFrameY)
+    frame:SetFrameStrata(strata)
+    frame:SetFrameLevel(11)
+    frame:SetWidth(16 * iconScale)
+    frame:SetHeight(16 * iconScale)
+    frame:EnableMouse(false)
+
+    frame:SetPoint("RIGHT", Questie.db.profile.nameplateTargetFrameX, Questie.db.profile.nameplateTargetFrameY)
 
     frame.Icon = frame:CreateTexture(nil, "ARTWORK")
     frame.Icon:ClearAllPoints()
@@ -270,9 +280,27 @@ function _QuestieNameplate.GetValidIcon(tooltips) -- helper function to get the 
         if tooltip.objective and tooltip.objective.Update then
             tooltip.objective:Update() -- get latest qlog data if its outdated
             if (not tooltip.objective.Completed) and tooltip.objective.Icon then
-                -- If the tooltip icon is ICON_TYPE_OBJECT we use ICON_TYPE_LOOT because NPCs should never show
+                -- If the tooltip icon is Questie.ICON_TYPE_OBJECT we use Questie.ICON_TYPE_LOOT because NPCs should never show
                 -- a cogwheel icon.
-                return tooltip.objective.Icon == ICON_TYPE_OBJECT and ICON_TYPE_LOOT or tooltip.objective.Icon
+                local iconType = tooltip.objective.Icon
+                if iconType == Questie.ICON_TYPE_OBJECT or iconType == Questie.ICON_TYPE_LOOT then
+                    return Questie.icons["loot"]
+                elseif iconType == Questie.ICON_TYPE_SLAY then
+                    return Questie.icons["slay"]
+                elseif iconType == Questie.ICON_TYPE_EVENT then
+                    return Questie.icons["event"]
+                elseif iconType == Questie.ICON_TYPE_TALK then
+                    return Questie.icons["talk"]
+                elseif iconType == Questie.ICON_TYPE_INTERACT then
+                    return Questie.icons["interact"]
+                --? icon types below here are never reached or just not used on nameplates ?
+                elseif iconType == Questie.ICON_TYPE_AVAILABLE or iconType == Questie.ICON_TYPE_AVAILABLE_GRAY then
+                    return Questie.icons["available"]
+                elseif iconType == Questie.ICON_TYPE_REPEATABLE then
+                    return Questie.icons["repeatable"]
+                elseif iconType == Questie.ICON_TYPE_COMPLETE then
+                    return Questie.icons["complete"]
+                end
             end
         end
     end

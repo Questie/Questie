@@ -1,9 +1,13 @@
 ---@class QuestEventHandler
 local QuestEventHandler = QuestieLoader:CreateModule("QuestEventHandler")
+---@class QuestEventHandlerPrivate
 local _QuestEventHandler = QuestEventHandler.private
-local _QuestLogUpdateQueue = {} -- Helper module
-local questLogUpdateQueue = {} -- The actual queue
 
+local _QuestLogUpdateQueue = {} -- Helper module
+local questLogUpdateQueue = {}  -- The actual queue
+
+---@type QuestEventHandlerPrivate
+QuestEventHandler.private = QuestEventHandler.private or {}
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestieQuest
@@ -20,6 +24,16 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type AutoCompleteFrame
+local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
+---@type WatchFrameHook
+local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local tableRemove = table.remove
 
@@ -35,7 +49,7 @@ local questLog = {}
 local questLogUpdateQueueSize = 1
 local skipNextUQLCEvent = false
 local doFullQuestLogScan = false
-
+local deletedQuestItem = false
 
 --- Registers all events that are required for questing (accepting, removing, objective updates, ...)
 function QuestEventHandler:RegisterEvents()
@@ -45,24 +59,124 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("QUEST_REMOVED")
     eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
     eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
+    eventFrame:RegisterEvent("QUEST_AUTOCOMPLETE")
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
-    eventFrame:RegisterEvent("BANKFRAME_CLOSED")
+    eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+    eventFrame:RegisterEvent("NEW_RECIPE_LEARNED") -- Spell objectives; Runes in SoD count as recipes because "Engraving" is a profession?
+    --eventFrame:RegisterEvent("SPELLS_CHANGED") -- Spell objectives
+
+    eventFrame:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE")
+
     eventFrame:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
     eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
 
-    _QuestEventHandler:InitQuestLog()
+    -- StaticPopup dialog hooks. Deleteing Quest items do not always trigger a Quest Log Update.
+    hooksecurefunc("StaticPopup_Show", function(...)
+        -- Hook StaticPopup_Show. If we find the "DELETE_ITEM" dialog, check for Quest Items and notify the player.
+        local which, text_arg1 = ...
+        if which == "DELETE_ITEM" then
+            local quest
+            local questName
+            local foundQuestItem = false
+
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Item Name: ", text_arg1)
+
+            if deletedQuestItem == true then
+                deletedQuestItem = false
+            end
+
+            for questLogIndex = 1, 75 do
+                local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(questLogIndex)
+
+                if (not title) then
+                    break
+                end
+
+                if (not isHeader) then
+                    quest = QuestieDB.GetQuest(questId)
+
+                    if quest then
+                        local info = StaticPopupDialogs[which]
+                        local sourceItemId, soureItemName, sourceItemType, soureClassID
+                        local reqSourceItemId, reqSoureItemName, reqSourceItemType, reqSoureClassID
+
+                        if quest.sourceItemId then
+                            sourceItemId = quest.sourceItemId
+
+                            if sourceItemId then
+                                soureItemName, _, _, _, _, sourceItemType, _, _, _, _, _, soureClassID = GetItemInfo(sourceItemId)
+                            end
+                        end
+
+                        if quest.requiredSourceItems then
+                            reqSourceItemId = quest.requiredSourceItems[1]
+
+                            if reqSourceItemId then
+                                reqSoureItemName, _, _, _, _, reqSourceItemType, _, _, _, _, _, reqSoureClassID = GetItemInfo(reqSourceItemId)
+                            end
+                        end
+
+                        if sourceItemId and soureItemName and sourceItemType and soureClassID and (sourceItemType == "Quest" or soureClassID == 12) and QuestieDB.QueryItemSingle(sourceItemId, "class") == 12 and text_arg1 == soureItemName then
+                            questName = quest.name
+                            foundQuestItem = true
+                            break
+                        elseif reqSourceItemId and reqSoureItemName and reqSourceItemType and reqSoureClassID and (reqSourceItemType == "Quest" or reqSoureClassID == 12) and QuestieDB.QueryItemSingle(reqSourceItemId, "class") == 12 and text_arg1 == reqSoureItemName then
+                            questName = quest.name
+                            foundQuestItem = true
+                            break
+                        else
+                            if quest.Objectives and #quest.Objectives > 0 then
+                                for _, objective in pairs(quest.Objectives) do
+                                    if text_arg1 == objective.Description then
+                                        questName = quest.name
+                                        foundQuestItem = true
+                                        break
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+
+            if foundQuestItem and quest and questName then
+                local frame, text
+
+                for i = 1, STATICPOPUP_NUMDIALOGS do
+                    frame = _G["StaticPopup" .. i]
+                    if (frame:IsShown()) and frame.text.text_arg1 == text_arg1 then
+                        text = _G[frame:GetName() .. "Text"]
+                        break
+                    end
+                end
+
+                if frame ~= nil and text ~= nil then
+                    local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
+                    text:SetFormattedText(updateText, text_arg1, questName)
+                    text.text_arg1 = updateText
+
+                    StaticPopup_Resize(frame, which)
+                    deletedQuestItem = true
+
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")
+                end
+            end
+        end
+    end)
+
+    hooksecurefunc("DeleteCursorItem", function()
+        -- Hook DeleteCursorItem so we know when the player clicks the Accept button
+        if deletedQuestItem then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] DeleteCursorItem: Quest Item deleted. Update all quests.")
+
+            _QuestEventHandler:UpdateAllQuests()
+            deletedQuestItem = false
+        end
+    end)
 end
 
 --- On Login mark all quests in the quest log with QUEST_ACCEPTED state
-function _QuestEventHandler:InitQuestLog()
-    -- Fill the QuestLogCache for first time
-    local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
-    if cacheMiss then
-        -- TODO actually can happen in rare edge case if player accepts new quest during questie init. *cough*
-        -- or if someone managed to overflow game cache already at this point.
-        Questie:Error("Did you accept a quest during InitQuestLog? Please report on Github or Discord. Game's quest log cache is not ok. This shouldn't happen. Questie may malfunction.")
-    end
-
+function QuestEventHandler.InitQuestLogStates(changes)
     for questId, _ in pairs(changes) do
         questLog[questId] = {
             state = QUEST_LOG_STATES.QUEST_ACCEPTED
@@ -82,22 +196,38 @@ function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
         -- So the quest was abandoned before, because QUEST_TURNED_IN would have run before QUEST_ACCEPTED.
         questLog[questId].timer:Cancel()
         questLog[questId].timer = nil
-        _QuestEventHandler:MarkQuestAsAbandoned(questId)
+        QuestieCombatQueue:Queue(function()
+            _QuestEventHandler:MarkQuestAsAbandoned(questId)
+        end)
     end
 
     questLog[questId] = {}
-    skipNextUQLCEvent = true
-    QuestieLib:CacheItemNames(questId)
-    _QuestEventHandler:HandleQuestAccepted(questId)
+
+    -- Timed quests do not need a full Quest Log Update.
+    -- TODO: Add achievement timers later.
+    local questTimers = GetQuestTimers(questId)
+    if type(questTimers) == "number" then
+        skipNextUQLCEvent = false
+    else
+        skipNextUQLCEvent = true
+    end
+
+    QuestieCombatQueue:Queue(function()
+        QuestieLib:CacheItemNames(questId)
+        _QuestEventHandler:HandleQuestAccepted(questId)
+    end)
+
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED - skipNextUQLCEvent - ", skipNextUQLCEvent)
 end
 
 ---@param questId number
 ---@return boolean true @if the function was successful, false otherwise
 function _QuestEventHandler:HandleQuestAccepted(questId)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
-    local cacheMiss, changes = QuestLogCache.CheckForChanges({ [questId] = true }) -- if cacheMiss, no need to check changes as only 1 questId
+    local cacheMiss, changes = QuestLogCache.CheckForChanges({ [questId] = true })
     if cacheMiss then
-        Questie:Debug(Questie.DEBUG_SPAM, "Objectives are not cached yet")
+        -- if cacheMiss, no need to check changes as only 1 questId
+        Questie:Debug(Questie.DEBUG_INFO, "Objectives are not cached yet")
         _QuestLogUpdateQueue:Insert(function()
             return _QuestEventHandler:HandleQuestAccepted(questId)
         end)
@@ -105,7 +235,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
         return false
     end
 
-    Questie:Debug(Questie.DEBUG_SPAM, "Objectives are correct. Calling accept logic. quest:", questId)
+    Questie:Debug(Questie.DEBUG_INFO, "Objectives are correct. Calling accept logic. quest:", questId)
     questLog[questId].state = QUEST_LOG_STATES.QUEST_ACCEPTED
     QuestieQuest:SetObjectivesDirty(questId)
 
@@ -135,7 +265,8 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
         questLog[questId].timer = nil
     end
 
-    Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "was turned in and is completed")
+    Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "was turned in and is completed")
+
     if questLog[questId] then
         -- There are quests which you just turn in so there is no preceding QUEST_ACCEPTED event and questLog[questId]
         -- is empty
@@ -143,13 +274,24 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     end
 
     local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
-    if parentQuest then
+
+    if parentQuest and parentQuest > 0 then
         -- Quests like "The Warsong Reports" have child quests which are just turned in. These child quests only
         -- fire QUEST_TURNED_IN + QUEST_LOG_UPDATE
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Quest:", questId, "Has a Parent Quest - do a full Quest Log check")
         doFullQuestLogScan = true
     end
 
-    skipNextUQLCEvent = true
+    local _, _, _, quality, _, itemID = GetQuestLogRewardInfo(GetNumQuestLogRewards(questId), questId)
+
+    if itemID ~= nil and quality == 1 then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Quest:", questId, "Recieved a possible Quest Item - do a full Quest Log check")
+        doFullQuestLogScan = true
+        skipNextUQLCEvent = false
+    else
+        skipNextUQLCEvent = true
+    end
+
     QuestLogCache.RemoveQuest(questId)
     QuestieQuest:SetObjectivesDirty(questId) -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
 
@@ -173,7 +315,7 @@ function _QuestEventHandler:QuestRemoved(questId)
 
     -- QUEST_TURNED_IN was called before QUEST_REMOVED --> quest was turned in
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_TURNED_IN then
-        Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "was turned in before. Nothing do to.")
+        Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "was turned in before. Nothing do to.")
         questLog[questId] = nil
         return
     end
@@ -187,12 +329,14 @@ function _QuestEventHandler:QuestRemoved(questId)
         end, 1)
     }
     skipNextUQLCEvent = true
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_REMOVED - skipNextUQLCEvent - ", skipNextUQLCEvent)
 end
 
 ---@param questId number
 function _QuestEventHandler:MarkQuestAsAbandoned(questId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestEventHandler:MarkQuestAsAbandoned")
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
-        Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "was abandoned")
+        Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "was abandoned")
         questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
 
         QuestLogCache.RemoveQuest(questId)
@@ -220,6 +364,10 @@ function _QuestEventHandler:QuestLogUpdate()
         doFullQuestLogScan = false
         -- Function call updates doFullQuestLogScan. Order matters.
         _QuestEventHandler:UpdateAllQuests()
+    else
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
     end
 end
 
@@ -242,15 +390,28 @@ local _UnitQuestLogChangedCallback = function()
     else
         doFullQuestLogScan = false
         skipNextUQLCEvent = false
-        Questie:Debug(Questie.DEBUG_SPAM, "Skipping UnitQuestLogChanged")
+        Questie:Debug(Questie.DEBUG_INFO, "Skipping UnitQuestLogChanged")
     end
     return true
+end
+
+---Some Quests are not turned in at an NPC or object. QUEST_AUTOCOMPLETE is fired for these quests.
+---Good quest to test this: https://www.wowhead.com/quest=24502/necessary-roughness
+---@param questId number
+function _QuestEventHandler:QuestAutoComplete(questId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_AUTOCOMPLETE", questId)
+
+    if Questie.db.profile.trackerEnabled then
+        QuestieCombatQueue:Queue(WatchFrameHook.Hide)
+        AutoCompleteFrame.ShowAutoComplete(questId)
+    end
 end
 
 --- Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
 ---@param unitTarget string
 function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] UNIT_QUEST_LOG_CHANGED", unitTarget)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] UNIT_QUEST_LOG_CHANGED - skipNextUQLCEvent - ", skipNextUQLCEvent)
 
     -- There seem to be quests which don't trigger a QUEST_WATCH_UPDATE.
     -- We don't add a full check to the queue if skipNextUQLCEvent == true (from QUEST_WATCH_UPDATE or QUEST_TURNED_IN)
@@ -258,7 +419,7 @@ function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
         doFullQuestLogScan = true
         _QuestLogUpdateQueue:Insert(_UnitQuestLogChangedCallback)
     else
-        Questie:Debug(Questie.DEBUG_SPAM, "Skipping UnitQuestLogChanged")
+        Questie:Debug(Questie.DEBUG_INFO, "Skipping UnitQuestLogChanged")
     end
     skipNextUQLCEvent = false
 end
@@ -266,7 +427,7 @@ end
 --- Does a full scan of the quest log and updates every quest that is in the QUEST_ACCEPTED state and which hash changed
 --- since the last check
 function _QuestEventHandler:UpdateAllQuests()
-    Questie:Debug(Questie.DEBUG_SPAM, "Running full questlog check")
+    Questie:Debug(Questie.DEBUG_INFO, "Running full questlog check")
     local questIdsToCheck = {}
 
     -- TODO replace with a ready table so no need to generate at each call
@@ -280,32 +441,38 @@ function _QuestEventHandler:UpdateAllQuests()
 
     if next(changes) then
         for questId, objIds in pairs(changes) do
-            --Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "objectives:", table.concat(objIds, ",") , "will be updated")
-            Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "will be updated")
+            --Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "objectives:", table.concat(objIds, ","), "will be updated")
+            Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "will be updated")
             QuestieQuest:SetObjectivesDirty(questId)
 
             QuestieNameplate:UpdateNameplate()
             QuestieQuest:UpdateQuest(questId)
         end
+        QuestieCombatQueue:Queue(function()
+            C_Timer.After(1.0, function()
+                QuestieTracker:Update()
+            end)
+        end)
     else
-        Questie:Debug(Questie.DEBUG_SPAM, "Nothing to update")
+        Questie:Debug(Questie.DEBUG_INFO, "Nothing to update")
     end
 
     -- Do UpdateAllQuests() again at next QUEST_LOG_UPDATE if there was "cacheMiss" (game's cache and addon's cache didn't have all required data yet)
     doFullQuestLogScan = doFullQuestLogScan or cacheMiss
 end
 
-local lastTimeBankFrameClosedEvent = -1
---- Blizzard does not fire any event when quest items are stored in the bank or retrieved from it.
---- So we hook the BANKFRAME_CLOSED event which fires once or twice after closing the bank frame and do a full quest log check.
-function _QuestEventHandler:BankFrameClosed()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] BANKFRAME_CLOSED")
-
+local lastTimeQuestRelatedFrameClosedEvent = -1
+--- Blizzard does not fire any event when quest items are received or retrieved from sources other than looting.
+--- So we hook events which fires once or twice after closing certain frames and do a full quest log check.
+function _QuestEventHandler:QuestRelatedFrameClosed(event)
     local now = GetTime()
     -- Don't do update if event fired twice
-    if lastTimeBankFrameClosedEvent ~= now then
-        lastTimeBankFrameClosedEvent = now
+    if lastTimeQuestRelatedFrameClosedEvent ~= now then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event]", event)
+
+        lastTimeQuestRelatedFrameClosedEvent = now
         _QuestEventHandler:UpdateAllQuests()
+        QuestieTracker:Update()
     end
 end
 
@@ -329,6 +496,41 @@ function _QuestLogUpdateQueue:GetFirst()
     return tableRemove(questLogUpdateQueue, 1)
 end
 
+local trackerMinimizedByDungeon = false
+function _QuestEventHandler:ZoneChangedNewArea()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
+    -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
+    -- backend Questie updates that occur when a player zones in/out of an instance. This
+    -- is necessary to get everything back into it's "normal" state after all the updates.
+    local isInInstance, instanceType = IsInInstance()
+
+    if isInInstance then
+        C_Timer.After(8, function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Entering Instance")
+            if Questie.db.profile.hideTrackerInDungeons then
+                trackerMinimizedByDungeon = true
+
+                QuestieCombatQueue:Queue(function()
+                    QuestieTracker:Collapse()
+                end)
+            end
+        end)
+
+    -- We only want this to fire outside of an instance if the player isn't dead and we need to reset the Tracker
+    elseif (not Questie.db.char.isTrackerExpanded and not UnitIsGhost("player")) and trackerMinimizedByDungeon == true then
+        C_Timer.After(8, function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance")
+            if Questie.db.profile.hideTrackerInDungeons then
+                trackerMinimizedByDungeon = false
+
+                QuestieCombatQueue:Queue(function()
+                    QuestieTracker:Expand()
+                end)
+            end
+        end)
+    end
+end
+
 --- Is executed whenever an event is fired and triggers relevant event handling.
 ---@param event string
 function _QuestEventHandler:OnEvent(event, ...)
@@ -342,10 +544,36 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:QuestLogUpdate()
     elseif event == "QUEST_WATCH_UPDATE" then
         _QuestEventHandler:QuestWatchUpdate(...)
+    elseif event == "QUEST_AUTOCOMPLETE" then
+        _QuestEventHandler:QuestAutoComplete(...)
     elseif event == "UNIT_QUEST_LOG_CHANGED" and select(1, ...) == "player" then
         _QuestEventHandler:UnitQuestLogChanged(...)
-    elseif event == "BANKFRAME_CLOSED" then
-        _QuestEventHandler:BankFrameClosed()
+    elseif event == "ZONE_CHANGED_NEW_AREA" then
+        _QuestEventHandler:ZoneChangedNewArea()
+    elseif event == "NEW_RECIPE_LEARNED" then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED (QuestEventHandler)")
+        doFullQuestLogScan = true -- If this event is related to a spell objective, a QUEST_LOG_UPDATE will be fired afterwards
+    elseif event == "PLAYER_INTERACTION_MANAGER_FRAME_HIDE" then
+        local eventType = select(1, ...)
+        if eventType == 1 then
+            event = "TRADE_CLOSED"
+        elseif eventType == 5 then
+            event = "MERCHANT_CLOSED"
+        elseif eventType == 8 then
+            event = "BANKFRAME_CLOSED"
+        elseif eventType == 10 then
+            event = "GUILDBANKFRAME_CLOSED"
+        elseif eventType == 12 then
+            event = "VENDOR_CLOSED"
+        elseif eventType == 17 then
+            event = "MAIL_CLOSED"
+        elseif eventType == 21 then
+            event = "AUCTION_HOUSE_CLOSED"
+        else
+            -- Unknown event which we will simply ignore
+            return
+        end
+        _QuestEventHandler:QuestRelatedFrameClosed(event)
     elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
         _QuestEventHandler:ReputationChange()
     end

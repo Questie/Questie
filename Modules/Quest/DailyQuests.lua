@@ -20,7 +20,7 @@ local lastCheck
 ---@param message string
 ---@return nil
 function DailyQuests:FilterDailies(message, _, _)
-    if message and Questie.db.char.showRepeatableQuests and QuestiePlayer.GetPlayerLevel() == 70 then
+    if message and Questie.db.profile.showRepeatableQuests and QuestiePlayer.GetPlayerLevel() == 70 then
         -- If the REPUTABLE message is empty, i.e contains "::::::::::" we don't count it as a check.
         if (not lastCheck) and not string.find(message, "::::::::::") then
             lastCheck = GetTime();
@@ -104,7 +104,7 @@ function _DailyQuests:HandleDailyQuests(possibleQuestIds, currentQuestId, type)
 
     for questId, _ in pairs(possibleQuestIds) do
         if questId == currentQuestId then
-            _DailyQuests:ShowDailyQuest(questId);
+            _DailyQuests.ShowDailyQuest(questId);
             Questie.db.char.hiddenDailies[type][questId] = nil;
         else
             -- If the quest is not in the questlog remove all frames
@@ -125,21 +125,23 @@ end
 
 ---@param questId number
 ---@return nil
-function _DailyQuests:ShowDailyQuest(questId)
+function _DailyQuests.ShowDailyQuest(questId)
     if (not QuestieMap.questIdFrames[questId]) then
-        QuestieQuest:DrawDailyQuest(questId);
+        QuestieQuest.DrawDailyQuest(questId);
     end
 end
 
 ---@param questId number
 ---@return boolean
 function DailyQuests:IsActiveDailyQuest(questId)
-    local hiddenQuests = Questie.db.char.hiddenDailies
-    return not (hiddenQuests.nhc[questId] or
-        hiddenQuests.hc[questId] or
-        hiddenQuests.cooking[questId] or
-        hiddenQuests.fishing[questId] or
-        hiddenQuests.pvp[questId]);
+    return true
+    -- TODO: This might be reusable when reworking this module
+    --local hiddenQuests = Questie.db.char.hiddenDailies
+    --return not (hiddenQuests.nhc[questId] or
+    --    hiddenQuests.hc[questId] or
+    --    hiddenQuests.cooking[questId] or
+    --    hiddenQuests.fishing[questId] or
+    --    hiddenQuests.pvp[questId]);
 end
 
 ---@param questId number

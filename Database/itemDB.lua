@@ -18,6 +18,7 @@ QuestieDB.itemKeys = {
     ['subClass'] = 13, -- int,
     ['vendors'] = 14, -- table or nil, NPC IDs
     ['relatedQuests'] = 15, -- table or nil, IDs of quests that are related to this item
+    ['teachesSpell'] = 16, -- int, spellID taught by this item upon use
 }
 
 QuestieDB.itemKeysReversed = {}
@@ -85,6 +86,9 @@ end
 -- 13        1     Lockpick
 -- 15        0     Miscellaneous, Junk
 
+QuestieDB.itemClasses = {
+    QUEST = 12,
+}
 
 QuestieDB.itemCompilerTypes = {
     ["foodType"] = "u8",
@@ -98,15 +102,16 @@ QuestieDB.itemCompilerTypes = {
     ["npcDrops"] = "u16u24array",
     ["objectDrops"] = "u8u24array",
     ["itemDrops"] = "u8u24array",
-    ["vendors"] = "u8u24array",
+    ["vendors"] = "u16u24array",
     ["relatedQuests"] = "u8u24array",
     ["questRewards"] = "u8u24array",
     ["name"] = "u8string",
+    ["teachesSpell"] = "u24",
 }
 
 QuestieDB.itemCompilerOrder = { -- order easily skipable data first for efficiency
     --static size
-    "flags", "startQuest", "itemLevel", "requiredLevel", "foodType", "ammoType", "class", "subClass",
+    "flags", "startQuest", "itemLevel", "requiredLevel", "foodType", "ammoType", "class", "subClass", "teachesSpell",
 
     -- variable size
     "name", "relatedQuests", "questRewards", "npcDrops", "objectDrops", "vendors", "itemDrops"

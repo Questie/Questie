@@ -1,11 +1,11 @@
-
 if GetLocale() ~= "ruRU" then
     return
 end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.objectLookup["ruRU"] = {
+l10n.objectLookup["ruRU"] = loadstring([[return {
 [31] = "Статуя старого льва",
 [32] = "Затонувший сундук",
 [33] = "Запертый сундук",
@@ -2161,4 +2161,4 @@ l10n.objectLookup["ruRU"] = {
 [211021] = "Пресноводная устрица",
 [211022] = "Клюква Юна",
 [211023] = "Чугунный котелок",
-}
+}]])

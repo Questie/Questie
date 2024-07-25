@@ -3,482 +3,784 @@
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
----@type IsleOfQuelDanas
-local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas");
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 ---@type QuestieOptionsDefaults
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults");
 ---@type QuestieOptionsUtils
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
+---@type WorldMapButton
+local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
+---@type QuestieCoords
+local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords");
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+---@type QuestieShutUp
+local QuestieShutUp = QuestieLoader:ImportModule("QuestieShutUp")
+---@type Sounds
+local Sounds = QuestieLoader:ImportModule("Sounds")
+---@type AvailableQuests
+local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
-QuestieOptions.tabs.general = {...}
+QuestieOptions.tabs.general = { ... }
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
-local _GetShortcuts
+local _GetAnnounceChannels
+local _IsAnnounceDisabled
+local _GetQuestSoundChoices
+local _GetQuestSoundChoicesSort
+local _GetObjectiveSoundChoices
+local _GetObjectiveSoundChoicesSort
+local _GetObjectiveProgressSoundChoices
+local _GetObjectiveProgressSoundChoicesSort
 
 function QuestieOptions.tabs.general:Initialize()
     return {
         name = function() return l10n('General'); end,
         type = "group",
-        order = 10,
+        order = 1,
         args = {
             questie_header = {
                 type = "header",
                 order = 1,
                 name = function() return l10n('General Options'); end,
             },
-            enabled = {
-                type = "toggle",
-                order = 1.1,
-                name = function() return l10n('Enable Icons'); end,
-                desc = function() return l10n('Enable or disable Questie icons.'); end,
-                width = 1.5,
-                get = function () return Questie.db.char.enabled; end,
-                set = function (info, value)
-                    Questie.db.char.enabled = value
-                    QuestieQuest:ToggleNotes(value);
-                end,
-            },
-            townfolkOptions = {
-                type = "execute",
-                order = 1.2,
-                name = function() return l10n('Config Tracking Icons'); end,
-                desc = function() return l10n('Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.'); end,
-                width = 1.5,
-                func = function (info, value)
-                    QuestieMenu:Show()
-                end,
-            },
-            iconTypes = {
+            social_spacer = QuestieOptionsUtils:Spacer(1.5,nil,"minimal"),
+            social_options_group = {
                 type = "group",
                 order = 2,
                 inline = true,
-                name = function() return l10n('Icon Types'); end,
+                name = function() return l10n('Social Options'); end,
                 args = {
-                    enableMapToggle = {
+                    filterQuestieAnnounce = {
                         type = "toggle",
-                        order = 1,
-                        name = function() return l10n('Enable Map Icons'); end,
-                        desc = function() return l10n('Show/hide all icons from the main map.'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function () return Questie.db.global.enableMapIcons; end,
-                        set = function (info, value)
-                            Questie.db.global.enableMapIcons = value
-                            QuestieQuest:ToggleNotes(value);
+                        order = 7.1,
+                        name = function() return l10n('Questie ShutUp!'); end,
+                        desc = function() return l10n('Remove all Questie chat messages coming from other players and disable sending your own.'); end,
+                        descStyle = "inline",
+                        disabled = function() return false end,
+                        width = 2,
+                        get = function () return Questie.db.profile.questieShutUp end,
+                        set = function (_, value)
+                            Questie.db.profile.questieShutUp = value
+                            QuestieShutUp:ToggleFilters(value)
                         end,
                     },
-                    enableMiniMapToggle = {
-                        type = "toggle",
-                        order = 2,
-                        name = function() return l10n('Enable Minimap Icons'); end,
-                        desc = function() return l10n('Show/hide all icons from the minimap.'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function () return Questie.db.global.enableMiniMapIcons; end,
-                        set = function (info, value)
-                            Questie.db.global.enableMiniMapIcons = value
-                            QuestieQuest:ToggleNotes(value);
+                    questAnnounceChannel = {
+                        type = "select",
+                        order = 7.2,
+                        values = _GetAnnounceChannels(),
+                        style = 'dropdown',
+                        disabled = function() return Questie.db.profile.questieShutUp end,
+                        name = function() return l10n('Channels to announce in') end,
+                        desc = function() return l10n('Announce quest updates to other players in your group'); end,
+                        get = function() return Questie.db.profile.questAnnounceChannel; end,
+                        set = function(_, key)
+                            Questie.db.profile.questAnnounceChannel = key
+                            Questie:Debug(Questie.DEBUG_DEVELOP, "Channels to announce changed to:", key)
                         end,
                     },
-                    hideUnexploredMapIconsToggle = {
+                    printLocalMessages = {
                         type = "toggle",
-                        order = 3,
-                        name = function() return l10n('Hide unexplored area Icons'); end,
-                        desc = function() return l10n('Hide icons in unexplored areas.'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function() return Questie.db.char.hideUnexploredMapIcons; end,
+                        order = 7.3,
+                        name = function() return l10n('Display announcements locally when outside of a group'); end,
+                        desc = function() return l10n("Questie will print your progress messages to chat when not in a group. Other players will NOT be able to see this."); end,
+                        disabled = function() return Questie.db.profile.questieShutUp end,
+                        width = 2.5,
+                        get = function () return Questie.db.profile.questAnnounceLocally end,
+                        set = function (_, value)
+                            Questie.db.profile.questAnnounceLocally = value
+                            Questie:Debug(Questie.DEBUG_DEVELOP, "Quest announce locally changed to:", value)
+                        end,
+                    },
+                    shareQuestsNearby = {
+                        type = "toggle",
+                        order = 7.4,
+                        name = function() return l10n('Share quest progress with nearby players'); end,
+                        desc = function() return l10n("Your quest progress will be periodically sent to nearby players. Disabling this doesn't affect sharing progress with party members."); end,
+                        disabled = function() return false end,
+                        width = 1.7,
+                        hidden = true, -- does this even do anything anymore after YELL removed?
+                        get = function () return not Questie.db.profile.disableYellComms end,
+                        set = function (info, value)
+                            Questie.db.profile.disableYellComms = not value
+                            if not value then
+                                QuestieLoader:ImportModule("QuestieComms"):RemoveAllRemotePlayers()
+                            end
+                        end,
+                    },
+                    questAnnounceTypes = {
+                        type = "group",
+                        order = 7.5,
+                        inline = true,
+                        name = function() return l10n('Types of updates to announce in chat'); end,
+                        disabled = function() return _IsAnnounceDisabled() or Questie.db.profile.questieShutUp; end,
+                        args = {
+                            questAnnounceItems = {
+                                type = "toggle",
+                                order = 1,
+                                name = function() return l10n('Items starting a quest'); end,
+                                desc = function() return l10n('Announce looted items that start a quest to other players'); end,
+                                width = 1.5,
+                                get = function () return Questie.db.profile.questAnnounceItems; end,
+                                set = function (_, value)
+                                    Questie.db.profile.questAnnounceItems = value
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "Items starting a quest changed to:", value)
+                                end,
+                            },
+                            questAnnounceAccepted = {
+                                type = "toggle",
+                                order = 2,
+                                name = function() return l10n('Quest accepted'); end,
+                                desc = function() return l10n('Announce quest acceptance to other players'); end,
+                                width = 1.5,
+                                get = function () return Questie.db.profile.questAnnounceAccepted; end,
+                                set = function (_, value)
+                                    Questie.db.profile.questAnnounceAccepted = value
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "Quest accepted announce changed to:", value)
+                                end,
+                            },
+                            questAnnounceAbandoned = {
+                                type = "toggle",
+                                order = 3,
+                                name = function() return l10n('Quest abandoned'); end,
+                                desc = function() return l10n('Announce quest abortion to other players'); end,
+                                width = 1.5,
+                                get = function () return Questie.db.profile.questAnnounceAbandoned; end,
+                                set = function (_, value)
+                                    Questie.db.profile.questAnnounceAbandoned = value
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "Quest abandoned announce changed to:", value)
+                                end,
+                            },
+                            questAnnounceObjectives = {
+                                type = "toggle",
+                                order = 4,
+                                name = function() return l10n('Objective completed'); end,
+                                desc = function() return l10n('Announce completed objectives to other players'); end,
+                                width = 1.5,
+                                get = function () return Questie.db.profile.questAnnounceObjectives; end,
+                                set = function (_, value)
+                                    Questie.db.profile.questAnnounceObjectives = value
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "Objective completed announce changed to:", value)
+                                end,
+                            },
+                            questAnnounceCompleted = {
+                                type = "toggle",
+                                order = 5,
+                                name = function() return l10n('Quest completed'); end,
+                                desc = function() return l10n('Announce quest completion to other players'); end,
+                                width = 1.5,
+                                get = function () return Questie.db.profile.questAnnounceCompleted; end,
+                                set = function (_, value)
+                                    Questie.db.profile.questAnnounceCompleted = value
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "Quest completed announce changed to:", value)
+                                end,
+                            },
+                        },
+                    },
+                },
+            },
+            interface_spacer = QuestieOptionsUtils:Spacer(2.5,nil,"minimal"),
+            interface_options_group = {
+                type = "group",
+                order = 3,
+                inline = true,
+                name = function() return l10n('Interface Options'); end,
+                args = {
+                    instantQuest = {
+                        type = "toggle",
+                        order = 5.1,
+                        name = function() return l10n('Enable Instant Quest Text'); end,
+                        desc = function() return l10n('Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface.'); end,
+                        width = 1.55,
+                        get = function()
+                            if GetCVar("instantQuestText") == '1' then
+                                return true;
+                            else
+                                return false;
+                            end
+                        end,
                         set = function(info, value)
-                            Questie.db.char.hideUnexploredMapIcons = value
-                            QuestieQuest:ToggleNotes(not value);
-                            QuestieQuest:SmoothReset()
+                            if value then
+                                SetCVar("instantQuestText", 1);
+                            else
+                                SetCVar("instantQuestText", 0);
+                            end
                         end,
                     },
-                    hideMapIconsForUntrackedToggle = {
+                    showCustomQuestFrameIcons = {
                         type = "toggle",
-                        order = 4,
-                        name = function() return l10n('Hide icons of untracked quests'); end,
-                        desc = function() return l10n('Hide icons for quests that are not tracked.'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function() return Questie.db.char.hideUntrackedQuestsMapIcons; end,
+                        order = 5.2,
+                        name = function() return l10n('Show custom quest frame icons'); end,
+                        desc = function() return l10n('Use custom Questie icons for NPC dialogs, reflecting the status and type of each quest.'); end,
+                        width = 1.55,
+                        get = function() return Questie.db.profile.enableQuestFrameIcons; end,
                         set = function(info, value)
-                            Questie.db.char.hideUntrackedQuestsMapIcons = value
-                            QuestieQuest:ToggleNotes(not value);
-                            QuestieQuest:SmoothReset()
+                            Questie.db.profile.enableQuestFrameIcons = value
                         end,
                     },
-                    seperatingHeader1 = {
-                        type = "header",
-                        order = 5,
-                        name = "",
-                    },
-                    enableObjectivesToggle = {
+                    mapShowHideEnabled = {
                         type = "toggle",
-                        order = 6,
-                        name = function() return l10n('Enable Objective Icons'); end,
-                        desc = function() return l10n('When this is enabled, quest objective icons will be shown on the map/minimap.'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function () return Questie.db.global.enableObjectives; end,
+                        order = 5.25,
+                        name = function() return l10n('Show Questie Map Button'); end,
+                        desc = function() return l10n('Enable or disable the Show/Hide Questie Button on Map (May fix some Map Addon interactions).'); end,
+                        width = 1.55,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
                         set = function (info, value)
-                            Questie.db.global.enableObjectives = value
-                            QuestieQuest:ToggleNotes(value)
-                            QuestieQuest:SmoothReset()
+                            QuestieOptions:SetProfileValue(info, value)
+
+                            WorldMapButton.Toggle(value)
                         end,
                     },
-                    enableTurninsToggle = {
+                    minimapButtonEnabled = {
                         type = "toggle",
-                        order = 7,
-                        name = function() return l10n('Enable Completed Quest Icons'); end,
-                        desc = function() return l10n('When this is enabled, the quest turn-in locations will be shown on the map/minimap.'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function () return Questie.db.global.enableTurnins; end,
-                        set = function (info, value)
-                            Questie.db.global.enableTurnins = value
-                            QuestieQuest:ToggleNotes(value)
-                            QuestieQuest:SmoothReset()
+                        order = 5.3,
+                        name = function() return l10n('Enable Minimap Button'); end,
+                        desc = function() return l10n('Enable or disable the Questie minimap button. You can still access the options menu with /questie.'); end,
+                        width = 1.55,
+                        get = function() return not Questie.db.profile.minimap.hide; end,
+                        set = function(info, value)
+                            Questie.db.profile.minimap.hide = not value;
+
+                            if value then
+                                Questie.minimapConfigIcon:Show("Questie");
+                            else
+                                Questie.minimapConfigIcon:Hide("Questie");
+                            end
                         end,
                     },
-                    enableAvailableToggle = {
+                    mapCoordinatesEnabled = {
                         type = "toggle",
-                        order = 8,
-                        name = function() return l10n('Enable Available Quest Icons'); end,
-                        desc = function() return l10n('When this is enabled, the locations of available quest will be shown on the map/minimap.'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function () return Questie.db.global.enableAvailable; end,
+                        order = 5.4,
+                        name = function() return l10n('Show Map Coordinates'); end,
+                        desc = function() return l10n("Place the Player's coordinates and Cursor's coordinates on the Map's title."); end,
+                        width = 1.55,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
                         set = function (info, value)
-                            Questie.db.global.enableAvailable = value
-                            QuestieQuest:ToggleNotes(value)
-                            QuestieQuest:SmoothReset()
+                            QuestieOptions:SetProfileValue(info, value)
+
+                            if not value then
+                                QuestieCoords.ResetMapText();
+                                QuestieCoords:ResetMiniWorldMapText();
+                            end
                         end,
                     },
-                    showRepeatableQuests = {
+                    minimapCoordinatesEnabled = {
                         type = "toggle",
-                        order = 9,
-                        name = function() return l10n('Enable Repeatable Quest Icons'); end,
-                        desc = function() return l10n('When this is enabled, the locations of repeatable quest will be shown on the map/minimap.'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function(info) return Questie.db.char.showRepeatableQuests end,
+                        order = 5.5,
+                        name = function() return l10n('Show Minimap Coordinates'); end,
+                        desc = function() return l10n("Place the Player's coordinates on the Minimap title."); end,
+                        width = 1.55,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
                         set = function (info, value)
-                            Questie.db.char.showRepeatableQuests = value
-                            QuestieQuest:ToggleNotes(value)
-                            QuestieQuest:SmoothReset()
+                            QuestieOptions:SetProfileValue(info, value)
+
+                            if not value then
+                                QuestieCoords:ResetMinimapText();
+                            end
                         end,
                     },
-                    showEventQuests = {
-                        type = "toggle",
-                        order = 10,
-                        name = function() return l10n('Enable Event Quest Icons'); end,
-                        desc = function() return l10n('When this is enabled, the locations of events quest will be shown on the map/minimap.'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function(info) return Questie.db.char.showEventQuests end,
+                    mapCoordinatePrecision = {
+                        type = "range",
+                        order = 5.6,
+                        name = function() return l10n('Map Coordinates Decimal Precision'); end,
+                        desc = function() return l10n('How many decimals to include in the precision on the Map for Player and Cursor coordinates.\n(Default: %s)', optionsDefaults.profile.mapCoordinatePrecision); end,
+                        width = 1.4,
+                        min = 1,
+                        max = 5,
+                        step = 1,
+                        disabled = function() return not Questie.db.profile.mapCoordinatesEnabled end,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
                         set = function (info, value)
-                            Questie.db.char.showEventQuests = value
-                            QuestieQuest:ToggleNotes(value)
-                            QuestieQuest:SmoothReset()
-                        end,
-                    },
-                    showDungeonQuests = {
-                        type = "toggle",
-                        order = 11,
-                        name = function() return l10n('Enable Dungeon Quest Icons'); end,
-                        desc = function() return l10n('When this is enabled, the locations of dungeon quest will be shown on the map/minimap.'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function(info) return Questie.db.char.showDungeonQuests end,
-                        set = function (info, value)
-                            Questie.db.char.showDungeonQuests = value
-                            QuestieQuest:ToggleNotes(value)
-                            QuestieQuest:SmoothReset()
-                        end,
-                    },
-                    showRaidQuests = {
-                        type = "toggle",
-                        order = 12,
-                        name = function() return l10n('Enable Raid Quest Icons'); end,
-                        desc = function() return l10n('When this is enabled, the locations of raid quest will be shown on the map/minimap.'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function(info) return Questie.db.char.showRaidQuests end,
-                        set = function (info, value)
-                            Questie.db.char.showRaidQuests = value
-                            QuestieQuest:ToggleNotes(value)
-                            QuestieQuest:SmoothReset()
-                        end,
-                    },
-                    showPvPQuests = {
-                        type = "toggle",
-                        order = 13,
-                        name = function() return l10n('Enable PvP Quest Icons'); end,
-                        desc = function() return l10n('When this is enabled, the locations of PvP quest will be shown on the map/minimap.'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function(info) return Questie.db.char.showPvPQuests end,
-                        set = function (info, value)
-                            Questie.db.char.showPvPQuests = value
-                            QuestieQuest:ToggleNotes(value)
-                            QuestieQuest:SmoothReset()
-                        end,
-                    },
-                    showAQWarEffortQuests = {
-                        type = "toggle",
-                        order = 14,
-                        name = function() return l10n('Enable AQ War Effort Quest Icons'); end,
-                        desc = function() return l10n('When this is enabled, the locations of the AQ War Effort quest will be shown on the map/minimap.'); end,
-                        width = 1.5,
-                        disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function(info) return Questie.db.char.showAQWarEffortQuests end,
-                        set = function (info, value)
-                            Questie.db.char.showAQWarEffortQuests = value
-                            QuestieQuest:ToggleNotes(value)
-                            QuestieQuest:SmoothReset()
+                            QuestieOptions:SetProfileValue(info, value)
                         end,
                     },
                 },
             },
-            Spacer_A1 = QuestieOptionsUtils:Spacer(2.1, (not Questie.IsWotlk)),
-            isleOfQuelDanasPhase = {
-                type = "select",
-                order = 2.5,
-                width = 1.5,
-                hidden = (not Questie.IsTBC),
-                values = IsleOfQuelDanas.localizedPhaseNames,
-                style = 'dropdown',
-                name = function() return l10n("Isle of Quel'Danas Phase") end,
-                desc = function() return l10n("Select the phase fitting your realm progress on the Isle of Quel'Danas"); end,
-                disabled = function() return (not Questie.IsWotlk) end,
-                get = function() return Questie.db.global.isleOfQuelDanasPhase; end,
-                set = function(_, key)
-                    Questie.db.global.isleOfQuelDanasPhase = key
-                    QuestieQuest:SmoothReset()
-                end,
-            },
-            isleOfQuelDanasPhaseReminder = {
-                type = "toggle",
-                order = 2.6,
-                hidden = (not Questie.IsTBC),
-                name = function() return l10n('Disable Phase reminder'); end,
-                desc = function() return l10n("Enable or disable the reminder on login to set the Isle of Quel'Danas phase"); end,
-                disabled = function() return (not Questie.IsWotlk) end,
-                width = 1,
-                get = function () return Questie.db.global.isIsleOfQuelDanasPhaseReminderDisabled; end,
-                set = function (_, value)
-                    Questie.db.global.isIsleOfQuelDanasPhaseReminderDisabled = value
-                end,
-            },
-            Spacer_A = QuestieOptionsUtils:Spacer(2.9, (not Questie.IsWotlk)),
-            minimapButtonEnabled = {
-                type = "toggle",
-                order = 3,
-                name = function() return l10n('Enable Minimap Button'); end,
-                desc = function() return l10n('Enable or disable the Questie minimap button. You can still access the options menu with /questie.'); end,
-                width = 1.5,
-                get = function () return not Questie.db.profile.minimap.hide; end,
-                set = function (info, value)
-                    Questie.db.profile.minimap.hide = not value;
-
-                    if value then
-                        Questie.minimapConfigIcon:Show("Questie");
-                    else
-                        Questie.minimapConfigIcon:Hide("Questie");
-                    end
-                end,
-            },
-            instantQuest = {
-                type = "toggle",
+            level_spacer = QuestieOptionsUtils:Spacer(3.5,nil,"minimal"),
+            level_options_group = {
+                type = "group",
                 order = 4,
-                name = function() return l10n('Enable Instant Quest Text'); end,
-                desc = function() return l10n('Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface.'); end,
-                width = 1.5,
-                get = function () if GetCVar("instantQuestText") == '1' then return true; else return false; end; end,
-                set = function (info, value)
-                    if value then
-                        SetCVar("instantQuestText", 1);
-                    else
-                        SetCVar("instantQuestText", 0);
-                    end
-                end,
-            },
-            autoaccept = {
-                type = "toggle",
-                order = 5,
-                name = function() return l10n('Auto Accept Quests'); end,
-                desc = function() return l10n('Enable or disable Questie auto-accepting quests.'); end,
-                width = 1.5,
-                get = function () return Questie.db.char.autoaccept; end,
-                set = function (info, value)
-                    Questie.db.char.autoaccept = value
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept toggled to:", value)
-                end,
-            },
-            autocomplete = {
-                type = "toggle",
-                order = 6,
-                name = function() return l10n('Auto Complete'); end,
-                desc = function() return l10n('Enable or disable Questie auto-complete quests.'); end,
-                width = 1.5,
-                get = function () return Questie.db.char.autocomplete; end,
-                set = function (info, value)
-                    Questie.db.char.autocomplete = value
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Complete toggled to:", value)
-                end,
-            },
-            autoModifier = {
-                type = "select",
-                order = 7,
-                values = _GetShortcuts(),
-                style = 'dropdown',
-                name = function() return l10n('Auto Modifier') end,
-                desc = function() return l10n('The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC.'); end,
-                disabled = function() return (not Questie.db.char.autocomplete) and (not Questie.db.char.autoaccept) end,
-                get = function() return Questie.db.char.autoModifier; end,
-                set = function(input, key)
-                    Questie.db.char.autoModifier = key
-                end,
-            },
-            Spacer_H = QuestieOptionsUtils:HorizontalSpacer(1.71, 0.5),
-            acceptTrivial = {
-                type = "toggle",
-                order = 8,
-                name = function() return l10n('Accept trivial (low level) quests'); end,
-                desc = function() return l10n('When this is enabled trivial (gray) quests will be auto accepted as well.'); end,
-                disabled = function() return (not Questie.db.char.autoaccept) end,
-                width = 1.5,
-                get = function () return Questie.db.char.acceptTrivial; end,
-                set = function (info, value)
-                    Questie.db.char.acceptTrivial = value
-                end,
-            },
-            --Spacer_B = QuestieOptionsUtils:Spacer(1.73),
-            quest_options = {
-                type = "header",
-                order = 12,
+                inline = true,
                 name = function() return l10n('Quest Level Options'); end,
+                args = {
+                    level_text = {
+                        type = "description",
+                        order = 1,
+                        name = function() return Questie:Colorize(l10n('By default, Questie only shows quests that are relevant for your level. You can change this behavior below.'), 'gray'); end,
+                        fontSize = "small",
+                    },
+                    level_spacer = QuestieOptionsUtils:Spacer(2),
+                    radio = {
+                        order = 3.0,
+                        type = "select",
+                        style = "radio",
+                        width = 3,
+                        name = l10n("Which available quests should be displayed"),
+                        values = {
+                            [Questie.LOWLEVEL_NONE] = l10n("Show only quests granting experience (Default)"),
+                            [Questie.LOWLEVEL_ALL] = l10n("Show all low level quests"),
+                            [Questie.LOWLEVEL_OFFSET] = l10n("Show quests to a set level below the player"),
+                            [Questie.LOWLEVEL_RANGE] = l10n("Show quests between two set levels"),
+                        },
+                        get = function () return Questie.db.profile.lowLevelStyle end,
+                        set = function (_, value)
+                            Questie.db.profile.lowLevelStyle = value
+                            AvailableQuests.ResetLevelRequirementCache()
+                            AvailableQuests.CalculateAndDrawAll()
+                            Questie:Debug(Questie.DEBUG_DEVELOP, "Lowlevel Quests set to:", value)
+                        end,
+                    },
+                    manualOffset = {
+                        type = "range",
+                        order = 3.1,
+                        name = function() return l10n('Player level offset'); end,
+                        desc = function()
+                            return l10n('How many levels below your character to show. ( Default: %s )', optionsDefaults.profile.manualLevelOffset);
+                        end,
+                        width = 1.063,
+                        min = 0,
+                        max = 60 + 10 * GetExpansionLevel(),
+                        step = 1,
+                        disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_OFFSET) end,
+                        get = function() return Questie.db.profile.manualLevelOffset end,
+                        set = function(info, value)
+                            Questie.db.profile.manualLevelOffset = value;
+                            QuestieOptionsUtils:Delay(0.3, function()
+                                AvailableQuests.ResetLevelRequirementCache()
+                                AvailableQuests.CalculateAndDrawAll()
+                            end, "manualLevelOffset set to " .. value)
+                        end,
+                    },
+                    minLevelFilter = {
+                        type = "range",
+                        order = 3.2,
+                        name = function() return l10n('Level from'); end,
+                        desc = function() return l10n('Minimum quest level to show.'); end,
+                        width = 1.063,
+                        min = 0,
+                        max = 60 + 10 * GetExpansionLevel(),
+                        step = 1,
+                        disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
+                        get = function() return Questie.db.profile.minLevelFilter; end,
+                        set = function(info, value)
+                            if value > Questie.db.profile.maxLevelFilter then
+                                value = Questie.db.profile.maxLevelFilter
+                            end
+                            Questie.db.profile.minLevelFilter = value;
+                            QuestieOptionsUtils:Delay(0.3, function()
+                                AvailableQuests.ResetLevelRequirementCache()
+                                AvailableQuests.CalculateAndDrawAll()
+                            end, "minLevelFilter set to " .. value)
+                        end,
+                    },
+                    maxLevelFilter = {
+                        type = "range",
+                        order = 3.3,
+                        name = function()
+                            return l10n('Level to');
+                        end,
+                        desc = function()
+                            return l10n('Maximum quest level to show.');
+                        end,
+                        width = 1.063,
+                        min = 0,
+                        max = Questie.IsCata and 85 or (60 + 10 * GetExpansionLevel()),
+                        step = 1,
+                        disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
+                        get = function(info) return Questie.db.profile.maxLevelFilter; end,
+                        set = function(info, value)
+                            if value < Questie.db.profile.minLevelFilter then
+                                value = Questie.db.profile.minLevelFilter
+                            end
+                            Questie.db.profile.maxLevelFilter = value;
+                            QuestieOptionsUtils:Delay(0.3, function()
+                                AvailableQuests.ResetLevelRequirementCache()
+                                AvailableQuests.CalculateAndDrawAll()
+                            end, "maxLevelFilter set to " .. value)
+                        end,
+                    },
+                },
             },
-            gray = {
-                type = "toggle",
-                order = 13,
-                name = function() return l10n('Show All Quests below range (Low level quests)'); end,
-                desc = function() return l10n('Enable or disable showing of showing low level quests on the map.'); end,
-                width = "full",
-                get = function () return Questie.db.char.lowlevel; end,
-                set = function (info, value)
-                    Questie.db.char.lowlevel = value
-                    QuestieOptions.AvailableQuestRedraw();
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "Gray Quests toggled to:", value)
-                end,
+            tooltip_spacer = QuestieOptionsUtils:Spacer(4.5,nil,"minimal"),
+            tooltip_options_group = {
+                type = "group",
+                order = 5,
+                inline = true,
+                name = function() return l10n('Tooltip Options'); end,
+                args = {
+                    enableTooltipsToggle = {
+                        type = "toggle",
+                        order = 8.1,
+                        name = function() return l10n('Enable World Tooltips'); end,
+                        desc = function() return l10n('When this is enabled, quest info will be added to relevant mob/item tooltips.'); end,
+                        width = 1.5,
+                        get = function () return Questie.db.profile.enableTooltips; end,
+                        set = function (_, value) Questie.db.profile.enableTooltips = value end
+                    },
+                    questsInNpcTooltip = {
+                        type = "toggle",
+                        order = 8.2,
+                        name = function() return l10n('Show quests in NPC tooltips'); end,
+                        desc = function() return l10n('Show quests (available/complete) in the NPC tooltips.'); end,
+                        width = 1.5,
+                        disabled = function() return not Questie.db.profile.enableTooltips; end,
+                        get = function () return Questie.db.profile.showQuestsInNpcTooltip; end,
+                        set = function (_, value) Questie.db.profile.showQuestsInNpcTooltip = value end
+                    },
+                    showQuestLevels = {
+                        type = "toggle",
+                        order = 8.3,
+                        name = function() return l10n('Show quest level in tooltips'); end,
+                        desc = function() return l10n('When this is checked, the level of quests will show in the tooltips.'); end,
+                        width = 1.5,
+                        get = function() return Questie.db.profile.enableTooltipsQuestLevel; end,
+                        set = function (_, value)
+                            Questie.db.profile.enableTooltipsQuestLevel = value
+                            if value and not Questie.db.profile.trackerShowQuestLevel then
+                                Questie.db.profile.trackerShowQuestLevel = true
+                                QuestieTracker:Update()
+                            end
+                        end
+                    },
+                    questXpAtMaxLevel = {
+                        type = "toggle",
+                        order = 8.4,
+                        name = function() return l10n('Show quest XP at max level'); end,
+                        desc = function() return l10n('Shows the quest XP values on quests even at max level.'); end,
+                        width = 1.5,
+                        get = function () return Questie.db.profile.showQuestXpAtMaxLevel; end,
+                        set = function (_, value) Questie.db.profile.showQuestXpAtMaxLevel = value end
+                    },
+                    showNextInChain = {
+                        type = "toggle",
+                        order = 8.5,
+                        name = function() return l10n('Show next quests in chain'); end,
+                        desc = function() return l10n('When this is checked, the next quests in the chain will show in the expanded map tooltips.'); end,
+                        width = 1.5,
+                        get = function() return Questie.db.profile.enableTooltipsNextInChain; end,
+                        set = function (_, value)
+                            Questie.db.profile.enableTooltipsNextInChain = value
+                        end
+                    },
+                    partyOnlyToggle = {
+                        type = "toggle",
+                        order = 8.6,
+                        name = function() return l10n('Only show party members'); end,
+                        desc = function() return l10n('When this is enabled, shared quest info will only show players in your party.'); end,
+                        width = 1.5,
+                        hidden = true, -- does this even do anything anymore after YELL removed?
+                        get = function () return Questie.db.profile.onlyPartyShared; end,
+                        set = function (_, value) Questie.db.profile.onlyPartyShared = value end
+                    },
+                },
             },
-            manualMinLevelOffset = {
-                type = "toggle",
-                order = 14,
-                name = function() return l10n('Enable manual minimum level offset'); end,
-                desc = function() return l10n('Enable manual minimum level offset instead of the automatic GetQuestGreenLevel function.'); end,
-                width = 1.5,
-                disabled = function() return Questie.db.char.lowlevel or Questie.db.char.absoluteLevelOffset; end,
-                get = function () return Questie.db.char.manualMinLevelOffset; end,
-                set = function (info, value)
-                    Questie.db.char.manualMinLevelOffset = value
-                    QuestieOptions.AvailableQuestRedraw();
-                    Questie:Debug(Questie.DEBUG_DEVELOP, l10n('Enable manual minimum level offset'), value)
-                end,
-            },
-            absoluteLevelOffset = {
-                type = "toggle",
-                order = 15,
-                name = function() return l10n('Enable absolute level range'); end,
-                desc = function() return l10n('Change the level offset to absolute level values.'); end,
-                width = 1.5,
-                disabled = function() return Questie.db.char.lowlevel or Questie.db.char.manualMinLevelOffset; end,
-                get = function () return Questie.db.char.absoluteLevelOffset; end,
-                set = function (info, value)
-                    Questie.db.char.absoluteLevelOffset = value
-                    QuestieOptions.AvailableQuestRedraw();
-                    Questie:Debug(Questie.DEBUG_DEVELOP, l10n('Enable absolute level range'), value)
-                end,
-            },
-            minLevelFilter = {
-                type = "range",
-                order = 16,
-                name = function()
-                    if Questie.db.char.absoluteLevelOffset then 
-                        return l10n('Level from');
-                    else
-                        return l10n('< Show below level');
-                    end
-                end,
-                desc = function()
-                    if Questie.db.char.absoluteLevelOffset then
-                        return l10n('Minimum quest level to show.');
-                    else
-                        return l10n('How many levels below your character to show. ( Default: %s )', optionsDefaults.char.minLevelFilter);
-                    end
-                end,
-                width = "normal",
-                min = 0,
-                max = 60 + 10 * GetExpansionLevel(),
-                step = 1,
-                disabled = function() return (not Questie.db.char.manualMinLevelOffset) and (not Questie.db.char.absoluteLevelOffset); end,
-                get = function() return Questie.db.char.minLevelFilter; end,
-                set = function (info, value)
-                    Questie.db.char.minLevelFilter = value;
-                    QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw,"minLevelFilter set to " .. value)
-                end,
-            },
-            maxLevelFilter = {
-                type = "range",
-                order = 17,
-                name = function()
-                    return l10n('Level to');
-                end,
-                desc = function()
-                    return l10n('Maximum quest level to show.');
-                end,
-                width = "normal",
-                min = 0,
-                max = 60 + 10 * GetExpansionLevel(),
-                step = 1,
-                disabled = function() return (not Questie.db.char.absoluteLevelOffset); end,
-                get = function(info) return Questie.db.char.maxLevelFilter; end,
-                set = function (info, value)
-                    Questie.db.char.maxLevelFilter = value;
-                    QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "maxLevelFilter set to " .. value)
-                end,
-            },
-            clusterLevelHotzone = {
-                type = "range",
-                order = 18,
-                name = function() return l10n('Objective icon cluster amount'); end,
-                desc = function() return l10n('How much objective icons should cluster.'); end,
-                width = "double",
-                min = 1,
-                max = 300,
-                step = 1,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
-                set = function (info, value)
-                    QuestieOptionsUtils:Delay(0.5, QuestieOptions.ClusterRedraw, l10n('Setting clustering value, clusterLevelHotzone set to %s : Redrawing!', value))
-                    QuestieOptions:SetGlobalOptionValue(info, value)
-                end,
+            sound_spacer = QuestieOptionsUtils:Spacer(5.5,nil,"minimal"),
+            sound_options_group = {
+                type = "group",
+                order = 6,
+                inline = true,
+                name = function() return l10n('Sound Options'); end,
+                args = {
+                    questCompleteSound = {
+                        type = "toggle",
+                        order = 9.01,
+                        name = function() return l10n('Quest completed'); end,
+                        desc = function() return l10n('Play a short sound when completing a quest when it is ready to turn in.'); end,
+                        width = 1.2,
+                        get = function() return Questie.db.profile.soundOnQuestComplete; end,
+                        set = function(_, value)
+                            Questie.db.profile.soundOnQuestComplete = value
+                        end,
+                    },
+                    questCompleteSoundButton = {
+                        type = "execute",
+                        order = 9.02,
+                        name = "",
+                        width = 0.5,
+                        image = function()
+                            return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
+                        end,
+                        func = function()
+                            PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.questCompleteSoundChoiceName), "Master")
+                        end
+                    },
+                    questCompleteSoundChoice = {
+                        type = "select",
+                        order = 9.03,
+                        values = _GetQuestSoundChoices(),
+                        sorting = _GetQuestSoundChoicesSort(),
+                        style = 'dropdown',
+                        name = function() return l10n('Quest Complete Sound Selection') end,
+                        desc = function() return l10n('The sound you hear when a quest is completed'); end,
+                        get = function() return Questie.db.profile.questCompleteSoundChoiceName or "None"; end,
+                        disabled = function() return (not Questie.db.profile.soundOnQuestComplete); end,
+                        set = function(_, value)
+                            Questie.db.profile.questCompleteSoundChoiceName = value
+                        end,
+                    },
+                    soundLineBreak = {
+                        type = "description",
+                        name = " ",
+                        width = 0.1,
+                        order = 9.04,
+                    },
+                    objectiveCompleteSound = {
+                        type = "toggle",
+                        order = 9.05,
+                        name = function() return l10n('Quest objective completed'); end,
+                        desc = function() return l10n('Play a short sound when completing a quest objective.'); end,
+                        width = 1.2,
+                        get = function() return Questie.db.profile.soundOnObjectiveComplete; end,
+                        set = function(_, value)
+                            Questie.db.profile.soundOnObjectiveComplete = value
+                        end,
+                    },
+                    objectiveCompleteSoundButton = {
+                        type = "execute",
+                        order = 9.06,
+                        name = "",
+                        width = 0.5,
+                        image = function()
+                            return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
+                        end,
+                        func = function()
+                            PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveCompleteSoundChoiceName), "Master")
+                        end
+                    },
+                    objectiveCompleteSoundChoice = {
+                        type = "select",
+                        order = 9.07,
+                        values = _GetObjectiveSoundChoices(),
+                        sorting = _GetObjectiveSoundChoicesSort(),
+                        style = 'dropdown',
+                        name = function() return l10n('Objective Complete Sound Selection') end,
+                        desc = function() return l10n('The sound you hear when an objective is completed'); end,
+                        get = function() return  Questie.db.profile.objectiveCompleteSoundChoiceName; end,
+                        disabled = function() return (not Questie.db.profile.soundOnObjectiveComplete); end,
+                        set = function(_, value)
+                            Questie.db.profile.objectiveCompleteSoundChoiceName = value
+                        end,
+                    },
+                    objectiveProgressSound = {
+                        type = "toggle",
+                        order = 9.08,
+                        name = function() return l10n('Quest objective progress'); end,
+                        desc = function() return l10n('Play a short sound when making progress on a quest objective.'); end,
+                        width = 1.2,
+                        get = function() return Questie.db.profile.soundOnObjectiveProgress; end,
+                        set = function(_, value)
+                            Questie.db.profile.soundOnObjectiveProgress = value
+                        end,
+                    },
+                    objectiveProgressSoundButton = {
+                        type = "execute",
+                        order = 9.09,
+                        name = "",
+                        width = 0.5,
+                        image = function()
+                            return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
+                        end,
+                        func = function()
+                            PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveProgressSoundChoiceName), "Master")
+                        end
+                    },
+                    objectiveProgressSoundChoice = {
+                        type = "select",
+                        order = 9.10,
+                        values = _GetObjectiveProgressSoundChoices(),
+                        sorting = _GetObjectiveProgressSoundChoicesSort(),
+                        style = 'dropdown',
+                        name = function() return l10n('Objective Progress Sound Selection') end,
+                        desc = function() return l10n('The sound you hear when you make progress on a quest objective'); end,
+                        get = function() return  Questie.db.profile.objectiveProgressSoundChoiceName; end,
+                        disabled = function() return (not Questie.db.profile.soundOnObjectiveProgress); end,
+                        set = function(_, value)
+                            Questie.db.profile.objectiveProgressSoundChoiceName = value
+                        end,
+                    },
+                },
             },
         },
     }
 end
 
-_GetShortcuts = function()
+_GetAnnounceChannels = function()
     return {
-        ['shift'] = l10n('Shift'),
-        ['ctrl'] = l10n('Control'),
-        ['alt'] = l10n('Alt'),
         ['disabled'] = l10n('Disabled'),
+        ['party'] = l10n('Party'),
+        ['raid'] = l10n('Raid'),
+        ['both'] = l10n('Both'),
     }
+end
+
+---@return boolean
+_IsAnnounceDisabled = function()
+    return (not Questie.db.profile.questAnnounceChannel) or (Questie.db.profile.questAnnounceChannel == "disabled")
+end
+
+_GetQuestSoundChoices = function()
+    return {
+        ["QuestDefault"]     = "Default",
+        ["GameDefault"]      = "Game Default",
+        ["Troll Male"]       = "Troll Male",
+        ["Troll Female"]     = "Troll Female",
+        ["Tauren Male"]      = "Tauren Male",
+        ["Tauren Female"]    = "Tauren Female",
+        ["Undead Male"]      = "Undead Male",
+        ["Undead Female"]    = "Undead Female",
+        ["Orc Male"]         = "Orc Male",
+        ["Orc Female"]       = "Orc Female",
+        ["Night Elf Male"]   = "Night Elf Male",
+        ["Night Elf Female"] = "Night Elf Female",
+        ["Human Male"]       = "Human Male",
+        ["Human Female"]     = "Human Female",
+        ["Gnome Male"]       = "Gnome Male",
+        ["Gnome Female"]     = "Gnome Female",
+        ["Dwarf Male"]       = "Dwarf Male",
+        ["Dwarf Female"]     = "Dwarf Female",
+        ["Draenei Male"]     = "Draenei Male",
+        ["Draenei Female"]   = "Draenei Female",
+        ["Blood Elf Male"]   = "Blood Elf Male",
+        ["Blood Elf Female"] = "Blood Elf Female",
+        ["Goblin Male"]      = "Goblin Male",
+        ["Goblin Female"]    = "Goblin Female",
+        ["Worgen Male"]      = "Worgen Male",
+        ["Worgen Female"]    = "Worgen Female",
+        ["Gilnean Male"]     = "Gilnean Male",
+        ["Gilnean Female"]   = "Gilnean Female",
+        ["Zug Zug"]          = "Zug Zug",
+    }
+end
+
+_GetQuestSoundChoicesSort = function()
+    return {
+        "QuestDefault",
+        "GameDefault",
+        "Troll Male",
+        "Troll Female",
+        "Tauren Male",
+        "Tauren Female",
+        "Undead Male",
+        "Undead Female",
+        "Orc Male",
+        "Orc Female",
+        "Night Elf Male",
+        "Night Elf Female",
+        "Human Male",
+        "Human Female",
+        "Gnome Male",
+        "Gnome Female",
+        "Dwarf Male",
+        "Dwarf Female",
+        "Draenei Male",
+        "Draenei Female",
+        "Blood Elf Male",
+        "Blood Elf Female",
+        "Goblin Male",
+        "Goblin Female",
+        "Worgen Male",
+        "Worgen Female",
+        "Gilnean Male",
+        "Gilnean Female",
+        "Zug Zug",
+    }
+end
+
+_GetObjectiveSoundChoices = function()
+    local choices = {
+        ["ObjectiveDefault"]   = "Default",
+        ["Map Ping"]           = "Map Ping",
+        ["Window Close"]       = "Window Close",
+        ["Window Open"]        = "Window Open",
+        ["Boat Docked"]        = "Boat Docked",
+        ["Bell Toll Alliance"] = "Bell Toll Alliance",
+        ["Bell Toll Horde"]    = "Bell Toll Horde",
+    }
+    if Questie.IsWotlk or Questie.IsCata then
+        choices["Explosion"] = "Explosion"
+        choices["Shing!"] = "Shing!"
+        choices["Wham!"] = "Wham!"
+        choices["Simon Chime"] = "Simon Chime"
+        choices["War Drums"] = "War Drums"
+        choices["Humm"] = "Humm"
+        choices["Short Circuit"] = "Short Circuit"
+    end
+    return choices
+end
+
+_GetObjectiveSoundChoicesSort = function()
+    local sorting = {
+        "ObjectiveDefault",
+        "Map Ping",
+        "Window Close",
+        "Window Open",
+        "Boat Docked",
+        "Bell Toll Alliance",
+        "Bell Toll Horde",
+    }
+    if Questie.IsWotlk or Questie.IsCata then
+        tinsert(sorting, "Explosion")
+        tinsert(sorting, "Shing!")
+        tinsert(sorting, "Wham!")
+        tinsert(sorting, "Simon Chime")
+        tinsert(sorting, "War Drums")
+        tinsert(sorting, "Humm")
+        tinsert(sorting, "Short Circuit")
+    end
+    return sorting
+end
+
+_GetObjectiveProgressSoundChoices = function()
+    local choices = {
+        ["ObjectiveProgress"]  = "Default",
+        ["ObjectiveDefault"]   = "Objective Complete",
+        ["Map Ping"]           = "Map Ping",
+        ["Window Close"]       = "Window Close",
+        ["Window Open"]        = "Window Open",
+        ["Boat Docked"]        = "Boat Docked",
+        ["Bell Toll Alliance"] = "Bell Toll Alliance",
+        ["Bell Toll Horde"]    = "Bell Toll Horde",
+    }
+    if Questie.IsWotlk or Questie.IsCata then
+        choices["Explosion"] = "Explosion"
+        choices["Shing!"] = "Shing!"
+        choices["Wham!"] = "Wham!"
+        choices["Simon Chime"] = "Simon Chime"
+        choices["War Drums"] = "War Drums"
+        choices["Humm"] = "Humm"
+        choices["Short Circuit"] = "Short Circuit"
+    end
+    return choices
+end
+
+_GetObjectiveProgressSoundChoicesSort = function()
+    local sorting = {
+        "ObjectiveProgress",
+        "ObjectiveDefault",
+        "Map Ping",
+        "Window Close",
+        "Window Open",
+        "Boat Docked",
+        "Bell Toll Alliance",
+        "Bell Toll Horde",
+    }
+    if Questie.IsWotlk or Questie.IsCata then
+        tinsert(sorting, "Explosion")
+        tinsert(sorting, "Shing!")
+        tinsert(sorting, "Wham!")
+        tinsert(sorting, "Simon Chime")
+        tinsert(sorting, "War Drums")
+        tinsert(sorting, "Humm")
+        tinsert(sorting, "Short Circuit")
+    end
+    return sorting
 end

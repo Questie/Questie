@@ -25,7 +25,7 @@ def get_commit_changelog():
 
 def get_last_git_tag():
     return subprocess.run(
-        ["git", "describe", "--abbrev=0", "--tags"], 
+        ["git", "describe", "--tags", "--abbrev=0", "HEAD^"],
         **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
     ).stdout.decode().strip('\n')
 
@@ -49,17 +49,21 @@ def get_sorted_categories(git_log):
 
     for line in git_log:
         for key in categories.keys():
-            if f'[{key}]' in line:
+            if line.startswith(f'[{key}]'):
                 line = line.replace(f'[{key}]', '').strip()
+                line = transform_lines_into_past_tense(line)
+                categories[key].append(line)
+            elif line.startswith(f'[{key.capitalize()}]'):
+                line = line.replace(f'[{key.capitalize()}]', '').strip()
                 line = transform_lines_into_past_tense(line)
                 categories[key].append(line)
 
     for key in categories.keys():
         categories[key].sort()
-    
+
     return categories
 
-    
+
 def replace_start(line, a, b):
     if line.strip().startswith(a):
         return line.replace(a, b)
@@ -70,6 +74,7 @@ def transform_lines_into_past_tense(line):
     line = replace_start(line, 'Add ', 'Added ')
     line = replace_start(line, 'Fix ', 'Fixed ')
     line = replace_start(line, 'Mark ', 'Marked ')
+    line = replace_start(line, 'Improve ', 'Improved ')
     line = replace_start(line, 'Change ', 'Changed ')
     line = replace_start(line, 'Update ', 'Updated ')
     line = replace_start(line, 'Blacklist ', 'Blacklisted ')

@@ -28,24 +28,6 @@ local unusedFrames = {}
 local usedFrames = {};
 local allFrames = {}
 
-
-function QuestieFramePool:SetIcons()
-    ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay.blp"
-    ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot.blp"
-    ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event.blp"
-    ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object.blp"
-    ICON_TYPE_TALK = QuestieLib.AddonPath.."Icons\\chatbubblegossipicon.blp"
-    ICON_TYPE_INTERACT = QuestieLib.AddonPath.."Icons\\interact.blp"
-
-    -- TODO Add all types (we gotta stop using globals, needs refactoring)
-    ICON_TYPE_AVAILABLE =  QuestieLib.AddonPath.."Icons\\available.blp"
-    ICON_TYPE_AVAILABLE_GRAY =  QuestieLib.AddonPath.."Icons\\available_gray.blp"
-    ICON_TYPE_COMPLETE =  QuestieLib.AddonPath.."Icons\\complete.blp"
-    ICON_TYPE_GLOW = QuestieLib.AddonPath.."Icons\\glow.blp"
-    ICON_TYPE_REPEATABLE =  QuestieLib.AddonPath.."Icons\\repeatable.blp"
-end
-
-
 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     text = "", -- set before showing
     questID = 0, -- set before showing
@@ -56,7 +38,7 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     end,
     SetQuest = function(self, id)
         self.questID = id
-        self.text = l10n("Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!", QuestieLib:GetColoredQuestName(id, Questie.db.global.enableTooltipsQuestLevel, false, true))
+        self.text = l10n("Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!", QuestieLib:GetColoredQuestName(id, Questie.db.profile.enableTooltipsQuestLevel, false, true))
 
         -- locale might not be loaded when this is first created (this does happen almost always)
         self.button1 = l10n("Yes")

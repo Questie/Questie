@@ -13,8 +13,15 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local QuestieSearch = QuestieLoader:ImportModule("QuestieSearch")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+
 
 function QuestieSlash.RegisterSlashCommands()
     Questie:RegisterChatCommand("questieclassic", QuestieSlash.HandleCommands)
@@ -34,7 +41,9 @@ function QuestieSlash.HandleCommands(input)
 
     -- /questie
     if mainCommand == "" or not mainCommand then
-        QuestieOptions:OpenConfigWindow();
+        QuestieCombatQueue:Queue(function()
+            QuestieOptions:OpenConfigWindow();
+        end)
 
         if QuestieJourney:IsShown() then
             QuestieJourney.ToggleJourneyWindow();
@@ -52,13 +61,15 @@ function QuestieSlash.HandleCommands(input)
         print(Questie:Colorize("/questie journey - " .. l10n("Toggles the My Journey window"), "yellow"));
         print(Questie:Colorize("/questie tracker [show/hide/reset] - " .. l10n("Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"), "yellow"));
         print(Questie:Colorize("/questie flex - " .. l10n("Flex the amount of quests you have completed so far"), "yellow"));
+        print(Questie:Colorize("/questie doable [questID] - " .. l10n("Prints whether you are eligibile to do a quest"), "yellow"));
+        print(Questie:Colorize("/questie version - " .. l10n("Prints Questie and client version info"), "yellow"));
         return;
     end
 
     -- /questie toggle
     if mainCommand == "toggle" then
-        Questie.db.char.enabled = (not Questie.db.char.enabled)
-        QuestieQuest:ToggleNotes(Questie.db.char.enabled);
+        Questie.db.profile.enabled = (not Questie.db.profile.enabled)
+        QuestieQuest:ToggleNotes(Questie.db.profile.enabled);
 
         -- Close config window if it's open to avoid desyncing the Checkbox
         QuestieOptions:HideFrame();
@@ -143,7 +154,35 @@ function QuestieSlash.HandleCommands(input)
         if GetDailyQuestsCompleted then
             questCount = questCount - GetDailyQuestsCompleted() -- We don't care about daily quests
         end
-        SendChatMessage(l10n("has completed a total of %d quests", questCount), "EMOTE")
+        SendChatMessage(l10n("has completed a total of %d quests", questCount) .. "!", "EMOTE")
+        return
+    end
+
+    if mainCommand == "version" then
+        local gameType = ""
+        if Questie.IsWotlk then
+            gameType = "Wrath"
+        elseif Questie.IsSoD then -- seasonal checks must be made before non-seasonal for that client, since IsEra resolves true in SoD
+            gameType = "SoD"
+        elseif Questie.IsEra then
+            gameType = "Era"
+        end
+
+        Questie:Print("Questie " .. QuestieLib:GetAddonVersionString() .. ", Client " .. GetBuildInfo() .. " " .. gameType .. ", Locale " .. GetLocale())
+        return
+    end
+
+    if mainCommand == "doable" or mainCommand == "eligible" or mainCommand == "eligibility" then
+        if not subCommand then
+            print(Questie:Colorize("[Questie] ", "yellow") .. "Usage: /questie " .. mainCommand .. " <questID>")
+            do return end
+        elseif QuestieDB.QueryQuestSingle(tonumber(subCommand), "name") == nil then
+            print(Questie:Colorize("[Questie] ", "yellow") .. "Invalid quest ID")
+            return
+        end
+
+        Questie:Print("[Eligibility] " .. tostring(QuestieDB.IsDoableVerbose(tonumber(subCommand), false, true, false)))
+
         return
     end
 

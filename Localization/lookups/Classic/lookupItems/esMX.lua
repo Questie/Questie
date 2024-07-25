@@ -5,7 +5,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.itemLookup["esMX"] = {
+l10n.itemLookup["esMX"] = loadstring([[return {
 [159] = "Agua de manantial refrescante",
 [182] = "Cabeza de Garrick",
 [723] = "Hígado de Dentosangre",
@@ -53,6 +53,7 @@ l10n.itemLookup["esMX"] = {
 [1261] = "Orbe de medianoche",
 [1262] = "Barril de cerveza Cebatruenos",
 [1274] = "Lúpulos",
+[1307] = "Planificación de recogida de oro",
 [1309] = "Caja de herramientas de Olento",
 [1349] = "Cajón de Abercrombie",
 [1381] = "Un mensaje misterioso",
@@ -323,6 +324,7 @@ l10n.itemLookup["esMX"] = {
 [3924] = "Pata de palo de Maury",
 [3925] = "Catalejo dorado de Jon-Jon",
 [3926] = "Anillo enorme de Chucky",
+[3930] = "Llave de Maury",
 [3932] = "Cofre de Smotts",
 [3935] = "Alfanje de Smotts",
 [3985] = "Fajín con monogramas",
@@ -331,6 +333,7 @@ l10n.itemLookup["esMX"] = {
 [4029] = "Junco akiris",
 [4034] = "Piedra de las Mareas",
 [4053] = "Piel de crocolisco fluvial",
+[4056] = "El enigma de Cortello",
 [4094] = "Fragmento de tablilla",
 [4098] = "Nota doblada con cuidado",
 [4103] = "Llave de grillete",
@@ -394,6 +397,7 @@ l10n.itemLookup["esMX"] = {
 [4611] = "Perla azul",
 [4612] = "Corazón de draco negro",
 [4613] = "Caja negra corroída",
+[4614] = "Colgante de Myzrael",
 [4615] = "Ataduras de Latigoscuro",
 [4616] = "Pico de la suerte de Ryedol",
 [4621] = "Brazal del Embajador Infernus",
@@ -1666,4 +1670,4 @@ l10n.itemLookup["esMX"] = {
 [22734] = "Base de Atiesh",
 [22892] = "Piedra necrótica oscura",
 [23250] = "Concha centelleante",
-}
+}]])

@@ -33,5 +33,5 @@ Which version of Questie are you using? You can find it by:
 - 2. looking at your Questie.toc file (open it with any text editor).
 It looks something like this: "v5.9.0" or "## Version: 5.9.0".
 
-Please also state if your quest issue is about Classic Era/SoM or TBC.
+Please also state if your quest issue is about Classic Era/SoM or Wotlk.
 -->
