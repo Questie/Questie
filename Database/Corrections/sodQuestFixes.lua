@@ -2290,6 +2290,86 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {9015},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
+        [84195] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84196] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84197] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84198] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84199] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84200] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84201] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84202] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84203] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84204] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84205] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84206] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84207] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84208] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84209] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84210] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
         [84348] = { -- Priority Target: Duke Tectonis
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
             [questKeys.questFlags] = questFlags.DAILY,
