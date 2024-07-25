@@ -43,6 +43,12 @@ function SeasonOfDiscovery:LoadQuests()
         [8930] = { -- In Search of Anthion
             [questKeys.preQuestSingle] = {84171,84172,84173,84174,84175,84176,84177,84178},
         },
+        [8960] = { -- Bodley's Unfortunate Fate
+            [questKeys.preQuestSingle] = {84179,84180,84181,84182,84183,84184,84185,84186},
+        },
+        [9032] = { -- Bodley's Unfortunate Fate
+            [questKeys.preQuestSingle] = {84187,84188,84189,84190,84191,84192,84193,84194},
+        },
         [76156] = { -- Stalk With The Earthmother
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
@@ -2203,6 +2209,86 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {8978},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
             [questKeys.nextQuestInChain] = 8930,
+        },
+        [84179] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84180] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84181] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84182] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84183] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84184] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84185] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84186] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84187] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84188] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84189] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84190] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84191] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84192] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84193] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84194] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84348] = { -- Priority Target: Duke Tectonis
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
