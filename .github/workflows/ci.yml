@@ -11,6 +11,7 @@ on:
 jobs:
   lua-check:
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
       - name: Checkout project
@@ -37,6 +38,8 @@ jobs:
   unit-tests:
     needs: lua-check
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -54,6 +57,7 @@ jobs:
   validate-era-db:
     needs: unit-tests
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
       - name: Checkout project
@@ -82,6 +86,7 @@ jobs:
   validate-sod-db:
     needs: unit-tests
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
       - name: Checkout project
@@ -110,6 +115,7 @@ jobs:
 #  validate-tbc-db:
 #    needs: unit-tests
 #    runs-on: ubuntu-latest
+#    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 #
 #    steps:
 #      - name: Checkout project
@@ -138,6 +144,7 @@ jobs:
   validate-wotlk-db:
     needs: unit-tests
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
       - name: Checkout project
@@ -166,6 +173,7 @@ jobs:
   validate-cata-db:
     needs: unit-tests
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
       - name: Checkout project
