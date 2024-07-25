@@ -2419,7 +2419,7 @@ function SeasonOfDiscovery:LoadQuests()
         [84384] = { -- Demonic Deceptions
             [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
         },
-        [82303] = { -- Otherworldly Treasure
+        [84525] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [84777] = { -- Feathers for Nafien
@@ -6091,6 +6091,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Talk to the Vengeful Wisp and kill Satyrs in Jadefire Run until you get the 'Shimmering Light' buff. Then talk to the wisp again and it will put Gift of the Wisp on the ground, loot it to receive the rune."},
             [questKeys.requiredSpell] = -439767,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [90310] = {
+            [questKeys.name] = "Axe Specialization",
+            [questKeys.startedBy] = {nil,{457101}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.PALADIN + classIDs.SHAMAN + classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Read the book 'The Rites of Mak'Gora' to receive the rune."},
+            [questKeys.requiredSpell] = -453688,
+            [questKeys.zoneOrSort] = zoneIDs.BURNING_STEPPES,
         },
     }
 end
