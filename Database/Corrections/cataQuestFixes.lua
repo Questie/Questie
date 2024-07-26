@@ -4049,6 +4049,12 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectives] = {{{42673,nil,Questie.ICON_TYPE_INTERACT},{42671,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [26300] = { -- Nezzliok Will Know
+            [questKeys.preQuestSingle] = {26299},
+        },
+        [26301] = { -- Speaking with Nezzliok
+            [questKeys.preQuestSingle] = {26300},
+        }, 
         [26304] = { -- Nighttime in the Jungle
             [questKeys.preQuestSingle] = {26359},
         },    
