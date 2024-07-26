@@ -4106,6 +4106,9 @@ function CataQuestFixes.Load()
         [26337] = { -- Beating the Market
             [questKeys.objectives] = {{{42777}}},
         },
+        [26338] = { -- Population Con-Troll
+            [questKeys.preQuestSingle] = {26299},
+        },
         [26339] = { -- Staging in Brewnall
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26331,26333},
@@ -4120,6 +4123,9 @@ function CataQuestFixes.Load()
         },
         [26350] = { -- Priestess Hu'rala
             [questKeys.preQuestSingle] = {26334},
+        },
+        [26352] = { -- Cozzle's Plan
+            [questKeys.preQuestSingle] = {26399},
         },
         [26353] = { -- Captain Sanders' Hidden Treasure
             [questKeys.startedBy] = {{513,515,126,171,456,127,517,458,391},nil,{1357}},
@@ -4192,6 +4198,9 @@ function CataQuestFixes.Load()
         },
         [26401] = { -- Return to Vestia
             [questKeys.preQuestSingle] = {25368},
+        },
+        [26403] = { -- Venture Company Mining
+            [questKeys.preQuestSingle] = {26399},
         },
         [26408] = { -- Ashes in Ashenvale
             [questKeys.preQuestSingle] = {13897},
