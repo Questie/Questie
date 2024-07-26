@@ -26,9 +26,9 @@ function Questie:OnInitialize()
     Questie.db.RegisterCallback(Questie, "OnProfileCopied", "RefreshConfig")
     Questie.db.RegisterCallback(Questie, "OnProfileReset", "RefreshConfig")
 
-    QuestieInit.AddonLoaded()
-
     QuestieEventHandler:RegisterEarlyEvents()
+
+    QuestieInit.AddonLoaded()
 end
 
 function Questie:OnEnable()
