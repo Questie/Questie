@@ -4103,6 +4103,10 @@ function CataQuestFixes.Load()
         [26333] = { -- No Tanks!
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
+        [26334] = { -- Bloodlord Mandokir
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26301,26332},
+        },
         [26335] = { -- Ready the Navy
             [questKeys.preQuestSingle] = {26324},
         },
