@@ -253,6 +253,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.exclusiveTo] = {77620,77643,77667},
         },
         [77672] = { -- The Lost Rune
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
