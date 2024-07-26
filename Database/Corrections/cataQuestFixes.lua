@@ -4049,6 +4049,9 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectives] = {{{42673,nil,Questie.ICON_TYPE_INTERACT},{42671,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [26298] = { -- Hunt for Yenniku
+            [questKeys.preQuestSingle] = {26280},
+        },
         [26300] = { -- Nezzliok Will Know
             [questKeys.preQuestSingle] = {26299},
         },
@@ -4092,6 +4095,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{39605}},
             [questKeys.preQuestGroup] = {26294,26311},
             [questKeys.preQuestSingle] = {},
+        },
+        [26325] = { -- A Nose for This Sort of Thing
+            [questKeys.preQuestSingle] = {26323},
         },
         [26326] = { -- The Very Earth Beneath Our Feet
             [questKeys.preQuestSingle] = {},
