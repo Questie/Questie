@@ -107,6 +107,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [77586] = { -- Stolen Power
+            [questKeys.requiredRaces] = raceIDs.ORC,
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
@@ -252,6 +253,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.exclusiveTo] = {77620,77643,77667},
         },
         [77672] = { -- The Lost Rune
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
@@ -1777,11 +1779,86 @@ function SeasonOfDiscovery:LoadQuests()
                 {nil, Questie.ICON_TYPE_INTERACT, l10n("Cast Tranquility followed by Hurricane to summon the Moonkin Avatar and defeat him"), 0, {{"object", 441946}}},
             },
         },
+        [81944] = { -- A Newly Discovered Purpose...
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [81947] = { -- Sanguine Sorcery
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81949] = { -- Legends of the Tidesages
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81951] = { -- The Liminal and the Arcane
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81952] = { -- Everyday Etiquette
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81953] = { -- Stonewrought Design
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81954] = { -- Venomous Journeys
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81955] = { -- A Mind of Metal
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81956] = { -- Conjurer's Codex
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81960] = { -- Clarifying Air
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [81968] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [81968] = { -- Answering Air's Call
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [81974] = { -- More Junk for Ziri
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+        },
+        [81975] = { -- A Troubling Exchange
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+        },
         [81986] = { -- Waking the Nightmare
             [questKeys.preQuestSingle] = {82022},
             [questKeys.objectives] = {{{222198}},nil,{{220570}}},
             [questKeys.zoneOrSort] = sortKeys.NIGHTMARE_INCURSIONS,
             [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{94.26,35.13}}}, Questie.ICON_TYPE_EVENT, l10n("Enter the Emerald Dream"),}},
+        },
+        [81987] = { -- Goblin Solutions
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
+        [82001] = { -- Require Gnomish Problems
+            [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
+        },
+        [82002] = { -- Whats Red and Smells like Paint?"
+            [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
+        },
+        [82003] = { -- Victory Lap For the Goblins!
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
+        [82004] = { -- Hush Money
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
+        [82008] = { -- Gnomish Solutions
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
+        [82009] = { -- Gnomish Solutions
+            [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
+        },
+        [82010] = { -- Watering Down the Competition
+            [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
+        },
+        [82011] = { -- Victory Lap For the Gnomes!
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
+        [82013] = { -- Hush Money
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
+        [82016] = { -- Atal'ai Potent Potables
+            [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
         },
         [82017] = { -- An Amalagamation of Nightmares
             [questKeys.nextQuestInChain] = 82018,
@@ -1927,12 +2004,15 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [82301] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82302] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82303] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82307] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -1967,18 +2047,23 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [83188] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [83189] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [83190] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [83191] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [83192] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [83808] = { -- In a Bind
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
@@ -2014,22 +2099,28 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [84011] = { -- More Star Lotus
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
         },
         [84012] = { -- More Starsilver Ore
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
         },
         [84013] = { -- More Starshells
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
         },
         [84014] = { -- More Moonroot
-            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = zoneIDs.FERALAS,
         },
         [84015] = { -- More Greater Moonstones
-            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = zoneIDs.FERALAS,
         },
         [84016] = { -- More Moondragon Scales
-            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = zoneIDs.FERALAS,
         },
         [84017] = { -- A Time to Kill
             [questKeys.triggerEnd] = {"Find Arkonos the Cursed",{[zoneIDs.EASTERN_PLAGUELANDS]={{86.8,39.4}}}},
@@ -2321,6 +2412,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84201] = { -- Saving the Best for Last
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.preQuestSingle] = {8997},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
@@ -2341,6 +2433,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84205] = { -- Saving the Best for Last
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.MAGE,
             [questKeys.preQuestSingle] = {8998},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
@@ -2421,9 +2514,11 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [84525] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [84777] = { -- Feathers for Nafien
             [questKeys.preQuestSingle] = {8461},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = zoneIDs.FELWOOD,
         },
 
