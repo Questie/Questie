@@ -619,6 +619,7 @@ local questsToBlacklistBySoDPhase = {
         [4788] = true, -- The Final Tablets
         [5065] = true, -- The Lost Tablets of Mosh'aru
         [8181] = true, -- Confront Yeh'kinya
+        [8183] = true, -- The Heart of Hakkar
         [8411] = true,
         [8056] = true,
         [8057] = true,
