@@ -2024,22 +2024,28 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [84011] = { -- More Star Lotus
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
         },
         [84012] = { -- More Starsilver Ore
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
         },
         [84013] = { -- More Starshells
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
         },
         [84014] = { -- More Moonroot
-            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = zoneIDs.FERALAS,
         },
         [84015] = { -- More Greater Moonstones
-            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = zoneIDs.FERALAS,
         },
         [84016] = { -- More Moondragon Scales
-            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = zoneIDs.FERALAS,
         },
         [84017] = { -- A Time to Kill
             [questKeys.triggerEnd] = {"Find Arkonos the Cursed",{[zoneIDs.EASTERN_PLAGUELANDS]={{86.8,39.4}}}},
