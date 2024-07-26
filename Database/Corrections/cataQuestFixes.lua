@@ -4049,6 +4049,9 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectives] = {{{42673,nil,Questie.ICON_TYPE_INTERACT},{42671,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [26304] = { -- Nighttime in the Jungle
+            [questKeys.preQuestSingle] = {26359},
+        },    
         [26311] = { -- Unfamiliar Waters
             [questKeys.preQuestSingle] = {},
         },
@@ -4253,6 +4256,9 @@ function CataQuestFixes.Load()
         [26433] = { -- The Holy Water of Clarity
             [questKeys.exclusiveTo] = {26590},
         },
+        [26434] = { -- Primal Reagents of Power
+            [questKeys.preQuestSingle] = {26433},
+        },  
         [26440] = { -- Clingy
             [questKeys.triggerEnd] = {"Pebble brought to crystal formation",{[zoneIDs.DEEPHOLM]={{29.45,47.47}}}},
             [questKeys.objectives] = {},
@@ -4428,6 +4434,9 @@ function CataQuestFixes.Load()
         [26591] = { -- Battlefront Triage
             [questKeys.objectives] = {{{43229,"Injured Earthen patched up",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestGroup] = {26501,26502},
+        },
+        [26592] = { -- Diffractory Chromascope
+            [questKeys.preQuestSingle] = {26433},
         },
         [26597] = { -- Stranglethorn Fever
             [questKeys.childQuests] = {26598},
