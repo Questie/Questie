@@ -149,42 +149,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     print("INIT STAGE 1")
     Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting the real init.")
 
-    --? This was moved here because the lag that it creates is much less noticable here, while still initalizing correctly.
-    Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting QuestieOptions.Initialize Thread.")
-    ThreadLib.ThreadSimple(QuestieOptions.Initialize, 0)
-
-    MinimapIcon:Init()
-
-    Questie:SetIcons()
-
-    if QUESTIE_LOCALES_OVERRIDE ~= nil then
-        l10n:InitializeLocaleOverride()
-    end
-
-    -- Set proper locale. Either default to client Locale or override based on user.
-    if Questie.db.global.questieLocaleDiff then
-        l10n:SetUILocale(Questie.db.global.questieLocale);
-    else
-        if QUESTIE_LOCALES_OVERRIDE ~= nil then
-            l10n:SetUILocale(QUESTIE_LOCALES_OVERRIDE.locale);
-        else
-            l10n:SetUILocale(GetLocale());
-        end
-    end
-
-    coYield()
-    ZoneDB:Initialize()
-
-    coYield()
-    Migration:Migrate()
-
-    IsleOfQuelDanas.Initialize() -- This has to happen before option init
-
-    QuestieProfessions:Init()
-    QuestXP.Init()
-    Phasing.Initialize()
-    coYield()
-
     local dbCompiled = false
 
     local dbIsCompiled, dbCompiledOnVersion, dbCompiledLang
@@ -196,11 +160,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         dbIsCompiled = Questie.db.global.dbIsCompiled or false
         dbCompiledOnVersion = Questie.db.global.dbCompiledOnVersion
         dbCompiledLang = Questie.db.global.dbCompiledLang
-    end
-
-    if Questie.IsSoD then
-        coYield()
-        SeasonOfDiscovery.Initialize()
     end
 
     -- Check if the DB needs to be recompiled
@@ -406,7 +365,41 @@ function QuestieInit.AddonLoaded()
         QuestieShutUp:ToggleFilters(Questie.db.profile.questieShutUp)
         QuestieCoords:Initialize()
         QuestieSlash.RegisterSlashCommands()
+
+        QuestieOptions.Initialize()
     end, 0,"Error during AddonLoaded initialization!")
+
+    MinimapIcon:Init()
+
+    Questie:SetIcons()
+
+    if QUESTIE_LOCALES_OVERRIDE ~= nil then
+        l10n:InitializeLocaleOverride()
+    end
+
+    -- Set proper locale. Either default to client Locale or override based on user.
+    if Questie.db.global.questieLocaleDiff then
+        l10n:SetUILocale(Questie.db.global.questieLocale);
+    else
+        if QUESTIE_LOCALES_OVERRIDE ~= nil then
+            l10n:SetUILocale(QUESTIE_LOCALES_OVERRIDE.locale);
+        else
+            l10n:SetUILocale(GetLocale());
+        end
+    end
+
+    ZoneDB:Initialize()
+    Migration:Migrate()
+
+    IsleOfQuelDanas.Initialize() -- This has to happen before option init
+
+    QuestieProfessions:Init()
+    QuestXP.Init()
+    Phasing.Initialize()
+
+    if Questie.IsSoD then
+        SeasonOfDiscovery.Initialize()
+    end
 
     print("ADDON LOADED DONE")
 end
