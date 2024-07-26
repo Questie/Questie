@@ -13,7 +13,10 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
+---@type QuestieInit
+local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 
+---Called on ADDON_LOADED - Saved Variables are loaded at this point
 function Questie:OnInitialize()
     -- This has to happen OnInitialize to be available asap
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
@@ -22,6 +25,8 @@ function Questie:OnInitialize()
     Questie.db.RegisterCallback(Questie, "OnProfileChanged", "RefreshConfig")
     Questie.db.RegisterCallback(Questie, "OnProfileCopied", "RefreshConfig")
     Questie.db.RegisterCallback(Questie, "OnProfileReset", "RefreshConfig")
+
+    QuestieInit.AddonLoaded()
 
     QuestieEventHandler:RegisterEarlyEvents()
 end

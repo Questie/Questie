@@ -146,6 +146,7 @@ end
 QuestieInit.Stages = {}
 
 QuestieInit.Stages[1] = function() -- run as a coroutine
+    print("INIT STAGE 1")
     Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting the real init.")
 
     --? This was moved here because the lag that it creates is much less noticable here, while still initalizing correctly.
@@ -153,8 +154,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     ThreadLib.ThreadSimple(QuestieOptions.Initialize, 0)
 
     MinimapIcon:Init()
-
-    HBDHooks:Init()
 
     Questie:SetIcons()
 
@@ -172,8 +171,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
             l10n:SetUILocale(GetLocale());
         end
     end
-
-    QuestieShutUp:ToggleFilters(Questie.db.profile.questieShutUp)
 
     coYield()
     ZoneDB:Initialize()
@@ -277,11 +274,8 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     QuestieEventHandler:RegisterLateEvents()
 
     QuestieTooltips:Initialize()
-    QuestieCoords:Initialize()
     TrackerQuestTimers:Initialize()
     QuestieComms:Initialize()
-
-    QuestieSlash.RegisterSlashCommands()
 
     coYield()
 
@@ -400,6 +394,21 @@ function _QuestieInit.StartStageCoroutine()
         QuestieInit.Stages[i]()
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:StartStageCoroutine] Stage " .. i .. " done.")
     end
+end
+
+-- The UI elements might not be loaded at this point, so we must only initialize modules that do not rely on the UI
+function QuestieInit.AddonLoaded()
+    print("ADDON LOADED")
+
+    -- Loading everything for that it is totally irrelevant when exactly it is done
+    ThreadLib.ThreadError(function()
+        HBDHooks:Init()
+        QuestieShutUp:ToggleFilters(Questie.db.profile.questieShutUp)
+        QuestieCoords:Initialize()
+        QuestieSlash.RegisterSlashCommands()
+    end, 0,"Error during AddonLoaded initialization!")
+
+    print("ADDON LOADED DONE")
 end
 
 -- called by the PLAYER_LOGIN event handler
