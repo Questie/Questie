@@ -2443,6 +2443,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [84777] = { -- Feathers for Nafien
             [questKeys.preQuestSingle] = {8461},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = zoneIDs.FELWOOD,
         },
 
