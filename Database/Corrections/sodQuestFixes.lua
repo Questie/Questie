@@ -2337,6 +2337,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [84201] = { -- Saving the Best for Last
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.preQuestSingle] = {8997},
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
@@ -2357,6 +2358,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84205] = { -- Saving the Best for Last
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.MAGE,
             [questKeys.preQuestSingle] = {8998},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
