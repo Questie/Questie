@@ -5286,6 +5286,9 @@ function CataQuestFixes.Load()
         [27312] = { -- Darkcloud Grimtotem
             [questKeys.preQuestSingle] = {27275},
         },
+        [27315] = { -- Grimtotem Chiefs: Isha Gloomaxe
+            [questKeys.preQuestSingle] = {27275},
+        },
         [27317] = { -- The Rattle of Bones
             [questKeys.preQuestSingle] = {},
         },
