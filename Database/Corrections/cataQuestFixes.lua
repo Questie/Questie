@@ -546,6 +546,10 @@ function CataQuestFixes.Load()
         [9369] = { -- Replenishing the Healing Crystals
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE - raceKeys.DRAENEI,
         },
+        [9436] = { -- Bloodscalp Insight
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26280,26321},
+        },
         [9563] = { -- Gaining Mirren's Trust
             [questKeys.objectives] = {nil,nil,{{23848}},{946,3000}},
         },
@@ -4049,6 +4053,18 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectives] = {{{42673,nil,Questie.ICON_TYPE_INTERACT},{42671,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [26298] = { -- Hunt for Yenniku
+            [questKeys.preQuestSingle] = {26280},
+        },
+        [26300] = { -- Nezzliok Will Know
+            [questKeys.preQuestSingle] = {26299},
+        },
+        [26301] = { -- Speaking with Nezzliok
+            [questKeys.preQuestSingle] = {26300},
+        }, 
+        [26304] = { -- Nighttime in the Jungle
+            [questKeys.preQuestSingle] = {26359},
+        },    
         [26311] = { -- Unfamiliar Waters
             [questKeys.preQuestSingle] = {},
         },
@@ -4084,6 +4100,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {26294,26311},
             [questKeys.preQuestSingle] = {},
         },
+        [26325] = { -- A Nose for This Sort of Thing
+            [questKeys.preQuestSingle] = {26323},
+        },
         [26326] = { -- The Very Earth Beneath Our Feet
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26876,27938},
@@ -4099,6 +4118,9 @@ function CataQuestFixes.Load()
         },
         [26333] = { -- No Tanks!
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+        },
+        [26334] = { -- Bloodlord Mandokir
+            [questKeys.preQuestSingle] = {26332},
         },
         [26335] = { -- Ready the Navy
             [questKeys.preQuestSingle] = {26324},
@@ -4202,6 +4224,9 @@ function CataQuestFixes.Load()
         [26403] = { -- Venture Company Mining
             [questKeys.preQuestSingle] = {26399},
         },
+        [26405] = { -- Zul'Mamwe Mambo
+            [questKeys.preQuestSingle] = {26359},
+        },
         [26408] = { -- Ashes in Ashenvale
             [questKeys.preQuestSingle] = {13897},
         },
@@ -4253,6 +4278,9 @@ function CataQuestFixes.Load()
         [26433] = { -- The Holy Water of Clarity
             [questKeys.exclusiveTo] = {26590},
         },
+        [26434] = { -- Primal Reagents of Power
+            [questKeys.preQuestSingle] = {26433},
+        },  
         [26440] = { -- Clingy
             [questKeys.triggerEnd] = {"Pebble brought to crystal formation",{[zoneIDs.DEEPHOLM]={{29.45,47.47}}}},
             [questKeys.objectives] = {},
@@ -4428,6 +4456,9 @@ function CataQuestFixes.Load()
         [26591] = { -- Battlefront Triage
             [questKeys.objectives] = {{{43229,"Injured Earthen patched up",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestGroup] = {26501,26502},
+        },
+        [26592] = { -- Diffractory Chromascope
+            [questKeys.preQuestSingle] = {26433},
         },
         [26597] = { -- Stranglethorn Fever
             [questKeys.childQuests] = {26598},
