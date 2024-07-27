@@ -2,6 +2,13 @@ name: CI
 
 on:
   workflow_call:
+    inputs:
+      event_name:
+        required: true
+        type: string
+      repo_full_name:
+        required: true
+        type: string
   push:
     branches:
       - '**'
