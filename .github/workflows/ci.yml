@@ -1,7 +1,10 @@
 name: CI
 
 on:
+  workflow_call:
   push:
+    branches:
+      - '**'
   pull_request:
     types:
       - opened
