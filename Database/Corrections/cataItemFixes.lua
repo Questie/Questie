@@ -444,6 +444,9 @@ function CataItemFixes.Load()
         [58365] = { -- Horn of the Ancients
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [58490] = { -- Opened Mosh'Ogg Bounty
+            [itemKeys.npcDrops] = {43003},
+        },
         [58500] = { -- Jade Crystal Cluster
             [itemKeys.npcDrops] = {},
         },
