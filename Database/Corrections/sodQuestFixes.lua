@@ -1831,13 +1831,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
-        [82001] = { -- Require Gnomish Problems (Gnome)
-            [questKeys.preQuestSingle] = {82008},
+        [82001] = { -- Require Gnomish Problems (Goblin)
+            [questKeys.preQuestSingle] = {81987},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
         },
         [82002] = { -- Whats Red and Smells like Paint?" (Goblin)
-            [questKeys.preQuestSingle] = {82009},
+            [questKeys.preQuestSingle] = {82001},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
         },
@@ -1855,13 +1855,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
-        [82009] = { -- Require Goblin Problems (Goblin)
-            [questKeys.preQuestSingle] = {81987},
+        [82009] = { -- Require Goblin Problems (Gnome)
+            [questKeys.preQuestSingle] = {82008},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
         },
         [82010] = { -- Watering Down the Competition (Gnome)
-            [questKeys.preQuestSingle] = {82001},
+            [questKeys.preQuestSingle] = {82009},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
         },
