@@ -1846,8 +1846,8 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
-        [82013] = { -- Hush Money
-            [questKeys.preQuestSingle] = {82010},
+        [82004] = { -- Hush Money
+            [questKeys.preQuestSingle] = {82003},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
@@ -1871,7 +1871,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
         [82013] = { -- Hush Money
-            [questKeys.preQuestSingle] = {82003},
+            [questKeys.preQuestSingle] = {82010},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
