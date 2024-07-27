@@ -619,6 +619,7 @@ local questsToBlacklistBySoDPhase = {
         [4788] = true, -- The Final Tablets
         [5065] = true, -- The Lost Tablets of Mosh'aru
         [8181] = true, -- Confront Yeh'kinya
+        [8182] = true, -- The Hand of Rastakhan
         [8183] = true, -- The Heart of Hakkar
         [8411] = true,
         [8056] = true,
@@ -737,6 +738,7 @@ local questsToBlacklistBySoDPhase = {
         [8314] = true,
     },
     [7] = { -- SoD Phase 7 == Era Phase 5: AQ
+        [8276] = true, -- Taking Back Silithus
         [8579] = true, -- Mortal Champions
         [8789] = true, -- Imperial Qiraji Armaments
         [8790] = true, -- Imperial Qiraji Regalia
@@ -878,6 +880,7 @@ local questsToBlacklistBySoDPhase = {
         [2758] = true, -- The Origins of Smithing - Replaced by 80241
         [2849] = true, -- Wild Leather Vest - Replaced by 82657
         [2856] = true, -- Wild Leather Vest - Replaced by 82656
+        [4148] = true, -- Bloodpetal Zapper
         [5284] = true, -- The Way of the Weaponsmith - Replaced by 82662
         [5302] = true, -- The Way of the Weaponsmith - Replaced by 82665
         [8467] = true, -- Feathers for Nafien - Replaced by 84777

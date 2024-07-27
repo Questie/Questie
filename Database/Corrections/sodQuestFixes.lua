@@ -1809,7 +1809,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81960] = { -- Clarifying Air
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [81968] = { -- Otherworldly Treasure
+        [81967] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [81968] = { -- Answering Air's Call
@@ -1902,18 +1902,46 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.parentQuest] = 82022,
             [questKeys.objectives] = {nil,{{441848}}},
         },
+        [82062] = { -- Ever After
+            [questKeys.zoneOrSort] = zoneIDs.BLACKROCK_DEPTHS,
+        },
         [82068] = { -- Fight the Nightmare Incursions
             [questKeys.startedBy] = {{221479,221480}},
             [questKeys.finishedBy] = {{221479,221480}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{221479,221480},221479}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.NIGHTMARE_INCURSIONS,
+        },
+        [82071] = { -- Purifying Fire
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [82072] = { -- Purging Earth
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [82073] = { -- Cleansing Water
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [82074] = { -- Answering Fire's Call
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [82075] = { -- Answering Earth's Call
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [82076] = { -- Answering Water's Call
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [82081] = { -- A Broken Ritual
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
         },
         [82083] = { -- A Broken Ritual
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
         },
         [82084] = { --A Lesson in Literacy
             [questKeys.startedBy] = {{211022,211033}},
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [82086] = { -- A Lesson in Literacy
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [82089] = { -- Master of Transmutation
@@ -1923,6 +1951,12 @@ function SeasonOfDiscovery:LoadQuests()
         [82090] = { -- Mixology For Fun and Profit
             [questKeys.zoneOrSort] = sortKeys.ALCHEMY,
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,275},
+        },
+        [82093] = { -- Jungle Durian
+            [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+        },
+        [82094] = { -- Signets of the Lost Temple
+            [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
         },
         [82095] = { -- The God Hakkar
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
