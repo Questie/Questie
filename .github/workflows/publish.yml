@@ -13,7 +13,7 @@ jobs:
       repo_full_name: ${{ github.repository }}
   publish:
     runs-on: ubuntu-latest
-    needs: [ validate-era-db, validate-sod-db, validate-wotlk-db, validate-cata-db ]
+    needs: [ tests ]
 
     env:
       GH_TOKEN: ${{ github.token }}
