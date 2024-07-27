@@ -212,6 +212,7 @@ Modules\Tracker\TrackerBaseFrame.lua
 Modules\Tracker\TrackerHeaderFrame.lua
 Modules\Tracker\TrackerQuestFrame.lua
 Modules\Tracker\TrackerQuestTimers.lua
+Modules\Tracker\TrackerItemButton.lua
 Modules\Tracker\TrackerLinePool.lua
 
 # Tutorial

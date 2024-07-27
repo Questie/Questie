@@ -1,4 +1,5 @@
 require("cli.dump")
+require("cli.validators")
 
 WOW_PROJECT_ID = 5
 WOW_PROJECT_CLASSIC = 2
@@ -209,6 +210,8 @@ local function _CheckTBCDatabase()
     QuestieDBCompiler:ValidateQuests()
 
     print("\n\27[32mTBC database compiled successfully\27[0m\n")
+
+    Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
 end
 
 _CheckTBCDatabase()

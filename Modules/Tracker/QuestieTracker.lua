@@ -612,7 +612,6 @@ function QuestieTracker:Update()
     local firstQuestInZone = false
     local zoneCheck
 
-    local primaryButton = false
     local secondaryButton = false
     local secondaryButtonAlpha
 
@@ -801,182 +800,44 @@ function QuestieTracker:Update()
                     -- Adds the AI_VoiceOver Play Buttons
                     line.playButton:SetPlayButton(questId)
 
-                    local usableQIB = false
-                    local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
-                    local sourceItem = sourceItemId and TrackerUtils:IsQuestItemUsable(sourceItemId)
-                    local requiredItems = quest.requiredSourceItems
-                    local requiredItem = requiredItems and TrackerUtils:IsQuestItemUsable(requiredItems[1])
-                    local isComplete = (quest.isComplete ~= true and #quest.Objectives == 0) or quest.isComplete == true
+                    local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerBaseFrame, isMinimizable, function(alpha)
+                        if (not Questie.db.char.collapsedQuests[quest.Id]) and alpha > 0 then
+                            -- Set and indent Quest Title linePool
+                            line.label:ClearAllPoints()
+                            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questMarginLeft + 2 + questItemButtonSize, 0)
 
-                    -- Occasionally a quest will be in a complete state and still have a usable Quest Item. Sometimes these usable
-                    -- items spawn an NPC that is needed to finish the quest. Or an item that teleports you to the quest finisher.
-                    if complete == 1 and isComplete and (sourceItem or requiredItem) then
-                        -- This shows QIB's for Quest Itmes that are needed after a quest is complete with objectives
-                        if sourceItemId > 1 and requiredItem and sourceItemId ~= requiredItems[1] then
-                            quest.sourceItemId = 0
-                            usableQIB = true
+                            -- Recheck and Remeasure Quest Label text width and update tracker width
+                            QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + questMarginLeft + trackerMarginRight + questItemButtonSize)
+
+                            -- Reset Quest Title Label and linePool widths
+                            line.label:SetWidth(trackerBaseFrame:GetWidth() - questMarginLeft - trackerMarginRight - questItemButtonSize)
+                            line:SetWidth(line.label:GetWidth() + questMarginLeft + questItemButtonSize)
+
+                            -- Re-compare largest text Label in the tracker with Secondary Button/Quest and current Label, then save widest width
+                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft + questItemButtonSize)
+                        elseif alpha == 0 then
+                            -- Set Quest Title linePool
+                            line.label:ClearAllPoints()
+                            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questMarginLeft, 0)
+
+                            -- Recheck and Remeasure Quest Label text width and update tracker width
+                            QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + questMarginLeft + trackerMarginRight)
+
+                            -- Reset Quest Title Label and linePool widths
+                            line.label:SetWidth(trackerBaseFrame:GetWidth() - questMarginLeft - trackerMarginRight)
+                            line:SetWidth(line.label:GetWidth() + questMarginLeft)
+
+                            -- Re-compare largest text Label in the tracker with current Label, then save widest width
+                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft)
                         end
 
-                        -- This shows QIB's for Quest Items that are needed after a quest is complete without objectives
-                        if sourceItemId > 1 and not requiredItem and quest.isComplete ~= true then
-                            usableQIB = true
-                        end
-                    end
+                        secondaryButton = true
+                        secondaryButtonAlpha = alpha
+                    end)
 
-                    -- Adds the primary Quest Item button
-                    if complete ~= 1 and (sourceItem or (requiredItems and #requiredItems == 1 and requiredItem)) or usableQIB then
-                        -- Get button from buttonPool
-                        local button = TrackerLinePool.GetNextItemButton()
-                        if not button then break end -- stop populating the tracker
-
-                        -- Get and save Quest Title linePool to buttonPool
-                        button.line = line
-
-                        -- Setup button and set attributes
-                        if button:SetItem(quest, "primary", questItemButtonSize) then
-                            local height = 0
-                            local frame = button.line
-                            while frame and frame ~= trackerQuestFrame do
-                                local _, parent, _, _, yOff = frame:GetPoint()
-                                height = height - (frame:GetHeight() - yOff)
-                                frame = parent
-                            end
-
-                            -- If the Quest is minimized show the Expand Quest button
-                            if Questie.db.char.collapsedQuests[quest.Id] then
-                                if Questie.db.profile.collapseCompletedQuests and isMinimizable and not timedQuest then
-                                    button.line.expandQuest:Hide()
-                                else
-                                    button.line.expandQuest:Show()
-                                end
-                            else
-                                button.line.expandQuest:Hide()
-                            end
-
-                            -- Attach button to Quest Title linePool
-                            button:SetPoint("TOPLEFT", button.line, "TOPLEFT", 0, 0)
-                            button:SetParent(button.line)
-                            button:Show()
-
-                            -- Set flag to allow secondary Quest Item Buttons
-                            primaryButton = true
-
-                            -- If the Quest Zone or Quest is minimized then set UIParent and hide buttons since the buttons are normally attached to the Quest frame.
-                            -- If buttons are left attached to the Quest frame and if the Tracker frame is hidden in combat, then it would also try and hide the
-                            -- buttons which you can't do in combat. This helps avoid violating the Blizzard SecureActionButtonTemplate restrictions relating to combat.
-                            if Questie.db.char.collapsedZones[zoneName] or Questie.db.char.collapsedQuests[quest.Id] then
-                                button:SetParent(UIParent)
-                                button:Hide()
-                            end
-                        else
-                            -- Button failed to get setup for some reason or the quest item is now gone. Hide it and enable the Quest Min/Max button.
-                            -- See previous comment for details on why we're setting this button to UIParent.
-                            button:SetParent(UIParent)
-
-                            if (Questie.db.profile.collapseCompletedQuests and isMinimizable and not timedQuest) then
-                                line.expandQuest:Hide()
-                            else
-                                line.expandQuest:Show()
-                            end
-
-                            button:Hide()
-                        end
-
-                        -- Save button to linePool
-                        line.button = button
-
-                        -- Hide button if quest complete or failed
-                    elseif (Questie.db.profile.collapseCompletedQuests and isMinimizable and not timedQuest) then
-                        line.expandQuest:Hide()
-                    else
-                        line.expandQuest:Show()
-                    end
-
-                    -- Adds the Secondary Quest Item Button (only if Primary is present)
-                    if (complete ~= 1 and primaryButton and requiredItems and #requiredItems > 1 and next(quest.Objectives)) then
-                        if type(requiredItems) == "table" then
-                            -- Make sure it's a "secondary" button and if a quest item is "usable".
-                            for _, itemId in pairs(requiredItems) do
-                                -- GetItemSpell(itemId) is a bit of a work around for not having a Blizzard API for checking an items IsUsable state.
-                                if itemId and itemId ~= sourceItemId and QuestieDB.QueryItemSingle(itemId, "class") == 12 and TrackerUtils:IsQuestItemUsable(itemId) then
-                                    -- Get button from buttonPool
-                                    local altButton = TrackerLinePool.GetNextItemButton()
-                                    if not altButton then break end -- stop populating the tracker
-
-                                    -- Set itemID
-                                    altButton.itemID = itemId
-
-                                    -- Get and save Quest Title linePool to buttonPool
-                                    altButton.line = line
-
-                                    -- Setup button and set attributes
-                                    if altButton:SetItem(quest, "secondary", questItemButtonSize) then
-                                        local height = 0
-                                        local frame = altButton.line
-
-                                        while frame and frame ~= trackerQuestFrame do
-                                            local _, parent, _, _, yOff = frame:GetPoint()
-                                            height = height - (frame:GetHeight() - yOff)
-                                            frame = parent
-                                        end
-
-                                        if not Questie.db.char.collapsedQuests[quest.Id] and altButton:GetAlpha() > 0 then
-                                            -- Set and indent Quest Title linePool
-                                            altButton.line.label:ClearAllPoints()
-                                            altButton.line.label:SetPoint("TOPLEFT", altButton.line, "TOPLEFT", questMarginLeft + 2 + questItemButtonSize, 0)
-
-                                            -- Recheck and Remeasure Quest Label text width and update tracker width
-                                            QuestieTracker:UpdateWidth(altButton.line.label:GetUnboundedStringWidth() + questMarginLeft + trackerMarginRight + questItemButtonSize)
-
-                                            -- Reset Quest Title Label and linePool widths
-                                            altButton.line.label:SetWidth(trackerBaseFrame:GetWidth() - questMarginLeft - trackerMarginRight - questItemButtonSize)
-                                            altButton.line:SetWidth(altButton.line.label:GetWidth() + questMarginLeft + questItemButtonSize)
-
-                                            -- Re-compare largest text Label in the tracker with Secondary Button/Quest and current Label, then save widest width
-                                            trackerLineWidth = math.max(trackerLineWidth, altButton.line.label:GetUnboundedStringWidth() + questMarginLeft + questItemButtonSize)
-                                        elseif altButton:GetAlpha() == 0 then
-                                            -- Set Quest Title linePool
-                                            altButton.line.label:ClearAllPoints()
-                                            altButton.line.label:SetPoint("TOPLEFT", altButton.line, "TOPLEFT", questMarginLeft, 0)
-
-                                            -- Recheck and Remeasure Quest Label text width and update tracker width
-                                            QuestieTracker:UpdateWidth(altButton.line.label:GetUnboundedStringWidth() + questMarginLeft + trackerMarginRight)
-
-                                            -- Reset Quest Title Label and linePool widths
-                                            altButton.line.label:SetWidth(trackerBaseFrame:GetWidth() - questMarginLeft - trackerMarginRight)
-                                            altButton.line:SetWidth(altButton.line.label:GetWidth() + questMarginLeft)
-
-                                            -- Re-compare largest text Label in the tracker with current Label, then save widest width
-                                            trackerLineWidth = math.max(trackerLineWidth, altButton.line.label:GetUnboundedStringWidth() + questMarginLeft)
-                                        end
-
-                                        -- Attach button to Quest Title linePool
-                                        altButton:SetPoint("TOPLEFT", altButton.line, "TOPLEFT", 2 + questItemButtonSize, 0)
-                                        altButton:SetParent(altButton.line)
-                                        altButton:Show()
-
-                                        -- Set flag to shift objective lines
-                                        secondaryButton = true
-                                        secondaryButtonAlpha = altButton:GetAlpha()
-
-                                        -- If the Quest Zone or Quest is minimized then set UIParent and hide buttons since the buttons are normally attached to the Quest frame.
-                                        -- If buttons are left attached to the Quest frame and if the Tracker frame is hidden in combat, then it would also try and hide the
-                                        -- buttons which you can't do in combat. This helps avoid violating the Blizzard SecureActionButtonTemplate restrictions relating to combat.
-                                        if Questie.db.char.collapsedZones[zoneName] or Questie.db.char.collapsedQuests[quest.Id] then
-                                            altButton:SetParent(UIParent)
-                                            altButton:Hide()
-                                        end
-                                    else
-                                        -- See previous comment for details on why we're setting this button to UIParent.
-                                        altButton:SetParent(UIParent)
-                                        altButton:Hide()
-                                    end
-
-                                    -- Save button to linePool
-                                    line.altButton = altButton
-                                end
-                            end
-                        end
+                    if (not shouldContinue) then
+                        -- We exceeded the button pool
+                        break
                     end
 
                     -- Set Secondary Quest Item Button Margins (QBC - Quest Button Check)
@@ -1235,7 +1096,6 @@ function QuestieTracker:Update()
                     line:SetHeight(line.label:GetHeight() + (Questie.db.profile.trackerQuestPadding + 2))
                 end
 
-                primaryButton = false
                 secondaryButton = false
             end
         end

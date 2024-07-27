@@ -109,6 +109,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
+        [974] = { -- Finding the Source
+            [questKeys.requiredSourceItems] = {},
+        },
         [1056] = {
             [questKeys.nextQuestInChain] = 1057,
         },
@@ -293,6 +296,12 @@ function QuestieWotlkQuestFixes:Load()
         [6522] = {
             [questKeys.startedBy] = {{4421},nil,{17008}},
             [questKeys.finishedBy] = {{36273}},
+        },
+        [6622] = { -- Triage
+            [questKeys.requiredSourceItems] = {},
+        },
+        [6624] = { -- Triage
+            [questKeys.requiredSourceItems] = {},
         },
         [6963] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -586,9 +595,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11137] = {
             [questKeys.preQuestSingle] = {},
-        },
-        [11140] = {
-            [questKeys.requiredSourceItems] = {33040,33044},
         },
         [11152] = {
             [questKeys.requiredSourceItems] = {},
@@ -1722,6 +1728,9 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [12153] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [12154] = { -- Blackout
             [questKeys.requiredSourceItems] = {},
         },
         [12157] = {

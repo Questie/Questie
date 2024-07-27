@@ -1,4 +1,5 @@
 require("cli.dump")
+require("cli.validators")
 
 WOW_PROJECT_ID = 11
 WOW_PROJECT_CLASSIC = 2
@@ -209,6 +210,8 @@ local function _CheckWotlkDatabase()
     QuestieDBCompiler:ValidateQuests()
 
     print("\n\27[32mWotlk database compiled successfully\27[0m\n")
+
+    Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
 end
 --? It is REALLLY slow and designed to be run through docker otherwise you have to change the path.
 -- local profiler = require("cli/profiler")
