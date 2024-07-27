@@ -1827,51 +1827,51 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.NIGHTMARE_INCURSIONS,
             [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{94.26,35.13}}}, Questie.ICON_TYPE_EVENT, l10n("Enter the Emerald Dream"),}},
         },
-        [81987] = { -- Goblin Solutions
+        [81987] = { -- Goblin Solutions (Goblin)
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
-        [82001] = { -- Require Gnomish Problems
-            [questKeys.preQuestSingle] = {81987},
-            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
-            [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
-        },
-        [82002] = { -- Whats Red and Smells like Paint?"
-            [questKeys.preQuestSingle] = {82001},
-            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
-            [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
-        },
-        [82003] = { -- Victory Lap For the Goblins!
-            [questKeys.preQuestSingle] = {82002},
-            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
-            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
-        },
-        [82004] = { -- Hush Money
-            [questKeys.preQuestSingle] = {82003},
-            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
-            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
-        },
-        [82008] = { -- Gnomish Solutions
-            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
-            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
-        },
-        [82009] = { -- Require Goblin Problems
+        [82001] = { -- Require Gnomish Problems (Gnome)
             [questKeys.preQuestSingle] = {82008},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
         },
-        [82010] = { -- Watering Down the Competition
+        [82002] = { -- Whats Red and Smells like Paint?" (Goblin)
             [questKeys.preQuestSingle] = {82009},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
         },
-        [82011] = { -- Victory Lap For the Gnomes!
+        [82003] = { -- Victory Lap For the Goblins! (Goblin)
+            [questKeys.preQuestSingle] = {82002},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
+        [82004] = { -- Hush Money (Goblin)
+            [questKeys.preQuestSingle] = {82003},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
+        [82008] = { -- Gnomish Solutions (Gnome)
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
+        [82009] = { -- Require Goblin Problems (Goblin)
+            [questKeys.preQuestSingle] = {81987},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
+        },
+        [82010] = { -- Watering Down the Competition (Gnome)
+            [questKeys.preQuestSingle] = {82001},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
+        },
+        [82011] = { -- Victory Lap For the Gnomes! (Gnome)
             [questKeys.preQuestSingle] = {82010},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
-        [82013] = { -- Hush Money
-            [questKeys.preQuestSingle] = {82010},
+        [82013] = { -- Hush Money (Gnome)
+            [questKeys.preQuestSingle] = {82011},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
