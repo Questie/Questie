@@ -548,7 +548,7 @@ function CataQuestFixes.Load()
         },
         [9436] = { -- Bloodscalp Insight
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {26280,26279},
+            [questKeys.preQuestGroup] = {26280,26321},
         },
         [9563] = { -- Gaining Mirren's Trust
             [questKeys.objectives] = {nil,nil,{{23848}},{946,3000}},
