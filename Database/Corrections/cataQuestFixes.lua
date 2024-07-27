@@ -5289,6 +5289,9 @@ function CataQuestFixes.Load()
         [27317] = { -- The Rattle of Bones
             [questKeys.preQuestSingle] = {},
         },
+        [27321] = { -- The Writ of History
+            [questKeys.preQuestSingle] = {27317},
+        },
         [27337] = { -- A Fitting Weapon
             [questKeys.startedBy] = {{914}},
             [questKeys.preQuestSingle] = {},
