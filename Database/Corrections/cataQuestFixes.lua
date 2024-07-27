@@ -4163,10 +4163,10 @@ function CataQuestFixes.Load()
         },
         [26301] = { -- Speaking with Nezzliok
             [questKeys.preQuestSingle] = {26300},
-        }, 
+        },
         [26304] = { -- Nighttime in the Jungle
             [questKeys.preQuestSingle] = {26359},
-        },    
+        },
         [26311] = { -- Unfamiliar Waters
             [questKeys.preQuestSingle] = {},
         },
@@ -4382,7 +4382,7 @@ function CataQuestFixes.Load()
         },
         [26434] = { -- Primal Reagents of Power
             [questKeys.preQuestSingle] = {26433},
-        },  
+        },
         [26440] = { -- Clingy
             [questKeys.triggerEnd] = {"Pebble brought to crystal formation",{[zoneIDs.DEEPHOLM]={{29.45,47.47}}}},
             [questKeys.objectives] = {},
@@ -5308,6 +5308,9 @@ function CataQuestFixes.Load()
         },
         [27356] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
+        },
+        [27357] = { -- The Captive Bride
+            [questKeys.preQuestSingle] = {27327},
         },
         [27366] = { -- Landgrab
             [questKeys.preQuestSingle] = {27338},
