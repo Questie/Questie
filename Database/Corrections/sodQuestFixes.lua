@@ -1828,51 +1828,51 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{94.26,35.13}}}, Questie.ICON_TYPE_EVENT, l10n("Enter the Emerald Dream"),}},
         },
         [81987] = { -- Goblin Solutions
-            [questKeys.requireSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
         [82001] = { -- Require Gnomish Problems
             [questKeys.preQuestSingle] = {81987},
-            [questKeys.requireSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
         },
         [82002] = { -- Whats Red and Smells like Paint?"
             [questKeys.preQuestSingle] = {82001},
-            [questKeys.requireSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
         },
         [82003] = { -- Victory Lap For the Goblins!
             [questKeys.preQuestSingle] = {82002},
-            [questKeys.requireSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
         [82011] = { -- Hush Money
             [questKeys.preQuestSingle] = {82010},
-            [questKeys.requireSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
         [82008] = { -- Gnomish Solutions
-            [questKeys.requireSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
         [82009] = { -- Require Goblin Problems
             [questKeys.preQuestSingle] = {82008},
-            [questKeys.requireSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
         },
         [82010] = { -- Watering Down the Competition
             [questKeys.preQuestSingle] = {82009},
-            [questKeys.requireSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
         },
         [82011] = { -- Victory Lap For the Gnomes!
             [questKeys.preQuestSingle] = {82010},
-            [questKeys.requireSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
         [82013] = { -- Hush Money
             [questKeys.preQuestSingle] = {82003},
-            [questKeys.requireSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
         [82016] = { -- Atal'ai Potent Potables
