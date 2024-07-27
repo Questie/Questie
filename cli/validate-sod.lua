@@ -220,7 +220,13 @@ local function _CheckSoDDatabase()
 
     print("\n\27[32mSoD database compiled successfully\27[0m")
 
+    -- Remove hidden quests from the database as we don't want to validate them
+    for questId, _ in pairs(QuestieCorrections.hiddenQuests) do
+        QuestieDB.questData[questId] = nil
+    end
+
     Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkPreQuestExclusiveness(QuestieDB.questData, QuestieDB.questKeys)
 end
 
 _CheckSoDDatabase()

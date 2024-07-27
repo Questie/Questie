@@ -977,6 +977,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11428] = {
             [questKeys.preQuestSingle] = {11316},
+            [questKeys.preQuestGroup] = {},
         },
         [11429] = {
             [questKeys.objectives] = {nil,{{186863,"Alliance Banner Placed"}},nil,nil,{{{24640},24640,"Alliance Banner Defended"}}},

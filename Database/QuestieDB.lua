@@ -1258,12 +1258,6 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
         }
     end
 
-    local preQuestGroup = QO.preQuestGroup
-    local preQuestSingle = QO.preQuestSingle
-    if preQuestGroup and preQuestSingle and next(preQuestGroup) and next(preQuestSingle) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive for questID:", questId)
-    end
-
     --- Quest objectives generated from quest log in QuestieQuest.lua -> QuestieQuest:PopulateQuestLogInfo(quest)
     --- Includes also icons drawn to maps, and other stuff.
     ---@type table<ObjectiveIndex, QuestObjective>

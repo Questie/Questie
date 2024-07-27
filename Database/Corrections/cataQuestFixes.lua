@@ -502,6 +502,9 @@ function CataQuestFixes.Load()
         [9305] = { -- Spare Parts
             [questKeys.preQuestSingle] = {},
         },
+        [9312] = { -- The Emitter
+            [questKeys.preQuestGroup] = {},
+        },
         [9324] = { -- Stealing Orgrimmar's Flame
             [questKeys.startedBy] = {nil,{181336},{23179}},
         },
@@ -573,6 +576,18 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{18238},nil,{24558}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [9931] = { -- Returning the Favor
+            [questKeys.preQuestSingle] = {},
+        },
+        [9932] = { -- Body of Evidence
+            [questKeys.preQuestSingle] = {},
+        },
+        [9934] = { -- Message to Garadar
+            [questKeys.preQuestSingle] = {},
+        },
+        [9978] = { -- By Any Means Necessary
+            [questKeys.preQuestSingle] = {},
+        },
         [10066] = { -- Oh, the Tangled Webs They Weave
             [questKeys.startedBy] = {{17986}},
         },
@@ -630,11 +645,26 @@ function CataQuestFixes.Load()
         [10302] = { -- Volatile Mutations
             [questKeys.preQuestSingle] = {9369,9280},
         },
+        [10328] = { -- Sunfury Briefings
+            [questKeys.preQuestSingle] = {},
+        },
+        [10639] = { -- Teron Gorefiend, I am...
+            [questKeys.preQuestSingle] = {},
+        },
+        [10645] = { -- Teron Gorefiend, I am...
+            [questKeys.preQuestSingle] = {},
+        },
+        [10646] = { -- Illidan's Pupil
+            [questKeys.preQuestSingle] = {},
+        },
         [10647] = { -- Wanted: Uvuros, Scourge of Shadowmoon
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [10648] = { -- Wanted: Uvuros, Scourge of Shadowmoon
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [10676] = { -- Bane of the Illidari
+            [questKeys.preQuestSingle] = {},
         },
         [10942] = { -- Children's Week
             [questKeys.zoneOrSort] = -378,
@@ -694,8 +724,14 @@ function CataQuestFixes.Load()
         [10968] = { -- Call on the Farseer
             [questKeys.zoneOrSort] = -378,
         },
+        [10998] = { -- Grim(oire) Business
+            [questKeys.preQuestSingle] = {},
+        },
         [11129] = { -- Kyle's Gone Missing!
             [questKeys.objectives] = {{{23616,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [11250] = { -- All Hail the Conqueror of Skorn!
+            [questKeys.preQuestSingle] = {},
         },
         [11272] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {30112},
@@ -818,8 +854,47 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29092},
             [questKeys.startedBy] = {{25324}},
         },
+        [12246] = { -- A Possible Link
+            [questKeys.preQuestSingle] = {},
+        },
+        [12247] = { -- Children of Ursoc
+            [questKeys.preQuestSingle] = {},
+        },
+        [12248] = { -- Vordrassil's Sapling
+            [questKeys.preQuestSingle] = {},
+        },
+        [12249] = { -- Ursoc, the Bear God
+            [questKeys.preQuestSingle] = {},
+        },
+        [12250] = { -- Vordrassil's Seeds
+            [questKeys.preQuestSingle] = {},
+        },
+        [12255] = { -- The Thane of Voldrune
+            [questKeys.preQuestSingle] = {},
+        },
+        [12281] = { -- Understanding the Scourge War Machine
+            [questKeys.preQuestSingle] = {},
+        },
+        [12300] = { -- Test of Mettle
+            [questKeys.preQuestSingle] = {},
+        },
+        [12325] = { -- Into Hostile Territory
+            [questKeys.preQuestSingle] = {},
+        },
+        [12427] = { -- The Conquest Pit: Bear Wrestling!
+            [questKeys.preQuestGroup] = {},
+        },
+        [12539] = { -- Hoofing It
+            [questKeys.preQuestGroup] = {},
+        },
         [12563] = { -- Troll Patrol
             [questKeys.startedBy] = {},
+        },
+        [12581] = { -- A Hero's Burden
+            [questKeys.preQuestGroup] = {},
+        },
+        [12584] = { -- Pure Evil
+            [questKeys.preQuestSingle] = {},
         },
         [12587] = { -- Troll Patrol
             [questKeys.startedBy] = {},
@@ -830,6 +905,9 @@ function CataQuestFixes.Load()
         [12602] = { -- The Alchemist's Apprentice
             [questKeys.startedBy] = {},
         },
+        [12604] = { -- Congratulations!
+            [questKeys.preQuestGroup] = {},
+        },
         [12614] = { -- Post-partum Aggression
             [questKeys.preQuestSingle] = {12607},
         },
@@ -839,14 +917,38 @@ function CataQuestFixes.Load()
         [12656] = { -- Blessing of Zim'Rhuk
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [12696] = { -- Aerial Surveillance
+            [questKeys.preQuestGroup] = {},
+        },
+        [12706] = { -- Victory At Death's Breach!
+            [questKeys.preQuestGroup] = {},
+        },
+        [12754] = { -- Ambush At The Overlook
+            [questKeys.preQuestGroup] = {},
+        },
         [12821] = { -- Opening the Backdoor
             [questKeys.objectives] = {nil,nil,{{40731}}},
+        },
+        [12828] = { -- Ample Inspiration
+            [questKeys.preQuestSingle] = {},
+        },
+        [12869] = { -- Pushed Too Far
+            [questKeys.preQuestSingle] = {},
+        },
+        [13125] = { -- The Air Stands Still
+            [questKeys.preQuestSingle] = {},
         },
         [13188] = { -- Where Kings Walk
             [questKeys.finishedBy] = {{29611}},
         },
         [13189] = { -- Warchief's Blessing
             [questKeys.finishedBy] = {{39605}},
+        },
+        [13312] = { -- The Ironwall Rampart
+            [questKeys.preQuestSingle] = {},
+        },
+        [13337] = { -- The Ironwall Rampart
+            [questKeys.preQuestSingle] = {},
         },
         [13504] = { -- Shatterspear Laborers
             [questKeys.preQuestSingle] = {13589},
@@ -2764,6 +2866,18 @@ function CataQuestFixes.Load()
         },
         [25244] = { -- What Kind of Name is Candy, Anyway?
             [questKeys.preQuestSingle] = {25213},
+        },
+        [25246] = { -- A Change of Heart
+            [questKeys.preQuestSingle] = {},
+        },
+        [25247] = { -- A Change of Heart
+            [questKeys.preQuestSingle] = {},
+        },
+        [25248] = { -- A Change of Heart
+            [questKeys.preQuestSingle] = {},
+        },
+        [25249] = { -- A Change of Heart
+            [questKeys.preQuestSingle] = {},
         },
         [25251] = { -- Final Confrontation
             [questKeys.preQuestSingle] = {},
@@ -5689,6 +5803,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{46456,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27701] = { -- Dragon, Unchained
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27696,27689},
         },
         [27702] = { -- Coup de Grace

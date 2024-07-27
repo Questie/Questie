@@ -4,7 +4,9 @@ local exitMock
 local questKeys = {
     sourceItemId = "sourceItemId",
     requiredSourceItems = "requiredSourceItems",
-    objectives = "objectives"
+    objectives = "objectives",
+    preQuestSingle = "preQuestSingle",
+    preQuestGroup = "preQuestGroup",
 }
 
 describe("Validators", function()
@@ -61,6 +63,45 @@ describe("Validators", function()
             local matchingQuests = Validators.checkRequiredSourceItems(quests, questKeys)
 
             assert.are.same(matchingQuests, nil)
+            assert.spy(exitMock).was_not_called()
+        end)
+    end)
+
+    describe("checkPreQuestExclusiveness", function()
+        it("should find quests which have both a preQuestSingle and a preQuestGroup entry", function()
+            local quests = {
+                [1] = {
+                    preQuestSingle = {1},
+                    preQuestGroup = {2,3},
+                },
+                [2] = {
+                    preQuestSingle = {4},
+                },
+                [3] = {
+                    preQuestGroup = {5},
+                }
+            }
+
+            local invalidQuests = Validators.checkPreQuestExclusiveness(quests, questKeys)
+
+            assert.are.same({[1] = true}, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should not report anything when preQuestSingle and preQuestGroup are fine", function()
+            local quests = {
+                [1] = {
+                    preQuestSingle = {1},
+                },
+                [2] = {
+                    preQuestSingle = {},
+                    preQuestGroup = {2,3},
+                },
+            }
+
+            local invalidQuests = Validators.checkPreQuestExclusiveness(quests, questKeys)
+
+            assert.are.same(nil, invalidQuests)
             assert.spy(exitMock).was_not_called()
         end)
     end)
