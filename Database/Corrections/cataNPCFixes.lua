@@ -208,6 +208,10 @@ function CataNpcFixes.Load()
         [14444] = { -- Orcish Orphan
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{58.18,57.5}}},
         },
+        [14508] = { -- Short John Mithril
+            [npcKeys.spawns] = {[5287]={{45,25.38}}},
+            [npcKeys.waypoints] = {},
+        },
         [14822] = { -- Sayge
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{53.24,75.84},{-1,-1}}},
         },
