@@ -503,7 +503,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [9312] = { -- The Emitter
-            [questKeys.preQuestGroup] = {},
+            [questKeys.preQuestSingle] = {},
         },
         [9324] = { -- Stealing Orgrimmar's Flame
             [questKeys.startedBy] = {nil,{181336},{23179}},
