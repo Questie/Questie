@@ -503,9 +503,6 @@ function CataQuestFixes.Load()
         [9305] = { -- Spare Parts
             [questKeys.preQuestSingle] = {},
         },
-        [9312] = { -- The Emitter
-            [questKeys.preQuestSingle] = {},
-        },
         [9324] = { -- Stealing Orgrimmar's Flame
             [questKeys.startedBy] = {nil,{181336},{23179}},
         },
@@ -5456,15 +5453,25 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28248},
         },
         [27491] = { -- Kor'kron Drop
-            [questKeys.objectives] = {{{45947},{45877}}},
+            [questKeys.objectives] = {{{45947,nil,Questie.ICON_TYPE_TALK},{45877,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {28249},
         },
         [27494] = { -- Move the Mountain
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27490,27492,27496},
             [questKeys.finishedBy] = {{100016}},
         },
+        [27495] = { -- Move the Mountain
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27491,27493,27497},
+            [questKeys.finishedBy] = {{100016}},
+        },
         [27496] = { -- Call in the Artillery
             [questKeys.preQuestSingle] = {28248},
+            [questKeys.objectives] = {{{45865,nil,Questie.ICON_TYPE_EVENT},{45864,nil,Questie.ICON_TYPE_EVENT},{45863,nil,Questie.ICON_TYPE_EVENT},{45862,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [27497] = { -- Call in the Artillery
+            [questKeys.preQuestSingle] = {28249},
             [questKeys.objectives] = {{{45865,nil,Questie.ICON_TYPE_EVENT},{45864,nil,Questie.ICON_TYPE_EVENT},{45863,nil,Questie.ICON_TYPE_EVENT},{45862,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27498] = { -- Signal the Attack
@@ -6006,8 +6013,15 @@ function CataQuestFixes.Load()
         [27817] = { -- Dropping the Hammer
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 47241}}}},
         },
+        [27861] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
+            [questKeys.exclusiveTo] = {27862,27863},
+        },
+        [27862] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
+            [questKeys.exclusiveTo] = {27861,27863}},
+        },
         [27863] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
             [questKeys.objectives] = {{{46944}}},
+            [questKeys.exclusiveTo] = {27861,27862}},
         },
         [27864] = { -- The Crucible of Carnage: The Deadly Dragonmaw!
             [questKeys.objectives] = {{{46945}}},
@@ -6239,6 +6253,9 @@ function CataQuestFixes.Load()
         [28091] = { -- Easy Pickings
             [questKeys.exclusiveTo] = {},
         },
+        [28093] = { -- Pressing Forward
+            [questKeys.objectives] = {{{47566,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [28094] = { -- Paving the Way
             [questKeys.preQuestSingle] = {28097},
         },
@@ -6352,7 +6369,7 @@ function CataQuestFixes.Load()
         [28176] = { -- Following the Young Home
             [questKeys.preQuestGroup] = {28173,28175,28191},
             [questKeys.preQuestSingle] = {},
-            [questKeys.objectives] = {{{47874,nil,Questie.ICON_TYPE_EVENT},{47855,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{47855,nil,Questie.ICON_TYPE_EVENT},{47874,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [28185] = { -- D-Svarnos
             [questKeys.finishedBy] = {{48061}}, -- temporary until Questie can show multiple turn ins

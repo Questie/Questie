@@ -1895,6 +1895,14 @@ function CataNpcFixes.Load()
         [47255] = { -- Gobbles
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{24.49,64.46}}},
         },
+        [47374] = { -- Patch
+            [npcKeys.spawns] = {
+                [zoneIDs.TWILIGHT_HIGHLANDS] = {
+                    {29.58,41.07,phases.TWILIGHT_CARAVAN_AMBUSH_HORDE},
+                    {29.31,52.39,phases.GRIM_BATOL_ATTACK_HORDE},
+                },
+            },
+        },
         [47385] = { -- Decrepit Watcher
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{23.65,56.57},{18.93,64.06},{17.37,63.04},{16.25,60.62},{18.16,58.97},{19.73,56.2},{22.56,54.46},{25.38,54.72},{26.14,57.43},{25.39,61.82},{23.83,61.42},{21.14,59.25},{22.4,61.11},{20.03,62.27}}},
         },
@@ -1902,7 +1910,12 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{47.91,59.48},{49.55,63.06},{49.94,64.4},{47.66,61.35},{47.89,61.89},{49.34,63.3},{46.14,64.25},{47.18,60.64},{47.65,58.8},{46.82,61.18}}},
         },
         [47493] = { -- Warlord Krogg
-            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{29.6,41,phases.GRIM_BATOL_ATTACK_HORDE}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.TWILIGHT_HIGHLANDS]={
+                    {29.63,40.98,TWILIGHT_CARAVAN_AMBUSH_HORDE},
+                    {29.33,52.51,phases.GRIM_BATOL_ATTACK_HORDE},
+                },
+            },
         },
         [47591] = { -- Baradin Crocolisk
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{44.78,55.45},{37.67,51.43},{39.25,47.63},{37.78,52.88},{43.23,50.08},{38.76,53.22},{43.35,44.55},{36.99,48.26},{36.89,42.55},{35.6,42.25},{34.66,46.94},{38.67,47.15},{34.98,51.4},{40.58,43.79},{39.3,40.69},{45,42.88},{37.32,49.52},{41.7,53.48},{40.63,48.52},{37.72,55.84},{39.04,45.1},{38.93,42.14},{38.03,42.54},{43.62,44.08},{38.3,43.78}}},
