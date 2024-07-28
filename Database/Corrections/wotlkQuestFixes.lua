@@ -2372,7 +2372,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{28113,"Mosswalker Victims Rescued"}}},
         },
         [12584] = {
-            [questKeys.preQuestGroup] = {12552},
+            [questKeys.preQuestSingle] = {12552},
         },
         [12585] = {
             [questKeys.parentQuest] = 12563,

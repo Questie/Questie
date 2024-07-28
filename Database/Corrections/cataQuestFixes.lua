@@ -894,9 +894,6 @@ function CataQuestFixes.Load()
         [12581] = { -- A Hero's Burden
             [questKeys.preQuestGroup] = {},
         },
-        [12584] = { -- Pure Evil
-            [questKeys.preQuestSingle] = {},
-        },
         [12587] = { -- Troll Patrol
             [questKeys.startedBy] = {},
         },
