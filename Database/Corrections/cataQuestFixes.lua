@@ -491,6 +491,7 @@ function CataQuestFixes.Load()
         },
         [9283] = { -- Rescue the Survivors!
             [questKeys.objectives] = {{{16483,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.startedBy] = {{16483}},
         },
         [9294] = { -- Healing the Lake
             [questKeys.objectives] = {nil,{{181433,nil,Questie.ICON_TYPE_EVENT}}},
@@ -503,7 +504,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [9312] = { -- The Emitter
-            [questKeys.preQuestGroup] = {},
+            [questKeys.preQuestSingle] = {},
         },
         [9324] = { -- Stealing Orgrimmar's Flame
             [questKeys.startedBy] = {nil,{181336},{23179}},

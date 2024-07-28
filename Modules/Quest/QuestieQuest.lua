@@ -41,8 +41,6 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
----@type ThreadLib
-local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Phasing
@@ -53,8 +51,6 @@ local tostring = tostring;
 local tinsert = table.insert;
 local pairs = pairs;
 local ipairs = ipairs;
-local yield = coroutine.yield
-local NewThread = ThreadLib.ThreadSimple
 
 local NOP_FUNCTION = function()
 end
@@ -152,9 +148,6 @@ function _QuestieQuest:HideQuestIcons()
             if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
                 -- Hides Objective Icons
                 icon:FakeHide()
-
-                -- Hides Objective Tooltips
-                QuestieTooltips:RemoveQuest(icon.data.Id)
 
                 if icon.data.lineFrames then
                     for _, lineIcon in pairs(icon.data.lineFrames) do
