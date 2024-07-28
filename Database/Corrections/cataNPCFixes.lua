@@ -18,6 +18,9 @@ function CataNpcFixes.Load()
         [658] = { -- Sten Stoutarm
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{36.55,70.41}}},
         },
+        [728] = { -- Bhag'thera
+            [npcKeys.spawns] = {[zoneIDs.NORTHERN_STRANGLETHORN] = {{66.70,43.37},{63.11,48.16},{62.18,51.55},{61.38,49.75},{61.89,51.35},{66.83,38.58}}},
+        },
         [1494] = { -- Negolash
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{50.75,79.65}}},
         },
