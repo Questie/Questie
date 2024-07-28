@@ -234,7 +234,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.TWILIGHT_CARAVAN_AMBUSH_HORDE then
-        return complete[27509] and (not complete[27576]) or false
+        return ((not complete[28092]) and (not questLog[28092])) and ((not complete[28094]) and (not questLog[28094])) or false
     end
 
     if phase == phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE then
@@ -242,7 +242,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.GRIM_BATOL_ATTACK_HORDE then
-        return (complete[28090] or (questLog[28090] and questLog[28090].isComplete == 1)) or (complete[28091] or (questLog[28091] and questLog[28091].isComplete == 1)) or false
+        return (complete[28092] or (questLog[28092] and questLog[28092].isComplete == 1)) or (complete[28094] or (questLog[28094] and questLog[28094].isComplete == 1)) or false
     end
 
     if phase == phases.GRIM_BATOL_ATTACK_ALLIANCE then

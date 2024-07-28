@@ -969,6 +969,10 @@ function QuestieTBCQuestFixes:Load()
         [9303] = {
             [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated",Questie.ICON_TYPE_INTERACT}}},
         },
+        [9312] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {9305,9311},
+        },
         [9339] = {
             [questKeys.objectivesText] = nil,
         },
