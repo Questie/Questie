@@ -6017,11 +6017,11 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {27862,27863},
         },
         [27862] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
-            [questKeys.exclusiveTo] = {27861,27863}},
+            [questKeys.exclusiveTo] = {27861,27863},
         },
         [27863] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
             [questKeys.objectives] = {{{46944}}},
-            [questKeys.exclusiveTo] = {27861,27862}},
+            [questKeys.exclusiveTo] = {27861,27862},
         },
         [27864] = { -- The Crucible of Carnage: The Deadly Dragonmaw!
             [questKeys.objectives] = {{{46945}}},

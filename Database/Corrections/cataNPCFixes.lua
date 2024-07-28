@@ -1912,7 +1912,7 @@ function CataNpcFixes.Load()
         [47493] = { -- Warlord Krogg
             [npcKeys.spawns] = {
                 [zoneIDs.TWILIGHT_HIGHLANDS]={
-                    {29.63,40.98,TWILIGHT_CARAVAN_AMBUSH_HORDE},
+                    {29.63,40.98,phases.TWILIGHT_CARAVAN_AMBUSH_HORDE},
                     {29.33,52.51,phases.GRIM_BATOL_ATTACK_HORDE},
                 },
             },
