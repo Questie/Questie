@@ -21,6 +21,9 @@ function CataNpcFixes.Load()
         [728] = { -- Bhag'thera
             [npcKeys.spawns] = {[zoneIDs.NORTHERN_STRANGLETHORN] = {{66.70,43.37},{63.11,48.16},{62.18,51.55},{61.38,49.75},{61.89,51.35},{66.83,38.58}}},
         },
+        [730] = { -- Tethis
+            [npcKeys.spawns] = {[zoneIDs.NORTHERN_STRANGLETHORN] = {{65.64,58.52},{63.71,62.76},{59.79,59.32},{60.19,62.71},{62.84,61.32},{64.84,64.91}}},
+        },
         [1494] = { -- Negolash
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{50.75,79.65}}},
         },
