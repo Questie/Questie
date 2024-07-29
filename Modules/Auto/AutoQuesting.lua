@@ -1,7 +1,7 @@
 ---@class AutoQuesting
 local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
 
-local _IsBindTrue
+local _IsBindTrue, _AllQuestWindowsClosed
 
 local shouldRunAuto = true
 
@@ -46,6 +46,12 @@ end
 
 function AutoQuesting.OnQuestFinished()
     print("AutoQuesting.OnQuestFinished")
+
+    C_Timer.After(0.5, function()
+        if _AllQuestWindowsClosed() then
+            shouldRunAuto = true
+        end
+    end)
 end
 
 function AutoQuesting.OnQuestAccepted()
@@ -79,6 +85,18 @@ local bindTruthTable = {
 
 _IsBindTrue = function(bind)
     return bind and bindTruthTable[bind]()
+end
+
+_AllQuestWindowsClosed = function()
+    if ((not GossipFrame) or (not GossipFrame:IsVisible()))
+        and ((not GossipFrameGreetingPanel) or (not GossipFrameGreetingPanel:IsVisible()))
+        and ((not QuestFrameGreetingPanel) or (not QuestFrameGreetingPanel:IsVisible()))
+        and ((not QuestFrameDetailPanel) or (not QuestFrameDetailPanel:IsVisible()))
+        and ((not QuestFrameProgressPanel) or (not QuestFrameProgressPanel:IsVisible()))
+        and ((not QuestFrameRewardPanel) or (not QuestFrameRewardPanel:IsVisible())) then
+        return true
+    end
+    return false
 end
 
 return AutoQuesting

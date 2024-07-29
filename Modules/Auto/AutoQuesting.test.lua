@@ -1,6 +1,11 @@
 dofile("setupTests.lua")
 
 _G.QuestieCompat = {}
+_G.C_Timer = {
+    After = function(_, callback)
+        callback()
+    end
+}
 
 describe("AutoQuesting", function()
     ---@type AutoQuesting
@@ -97,6 +102,21 @@ describe("AutoQuesting", function()
 
         AutoQuesting.OnQuestGreetings()
         assert.spy(_G.SelectAvailableQuest).was_not.called()
+    end)
+
+    it("should select available quest from greetings when re-talking to an NPC after auto modifier was held", function()
+        _G.GetNumAvailableQuests = function() return 2 end
+        Questie.db.profile.autoModifier = "shift"
+        _G.IsShiftKeyDown = function() return true end
+
+        AutoQuesting.OnQuestGreetings()
+        assert.spy(_G.SelectAvailableQuest).was_not.called()
+
+        AutoQuesting.OnQuestFinished()
+
+        _G.IsShiftKeyDown = function() return false end
+        AutoQuesting.OnQuestGreetings()
+        assert.spy(_G.SelectAvailableQuest).was.called_with(1)
     end)
 
     it("should accept available quest from gossip", function()
