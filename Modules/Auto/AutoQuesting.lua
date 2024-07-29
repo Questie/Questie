@@ -4,6 +4,7 @@ local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
 local _IsBindTrue
 
 function AutoQuesting.OnGossipShow()
+    print("AutoQuesting.OnGossipShow")
     if (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) then
         return
     end
@@ -13,6 +14,43 @@ function AutoQuesting.OnGossipShow()
     if #availableQuests > 0 then
         QuestieCompat.SelectAvailableQuest(1)
     end
+end
+
+function AutoQuesting.OnGossipClosed()
+    print("AutoQuesting.OnGossipClosed")
+end
+
+function AutoQuesting.OnQuestFinished()
+    print("AutoQuesting.OnQuestFinished")
+end
+
+function AutoQuesting.OnQuestAccepted()
+    print("AutoQuesting.OnQuestAccepted")
+end
+
+function AutoQuesting.OnQuestDetail()
+    print("AutoQuesting.OnQuestDetail")
+    if (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) then
+        return
+    end
+
+    AcceptQuest()
+end
+
+function AutoQuesting.OnQuestProgress()
+    print("AutoQuesting.OnQuestProgress")
+end
+
+function AutoQuesting.OnQuestGreetings()
+    print("AutoQuesting.OnQuestGreetings")
+end
+
+function AutoQuesting.OnQuestAcceptConfirm()
+    print("AutoQuesting.OnQuestAcceptConfirm")
+end
+
+function AutoQuesting.OnQuestComplete()
+    print("AutoQuesting.OnQuestComplete")
 end
 
 local bindTruthTable = {
