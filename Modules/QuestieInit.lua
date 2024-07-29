@@ -252,7 +252,12 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     coYield()
 
     -- Fill the QuestLogCache for first time
-    local _, changes = QuestLogCache.CheckForChanges(nil)
+    local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+    if cacheMiss then
+        coYield()
+        cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+    end
+
     QuestEventHandler.InitQuestLogStates(changes)
 
     coYield()
