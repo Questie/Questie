@@ -17,7 +17,7 @@ describe("AutoQuesting", function()
             return "Test Quest", 1, false, 1, false, false, false
         end
 
-        AutoQuesting.HandleGossipShow()
+        AutoQuesting.OnGossipShow()
 
         assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
     end)
@@ -28,7 +28,7 @@ describe("AutoQuesting", function()
         end
 
         Questie.db.profile.autoaccept = false
-        AutoQuesting.HandleGossipShow()
+        AutoQuesting.OnGossipShow()
 
         assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
     end)
@@ -40,7 +40,7 @@ describe("AutoQuesting", function()
 
         Questie.db.profile.autoModifier = "shift"
         _G.IsShiftKeyDown = function() return true end
-        AutoQuesting.HandleGossipShow()
+        AutoQuesting.OnGossipShow()
 
         assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
     end)

@@ -3,7 +3,7 @@ local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
 
 local _IsBindTrue
 
-function AutoQuesting.HandleGossipShow()
+function AutoQuesting.OnGossipShow()
     if (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) then
         return
     end
