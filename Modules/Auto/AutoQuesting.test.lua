@@ -32,4 +32,16 @@ describe("AutoQuesting", function()
 
         assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
     end)
+
+    it("should not accept available quest from gossip when auto modifier is held", function()
+        _G.QuestieCompat.GetAvailableQuests = function()
+            return "Test Quest", 1, false, 1, false, false, false
+        end
+
+        Questie.db.profile.autoModifier = "shift"
+        _G.IsShiftKeyDown = function() return true end
+        AutoQuesting.HandleGossipShow()
+
+        assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+    end)
 end)
