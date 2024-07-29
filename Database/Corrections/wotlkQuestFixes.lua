@@ -109,6 +109,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
+        [974] = { -- Finding the Source
+            [questKeys.requiredSourceItems] = {},
+        },
         [1056] = {
             [questKeys.nextQuestInChain] = 1057,
         },
@@ -293,6 +296,12 @@ function QuestieWotlkQuestFixes:Load()
         [6522] = {
             [questKeys.startedBy] = {{4421},nil,{17008}},
             [questKeys.finishedBy] = {{36273}},
+        },
+        [6622] = { -- Triage
+            [questKeys.requiredSourceItems] = {},
+        },
+        [6624] = { -- Triage
+            [questKeys.requiredSourceItems] = {},
         },
         [6963] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -586,9 +595,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11137] = {
             [questKeys.preQuestSingle] = {},
-        },
-        [11140] = {
-            [questKeys.requiredSourceItems] = {33040,33044},
         },
         [11152] = {
             [questKeys.requiredSourceItems] = {},
@@ -971,6 +977,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11428] = {
             [questKeys.preQuestSingle] = {11316},
+            [questKeys.preQuestGroup] = {},
         },
         [11429] = {
             [questKeys.objectives] = {nil,{{186863,"Alliance Banner Placed"}},nil,nil,{{{24640},24640,"Alliance Banner Defended"}}},
@@ -1724,6 +1731,9 @@ function QuestieWotlkQuestFixes:Load()
         [12153] = {
             [questKeys.requiredSourceItems] = {},
         },
+        [12154] = { -- Blackout
+            [questKeys.requiredSourceItems] = {},
+        },
         [12157] = {
             [questKeys.exclusiveTo] = {12171,12235,12297},
         },
@@ -2362,7 +2372,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{28113,"Mosswalker Victims Rescued"}}},
         },
         [12584] = {
-            [questKeys.preQuestGroup] = {12552},
+            [questKeys.preQuestSingle] = {12552},
         },
         [12585] = {
             [questKeys.parentQuest] = 12563,
@@ -7617,6 +7627,34 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [78753] = {
+            [questKeys.name] = "Proof of Demise: Threats to Azeroth",
+            [questKeys.startedBy] = {{20735},nil,nil},
+            [questKeys.finishedBy] = {{20735},nil,nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"We must continue putting pressure on all fronts!","","The Council of Six has decreed that any willing fighter should take up arms and aid in keeping Azeroth safe!"},
+            [questKeys.objectives] = {nil,nil,{{211207}}},
+            [questKeys.zoneOrSort] = 4395,
+            [questKeys.questFlags] = 4232,
+            [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
+        },
+        [83713] = {
+            [questKeys.name] = "Proof of Demise: Titan Rune Protocol Gamma",
+            [questKeys.startedBy] = {{20735},nil,nil},
+            [questKeys.finishedBy] = {{20735},nil,nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"The Lich King's presence mustn't extend any further!","","The Council of Six has decreed that any strong enough fighter should take up arms and aid in keeping Azeroth safe!"},
+            [questKeys.objectives] = {nil,nil,{{211206}}},
+            [questKeys.zoneOrSort] = 4395,
+            [questKeys.questFlags] = 4232,
+            [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
+        },
+        [83714] = {
             [questKeys.name] = "Proof of Demise: Threats to Azeroth",
             [questKeys.startedBy] = {{20735},nil,nil},
             [questKeys.finishedBy] = {{20735},nil,nil},

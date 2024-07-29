@@ -1,12 +1,12 @@
 ## Interface: 30403
-## Title: Questie|cFF00FF00 v10.3.7|r
+## Title: Questie|cFF00FF00 v10.3.8|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
 ## Notes-esMX: Ayundante de misión
 ## Notes-esES: Ayundante de misión
 ## Notes-ptBR: Ajudante de missão
 ## Notes-frFR: Assistant de quête
-## Version: 10.3.7
+## Version: 10.3.8
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
@@ -205,6 +205,7 @@ Modules\Tracker\TrackerBaseFrame.lua
 Modules\Tracker\TrackerHeaderFrame.lua
 Modules\Tracker\TrackerQuestFrame.lua
 Modules\Tracker\TrackerQuestTimers.lua
+Modules\Tracker\TrackerItemButton.lua
 Modules\Tracker\TrackerLinePool.lua
 
 # Tutorial

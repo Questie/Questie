@@ -31,6 +31,24 @@ function SeasonOfDiscovery:LoadQuests()
         [5167] = { -- Legplates of the Chromatic Flight
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [8922] = { -- A Supernatural Device
+            [questKeys.preQuestSingle] = {84147,84148,84149,84150,84151,84152,84153,84154},
+        },
+        [8923] = { -- A Supernatural Device
+            [questKeys.preQuestSingle] = {84155,84156,84157,84158,84159,84160,84161,84162},
+        },
+        [8929] = { -- In Search of Anthion
+            [questKeys.preQuestSingle] = {84163,84164,84165,84166,84167,84168,84169,84170},
+        },
+        [8930] = { -- In Search of Anthion
+            [questKeys.preQuestSingle] = {84171,84172,84173,84174,84175,84176,84177,84178},
+        },
+        [8960] = { -- Bodley's Unfortunate Fate
+            [questKeys.preQuestSingle] = {84179,84180,84181,84182,84183,84184,84185,84186},
+        },
+        [9032] = { -- Bodley's Unfortunate Fate
+            [questKeys.preQuestSingle] = {84187,84188,84189,84190,84191,84192,84193,84194},
+        },
         [76156] = { -- Stalk With The Earthmother
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
@@ -89,6 +107,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [77586] = { -- Stolen Power
+            [questKeys.requiredRaces] = raceIDs.ORC,
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
@@ -234,6 +253,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.exclusiveTo] = {77620,77643,77667},
         },
         [77672] = { -- The Lost Rune
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
             [questKeys.objectives] = {nil, nil, nil, nil, nil, {{403919, nil, 205230}}},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
@@ -1748,11 +1768,115 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {81917},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [81924] = { -- Wisdom of the Guardians
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Part 1: Get shrunk and decurse it"), 0, {{"monster", 5240}}},
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Part 2: Get poisoned and abolish it"), 0, {{"monster", 5245}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Part 3: When buffed with the Mark of the Warden summon and defeat the Treant Avatar"), 0, {{"object", 441948}}},
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Part 1: Kill the Child of Apa'ro to receive a Sacred Stag Heart"), 0, {{"monster", 222580}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Part 2: Offer the Sacred Stag Heart and defeat the Hippogryph Avatar"), 0, {{"object", 441947}}},
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Cast Tranquility followed by Hurricane to summon the Moonkin Avatar and defeat him"), 0, {{"object", 441946}}},
+            },
+        },
+        [81944] = { -- A Newly Discovered Purpose...
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [81947] = { -- Sanguine Sorcery
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81949] = { -- Legends of the Tidesages
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81951] = { -- The Liminal and the Arcane
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81952] = { -- Everyday Etiquette
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81953] = { -- Stonewrought Design
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81954] = { -- Venomous Journeys
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81955] = { -- A Mind of Metal
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81956] = { -- Conjurer's Codex
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [81960] = { -- Clarifying Air
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [81967] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [81968] = { -- Answering Air's Call
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [81974] = { -- More Junk for Ziri
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+        },
+        [81975] = { -- A Troubling Exchange
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+        },
         [81986] = { -- Waking the Nightmare
             [questKeys.preQuestSingle] = {82022},
             [questKeys.objectives] = {{{222198}},nil,{{220570}}},
             [questKeys.zoneOrSort] = sortKeys.NIGHTMARE_INCURSIONS,
             [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{94.26,35.13}}}, Questie.ICON_TYPE_EVENT, l10n("Enter the Emerald Dream"),}},
+        },
+        [81987] = { -- Goblin Solutions (Goblin)
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
+        [82001] = { -- Require Gnomish Problems (Goblin)
+            [questKeys.preQuestSingle] = {81987},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
+        },
+        [82002] = { -- Whats Red and Smells like Paint?" (Goblin)
+            [questKeys.preQuestSingle] = {82001},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
+        },
+        [82003] = { -- Victory Lap For the Goblins! (Goblin)
+            [questKeys.preQuestSingle] = {82002},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
+        [82004] = { -- Hush Money (Goblin)
+            [questKeys.preQuestSingle] = {82003},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
+        [82008] = { -- Gnomish Solutions (Gnome)
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
+        [82009] = { -- Require Goblin Problems (Gnome)
+            [questKeys.preQuestSingle] = {82008},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
+        },
+        [82010] = { -- Watering Down the Competition (Gnome)
+            [questKeys.preQuestSingle] = {82009},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
+        },
+        [82011] = { -- Victory Lap For the Gnomes! (Gnome)
+            [questKeys.preQuestSingle] = {82010},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
+        [82013] = { -- Hush Money (Gnome)
+            [questKeys.preQuestSingle] = {82011},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
+        [82016] = { -- Atal'ai Potent Potables
+            [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
         },
         [82017] = { -- An Amalagamation of Nightmares
             [questKeys.nextQuestInChain] = 82018,
@@ -1796,18 +1920,46 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.parentQuest] = 82022,
             [questKeys.objectives] = {nil,{{441848}}},
         },
+        [82062] = { -- Ever After
+            [questKeys.zoneOrSort] = zoneIDs.BLACKROCK_DEPTHS,
+        },
         [82068] = { -- Fight the Nightmare Incursions
             [questKeys.startedBy] = {{221479,221480}},
             [questKeys.finishedBy] = {{221479,221480}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{221479,221480},221479}}},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.NIGHTMARE_INCURSIONS,
+        },
+        [82071] = { -- Purifying Fire
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [82072] = { -- Purging Earth
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [82073] = { -- Cleansing Water
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [82074] = { -- Answering Fire's Call
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [82075] = { -- Answering Earth's Call
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [82076] = { -- Answering Water's Call
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [82081] = { -- A Broken Ritual
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
         },
         [82083] = { -- A Broken Ritual
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
         },
         [82084] = { --A Lesson in Literacy
             [questKeys.startedBy] = {{211022,211033}},
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [82086] = { -- A Lesson in Literacy
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [82089] = { -- Master of Transmutation
@@ -1817,6 +1969,12 @@ function SeasonOfDiscovery:LoadQuests()
         [82090] = { -- Mixology For Fun and Profit
             [questKeys.zoneOrSort] = sortKeys.ALCHEMY,
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,275},
+        },
+        [82093] = { -- Jungle Durian
+            [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+        },
+        [82094] = { -- Signets of the Lost Temple
+            [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
         },
         [82095] = { -- The God Hakkar
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
@@ -1896,6 +2054,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {1707},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [82301] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [82302] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [82303] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [82307] = { -- A Full Shipment
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
@@ -1927,8 +2097,101 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
             [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING,
         },
+        [83188] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [83189] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [83190] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [83191] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [83192] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [83808] = { -- In a Bind
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [83822] = { -- The Fallen Knight
+            [questKeys.objectives] = {{{227519,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {83935},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [83823] = { -- A Lesson in Violence
+            [questKeys.startedBy] = {{227673}},
+            [questKeys.objectivesText] = {"To accept this quest, summon your squire with Dalton's Horn and fight enemies alongside him."},
+            [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {83936},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [83934] = { -- Show Me The Money!
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+        },
+        [83935] = { -- Clearing the Path
+            [questKeys.preQuestSingle] = {83935},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [83936] = { -- Dalton's Quest
+            [questKeys.objectives] = {{{227672,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {83822},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84008] = { -- A Lesson in Grace
+            [questKeys.startedBy] = {{227464}},
+            [questKeys.objectivesText] = {"To accept this quest, summon your squire with Dalton's Horn and fight enemies alongside him."},
+            [questKeys.preQuestSingle] = {83823},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84011] = { -- More Star Lotus
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+        },
+        [84012] = { -- More Starsilver Ore
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+        },
+        [84013] = { -- More Starshells
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+        },
+        [84014] = { -- More Moonroot
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = zoneIDs.FERALAS,
+        },
+        [84015] = { -- More Greater Moonstones
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = zoneIDs.FERALAS,
+        },
+        [84016] = { -- More Moondragon Scales
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = zoneIDs.FERALAS,
+        },
+        [84017] = { -- A Time to Kill
+            [questKeys.triggerEnd] = {"Find Arkonos the Cursed",{[zoneIDs.EASTERN_PLAGUELANDS]={{86.8,39.4}}}},
+            [questKeys.preQuestSingle] = {84008},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84124] = { -- Legacy of Valor
+            [questKeys.startedBy] = {{208841}},
+            [questKeys.finishedBy] = {nil,{456674}},
+            [questKeys.objectivesText] = {"Achieve five killing blows in a short amount of time, while fighting enemies in the Blackrock Stronghold. Once you get the Rhythm of War buff, /salute at the altar, defeat the Revered Champion and receive the rune."},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
+        [84125] = { -- Close Enough To Touch
+            [questKeys.preQuestSingle] = {84017},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84126] = { -- Finish the Fight
+            [questKeys.preQuestSingle] = {84125},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [84147] = { -- An Earnest Proposition
             [questKeys.requiredClasses] = classIDs.DRUID,
@@ -1994,6 +2257,264 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
+        [84163] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84164] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84165] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84166] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84167] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84168] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84169] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84170] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.preQuestSingle] = {8977},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+            [questKeys.nextQuestInChain] = 8929,
+        },
+        [84171] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
+        [84172] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
+        [84173] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
+        [84174] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
+        [84175] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
+        [84176] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
+        [84177] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
+        [84178] = { -- Just Compensation
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.preQuestSingle] = {8978},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.nextQuestInChain] = 8930,
+        },
+        [84179] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84180] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84181] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84182] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84183] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84184] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84185] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84186] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84187] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84188] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84189] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84190] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84191] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84192] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84193] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84194] = { -- Anthion's Parting Words
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.preQuestSingle] = {9015},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84195] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84196] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84197] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84198] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84199] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84200] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84201] = { -- Saving the Best for Last
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84202] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.preQuestSingle] = {8997},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
+        },
+        [84203] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84204] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84205] = { -- Saving the Best for Last
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84206] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84207] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84208] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84209] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84210] = { -- Saving the Best for Last
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.preQuestSingle] = {8998},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
         [84348] = { -- Priority Target: Duke Tectonis
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
             [questKeys.questFlags] = questFlags.DAILY,
@@ -2037,11 +2558,20 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [84377] = {
+        [84377] = { -- End of the Dark Horde
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [84384] = { -- Demonic Deceptions
             [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
+        },
+        [84525] = { -- Otherworldly Treasure
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [84777] = { -- Feathers for Nafien
+            [questKeys.preQuestSingle] = {8461},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = zoneIDs.FELWOOD,
         },
 
         --- Fake rune quests
@@ -5708,6 +6238,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Talk to the Vengeful Wisp and kill Satyrs in Jadefire Run until you get the 'Shimmering Light' buff. Then talk to the wisp again and it will put Gift of the Wisp on the ground, loot it to receive the rune."},
             [questKeys.requiredSpell] = -439767,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [90310] = {
+            [questKeys.name] = "Axe Specialization",
+            [questKeys.startedBy] = {nil,{457101}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.PALADIN + classIDs.SHAMAN + classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Read the book 'The Rites of Mak'Gora' to receive the rune."},
+            [questKeys.requiredSpell] = -453688,
+            [questKeys.zoneOrSort] = zoneIDs.BURNING_STEPPES,
         },
     }
 end

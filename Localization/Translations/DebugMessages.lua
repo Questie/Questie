@@ -543,31 +543,6 @@ local debugMessagesLocales = {
         ["zhTW"] = "你剛才選為目標的 NPC 是 Questie 資料庫中所缺少的。",
         ["zhCN"] = false,
     },
-    -- End Debug Offers
-    ["Welcome to Cataclysm Classic! During the launch of Cataclysm you may notice many issues with Questie, including quests appearing on the map before they're eligible to be picked up, quests not showing on the map at all, and incorrect or missing objectives."] = {
-        ["ptBR"] = "Bem-vindo ao Cataclysm Classic! Durante o lançamento do Cataclysm, você pode notar muitos problemas com o Questie, incluindo missões aparecendo no mapa antes de estarem disponíveis para serem aceitas, missões que não aparecem no mapa de jeito nenhum e objetivos incorretos ou ausentes.",
-        ["ruRU"] = "Добро пожаловать в Cataclysm Classic! Во время запуска Cataclysm вы можете заметить различные проблемы с Questie, включая: задания, появляющиеся на карте до того, как они могут быть приняты; задания, вообще не отображающиеся на карте; неверные или отсутствующие цели заданий.",
-        ["deDE"] = "Willkommen bei Cataclysm Classic! Während des Starts von Cataclysm kann es einige Probleme mit Questie geben, sodass Quests zu früh oder gar nicht angezeigt werden, sowie, dass Quest-Ziele fehlen.",
-        ["koKR"] = false,
-        ["esMX"] = "¡Bienvenido a Cataclysm Classic! Durante el lanzamiento de Cataclysm, es posible que notes muchos problemas con Questie, incluyendo misiones que aparecen en el mapa antes de ser elegibles para recogerlas, misiones que no aparecen en el mapa en absoluto y objetivos incorrectos o faltantes.",
-        ["enUS"] = true,
-        ["frFR"] = "Bienvenue sur Cataclysm Classic ! Durant le lancement de Cataclysm vous rencontrerez peut-être des problèmes avec Questie, comme des quêtes qui apparaissent sur la carte avant que vous ne soyez éligible pour les faire, des quêtes qui n'apparaissent pas du tout sur la carte, ou encore des objectifs manquants ou incorrects.",
-        ["esES"] = "¡Bienvenido a Cataclysm Classic! Durante el lanzamiento de Cataclysm, es posible que notes muchos problemas con Questie, incluyendo misiones que aparecen en el mapa antes de ser elegibles para recogerlas, misiones que no aparecen en el mapa en absoluto y objetivos incorrectos o faltantes.",
-        ["zhTW"] = "歡迎來到《浩劫與重生》經典版！在《浩劫與重生》推出期間，您可能會注意到任務位置提示插件 Questie  有許多問題，包括地圖上出現的任務在符合領取條件之前就顯示了，或是任務根本沒有在地圖上顯示，以及不正確或缺少的目標。",
-        ["zhCN"] = false,
-    },
-    ["Questie relies on private server data to function, and Cataclysm private server data is of poor quality. Fixing all of these issues is a manual process, so it will take some time. Please report any issues you encounter on our Discord or GitHub."] = {
-        ["ptBR"] = "O Questie depende de dados de servidores privados para funcionar, e os dados de servidores privados do Cataclysm são de baixa qualidade. Corrigir todos esses problemas é um processo manual, então levará algum tempo. Por favor, relate quaisquer problemas que encontrar em nosso Discord ou GitHub.",
-        ["ruRU"] = "Questie основывается на базе данных приватного сервера Cataclysm, но такие сервера неудовлетворительного качества. Исправление всех этих проблем - ручной процесс, и поэтому он займет некоторое время. Пожалуйста, сообщайте обо всех найденных проблемах в нашем Discord или на GitHub.",
-        ["deDE"] = "Questie benötigt eine eigene Datenbank, um zu funktionieren. Die initialen Daten für Cataclysm stammen von Privatservern und sind leider von besonders schlechter Qualität. Das Beheben all dieser Probleme ist ein manueller Prozess und wird einige Zeit in Anspruch nehmen. Bitte melde alle Probleme, die du findest auf unserem Discord oder GitHub.",
-        ["koKR"] = false,
-        ["esMX"] = "Questie depende de datos de servidores privados para funcionar, y los datos de servidores privados de Cataclysm son de baja calidad. Arreglar todos estos problemas es un proceso manual, por lo que tomará algo de tiempo. Por favor, reporta cualquier problema que encuentres en nuestro Discord o GitHub.",
-        ["enUS"] = true,
-        ["frFR"] = "Questie repose sur des données de serveur privé, or celles de Cataclysm sont de basse qualité. Tous ces problèmes doivent être résolus manuellement, cela demande donc du temps. Merci de signaler les problèmes que vous rencontrez sur notre Discord ou Github.",
-        ["esES"] = "Questie depende de datos de servidores privados para funcionar, y los datos de servidores privados de Cataclysm son de baja calidad. Arreglar todos estos problemas es un proceso manual, por lo que tomará algo de tiempo. Por favor, reporta cualquier problema que encuentres en nuestro Discord o GitHub.",
-        ["zhTW"] = "任務位置提示插件 Questie 依賴私人伺服器數據來運作，而《浩劫與重生》的私人伺服器數據品質不佳。只能用手動的方式來修復所有這些問題，因此將會需要一些時間。請在我們的 Discord 或 GitHub 上報告您遇到的任何問題。",
-        ["zhCN"] = false,
-    },
 }
 
 for k, v in pairs(debugMessagesLocales) do

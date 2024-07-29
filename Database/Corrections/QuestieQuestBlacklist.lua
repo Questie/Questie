@@ -1485,6 +1485,10 @@ function QuestieQuestBlacklist:Load()
         --[26012] = true, -- Trouble at Wyrmrest
         --[26013] = true, -- Assault on the Sanctum
 
+        --- Chinese servers wotlk only
+        [78752] = QuestieCorrections.WOTLK_HIDE, -- they have new versions of these quests
+        [78753] = QuestieCorrections.WOTLK_HIDE, -- they have new versions of these quests
+
 
         ----- Cata -------------- Cata quests --------------- Cata -----
         ----- Cata ------------- starting here -------------- Cata -----
@@ -2659,7 +2663,7 @@ function QuestieQuestBlacklist:Load()
         [28003] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28065] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28095] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [28106] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28097
+        [28106] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28110] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [28236] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28233
         [28240] = QuestieCorrections.CATA_HIDE, -- Not in the game
@@ -2730,6 +2734,8 @@ function QuestieQuestBlacklist:Load()
         [30558] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [30559] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [30560] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [83713] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [83714] = QuestieCorrections.CATA_HIDE, -- Not in the game
 
         -- ICC weekly quests
         [24869] = QuestieCorrections.CATA_HIDE, -- Removed with cata
