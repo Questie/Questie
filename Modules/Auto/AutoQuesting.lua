@@ -14,6 +14,14 @@ end
 
 function AutoQuesting.OnQuestGreetings()
     print("AutoQuesting.OnQuestGreetings")
+    if (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) then
+        return
+    end
+
+    local availableQuestsCount = GetNumAvailableQuests()
+    if availableQuestsCount > 0 then
+        SelectAvailableQuest(1)
+    end
 end
 
 function AutoQuesting.OnGossipShow()

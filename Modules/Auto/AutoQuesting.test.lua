@@ -12,6 +12,7 @@ describe("AutoQuesting", function()
         _G.QuestieCompat.SelectAvailableQuest = spy.new(function() end)
 
         _G.AcceptQuest = spy.new(function() end)
+        _G.SelectAvailableQuest = spy.new(function() end)
         _G.print = function()  end -- TODO: Remove this line when print is removed from the module
 
         AutoQuesting = require("Modules/Auto/AutoQuesting")
@@ -38,6 +39,33 @@ describe("AutoQuesting", function()
         AutoQuesting.OnQuestDetail()
 
         assert.spy(_G.AcceptQuest).was_not.called()
+    end)
+
+    it("should accept quests from quest greetings", function()
+        _G.GetNumAvailableQuests = function() return 2 end
+
+        AutoQuesting.OnQuestGreetings()
+
+        assert.spy(_G.SelectAvailableQuest).was.called_with(1)
+    end)
+
+    it("should not accept quest from quest greetings when auto accept is disabled", function()
+        _G.GetNumAvailableQuests = function() return 2 end
+        Questie.db.profile.autoaccept = false
+
+        AutoQuesting.OnQuestGreetings()
+
+        assert.spy(_G.SelectAvailableQuest).was_not.called()
+    end)
+
+    it("should not accept quest from greetings when auto modifier is held", function()
+        _G.GetNumAvailableQuests = function() return 2 end
+        Questie.db.profile.autoModifier = "shift"
+        _G.IsShiftKeyDown = function() return true end
+
+        AutoQuesting.OnQuestGreetings()
+
+        assert.spy(_G.SelectAvailableQuest).was_not.called()
     end)
 
     it("should accept available quest from gossip", function()
