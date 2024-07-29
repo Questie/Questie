@@ -3,7 +3,7 @@ dofile("setupTests.lua")
 _G.QuestieCompat = {}
 
 describe("AutoQuesting", function()
-    --@type AutoQuesting
+    ---@type AutoQuesting
     local AutoQuesting
 
     before_each(function()
