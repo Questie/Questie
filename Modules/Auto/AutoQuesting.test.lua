@@ -25,6 +25,7 @@ describe("AutoQuesting", function()
 
     it("should not accept quest from quest detail when auto accept is disabled", function()
         Questie.db.profile.autoaccept = false
+
         AutoQuesting.OnQuestDetail()
 
         assert.spy(_G.AcceptQuest).was_not.called()
@@ -33,6 +34,7 @@ describe("AutoQuesting", function()
     it("should not accept quest from detail when auto modifier is held", function()
         Questie.db.profile.autoModifier = "shift"
         _G.IsShiftKeyDown = function() return true end
+
         AutoQuesting.OnQuestDetail()
 
         assert.spy(_G.AcceptQuest).was_not.called()
@@ -52,8 +54,8 @@ describe("AutoQuesting", function()
         _G.QuestieCompat.GetAvailableQuests = function()
             return "Test Quest", 1, false, 1, false, false, false
         end
-
         Questie.db.profile.autoaccept = false
+
         AutoQuesting.OnGossipShow()
 
         assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
@@ -63,9 +65,9 @@ describe("AutoQuesting", function()
         _G.QuestieCompat.GetAvailableQuests = function()
             return "Test Quest", 1, false, 1, false, false, false
         end
-
         Questie.db.profile.autoModifier = "shift"
         _G.IsShiftKeyDown = function() return true end
+
         AutoQuesting.OnGossipShow()
 
         assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
