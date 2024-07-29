@@ -3,9 +3,11 @@ local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
 
 local _IsBindTrue
 
+local shouldRunAuto = true
+
 function AutoQuesting.OnQuestDetail()
     print("AutoQuesting.OnQuestDetail")
-    if (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) then
         return
     end
 
@@ -14,7 +16,8 @@ end
 
 function AutoQuesting.OnQuestGreetings()
     print("AutoQuesting.OnQuestGreetings")
-    if (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) then
+        shouldRunAuto = false
         return
     end
 

@@ -68,6 +68,37 @@ describe("AutoQuesting", function()
         assert.spy(_G.SelectAvailableQuest).was_not.called()
     end)
 
+    it("should not accept quest from details when coming from greetings and auto modifier was held", function()
+        _G.GetNumAvailableQuests = function() return 2 end
+        Questie.db.profile.autoModifier = "shift"
+        _G.IsShiftKeyDown = function() return true end
+
+        AutoQuesting.OnQuestGreetings()
+        assert.spy(_G.SelectAvailableQuest).was_not.called()
+
+        _G.IsShiftKeyDown = function() return false end
+        AutoQuesting.OnQuestDetail()
+
+        assert.spy(_G.AcceptQuest).was_not.called()
+    end)
+
+    it("should not select available quest from greetings when coming from details and auto modifier was held", function()
+        _G.GetNumAvailableQuests = function() return 2 end
+        Questie.db.profile.autoModifier = "shift"
+        _G.IsShiftKeyDown = function() return true end
+
+        AutoQuesting.OnQuestGreetings()
+        assert.spy(_G.SelectAvailableQuest).was_not.called()
+
+        _G.IsShiftKeyDown = function() return false end
+        AutoQuesting.OnQuestDetail()
+
+        assert.spy(_G.AcceptQuest).was_not.called()
+
+        AutoQuesting.OnQuestGreetings()
+        assert.spy(_G.SelectAvailableQuest).was_not.called()
+    end)
+
     it("should accept available quest from gossip", function()
         _G.QuestieCompat.GetAvailableQuests = function()
             return "Test Quest", 1, false, 1, false, false, false
