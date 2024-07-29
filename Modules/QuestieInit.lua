@@ -257,7 +257,8 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
         -- We really want to wait for the cache to be filled before we continue.
         -- Other addons (e.g. ATT) can interfere with the cache and we need to make sure it's correct.
         coYield()
-        changes = QuestLogCache.CheckForChanges(nil)[2]
+        local _, newChanges = QuestLogCache.CheckForChanges(nil)
+        changes = newChanges
     end
 
     QuestEventHandler.InitQuestLogStates(changes)
