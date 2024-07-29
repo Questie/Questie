@@ -3,6 +3,19 @@ local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
 
 local _IsBindTrue
 
+function AutoQuesting.OnQuestDetail()
+    print("AutoQuesting.OnQuestDetail")
+    if (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) then
+        return
+    end
+
+    AcceptQuest()
+end
+
+function AutoQuesting.OnQuestGreetings()
+    print("AutoQuesting.OnQuestGreetings")
+end
+
 function AutoQuesting.OnGossipShow()
     print("AutoQuesting.OnGossipShow")
     if (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) then
@@ -28,21 +41,8 @@ function AutoQuesting.OnQuestAccepted()
     print("AutoQuesting.OnQuestAccepted")
 end
 
-function AutoQuesting.OnQuestDetail()
-    print("AutoQuesting.OnQuestDetail")
-    if (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) then
-        return
-    end
-
-    AcceptQuest()
-end
-
 function AutoQuesting.OnQuestProgress()
     print("AutoQuesting.OnQuestProgress")
-end
-
-function AutoQuesting.OnQuestGreetings()
-    print("AutoQuesting.OnQuestGreetings")
 end
 
 function AutoQuesting.OnQuestAcceptConfirm()
