@@ -1973,6 +1973,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [82093] = { -- Jungle Durian
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82094] = { -- Signets of the Lost Temple
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
