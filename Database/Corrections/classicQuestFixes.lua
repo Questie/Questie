@@ -80,6 +80,9 @@ function QuestieQuestFixes:Load()
         [30] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.MOONGLADE]={{36.5,41.7}}}, Questie.ICON_TYPE_EVENT, l10n("Combine the Pendant halves at the Shrine of Remulos.")}},
         },
+        [32] = { -- Rise of the Silithid
+            [questKeys.nextQuestInChain] = 4494,
+        },
         [33] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -106,6 +109,9 @@ function QuestieQuestFixes:Load()
         },
         [155] = {
             [questKeys.triggerEnd] = {"Escort The Defias Traitor to discover where VanCleef is hiding", {[zoneIDs.WESTFALL]={{42.55,71.53}}}},
+        },
+        [162] = { -- Rise of the Silithid
+            [questKeys.nextQuestInChain] = 4493,
         },
         [163] = {
             [questKeys.exclusiveTo] = {5}, -- Raven Hill breadcrumb
@@ -1590,6 +1596,9 @@ function QuestieQuestFixes:Load()
         },
         [4265] = {
             [questKeys.triggerEnd] = {"Free Raschal.", {[zoneIDs.FERALAS]={{72.13,63.84}}}},
+        },
+        [4267] = { -- Rise of the Silithid
+            [questKeys.nextQuestInChain] = 4493,
         },
         [4285] = {
             [questKeys.triggerEnd] = {"Discover and examine the Northern Crystal Pylon",{[zoneIDs.UN_GORO_CRATER]={{56,12}}}},
