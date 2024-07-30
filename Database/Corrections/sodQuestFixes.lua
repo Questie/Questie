@@ -1976,6 +1976,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [82094] = { -- Signets of the Lost Temple
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82095] = { -- The God Hakkar
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
