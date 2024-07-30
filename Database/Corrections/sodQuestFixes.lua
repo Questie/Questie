@@ -2057,6 +2057,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {1707},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [82210] = { -- Troll Necklace Bounty
+            [questKeys.preQuestSingle] = {2880},
+            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
+        },
         [82301] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
