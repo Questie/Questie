@@ -80,6 +80,9 @@ function QuestieQuestFixes:Load()
         [30] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.MOONGLADE]={{36.5,41.7}}}, Questie.ICON_TYPE_EVENT, l10n("Combine the Pendant halves at the Shrine of Remulos.")}},
         },
+        [32] = { -- Rise of the Silithid
+            [questKeys.nextQuestInChain] = 4494,
+        },
         [33] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -106,6 +109,9 @@ function QuestieQuestFixes:Load()
         },
         [155] = {
             [questKeys.triggerEnd] = {"Escort The Defias Traitor to discover where VanCleef is hiding", {[zoneIDs.WESTFALL]={{42.55,71.53}}}},
+        },
+        [162] = { -- Rise of the Silithid
+            [questKeys.nextQuestInChain] = 4493,
         },
         [163] = {
             [questKeys.exclusiveTo] = {5}, -- Raven Hill breadcrumb
@@ -1591,6 +1597,9 @@ function QuestieQuestFixes:Load()
         [4265] = {
             [questKeys.triggerEnd] = {"Free Raschal.", {[zoneIDs.FERALAS]={{72.13,63.84}}}},
         },
+        [4267] = { -- Rise of the Silithid
+            [questKeys.nextQuestInChain] = 4493,
+        },
         [4285] = {
             [questKeys.triggerEnd] = {"Discover and examine the Northern Crystal Pylon",{[zoneIDs.UN_GORO_CRATER]={{56,12}}}},
         },
@@ -1626,8 +1635,8 @@ function QuestieQuestFixes:Load()
         [4491] = {
             [questKeys.triggerEnd] = {"Escort Ringo to Spraggle Frock at Marshal's Refuge", {[zoneIDs.UN_GORO_CRATER]={{43.71,8.29}}}},
         },
-        [4493] = {
-            [questKeys.preQuestSingle] = {4267},
+        [4493] = { -- March of the Silithid
+            [questKeys.preQuestSingle] = {162,4267},
         },
         [4494] = {
             [questKeys.preQuestSingle] = {32,7732},
@@ -2588,8 +2597,9 @@ function QuestieQuestFixes:Load()
         [7494] = {
             [questKeys.startedBy] = {{2198,10877,10878},nil,nil}, -- #2489
         },
-        [7495] = {
+        [7495] = { -- Victory for the Alliance
             [questKeys.startedBy] = {{10184},nil,{18423}},
+            [questKeys.requiredLevel] = 60,
         },
         [7507] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,

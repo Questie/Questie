@@ -1877,6 +1877,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [82016] = { -- Atal'ai Potent Potables
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82017] = { -- An Amalagamation of Nightmares
             [questKeys.nextQuestInChain] = 82018,
@@ -1972,9 +1973,11 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [82093] = { -- Jungle Durian
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82094] = { -- Signets of the Lost Temple
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82095] = { -- The God Hakkar
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
@@ -2053,6 +2056,10 @@ function SeasonOfDiscovery:LoadQuests()
         [82209] = { -- Water Pouch Bounty  (repeatable)
             [questKeys.preQuestSingle] = {1707},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [82210] = { -- Troll Necklace Bounty
+            [questKeys.preQuestSingle] = {2880},
+            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
         },
         [82301] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
