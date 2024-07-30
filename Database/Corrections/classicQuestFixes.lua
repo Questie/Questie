@@ -2588,8 +2588,9 @@ function QuestieQuestFixes:Load()
         [7494] = {
             [questKeys.startedBy] = {{2198,10877,10878},nil,nil}, -- #2489
         },
-        [7495] = {
+        [7495] = { -- Victory for the Alliance
             [questKeys.startedBy] = {{10184},nil,{18423}},
+            [questKeys.requiredLevel] = 60,
         },
         [7507] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
