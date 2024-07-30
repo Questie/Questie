@@ -5795,11 +5795,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25598},
         },
         [27688] = { -- Distract Them for Me
-            [questKeys.preQuestGroup] = {27719,27652,27654},
+            [questKeys.preQuestGroup] = {27652,27654},
             [questKeys.exclusiveTo] = {},
         },
         [27689] = { -- Distract Them for Me
-            [questKeys.preQuestSingle] = {27655},
+            [questKeys.preQuestGroup] = {27653,27655},
             [questKeys.exclusiveTo] = {},
         },
         [27690] = { -- Narkrall, the Drake-Tamer
@@ -5807,11 +5807,11 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {27947},
         },
         [27695] = { -- The Elementium Axe
-            [questKeys.preQuestGroup] = {27719,27652,27654},
+            [questKeys.preQuestGroup] = {27652,27654},
             [questKeys.exclusiveTo] = {},
         },
         [27696] = { -- The Elementium Axe
-            [questKeys.preQuestSingle] = {27689},
+            [questKeys.preQuestGroup] = {27653,27655},
             [questKeys.exclusiveTo] = {},
         },
         [27700] = { -- Dragon, Unchained
@@ -5822,12 +5822,15 @@ function CataQuestFixes.Load()
         [27701] = { -- Dragon, Unchained
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27696,27689},
+            [questKeys.objectives] = {{{46456,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27702] = { -- Coup de Grace
             [questKeys.preQuestSingle] = {27700},
+            [questKeys.exclusiveTo] = {},
         },
         [27703] = { -- Coup de Grace
             [questKeys.preQuestSingle] = {27701},
+            [questKeys.exclusiveTo] = {},
         },
         [27704] = { -- Legends of the Sunken Temple
             [questKeys.triggerEnd] = {"Hall of Masks found", {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR]={{74,44.4}}}},
@@ -5842,7 +5845,8 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 27720,
         },
         [27712] = { -- Back to the Elementium Depths
-            [questKeys.preQuestSingle] = {27798},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27703,27798},
             [questKeys.nextQuestInChain] = 28885,
         },
         [27716] = { -- Piece of the Past
@@ -5860,6 +5864,7 @@ function CataQuestFixes.Load()
         },
         [27719] = { -- Water of Life
             [questKeys.objectives] = {{{46819,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.exclusiveTo] = {},
         },
         [27720] = { -- Mr. Goldmine's Wild Ride
             [questKeys.preQuestSingle] = {},
@@ -5913,7 +5918,8 @@ function CataQuestFixes.Load()
         },
         [27745] = { -- A Fiery Reunion
             [questKeys.objectives] = {nil,{{301087}},{{62394}}},
-            [questKeys.preQuestSingle] = {27742,27743,27744},
+            [questKeys.preQuestGroup] = {27742,27743,27744},
+            [questKeys.preQuestSingle] = {},
         },
         [27747] = { -- Total War
             [questKeys.objectives] = {nil,{{206195}}},
@@ -5958,6 +5964,10 @@ function CataQuestFixes.Load()
         [27783] = { -- Garona Needs You
             [questKeys.preQuestSingle] = {27745},
             [questKeys.nextQuestInChain] = 27786,
+        },
+        [27798] = { -- Water of Life
+            [questKeys.objectives] = {{{46819,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.exclusiveTo] = {},
         },
         [27803] = { -- Welcome Relief
             [questKeys.preQuestSingle] = {27621},
@@ -7420,6 +7430,11 @@ function CataQuestFixes.Load()
         },
         [28884] = { -- Victory in Tol Barad
             [questKeys.triggerEnd] = {"Victory in Tol Barad",{[zoneIDs.TOL_BARAD]={{51.1,49.9}}}},
+        },
+        [28885] = { -- Mr. Goldmine's Wild Ride
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27703,27798},
+            [questKeys.objectives] = {{{46243,nil,Questie.ICON_TYPE_TALK},{46459,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [28909] = { -- Sauranok Will Point the Way
             [questKeys.startedBy] = {{39605}},

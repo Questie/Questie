@@ -613,6 +613,8 @@ local questsToBlacklistBySoDPhase = {
     },
     [5] = { -- SoD Phase 5 == Era Phase 3: BWL + Darkmoon Faire
         [7761] = true, -- Blackhand's Command; BWL attune
+        [7783] = true, -- The Lord of Blackrock Part 1
+        [7784] = true, -- The Lord of Blackrock Part 2
         [7787] = true, -- Rise, Thunderfury!
     },
     [6] = { -- SoD Phase 6 == Era Phase 4: Zul'Gurub

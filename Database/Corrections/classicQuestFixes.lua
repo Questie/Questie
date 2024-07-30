@@ -1558,6 +1558,9 @@ function QuestieQuestFixes:Load()
         [4122] = {
             [questKeys.preQuestSingle] = {4082}, -- #1349
         },
+        [4126] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [4133] = {
             [questKeys.exclusiveTo] = {4134}, -- #1859
         },
@@ -2695,22 +2698,22 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Message to the Wildhammer Delivered", {[zoneIDs.THE_HINTERLANDS]={{14.34,48.07}}}},
         },
         [7863] = {
-            [questKeys.zoneOrSort] = 3277,
+            [questKeys.zoneOrSort] = zoneIDs.WARSONG_GULCH,
         },
         [7864] = {
-            [questKeys.zoneOrSort] = 3277,
+            [questKeys.zoneOrSort] = zoneIDs.WARSONG_GULCH,
         },
         [7865] = {
-            [questKeys.zoneOrSort] = 3277,
+            [questKeys.zoneOrSort] = zoneIDs.WARSONG_GULCH,
         },
         [7866] = {
-            [questKeys.zoneOrSort] = 3277,
+            [questKeys.zoneOrSort] = zoneIDs.WARSONG_GULCH,
         },
         [7867] = {
-            [questKeys.zoneOrSort] = 3277,
+            [questKeys.zoneOrSort] = zoneIDs.WARSONG_GULCH,
         },
         [7868] = {
-            [questKeys.zoneOrSort] = 3277,
+            [questKeys.zoneOrSort] = zoneIDs.WARSONG_GULCH,
         },
         [7886] = { -- #1435
             [questKeys.startedBy] = {{14733},nil,nil},
@@ -2930,14 +2933,26 @@ function QuestieQuestFixes:Load()
         [8361] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Templar using a full Twilight set."),0,{{"object", 180456},{"object", 180518},{"object", 180529},{"object", 180544},{"object", 180549},{"object", 180564},}}},
         },
+        [8367] = { -- For Great Honor
+            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
+        },
         [8368] = {
             [questKeys.exclusiveTo] = {8426,8427,8428,8429,8430},
+        },
+        [8371] = { -- Concerted Efforts
+            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
         },
         [8372] = {
             [questKeys.exclusiveTo] = {8399,8400,8401,8402,8403},
         },
         [8373] = {
             [questKeys.objectives] = {nil,{{180449,"Clean up a stink bomb that's been dropped on Southshore!"}}},
+        },
+        [8385] = { -- Concerted Efforts
+            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
+        },
+        [8388] = { -- For Great Honor
+            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
         },
         [8399] = {
             [questKeys.exclusiveTo] = {8372,8400,8401,8402,8403},
