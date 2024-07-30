@@ -884,6 +884,7 @@ local questsToBlacklistBySoDPhase = {
         [2758] = true, -- The Origins of Smithing - Replaced by 80241
         [2849] = true, -- Wild Leather Vest - Replaced by 82657
         [2856] = true, -- Wild Leather Vest - Replaced by 82656
+        [2881] = true, -- Troll Necklace Bounty - Replaced by 82210
         [4148] = true, -- Bloodpetal Zapper
         [5284] = true, -- The Way of the Weaponsmith - Replaced by 82662
         [5302] = true, -- The Way of the Weaponsmith - Replaced by 82665
