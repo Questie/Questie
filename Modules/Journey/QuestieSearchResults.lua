@@ -627,11 +627,7 @@ _HandleOnGroupSelected = function (resultType)
         local questName = QuestieDB.QueryQuestSingle(selectedId, "name")
         local questLevel, _ = QuestieLib.GetTbcLevel(selectedId);
 
-        if Questie.db.profile.trackerShowQuestLevel then
-            ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(questLevel, questName, selectedId))
-        else
-            ChatEdit_InsertLink("[" .. questName .. " (" .. selectedId .. ")]")
-        end
+        ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(questLevel, questName, selectedId))
     end
 
     -- get master frame and create scroll frame inside

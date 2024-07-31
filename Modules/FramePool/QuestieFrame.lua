@@ -174,11 +174,7 @@ function _Qframe:OnClick(button)
         if uiMapId and button == "LeftButton" then
             local frameData = self.data
             if ChatEdit_GetActiveWindow() and frameData.QuestData then
-                if Questie.db.profile.trackerShowQuestLevel then
-                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(frameData.QuestData.level, frameData.QuestData.name, frameData.Id))
-                else
-                    ChatEdit_InsertLink("[" .. frameData.QuestData.name .. " (" .. frameData.Id .. ")]")
-                end
+                ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(frameData.QuestData.level, frameData.QuestData.name, frameData.Id))
             else
                 if frameData.Type == "available" and IsShiftKeyDown() then
                     StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(frameData.Id)
