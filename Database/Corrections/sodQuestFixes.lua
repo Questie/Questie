@@ -2530,6 +2530,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84320},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [84322] = { -- Scarlet Research
+            [questKeys.finishedBy] = {nil,{459388}},
+            [questKeys.preQuestSingle] = {84321,84406},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84323] = { -- The Prize Within
+            [questKeys.preQuestSingle] = {84322},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [84348] = { -- Priority Target: Duke Tectonis
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
             [questKeys.questFlags] = questFlags.DAILY,
@@ -2578,6 +2587,18 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [84384] = { -- Demonic Deceptions
             [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
+        },
+        [84405] = { -- Lost Heirloom
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84406] = { -- Relic of Light
+            [questKeys.finishedBy] = {nil,{457443}},
+            [questKeys.preQuestSingle] = {84320},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84407] = { -- The Prize Within
+            [questKeys.preQuestSingle] = {84406},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [84525] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,

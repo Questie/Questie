@@ -2,18 +2,14 @@
 local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 --- Load the base quests for Season of Discovery
 --- These are generated, do NOT EDIT the data entries here.
 --- If you want to edit a quest, do so in sodQuestFixes.lua
 function SeasonOfDiscovery:LoadBaseQuests()
     local questKeys = QuestieDB.questKeys
-    local zoneIDs = ZoneDB.zoneIDs
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
-    local sortKeys = QuestieDB.sortKeys
 
     return {
         [76156] = {
@@ -5802,6 +5798,28 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Travel to Hearthglen in Western Plaguelands and search for information on the artifact described in the journal."},
             [questKeys.objectives] = nil,
         },
+        [84322] = {
+            [questKeys.name] = "Scarlet Research",
+            [questKeys.startedBy] = {nil,{457443}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 48,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Search for the artifact within the Scarlet Crusade stronghold at Tyr's Hand in Eastern Plaguelands."},
+            [questKeys.objectives] = nil,
+        },
+        [84323] = {
+            [questKeys.name] = "The Prize Within",
+            [questKeys.startedBy] = {nil,{459388}},
+            [questKeys.finishedBy] = {{376,}},
+            [questKeys.requiredLevel] = 48,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Find a way to open the box and claim the artifact, then deliver it to High Priestess Laurena in Stormwind Cathedral."},
+            [questKeys.objectives] = {nil,nil,{{227938},{228912},{227937}}},
+        },
         [84348] = {
             [questKeys.name] = "Priority Target: Duke Tectonis",
             [questKeys.startedBy] = {{14627}},
@@ -5922,6 +5940,39 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.objectivesText] = {"Collect 6 Owlbeast Pineal Glands from owlbeasts in Winterspring, then return to the Shadowtooth Emissary in Felwood."},
             [questKeys.objectives] = {nil,nil,{{227914}}},
+        },
+        [84405] = {
+            [questKeys.name] = "Lost Heirloom",
+            [questKeys.startedBy] = {{211229}},
+            [questKeys.finishedBy] = {{211229,}},
+            [questKeys.requiredLevel] = 48,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Retrieve the heirlooms from Sorrow Hill Crypt in Western Plaguelands, then return to Dietrich Praice in Orgrimmar."},
+            [questKeys.objectives] = {nil,nil,{{227745},{227747},{227748}}},
+        },
+        [84406] = {
+            [questKeys.name] = "Relic of Light",
+            [questKeys.startedBy] = {{211229}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 48,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Travel to Hearthglen in Western Plaguelands and search for information on the artifact described in the journal."},
+            [questKeys.objectives] = nil,
+        },
+        [84407] = {
+            [questKeys.name] = "The Prize Within",
+            [questKeys.startedBy] = {nil,{459388}},
+            [questKeys.finishedBy] = {{211229,}},
+            [questKeys.requiredLevel] = 48,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Find a way to open the box and claim the artifact, then deliver it to Dietrich Praice in Orgrimmar."},
+            [questKeys.objectives] = {nil,nil,{{227938},{228912},{227937}}},
         },
         [84525] = {
             [questKeys.name] = "Otherworldly Treasure",
