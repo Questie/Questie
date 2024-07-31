@@ -1984,8 +1984,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {4787},
         },
         [82096] = { -- Into the Depths
-            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+            [questKeys.finishedBy] = {nil,{148836}},
             [questKeys.preQuestSingle] = {3444},
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
         },
         [82097] = { -- Secret of the Circle
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
