@@ -5,6 +5,8 @@ local Hooks = QuestieLoader:CreateModule("Hooks")
 
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type QuestieLink
+local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 
 
 function Hooks:HookQuestLogTitle()
