@@ -1989,8 +1989,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
         },
         [82097] = { -- Secret of the Circle
-            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+            [questKeys.finishedBy] = {nil,{448042}},
             [questKeys.preQuestSingle] = {3444},
+            [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
         },
         [82098] = { -- Into The Temple of Atal'Hakkar
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
