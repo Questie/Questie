@@ -559,15 +559,11 @@ function QuestieDB.IsRuneAndShouldBeHidden(questId)
         return true
     end
 
-    local showPhase1Runes = Questie.db.profile.showRunesOfPhase["phase1"]
-    local showPhase2Runes = Questie.db.profile.showRunesOfPhase["phase2"]
-
+    local showRunesOfPhase = Questie.db.profile.showRunesOfPhase
     local phaseOfRuneQuest = runeQuestsInSoD[questId]
 
-    if (phaseOfRuneQuest == 1) then
-        return (not showPhase1Runes)
-    elseif (phaseOfRuneQuest == 2) then
-        return (not showPhase2Runes)
+    if showRunesOfPhase["phase" .. phaseOfRuneQuest] ~= nil then
+        return not showRunesOfPhase["phase" .. phaseOfRuneQuest]
     end
 
     return false
