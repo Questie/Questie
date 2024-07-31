@@ -111,9 +111,6 @@ class QuestSpider(scrapy.Spider):
     def __match_level(self, level_match):
         return level_match.group(1) if level_match else 0
 
-    def __match_start(self, start_match):
-        return start_match.group(1) if start_match else "nil"
-
     def __match_end(self, script):
         end_match = re.findall(r'End:.*?npc=(\d+)', script)
 
