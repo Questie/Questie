@@ -1755,7 +1755,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {14373,14374},
         },
         [14381] = { -- Cleansing Our Crevasse
-            [questKeys.objectives] = {{{36232,nil,Questie.ICON_TYPE_MOUNT_UP},{36228},{36230},{36229}}},
+            [questKeys.objectives] = {{{36232,nil,Questie.ICON_TYPE_MOUNT_UP},{35606,nil,Questie.ICON_TYPE_INTERACT},{90,nil,Questie.ICON_TYPE_INTERACT},{35605,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [14382] = { -- Two By Sea
             [questKeys.extraObjectives] = {
