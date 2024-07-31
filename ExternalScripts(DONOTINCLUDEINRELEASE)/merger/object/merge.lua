@@ -15,11 +15,13 @@ for objId, data in pairs(mangos) do
     local tObj = trinity[objId]
 
     -- get spawns from trinity and add them to mangos
-    if tObj and tObj[objectKeys.spawns] then
+    if tObj then
         data[objectKeys.questStarts] = tObj[objectKeys.questStarts]
         data[objectKeys.questEnds] = tObj[objectKeys.questEnds]
-        data[objectKeys.spawns] = tObj[objectKeys.spawns]
-        data[objectKeys.zoneID] = tObj[objectKeys.zoneID]
+        if (not data[objectKeys.spawns]) and tObj[objectKeys.spawns] then
+            data[objectKeys.spawns] = tObj[objectKeys.spawns]
+            data[objectKeys.zoneID] = tObj[objectKeys.zoneID]
+        end
     end
 end
 

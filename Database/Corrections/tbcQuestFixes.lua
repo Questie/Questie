@@ -663,11 +663,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [8488] = {
-            [questKeys.triggerEnd] = {"Protect Apprentice Mirveda", {[zoneIDs.EVERSONG_WOODS]={{54.3,71.02}}}},
+            [questKeys.objectives] = {{{15402,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [8490] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Infused Crystal and protect it from the Scourge for 1 minute"), 0, {{"object", 181164}}}},
+            [questKeys.objectives] = {{{16364,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [8548] = {
             [questKeys.specialFlags] = 1,
@@ -867,18 +869,21 @@ function QuestieTBCQuestFixes:Load()
         [8883] = {
             [questKeys.questLevel] = -1,
         },
-        [8888] = {
-            [questKeys.exclusiveTo] = {8889,8890,9394,},
+        [8887] = {
+            [questKeys.startedBy] = {{15668,15669,15670,15950},nil,{21776}},
         },
         [8894] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [9066] = {
+            [questKeys.objectives] = {{{15945,nil,Questie.ICON_TYPE_INTERACT},{15941,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9130] = {
             [questKeys.requiredMinRep] = {},
         },
         [9144] = {
             [questKeys.requiredLevel] = 10,
-            [questKeys.exclusiveTo] = {9147},
+            [questKeys.nextQuestInChain] = 9147,
         },
         [9147] = {
             [questKeys.preQuestSingle] = {},
@@ -895,13 +900,20 @@ function QuestieTBCQuestFixes:Load()
         [9161] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9164] = {
+            [questKeys.objectives] = {{{16208,nil,Questie.ICON_TYPE_INTERACT},{16206,nil,Questie.ICON_TYPE_INTERACT},{16209,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [9174] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Bundle of Medallions"), 0, {{"object", 181157}}}},
         },
         [9177] = {
+            [questKeys.startedBy] = {{16252},nil},
             [questKeys.finishedBy] = {{10181},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE - raceIDs.BLOOD_ELF, -- 9180 is the blood elf version of this quest
             [questKeys.preQuestSingle] = {9175},
+        },
+        [9180] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9181] = {
             [questKeys.specialFlags] = 1,
@@ -955,7 +967,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {9280},
         },
         [9303] = {
-            [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
+            [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated",Questie.ICON_TYPE_INTERACT}}},
+        },
+        [9312] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {9305,9311},
+        },
+        [9339] = {
+            [questKeys.objectivesText] = nil,
         },
         [9355] = {
             [questKeys.preQuestSingle] = {10143,10483},
@@ -965,6 +984,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9360] = {
             [questKeys.startedBy] = {{15407},nil,{23249}},
+        },
+        [9365] = {
+            [questKeys.objectivesText] = nil,
         },
         [9370] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Signaling Gem"), 0, {{"object", 181449}}}},
@@ -1025,8 +1047,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Pickpocket the Lacy Handkerchief from the Sentinel Leader"), 0, {{"monster", 17210}}}},
         },
         [9467] = {
-            [questKeys.sourceItemId] = 24335,
-            [questKeys.requiredSourceItems] = {23682,24335},
+            [questKeys.requiredSourceItems] = {24335},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Hauteur using the Ritual Torch"), 0, {{"object", 181672}}}},
         },
         [9472] = {
@@ -1134,6 +1155,9 @@ function QuestieTBCQuestFixes:Load()
         [9576] = {
             [questKeys.startedBy] = {{17496},nil,{23870}},
         },
+        [9582] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [9587] = {
             [questKeys.startedBy] = {{17537},nil,{23890}},
         },
@@ -1166,6 +1190,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9618] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [9619] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [9635] = {
             [questKeys.requiredSkill] = {202,305},
@@ -1291,6 +1318,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9798] = {
             [questKeys.startedBy] = {{16522},nil,{24414}},
+            [questKeys.preQuestSingle] = {9309},
         },
         [9802] = {
             [questKeys.requiredMaxRep] = {},
@@ -1873,17 +1901,11 @@ function QuestieTBCQuestFixes:Load()
         [10389] = {
             [questKeys.preQuestSingle] = {10392},
         },
-        [10392] = {
-            [questKeys.requiredSourceItems] = {29795},
-        },
         [10393] = {
             [questKeys.startedBy] = {{20798},nil,nil},
         },
         [10395] = {
             [questKeys.startedBy] = {{19298},nil,nil},
-        },
-        [10397] = {
-            [questKeys.requiredSourceItems] = {29795},
         },
         [10403] = {
             [questKeys.startedBy] = {{20677,20678,20679},nil,nil},
@@ -2064,7 +2086,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Oronok's Boar Whistle to dig up a Shadowmoon Tuber"), 0, {{"object", 184701}}}},
         },
         [10518] = {
-            [questKeys.requiredSourceItems] = {30416},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Bladespire Banner atop the Northmaul Tower"), 0, {{"object", 184704}}}},
         },
         [10519] = {
@@ -2279,7 +2300,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to him while disguised"), 0, {{"monster", 22019}}}},
             [questKeys.objectives] = {{{22019,"Meeting with Kolphis Darkscale attended"}}},
             [questKeys.requiredSourceItems] = {31121,31122},
-            [questKeys.sourceItemId] = 31121,
         },
         [10723] = {
             [questKeys.extraObjectives] = {
@@ -2321,7 +2341,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{5675,5875},nil,nil},
         },
         [10792] = {
-            [questKeys.sourceItemId] = 31347,
             [questKeys.requiredSourceItems] = {31347,31346},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Light the torches"), 0, {{"object", 185144}}}},
         },
@@ -2342,8 +2361,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [10804] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Kill flayers and take their carcasses. Place a carcass in the field"), 0, {{"monster", 21477}, {"monster", 21478}}}},
-            [questKeys.sourceItemId] = 31372,
-            [questKeys.objectives] = {{{21648,"Mature Netherwing Drake fed"}}},
+            [questKeys.requiredSourceItems] = {31372,31373},
+            [questKeys.objectives] = {{{21648,"Mature Netherwing Drake fed",Questie.ICON_TYPE_EVENT}}},
         },
         [10806] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sablemane's Signet at the Altar of Goc"), 0, {{"object", 185309}}}},
@@ -2387,7 +2406,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10830] = {
             [questKeys.requiredSourceItems] = {31517,31495,31518},
-            [questKeys.sourceItemId] = 31517,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use Exorcism Feathers to summon Koi-Koi Spirits"), 0, {{"monster", 21326}}}},
         },
         [10831] = {
@@ -3003,7 +3021,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {12133},
         },
         [11140] = {
-            [questKeys.requiredSourceItems] = {33040,33044},
+            [questKeys.requiredSourceItems] = {33040},
         },
         [11142] = {
             [questKeys.objectives] = {nil,{{500007},{500007}}},
@@ -3912,6 +3930,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [11875] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.startedBy] = {}, -- we use fake quests, so we don't show the real quest -- this needs proper fix
+            [questKeys.exclusiveTo] = {64997,64998,64999},
         },
         [11877] = {
             [questKeys.preQuestSingle] = {},
@@ -3946,6 +3966,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{26221},nil},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 28,
         },
         [11922] = {
             [questKeys.startedBy] = {{26113},nil,nil},
@@ -4032,21 +4053,25 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{26221},nil},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 38,
         },
         [11948] = {
             [questKeys.finishedBy] = {{26221},nil},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 48,
         },
         [11952] = {
             [questKeys.finishedBy] = {{26221},nil},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 55,
         },
         [11953] = {
             [questKeys.finishedBy] = {{26221},nil},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = 0,
+            [questKeys.requiredMaxLevel] = 63,
         },
         [11954] = {
             [questKeys.startedBy] = {{26221},nil,nil},
@@ -4087,6 +4112,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.objectives] = {nil,nil,{{35828,nil}},nil},
             [questKeys.preQuestSingle] = {11891},
+            [questKeys.requiredSourceItems] = {},
         },
         [12020] = {
             [questKeys.preQuestSingle] = {},
@@ -5289,7 +5315,61 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {64053},
             [questKeys.exclusiveTo] = {64063,64064,64128},
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
-        }
+        },
+        [64997] = {
+            [questKeys.name] = "Gaining the Advantage",
+            [questKeys.startedBy] = {{19202}},
+            [questKeys.finishedBy] = {{19202}},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = 0,
+            [questKeys.requiredClasses] = 0,
+            [questKeys.objectivesText] = {"Bring 8 Nether Residue to Emissary Mordin in Shattrath City."},
+            [questKeys.objectives] = {nil,nil,{{35229}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {11875,64998,64999},
+            [questKeys.zoneOrSort] = 3703,
+            [questKeys.requiredSkill] = {profKeys.HERBALISM,275}, -- this needs proper fix, you need master or higher mining, skinning OR herbalism
+            [questKeys.questFlags] = 4232,
+            [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{1077,250}},
+        },
+        [64998] = {
+            [questKeys.name] = "Gaining the Advantage",
+            [questKeys.startedBy] = {{19202}},
+            [questKeys.finishedBy] = {{19202}},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = 0,
+            [questKeys.requiredClasses] = 0,
+            [questKeys.objectivesText] = {"Bring 8 Nether Residue to Emissary Mordin in Shattrath City."},
+            [questKeys.objectives] = {nil,nil,{{35229}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {11875,64997,64999},
+            [questKeys.zoneOrSort] = 3703,
+            [questKeys.requiredSkill] = {profKeys.MINING,275}, -- this needs proper fix, you need master or higher mining, skinning OR herbalism
+            [questKeys.questFlags] = 4232,
+            [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{1077,250}},
+        },
+        [64999] = {
+            [questKeys.name] = "Gaining the Advantage",
+            [questKeys.startedBy] = {{19202}},
+            [questKeys.finishedBy] = {{19202}},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = 0,
+            [questKeys.requiredClasses] = 0,
+            [questKeys.objectivesText] = {"Bring 8 Nether Residue to Emissary Mordin in Shattrath City."},
+            [questKeys.objectives] = {nil,nil,{{35229}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {11875,64997,64998},
+            [questKeys.zoneOrSort] = 3703,
+            [questKeys.requiredSkill] = {profKeys.SKINNING,275}, -- this needs proper fix, you need master or higher mining, skinning OR herbalism
+            [questKeys.questFlags] = 4232,
+            [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{1077,250}},
+        },
     }
 end
 

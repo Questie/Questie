@@ -86,7 +86,7 @@ local staticPopup = {
         ["esMX"] = "WoW Clásico (Era/Cataclysm)!",
         ["enUS"] = true,
         ["zhCN"] = false,
-        ["zhTW"] = "魔獸世界經典版 (經典時期/巫妖王之怒)",
+        ["zhTW"] = "魔獸世界經典版 (經典時期/浩劫與重生)!",
         ["esES"] = "WoW Clásico (Era/Cataclysm)!",
         ["frFR"] = true,
     },

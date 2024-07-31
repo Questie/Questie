@@ -1,7 +1,11 @@
+if GetLocale() ~= "deDE" then
+    return
+end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["deDE"] = {
+l10n.questLookup["deDE"] = loadstring([[return {
 [1] = {"Alexanders Quest",nil, {"Find the forgotten location and cast the magical spell."}},
 [2] = {"Klaue von Scharfkralle",nil, {"Bringt die Klaue von Scharfkralle zu Senani Donnerherz im Splitterholzposten im Eschental."}},
 [5] = {"Bibbers' knurrender Magen",nil, {"Sprecht mit Küchenchef Grual."}},
@@ -6535,4 +6539,4 @@ l10n.questLookup["deDE"] = {
 [64063] = {"Das Dunkle Portal",nil, {"Macht Kriegsherr Dar'toon ausfindig. Er erwartet Eure Ankunft vor dem Dunklen Portal."}},
 [64064] = {"Östliche Pestländer",nil, {"Reist in die Östlichen Pestländer und macht Leonidas Bartholomäus ausfindig. Er erwartet Eure Ankunft in der Kapelle des Hoffnungsvollen Lichts."}},
 [64217] = {"Das Dunkle Portal",nil, {"Macht Kriegsherr Dar'toon ausfindig. Er erwartet Eure Ankunft vor dem Dunklen Portal."}},
-}
+}]])

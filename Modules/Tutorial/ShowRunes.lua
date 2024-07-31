@@ -8,7 +8,7 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@return Frame
 function Tutorial.ShowRunes()
     local baseFrame = CreateFrame("Frame", "QuestieTutorialShowRunes", UIParent, BackdropTemplateMixin and "BackdropTemplate")
-    baseFrame:SetSize(500, 240)
+    baseFrame:SetSize(525, 240)
     baseFrame:SetPoint("CENTER", 0, 50)
     baseFrame:SetFrameStrata("HIGH")
     baseFrame:EnableMouse(true)
@@ -33,7 +33,7 @@ function Tutorial.ShowRunes()
 
     local customText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     customText:SetText(
-        l10n("Questie can show you the locations of Phase 1 & 2 runes for your class.\n\n") ..
+        l10n("Questie can show you the locations of runes for your class from previous SoD Phases.\n\n") ..
         l10n("Rune locations are marked with the following symbol:")
     )
     customText:SetPoint("TOP", 0, -35)
@@ -54,13 +54,19 @@ function Tutorial.ShowRunes()
     showPhase1RunesButton.Text:SetText(" " .. l10n("Phase 1"))
     showPhase1RunesButton.Text:SetTextColor(1, 0.82, 0)
     showPhase1RunesButton:SetChecked(true)
-    showPhase1RunesButton:SetPoint("BOTTOM", -30, 60)
+    showPhase1RunesButton:SetPoint("BOTTOM", -60, 60)
 
     local showPhase2RunesButton = CreateFrame("CheckButton", nil, baseFrame, "ChatConfigCheckButtonTemplate")
     showPhase2RunesButton.Text:SetText(" " .. l10n("Phase 2"))
     showPhase2RunesButton.Text:SetTextColor(1, 0.82, 0)
     showPhase2RunesButton:SetChecked(true)
-    showPhase2RunesButton:SetPoint("BOTTOM", -30, 40)
+    showPhase2RunesButton:SetPoint("BOTTOM", 20, 60)
+
+    local showPhase3RunesButton = CreateFrame("CheckButton", nil, baseFrame, "ChatConfigCheckButtonTemplate")
+    showPhase3RunesButton.Text:SetText(" " .. l10n("Phase 3"))
+    showPhase3RunesButton.Text:SetTextColor(1, 0.82, 0)
+    showPhase3RunesButton:SetChecked(true)
+    showPhase3RunesButton:SetPoint("BOTTOM", -60, 40)
 
     local confirmButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
     confirmButton:SetText(DONE)
@@ -69,14 +75,15 @@ function Tutorial.ShowRunes()
     confirmButton:SetScript("OnClick", function()
         local showPhase1Runes = showPhase1RunesButton:GetChecked()
         local showPhase2Runes = showPhase2RunesButton:GetChecked()
+        local showPhase3Runes = showPhase3RunesButton:GetChecked()
 
-        Questie.db.profile.showSoDRunes = showPhase1Runes or showPhase2Runes
+        Questie.db.profile.showSoDRunes = showPhase1Runes or showPhase2Runes or showPhase3Runes
         Questie.db.profile.tutorialShowRunesDone = true
 
         Questie.db.profile.showRunesOfPhase = {
             phase1 = showPhase1Runes,
             phase2 = showPhase2Runes,
-            phase3 = false,
+            phase3 = showPhase3Runes,
             phase4 = false,
         }
 

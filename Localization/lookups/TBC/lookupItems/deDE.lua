@@ -1,11 +1,11 @@
-
 if GetLocale() ~= "deDE" then
     return
 end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.itemLookup["deDE"] = {
+l10n.itemLookup["deDE"] = loadstring([[return {
 [25] = "Abgenutztes Kurzschwert",
 [35] = "Gebogener Stab",
 [36] = "Abgenutzter Streitkolben",
@@ -25004,4 +25004,4 @@ l10n.itemLookup["deDE"] = {
 [39476] = "Frischer Braufesthopfen aus Goblinanbau",
 [39477] = "Frischer Braufesthopfen aus Zwergenanbau",
 [39656] = "Tyraels Schwertgriff",
-}
+}]])

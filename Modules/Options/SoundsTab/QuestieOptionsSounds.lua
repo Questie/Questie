@@ -158,18 +158,25 @@ _GetQuestSoundChoices = function()
         ["Undead Female"]    = "Undead Female",
         ["Orc Male"]         = "Orc Male",
         ["Orc Female"]       = "Orc Female",
-        ["Night Elf Female"] = "Night Elf Female",
         ["Night Elf Male"]   = "Night Elf Male",
-        ["Human Female"]     = "Human Female",
+        ["Night Elf Female"] = "Night Elf Female",
         ["Human Male"]       = "Human Male",
+        ["Human Female"]     = "Human Female",
         ["Gnome Male"]       = "Gnome Male",
         ["Gnome Female"]     = "Gnome Female",
         ["Dwarf Male"]       = "Dwarf Male",
         ["Dwarf Female"]     = "Dwarf Female",
         ["Draenei Male"]     = "Draenei Male",
         ["Draenei Female"]   = "Draenei Female",
-        ["Blood Elf Female"] = "Blood Elf Female",
         ["Blood Elf Male"]   = "Blood Elf Male",
+        ["Blood Elf Female"] = "Blood Elf Female",
+        ["Goblin Male"]      = "Goblin Male",
+        ["Goblin Female"]    = "Goblin Female",
+        ["Worgen Male"]      = "Worgen Male",
+        ["Worgen Female"]    = "Worgen Female",
+        ["Gilnean Male"]     = "Gilnean Male",
+        ["Gilnean Female"]   = "Gilnean Female",
+        ["Zug Zug"]          = "Zug Zug",
     }
 end
 
@@ -198,6 +205,13 @@ _GetQuestSoundChoicesSort = function()
         "Draenei Female",
         "Blood Elf Female",
         "Blood Elf Male",
+        "Goblin Male",
+        "Goblin Female",
+        "Worgen Male",
+        "Worgen Female",
+        "Gilnean Male",
+        "Gilnean Female",
+        "Zug Zug",
     }
 end
 

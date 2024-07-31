@@ -1063,6 +1063,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [18240] = {
+            [itemKeys.npcDrops] = {},
+        },
         [18335] = {
             [itemKeys.class] = 12,
         },
@@ -1308,6 +1311,15 @@ function QuestieItemFixes:Load()
             [itemKeys.name] = "Wooden Figurine",
             [itemKeys.objectDrops] = {375544},
             [itemKeys.relatedQuests] = {65602},
+        },
+        ----------------
+        [227911] = {
+            [itemKeys.name] = "Head of Rend Blackhand",
+            [itemKeys.npcDrops] = {10429},
+            [itemKeys.objectDrops] = nil,
+            [itemKeys.itemDrops] = nil,
+            [itemKeys.vendors] = nil,
+            [itemKeys.startQuest] = 84377,
         },
     }
 end

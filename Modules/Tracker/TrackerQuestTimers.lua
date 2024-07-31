@@ -1,17 +1,8 @@
 ---@class TrackerQuestTimers
 local TrackerQuestTimers = QuestieLoader:CreateModule("TrackerQuestTimers")
--------------------------
---Import QuestieTracker modules.
--------------------------
+
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
----@type TrackerLinePool
-local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
--------------------------
---Import Questie modules.
--------------------------
----@type QuestieCombatQueue
-local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
@@ -84,7 +75,7 @@ end
 ---@param frame frame
 ---@param clear boolean
 ---@return string|nil timeRemainingString, number|nil timeRemaining
-function TrackerQuestTimers:GetRemainingTime(quest, frame, clear)
+function TrackerQuestTimers:UpdateAndGetRemainingTime(quest, frame, clear)
     local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(quest.Id)
 
     if (timeRemainingString == nil) then

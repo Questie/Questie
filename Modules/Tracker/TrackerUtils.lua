@@ -1061,3 +1061,128 @@ function TrackerUtils:UpdateVoiceOverPlayButtons()
         end
     end
 end
+
+---@param quest Quest @The quest to add the quest item buttons for
+---@param complete number @0 if the quest is not complete, 1 if the quest is complete, -1 if the quest is failed
+---@param line table @The line to add the quest item buttons to
+---@param questItemButtonSize number @The size of the quest item buttons
+---@param trackerQuestFrame table @The tracker quest frame
+---@param isMinimizable boolean @true if the quest is minimizable
+---@param rePositionLine function @Callback function to reposition the line
+---@return boolean @true if the quest item buttons were added successfully, false if the tracker should stop populating
+function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame, isMinimizable, rePositionLine)
+    local usableQuestItems = {}
+
+    local isTimedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
+    local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
+    if sourceItemId and GetItemCount(sourceItemId) > 0 and TrackerUtils:IsQuestItemUsable(sourceItemId) then
+        tinsert(usableQuestItems, sourceItemId)
+    end
+
+    for _, itemId in pairs(quest.requiredSourceItems or {}) do
+        if GetItemCount(itemId) > 0 and TrackerUtils:IsQuestItemUsable(itemId) then
+            tinsert(usableQuestItems, itemId)
+        end
+    end
+
+    for _, objective in pairs(quest.ObjectiveData) do
+        if objective.Type == "item" and GetItemCount(objective.Id) > 0 and TrackerUtils:IsQuestItemUsable(objective.Id) then
+            tinsert(usableQuestItems, objective.Id)
+        end
+    end
+
+    if complete ~= 1 and #usableQuestItems > 0 then
+        -- Get button from buttonPool
+        local button = TrackerLinePool.GetNextItemButton()
+        if not button then
+            return false -- stop populating the tracker
+        end
+
+        local questId = quest.Id
+
+        local primaryButtonAdded = button:SetItem(usableQuestItems[1], questId, questItemButtonSize)
+
+        -- Setup button and set attributes
+        if primaryButtonAdded then
+            local height = 0
+            local frame = line
+            while frame and frame ~= trackerQuestFrame do
+                local _, parent, _, _, yOff = frame:GetPoint()
+                height = height - (frame:GetHeight() - yOff)
+                frame = parent
+            end
+
+            -- If the Quest is minimized show the Expand Quest button
+            if Questie.db.char.collapsedQuests[questId] then
+                if Questie.db.profile.collapseCompletedQuests and isMinimizable and (not isTimedQuest) then
+                    line.expandQuest:Hide()
+                else
+                    line.expandQuest:Show()
+                end
+            else
+                line.expandQuest:Hide()
+            end
+
+            -- Attach button to Quest Title linePool
+            button:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
+            button:SetParent(line)
+            button:Show()
+
+            -- If the Quest Zone or Quest is minimized then set UIParent and hide buttons since the buttons are normally attached to the Quest frame.
+            -- If buttons are left attached to the Quest frame and if the Tracker frame is hidden in combat, then it would also try and hide the
+            -- buttons which you can't do in combat. This helps avoid violating the Blizzard SecureActionButtonTemplate restrictions relating to combat.
+            if Questie.db.char.collapsedZones[line.expandZone.zoneId] or Questie.db.char.collapsedQuests[questId] then
+                button:SetParent(UIParent)
+                button:Hide()
+            end
+
+            if #usableQuestItems > 1 then
+                local secondaryButton = TrackerLinePool.GetNextItemButton()
+                if not secondaryButton then
+                    return false -- stop populating the tracker
+                end
+
+                -- We add the altButton to be able to position things correctly in QuestieTracker.lua
+                line.altButton = secondaryButton
+
+                -- TODO: Handle more than 2 buttons if required
+                local secondaryButtonAdded = secondaryButton:SetItem(usableQuestItems[2], questId, questItemButtonSize)
+
+                if secondaryButtonAdded then
+                    height = 0
+                    frame = line
+
+                    while frame and frame ~= trackerQuestFrame do
+                        local _, parent, _, _, yOff = frame:GetPoint()
+                        height = height - (frame:GetHeight() - yOff)
+                        frame = parent
+                    end
+
+                    rePositionLine(secondaryButton:GetAlpha())
+
+                    -- Attach button to Quest Title linePool
+                    secondaryButton:SetPoint("TOPLEFT", line, "TOPLEFT", 2 + questItemButtonSize, 0)
+                    secondaryButton:SetParent(line)
+                    secondaryButton:Show()
+
+                    if Questie.db.char.collapsedZones[line.expandZone.zoneId] or Questie.db.char.collapsedQuests[questId] then
+                        secondaryButton:SetParent(UIParent)
+                        secondaryButton:Hide()
+                    end
+                end
+            end
+        -- Show button when primary button was not added (e.g. the requiredSourceItems are not in the bag yet)
+        else
+            line.expandQuest:Show()
+        end
+    -- Hide button if quest complete or failed
+    elseif (Questie.db.profile.collapseCompletedQuests and isMinimizable and (not isTimedQuest)) then
+        line.expandQuest:Hide()
+    else
+        line.expandQuest:Show()
+    end
+
+    return true
+end
+
+return TrackerUtils

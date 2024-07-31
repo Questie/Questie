@@ -1,6 +1,11 @@
+if GetLocale() ~= "zhCN" then
+    return
+end
+
+---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["zhCN"] = {
+l10n.questLookup["zhCN"] = loadstring([[return {
 [1] = {"Kanrethad's Quest", nil, {"Speak to Kanrethad to restore your talents, weapon and mount."}},
 [2] = {"尖爪的爪子", nil, {"将尖爪的爪子交给银风避难所的塞娜尼·雷心。"}},
 [5] = {"饥肠辘辘的基特斯", nil, {"和厨师格鲁奥谈一谈。"}},
@@ -12919,4 +12924,4 @@ l10n.questLookup["zhCN"] = {
 [82983] = {"英雄的召唤布告牌", nil, {"使用你的物品栏里的传送卷轴前往暴风城，与梅里斯·玛拉甘交谈。"}},
 [82984] = {"天赋异禀", nil, {"打开天赋界面并分配五个天赋点数。"}},
 [82985] = {"大酋长的命令布告板", nil, {"使用你的物品栏里的传送卷轴前往奥格瑞玛，与大酋长的使者交谈。"}},
-}
+}]])

@@ -5,7 +5,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.objectLookup["frFR"] = {
+l10n.objectLookup["frFR"] = loadstring([[return {
 [31] = "Statue du vieux lion",
 [32] = "Coffre englouti",
 [33] = "Coffre verrouillé",
@@ -533,7 +533,7 @@ l10n.objectLookup["frFR"] = {
 [142715] = "Tablette de Theka",
 [142958] = "Feralas : une histoire",
 [143980] = "Parchemin Gordunni",
-[144052] = "Mare du Guet de Tristesable",    
+[144052] = "Mare du Guet de Tristesable",
 [144053] = "Equipement d'analyse de Scrimshank",
 [144054] = "Coffre de Shay",
 [144063] = "Monolithe d'Equinex",
@@ -1177,4 +1177,4 @@ l10n.objectLookup["frFR"] = {
 [181852] = "Signal de drapeau, Alliance",
 [181955] = "Sanctuaire de guérison",
 [182106] = "Bannière de la tour",
-}
+}]])

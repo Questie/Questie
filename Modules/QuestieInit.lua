@@ -85,6 +85,8 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
 ---@type WatchFrameHook
 local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 
 local coYield = coroutine.yield
 
@@ -274,7 +276,6 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     -- register events that rely on questie being initialized
     QuestieEventHandler:RegisterLateEvents()
 
-    -- ** OLD ** Questie:ContinueInit() ** START **
     QuestieTooltips:Initialize()
     QuestieCoords:Initialize()
     TrackerQuestTimers:Initialize()
@@ -287,22 +288,22 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     if Questie.db.profile.dbmHUDEnable then
         QuestieDBMIntegration:EnableHUD()
     end
-    -- ** OLD ** Questie:ContinueInit() ** END **
 
-    coYield()
-    QuestEventHandler:RegisterEvents()
-    coYield()
-    ChatFilter:RegisterEvents()
     QuestieMap:InitializeQueue()
 
     coYield()
     QuestieQuest:Initialize()
     coYield()
     WorldMapButton.Initialize()
+    Townsfolk.PostBoot()
+    coYield()
+
+    -- Fill the QuestLogCache for first time
+    local _, changes = QuestLogCache.CheckForChanges(nil)
+    QuestEventHandler.InitQuestLogStates(changes)
+
     coYield()
     QuestieQuest:GetAllQuestIdsNoObjectives()
-    coYield()
-    Townsfolk.PostBoot()
     coYield()
     QuestieQuest:GetAllQuestIds()
 
@@ -310,6 +311,10 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     coYield()
     QuestieTracker.Initialize()
     Hooks:HookQuestLogTitle()
+    coYield()
+    QuestEventHandler:RegisterEvents()
+    ChatFilter:RegisterEvents()
+    coYield()
     QuestieCombatQueue.Initialize()
 
     local dateToday = date("%y-%m-%d")
@@ -323,7 +328,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
         end)
     end
 
-    if Questie.IsTBC and (not Questie.db.global.isIsleOfQuelDanasPhaseReminderDisabled) then
+    if Questie.IsTBC and (not Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled) then
         C_Timer.After(2, function()
             Questie:Print(l10n("Current active phase of Isle of Quel'Danas is '%s'. Check the General settings to change the phase or disable this message.", IsleOfQuelDanas.localizedPhaseNames[Questie.db.global.isleOfQuelDanasPhase]))
         end)
@@ -350,7 +355,6 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     end
 
     -- We do this last because it will run for a while and we don't want to block the rest of the init
-    coYield()
     AvailableQuests.CalculateAndDrawAll()
 
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Questie init done.")

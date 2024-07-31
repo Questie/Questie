@@ -1,6 +1,11 @@
+if GetLocale() ~= "frFR" then
+    return
+end
+
+---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["frFR"] = {
+l10n.questLookup["frFR"] = loadstring([[return {
 [1] = {"La quête de Kanrethad", nil, {"Parlez à Kanrethad pour que vos talents, votre arme et votre monture vous soient rendus."}},
 [2] = {"La griffe de Serres-tranchantes", nil, {"Apportez la Griffe de Serres-tranchantes à Senani Cœur-de-tonnerre, au Refuge de Vent-d'Argent."}},
 [5] = {"L'estomac qui gargouille", nil, {"Parlez au Chef Grual."}},
@@ -12770,4 +12775,4 @@ l10n.questLookup["frFR"] = {
 [82983] = {"Tableau de l’appel des héros", nil, {"Utilisez le parchemin de téléportation dans votre inventaire pour atteindre Hurlevent et parler à Melris Malagan."}},
 [82984] = {"Quel talent !", nil, {"Activez l’interface des talents et dépensez 5 points de talent."}},
 [82985] = {"Tableau de commandement du chef de guerre", nil, {"Utilisez le parchemin de téléportation dans votre inventaire pour atteindre Orgrimmar et parler au héraut du chef de guerre."}},
-}
+}]])

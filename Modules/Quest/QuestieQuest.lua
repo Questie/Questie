@@ -41,8 +41,6 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
----@type ThreadLib
-local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Phasing
@@ -53,8 +51,6 @@ local tostring = tostring;
 local tinsert = table.insert;
 local pairs = pairs;
 local ipairs = ipairs;
-local yield = coroutine.yield
-local NewThread = ThreadLib.ThreadSimple
 
 local NOP_FUNCTION = function()
 end
@@ -152,9 +148,6 @@ function _QuestieQuest:HideQuestIcons()
             if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
                 -- Hides Objective Icons
                 icon:FakeHide()
-
-                -- Hides Objective Tooltips
-                QuestieTooltips:RemoveQuest(icon.data.Id)
 
                 if icon.data.lineFrames then
                     for _, lineIcon in pairs(icon.data.lineFrames) do
@@ -545,7 +538,6 @@ function QuestieQuest:AbandonedQuest(questId)
             if childQuests then
                 for _, childQuestId in pairs(childQuests) do
                     Questie.db.char.complete[childQuestId] = nil
-                    QuestLogCache.RemoveQuest(childQuestId)
                 end
             end
         end
@@ -743,7 +735,7 @@ local function _AddSourceItemObjective(quest)
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_AddSourceItemObjective] Adding Source Item Id for:", quest.sourceItemId)
 
             -- We fake an objective for the sourceItems because this allows us
-            -- to simply reuse "QuestieTooltips:GetTooltip".
+            -- to simply reuse "QuestieTooltips.GetTooltip".
             -- This should be all the data required for the tooltip
             local fakeObjective = {
                 Id = quest.Id,
@@ -810,7 +802,7 @@ local function _AddRequiredSourceItemObjective(quest)
                 Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_AddRequiredSourceItemObjective] Adding Source Item Id for:", requiredSourceItemId)
 
                 -- We fake an objective for the requiredSourceItem because this allows us
-                -- to simply reuse "QuestieTooltips:GetTooltip".
+                -- to simply reuse "QuestieTooltips.GetTooltip".
                 -- This should be all the data required for the tooltip
                 local fakeObjective = {
                     Id = quest.Id,
@@ -956,9 +948,9 @@ function QuestieQuest:AddFinisher(quest)
 
             -- Clear duplicate keys if they exist
             if QuestieTooltips.lookupByKey[key] then
-                if QuestieTooltips:GetTooltip(key) ~= nil and #QuestieTooltips:GetTooltip(key) > 1 then
-                    for ttline = 1, #QuestieTooltips:GetTooltip(key) do
-                        for index, line in pairs(QuestieTooltips:GetTooltip(key)) do
+                if QuestieTooltips.GetTooltip(key) ~= nil and #QuestieTooltips.GetTooltip(key) > 1 then
+                    for ttline = 1, #QuestieTooltips.GetTooltip(key) do
+                        for index, line in pairs(QuestieTooltips.GetTooltip(key)) do
                             if (ttline == index) then
                                 Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing duplicate Quest Title!")
 

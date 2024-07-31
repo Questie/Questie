@@ -1,7 +1,11 @@
+if GetLocale() ~= "deDE" then
+    return
+end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.questLookup["deDE"] = {
+l10n.questLookup["deDE"] = loadstring([[return {
 [1] = {"Kanrethads Quest", nil, {"Sprecht mit Kanrethad, um Eure Talente, Waffen und Euer Reittier wiederherzustellen."}},
 [2] = {"Klaue von Scharfkralle", nil, {"Bringt die Klaue von Scharfkralle zu Senani Donnerherz im Splitterholzposten im Eschental."}},
 [5] = {"Bibbers' knurrender Magen", nil, {"Sprecht mit Küchenchef Grual."}},
@@ -9301,4 +9305,4 @@ l10n.questLookup["deDE"] = {
 [70344] = {"Zorn (80) E", nil, nil},
 [70347] = {"Zorn (80) E", nil, nil},
 [70348] = {"Zorn (80) E", nil, nil},
-}
+}]])

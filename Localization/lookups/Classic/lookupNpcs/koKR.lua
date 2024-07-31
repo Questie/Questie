@@ -5,7 +5,7 @@ end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.npcNameLookup["koKR"] = {
+l10n.npcNameLookup["koKR"] = loadstring([[return {
 [3] = {"굶주린 시체",nil},
 [6] = {"코볼트 졸개",nil},
 [30] = {"숲거미",nil},
@@ -9194,4 +9194,4 @@ l10n.npcNameLookup["koKR"] = {
 [19280] = {"듀로타 - 듀로타 북부",nil},
 [19282] = {"저주받은 땅 - 네더가드 요새",nil},
 [19283] = {"먼지진흙 습지대 - 테라모어 섬",nil},
-}
+}]])

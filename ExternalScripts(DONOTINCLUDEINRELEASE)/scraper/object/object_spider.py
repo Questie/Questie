@@ -21,7 +21,7 @@ class ObjectSpider(scrapy.Spider):
         for script in response.xpath('//script/text()').extract():
             result["objectId"] = response.url.split("/")[-2][7:]
             if script.startswith('//<![CDATA[\nWH.Gatherer.addData'):
-                result["name"] = re.search(r'"name":"([^"]+)"', script).group(1)
+                result["name"] = re.search(r'"name":"((?:[^"\\]|\\.)*)"', script).group(1)
 
                 list_views_pattern = re.compile(r'new Listview\((.*?)}\)', re.DOTALL)
                 for match in list_views_pattern.findall(script):

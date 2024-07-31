@@ -76,6 +76,51 @@ local phases = {
     HYJAL_THISALEE_AT_SETHRIAS_ROOST = 1004,
     CORITHRAS_AT_DOLANAAR = 1005,
     CORITHRAS_AT_CROSSROAD = 1006,
+    CERELLEAN_NEAR_EDGE = 1007,
+    CERELLEAN_NEAR_TREE = 1008,
+    VASHJIR_LEGIONS_REST = 1009, -- Also the Alliance cave Tranquil Wash
+    VASHJIR_NORTHERN_GARDEN = 1010,
+    ILTHALAINE_AT_BENCH = 1011,
+    ILTHALAINE_AT_ROAD = 1012,
+    VASHJIR_NAR_SHOLA_TERRACE = 1013,
+    VASHJIR_NAR_SHOLA_TERRACE_WEST = 1014,
+    VASHJIR_LADY_NAZ_JAR_AT_TEMPLE = 1015,
+    VASHJIR_LADY_NAZ_JAR_AT_BRIDGE = 1016,
+    VASHJIR_ERANUK_AT_CAVERN = 1017,
+    VASHJIR_ERANUK_AT_PROMONTORY_POINT = 1018,
+    KEZAN_SASSY_IN_HQ = 1019,
+    KEZAN_SASSY_OUTSIDE_HQ = 1020,
+    KEZAN_GALLYWIX_AT_HQ = 1021,
+    KEZAN_GALLYWIX_ON_BOAT = 1022,
+    AGTOR_GRABBIT_OUTSIDE_ATTACK = 1023,
+    AGTOR_GRABBIT_DURING_ATTACK = 1024,
+    MOLOTOV_AT_RUINS = 1025,
+    MOLOTOV_AT_HARBOR = 1026,
+    SORATA_AT_EXCHANGE = 1027,
+    SORATA_AT_HARBOR = 1028,
+    SCARLET_ENCLAVE_ENTRACE = 1029,
+    SCARLET_ENCLAVE = 1030,
+    SIRA_KESS_AT_GARDEN = 1031,
+    SIRA_KESS_AT_NAR_SHOLA_TERRACE = 1032,
+    WAVESPEAKER_AT_RUINS = 1033,
+    HAR_KOA_AT_ALTAR = 1034,
+    HAR_KOA_AT_ZIM_TORGA = 1035,
+    EARTHEN_GUIDE_BFD = 1036,
+    EARTHEN_GUIDE_SHORE = 1037,
+    JAROD_NEAR_PORTAL = 1038,
+    JAROD_MIDDLE_ISLAND = 1039,
+    PEBBLE_AT_KOR = 1040,
+    PEBBLE_AT_CRYSTALS = 1041,
+    TERRATH_AT_AEOSERA = 1042,
+    NPCS_AT_THERAZANES_THRONE = 1043,
+    FARGO_AT_CATAPULTS = 1044,
+    FARGO_AT_DOCKS = 1045,
+    THORDUN_AT_TREE = 1046,
+    THORDUN_IN_KEEP = 1047,
+    TORUNSCAR_START = 1048,
+    TORUNSCAR_END = 1049,
+    THERAZANE_AT_TEMPLE = 1050,
+    THERAZANE_AT_THRONE_BEFORE_MARCH = 1051,
 }
 Phasing.phases = phases
 
@@ -126,6 +171,52 @@ function Phasing.IsSpawnVisible(phase)
         return complete[25272] or complete[25273] or false
     end
 
+    if phase == phases.VASHJIR_LEGIONS_REST then
+        return complete[25966] or complete[25755] or ((not complete[25958]) and (not complete[25747]) and (not questLog[25958]) and (not questLog[25747])) or false
+    end
+
+    if phase == phases.VASHJIR_NORTHERN_GARDEN then
+        return (not complete[25966]) and (not complete[25755]) and ((complete[25958] or complete[25747] or questLog[25958] or questLog[25747]) and true) or false
+    end
+
+    if phase == phases.VASHJIR_NAR_SHOLA_TERRACE_WEST then
+        return (not complete[25966]) and (not complete[25755]) and (complete[26191] or complete[25750]) or false
+    end
+
+    if phase == phases.VASHJIR_NAR_SHOLA_TERRACE then
+        return (not complete[25966]) and (not complete[26191]) and
+            ((complete[25959] and complete[25960] and complete[25962]) or
+                (complete[25748] and complete[25749] and complete[25751])) or false
+    end
+
+    if phase == phases.VASHJIR_LADY_NAZ_JAR_AT_TEMPLE then
+        return (not complete[25629]) or (not complete[25896])
+    end
+
+    if phase == phases.VASHJIR_LADY_NAZ_JAR_AT_BRIDGE then
+        return (complete[25629] and complete[25896]) or false
+    end
+
+    if phase == phases.VASHJIR_ERANUK_AT_CAVERN then
+        return (not complete[25988]) or complete[26143] or false
+    end
+
+    if phase == phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT then
+        return (complete[25988] and (not complete[26143])) or false
+    end
+
+    if phase == phases.SIRA_KESS_AT_GARDEN then
+        return ((not complete[25658]) and (not questLog[25658])) or false
+    end
+
+    if phase == phases.SIRA_KESS_AT_NAR_SHOLA_TERRACE then
+        return (complete[25658] or questLog[25658]) and true or false
+    end
+
+    if phase == phases.WAVESPEAKER_AT_RUINS then
+        return ((questLog[25957] and questLog[25957].isComplete == 1) or (questLog[25760] and questLog[25760].isComplete == 1)) or false
+    end
+
     if phase >= phases.DRAGONMAW_PORT_CHAPTER_1 and phase <= phases.DRAGONMAW_PORT_CHAPTER_3 then
         return _Phasing.DragonmawPort(phase, complete) or false
     end
@@ -143,7 +234,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.TWILIGHT_CARAVAN_AMBUSH_HORDE then
-        return complete[27509] and (not complete[27576]) or false
+        return ((not complete[28092]) and (not questLog[28092])) and ((not complete[28094]) and (not questLog[28094])) or false
     end
 
     if phase == phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE then
@@ -151,11 +242,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.GRIM_BATOL_ATTACK_HORDE then
-        return complete[28090] and complete[28091] or false
+        return (complete[28092] or (questLog[28092] and questLog[28092].isComplete == 1)) or (complete[28094] or (questLog[28094] and questLog[28094].isComplete == 1)) or false
     end
 
     if phase == phases.GRIM_BATOL_ATTACK_ALLIANCE then
-        return complete[28103] and complete[28104] or false
+        return (complete[28103] or (questLog[28103] and questLog[28103].isComplete == 1)) or (complete[28104] or (questLog[28104] and questLog[28104].isComplete == 1)) or false
     end
 
     if phase == phases.ISORATH_NIGHTMARE then
@@ -188,6 +279,142 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.CORITHRAS_AT_CROSSROAD then
         return (complete[7383] or questLog[7383] and true) or false
+    end
+
+    if phase == phases.CERELLEAN_NEAR_EDGE then
+        return (not complete[13515])
+    end
+
+    if phase == phases.CERELLEAN_NEAR_TREE then
+        return complete[13515] or false
+    end
+
+    if phase == phases.ILTHALAINE_AT_BENCH then
+        return (not complete[28715]) and (not questLog[28715])
+    end
+
+    if phase == phases.ILTHALAINE_AT_ROAD then
+        return (complete[28715] or questLog[28715] and true) or false
+    end
+
+    if phase == phases.KEZAN_SASSY_IN_HQ then
+        return (not complete[14116])
+    end
+
+    if phase == phases.KEZAN_SASSY_OUTSIDE_HQ then
+        return complete[14116] or false
+    end
+
+    if phase == phases.KEZAN_GALLYWIX_AT_HQ then
+        return (not complete[14120])
+    end
+
+    if phase == phases.KEZAN_GALLYWIX_ON_BOAT then
+        return complete[14120] or false
+    end
+
+    if phase == phases.AGTOR_GRABBIT_OUTSIDE_ATTACK then
+        return complete[14155] or (not complete[14135]) or (questLog[14155] and questLog[14155].isComplete == 1) or false
+    end
+
+    if phase == phases.AGTOR_GRABBIT_DURING_ATTACK then
+        return questLog[14155] and questLog[14155].isComplete ~= 1 and true or false
+    end
+
+    if phase == phases.MOLOTOV_AT_RUINS then
+        return (not complete[24453])
+    end
+
+    if phase == phases.MOLOTOV_AT_HARBOR then
+        return complete[24453] or false
+    end
+
+    if phase == phases.SORATA_AT_EXCHANGE then
+        return (not complete[14340])
+    end
+
+    if phase == phases.SORATA_AT_HARBOR then
+        return complete[14340] or false
+    end
+
+    if phase == phases.SCARLET_ENCLAVE_ENTRACE then
+        return (not complete[27460])
+    end
+
+    if phase == phases.SCARLET_ENCLAVE then
+        return complete[27460] or false
+    end
+
+    if phase == phases.HAR_KOA_AT_ALTAR then
+        return (not complete[12684])
+    end
+
+    if phase == phases.HAR_KOA_AT_ZIM_TORGA then
+        return complete[12684] or false
+    end
+
+    if phase == phases.EARTHEN_GUIDE_BFD then
+        return (not complete[11891]) and (not questLog[11891])
+    end
+
+    if phase == phases.EARTHEN_GUIDE_SHORE then
+        return (complete[11891] or questLog[11891] and true) or false
+    end
+
+    if phase == phases.JAROD_NEAR_PORTAL then
+        return (not complete[25608])
+    end
+
+    if phase == phases.JAROD_MIDDLE_ISLAND then
+        return complete[25608] or false
+    end
+
+    if phase == phases.PEBBLE_AT_KOR then
+        return complete[26441] or ((not complete[26440]) and (not questLog[26440])) or false
+    end
+
+    if phase == phases.PEBBLE_AT_CRYSTALS then
+        return (complete[26440] and not complete[26441]) or (questLog[26440] and questLog[26440].isComplete == 1) or false
+    end
+
+    if phase == phases.TERRATH_AT_AEOSERA then
+        return complete[26659] or (questLog[26659] and questLog[26659].isComplete == 1) or false
+    end
+
+    if phase == phases.NPCS_AT_THERAZANES_THRONE then
+        return (complete[26659] and complete[26584] and complete[26585] and not complete[26827]) or complete[26971] or false
+    end
+
+    if phase == phases.FARGO_AT_CATAPULTS then
+        return (not complete[27106])
+    end
+
+    if phase == phases.FARGO_AT_DOCKS then
+        return complete[27106] or false
+    end
+
+    if phase == phases.THORDUN_AT_TREE then
+        return (not complete[27516])
+    end
+
+    if phase == phases.THORDUN_IN_KEEP then
+        return complete[27516] or false
+    end
+
+    if phase == phases.TORUNSCAR_START then
+        return (not complete[26971]) and (not questLog[26971])
+    end
+
+    if phase == phases.TORUNSCAR_END then
+        return complete[26971] or (questLog[26971] and questLog[26971].isComplete == 1) or false
+    end
+
+    if phase == phases.THERAZANE_AT_TEMPLE then
+        return (complete[26971] and (not complete[26709])) or (questLog[26971]) or false
+    end
+
+    if phase == phases.THERAZANE_AT_THRONE_BEFORE_MARCH then
+        return (complete[26871] and (not complete[26750])) or false
     end
 
     return false

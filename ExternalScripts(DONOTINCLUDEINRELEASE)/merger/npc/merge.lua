@@ -26,7 +26,7 @@ for npcId, data in pairs(mangos) do
 
     -- get spawns from trinity and add them to mangos
     if tNPC then
-        if tNPC[npcKeys.spawns] then
+        if (not data[npcKeys.spawns]) and tNPC[npcKeys.spawns] then
             data[npcKeys.spawns] = tNPC[npcKeys.spawns]
             data[npcKeys.zoneID] = tNPC[npcKeys.zoneID]
         end

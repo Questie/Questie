@@ -170,5 +170,26 @@ function SeasonOfDiscovery:LoadItems()
         [219959] = { -- Intelligence Report: Ruins of Ravenwind
             [itemKeys.npcDrops] = {221404},
         },
+        [220345] = { -- Sanguine Sorcery
+            [itemKeys.objectDrops] = {441247},
+        },
+        [220349] = { -- Stonewrought Design
+            [itemKeys.objectDrops] = {441251},
+        },
+        [221326] = { -- Sacred Stag Heart
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [226122] = { -- Dalton's Horn
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [226523] = { -- Dalton's Horn
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [226545] = { -- Dalton's Horn
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [228141] = { -- Necromancy 101
+            [itemKeys.objectDrops] = {463211},
+        },
     }
 end

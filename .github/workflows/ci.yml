@@ -1,15 +1,27 @@
 name: CI
 
 on:
+  workflow_call:
+    inputs:
+      event_name:
+        required: true
+        type: string
+      repo_full_name:
+        required: true
+        type: string
   push:
     branches:
-      - "**"
-    tags:
-      - "*"
+      - '**'
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 jobs:
   lua-check:
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
       - name: Checkout project
@@ -36,6 +48,8 @@ jobs:
   unit-tests:
     needs: lua-check
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -53,6 +67,7 @@ jobs:
   validate-era-db:
     needs: unit-tests
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
       - name: Checkout project
@@ -81,6 +96,7 @@ jobs:
   validate-sod-db:
     needs: unit-tests
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
       - name: Checkout project
@@ -109,6 +125,7 @@ jobs:
 #  validate-tbc-db:
 #    needs: unit-tests
 #    runs-on: ubuntu-latest
+#    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 #
 #    steps:
 #      - name: Checkout project
@@ -134,37 +151,39 @@ jobs:
 #          status: ${{ job.status }}
 #        if: ${{ failure() }}
 
-#  validate-wotlk-db:
-#    needs: unit-tests
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Checkout project
-#        uses: actions/checkout@v3
-#
-#      - name: Install Lua
-#        uses: leafo/gh-actions-lua@v10
-#        with:
-#          luaVersion: "5.1"
-#
-#      - name: Install Luarocks
-#        uses: leafo/gh-actions-luarocks@v4
-#
-#      - name: Validate WotLK database
-#        run: |
-#          luarocks install bit32
-#          lua cli/validate-wotlk.lua
-#
-#      - name: Send CI failure to Discord
-#        uses: nebularg/actions-discord-webhook@v1
-#        with:
-#          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-#          status: ${{ job.status }}
-#        if: ${{ failure() }}
+  validate-wotlk-db:
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
+
+      - name: Install Lua
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "5.1"
+
+      - name: Install Luarocks
+        uses: leafo/gh-actions-luarocks@v4
+
+      - name: Validate WotLK database
+        run: |
+          luarocks install bit32
+          lua cli/validate-wotlk.lua
+
+      - name: Send CI failure to Discord
+        uses: nebularg/actions-discord-webhook@v1
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+        if: ${{ failure() }}
 
   validate-cata-db:
     needs: unit-tests
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
       - name: Checkout project
@@ -189,45 +208,3 @@ jobs:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
         if: ${{ failure() }}
-
-  publish:
-    needs: [
-      validate-era-db, validate-sod-db, validate-cata-db]
-    if: startsWith(github.ref, 'refs/tags/v')
-
-    runs-on: ubuntu-latest
-
-    env:
-      GH_TOKEN: ${{ github.token }}
-      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-      WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
-
-    steps:
-      - name: Clone project
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 100
-
-      - name: Fetch tags
-        run: git fetch --prune --unshallow --tags
-
-      - name: Generate Changelog
-        id: changelog
-        run: python changelog.py >> CHANGELOG.md
-
-      - name: Build ZIP
-        run: python build.py -r
-
-      - name: Create GitHub release
-        run: >
-          gh release create ${{github.ref_name}}
-          --verify-tag
-          -F CHANGELOG.md
-          releases/${{github.ref_name}}/Questie-${{github.ref_name}}.zip
-          releases/${{github.ref_name}}/release.json
-
-      - name: Upload CurseForge
-        run: sh upload-cf.sh ${{github.ref_name}}
-
-      - name: Upload WAGO
-        run: sh upload-wago.sh ${{github.ref_name}}
