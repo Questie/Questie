@@ -2589,6 +2589,52 @@ function SeasonOfDiscovery:LoadQuests()
         [84384] = { -- Demonic Deceptions
             [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
         },
+        [84394] = { -- Greater Friend of the Library
+            [questKeys.questLevel] = -1,
+            [questKeys.preQuestSingle] = {82208},
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+            [questKeys.objectivesText] = {"You will need to hand in 35 books to receive the rune, however you can hand 1 in at any time."},
+        },
+        [84395] = { -- Undead Potatoes
+            [questKeys.startedBy] = {nil,{463213}},
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [84396] = { -- Magma or Lava?
+            [questKeys.startedBy] = {nil,{463206}},
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [84397] = { -- Northern Kalimdor - A Comprehensive Guide
+            [questKeys.startedBy] = {nil,{463209}},
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [84398] = { -- A Study of the Light
+            [questKeys.startedBy] = {nil,{463207}},
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [84399] = { -- Ka-Boom!
+            [questKeys.startedBy] = {nil,{463214}},
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [84400] = { -- The Knight and the Lady
+            [questKeys.startedBy] = {nil,{463208}},
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [84401] = { -- Scourge: Undead Menace or Misunderstood?
+            [questKeys.startedBy] = {nil,{463212}},
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [84402] = { -- Necromancy 101
+            [questKeys.startedBy] = {nil,{463211}},
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
         [84405] = { -- Lost Heirloom
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
@@ -6492,6 +6538,42 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = {{214070,214096,214098}},
         },
+        [84394] = { -- Greater Friend of the Library
+            [questKeys.startedBy] = {{211022}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [84395] = { -- Undead Potatoes
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Undead Potatoes' and bring it to Owen Thadd in Undercity."},
+        },
+        [84396] = { -- Magma or Lava?
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Magma or Lava?' and bring it to Owen Thadd in Undercity."},
+        },
+        [84397] = { -- Northern Kalimdor - A Comprehensive Guide
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Northern Kalimdor - A Comprehensive Guide' and bring it to Owen Thadd in Undercity."},
+        },
+        [84398] = { -- A Study of the Light
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'A Study of the Light' and bring it to Owen Thadd in Undercity."},
+        },
+        [84399] = { -- Ka-Boom!
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Ka-Boom!' and bring it to Owen Thadd in Undercity."},
+        },
+        [84400] = { -- The Knight and the Lady
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'The Knight and the Lady' and bring it to Owen Thadd in Undercity."},
+        },
+        [84401] = { -- Scourge: Undead Menace or Misunderstood?
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Scourge: Undead Menace or Misunderstood?' and bring it to Owen Thadd in Undercity."},
+        },
+        [84402] = { -- Necromancy 101
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Collect 'Necromancy 101' and bring it to Owen Thadd in Undercity."},
+        },
     }
 
     local questFixesAlliance = {
@@ -6690,6 +6772,42 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
         [82309] = { -- A Full Shipment
             [questKeys.startedBy] = {{213077,214099,214101}},
             [questKeys.finishedBy] = {{213077,214099,214101}},
+        },
+        [84394] = { -- Greater Friend of the Library
+            [questKeys.startedBy] = {{211033}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [84395] = { -- Undead Potatoes
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Undead Potatoes' and bring it to Garion Wendell in Stormwind."},
+        },
+        [84396] = { -- Magma or Lava?
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Magma or Lava?' and bring it to Garion Wendell in Stormwind."},
+        },
+        [84397] = { -- Northern Kalimdor - A Comprehensive Guide
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Northern Kalimdor - A Comprehensive Guide' and bring it to Garion Wendell in Stormwind."},
+        },
+        [84398] = { -- A Study of the Light
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'A Study of the Light' and bring it to Garion Wendell in Stormwind."},
+        },
+        [84399] = { -- Ka-Boom!
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Ka-Boom!' and bring it to Garion Wendell in Stormwind."},
+        },
+        [84400] = { -- The Knight and the Lady
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'The Knight and the Lady' and bring it to Garion Wendell in Stormwind."},
+        },
+        [84401] = { -- Scourge: Undead Menace or Misunderstood?
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Scourge: Undead Menace or Misunderstood?' and bring it to Garion Wendell in Stormwind."},
+        },
+        [84402] = { -- Necromancy 101
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Collect 'Necromancy 101' and bring it to Garion Wendell in Stormwind."},
         },
     }
 
