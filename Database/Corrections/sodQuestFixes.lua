@@ -2522,6 +2522,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {8998},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
+        [84320] = { -- Lost Heirloom
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [84348] = { -- Priority Target: Duke Tectonis
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
             [questKeys.questFlags] = questFlags.DAILY,

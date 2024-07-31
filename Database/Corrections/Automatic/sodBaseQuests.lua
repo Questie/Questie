@@ -5780,6 +5780,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Return to Mokvar in Orgimmar with a set of Boots of Valor, Legplates of Valor and Spaulders of Valor."},
             [questKeys.objectives] = {nil,nil,{{22047},{226764},{226767},{226768}}},
         },
+        [84320] = {
+            [questKeys.name] = "Lost Heirloom",
+            [questKeys.startedBy] = {{376}},
+            [questKeys.finishedBy] = {{376,}},
+            [questKeys.requiredLevel] = 48,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Retrieve the heirlooms from Sorrow Hill Crypt in Western Plaguelands, then return to High Priestess Laurena in Stormwind Cathedral."},
+            [questKeys.objectives] = {nil,nil,{{227745},{227747},{227748}}},
+        },
         [84348] = {
             [questKeys.name] = "Priority Target: Duke Tectonis",
             [questKeys.startedBy] = {{14627}},
