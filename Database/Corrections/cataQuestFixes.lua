@@ -3562,7 +3562,7 @@ function CataQuestFixes.Load()
         },
         [25881] = { -- Lost Wardens
             [questKeys.preQuestSingle] = {25372},
-            [questKeys.objectives] = {{{41499,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{41499,nil,Questie.ICON_TYPE_TALK}}},
         },
         [25883] = { -- How Disarming
             [questKeys.preQuestSingle] = {25887},
