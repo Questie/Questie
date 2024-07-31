@@ -2052,6 +2052,7 @@ function SeasonOfDiscovery:LoadQuests()
         [82208] = { -- Greater Friend of the Library
             [questKeys.zoneOrSort] = sortKeys.MAGE,
             [questKeys.preQuestSingle] = {79536},
+            [questKeys.objectivesText] = {"You will need to hand in 25 books to receive the rune, however you can hand 1 in at any time."},
         },
         [82209] = { -- Water Pouch Bounty  (repeatable)
             [questKeys.preQuestSingle] = {1707},
@@ -6475,6 +6476,10 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Collect 'Conjurer's Codex' and bring it to Owen Thadd in Undercity."},
         },
+        [82208] = { -- Greater Friend of the Library
+            [questKeys.startedBy] = {{211022}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [82307] = { -- A Full Shipment
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = {{214070,214096,214098}},
@@ -6669,6 +6674,10 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.startedBy] = {nil,{441254}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Collect 'Conjurer's Codex' and bring it to Garion Wendell in Stormwind."},
+        },
+        [82208] = { -- Greater Friend of the Library
+            [questKeys.startedBy] = {{211033}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [82307] = { -- A Full Shipment
             [questKeys.startedBy] = {{213077,214099,214101}},
