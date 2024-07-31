@@ -2056,6 +2056,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [82209] = { -- Water Pouch Bounty  (repeatable)
             [questKeys.preQuestSingle] = {1707},
+            [questKeys.zoneOrSort] = zoneIDs.TANARIS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82210] = { -- Troll Necklace Bounty
