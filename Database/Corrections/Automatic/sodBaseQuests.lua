@@ -542,7 +542,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [78093] = {
             [questKeys.name] = "Return to Delgren",
-            [questKeys.startedBy] = {{3663}},
+            [questKeys.startedBy] = {nil,{409315}},
             [questKeys.finishedBy] = {{3663,}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
