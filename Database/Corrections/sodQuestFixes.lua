@@ -2525,6 +2525,11 @@ function SeasonOfDiscovery:LoadQuests()
         [84320] = { -- Lost Heirloom
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [84321] = { -- Relic of Light
+            [questKeys.finishedBy] = {nil,{457443}},
+            [questKeys.preQuestSingle] = {84320},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [84348] = { -- Priority Target: Duke Tectonis
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
             [questKeys.questFlags] = questFlags.DAILY,

@@ -5791,6 +5791,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Retrieve the heirlooms from Sorrow Hill Crypt in Western Plaguelands, then return to High Priestess Laurena in Stormwind Cathedral."},
             [questKeys.objectives] = {nil,nil,{{227745},{227747},{227748}}},
         },
+        [84321] = {
+            [questKeys.name] = "Relic of Light",
+            [questKeys.startedBy] = {{376}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 48,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Travel to Hearthglen in Western Plaguelands and search for information on the artifact described in the journal."},
+            [questKeys.objectives] = nil,
+        },
         [84348] = {
             [questKeys.name] = "Priority Target: Duke Tectonis",
             [questKeys.startedBy] = {{14627}},
