@@ -204,8 +204,8 @@ tinsert(eventQuests, {"Winter Veil", 8860, "31/12", "1/1"}) -- New Year Celebrat
 tinsert(eventQuests, {"Winter Veil", 8861, "31/12", "1/1"}) -- New Year Celebrations!
 
 tinsert(eventQuests, {"Darkmoon Faire", 7902, nil, nil, QuestieCorrections.SOD_HIDE}) -- Vibrant Plumes
-tinsert(eventQuests, {"Darkmoon Faire", 7903}) -- Evil Bat Eyes
-tinsert(eventQuests, {"Darkmoon Faire", 8222}) -- Glowing Scorpid Blood
+tinsert(eventQuests, {"Darkmoon Faire", 7903, nil, nil, QuestieCorrections.SOD_HIDE}) -- Evil Bat Eyes
+tinsert(eventQuests, {"Darkmoon Faire", 8222, nil, nil, QuestieCorrections.SOD_HIDE}) -- Glowing Scorpid Blood
 tinsert(eventQuests, {"Darkmoon Faire", 7901, nil, nil, QuestieCorrections.SOD_HIDE}) -- Soft Bushy Tails
 tinsert(eventQuests, {"Darkmoon Faire", 7899, nil, nil, QuestieCorrections.SOD_HIDE}) -- Small Furry Paws
 tinsert(eventQuests, {"Darkmoon Faire", 7940}) -- 1200 Tickets - Orb of the Darkmoon
@@ -215,10 +215,10 @@ tinsert(eventQuests, {"Darkmoon Faire", 7927}) -- Darkmoon Portals Deck
 tinsert(eventQuests, {"Darkmoon Faire", 7929}) -- Darkmoon Elementals Deck
 tinsert(eventQuests, {"Darkmoon Faire", 7928}) -- Darkmoon Warlords Deck
 tinsert(eventQuests, {"Darkmoon Faire", 7946, nil, nil, QuestieCorrections.SOD_HIDE}) -- Spawn of Jubjub
-tinsert(eventQuests, {"Darkmoon Faire", 8223}) -- More Glowing Scorpid Blood
+tinsert(eventQuests, {"Darkmoon Faire", 8223, nil, nil, QuestieCorrections.SOD_HIDE}) -- More Glowing Scorpid Blood
 tinsert(eventQuests, {"Darkmoon Faire", 7934}) -- 50 Tickets - Darkmoon Storage Box
 tinsert(eventQuests, {"Darkmoon Faire", 7981}) -- 1200 Tickets - Amulet of the Darkmoon
-tinsert(eventQuests, {"Darkmoon Faire", 7943}) -- More Bat Eyes
+tinsert(eventQuests, {"Darkmoon Faire", 7943, nil, nil, QuestieCorrections.SOD_HIDE}) -- More Bat Eyes
 tinsert(eventQuests, {"Darkmoon Faire", 7894, nil, nil, QuestieCorrections.SOD_HIDE}) -- Copper Modulator
 tinsert(eventQuests, {"Darkmoon Faire", 7933}) -- 40 Tickets - Greater Darkmoon Prize
 tinsert(eventQuests, {"Darkmoon Faire", 7898}) -- Thorium Widget
@@ -262,6 +262,11 @@ tinsert(eventQuests, {"Darkmoon Faire", 80421}) -- Green Iron Bracers
 tinsert(eventQuests, {"Darkmoon Faire", 80422}) -- Green Fireworks
 tinsert(eventQuests, {"Darkmoon Faire", 80423}) -- The World's Largest Gnome!
 tinsert(eventQuests, {"Darkmoon Faire", 82323}) -- Vibrant Plumes
+tinsert(eventQuests, {"Darkmoon Faire", 82271}) -- More Glowing Scorpid Blood
+tinsert(eventQuests, {"Darkmoon Faire", 82272}) -- Glowing Scorpid Blood
+tinsert(eventQuests, {"Darkmoon Faire", 82273}) -- More Evil Bat Eyes
+tinsert(eventQuests, {"Darkmoon Faire", 82274}) -- Evil Bat Eyes
+tinsert(eventQuests, {"Darkmoon Faire", 8222}) -- Glowing Scorpid Blood
 tinsert(eventQuests, {"Lunar Festival", 80169}) -- Cluster Launcher
 
 -- New TBC event quests
