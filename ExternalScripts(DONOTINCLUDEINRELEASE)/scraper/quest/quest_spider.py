@@ -53,7 +53,13 @@ class QuestSpider(scrapy.Spider):
                 elif object_starter:
                     result["objectStart"] = object_starter.group(1)
 
-                result["end"] = self.__match_end(script)
+                npc_end = re.search(r'End:[^]]*?npc=(\d+)', script)
+                object_end = re.search(r'End:[^]]*?object=(\d+)', script)
+                if npc_end:
+                    result["npcEnd"] = npc_end.group(1)
+                elif object_end:
+                    result["objectEnd"] = object_end.group(1)
+
             if (("reqRace" not in result) or result["reqRace"] == "0") and script.strip().startswith('WH.markup.printHtml'):
                 result["reqRace"] = self.__get_fallback_faction(script)
 
@@ -110,17 +116,6 @@ class QuestSpider(scrapy.Spider):
 
     def __match_level(self, level_match):
         return level_match.group(1) if level_match else 0
-
-    def __match_end(self, script):
-        end_match = re.findall(r'End:.*?npc=(\d+)', script)
-
-        if end_match:
-            ret = []
-            for match in end_match:
-                ret.append(match)
-            return ret
-
-        return "nil"
 
     def __get_fallback_faction(self, script):
         react_alliance_match = re.search(r']Alliance\[', script)
