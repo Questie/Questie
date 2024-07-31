@@ -1956,7 +1956,7 @@ function SeasonOfDiscovery:LoadQuests()
         [82083] = { -- A Broken Ritual
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
         },
-        [82084] = { --A Lesson in Literacy
+        [82084] = { -- A Lesson in Literacy
             [questKeys.startedBy] = {{211022,211033}},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
@@ -6522,6 +6522,10 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Collect 'Conjurer's Codex' and bring it to Owen Thadd in Undercity."},
         },
+        [82084] = { -- A Lesson in Literacy
+            [questKeys.startedBy] = {{211022}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [82208] = { -- Greater Friend of the Library
             [questKeys.startedBy] = {{211022}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -6756,6 +6760,10 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.startedBy] = {nil,{441254}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Collect 'Conjurer's Codex' and bring it to Garion Wendell in Stormwind."},
+        },
+        [82084] = { -- A Lesson in Literacy
+            [questKeys.startedBy] = {{211033}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [82208] = { -- Greater Friend of the Library
             [questKeys.startedBy] = {{211033}},
