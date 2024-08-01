@@ -5908,6 +5908,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Overseer Oilfist wants you to slay 15 Firelands Invaders in The Cauldron, south of Thorium Point."},
             [questKeys.objectives] = {{{228718}}},
         },
+        [84369] = {
+            [questKeys.name] = "Healing the Healer",
+            [questKeys.startedBy] = {{228822}},
+            [questKeys.finishedBy] = {{228902}},
+            [questKeys.requiredLevel] = 52,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Retrieve the Unusual Flask from the Irontree Stompers and bring it to the Frostfire Hot Springs in Winterspring."},
+            [questKeys.objectives] = {{{228902}}},
+        },
         [84372] = {
             [questKeys.name] = "Lava Diving",
             [questKeys.startedBy] = {{14627}},
