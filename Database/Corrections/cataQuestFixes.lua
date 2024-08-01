@@ -7726,11 +7726,42 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [29220] = { -- To Bambala
+            [questKeys.objectives] = {{{52980,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.triggerEnd] = {"Head to Bambala in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{64.6,40.4}}}},
+            [questKeys.parentQuest] = 29219,
+            [questKeys.nextQuestInChain] = 29221,
         },
         [29221] = { -- Serpents and Poison
             [questKeys.objectives] = {{{52224}},nil,nil,nil,{{{52978,53440,53441,53442,53443,53444,53445},53443,"Headhunters healed",Questie.ICON_TYPE_EVENT}}},
+            [questKeys.parentQuest] = 29219,
+            [questKeys.nextQuestInChain] = 29222,
+        },
+        [29222] = { -- Spirits Are With Us
+            [questKeys.objectives] = {nil,{{208508,nil,Questie.ICON_TYPE_OBJECT}}},
+            [questKeys.parentQuest] = 29219,
+            [questKeys.nextQuestInChain] = 29223,
+        },
+        [29223] = { -- Nesingwary Will Know
+            [questKeys.objectives] = {{{52294,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.parentQuest] = 29219,
+            [questKeys.nextQuestInChain] = 29226,
+        },
+        [29226] = { -- Track the Tracker
+            [questKeys.parentQuest] = 29219,
+            [questKeys.nextQuestInChain] = 29227,
+        },
+        [29227] = { -- The Hunter's Revenge
+            [questKeys.finishedBy] = {{100022}},
+            [questKeys.objectives] = {{{52349,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.parentQuest] = 29219,
+            [questKeys.nextQuestInChain] = 29228,
+        },
+        [29228] = { -- Follow That Cat
+            [questKeys.startedBy] = {{100023}},
+            [questKeys.objectives] = {{{52911,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.exclusiveTo] = {29229},
+            [questKeys.parentQuest] = 29219,
+            [questKeys.nextQuestInChain] = 29230,
         },
         [29267] = { -- Some Good Will Come
             [questKeys.preQuestSingle] = {29121},
