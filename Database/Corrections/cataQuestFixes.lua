@@ -7692,6 +7692,9 @@ function CataQuestFixes.Load()
         [29156] = { -- The Troll Incursion
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
         },
+        [29157] = { -- The Zandalari Menace
+            [questKeys.exclusiveTo] = {29219,29220},
+        },
         [29167] = { -- The Banshee Queen
             [questKeys.objectives] = {{{10181,"Meeting with Lady Sylvanas Windrunner",Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {172},
@@ -7719,7 +7722,11 @@ function CataQuestFixes.Load()
         [29213] = { -- How's the Hunter Holding Up?
             [questKeys.parentQuest] = 29100,
         },
+        [29219] = { -- Bwemba's Spirit
+            [questKeys.preQuestSingle] = {},
+        },
         [29220] = { -- To Bambala
+            [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Head to Bambala in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{64.6,40.4}}}},
         },
         [29267] = { -- Some Good Will Come
