@@ -15,7 +15,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [76156] = {
             [questKeys.name] = "Stalk With The Earthmother",
             [questKeys.startedBy] = {{205729}},
-            [questKeys.finishedBy] = {{205729,}},
+            [questKeys.finishedBy] = {{205729}},
             [questKeys.requiredLevel] = 4,
             [questKeys.questLevel] = 6,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -26,7 +26,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [76160] = {
             [questKeys.name] = "Stalk With The Earthmother",
             [questKeys.startedBy] = {{205729}},
-            [questKeys.finishedBy] = {{205729,}},
+            [questKeys.finishedBy] = {{205729}},
             [questKeys.requiredLevel] = 4,
             [questKeys.questLevel] = 6,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -37,7 +37,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [76240] = {
             [questKeys.name] = "Stalk With The Earthmother",
             [questKeys.startedBy] = {{205729}},
-            [questKeys.finishedBy] = {{205729,}},
+            [questKeys.finishedBy] = {{205729}},
             [questKeys.requiredLevel] = 4,
             [questKeys.questLevel] = 6,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -48,7 +48,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77568] = {
             [questKeys.name] = "A Hunter's Strength",
             [questKeys.startedBy] = {{3596}},
-            [questKeys.finishedBy] = {{3596,}},
+            [questKeys.finishedBy] = {{3596}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -59,7 +59,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77571] = {
             [questKeys.name] = "Relics of the Kaldorei",
             [questKeys.startedBy] = {{3597}},
-            [questKeys.finishedBy] = {{3597,}},
+            [questKeys.finishedBy] = {{3597}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -70,7 +70,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77573] = {
             [questKeys.name] = "Second-Story Work",
             [questKeys.startedBy] = {{3594}},
-            [questKeys.finishedBy] = {{3594,}},
+            [questKeys.finishedBy] = {{3594}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -81,7 +81,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77574] = {
             [questKeys.name] = "Meditation on Elune",
             [questKeys.startedBy] = {{3595}},
-            [questKeys.finishedBy] = {{3595,}},
+            [questKeys.finishedBy] = {{3595}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -92,7 +92,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77575] = {
             [questKeys.name] = "Amidst the Shadowed Webs",
             [questKeys.startedBy] = {{3593}},
-            [questKeys.finishedBy] = {{3593,}},
+            [questKeys.finishedBy] = {{3593}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -103,7 +103,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77582] = {
             [questKeys.name] = "A Trial of Fitness",
             [questKeys.startedBy] = {{3153}},
-            [questKeys.finishedBy] = {{3153,}},
+            [questKeys.finishedBy] = {{3153}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -114,7 +114,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77583] = {
             [questKeys.name] = "Atop the Cliffs",
             [questKeys.startedBy] = {{3155}},
-            [questKeys.finishedBy] = {{3155,}},
+            [questKeys.finishedBy] = {{3155}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -125,7 +125,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77584] = {
             [questKeys.name] = "Hunt for the Rune",
             [questKeys.startedBy] = {{3154}},
-            [questKeys.finishedBy] = {{3154,}},
+            [questKeys.finishedBy] = {{3154}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -136,7 +136,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77585] = {
             [questKeys.name] = "Icons of Power",
             [questKeys.startedBy] = {{3157}},
-            [questKeys.finishedBy] = {{3157,}},
+            [questKeys.finishedBy] = {{3157}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -147,7 +147,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77586] = {
             [questKeys.name] = "Stolen Power",
             [questKeys.startedBy] = {{3156}},
-            [questKeys.finishedBy] = {{3156,}},
+            [questKeys.finishedBy] = {{3156}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -158,7 +158,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77587] = {
             [questKeys.name] = "Icons of Power",
             [questKeys.startedBy] = {{3157}},
-            [questKeys.finishedBy] = {{3157,}},
+            [questKeys.finishedBy] = {{3157}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -169,7 +169,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77588] = {
             [questKeys.name] = "A Trial of Fitness",
             [questKeys.startedBy] = {{3153}},
-            [questKeys.finishedBy] = {{3153,}},
+            [questKeys.finishedBy] = {{3153}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -180,7 +180,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77590] = {
             [questKeys.name] = "Rugged Terrain",
             [questKeys.startedBy] = {{3154}},
-            [questKeys.finishedBy] = {{3154,}},
+            [questKeys.finishedBy] = {{3154}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -191,7 +191,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77592] = {
             [questKeys.name] = "Atop the Cliffs",
             [questKeys.startedBy] = {{3155}},
-            [questKeys.finishedBy] = {{3155,}},
+            [questKeys.finishedBy] = {{3155}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -202,7 +202,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77616] = {
             [questKeys.name] = "The Lost Rune",
             [questKeys.startedBy] = {{911}},
-            [questKeys.finishedBy] = {{911,}},
+            [questKeys.finishedBy] = {{911}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -213,7 +213,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77617] = {
             [questKeys.name] = "Relics of the Light",
             [questKeys.startedBy] = {{925}},
-            [questKeys.finishedBy] = {{925,}},
+            [questKeys.finishedBy] = {{925}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -224,7 +224,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77618] = {
             [questKeys.name] = "Thrice Stolen",
             [questKeys.startedBy] = {{915}},
-            [questKeys.finishedBy] = {{915,}},
+            [questKeys.finishedBy] = {{915}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -235,7 +235,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77619] = {
             [questKeys.name] = "Meditation on the Light",
             [questKeys.startedBy] = {{375}},
-            [questKeys.finishedBy] = {{375,}},
+            [questKeys.finishedBy] = {{375}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -246,7 +246,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77620] = {
             [questKeys.name] = "Spell Research",
             [questKeys.startedBy] = {{198}},
-            [questKeys.finishedBy] = {{198,}},
+            [questKeys.finishedBy] = {{198}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -257,7 +257,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77621] = {
             [questKeys.name] = "Stolen Power",
             [questKeys.startedBy] = {{459}},
-            [questKeys.finishedBy] = {{459,}},
+            [questKeys.finishedBy] = {{459}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -268,7 +268,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77642] = {
             [questKeys.name] = "Wisdom of the Loa",
             [questKeys.startedBy] = {{3707}},
-            [questKeys.finishedBy] = {{3707,}},
+            [questKeys.finishedBy] = {{3707}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -279,7 +279,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77643] = {
             [questKeys.name] = "Spell Research",
             [questKeys.startedBy] = {{5884}},
-            [questKeys.finishedBy] = {{5884,}},
+            [questKeys.finishedBy] = {{5884}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -290,7 +290,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77648] = {
             [questKeys.name] = "Relics of the Tauren",
             [questKeys.startedBy] = {{3060}},
-            [questKeys.finishedBy] = {{3060,}},
+            [questKeys.finishedBy] = {{3060}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -301,7 +301,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77649] = {
             [questKeys.name] = "A Hunter's Strength",
             [questKeys.startedBy] = {{3061}},
-            [questKeys.finishedBy] = {{3061,}},
+            [questKeys.finishedBy] = {{3061}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -312,7 +312,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77651] = {
             [questKeys.name] = "Into the Brambles",
             [questKeys.startedBy] = {{3059}},
-            [questKeys.finishedBy] = {{3059,}},
+            [questKeys.finishedBy] = {{3059}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -323,7 +323,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77652] = {
             [questKeys.name] = "Icons of Power",
             [questKeys.startedBy] = {{3062}},
-            [questKeys.finishedBy] = {{3062,}},
+            [questKeys.finishedBy] = {{3062}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -334,7 +334,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77655] = {
             [questKeys.name] = "The Lost Rune",
             [questKeys.startedBy] = {{912}},
-            [questKeys.finishedBy] = {{912,}},
+            [questKeys.finishedBy] = {{912}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -345,7 +345,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77656] = {
             [questKeys.name] = "The Lost Rune",
             [questKeys.startedBy] = {{912}},
-            [questKeys.finishedBy] = {{912,}},
+            [questKeys.finishedBy] = {{912}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -356,7 +356,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77657] = {
             [questKeys.name] = "Relics of the Light",
             [questKeys.startedBy] = {{926}},
-            [questKeys.finishedBy] = {{926,}},
+            [questKeys.finishedBy] = {{926}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -367,7 +367,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77658] = {
             [questKeys.name] = "Thrice Stolen",
             [questKeys.startedBy] = {{916}},
-            [questKeys.finishedBy] = {{916,}},
+            [questKeys.finishedBy] = {{916}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -378,7 +378,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77659] = {
             [questKeys.name] = "Thrice Stolen",
             [questKeys.startedBy] = {{916}},
-            [questKeys.finishedBy] = {{916,}},
+            [questKeys.finishedBy] = {{916}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -389,7 +389,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77660] = {
             [questKeys.name] = "Trek Through the Caves",
             [questKeys.startedBy] = {{895}},
-            [questKeys.finishedBy] = {{895,}},
+            [questKeys.finishedBy] = {{895}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -400,7 +400,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77661] = {
             [questKeys.name] = "Meditation on the Light",
             [questKeys.startedBy] = {{837}},
-            [questKeys.finishedBy] = {{837,}},
+            [questKeys.finishedBy] = {{837}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -411,7 +411,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77666] = {
             [questKeys.name] = "Stolen Power",
             [questKeys.startedBy] = {{460}},
-            [questKeys.finishedBy] = {{460,}},
+            [questKeys.finishedBy] = {{460}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -422,7 +422,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77667] = {
             [questKeys.name] = "Spell Research",
             [questKeys.startedBy] = {{944}},
-            [questKeys.finishedBy] = {{944,}},
+            [questKeys.finishedBy] = {{944}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -433,7 +433,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77668] = {
             [questKeys.name] = "The Lost Rune",
             [questKeys.startedBy] = {{2119}},
-            [questKeys.finishedBy] = {{2119,}},
+            [questKeys.finishedBy] = {{2119}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -444,7 +444,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77669] = {
             [questKeys.name] = "The Scarlet Rune",
             [questKeys.startedBy] = {{2122}},
-            [questKeys.finishedBy] = {{2122,}},
+            [questKeys.finishedBy] = {{2122}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -455,7 +455,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77670] = {
             [questKeys.name] = "Meditation on Undeath",
             [questKeys.startedBy] = {{2123}},
-            [questKeys.finishedBy] = {{2123,}},
+            [questKeys.finishedBy] = {{2123}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -466,7 +466,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77671] = {
             [questKeys.name] = "Spell Research",
             [questKeys.startedBy] = {{2124}},
-            [questKeys.finishedBy] = {{2124,}},
+            [questKeys.finishedBy] = {{2124}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -477,7 +477,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [77672] = {
             [questKeys.name] = "The Lost Rune",
             [questKeys.startedBy] = {{2126}},
-            [questKeys.finishedBy] = {{2126,}},
+            [questKeys.finishedBy] = {{2126}},
             [questKeys.requiredLevel] = 2,
             [questKeys.questLevel] = 2,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -488,7 +488,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78088] = {
             [questKeys.name] = "A Strange Artifact",
             [questKeys.startedBy] = {{3663}},
-            [questKeys.finishedBy] = {{3663,}},
+            [questKeys.finishedBy] = {{3663}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -499,7 +499,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78089] = {
             [questKeys.name] = "Advice From Stormwind",
             [questKeys.startedBy] = {{3663}},
-            [questKeys.finishedBy] = {{5492,}},
+            [questKeys.finishedBy] = {{5492}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -510,7 +510,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78090] = {
             [questKeys.name] = "A Second Opinion",
             [questKeys.startedBy] = {{5492}},
-            [questKeys.finishedBy] = {{5495,}},
+            [questKeys.finishedBy] = {{5495}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -521,7 +521,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78091] = {
             [questKeys.name] = "Earning Your Salt",
             [questKeys.startedBy] = {{5495}},
-            [questKeys.finishedBy] = {{5495,}},
+            [questKeys.finishedBy] = {{5495}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -543,7 +543,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78093] = {
             [questKeys.name] = "Return to Delgren",
             [questKeys.startedBy] = {nil,{409315}},
-            [questKeys.finishedBy] = {{3663,}},
+            [questKeys.finishedBy] = {{3663}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -554,7 +554,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78114] = {
             [questKeys.name] = "Wild Wyvern Wrangling",
             [questKeys.startedBy] = {{210845}},
-            [questKeys.finishedBy] = {{210845,}},
+            [questKeys.finishedBy] = {{210845}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -565,7 +565,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78121] = {
             [questKeys.name] = "Wrangling a Wild Wyvern",
             [questKeys.startedBy] = {{210845}},
-            [questKeys.finishedBy] = {{210845,}},
+            [questKeys.finishedBy] = {{210845}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -576,7 +576,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78124] = {
             [questKeys.name] = "Nar'thalas Almanac",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -587,7 +587,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78127] = {
             [questKeys.name] = "The Dalaran Digest",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -598,7 +598,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78132] = {
             [questKeys.name] = "Dragonslayer's Helm",
             [questKeys.startedBy] = {{210995}},
-            [questKeys.finishedBy] = {{210995,}},
+            [questKeys.finishedBy] = {{210995}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -609,7 +609,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78133] = {
             [questKeys.name] = "Dragonslayer's Shield",
             [questKeys.startedBy] = {{210995}},
-            [questKeys.finishedBy] = {{210995,}},
+            [questKeys.finishedBy] = {{210995}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -620,7 +620,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78134] = {
             [questKeys.name] = "Dragonslayer's Lance",
             [questKeys.startedBy] = {{210995}},
-            [questKeys.finishedBy] = {{210995,}},
+            [questKeys.finishedBy] = {{210995}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -631,7 +631,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78142] = {
             [questKeys.name] = "Bewitchments and Glamours",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -642,7 +642,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78143] = {
             [questKeys.name] = "Secrets of the Dreamers",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -653,7 +653,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78144] = {
             [questKeys.name] = "Alonso the Dragonslayer",
             [questKeys.startedBy] = {{210995}},
-            [questKeys.finishedBy] = {{210995,}},
+            [questKeys.finishedBy] = {{210995}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -664,7 +664,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78145] = {
             [questKeys.name] = "Arcanic Systems Manual",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -675,7 +675,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78146] = {
             [questKeys.name] = "Goaz Scrolls",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -686,7 +686,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78147] = {
             [questKeys.name] = "Crimes Against Anatomy",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -697,7 +697,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78148] = {
             [questKeys.name] = "Runes of the Sorceror-Kings",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -708,7 +708,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78149] = {
             [questKeys.name] = "Fury of the Land",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -719,7 +719,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78150] = {
             [questKeys.name] = "Friend of the Library",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -730,7 +730,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78192] = {
             [questKeys.name] = "Secrets of the Light",
             [questKeys.startedBy] = {{211188}},
-            [questKeys.finishedBy] = {{211188,}},
+            [questKeys.finishedBy] = {{211188}},
             [questKeys.requiredLevel] = 17,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -741,7 +741,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78193] = {
             [questKeys.name] = "Secrets of the Light",
             [questKeys.startedBy] = {{211188}},
-            [questKeys.finishedBy] = {{376,}},
+            [questKeys.finishedBy] = {{376}},
             [questKeys.requiredLevel] = 17,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -752,7 +752,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78194] = {
             [questKeys.name] = "Secrets of Elune",
             [questKeys.startedBy] = {{11397}},
-            [questKeys.finishedBy] = {{11397,}},
+            [questKeys.finishedBy] = {{11397}},
             [questKeys.requiredLevel] = 17,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -763,7 +763,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78195] = {
             [questKeys.name] = "Secrets of Elune",
             [questKeys.startedBy] = {{11397}},
-            [questKeys.finishedBy] = {{211298,}},
+            [questKeys.finishedBy] = {{211298}},
             [questKeys.requiredLevel] = 17,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -774,7 +774,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78196] = {
             [questKeys.name] = "Secrets of Undeath",
             [questKeys.startedBy] = {{211229}},
-            [questKeys.finishedBy] = {{211229,}},
+            [questKeys.finishedBy] = {{211229}},
             [questKeys.requiredLevel] = 18,
             [questKeys.questLevel] = 22,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -785,7 +785,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78197] = {
             [questKeys.name] = "Secrets of Undeath",
             [questKeys.startedBy] = {{211229}},
-            [questKeys.finishedBy] = {{6491,}},
+            [questKeys.finishedBy] = {{6491}},
             [questKeys.requiredLevel] = 18,
             [questKeys.questLevel] = 22,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -796,7 +796,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78198] = {
             [questKeys.name] = "Secrets of the Loa",
             [questKeys.startedBy] = {{211225}},
-            [questKeys.finishedBy] = {{211225,}},
+            [questKeys.finishedBy] = {{211225}},
             [questKeys.requiredLevel] = 18,
             [questKeys.questLevel] = 23,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -818,7 +818,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78229] = {
             [questKeys.name] = "Trial of The Owls",
             [questKeys.startedBy] = {{12042}},
-            [questKeys.finishedBy] = {{12042,}},
+            [questKeys.finishedBy] = {{12042}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -840,7 +840,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78265] = {
             [questKeys.name] = "Fish Oil",
             [questKeys.startedBy] = {{211653}},
-            [questKeys.finishedBy] = {{211653,}},
+            [questKeys.finishedBy] = {{211653}},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -851,7 +851,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78266] = {
             [questKeys.name] = "Dark Iron Ordinance",
             [questKeys.startedBy] = {{211653}},
-            [questKeys.finishedBy] = {{211653,}},
+            [questKeys.finishedBy] = {{211653}},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -862,7 +862,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78267] = {
             [questKeys.name] = "Shredder Turbochargers",
             [questKeys.startedBy] = {{211653}},
-            [questKeys.finishedBy] = {{211653,}},
+            [questKeys.finishedBy] = {{211653}},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -873,7 +873,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78270] = {
             [questKeys.name] = "Goblin Lockpicks",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{4086,}},
+            [questKeys.finishedBy] = {{4086}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 23,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -884,7 +884,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78277] = {
             [questKeys.name] = "A Token of Gratitude",
             [questKeys.startedBy] = {{1498}},
-            [questKeys.finishedBy] = {{1498,}},
+            [questKeys.finishedBy] = {{1498}},
             [questKeys.requiredLevel] = 12,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -895,7 +895,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78287] = {
             [questKeys.name] = "Let Me Make You An Offer",
             [questKeys.startedBy] = {{211653}},
-            [questKeys.finishedBy] = {{8383,}},
+            [questKeys.finishedBy] = {{8383}},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -906,7 +906,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78288] = {
             [questKeys.name] = "Let Me Make You An Offer",
             [questKeys.startedBy] = {{211653}},
-            [questKeys.finishedBy] = {{3408,}},
+            [questKeys.finishedBy] = {{3408}},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -917,7 +917,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78297] = {
             [questKeys.name] = "You've Got Yourself A Deal",
             [questKeys.startedBy] = {{8383}},
-            [questKeys.finishedBy] = {{211653,}},
+            [questKeys.finishedBy] = {{211653}},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -928,7 +928,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78304] = {
             [questKeys.name] = "You've Got Yourself A Deal",
             [questKeys.startedBy] = {{3408}},
-            [questKeys.finishedBy] = {{211653,}},
+            [questKeys.finishedBy] = {{211653}},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -950,7 +950,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78506] = {
             [questKeys.name] = "Elemental Distress",
             [questKeys.startedBy] = {{12736}},
-            [questKeys.finishedBy] = {{12736,}},
+            [questKeys.finishedBy] = {{12736}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -961,7 +961,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78537] = {
             [questKeys.name] = "Elixir of Insight",
             [questKeys.startedBy] = {{12736}},
-            [questKeys.finishedBy] = {{12736,}},
+            [questKeys.finishedBy] = {{12736}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -972,7 +972,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78561] = {
             [questKeys.name] = "Elixir of Insight",
             [questKeys.startedBy] = {{12736}},
-            [questKeys.finishedBy] = {{12736,}},
+            [questKeys.finishedBy] = {{12736}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -983,7 +983,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78575] = {
             [questKeys.name] = "Hirzek",
             [questKeys.startedBy] = {{12736}},
-            [questKeys.finishedBy] = {{12736,}},
+            [questKeys.finishedBy] = {{12736}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -994,7 +994,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78611] = {
             [questKeys.name] = "A Waylaid Shipment",
             [questKeys.startedBy] = {{214101}},
-            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 8,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1005,7 +1005,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78612] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214101}},
-            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 9,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1027,7 +1027,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78680] = {
             [questKeys.name] = "Rumors Abound",
             [questKeys.startedBy] = {{6247}},
-            [questKeys.finishedBy] = {{6247,}},
+            [questKeys.finishedBy] = {{6247}},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1049,7 +1049,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78684] = {
             [questKeys.name] = "Mysterious Traveler",
             [questKeys.startedBy] = {{213444}},
-            [questKeys.finishedBy] = {{6247,}},
+            [questKeys.finishedBy] = {{6247}},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = 28,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1071,7 +1071,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78702] = {
             [questKeys.name] = "Raszel Ander",
             [questKeys.startedBy] = {{6247}},
-            [questKeys.finishedBy] = {{6247,}},
+            [questKeys.finishedBy] = {{6247}},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = 28,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1082,7 +1082,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78823] = {
             [questKeys.name] = "Terror of the Desert Skies",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{715,}},
+            [questKeys.finishedBy] = {{715}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1093,7 +1093,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78830] = {
             [questKeys.name] = "Terror of the Desert Skies",
             [questKeys.startedBy] = {{715}},
-            [questKeys.finishedBy] = {{715,}},
+            [questKeys.finishedBy] = {{715}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1104,7 +1104,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78872] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214101}},
-            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 12,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1115,7 +1115,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78909] = {
             [questKeys.name] = "Shifting Scale Talisman",
             [questKeys.startedBy] = {{214208}},
-            [questKeys.finishedBy] = {{214208,}},
+            [questKeys.finishedBy] = {{214208}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1126,7 +1126,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78914] = {
             [questKeys.name] = "Soul Vessel",
             [questKeys.startedBy] = {{213445}},
-            [questKeys.finishedBy] = {{215850,}},
+            [questKeys.finishedBy] = {{215850}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1137,7 +1137,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78916] = {
             [questKeys.name] = "The Heart of the Void",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{4783,}},
+            [questKeys.finishedBy] = {{4783}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1148,7 +1148,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78917] = {
             [questKeys.name] = "The Heart of the Void",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{9087,}},
+            [questKeys.finishedBy] = {{9087}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1159,7 +1159,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78920] = {
             [questKeys.name] = "Baron Aquanis",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{12736,}},
+            [questKeys.finishedBy] = {{12736}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1170,7 +1170,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78921] = {
             [questKeys.name] = "Blackfathom Villainy",
             [questKeys.startedBy] = {{4787}},
-            [questKeys.finishedBy] = {{4783,}},
+            [questKeys.finishedBy] = {{4783}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1181,7 +1181,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78922] = {
             [questKeys.name] = "Blackfathom Villainy",
             [questKeys.startedBy] = {{4787}},
-            [questKeys.finishedBy] = {{9087,}},
+            [questKeys.finishedBy] = {{9087}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1192,7 +1192,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78923] = {
             [questKeys.name] = "Knowledge in the Deeps",
             [questKeys.startedBy] = {{2786}},
-            [questKeys.finishedBy] = {{2786,}},
+            [questKeys.finishedBy] = {{2786}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1203,7 +1203,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78925] = {
             [questKeys.name] = "Twilight Falls",
             [questKeys.startedBy] = {{4784}},
-            [questKeys.finishedBy] = {{4784,}},
+            [questKeys.finishedBy] = {{4784}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1214,7 +1214,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78926] = {
             [questKeys.name] = "Researching the Corruption",
             [questKeys.startedBy] = {{8997}},
-            [questKeys.finishedBy] = {{8997,}},
+            [questKeys.finishedBy] = {{8997}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1225,7 +1225,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78927] = {
             [questKeys.name] = "Allegiance to the Old Gods",
             [questKeys.startedBy] = {{12736}},
-            [questKeys.finishedBy] = {{12736,}},
+            [questKeys.finishedBy] = {{12736}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1236,7 +1236,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [78994] = {
             [questKeys.name] = "A Solid Foundation",
             [questKeys.startedBy] = {{213445}},
-            [questKeys.finishedBy] = {{213445,}},
+            [questKeys.finishedBy] = {{213445}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1247,7 +1247,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79007] = {
             [questKeys.name] = "...and that note you found",
             [questKeys.startedBy] = {nil,{415106}},
-            [questKeys.finishedBy] = {nil,{415107}},
+            [questKeys.finishedBy] = {nil,{415107,424010}},
             [questKeys.requiredLevel] = 14,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1258,7 +1258,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79008] = {
             [questKeys.name] = "...and that note you found",
             [questKeys.startedBy] = {nil,{415107}},
-            [questKeys.finishedBy] = {nil,{415106}},
+            [questKeys.finishedBy] = {nil,{415106,417072}},
             [questKeys.requiredLevel] = 14,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1269,7 +1269,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79077] = {
             [questKeys.name] = "Sharing the Faith",
             [questKeys.startedBy] = {{1212}},
-            [questKeys.finishedBy] = {{1212,}},
+            [questKeys.finishedBy] = {{1212}},
             [questKeys.requiredLevel] = 5,
             [questKeys.questLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1280,7 +1280,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79078] = {
             [questKeys.name] = "Sharing the Faith",
             [questKeys.startedBy] = {{4092}},
-            [questKeys.finishedBy] = {{4092,}},
+            [questKeys.finishedBy] = {{4092}},
             [questKeys.requiredLevel] = 5,
             [questKeys.questLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1291,7 +1291,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79079] = {
             [questKeys.name] = "Sharing the Faith",
             [questKeys.startedBy] = {{6018}},
-            [questKeys.finishedBy] = {{6018,}},
+            [questKeys.finishedBy] = {{6018}},
             [questKeys.requiredLevel] = 5,
             [questKeys.questLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1302,7 +1302,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79080] = {
             [questKeys.name] = "Sharing the Faith",
             [questKeys.startedBy] = {{4607}},
-            [questKeys.finishedBy] = {{4607,}},
+            [questKeys.finishedBy] = {{4607}},
             [questKeys.requiredLevel] = 5,
             [questKeys.questLevel] = 5,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1313,7 +1313,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79090] = {
             [questKeys.name] = "Repelling Invaders",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{212970,217707,}},
+            [questKeys.finishedBy] = {{212970,217707}},
             [questKeys.requiredLevel] = 18,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1324,7 +1324,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79091] = {
             [questKeys.name] = "Archmage Antonidas: The Unabridged Autobiography",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211033,}},
+            [questKeys.finishedBy] = {{211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1335,7 +1335,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79092] = {
             [questKeys.name] = "Archmage Theocritus's Research Journal",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1346,7 +1346,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79093] = {
             [questKeys.name] = "Rumi of Gnomeregan: The Collected Works",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1357,7 +1357,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79094] = {
             [questKeys.name] = "The Lessons of Ta'zo",
             [questKeys.startedBy] = {{211022}},
-            [questKeys.finishedBy] = {{211022,}},
+            [questKeys.finishedBy] = {{211022}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1367,11 +1367,11 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [79095] = {
             [questKeys.name] = "The Apothecary's Metaphysical Primer",
-            [questKeys.startedBy] = {{211022}},
-            [questKeys.finishedBy] = {{211022,}},
+            [questKeys.startedBy] = {{211033}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.MAGE,
             [questKeys.objectivesText] = {"Have you brought something to add to our collection?"},
             [questKeys.objectives] = {nil,nil,{{208185}}},
@@ -1379,7 +1379,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79096] = {
             [questKeys.name] = "Ataeric: On Arcane Curiosities",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1390,7 +1390,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79097] = {
             [questKeys.name] = "Baxtan: On Destructive Magics",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 20,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1401,7 +1401,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79098] = {
             [questKeys.name] = "Clear the Forest!",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{212969,217706,}},
+            [questKeys.finishedBy] = {{212969,217706}},
             [questKeys.requiredLevel] = 18,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1412,7 +1412,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79099] = {
             [questKeys.name] = "Baron Aquanis",
             [questKeys.startedBy] = {{214876}},
-            [questKeys.finishedBy] = {{214876,}},
+            [questKeys.finishedBy] = {{214876}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1423,7 +1423,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79100] = {
             [questKeys.name] = "A Waylaid Shipment",
             [questKeys.startedBy] = {{214101}},
-            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 15,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1434,7 +1434,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79101] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214101}},
-            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 18,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1445,7 +1445,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79102] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214101}},
-            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 22,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1456,7 +1456,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79103] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214101}},
-            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1489,7 +1489,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79235] = {
             [questKeys.name] = "On the Lam",
             [questKeys.startedBy] = {{11438}},
-            [questKeys.finishedBy] = {{215643,}},
+            [questKeys.finishedBy] = {{215643}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1500,7 +1500,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79236] = {
             [questKeys.name] = "Cherry for Your Thoughts?",
             [questKeys.startedBy] = {{215643}},
-            [questKeys.finishedBy] = {{215643,}},
+            [questKeys.finishedBy] = {{215643}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1522,7 +1522,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79298] = {
             [questKeys.name] = "Tempting Fate",
             [questKeys.startedBy] = {{215850}},
-            [questKeys.finishedBy] = {{215849,}},
+            [questKeys.finishedBy] = {{215849}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1533,7 +1533,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79348] = {
             [questKeys.name] = "The Lost Ancient",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{216289,}},
+            [questKeys.finishedBy] = {{216289}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1544,7 +1544,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79358] = {
             [questKeys.name] = "Tattered Note",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{4722,}},
+            [questKeys.finishedBy] = {{4722}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1555,7 +1555,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79360] = {
             [questKeys.name] = "Elemental Aid",
             [questKeys.startedBy] = {{4722}},
-            [questKeys.finishedBy] = {{6176,}},
+            [questKeys.finishedBy] = {{6176}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1566,7 +1566,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79361] = {
             [questKeys.name] = "Power of da Wind",
             [questKeys.startedBy] = {{6176}},
-            [questKeys.finishedBy] = {{6176,}},
+            [questKeys.finishedBy] = {{6176}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1577,7 +1577,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79362] = {
             [questKeys.name] = "Power of da Earth",
             [questKeys.startedBy] = {{6176}},
-            [questKeys.finishedBy] = {{6176,}},
+            [questKeys.finishedBy] = {{6176}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 38,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1588,7 +1588,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79363] = {
             [questKeys.name] = "Power of da Water",
             [questKeys.startedBy] = {{6176}},
-            [questKeys.finishedBy] = {{6176,}},
+            [questKeys.finishedBy] = {{6176}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 36,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1599,7 +1599,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79364] = {
             [questKeys.name] = "A Simple Container",
             [questKeys.startedBy] = {{6176}},
-            [questKeys.finishedBy] = {{6176,}},
+            [questKeys.finishedBy] = {{6176}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1610,7 +1610,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79365] = {
             [questKeys.name] = "With Wind Beneath Your Wings",
             [questKeys.startedBy] = {{6176}},
-            [questKeys.finishedBy] = {{4722,}},
+            [questKeys.finishedBy] = {{4722}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1621,7 +1621,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79366] = {
             [questKeys.name] = "Calm Before the Storm",
             [questKeys.startedBy] = {{4722}},
-            [questKeys.finishedBy] = {{4722,}},
+            [questKeys.finishedBy] = {{4722}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1632,7 +1632,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79377] = {
             [questKeys.name] = "The Lost Saplings",
             [questKeys.startedBy] = {{216289}},
-            [questKeys.finishedBy] = {{216289,}},
+            [questKeys.finishedBy] = {{216289}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1643,7 +1643,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79442] = {
             [questKeys.name] = "Catching Up",
             [questKeys.startedBy] = {{4722}},
-            [questKeys.finishedBy] = {{6176,}},
+            [questKeys.finishedBy] = {{6176}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1654,7 +1654,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79482] = {
             [questKeys.name] = "Stolen Winter Veil Treats",
             [questKeys.startedBy] = {{216902}},
-            [questKeys.finishedBy] = {{216915,}},
+            [questKeys.finishedBy] = {{216915}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1665,7 +1665,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79483] = {
             [questKeys.name] = "Stolen Winter Veil Treats",
             [questKeys.startedBy] = {{216924}},
-            [questKeys.finishedBy] = {{216915,}},
+            [questKeys.finishedBy] = {{216915}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1676,7 +1676,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79484] = {
             [questKeys.name] = "You're a Mean One...",
             [questKeys.startedBy] = {{216915}},
-            [questKeys.finishedBy] = {{216902,}},
+            [questKeys.finishedBy] = {{216902}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1687,7 +1687,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79485] = {
             [questKeys.name] = "You're a Mean One...",
             [questKeys.startedBy] = {{216915}},
-            [questKeys.finishedBy] = {{216924,}},
+            [questKeys.finishedBy] = {{216924}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1698,7 +1698,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79486] = {
             [questKeys.name] = "A Smokywood Pastures' Thank You!",
             [questKeys.startedBy] = {{216902}},
-            [questKeys.finishedBy] = {{13444,}},
+            [questKeys.finishedBy] = {{13444}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1709,7 +1709,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79487] = {
             [questKeys.name] = "A Smokywood Pastures' Thank You!",
             [questKeys.startedBy] = {{216924}},
-            [questKeys.finishedBy] = {{13445,}},
+            [questKeys.finishedBy] = {{13445}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1720,18 +1720,18 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79492] = {
             [questKeys.name] = "Metzen the Reindeer",
             [questKeys.startedBy] = {{216902}},
-            [questKeys.finishedBy] = {{216902,}},
+            [questKeys.finishedBy] = {{216902}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.objectivesText] = {"Find Metzen the Reindeer.  Use the notes provided to you for clues as to where he is being held.When you find Metzen, have the Pouch of Reindeer Dust in your possession so you can sprinkle some of the dust on him; this should free Metzen from his bonds of captivity.Return the Pouch of Reindeer Dust to Wulmort Jinglepocket in Ironforge once Metzen is freed."},
-            [questKeys.objectives] = {nil,nil,{{21211},{21315}}},
+            [questKeys.objectives] = {{{15664}}},
         },
         [79495] = {
             [questKeys.name] = "Metzen the Reindeer",
             [questKeys.startedBy] = {{216924}},
-            [questKeys.finishedBy] = {{216924,}},
+            [questKeys.finishedBy] = {{216924}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1742,7 +1742,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79535] = {
             [questKeys.name] = "Basilisks: Should Petrification be Feared?",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1753,7 +1753,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79536] = {
             [questKeys.name] = "Greater Friend of the Library",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1764,7 +1764,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79588] = {
             [questKeys.name] = "Small Furry Paws",
             [questKeys.startedBy] = {{14829}},
-            [questKeys.finishedBy] = {{14829,}},
+            [questKeys.finishedBy] = {{14829}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1775,7 +1775,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79589] = {
             [questKeys.name] = "Torn Bear Pelts",
             [questKeys.startedBy] = {{14829}},
-            [questKeys.finishedBy] = {{14829,}},
+            [questKeys.finishedBy] = {{14829}},
             [questKeys.requiredLevel] = 10,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1786,7 +1786,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79590] = {
             [questKeys.name] = "Heavy Grinding Stone",
             [questKeys.startedBy] = {{14832}},
-            [questKeys.finishedBy] = {{14832,}},
+            [questKeys.finishedBy] = {{14832}},
             [questKeys.requiredLevel] = 10,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1797,7 +1797,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79591] = {
             [questKeys.name] = "Whirring Bronze Gizmo",
             [questKeys.startedBy] = {{14841}},
-            [questKeys.finishedBy] = {{14841,}},
+            [questKeys.finishedBy] = {{14841}},
             [questKeys.requiredLevel] = 10,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1808,7 +1808,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79592] = {
             [questKeys.name] = "Carnival Jerkins",
             [questKeys.startedBy] = {{14833}},
-            [questKeys.finishedBy] = {{14833,}},
+            [questKeys.finishedBy] = {{14833}},
             [questKeys.requiredLevel] = 10,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1819,7 +1819,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79593] = {
             [questKeys.name] = "Coarse Weightstone",
             [questKeys.startedBy] = {{14832}},
-            [questKeys.finishedBy] = {{14832,}},
+            [questKeys.finishedBy] = {{14832}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1830,7 +1830,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79594] = {
             [questKeys.name] = "Copper Modulator",
             [questKeys.startedBy] = {{14841}},
-            [questKeys.finishedBy] = {{14841,}},
+            [questKeys.finishedBy] = {{14841}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1841,7 +1841,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79595] = {
             [questKeys.name] = "Carnival Boots",
             [questKeys.startedBy] = {{14833}},
-            [questKeys.finishedBy] = {{14833,}},
+            [questKeys.finishedBy] = {{14833}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1852,7 +1852,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79624] = {
             [questKeys.name] = "Anyone Can Cook",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{217300,}},
+            [questKeys.finishedBy] = {{217300}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1862,8 +1862,8 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [79626] = {
             [questKeys.name] = "The Salvagematic 9000!",
-            [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = nil,
+            [questKeys.startedBy] = {nil,{422483}},
+            [questKeys.finishedBy] = {nil,{422483}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1874,7 +1874,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79677] = {
             [questKeys.name] = "A Quick Grocery Run",
             [questKeys.startedBy] = {{217300}},
-            [questKeys.finishedBy] = {{217300,}},
+            [questKeys.finishedBy] = {{217300}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1885,7 +1885,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79678] = {
             [questKeys.name] = "Taste Testing",
             [questKeys.startedBy] = {{217300}},
-            [questKeys.finishedBy] = {{217300,}},
+            [questKeys.finishedBy] = {{217300}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1907,7 +1907,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79705] = {
             [questKeys.name] = "Salvaging the Salvagematic",
             [questKeys.startedBy] = {{217689}},
-            [questKeys.finishedBy] = {{217689,}},
+            [questKeys.finishedBy] = {{217689}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1918,7 +1918,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79731] = {
             [questKeys.name] = "The Troll Scroll",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{715,}},
+            [questKeys.finishedBy] = {{715}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1929,7 +1929,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79905] = {
             [questKeys.name] = "A Taste of Knowledge",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211033,}},
+            [questKeys.finishedBy] = {{211033}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1940,7 +1940,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79939] = {
             [questKeys.name] = "The Broken Hammer",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{5492,}},
+            [questKeys.finishedBy] = {{5492}},
             [questKeys.requiredLevel] = 25,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1951,7 +1951,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79940] = {
             [questKeys.name] = "A Lost Brother",
             [questKeys.startedBy] = {{5492}},
-            [questKeys.finishedBy] = {{5492,}},
+            [questKeys.finishedBy] = {{5492}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1962,7 +1962,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79945] = {
             [questKeys.name] = "Orders from the Grand Crusader",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{5492,}},
+            [questKeys.finishedBy] = {{5492}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1973,7 +1973,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79946] = {
             [questKeys.name] = "A Brother In Need",
             [questKeys.startedBy] = {{5492}},
-            [questKeys.finishedBy] = {{217996,}},
+            [questKeys.finishedBy] = {{217996}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1984,7 +1984,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79947] = {
             [questKeys.name] = "Geomancy: The Stone-Cold Truth",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1995,7 +1995,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79948] = {
             [questKeys.name] = "Defensive Magics 101",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2006,7 +2006,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79949] = {
             [questKeys.name] = "A Web of Lies: Debunking Myths and Legends",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2017,7 +2017,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79950] = {
             [questKeys.name] = "Demons and You",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2028,7 +2028,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79951] = {
             [questKeys.name] = "Mummies: A Guide to the Unsavory Undead",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2039,7 +2039,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79952] = {
             [questKeys.name] = "RwlRwlRwlRwl!",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2050,7 +2050,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79953] = {
             [questKeys.name] = "A Ludite's Guide to Caring for Your Demonic Pet",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2061,7 +2061,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79963] = {
             [questKeys.name] = "By The Light's Grace",
             [questKeys.startedBy] = {{217996}},
-            [questKeys.finishedBy] = {{217996,}},
+            [questKeys.finishedBy] = {{217996}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2072,7 +2072,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79970] = {
             [questKeys.name] = "Aeonas the Vindicated",
             [questKeys.startedBy] = {{217996}},
-            [questKeys.finishedBy] = {{218160,}},
+            [questKeys.finishedBy] = {{218160}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2127,7 +2127,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79981] = {
             [questKeys.name] = "The Corroded Core",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{218237,}},
+            [questKeys.finishedBy] = {{218237}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2138,7 +2138,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79982] = {
             [questKeys.name] = "Warranty Claim",
             [questKeys.startedBy] = {{218237}},
-            [questKeys.finishedBy] = {{218237,}},
+            [questKeys.finishedBy] = {{218237}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2149,7 +2149,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79984] = {
             [questKeys.name] = "Quadrangulation",
             [questKeys.startedBy] = {{7853}},
-            [questKeys.finishedBy] = {{7853,}},
+            [questKeys.finishedBy] = {{7853}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2160,7 +2160,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79985] = {
             [questKeys.name] = "A Fine Mess",
             [questKeys.startedBy] = {{7850}},
-            [questKeys.finishedBy] = {{7853,}},
+            [questKeys.finishedBy] = {{7853}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2193,7 +2193,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79990] = {
             [questKeys.name] = "Stranglethorn Lumber",
             [questKeys.startedBy] = {{14984}},
-            [questKeys.finishedBy] = {{14984,}},
+            [questKeys.finishedBy] = {{14984}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2204,7 +2204,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [79991] = {
             [questKeys.name] = "Stranglethorn Lumber",
             [questKeys.startedBy] = {{15022}},
-            [questKeys.finishedBy] = {{15022,}},
+            [questKeys.finishedBy] = {{15022}},
             [questKeys.requiredLevel] = 26,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -2226,7 +2226,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80098] = {
             [questKeys.name] = "Curious Dalaran Relic",
             [questKeys.startedBy] = {{218920}},
-            [questKeys.finishedBy] = {{218920,}},
+            [questKeys.finishedBy] = {{218920}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2237,7 +2237,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80120] = {
             [questKeys.name] = "A Service to Dalaran",
             [questKeys.startedBy] = {{218920}},
-            [questKeys.finishedBy] = {{218920,}},
+            [questKeys.finishedBy] = {{218920}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2248,7 +2248,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80131] = {
             [questKeys.name] = "Gnome Improvement",
             [questKeys.startedBy] = {{6826}},
-            [questKeys.finishedBy] = {{6826,}},
+            [questKeys.finishedBy] = {{6826}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2259,7 +2259,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80132] = {
             [questKeys.name] = "Rig Wars",
             [questKeys.startedBy] = {{3412}},
-            [questKeys.finishedBy] = {{3412,}},
+            [questKeys.finishedBy] = {{3412}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -2270,7 +2270,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80133] = {
             [questKeys.name] = "Chief Engineer Scooty",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{7853,}},
+            [questKeys.finishedBy] = {{7853}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -2281,7 +2281,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80134] = {
             [questKeys.name] = "Gnomer-gooooone!",
             [questKeys.startedBy] = {{7853}},
-            [questKeys.finishedBy] = {{7853,}},
+            [questKeys.finishedBy] = {{7853}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -2292,7 +2292,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80135] = {
             [questKeys.name] = "Klockmort's Essentials",
             [questKeys.startedBy] = {{6142}},
-            [questKeys.finishedBy] = {{6169,}},
+            [questKeys.finishedBy] = {{6169}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2303,7 +2303,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80136] = {
             [questKeys.name] = "Essential Artificials",
             [questKeys.startedBy] = {{6169}},
-            [questKeys.finishedBy] = {{6169,}},
+            [questKeys.finishedBy] = {{6169}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2314,7 +2314,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80137] = {
             [questKeys.name] = "Save Techbot's Brain!",
             [questKeys.startedBy] = {{7944}},
-            [questKeys.finishedBy] = {{7944,}},
+            [questKeys.finishedBy] = {{7944}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2325,7 +2325,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80138] = {
             [questKeys.name] = "Tinkmaster Overspark",
             [questKeys.startedBy] = {{7917}},
-            [questKeys.finishedBy] = {{7944,}},
+            [questKeys.finishedBy] = {{7944}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2336,7 +2336,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80139] = {
             [questKeys.name] = "Gnogaine",
             [questKeys.startedBy] = {{1268}},
-            [questKeys.finishedBy] = {{1268,}},
+            [questKeys.finishedBy] = {{1268}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2358,7 +2358,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80141] = {
             [questKeys.name] = "Nogg's Ring Redo",
             [questKeys.startedBy] = {{3412}},
-            [questKeys.finishedBy] = {{3412,}},
+            [questKeys.finishedBy] = {{3412}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -2369,7 +2369,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80143] = {
             [questKeys.name] = "Data Rescue",
             [questKeys.startedBy] = {{7950}},
-            [questKeys.finishedBy] = {{7950,}},
+            [questKeys.finishedBy] = {{7950}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2380,7 +2380,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80147] = {
             [questKeys.name] = "Curious Dalaran Relic",
             [questKeys.startedBy] = {{218920}},
-            [questKeys.finishedBy] = {{218920,}},
+            [questKeys.finishedBy] = {{218920}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2391,7 +2391,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80148] = {
             [questKeys.name] = "Curious Dalaran Relic",
             [questKeys.startedBy] = {{218920}},
-            [questKeys.finishedBy] = {{218920,}},
+            [questKeys.finishedBy] = {{218920}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2402,7 +2402,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80149] = {
             [questKeys.name] = "Curious Dalaran Relic",
             [questKeys.startedBy] = {{218920}},
-            [questKeys.finishedBy] = {{218920,}},
+            [questKeys.finishedBy] = {{218920}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2413,7 +2413,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80150] = {
             [questKeys.name] = "Curious Dalaran Relic",
             [questKeys.startedBy] = {{218920}},
-            [questKeys.finishedBy] = {{218920,}},
+            [questKeys.finishedBy] = {{218920}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2424,7 +2424,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80151] = {
             [questKeys.name] = "Curious Dalaran Relic",
             [questKeys.startedBy] = {{218920}},
-            [questKeys.finishedBy] = {{218920,}},
+            [questKeys.finishedBy] = {{218920}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2435,7 +2435,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80152] = {
             [questKeys.name] = "Curious Dalaran Relic",
             [questKeys.startedBy] = {{218920}},
-            [questKeys.finishedBy] = {{218920,}},
+            [questKeys.finishedBy] = {{218920}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2512,7 +2512,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80169] = {
             [questKeys.name] = "Cluster Launcher",
             [questKeys.startedBy] = {{15909}},
-            [questKeys.finishedBy] = {{15909,}},
+            [questKeys.finishedBy] = {{15909}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2523,7 +2523,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80180] = {
             [questKeys.name] = "The Grand Betrayal",
             [questKeys.startedBy] = {{7937}},
-            [questKeys.finishedBy] = {{7937,}},
+            [questKeys.finishedBy] = {{7937}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2534,7 +2534,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80181] = {
             [questKeys.name] = "Gyrodrillmatic Excavationators",
             [questKeys.startedBy] = {{6579}},
-            [questKeys.finishedBy] = {{6579,}},
+            [questKeys.finishedBy] = {{6579}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2545,7 +2545,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80182] = {
             [questKeys.name] = "The Only Cure is More Green Glow",
             [questKeys.startedBy] = {{1268}},
-            [questKeys.finishedBy] = {{1268,}},
+            [questKeys.finishedBy] = {{1268}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2556,7 +2556,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80241] = {
             [questKeys.name] = "The Origins of Smithing",
             [questKeys.startedBy] = {{7798}},
-            [questKeys.finishedBy] = {{7798,}},
+            [questKeys.finishedBy] = {{7798}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2567,7 +2567,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80307] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214101}},
-            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 28,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2578,7 +2578,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80308] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214101}},
-            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2589,7 +2589,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80309] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214101}},
-            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101,}},
+            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2600,7 +2600,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80324] = {
             [questKeys.name] = "The Mad King",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{7937,}},
+            [questKeys.finishedBy] = {{7937}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2611,7 +2611,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80325] = {
             [questKeys.name] = "The Mad King",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{3412,}},
+            [questKeys.finishedBy] = {{3412}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -2622,7 +2622,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80411] = {
             [questKeys.name] = "The Talisman of Kazdor",
             [questKeys.startedBy] = {{6707}},
-            [questKeys.finishedBy] = {{6707,}},
+            [questKeys.finishedBy] = {{6707}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2633,7 +2633,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80421] = {
             [questKeys.name] = "Green Iron Bracers",
             [questKeys.startedBy] = {{14832}},
-            [questKeys.finishedBy] = {{14832,}},
+            [questKeys.finishedBy] = {{14832}},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2644,7 +2644,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80422] = {
             [questKeys.name] = "Green Fireworks",
             [questKeys.startedBy] = {{14841}},
-            [questKeys.finishedBy] = {{14841,}},
+            [questKeys.finishedBy] = {{14841}},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2655,7 +2655,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80423] = {
             [questKeys.name] = "The World's Largest Gnome!",
             [questKeys.startedBy] = {{14833}},
-            [questKeys.finishedBy] = {{14833,}},
+            [questKeys.finishedBy] = {{14833}},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2666,7 +2666,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80453] = {
             [questKeys.name] = "Best Laid Plans",
             [questKeys.startedBy] = {{6707}},
-            [questKeys.finishedBy] = {{6777,}},
+            [questKeys.finishedBy] = {{6777}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2699,7 +2699,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [80526] = {
             [questKeys.name] = "Fool Me Twice",
             [questKeys.startedBy] = {{6707}},
-            [questKeys.finishedBy] = {{6707,}},
+            [questKeys.finishedBy] = {{6707}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2710,7 +2710,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81570] = {
             [questKeys.name] = "Jarl Needs a Blade",
             [questKeys.startedBy] = {{4792}},
-            [questKeys.finishedBy] = {{4792,}},
+            [questKeys.finishedBy] = {{4792}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2721,7 +2721,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81682] = {
             [questKeys.name] = "The Old Champ",
             [questKeys.startedBy] = {{220984}},
-            [questKeys.finishedBy] = {{221400,}},
+            [questKeys.finishedBy] = {{221400}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2732,7 +2732,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81697] = {
             [questKeys.name] = "Defanged",
             [questKeys.startedBy] = {{221400}},
-            [questKeys.finishedBy] = {{221400,}},
+            [questKeys.finishedBy] = {{221400}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2743,7 +2743,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81716] = {
             [questKeys.name] = "Recover Incursion Field Report: Duskwood",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2754,7 +2754,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81727] = {
             [questKeys.name] = "Recover Incursion Field Report: Ashenvale",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2765,7 +2765,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81728] = {
             [questKeys.name] = "Recover Incursion Field Report: Hinterlands",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2776,7 +2776,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81729] = {
             [questKeys.name] = "Recover Incursion Field Report: Feralas",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2787,7 +2787,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81730] = {
             [questKeys.name] = "Duskwood Mission I: Defeat Worgen",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2798,7 +2798,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81731] = {
             [questKeys.name] = "Duskwood Mission II: Defeat Ogres",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2809,7 +2809,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81732] = {
             [questKeys.name] = "Duskwood Mission III: Defeat Dragonkin",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2820,7 +2820,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81733] = {
             [questKeys.name] = "Duskwood Mission IV: Ogre Intelligence",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2831,7 +2831,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81734] = {
             [questKeys.name] = "Duskwood Mission V: Worgen Intelligence",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2842,7 +2842,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81735] = {
             [questKeys.name] = "Duskwood Mission VI: Dragon Intelligence",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2853,7 +2853,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81736] = {
             [questKeys.name] = "Duskwood Mission VII: Recover Shadowscythe",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2864,7 +2864,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81737] = {
             [questKeys.name] = "Duskwood Mission VIII: Recover Ogre Magi text",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2875,7 +2875,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81738] = {
             [questKeys.name] = "Duskwood Mission IX: Recover Dragon Egg",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2886,7 +2886,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81739] = {
             [questKeys.name] = "Duskwood Mission X: Nightmare Moss",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2897,7 +2897,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81740] = {
             [questKeys.name] = "Duskwood Mission XI: Cold Iron Ore",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2908,7 +2908,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81741] = {
             [questKeys.name] = "Duskwood Mission XII: Dream-Touched Dragonscale",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2919,7 +2919,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81742] = {
             [questKeys.name] = "Duskwood Mission XIII: Defeat Ylanthrius",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2930,7 +2930,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81743] = {
             [questKeys.name] = "Duskwood Mission XIV: Defeat Vvarc'zul",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2941,7 +2941,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81744] = {
             [questKeys.name] = "Duskwood Mission XV: Defeat Amokarok",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2952,7 +2952,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81745] = {
             [questKeys.name] = "Duskwood Mission XVI: Rescue Kroll Mountainshade",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2963,7 +2963,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81746] = {
             [questKeys.name] = "Duskwood Mission XVII: Rescue Alara Grovemender",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2974,7 +2974,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81747] = {
             [questKeys.name] = "Duskwood Mission XVIII: Rescue Elenora Marshwalker",
             [questKeys.startedBy] = {{221471}},
-            [questKeys.finishedBy] = {{221471,}},
+            [questKeys.finishedBy] = {{221471}},
             [questKeys.requiredLevel] = 23,
             [questKeys.questLevel] = 27,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2985,7 +2985,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81762] = {
             [questKeys.name] = "Some Good News",
             [questKeys.startedBy] = {{218160}},
-            [questKeys.finishedBy] = {{5492,}},
+            [questKeys.finishedBy] = {{5492}},
             [questKeys.requiredLevel] = 44,
             [questKeys.questLevel] = 46,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2996,10 +2996,10 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81764] = {
             [questKeys.name] = "The Mysterious Merchant",
             [questKeys.startedBy] = {{5492}},
-            [questKeys.finishedBy] = {{221575,}},
+            [questKeys.finishedBy] = {{221575}},
             [questKeys.requiredLevel] = 44,
             [questKeys.questLevel] = 46,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Travel to Theramore and find the mysterious merchant."},
             [questKeys.objectives] = {{{221575}}},
@@ -3007,10 +3007,10 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81765] = {
             [questKeys.name] = "Elrick, Paladin of the Silver Hand",
             [questKeys.startedBy] = {{221575}},
-            [questKeys.finishedBy] = {{6272,}},
+            [questKeys.finishedBy] = {{6272}},
             [questKeys.requiredLevel] = 44,
             [questKeys.questLevel] = 46,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Speak with Elrick to learn more."},
             [questKeys.objectives] = {{{221575}}},
@@ -3018,7 +3018,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81766] = {
             [questKeys.name] = "The Bloody Missive",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{5492,}},
+            [questKeys.finishedBy] = {{5492}},
             [questKeys.requiredLevel] = 44,
             [questKeys.questLevel] = 46,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -3029,7 +3029,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81768] = {
             [questKeys.name] = "Ashenvale Mission I: Defeat Satyrs",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3040,7 +3040,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81769] = {
             [questKeys.name] = "Ashenvale Mission II: Defeat Treants",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3051,7 +3051,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81770] = {
             [questKeys.name] = "Ashenvale Mission III: Defeat Dragonkin",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3062,7 +3062,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81771] = {
             [questKeys.name] = "Ashenvale Mission IV: Dragon Intelligence",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3073,7 +3073,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81772] = {
             [questKeys.name] = "Ashenvale Mission V: Satyr Intelligence",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3084,7 +3084,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81773] = {
             [questKeys.name] = "Ashenvale Mission VI: Treant Intelligence",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3095,7 +3095,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81774] = {
             [questKeys.name] = "Ashenvale Mission VII: Recover Dreamengine",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3106,7 +3106,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81775] = {
             [questKeys.name] = "Ashenvale Mission VIII: Recover Azsharan Prophecy",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3117,7 +3117,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81776] = {
             [questKeys.name] = "Ashenvale Mission IX: Recover Dream-Touched Dragonegg",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3128,7 +3128,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81777] = {
             [questKeys.name] = "Ashenvale Mission X: Dreamroot",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3139,7 +3139,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81778] = {
             [questKeys.name] = "Ashenvale Mission XI: Fool's Gold Dust",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3150,7 +3150,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81779] = {
             [questKeys.name] = "Ashenvale Mission XII: Dream-Infused Dragonscale",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3161,7 +3161,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81780] = {
             [questKeys.name] = "Ashenvale Mission XIII: Defeat Larsera",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3172,7 +3172,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81781] = {
             [questKeys.name] = "Ashenvale Mission XIV: Defeat Zalius",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3183,7 +3183,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81782] = {
             [questKeys.name] = "Ashenvale Mission XV: Defeat Shredder 9000",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3194,7 +3194,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81783] = {
             [questKeys.name] = "Ashenvale Mission XVI: Rescue Alyssian Windcaller",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3205,7 +3205,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81784] = {
             [questKeys.name] = "Ashenvale Mission XVII: Rescue Doran Dreambough",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3216,7 +3216,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81785] = {
             [questKeys.name] = "Ashenvale Mission XVIII: Rescue Maseara Autumnmoon",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{221477,}},
+            [questKeys.finishedBy] = {{221477}},
             [questKeys.requiredLevel] = 37,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3227,7 +3227,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81786] = {
             [questKeys.name] = "Hinterlands Mission I: Defeat Moonkin",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3238,7 +3238,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81787] = {
             [questKeys.name] = "Hinterlands Mission II: Defeat Giant Turtles",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3249,7 +3249,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81788] = {
             [questKeys.name] = "Hinterlands Mission III: Defeat Dragonkin",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3260,7 +3260,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81789] = {
             [questKeys.name] = "Hinterlands Mission IV: Dragon Intelligence",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3271,7 +3271,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81790] = {
             [questKeys.name] = "Materials of Significance",
             [questKeys.startedBy] = {{221636}},
-            [questKeys.finishedBy] = {{221636,}},
+            [questKeys.finishedBy] = {{221636}},
             [questKeys.requiredLevel] = 44,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -3282,7 +3282,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81801] = {
             [questKeys.name] = "Return to the Arena",
             [questKeys.startedBy] = {{221400}},
-            [questKeys.finishedBy] = {{220984,}},
+            [questKeys.finishedBy] = {{220984}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3293,7 +3293,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81817] = {
             [questKeys.name] = "Hinterlands Mission V: Turtle Intelligence",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3304,7 +3304,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81820] = {
             [questKeys.name] = "Hinterlands Mission VI: Moonkin Intelligence",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3315,7 +3315,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81826] = {
             [questKeys.name] = "Hinterlands Mission VII: Recover Star-Touched Dragonegg",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3326,7 +3326,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81830] = {
             [questKeys.name] = "Hinterlands Mission VIII: Recover Elunar Relic",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3337,7 +3337,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81832] = {
             [questKeys.name] = "Hinterlands Mission IX: Recover Dreampearl",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3348,7 +3348,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81833] = {
             [questKeys.name] = "Hinterlands Mission X: Star Lotus",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3359,7 +3359,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81834] = {
             [questKeys.name] = "Hinterlands Mission XI: Starsilver Ore",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3370,7 +3370,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81835] = {
             [questKeys.name] = "Hinterlands Mission XII: Starshells",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3381,7 +3381,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81837] = {
             [questKeys.name] = "Hinterlands Mission XIII: Defeat Florius",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3392,7 +3392,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81838] = {
             [questKeys.name] = "Hinterlands Mission XIV: Defeat Doomkin",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3403,7 +3403,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81839] = {
             [questKeys.name] = "Hinterlands Mission XV: Defeat Ghamoo-Raja",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3414,7 +3414,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81850] = {
             [questKeys.name] = "Hinterlands Mission XVI: Rescue Elianar Shadowdrinker",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3425,7 +3425,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81851] = {
             [questKeys.name] = "Hinterlands Mission XVII: Rescue Serlina Starbright",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3436,7 +3436,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81852] = {
             [questKeys.name] = "Hinterlands Mission XVIII: Rescue Veanna Cloudsleeper",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3447,7 +3447,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81855] = {
             [questKeys.name] = "Feralas Mission I: Defeat Children of Cenarius",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3458,7 +3458,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81856] = {
             [questKeys.name] = "Feralas Mission II: Defeat Harpies",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3469,7 +3469,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81857] = {
             [questKeys.name] = "Feralas Mission III: Defeat Dragonkin",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3480,7 +3480,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81858] = {
             [questKeys.name] = "Feralas Mission IV: Dragon Intelligence",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3491,7 +3491,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81859] = {
             [questKeys.name] = "Feralas Mission V: Cenarion Intelligence",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3502,7 +3502,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81860] = {
             [questKeys.name] = "Feralas Mission VI: Harpy Intelligence",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3513,7 +3513,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81861] = {
             [questKeys.name] = "Feralas Mission VII: Recover Moonglow Dragonegg",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3524,7 +3524,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81863] = {
             [questKeys.name] = "Feralas Mission VIII: Recover Keeper's Notes",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3535,7 +3535,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81864] = {
             [questKeys.name] = "Feralas Mission IX: Recover Harpy Screed",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3546,7 +3546,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81865] = {
             [questKeys.name] = "Feralas Mission X: Moonroot",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3557,7 +3557,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81866] = {
             [questKeys.name] = "Feralas Mission XI: Greater Moonstone",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3568,7 +3568,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81867] = {
             [questKeys.name] = "Feralas Mission XII: Greater Moondragon Scales",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3579,7 +3579,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81868] = {
             [questKeys.name] = "Feralas Mission XIII: Defeat Tyrannikus",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3590,7 +3590,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81870] = {
             [questKeys.name] = "Feralas Mission XIV: Defeat Alondrius",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3601,7 +3601,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81871] = {
             [questKeys.name] = "Feralas Mission XV: Defeat Slirena",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3612,7 +3612,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81872] = {
             [questKeys.name] = "Feralas Mission XVI: Rescue Mellias Earthtender",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3623,7 +3623,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81873] = {
             [questKeys.name] = "Feralas Mission XVII: Rescue Nerene Brooksinger",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3634,7 +3634,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81874] = {
             [questKeys.name] = "Feralas Mission XVIII: Rescue Jamniss Treemender",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3645,7 +3645,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81877] = {
             [questKeys.name] = "Fight Night",
             [questKeys.startedBy] = {{220984}},
-            [questKeys.finishedBy] = {{220984,}},
+            [questKeys.finishedBy] = {{220984}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3656,7 +3656,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81885] = {
             [questKeys.name] = "The Ritual",
             [questKeys.startedBy] = {{221587}},
-            [questKeys.finishedBy] = {{221587,}},
+            [questKeys.finishedBy] = {{221587}},
             [questKeys.requiredLevel] = 44,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -3667,7 +3667,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81900] = {
             [questKeys.name] = "The Burning Beast",
             [questKeys.startedBy] = {nil,{441061}},
-            [questKeys.finishedBy] = {{7506,}},
+            [questKeys.finishedBy] = {{7506}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3678,7 +3678,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81917] = {
             [questKeys.name] = "Chains That Bind",
             [questKeys.startedBy] = {{7506}},
-            [questKeys.finishedBy] = {{7506,}},
+            [questKeys.finishedBy] = {{7506}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3689,7 +3689,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81919] = {
             [questKeys.name] = "Brought to Heel",
             [questKeys.startedBy] = {{7506}},
-            [questKeys.finishedBy] = {{7506,}},
+            [questKeys.finishedBy] = {{7506}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3700,7 +3700,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81924] = {
             [questKeys.name] = "Wisdom of the Guardians",
             [questKeys.startedBy] = {{221985}},
-            [questKeys.finishedBy] = {{221985,}},
+            [questKeys.finishedBy] = {{221985}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3711,7 +3711,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81944] = {
             [questKeys.name] = "A Newly Discovered Purpose...",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{214529,}},
+            [questKeys.finishedBy] = {{214529}},
             [questKeys.requiredLevel] = 44,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3722,7 +3722,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81947] = {
             [questKeys.name] = "Sanguine Sorcery",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3733,7 +3733,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81949] = {
             [questKeys.name] = "Legends of the Tidesages",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3744,7 +3744,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81951] = {
             [questKeys.name] = "The Liminal and the Arcane",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3755,7 +3755,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81952] = {
             [questKeys.name] = "Everyday Etiquette",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3766,7 +3766,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81953] = {
             [questKeys.name] = "Stonewrought Design",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3777,7 +3777,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81954] = {
             [questKeys.name] = "Venomous Journeys",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3788,7 +3788,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81955] = {
             [questKeys.name] = "A Mind of Metal",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3799,7 +3799,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81956] = {
             [questKeys.name] = "Conjurer's Codex",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3810,7 +3810,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81960] = {
             [questKeys.name] = "Clarifying Air",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{222289,}},
+            [questKeys.finishedBy] = {{222289}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -3821,7 +3821,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81967] = {
             [questKeys.name] = "Otherworldly Treasure",
             [questKeys.startedBy] = {{222052}},
-            [questKeys.finishedBy] = {{222052,}},
+            [questKeys.finishedBy] = {{222052}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 10,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3832,7 +3832,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81968] = {
             [questKeys.name] = "Answering Air's Call",
             [questKeys.startedBy] = {{222289}},
-            [questKeys.finishedBy] = {{222289,}},
+            [questKeys.finishedBy] = {{222289}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -3843,7 +3843,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81974] = {
             [questKeys.name] = "More Junk for Ziri",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{217689,}},
+            [questKeys.finishedBy] = {{217689}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3854,7 +3854,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81975] = {
             [questKeys.name] = "A Troubling Exchange",
             [questKeys.startedBy] = {{217689}},
-            [questKeys.finishedBy] = {{217689,}},
+            [questKeys.finishedBy] = {{217689}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3865,7 +3865,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81986] = {
             [questKeys.name] = "Waking the Nightmare",
             [questKeys.startedBy] = {{222188}},
-            [questKeys.finishedBy] = {{222188,}},
+            [questKeys.finishedBy] = {{222188}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3876,7 +3876,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [81987] = {
             [questKeys.name] = "Goblin Solutions",
             [questKeys.startedBy] = {{222261}},
-            [questKeys.finishedBy] = {{222261,}},
+            [questKeys.finishedBy] = {{222261}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3887,7 +3887,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82001] = {
             [questKeys.name] = "Require Gnomish Problems",
             [questKeys.startedBy] = {{222261}},
-            [questKeys.finishedBy] = {{222261,}},
+            [questKeys.finishedBy] = {{222261}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3898,7 +3898,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82002] = {
             [questKeys.name] = "Whats Red and Smells like Paint?",
             [questKeys.startedBy] = {{222261}},
-            [questKeys.finishedBy] = {{222261,}},
+            [questKeys.finishedBy] = {{222261}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3909,7 +3909,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82003] = {
             [questKeys.name] = "Victory Lap For the Goblins!",
             [questKeys.startedBy] = {{222261}},
-            [questKeys.finishedBy] = {{222316,}},
+            [questKeys.finishedBy] = {{222316}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3920,7 +3920,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82004] = {
             [questKeys.name] = "Hush Money",
             [questKeys.startedBy] = {{222316}},
-            [questKeys.finishedBy] = {{222316,}},
+            [questKeys.finishedBy] = {{222316}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3931,7 +3931,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82008] = {
             [questKeys.name] = "Gnomish Solutions",
             [questKeys.startedBy] = {{222316}},
-            [questKeys.finishedBy] = {{222316,}},
+            [questKeys.finishedBy] = {{222316}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3942,7 +3942,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82009] = {
             [questKeys.name] = "Require Goblin Problems",
             [questKeys.startedBy] = {{222316}},
-            [questKeys.finishedBy] = {{222316,}},
+            [questKeys.finishedBy] = {{222316}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3964,7 +3964,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82011] = {
             [questKeys.name] = "Victory Lap for the Gnomes!",
             [questKeys.startedBy] = {{222316}},
-            [questKeys.finishedBy] = {{222261,}},
+            [questKeys.finishedBy] = {{222261}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3986,7 +3986,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82016] = {
             [questKeys.name] = "Atal'ai Potent Potables",
             [questKeys.startedBy] = {{222413}},
-            [questKeys.finishedBy] = {{222413,}},
+            [questKeys.finishedBy] = {{222413}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3997,7 +3997,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82017] = {
             [questKeys.name] = "An Amalagamation of Nightmares",
             [questKeys.startedBy] = {{221477}},
-            [questKeys.finishedBy] = {{12042,}},
+            [questKeys.finishedBy] = {{12042}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4008,7 +4008,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82018] = {
             [questKeys.name] = "Itharius",
             [questKeys.startedBy] = {{12042}},
-            [questKeys.finishedBy] = {{5353,}},
+            [questKeys.finishedBy] = {{5353}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4019,7 +4019,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82019] = {
             [questKeys.name] = "Going Under",
             [questKeys.startedBy] = {{5353}},
-            [questKeys.finishedBy] = {{5353,}},
+            [questKeys.finishedBy] = {{5353}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4030,7 +4030,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82020] = {
             [questKeys.name] = "Return to Moonglade",
             [questKeys.startedBy] = {{5353}},
-            [questKeys.finishedBy] = {{12042,}},
+            [questKeys.finishedBy] = {{12042}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4041,7 +4041,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82021] = {
             [questKeys.name] = "A Fortuitous Turn of Events",
             [questKeys.startedBy] = {{222188}},
-            [questKeys.finishedBy] = {{222188,}},
+            [questKeys.finishedBy] = {{222188}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4052,7 +4052,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82022] = {
             [questKeys.name] = "The Bad News...",
             [questKeys.startedBy] = {{222188}},
-            [questKeys.finishedBy] = {{222188,}},
+            [questKeys.finishedBy] = {{222188}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4063,7 +4063,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82023] = {
             [questKeys.name] = "The Lost Vambraces",
             [questKeys.startedBy] = {{222444}},
-            [questKeys.finishedBy] = {{222451,}},
+            [questKeys.finishedBy] = {{222451}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4074,7 +4074,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82043] = {
             [questKeys.name] = "The Wild Gods",
             [questKeys.startedBy] = {{222408}},
-            [questKeys.finishedBy] = {{222522,}},
+            [questKeys.finishedBy] = {{222522}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4085,7 +4085,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82044] = {
             [questKeys.name] = "The Wild Gods",
             [questKeys.startedBy] = {{222522}},
-            [questKeys.finishedBy] = {{222408,}},
+            [questKeys.finishedBy] = {{222408}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4096,7 +4096,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82055] = {
             [questKeys.name] = "Darkmoon Dunes Deck",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{14847,}},
+            [questKeys.finishedBy] = {{14847}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4107,7 +4107,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82056] = {
             [questKeys.name] = "Darkmoon Nightmares Deck",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = nil,
+            [questKeys.finishedBy] = {{14847}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4118,7 +4118,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82057] = {
             [questKeys.name] = "Darkmoon Plagues Deck",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{14847,}},
+            [questKeys.finishedBy] = {{14847}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4129,7 +4129,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82058] = {
             [questKeys.name] = "Darkmoon Wilds Deck",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{14847,}},
+            [questKeys.finishedBy] = {{14847}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4140,7 +4140,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82062] = {
             [questKeys.name] = "Ever After",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{222530,}},
+            [questKeys.finishedBy] = {{222530}},
             [questKeys.requiredLevel] = 48,
             [questKeys.questLevel] = 56,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4151,7 +4151,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82068] = {
             [questKeys.name] = "Fight the Nightmare Incursions",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,221480,}},
+            [questKeys.finishedBy] = {{221479,221480}},
             [questKeys.requiredLevel] = 47,
             [questKeys.questLevel] = 52,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4162,7 +4162,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82071] = {
             [questKeys.name] = "Purifying Fire",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{222617,}},
+            [questKeys.finishedBy] = {{222617}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4173,7 +4173,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82072] = {
             [questKeys.name] = "Purging Earth",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{222623,}},
+            [questKeys.finishedBy] = {{222623}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4184,7 +4184,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82073] = {
             [questKeys.name] = "Cleansing Water",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{222005,}},
+            [questKeys.finishedBy] = {{222005}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4195,7 +4195,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82074] = {
             [questKeys.name] = "Answering Fire's Call",
             [questKeys.startedBy] = {{222617}},
-            [questKeys.finishedBy] = {{222617,}},
+            [questKeys.finishedBy] = {{222617}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4206,7 +4206,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82075] = {
             [questKeys.name] = "Answering Earth's Call",
             [questKeys.startedBy] = {{222623}},
-            [questKeys.finishedBy] = {{222623,}},
+            [questKeys.finishedBy] = {{222623}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4217,7 +4217,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82076] = {
             [questKeys.name] = "Answering Water's Call",
             [questKeys.startedBy] = {{222005}},
-            [questKeys.finishedBy] = {{222005,}},
+            [questKeys.finishedBy] = {{222005}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4228,7 +4228,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82081] = {
             [questKeys.name] = "A Broken Ritual",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{14875,}},
+            [questKeys.finishedBy] = {{14875}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4250,7 +4250,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82084] = {
             [questKeys.name] = "A Lesson in Literacy",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 42,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4294,7 +4294,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82093] = {
             [questKeys.name] = "Jungle Durian",
             [questKeys.startedBy] = {{222413}},
-            [questKeys.finishedBy] = {{222413,}},
+            [questKeys.finishedBy] = {{222413}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4305,7 +4305,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82094] = {
             [questKeys.name] = "Signets of the Lost Temple",
             [questKeys.startedBy] = {{222413}},
-            [questKeys.finishedBy] = {{222413,}},
+            [questKeys.finishedBy] = {{222413}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4316,7 +4316,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82095] = {
             [questKeys.name] = "The God Hakkar",
             [questKeys.startedBy] = {{8579}},
-            [questKeys.finishedBy] = {{8579,}},
+            [questKeys.finishedBy] = {{8579}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4349,7 +4349,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82098] = {
             [questKeys.name] = "Into The Temple of Atal'Hakkar",
             [questKeys.startedBy] = {{5384}},
-            [questKeys.finishedBy] = {{5384,}},
+            [questKeys.finishedBy] = {{5384}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4360,7 +4360,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82099] = {
             [questKeys.name] = "Haze of Evil",
             [questKeys.startedBy] = {{7775}},
-            [questKeys.finishedBy] = {{9119,}},
+            [questKeys.finishedBy] = {{9119}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4382,7 +4382,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82101] = {
             [questKeys.name] = "Zapper Fuel",
             [questKeys.startedBy] = {{8496}},
-            [questKeys.finishedBy] = {{9118,}},
+            [questKeys.finishedBy] = {{9118}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4404,7 +4404,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82104] = {
             [questKeys.name] = "Jammal'an the Prophet",
             [questKeys.startedBy] = {{5598}},
-            [questKeys.finishedBy] = {{5598,}},
+            [questKeys.finishedBy] = {{5598}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4415,7 +4415,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82106] = {
             [questKeys.name] = "Forging the Mightstone",
             [questKeys.startedBy] = {{10838}},
-            [questKeys.finishedBy] = {{10838,}},
+            [questKeys.finishedBy] = {{10838}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4426,7 +4426,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82107] = {
             [questKeys.name] = "Voodoo Feathers",
             [questKeys.startedBy] = {{7572}},
-            [questKeys.finishedBy] = {{7572,}},
+            [questKeys.finishedBy] = {{7572}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4437,7 +4437,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82108] = {
             [questKeys.name] = "The Green Drake",
             [questKeys.startedBy] = {{8405}},
-            [questKeys.finishedBy] = {{8405,}},
+            [questKeys.finishedBy] = {{8405}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4459,7 +4459,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82111] = {
             [questKeys.name] = "Blood of Morphaz",
             [questKeys.startedBy] = {{8405}},
-            [questKeys.finishedBy] = {{10922,}},
+            [questKeys.finishedBy] = {{10922}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4470,7 +4470,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82112] = {
             [questKeys.name] = "A Better Ingredient",
             [questKeys.startedBy] = {{9619}},
-            [questKeys.finishedBy] = {{9619,}},
+            [questKeys.finishedBy] = {{9619}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4481,7 +4481,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82113] = {
             [questKeys.name] = "Da Voodoo",
             [questKeys.startedBy] = {{6176}},
-            [questKeys.finishedBy] = {{6176,}},
+            [questKeys.finishedBy] = {{6176}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4492,7 +4492,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82114] = {
             [questKeys.name] = "Destroy Morphaz",
             [questKeys.startedBy] = {{8379}},
-            [questKeys.finishedBy] = {{8379,}},
+            [questKeys.finishedBy] = {{8379}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4503,7 +4503,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82115] = {
             [questKeys.name] = "Trolls of a Feather",
             [questKeys.startedBy] = {{14470}},
-            [questKeys.finishedBy] = {{14470,}},
+            [questKeys.finishedBy] = {{14470}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4514,7 +4514,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82135] = {
             [questKeys.name] = "The Price of Hope",
             [questKeys.startedBy] = {{221587}},
-            [questKeys.finishedBy] = {{5492,}},
+            [questKeys.finishedBy] = {{5492}},
             [questKeys.requiredLevel] = 44,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4525,7 +4525,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82208] = {
             [questKeys.name] = "Greater Friend of the Library",
             [questKeys.startedBy] = {{211033}},
-            [questKeys.finishedBy] = {{211022,211033,}},
+            [questKeys.finishedBy] = {{211022,211033}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4536,7 +4536,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82209] = {
             [questKeys.name] = "Water Pouch Bounty",
             [questKeys.startedBy] = {{7408}},
-            [questKeys.finishedBy] = {{7408,}},
+            [questKeys.finishedBy] = {{7408}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 44,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4547,7 +4547,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82210] = {
             [questKeys.name] = "Troll Necklace Bounty",
             [questKeys.startedBy] = {{7884}},
-            [questKeys.finishedBy] = {{7884,}},
+            [questKeys.finishedBy] = {{7884}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4607,7 +4607,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"A Darkmoon Faire quest. +100 reputation with Darkmoon Faire. Rewards Darkmoon Faire Prize Ticket. Added in Classic World of Warcraft. Always up to date."},
+            [questKeys.objectivesText] = {"For my act as the strongest woman alive, I plan to accept items from the audience and smash them with a big, black mace!Can you make me a big black mace, &lt;name&gt;?"},
             [questKeys.objectives] = {nil,nil,{{7945}}},
         },
         [82276] = {
@@ -4618,7 +4618,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"A Darkmoon Faire quest. +100 reputation with Darkmoon Faire. Rewards Darkmoon Faire Prize Ticket. Added in Classic World of Warcraft. Always up to date."},
+            [questKeys.objectivesText] = {"&lt;name&gt;, in my quest to become the strongest woman alive, I have traveled the world and learned muscle building secrets from distant weight masters, strength gurus, and ancient manuals. &nbsp;I now know forbidden exercises that would kill the weak and cripple the uninitiated!These feats of strength and conditioning require training with the densest of grinding stones. &nbsp;&lt;name&gt;, can you find or make some grinding stones and bring them to me? &nbsp;I'll give you tickets if you do..."},
             [questKeys.objectives] = {nil,nil,{{12644}}},
         },
         [82277] = {
@@ -4701,7 +4701,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82301] = {
             [questKeys.name] = "Otherworldly Treasure",
             [questKeys.startedBy] = {{222052}},
-            [questKeys.finishedBy] = {{222052,}},
+            [questKeys.finishedBy] = {{222052}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 25,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4712,7 +4712,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82302] = {
             [questKeys.name] = "Otherworldly Treasure",
             [questKeys.startedBy] = {{222052}},
-            [questKeys.finishedBy] = {{222052,}},
+            [questKeys.finishedBy] = {{222052}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 35,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4723,7 +4723,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82303] = {
             [questKeys.name] = "Otherworldly Treasure",
             [questKeys.startedBy] = {{222052}},
-            [questKeys.finishedBy] = {{222052,}},
+            [questKeys.finishedBy] = {{222052}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 10,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4734,7 +4734,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82307] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214101}},
-            [questKeys.finishedBy] = {{213077,214070,214096,214099,214101,}},
+            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 42,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4745,7 +4745,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82308] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214101}},
-            [questKeys.finishedBy] = {{213077,214070,214098,214099,214101,}},
+            [questKeys.finishedBy] = {{213077,214070,214096,214098,214099,214101}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4756,7 +4756,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82309] = {
             [questKeys.name] = "A Full Shipment",
             [questKeys.startedBy] = {{214101}},
-            [questKeys.finishedBy] = {{214070,214099,214101,}},
+            [questKeys.finishedBy] = {{213077,214070,214096,214099,214101}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4767,7 +4767,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82316] = {
             [questKeys.name] = "Seven Eyes I Seek...",
             [questKeys.startedBy] = {{223590}},
-            [questKeys.finishedBy] = {{223590,}},
+            [questKeys.finishedBy] = {{223590}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4778,7 +4778,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82323] = {
             [questKeys.name] = "Vibrant Plumes",
             [questKeys.startedBy] = {{14829}},
-            [questKeys.finishedBy] = {{14829,}},
+            [questKeys.finishedBy] = {{14829}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4789,7 +4789,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82656] = {
             [questKeys.name] = "Wild Leather Vest",
             [questKeys.startedBy] = {{7854}},
-            [questKeys.finishedBy] = {{7854,}},
+            [questKeys.finishedBy] = {{7854}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4800,7 +4800,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82657] = {
             [questKeys.name] = "Wild Leather Vest",
             [questKeys.startedBy] = {{7852}},
-            [questKeys.finishedBy] = {{7852,}},
+            [questKeys.finishedBy] = {{7852}},
             [questKeys.requiredLevel] = 30,
             [questKeys.questLevel] = 45,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4811,7 +4811,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82662] = {
             [questKeys.name] = "The Way of the Weaponsmith",
             [questKeys.startedBy] = {{11146}},
-            [questKeys.finishedBy] = {{11146,}},
+            [questKeys.finishedBy] = {{11146}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4822,7 +4822,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [82665] = {
             [questKeys.name] = "The Way of the Weaponsmith",
             [questKeys.startedBy] = {{11178}},
-            [questKeys.finishedBy] = {{11178,}},
+            [questKeys.finishedBy] = {{11178}},
             [questKeys.requiredLevel] = 40,
             [questKeys.questLevel] = 40,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4833,7 +4833,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [83188] = {
             [questKeys.name] = "Otherworldly Treasure",
             [questKeys.startedBy] = {{222052}},
-            [questKeys.finishedBy] = {{222052,}},
+            [questKeys.finishedBy] = {{222052}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4844,7 +4844,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [83189] = {
             [questKeys.name] = "Otherworldly Treasure",
             [questKeys.startedBy] = {{222052}},
-            [questKeys.finishedBy] = {{222052,}},
+            [questKeys.finishedBy] = {{222052}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4855,7 +4855,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [83190] = {
             [questKeys.name] = "Otherworldly Treasure",
             [questKeys.startedBy] = {{222052}},
-            [questKeys.finishedBy] = {{222052,}},
+            [questKeys.finishedBy] = {{222052}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4866,7 +4866,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [83191] = {
             [questKeys.name] = "Otherworldly Treasure",
             [questKeys.startedBy] = {{222052}},
-            [questKeys.finishedBy] = {{222052,}},
+            [questKeys.finishedBy] = {{222052}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4877,7 +4877,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [83192] = {
             [questKeys.name] = "Otherworldly Treasure",
             [questKeys.startedBy] = {{222052}},
-            [questKeys.finishedBy] = {{222052,}},
+            [questKeys.finishedBy] = {{222052}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4888,7 +4888,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [83808] = {
             [questKeys.name] = "In a Bind",
             [questKeys.startedBy] = {{227672}},
-            [questKeys.finishedBy] = {{227672,}},
+            [questKeys.finishedBy] = {{227672}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4899,7 +4899,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [83822] = {
             [questKeys.name] = "The Fallen Knight",
             [questKeys.startedBy] = {{227672}},
-            [questKeys.finishedBy] = {{227672,}},
+            [questKeys.finishedBy] = {{227672}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4910,7 +4910,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [83823] = {
             [questKeys.name] = "A Lesson in Violence",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{227673,}},
+            [questKeys.finishedBy] = {{227673}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4921,7 +4921,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [83934] = {
             [questKeys.name] = "Show Me The Money!",
             [questKeys.startedBy] = {{227853}},
-            [questKeys.finishedBy] = {{227853,}},
+            [questKeys.finishedBy] = {{227853}},
             [questKeys.requiredLevel] = 55,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4932,7 +4932,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [83935] = {
             [questKeys.name] = "Clearing the Path",
             [questKeys.startedBy] = {{227672}},
-            [questKeys.finishedBy] = {{227672,}},
+            [questKeys.finishedBy] = {{227672}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4943,7 +4943,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [83936] = {
             [questKeys.name] = "Dalton's Quest",
             [questKeys.startedBy] = {{227672}},
-            [questKeys.finishedBy] = {{227672,}},
+            [questKeys.finishedBy] = {{227672}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4954,7 +4954,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84008] = {
             [questKeys.name] = "A Lesson in Grace",
             [questKeys.startedBy] = nil,
-            [questKeys.finishedBy] = {{227464,}},
+            [questKeys.finishedBy] = {{227464}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -4965,7 +4965,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84011] = {
             [questKeys.name] = "More Star Lotus",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 53,
             [questKeys.questLevel] = 53,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4976,7 +4976,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84012] = {
             [questKeys.name] = "More Starsilver Ore",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 53,
             [questKeys.questLevel] = 53,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4987,7 +4987,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84013] = {
             [questKeys.name] = "More Starshells",
             [questKeys.startedBy] = {{221479}},
-            [questKeys.finishedBy] = {{221479,}},
+            [questKeys.finishedBy] = {{221479}},
             [questKeys.requiredLevel] = 53,
             [questKeys.questLevel] = 53,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4998,7 +4998,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84014] = {
             [questKeys.name] = "More Moonroot",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 53,
             [questKeys.questLevel] = 53,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5009,7 +5009,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84015] = {
             [questKeys.name] = "More Greater Moonstones",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 53,
             [questKeys.questLevel] = 53,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5020,7 +5020,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84016] = {
             [questKeys.name] = "More Moondragon Scales",
             [questKeys.startedBy] = {{221480}},
-            [questKeys.finishedBy] = {{221480,}},
+            [questKeys.finishedBy] = {{221480}},
             [questKeys.requiredLevel] = 53,
             [questKeys.questLevel] = 53,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5031,7 +5031,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84017] = {
             [questKeys.name] = "A Time to Kill",
             [questKeys.startedBy] = {{227674}},
-            [questKeys.finishedBy] = {{227674,}},
+            [questKeys.finishedBy] = {{227674}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5053,7 +5053,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84125] = {
             [questKeys.name] = "Close Enough To Touch",
             [questKeys.startedBy] = {{227674}},
-            [questKeys.finishedBy] = {{227674,}},
+            [questKeys.finishedBy] = {{227674}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5064,7 +5064,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84126] = {
             [questKeys.name] = "Finish the Fight",
             [questKeys.startedBy] = {{227674}},
-            [questKeys.finishedBy] = {{227674,}},
+            [questKeys.finishedBy] = {{227674}},
             [questKeys.requiredLevel] = 50,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5075,7 +5075,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84147] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5086,7 +5086,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84148] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5097,7 +5097,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84149] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5108,7 +5108,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84150] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5119,7 +5119,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84151] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5130,7 +5130,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84152] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5141,7 +5141,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84153] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5152,7 +5152,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84154] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5163,7 +5163,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84155] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5174,7 +5174,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84156] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5185,7 +5185,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84157] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5196,7 +5196,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84158] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5207,7 +5207,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84159] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5218,7 +5218,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84160] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5229,7 +5229,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84161] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5240,7 +5240,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84162] = {
             [questKeys.name] = "An Earnest Proposition",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5251,7 +5251,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84163] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5262,7 +5262,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84164] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5273,7 +5273,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84165] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5284,7 +5284,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84166] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5295,7 +5295,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84167] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5306,7 +5306,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84168] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5317,7 +5317,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84169] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5328,7 +5328,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84170] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5339,7 +5339,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84171] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5350,7 +5350,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84172] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5361,7 +5361,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84173] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5372,7 +5372,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84174] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5383,7 +5383,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84175] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5394,7 +5394,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84176] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5405,7 +5405,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84177] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5416,7 +5416,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84178] = {
             [questKeys.name] = "Just Compensation",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5427,7 +5427,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84179] = {
             [questKeys.name] = "Anthion's Parting Words",
             [questKeys.startedBy] = {{16016}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5438,7 +5438,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84180] = {
             [questKeys.name] = "Anthion's Parting Words",
             [questKeys.startedBy] = {{16016}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5449,7 +5449,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84181] = {
             [questKeys.name] = "Anthion's Parting Words",
             [questKeys.startedBy] = {{16016}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5460,7 +5460,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84182] = {
             [questKeys.name] = "Anthion's Parting Words",
             [questKeys.startedBy] = {{16016}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5471,7 +5471,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84183] = {
             [questKeys.name] = "Anthion's Parting Words",
             [questKeys.startedBy] = {{16016}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5482,7 +5482,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84184] = {
             [questKeys.name] = "Anthion's Parting Words",
             [questKeys.startedBy] = {{16016}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5493,7 +5493,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84185] = {
             [questKeys.name] = "Anthion's Parting Words",
             [questKeys.startedBy] = {{16016}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5504,7 +5504,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84186] = {
             [questKeys.name] = "Anthion's Parting Words",
             [questKeys.startedBy] = {{16016}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5515,7 +5515,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84187] = {
             [questKeys.name] = "Anthion's Parting Words",
             [questKeys.startedBy] = {{16016}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5526,7 +5526,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84188] = {
             [questKeys.name] = "Anthion's Parting Words",
             [questKeys.startedBy] = {{16016}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5537,7 +5537,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84189] = {
             [questKeys.name] = "Anthion's Parting Words",
             [questKeys.startedBy] = {{16016}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5548,7 +5548,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84190] = {
             [questKeys.name] = "Anthion's Parting Words",
             [questKeys.startedBy] = {{16016}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5559,7 +5559,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84191] = {
             [questKeys.name] = "Anthion's Parting Words",
             [questKeys.startedBy] = {{16016}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5570,7 +5570,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84192] = {
             [questKeys.name] = "Anthion's Parting Words",
             [questKeys.startedBy] = {{16016}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5581,7 +5581,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84193] = {
             [questKeys.name] = "Anthion's Parting Words",
             [questKeys.startedBy] = {{16016}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5603,7 +5603,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84195] = {
             [questKeys.name] = "Saving the Best for Last",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5614,7 +5614,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84196] = {
             [questKeys.name] = "Saving the Best for Last",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5625,7 +5625,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84197] = {
             [questKeys.name] = "Saving the Best for Last",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5636,7 +5636,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84198] = {
             [questKeys.name] = "Saving the Best for Last",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5647,7 +5647,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84199] = {
             [questKeys.name] = "Saving the Best for Last",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5658,7 +5658,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84200] = {
             [questKeys.name] = "Saving the Best for Last",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5669,7 +5669,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84201] = {
             [questKeys.name] = "Saving the Best for Last",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5680,7 +5680,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84202] = {
             [questKeys.name] = "Saving the Best for Last",
             [questKeys.startedBy] = {{230319}},
-            [questKeys.finishedBy] = {{230319,}},
+            [questKeys.finishedBy] = {{230319}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5702,7 +5702,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84204] = {
             [questKeys.name] = "Saving the Best for Last",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5713,7 +5713,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84205] = {
             [questKeys.name] = "Saving the Best for Last",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5724,7 +5724,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84206] = {
             [questKeys.name] = "Saving the Best for Last",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5735,7 +5735,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84207] = {
             [questKeys.name] = "Saving the Best for Last",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5746,7 +5746,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84208] = {
             [questKeys.name] = "Saving the Best for Last",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5757,7 +5757,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84209] = {
             [questKeys.name] = "Saving the Best for Last",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5768,7 +5768,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84210] = {
             [questKeys.name] = "Saving the Best for Last",
             [questKeys.startedBy] = {{230317}},
-            [questKeys.finishedBy] = {{230317,}},
+            [questKeys.finishedBy] = {{230317}},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -5779,7 +5779,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84320] = {
             [questKeys.name] = "Lost Heirloom",
             [questKeys.startedBy] = {{376}},
-            [questKeys.finishedBy] = {{376,}},
+            [questKeys.finishedBy] = {{376}},
             [questKeys.requiredLevel] = 48,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5812,7 +5812,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84323] = {
             [questKeys.name] = "The Prize Within",
             [questKeys.startedBy] = {nil,{459388}},
-            [questKeys.finishedBy] = {{376,}},
+            [questKeys.finishedBy] = {{376}},
             [questKeys.requiredLevel] = 48,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5823,7 +5823,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84348] = {
             [questKeys.name] = "Priority Target: Duke Tectonis",
             [questKeys.startedBy] = {{14627}},
-            [questKeys.finishedBy] = {{14627,}},
+            [questKeys.finishedBy] = {{14627}},
             [questKeys.requiredLevel] = 53,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5834,7 +5834,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84349] = {
             [questKeys.name] = "Priority Target: Duke Searbrand",
             [questKeys.startedBy] = {{14634}},
-            [questKeys.finishedBy] = {{14634,}},
+            [questKeys.finishedBy] = {{14634}},
             [questKeys.requiredLevel] = 53,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5845,7 +5845,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84350] = {
             [questKeys.name] = "Grinding Them Down",
             [questKeys.startedBy] = {{14628}},
-            [questKeys.finishedBy] = {{14628,}},
+            [questKeys.finishedBy] = {{14628}},
             [questKeys.requiredLevel] = 53,
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5856,7 +5856,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84351] = {
             [questKeys.name] = "Work Smarter, Not Harder",
             [questKeys.startedBy] = {{14626}},
-            [questKeys.finishedBy] = {{14626,}},
+            [questKeys.finishedBy] = {{14626}},
             [questKeys.requiredLevel] = 53,
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5867,7 +5867,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84355] = {
             [questKeys.name] = "More Like Lame-bringers!",
             [questKeys.startedBy] = {{14626}},
-            [questKeys.finishedBy] = {{14626,}},
+            [questKeys.finishedBy] = {{14626}},
             [questKeys.requiredLevel] = 53,
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5878,7 +5878,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84356] = {
             [questKeys.name] = "Oh, Shiny!",
             [questKeys.startedBy] = {{14624}},
-            [questKeys.finishedBy] = {{14624,}},
+            [questKeys.finishedBy] = {{14624}},
             [questKeys.requiredLevel] = 53,
             [questKeys.questLevel] = 56,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5889,7 +5889,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84359] = {
             [questKeys.name] = "Sleepless Nights",
             [questKeys.startedBy] = {{14628}},
-            [questKeys.finishedBy] = {{14628,}},
+            [questKeys.finishedBy] = {{14628}},
             [questKeys.requiredLevel] = 53,
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5900,7 +5900,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84360] = {
             [questKeys.name] = "Firefighting",
             [questKeys.startedBy] = {{14625}},
-            [questKeys.finishedBy] = {{14625,}},
+            [questKeys.finishedBy] = {{14625}},
             [questKeys.requiredLevel] = 53,
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5911,7 +5911,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84372] = {
             [questKeys.name] = "Lava Diving",
             [questKeys.startedBy] = {{14627}},
-            [questKeys.finishedBy] = {{14627,}},
+            [questKeys.finishedBy] = {{14627}},
             [questKeys.requiredLevel] = 53,
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5921,8 +5921,8 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [84377] = {
             [questKeys.name] = "End of the Dark Horde",
-            [questKeys.startedBy] = {{10429},nil,{227911}},
-            [questKeys.finishedBy] = {{466,}},
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{466}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5933,7 +5933,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84384] = {
             [questKeys.name] = "Demonic Deceptions",
             [questKeys.startedBy] = {{222408}},
-            [questKeys.finishedBy] = {{222408,}},
+            [questKeys.finishedBy] = {{222408}},
             [questKeys.requiredLevel] = 55,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5944,7 +5944,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84394] = {
             [questKeys.name] = "Greater Friend of the Library",
             [questKeys.startedBy] = {{5497}},
-            [questKeys.finishedBy] = {{5497,7825,}},
+            [questKeys.finishedBy] = {{5497,7825}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5955,7 +5955,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84395] = {
             [questKeys.name] = "Undead Potatoes",
             [questKeys.startedBy] = {{5497}},
-            [questKeys.finishedBy] = {{5497,7825,}},
+            [questKeys.finishedBy] = {{5497,7825}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5966,7 +5966,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84396] = {
             [questKeys.name] = "Magma or Lava?",
             [questKeys.startedBy] = {{5497}},
-            [questKeys.finishedBy] = {{5497,7825,}},
+            [questKeys.finishedBy] = {{5497,7825}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5977,7 +5977,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84397] = {
             [questKeys.name] = "Northern Kalimdor - A Comprehensive Guide",
             [questKeys.startedBy] = {{5497}},
-            [questKeys.finishedBy] = {{5497,7825,}},
+            [questKeys.finishedBy] = {{5497,7825}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5988,7 +5988,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84398] = {
             [questKeys.name] = "A Study of the Light",
             [questKeys.startedBy] = {{5497}},
-            [questKeys.finishedBy] = {{5497,7825,}},
+            [questKeys.finishedBy] = {{5497,7825}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5999,7 +5999,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84399] = {
             [questKeys.name] = "Ka-Boom!",
             [questKeys.startedBy] = {{5497}},
-            [questKeys.finishedBy] = {{5497,7825,}},
+            [questKeys.finishedBy] = {{5497,7825}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -6010,7 +6010,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84400] = {
             [questKeys.name] = "The Knight and the Lady",
             [questKeys.startedBy] = {{5497}},
-            [questKeys.finishedBy] = {{5497,7825,}},
+            [questKeys.finishedBy] = {{5497,7825}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -6021,7 +6021,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84401] = {
             [questKeys.name] = "Scourge: Undead Menace or Misunderstood?",
             [questKeys.startedBy] = {{5497}},
-            [questKeys.finishedBy] = {{5497,7825,}},
+            [questKeys.finishedBy] = {{5497,7825}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -6032,7 +6032,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84402] = {
             [questKeys.name] = "Necromancy 101",
             [questKeys.startedBy] = {{5497}},
-            [questKeys.finishedBy] = {{5497,7825,}},
+            [questKeys.finishedBy] = {{5497,7825}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -6043,7 +6043,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84405] = {
             [questKeys.name] = "Lost Heirloom",
             [questKeys.startedBy] = {{211229}},
-            [questKeys.finishedBy] = {{211229,}},
+            [questKeys.finishedBy] = {{211229}},
             [questKeys.requiredLevel] = 48,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -6054,7 +6054,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84406] = {
             [questKeys.name] = "Relic of Light",
             [questKeys.startedBy] = {{211229}},
-            [questKeys.finishedBy] = nil,
+            [questKeys.finishedBy] = {nil,{457443}},
             [questKeys.requiredLevel] = 48,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -6065,7 +6065,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84407] = {
             [questKeys.name] = "The Prize Within",
             [questKeys.startedBy] = {nil,{459388}},
-            [questKeys.finishedBy] = {{211229,}},
+            [questKeys.finishedBy] = {{211229}},
             [questKeys.requiredLevel] = 48,
             [questKeys.questLevel] = 50,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -6076,7 +6076,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84525] = {
             [questKeys.name] = "Otherworldly Treasure",
             [questKeys.startedBy] = {{222052}},
-            [questKeys.finishedBy] = {{222052,}},
+            [questKeys.finishedBy] = {{222052}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 10,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -6087,7 +6087,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         [84777] = {
             [questKeys.name] = "Feathers for Nafien",
             [questKeys.startedBy] = {{15395}},
-            [questKeys.finishedBy] = {{15395,}},
+            [questKeys.finishedBy] = {{15395}},
             [questKeys.requiredLevel] = 45,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.NONE,
