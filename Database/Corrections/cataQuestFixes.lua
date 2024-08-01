@@ -1842,6 +1842,9 @@ function CataQuestFixes.Load()
         [14379] = { -- Rock Lobstrock!
             [questKeys.preQuestGroup] = {14373,14374},
         },
+        [14381] = { -- Cleansing Our Crevasse
+            [questKeys.objectives] = {{{36232,nil,Questie.ICON_TYPE_MOUNT_UP},{35606,nil,Questie.ICON_TYPE_INTERACT},{90,nil,Questie.ICON_TYPE_INTERACT},{35605,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [14382] = { -- Two By Sea
             [questKeys.extraObjectives] = {
                 {nil,Questie.ICON_TYPE_INTERACT,l10n("Use the catapult to board the ship"),0,{{"monster",36283}}},
