@@ -7578,8 +7578,27 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{52189,"Chopper Tour of the Raging Chasm",Questie.ICON_TYPE_MOUNT_UP}}},
             [questKeys.preQuestSingle] = {1468},
         },
+        [29100] = { -- Bwemba's Spirit
+            [questKeys.preQuestSingle] = {},
+            [questKeys.childQuests] = {29102,29103,29104,29105,29114,29115,29116,29118,29120,29121,29124,29131,29133,29150,29151,29152,29213},
+            [questKeys.objectives] = {{{52767,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [29102] = { -- To Fort Livingston
-            [questKeys.triggerEnd] = {"Head to Fort Livingston in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{52.8,67.2}}}},
+            [questKeys.objectives] = {{{52281,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.parentQuest] = 29100,
+            [questKeys.preQuestSingle] = {},
+        },
+        [29103] = { -- Serpents and Poison
+            [questKeys.parentQuest] = 29100,
+            [questKeys.objectives] = {{{52224},{52225,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [29104] = { -- Spirits Are With Us
+            [questKeys.parentQuest] = 29100,
+            [questKeys.objectives] = {nil,{{460010}}},
+        },
+        [29105] = { -- Nesingwary Will Know
+            [questKeys.parentQuest] = 29100,
+            [questKeys.objectives] = {{{52294,nil,Questie.ICON_TYPE_TALK}}},
         },
         [29106] = { -- The Biggest Diamond Ever!
             [questKeys.triggerEnd] = {"Visit King Magni in Old Ironforge", {[zoneIDs.IRONFORGE]={{33.17,47.65}}}},
@@ -7589,19 +7608,61 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{43845,"Visit Malfurion Stormrage with your orphan",Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {1468},
         },
+        [29114] = { -- Track the Tracker
+            [questKeys.parentQuest] = 29100,
+        },
+        [29115] = { -- The Hunter's Revenge
+            [questKeys.parentQuest] = 29100,
+            [questKeys.finishedBy] = {{100022}},
+            [questKeys.objectives] = {{{52349,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [29116] = { -- Follow That Cat
+            [questKeys.parentQuest] = 29100,
+            [questKeys.startedBy] = {{100023}},
+            [questKeys.exclusiveTo] = {29118},
+            [questKeys.objectives] = {{{52911,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 29120,
+        },
         [29117] = { -- Let's Go Fly a Kite
             [questKeys.triggerEnd] = {"Fly Dragon Kites with your orphan", {[zoneIDs.STORMWIND_CITY]={{59.2,63.4}}}},
             [questKeys.preQuestGroup] = {29093,29106,29107},
             [questKeys.requiredSourceItems] = {68890},
+        },
+        [29118] = { -- Follow That Cat
+            [questKeys.parentQuest] = 29100,
+            [questKeys.exclusiveTo] = {29116},
+            [questKeys.preQuestSingle] = {29115},
+            [questKeys.objectives] = {{{52911,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 29120,
         },
         [29119] = { -- You Scream, I Scream...
             [questKeys.triggerEnd] = {"Take your orphan out for ice cream.", {[zoneIDs.STORMWIND_CITY]={{49.28,89.8}}}},
             [questKeys.preQuestGroup] = {29093,29106,29107},
             [questKeys.requiredSourceItems] = {69027},
         },
+        [29120] = { -- Mauti
+            [questKeys.parentQuest] = 29100,
+            [questKeys.objectives] = {{{52372,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [29121] = { -- Bury Me With Me Boots...
+            [questKeys.parentQuest] = 29100,
+        },
+        [29124] = { -- Warn the Rebel Camp
+            [questKeys.parentQuest] = 29100,
+            [questKeys.preQuestSingle] = {29121},
+        },
         [29129] = { -- A Legendary Engagement
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Ziradormi"),0,{{"monster",52382}}}},
+        },
+        [29131] = { -- Defend the Rebel Camp
+            [questKeys.parentQuest] = 29100,
+            [questKeys.triggerEnd] = {"Help Defend the Camp", {[zoneIDs.STRANGLETHORN_VALE]={{47.55,11.22}}}},
+        },
+        [29133] = { -- To the Digsite
+            [questKeys.parentQuest] = 29100,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride"),0,{{"monster",52753}}}},
+            [questKeys.objectives] = {{{52762,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29132] = { -- A Legendary Engagement
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -7613,6 +7674,17 @@ function CataQuestFixes.Load()
         [29146] = { -- Ridin' the Rocketway
             [questKeys.objectives] = {{{52585,nil,Questie.ICON_TYPE_MOUNT_UP}}},
             [questKeys.preQuestSingle] = {172},
+        },
+        [29150] = { -- Voodoo Zombies
+            [questKeys.parentQuest] = 29100,
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{52604,52870},52604}}},
+        },
+        [29151] = { -- Bad Supplies
+            [questKeys.parentQuest] = 29100,
+            [questKeys.objectives] = {nil,{{460011}}},
+        },
+        [29152] = { -- Making Contact
+            [questKeys.parentQuest] = 29100,
         },
         [29156] = { -- The Troll Incursion
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
@@ -7641,8 +7713,15 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {29146,29167,29176},
             [questKeys.requiredSourceItems] = {69233},
         },
+        [29213] = { -- How's the Hunter Holding Up?
+            [questKeys.parentQuest] = 29100,
+        },
         [29220] = { -- To Bambala
             [questKeys.triggerEnd] = {"Head to Bambala in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{64.6,40.4}}}},
+        },
+        [29267] = { -- Some Good Will Come
+            [questKeys.preQuestSingle] = {29121},
+            [questKeys.startedBy] = {{52374}},
         },
         [29298] = { -- A Smoke-Stained Locket
             [questKeys.startedBy] = {nil,nil,{69854}},

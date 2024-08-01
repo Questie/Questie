@@ -1192,7 +1192,7 @@ function QuestieQuestBlacklist:Load()
         [8439] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
 
         -- Phase 4 Zul'Aman
-        [11196] = true, -- Not in the game
+        --[11196] = true, -- Not in the game
 
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
@@ -2684,10 +2684,7 @@ function QuestieQuestBlacklist:Load()
         [29037] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29039
         [29038] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29053
         [29040] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29051
-        [29118] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29154] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29212] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29217] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29234] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29256] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29259] = QuestieCorrections.CATA_HIDE, -- Not in the game
@@ -2780,23 +2777,30 @@ function QuestieQuestBlacklist:Load()
 
         -- Phase 2 - Rise of the Zandalari
 
-        [29100] = true, -- Bwemba's Spirit
-        [29102] = true, -- To Fort Livingston
-        [29153] = true, -- Booty Bay's Interests
-        [29156] = true, -- The Troll Incursion
-        [29157] = true, -- The Zandalari Menace
+        --[11196] = true, -- Warlord of the Amani
+        --[29100] = true, -- Bwemba's Spirit
+        --[29102] = true, -- To Fort Livingston
+        --[29103] = true, -- Serpents and Poison
+        --[29104] = true, -- Spirits Are With Us
+        [29153] = true, -- Booty Bay's Interests -- alliance, seems it's duplicate
+        --[29154] = true, -- Booty Bay's Interests
+        --[29155] = true, -- A Shiny Reward
+        --[29156] = true, -- The Troll Incursion
+        --[29157] = true, -- The Zandalari Menace
         [29158] = true, -- The Zandalar Representative
-        [29172] = true, -- The Beasts Within
-        [29173] = true, -- Secondary Targets
-        [29175] = true, -- Break Their Spirits
+        --[29172] = true, -- The Beasts Within
+        --[29173] = true, -- Secondary Targets
+        --[29175] = true, -- Break Their Spirits
+        --[29186] = true, -- The Hex Lord's Fetish
         [29208] = true, -- An Old Friend
-        [29219] = true, -- Bwemba's Spirit
-        [29220] = true, -- To Bambala
+        --[29217] = true, -- The Captive Scouts
+        --[29219] = true, -- Bwemba's Spirit
+        --[29220] = true, -- To Bambala
         [29229] = true, -- Follow That Cat
-        [29241] = true, -- Break the Godbreaker
-        [29242] = true, -- Putting a Price on Priceless
-        [29251] = true, -- Booty Bay's Interests
-        [29252] = true, -- Booty Bay's Interests
+        --[29241] = true, -- Break the Godbreaker
+        --[29242] = true, -- Putting a Price on Priceless
+        [29251] = true, -- Booty Bay's Interests -- horde, seems it's duplicate
+        --[29252] = true, -- Booty Bay's Interests
         [29261] = true, -- Zul'Aman Voodoo
         [29262] = true, -- Zul'Gurub Voodoo
 

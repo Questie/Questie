@@ -187,6 +187,11 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.DALARAN] = {{58.8,27.49}}},
             [objectKeys.zoneID] = zoneIDs.DALARAN,
         },
+        [208376] = { -- Direhammer's Boots
+            [objectKeys.name] = "Direhammer's Boots",
+            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{76.05,66.49}}},
+            [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+        },
         [209058] = { -- Windswept Balloon
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{25.7,61.7},{30.8,61.3},{31.4,68.4},{34.8,73.1},{34.9,67.3},{35.9,49.6},{37.2,77.5},{38.3,86.7},{40,42.7},{40.2,39.8},{40.2,71.9},{40.3,80.7},{42.1,52.5},{43,60.8},{47.7,81.4},{49.4,77.4},{49.9,82.6},{50,84.6},{50.1,68.5},{50.2,49.9},{52.2,39.2},{52.3,49.2},{52.3,66},{52.3,73.9},{52.4,68.8},{52.6,79.7},{53.1,33.1},{53.3,63.2},{53.4,83.8},{53.5,76.2},{53.7,82.7},{53.9,46.4},{53.9,65.3},{55.1,53.2},{56.6,62.6},{56.9,65.3},{57,58.1},{58.4,49.9},{58.9,63.3},{60.4,52.1},{63.6,23.4},{64.9,17},{65.8,24.1},{66.7,39.4},{66.8,13.3},{68.1,36.9},{68.3,50.2},{68.4,30.1},{70.9,48.1},{71.4,35.4}}},
         },
@@ -254,6 +259,16 @@ function CataObjectFixes.Load()
             [objectKeys.name] = "Rod of Subjugation",
             [objectKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{25.25,54.8}}},
             [objectKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
+        [460010] = {
+            [objectKeys.name] = "Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{52.96,66.59}}},
+            [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+        },
+        [460011] = {
+            [objectKeys.name] = "Grain Sack",
+            [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN]={{54.97,41.94}}},
+            [objectKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
         },
     }
 end
