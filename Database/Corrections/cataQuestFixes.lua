@@ -7729,6 +7729,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Head to Bambala in Northern Stranglethorn Vale.", {[zoneIDs.STRANGLETHORN_VALE]={{64.6,40.4}}}},
         },
+        [29221] = { -- Serpents and Poison
+            [questKeys.objectives] = {{{52224}},nil,nil,nil,{{{52978,53440,53441,53442,53443,53444,53445},53443,"Headhunters healed",Questie.ICON_TYPE_EVENT}}},
+        },
         [29267] = { -- Some Good Will Come
             [questKeys.preQuestSingle] = {29121},
             [questKeys.startedBy] = {{52374}},
