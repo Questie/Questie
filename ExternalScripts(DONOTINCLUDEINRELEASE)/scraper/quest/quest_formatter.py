@@ -45,16 +45,16 @@ class QuestFormatter:
 
     def __get_start(self, item):
         if "npcStart" in item:
-            return "{{" + item["npcStart"] + "}}"
+            return "{{" + ",".join(npcStart for npcStart in item["npcStart"]) + "}}"
         if "objectStart" in item:
-            return "{nil,{" + item["objectStart"] + "}}"
+            return "{nil,{" + ",".join(objectStart for objectStart in item["objectStart"]) + "}}"
         return "nil"
 
     def __get_end(self, item):
         if "npcEnd" in item:
-            return "{{" + item["npcEnd"] + "}}"
+            return "{{" + ",".join(npcEnd for npcEnd in item["npcEnd"]) + "}}"
         if "objectEnd" in item:
-            return "{nil,{" + item["objectEnd"] + "}}"
+            return "{nil,{" + ",".join(objectEnd for objectEnd in item["objectEnd"]) + "}}"
         return "nil"
 
     def __get_race_string(self, req_race: int) -> str:

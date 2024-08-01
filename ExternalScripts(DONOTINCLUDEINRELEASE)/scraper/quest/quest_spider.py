@@ -46,19 +46,19 @@ class QuestSpider(scrapy.Spider):
                 if "reqRace" not in result:
                     result["reqRace"] = re.search(r'"reqrace":(\d+)', script).group(1)
             if script.lstrip().startswith('WH.markup'):
-                npc_starter = re.search(r'Start:[^]]*?npc=(\d+)', script)
-                object_starter = re.search(r'Start:[^]]*?object=(\d+)', script)
+                npc_starter = re.findall(r'Start:[^]]*?npc=(\d+)', script)
+                object_starter = re.findall(r'Start:[^]]*?object=(\d+)', script)
                 if npc_starter:
-                    result["npcStart"] = npc_starter.group(1)
+                    result["npcStart"] = npc_starter
                 elif object_starter:
-                    result["objectStart"] = object_starter.group(1)
+                    result["objectStart"] = object_starter
 
-                npc_end = re.search(r'End:[^]]*?npc=(\d+)', script)
-                object_end = re.search(r'End:[^]]*?object=(\d+)', script)
+                npc_end = re.findall(r'End:.*?npc=(\d+)', script)
+                object_end = re.findall(r'End:.*?object=(\d+)', script)
                 if npc_end:
-                    result["npcEnd"] = npc_end.group(1)
+                    result["npcEnd"] = npc_end
                 elif object_end:
-                    result["objectEnd"] = object_end.group(1)
+                    result["objectEnd"] = object_end
 
             if (("reqRace" not in result) or result["reqRace"] == "0") and script.strip().startswith('WH.markup.printHtml'):
                 result["reqRace"] = self.__get_fallback_faction(script)
