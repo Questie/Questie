@@ -4341,6 +4341,7 @@ function CataQuestFixes.Load()
         },
         [26410] = { -- Explosive Bonding Compound
             [questKeys.preQuestSingle] = {26409},
+            [questKeys.exclusiveTo] = {},
         },
         [26411] = { -- Apply and Flash Dry
             [questKeys.preQuestSingle] = {},
@@ -5203,6 +5204,7 @@ function CataQuestFixes.Load()
         },
         [27135] = { -- Something that Burns
             [questKeys.preQuestSingle] = {26409},
+            [questKeys.exclusiveTo] = {},
         },
         [27136] = { -- Elemental Energy
             [questKeys.objectives] = {nil,nil,nil,nil,{{{43254,43258},43254,"Totem energized"}}},
