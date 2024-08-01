@@ -511,6 +511,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [84321] = 4, -- Priest Binding Heal
     [84322] = 4, -- Priest Binding Heal
     [84323] = 4, -- Priest Binding Heal
+    [84369] = 4, -- Mage Frozen Orb
     [84394] = 4, -- Mage Arcance Barrage
     [84395] = 4, -- Mage Arcance Barrage
     [84396] = 4, -- Mage Arcance Barrage
@@ -527,6 +528,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90308] = 4, -- Druid Starfall
     [90309] = 4, -- Druid Tree of Life
     [90310] = 4, -- Axe Specialization (Hunter, Paladin, Shaman, Warrior)
+    [90311] = 4, -- Mage Frozen Orb
 }
 
 --- "automatic" phase detection for the first few phases;

@@ -2542,12 +2542,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [84369] = { -- Healing the Healer
+            [questKeys.requiredSourceItems] = {227924},
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
         [84372] = { -- Lava Diving
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [84377] = { -- End of the Dark Horde
+            [questKeys.startedBy] = {{10429},nil,{227911}},
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [84384] = { -- Demonic Deceptions
@@ -6296,6 +6301,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Read the book 'The Rites of Mak'Gora' to receive the rune."},
             [questKeys.requiredSpell] = -453688,
             [questKeys.zoneOrSort] = zoneIDs.BURNING_STEPPES,
+        },
+        [90311] = {
+            [questKeys.name] = "Frozen Orb",
+            [questKeys.startedBy] = {{7156,7157,7158}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 52,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Kill Deadwood Furbolgs till you receive a Myserious Darnassian Scroll. Decipher and bring it to Calyx Greenglow in Felwood."},
+            [questKeys.requiredSpell] = -440858,
+            [questKeys.exclusiveTo] = {84369},
+            [questKeys.zoneOrSort] = zoneIDs.MAGE,
         },
     }
 end
