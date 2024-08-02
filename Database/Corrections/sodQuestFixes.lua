@@ -2054,6 +2054,57 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 5500},
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
+        [82275] = { -- Big Black Mace
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 2500},
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [82276] = { -- Rituals of Strength
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 5500},
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [82277] = { -- More Dense Grinding Stones
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 5500},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [82278] = { -- More Thorium Widgets
+            [questKeys.preQuestSingle] = {82279},
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 5500},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [82279] = { -- Thorium Widget
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 5500},
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
+        },
+        [82280] = { -- Mechanical Repair Kits
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 2500},
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [82281] = { -- More Armor Kits
+            [questKeys.preQuestSingle] = {82282},
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 5500},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [82282] = { -- Armor Kits
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 5500},
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
+        },
+        [82283] = { -- Crocolisk Boy and the Bearded Murloc
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 2500},
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [82301] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,

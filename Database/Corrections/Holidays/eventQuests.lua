@@ -222,21 +222,21 @@ tinsert(eventQuests, {"Darkmoon Faire", 7981}) -- 1200 Tickets - Amulet of the D
 tinsert(eventQuests, {"Darkmoon Faire", 7943, nil, nil, QuestieCorrections.SOD_HIDE}) -- More Bat Eyes
 tinsert(eventQuests, {"Darkmoon Faire", 7894, nil, nil, QuestieCorrections.SOD_HIDE}) -- Copper Modulator
 tinsert(eventQuests, {"Darkmoon Faire", 7933}) -- 40 Tickets - Greater Darkmoon Prize
-tinsert(eventQuests, {"Darkmoon Faire", 7898}) -- Thorium Widget
-tinsert(eventQuests, {"Darkmoon Faire", 7885}) -- Armor Kits
-tinsert(eventQuests, {"Darkmoon Faire", 7942}) -- More Thorium Widgets
+tinsert(eventQuests, {"Darkmoon Faire", 7898, nil, nil, QuestieCorrections.SOD_HIDE}) -- Thorium Widget
+tinsert(eventQuests, {"Darkmoon Faire", 7885, nil, nil, QuestieCorrections.SOD_HIDE}) -- Armor Kits
+tinsert(eventQuests, {"Darkmoon Faire", 7942, nil, nil, QuestieCorrections.SOD_HIDE}) -- More Thorium Widgets
 tinsert(eventQuests, {"Darkmoon Faire", 7883, nil, nil, QuestieCorrections.SOD_HIDE}) -- The World's Largest Gnome!
-tinsert(eventQuests, {"Darkmoon Faire", 7892}) -- Big Black Mace
+tinsert(eventQuests, {"Darkmoon Faire", 7892, nil, nil, QuestieCorrections.SOD_HIDE}) -- Big Black Mace
 tinsert(eventQuests, {"Darkmoon Faire", 7937}) -- Your Fortune Awaits You...
-tinsert(eventQuests, {"Darkmoon Faire", 7939}) -- More Dense Grinding Stones
-tinsert(eventQuests, {"Darkmoon Faire", 7893}) -- Rituals of Strength
+tinsert(eventQuests, {"Darkmoon Faire", 7939, nil, nil, QuestieCorrections.SOD_HIDE}) -- More Dense Grinding Stones
+tinsert(eventQuests, {"Darkmoon Faire", 7893, nil, nil, QuestieCorrections.SOD_HIDE}) -- Rituals of Strength
 tinsert(eventQuests, {"Darkmoon Faire", 7891, nil, nil, QuestieCorrections.SOD_HIDE}) -- Green Iron Bracers
 tinsert(eventQuests, {"Darkmoon Faire", 7896, nil, nil, QuestieCorrections.SOD_HIDE}) -- Green Fireworks
-tinsert(eventQuests, {"Darkmoon Faire", 7884}) -- Crocolisk Boy and the Bearded Murloc
+tinsert(eventQuests, {"Darkmoon Faire", 7884, nil, nil, QuestieCorrections.SOD_HIDE}) -- Crocolisk Boy and the Bearded Murloc
 tinsert(eventQuests, {"Darkmoon Faire", 7882, nil, nil, QuestieCorrections.SOD_HIDE}) -- Carnival Jerkins
-tinsert(eventQuests, {"Darkmoon Faire", 7897}) -- Mechanical Repair Kits
+tinsert(eventQuests, {"Darkmoon Faire", 7897, nil, nil, QuestieCorrections.SOD_HIDE}) -- Mechanical Repair Kits
 tinsert(eventQuests, {"Darkmoon Faire", 7895, nil, nil, QuestieCorrections.SOD_HIDE}) -- Whirring Bronze Gizmo
-tinsert(eventQuests, {"Darkmoon Faire", 7941}) -- More Armor Kits
+tinsert(eventQuests, {"Darkmoon Faire", 7941, nil, nil, QuestieCorrections.SOD_HIDE}) -- More Armor Kits
 tinsert(eventQuests, {"Darkmoon Faire", 7881, nil, nil, QuestieCorrections.SOD_HIDE}) -- Carnival Boots
 tinsert(eventQuests, {"Darkmoon Faire", 7890, nil, nil, QuestieCorrections.SOD_HIDE}) -- Heavy Grinding Stone
 tinsert(eventQuests, {"Darkmoon Faire", 7889, nil, nil, QuestieCorrections.SOD_HIDE}) -- Coarse Weightstone
@@ -268,7 +268,16 @@ tinsert(eventQuests, {"Darkmoon Faire", 82271}) -- More Glowing Scorpid Blood
 tinsert(eventQuests, {"Darkmoon Faire", 82272}) -- Glowing Scorpid Blood
 tinsert(eventQuests, {"Darkmoon Faire", 82273}) -- More Evil Bat Eyes
 tinsert(eventQuests, {"Darkmoon Faire", 82274}) -- Evil Bat Eyes
-tinsert(eventQuests, {"Darkmoon Faire", 8222}) -- Glowing Scorpid Blood
+tinsert(eventQuests, {"Darkmoon Faire", 82275}) -- Big Black Mace
+tinsert(eventQuests, {"Darkmoon Faire", 82276}) -- Rituals of Strength
+tinsert(eventQuests, {"Darkmoon Faire", 82277}) -- More Dense Grinding Stones
+tinsert(eventQuests, {"Darkmoon Faire", 82278}) -- More Thorium Widgets
+tinsert(eventQuests, {"Darkmoon Faire", 82279}) -- Thorium Widget
+tinsert(eventQuests, {"Darkmoon Faire", 82280}) -- Mechanical Repair Kits
+tinsert(eventQuests, {"Darkmoon Faire", 82281}) -- More Armor Kits
+tinsert(eventQuests, {"Darkmoon Faire", 82282}) -- Armor Kits
+tinsert(eventQuests, {"Darkmoon Faire", 82283}) -- Crocolisk Boy and the Bearded Murloc
+
 tinsert(eventQuests, {"Lunar Festival", 80169}) -- Cluster Launcher
 
 -- New TBC event quests
