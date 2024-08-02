@@ -190,7 +190,7 @@ end
 --- Fires when a quest is accepted in anyway.
 ---@param questLogIndex number
 ---@param questId number
-function _QuestEventHandler.QuestAccepted(_, questLogIndex, questId)
+function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED", questLogIndex, questId)
 
     if questLog[questId] and questLog[questId].timer then
@@ -304,7 +304,7 @@ end
 
 --- Fires when a quest is removed from the quest log. This includes turning it in and abandoning it.
 ---@param questId number
-function _QuestEventHandler.QuestRemoved(_, questId)
+function _QuestEventHandler:QuestRemoved(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_REMOVED", questId)
     doFullQuestLogScan = false
 
