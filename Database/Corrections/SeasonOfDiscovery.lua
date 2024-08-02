@@ -904,6 +904,7 @@ local questsToBlacklistBySoDPhase = {
         [5284] = true, -- The Way of the Weaponsmith - Replaced by 82662
         [5302] = true, -- The Way of the Weaponsmith - Replaced by 82665
         [8467] = true, -- Feathers for Nafien - Replaced by 84777
+        [8769] = true, -- A Ticking Present - Replaced by 79637
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,

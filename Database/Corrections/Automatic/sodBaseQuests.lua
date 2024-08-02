@@ -1871,6 +1871,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Insert a Grime-Encrusted Salvage into the Salvagematic 9000, and be sure to have thirty silver coins to start the machine."},
             [questKeys.objectives] = {nil,nil,{{213427}}},
         },
+        [79637] = {
+            [questKeys.name] = "A Ticking Present",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Have a joyous Feast of Great-Winter from your friends at Smokeywood Pastures."},
+            [questKeys.objectives] = nil,
+        },
         [79677] = {
             [questKeys.name] = "A Quick Grocery Run",
             [questKeys.startedBy] = {{217300}},

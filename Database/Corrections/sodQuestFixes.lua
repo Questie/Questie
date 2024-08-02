@@ -866,6 +866,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [79637] = { -- A Ticking Present
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
         [79677] = { -- A Quick Grocery Run
             [questKeys.preQuestSingle] = {79624},
             [questKeys.zoneOrSort] = zoneIDs.WARRIOR,

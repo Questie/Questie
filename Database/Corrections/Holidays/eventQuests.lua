@@ -192,10 +192,11 @@ tinsert(eventQuests, {"Winter Veil", 79486}) -- A Smokywood Pastures' Thank You!
 tinsert(eventQuests, {"Winter Veil", 79487}) -- A Smokywood Pastures' Thank You!
 tinsert(eventQuests, {"Winter Veil", 79492}) -- Metzen the Reindeer
 tinsert(eventQuests, {"Winter Veil", 79495}) -- Metzen the Reindeer
+tinsert(eventQuests, {"Winter Veil", 79637, "25/12", "2/1"}) -- A Ticking Present
 tinsert(eventQuests, {"Winter Veil", 8744, "25/12", "2/1"}) -- A Carefully Wrapped Present
 tinsert(eventQuests, {"Winter Veil", 8767, "25/12", "2/1"}) -- A Gently Shaken Gift
 tinsert(eventQuests, {"Winter Veil", 8768, "25/12", "2/1"}) -- A Gaily Wrapped Present
-tinsert(eventQuests, {"Winter Veil", 8769, "25/12", "2/1"}) -- A Ticking Present
+tinsert(eventQuests, {"Winter Veil", 8769, "25/12", "2/1", QuestieCorrections.SOD_HIDE}) -- A Ticking Present
 tinsert(eventQuests, {"Winter Veil", 8788, "25/12", "2/1"}) -- A Gently Shaken Gift
 tinsert(eventQuests, {"Winter Veil", 8803, "25/12", "2/1"}) -- A Festive Gift
 tinsert(eventQuests, {"Winter Veil", 8827, "25/12", "2/1"}) -- Winter's Presents
