@@ -64,9 +64,7 @@ function QuestEventHandler:RegisterEvents()
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _QuestEventHandler.UnitQuestLogChanged)
     Questie:RegisterEvent("NEW_RECIPE_LEARNED", _QuestEventHandler.NewRecipeLearned)
     Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", _QuestEventHandler.PlayerInteractionManagerFrameHide)
-
-    eventFrame:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
-    eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
+    Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _QuestEventHandler.ReputationChange)
 
     -- StaticPopup dialog hooks. Deleteing Quest items do not always trigger a Quest Log Update.
     hooksecurefunc("StaticPopup_Show", function(...)
@@ -524,14 +522,6 @@ end
 function _QuestLogUpdateQueue:GetFirst()
     questLogUpdateQueueSize = questLogUpdateQueueSize - 1
     return tableRemove(questLogUpdateQueue, 1)
-end
-
---- Is executed whenever an event is fired and triggers relevant event handling.
----@param event string
-function _QuestEventHandler:OnEvent(event, ...)
-    if event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
-        _QuestEventHandler:ReputationChange()
-    end
 end
 
 return QuestEventHandler
