@@ -259,6 +259,7 @@ tinsert(eventQuests, {"Darkmoon Faire", 79592}) -- Carnival Jerkins
 tinsert(eventQuests, {"Darkmoon Faire", 79593}) -- Coarse Weightstone
 tinsert(eventQuests, {"Darkmoon Faire", 79594}) -- Copper Modulator
 tinsert(eventQuests, {"Darkmoon Faire", 79595}) -- Carnival Boots
+tinsert(eventQuests, {"Darkmoon Faire", 80417}) -- Soft Bushy Tails
 tinsert(eventQuests, {"Darkmoon Faire", 80421}) -- Green Iron Bracers
 tinsert(eventQuests, {"Darkmoon Faire", 80422}) -- Green Fireworks
 tinsert(eventQuests, {"Darkmoon Faire", 80423}) -- The World's Largest Gnome!

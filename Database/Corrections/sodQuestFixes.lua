@@ -1200,6 +1200,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {80526},
             [questKeys.nextQuestInChain] = 80453,
         },
+        [80417] = { -- Soft Bushy Tails
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1700},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
+        },
         [80421] = { -- Green Iron Bracers
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1700},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,

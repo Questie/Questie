@@ -2641,6 +2641,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find The Talisman of Kazdor inside of Zul'Farrak. Then, bring it to Fahrad at Ravenholdt Manor. You must complete the job alone."},
             [questKeys.objectives] = {nil,nil,{{217609}}},
         },
+        [80417] = {
+            [questKeys.name] = "Soft Bushy Tails",
+            [questKeys.startedBy] = {{14829}},
+            [questKeys.finishedBy] = {{14829}},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"It's amazing what people value! &nbsp;Take, for instance, a wooden stick with a soft bushy tail attached to it. &nbsp;Now, you and I might think something like that isn't all that valuable... but if you give that piece of junk a neat name like \"Savage Fuzz Tail\" and put it in a pretty box, then people will think it's valuable. &nbsp;Trash becomes treasure!Get me soft bushy tails from the wolves of Desolace and the Badlands, and I'll give you Darkmoon Faire tickets."},
+            [questKeys.objectives] = {nil,nil,{{4582}}},
+        },
         [80421] = {
             [questKeys.name] = "Green Iron Bracers",
             [questKeys.startedBy] = {{14832}},
