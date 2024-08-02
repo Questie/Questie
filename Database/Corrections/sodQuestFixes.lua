@@ -1766,6 +1766,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [81967] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [81968] = { -- Answering Air's Call
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
