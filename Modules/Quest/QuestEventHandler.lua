@@ -56,10 +56,10 @@ function QuestEventHandler:RegisterEvents()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] RegisterEvents")
 
     Questie:RegisterEvent("QUEST_ACCEPTED", _QuestEventHandler.QuestAccepted)
+    Questie:RegisterEvent("QUEST_REMOVED", _QuestEventHandler.QuestRemoved)
     Questie:RegisterEvent("QUEST_LOG_UPDATE", _QuestEventHandler.QuestLogUpdate)
 
     eventFrame:RegisterEvent("QUEST_TURNED_IN")
-    eventFrame:RegisterEvent("QUEST_REMOVED")
     eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
     eventFrame:RegisterEvent("QUEST_AUTOCOMPLETE")
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
@@ -304,7 +304,7 @@ end
 
 --- Fires when a quest is removed from the quest log. This includes turning it in and abandoning it.
 ---@param questId number
-function _QuestEventHandler:QuestRemoved(questId)
+function _QuestEventHandler.QuestRemoved(_, questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_REMOVED", questId)
     doFullQuestLogScan = false
 
@@ -503,8 +503,6 @@ end
 function _QuestEventHandler:OnEvent(event, ...)
     if event == "QUEST_TURNED_IN" then
         _QuestEventHandler:QuestTurnedIn(...)
-    elseif event == "QUEST_REMOVED" then
-        _QuestEventHandler:QuestRemoved(...)
     elseif event == "QUEST_WATCH_UPDATE" then
         _QuestEventHandler:QuestWatchUpdate(...)
     elseif event == "QUEST_AUTOCOMPLETE" then

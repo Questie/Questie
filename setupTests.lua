@@ -197,6 +197,7 @@ _G["Questie"] = {
     RegisterEvent = function(_, eventName, callback)
         registeredEvents[eventName] = callback
     end,
+    SendMessage = EMTPY_FUNC,
 }
 
 ---@type ZoneDB

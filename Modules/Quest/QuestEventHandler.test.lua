@@ -86,4 +86,38 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieQuest.AcceptQuest).was_called_with(QuestieQuest, 123)
         assert.spy(QuestieTracker.Update).was_called()
     end)
+
+    it("should mark quest as abandoned on quest accept after QUEST_REMOVED", function()
+        QuestieLib.CacheItemNames = spy.new(function() end)
+        QuestLogCache.RemoveQuest = spy.new()
+        QuestLogCache.CheckForChanges = spy.new(function() return false, nil end)
+        QuestieQuest.SetObjectivesDirty = spy.new()
+        QuestieQuest.AcceptQuest = spy.new()
+        QuestieQuest.AbandonedQuest = spy.new()
+        QuestieJourney.AcceptQuest = spy.new()
+        QuestieJourney.AbandonQuest = spy.new()
+        QuestieAnnounce.AcceptedQuest = spy.new()
+        QuestieAnnounce.AbandonedQuest = spy.new()
+        _G.C_Timer = {NewTicker = function() return {Cancel = function() end} end} -- This ignores the ticker set on QUEST_REMOVED
+
+        QuestEventHandler:RegisterEvents()
+
+        TestUtils.triggerMockEvent("QUEST_REMOVED", 123)
+
+        _G.C_Timer = {NewTicker = function(_, callback) callback() return {} end}
+        TestUtils.triggerMockEvent("QUEST_ACCEPTED", 2, 123)
+
+        assert.spy(QuestLogCache.RemoveQuest).was_called_with(123)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, 123)
+        assert.spy(QuestieQuest.AbandonedQuest).was_called_with(QuestieQuest, 123)
+        assert.spy(QuestieJourney.AbandonQuest).was_called_with(QuestieJourney, 123)
+        assert.spy(QuestieAnnounce.AbandonedQuest).was_called_with(QuestieAnnounce, 123)
+
+        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[123] = true})
+        assert.spy(QuestieLib.CacheItemNames).was_called_with(QuestieLib, 123)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was_called(2)
+        assert.spy(QuestieJourney.AcceptQuest).was_called_with(QuestieJourney, 123)
+        assert.spy(QuestieAnnounce.AcceptedQuest).was_called_with(QuestieAnnounce, 123)
+        assert.spy(QuestieQuest.AcceptQuest).was_called_with(QuestieQuest, 123)
+    end)
 end)
