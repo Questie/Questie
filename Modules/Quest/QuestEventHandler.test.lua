@@ -25,6 +25,7 @@ describe("QuestEventHandler", function()
         TestUtils.resetEvents()
         QuestieLib = require("Modules.Libs.QuestieLib")
         QuestieCombatQueue = require("Modules.Libs.QuestieCombatQueue")
+        QuestieCombatQueue.Queue = function(_, callback) callback() end
         QuestLogCache = require("Modules.Quest.QuestLogCache")
         QuestieQuest = require("Modules.Quest.QuestieQuest")
         QuestieJourney = require("Modules.Journey.QuestieJourney")
@@ -35,9 +36,6 @@ describe("QuestEventHandler", function()
 
     it("should handle quest accept", function()
         QuestieLib.CacheItemNames = spy.new(function() end)
-        QuestieCombatQueue.Queue = function(_, func)
-            func()
-        end
         QuestLogCache.CheckForChanges = spy.new(function() return false, nil end)
         QuestieQuest.SetObjectivesDirty = spy.new()
         QuestieQuest.AcceptQuest = spy.new()
@@ -57,9 +55,6 @@ describe("QuestEventHandler", function()
 
     it("should handle accept on QLU when quest is initially missing in game cache", function()
         QuestieLib.CacheItemNames = spy.new(function() end)
-        QuestieCombatQueue.Queue = function(_, func)
-            func()
-        end
         QuestLogCache.CheckForChanges = spy.new(function() return true, nil end)
         QuestieQuest.SetObjectivesDirty = spy.new()
         QuestieQuest.AcceptQuest = spy.new()
