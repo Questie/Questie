@@ -137,6 +137,11 @@ describe("QuestEventHandler", function()
     end)
 
     it("should handle quest turn in", function()
+        local cancelSpy = spy.new()
+        _G.C_Timer = {NewTicker = function() return {Cancel = cancelSpy} end}
+
+        TestUtils.triggerMockEvent("QUEST_REMOVED", QUEST_ID)
+
         _G.GetNumQuestLogRewards = function() return 1 end
         _G.GetQuestLogRewardInfo = function() return nil, nil, nil, 0, nil, 5 end
         QuestLogCache.RemoveQuest = spy.new()
@@ -148,10 +153,31 @@ describe("QuestEventHandler", function()
 
         TestUtils.triggerMockEvent("QUEST_TURNED_IN", QUEST_ID, 1000, 2000)
 
+        assert.spy(cancelSpy).was_called()
         assert.spy(QuestLogCache.RemoveQuest).was_called_with(QUEST_ID)
         assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieQuest.CompleteQuest).was_called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieJourney.CompleteQuest).was_called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.CompletedQuest).was_called_with(QuestieAnnounce, QUEST_ID)
+    end)
+
+    it("should handle quest turn in of quests which are not in the quest log", function()
+        local questId = 456
+        _G.GetNumQuestLogRewards = function() return 1 end
+        _G.GetQuestLogRewardInfo = function() return nil, nil, nil, 0, nil, 5 end
+        QuestLogCache.RemoveQuest = spy.new()
+        QuestieQuest.SetObjectivesDirty = spy.new()
+        QuestieQuest.CompleteQuest = spy.new()
+        QuestieJourney.CompleteQuest = spy.new()
+        QuestieAnnounce.CompletedQuest = spy.new()
+        QuestieDB.QueryQuestSingle = spy.new(function() return nil end)
+
+        TestUtils.triggerMockEvent("QUEST_TURNED_IN", questId, 1000, 2000)
+
+        assert.spy(QuestLogCache.RemoveQuest).was_called_with(questId)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, questId)
+        assert.spy(QuestieQuest.CompleteQuest).was_called_with(QuestieQuest, questId)
+        assert.spy(QuestieJourney.CompleteQuest).was_called_with(QuestieJourney, questId)
+        assert.spy(QuestieAnnounce.CompletedQuest).was_called_with(QuestieAnnounce, questId)
     end)
 end)
