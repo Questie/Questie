@@ -44,7 +44,6 @@ local QUEST_LOG_STATES = {
     QUEST_ABANDONED = "QUEST_ABANDONED"
 }
 
-local eventFrame = CreateFrame("Frame", "QuestieQuestEventFrame")
 local questLog = {}
 local questLogUpdateQueueSize = 1
 local skipNextUQLCEvent = false
@@ -220,7 +219,7 @@ end
 ---@return boolean true @if the function was successful, false otherwise
 function _QuestEventHandler:HandleQuestAccepted(questId)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
-    local cacheMiss, changes = QuestLogCache.CheckForChanges({ [questId] = true })
+    local cacheMiss, _ = QuestLogCache.CheckForChanges({ [questId] = true })
     if cacheMiss then
         -- if cacheMiss, no need to check changes as only 1 questId
         Questie:Debug(Questie.DEBUG_INFO, "Objectives are not cached yet")
@@ -492,23 +491,27 @@ end
 function _QuestEventHandler:PlayerInteractionManagerFrameHide(eventType)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] PLAYER_INTERACTION_MANAGER_FRAME_HIDE", eventType)
 
+    local eventName
     if eventType == 1 then
-        _QuestEventHandler:QuestRelatedFrameClosed("TRADE_CLOSED")
+        eventName = "TRADE_CLOSED"
     elseif eventType == 5 then
-        _QuestEventHandler:QuestRelatedFrameClosed("MERCHANT_CLOSED")
+        eventName = "MERCHANT_CLOSED"
     elseif eventType == 8 then
-        _QuestEventHandler:QuestRelatedFrameClosed("BANKFRAME_CLOSED")
+        eventName = "BANKFRAME_CLOSED"
     elseif eventType == 10 then
-        _QuestEventHandler:QuestRelatedFrameClosed("GUILDBANKFRAME_CLOSED")
+        eventName = "GUILDBANKFRAME_CLOSED"
     elseif eventType == 12 then
-        _QuestEventHandler:QuestRelatedFrameClosed("VENDOR_CLOSED")
+        eventName = "VENDOR_CLOSED"
     elseif eventType == 17 then
-        _QuestEventHandler:QuestRelatedFrameClosed("MAIL_CLOSED")
+        eventName = "MAIL_CLOSED"
     elseif eventType == 21 then
-        _QuestEventHandler:QuestRelatedFrameClosed("AUCTION_HOUSE_CLOSED")
+        eventName = "AUCTION_HOUSE_CLOSED"
+    else
+        -- Unknown events are simply ignored
+        return
     end
 
-    -- Unknown events are simply ignored
+    _QuestEventHandler:QuestRelatedFrameClosed(eventName)
 end
 
 --- Helper function to insert a callback to the questLogUpdateQueue and increase the index
