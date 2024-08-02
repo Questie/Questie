@@ -120,4 +120,20 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieAnnounce.AcceptedQuest).was_called_with(QuestieAnnounce, 123)
         assert.spy(QuestieQuest.AcceptQuest).was_called_with(QuestieQuest, 123)
     end)
+
+    it("should mark quest as abandoned on QUEST_REMOVED without preceding QUEST_TURNED_IN", function()
+        Questie.SendMessage = spy.new()
+        _G.C_Timer = {NewTicker = function(_, callback) callback() return {} end}
+
+        QuestEventHandler:RegisterEvents()
+
+        TestUtils.triggerMockEvent("QUEST_REMOVED", 123)
+
+        assert.spy(Questie.SendMessage).was_called_with(Questie, "QC_ID_BROADCAST_QUEST_REMOVE", 123)
+        assert.spy(QuestLogCache.RemoveQuest).was_called_with(123)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, 123)
+        assert.spy(QuestieQuest.AbandonedQuest).was_called_with(QuestieQuest, 123)
+        assert.spy(QuestieJourney.AbandonQuest).was_called_with(QuestieJourney, 123)
+        assert.spy(QuestieAnnounce.AbandonedQuest).was_called_with(QuestieAnnounce, 123)
+    end)
 end)
