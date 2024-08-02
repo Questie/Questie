@@ -60,8 +60,8 @@ function QuestEventHandler:RegisterEvents()
     Questie:RegisterEvent("QUEST_TURNED_IN", _QuestEventHandler.QuestTurnedIn)
     Questie:RegisterEvent("QUEST_LOG_UPDATE", _QuestEventHandler.QuestLogUpdate)
     Questie:RegisterEvent("QUEST_WATCH_UPDATE", _QuestEventHandler.QuestWatchUpdate)
+    Questie:RegisterEvent("QUEST_AUTOCOMPLETE", _QuestEventHandler.QuestAutoComplete)
 
-    eventFrame:RegisterEvent("QUEST_AUTOCOMPLETE")
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
     eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
     eventFrame:RegisterEvent("NEW_RECIPE_LEARNED") -- Spell objectives; Runes in SoD count as recipes because "Engraving" is a profession?
@@ -501,9 +501,7 @@ end
 --- Is executed whenever an event is fired and triggers relevant event handling.
 ---@param event string
 function _QuestEventHandler:OnEvent(event, ...)
-    if event == "QUEST_AUTOCOMPLETE" then
-        _QuestEventHandler:QuestAutoComplete(...)
-    elseif event == "UNIT_QUEST_LOG_CHANGED" and select(1, ...) == "player" then
+    if event == "UNIT_QUEST_LOG_CHANGED" and select(1, ...) == "player" then
         _QuestEventHandler:UnitQuestLogChanged(...)
     elseif event == "NEW_RECIPE_LEARNED" then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED (QuestEventHandler)")

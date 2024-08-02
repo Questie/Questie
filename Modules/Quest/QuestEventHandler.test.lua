@@ -24,6 +24,10 @@ describe("QuestEventHandler", function()
     local QuestieDB
     ---@type QuestieNameplate
     local QuestieNameplate
+    ---@type WatchFrameHook
+    local WatchFrameHook
+    ---@type AutoCompleteFrame
+    local AutoCompleteFrame
     ---@type QuestEventHandler
     local QuestEventHandler
 
@@ -39,6 +43,8 @@ describe("QuestEventHandler", function()
         QuestieTracker = require("Modules.Tracker.QuestieTracker")
         QuestieDB = require("Database.QuestieDB")
         QuestieNameplate = require("Modules.QuestieNameplate")
+        WatchFrameHook = require("Modules.WatchFrameHook")
+        AutoCompleteFrame = require("Modules.Tracker.AutoCompleteFrame")
         QuestEventHandler = require("Modules.Quest.QuestEventHandler")
 
         QuestieLib.CacheItemNames = spy.new(function() end)
@@ -200,5 +206,16 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieNameplate.UpdateNameplate).was_called()
         assert.spy(QuestieQuest.UpdateQuest).was_called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieTracker.Update).was_called()
+    end)
+
+    it("should handle QUEST_AUTOCOMPLETE", function()
+        Questie.db.profile.trackerEnabled = true
+        WatchFrameHook.Hide = spy.new()
+        AutoCompleteFrame.ShowAutoComplete = spy.new()
+
+        TestUtils.triggerMockEvent("QUEST_AUTOCOMPLETE", QUEST_ID)
+
+        assert.spy(WatchFrameHook.Hide).was_called()
+        assert.spy(AutoCompleteFrame.ShowAutoComplete).was_called_with(QUEST_ID)
     end)
 end)
