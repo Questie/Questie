@@ -496,41 +496,6 @@ function _QuestLogUpdateQueue:GetFirst()
     return tableRemove(questLogUpdateQueue, 1)
 end
 
-local trackerMinimizedByDungeon = false
-function _QuestEventHandler:ZoneChangedNewArea()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
-    -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
-    -- backend Questie updates that occur when a player zones in/out of an instance. This
-    -- is necessary to get everything back into it's "normal" state after all the updates.
-    local isInInstance, instanceType = IsInInstance()
-
-    if isInInstance then
-        C_Timer.After(8, function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Entering Instance")
-            if Questie.db.profile.hideTrackerInDungeons then
-                trackerMinimizedByDungeon = true
-
-                QuestieCombatQueue:Queue(function()
-                    QuestieTracker:Collapse()
-                end)
-            end
-        end)
-
-    -- We only want this to fire outside of an instance if the player isn't dead and we need to reset the Tracker
-    elseif (not Questie.db.char.isTrackerExpanded and not UnitIsGhost("player")) and trackerMinimizedByDungeon == true then
-        C_Timer.After(8, function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance")
-            if Questie.db.profile.hideTrackerInDungeons then
-                trackerMinimizedByDungeon = false
-
-                QuestieCombatQueue:Queue(function()
-                    QuestieTracker:Expand()
-                end)
-            end
-        end)
-    end
-end
-
 --- Is executed whenever an event is fired and triggers relevant event handling.
 ---@param event string
 function _QuestEventHandler:OnEvent(event, ...)
@@ -548,8 +513,6 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:QuestAutoComplete(...)
     elseif event == "UNIT_QUEST_LOG_CHANGED" and select(1, ...) == "player" then
         _QuestEventHandler:UnitQuestLogChanged(...)
-    elseif event == "ZONE_CHANGED_NEW_AREA" then
-        _QuestEventHandler:ZoneChangedNewArea()
     elseif event == "NEW_RECIPE_LEARNED" then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED (QuestEventHandler)")
         doFullQuestLogScan = true -- If this event is related to a spell objective, a QUEST_LOG_UPDATE will be fired afterwards
