@@ -819,43 +819,49 @@ function SeasonOfDiscovery:LoadQuests()
         [79588] = { -- Small Furry Paws
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 500},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [79589] = { -- Torn Bear Pelts
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1100},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [79590] = { -- Heavy Grinding Stone
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1100},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 250}},
         },
         [79591] = { -- Whirring Bronze Gizmo
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1100},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [79592] = { -- Carnival Jerkins
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1100},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 250}},
         },
         [79593] = { -- Coarse Weightstone
-            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 500},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [79594] = { -- Copper Modulator
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 500},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [79595] = { -- Carnival Boots
-            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 500},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [79624] = { -- Anyone Can Cook
@@ -1202,23 +1208,26 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [80417] = { -- Soft Bushy Tails
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1700},
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [80421] = { -- Green Iron Bracers
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1700},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [80422] = { -- Green Fireworks
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1700},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [80423] = { -- The World's Largest Gnome!
             [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 1700},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [80453] = { -- Best Laid Plans
@@ -2023,23 +2032,27 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [82271] = { -- Glowing Scorpid Blood
-            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
-        },
-        [82272] = { -- More Glowing Scorpid Blood
+        [82271] = { -- More Glowing Scorpid Blood
             [questKeys.preQuestSingle] = {82272},
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 5500},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [82273] = { -- More Bat Eyes
-            [questKeys.preQuestSingle] = {2880},
+        [82272] = { -- Glowing Scorpid Blood
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 5500},
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
+        },
+        [82273] = { -- More Bat Eyes
+            [questKeys.preQuestSingle] = {82274},
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 5500},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82274] = { -- Evil Bat Eyes
             [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxRep] = {factionIDs.DARKMOON_FAIRE, 5500},
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE, 100}},
         },
         [82301] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
