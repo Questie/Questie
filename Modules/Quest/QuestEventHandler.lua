@@ -57,9 +57,9 @@ function QuestEventHandler:RegisterEvents()
 
     Questie:RegisterEvent("QUEST_ACCEPTED", _QuestEventHandler.QuestAccepted)
     Questie:RegisterEvent("QUEST_REMOVED", _QuestEventHandler.QuestRemoved)
+    Questie:RegisterEvent("QUEST_TURNED_IN", _QuestEventHandler.QuestTurnedIn)
     Questie:RegisterEvent("QUEST_LOG_UPDATE", _QuestEventHandler.QuestLogUpdate)
 
-    eventFrame:RegisterEvent("QUEST_TURNED_IN")
     eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
     eventFrame:RegisterEvent("QUEST_AUTOCOMPLETE")
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
@@ -501,9 +501,7 @@ end
 --- Is executed whenever an event is fired and triggers relevant event handling.
 ---@param event string
 function _QuestEventHandler:OnEvent(event, ...)
-    if event == "QUEST_TURNED_IN" then
-        _QuestEventHandler:QuestTurnedIn(...)
-    elseif event == "QUEST_WATCH_UPDATE" then
+    if event == "QUEST_WATCH_UPDATE" then
         _QuestEventHandler:QuestWatchUpdate(...)
     elseif event == "QUEST_AUTOCOMPLETE" then
         _QuestEventHandler:QuestAutoComplete(...)

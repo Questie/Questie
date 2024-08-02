@@ -20,6 +20,8 @@ describe("QuestEventHandler", function()
     local QuestieAnnounce
     ---@type QuestieTracker
     local QuestieTracker
+    ---@type QuestieDB
+    local QuestieDB
     ---@type QuestEventHandler
     local QuestEventHandler
 
@@ -33,6 +35,7 @@ describe("QuestEventHandler", function()
         QuestieJourney = require("Modules.Journey.QuestieJourney")
         QuestieAnnounce = require("Modules.QuestieAnnounce")
         QuestieTracker = require("Modules.Tracker.QuestieTracker")
+        QuestieDB = require("Database.QuestieDB")
         QuestEventHandler = require("Modules.Quest.QuestEventHandler")
 
         QuestieLib.CacheItemNames = spy.new(function() end)
@@ -131,5 +134,24 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieQuest.AbandonedQuest).was_called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieJourney.AbandonQuest).was_called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AbandonedQuest).was_called_with(QuestieAnnounce, QUEST_ID)
+    end)
+
+    it("should handle quest turn in", function()
+        _G.GetNumQuestLogRewards = function() return 1 end
+        _G.GetQuestLogRewardInfo = function() return nil, nil, nil, 0, nil, 5 end
+        QuestLogCache.RemoveQuest = spy.new()
+        QuestieQuest.SetObjectivesDirty = spy.new()
+        QuestieQuest.CompleteQuest = spy.new()
+        QuestieJourney.CompleteQuest = spy.new()
+        QuestieAnnounce.CompletedQuest = spy.new()
+        QuestieDB.QueryQuestSingle = spy.new(function() return nil end)
+
+        TestUtils.triggerMockEvent("QUEST_TURNED_IN", QUEST_ID, 1000, 2000)
+
+        assert.spy(QuestLogCache.RemoveQuest).was_called_with(QUEST_ID)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieQuest.CompleteQuest).was_called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieJourney.CompleteQuest).was_called_with(QuestieJourney, QUEST_ID)
+        assert.spy(QuestieAnnounce.CompletedQuest).was_called_with(QuestieAnnounce, QUEST_ID)
     end)
 end)
