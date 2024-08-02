@@ -218,4 +218,22 @@ describe("QuestEventHandler", function()
         assert.spy(WatchFrameHook.Hide).was_called()
         assert.spy(AutoCompleteFrame.ShowAutoComplete).was_called_with(QUEST_ID)
     end)
+
+    it("should update all quests on PLAYER_INTERACTION_MANAGER_FRAME_HIDE", function()
+        _G.C_Timer = {After = function(_, callback) callback() end}
+        QuestLogCache.CheckForChanges = spy.new(function() return false, {[QUEST_ID] = {}} end)
+        QuestieQuest.SetObjectivesDirty = spy.new()
+        QuestieNameplate.UpdateNameplate = spy.new()
+        QuestieQuest.UpdateQuest = spy.new()
+        QuestieTracker.Update = spy.new()
+        local bankframeClosedEvent = 8
+
+        TestUtils.triggerMockEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", bankframeClosedEvent)
+
+        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[QUEST_ID] = true})
+        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieNameplate.UpdateNameplate).was_called()
+        assert.spy(QuestieQuest.UpdateQuest).was_called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieTracker.Update).was_called()
+    end)
 end)

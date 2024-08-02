@@ -67,8 +67,7 @@ function QuestEventHandler:RegisterEvents()
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED (QuestEventHandler)")
         doFullQuestLogScan = true -- If this event is related to a spell objective, a QUEST_LOG_UPDATE will be fired afterwards
     end)
-
-    eventFrame:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE")
+    Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", _QuestEventHandler.PlayerInteractionManagerFrameHide)
 
     eventFrame:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
     eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
@@ -489,6 +488,28 @@ function _QuestEventHandler:ReputationChange()
     doFullQuestLogScan = true
 end
 
+function _QuestEventHandler:PlayerInteractionManagerFrameHide(eventType)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] PLAYER_INTERACTION_MANAGER_FRAME_HIDE", eventType)
+
+    if eventType == 1 then
+        _QuestEventHandler:QuestRelatedFrameClosed("TRADE_CLOSED")
+    elseif eventType == 5 then
+        _QuestEventHandler:QuestRelatedFrameClosed("MERCHANT_CLOSED")
+    elseif eventType == 8 then
+        _QuestEventHandler:QuestRelatedFrameClosed("BANKFRAME_CLOSED")
+    elseif eventType == 10 then
+        _QuestEventHandler:QuestRelatedFrameClosed("GUILDBANKFRAME_CLOSED")
+    elseif eventType == 12 then
+        _QuestEventHandler:QuestRelatedFrameClosed("VENDOR_CLOSED")
+    elseif eventType == 17 then
+        _QuestEventHandler:QuestRelatedFrameClosed("MAIL_CLOSED")
+    elseif eventType == 21 then
+        _QuestEventHandler:QuestRelatedFrameClosed("AUCTION_HOUSE_CLOSED")
+    end
+
+    -- Unknown events are simply ignored
+end
+
 --- Helper function to insert a callback to the questLogUpdateQueue and increase the index
 function _QuestLogUpdateQueue:Insert(callback)
     questLogUpdateQueue[questLogUpdateQueueSize] = callback
@@ -505,28 +526,7 @@ end
 --- Is executed whenever an event is fired and triggers relevant event handling.
 ---@param event string
 function _QuestEventHandler:OnEvent(event, ...)
-    if event == "PLAYER_INTERACTION_MANAGER_FRAME_HIDE" then
-        local eventType = select(1, ...)
-        if eventType == 1 then
-            event = "TRADE_CLOSED"
-        elseif eventType == 5 then
-            event = "MERCHANT_CLOSED"
-        elseif eventType == 8 then
-            event = "BANKFRAME_CLOSED"
-        elseif eventType == 10 then
-            event = "GUILDBANKFRAME_CLOSED"
-        elseif eventType == 12 then
-            event = "VENDOR_CLOSED"
-        elseif eventType == 17 then
-            event = "MAIL_CLOSED"
-        elseif eventType == 21 then
-            event = "AUCTION_HOUSE_CLOSED"
-        else
-            -- Unknown event which we will simply ignore
-            return
-        end
-        _QuestEventHandler:QuestRelatedFrameClosed(event)
-    elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
+    if event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
         _QuestEventHandler:ReputationChange()
     end
 end
