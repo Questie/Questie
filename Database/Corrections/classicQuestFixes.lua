@@ -1467,12 +1467,13 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {936,3762,3761},
         },
         [3785] = {
-            [questKeys.requiredSourceItems] = {11018},
+            [questKeys.requiredSourceItems] = {11022,11018},
         },
         [3786] = {
-            [questKeys.requiredSourceItems] = {11018},
+            [questKeys.requiredSourceItems] = {11022,11018},
         },
-        [3791] = {
+        [3791] = { -- The Mystery of Morrowgrain
+            [questKeys.requiredSourceItems] = {11022,11018},
             [questKeys.preQuestSingle] = {3787,3788}, -- #885
         },
         [3903] = {
