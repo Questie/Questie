@@ -62,11 +62,7 @@ function QuestEventHandler:RegisterEvents()
     Questie:RegisterEvent("QUEST_WATCH_UPDATE", _QuestEventHandler.QuestWatchUpdate)
     Questie:RegisterEvent("QUEST_AUTOCOMPLETE", _QuestEventHandler.QuestAutoComplete)
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _QuestEventHandler.UnitQuestLogChanged)
-    Questie:RegisterEvent("NEW_RECIPE_LEARNED", function()
-        -- Spell objectives; Runes in SoD count as recipes because "Engraving" is a profession?
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED (QuestEventHandler)")
-        doFullQuestLogScan = true -- If this event is related to a spell objective, a QUEST_LOG_UPDATE will be fired afterwards
-    end)
+    Questie:RegisterEvent("NEW_RECIPE_LEARNED", _QuestEventHandler.NewRecipeLearned)
     Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", _QuestEventHandler.PlayerInteractionManagerFrameHide)
 
     eventFrame:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
@@ -486,6 +482,13 @@ function _QuestEventHandler:ReputationChange()
 
     -- Reputational quest progression doesn't fire UNIT_QUEST_LOG_CHANGED event, only QUEST_LOG_UPDATE event.
     doFullQuestLogScan = true
+end
+
+-- Spell objectives; Runes in SoD count as recipes because "Engraving" is a profession?
+function _QuestEventHandler.NewRecipeLearned()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED (QuestEventHandler)")
+
+    doFullQuestLogScan = true -- If this event is related to a spell objective, a QUEST_LOG_UPDATE will be fired afterwards
 end
 
 function _QuestEventHandler:PlayerInteractionManagerFrameHide(eventType)
