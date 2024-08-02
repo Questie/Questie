@@ -46,6 +46,7 @@ describe("QuestEventHandler", function()
 
         TestUtils.triggerMockEvent("QUEST_ACCEPTED", 2, 123)
 
+        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[123] = true})
         assert.spy(QuestieLib.CacheItemNames).was_called_with(QuestieLib, 123)
         assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, 123)
         assert.spy(QuestieJourney.AcceptQuest).was_called_with(QuestieJourney, 123)
@@ -66,6 +67,7 @@ describe("QuestEventHandler", function()
 
         TestUtils.triggerMockEvent("QUEST_ACCEPTED", 2, 123)
 
+        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[123] = true})
         assert.spy(QuestieLib.CacheItemNames).was_called_with(QuestieLib, 123)
         assert.spy(QuestieQuest.SetObjectivesDirty).was_not_called()
         assert.spy(QuestieJourney.AcceptQuest).was_not_called()
@@ -77,6 +79,7 @@ describe("QuestEventHandler", function()
 
         TestUtils.triggerMockEvent("QUEST_LOG_UPDATE")
 
+        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[123] = true})
         assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, 123)
         assert.spy(QuestieJourney.AcceptQuest).was_called_with(QuestieJourney, 123)
         assert.spy(QuestieAnnounce.AcceptedQuest).was_called_with(QuestieAnnounce, 123)
