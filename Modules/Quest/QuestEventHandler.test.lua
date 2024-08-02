@@ -22,6 +22,8 @@ describe("QuestEventHandler", function()
     local QuestieTracker
     ---@type QuestieDB
     local QuestieDB
+    ---@type QuestieNameplate
+    local QuestieNameplate
     ---@type QuestEventHandler
     local QuestEventHandler
 
@@ -36,6 +38,7 @@ describe("QuestEventHandler", function()
         QuestieAnnounce = require("Modules.QuestieAnnounce")
         QuestieTracker = require("Modules.Tracker.QuestieTracker")
         QuestieDB = require("Database.QuestieDB")
+        QuestieNameplate = require("Modules.QuestieNameplate")
         QuestEventHandler = require("Modules.Quest.QuestEventHandler")
 
         QuestieLib.CacheItemNames = spy.new(function() end)
@@ -179,5 +182,23 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieQuest.CompleteQuest).was_called_with(QuestieQuest, questId)
         assert.spy(QuestieJourney.CompleteQuest).was_called_with(QuestieJourney, questId)
         assert.spy(QuestieAnnounce.CompletedQuest).was_called_with(QuestieAnnounce, questId)
+    end)
+
+    it("should do full quest log scan after QUEST_WATCH_UPDATE", function()
+        _G.C_Timer = {After = function(_, callback) callback() end}
+        QuestLogCache.CheckForChanges = spy.new(function() return false, {[QUEST_ID] = {}} end)
+        QuestieQuest.SetObjectivesDirty = spy.new()
+        QuestieNameplate.UpdateNameplate = spy.new()
+        QuestieQuest.UpdateQuest = spy.new()
+        QuestieTracker.Update = spy.new()
+
+        TestUtils.triggerMockEvent("QUEST_WATCH_UPDATE", QUEST_ID)
+        TestUtils.triggerMockEvent("QUEST_LOG_UPDATE")
+
+        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[QUEST_ID] = true})
+        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieNameplate.UpdateNameplate).was_called()
+        assert.spy(QuestieQuest.UpdateQuest).was_called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieTracker.Update).was_called()
     end)
 end)
