@@ -10,6 +10,7 @@ _G.table.getn = function(table)
     for _ in pairs(table) do count = count + 1 end
     return count
 end
+_G.hooksecurefunc = EMTPY_FUNC
 _G.GetTime = function() return 0 end
 
 _G.QUEST_MONSTERS_KILLED = ""
@@ -158,6 +159,7 @@ setmetatable(_G.CreateFrame, {
             IsVisible = function()
                 return isShown
             end,
+            RegisterEvent = EMTPY_FUNC,
             HookScript = EMTPY_FUNC,
             scripts = scripts,
             attributes = attributes,
@@ -179,13 +181,18 @@ setmetatable(_G.LibStub, {
     end
 })
 
+local registeredEvents = {}
 _G["Questie"] = {
     db = {
         char = {},
         profile = {},
+        global = {},
     },
     Debug = EMTPY_FUNC,
     icons = {},
+    RegisterEvent = function(_, eventName, callback)
+        registeredEvents[eventName] = callback
+    end,
 }
 
 ---@type ZoneDB
@@ -200,3 +207,17 @@ ZoneDB.zoneIDs = {
     THUNDER_BLUFF = 1638,
     UNDERCITY = 1497,
 }
+
+---@class TestUtils
+local TestUtils = {
+    resetEvents = function()
+        registeredEvents = {}
+    end,
+    triggerMockEvent = function(eventName, ...)
+        if registeredEvents[eventName] then
+            registeredEvents[eventName](eventName, ...)
+        end
+    end
+}
+
+return TestUtils

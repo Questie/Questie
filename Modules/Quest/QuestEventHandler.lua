@@ -54,7 +54,9 @@ local deletedQuestItem = false
 --- Registers all events that are required for questing (accepting, removing, objective updates, ...)
 function QuestEventHandler:RegisterEvents()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] RegisterEvents")
-    eventFrame:RegisterEvent("QUEST_ACCEPTED")
+
+    Questie:RegisterEvent("QUEST_ACCEPTED", _QuestEventHandler.QuestAccepted)
+
     eventFrame:RegisterEvent("QUEST_TURNED_IN")
     eventFrame:RegisterEvent("QUEST_REMOVED")
     eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
@@ -188,7 +190,7 @@ end
 --- Fires when a quest is accepted in anyway.
 ---@param questLogIndex number
 ---@param questId number
-function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
+function _QuestEventHandler.QuestAccepted(_, questLogIndex, questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED", questLogIndex, questId)
 
     if questLog[questId] and questLog[questId].timer then
@@ -499,9 +501,7 @@ end
 --- Is executed whenever an event is fired and triggers relevant event handling.
 ---@param event string
 function _QuestEventHandler:OnEvent(event, ...)
-    if event == "QUEST_ACCEPTED" then
-        _QuestEventHandler:QuestAccepted(...)
-    elseif event == "QUEST_TURNED_IN" then
+    if event == "QUEST_TURNED_IN" then
         _QuestEventHandler:QuestTurnedIn(...)
     elseif event == "QUEST_REMOVED" then
         _QuestEventHandler:QuestRemoved(...)
@@ -541,3 +541,5 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:ReputationChange()
     end
 end
+
+return QuestEventHandler
