@@ -3,6 +3,8 @@ local TestUtils = dofile("setupTests.lua")
 
 _G.GetQuestTimers = function() return nil end
 
+local QUEST_ID = 123
+
 describe("QuestEventHandler", function()
     ---@type QuestieLib
     local QuestieLib
@@ -32,30 +34,31 @@ describe("QuestEventHandler", function()
         QuestieAnnounce = require("Modules.QuestieAnnounce")
         QuestieTracker = require("Modules.Tracker.QuestieTracker")
         QuestEventHandler = require("Modules.Quest.QuestEventHandler")
+
+        QuestieLib.CacheItemNames = spy.new(function() end)
+
+        QuestEventHandler:RegisterEvents()
+        QuestEventHandler.InitQuestLogStates({QUEST_ID})
     end)
 
     it("should handle quest accept", function()
-        QuestieLib.CacheItemNames = spy.new(function() end)
         QuestLogCache.CheckForChanges = spy.new(function() return false, nil end)
         QuestieQuest.SetObjectivesDirty = spy.new()
         QuestieQuest.AcceptQuest = spy.new()
         QuestieJourney.AcceptQuest = spy.new()
         QuestieAnnounce.AcceptedQuest = spy.new()
 
-        QuestEventHandler:RegisterEvents()
+        TestUtils.triggerMockEvent("QUEST_ACCEPTED", 2, QUEST_ID)
 
-        TestUtils.triggerMockEvent("QUEST_ACCEPTED", 2, 123)
-
-        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[123] = true})
-        assert.spy(QuestieLib.CacheItemNames).was_called_with(QuestieLib, 123)
-        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, 123)
-        assert.spy(QuestieJourney.AcceptQuest).was_called_with(QuestieJourney, 123)
-        assert.spy(QuestieAnnounce.AcceptedQuest).was_called_with(QuestieAnnounce, 123)
-        assert.spy(QuestieQuest.AcceptQuest).was_called_with(QuestieQuest, 123)
+        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[QUEST_ID] = true})
+        assert.spy(QuestieLib.CacheItemNames).was_called_with(QuestieLib, QUEST_ID)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieJourney.AcceptQuest).was_called_with(QuestieJourney, QUEST_ID)
+        assert.spy(QuestieAnnounce.AcceptedQuest).was_called_with(QuestieAnnounce, QUEST_ID)
+        assert.spy(QuestieQuest.AcceptQuest).was_called_with(QuestieQuest, QUEST_ID)
     end)
 
     it("should handle accept on QLU when quest is initially missing in game cache", function()
-        QuestieLib.CacheItemNames = spy.new(function() end)
         QuestLogCache.CheckForChanges = spy.new(function() return true, nil end)
         QuestieQuest.SetObjectivesDirty = spy.new()
         QuestieQuest.AcceptQuest = spy.new()
@@ -63,12 +66,10 @@ describe("QuestEventHandler", function()
         QuestieAnnounce.AcceptedQuest = spy.new()
         QuestieTracker.Update = spy.new()
 
-        QuestEventHandler:RegisterEvents()
+        TestUtils.triggerMockEvent("QUEST_ACCEPTED", 2, QUEST_ID)
 
-        TestUtils.triggerMockEvent("QUEST_ACCEPTED", 2, 123)
-
-        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[123] = true})
-        assert.spy(QuestieLib.CacheItemNames).was_called_with(QuestieLib, 123)
+        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[QUEST_ID] = true})
+        assert.spy(QuestieLib.CacheItemNames).was_called_with(QuestieLib, QUEST_ID)
         assert.spy(QuestieQuest.SetObjectivesDirty).was_not_called()
         assert.spy(QuestieJourney.AcceptQuest).was_not_called()
         assert.spy(QuestieAnnounce.AcceptedQuest).was_not_called()
@@ -79,16 +80,15 @@ describe("QuestEventHandler", function()
 
         TestUtils.triggerMockEvent("QUEST_LOG_UPDATE")
 
-        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[123] = true})
-        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, 123)
-        assert.spy(QuestieJourney.AcceptQuest).was_called_with(QuestieJourney, 123)
-        assert.spy(QuestieAnnounce.AcceptedQuest).was_called_with(QuestieAnnounce, 123)
-        assert.spy(QuestieQuest.AcceptQuest).was_called_with(QuestieQuest, 123)
+        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[QUEST_ID] = true})
+        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieJourney.AcceptQuest).was_called_with(QuestieJourney, QUEST_ID)
+        assert.spy(QuestieAnnounce.AcceptedQuest).was_called_with(QuestieAnnounce, QUEST_ID)
+        assert.spy(QuestieQuest.AcceptQuest).was_called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieTracker.Update).was_called()
     end)
 
     it("should mark quest as abandoned on quest accept after QUEST_REMOVED", function()
-        QuestieLib.CacheItemNames = spy.new(function() end)
         QuestLogCache.RemoveQuest = spy.new()
         QuestLogCache.CheckForChanges = spy.new(function() return false, nil end)
         QuestieQuest.SetObjectivesDirty = spy.new()
@@ -100,40 +100,36 @@ describe("QuestEventHandler", function()
         QuestieAnnounce.AbandonedQuest = spy.new()
         _G.C_Timer = {NewTicker = function() return {Cancel = function() end} end} -- This ignores the ticker set on QUEST_REMOVED
 
-        QuestEventHandler:RegisterEvents()
-
-        TestUtils.triggerMockEvent("QUEST_REMOVED", 123)
+        TestUtils.triggerMockEvent("QUEST_REMOVED", QUEST_ID)
 
         _G.C_Timer = {NewTicker = function(_, callback) callback() return {} end}
-        TestUtils.triggerMockEvent("QUEST_ACCEPTED", 2, 123)
+        TestUtils.triggerMockEvent("QUEST_ACCEPTED", 2, QUEST_ID)
 
-        assert.spy(QuestLogCache.RemoveQuest).was_called_with(123)
-        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, 123)
-        assert.spy(QuestieQuest.AbandonedQuest).was_called_with(QuestieQuest, 123)
-        assert.spy(QuestieJourney.AbandonQuest).was_called_with(QuestieJourney, 123)
-        assert.spy(QuestieAnnounce.AbandonedQuest).was_called_with(QuestieAnnounce, 123)
+        assert.spy(QuestLogCache.RemoveQuest).was_called_with(QUEST_ID)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieQuest.AbandonedQuest).was_called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieJourney.AbandonQuest).was_called_with(QuestieJourney, QUEST_ID)
+        assert.spy(QuestieAnnounce.AbandonedQuest).was_called_with(QuestieAnnounce, QUEST_ID)
 
-        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[123] = true})
-        assert.spy(QuestieLib.CacheItemNames).was_called_with(QuestieLib, 123)
+        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[QUEST_ID] = true})
+        assert.spy(QuestieLib.CacheItemNames).was_called_with(QuestieLib, QUEST_ID)
         assert.spy(QuestieQuest.SetObjectivesDirty).was_called(2)
-        assert.spy(QuestieJourney.AcceptQuest).was_called_with(QuestieJourney, 123)
-        assert.spy(QuestieAnnounce.AcceptedQuest).was_called_with(QuestieAnnounce, 123)
-        assert.spy(QuestieQuest.AcceptQuest).was_called_with(QuestieQuest, 123)
+        assert.spy(QuestieJourney.AcceptQuest).was_called_with(QuestieJourney, QUEST_ID)
+        assert.spy(QuestieAnnounce.AcceptedQuest).was_called_with(QuestieAnnounce, QUEST_ID)
+        assert.spy(QuestieQuest.AcceptQuest).was_called_with(QuestieQuest, QUEST_ID)
     end)
 
     it("should mark quest as abandoned on QUEST_REMOVED without preceding QUEST_TURNED_IN", function()
         Questie.SendMessage = spy.new()
         _G.C_Timer = {NewTicker = function(_, callback) callback() return {} end}
 
-        QuestEventHandler:RegisterEvents()
+        TestUtils.triggerMockEvent("QUEST_REMOVED", QUEST_ID)
 
-        TestUtils.triggerMockEvent("QUEST_REMOVED", 123)
-
-        assert.spy(Questie.SendMessage).was_called_with(Questie, "QC_ID_BROADCAST_QUEST_REMOVE", 123)
-        assert.spy(QuestLogCache.RemoveQuest).was_called_with(123)
-        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, 123)
-        assert.spy(QuestieQuest.AbandonedQuest).was_called_with(QuestieQuest, 123)
-        assert.spy(QuestieJourney.AbandonQuest).was_called_with(QuestieJourney, 123)
-        assert.spy(QuestieAnnounce.AbandonedQuest).was_called_with(QuestieAnnounce, 123)
+        assert.spy(Questie.SendMessage).was_called_with(Questie, "QC_ID_BROADCAST_QUEST_REMOVE", QUEST_ID)
+        assert.spy(QuestLogCache.RemoveQuest).was_called_with(QUEST_ID)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieQuest.AbandonedQuest).was_called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieJourney.AbandonQuest).was_called_with(QuestieJourney, QUEST_ID)
+        assert.spy(QuestieAnnounce.AbandonedQuest).was_called_with(QuestieAnnounce, QUEST_ID)
     end)
 end)
