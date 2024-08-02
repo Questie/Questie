@@ -299,6 +299,9 @@ function CataQuestFixes.Load()
         [7926] = { -- The Darkmoon Faire
             [questKeys.objectivesText] = {"Deliver the Free Ticket Voucher to Gelvas Grimgate, located inside the Darkmoon Faire."},
         },
+        [8280] = { -- Securing the Supply Lines
+            [questKeys.preQuestSingle] = {},
+        },
         [8329] = { -- Warrior Training
             [questKeys.finishedBy] = {{43010}},
             [questKeys.zoneOrSort] = 6455,
@@ -6739,6 +6742,10 @@ function CataQuestFixes.Load()
         [28527] = { -- Warchief's Command: Silithus!
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 57,
+            [questKeys.nextQuestInChain] = 8280,
+        },
+        [28528] = { -- Hero's Call: Silithus!
+            [questKeys.nextQuestInChain] = 8280,
         },
         [28529] = { -- Writings of the Void
             [questKeys.startedBy] = {{48764},nil,{64450}},
@@ -7389,6 +7396,12 @@ function CataQuestFixes.Load()
         [28849] = { -- Twilight Skies
             [questKeys.preQuestGroup] = {26337,26372,26374},
             [questKeys.exclusiveTo] = {},
+        },
+        [28856] = { -- The Sands of Silithus
+            [questKeys.nextQuestInChain] = 8280,
+        },
+        [28859] = { -- The Dunes of Silithus
+            [questKeys.nextQuestInChain] = 8280,
         },
         [28860] = { -- Keeping the Dragonmaw at Bay
             [questKeys.preQuestSingle] = {28655},
