@@ -1296,6 +1296,9 @@ function QuestieQuestFixes:Load()
         [2936] = {
             [questKeys.triggerEnd] = {"Find the Spider God's Name", {[zoneIDs.TANARIS]={{38.73,19.88}}}},
         },
+        [2943] = { -- Return to Troyas
+            [questKeys.nextQuestInChain] = 2879,
+        },
         [2945] = {
             [questKeys.startedBy] = {{6212},nil,{9326}},
         },
