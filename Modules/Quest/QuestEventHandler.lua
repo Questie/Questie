@@ -63,7 +63,6 @@ function QuestEventHandler:RegisterEvents()
     Questie:RegisterEvent("QUEST_AUTOCOMPLETE", _QuestEventHandler.QuestAutoComplete)
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _QuestEventHandler.UnitQuestLogChanged)
 
-    eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
     eventFrame:RegisterEvent("NEW_RECIPE_LEARNED") -- Spell objectives; Runes in SoD count as recipes because "Engraving" is a profession?
     --eventFrame:RegisterEvent("SPELLS_CHANGED") -- Spell objectives
 
