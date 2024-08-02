@@ -2782,7 +2782,7 @@ function QuestieQuestBlacklist:Load()
         --[29102] = true, -- To Fort Livingston
         --[29103] = true, -- Serpents and Poison
         --[29104] = true, -- Spirits Are With Us
-        [29153] = true, -- Booty Bay's Interests -- alliance, seems it's duplicate
+        --[29153] = true, -- Booty Bay's Interests
         --[29154] = true, -- Booty Bay's Interests
         --[29155] = true, -- A Shiny Reward
         --[29156] = true, -- The Troll Incursion
@@ -2799,7 +2799,7 @@ function QuestieQuestBlacklist:Load()
         [29229] = true, -- Follow That Cat
         --[29241] = true, -- Break the Godbreaker
         --[29242] = true, -- Putting a Price on Priceless
-        [29251] = true, -- Booty Bay's Interests -- horde, seems it's duplicate
+        --[29251] = true, -- Booty Bay's Interests
         --[29252] = true, -- Booty Bay's Interests
         [29261] = true, -- Zul'Aman Voodoo
         [29262] = true, -- Zul'Gurub Voodoo

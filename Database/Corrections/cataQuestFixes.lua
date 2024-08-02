@@ -7612,7 +7612,7 @@ function CataQuestFixes.Load()
         },
         [29103] = { -- Serpents and Poison
             [questKeys.parentQuest] = 29100,
-            [questKeys.objectives] = {{{52224},{52225,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{52224}},nil,nil,nil,{{{52225,52279,52280,53555,53556,53557},52225,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29104] = { -- Spirits Are With Us
             [questKeys.parentQuest] = 29100,
@@ -7707,6 +7707,9 @@ function CataQuestFixes.Load()
         },
         [29152] = { -- Making Contact
             [questKeys.parentQuest] = 29100,
+        },
+        [29153] = { -- Booty Bay's Interests
+            [questKeys.preQuestSingle] = {29152},
         },
         [29156] = { -- The Troll Incursion
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
@@ -8014,9 +8017,12 @@ function CataQuestFixes.Load()
         },
         [29508] = { -- Baby Needs Two Pair of Shoes
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,75},
+            [questKeys.requiredSourceItems] = {71967},
+            [questKeys.objectives] = {{{54510,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29509] = { -- Putting the Crunch in the Frog
             [questKeys.requiredSkill] = {profKeys.COOKING,75},
+            [questKeys.requiredSourceItems] = {72057},
         },
         [29510] = { -- Putting Trash to Good Use
             [questKeys.requiredSourceItems] = {72018},
@@ -8055,6 +8061,8 @@ function CataQuestFixes.Load()
         },
         [29520] = { -- Rearm, Reuse, Recycle
             [questKeys.requiredSkill] = {profKeys.TAILORING,75},
+            [questKeys.requiredSourceItems] = {72049},
+            [questKeys.objectives] = {nil,{{209288}}},
         },
         [29536] = { -- Heart of Rage
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.THE_BLOOD_FURNACE]={{64.9,41.5}}}},
