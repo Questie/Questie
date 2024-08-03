@@ -1,5 +1,7 @@
 Validators = {}
 
+---@param quests table
+---@param questKeys DatabaseQuestKeys
 function Validators.checkRequiredSourceItems(quests, questKeys)
     print("\n\27[36mSearching for sourceItemId and itemObjectiveId entries in quest.requiredSourceItems...\27[0m")
     local matchingQuests = {}
@@ -45,6 +47,8 @@ function Validators.checkRequiredSourceItems(quests, questKeys)
     end
 end
 
+---@param quests table
+---@param questKeys DatabaseQuestKeys
 function Validators.checkPreQuestExclusiveness(quests, questKeys)
     print("\n\27[36mSearching for quests with preQuestSingle and preQuestGroup entries...\27[0m")
     local invalidQuests = {}
