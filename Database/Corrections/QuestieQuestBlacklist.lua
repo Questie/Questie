@@ -2804,7 +2804,7 @@ function QuestieQuestBlacklist:Load()
         --[29217] = true, -- The Captive Scouts
         --[29219] = true, -- Bwemba's Spirit
         --[29220] = true, -- To Bambala
-        [29229] = true, -- Follow That Cat
+        --[29229] = true, -- Follow That Cat
         --[29241] = true, -- Break the Godbreaker
         --[29242] = true, -- Putting a Price on Priceless
         --[29251] = true, -- Booty Bay's Interests

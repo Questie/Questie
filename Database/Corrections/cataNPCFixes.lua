@@ -2123,13 +2123,6 @@ function CataNpcFixes.Load()
         [52225] = { -- Fort Livingston Adventurer
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{46.42,54.01},{47.66,52.02},{49,58.2},{50,59.8},{50.2,54},{50.4,56.6},{50.6,56.6},{50.6,65.2},{51,50.4},{51.6,63},{52,61.2},{52,65.4},{52,69.2},{52.4,52},{52.4,54.4},{52.6,54.6},{52.8,57.6},{52.8,64.2},{53,70.8},{53.8,60.4},{53.8,60.6},{54.2,62.4},{54.4,59.4},{54.6,53.6},{55.4,65.2},{55.6,67.6},{55.8,67.4},{56.2,53.8},{56.2,58.8},{56.44,50.79},{56.8,55.8},{57,62.8},{57,72.2},{57.2,67.4},{57.2,70.4},{57.4,60},{57.4,67.6},{57.4,71.4},{57.6,60},{58,65.2},{58,68.4},{58,70.8},{58.2,68.6},{58.8,58.4},{58.8,58.6},{58.8,70},{58.8,72.8},{59,56.8},{59.4,55.4},{60,55.6},{60,68.8},{60,71},{60,72.6},{60.2,55.4},{60.2,61.8},{60.4,58},{60.4,72},{60.6,65.8},{60.6,71.8},{61.2,55.2},{61.2,64},{61.8,66.6},{62,68.2},{62.4,73.4},{62.4,74.6},{62.6,67.6},{63,73},{63.2,71.8},{63.6,69.4}}},
         },
-        [52234] = { -- Bwemba
-            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{52.82,66.71}}},
-        },
-        [52762] = { -- [DND] At the Digsite
-            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{55.5,41.26}}},
-            [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
-        },
         [52767] = { -- Vol'jin
             [npcKeys.spawns] = {[5287] = {{41.03,73.13,phases.VOLJIN_BOOTY_BAY}}},
         },
@@ -2457,6 +2450,13 @@ function CataNpcFixes:LoadFactionFixes()
         [48416] = { -- Ozumat
             [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{53.83,61.91}}},
         },
+        [52234] = { -- Bwemba
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{64.3,39.7}}},
+        },
+        [52762] = { -- [DND] At the Digsite
+            [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{35.13,29.33}}},
+            [npcKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
+        },
     }
 
     local npcFixesAlliance = {
@@ -2583,6 +2583,13 @@ function CataNpcFixes:LoadFactionFixes()
         },
         [48416] = { -- Ozumat
             [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{55.83,76.21}}},
+        },
+        [52234] = { -- Bwemba
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{52.82,66.71}}},
+        },
+        [52762] = { -- [DND] At the Digsite
+            [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{55.5,41.26}}},
+            [npcKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
         },
     }
 
