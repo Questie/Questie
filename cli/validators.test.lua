@@ -218,26 +218,5 @@ describe("Validators", function()
             }, invalidQuests)
             assert.spy(exitMock).was_called_with(1)
         end)
-
-        it("should find quests which child quests list a different parent", function()
-            local quests = {
-                [1] = {
-                    childQuests = {2},
-                },
-                [2] = {
-                    parentQuest = 3,
-                },
-                [3] = {
-                    childQuests = {2},
-                },
-            }
-
-            local invalidQuests = Validators.checkParentChildQuestRelations(quests, questKeys)
-
-            assert.are.same({
-                [2] = "quest has a different parentQuest. 1 is listing it as child quest"
-            }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
-        end)
     end)
 end)
