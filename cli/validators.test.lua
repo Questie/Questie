@@ -141,6 +141,27 @@ describe("Validators", function()
             assert.spy(exitMock).was_called_with(1)
         end)
 
+        it("should find quests which parent is missing in the database (e.g. blacklisted)", function()
+            local quests = {
+                [1] = {
+                    childQuests = {2},
+                },
+                [2] = {
+                    parentQuest = 1,
+                },
+                [3] = {
+                    parentQuest = 4,
+                },
+            }
+
+            local invalidQuests = Validators.checkParentChildQuestRelations(quests, questKeys)
+
+            assert.are.same({
+                [3] = "parent quest 4 is missing/hidden in the database"
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
         it("should find quests which child quests are missing their parent entry", function()
             local quests = {
                 [1] = {
@@ -159,6 +180,40 @@ describe("Validators", function()
 
             assert.are.same({
                 [4] = "quest has no parentQuest. 3 is listing it as child quest"
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should ignore parent quests which were corrected to be 0", function()
+            local quests = {
+                [1] = {
+                    parentQuest = 0,
+                },
+            }
+
+            local invalidQuests = Validators.checkParentChildQuestRelations(quests, questKeys)
+
+            assert.are.same(nil, invalidQuests)
+            assert.spy(exitMock).was_not_called()
+        end)
+
+        it("should find quests which child quests are missing in the database (e.g. blacklisted)", function()
+            local quests = {
+                [1] = {
+                    childQuests = {2},
+                },
+                [2] = {
+                    parentQuest = 1,
+                },
+                [3] = {
+                    childQuests = {4},
+                },
+            }
+
+            local invalidQuests = Validators.checkParentChildQuestRelations(quests, questKeys)
+
+            assert.are.same({
+                [3] = "child quest 4 is missing/hidden in the database"
             }, invalidQuests)
             assert.spy(exitMock).was_called_with(1)
         end)

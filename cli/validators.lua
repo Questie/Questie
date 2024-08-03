@@ -86,9 +86,12 @@ function Validators.checkParentChildQuestRelations(quests, questKeys)
     local invalidQuests = {}
     for questId, questData in pairs(quests) do
         local parentQuestId = questData[questKeys.parentQuest]
-        if parentQuestId then
+        if parentQuestId and parentQuestId > 0 then
             local parentQuest = quests[parentQuestId]
-            if (not parentQuest[questKeys.childQuests]) then
+
+            if (not parentQuest) then
+                invalidQuests[questId] = "parent quest " .. parentQuestId .. " is missing/hidden in the database"
+            elseif (not parentQuest[questKeys.childQuests]) then
                 invalidQuests[parentQuestId] = "quest has no childQuests. " .. questId .. " is listing it as parent quest"
             else
                 local found = false
@@ -109,7 +112,9 @@ function Validators.checkParentChildQuestRelations(quests, questKeys)
         if childQuests then
             for _, childQuestId in pairs(childQuests) do
                 local childQuest = quests[childQuestId]
-                if (not childQuest[questKeys.parentQuest]) then
+                if (not childQuest) then
+                    invalidQuests[questId] = "child quest " .. childQuestId .. " is missing/hidden in the database"
+                elseif (not childQuest[questKeys.parentQuest]) then
                     invalidQuests[childQuestId] = "quest has no parentQuest. " .. questId .. " is listing it as child quest"
                 elseif childQuest[questKeys.parentQuest] ~= questId then
                     invalidQuests[childQuestId] = "quest has a different parentQuest. " .. questId .. " is listing it as child quest"
