@@ -32,7 +32,6 @@ function QuestieQuestBlacklist:Load()
         [11189] = true, -- Removed
         [13417] = true, -- Duplicate of 12973
         [936] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
-        [535] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Valik
         [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
@@ -1639,6 +1638,7 @@ function QuestieQuestBlacklist:Load()
         [532] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [533] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [534] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [535] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [536] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [537] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [539] = QuestieCorrections.CATA_HIDE, -- Removed with cata
