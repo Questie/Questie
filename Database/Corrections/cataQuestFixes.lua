@@ -3485,6 +3485,9 @@ function CataQuestFixes.Load()
         [25794] = { -- Undersea Sanctuary
             [questKeys.objectives] = {{{41294,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [25796] = { -- Eminent Domain
+            [questKeys.preQuestSingle] = {25790},
+        },
         [25798] = { -- Defend the Drill
             [questKeys.triggerEnd] = {"Oil Drilling Rig defended",[zoneIDs.THOUSAND_NEEDLES]={{85.9,44.6},{90.2,50.7},{87.2,49.5},{88.3,44.4}}},
         },
