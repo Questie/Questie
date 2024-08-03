@@ -7,6 +7,8 @@ local questKeys = {
     objectives = "objectives",
     preQuestSingle = "preQuestSingle",
     preQuestGroup = "preQuestGroup",
+    parentQuest = "parentQuest",
+    childQuests = "childQuests",
 }
 
 describe("Validators", function()
@@ -103,6 +105,83 @@ describe("Validators", function()
 
             assert.are.same(nil, invalidQuests)
             assert.spy(exitMock).was_not_called()
+        end)
+    end)
+
+    describe("checkParentChildQuestRelations", function()
+        it("should find quests which parent is missing their child quest entry", function()
+            local quests = {
+                [1] = {
+                    childQuests = {2},
+                },
+                [2] = {
+                    parentQuest = 1,
+                },
+                [3] = {},
+                [4] = {
+                    parentQuest = 3,
+                },
+                [5] = {
+                    childQuests = {6},
+                },
+                [6] = {
+                    parentQuest = 5,
+                },
+                [7] = {
+                    parentQuest = 5,
+                },
+            }
+
+            local invalidQuests = Validators.checkParentChildQuestRelations(quests, questKeys)
+
+            assert.are.same({
+                [3] = "quest has no childQuests. 4 is listing it as parent quest",
+                [5] = "quest 7 is missing in childQuests list",
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should find quests which child quests are missing their parent entry", function()
+            local quests = {
+                [1] = {
+                    childQuests = {2},
+                },
+                [2] = {
+                    parentQuest = 1,
+                },
+                [3] = {
+                    childQuests = {4},
+                },
+                [4] = {},
+            }
+
+            local invalidQuests = Validators.checkParentChildQuestRelations(quests, questKeys)
+
+            assert.are.same({
+                [4] = "quest has no parentQuest. 3 is listing it as child quest"
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should find quests which child quests list a different parent", function()
+            local quests = {
+                [1] = {
+                    childQuests = {2},
+                },
+                [2] = {
+                    parentQuest = 3,
+                },
+                [3] = {
+                    childQuests = {2},
+                },
+            }
+
+            local invalidQuests = Validators.checkParentChildQuestRelations(quests, questKeys)
+
+            assert.are.same({
+                [2] = "quest has a different parentQuest. 1 is listing it as child quest"
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
         end)
     end)
 end)
