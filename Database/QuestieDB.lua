@@ -511,19 +511,6 @@ function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
     return false
 end
 
----@param parentID number
----@return boolean
-function QuestieDB.IsParentQuestActive(parentID)
-    --! If you edit the logic here, also edit in AvailableQuests.IsLevelRequirementsFulfilled
-    if (not parentID) or (parentID == 0) then
-        return false
-    end
-    if QuestiePlayer.currentQuestlog[parentID] then
-        return true
-    end
-    return false
-end
-
 ---@param preQuestGroup table<number, number>
 ---@return boolean
 function QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
