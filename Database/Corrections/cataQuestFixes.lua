@@ -6239,6 +6239,9 @@ function CataQuestFixes.Load()
         [28002] = { -- Crisis Management
             [questKeys.objectives] = {{{47516,nil,Questie.ICON_TYPE_TALK},{47519,nil,Questie.ICON_TYPE_TALK},{47520,nil,Questie.ICON_TYPE_TALK},{47707,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [28031] = { -- Special Delivery for Brivelthwerp [Alliance]
+            [questKeys.preQuestSingle] = {25542,25561},
+        },
         [28038] = { -- Blood in the Highlands
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 27863,
@@ -6246,6 +6249,9 @@ function CataQuestFixes.Load()
         },
         [28041] = { -- Bait and Throttle
             [questKeys.preQuestGroup] = {27751,27929},
+        },
+        [28042] = { -- Special Delivery for Brivelthwerp [Horde]
+            [questKeys.preQuestSingle] = {25543,25562},
         },
         [28043] = { -- How to Maim Your Dragon
             [questKeys.objectives] = {{{47422,nil,Questie.ICON_TYPE_INTERACT}}},
