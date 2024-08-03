@@ -10,6 +10,7 @@ _G.table.getn = function(table)
     for _ in pairs(table) do count = count + 1 end
     return count
 end
+_G.hooksecurefunc = EMTPY_FUNC
 _G.GetTime = function() return 0 end
 
 _G.QUEST_MONSTERS_KILLED = ""
@@ -18,10 +19,14 @@ _G.QUEST_OBJECTS_FOUND = ""
 _G.UIParent = {GetEffectiveScale = function() return 1 end}
 
 _G.C_QuestLog = {IsQuestFlaggedCompleted = function() return false end}
+_G.DurabilityFrame = {
+    GetPoint = function() return nil end
+}
 _G.QuestLogListScrollFrame = {
     ScrollBar = {}
 }
 _G.GetItemCount = function() return 0 end
+_G.GetNumQuestWatches = function() return 0 end
 _G.GetQuestLogTitle = function() return "Test Quest" end
 _G.GetQuestLogIndexByID = function() return 1 end
 _G.ExpandFactionHeader = EMTPY_FUNC
@@ -158,6 +163,7 @@ setmetatable(_G.CreateFrame, {
             IsVisible = function()
                 return isShown
             end,
+            RegisterEvent = EMTPY_FUNC,
             HookScript = EMTPY_FUNC,
             scripts = scripts,
             attributes = attributes,
@@ -179,13 +185,19 @@ setmetatable(_G.LibStub, {
     end
 })
 
+local registeredEvents = {}
 _G["Questie"] = {
     db = {
         char = {},
         profile = {},
+        global = {},
     },
     Debug = EMTPY_FUNC,
     icons = {},
+    RegisterEvent = function(_, eventName, callback)
+        registeredEvents[eventName] = callback
+    end,
+    SendMessage = EMTPY_FUNC,
 }
 
 ---@type ZoneDB
@@ -200,3 +212,17 @@ ZoneDB.zoneIDs = {
     THUNDER_BLUFF = 1638,
     UNDERCITY = 1497,
 }
+
+---@class TestUtils
+local TestUtils = {
+    resetEvents = function()
+        registeredEvents = {}
+    end,
+    triggerMockEvent = function(eventName, ...)
+        if registeredEvents[eventName] then
+            registeredEvents[eventName](eventName, ...)
+        end
+    end
+}
+
+return TestUtils

@@ -2782,7 +2782,7 @@ function QuestieQuestBlacklist:Load()
         --[29102] = true, -- To Fort Livingston
         --[29103] = true, -- Serpents and Poison
         --[29104] = true, -- Spirits Are With Us
-        [29153] = true, -- Booty Bay's Interests -- alliance, seems it's duplicate
+        --[29153] = true, -- Booty Bay's Interests
         --[29154] = true, -- Booty Bay's Interests
         --[29155] = true, -- A Shiny Reward
         --[29156] = true, -- The Troll Incursion
@@ -2799,7 +2799,7 @@ function QuestieQuestBlacklist:Load()
         [29229] = true, -- Follow That Cat
         --[29241] = true, -- Break the Godbreaker
         --[29242] = true, -- Putting a Price on Priceless
-        [29251] = true, -- Booty Bay's Interests -- horde, seems it's duplicate
+        --[29251] = true, -- Booty Bay's Interests
         --[29252] = true, -- Booty Bay's Interests
         [29261] = true, -- Zul'Aman Voodoo
         [29262] = true, -- Zul'Gurub Voodoo
@@ -3084,6 +3084,9 @@ function QuestieQuestBlacklist:Load()
         [79487] = true, -- A Smokywood Pastures' Thank You!
         [79492] = true, -- Metzen the Reindeer
         [79495] = true, -- Metzen the Reindeer
+
+        [80169] = true, -- Cluster Launcher
+
         [79588] = true, -- Small Furry Paws
         [79589] = true, -- Torn Bear Pelts
         [79590] = true, -- Heavy Grinding Stone
@@ -3092,11 +3095,24 @@ function QuestieQuestBlacklist:Load()
         [79593] = true, -- Coarse Weightstone
         [79594] = true, -- Copper Modulator
         [79595] = true, -- Carnival Boots
-        [80169] = true, -- Cluster Launcher
+        [80417] = true, -- Soft Bushy Tails
         [80421] = true, -- Green Iron Bracers
         [80422] = true, -- Green Fireworks
-        [82323] = true, -- Vibrant Plumes
         [80423] = true, -- The World's Largest Gnome!
+        [82323] = true, -- Vibrant Plumes
+        [82271] = true, -- More Glowing Scorpid Blood
+        [82272] = true, -- Glowing Scorpid Blood
+        [82273] = true, -- More Evil Bat Eyes
+        [82274] = true, -- Evil Bat Eyes
+        [82275] = true, -- Big Black Mace
+        [82276] = true, -- Rituals of Strength
+        [82277] = true, -- More Dense Grinding Stones
+        [82278] = true, -- More Thorium Widgets
+        [82279] = true, -- Thorium Widget
+        [82280] = true, -- Mechanical Repair Kits
+        [82281] = true, -- More Armor Kits
+        [82282] = true, -- Armor Kits
+        [82283] = true, -- Crocolisk Boy and the Bearded Murloc
 
         --- Automatic Overrides (for when Wowhead data is wrong)
         [13134] = false, -- Spill Their Blood

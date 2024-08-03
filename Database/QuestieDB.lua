@@ -188,6 +188,7 @@ QuestieDB.classKeys = {
 }
 
 QuestieDB.specialFlags = {
+    NONE = 0,
     REPEATABLE = 1,
 }
 
