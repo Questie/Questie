@@ -7746,6 +7746,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",40720},{"monster",40723}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{40650,40660},40650}}},
         },
+        [29186] = { -- The Hex Lord's Fetish
+            [questKeys.preQuestSingle] = {},
+        },
         [29190] = { -- Let's Go Fly a Kite
             [questKeys.triggerEnd] = {"Fly Dragon Kites with your orphan", {[zoneIDs.ORGRIMMAR]={{58.5,58.3}}}},
             [questKeys.preQuestGroup] = {29146,29167,29176},
