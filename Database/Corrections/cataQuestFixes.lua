@@ -7473,7 +7473,8 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{208187}}},
         },
         [29034] = { -- They Grow Up So Fast
-            [questKeys.childQuests] = {29035,29037,29038,29039,29040,29051,29052,29053},
+            --[questKeys.childQuests] = {29035,29037,29038,29039,29040,29051,29052,29053}, -- this is the full list, but some quests are blacklisted for now
+            [questKeys.childQuests] = {29039,29051,29052,29053},
         },
         [29035] = { -- A Cub's Cravings
             [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
