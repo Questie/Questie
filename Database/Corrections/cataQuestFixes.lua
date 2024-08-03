@@ -7856,10 +7856,12 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {29250},
         },
         [29267] = { -- Some Good Will Come
+            [questKeys.parentQuest] = 29100,
             [questKeys.preQuestSingle] = {29121},
             [questKeys.startedBy] = {{52374}},
         },
         [29268] = { -- Some Good Will Come
+            [questKeys.parentQuest] = 29219,
             [questKeys.preQuestSingle] = {29232},
             [questKeys.startedBy] = {{52374}},
         },
