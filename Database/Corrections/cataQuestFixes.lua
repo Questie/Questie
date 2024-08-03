@@ -7756,6 +7756,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {29146,29167,29176},
             [questKeys.requiredSourceItems] = {69233},
         },
+        [29208] = { -- An Old Friend
+            [questKeys.preQuestSingle] = {26386,26776},
+        },
         [29213] = { -- How's the Hunter Holding Up?
             [questKeys.parentQuest] = 29100,
             [questKeys.nextQuestInChain] = 29121,
