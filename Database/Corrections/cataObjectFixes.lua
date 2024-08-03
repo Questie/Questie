@@ -270,6 +270,11 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN]={{54.97,41.94}}},
             [objectKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
         },
+        [460012] = {
+            [objectKeys.name] = "Sack of Spices",
+            [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN]={{33.66,30.18}}},
+            [objectKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
+        },
     }
 end
 

@@ -7479,7 +7479,8 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{208187}}},
         },
         [29034] = { -- They Grow Up So Fast
-            [questKeys.childQuests] = {29035,29037,29038,29039,29040,29051,29052,29053},
+            --[questKeys.childQuests] = {29035,29037,29038,29039,29040,29051,29052,29053}, -- this is the full list, but some quests are blacklisted for now
+            [questKeys.childQuests] = {29039,29051,29052,29053},
         },
         [29035] = { -- A Cub's Cravings
             [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
@@ -7608,25 +7609,29 @@ function CataQuestFixes.Load()
         },
         [29100] = { -- Bwemba's Spirit
             [questKeys.preQuestSingle] = {},
-            [questKeys.childQuests] = {29102,29103,29104,29105,29114,29115,29116,29118,29120,29121,29124,29131,29133,29150,29151,29152,29213},
+            [questKeys.childQuests] = {29102,29103,29104,29105,29114,29115,29116,29118,29120,29121,29124,29131,29133,29150,29151,29152,29213,29267},
             [questKeys.objectives] = {{{52767,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29102] = { -- To Fort Livingston
             [questKeys.objectives] = {{{52281,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.parentQuest] = 29100,
             [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 29103,
         },
         [29103] = { -- Serpents and Poison
             [questKeys.parentQuest] = 29100,
             [questKeys.objectives] = {{{52224}},nil,nil,nil,{{{52225,52279,52280,53555,53556,53557},52225,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 29104,
         },
         [29104] = { -- Spirits Are With Us
             [questKeys.parentQuest] = 29100,
             [questKeys.objectives] = {nil,{{460010}}},
+            [questKeys.nextQuestInChain] = 29105,
         },
         [29105] = { -- Nesingwary Will Know
             [questKeys.parentQuest] = 29100,
             [questKeys.objectives] = {{{52294,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.nextQuestInChain] = 29114,
         },
         [29106] = { -- The Biggest Diamond Ever!
             [questKeys.triggerEnd] = {"Visit King Magni in Old Ironforge", {[zoneIDs.IRONFORGE]={{33.17,47.65}}}},
@@ -7638,11 +7643,13 @@ function CataQuestFixes.Load()
         },
         [29114] = { -- Track the Tracker
             [questKeys.parentQuest] = 29100,
+            [questKeys.nextQuestInChain] = 29115,
         },
         [29115] = { -- The Hunter's Revenge
             [questKeys.parentQuest] = 29100,
             [questKeys.finishedBy] = {{100022}},
             [questKeys.objectives] = {{{52349,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 29116,
         },
         [29116] = { -- Follow That Cat
             [questKeys.parentQuest] = 29100,
@@ -7671,13 +7678,16 @@ function CataQuestFixes.Load()
         [29120] = { -- Mauti
             [questKeys.parentQuest] = 29100,
             [questKeys.objectives] = {{{52372,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 29213,
         },
         [29121] = { -- Bury Me With Me Boots...
             [questKeys.parentQuest] = 29100,
+            [questKeys.nextQuestInChain] = 29124,
         },
         [29124] = { -- Warn the Rebel Camp
             [questKeys.parentQuest] = 29100,
             [questKeys.preQuestSingle] = {29121},
+            [questKeys.nextQuestInChain] = 29131,
         },
         [29129] = { -- A Legendary Engagement
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -7686,11 +7696,13 @@ function CataQuestFixes.Load()
         [29131] = { -- Defend the Rebel Camp
             [questKeys.parentQuest] = 29100,
             [questKeys.triggerEnd] = {"Help Defend the Camp", {[zoneIDs.STRANGLETHORN_VALE]={{47.55,11.22}}}},
+            [questKeys.nextQuestInChain] = 29133,
         },
         [29133] = { -- To the Digsite
             [questKeys.parentQuest] = 29100,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride"),0,{{"monster",52753}}}},
             [questKeys.objectives] = {{{52762,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 29150,
         },
         [29132] = { -- A Legendary Engagement
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -7706,13 +7718,16 @@ function CataQuestFixes.Load()
         [29150] = { -- Voodoo Zombies
             [questKeys.parentQuest] = 29100,
             [questKeys.objectives] = {nil,nil,nil,nil,{{{52604,52870},52604}}},
+            [questKeys.nextQuestInChain] = 29151,
         },
         [29151] = { -- Bad Supplies
             [questKeys.parentQuest] = 29100,
             [questKeys.objectives] = {nil,{{460011}}},
+            [questKeys.nextQuestInChain] = 29152,
         },
         [29152] = { -- Making Contact
             [questKeys.parentQuest] = 29100,
+            [questKeys.nextQuestInChain] = 29153,
         },
         [29153] = { -- Booty Bay's Interests
             [questKeys.preQuestSingle] = {29152},
@@ -7721,7 +7736,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
         },
         [29157] = { -- The Zandalari Menace
-            [questKeys.exclusiveTo] = {29219,29220},
+            [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
         },
         [29167] = { -- The Banshee Queen
             [questKeys.objectives] = {{{10181,"Meeting with Lady Sylvanas Windrunner",Questie.ICON_TYPE_EVENT}}},
@@ -7747,11 +7762,17 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {29146,29167,29176},
             [questKeys.requiredSourceItems] = {69233},
         },
+        [29208] = { -- An Old Friend
+            [questKeys.preQuestSingle] = {26386,26776},
+        },
         [29213] = { -- How's the Hunter Holding Up?
             [questKeys.parentQuest] = 29100,
+            [questKeys.nextQuestInChain] = 29121,
         },
         [29219] = { -- Bwemba's Spirit
             [questKeys.preQuestSingle] = {},
+            [questKeys.childQuests] = {29220,29221,29222,29223,29226,29227,29228,29229,29230,29231,29232,29233,29235,29236,29237,29238,29250,29268},
+            [questKeys.objectives] = {{{52767,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29220] = { -- To Bambala
             [questKeys.objectives] = {{{52980,nil,Questie.ICON_TYPE_TALK}}},
@@ -7765,7 +7786,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 29222,
         },
         [29222] = { -- Spirits Are With Us
-            [questKeys.objectives] = {nil,{{208508,nil,Questie.ICON_TYPE_OBJECT}}},
+            [questKeys.objectives] = {nil,{{208508}}},
             [questKeys.parentQuest] = 29219,
             [questKeys.nextQuestInChain] = 29223,
         },
@@ -7791,8 +7812,66 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 29219,
             [questKeys.nextQuestInChain] = 29230,
         },
+        [29229] = { -- Follow That Cat
+            [questKeys.objectives] = {{{52911,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.exclusiveTo] = {29228},
+            [questKeys.parentQuest] = 29219,
+            [questKeys.nextQuestInChain] = 29230,
+        },
+        [29230] = { -- Mauti
+            [questKeys.parentQuest] = 29219,
+            [questKeys.objectives] = {{{52372,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 29231,
+        },
+        [29231] = { -- How's the Hunter Holding Up?
+            [questKeys.parentQuest] = 29219,
+            [questKeys.nextQuestInChain] = 29232,
+        },
+        [29232] = { -- Bury Me With Me Boots...
+            [questKeys.parentQuest] = 29219,
+            [questKeys.nextQuestInChain] = 29233,
+        },
+        [29233] = { -- Warn Grom'gol
+            [questKeys.parentQuest] = 29219,
+            [questKeys.preQuestSingle] = {29232},
+            [questKeys.nextQuestInChain] = 29235,
+        },
+        [29235] = { -- Defend Grom'gol
+            [questKeys.parentQuest] = 29219,
+            [questKeys.triggerEnd] = {"	Help Defend Grom'gol Base Camp", {[zoneIDs.STRANGLETHORN_VALE]={{38.1,50.3}}}},
+            [questKeys.nextQuestInChain] = 29236,
+        },
+        [29236] = { -- To Hardwrench Hideaway
+            [questKeys.parentQuest] = 29219,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride"),0,{{"monster",53008}}}},
+            [questKeys.objectives] = {{{52762,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 29237,
+        },
+        [29237] = { -- Voodoo Zombies
+            [questKeys.parentQuest] = 29219,
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{53011,53016},53011}}},
+            [questKeys.nextQuestInChain] = 29238,
+        },
+        [29238] = { -- Bad Supplies
+            [questKeys.parentQuest] = 29219,
+            [questKeys.objectives] = {nil,{{460012}}},
+            [questKeys.nextQuestInChain] = 29250,
+        },
+        [29250] = { -- Making Contact
+            [questKeys.parentQuest] = 29219,
+            [questKeys.nextQuestInChain] = 29251,
+        },
+        [29251] = { -- Booty Bay's Interests
+            [questKeys.preQuestSingle] = {29250},
+        },
         [29267] = { -- Some Good Will Come
+            [questKeys.parentQuest] = 29100,
             [questKeys.preQuestSingle] = {29121},
+            [questKeys.startedBy] = {{52374}},
+        },
+        [29268] = { -- Some Good Will Come
+            [questKeys.parentQuest] = 29219,
+            [questKeys.preQuestSingle] = {29232},
             [questKeys.startedBy] = {{52374}},
         },
         [29298] = { -- A Smoke-Stained Locket

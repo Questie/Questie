@@ -32,7 +32,6 @@ function QuestieQuestBlacklist:Load()
         [11189] = true, -- Removed
         [13417] = true, -- Duplicate of 12973
         [936] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
-        [535] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Valik
         [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
@@ -1521,6 +1520,7 @@ function QuestieQuestBlacklist:Load()
         [245] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [251] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [253] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [254] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [255] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [259] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [260] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1541,6 +1541,7 @@ function QuestieQuestBlacklist:Load()
         [303] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [304] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [305] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [308] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [310] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [317] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [326] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1579,6 +1580,7 @@ function QuestieQuestBlacklist:Load()
         [398] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [400] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [404] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [403] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [405] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [406] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [407] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1636,6 +1638,7 @@ function QuestieQuestBlacklist:Load()
         [532] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [533] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [534] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [535] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [536] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [537] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [539] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1761,6 +1764,7 @@ function QuestieQuestBlacklist:Load()
         [897] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [904] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [924] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [926] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [939] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [946] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [969] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2013,6 +2017,10 @@ function QuestieQuestBlacklist:Load()
         [6202] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6394] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6395] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [6543] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [6545] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [6546] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [6547] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6561] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6562] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6564] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2792,17 +2800,17 @@ function QuestieQuestBlacklist:Load()
         --[29173] = true, -- Secondary Targets
         --[29175] = true, -- Break Their Spirits
         --[29186] = true, -- The Hex Lord's Fetish
-        [29208] = true, -- An Old Friend
+        --[29208] = true, -- An Old Friend
         --[29217] = true, -- The Captive Scouts
         --[29219] = true, -- Bwemba's Spirit
         --[29220] = true, -- To Bambala
-        [29229] = true, -- Follow That Cat
+        --[29229] = true, -- Follow That Cat
         --[29241] = true, -- Break the Godbreaker
         --[29242] = true, -- Putting a Price on Priceless
         --[29251] = true, -- Booty Bay's Interests
         --[29252] = true, -- Booty Bay's Interests
-        [29261] = true, -- Zul'Aman Voodoo
-        [29262] = true, -- Zul'Gurub Voodoo
+        --[29261] = true, -- Zul'Aman Voodoo
+        --[29262] = true, -- Zul'Gurub Voodoo
 
         -- Phase 3 - Rage of the Firelands
 
