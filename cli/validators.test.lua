@@ -206,14 +206,15 @@ describe("Validators", function()
                     parentQuest = 1,
                 },
                 [3] = {
-                    childQuests = {4},
+                    childQuests = {4,5},
                 },
             }
 
             local invalidQuests = Validators.checkParentChildQuestRelations(quests, questKeys)
 
             assert.are.same({
-                [3] = "child quest 4 is missing/hidden in the database"
+                [4] = "quest is missing/hidden in the database. parentQuest is 3",
+                [5] = "quest is missing/hidden in the database. parentQuest is 3",
             }, invalidQuests)
             assert.spy(exitMock).was_called_with(1)
         end)
