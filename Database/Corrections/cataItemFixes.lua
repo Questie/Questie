@@ -12,6 +12,9 @@ function CataItemFixes.Load()
         [2629] = { -- Intrepid Strongbox Key
             [itemKeys.npcDrops] = {41429},
         },
+        [2633] = { -- Jungle Remedy
+            [itemKeys.npcDrops] = {937,940,941,942},
+        },
         [2859] = { -- Vile Fin Scale
             [itemKeys.npcDrops] = {1541,1543,1544,1545},
         },
