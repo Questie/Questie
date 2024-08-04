@@ -1,9 +1,14 @@
 ---@class AutoQuesting
 local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
 
-local _IsBindTrue, _AllQuestWindowsClosed
+local _IsBindTrue, _AllQuestWindowsClosed, _IsAllowedToAcceptFromNPC
 
 local shouldRunAuto = true
+
+-- TODO: Migrate DisallowedIDs.lua to AutoQuesting.lua
+AutoQuesting.private.disallowedNPCs = {
+    accept = {},
+}
 
 function AutoQuesting.OnQuestDetail()
     print("AutoQuesting.OnQuestDetail")
@@ -29,7 +34,7 @@ end
 
 function AutoQuesting.OnGossipShow()
     print("AutoQuesting.OnGossipShow")
-    if (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) then
+    if (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedToAcceptFromNPC()) then
         return
     end
 
@@ -85,6 +90,21 @@ local bindTruthTable = {
 
 _IsBindTrue = function(bind)
     return bind and bindTruthTable[bind]()
+end
+
+_IsAllowedToAcceptFromNPC = function()
+    local npcGuid = UnitGUID("target")
+    if npcGuid then
+        local _, _, _, _, _, npcIDStr = strsplit("-", npcGuid)
+        if npcIDStr then
+            local npcId = tonumber(npcIDStr)
+            if AutoQuesting.private.disallowedNPCs.accept[npcId] then
+                return false
+            end
+        end
+    end
+
+    return true
 end
 
 _AllQuestWindowsClosed = function()
