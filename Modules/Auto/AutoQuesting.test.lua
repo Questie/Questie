@@ -199,8 +199,8 @@ describe("AutoQuesting", function()
 
     describe("turn in", function()
         it("should turn in quest from gossip show", function()
-            _G.QuestieCompat.GetActiveQuests = function() return
-                "Test Quest", 1, false, true, false, false
+            _G.QuestieCompat.GetActiveQuests = function()
+                return "Test Quest", 1, false, true, false, false
             end
 
             AutoQuesting.OnGossipShow()
@@ -214,9 +214,8 @@ describe("AutoQuesting", function()
         end)
 
         it("should turn in second quest from gossip show when first is not complete", function()
-            _G.QuestieCompat.GetActiveQuests = function() return
-                "Incomplete Quest", 1, false, false, false, false,
-                "Complete Quest", 1, false, true, false, false
+            _G.QuestieCompat.GetActiveQuests = function()
+                return "Incomplete Quest", 1, false, false, false, false, "Complete Quest", 1, false, true, false, false
             end
 
             AutoQuesting.OnGossipShow()
@@ -230,8 +229,8 @@ describe("AutoQuesting", function()
         end)
 
         it("should not turn in quest from gossip show when no quest is complete", function()
-            _G.QuestieCompat.GetActiveQuests = function() return
-                "Test Quest", 1, false, false, false, false
+            _G.QuestieCompat.GetActiveQuests = function()
+                return "Test Quest", 1, false, false, false, false
             end
 
             AutoQuesting.OnGossipShow()
