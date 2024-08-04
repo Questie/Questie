@@ -6550,7 +6550,7 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
         [81951] = { -- The Liminal and the Arcane
             [questKeys.startedBy] = {nil,{441249}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'The Liminal and the Arcane' and bring it to Owen Thadd in Undercity."},
+            [questKeys.objectivesText] = {"Collect 'The Liminal and the Arcane' and bring it to Owen Thadd in Undercity. NOTE: You need to enter the Emerald Nightmare."},
         },
         [81952] = { -- Everyday Etiquette
             [questKeys.startedBy] = {nil,{441250}},
