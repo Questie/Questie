@@ -15,6 +15,8 @@ describe("AutoQuesting", function()
         Questie.db.profile.autoaccept = true
         Questie.db.profile.autoModifier = "disabled"
         _G.QuestieCompat.SelectAvailableQuest = spy.new(function() end)
+        _G.QuestieCompat.GetAvailableQuests = spy.new(function() end)
+        _G.QuestieCompat.GetActiveQuests = spy.new(function() end)
 
         _G.AcceptQuest = spy.new(function() end)
         _G.SelectAvailableQuest = spy.new(function() end)
@@ -185,6 +187,17 @@ describe("AutoQuesting", function()
             AutoQuesting.OnGossipShow()
 
             assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+        end)
+    end)
+
+    describe("turn in", function()
+        it("should turn in quest from gossip show", function()
+            _G.QuestieCompat.GetActiveQuests = function() return "Test Quest", 1, false, true, false, false end
+
+            AutoQuesting.OnGossipShow(true)
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(1)
+            assert.spy(_G.QuestieCompat.GetAvailableQuests).was_not.called()
         end)
     end)
 end)

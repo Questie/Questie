@@ -32,10 +32,20 @@ function AutoQuesting.OnQuestGreetings()
     end
 end
 
-function AutoQuesting.OnGossipShow()
+function AutoQuesting.OnGossipShow(a)
     print("AutoQuesting.OnGossipShow")
-    if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedToAcceptFromNPC()) then
+    if (not shouldRunAuto) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedToAcceptFromNPC()) then
         shouldRunAuto = false
+        return
+    end
+
+    local completeQuests = { QuestieCompat.GetActiveQuests() }
+    if #completeQuests > 0 then
+        QuestieCompat.SelectAvailableQuest(1)
+        return
+    end
+
+    if (not Questie.db.profile.autoaccept) then
         return
     end
 
