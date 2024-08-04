@@ -396,6 +396,9 @@ function CataItemFixes.Load()
         [55280] = { -- Deepmoss Venom Sac
             [itemKeys.npcDrops] = {41185,4005,4006,4007},
         },
+        [55808] = { -- Horde's Proposal
+            [itemKeys.npcDrops] = {41199},
+        },
         [55809] = { -- Twilight Armor Plate
             [itemKeys.npcDrops] = {},
         },

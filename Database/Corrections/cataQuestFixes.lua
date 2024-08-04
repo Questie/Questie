@@ -3395,6 +3395,9 @@ function CataQuestFixes.Load()
         [25658] = { -- Built to Last
             [questKeys.objectives] = {nil,{{203185}}},
         },
+        [25660] = { -- Haunted
+            [questKeys.preQuestSingle] = {25627,25628},
+        },
         [25663] = { -- An Offering for Aviana
             [questKeys.preQuestSingle] = {25578},
             [questKeys.objectives] = {nil,{{203147}}},
@@ -3484,6 +3487,9 @@ function CataQuestFixes.Load()
         },
         [25794] = { -- Undersea Sanctuary
             [questKeys.objectives] = {{{41294,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25796] = { -- Eminent Domain
+            [questKeys.preQuestSingle] = {25790},
         },
         [25798] = { -- Defend the Drill
             [questKeys.triggerEnd] = {"Oil Drilling Rig defended",[zoneIDs.THOUSAND_NEEDLES]={{85.9,44.6},{90.2,50.7},{87.2,49.5},{88.3,44.4}}},
@@ -6236,6 +6242,9 @@ function CataQuestFixes.Load()
         [28002] = { -- Crisis Management
             [questKeys.objectives] = {{{47516,nil,Questie.ICON_TYPE_TALK},{47519,nil,Questie.ICON_TYPE_TALK},{47520,nil,Questie.ICON_TYPE_TALK},{47707,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [28031] = { -- Special Delivery for Brivelthwerp [Alliance]
+            [questKeys.preQuestSingle] = {25542,25561},
+        },
         [28038] = { -- Blood in the Highlands
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 27863,
@@ -6243,6 +6252,9 @@ function CataQuestFixes.Load()
         },
         [28041] = { -- Bait and Throttle
             [questKeys.preQuestGroup] = {27751,27929},
+        },
+        [28042] = { -- Special Delivery for Brivelthwerp [Horde]
+            [questKeys.preQuestSingle] = {25543,25562},
         },
         [28043] = { -- How to Maim Your Dragon
             [questKeys.objectives] = {{{47422,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -6256,6 +6268,9 @@ function CataQuestFixes.Load()
         },
         [28050] = { -- Shark Tank
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [28051] = { -- We All Scream for Ice Cream... and then Die!
+            [questKeys.preQuestSingle] = {28031,28042},
         },
         [28059] = { -- Claiming The Keep
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
