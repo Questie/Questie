@@ -21,6 +21,7 @@ describe("AutoQuesting", function()
         _G.QuestieCompat.SelectActiveQuest = spy.new(function() end)
 
         _G.AcceptQuest = spy.new(function() end)
+        _G.ConfirmAcceptQuest = spy.new(function() end)
         _G.CompleteQuest = spy.new(function() end)
         _G.GetQuestID = function() return 0 end
         _G.IsQuestCompletable = spy.new(function() return true end)
@@ -323,6 +324,22 @@ describe("AutoQuesting", function()
             AutoQuesting.OnQuestComplete()
 
             assert.spy(_G.GetQuestReward).was_not.called()
+        end)
+    end)
+
+    describe("OnQuestAcceptConfirm", function()
+        it("should confirm quest accept", function()
+            AutoQuesting.OnQuestAcceptConfirm()
+
+            assert.spy(_G.ConfirmAcceptQuest).was.called()
+        end)
+
+        it("should not confirm quest accept when auto accept is disabled", function()
+            Questie.db.profile.autoaccept = false
+
+            AutoQuesting.OnQuestAcceptConfirm()
+
+            assert.spy(_G.ConfirmAcceptQuest).was_not.called()
         end)
     end)
 

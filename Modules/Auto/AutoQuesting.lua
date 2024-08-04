@@ -102,6 +102,11 @@ end
 
 function AutoQuesting.OnQuestAcceptConfirm()
     print("AutoQuesting.OnQuestAcceptConfirm")
+    if (not Questie.db.profile.autoaccept) then
+        return
+    end
+
+    ConfirmAcceptQuest()
 end
 
 function AutoQuesting.OnQuestComplete()
