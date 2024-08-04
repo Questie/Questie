@@ -1351,6 +1351,9 @@ function QuestieQuestFixes:Load()
         [3181] = {
             [questKeys.startedBy] = {{5833},nil,{10000}},
         },
+        [3182] = { -- Proof of Deed
+            [questKeys.nextQuestInChain] = 3201,
+        },
         [3321] = {
             [questKeys.objectives] = {{{7804,"Watch Trenton Work"}}},
         },

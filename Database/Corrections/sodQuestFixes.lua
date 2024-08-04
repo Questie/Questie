@@ -2607,6 +2607,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
         },
         [84359] = { -- Sleepless Nights
+            [questKeys.sourceItemId] = 227768,
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -5062,7 +5063,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
         [90202] = {
-            [questKeys.name] = "Shamanistic Rage",
+            [questKeys.name] = "Greater Ghost Wolf",
             [questKeys.startedBy] = {{212837}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
