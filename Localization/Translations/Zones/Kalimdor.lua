@@ -364,7 +364,7 @@ local kalimdorLocales = {
     },
     ["Valley of Trials"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Долина Испытаний",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -376,7 +376,7 @@ local kalimdorLocales = {
     },
     ["Echo Isles"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Острова Эха",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -388,7 +388,7 @@ local kalimdorLocales = {
     },
     ["Ruins of Uldum"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Руины Ульдума",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
