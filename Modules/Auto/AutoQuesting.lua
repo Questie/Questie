@@ -5,6 +5,9 @@ local _IsBindTrue, _AllQuestWindowsClosed, _IsAllowedToAcceptFromNPC
 
 local shouldRunAuto = true
 
+local INDIZES_AVAILABLE = 7
+local INDIZES_COMPLETE = 6
+
 -- TODO: Migrate DisallowedIDs.lua to AutoQuesting.lua
 AutoQuesting.private.disallowedNPCs = {
     accept = {},
@@ -39,17 +42,18 @@ function AutoQuesting.OnGossipShow()
         return
     end
 
+    local availableQuests = { QuestieCompat.GetAvailableQuests() }
+
     if Questie.db.profile.autocomplete then
         local completeQuests = { QuestieCompat.GetActiveQuests() }
         if #completeQuests > 0 and completeQuests[4] then
-            QuestieCompat.SelectAvailableQuest(1)
+            local firstCompleteQuestIndex = (#availableQuests / INDIZES_AVAILABLE) + 1
+            QuestieCompat.SelectActiveQuest(firstCompleteQuestIndex)
             return
         end
     end
 
     if Questie.db.profile.autoaccept then
-        local availableQuests = { QuestieCompat.GetAvailableQuests() }
-
         if #availableQuests > 0 then
             QuestieCompat.SelectAvailableQuest(1)
         end

@@ -15,9 +15,10 @@ describe("AutoQuesting", function()
         Questie.db.profile.autoaccept = true
         Questie.db.profile.autocomplete = true
         Questie.db.profile.autoModifier = "disabled"
-        _G.QuestieCompat.SelectAvailableQuest = spy.new(function() end)
         _G.QuestieCompat.GetAvailableQuests = spy.new(function() end)
+        _G.QuestieCompat.SelectAvailableQuest = spy.new(function() end)
         _G.QuestieCompat.GetActiveQuests = spy.new(function() end)
+        _G.QuestieCompat.SelectActiveQuest = spy.new(function() end)
 
         _G.AcceptQuest = spy.new(function() end)
         _G.print = function()  end -- TODO: Remove this line when print is removed from the module
@@ -198,8 +199,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(1)
-            assert.spy(_G.QuestieCompat.GetAvailableQuests).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectActiveQuest).was_called_with(1)
         end)
 
         it("should not turn in quest from gossip show when no quest is complete", function()
@@ -209,7 +209,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectActiveQuest).was_not.called()
         end)
 
         it("should not turn in quest from gossip when auto turn in is disabled", function()
@@ -218,7 +218,7 @@ describe("AutoQuesting", function()
             AutoQuesting.OnGossipShow()
 
             assert.spy(_G.QuestieCompat.GetActiveQuests).was_not.called()
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectActiveQuest).was_not.called()
         end)
 
         it("should not turn in quest from gossip when auto modifier is held", function()
@@ -229,7 +229,7 @@ describe("AutoQuesting", function()
 
             assert.spy(_G.QuestieCompat.GetActiveQuests).was_not.called()
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was_not.called()
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectActiveQuest).was_not.called()
         end)
     end)
 
@@ -240,7 +240,21 @@ describe("AutoQuesting", function()
         AutoQuesting.OnGossipShow()
 
         assert.spy(_G.QuestieCompat.GetActiveQuests).was_not.called()
-        assert.spy(_G.QuestieCompat.GetAvailableQuests).was_not.called()
+        assert.spy(_G.QuestieCompat.SelectActiveQuest).was_not.called()
         assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+    end)
+
+    it("should turn in quest from gossip when an available is present as well", function()
+        _G.QuestieCompat.GetActiveQuests = function() return
+            "Complete Quest", 1, false, true, false, false,
+            "Active Quest 2", 1, false, false, false, false
+        end
+        _G.QuestieCompat.GetAvailableQuests = function()
+            return "Available Quest", 1, false, 1, false, false, false
+        end
+
+        AutoQuesting.OnGossipShow()
+
+        assert.spy(_G.QuestieCompat.SelectActiveQuest).was.called_with(2)
     end)
 end)
