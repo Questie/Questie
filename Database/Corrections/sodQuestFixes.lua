@@ -5062,7 +5062,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
         [90202] = {
-            [questKeys.name] = "Shamanistic Rage",
+            [questKeys.name] = "Greater Ghost Wolf",
             [questKeys.startedBy] = {{212837}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
