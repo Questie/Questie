@@ -13,6 +13,7 @@ describe("AutoQuesting", function()
 
     before_each(function()
         Questie.db.profile.autoaccept = true
+        Questie.db.profile.autocomplete = true
         Questie.db.profile.autoModifier = "disabled"
         _G.QuestieCompat.SelectAvailableQuest = spy.new(function() end)
         _G.QuestieCompat.GetAvailableQuests = spy.new(function() end)
@@ -194,10 +195,49 @@ describe("AutoQuesting", function()
         it("should turn in quest from gossip show", function()
             _G.QuestieCompat.GetActiveQuests = function() return "Test Quest", 1, false, true, false, false end
 
-            AutoQuesting.OnGossipShow(true)
+            AutoQuesting.OnGossipShow()
 
             assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(1)
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was_not.called()
         end)
+
+        it("should not turn in quest from gossip show when no quest is complete", function()
+            _G.QuestieCompat.GetActiveQuests = function() return "Test Quest", 1, false, false, false, false end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+        end)
+
+        it("should not turn in quest from gossip when auto turn in is disabled", function()
+            Questie.db.profile.autocomplete = false
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.GetActiveQuests).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+        end)
+
+        it("should not turn in quest from gossip when auto modifier is held", function()
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.GetActiveQuests).was_not.called()
+            assert.spy(_G.QuestieCompat.GetAvailableQuests).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+        end)
+    end)
+
+    it("should not turn in or accept quest from gossip when auto accept and turn in are disabled", function()
+        Questie.db.profile.autoaccept = false
+        Questie.db.profile.autocomplete = false
+
+        AutoQuesting.OnGossipShow()
+
+        assert.spy(_G.QuestieCompat.GetActiveQuests).was_not.called()
+        assert.spy(_G.QuestieCompat.GetAvailableQuests).was_not.called()
+        assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
     end)
 end)

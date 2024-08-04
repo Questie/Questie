@@ -39,20 +39,20 @@ function AutoQuesting.OnGossipShow(a)
         return
     end
 
-    local completeQuests = { QuestieCompat.GetActiveQuests() }
-    if #completeQuests > 0 then
-        QuestieCompat.SelectAvailableQuest(1)
-        return
+    if Questie.db.profile.autocomplete then
+        local completeQuests = { QuestieCompat.GetActiveQuests() }
+        if #completeQuests > 0 and completeQuests[4] then
+            QuestieCompat.SelectAvailableQuest(1)
+            return
+        end
     end
 
-    if (not Questie.db.profile.autoaccept) then
-        return
-    end
+    if Questie.db.profile.autoaccept then
+        local availableQuests = { QuestieCompat.GetAvailableQuests() }
 
-    local availableQuests = { QuestieCompat.GetAvailableQuests() }
-
-    if #availableQuests > 0 then
-        QuestieCompat.SelectAvailableQuest(1)
+        if #availableQuests > 0 then
+            QuestieCompat.SelectAvailableQuest(1)
+        end
     end
 end
 
