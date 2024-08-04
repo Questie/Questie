@@ -49,9 +49,19 @@ function AutoQuesting.OnGossipShow()
 
     if Questie.db.profile.autocomplete then
         local completeQuests = { QuestieCompat.GetActiveQuests() }
-        if #completeQuests > 0 and completeQuests[4] then
-            local firstCompleteQuestIndex = (#availableQuests / INDIZES_AVAILABLE) + 1
-            QuestieCompat.SelectActiveQuest(firstCompleteQuestIndex)
+        if #completeQuests > 0 then
+            local firstCompleteQuestIndex = 0
+            for i = 1, #completeQuests, INDIZES_COMPLETE do
+                local isComplete = completeQuests[i + 3]
+                if isComplete then
+                    firstCompleteQuestIndex = math.floor(i / INDIZES_COMPLETE) + 1
+                    break
+                end
+            end
+
+            if firstCompleteQuestIndex > 0 then
+                QuestieCompat.SelectActiveQuest(firstCompleteQuestIndex)
+            end
             return
         end
     end

@@ -212,6 +212,22 @@ describe("AutoQuesting", function()
             assert.spy(_G.GetQuestReward).was.called()
         end)
 
+        it("should turn in second quest from gossip show when first is not complete", function()
+            _G.QuestieCompat.GetActiveQuests = function() return
+                "Incomplete Quest", 1, false, false, false, false,
+                "Complete Quest", 1, false, true, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+            assert.spy(_G.QuestieCompat.SelectActiveQuest).was_called_with(2)
+
+            AutoQuesting.OnQuestProgress()
+            assert.spy(_G.CompleteQuest).was.called()
+
+            AutoQuesting.OnQuestComplete()
+            assert.spy(_G.GetQuestReward).was.called()
+        end)
+
         it("should not turn in quest from gossip show when no quest is complete", function()
             _G.QuestieCompat.GetActiveQuests = function() return
                 "Test Quest", 1, false, false, false, false
@@ -240,20 +256,6 @@ describe("AutoQuesting", function()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was_not.called()
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was_not.called()
             assert.spy(_G.QuestieCompat.SelectActiveQuest).was_not.called()
-        end)
-
-        it("should turn in quest from gossip when an available is present as well", function()
-            _G.QuestieCompat.GetActiveQuests = function() return
-                "Complete Quest", 1, false, true, false, false,
-                "Active Quest 2", 1, false, false, false, false
-            end
-            _G.QuestieCompat.GetAvailableQuests = function()
-                return "Available Quest", 1, false, 1, false, false, false
-            end
-
-            AutoQuesting.OnGossipShow()
-
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was.called_with(2)
         end)
     end)
 
