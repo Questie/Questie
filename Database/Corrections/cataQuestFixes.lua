@@ -4680,6 +4680,7 @@ function CataQuestFixes.Load()
         },
         [26663] = { -- Sinking From Within
             [questKeys.preQuestSingle] = {26650},
+            [questKeys.objectives] = {{{43623,"Sabotage the Grog",Questie.ICON_TYPE_INTERACT},{43631,"Sabotage the Gunpowder",Questie.ICON_TYPE_INTERACT},{43632,"Sabotage the Cannonballs",Questie.ICON_TYPE_INTERACT}}}
         },
         [26664] = { -- Making Mutiny
             [questKeys.preQuestSingle] = {26650},
