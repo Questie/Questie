@@ -4673,6 +4673,7 @@ function CataQuestFixes.Load()
         },
         [26662] = { -- The Brashtide Crew
             [questKeys.preQuestSingle] = {26650},
+            [questKeys.objectives] = {{{43659,"Speak with Long John Copper",Questie.ICON_TYPE_TALK},{43660,"Speak with Enormous Shawn Stooker",Questie.ICON_TYPE_TALK},{43661,"Speak with Wailing Mary Smitts",Questie.ICON_TYPE_TALK}}}
         },
         [26663] = { -- Sinking From Within
             [questKeys.preQuestSingle] = {26650},
