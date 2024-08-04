@@ -218,6 +218,7 @@ local function _CheckTBCDatabase()
 
     Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkPreQuestExclusiveness(QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkParentChildQuestRelations(QuestieDB.questData, QuestieDB.questKeys)
 end
 
 _CheckTBCDatabase()

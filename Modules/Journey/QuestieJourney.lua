@@ -220,3 +220,5 @@ function QuestieJourney:CompleteQuest(questId)
 
     tinsert(Questie.db.char.journey, entry)
 end
+
+return QuestieJourney

@@ -158,6 +158,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [81765] = 3, -- Paladin Fanaticism
     [81766] = 3, -- Paladin Fanaticism
     [81790] = 3, -- Paladin Hammer of the Righteous
+    [81885] = 3, -- Paladin Hammer of the Righteous
     [81924] = 3, -- Druid Efflorescence
     [81947] = 3, -- Mage Book Sanguine Sorcery
     [81949] = 3, -- Mage Book Legends of the Tidesages
@@ -506,10 +507,28 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [84124] = 4, -- Warrior Fresh Meat
     [84125] = 4, -- Paladin Shock and Awe
     [84126] = 4, -- Paladin Shock and Awe
+    [84320] = 4, -- Priest Binding Heal
+    [84321] = 4, -- Priest Binding Heal
+    [84322] = 4, -- Priest Binding Heal
+    [84323] = 4, -- Priest Binding Heal
+    [84369] = 4, -- Mage Frozen Orb
+    [84394] = 4, -- Mage Arcance Barrage
+    [84395] = 4, -- Mage Arcance Barrage
+    [84396] = 4, -- Mage Arcance Barrage
+    [84397] = 4, -- Mage Arcance Barrage
+    [84398] = 4, -- Mage Arcance Barrage
+    [84399] = 4, -- Mage Arcance Barrage
+    [84400] = 4, -- Mage Arcance Barrage
+    [84401] = 4, -- Mage Arcance Barrage
+    [84402] = 4, -- Mage Arcance Barrage
+    [84405] = 4, -- Priest Binding Heal
+    [84406] = 4, -- Priest Binding Heal
+    [84407] = 4, -- Priest Binding Heal
     [90307] = 4, -- Druid Improved Swipe
     [90308] = 4, -- Druid Starfall
     [90309] = 4, -- Druid Tree of Life
     [90310] = 4, -- Axe Specialization (Hunter, Paladin, Shaman, Warrior)
+    [90311] = 4, -- Mage Frozen Orb
 }
 
 --- "automatic" phase detection for the first few phases;
@@ -552,15 +571,11 @@ function QuestieDB.IsRuneAndShouldBeHidden(questId)
         return true
     end
 
-    local showPhase1Runes = Questie.db.profile.showRunesOfPhase["phase1"]
-    local showPhase2Runes = Questie.db.profile.showRunesOfPhase["phase2"]
-
+    local showRunesOfPhase = Questie.db.profile.showRunesOfPhase
     local phaseOfRuneQuest = runeQuestsInSoD[questId]
 
-    if (phaseOfRuneQuest == 1) then
-        return (not showPhase1Runes)
-    elseif (phaseOfRuneQuest == 2) then
-        return (not showPhase2Runes)
+    if showRunesOfPhase["phase" .. phaseOfRuneQuest] ~= nil then
+        return not showRunesOfPhase["phase" .. phaseOfRuneQuest]
     end
 
     return false
@@ -598,6 +613,8 @@ local questsToBlacklistBySoDPhase = {
         [5145] = true, -- Dragonscale Leatherworking
         [5146] = true, -- Elemental Leatherworking
         [5148] = true, -- Tribal Leatherworking
+        [5283] = true, -- The Art of the Armorsmith
+        [5284] = true, -- The Way of the Weaponsmith
         [6607] = true, -- Nat Pagle, Angler Extreme (Fishing 225+ quest)
         [6608] = true, -- You Too Good. (Fishing 225+ quest)
         [6609] = true, -- I Got Nothin' Left! (Fishing 225+ pre quest)
@@ -613,6 +630,8 @@ local questsToBlacklistBySoDPhase = {
     },
     [5] = { -- SoD Phase 5 == Era Phase 3: BWL + Darkmoon Faire
         [7761] = true, -- Blackhand's Command; BWL attune
+        [7783] = true, -- The Lord of Blackrock Part 1
+        [7784] = true, -- The Lord of Blackrock Part 2
         [7787] = true, -- Rise, Thunderfury!
     },
     [6] = { -- SoD Phase 6 == Era Phase 4: Zul'Gurub
@@ -880,10 +899,12 @@ local questsToBlacklistBySoDPhase = {
         [2758] = true, -- The Origins of Smithing - Replaced by 80241
         [2849] = true, -- Wild Leather Vest - Replaced by 82657
         [2856] = true, -- Wild Leather Vest - Replaced by 82656
+        [2881] = true, -- Troll Necklace Bounty - Replaced by 82210
         [4148] = true, -- Bloodpetal Zapper
         [5284] = true, -- The Way of the Weaponsmith - Replaced by 82662
         [5302] = true, -- The Way of the Weaponsmith - Replaced by 82665
         [8467] = true, -- Feathers for Nafien - Replaced by 84777
+        [8769] = true, -- A Ticking Present - Replaced by 79637
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,
@@ -1057,54 +1078,33 @@ local questsToBlacklistBySoDPhase = {
         [9022] = true, -- Anthion's Parting Words
 
         -- Darkmoon Faire quests
-        [7902] = true,
-        [7903] = true,
-        [8222] = true,
-        [7901] = true,
-        [7899] = true,
-        [7940] = true,
-        [7900] = true,
-        [7907] = true,
-        [7927] = true,
-        [7929] = true,
-        [7928] = true,
-        [7946] = true,
-        [8223] = true,
-        [7934] = true,
-        [7981] = true,
-        [7943] = true,
-        [7894] = true,
-        [7933] = true,
-        [7898] = true,
-        [7885] = true,
-        [7942] = true,
-        [7883] = true,
-        [7892] = true,
-        [7937] = true,
-        [7939] = true,
-        [7893] = true,
-        [7891] = true,
-        [7896] = true,
-        [7884] = true,
-        [7882] = true,
-        [7897] = true,
-        [7895] = true,
-        [7941] = true,
-        [7881] = true,
-        [7890] = true,
-        [7889] = true,
-        [7945] = true,
-        [7935] = true,
-        [7938] = true,
-        [7944] = true,
-        [7932] = true,
-        [7930] = true,
-        [7931] = true,
-        [7936] = true,
-        [9249] = true,
-        [10939] = true,
-        [10940] = true,
-        [10941] = true,
+        [7902] = true, -- Vibrant Plumes
+        [7903] = true, -- Evil Bat Eyes
+        [8222] = true, -- Glowing Scorpid Blood
+        [7901] = true, -- Soft Bushy Tails
+        [7899] = true, -- Small Furry Paws
+        [7900] = true, -- Torn Bear Pelts
+        [7946] = true, -- Spawn of Jubjub
+        [8223] = true, -- More Glowing Scorpid Blood
+        [7943] = true, -- More Bat Eyes
+        [7894] = true, -- Copper Modulator
+        [7898] = true, -- Thorium Widget
+        [7885] = true, -- Armor Kits
+        [7942] = true, -- More Thorium Widgets
+        [7883] = true, -- The World's Largest Gnome!
+        [7892] = true, -- Big Black Mace
+        [7939] = true, -- More Dense Grinding Stones
+        [7893] = true, -- Rituals of Strength
+        [7891] = true, -- Green Iron Bracers
+        [7896] = true, -- Green Fireworks
+        [7884] = true, -- Crocolisk Boy and the Bearded Murloc
+        [7882] = true, -- Carnival Jerkins
+        [7897] = true, -- Mechanical Repair Kits
+        [7895] = true, -- Whirring Bronze Gizmo
+        [7941] = true, -- More Armor Kits
+        [7881] = true, -- Carnival Boots
+        [7890] = true, -- Heavy Grinding Stone
+        [7889] = true, -- Coarse Weightstone
     },
 }
 

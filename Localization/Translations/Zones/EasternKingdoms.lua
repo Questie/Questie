@@ -496,7 +496,7 @@ local easternKingdomsLocales = {
     },
     ["Deathknell"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Похоронный Звон",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
