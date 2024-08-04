@@ -21,6 +21,9 @@ describe("AutoQuesting", function()
         _G.QuestieCompat.SelectActiveQuest = spy.new(function() end)
 
         _G.AcceptQuest = spy.new(function() end)
+        _G.CompleteQuest = spy.new(function() end)
+        _G.GetQuestID = function() return 0 end
+        _G.IsQuestCompletable = spy.new(function() return true end)
         _G.print = function()  end -- TODO: Remove this line when print is removed from the module
 
         AutoQuesting = require("Modules/Auto/AutoQuesting")
@@ -200,6 +203,10 @@ describe("AutoQuesting", function()
             AutoQuesting.OnGossipShow()
 
             assert.spy(_G.QuestieCompat.SelectActiveQuest).was_called_with(1)
+
+            AutoQuesting.OnQuestProgress()
+
+            assert.spy(_G.CompleteQuest).was.called()
         end)
 
         it("should not turn in quest from gossip show when no quest is complete", function()
@@ -244,6 +251,44 @@ describe("AutoQuesting", function()
             AutoQuesting.OnGossipShow()
 
             assert.spy(_G.QuestieCompat.SelectActiveQuest).was.called_with(2)
+        end)
+    end)
+
+    describe("progress", function()
+        it("should not complete quest on progress when manual mode is active", function()
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+
+            AutoQuesting.OnGossipShow()
+
+            AutoQuesting.OnQuestProgress()
+
+            assert.spy(_G.CompleteQuest).was_not.called()
+        end)
+
+        it("should not complete quest when auto turn in is disabled", function()
+            Questie.db.profile.autocomplete = false
+
+            AutoQuesting.OnQuestProgress()
+
+            assert.spy(_G.CompleteQuest).was_not.called()
+        end)
+
+        it("should not complete quest when quest is not completable", function()
+            _G.IsQuestCompletable = function() return false end
+
+            AutoQuesting.OnQuestProgress()
+
+            assert.spy(_G.CompleteQuest).was_not.called()
+        end)
+
+        it("should not complete quest when quest is not allowed", function()
+            _G.GetQuestID = function() return 123 end
+            AutoQuesting.private.disallowedQuests.turnIn[123] = true
+
+            AutoQuesting.OnQuestProgress()
+
+            assert.spy(_G.CompleteQuest).was_not.called()
         end)
     end)
 

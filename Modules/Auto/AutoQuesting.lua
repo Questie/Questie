@@ -1,7 +1,7 @@
 ---@class AutoQuesting
 local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
 
-local _IsBindTrue, _AllQuestWindowsClosed, _IsAllowedToAcceptFromNPC
+local _IsBindTrue, _AllQuestWindowsClosed, _IsAllowedToAcceptFromNPC, _IsQuestAllowedToTurnIn
 
 local shouldRunAuto = true
 
@@ -11,6 +11,9 @@ local INDIZES_COMPLETE = 6
 -- TODO: Migrate DisallowedIDs.lua to AutoQuesting.lua
 AutoQuesting.private.disallowedNPCs = {
     accept = {},
+}
+AutoQuesting.private.disallowedQuests = {
+    turnIn = {},
 }
 
 function AutoQuesting.OnQuestDetail()
@@ -80,6 +83,11 @@ end
 
 function AutoQuesting.OnQuestProgress()
     print("AutoQuesting.OnQuestProgress")
+    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or (not IsQuestCompletable()) or (not _IsQuestAllowedToTurnIn()) then
+        return
+    end
+
+    CompleteQuest()
 end
 
 function AutoQuesting.OnQuestAcceptConfirm()
@@ -120,6 +128,17 @@ _IsAllowedToAcceptFromNPC = function()
             if AutoQuesting.private.disallowedNPCs.accept[npcId] then
                 return false
             end
+        end
+    end
+
+    return true
+end
+
+_IsQuestAllowedToTurnIn = function()
+    local questId = GetQuestID()
+    if questId > 0 then
+        if AutoQuesting.private.disallowedQuests.turnIn[questId] then
+            return false
         end
     end
 
