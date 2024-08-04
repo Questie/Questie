@@ -32,7 +32,7 @@ function AutoQuesting.OnQuestGreetings()
     end
 end
 
-function AutoQuesting.OnGossipShow(a)
+function AutoQuesting.OnGossipShow()
     print("AutoQuesting.OnGossipShow")
     if (not shouldRunAuto) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedToAcceptFromNPC()) then
         shouldRunAuto = false
