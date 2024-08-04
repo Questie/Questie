@@ -24,6 +24,7 @@ describe("AutoQuesting", function()
         AutoQuesting.private.disallowedNPCs = {
             accept = {}
         }
+        AutoQuesting.Reset()
     end)
 
     describe("accept", function()

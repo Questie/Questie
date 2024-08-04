@@ -55,7 +55,7 @@ function AutoQuesting.OnQuestFinished()
 
     C_Timer.After(0.5, function()
         if _AllQuestWindowsClosed() then
-            shouldRunAuto = true
+            AutoQuesting.Reset()
         end
     end)
 end
@@ -74,6 +74,10 @@ end
 
 function AutoQuesting.OnQuestComplete()
     print("AutoQuesting.OnQuestComplete")
+end
+
+function AutoQuesting.Reset()
+    shouldRunAuto = true
 end
 
 local bindTruthTable = {
