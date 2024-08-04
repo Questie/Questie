@@ -22,6 +22,7 @@ describe("AutoQuesting", function()
 
         _G.AcceptQuest = spy.new(function() end)
         _G.ConfirmAcceptQuest = spy.new(function() end)
+        _G.SelectAvailableQuest = spy.new(function() end)
         _G.CompleteQuest = spy.new(function() end)
         _G.GetQuestID = function() return 0 end
         _G.IsQuestCompletable = spy.new(function() return true end)
@@ -65,7 +66,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestGreetings()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
+            assert.spy(_G.SelectAvailableQuest).was.called_with(1)
         end)
 
         it("should not accept quest from quest greetings when auto accept is disabled", function()
@@ -74,7 +75,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestGreetings()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.SelectAvailableQuest).was_not.called()
         end)
 
         it("should not accept quest from greetings when auto modifier is held", function()
@@ -84,7 +85,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestGreetings()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.SelectAvailableQuest).was_not.called()
         end)
 
         it("should not accept quest from details when coming from greetings and auto modifier was held", function()
@@ -93,7 +94,7 @@ describe("AutoQuesting", function()
             _G.IsShiftKeyDown = function() return true end
 
             AutoQuesting.OnQuestGreetings()
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.SelectAvailableQuest).was_not.called()
 
             _G.IsShiftKeyDown = function() return false end
             AutoQuesting.OnQuestDetail()
@@ -107,7 +108,7 @@ describe("AutoQuesting", function()
             _G.IsShiftKeyDown = function() return true end
 
             AutoQuesting.OnQuestGreetings()
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.SelectAvailableQuest).was_not.called()
 
             _G.IsShiftKeyDown = function() return false end
             AutoQuesting.OnQuestDetail()
@@ -115,7 +116,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was_not.called()
 
             AutoQuesting.OnQuestGreetings()
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.SelectAvailableQuest).was_not.called()
         end)
 
         it("should select available quest from greetings when re-talking to an NPC after auto modifier was held", function()
@@ -124,13 +125,13 @@ describe("AutoQuesting", function()
             _G.IsShiftKeyDown = function() return true end
 
             AutoQuesting.OnQuestGreetings()
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.SelectAvailableQuest).was_not.called()
 
             AutoQuesting.OnQuestFinished()
 
             _G.IsShiftKeyDown = function() return false end
             AutoQuesting.OnQuestGreetings()
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
+            assert.spy(_G.SelectAvailableQuest).was.called_with(1)
         end)
 
         it("should accept available quest from gossip", function()

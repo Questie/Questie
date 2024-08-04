@@ -34,7 +34,9 @@ function AutoQuesting.OnQuestGreetings()
 
     local availableQuestsCount = GetNumAvailableQuests()
     if availableQuestsCount > 0 then
-        QuestieCompat.SelectAvailableQuest(1)
+        -- It is correct to use SelectAvailableQuest, instead of QuestieCompat.SelectAvailableQuest
+        -- TODO: Do we want to call SelectAvailableQuest in QuestieCompat.SelectAvailableQuest when C_GossipInfo.GetAvailableQuests() is an empty table?
+        SelectAvailableQuest(1)
     end
 end
 
