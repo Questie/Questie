@@ -2607,6 +2607,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
         },
         [84359] = { -- Sleepless Nights
+            [questKeys.sourceItemId] = 227768,
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,

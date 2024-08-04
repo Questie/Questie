@@ -188,6 +188,9 @@ function SeasonOfDiscovery:LoadItems()
         [226545] = { -- Dalton's Horn
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [227768] = { -- Dreamjuice
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [228141] = { -- Necromancy 101
             [itemKeys.objectDrops] = {463211},
         },
