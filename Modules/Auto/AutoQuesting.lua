@@ -28,7 +28,7 @@ function AutoQuesting.OnQuestGreetings()
 
     local availableQuestsCount = GetNumAvailableQuests()
     if availableQuestsCount > 0 then
-        SelectAvailableQuest(1)
+        QuestieCompat.SelectAvailableQuest(1)
     end
 end
 
