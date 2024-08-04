@@ -34,7 +34,8 @@ end
 
 function AutoQuesting.OnGossipShow()
     print("AutoQuesting.OnGossipShow")
-    if (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedToAcceptFromNPC()) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedToAcceptFromNPC()) then
+        shouldRunAuto = false
         return
     end
 

@@ -156,6 +156,23 @@ describe("AutoQuesting", function()
         assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
     end)
 
+    it("should not accept available quest from gossip when coming from progress and auto modifier was held", function()
+        _G.QuestieCompat.GetAvailableQuests = function()
+            return "Test Quest", 1, false, 1, false, false, false
+        end
+        Questie.db.profile.autoModifier = "shift"
+        _G.IsShiftKeyDown = function() return true end
+
+        AutoQuesting.OnGossipShow()
+        assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+
+        _G.IsShiftKeyDown = function() return false end
+        AutoQuesting.OnQuestProgress()
+
+        AutoQuesting.OnGossipShow()
+        assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+    end)
+
     it("should not accept available quest from gossip when NPC is not allowed to accept quests from", function()
         _G.UnitGUID = function() return "0-0-0-0-0-123" end
         AutoQuesting.private.disallowedNPCs.accept[123] = true
