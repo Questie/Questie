@@ -4641,6 +4641,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {28494},
             [questKeys.nextQuestInChain] = 871,
         },
+        [26644] = { -- Attracting Attention
+            [questKeys.preQuestGroup] = {26634,26635},
+        },
         [26645] = { -- The Night Watch
             [questKeys.preQuestSingle] = {26618},
         },
