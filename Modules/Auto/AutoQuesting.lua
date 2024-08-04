@@ -61,8 +61,8 @@ function AutoQuesting.OnGossipShow()
 
             if firstCompleteQuestIndex > 0 then
                 QuestieCompat.SelectActiveQuest(firstCompleteQuestIndex)
+                return
             end
-            return
         end
     end
 

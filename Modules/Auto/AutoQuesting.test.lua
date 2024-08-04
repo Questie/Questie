@@ -144,6 +144,21 @@ describe("AutoQuesting", function()
             assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
         end)
 
+        it("should accept available quest from gossip when active quests are not complete", function()
+            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Test Quest", 1, false, 1, false, false, false
+            end
+            _G.QuestieCompat.GetActiveQuests = function()
+                return "Test Quest", 1, false, false, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
+            assert.spy(_G.QuestieCompat.SelectActiveQuest).was_not.called()
+        end)
+
         it("should not accept available quest from gossip when auto accept is disabled", function()
             _G.QuestieCompat.GetAvailableQuests = function()
                 return "Test Quest", 1, false, 1, false, false, false
