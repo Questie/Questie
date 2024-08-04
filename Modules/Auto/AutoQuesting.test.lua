@@ -24,6 +24,8 @@ describe("AutoQuesting", function()
         _G.CompleteQuest = spy.new(function() end)
         _G.GetQuestID = function() return 0 end
         _G.IsQuestCompletable = spy.new(function() return true end)
+        _G.GetNumQuestChoices = function() return 1 end
+        _G.GetQuestReward = spy.new(function() end)
         _G.print = function()  end -- TODO: Remove this line when print is removed from the module
 
         AutoQuesting = require("Modules/Auto/AutoQuesting")
@@ -201,12 +203,13 @@ describe("AutoQuesting", function()
             end
 
             AutoQuesting.OnGossipShow()
-
             assert.spy(_G.QuestieCompat.SelectActiveQuest).was_called_with(1)
 
             AutoQuesting.OnQuestProgress()
-
             assert.spy(_G.CompleteQuest).was.called()
+
+            AutoQuesting.OnQuestComplete()
+            assert.spy(_G.GetQuestReward).was.called()
         end)
 
         it("should not turn in quest from gossip show when no quest is complete", function()
@@ -254,8 +257,8 @@ describe("AutoQuesting", function()
         end)
     end)
 
-    describe("progress", function()
-        it("should not complete quest on progress when manual mode is active", function()
+    describe("OnQuestProgress", function()
+        it("should not complete quest when manual mode is active", function()
             Questie.db.profile.autoModifier = "shift"
             _G.IsShiftKeyDown = function() return true end
 
@@ -289,6 +292,35 @@ describe("AutoQuesting", function()
             AutoQuesting.OnQuestProgress()
 
             assert.spy(_G.CompleteQuest).was_not.called()
+        end)
+    end)
+
+    describe("OnQuestComplete", function()
+        it("should not complete quest when manual mode is active", function()
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+
+            AutoQuesting.OnGossipShow()
+
+            AutoQuesting.OnQuestComplete()
+
+            assert.spy(_G.GetQuestReward).was_not.called()
+        end)
+
+        it("should not complete quest when auto turn in is disabled", function()
+            Questie.db.profile.autocomplete = false
+
+            AutoQuesting.OnQuestComplete()
+
+            assert.spy(_G.GetQuestReward).was_not.called()
+        end)
+
+        it("should not complete quest when quest has multiple rewards", function()
+            _G.GetNumQuestChoices = function() return 2 end
+
+            AutoQuesting.OnQuestComplete()
+
+            assert.spy(_G.GetQuestReward).was_not.called()
         end)
     end)
 

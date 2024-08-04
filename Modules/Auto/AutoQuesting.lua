@@ -96,6 +96,11 @@ end
 
 function AutoQuesting.OnQuestComplete()
     print("AutoQuesting.OnQuestComplete")
+    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or GetNumQuestChoices() > 1 then
+        return
+    end
+
+    GetQuestReward(1)
 end
 
 function AutoQuesting.Reset()
