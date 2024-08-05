@@ -2148,6 +2148,7 @@ function QuestieQuestBlacklist:Load()
         [8381] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [8382] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [8412] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [8446] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [8458] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [8459] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [8460] = QuestieCorrections.CATA_HIDE, -- Removed with cata
