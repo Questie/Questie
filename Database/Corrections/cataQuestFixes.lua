@@ -1251,6 +1251,9 @@ function CataQuestFixes.Load()
         [13844] = { -- The Looting of Althalaxx
             [questKeys.preQuestSingle] = {13509},
         },
+        [13848] = { -- Bad News Bear-er
+            [questKeys.preQuestSingle] = {13805},
+        },
         [13849] = { -- Astranaar's Burning!
             [questKeys.objectives] = {{{34123,nil,Questie.ICON_TYPE_EVENT}}},
         },
