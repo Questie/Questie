@@ -1232,7 +1232,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {45571,45572},
         },
         [13798] = { -- Rain of Destruction
-            [questKeys.objectives] = {{33688},nil,nil,nil,{{33945,33195},33195,"Attacking elves slain"}}},
+            [questKeys.objectives] = {{33688},nil,nil,nil,{{33945,33195},33195,"Attacking elves slain"}},
         },
         [13801] = { -- Dead Elves Walking
             [questKeys.preQuestSingle] = {13803},
