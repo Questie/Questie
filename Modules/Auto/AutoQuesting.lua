@@ -9,9 +9,7 @@ local INDIZES_AVAILABLE = 7
 local INDIZES_COMPLETE = 6
 
 -- TODO: Migrate DisallowedIDs.lua to AutoQuesting.lua
-AutoQuesting.private.disallowedNPCs = {
-    accept = {},
-}
+AutoQuesting.private.disallowedNPCs = {}
 AutoQuesting.private.disallowedQuests = {
     accept = {},
     turnIn = {},
@@ -148,7 +146,7 @@ _IsAllowedToAcceptFromNPC = function()
         local _, _, _, _, _, npcIDStr = strsplit("-", npcGuid)
         if npcIDStr then
             local npcId = tonumber(npcIDStr)
-            if AutoQuesting.private.disallowedNPCs.accept[npcId] then
+            if AutoQuesting.private.disallowedNPCs[npcId] then
                 return false
             end
         end

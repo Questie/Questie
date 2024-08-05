@@ -31,9 +31,7 @@ describe("AutoQuesting", function()
         _G.print = function()  end -- TODO: Remove this line when print is removed from the module
 
         AutoQuesting = require("Modules/Auto/AutoQuesting")
-        AutoQuesting.private.disallowedNPCs = {
-            accept = {}
-        }
+        AutoQuesting.private.disallowedNPCs = {}
         AutoQuesting.private.disallowedQuests = {
             accept = {},
             turnIn = {},
@@ -69,7 +67,7 @@ describe("AutoQuesting", function()
 
         it("should not accept quest from detail when NPC is not allowed to accept quests from", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
-            AutoQuesting.private.disallowedNPCs.accept[123] = true
+            AutoQuesting.private.disallowedNPCs[123] = true
 
             AutoQuesting.OnQuestDetail()
 
@@ -226,7 +224,7 @@ describe("AutoQuesting", function()
 
         it("should not accept available quest from gossip when NPC is not allowed to accept quests from", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
-            AutoQuesting.private.disallowedNPCs.accept[123] = true
+            AutoQuesting.private.disallowedNPCs[123] = true
             _G.QuestieCompat.GetAvailableQuests = function()
                 return "Test Quest", 1, false, 1, false, false, false
             end
