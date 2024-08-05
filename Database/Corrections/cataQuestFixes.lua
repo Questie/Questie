@@ -1221,6 +1221,9 @@ function CataQuestFixes.Load()
         [13712] = { -- To The Rescue
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak to Kadrak"),0,{{"monster",8582}}}},
         },
+        [13730] = { -- Playing With Felfire
+            [questKeys.preQuestSingle] = {13803},
+        },
         [13766] = { -- Closure is Only Natural
             [questKeys.objectives] = {{{33767,nil,Questie.ICON_TYPE_EVENT}}},
         },
