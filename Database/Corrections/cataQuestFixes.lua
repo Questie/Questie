@@ -4642,6 +4642,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 871,
         },
         [26644] = { -- Attracting Attention
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26634,26635},
         },
         [26645] = { -- The Night Watch
@@ -4686,6 +4687,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26650},
         },
         [26665] = { -- Call of Booty
+            [questKeys.preQuestSingle] = {},            
             [questKeys.preQuestGroup] = {26662,26663,26664},
         },
         [26668] = { -- Detonation
