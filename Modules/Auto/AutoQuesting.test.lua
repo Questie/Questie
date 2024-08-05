@@ -39,6 +39,8 @@ describe("AutoQuesting", function()
 
     describe("accept", function()
         it("should accept quest from quest detail", function()
+            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.AcceptQuest).was.called()
@@ -55,6 +57,15 @@ describe("AutoQuesting", function()
         it("should not accept quest from detail when auto modifier is held", function()
             Questie.db.profile.autoModifier = "shift"
             _G.IsShiftKeyDown = function() return true end
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was_not.called()
+        end)
+
+        it("should not accept quest from detail when NPC is not allowed to accept quests from", function()
+            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            AutoQuesting.private.disallowedNPCs.accept[123] = true
 
             AutoQuesting.OnQuestDetail()
 

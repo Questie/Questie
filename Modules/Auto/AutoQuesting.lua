@@ -18,7 +18,7 @@ AutoQuesting.private.disallowedQuests = {
 
 function AutoQuesting.OnQuestDetail()
     print("AutoQuesting.OnQuestDetail")
-    if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedToAcceptFromNPC()) then
         return
     end
 
