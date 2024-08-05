@@ -1754,7 +1754,7 @@ function CataNpcFixes.Load()
         [43631] = { -- Sinking From Within: Gunpowder Credit
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{46.81,93.73}}},
         },
-        [43631] = { -- Sinking From Within: Cannonball Credit
+        [43632] = { -- Sinking From Within: Cannonball Credit
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{44.66,92.77}}},
         },
         [43729] = { -- Finale Credit
