@@ -1218,6 +1218,9 @@ function CataQuestFixes.Load()
         [13708] = { -- Valiant Of Sen'jin
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [13712] = { -- To The Rescue
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak to Kadrak"),0,{{"monster",8582}}}},
+        },
         [13766] = { -- Closure is Only Natural
             [questKeys.objectives] = {{{33767,nil,Questie.ICON_TYPE_EVENT}}},
         },
