@@ -6,7 +6,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
-local QuestTimerFrame = QuestTimerFrame
+-- QuestTimerFrame is present in Cataclysm, WatchFrame is present in WotLK. Era/SoX does not have a timer frame.
+local QuestTimerFrame = QuestTimerFrame or WatchFrame
 local timer
 
 function TrackerQuestTimers:Initialize()

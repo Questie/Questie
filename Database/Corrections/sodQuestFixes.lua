@@ -2605,6 +2605,8 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [84356] = { -- Oh, Shiny!
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
+            [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [84359] = { -- Sleepless Nights
             [questKeys.sourceItemId] = 227768,
