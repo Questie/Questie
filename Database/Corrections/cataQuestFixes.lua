@@ -1250,7 +1250,7 @@ function CataQuestFixes.Load()
         },
         [13842] = { -- Dread Head Redemption
             [questKeys.finishedBy] = {{39605}},
-            [questKeys.objectives] = {nil,60638,nil,nil,nil},
+            [questKeys.objectives] = {nil,nil,{{60638}},nil,nil},
         },
         [13844] = { -- The Looting of Althalaxx
             [questKeys.preQuestSingle] = {13509},
