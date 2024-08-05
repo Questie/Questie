@@ -1264,6 +1264,9 @@ function CataQuestFixes.Load()
         [13869] = { -- Recover the Remains
             [questKeys.preQuestSingle] = {26454},
         },
+        [13870] = { -- As Good as it Gets
+            [questKeys.preQuestGroup] = {13865,13815},
+        },
         [13871] = { -- Security!
             [questKeys.preQuestSingle] = {13870},
         },
