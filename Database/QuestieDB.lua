@@ -73,7 +73,11 @@ local questTagCorrections = {
     [7842] = {0, ""},
     [7843] = {0, ""},
     [8122] = {41, "PvP"},
+    [8367] = {41, "PvP"},
+    [8371] = {41, "PvP"},
+    [8385] = {41, "PvP"},
     [8386] = {41, "PvP"},
+    [8388] = {41, "PvP"},
     [8404] = {41, "PvP"},
     [8405] = {41, "PvP"},
     [8406] = {41, "PvP"},
@@ -143,6 +147,7 @@ local questTagCorrections = {
     [90287] = {1, "Elite"},
     [90288] = {1, "Elite"},
     [90289] = {1, "Elite"},
+    [90308] = {1, "Elite"},
 }
 
 -- race bitmask data, for easy access
@@ -183,6 +188,7 @@ QuestieDB.classKeys = {
 }
 
 QuestieDB.specialFlags = {
+    NONE = 0,
     REPEATABLE = 1,
 }
 
@@ -501,19 +507,6 @@ function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
         if Questie.db.char.complete[exId] then
             return true
         end
-    end
-    return false
-end
-
----@param parentID number
----@return boolean
-function QuestieDB.IsParentQuestActive(parentID)
-    --! If you edit the logic here, also edit in AvailableQuests.IsLevelRequirementsFulfilled
-    if (not parentID) or (parentID == 0) then
-        return false
-    end
-    if QuestiePlayer.currentQuestlog[parentID] then
-        return true
     end
     return false
 end
@@ -1213,12 +1206,16 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
         end
         if objectives[5] and type(objectives[5]) == "table" and #objectives[5] > 0 then
             for _, creditObjective in pairs(objectives[5]) do
+                if creditObjective[4] == 0 then
+                    creditObjective[4] = nil
+                end
                 ---@type KillObjective
                 local killCreditObjective = {
                     Type = "killcredit",
                     IdList = creditObjective[1],
                     RootId = creditObjective[2],
-                    Text = creditObjective[3]
+                    Text = creditObjective[3],
+                    Icon = creditObjective[4]
                 }
 
                 --? There are quest(s) which have the killCredit at first so we need to switch them
@@ -1255,12 +1252,6 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             Text = triggerEnd[1],
             Coordinates = triggerEnd[2]
         }
-    end
-
-    local preQuestGroup = QO.preQuestGroup
-    local preQuestSingle = QO.preQuestSingle
-    if preQuestGroup and preQuestSingle and next(preQuestGroup) and next(preQuestSingle) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive for questID:", questId)
     end
 
     --- Quest objectives generated from quest log in QuestieQuest.lua -> QuestieQuest:PopulateQuestLogInfo(quest)
@@ -1383,13 +1374,6 @@ function QuestieDB:GetCreatureLevels(quest)
     return creatureLevels
 end
 
-local playerFaction = UnitFactionGroup("player")
-local factionReactions = {
-    A = (playerFaction == "Alliance") or nil,
-    H = (playerFaction == "Horde") or nil,
-    AH = true,
-}
-
 ---@param npcId number
 ---@return table
 function QuestieDB:GetNPC(npcId)
@@ -1416,10 +1400,26 @@ function QuestieDB:GetNPC(npcId)
     end
 
     local friendlyToFaction = rawdata[npcKeys.friendlyToFaction]
-    npc.friendly = (not friendlyToFaction) and true or factionReactions[friendlyToFaction]
+    npc.friendly = QuestieDB.IsFriendlyToPlayer(friendlyToFaction)
 
     _QuestieDB.npcCache[npcId] = npc
     return npc
+end
+
+---@param friendlyToFaction string --The NPC database field friendlyToFaction - so either nil, "A", "H" or "AH"
+---@return boolean
+function QuestieDB.IsFriendlyToPlayer(friendlyToFaction)
+    if (not friendlyToFaction) or friendlyToFaction == "AH" then
+        return true
+    end
+
+    if friendlyToFaction == "H" then
+        return QuestiePlayer.faction == "Horde"
+    elseif friendlyToFaction == "A" then
+        return QuestiePlayer.faction == "Alliance"
+    end
+
+    return false
 end
 
 --[[

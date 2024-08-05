@@ -1,5 +1,6 @@
 ---@class QuestiePlayer
----@field numberOfGroupMembers number ---The number of players currently in the group
+---@field numberOfGroupMembers number @The number of players currently in the group
+---@field faction number @"Horde" or "Alliance"
 local QuestiePlayer = QuestieLoader:CreateModule("QuestiePlayer");
 local _QuestiePlayer = QuestiePlayer.private
 -------------------------
@@ -35,6 +36,8 @@ function QuestiePlayer:Initialize()
     local classId = select(3, UnitClass("player"))
     playerClassFlag = 2 ^ (classId - 1)
     playerClassFlagX2 = 2 * playerClassFlag
+
+    QuestiePlayer.faction = UnitFactionGroup("player")
 end
 
 --Always compare to the UnitLevel parameter, returning the highest.

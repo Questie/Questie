@@ -334,11 +334,6 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
         end)
     end
 
-    if Questie.IsCata and (not Questie.db.profile.hideStartupWarnings) then
-        Questie:Print(l10n("Welcome to Cataclysm Classic! During the launch of Cataclysm you may notice many issues with Questie, including quests appearing on the map before they're eligible to be picked up, quests not showing on the map at all, and incorrect or missing objectives."))
-        Questie:Print(l10n("Questie relies on private server data to function, and Cataclysm private server data is of poor quality. Fixing all of these issues is a manual process, so it will take some time. Please report any issues you encounter on our Discord or GitHub."))
-    end
-
     coYield()
     QuestieMenu:OnLogin()
 

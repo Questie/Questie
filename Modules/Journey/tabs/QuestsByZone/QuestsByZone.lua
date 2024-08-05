@@ -154,7 +154,8 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                         "preQuestSingle",
                         "preQuestGroup",
                         "requiredMinRep",
-                        "requiredMaxRep"
+                        "requiredMaxRep",
+                        "requiredSpell"
                         }
                 ) or {}
                 local exclusiveTo = queryResult[1]
@@ -164,6 +165,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 local preQuestGroup = queryResult[5]
                 local requiredMinRep = queryResult[6]
                 local requiredMaxRep = queryResult[7]
+                local requiredSpell = queryResult[8]
 
                 -- Exclusive quests will never be available since another quests permanently blocks them.
                 -- Marking them as complete should be the most satisfying solution for user
@@ -174,7 +176,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 elseif parentQuest and Questie.db.char.complete[parentQuest] then
                     tinsert(zoneTree[3].children, temp)
                     completedCounter = completedCounter + 1
-                -- Unoptainable reputation quests
+                -- Unobtainable reputation quests
                 elseif not QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep) then
                     tinsert(zoneTree[5].children, temp)
                     unobtainableQuestIds[questId] = true
@@ -211,6 +213,10 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 elseif QuestieDB.IsRepeatable(questId) then
                     tinsert(zoneTree[4].children, temp)
                     repeatableCounter = repeatableCounter + 1
+                -- Quests which require you to NOT have learned a spell (most likely a fake quest for SoD runes)
+                elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
+                    tinsert(zoneTree[3].children, temp)
+                    completedCounter = completedCounter + 1
                 -- Available quests
                 else
                     tinsert(zoneTree[1].children, temp)

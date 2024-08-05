@@ -502,6 +502,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.SEARING_GORGE] = {{65.0,45.0}},
             },
         },
+        [463206] = { -- Book
+            [objectKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+            [objectKeys.spawns] = {
+                [zoneIDs.BURNING_STEPPES] = {{26.4,24.45}},
+            },
+        },
         [463211] = { -- Book
             [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
             [objectKeys.spawns] = {
