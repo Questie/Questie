@@ -30,6 +30,7 @@ describe("AutoQuesting", function()
         _G.IsQuestCompletable = spy.new(function() return true end)
         _G.GetNumQuestChoices = function() return 1 end
         _G.GetQuestReward = spy.new(function() end)
+        _G.IsShiftKeyDown = function() return false end
         _G.print = function()  end -- TODO: Remove this line when print is removed from the module
 
         _G.C_Timer = {
@@ -408,77 +409,106 @@ describe("AutoQuesting", function()
 
     describe("OnQuestFinished", function()
         it("should reset when no frame exists", function()
-            AutoQuesting.Reset = spy.new(function() end)
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+            local resetSpy = spy.on(AutoQuesting, "Reset")
+
+            AutoQuesting.OnGossipShow()
+            AutoQuesting.OnQuestFinished()
+
+            assert.spy(resetSpy).was.called()
+        end)
+
+        it("should not reset when auto run is active", function()
+            local resetSpy = spy.on(AutoQuesting, "Reset")
 
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(AutoQuesting.Reset).was.called()
+            assert.spy(resetSpy).was_not.called()
         end)
 
         it("should not reset when GossipFrame is visible", function()
             _G.GossipFrame = {
                 IsVisible = function() return true end
             }
-            AutoQuesting.Reset = spy.new(function() end)
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+            local resetSpy = spy.on(AutoQuesting, "Reset")
 
+            AutoQuesting.OnGossipShow()
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(AutoQuesting.Reset).was_not.called()
+            assert.spy(resetSpy).was_not.called()
         end)
 
         it("should not reset when GossipFrameGreetingPanel is visible", function()
             _G.GossipFrameGreetingPanel = {
                 IsVisible = function() return true end
             }
-            AutoQuesting.Reset = spy.new(function() end)
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+            local resetSpy = spy.on(AutoQuesting, "Reset")
 
+            AutoQuesting.OnGossipShow()
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(AutoQuesting.Reset).was_not.called()
+            assert.spy(resetSpy).was_not.called()
         end)
 
         it("should not reset when QuestFrameGreetingPanel is visible", function()
             _G.QuestFrameGreetingPanel = {
                 IsVisible = function() return true end
             }
-            AutoQuesting.Reset = spy.new(function() end)
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+            local resetSpy = spy.on(AutoQuesting, "Reset")
 
+            AutoQuesting.OnGossipShow()
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(AutoQuesting.Reset).was_not.called()
+            assert.spy(resetSpy).was_not.called()
         end)
 
         it("should not reset when QuestFrameDetailPanel is visible", function()
             _G.QuestFrameDetailPanel = {
                 IsVisible = function() return true end
             }
-            AutoQuesting.Reset = spy.new(function() end)
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+            local resetSpy = spy.on(AutoQuesting, "Reset")
 
+            AutoQuesting.OnGossipShow()
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(AutoQuesting.Reset).was_not.called()
+            assert.spy(resetSpy).was_not.called()
         end)
 
         it("should not reset when QuestFrameProgressPanel is visible", function()
             _G.QuestFrameProgressPanel = {
                 IsVisible = function() return true end
             }
-            AutoQuesting.Reset = spy.new(function() end)
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+            local resetSpy = spy.on(AutoQuesting, "Reset")
 
+            AutoQuesting.OnGossipShow()
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(AutoQuesting.Reset).was_not.called()
+            assert.spy(resetSpy).was_not.called()
         end)
 
         it("should not reset when QuestFrameRewardPanel is visible", function()
             _G.QuestFrameRewardPanel = {
                 IsVisible = function() return true end
             }
-            AutoQuesting.Reset = spy.new(function() end)
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+            local resetSpy = spy.on(AutoQuesting, "Reset")
 
+            AutoQuesting.OnGossipShow()
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(AutoQuesting.Reset).was_not.called()
+            assert.spy(resetSpy).was_not.called()
         end)
     end)
 

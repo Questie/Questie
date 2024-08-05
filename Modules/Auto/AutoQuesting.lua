@@ -75,7 +75,7 @@ function AutoQuesting.OnQuestFinished()
     print("AutoQuesting.OnQuestFinished")
 
     C_Timer.After(0.5, function()
-        if _AllQuestWindowsClosed() then
+        if (not shouldRunAuto) and _AllQuestWindowsClosed() then
             AutoQuesting.Reset()
         end
     end)
