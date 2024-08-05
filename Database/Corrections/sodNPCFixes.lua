@@ -667,6 +667,29 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.TANARIS] = {{53.8,29.0}},
             },
         },
+        [227464] = { -- Squire Cuthbert
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{47.8,50.4}},
+            },
+            [npcKeys.questStarts] = {84008},
+        },
+        [227672] = { -- Squire Cuthbert
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{47.8,50.4}},
+            },
+            [npcKeys.questStarts] = {83823},
+        },
+        [227673] = { -- Squire Cuthbert
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{47.8,50.4}},
+            },
+            [npcKeys.questStarts] = {83823},
+        },
+        [227674] = { -- Squire Cuthbert
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{47.8,50.4}},
+            },
+        },
 
         -- fake NPCs
         [900000] = {

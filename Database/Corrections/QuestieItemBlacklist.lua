@@ -33,6 +33,7 @@ function QuestieItemBlacklist:Load()
         [3820] = true, -- stranglekelp
         [3821] = true, -- goldthorn
         [3864] = true, -- citrine
+        [3927] = true, -- fine aged cheddar
         [4306] = true, -- silk cloth
         [4338] = true, -- mageweave
         [4625] = true, -- firebloom

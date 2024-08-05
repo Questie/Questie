@@ -2,6 +2,7 @@
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 
+---@class DatabaseQuestKeys
 QuestieDB.questKeys = {
     ['name'] = 1, -- string
     ['startedBy'] = 2, -- table
