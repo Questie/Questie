@@ -9,7 +9,7 @@ local INDIZES_AVAILABLE = 7
 local INDIZES_COMPLETE = 6
 
 function AutoQuesting.OnQuestDetail()
-    print("AutoQuesting.OnQuestDetail")
+    print("AutoQuesting.OnQuestDetail", _AllQuestWindowsClosed())
     if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedToAcceptFromNPC()) or (not _IsQuestAllowedToAccept()) then
         return
     end
@@ -18,7 +18,7 @@ function AutoQuesting.OnQuestDetail()
 end
 
 function AutoQuesting.OnQuestGreetings()
-    print("AutoQuesting.OnQuestGreetings")
+    print("AutoQuesting.OnQuestGreetings", _AllQuestWindowsClosed())
     if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) then
         shouldRunAuto = false
         return
@@ -33,7 +33,7 @@ function AutoQuesting.OnQuestGreetings()
 end
 
 function AutoQuesting.OnGossipShow()
-    print("AutoQuesting.OnGossipShow")
+    print("AutoQuesting.OnGossipShow", _AllQuestWindowsClosed())
     if (not shouldRunAuto) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedToAcceptFromNPC()) then
         shouldRunAuto = false
         return
@@ -68,11 +68,11 @@ function AutoQuesting.OnGossipShow()
 end
 
 function AutoQuesting.OnGossipClosed()
-    print("AutoQuesting.OnGossipClosed")
+    print("AutoQuesting.OnGossipClosed", _AllQuestWindowsClosed())
 end
 
 function AutoQuesting.OnQuestFinished()
-    print("AutoQuesting.OnQuestFinished")
+    print("AutoQuesting.OnQuestFinished", _AllQuestWindowsClosed(), shouldRunAuto)
 
     C_Timer.After(0.5, function()
         if (not shouldRunAuto) and _AllQuestWindowsClosed() then
@@ -82,11 +82,11 @@ function AutoQuesting.OnQuestFinished()
 end
 
 function AutoQuesting.OnQuestAccepted()
-    print("AutoQuesting.OnQuestAccepted")
+    print("AutoQuesting.OnQuestAccepted", _AllQuestWindowsClosed())
 end
 
 function AutoQuesting.OnQuestProgress()
-    print("AutoQuesting.OnQuestProgress")
+    print("AutoQuesting.OnQuestProgress", _AllQuestWindowsClosed())
     if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or (not IsQuestCompletable()) or (not _IsQuestAllowedToTurnIn()) then
         return
     end
@@ -95,7 +95,7 @@ function AutoQuesting.OnQuestProgress()
 end
 
 function AutoQuesting.OnQuestAcceptConfirm()
-    print("AutoQuesting.OnQuestAcceptConfirm")
+    print("AutoQuesting.OnQuestAcceptConfirm", _AllQuestWindowsClosed())
     if (not Questie.db.profile.autoaccept) then
         return
     end
@@ -104,7 +104,7 @@ function AutoQuesting.OnQuestAcceptConfirm()
 end
 
 function AutoQuesting.OnQuestComplete()
-    print("AutoQuesting.OnQuestComplete")
+    print("AutoQuesting.OnQuestComplete", _AllQuestWindowsClosed())
     if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or GetNumQuestChoices() > 1 then
         return
     end
@@ -113,6 +113,7 @@ function AutoQuesting.OnQuestComplete()
 end
 
 function AutoQuesting.Reset()
+    print("AutoQuesting.Reset")
     shouldRunAuto = true
 end
 
