@@ -3100,6 +3100,9 @@ function CataQuestFixes.Load()
         [25436] = { -- Spiteful Sisters
             [questKeys.preQuestGroup] = {25433,25434},
         },
+        [25437] = { -- Ysondre's Call
+            [questKeys.preQuestSingle] = {25436},
+        },
         [25438] = { -- Ysondre's Farewell
             [questKeys.preQuestSingle] = {25379},
         },
