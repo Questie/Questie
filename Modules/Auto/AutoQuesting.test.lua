@@ -76,6 +76,15 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was_not.called()
         end)
 
+        it("should not accept quest from detail when quest is not allowed to accept", function()
+            _G.GetQuestID = function() return 123 end
+            AutoQuesting.private.disallowedQuests.accept[123] = true
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was_not.called()
+        end)
+
         it("should accept quests from quest greetings", function()
             _G.GetNumAvailableQuests = function() return 2 end
 

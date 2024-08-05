@@ -1,7 +1,7 @@
 ---@class AutoQuesting
 local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
 
-local _IsBindTrue, _AllQuestWindowsClosed, _IsAllowedToAcceptFromNPC, _IsQuestAllowedToTurnIn
+local _IsBindTrue, _AllQuestWindowsClosed, _IsAllowedToAcceptFromNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn
 
 local shouldRunAuto = true
 
@@ -13,12 +13,13 @@ AutoQuesting.private.disallowedNPCs = {
     accept = {},
 }
 AutoQuesting.private.disallowedQuests = {
+    accept = {},
     turnIn = {},
 }
 
 function AutoQuesting.OnQuestDetail()
     print("AutoQuesting.OnQuestDetail")
-    if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedToAcceptFromNPC()) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedToAcceptFromNPC()) or (not _IsQuestAllowedToAccept()) then
         return
     end
 
@@ -150,6 +151,17 @@ _IsAllowedToAcceptFromNPC = function()
             if AutoQuesting.private.disallowedNPCs.accept[npcId] then
                 return false
             end
+        end
+    end
+
+    return true
+end
+
+_IsQuestAllowedToAccept = function()
+    local questId = GetQuestID()
+    if questId > 0 then
+        if AutoQuesting.private.disallowedQuests.accept[questId] then
+            return false
         end
     end
 
