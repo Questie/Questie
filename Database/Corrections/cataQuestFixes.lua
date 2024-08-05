@@ -1231,6 +1231,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {13792},
             [questKeys.requiredSourceItems] = {45571,45572},
         },
+        [13801] = { -- Dead Elves Walking
+            [questKeys.preQuestSingle] = {13803},
+        },
         [13831] = { -- A Troubling Prescription
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {13528},
