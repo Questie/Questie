@@ -3277,6 +3277,9 @@ function CataQuestFixes.Load()
                 {{[zoneIDs.KELP_THAR_FOREST] = {{54.1,34.4}}},Questie.ICON_TYPE_EVENT,l10n("Adarrah Signaled"),2},
             },
         },
+        [25589] = { -- A Little Payback
+            [questKeys.preQuestSingle] = {25562},
+        },
         [25590] = { -- Where's Wizzle?
             [questKeys.preQuestSingle] = {25562},
         },
