@@ -34,6 +34,10 @@ describe("AutoQuesting", function()
         AutoQuesting.private.disallowedNPCs = {
             accept = {}
         }
+        AutoQuesting.private.disallowedQuests = {
+            accept = {},
+            turnIn = {},
+        }
         AutoQuesting.Reset()
     end)
 
