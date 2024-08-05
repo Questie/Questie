@@ -1,11 +1,6 @@
 dofile("setupTests.lua")
 
 _G.QuestieCompat = {}
-_G.C_Timer = {
-    After = function(_, callback)
-        callback()
-    end
-}
 
 describe("AutoQuesting", function()
     ---@type AutoQuesting
@@ -20,6 +15,13 @@ describe("AutoQuesting", function()
         _G.QuestieCompat.GetActiveQuests = spy.new(function() end)
         _G.QuestieCompat.SelectActiveQuest = spy.new(function() end)
 
+        _G.GossipFrame = nil
+        _G.GossipFrameGreetingPanel = nil
+        _G.QuestFrameGreetingPanel = nil
+        _G.QuestFrameDetailPanel = nil
+        _G.QuestFrameProgressPanel = nil
+        _G.QuestFrameRewardPanel = nil
+
         _G.AcceptQuest = spy.new(function() end)
         _G.ConfirmAcceptQuest = spy.new(function() end)
         _G.SelectAvailableQuest = spy.new(function() end)
@@ -29,6 +31,12 @@ describe("AutoQuesting", function()
         _G.GetNumQuestChoices = function() return 1 end
         _G.GetQuestReward = spy.new(function() end)
         _G.print = function()  end -- TODO: Remove this line when print is removed from the module
+
+        _G.C_Timer = {
+            After = function(_, callback)
+                callback()
+            end
+        }
 
         AutoQuesting = require("Modules/Auto/AutoQuesting")
         AutoQuesting.private.disallowedNPCs = {}
@@ -122,6 +130,24 @@ describe("AutoQuesting", function()
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.AcceptQuest).was_not.called()
+        end)
+
+        it("should not accept quest from greetings when auto modifier was held and manually accepting a quest", function()
+            _G.C_Timer.After = function() end
+            _G.GetNumAvailableQuests = function() return 2 end
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+
+            AutoQuesting.OnQuestGreetings()
+            assert.spy(_G.SelectAvailableQuest).was_not.called()
+
+            _G.IsShiftKeyDown = function() return false end
+            AutoQuesting.OnQuestDetail()
+            AutoQuesting.OnQuestFinished()
+
+            AutoQuesting.OnQuestGreetings()
+
+            assert.spy(_G.SelectAvailableQuest).was_not.called()
         end)
 
         it("should not select available quest from greetings when coming from details and auto modifier was held", function()
@@ -377,6 +403,82 @@ describe("AutoQuesting", function()
             AutoQuesting.OnQuestAcceptConfirm()
 
             assert.spy(_G.ConfirmAcceptQuest).was_not.called()
+        end)
+    end)
+
+    describe("OnQuestFinished", function()
+        it("should reset when no frame exists", function()
+            AutoQuesting.Reset = spy.new(function() end)
+
+            AutoQuesting.OnQuestFinished()
+
+            assert.spy(AutoQuesting.Reset).was.called()
+        end)
+
+        it("should not reset when GossipFrame is visible", function()
+            _G.GossipFrame = {
+                IsVisible = function() return true end
+            }
+            AutoQuesting.Reset = spy.new(function() end)
+
+            AutoQuesting.OnQuestFinished()
+
+            assert.spy(AutoQuesting.Reset).was_not.called()
+        end)
+
+        it("should not reset when GossipFrameGreetingPanel is visible", function()
+            _G.GossipFrameGreetingPanel = {
+                IsVisible = function() return true end
+            }
+            AutoQuesting.Reset = spy.new(function() end)
+
+            AutoQuesting.OnQuestFinished()
+
+            assert.spy(AutoQuesting.Reset).was_not.called()
+        end)
+
+        it("should not reset when QuestFrameGreetingPanel is visible", function()
+            _G.QuestFrameGreetingPanel = {
+                IsVisible = function() return true end
+            }
+            AutoQuesting.Reset = spy.new(function() end)
+
+            AutoQuesting.OnQuestFinished()
+
+            assert.spy(AutoQuesting.Reset).was_not.called()
+        end)
+
+        it("should not reset when QuestFrameDetailPanel is visible", function()
+            _G.QuestFrameDetailPanel = {
+                IsVisible = function() return true end
+            }
+            AutoQuesting.Reset = spy.new(function() end)
+
+            AutoQuesting.OnQuestFinished()
+
+            assert.spy(AutoQuesting.Reset).was_not.called()
+        end)
+
+        it("should not reset when QuestFrameProgressPanel is visible", function()
+            _G.QuestFrameProgressPanel = {
+                IsVisible = function() return true end
+            }
+            AutoQuesting.Reset = spy.new(function() end)
+
+            AutoQuesting.OnQuestFinished()
+
+            assert.spy(AutoQuesting.Reset).was_not.called()
+        end)
+
+        it("should not reset when QuestFrameRewardPanel is visible", function()
+            _G.QuestFrameRewardPanel = {
+                IsVisible = function() return true end
+            }
+            AutoQuesting.Reset = spy.new(function() end)
+
+            AutoQuesting.OnQuestFinished()
+
+            assert.spy(AutoQuesting.Reset).was_not.called()
         end)
     end)
 
