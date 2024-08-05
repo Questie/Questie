@@ -1142,6 +1142,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 26465,
         },
         [13621] = { -- Gorat's Vengeance
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the imbued blood"),0,{{"monster",33294}}}},
             [questKeys.preQuestSingle] = {13620},
         },
         [13628] = { -- Got Wood?
