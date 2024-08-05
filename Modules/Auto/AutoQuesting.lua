@@ -8,13 +8,6 @@ local shouldRunAuto = true
 local INDIZES_AVAILABLE = 7
 local INDIZES_COMPLETE = 6
 
--- TODO: Migrate DisallowedIDs.lua to AutoQuesting.lua
-AutoQuesting.private.disallowedNPCs = {}
-AutoQuesting.private.disallowedQuests = {
-    accept = {},
-    turnIn = {},
-}
-
 function AutoQuesting.OnQuestDetail()
     print("AutoQuesting.OnQuestDetail")
     if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedToAcceptFromNPC()) or (not _IsQuestAllowedToAccept()) then
