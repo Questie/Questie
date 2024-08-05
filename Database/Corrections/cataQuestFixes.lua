@@ -1157,6 +1157,9 @@ function CataQuestFixes.Load()
         [13646] = { -- Astranaar Bound
             [questKeys.preQuestSingle] = {26464},
         },
+        [13653] = { -- Crisis at Splintertree
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Speak to Gorka"),0,{{"monster",33421}}}},
+        },
         [13655] = { -- Explorers' League Document (2 of 6)
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
