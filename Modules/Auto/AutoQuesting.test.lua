@@ -512,6 +512,28 @@ describe("AutoQuesting", function()
         end)
     end)
 
+
+    describe("OnGossipClosed", function()
+        it("should reset when no frame exists", function()
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+            local resetSpy = spy.on(AutoQuesting, "Reset")
+
+            AutoQuesting.OnGossipShow()
+            AutoQuesting.OnGossipClosed()
+
+            assert.spy(resetSpy).was.called()
+        end)
+
+        it("should not reset when auto run is active", function()
+            local resetSpy = spy.on(AutoQuesting, "Reset")
+
+            AutoQuesting.OnGossipClosed()
+
+            assert.spy(resetSpy).was_not.called()
+        end)
+    end)
+
     it("should not turn in or accept quest from gossip when auto accept and turn in are disabled", function()
         Questie.db.profile.autoaccept = false
         Questie.db.profile.autocomplete = false

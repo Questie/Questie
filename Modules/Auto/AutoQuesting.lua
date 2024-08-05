@@ -1,7 +1,7 @@
 ---@class AutoQuesting
 local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
 
-local _IsBindTrue, _AllQuestWindowsClosed, _IsAllowedToAcceptFromNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn
+local _IsBindTrue, _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedToAcceptFromNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn
 
 local shouldRunAuto = true
 
@@ -68,17 +68,13 @@ function AutoQuesting.OnGossipShow()
 end
 
 function AutoQuesting.OnGossipClosed()
-    print("AutoQuesting.OnGossipClosed", _AllQuestWindowsClosed())
+    print("AutoQuesting.OnGossipClosed", _AllQuestWindowsClosed(), shouldRunAuto)
+    _StartStoppedTalkingTimer()
 end
 
 function AutoQuesting.OnQuestFinished()
     print("AutoQuesting.OnQuestFinished", _AllQuestWindowsClosed(), shouldRunAuto)
-
-    C_Timer.After(0.5, function()
-        if (not shouldRunAuto) and _AllQuestWindowsClosed() then
-            AutoQuesting.Reset()
-        end
-    end)
+    _StartStoppedTalkingTimer()
 end
 
 function AutoQuesting.OnQuestAccepted()
@@ -115,6 +111,16 @@ end
 function AutoQuesting.Reset()
     print("AutoQuesting.Reset")
     shouldRunAuto = true
+end
+
+_StartStoppedTalkingTimer = function()
+    -- We need to wait a bit, because in between quest dialogs, there is a short time where all windows are closed.
+    -- Without waiting we would reset while we are actually still talking to the NPC.
+    C_Timer.After(0.5, function()
+        if (not shouldRunAuto) and _AllQuestWindowsClosed() then
+            AutoQuesting.Reset()
+        end
+    end)
 end
 
 local bindTruthTable = {
