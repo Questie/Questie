@@ -4641,6 +4641,10 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {28494},
             [questKeys.nextQuestInChain] = 871,
         },
+        [26644] = { -- Attracting Attention
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26634,26635},
+        },
         [26645] = { -- The Night Watch
             [questKeys.preQuestSingle] = {26618},
         },
@@ -4673,12 +4677,18 @@ function CataQuestFixes.Load()
         },
         [26662] = { -- The Brashtide Crew
             [questKeys.preQuestSingle] = {26650},
+            [questKeys.objectives] = {{{43659,"Speak with Long John Copper",Questie.ICON_TYPE_TALK},{43660,"Speak with Enormous Shawn Stooker",Questie.ICON_TYPE_TALK},{43661,"Speak with Wailing Mary Smitts",Questie.ICON_TYPE_TALK}}}
         },
         [26663] = { -- Sinking From Within
             [questKeys.preQuestSingle] = {26650},
+            [questKeys.objectives] = {{{43623,"Sabotage the Grog",Questie.ICON_TYPE_INTERACT},{43631,"Sabotage the Gunpowder",Questie.ICON_TYPE_INTERACT},{43632,"Sabotage the Cannonballs",Questie.ICON_TYPE_INTERACT}}}
         },
         [26664] = { -- Making Mutiny
             [questKeys.preQuestSingle] = {26650},
+        },
+        [26665] = { -- Call of Booty
+            [questKeys.preQuestSingle] = {},            
+            [questKeys.preQuestGroup] = {26662,26663,26664},
         },
         [26668] = { -- Detonation
             [questKeys.triggerEnd] = {"Blow up Render's Valley.", {[zoneIDs.REDRIDGE_MOUNTAINS]={{77.19,65.64}}}},
