@@ -1239,6 +1239,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {13528},
         },
         [13841] = { -- All Apologies
+            [questKeys.preQuestSingle] = {13798},
             [questKeys.finishedBy] = {{39605}},
         },
         [13842] = { -- Dread Head Redemption
