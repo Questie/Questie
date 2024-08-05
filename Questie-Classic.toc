@@ -157,6 +157,7 @@ Modules\Tooltips\TooltipHandler.lua
 
 # Auto
 Modules\Auto\AutoQuesting.lua
+Modules\Auto\DisallowedIDs.lua
 
 # FramePool
 Modules\FramePool\QuestieFramePool.lua
