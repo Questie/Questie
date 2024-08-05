@@ -3100,6 +3100,9 @@ function CataQuestFixes.Load()
         [25436] = { -- Spiteful Sisters
             [questKeys.preQuestGroup] = {25433,25434},
         },
+        [25438] = { -- Ysondre's Farewell
+            [questKeys.preQuestSingle] = {25379},
+        },
         [25439] = { -- Vengeful Heart
             [questKeys.preQuestSingle] = {25222},
         },
@@ -4687,7 +4690,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26650},
         },
         [26665] = { -- Call of Booty
-            [questKeys.preQuestSingle] = {},            
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26662,26663,26664},
         },
         [26668] = { -- Detonation
