@@ -183,7 +183,11 @@ _AllQuestWindowsClosed = function()
         and ((not QuestFrameGreetingPanel) or (not QuestFrameGreetingPanel:IsVisible()))
         and ((not QuestFrameDetailPanel) or (not QuestFrameDetailPanel:IsVisible()))
         and ((not QuestFrameProgressPanel) or (not QuestFrameProgressPanel:IsVisible()))
-        and ((not QuestFrameRewardPanel) or (not QuestFrameRewardPanel:IsVisible())) then
+        and ((not QuestFrameRewardPanel) or (not QuestFrameRewardPanel:IsVisible()))
+        --and ((not ImmersionFrame) or (not ImmersionFrame.TalkBox) or (not ImmersionFrame.TalkBox:IsVisible())) --
+        and ((not ImmersionContentFrame) or (not ImmersionContentFrame:IsVisible())) --
+        --and ((not ImmersionTitleButton1) or (not ImmersionTitleButton1:IsVisible()))
+    then
         return true
     end
     return false

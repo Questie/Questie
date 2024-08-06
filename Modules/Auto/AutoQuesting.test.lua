@@ -21,6 +21,7 @@ describe("AutoQuesting", function()
         _G.QuestFrameDetailPanel = nil
         _G.QuestFrameProgressPanel = nil
         _G.QuestFrameRewardPanel = nil
+        _G.ImmersionContentFrame = nil
 
         _G.AcceptQuest = spy.new(function() end)
         _G.ConfirmAcceptQuest = spy.new(function() end)
@@ -499,6 +500,20 @@ describe("AutoQuesting", function()
 
         it("should not reset when QuestFrameRewardPanel is visible", function()
             _G.QuestFrameRewardPanel = {
+                IsVisible = function() return true end
+            }
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+            local resetSpy = spy.on(AutoQuesting, "Reset")
+
+            AutoQuesting.OnGossipShow()
+            AutoQuesting.OnQuestFinished()
+
+            assert.spy(resetSpy).was_not.called()
+        end)
+
+        it("should not reset when ImmersionContentFrame is visible", function()
+            _G.ImmersionContentFrame = {
                 IsVisible = function() return true end
             }
             Questie.db.profile.autoModifier = "shift"
