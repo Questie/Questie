@@ -5,7 +5,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local maelstromLocales = {
     ["Deepholm"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Подземье",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -17,7 +17,7 @@ local maelstromLocales = {
     },
     ["The Lost Isles"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Затерянные острова",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -29,7 +29,7 @@ local maelstromLocales = {
     },
     ["Kezan"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Кезан",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,

@@ -89,13 +89,6 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{71.0,62.2}}},
             [npcKeys.waypoints] = {},
         },
-        [14387] = {
-            [npcKeys.spawns] = {
-                [zoneIDs.BURNING_STEPPES] = {{26.4,24.45},},
-                [zoneIDs.SEARING_GORGE] = {{32.13,94.7},},
-            },
-            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
-        },
         [17767] = {
             [npcKeys.spawns] = {[zoneIDs.HYJAL_SUMMIT] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.HYJAL_SUMMIT,

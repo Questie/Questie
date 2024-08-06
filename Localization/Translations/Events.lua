@@ -218,6 +218,18 @@ local eventsLocales = {
         ["zhTW"] = "梦魇进犯",
         ["zhCN"] = "梦魇进犯",
     },
+    ["Blackrock Eruption"] = {
+        ["ptBR"] = "Erupção do Pico da Rocha Negra",
+        ["ruRU"] = "Извержение Черной горы",
+        ["deDE"] = "Der Ausbruch des Schwarzfels",
+        ["koKR"] = "검은바위 분출",
+        ["esMX"] = "Erupción de Roca Negra",
+        ["enUS"] = true,
+        ["frFR"] = "Éruption de Rochenoire",
+        ["esES"] = "Erupción de Roca Negra",
+        ["zhTW"] = "黑石山爆发",
+        ["zhCN"] = "黑石山爆发",
+    },
 }
 
 for k, v in pairs(eventsLocales) do
