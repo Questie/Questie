@@ -283,6 +283,9 @@ function CataQuestFixes.Load()
         [6386] = { -- Return to Razor Hill
             [questKeys.requiredRaces] = raceKeys.ORC + raceKeys.TROLL,
         },
+        [6441] = { -- Satyr Horns
+            [questKeys.preQuestSingle] = {26449},
+        },
         [7383] = { -- Teldrassil: The Burden of the Kaldorei
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {918,919},
