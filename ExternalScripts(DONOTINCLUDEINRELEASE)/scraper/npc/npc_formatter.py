@@ -68,7 +68,8 @@ class NPCFormatter:
             coords_string = spawn[1]
             spawn_entries = json.loads("[" + coords_string + "]")
             for entry in spawn_entries:
-                spawns_string += "{{{}, {}}},".format(entry[0], entry[1])
+                spawns_string += "{{{},{}}},".format(entry[0], entry[1])
+            spawns_string = spawns_string[:-1]  # Remove last comma
             spawns_string += "},\n"
         if not spawns_string:
             spawns_string = "nil"

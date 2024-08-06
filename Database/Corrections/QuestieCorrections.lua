@@ -21,6 +21,8 @@ local QuestieItemBlacklist = QuestieLoader:ImportModule("QuestieItemBlacklist")
 local HardcoreBlacklist = QuestieLoader:ImportModule("HardcoreBlacklist")
 ---@type SeasonOfDiscovery
 local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
+---@type BlacklistFilter
+local BlacklistFilter = QuestieLoader:ImportModule("BlacklistFilter")
 
 ---@type QuestieQuestFixes
 local QuestieQuestFixes = QuestieLoader:ImportModule("QuestieQuestFixes")
@@ -80,7 +82,7 @@ local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes"
     https://github.com/Questie/Questie/wiki/Corrections
 --]]
 
-local bitband = bit.band
+local filterExpansion = BlacklistFilter.filterExpansion
 
 -- Bitmask flags to blacklist DB entries in specific expansions
 QuestieCorrections.CLASSIC_HIDE = 1 -- Hide in Classic
@@ -91,57 +93,6 @@ QuestieCorrections.SOD_HIDE = 16 -- Hide when Season of Discovery; use to hide q
 
 QuestieCorrections.killCreditObjectiveFirst = {}
 QuestieCorrections.objectObjectiveFirst = {}
-
----@generic T
----@param values T
----@return T
-local function filterExpansion(values)
-    local isClassic = Questie.IsClassic
-    local isTBC = Questie.IsTBC
-    local isWotlk = Questie.IsWotlk
-    local isSoD = Questie.IsSoD
-    local isCata = Questie.IsCata
-    for k, v in pairs(values) do
-        if v ~= true and v ~= false then
-            if bitband(v, QuestieCorrections.CLASSIC_HIDE) ~= 0 then
-                if isClassic then
-                    values[k] = true
-                else
-                    values[k] = nil
-                end
-            end
-            if bitband(v, QuestieCorrections.TBC_HIDE) ~= 0 then
-                if isTBC then
-                    values[k] = true
-                else
-                    values[k] = nil
-                end
-            end
-            if bitband(v, QuestieCorrections.WOTLK_HIDE) ~= 0 then
-                if isWotlk then
-                    values[k] = true
-                else
-                    values[k] = nil
-                end
-            end
-            if bitband(v, QuestieCorrections.CATA_HIDE) ~= 0 then
-                if isCata then
-                    values[k] = true
-                else
-                    values[k] = nil
-                end
-            end
-            if bitband(v, QuestieCorrections.SOD_HIDE) ~= 0 then
-                if isSoD then
-                    values[k] = true
-                else
-                    values[k] = nil
-                end
-            end
-        end
-    end
-    return values
-end
 
 do
     local type, assert = type, assert
@@ -203,7 +154,6 @@ do
             addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadFactionQuestFixes())
         end
 
-        -- TODO: Add proper blacklisting for Cata
         QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
         QuestieCorrections.questNPCBlacklist = filterExpansion(QuestieNPCBlacklist:Load())
         QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load())
