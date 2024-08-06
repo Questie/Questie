@@ -25,7 +25,6 @@ function AvailableQuests.IsLevelRequirementsFulfilled(questId, minLevel, maxLeve
 
     local level, requiredLevel, requiredMaxLevel = QuestieLib.GetTbcLevel(questId, playerLevel)
 
-    --* QuestiePlayer.currentQuestlog[parentQuestId] logic is from QuestieDB.IsParentQuestActive, if you edit here, also edit there
     local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
     if parentQuestId and QuestiePlayer.currentQuestlog[parentQuestId] then
         -- If the quest is in the player's log already, there's no need to do any logic here, it must already be available
@@ -33,7 +32,6 @@ function AvailableQuests.IsLevelRequirementsFulfilled(questId, minLevel, maxLeve
         return true
     end
 
-    --* QuestieEvent.activeQuests[questId] logic is from QuestieDB.IsParentQuestActive, if you edit here, also edit there
     if (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) and
         minLevel > requiredLevel and QuestieEvent.activeQuests[questId] and (requiredMaxLevel == 0 or playerLevel < requiredMaxLevel) then
         levelRequirementCache[questId] = true

@@ -84,4 +84,51 @@ describe("QuestieDB", function()
             assert.is_true(QuestieDB.IsTrivial(46))
         end)
     end)
+
+    describe("IsFriendlyToPlayer", function()
+        it("should return true for unset friendlyToFaction and Alliance players", function()
+            QuestiePlayer.faction = "Alliance"
+            assert.is_true(QuestieDB.IsFriendlyToPlayer(nil))
+        end)
+
+        it("should return true for unset friendlyToFaction and Horde players", function()
+            QuestiePlayer.faction = "Horde"
+            assert.is_true(QuestieDB.IsFriendlyToPlayer(nil))
+        end)
+
+        it("should return true for neutral NPCs and Alliance players", function()
+            QuestiePlayer.faction = "Alliance"
+            assert.is_true(QuestieDB.IsFriendlyToPlayer("AH"))
+        end)
+
+        it("should return true for neutral NPCs and Horde players", function()
+            QuestiePlayer.faction = "Horde"
+            assert.is_true(QuestieDB.IsFriendlyToPlayer("AH"))
+        end)
+
+        it("should return true for NPCs friendly to Alliance and Alliance players", function()
+            QuestiePlayer.faction = "Alliance"
+            assert.is_true(QuestieDB.IsFriendlyToPlayer("A"))
+        end)
+
+        it("should return false for NPCs friendly to Alliance and Horde players", function()
+            QuestiePlayer.faction = "Horde"
+            assert.is_false(QuestieDB.IsFriendlyToPlayer("A"))
+        end)
+
+        it("should return true for NPCs friendly to Horde and Horde players", function()
+            QuestiePlayer.faction = "Horde"
+            assert.is_true(QuestieDB.IsFriendlyToPlayer("H"))
+        end)
+
+        it("should return false for NPCs friendly to Horde and Alliance players", function()
+            QuestiePlayer.faction = "Alliance"
+            assert.is_false(QuestieDB.IsFriendlyToPlayer("H"))
+        end)
+
+        it("should return false for invalid DB entry", function()
+            QuestiePlayer.faction = "Alliance"
+            assert.is_false(QuestieDB.IsFriendlyToPlayer("X"))
+        end)
+    end)
 end)

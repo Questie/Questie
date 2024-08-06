@@ -10,3 +10,5 @@ function WatchFrameHook.Hide()
 
     WatchFrame:Hide()
 end
+
+return WatchFrameHook

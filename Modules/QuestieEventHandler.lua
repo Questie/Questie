@@ -53,6 +53,8 @@ local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
 
+local trackerMinimizedByDungeon = false
+
 --* Calculated in _EventHandler:PlayerLogin()
 ---en/br/es/fr/gb/it/mx: "You are now %s with %s." (e.g. "You are now Honored with Stormwind."), all other languages are very alike
 local FACTION_STANDING_CHANGED_PATTERN
@@ -118,6 +120,40 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("QUEST_COMPLETE", function(...)                           -- When complete window shows
         QuestieAuto.QUEST_COMPLETE(...)
         if Questie.IsSoD then QuestieDebugOffer.QuestDialog(...) end;
+    end)
+
+    Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
+        -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
+        -- backend Questie updates that occur when a player zones in/out of an instance. This
+        -- is necessary to get everything back into it's "normal" state after all the updates.
+        local isInInstance, instanceType = IsInInstance()
+
+        if isInInstance then
+            C_Timer.After(8, function()
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Entering Instance")
+                if Questie.db.profile.hideTrackerInDungeons then
+                    trackerMinimizedByDungeon = true
+
+                    QuestieCombatQueue:Queue(function()
+                        QuestieTracker:Collapse()
+                    end)
+                end
+            end)
+
+            -- We only want this to fire outside of an instance if the player isn't dead and we need to reset the Tracker
+        elseif (not Questie.db.char.isTrackerExpanded and not UnitIsGhost("player")) and trackerMinimizedByDungeon == true then
+            C_Timer.After(8, function()
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance")
+                if Questie.db.profile.hideTrackerInDungeons then
+                    trackerMinimizedByDungeon = false
+
+                    QuestieCombatQueue:Queue(function()
+                        QuestieTracker:Expand()
+                    end)
+                end
+            end)
+        end
     end)
 
     -- UI Achievement Events
