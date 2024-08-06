@@ -98,6 +98,8 @@ monster = function(npcId, objective)
     end
 
     local rank = QuestieDB.QueryNPCSingle(npcId, "rank")
+    local friendlyToFaction = QuestieDB.QueryNPCSingle(npcId, "friendlyToFaction")
+    local isFriendlyToPlayer = QuestieDB.IsFriendlyToPlayer(friendlyToFaction)
 
     local enableSpawns = not QuestieCorrections.questNPCBlacklist[npcId]
     local enableWaypoints = enableSpawns and 2 ~= rank -- a rare mob spawn. todo: option for this
@@ -108,8 +110,8 @@ monster = function(npcId, objective)
         Name = name,
         Spawns = enableSpawns and spawns or {},
         Waypoints = enableWaypoints and QuestieDB.QueryNPCSingle(npcId, "waypoints") or {},
-        Hostile = true,
-        Icon = objective.Icon or Questie.ICON_TYPE_SLAY,
+        Hostile = (not isFriendlyToPlayer),
+        Icon = objective.Icon or (isFriendlyToPlayer and Questie.ICON_TYPE_INTERACT or Questie.ICON_TYPE_SLAY),
         GetIconScale = _GetIconScaleForMonster,
         IconScale = _GetIconScaleForMonster(),
         TooltipKey = "m_" .. npcId, -- todo: use ID based keys
