@@ -6430,7 +6430,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [90315] = {
             [questKeys.name] = "Feral Combat Specialization",
-            [questKeys.startedBy] = {nil,{457099}},
+            [questKeys.startedBy] = {nil,{457098}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 55,
