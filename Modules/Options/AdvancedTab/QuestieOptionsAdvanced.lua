@@ -34,6 +34,7 @@ function QuestieOptions.tabs.advanced:Initialize()
             hideStartupWarnings = {
                 type = "toggle",
                 order = 1.05,
+                hidden = true, -- TODO: We don't need that option anymore as the message is gone. But it can be used to hide others in the future
                 name = function() return l10n('Hide Startup Warnings'); end,
                 desc = function() return l10n("Disables the 'Welcome to Cataclysm Classic' message on startup."); end,
                 width = "full",

@@ -415,7 +415,7 @@ local trackerUILocales = {
     },
     ["Maximize Quest"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Развернуть задание",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
