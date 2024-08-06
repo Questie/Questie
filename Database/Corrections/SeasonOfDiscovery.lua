@@ -529,6 +529,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90309] = 4, -- Druid Tree of Life
     [90310] = 4, -- Axe Specialization (Hunter, Paladin, Shaman, Warrior)
     [90311] = 4, -- Mage Frozen Orb
+    [90312] = 4, -- Priest Vampiric Touch
 }
 
 --- "automatic" phase detection for the first few phases;
