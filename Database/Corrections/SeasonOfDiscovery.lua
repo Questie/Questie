@@ -531,6 +531,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90311] = 4, -- Mage Frozen Orb
     [90312] = 4, -- Priest Vampiric Touch
     [90313] = 4, -- Arcane Specialization (Druid, Hunter, Mage)
+    [90314] = 4, -- Defense Specialization (Druid, Paladin, Rogue, Shaman, Warlock, Warrior)
 }
 
 --- "automatic" phase detection for the first few phases;

@@ -6416,6 +6416,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453695,
             [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
         },
+        [90314] = {
+            [questKeys.name] = "Defense Specialization",
+            [questKeys.startedBy] = {nil,{457099}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID + classIDs.PALADIN + classIDs.ROGUE + classIDs.SHAMAN + classIDs.WARLOCK + classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Read the book 'Zirene's Guide to Getting Punched' to receive the rune. NOTE: The book is located near the LBRS entrance, in the hallway behind the meeting stone."},
+            [questKeys.requiredSpell] = -459313,
+            [questKeys.zoneOrSort] = zoneIDs.SEARING_GORGE,
+        },
     }
 end
 
