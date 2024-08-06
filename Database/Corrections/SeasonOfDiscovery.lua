@@ -529,6 +529,15 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90309] = 4, -- Druid Tree of Life
     [90310] = 4, -- Axe Specialization (Hunter, Paladin, Shaman, Warrior)
     [90311] = 4, -- Mage Frozen Orb
+    [90312] = 4, -- Priest Vampiric Touch
+    [90313] = 4, -- Arcane Specialization (Druid, Hunter, Mage)
+    [90314] = 4, -- Defense Specialization (Druid, Paladin, Rogue, Shaman, Warlock, Warrior)
+    [90315] = 4, -- Feral Combat Specialization (Druid)
+    [90316] = 4, -- Frost Specialization (Hunter, Mage, Shaman)
+    [90317] = 4, -- Holy Specialization (Paladin, Priest)
+    [90318] = 4, -- Nature Specialization (Druid, Rogue, Shaman)
+    [90319] = 4, -- Ranged Weapon Specialization (Hunter, Rogue, Warrior)
+    [90320] = 4, -- Shadow Specialization (Priest, Warlock)
 }
 
 --- "automatic" phase detection for the first few phases;

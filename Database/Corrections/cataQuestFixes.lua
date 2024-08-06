@@ -290,6 +290,12 @@ function CataQuestFixes.Load()
         [7490] = { -- Victory for the Horde
             [questKeys.finishedBy] = {{39605}},
         },
+        [7495] = { -- Victory for the Alliance
+            [questKeys.finishedBy] = {{29611}},
+        },
+        [7781] = { -- The Lord of Blackrock
+            [questKeys.finishedBy] = {{29611}},
+        },
         [7783] = { -- The Lord of Blackrock
             [questKeys.finishedBy] = {{39605}},
         },
@@ -926,6 +932,9 @@ function CataQuestFixes.Load()
         },
         [12754] = { -- Ambush At The Overlook
             [questKeys.preQuestGroup] = {},
+        },
+        [12774] = { -- Stormwind
+            [questKeys.finishedBy] = {{29611}},
         },
         [12821] = { -- Opening the Backdoor
             [questKeys.objectives] = {nil,nil,{{40731}}},
@@ -2249,6 +2258,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24646,24628},
         },
+        [24597] = { -- A Gift for the King of Stormwind
+            [questKeys.finishedBy] = {{29611}},
+        },
         [24612] = { -- A Gift for the Emissary of Orgrimmar
             [questKeys.finishedBy] = {{39605}},
         },
@@ -3100,6 +3112,12 @@ function CataQuestFixes.Load()
         [25436] = { -- Spiteful Sisters
             [questKeys.preQuestGroup] = {25433,25434},
         },
+        [25437] = { -- Ysondre's Call
+            [questKeys.preQuestSingle] = {25436},
+        },
+        [25438] = { -- Ysondre's Farewell
+            [questKeys.preQuestSingle] = {25379},
+        },
         [25439] = { -- Vengeful Heart
             [questKeys.preQuestSingle] = {25222},
         },
@@ -3270,6 +3288,9 @@ function CataQuestFixes.Load()
                 {{[zoneIDs.KELP_THAR_FOREST] = {{56.74,30.41}}},Questie.ICON_TYPE_EVENT,l10n("Smuggler's Scar Scouted"),1},
                 {{[zoneIDs.KELP_THAR_FOREST] = {{54.1,34.4}}},Questie.ICON_TYPE_EVENT,l10n("Adarrah Signaled"),2},
             },
+        },
+        [25589] = { -- A Little Payback
+            [questKeys.preQuestSingle] = {25562},
         },
         [25590] = { -- Where's Wizzle?
             [questKeys.preQuestSingle] = {25562},
@@ -4213,6 +4234,9 @@ function CataQuestFixes.Load()
         [26320] = { -- A Vision of the Past
             [questKeys.triggerEnd] = {"Vision of the Past uncovered", {[zoneIDs.THE_DEADMINES]={{-1,-1}}}},
         },
+        [26322] = { -- Rise of the Brotherhood
+            [questKeys.finishedBy] = {{29611}},
+        },
         [26324] = { -- Where Is My Warfleet?
             [questKeys.startedBy] = {{39605}},
             [questKeys.preQuestGroup] = {26294,26311},
@@ -4335,6 +4359,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {24540},
             [questKeys.requiredRaces] = raceKeys.TAUREN,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Tal"),0,{{"monster",2995}}}},
+        },
+        [26398] = { -- Walk With The Earth Mother
+            [questKeys.finishedBy] = {{39605}},
         },
         [26401] = { -- Return to Vestia
             [questKeys.preQuestSingle] = {25368},
@@ -4687,7 +4714,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26650},
         },
         [26665] = { -- Call of Booty
-            [questKeys.preQuestSingle] = {},            
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26662,26663,26664},
         },
         [26668] = { -- Detonation
@@ -5274,6 +5301,9 @@ function CataQuestFixes.Load()
         },
         [27225] = { -- A Summons from Ander Germaine
             [questKeys.exclusiveTo] = {27337},
+        },
+        [27240] = { -- Proof of Treachery
+            [questKeys.finishedBy] = {{29611}},
         },
         [27261] = { -- Questioning Reethe
             [questKeys.triggerEnd] = {"Question Reethe with Ogron", {[zoneIDs.DUSTWALLOW_MARSH]={{42.47,38.07}}}},
