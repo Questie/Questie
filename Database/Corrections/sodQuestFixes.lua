@@ -6428,6 +6428,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -459313,
             [questKeys.zoneOrSort] = zoneIDs.SEARING_GORGE,
         },
+        [90315] = {
+            [questKeys.name] = "Feral Combat Specialization",
+            [questKeys.startedBy] = {nil,{457098}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Read the book 'Finding Your Inner Feline: A Guide to Modern Druidism' to receive the rune. NOTE: The book is located in the cat den guarded by two level 55 Frostsabers."},
+            [questKeys.requiredSpell] = -453703,
+            [questKeys.zoneOrSort] = classIDs.DRUID,
+        },
     }
 end
 
