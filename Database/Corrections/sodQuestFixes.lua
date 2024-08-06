@@ -6404,6 +6404,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402857,
             [questKeys.zoneOrSort] = classIDs.PRIEST,
         },
+        [90313] = {
+            [questKeys.name] = "Arcane Specialization",
+            [questKeys.startedBy] = {nil,{457102}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID + classIDs.HUNTER + classIDs.MAGE,
+            [questKeys.objectivesText] = {"Read the book 'Elements for Dummies Volume III: Arcane' to receive the rune. NOTE: The book is located at the top of Hearthglen tower, near a Scarlet Priest."},
+            [questKeys.requiredSpell] = -453695,
+            [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
+        },
     }
 end
 
