@@ -535,6 +535,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90315] = 4, -- Feral Combat Specialization (Druid)
     [90316] = 4, -- Frost Specialization (Hunter, Mage, Shaman)
     [90317] = 4, -- Holy Specialization (Paladin, Priest)
+    [90318] = 4, -- Nature Specialization (Druid, Rogue, Shaman)
 }
 
 --- "automatic" phase detection for the first few phases;
