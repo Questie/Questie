@@ -640,7 +640,7 @@ local dungeonLocales = {
     },
     ["End Time"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Конец Времен",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -652,7 +652,7 @@ local dungeonLocales = {
     },
     ["Hour of Twilight"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Время Сумерек",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -664,7 +664,7 @@ local dungeonLocales = {
     },
     ["Well of Eternity"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Источник Вечности",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,

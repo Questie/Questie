@@ -321,7 +321,7 @@ readers["objectives"] = function(stream)
             for j=1, creditCount do
                 creditList[j] = stream:ReadInt24()
             end
-            killobjectives[i] = {creditList, stream:ReadInt24(), stream:ReadTinyStringNil()}
+            killobjectives[i] = {creditList, stream:ReadInt24(), stream:ReadTinyStringNil(), stream:ReadByte()}
         end
         ret[5] = killobjectives
     end
@@ -624,14 +624,15 @@ QuestieDBCompiler.writers = {
                 for i=1, #killobjectives do -- iterate over all killobjectives
                     local killobjective = killobjectives[i]
                     local npcIds = killobjective[1]
-                    assert(type(npcIds) == "table", "killObjective's npcids is not a table.")
-                    assert(#npcIds > 0, "killObjective has 0 npcIDs.")
+                    assert(type(npcIds) == "table", "killobjective's npcids is not a table.")
+                    assert(#npcIds > 0, "killobjective has 0 npcIDs.")
                     stream:WriteByte(#npcIds) -- write count of creatureIDs
                     for j=1, #npcIds do
                         stream:WriteInt24(npcIds[j]) -- write creatureID
                     end
                     stream:WriteInt24(killobjective[2]) -- write baseCreatureID
                     stream:WriteTinyString(killobjective[3] or "") -- write baseCreatureText
+                    stream:WriteByte(killobjective[4] or 0) -- write icon override index
                 end
             else
                 stream:WriteByte(0)
@@ -781,6 +782,7 @@ skippers["objectives"] = function(stream)
         for _=1, count do
             stream._pointer = stream:ReadByte() * 3 + 3 + stream._pointer
             stream._pointer = stream:ReadByte() + stream._pointer
+            stream._pointer = stream._pointer + 1
         end
     end
     spellObjectiveSkipper(stream)
