@@ -1240,6 +1240,9 @@ function CataQuestFixes.Load()
         [13801] = { -- Dead Elves Walking
             [questKeys.preQuestSingle] = {13803},
         },
+        [13806] = { -- Demon Duty
+            [questKeys.preQuestSingle] = {26449},
+        },
         [13808] = { -- Mission Improbable
             [questKeys.preQuestSingle] = {13805},
         },
