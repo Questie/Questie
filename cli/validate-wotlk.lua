@@ -1,4 +1,5 @@
 require("cli.dump")
+require("cli.validators")
 
 WOW_PROJECT_ID = 11
 WOW_PROJECT_CLASSIC = 2
@@ -209,6 +210,15 @@ local function _CheckWotlkDatabase()
     QuestieDBCompiler:ValidateQuests()
 
     print("\n\27[32mWotlk database compiled successfully\27[0m\n")
+
+    -- Remove hidden quests from the database as we don't want to validate them
+    for questId, _ in pairs(QuestieCorrections.hiddenQuests) do
+        QuestieDB.questData[questId] = nil
+    end
+
+    Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkPreQuestExclusiveness(QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkParentChildQuestRelations(QuestieDB.questData, QuestieDB.questKeys)
 end
 --? It is REALLLY slow and designed to be run through docker otherwise you have to change the path.
 -- local profiler = require("cli/profiler")

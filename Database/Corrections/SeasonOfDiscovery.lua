@@ -8,7 +8,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
-SeasonOfDiscovery.currentPhase = 1 -- TODO: Use API function which hopefully will come in the future
+SeasonOfDiscovery.currentPhase = 4 -- TODO: Use API function which hopefully will come in the future
 
 local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
     [1470]  = 1, -- Warlock Metamorphosis Part 1
@@ -154,6 +154,12 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [80150] = 2, -- Curious Dalaran Relic
     [80151] = 2, -- Curious Dalaran Relic
     [80152] = 2, -- Curious Dalaran Relic
+    [81764] = 3, -- Paladin Fanaticism
+    [81765] = 3, -- Paladin Fanaticism
+    [81766] = 3, -- Paladin Fanaticism
+    [81790] = 3, -- Paladin Hammer of the Righteous
+    [81885] = 3, -- Paladin Hammer of the Righteous
+    [81924] = 3, -- Druid Efflorescence
     [81947] = 3, -- Mage Book Sanguine Sorcery
     [81949] = 3, -- Mage Book Legends of the Tidesages
     [81951] = 3, -- Mage Book The Liminal and the Arcane
@@ -368,7 +374,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90199] = 1, -- Rogue Mutilate Teldrassil
     [90200] = 1, -- Rogue Mutilate Dun Morogh
     [90201] = 1, -- Rogue Shiv Duskwood
-    [90202] = 1, -- Shaman Shamanistic Rage Stonetalon Mountains
+    [90202] = 1, -- Shaman Greater Ghost Wolf Stonetalon Mountains
     [90203] = 1, -- Shaman Way of Earth The Barrens
     [90204] = 1, -- Shaman Way of Earth Silverpine Forest
     [90205] = 1, -- Shaman Lava Burst Hillsbrad Foothills
@@ -444,6 +450,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [80454] = 3, -- Rogue Honor Among Thieves
     [80455] = 3, -- Rogue Honor Among Thieves
     [80526] = 3, -- Rogue Honor Among Thieves
+    [81900] = 3, -- Hunter Rapid Killing
+    [81917] = 3, -- Hunter Rapid Killing
+    [81919] = 3, -- Hunter Rapid Killing
+    [82043] = 3, -- Mage Advanced Warding
+    [82044] = 3, -- Mage Advanced Warding
     [82084] = 3, -- Mage Temporal Anomaly
     [82316] = 3, -- Priest Eye of the Void
     [90269] = 3, -- Druid Gale Winds
@@ -476,9 +487,51 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90296] = 3, -- Rogue Focused Attacks
     [90297] = 3, -- Shaman Tidal Waves
     [90298] = 3, -- Shaman Rolling Thunder
+    [90299] = 3, -- Druid Elune's Fires
+    [90300] = 3, -- Mage Displacement
+    [90301] = 3, -- Paladin Purifying Power
+    [90302] = 3, -- Priest Surge of Light
+    [90303] = 3, -- Priest Despair
+    [90304] = 3, -- Priest Eye of the Void
+    [90305] = 3, -- Warlock Pandemic
+    [90306] = 3, -- Warlock Backdraft
 
     -- P4 SoD Runes
-    [90305] = 4, -- Defense Specialization (Druid, Paladin, Rogue, Shaman, Warlock, Warrior)
+    [83808] = 4, -- Paladin Righteous Vengeance
+    [83822] = 4, -- Paladin Righteous Vengeance
+    [83823] = 4, -- Paladin Shock and Awe
+    [83935] = 4, -- Paladin Righteous Vengeance
+    [83936] = 4, -- Paladin Righteous Vengeance
+    [84008] = 4, -- Paladin Shock and Awe
+    [84017] = 4, -- Paladin Shock and Awe
+    [84124] = 4, -- Warrior Fresh Meat
+    [84125] = 4, -- Paladin Shock and Awe
+    [84126] = 4, -- Paladin Shock and Awe
+    [84320] = 4, -- Priest Binding Heal
+    [84321] = 4, -- Priest Binding Heal
+    [84322] = 4, -- Priest Binding Heal
+    [84323] = 4, -- Priest Binding Heal
+    [84369] = 4, -- Mage Frozen Orb
+    [84394] = 4, -- Mage Arcance Barrage
+    [84395] = 4, -- Mage Arcance Barrage
+    [84396] = 4, -- Mage Arcance Barrage
+    [84397] = 4, -- Mage Arcance Barrage
+    [84398] = 4, -- Mage Arcance Barrage
+    [84399] = 4, -- Mage Arcance Barrage
+    [84400] = 4, -- Mage Arcance Barrage
+    [84401] = 4, -- Mage Arcance Barrage
+    [84402] = 4, -- Mage Arcance Barrage
+    [84405] = 4, -- Priest Binding Heal
+    [84406] = 4, -- Priest Binding Heal
+    [84407] = 4, -- Priest Binding Heal
+    [90307] = 4, -- Druid Improved Swipe
+    [90308] = 4, -- Druid Starfall
+    [90309] = 4, -- Druid Tree of Life
+    [90310] = 4, -- Axe Specialization (Hunter, Paladin, Shaman, Warrior)
+    [90311] = 4, -- Mage Frozen Orb
+    [90312] = 4, -- Priest Vampiric Touch
+    [90313] = 4, -- Arcane Specialization (Druid, Hunter, Mage)
+    [90314] = 4, -- Defense Specialization (Druid, Paladin, Rogue, Shaman, Warlock, Warrior)
 }
 
 --- "automatic" phase detection for the first few phases;
@@ -493,7 +546,7 @@ function SeasonOfDiscovery.Initialize()
         SeasonOfDiscovery.currentPhase = 2
     elseif maxLevel == 50 then
         SeasonOfDiscovery.currentPhase = 3
-    elseif maxLevel == 60 and SeasonOfDiscovery.currentPhase < 4 then
+    elseif maxLevel == 60 and SeasonOfDiscovery.currentPhase <= 4 then
         SeasonOfDiscovery.currentPhase = 4
     else
         phaseDetected = false
@@ -521,15 +574,11 @@ function QuestieDB.IsRuneAndShouldBeHidden(questId)
         return true
     end
 
-    local showPhase1Runes = Questie.db.profile.showRunesOfPhase["phase1"]
-    local showPhase2Runes = Questie.db.profile.showRunesOfPhase["phase2"]
-
+    local showRunesOfPhase = Questie.db.profile.showRunesOfPhase
     local phaseOfRuneQuest = runeQuestsInSoD[questId]
 
-    if (phaseOfRuneQuest == 1) then
-        return (not showPhase1Runes)
-    elseif (phaseOfRuneQuest == 2) then
-        return (not showPhase2Runes)
+    if showRunesOfPhase["phase" .. phaseOfRuneQuest] ~= nil then
+        return not showRunesOfPhase["phase" .. phaseOfRuneQuest]
     end
 
     return false
@@ -539,9 +588,9 @@ end
 -- so in Phase 1, quests in phases 2+ are blacklisted, in phase 2, phases 3+ are blacklisted, etc
 -- Phase 1 is omitted, because everything not in this list is supposed to be available in Phase 1
 local questsToBlacklistBySoDPhase = {
-    [1] = { -- SoD Phase 1 - level cap 25 (this is required for counting, but should stay empty)
+    [1] = { -- SoD Phase 1: level cap 25 (this is required for counting, but should stay empty)
     },
-    [2] = { -- SoD Phase 2 - level cap 40
+    [2] = { -- SoD Phase 2: level cap 40
         [1152] = true, -- Test of Lore; minLevel raised to 26 in P1 for some reason, might be retooled as part of P2?
         [1488] = true, -- The Corruptor; minLevel raised to 26 in P1
         [8370] = true, -- Conquering Arathi Basin
@@ -549,7 +598,7 @@ local questsToBlacklistBySoDPhase = {
         [8171] = true, -- The Battle for Arathi Basin!
         [8168] = true, -- The Battle for Arathi Basin!
     },
-    [3] = { -- SoD Phase 3 - level cap 50
+    [3] = { -- SoD Phase 3: level cap 50
         [2847] = true, -- Wild Leather Armor
         [2854] = true, -- Wild Leather Armor
         [3526] = true, -- Goblin Engineering
@@ -567,107 +616,33 @@ local questsToBlacklistBySoDPhase = {
         [5145] = true, -- Dragonscale Leatherworking
         [5146] = true, -- Elemental Leatherworking
         [5148] = true, -- Tribal Leatherworking
-        [6607] = true, -- Nat Pagle, Angler Extreme Fishing 225+ quest
-        [6608] = true, -- You Too Good. Fishing 225+ quest
-        [6609] = true, -- I Got Nothin' Left! Fishing 225+ pre quest
-        [6610] = true, -- Clamlette Surprise Cooking 225+ quest
-        [6611] = true, -- To Gadgetzan You Go! Cooking 225+ pre quest
-        [6612] = true, -- I Know A Guy... Cooking 225+ pre quest
+        [5283] = true, -- The Art of the Armorsmith
+        [5284] = true, -- The Way of the Weaponsmith
+        [6607] = true, -- Nat Pagle, Angler Extreme (Fishing 225+ quest)
+        [6608] = true, -- You Too Good. (Fishing 225+ quest)
+        [6609] = true, -- I Got Nothin' Left! (Fishing 225+ pre quest)
+        [6610] = true, -- Clamlette Surprise (Cooking 225+ quest)
+        [6611] = true, -- To Gadgetzan You Go! (Cooking 225+ pre quest)
+        [6612] = true, -- I Know A Guy... (Cooking 225+ pre quest)
         [6622] = true, -- Horde Triage
         [6623] = true, -- Horde Trauma
         [6624] = true, -- Alliance Triage
         [6625] = true, -- Alliance Trauma
     },
-    [4] = { -- SoD Phase 4 - level cap 60
-        -- These might not be re-added at level 60
-        [6963] = true, -- Old "Stolen Winter Veil Treats" quest
-        [6983] = true, -- Old "You're a Mean One..." quest
-        [6984] = true, -- Old "A Smokywood Pastures Thank You!" quest
-        [7042] = true, -- Old "Stolen Winter Veil Treats" quest
-        [7043] = true, -- Old "You're a Mean One..." quest
-        [7045] = true, -- Old "A Smokywood Pastures Thank You!" quest
-        [7881] = true, -- Old "Carnival Boots"
-        [7882] = true, -- Old "Carnival Jerkins"
-        [7889] = true, -- Old "Coarse Weightstone"
-        [7890] = true, -- Old "Heavy Grinding Stone"
-        [7894] = true, -- Old "Copper Modulator"
-        [7895] = true, -- Old "Whirring Bronze Gizmo"
-        [7899] = true, -- Old "Small Furry Paws"
-        [7900] = true, -- Old "Torn Bear Pelts"
-        [8746] = true, -- Old "Metzen the Reindeer" quest
-        [8762] = true, -- Old "Metzen the Reindeer" quest
+    [4] = { -- SoD Phase 4 == Era Phase 1+2: level cap 60, MC, Ony, world bosses
     },
-    [5] = { -- SoD Phase 5
+    [5] = { -- SoD Phase 5 == Era Phase 3: BWL + Darkmoon Faire
+        [7761] = true, -- Blackhand's Command; BWL attune
+        [7783] = true, -- The Lord of Blackrock Part 1
+        [7784] = true, -- The Lord of Blackrock Part 2
+        [7787] = true, -- Rise, Thunderfury!
     },
-    [6] = { -- SoD Phase 6
-    },
-    [7] = { -- SoD Phase 7
-    },
-    [8] = { -- SoD Phase 8
-    },
-    [9] = { -- SoD Phase 9
-    },
-    [10] = { -- SoD Phase 10
-    },
-    [11] = { -- Era Phase 1 - MC, Ony
-    },
-    [12] = { -- Era Phase 2 - World Bosses
-    },
-    [13] = { -- Era Phase 3 - BWL + Darkmoon Faire
-        [7761] = true, -- Blackhand's Command BWL pre quest
-        [7787] = true,
-        -- Darkmoon Faire quests
-        [7902] = true,
-        [7903] = true,
-        [8222] = true,
-        [7901] = true,
-        [7899] = true,
-        [7940] = true,
-        [7900] = true,
-        [7907] = true,
-        [7927] = true,
-        [7929] = true,
-        [7928] = true,
-        [7946] = true,
-        [8223] = true,
-        [7934] = true,
-        [7981] = true,
-        [7943] = true,
-        [7894] = true,
-        [7933] = true,
-        [7898] = true,
-        [7885] = true,
-        [7942] = true,
-        [7883] = true,
-        [7892] = true,
-        [7937] = true,
-        [7939] = true,
-        [7893] = true,
-        [7891] = true,
-        [7896] = true,
-        [7884] = true,
-        [7882] = true,
-        [7897] = true,
-        [7895] = true,
-        [7941] = true,
-        [7881] = true,
-        [7890] = true,
-        [7889] = true,
-        [7945] = true,
-        [7935] = true,
-        [7938] = true,
-        [7944] = true,
-        [7932] = true,
-        [7930] = true,
-        [7931] = true,
-        [7936] = true,
-        [9249] = true,
-        [10939] = true,
-        [10940] = true,
-        [10941] = true,
-        -----------------
-    },
-    [14] = { -- Era Phase 4 - Zul'Gurub
+    [6] = { -- SoD Phase 6 == Era Phase 4: Zul'Gurub
+        [4788] = true, -- The Final Tablets
+        [5065] = true, -- The Lost Tablets of Mosh'aru
+        [8181] = true, -- Confront Yeh'kinya
+        [8182] = true, -- The Hand of Rastakhan
+        [8183] = true, -- The Heart of Hakkar
         [8411] = true,
         [8056] = true,
         [8057] = true,
@@ -784,218 +759,15 @@ local questsToBlacklistBySoDPhase = {
         [8287] = true,
         [8314] = true,
     },
-    [15] = { -- Era Phase 5 - AQ
-        [8277] = true,
-        [8280] = true,
-        [8283] = true,
-        [8284] = true,
-        [8304] = true,
-        [8318] = true,
-        [8320] = true,
-        [8361] = true,
-        [8276] = true,
-        [8747] = true,
-        [8748] = true,
-        [8749] = true,
-        [8750] = true,
-        [8752] = true,
-        [8753] = true,
-        [8754] = true,
-        [8755] = true,
-        [8757] = true,
-        [8758] = true,
-        [8759] = true,
-        [8760] = true,
-        [8800] = true,
-        [8751] = true,
-        [8756] = true,
-        [8761] = true,
-        [8801] = true,
-        [8802] = true,
-        [8764] = true,
-        [8765] = true,
-        [8766] = true,
-        [8620] = true,
-        [8621] = true,
-        [8622] = true,
-        [8623] = true,
-        [8624] = true,
-        [8625] = true,
-        [8626] = true,
-        [8627] = true,
-        [8628] = true,
-        [8629] = true,
-        [8630] = true,
-        [8631] = true,
-        [8632] = true,
-        [8633] = true,
-        [8634] = true,
-        [8637] = true,
-        [8638] = true,
-        [8639] = true,
-        [8640] = true,
-        [8641] = true,
-        [8655] = true,
-        [8656] = true,
-        [8657] = true,
-        [8658] = true,
-        [8659] = true,
-        [8660] = true,
-        [8661] = true,
-        [8662] = true,
-        [8663] = true,
-        [8664] = true,
-        [8665] = true,
-        [8666] = true,
-        [8667] = true,
-        [8668] = true,
-        [8669] = true,
-        [8689] = true,
-        [8690] = true,
-        [8691] = true,
-        [8692] = true,
-        [8693] = true,
-        [8694] = true,
-        [8695] = true,
-        [8696] = true,
-        [8697] = true,
-        [8698] = true,
-        [8699] = true,
-        [8700] = true,
-        [8701] = true,
-        [8702] = true,
-        [8703] = true,
-        [8704] = true,
-        [8705] = true,
-        [8706] = true,
-        [8707] = true,
-        [8708] = true,
-        [8709] = true,
-        [8710] = true,
-        [8711] = true,
-        [8712] = true,
-        [8728] = true,
-        [8729] = true,
-        [8730] = true,
-        [8733] = true,
-        [8734] = true,
-        [8735] = true,
-        [8736] = true,
-        [8741] = true,
-        [8742] = true,
-        [8743] = true,
-        [8745] = true,
-        [8783] = true,
-        [8784] = true,
-        [8789] = true,
-        [8790] = true,
-        [8791] = true,
-        [8602] = true,
-        [8603] = true,
-        [8606] = true,
-        [8592] = true,
-        [8593] = true,
-        [8594] = true,
-        [8595] = true,
-        [8596] = true,
-        [8597] = true,
-        [8598] = true,
-        [8599] = true,
-        [8584] = true,
-        [8585] = true,
-        [8586] = true,
-        [8587] = true,
-        [8555] = true,
-        [8556] = true,
-        [8557] = true,
-        [8558] = true,
-        [8559] = true,
-        [8560] = true,
-        [8561] = true,
-        [8562] = true,
-        [8572] = true,
-        [8573] = true,
-        [8574] = true,
-        [8575] = true,
-        [8576] = true,
-        [8577] = true,
-        [8578] = true,
-        [8496] = true,
-        [8579] = true,
-        [8544] = true,
-        [8519] = true,
-        [8856] = true,
-        [8829] = true,
-        [8497] = true,
-        [8804] = true,
-        [8805] = true,
-        [8536] = true,
-        [8857] = true,
-        [8498] = true,
-        [8806] = true,
-        [8308] = true,
-        [8858] = true,
-        [8859] = true,
-        [8807] = true,
-        [8771] = true,
-        [8773] = true,
-        [8775] = true,
-        [8777] = true,
-        [8809] = true,
-        [8787] = true,
-        [8785] = true,
-        [8538] = true,
-        [8534] = true,
-        [8738] = true,
-        [8502] = true,
-        [8537] = true,
-        [8539] = true,
-        [8786] = true,
-        [8737] = true,
-        [8687] = true,
-        [8739] = true,
-        [8501] = true,
-        [8535] = true,
-        [8808] = true,
-        [8810] = true,
-        [8740] = true,
-        [8381] = true,
-        [8779] = true,
-        [8540] = true,
-        [8541] = true,
-        [8778] = true,
-        [8780] = true,
-        [8781] = true,
-        [8782] = true,
-        [8770] = true,
-        [8772] = true,
-        [8774] = true,
-        [8776] = true,
-        [8316] = true,
-        [9023] = true,
-        [8382] = true,
-        [8286] = true,
-        [8288] = true,
-        [8301] = true,
-        [8302] = true,
-        [8303] = true,
-        [8305] = true,
-        [8548] = true,
-        [8818] = true,
-        [8817] = true,
-        [8816] = true,
-        [8815] = true,
-        [8814] = true,
-        [8820] = true,
-        [8826] = true,
-        [8825] = true,
-        [8824] = true,
-        [8823] = true,
-        [8822] = true,
-        [8821] = true,
-        [8819] = true,
+    [7] = { -- SoD Phase 7 == Era Phase 5: AQ
+        [8276] = true, -- Taking Back Silithus
+        [8579] = true, -- Mortal Champions
+        [8789] = true, -- Imperial Qiraji Armaments
+        [8790] = true, -- Imperial Qiraji Regalia
+        [8791] = true, -- The Fall of Ossirian
+        [8801] = true, -- C'Thun's Legacy
     },
-    [16] = { -- Era Phase 6 - Naxxramas
+    [8] = { -- SoD Phase 8 == Era Phase 6: Naxxramas
         [9085] = true,
         [9142] = true,
         [9165] = true,
@@ -1124,14 +896,18 @@ local questsToBlacklistBySoDPhase = {
         [9419] = true,
         [9416] = true,
     },
-    [17] = { -- Never appearing in Season of Discovery
+    [9] = { -- Never appearing in Season of Discovery
         [1203] = true, -- Jarl Needs a Blade - Replaced by 81570
         [1878] = true, -- Water Pouch Bounty - Replaced by 82209
         [2758] = true, -- The Origins of Smithing - Replaced by 80241
         [2849] = true, -- Wild Leather Vest - Replaced by 82657
         [2856] = true, -- Wild Leather Vest - Replaced by 82656
+        [2881] = true, -- Troll Necklace Bounty - Replaced by 82210
+        [4148] = true, -- Bloodpetal Zapper
         [5284] = true, -- The Way of the Weaponsmith - Replaced by 82662
-        [8302] = true, -- The Way of the Weaponsmith - Replaced by 82665
+        [5302] = true, -- The Way of the Weaponsmith - Replaced by 82665
+        [8467] = true, -- Feathers for Nafien - Replaced by 84777
+        [8769] = true, -- A Ticking Present - Replaced by 79637
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,
@@ -1179,7 +955,9 @@ local questsToBlacklistBySoDPhase = {
         [1446] = true,
         [1475] = true,
         [3373] = true,
+        [3374] = true,
         [3447] = true,
+        [3512] = true,
         [3528] = true,
         [4143] = true,
         [8232] = true,
@@ -1191,6 +969,145 @@ local questsToBlacklistBySoDPhase = {
         [8422] = true,
         [8425] = true,
         [9053] = true,
+
+        -- Events - These might not be re-added at level 60
+        [6963] = true, -- Old "Stolen Winter Veil Treats" quest
+        [6983] = true, -- Old "You're a Mean One..." quest
+        [6984] = true, -- Old "A Smokywood Pastures Thank You!" quest
+        [7042] = true, -- Old "Stolen Winter Veil Treats" quest
+        [7043] = true, -- Old "You're a Mean One..." quest
+        [7045] = true, -- Old "A Smokywood Pastures Thank You!" quest
+        [8746] = true, -- Old "Metzen the Reindeer" quest
+        [8762] = true, -- Old "Metzen the Reindeer" quest
+
+        -- Shifting Sands questline - Likely never appearing in SoD as gates are open
+        [8286] = true, -- Shifting Sands questline - What Tomorrow Brings
+        [8288] = true, -- Shifting Sands questline - Only One May Rise
+        [8301] = true, -- Shifting Sands questline - The Path of the Righteous
+        [8302] = true, -- Shifting Sands questline - The Hand of the Righteous
+        [8303] = true, -- Shifting Sands questline - Anachronos
+        [8305] = true, -- Shifting Sands questline - Long Forgotten Memories
+        [8519] = true, -- Shifting Sands questline - A Pawn on the Eternal Board
+        [8555] = true, -- Shifting Sands questline - The Charge of the Dragonflights
+        [8730] = true, -- Shifting Sands questline - Nefarius's Corruption
+        [8733] = true, -- Shifting Sands questline - Eranikus, Tyrant of the Dream
+        [8734] = true, -- Shifting Sands questline - Tyrande and Remulos
+        [8735] = true, -- Shifting Sands questline - The Nightmare's Corruption
+        [8736] = true, -- Shifting Sands questline - The Nightmare Manifests
+        [8741] = true, -- Shifting Sands questline - The Champion Returns
+        [8575] = true, -- Shifting Sands questline - Azuregos's Magical Ledger
+        [8576] = true, -- Shifting Sands questline - Translating the Ledger
+        [8577] = true, -- Shifting Sands questline - Stewvul, Ex-B.F.F.
+        [8578] = true, -- Shifting Sands questline - Scrying Goggles? No Problem!
+        [8584] = true, -- Shifting Sands questline - Never Ask Me About My Business
+        [8585] = true, -- Shifting Sands questline - The Isle of Dread!
+        [8586] = true, -- Shifting Sands questline - Dirge's Kickin' Chimaerok Chops
+        [8587] = true, -- Shifting Sands questline - Return to Narain
+        [8597] = true, -- Shifting Sands questline - Draconic for Dummies
+        [8598] = true, -- Shifting Sands questline - rAnS0m
+        [8599] = true, -- Shifting Sands questline - Love Song for Narain
+        [8606] = true, -- Shifting Sands questline - Decoy!
+        [8620] = true, -- Shifting Sands questline - The Only Prescription
+        [8728] = true, -- Shifting Sands questline - The Good News and The Bad News
+        [8729] = true, -- Shifting Sands questline - The Wrath of Neptulon
+        [8742] = true, -- Shifting Sands questline - The Might of Kalimdor
+        [8743] = true, -- Shifting Sands questline - Bang a Gong!
+        [8745] = true, -- Shifting Sands questline - Treasure of the Timeless One
+
+        -- Old T0.5 exchange quests
+        [8905] = true, -- An Earnest Proposition
+        [8906] = true, -- An Earnest Proposition
+        [8907] = true, -- An Earnest Proposition
+        [8908] = true, -- An Earnest Proposition
+        [8909] = true, -- An Earnest Proposition
+        [8910] = true, -- An Earnest Proposition
+        [8911] = true, -- An Earnest Proposition
+        [8912] = true, -- An Earnest Proposition
+        [8913] = true, -- An Earnest Proposition
+        [8914] = true, -- An Earnest Proposition
+        [8915] = true, -- An Earnest Proposition
+        [8916] = true, -- An Earnest Proposition
+        [8917] = true, -- An Earnest Proposition
+        [8918] = true, -- An Earnest Proposition
+        [8919] = true, -- An Earnest Proposition
+        [8920] = true, -- An Earnest Proposition
+        [8926] = true, -- Just Compensation
+        [8927] = true, -- Just Compensation
+        [8931] = true, -- Just Compensation
+        [8932] = true, -- Just Compensation
+        [8933] = true, -- Just Compensation
+        [8934] = true, -- Just Compensation
+        [8935] = true, -- Just Compensation
+        [8936] = true, -- Just Compensation
+        [8937] = true, -- Just Compensation
+        [8938] = true, -- Just Compensation
+        [8939] = true, -- Just Compensation
+        [8940] = true, -- Just Compensation
+        [8941] = true, -- Just Compensation
+        [8942] = true, -- Just Compensation
+        [8943] = true, -- Just Compensation
+        [8944] = true, -- Just Compensation
+        [8951] = true, -- Anthion's Parting Words
+        [8952] = true, -- Anthion's Parting Words
+        [8953] = true, -- Anthion's Parting Words
+        [8954] = true, -- Anthion's Parting Words
+        [8955] = true, -- Anthion's Parting Words
+        [8956] = true, -- Anthion's Parting Words
+        [8957] = true, -- Anthion's Parting Words
+        [8958] = true, -- Anthion's Parting Words
+        [8959] = true, -- Anthion's Parting Words
+        [8999] = true, -- Saving the Best for Last
+        [9000] = true, -- Saving the Best for Last
+        [9001] = true, -- Saving the Best for Last
+        [9002] = true, -- Saving the Best for Last
+        [9003] = true, -- Saving the Best for Last
+        [9004] = true, -- Saving the Best for Last
+        [9005] = true, -- Saving the Best for Last
+        [9006] = true, -- Saving the Best for Last
+        [9007] = true, -- Saving the Best for Last
+        [9008] = true, -- Saving the Best for Last
+        [9009] = true, -- Saving the Best for Last
+        [9010] = true, -- Saving the Best for Last
+        [9011] = true, -- Saving the Best for Last
+        [9012] = true, -- Saving the Best for Last
+        [9013] = true, -- Saving the Best for Last
+        [9014] = true, -- Saving the Best for Last
+        [9016] = true, -- Anthion's Parting Words
+        [9017] = true, -- Anthion's Parting Words
+        [9018] = true, -- Anthion's Parting Words
+        [9019] = true, -- Anthion's Parting Words
+        [9020] = true, -- Anthion's Parting Words
+        [9021] = true, -- Anthion's Parting Words
+        [9022] = true, -- Anthion's Parting Words
+
+        -- Darkmoon Faire quests
+        [7902] = true, -- Vibrant Plumes
+        [7903] = true, -- Evil Bat Eyes
+        [8222] = true, -- Glowing Scorpid Blood
+        [7901] = true, -- Soft Bushy Tails
+        [7899] = true, -- Small Furry Paws
+        [7900] = true, -- Torn Bear Pelts
+        [7946] = true, -- Spawn of Jubjub
+        [8223] = true, -- More Glowing Scorpid Blood
+        [7943] = true, -- More Bat Eyes
+        [7894] = true, -- Copper Modulator
+        [7898] = true, -- Thorium Widget
+        [7885] = true, -- Armor Kits
+        [7942] = true, -- More Thorium Widgets
+        [7883] = true, -- The World's Largest Gnome!
+        [7892] = true, -- Big Black Mace
+        [7939] = true, -- More Dense Grinding Stones
+        [7893] = true, -- Rituals of Strength
+        [7891] = true, -- Green Iron Bracers
+        [7896] = true, -- Green Fireworks
+        [7884] = true, -- Crocolisk Boy and the Bearded Murloc
+        [7882] = true, -- Carnival Jerkins
+        [7897] = true, -- Mechanical Repair Kits
+        [7895] = true, -- Whirring Bronze Gizmo
+        [7941] = true, -- More Armor Kits
+        [7881] = true, -- Carnival Boots
+        [7890] = true, -- Heavy Grinding Stone
+        [7889] = true, -- Coarse Weightstone
     },
 }
 
