@@ -109,6 +109,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
+        [974] = { -- Finding the Source
+            [questKeys.requiredSourceItems] = {},
+        },
         [1056] = {
             [questKeys.nextQuestInChain] = 1057,
         },
@@ -173,6 +176,9 @@ function QuestieWotlkQuestFixes:Load()
         [1716] = {
             [questKeys.preQuestSingle] = {},
         },
+        [1795] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [1800] = {
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -199,7 +205,7 @@ function QuestieWotlkQuestFixes:Load()
         [2879] = {
             [questKeys.requiredSourceItems] = {9255,9256,9257,9258},
         },
-        [3602] = {
+        [3161] = {
             [questKeys.requiredSourceItems] = {},
         },
         [3641] = {
@@ -234,6 +240,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [4486] = {
             [questKeys.startedBy] = {{5149}},
+        },
+        [4491] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [4740] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -287,6 +296,12 @@ function QuestieWotlkQuestFixes:Load()
         [6522] = {
             [questKeys.startedBy] = {{4421},nil,{17008}},
             [questKeys.finishedBy] = {{36273}},
+        },
+        [6622] = { -- Triage
+            [questKeys.requiredSourceItems] = {},
+        },
+        [6624] = { -- Triage
+            [questKeys.requiredSourceItems] = {},
         },
         [6963] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -441,10 +456,6 @@ function QuestieWotlkQuestFixes:Load()
         [9425] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
-        [9467] = {
-            [questKeys.sourceItemId] = 24335,
-            [questKeys.requiredSourceItems] = {23682,24335},
-        },
         [9629] = {
             [questKeys.objectives] = {{{17326}}},
         },
@@ -460,6 +471,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [10110] = {
             [questKeys.preQuestSingle] = {13409},
+        },
+        [10137] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [10155] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [10173] = {
             [questKeys.requiredSourceItems] = {},
@@ -506,6 +523,9 @@ function QuestieWotlkQuestFixes:Load()
         [10475] = {
             [questKeys.objectives] = {nil,nil,nil,{990,42000}},
         },
+        [10651] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [10667] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -545,6 +565,9 @@ function QuestieWotlkQuestFixes:Load()
         [10901] = {
             [questKeys.exclusiveTo] = {13431},
         },
+        [10946] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [10958] = {
             [questKeys.preQuestSingle] = {10949},
         },
@@ -573,14 +596,16 @@ function QuestieWotlkQuestFixes:Load()
         [11137] = {
             [questKeys.preQuestSingle] = {},
         },
-        [11140] = {
-            [questKeys.requiredSourceItems] = {33040,33044},
+        [11152] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [11153] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{28.1,42.2}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for Harrowmeiser's zeppelin to dock"),}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11154] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Throw the firecrackers up to 20 yards away underneath a darkclaw bat to scare it"), 0, {{"monster", 23959}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11157] = {
             [questKeys.objectives] = {{{23777,"Proto-Drake Egg destroyed"}},nil,nil,nil,{{{23688,23750},23688}}},
@@ -588,12 +613,25 @@ function QuestieWotlkQuestFixes:Load()
         [11170] = {
             [questKeys.objectives] = {{{24120,"North Fleet Reservist Infected"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Bat Handler Camille"), 0, {{"monster", 23816}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11175] = {
             [questKeys.exclusiveTo] = {11176},
         },
-        [11231] = {
-            [questKeys.sourceItemId] = 33284,
+        [11188] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [11202] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [11218] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [11227] = {
+            [questKeys.requiredSourceItems] = {33238},
+        },
+        [11232] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [11238] = {
             [questKeys.sourceItemId] = 33282,
@@ -617,6 +655,9 @@ function QuestieWotlkQuestFixes:Load()
         [11252] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11253] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [11257] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{23661,23662,23663,23664,23665,23666,23667,23668,23669,23670},23661,"Winterskorn Vrykul Dismembered"}}},
             [questKeys.requiredSourceItems] = {33340},
@@ -630,28 +671,32 @@ function QuestieWotlkQuestFixes:Load()
         [11260] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Present the Vrykul Scroll of Ascension"), 0, {{"object", 186586}}}},
         },
-        [11265] = {
-            [questKeys.sourceItemId] = 33284,
-        },
         [11267] = {
             [questKeys.sourceItemId] = 33282,
         },
+        [11270] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [11279] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Spray Proto-Drake Egg"), 0, {{"monster", 23777}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11280] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Place Tillinghast's Plagued Meat on the ground"), 0, {{"monster", 24170}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11281] = {
             [questKeys.objectives] = {{{24173}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Carved Horn"), 0, {{"object", 186599}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11282] = {
             [questKeys.objectives] = {{{24161,"Oric the Baleful's Corpse Impaled"},{24016,"Ulf the Bloodletter's Corpse Impaled"},{24162,"Gunnar Thorvardsson's Corpse Impaled"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Vrykul across the Forsaken blockade until they appear"), 0, {{"monster", 24015}}}},
+            [questKeys.requiredSourceItems] = {},
         },
-        [11284] = {
-            [questKeys.sourceItemId] = 33352,
+        [11285] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [11286] = {
             [questKeys.preQuestSingle] = {},
@@ -668,11 +713,12 @@ function QuestieWotlkQuestFixes:Load()
         [11300] = {
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Kill gladiators at the Ring of Judgement until Oluf the Violent appears"), 0, {{"monster", 24213},{"monster", 24214},{"monster", 24215}}},
-                {nil, Questie.ICON_TYPE_SLAY, l10n("Kill Oluf the Violent"), 0, {{"monster", 23931}}}
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Kill Oluf the Violent"), 0, {{"monster", 23931}}},
             },
         },
         [11301] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Use Grick's Bonesaw on corpses of Deranged Explorers"), 0, {{"monster", 23967}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11302] = {
             [questKeys.preQuestSingle] = {11284},
@@ -685,12 +731,15 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11307] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{23564,24198,24199},23564,"Plagued Vrykul Sprayed"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11310] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{23564,24198,24199},23564,"Plagued Vrykul exterminated"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11314] = {
             [questKeys.objectives] = {{{23678,"Chill Nymphs Freed"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11317] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Meditate"), 0, {{"object", 186649}}}},
@@ -701,12 +750,16 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11319] = {
             [questKeys.objectives] = {{{23876,"Spores frozen"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11322] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Meditate"), 0, {{"object", 186649}}}},
         },
         [11329] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Search for Northern Barbfish"), 0, {{"object", 186659}}}},
+        },
+        [11330] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [11332] = {
             [questKeys.sourceItemId] = 33634,
@@ -826,35 +879,39 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11343] = {
             [questKeys.triggerEnd] = {"Secrets of Wyrmskull Uncovered",{[zoneIDs.HOWLING_FJORD]={{60.13,50.8,},},},},
+            [questKeys.requiredSourceItems] = {},
         },
         [11344] = {
             [questKeys.triggerEnd] = {"Secrets of Nifflevar Uncovered",{[zoneIDs.HOWLING_FJORD]={{69.04,54.79,},},},},
+            [questKeys.requiredSourceItems] = {},
         },
         [11346] = {
             [questKeys.preQuestSingle] = {11284},
-            [questKeys.sourceItemId] = 33778,
         },
         [11348] = {
             [questKeys.objectives] = {{{23725,"Test Rune of Command on normal Stone Giants"},{24334}}},
-        },
-        [11350] = {
-            [questKeys.sourceItemId] = 33778,
+            [questKeys.requiredSourceItems] = {},
         },
         [11352] = {
             [questKeys.objectives] = {{{23725,"Test Rune of Command on normal Stone Giants"},{24334}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11355] = {
             [questKeys.preQuestSingle] = {11284},
             [questKeys.objectives] = {{{23725,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
+            [questKeys.requiredSourceItems] = {},
         },
         [11358] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Rune Sample"), 0, {{"object", 186718},}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11365] = {
             [questKeys.objectives] = {{{23725,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
+            [questKeys.requiredSourceItems] = {},
         },
         [11366] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Rune Sample"), 0, {{"object", 186718},}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11390] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 24418},}}},
@@ -872,6 +929,12 @@ function QuestieWotlkQuestFixes:Load()
         [11394] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11396] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [11399] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [11401] = {
             [questKeys.startedBy] = {nil,{186267}},
             [questKeys.finishedBy] = {nil,{186314}},
@@ -882,6 +945,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11410] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Fresh Barbfish Bait"), 0, {{"object", 186770},}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11412] = {
             [questKeys.objectives] = {{{24510,"Kegs Delivered"}}},
@@ -903,6 +967,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11418] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Feathered Charm on Steelfeather"), 0, {{"monster", 24514},}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11420] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{56.6,49.1}}}, Questie.ICON_TYPE_EVENT, l10n("Entrance to Utgarde Catacombs"),}},
@@ -912,6 +977,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11428] = {
             [questKeys.preQuestSingle] = {11316},
+            [questKeys.preQuestGroup] = {},
         },
         [11429] = {
             [questKeys.objectives] = {nil,{{186863,"Alliance Banner Placed"}},nil,nil,{{{24640},24640,"Alliance Banner Defended"}}},
@@ -924,14 +990,22 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Go Harpoon Surfing",{[zoneIDs.HOWLING_FJORD]={{60.08,62.06,},},},},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Go Harpoon Surfing"),0,{{"object",186894}}}},
         },
+        [11443] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [11448] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Ask McGoyver for a ride to the Explorers' League Outpost"),0,{{"monster",24040}}}},
         },
         [11452] = {
             [questKeys.startedBy] = {{24018},nil,{34090}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11453] = {
             [questKeys.startedBy] = {{24018},nil,{34091}},
+            [questKeys.requiredSourceItems] = {},
+        },
+        [11458] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [11460] = {
             [questKeys.objectives] = {{{24752,"Fjord Rock Falcon Fed"}}},
@@ -958,6 +1032,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{24797,"Reef Bull led to a Reef Cow"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Lure Reef Bull with Tasty Reef Fish"), 0, {{"monster", 24786},{"monster", 24804}}}},
             [questKeys.reputationReward] = {{factionIDs.THE_KALUAK,500}},
+            [questKeys.requiredSourceItems] = {34127},
         },
         [11475] = {
             [questKeys.preQuestSingle] = {11244},
@@ -992,11 +1067,17 @@ function QuestieWotlkQuestFixes:Load()
         [11531] = {
             [questKeys.specialFlags] = 1,
         },
+        [11566] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [11567] = {
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Ask Alanya for transportation"),0,{{"monster", 27933}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("After acquiring the Armor, get a ride back"),0,{{"monster", 28277}}},
             },
+        },
+        [11568] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [11569] = {
             [questKeys.preQuestSingle] = {11571},
@@ -1011,18 +1092,28 @@ function QuestieWotlkQuestFixes:Load()
         [11575] = {
             [questKeys.exclusiveTo] = {11587},
         },
+        [11576] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [11582] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [11587] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Open the prison"),0,{{"object", 187561}}}},
         },
         [11590] = {
             [questKeys.objectives] = {{{25316,"Captured Beryl Sorcerer"},},nil,nil,nil,},
+            [questKeys.requiredSourceItems] = {},
         },
         [11591] = {
             [questKeys.exclusiveTo] = {11592,11593,11594,},
         },
         [11592] = {
             [questKeys.triggerEnd] = {"Successfully assisted Longrunner Proudhoof's assault.",{[zoneIDs.BOREAN_TUNDRA]={{49.45,26.49,},},},},
+        },
+        [11593] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [11594] = {
             [questKeys.preQuestSingle] = {},
@@ -1033,17 +1124,28 @@ function QuestieWotlkQuestFixes:Load()
         [11606] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},
         },
+        [11608] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [11610] = {
             [questKeys.objectives] = {nil,{{191088,"Elder Kesuk's ceremony completed"},{191089,"Elder Sagani's ceremony completed"},{191090,"Elder Takret's ceremony completed"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11611] = {
             [questKeys.objectives] = {{{25284,"Warsong Peon Freed"}}},
         },
+        [11626] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [11631] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Imperean's Primal on Snarlfang's Totem"),0,{{"monster", 25455}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11632] = {
             [questKeys.startedBy] = {nil,{187674},{34777}},
+        },
+        [11633] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [11636] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a ride to Garrosh's Landing"),0,{{"monster", 25459}}}},
@@ -1051,12 +1153,22 @@ function QuestieWotlkQuestFixes:Load()
         [11637] = {
             [questKeys.sourceItemId] = 34781,
         },
+        [11647] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [11648] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [11650] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [11652] = {
             [questKeys.objectives] = {{{25465}},nil,nil,nil,{{{27106,27107,27108,27110},27106,"Injured Warsong Soldier rescued"},{{25332,25333,25469,},25333,"Scourge Unit obliterated"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drive a tank"),0,{{"monster", 25334}}}},
         },
         [11653] = {
             [questKeys.objectives] = {{{25432,"Crafty's Blaster Tested"},{25434,"Crafty's Blaster Tested"},},nil,nil,nil,},
+            [questKeys.requiredSourceItems] = {},
         },
         [11654] = {
             [questKeys.startedBy] = {{26115},nil,{34815}},
@@ -1064,6 +1176,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11656] = {
             [questKeys.objectives] = {nil,{{188656,"The Serpent's Maw destroyed"},{188655,"The Kur Drakkar destroyed"},{188653,"Bor's Hammer destroyed"},{188657,"Bor's Anvil destroyed"}}},
+            [questKeys.requiredSourceItems] = {},
+        },
+        [11661] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [11664] = {
             [questKeys.triggerEnd] = {"Mootoo Saved",{[zoneIDs.BOREAN_TUNDRA]={{31.19,54.44,},},},},
@@ -1077,12 +1193,17 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Kill Inquisitor Salrand"), 0, {{"monster", 25584}}},
                 {{[zoneIDs.BOREAN_TUNDRA]={{41.8,39.1}}}, Questie.ICON_TYPE_EVENT, l10n("Use Beryl Shield Detonator"),},
             },
+            [questKeys.requiredSourceItems] = {},
         },
         [11673] = {
             [questKeys.triggerEnd] = {"Bonker Togglevolt escorted to safety.",{[zoneIDs.BOREAN_TUNDRA]={{53.84,13.85,},},},},
         },
         [11677] = {
             [questKeys.objectives] = {nil,{{187879,"Plague Cauldron Neutralized"}}},
+            [questKeys.requiredSourceItems] = {},
+        },
+        [11680] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [11686] = {
             [questKeys.objectives] = {nil,{{191697,"Scout Warsong Granary"},{191698,"Scout Torp's Farm"},{191699,"Scout Warsong Slaughterhouse"}}},
@@ -1093,9 +1214,11 @@ function QuestieWotlkQuestFixes:Load()
         [11690] = {
             [questKeys.objectives] = {{{25596,"Kodo rescued"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring the kodos to Farmer Torp"), 0, {{"monster", 25607}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11694] = {
             [questKeys.objectives] = {nil,{{187879,"Plague Cauldron Neutralized"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11704] = {
             [questKeys.preQuestSingle] = {11708},
@@ -1114,9 +1237,11 @@ function QuestieWotlkQuestFixes:Load()
         [11711] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.BOREAN_TUNDRA]={{55.28,50.86}}}, Questie.ICON_TYPE_EVENT, l10n("Alliance Deserter Delivered")}},
             [questKeys.objectives] = {{{25761,"Alliance Deserter Delivered"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11712] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{25814},25814,"Fizzcrank Gnome cursed & ported"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11713] = {
             [questKeys.preQuestSingle] = {11796},
@@ -1124,14 +1249,20 @@ function QuestieWotlkQuestFixes:Load()
         [11719] = {
             [questKeys.triggerEnd] = {"Bloodspore Flower Used",{[zoneIDs.BOREAN_TUNDRA]={{52.07,52.46,},},},},
         },
+        [11721] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [11723] = {
             [questKeys.objectives] = {{{25768},{25794,"Deploy the Shake-n-Quake 5000"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11728] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Throw Wolf Bait"),0,{{"monster", 25791}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11730] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{25753,25758,25752},25753,"Robots reprogrammed"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11788] = {
             [questKeys.extraObjectives] = {
@@ -1141,6 +1272,12 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),4,{{"object", 187987}}},
             },
         },
+        [11794] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [11796] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [11798] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use The Gearmaster's Manual"),0,{{"object", 190334}}}},
         },
@@ -1148,8 +1285,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [11865] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 187995},{"object", 187996},{"object", 187997},{"object", 187998},{"object", 187999},{"object", 188000},{"object", 188001},{"object", 188002},{"object", 188003},{"object", 188004},{"object", 188005},{"object", 188006},{"object", 188007},{"object", 188008}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 187995},{"object", 187996},{"object", 187997},{"object", 187998},{"object", 187999},{"object", 188000},{"object", 188001},{"object", 188002},{"object", 188003},{"object", 188004},{"object", 188005},{"object", 188006},{"object", 188007},{"object", 188008}}}},
+            [questKeys.requiredSourceItems] = {},
+        },
+        [11876] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [11878] = {
             [questKeys.objectives] = {{{25862,"Orphaned Mammoth Calf Delivered to Khu'nok"}}},
@@ -1169,6 +1309,7 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Use Jenny's Whistle near a crashed flying machine"),0,{{"object", 188019}}},
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Return Jenny to safety without losing cargo"),0,{{"monster", 25849},}},
             },
+            [questKeys.requiredSourceItems] = {},
         },
         [11887] = {
             [questKeys.objectives] = {nil,nil,{{35276}}},
@@ -1176,12 +1317,23 @@ function QuestieWotlkQuestFixes:Load()
         [11888] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},
         },
+        [11889] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [11890] = {
             [questKeys.triggerEnd] = {"Fizzcrank Pumping Station environs inspected.",{[zoneIDs.BOREAN_TUNDRA]={{64.38,23.81}}}},
+        },
+        [11891] = {
+            [questKeys.requiredSourceItems] = {35828},
+            [questKeys.sourceItemId] = 35237,
+        },
+        [11892] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [11893] = {
             [questKeys.objectives] = {{{24601}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Windsoul Totem to collect energy from killing Steam Ragers"),0,{{"monster", 24601}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11894] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Uncured Caribou Hide"),0,{{"object", 188086}}}},
@@ -1191,6 +1343,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11896] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{25752,25753,25758},26082,}}},
+            [questKeys.requiredSourceItems] = {},
+        },
+        [11897] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [11898] = {
             [questKeys.extraObjectives] = {
@@ -1201,9 +1357,11 @@ function QuestieWotlkQuestFixes:Load()
         [11899] = {
             [questKeys.objectives] = {{{25814,"Gnome soul captured"},},nil,nil,nil,},
             [questKeys.preQuestSingle] = {11895},
+            [questKeys.requiredSourceItems] = {},
         },
         [11905] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_NEXUS_MAP]={{64.9,21.6}},[zoneIDs.THE_NEXUS]={{-1,-1}}}, Questie.ICON_TYPE_EVENT, l10n("Use Interdimensional Refabricator")}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11906] = {
             [questKeys.preQuestSingle] = {11895},
@@ -1224,26 +1382,32 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11913] = {
             [questKeys.objectives] = {nil,{{188112,"Farshire Grain burnt"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11919] = {
             [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring the captured drake to Raelorasz"),0,{{"monster", 26117}}}},
+            [questKeys.requiredSourceItems] = {},
+            [questKeys.zoneOrSort] = 3537,
         },
         [11930] = {
             [questKeys.triggerEnd] = {"Secure Passage to Dragonblight",{[zoneIDs.DRAGONBLIGHT]={{10.29,53.83,},},},},
         },
         [11938] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{25378,25383,25386,25387,25393,25609},25378,"En'kilah Casualty"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11940] = {
             [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring the captured drake to Raelorasz"),0,{{"monster", 26117}}}},
+            [questKeys.zoneOrSort] = 3537,
+            [questKeys.requiredSourceItems] = {},
         },
         [11945] = {
             [questKeys.reputationReward] = {{factionIDs.THE_KALUAK,500}},
         },
         [11946] = {
-            [questKeys.requiredSourceItems] = {35671},
+            [questKeys.sourceItemId] = 35671,
         },
         [11951] = {
             [questKeys.requiredSourceItems] = {35671},
@@ -1255,7 +1419,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [11957] = {
-            [questKeys.requiredSourceItems] = {35671,35690},
+            [questKeys.requiredSourceItems] = {35671},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Talk to Keristrasza"),0,{{"monster", 26206}}},
                 {{[zoneIDs.BOREAN_TUNDRA]={{22,22.6}}}, Questie.ICON_TYPE_EVENT, l10n("Use Arcane Power Focus"),},
@@ -1272,6 +1436,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11969] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Raelorasz' Spark"),0,{{"object", 194151}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [11982] = {
             [questKeys.objectives] = {{{26270,"Iron Dwarf Operations Disrupted"}}},
@@ -1284,13 +1449,17 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Budd's Tag Troll spell to stun Drakkari trolls"), 0, {{"monster", 26425}, {"monster", 26447}}},
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Capture stunned Drakkari trolls with Bounty Hunter's Cage"), 0, {{"monster", 26425}, {"monster", 26447}}},
             },
+            [questKeys.requiredSourceItems] = {},
         },
         [11989] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Dull Carving Knife near Drakuru"),0,{{"monster", 26423}}}},
         },
         [11991] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Frozen Mojo"),0,{{"object", 188287}}}},
-            [questKeys.requiredSourceItems] = {35797,35799},
+            [questKeys.requiredSourceItems] = {35799},
+        },
+        [11993] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [11995] = {
             [questKeys.exclusiveTo] = {12439},
@@ -1307,6 +1476,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12017] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Tu'u'gwar's Bait"),0,{{"object", 188370}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12019] = {
             [questKeys.finishedBy] = {{26170,198875}},
@@ -1327,9 +1497,11 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12028] = {
             [questKeys.objectives] = {nil,{{188416}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12029] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26458,26570,26582,26583},26612,}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12032] = {
             [questKeys.objectives] = {{{26648,"Oacha'noa's compulsion obeyed."}}},
@@ -1344,6 +1516,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12035] = {
             [questKeys.objectives] = {{{25623,"Harvest Collector Rewired"},},nil,nil,nil,},
+            [questKeys.requiredSourceItems] = {},
         },
         [12036] = {
             [questKeys.triggerEnd] = {"Pit of Narjun Explored",{[zoneIDs.DRAGONBLIGHT]={{26.26,50.01,},},},},
@@ -1353,18 +1526,23 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12038] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26458,26570,26582,26583},26612,}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12039] = {
             [questKeys.preQuestSingle] = {12034},
+            [questKeys.requiredSourceItems] = {},
         },
         [12049] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Throw the Explosive Charges when it opens its mouth wide"),0,{{"monster", 26293}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12050] = {
             [questKeys.preQuestGroup] = {12046,12047},
+            [questKeys.requiredSourceItems] = {},
         },
         [12052] = {
             [questKeys.preQuestGroup] = {12046,12047},
+            [questKeys.requiredSourceItems] = {},
         },
         [12053] = {
             [questKeys.objectives] = {{{26678,"Warsong Battle Standard Defended"}}},
@@ -1376,9 +1554,18 @@ function QuestieWotlkQuestFixes:Load()
         [12056] = {
             [questKeys.preQuestSingle] = {12034},
         },
+        [12058] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [12059] = {
             [questKeys.startedBy] = {{26349},nil,{36746}},
             [questKeys.preQuestSingle] = {11999},
+        },
+        [12060] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [12061] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12063] = {
             [questKeys.preQuestSingle] = {12036},
@@ -1402,16 +1589,25 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12069] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Free Roanauk Icemist"),0,{{"object", 188463}}}},
+            [questKeys.requiredSourceItems] = {},
+        },
+        [12070] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [12072] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12075] = {
             [questKeys.preQuestSingle] = {},
         },
         [12076] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Zort's Scraper when covered in Corrosive Spit"),0,{{"monster", 26358},{"monster", 26359}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12078] = {
             [questKeys.preQuestSingle] = {12077},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Sturdy Crates to capture the worm spawn"),0,{{"monster", 26359}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12079] = {
             [questKeys.preQuestSingle] = {12075},
@@ -1449,6 +1645,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12099] = {
             [questKeys.objectives] = {{{26417,"Runed Giants Freed"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12100] = {
             [questKeys.preQuestSingle] = {12034},
@@ -1457,17 +1654,16 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{27547},nil,{36940}},
         },
         [12107] = {
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Ley Line Focus Control Talisman"),1,{{"object", 188491}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Ley Line Focus Control Talisman"),1,{{"object", 188491}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12110] = {
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Ley Line Focus Control Talisman"),1,{{"object", 188491}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Ley Line Focus Control Talisman"),1,{{"object", 188491}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12111] = {
             [questKeys.objectives] = {{{26615,},{26482,}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12112] = {
             [questKeys.preQuestGroup] = {12050,12052},
@@ -1480,9 +1676,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12121] = {
             [questKeys.objectives] = {{{27199,}}},
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Ring the gong outside Drakil'jin to summon Warlord Jin'arrak"),0,{{"object", 188510}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Ring the gong outside Drakil'jin to summon Warlord Jin'arrak"),0,{{"object", 188510}}}},
         },
         [12124] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a drake to the top of the temple"),1,{{"monster", 26443}}}},
@@ -1495,9 +1689,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12127] = {
             [questKeys.objectives] = {{{26283}},nil,{{36846}}},
-        },
-        [12129] = {
-            [questKeys.sourceItemId] = 36849,
         },
         [12132] = {
             [questKeys.preQuestSingle] = {},
@@ -1512,9 +1703,11 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12138] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26407,27017},26407,}}},
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_SLAY, l10n("Fight Lightning Sentries with Depleted War Golem deployed nearby"),0,{{"monster", 26407}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Fight Lightning Sentries with Depleted War Golem deployed nearby"),0,{{"monster", 26407}}}},
+            [questKeys.requiredSourceItems] = {},
+        },
+        [12140] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12146] = {
             [questKeys.startedBy] = {{27004,27005},nil,{36855}},
@@ -1527,27 +1720,39 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12151] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{57.09,76.26}}}, Questie.ICON_TYPE_EVENT, l10n("Blow the horn"),0}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12152] = {
-            [questKeys.requiredSourceItems] = {36870,36873,37063},
+            [questKeys.requiredSourceItems] = {36870,37063},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Place the Infused Drakkari Offering at the gongs outside Drakil'jin"),0,{{"object", 188510}}},
             },
+        },
+        [12153] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [12154] = { -- Blackout
+            [questKeys.requiredSourceItems] = {},
         },
         [12157] = {
             [questKeys.exclusiveTo] = {12171,12235,12297},
         },
         [12159] = {
             [questKeys.objectives] = {{{26891,"Miner at Rest"}}},
-        },
-        [12165] = {
-            [questKeys.sourceItemId] = 36849,
+            [questKeys.requiredSourceItems] = {},
         },
         [12166] = {
             [questKeys.objectives] = {{{26616,"Blighted Elk's corpse cleansed"},{26643,"Rabid Grizzly's corpse cleansed"},},nil,nil,nil,},
+            [questKeys.requiredSourceItems] = {},
         },
         [12171] = {
             [questKeys.exclusiveTo] = {12235,12297},
+        },
+        [12172] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [12173] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12174] = {
             [questKeys.exclusiveTo] = {12235,12298},
@@ -1566,9 +1771,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26408,26409,26410,26414,27177},26408,}}},
         },
         [12185] = {
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_EVENT, l10n("Intercept the message from Loken"),1,{{"object", 188596}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Intercept the message from Loken"),1,{{"object", 188596}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12188] = {
             [questKeys.preQuestSingle] = {},
@@ -1579,9 +1783,11 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12198] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26407,27017},26407,}}},
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_SLAY, l10n("Fight Lightning Sentries with Depleted War Golem deployed nearby"),0,{{"monster", 26407}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Fight Lightning Sentries with Depleted War Golem deployed nearby"),0,{{"monster", 26407}}}},
+            [questKeys.requiredSourceItems] = {},
+        },
+        [12199] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12202] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26408,26409,26410,26414,27177},26408,}}},
@@ -1590,6 +1796,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Intercept the message from Loken"),1,{{"object", 188596}}},
             },
+            [questKeys.requiredSourceItems] = {},
         },
         [12204] = {
             [questKeys.preQuestSingle] = {12099,12058},
@@ -1609,9 +1816,11 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12211] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27202,27203,27206,27207,27209,27210,27211,27232,27233,27234,27235,27236,27237,27246,27247},27203,"Scarlet Onslaught corpses picked clean"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12213] = {
             [questKeys.preQuestSingle] = {12413},
+            [questKeys.requiredSourceItems] = {},
         },
         [12214] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27206,27213,27296,27028},27296,}}},
@@ -1620,6 +1829,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Commandeer a Forsaken Blight Spreader"),1,{{"monster", 26523}}},
             },
+        },
+        [12220] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12222] = {
             [questKeys.preQuestSingle] = {12294},
@@ -1639,14 +1851,17 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12232] = {
             [questKeys.objectives] = {nil,{{188673,}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12236] = {
             [questKeys.preQuestGroup] = {12241,12242},
             [questKeys.objectives] = {{{26633,}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Tur Ragepaw to summon Ursoc"),0,{{"monster", 27328}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12237] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27315,27336,27345,27341},27315,"Helpless Villager Rescued"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12238] = {
             [questKeys.requiredSourceItems] = {35797,38303},
@@ -1654,12 +1869,17 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12240] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{68.29,74.29}}}, Questie.ICON_TYPE_EVENT, l10n("Release the termites"),0}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12241] = {
             [questKeys.preQuestGroup] = {12229,12231},
+            [questKeys.requiredSourceItems] = {},
         },
         [12242] = {
             [questKeys.preQuestGroup] = {12229,12231},
+        },
+        [12243] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12244] = {
             [questKeys.objectives] = {{{27354}}},
@@ -1668,12 +1888,17 @@ function QuestieWotlkQuestFixes:Load()
         [12247] = {
             [questKeys.objectives] = {{{27274,"Orsonn's Story"},{27275,"Kodian's Story"}}},
         },
+        [12248] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [12249] = {
             [questKeys.objectives] = {{{26633,}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Tur Ragepaw to summon Ursoc"),0,{{"monster", 27328}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12252] = {
-            [questKeys.objectives] = {{{27209,"Torturer LeCraft fully questioned"},{27209}}}
+            [questKeys.objectives] = {{{27209,"Torturer LeCraft fully questioned"},{27209}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12255] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ride Flamebringer"),0,{{"monster", 27292}}}},
@@ -1694,9 +1919,8 @@ function QuestieWotlkQuestFixes:Load()
         [12261] = {
             [questKeys.preQuestSingle] = {12447},
             [questKeys.objectives] = {{{27430,}}},
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_EVENT, l10n("Use Destructive Ward"),0,{{"object", 188707}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Destructive Ward"),0,{{"object", 188707}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12262] = {
             [questKeys.preQuestSingle] = {12447},
@@ -1711,6 +1935,9 @@ function QuestieWotlkQuestFixes:Load()
         [12265] = {
             [questKeys.preQuestSingle] = {12263},
         },
+        [12267] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [12269] = {
             [questKeys.preQuestSingle] = {12275},
         },
@@ -1724,30 +1951,41 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12272] = {
             [questKeys.preQuestSingle] = {12275},
+            [questKeys.requiredSourceItems] = {},
         },
         [12273] = {
             [questKeys.objectives] = {{{27237,},{27235,},{27234,},{27236,}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12274] = {
             [questKeys.objectives] = {nil,{{188713,"Abbey bell rung"}},nil,nil,{{{27245},27245,"High Abbot spoken with"}}},
         },
+        [12276] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [12277] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Mine Bomb here"),0,{{"object", 188711}}}},
+        },
+        [12279] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12284] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27475,27482,},27475,"Alliance units eliminated"}}},
         },
         [12288] = {
             [questKeys.objectives] = {{{27463,"Wounded Skirmishers Healed"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12289] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27456,27463},27456,"Horde units eliminated"}}},
         },
         [12291] = {
             [questKeys.objectives] = {{{27226,"Forgotten Peasant Questioned"},{27225,"Forgotten Rifleman Questioned"},{27224,"Forgotten Knight Questioned"},{27229,"Forgotten Footman Questioned"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12296] = {
             [questKeys.objectives] = {{{27482,"Westfall Infantry Healed"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12297] = {
             [questKeys.preQuestSingle] = {11250},
@@ -1756,8 +1994,12 @@ function QuestieWotlkQuestFixes:Load()
         [12298] = {
             [questKeys.exclusiveTo] = {12174,12235},
         },
+        [12300] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [12301] = {
             [questKeys.objectives] = {nil,{{189304,"The Forgotten Redeemed"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12307] = {
             [questKeys.preQuestSingle] = {},
@@ -1776,9 +2018,11 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12323] = {
             [questKeys.objectives] = {{{27570,"Venture Company Stragglers smoked out"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12324] = {
             [questKeys.objectives] = {{{27570,"Venture Company Stragglers smoked out"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12321] = {
             [questKeys.objectives] = {{{27577,"Righteous Sermon Heard"}}},
@@ -1793,10 +2037,12 @@ function QuestieWotlkQuestFixes:Load()
         [12327] = {
             [questKeys.triggerEnd] = {"Vision from the Past",{[zoneIDs.SILVERPINE_FOREST]={{46.53,76.18,},},},},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Gossamer Potion"),0,{{"object", 189972}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12330] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Tranquilizer Dart on Tatjana"),0,{{"monster", 27627}}}},
             [questKeys.triggerEnd] = {"Tatjana Delivered",{[zoneIDs.GRIZZLY_HILLS]={{57.77,41.7,},},},},
+            [questKeys.requiredSourceItems] = {},
         },
         [12372] = {
             [questKeys.objectivesText] = {"Devrestrasz at Wyrmrest Temple has asked you to slay 3 Azure Dragons, slay 5 Azure Drakes, and to destabilize the Azure Dragonshrine while riding a Wyrmrest Defender into battle."}, -- #4675
@@ -1810,9 +2056,11 @@ function QuestieWotlkQuestFixes:Load()
         [12414] = {
             [questKeys.objectives] = {{{26472,"Highland Mustangs returned"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring the mustangs to Squire Percy"), 0, {{"monster", 26377}}}},
+            [questKeys.requiredSourceItems] = {37707},
         },
         [12415] = {
             [questKeys.objectives] = {{{26472,}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12419] = {
             [questKeys.startedBy] = {{27680},nil,{37833}},
@@ -1871,15 +2119,18 @@ function QuestieWotlkQuestFixes:Load()
         [12453] = {
             [questKeys.preQuestSingle] = {12412},
             [questKeys.objectives] = {{{26369,}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12456] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{64.6,77}}}, Questie.ICON_TYPE_EVENT, l10n("Use Skytalon Molts"),0}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12457] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Man the Chain Gun"),0,{{"monster", 27714}}},},
         },
         [12459] = {
             [questKeys.objectives] = {{{26841,nil},{27808,nil},{27122,nil},},nil,nil,nil,},
+            [questKeys.requiredSourceItems] = {},
         },
         [12462] = {
             [questKeys.preQuestSingle] = {12326},
@@ -1898,15 +2149,18 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12470] = {
             [questKeys.objectives] = {{{27840,"Hourglass of Eternity protected"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12473] = {
             [questKeys.objectives] = {{{27383,"Thel'zan the Duskbringer Defeated"}}},
         },
         [12478] = {
             [questKeys.objectives] = {nil,{{190191,"Secrets of the Past Revealed"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12481] = {
             [questKeys.objectives] = {{{24238,"Bjorn Halgurdsson insulted"},{24238,"Bjorn Halgurdsson defeated"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12484] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.GRIZZLY_HILLS]={{16.84,48.34}}}, Questie.ICON_TYPE_EVENT, l10n("Place Scourged Troll Mummy in the fire"),0}},
@@ -1926,6 +2180,7 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Slay Grand Necrolord Antiok"),0,{{"monster", 28006}}},
                 {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"),0,{{"monster", 27996}}},
             },
+            [questKeys.requiredSourceItems] = {},
         },
         [12500] = {
             [questKeys.preQuestSingle] = {12498},
@@ -1938,6 +2193,7 @@ function QuestieWotlkQuestFixes:Load()
         [12502] = {
             [questKeys.parentQuest] = 12501,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Plant the Argent Crusade Banner"), 0, {{"object", 190522}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12503] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28023,28026,28246,28669,28022},28022,"Scourge at The Argent Stand destroyed"}}},
@@ -1951,17 +2207,16 @@ function QuestieWotlkQuestFixes:Load()
         [12509] = {
             [questKeys.parentQuest] = 12501,
         },
-        [12510] = {
-            [questKeys.sourceItemId] = 38323,
-        },
         [12512] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28133,28136},28133},{{28141,28142},28141},{{28143,28148},28143}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Escort rescued Crusaders to Dr. Rogers"), 0, {{"monster", 28125}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12516] = {
             [questKeys.objectives] = {{{28068}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Muddled Mojo on Prophet of Sseratus before killing it"), 0, {{"monster", 28068}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12519] = {
             [questKeys.parentQuest] = 12501,
@@ -1981,14 +2236,14 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {38619},
         },
         [12530] = {
-            [questKeys.requiredSourceItems] = {38619,38467},
+            [questKeys.requiredSourceItems] = {38619},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Softknuckle Poker on Softknuckles"), 0, {{"monster", 28127}}}},
         },
         [12531] = {
             [questKeys.requiredSourceItems] = {38621},
         },
         [12532] = {
-            [questKeys.requiredSourceItems] = {38621,38689},
+            [questKeys.requiredSourceItems] = {38621},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12533,12534},
         },
@@ -2008,7 +2263,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Captive Crocolisk"), 0, {{"monster", 28298}}}},
         },
         [12537] = {
-            [questKeys.requiredSourceItems] = {38510,38512},
+            [questKeys.requiredSourceItems] = {38512},
             [questKeys.objectives] = {nil,{{190502,"Sabotage the Mistwhisper Weather Shrine"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Skyreach Crystal Clusters"), 0, {{"object", 300213}}}},
         },
@@ -2030,9 +2285,13 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12544] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Soo-rahm's Incense"), 0, {{"object", 190507}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12545] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [12546] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12548] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{40.35,83.08,}}}, Questie.ICON_TYPE_EVENT, l10n("Travel through the Waygate"),}},
@@ -2047,6 +2306,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12555] = {
             [questKeys.objectives] = {{{28274,"Plague Sprayers webbed and destroyed"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12557] = {
             [questKeys.objectives] = {nil,nil,{{38386},{38339},{38340},{38346}}},
@@ -2065,9 +2325,11 @@ function QuestieWotlkQuestFixes:Load()
         [12568] = {
             [questKeys.parentQuest] = 12563,
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28260,28156},28260,"Argent Footman Corpse Incinerated"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12569] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sandfern Disguise near the fallen log"), 0, {{"object", 190545}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12570] = {
             [questKeys.triggerEnd] = {"Escort the Injured Rainspeaker Oracle to Rainspaker Canopy",{[zoneIDs.SHOLAZAR_BASIN]={{52.79,59.36}}}},
@@ -2080,8 +2342,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {38622},
         },
         [12573] = {
-            [questKeys.sourceItemId] = 38622,
-            [questKeys.requiredSourceItems] = {38622,40364},
+            [questKeys.requiredSourceItems] = {38622},
             [questKeys.objectives] = {{{28315,"Extend Peace Offering to Shaman Vekjik"}}},
         },
         [12574] = {
@@ -2111,7 +2372,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{28113,"Mosswalker Victims Rescued"}}},
         },
         [12584] = {
-            [questKeys.preQuestGroup] = {12552},
+            [questKeys.preQuestSingle] = {12552},
         },
         [12585] = {
             [questKeys.parentQuest] = 12563,
@@ -2122,14 +2383,17 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12588] = {
             [questKeys.objectives] = {nil,{{190550,"Ancient Dirt Mounds Investigated"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12589] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12523,12525},
             [questKeys.objectives] = {{{28054,"Shot apple on Lucky Wilhelm's Head"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12591] = {
             [questKeys.objectives] = {nil,{{190555,"Nerubian Tunnels Collapsed"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12595] = {
             [questKeys.preQuestSingle] = {},
@@ -2141,6 +2405,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12598] = {
             [questKeys.objectives] = {nil,{{190555,"Nerubian Tunnels Sealed"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12601] = {
             [questKeys.extraObjectives] = {
@@ -2173,12 +2438,17 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12607] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28379,28374},28379,}}},
+            [questKeys.requiredSourceItems] = {},
+        },
+        [12611] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12615] = {
             [questKeys.preQuestSingle] = {12516},
         },
         [12620] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{49.64,37.41,}}}, Questie.ICON_TYPE_EVENT, l10n("Use Freya's Horn atop of the Glimmering Pillar"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{49.64,37.41,}}}, Questie.ICON_TYPE_EVENT, l10n("Use Freya's Horn atop of the Glimmering Pillar")}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12621] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Listen to what the Avatar of Freya has to say"), 0, {{"monster", 27801}}}},
@@ -2194,6 +2464,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12630] = {
             [questKeys.objectives] = {{{28519,"Hair Samples Collected"},},nil,nil,nil,},
+            [questKeys.requiredSourceItems] = {},
         },
         [12631] = {
             [questKeys.startedBy] = {nil,nil,{38660}},
@@ -2201,9 +2472,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {},
             [questKeys.exclusiveTo] = {12633},
             [questKeys.nextQuestInChain] = 12637,
+            [questKeys.requiredSourceItems] = {},
         },
         [12632] = {
             [questKeys.objectives] = {{{28404}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12633] = {
             [questKeys.startedBy] = {nil,nil,{38673}},
@@ -2211,6 +2484,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {},
             [questKeys.exclusiveTo] = {12631},
             [questKeys.nextQuestInChain] = 12638,
+            [questKeys.requiredSourceItems] = {},
         },
         [12634] = {
             [questKeys.preQuestGroup] = {12520,12549},
@@ -2224,12 +2498,14 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {},
             [questKeys.exclusiveTo] = {12638},
             [questKeys.nextQuestInChain] = 12629,
+            [questKeys.requiredSourceItems] = {},
         },
         [12638] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12633,12238},
             [questKeys.exclusiveTo] = {12637},
             [questKeys.nextQuestInChain] = 12643,
+            [questKeys.requiredSourceItems] = {},
         },
         [12641] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Eye of Acherus Control Mechanism"), 0, {{"object", 191609}}}},
@@ -2243,6 +2519,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12644] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Begin the distillation process"), 0, {{"monster", 28566}}}},
+        },
+        [12645] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12648] = {
             [questKeys.preQuestSingle] = {12629},
@@ -2267,9 +2546,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12629,12643},
             [questKeys.exclusiveTo] = {12713},
             [questKeys.objectives] = {{{28565,}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12659] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28465,28600},28622}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12661] = {
             [questKeys.preQuestSingle] = {12648,12649},
@@ -2277,12 +2558,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.childQuests] = {12663,12664},
             [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 12669,
-            [questKeys.requiredSourceItems] = {41390,38699},
+            [questKeys.requiredSourceItems] = {38699},
             [questKeys.objectives] = {{{28503,"Overlord Drakuru's task complete"}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.ZUL_DRAK]={{28.38,44.85}}}, Questie.ICON_TYPE_EVENT, l10n("Infiltrate Voltarus using Ensorcelled Choker")}},
         },
         [12662] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Heb'Jin's Drum to summon Heb'Jin"), 0, {{"object", 190695}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12663] = {
             [questKeys.preQuestSingle] = {12649},
@@ -2304,7 +2586,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12669] = {
             [questKeys.objectives] = {{{28503,"Drakuru's task complete"},{28739,"Blight Cauldrons diluted"}}},
-            [questKeys.requiredSourceItems] = {39154,38699,41390},
+            [questKeys.requiredSourceItems] = {38699,41390},
         },
         [12670] = {
             [questKeys.preQuestSingle] = {12850},
@@ -2319,14 +2601,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12674] = {
             [questKeys.objectives] = {{{28752,"High Priest Mu'funu hexed at death"},{28754,"High Priestess Tua-Tua hexed at death"},{28756,"High Priest Hawinni hexed at death"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12676] = {
-            [questKeys.requiredSourceItems] = {39165,41390,38699},
+            [questKeys.requiredSourceItems] = {41390,38699},
             [questKeys.objectives] = {nil,{{190731,"Scourgewagons destroyed"}},nil,nil,{{{28503},28503,"Drakuru's task complete"}}},
             [questKeys.triggerEnd] = {"Learn Drakuru's secret",{[zoneIDs.ZUL_DRAK]={{27.07,46.16}}}},
         },
         [12677] = {
-            [questKeys.sourceItemId] = 38699,
             [questKeys.requiredSourceItems] = {41390,38699},
             [questKeys.objectives] = {{{28503,"Drakuru's task complete"}},nil,{{39159}}},
         },
@@ -2341,11 +2623,11 @@ function QuestieWotlkQuestFixes:Load()
         [12685] = {
             [questKeys.objectives] = {{{28671}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Quetz'lun's Ritual"), 0, {{"monster", 28672}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12686] = {
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_EVENT, l10n("Use Scepter of Empowerment to mind control Servant of Drakuru"), 0, {{"monster", 28802}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Scepter of Empowerment to mind control Servant of Drakuru"), 0, {{"monster", 28802}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12687] = {
             [questKeys.objectives] = {{{28788,"The Horseman's Challenge",Questie.ICON_TYPE_EVENT}}},
@@ -2359,7 +2641,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12690] = {
             [questKeys.exclusiveTo] = {12710},
-            [questKeys.requiredSourceItems] = {39238,38699},
+            [questKeys.requiredSourceItems] = {38699},
             [questKeys.objectives] = {{{28844,"Drakkari Skullcrushers Slain"},{28873,"Drakkari Chieftain Lured"},},nil,nil,nil,},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Scepter of Command"), 0, {{"monster", 28843}}}},
         },
@@ -2380,9 +2662,11 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Return Scarlet Ghouls"), 0, {{"monster", 28658}}},
                 {nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Gift of the Harvester on it"), 0, {{"monster", 28819},{"monster", 28822},{"monster", 28891}}},
             },
+            [questKeys.requiredSourceItems] = {},
         },
         [12699] = {
             [questKeys.preQuestSingle] = {12523},
+            [questKeys.requiredSourceItems] = {},
         },
         [12701] = {
             [questKeys.extraObjectives] = {
@@ -2392,6 +2676,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12702] = {
             [questKeys.requiredMinRep] = {1104,9000},
+            [questKeys.requiredSourceItems] = {},
         },
         [12703] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the blood at the Shrine of Kartak"), 0, {{"object", 190782}}}},
@@ -2415,13 +2700,11 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12707] = {
             [questKeys.objectives] = {{{28861,"Mam'toth Disciples trampled to death"}}},
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_EVENT, l10n("Use Medallion of Mam'toth to calm and ride an Enraged Mammoth"),0,{{"monster", 28851}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Medallion of Mam'toth to calm and ride an Enraged Mammoth"),0,{{"monster", 28851}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12710] = {
-            [questKeys.sourceItemId] = 38699,
-            [questKeys.requiredSourceItems] = {38699,39319},
+            [questKeys.requiredSourceItems] = {38699},
             [questKeys.objectives] = {{{28948,"Drakuru's upper chamber explored"}}},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Open the coffin"), 0, {{"object", 190948}}},
@@ -2429,7 +2712,6 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [12712] = {
-            [questKeys.sourceItemId] = 39313,
             [questKeys.requiredSourceItems] = {39313,39314,39315,39316},
         },
         [12713] = {
@@ -2440,6 +2722,7 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Defeat Drakuru"), 0, {{"monster", 28998}}},
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("After defeating Drakuru, go back down using this portal"), 0, {{"object", 202357}}},
             },
+            [questKeys.requiredSourceItems] = {38699,41390,43059},
         },
         [12714] = {
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Take the gryphon to ground level"),0,{{"monster",29488}}}},
@@ -2447,10 +2730,12 @@ function QuestieWotlkQuestFixes:Load()
         [12720] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28610,28936,28939,28940},28610,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Equip Keleseth's Persuaders and persuade Scarlet Crusaders"), 0, {{"monster", 28610},{"monster", 28936},{"monster", 28939},{"monster", 28940},}}},
+            [questKeys.requiredSourceItems] = {39371},
         },
         [12721] = {
             [questKeys.objectives] = {{{28952,"Akali unfettered from his chains."}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Release Akali from his chains"), 0, {{"object", 191018}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12723] = {
             [questKeys.preQuestGroup] = {12717,12720,12722},
@@ -2459,13 +2744,19 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1105,9000},
             [questKeys.objectives] = {{{28862,},{28858,}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{26.51,35.63}}}, Questie.ICON_TYPE_EVENT, l10n("Use Drums of the Tempest at Stormwright's Shelf"),}},
+            [questKeys.requiredSourceItems] = {},
+        },
+        [12728] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12730] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Prophet of Akali Convocation"), 0, {{"object", 191123}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12732] = {
             [questKeys.requiredMinRep] = {1104,9000},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Fill Rejek's Vial"), 0, {{"object", 191122}}}},
+            [questKeys.requiredSourceItems] = {39573,39576},
         },
         [12733] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28391,28394,28406},28391,"Death Knights defeated in a duel"}}},
@@ -2481,19 +2772,23 @@ function QuestieWotlkQuestFixes:Load()
                 {{[zoneIDs.SHOLAZAR_BASIN]={{46,74}}}, Questie.ICON_TYPE_EVENT, l10n("Use Chime of Cleansing to summon Spirit of Koosu"), 3},
             },
             [questKeys.requiredMinRep] = {1105,9000},
+            [questKeys.requiredSourceItems] = {},
         },
         [12736] = {
             [questKeys.requiredMinRep] = {1105,9000},
+            [questKeys.requiredSourceItems] = {},
         },
         [12737] = {
             [questKeys.objectives] = {nil,{{191136,}}},
             [questKeys.requiredMinRep] = {1105,9000},
+            [questKeys.requiredSourceItems] = {},
         },
         [12739] = { -- A Special Surprise (Tauren)
             [questKeys.preQuestSingle] = {12738}
         },
         [12740] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28028,28029},28028,}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12741] = {
             [questKeys.requiredMinRep] = {1104,9000},
@@ -2537,6 +2832,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12754] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{60.9,75.5}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Makeshift Cover"),}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12757] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Portal to Acherus"),0,{{"object", 191155}}}},
@@ -2546,19 +2842,19 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Venture Co. Explosive on dead Stonewatcher"),0,{{"monster", 28877}}}},
         },
         [12759] = {
-            [questKeys.sourceItemId] = 39697,
             [questKeys.requiredMinRep] = {1104,9000},
         },
         [12760] = {
             [questKeys.requiredMinRep] = {1104,9000},
+            [questKeys.requiredSourceItems] = {},
         },
         [12761] = {
-            [questKeys.sourceItemId] = 39693,
             [questKeys.requiredMinRep] = {1105,9000},
         },
         [12762] = {
             [questKeys.requiredMinRep] = {1105,9000},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Charge the Dormant Polished Crystal at the exposed Lifeblood Pillar"),2,{{"object", 300224}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12771] = {
             [questKeys.preQuestSingle] = {12753},
@@ -2587,6 +2883,7 @@ function QuestieWotlkQuestFixes:Load()
         [12779] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{53.5,36.7}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Horn of the Frostbrood"),}},
             [questKeys.startedBy] = {{29110}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12782] = {
             [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}},
@@ -2628,6 +2925,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12805] = {
             [questKeys.objectives] = {{{29124,}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12807] = {
             [questKeys.objectives] = {{{29344,}}},
@@ -2640,6 +2938,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12810] = {
             [questKeys.objectives] = {{{29392,}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12811] = {
             [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}},
@@ -2650,18 +2949,23 @@ function QuestieWotlkQuestFixes:Load()
         [12813] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{29329,29330,29333,29338},29398}}},
             [questKeys.preQuestSingle] = {12807},
+            [questKeys.requiredSourceItems] = {},
         },
         [12814] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{29406,29405},29406}}},
         },
         [12815] = {
             [questKeys.preQuestSingle] = {12814},
+            [questKeys.requiredSourceItems] = {},
         },
         [12816] = {
             [questKeys.triggerEnd] = {"Investigate a circle",{[zoneIDs.EVERSONG_WOODS]={{56.5,52,},},},},
         },
         [12817] = {
             [questKeys.triggerEnd] = {"Investigate a circle",{[zoneIDs.AZUREMYST_ISLE]={{34.9,45.5,},},},},
+        },
+        [12820] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12821] = {
             [questKeys.name] = "Cell Block Tango",
@@ -2673,6 +2977,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12823] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place Hardpacked Explosive Bundle at Frostgut's Altar"), 0, {{"object", 191842}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12828] = {
             [questKeys.extraObjectives] = {
@@ -2687,17 +2992,22 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Escort the Injured Goblin Miner to K3.",{[zoneIDs.STORM_PEAKS]={{40.2,79,},},},},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the escort"), 0, {{"monster", 29434}}}},
         },
+        [12833] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [12838] = {
             [questKeys.preQuestSingle] = {12807},
         },
         [12842] = {
-            [questKeys.objectives] = {nil,{{191746}}}
+            [questKeys.objectives] = {nil,{{191746}}},
         },
         [12847] = {
             [questKeys.triggerEnd] = {"Arete's Gate summoned",{[zoneIDs.ICECROWN]={{9.53,47.01}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12848] = {
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Unlock the chains"),0,{{"object",191577}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12851] = {
             [questKeys.name] = "Bearly Hanging On",
@@ -2708,9 +3018,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12852] = {
             [questKeys.objectives] = {{{29621,}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12855] = {
-            [questKeys.requiredSourceItems] = {40971,41430},
+            [questKeys.requiredSourceItems] = {40971},
             [questKeys.preQuestSingle] = {12854},
             [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS]={{36.4,64.2}}}, Questie.ICON_TYPE_EVENT, l10n("Use Frosthound's Collar at the Abandoned Camp")}},
         },
@@ -2722,10 +3033,13 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12858] = {
             [questKeys.sourceItemId] = 40971,
-            [questKeys.requiredSourceItems] = {40971,41130},
+            [questKeys.requiredSourceItems] = {41130},
+        },
+        [12859] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12860] = {
-            [questKeys.requiredSourceItems] = {40971,41179},
+            [questKeys.requiredSourceItems] = {40971},
             [questKeys.objectives] = {{{29746,"Hidden Data gathered"}}},
         },
         [12862] = {
@@ -2742,11 +3056,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {12867,13417},
         },
         [12871] = {
-            [questKeys.requiredSourceItems] = {40971,41258},
             [questKeys.preQuestSingle] = {12872},
         },
         [12872] = {
-            [questKeys.requiredSourceItems] = {40971,44704},
+            [questKeys.requiredSourceItems] = {40971},
         },
         [12874] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Fjorlin Frostbrow"), 0, {{"monster", 29732}}}},
@@ -2765,18 +3078,22 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Use Hyldnir Harpoon to land on nearby Proto-Drakes"), 0, {{"monster", 29625}}},
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Use Hyldnir Harpoon on Column Ornaments to dismount"), 0, {{"monster", 29754}}},
             },
+            [questKeys.requiredSourceItems] = {},
         },
         [12887] = {
             [questKeys.objectives] = {{{29747,"The Ocular has been destroyed"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12889] = {
             [questKeys.requiredSkill] = {202,400},
         },
         [12892] = {
             [questKeys.objectives] = {{{29747,"The Ocular has been destroyed"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12893] = {
             [questKeys.objectives] = {{{29769},{29770},{29840}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12896] = {
             [questKeys.extraObjectives] = {
@@ -2790,6 +3107,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12906] = {
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12910] = {
             [questKeys.sourceItemId] = 40971,
@@ -2800,8 +3118,12 @@ function QuestieWotlkQuestFixes:Load()
         [12913] = {
             [questKeys.sourceItemId] = 40971,
         },
+        [12915] = {
+            [questKeys.requiredSourceItems] = {41506},
+        },
         [12916] = {
             [questKeys.objectives] = {nil,{{400065,"Scourge Enclosure Blown Up"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12919] = {
             [questKeys.extraObjectives] = {
@@ -2814,25 +3136,29 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12924] = {
             [questKeys.objectives] = {{{30099,"Fjorn's Anvil Brought to Dun Niffelem"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12925] = {
             [questKeys.preQuestSingle] = {12905},
         },
         [12926] = {
             [questKeys.sourceItemId] = 40971,
-            [questKeys.requiredSourceItems] = {40971,41130},
+            [questKeys.requiredSourceItems] = {41130},
         },
         [12927] = {
-            [questKeys.requiredSourceItems] = {40971,41179},
+            [questKeys.requiredSourceItems] = {40971},
             [questKeys.objectives] = {{{29746,"Hidden Data gathered"}}},
         },
         [12928] = {
-            [questKeys.requiredSourceItems] = {40971,44704},
+            [questKeys.requiredSourceItems] = {40971},
         },
         [12929] = {
             [questKeys.preQuestSingle] = {12928},
             [questKeys.exclusiveTo] = {12930},
             [questKeys.sourceItemId] = 40971,
+        },
+        [12930] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12932] = { -- This is the version of the quest you get if you have NOT completed 9977
             [questKeys.objectives] = {{{30014,"Yggdras Defeated"}}},
@@ -2852,11 +3178,13 @@ function QuestieWotlkQuestFixes:Load()
         [12936] = {
             [questKeys.objectives] = {{{30023,"Korrak the Bloodrager Defeated"}}},
         },
+        [12937] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [12939] = {
             [questKeys.objectives] = {{{30037,}}},
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Challenge Flag on sparring Mjordin Combatants"), 0, {{"monster", 30037}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Challenge Flag on sparring Mjordin Combatants"), 0, {{"monster", 30037}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12940] = {
             [questKeys.startedBy] = {nil,{400017}},
@@ -2870,6 +3198,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12942] = {
             [questKeys.preQuestSingle] = {12905},
+        },
+        [12943] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12944] = {
             [questKeys.startedBy] = {nil,{400038}},
@@ -2900,9 +3231,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [12953] = {
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Harpoon Guns to burn Dry Haystacks"), 0, {{"monster", 30066}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Harpoon Guns to burn Dry Haystacks"), 0, {{"monster", 30066}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12954] = {
             [questKeys.objectives] = {{{30014,"Yggdras Defeated"}}},
@@ -2944,6 +3274,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.name] = "Hodir's Call",
             [questKeys.objectives] = {{{29974,"Niffelem Forefather freed"},},nil,nil,nil,{{{30144,30135},30144,},},},
             [questKeys.preQuestSingle] = {12976},
+            [questKeys.requiredSourceItems] = {},
         },
         [12978] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{29370,29374,29380},29370,"Nidavelir Stormforged slain"}}},
@@ -2957,26 +3288,49 @@ function QuestieWotlkQuestFixes:Load()
         [12982] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{30186,30194,30195,30196},30186,"Ebon Blade Prisoners set free"}}},
         },
+        [12983] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [12984] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [12985] = {
             [questKeys.requiredMinRep] = {1119,3000},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Diamond Tipped Pick on the corpses of Dead Iron Giants"), 0, {{"monster", 29914},{"monster", 30163}}}},
+            [questKeys.requiredSourceItems] = {},
+        },
+        [12986] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12987] = {
             [questKeys.name] = "Placing Hodir's Helm",
             [questKeys.requiredMinRep] = {1119,3000},
+            [questKeys.requiredSourceItems] = {},
+        },
+        [12988] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12994] = {
             [questKeys.requiredMinRep] = {1119,9000},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Ethereal Worg's Fang"), 0, {{"monster", 32569}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12995] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{29915,29919,30037,30243,30250,30409,30475,30483,30484,30632,30725,30751,29880},29880,"Ebon Blade Banner planted near vrykul corpse"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [12996] = {
             [questKeys.objectives] = {{{29352,"Kirgaraak Defeated"}}},
+            [questKeys.requiredSourceItems] = {},
+        },
+        [12997] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [12998] = {
             [questKeys.objectives] = {nil,{{192181,"Attempt to secure the Heart of the Storm"}}},
+        },
+        [13000] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [13001] = {
             [questKeys.name] = "Forging Hodir's Spear",
@@ -2986,6 +3340,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.name] = "How To Slay Your Dragon",
             [questKeys.objectives] = {{{30275,"Wild Wyrm Slain"}}},
             [questKeys.preQuestSingle] = {13001},
+            [questKeys.requiredSourceItems] = {},
         },
         [13005] = {
             [questKeys.objectives] = {{{29984,"Iron Sentinel slain"},{29978,"Iron Dwarf Assailant slain"}}},
@@ -3011,7 +3366,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectivesText] = {"King Jokkum in Dun Niffelem wants you to slay Jorcuttar in Hibernal Cavern."},
             [questKeys.requiredMinRep] = {1119,3000},
             [questKeys.requiredSourceItems] = {42733},
-            [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS]={{54.71,60.79}}}, Questie.ICON_TYPE_EVENT, l10n("Place Icemaw Bear Flank"), 0}}
+            [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS]={{54.71,60.79}}}, Questie.ICON_TYPE_EVENT, l10n("Place Icemaw Bear Flank"), 0}},
         },
         [13012] = {
             [questKeys.startedBy] = {{30348}},
@@ -3145,6 +3500,7 @@ function QuestieWotlkQuestFixes:Load()
         [13046] = {
             [questKeys.objectives] = {{{30422}}},
             [questKeys.requiredMinRep] = {1119,21000},
+            [questKeys.requiredSourceItems] = {},
         },
         [13047] = {
             [questKeys.preQuestSingle] = {},
@@ -3161,6 +3517,9 @@ function QuestieWotlkQuestFixes:Load()
         [13049] = {
             [questKeys.preQuestGroup] = {13037,13038},
         },
+        [13051] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [13058] = {
             [questKeys.preQuestGroup] = {13048,13049},
             [questKeys.extraObjectives] = {
@@ -3174,6 +3533,7 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Volgur"), 0, {{"monster", 30483}}},
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Brita"), 0, {{"monster", 30484}}},
             },
+            [questKeys.requiredSourceItems] = {},
         },
         [13060] = {
             [questKeys.extraObjectives] = {
@@ -3240,12 +3600,16 @@ function QuestieWotlkQuestFixes:Load()
         [13110] = {
             [questKeys.objectives] = {{{30202}}},
             [questKeys.preQuestSingle] = {13104},
+            [questKeys.requiredSourceItems] = {},
         },
         [13117] = {
             [questKeys.preQuestSingle] = {},
         },
         [13118] = {
             [questKeys.preQuestSingle] = {13104},
+        },
+        [13120] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [13121] = {
             [questKeys.objectives] = {nil,{{192861}}},
@@ -3255,6 +3619,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13125] = {
             [questKeys.preQuestGroup] = {13122,13118},
+            [questKeys.requiredSourceItems] = {},
         },
         [13129] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Dip Kurzel's Blouse Scrap on the remains of Novos the Summoner"), 0, {{"monster", 26631}}}},
@@ -3268,6 +3633,7 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Wake Slumbering Mjordin until you find Iskalder"), 0, {{"monster", 30718}}},
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Iskalder delivered to The Bone Witch"), 0, {{"monster", 30232}}},
             },
+            [questKeys.requiredSourceItems] = {},
         },
         [13134] = {
             [questKeys.preQuestSingle] = {},
@@ -3290,6 +3656,7 @@ function QuestieWotlkQuestFixes:Load()
         [13138] = {
             [questKeys.preQuestSingle] = {13136},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Bag of Jagged Shards near Malykriss Furnace"), 0, {{"object", 193004}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [13139] = {
             [questKeys.preQuestSingle] = {},
@@ -3301,6 +3668,7 @@ function QuestieWotlkQuestFixes:Load()
         [13141] = {
             [questKeys.objectives] = {{{30989,"Battle for Crusaders' Pinnacle"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Plant the Blessed Banner of the Crusade"), 0, {{"object", 193003}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [13142] = {
             [questKeys.extraObjectives] = {
@@ -3310,6 +3678,7 @@ function QuestieWotlkQuestFixes:Load()
         [13143] = {
             [questKeys.objectives] = {{{30894}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Lead a subdued Lithe Stalker to the cliff above Vereth the Cunning"), 0, {{"monster", 31049}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [13144] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{30689,31048},30689,}}},
@@ -3332,6 +3701,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13149] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Plagued Grain Crates Dispelled: 0/1"), 0, {{"object", 190094}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [13151] = {
             [questKeys.objectives] = {{{26533,"Mal'Ganis Defeated"}}},
@@ -3477,6 +3847,7 @@ function QuestieWotlkQuestFixes:Load()
         [13211] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13134,13138,13140},
+            [questKeys.requiredSourceItems] = {},
         },
         [13214] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{31191,31192,31193,31194,31195,31196,},31191}}},
@@ -3498,6 +3869,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13220] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Crusader Olakin's Remains at the Sanctum of Reanimation Slab"), 0, {{"object", 193090}}}},
+            [questKeys.requiredSourceItems] = {43567,43568},
         },
         [13221] = {
             [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
@@ -3560,6 +3932,7 @@ function QuestieWotlkQuestFixes:Load()
         [13239] = {
             [questKeys.preQuestSingle] = {13238},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{31137,31583},31137,"Field Tests Conducted"}}},
+            [questKeys.requiredSourceItems] = {43609,43610,43616},
         },
         [13240] = {
             [questKeys.startedBy] = {{31439},nil,nil},
@@ -3654,10 +4027,12 @@ function QuestieWotlkQuestFixes:Load()
         [13261] = {
             [questKeys.preQuestSingle] = {13239},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{31137,31583},31137,"Field Tests Conducted"}}},
+            [questKeys.requiredSourceItems] = {43609,43610,43616},
         },
         [13264] = {
             [questKeys.objectives] = {{{31142,"Icy Ghouls Exploded"},{31147,"Vicious Geists Exploded"},{31205,"Risen Alliance Soldiers Exploded"}}},
             [questKeys.preQuestSingle] = {13237},
+            [questKeys.requiredSourceItems] = {43966},
         },
         [13265] = {
             [questKeys.requiredSpell] = -59390,
@@ -3687,6 +4062,7 @@ function QuestieWotlkQuestFixes:Load()
         [13276] = {
             [questKeys.objectives] = {{{31142,"Icy Ghouls Exploded"},{31147,"Vicious Geists Exploded"},{31205,"Risen Alliance Soldiers Exploded"}}},
             [questKeys.preQuestSingle] = {13264},
+            [questKeys.requiredSourceItems] = {43966},
         },
         [13277] = {
             [questKeys.preQuestSingle] = {13237},
@@ -3697,6 +4073,7 @@ function QuestieWotlkQuestFixes:Load()
         [13279] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Pustulant Spinal Fluid"), 0, {{"monster", 31773}}}},
             [questKeys.objectives] = {{{31773,"Plague Cauldron Neutralized"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [13280] = {
             [questKeys.preQuestSingle] = {13296},
@@ -3706,7 +4083,6 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [13281] = {
-            [questKeys.sourceItemId] = 44010,
             [questKeys.preQuestSingle] = {13279},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Pustulant Spinal Fluid"), 0, {{"monster", 31773}}}},
             [questKeys.objectives] = {{{31773,"Plague Cauldron Neutralized"}}},
@@ -3732,20 +4108,24 @@ function QuestieWotlkQuestFixes:Load()
         [13288] = {
             [questKeys.objectives] = {{{31142,"Icy Ghouls Exploded"},{31147,"Vicious Geists Exploded"},{31205,"Risen Alliance Soldiers Exploded"}}},
             [questKeys.preQuestSingle] = {13287},
+            [questKeys.requiredSourceItems] = {43966},
         },
         [13289] = {
             [questKeys.objectives] = {{{31142,"Icy Ghouls Exploded"},{31147,"Vicious Geists Exploded"},{31205,"Risen Alliance Soldiers Exploded"}}},
             [questKeys.preQuestSingle] = {13288},
+            [questKeys.requiredSourceItems] = {43966},
         },
         [13290] = {
             [questKeys.preQuestSingle] = {13231},
         },
         [13291] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{31137,31583},31137,"Field Tests Conducted"}}},
+            [questKeys.requiredSourceItems] = {43609,43610,43616},
         },
         [13292] = {
             [questKeys.preQuestSingle] = {13291},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{31137,31583},31137,"Frostbrood Skytalons Destroyed"}}},
+            [questKeys.requiredSourceItems] = {43609,43610,43616},
         },
         [13293] = {
             [questKeys.preQuestSingle] = {13224},
@@ -3756,12 +4136,12 @@ function QuestieWotlkQuestFixes:Load()
         [13295] = {
             [questKeys.objectives] = {{{31773,"Plague Cauldron Neutralized"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Pustulant Spinal Fluid"), 0, {{"monster", 31773}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [13296] = {
             [questKeys.preQuestSingle] = {13225},
         },
         [13297] = {
-            [questKeys.sourceItemId] = 44010,
             [questKeys.preQuestSingle] = {13295},
             [questKeys.objectives] = {{{31773,"Plague Cauldron Neutralized"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Pustulant Spinal Fluid"), 0, {{"monster", 31773}}}},
@@ -3787,6 +4167,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13306] = {
             [questKeys.preQuestSingle] = {13366},
+            [questKeys.requiredSourceItems] = {},
         },
         [13307] = {
             [questKeys.preQuestSingle] = {13306},
@@ -3807,12 +4188,15 @@ function QuestieWotlkQuestFixes:Load()
         [13312] = {
             [questKeys.preQuestGroup] = {13306,13367},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Rune of Distortion near Grimkor's Orb to summon Grimkor the Wicked"), 0, {{"object", 193622}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [13313] = {
             [questKeys.preQuestSingle] = {13306},
+            [questKeys.requiredSourceItems] = {},
         },
         [13314] = {
             [questKeys.preQuestSingle] = {13332},
+            [questKeys.requiredSourceItems] = {},
         },
         [13315] = {
             [questKeys.preQuestSingle] = {13288},
@@ -3832,10 +4216,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13321] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, Questie.ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
+            [questKeys.requiredSourceItems] = {44301,44304},
         },
         [13322] = {
             [questKeys.preQuestSingle] = {13321},
             [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, Questie.ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
+            [questKeys.requiredSourceItems] = {44301,44304},
         },
         [13323] = {
             [questKeys.preQuestSingle] = {13318},
@@ -3847,18 +4233,22 @@ function QuestieWotlkQuestFixes:Load()
         [13329] = {
             [questKeys.objectives] = {{{32467,"Skeletal Reaver bones dissolved"}}},
             [questKeys.preQuestGroup] = {13307,13312},
+            [questKeys.requiredSourceItems] = {},
         },
         [13330] = {
             [questKeys.preQuestSingle] = {13224},
         },
         [13331] = {
             [questKeys.preQuestSingle] = {13313},
+            [questKeys.requiredSourceItems] = {},
         },
         [13332] = {
             [questKeys.preQuestSingle] = {13345},
+            [questKeys.requiredSourceItems] = {},
         },
         [13333] = {
             [questKeys.preQuestSingle] = {13314},
+            [questKeys.requiredSourceItems] = {},
         },
         [13334] = {
             [questKeys.preQuestSingle] = {13332},
@@ -3866,6 +4256,7 @@ function QuestieWotlkQuestFixes:Load()
         [13335] = {
             [questKeys.objectives] = {{{32467,"Skeletal Reaver bones dissolved"}}},
             [questKeys.preQuestGroup] = {13334,13337},
+            [questKeys.requiredSourceItems] = {},
         },
         [13336] = {
             [questKeys.preQuestSingle] = {13225},
@@ -3873,6 +4264,7 @@ function QuestieWotlkQuestFixes:Load()
         [13337] = {
             [questKeys.preQuestGroup] = {13332,13346},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Rune of Distortion near Grimkor's Orb to summon Grimkor the Wicked"), 0, {{"object", 193622}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [13338] = {
             [questKeys.preQuestSingle] = {13335},
@@ -3890,30 +4282,30 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13318},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
+            [questKeys.requiredSourceItems] = {44434},
         },
         [13343] = {
             [questKeys.objectives] = {{{32327,"Hourglass of Eternity protected from the Infinite Dragonflight."}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [13344] = {
             [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13342},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
+            [questKeys.requiredSourceItems] = {44434},
         },
         [13345] = {
-            [questKeys.sourceItemId] = 44459,
             [questKeys.preQuestSingle] = {13318},
         },
         [13346] = {
-            [questKeys.sourceItemId] = 44476,
-            [questKeys.requiredSourceItems] = {44477,44479,44478,44476,44480},
+            [questKeys.requiredSourceItems] = {44476,44477,44478,44479,44480},
         },
         [13347] = {
             [questKeys.preQuestSingle] = {12499},
         },
         [13350] = {
             [questKeys.preQuestSingle] = {13346},
-            [questKeys.sourceItemId] = 44476,
-            [questKeys.requiredSourceItems] = {44477,44479,44478,44476,44480},
+            [questKeys.requiredSourceItems] = {44476,44477,44478,44479,44480},
         },
         [13351] = {
             [questKeys.preQuestSingle] = {13264},
@@ -3934,15 +4326,18 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13356] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, Questie.ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
+            [questKeys.requiredSourceItems] = {44301,44304},
         },
         [13357] = {
             [questKeys.preQuestSingle] = {13356},
             [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, Questie.ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
+            [questKeys.requiredSourceItems] = {44301,44304},
         },
         [13358] = {
             [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13352},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
+            [questKeys.requiredSourceItems] = {44434},
         },
         [13359] = {
             [questKeys.preQuestSingle] = {13348},
@@ -3965,18 +4360,16 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13358},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
+            [questKeys.requiredSourceItems] = {44434},
         },
         [13366] = {
-            [questKeys.sourceItemId] = 44459,
             [questKeys.preQuestSingle] = {13352},
         },
         [13367] = {
-            [questKeys.sourceItemId] = 44476,
             [questKeys.requiredSourceItems] = {44477,44479,44478,44476,44480},
         },
         [13368] = {
             [questKeys.preQuestSingle] = {13367},
-            [questKeys.sourceItemId] = 44476,
             [questKeys.requiredSourceItems] = {44477,44479,44478,44476,44480},
         },
         [13369] = {
@@ -4093,10 +4486,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 1, {{"monster", 32548}}}},
         },
         [13415] = {
-            [questKeys.requiredSourceItems] = {41197,40971},
+            [questKeys.requiredSourceItems] = {40971},
         },
         [13416] = {
-            [questKeys.requiredSourceItems] = {41197,40971},
+            [questKeys.requiredSourceItems] = {40971},
         },
         [13418] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a ride to the ship"), 1, {{"monster", 31081}}}},
@@ -4107,11 +4500,13 @@ function QuestieWotlkQuestFixes:Load()
         [13420] = {
             [questKeys.startedBy] = {nil,{193997},{44725}},
             [questKeys.requiredMinRep] = {1119,3000},
+            [questKeys.requiredSourceItems] = {},
         },
         [13422] = {
             [questKeys.preQuestSingle] = {12906},
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
             [questKeys.exclusiveTo] = {13423,13424,13425},
+            [questKeys.requiredSourceItems] = {},
         },
         [13423] = {
             [questKeys.preQuestSingle] = {12971},
@@ -4120,6 +4515,7 @@ function QuestieWotlkQuestFixes:Load()
         [13424] = {
             [questKeys.preQuestSingle] = {12997},
             [questKeys.exclusiveTo] = {13422,13423,13425},
+            [questKeys.requiredSourceItems] = {},
         },
         [13425] = {
             [questKeys.preQuestSingle] = {12925},
@@ -4473,6 +4869,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13549] = {
             [questKeys.objectives] = {{{29327,"Female Frost Leopards recovered"},{29319,"Female Icepaw Bears recovered"},},nil,nil,nil,},
+            [questKeys.requiredSourceItems] = {},
         },
         [13559] = {
             [questKeys.preQuestSingle] = {12924},
@@ -4498,6 +4895,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13699,13600,13616,13741,13742,13743,13746,13747,13748,13757,13758,13759,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredSourceItems] = {},
         },
         [13604] = {
             [questKeys.startedBy] = {{32867,32927},nil,{45506}},
@@ -4522,6 +4920,10 @@ function QuestieWotlkQuestFixes:Load()
         [13627] = {
             [questKeys.startedBy] = {},
             [questKeys.finishedBy] = {},
+            [questKeys.requiredSourceItems] = {},
+        },
+        [13629] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [13631] = {
             [questKeys.startedBy] = {{32871},nil,{46052}},
@@ -4532,6 +4934,9 @@ function QuestieWotlkQuestFixes:Load()
         [13634] = {
             [questKeys.preQuestSingle] = {13668},
         },
+        [13643] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [13662] = {
             [questKeys.preQuestSingle] = {7722},
             [questKeys.requiredMinRep] = {59,3000},
@@ -4539,6 +4944,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13663] = {
             [questKeys.objectives] = {{{33513,"Black Knight's Gryphon taken"}},nil,{{45121},{45122}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [13664] = {
             [questKeys.preQuestSingle] = {13700,13701},
@@ -4558,6 +4964,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13679,13669,13670},
             [questKeys.parentQuest] = 0,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [13669] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
@@ -4584,6 +4991,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13674,13675,13680},
             [questKeys.parentQuest] = 0,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [13674] = {
             [questKeys.preQuestGroup] = {13829,13838,13839},
@@ -4629,6 +5037,7 @@ function QuestieWotlkQuestFixes:Load()
         [13681] = {
             [questKeys.startedBy] = {},
             [questKeys.finishedBy] = {},
+            [questKeys.requiredSourceItems] = {},
         },
         [13682] = {
             [questKeys.preQuestSingle] = {13664},
@@ -4803,6 +5212,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13713,13600,13603,13616,13742,13743,13746,13747,13748,13757,13758,13759,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredSourceItems] = {},
         },
         [13742] = { -- DWARF A Worthy Weapon
             [questKeys.preQuestSingle] = {13685,13703},
@@ -4832,6 +5242,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13723,13600,13603,13616,13741,13742,13743,13747,13748,13757,13758,13759,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredSourceItems] = {},
         },
         [13747] = { -- GNOME A Worthy Weapon
             [questKeys.preQuestSingle] = {13688,13704},
@@ -4861,6 +5272,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13724,13600,13603,13616,13741,13742,13743,13746,13747,13748,13757,13758,13759,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredSourceItems] = {},
         },
         [13753] = { -- DRAENEI A Worthy Weapon
             [questKeys.preQuestSingle] = {13690,13705},
@@ -4890,6 +5302,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13725,13600,13603,13616,13741,13742,13743,13746,13747,13748,13758,13759,13752,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredSourceItems] = {},
         },
         [13758] = { -- NIGHT ELF A Worthy Weapon
             [questKeys.preQuestSingle] = {13689,13706},
@@ -4919,6 +5332,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13726,13763,13764,13768,13769,13770,13773,13774,13775,13778,13779,13780,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredSourceItems] = {},
         },
         [13763] = { -- ORC A Worthy Weapon
             [questKeys.preQuestSingle] = {13691,13707},
@@ -4948,6 +5362,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13727,13762,13763,13764,13769,13770,13773,13774,13775,13778,13779,13780,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredSourceItems] = {},
         },
         [13769] = { -- TROLL A Worthy Weapon
             [questKeys.preQuestSingle] = {13693,13708},
@@ -4977,6 +5392,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13728,13762,13763,13764,13768,13769,13770,13774,13775,13778,13779,13780,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredSourceItems] = {},
         },
         [13774] = { -- TAUREN A Worthy Weapon
             [questKeys.preQuestSingle] = {13694,13709},
@@ -5006,6 +5422,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13729,13762,13763,13764,13768,13769,13770,13773,13774,13775,13779,13780,13783,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredSourceItems] = {},
         },
         [13779] = { -- UNDEAD A Worthy Weapon
             [questKeys.preQuestSingle] = {13695,13710},
@@ -5035,6 +5452,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13731,13762,13763,13764,13768,13769,13770,13773,13774,13775,13778,13779,13780,13784,13785},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredSourceItems] = {},
         },
         [13784] = { -- BLOOD ELF A Worthy Weapon
             [questKeys.preQuestSingle] = {13696,13711},
@@ -5296,7 +5714,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13954,13956},
             [questKeys.nextQuestInChain] = 13959,
             [questKeys.exclusiveTo] = {13927},
-            [questKeys.requiredSourceItems] = {46397,46693},
+            [questKeys.requiredSourceItems] = {46693},
+            [questKeys.sourceItemId] = 46397,
         },
         [13938] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Buy a Small Paper Zeppelin"), 0, {{"monster", 29478}}}},
@@ -5304,7 +5723,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13955,13957},
             [questKeys.nextQuestInChain] = 13960,
             [questKeys.exclusiveTo] = {13926},
-            [questKeys.requiredSourceItems] = {46396,46693},
+            [questKeys.requiredSourceItems] = {46693},
+            [questKeys.sourceItemId] = 46396,
         },
         [13950] = {
             [questKeys.triggerEnd] = {"Roo taken to visit Winterfin Retreat", {[zoneIDs.BOREAN_TUNDRA]={{43.5,13.6}}}}, -- oracle orphan
@@ -5471,6 +5891,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [14076] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use your drum near a Mysterious Snow Mound"), 0, {{"object", 195309}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [14079] = {
             [questKeys.requiredRaces] = raceIDs.HUMAN,
@@ -5504,16 +5925,20 @@ function QuestieWotlkQuestFixes:Load()
         },
         [14090] = {
             [questKeys.objectives] = {{{29618,"Snowblind Follower captured"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [14092] = { -- Breakfast Of Champions
             [questKeys.exclusiveTo] = {14141,14145},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use your drum near a Mysterious Snow Mound"), 0, {{"object", 195309}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [14101] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HROTHGARS_LANDING]={{50.4,15.6}}}, Questie.ICON_TYPE_EVENT, l10n("Summon Drottinn Hrothgar using the Kvaldir War Horn")}},
+            [questKeys.requiredSourceItems] = {},
         },
         [14102] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HROTHGARS_LANDING]={{43.8,24.6}}}, Questie.ICON_TYPE_EVENT, l10n("Summon Mistcaller Yngvar using the Mistcaller's Charm")}},
+            [questKeys.requiredSourceItems] = {},
         },
         [14103] = {
             [questKeys.specialFlags] = 1,
@@ -5522,9 +5947,11 @@ function QuestieWotlkQuestFixes:Load()
         },
         [14104] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HROTHGARS_LANDING]={{58.59,31.72}}}, Questie.ICON_TYPE_EVENT, l10n("Provoke Ornolf the Scarred using the Captured Kvaldir Banner")}},
+            [questKeys.requiredSourceItems] = {},
         },
         [14107] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{32149},32149,"Fallen Hero's Spirit blessed"}}},
+            [questKeys.requiredSourceItems] = {47035},
         },
         [14108] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 35117}}}},
@@ -5542,6 +5969,7 @@ function QuestieWotlkQuestFixes:Load()
         [14141] = { -- Gormok Wants His Snobolds
             [questKeys.exclusiveTo] = {14092,14145},
             [questKeys.objectives] = {{{29618,"Snowblind Follower captured"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [14143] = { -- A Leg Up
             [questKeys.exclusiveTo] = {14136,14140,14144},
@@ -5910,7 +6338,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{34839,34838},nil,{49676}},
         },
         [24461] = {
-            [questKeys.sourceItemId] = 49723,
+            [questKeys.requiredSourceItems] = {49718,49723},
+        },
+        [24476] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [24480] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [24498] = {
             [questKeys.objectives] = {{{36494}},nil,nil,nil,{{{36764,36765,36766,36767},36764,"Alliance Slaves freed"}}},
@@ -5942,6 +6376,7 @@ function QuestieWotlkQuestFixes:Load()
         [24536] = {
             [questKeys.objectives] = {{{3296}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Snagglebolt's Air Analyzer on perfumed guards"), 0, {{"monster", 3296}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [24541] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Grab the package"), 0, {{"monster", 37671}}}},
@@ -5973,7 +6408,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24553] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.ROGUE + classIDs.HUNTER + classIDs.DEATH_KNIGHT + classIDs.MAGE + classIDs.WARLOCK,
-            [questKeys.requiredSourceItems] = {49879},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Ask the warden to take you to the Sunwell"), 0, {{"monster", 37523}}},
                 {nil, Questie.ICON_TYPE_EVENT, l10n("After restoring Quel'Delar, go back to Dalaran"), 0, {{"object", 194481}}},
@@ -5986,7 +6420,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ask Shandy Glossgleam to lend you a tabard"), 0, {{"monster", 36856}}}},
         },
         [24559] = {
-            [questKeys.sourceItemId] = 49723,
+            [questKeys.requiredSourceItems] = {49718,49723},
+        },
+        [24560] = {
+            [questKeys.requiredSourceItems] = {},
+        },
+        [24561] = {
+            [questKeys.requiredSourceItems] = {},
         },
         [24563] = {
             [questKeys.objectives] = {{{37205,"Thalorien's Blessing obtained"}}},
@@ -5999,6 +6439,7 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Ask the warden to take you to the Sunwell"), 0, {{"monster", 37523}}},
                 {nil, Questie.ICON_TYPE_EVENT, l10n("After restoring Quel'Delar, go back to Dalaran"), 0, {{"object", 194481}}},
             },
+            [questKeys.requiredSourceItems] = {},
         },
         [24579] = {
             [questKeys.exclusiveTo] = {24580,24581,24582,24583,24584,24585,24586,24587,24588,24589,24590},
@@ -6043,10 +6484,10 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Ask the warden to take you to the Sunwell"), 0, {{"monster", 37523}}},
                 {nil, Questie.ICON_TYPE_EVENT, l10n("After restoring Quel'Delar, go back to Dalaran"), 0, {{"object", 194481}}},
             },
+            [questKeys.requiredSourceItems] = {},
         },
         [24595] = {
             [questKeys.requiredClasses] = classIDs.DRUID + classIDs.PRIEST + classIDs.SHAMAN,
-            [questKeys.requiredSourceItems] = {49879},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Ask the warden to take you to the Sunwell"), 0, {{"monster", 37523}}},
                 {nil, Questie.ICON_TYPE_EVENT, l10n("After restoring Quel'Delar, go back to Dalaran"), 0, {{"object", 194481}}},
@@ -6059,6 +6500,7 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Ask the warden to take you to the Sunwell"), 0, {{"monster", 37523}}},
                 {nil, Questie.ICON_TYPE_EVENT, l10n("After restoring Quel'Delar, go back to Dalaran"), 0, {{"object", 194481}}},
             },
+            [questKeys.requiredSourceItems] = {},
         },
         [24597] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -6070,6 +6512,7 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Ask the warden to take you to the Sunwell"), 0, {{"monster", 37523}}},
                 {nil, Questie.ICON_TYPE_EVENT, l10n("After restoring Quel'Delar, go back to Dalaran"), 0, {{"object", 194481}}},
             },
+            [questKeys.requiredSourceItems] = {},
         },
         [24609] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -6092,15 +6535,17 @@ function QuestieWotlkQuestFixes:Load()
         [24615] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        -- Hackfix to hide the other two as a available once one of the random three dailies has been accepted
         [24629] = {
             [questKeys.exclusiveTo] = {24635, 24636},
+            [questKeys.requiredSourceItems] = {},
         },
         [24635] = {
             [questKeys.exclusiveTo] = {24629, 24636},
+            [questKeys.requiredSourceItems] = {},
         },
         [24636] = {
             [questKeys.exclusiveTo] = {24629, 24635},
+            [questKeys.requiredSourceItems] = {},
         },
         [24638] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -6110,6 +6555,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24645, 24647, 24648, 24649, 24650, 24651, 24652},
             [questKeys.objectives] = {nil,{{400048,"Chemical Wagon Destroyed"}},nil,nil,{{{37214},37214}}},
             [questKeys.requiredMaxLevel] = 13,
+            [questKeys.requiredSourceItems] = {},
         },
         [24645] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -6119,6 +6565,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24638, 24647, 24648, 24649, 24650, 24651, 24652},
             [questKeys.objectives] = {nil,{{400049,"Chemical Wagon Destroyed"}},nil,nil,{{{37917},37917}}},
             [questKeys.requiredMaxLevel] = 22,
+            [questKeys.requiredSourceItems] = {},
         },
         [24647] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -6128,6 +6575,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24638, 24645, 24648, 24649, 24650, 24651, 24652},
             [questKeys.objectives] = {nil,{{400052,"Chemical Wagon Destroyed"}},nil,nil,{{{37984},37984}}},
             [questKeys.requiredMaxLevel] = 31,
+            [questKeys.requiredSourceItems] = {},
         },
         [24648] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -6137,6 +6585,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24649, 24650, 24651, 24652},
             [questKeys.objectives] = {nil,{{400053,"Chemical Wagon Destroyed"}},nil,nil,{{{38006},38006}}},
             [questKeys.requiredMaxLevel] = 40,
+            [questKeys.requiredSourceItems] = {},
         },
         [24649] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -6146,6 +6595,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24648, 24650, 24651, 24652},
             [questKeys.objectives] = {nil,{{400054,"Chemical Wagon Destroyed"}},nil,nil,{{{38016},38016}}},
             [questKeys.requiredMaxLevel] = 50,
+            [questKeys.requiredSourceItems] = {},
         },
         [24650] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -6155,6 +6605,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24648, 24649, 24651, 24652},
             [questKeys.objectives] = {nil,{{400055,"Chemical Wagon Destroyed"}},nil,nil,{{{38023},38023}}},
             [questKeys.requiredMaxLevel] = 60,
+            [questKeys.requiredSourceItems] = {},
         },
         [24651] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -6164,6 +6615,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24648, 24649, 24650, 24652},
             [questKeys.objectives] = {nil,{{400056,"Chemical Wagon Destroyed"}},nil,nil,{{{38030},38030}}},
             [questKeys.requiredMaxLevel] = 70,
+            [questKeys.requiredSourceItems] = {},
         },
         [24652] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -6172,10 +6624,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24648, 24649, 24650, 24651},
             [questKeys.objectives] = {nil,{{400057,"Chemical Wagon Destroyed"}},nil,nil,{{{38032},38032}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [24655] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{68,1976},1976}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Snagglebolt's Air Analyzer on perfumed guards"), 0, {{"monster", 68},{"monster", 1976}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [24656] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Grab the package"), 0, {{"monster", 38065}}}},
@@ -6189,6 +6643,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24659, 24660, 24662, 24663, 24664, 24665, 24666},
             [questKeys.objectives] = {nil,{{400050,"Chemical Wagon Destroyed"}},nil,nil,{{{37214},37214}}},
             [questKeys.requiredMaxLevel] = 13,
+            [questKeys.requiredSourceItems] = {},
         },
         [24659] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -6198,6 +6653,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24658, 24660, 24662, 24663, 24664, 24665, 24666},
             [questKeys.objectives] = {nil,{{400051,"Chemical Wagon Destroyed"}},nil,nil,{{{37917},37917}}},
             [questKeys.requiredMaxLevel] = 22,
+            [questKeys.requiredSourceItems] = {},
         },
         [24660] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -6207,6 +6663,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24658, 24659, 24662, 24663, 24664, 24665, 24666},
             [questKeys.objectives] = {nil,{{400052,"Chemical Wagon Destroyed"}},nil,nil,{{{37984},37984}}},
             [questKeys.requiredMaxLevel] = 31,
+            [questKeys.requiredSourceItems] = {},
         },
         [24662] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -6216,6 +6673,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24663, 24664, 24665, 24666},
             [questKeys.objectives] = {nil,{{400053,"Chemical Wagon Destroyed"}},nil,nil,{{{38006},38006}}},
             [questKeys.requiredMaxLevel] = 40,
+            [questKeys.requiredSourceItems] = {},
         },
         [24663] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -6225,6 +6683,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24662, 24664, 24665, 24666},
             [questKeys.objectives] = {nil,{{400054,"Chemical Wagon Destroyed"}},nil,nil,{{{38016},38016}}},
             [questKeys.requiredMaxLevel] = 50,
+            [questKeys.requiredSourceItems] = {},
         },
         [24664] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -6234,6 +6693,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24662, 24663, 24665, 24666},
             [questKeys.objectives] = {nil,{{400055,"Chemical Wagon Destroyed"}},nil,nil,{{{38023},38023}}},
             [questKeys.requiredMaxLevel] = 60,
+            [questKeys.requiredSourceItems] = {},
         },
         [24665] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -6243,6 +6703,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24662, 24663, 24664, 24666},
             [questKeys.objectives] = {nil,{{400056,"Chemical Wagon Destroyed"}},nil,nil,{{{38030},38030}}},
             [questKeys.requiredMaxLevel] = 70,
+            [questKeys.requiredSourceItems] = {},
         },
         [24666] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -6251,6 +6712,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{38066}},
             [questKeys.exclusiveTo] = {24658, 24659, 24660, 24662, 24663, 24664, 24665},
             [questKeys.objectives] = {nil,{{400057,"Chemical Wagon Destroyed"}},nil,nil,{{{38032},38032}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [24683] = {
             [questKeys.preQuestSingle] = {24499},
@@ -6521,6 +6983,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{38589}},
             [questKeys.finishedBy] = {{38017}},
             [questKeys.exclusiveTo] = {24869,24870,24871,24873,24874},
+            [questKeys.requiredSourceItems] = {},
         },
         [24873] = { -- 10man
             [questKeys.startedBy] = {{38501}},
@@ -6573,6 +7036,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{38589}},
             [questKeys.finishedBy] = {{38017}},
             [questKeys.exclusiveTo] = {24875,24876,24877,24878,24879},
+            [questKeys.requiredSourceItems] = {},
         },
         [24912] = {
             [questKeys.startedBy] = {{37120}},
@@ -6583,6 +7047,7 @@ function QuestieWotlkQuestFixes:Load()
         [24914] = {
             [questKeys.startedBy] = {{36597},nil,{53135}},
             [questKeys.preQuestSingle] = {24549},
+            [questKeys.requiredSourceItems] = {},
         },
         [24915] = {
             [questKeys.startedBy] = {{37120}},
@@ -6620,10 +7085,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{39386}},
             [questKeys.preQuestSingle] = {25199},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Board the Flying Machine"), 0, {{"monster", 39396}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [25229] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.objectives] = {nil,nil,nil,nil,{{{39253,39623},39623,"Gnomes Motivated"},{{39624,39466,39675},39466,"Motivated Gnomes Brought to Captain Sparknozzle"}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [25239] = { -- Path of Might - friendly to honored
             [questKeys.preQuestSingle] = {},
@@ -6659,6 +7126,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25212,25295},
             [questKeys.nextQuestInChain] = 25500,
+            [questKeys.requiredSourceItems] = {},
         },
         [25285] = {
             [questKeys.startedBy] = {{39675}},
@@ -6706,11 +7174,13 @@ function QuestieWotlkQuestFixes:Load()
         [25446] = { -- Frogs Away!
             [questKeys.nextQuestInChain] = 25461,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Handler Marnlek and deploy the frogs on the white smoke"), 0, {{"monster", 40204}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [25461] = { -- Trollin' For Volunteers
             [questKeys.preQuestSingle] = {25446},
             [questKeys.nextQuestInChain] = 25470,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Handler Marnlek for a ride"), 0, {{"monster", 40204}}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [25470] = { -- Lady Of Da Tigers
             [questKeys.preQuestSingle] = {25461},
@@ -7157,6 +7627,34 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [78753] = {
+            [questKeys.name] = "Proof of Demise: Threats to Azeroth",
+            [questKeys.startedBy] = {{20735},nil,nil},
+            [questKeys.finishedBy] = {{20735},nil,nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"We must continue putting pressure on all fronts!","","The Council of Six has decreed that any willing fighter should take up arms and aid in keeping Azeroth safe!"},
+            [questKeys.objectives] = {nil,nil,{{211207}}},
+            [questKeys.zoneOrSort] = 4395,
+            [questKeys.questFlags] = 4232,
+            [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
+        },
+        [83713] = {
+            [questKeys.name] = "Proof of Demise: Titan Rune Protocol Gamma",
+            [questKeys.startedBy] = {{20735},nil,nil},
+            [questKeys.finishedBy] = {{20735},nil,nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"The Lich King's presence mustn't extend any further!","","The Council of Six has decreed that any strong enough fighter should take up arms and aid in keeping Azeroth safe!"},
+            [questKeys.objectives] = {nil,nil,{{211206}}},
+            [questKeys.zoneOrSort] = 4395,
+            [questKeys.questFlags] = 4232,
+            [questKeys.specialFlags] = 1,
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
+        },
+        [83714] = {
             [questKeys.name] = "Proof of Demise: Threats to Azeroth",
             [questKeys.startedBy] = {{20735},nil,nil},
             [questKeys.finishedBy] = {{20735},nil,nil},
