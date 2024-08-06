@@ -2252,6 +2252,24 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84125},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [84135] = { -- Beach Bot
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
+        [84137] = { -- Mechanical Romance
+            [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {84135},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+            [questKeys.extraObjectives] = {{{[zoneIDs.TANARIS]={{53.5,96.5}}}, Questie.ICON_TYPE_EVENT, l10n("Swim south till you reach a small island. You need to use your Guided Buoyancy Accelerant or any other swim speed increase.")}},
+        },
+        [84138] = { -- Frosty Favors
+            [questKeys.preQuestSingle] = {84137},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
+        [84146] = { -- Red Bag Blues
+            [questKeys.objectives] = {{{218236}}},
+            [questKeys.preQuestSingle] = {84138},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
         [84147] = { -- An Earnest Proposition
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
@@ -2571,6 +2589,27 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.preQuestSingle] = {8998},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84211] = { -- Poacher's Den
+            [questKeys.preQuestSingle] = {84146},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
+        [84212] = { -- Bookin' it Back
+            [questKeys.preQuestSingle] = {84211},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+            [questKeys.extraObjectives] = {{{[zoneIDs.TANARIS]={{53.5,96.5}}}, Questie.ICON_TYPE_EVENT, l10n("Swim south till you reach a small island. You need to use your Guided Buoyancy Accelerant or any other swim speed increase.")}},
+        },
+        [84213] = { -- Rift Away
+            [questKeys.preQuestSingle] = {84212},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Teleport to either Westfall (Alliance) or Tirisfal Glades (Horde)."),0,{{"object", 461155}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Form a proper group and click on the Console to summon Harvest Golem V000-A."),0,{{"object", 456918}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Keep up Disarm and Demoralizing Shout to greatly reduce the damage of the golem."),0,{{"monster", 212252}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Phase 1: Interrupt"),0,{{"monster", 212252}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Phase 2: Kite"),0,{{"monster", 212252}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Phase 3: Use Shield Wall and survive"),0,{{"monster", 212252}}},
+            },
         },
         [84320] = { -- Lost Heirloom
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
