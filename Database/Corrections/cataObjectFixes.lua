@@ -23,8 +23,14 @@ function CataObjectFixes.Load()
         [144052] = { -- Sandsorrow Watch Water Hole
             [objectKeys.name] = "Sandsorrow Watch Water Hole",
         },
-        [154357] = {
+        [147557] = { -- Stolen Silver
+            [objectKeys.spawns] = {[zoneIDs.THE_BARRENS]={{63.72,58.80}}},
+        },
+        [154357] = { -- Glinting Mud
             [objectKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS]={{25.88,47.15},{23.94,49.78},{34.8,49.43},{32.07,51.94},{19.77,47.27},{27.09,50.94},{35.73,49.6},{35.71,49.6},{21.92,48.48}}},
+        },
+        [161752] = { -- Tool Bucket
+            [objectKeys.spawns] = {[zoneIDs.THE_BARRENS]={{40.75,33.22},{40.74,33.38},{40.65,33.46},{40.44,32.85},{41.00,32.98},{41.49,32.08},{41.90,32.09},{42.07,32.31},{42.14,31.90},{42.48,31.92},{42.72,31.82},{42.98,32.12},{42.69,32.68},{42.19,32.65},{43.12,31.49},{43.04,30.90}}},
         },
         [181148] = { -- Mummified Troll Remains
             [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{62.62,32.58},{61.03,30.84},{58.59,27.51},{58.44,28.21},{64.19,28.26},{63.52,31.74},{62.37,31.34},{63.96,28.97},{64.43,28.28},{64.69,28.93},{64.94,28.96},{65.67,28.89},{65.91,28.26},{61.26,27.43},{58.81,28.72},{59.08,28.35},{58.62,28.47},{65.42,28.25},{60.3,30.84},{58.75,27.8},{59.76,27.54},{65.17,28.27},{65.92,28.88},{65.43,28.91},{58.31,27.9},{62.39,32.25},{62.3,31.8},{62.92,32.59},{63.23,32.56},{63.43,31.29},{62.59,30.99},{63.22,30.97},{63.45,32.21},{63.71,28.96},{63.69,28.27},{65.18,28.91},{65.66,28.24},{64.94,28.26},{64.68,28.33},{64.45,28.98},{63.94,28.29},{63.14,30.71},{61.84,30.34},{61.86,27.93},{61.86,29.98},{61.5,27.43},{61.85,29.61},{61.81,29.24},{61.28,30.84},{61.52,30.83},{61.01,27.51},{59.8,30.87},{60.05,30.88},{59.25,30.05},{59.23,30.41},{60.02,27.55},{59.22,28.03},{59.25,29.67},{59.22,29.32},{59.53,27.57},{58.91,28.06},{59.55,30.9}}},
@@ -43,6 +49,9 @@ function CataObjectFixes.Load()
         },
         [181781] = { -- Axxarien Crystal
             [objectKeys.name] = "Axxarien Crystal",
+        },
+        [185309] = { -- Altar of Goc
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{64.15,18.5}}},
         },
         [187922] = { -- Alliance Bonfire - Burning Steppes
             [objectKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{68.57,60.2}}},
@@ -103,6 +112,9 @@ function CataObjectFixes.Load()
         [203403] = { -- Survival Kit Remnants
             [objectKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{56.56,80.29}}},
             [objectKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
+        [204091] = { -- Induction Samophlange
+            [objectKeys.spawns] = {[zoneIDs.AZSHARA]={{55.28,49.89}}},
         },
         [204281] = { -- Worm Mound
             [objectKeys.spawns] = {[1519]={{49.24,18.03},{52.53,14.86},{64.01,16.59},{63.39,5.73},{64.93,8.47},{56.45,22.58},{55.73,16.51},{53.73,19.56},{60.51,6.85},{58.05,10.49},{62.12,17.65},{59.07,20.64}}},
@@ -175,6 +187,11 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.DALARAN] = {{58.8,27.49}}},
             [objectKeys.zoneID] = zoneIDs.DALARAN,
         },
+        [208376] = { -- Direhammer's Boots
+            [objectKeys.name] = "Direhammer's Boots",
+            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{76.05,66.49}}},
+            [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+        },
         [209058] = { -- Windswept Balloon
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{25.7,61.7},{30.8,61.3},{31.4,68.4},{34.8,73.1},{34.9,67.3},{35.9,49.6},{37.2,77.5},{38.3,86.7},{40,42.7},{40.2,39.8},{40.2,71.9},{40.3,80.7},{42.1,52.5},{43,60.8},{47.7,81.4},{49.4,77.4},{49.9,82.6},{50,84.6},{50.1,68.5},{50.2,49.9},{52.2,39.2},{52.3,49.2},{52.3,66},{52.3,73.9},{52.4,68.8},{52.6,79.7},{53.1,33.1},{53.3,63.2},{53.4,83.8},{53.5,76.2},{53.7,82.7},{53.9,46.4},{53.9,65.3},{55.1,53.2},{56.6,62.6},{56.9,65.3},{57,58.1},{58.4,49.9},{58.9,63.3},{60.4,52.1},{63.6,23.4},{64.9,17},{65.8,24.1},{66.7,39.4},{66.8,13.3},{68.1,36.9},{68.3,50.2},{68.4,30.1},{70.9,48.1},{71.4,35.4}}},
         },
@@ -188,6 +205,10 @@ function CataObjectFixes.Load()
         [281339] = { -- Hero's Call Board -- Deepholm
             [objectKeys.spawns] = {[5042] = {{48.82,53.06,169}}},
             [objectKeys.zoneID] = 5042,
+        },
+        [301087] = { -- Fire Portal
+            [objectKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{36.4,83.76}}},
+            [objectKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
         },
 
         --- fake object IDs
@@ -238,6 +259,21 @@ function CataObjectFixes.Load()
             [objectKeys.name] = "Rod of Subjugation",
             [objectKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{25.25,54.8}}},
             [objectKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
+        [460010] = {
+            [objectKeys.name] = "Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{52.96,66.59}}},
+            [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+        },
+        [460011] = {
+            [objectKeys.name] = "Grain Sack",
+            [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN]={{54.97,41.94}}},
+            [objectKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
+        },
+        [460012] = {
+            [objectKeys.name] = "Sack of Spices",
+            [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN]={{33.66,30.18}}},
+            [objectKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
         },
     }
 end

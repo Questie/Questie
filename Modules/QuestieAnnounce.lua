@@ -180,3 +180,5 @@ function QuestieAnnounce:CompletedQuest(questId)
         _QuestieAnnounce:AnnounceToChannel(message)
     end
 end
+
+return QuestieAnnounce

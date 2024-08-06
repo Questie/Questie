@@ -336,9 +336,16 @@ function QuestieMenu:Show(hideDelay)
         end})
         tinsert(menuTable, { text= l10n('Reload UI'), func=function() ReloadUI() end})
     end
-
     tinsert(menuTable, {text= l10n('Cancel'), func=function() end})
     LibDropDown:EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, -15, "MENU", hideDelay or 2)
+end
+
+function QuestieMenu:Hide()
+    LibDropDown:CloseDropDownMenus()    
+end
+
+function QuestieMenu.IsOpen() 
+   return LibDropDown:getOpen()
 end
 
 function QuestieMenu:ShowTownsfolk(hideDelay)
