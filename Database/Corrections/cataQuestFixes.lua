@@ -4360,6 +4360,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.TAUREN,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Tal"),0,{{"monster",2995}}}},
         },
+        [26398] = { -- Walk With The Earth Mother
+            [questKeys.finishedBy] = {{39605}},
+        },
         [26401] = { -- Return to Vestia
             [questKeys.preQuestSingle] = {25368},
         },
