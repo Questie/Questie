@@ -1889,6 +1889,13 @@ function QuestieNPCFixes:Load()
         [14373] = {
             [npcKeys.spawns] = {[zoneIDs.FERALAS]={{74.4,44}}},
         },
+        [14387] = { -- Lothos Riftwaker
+            [npcKeys.spawns] = {
+                [zoneIDs.BURNING_STEPPES] = {{26.4,24.45},},
+                [zoneIDs.SEARING_GORGE] = {{32.13,94.7},},
+            },
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+        },
         [14444] = {
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR, -- default zone where you start the chain
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{70.92,25.62}}}, -- only OG for consistency

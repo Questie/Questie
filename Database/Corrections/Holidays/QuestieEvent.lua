@@ -53,6 +53,8 @@ local QuestieEvent = QuestieLoader:CreateModule("QuestieEvent")
 ---@class QuestieEventPrivate
 local _QuestieEvent = QuestieEvent.private
 
+-- This variable will be cleared at the end of the load, do not use, use QuestieEvent.activeQuests.
+QuestieEvent.eventQuests = {}
 QuestieEvent.activeQuests = {}
 _QuestieEvent.eventNamesForQuests = {}
 

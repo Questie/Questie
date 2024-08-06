@@ -115,6 +115,13 @@ local phases = {
     NPCS_AT_THERAZANES_THRONE = 1043,
     FARGO_AT_CATAPULTS = 1044,
     FARGO_AT_DOCKS = 1045,
+    THORDUN_AT_TREE = 1046,
+    THORDUN_IN_KEEP = 1047,
+    TORUNSCAR_START = 1048,
+    TORUNSCAR_END = 1049,
+    THERAZANE_AT_TEMPLE = 1050,
+    THERAZANE_AT_THRONE_BEFORE_MARCH = 1051,
+    VOLJIN_BOOTY_BAY = 1052,
 }
 Phasing.phases = phases
 
@@ -228,7 +235,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.TWILIGHT_CARAVAN_AMBUSH_HORDE then
-        return complete[27509] and (not complete[27576]) or false
+        return ((not complete[28092]) and (not questLog[28092])) and ((not complete[28094]) and (not questLog[28094])) or false
     end
 
     if phase == phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE then
@@ -236,11 +243,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.GRIM_BATOL_ATTACK_HORDE then
-        return complete[28090] and complete[28091] or false
+        return (complete[28092] or (questLog[28092] and questLog[28092].isComplete == 1)) or (complete[28094] or (questLog[28094] and questLog[28094].isComplete == 1)) or false
     end
 
     if phase == phases.GRIM_BATOL_ATTACK_ALLIANCE then
-        return complete[28103] and complete[28104] or false
+        return (complete[28103] or (questLog[28103] and questLog[28103].isComplete == 1)) or (complete[28104] or (questLog[28104] and questLog[28104].isComplete == 1)) or false
     end
 
     if phase == phases.ISORATH_NIGHTMARE then
@@ -364,7 +371,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.PEBBLE_AT_KOR then
-        return complete[26441] or (not complete[26440]) or false
+        return complete[26441] or ((not complete[26440]) and (not questLog[26440])) or false
     end
 
     if phase == phases.PEBBLE_AT_CRYSTALS then
@@ -376,7 +383,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.NPCS_AT_THERAZANES_THRONE then
-        return complete[26659] and complete[26584] and complete[26585] or false
+        return (complete[26659] and complete[26584] and complete[26585] and not complete[26827]) or complete[26971] or false
     end
 
     if phase == phases.FARGO_AT_CATAPULTS then
@@ -385,6 +392,34 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.FARGO_AT_DOCKS then
         return complete[27106] or false
+    end
+
+    if phase == phases.THORDUN_AT_TREE then
+        return (not complete[27516])
+    end
+
+    if phase == phases.THORDUN_IN_KEEP then
+        return complete[27516] or false
+    end
+
+    if phase == phases.TORUNSCAR_START then
+        return (not complete[26971]) and (not questLog[26971])
+    end
+
+    if phase == phases.TORUNSCAR_END then
+        return complete[26971] or (questLog[26971] and questLog[26971].isComplete == 1) or false
+    end
+
+    if phase == phases.THERAZANE_AT_TEMPLE then
+        return (complete[26971] and (not complete[26709])) or (questLog[26971]) or false
+    end
+
+    if phase == phases.THERAZANE_AT_THRONE_BEFORE_MARCH then
+        return (complete[26871] and (not complete[26750])) or false
+    end
+
+    if phase == phases.VOLJIN_BOOTY_BAY then
+        return complete[29152] or questLog[29152] or complete[29250] or questLog[29250] or false
     end
 
     return false
