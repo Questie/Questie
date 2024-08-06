@@ -675,6 +675,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [10515] = { -- Torch of Retribution
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [10575] = {
             [itemKeys.npcDrops] = {9461}, -- #1216
         },
