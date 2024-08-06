@@ -6396,7 +6396,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.name] = "Vampiric Touch",
             [questKeys.startedBy] = {{227028}},
             [questKeys.finishedBy] = nil,
-            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredLevel] = 55,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PRIEST,
