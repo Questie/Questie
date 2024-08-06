@@ -80,9 +80,6 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [78150] = 1, -- Mage Icy Veins
     [78229] = 1, -- Druid Wild Growth
     [78261] = 1, -- Rogue Deadly Brew Part 1
-    [78265] = 1, -- Grizzby prequest for multiple runes
-    [78266] = 1, -- Grizzby prequest for multiple runes
-    [78267] = 1, -- Grizzby prequest for multiple runes
     [78270] = 1, -- Rogue Deadly Brew Part 3
     [78277] = 1, -- Mage Horde Living Bomb
     [78287] = 1, -- Let Me Make You An Offer Alliance
@@ -1114,6 +1111,10 @@ local questsToBlacklistBySoDPhase = {
         [7881] = true, -- Carnival Boots
         [7890] = true, -- Heavy Grinding Stone
         [7889] = true, -- Coarse Weightstone
+
+        [78265] = true, -- Fish Oil (replaced by 82850)
+        [78266] = true, -- Dark Iron Ordinance (replaced by 82851)
+        [78267] = true, -- Shredder Turbochargers (replaced by 82852)
     },
 }
 

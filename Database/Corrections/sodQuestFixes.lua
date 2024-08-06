@@ -2148,6 +2148,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
             [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING,
         },
+        [82850] = { -- Fish Oil
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+        },
+        [82851] = { -- Dark Iron Ordinance
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+        },
+        [82852] = { -- Shredder Turbochargers
+            [questKeys.zoneOrSort] = zoneIDs.RATCHET,
+        },
         [83188] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
