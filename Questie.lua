@@ -225,7 +225,7 @@ Questie.ICON_TYPE_NODE_ORE = 22
 Questie.ICON_TYPE_CHEST = 23
 
 -- Load icon pathes from SavedVariables or set the default ones
-function Questie:SetIcons()
+function Questie.SetIcons()
     Questie.usedIcons[Questie.ICON_TYPE_SLAY] = Questie.db.profile.ICON_SLAY or Questie.icons["slay"]
     Questie.usedIcons[Questie.ICON_TYPE_LOOT] = Questie.db.profile.ICON_LOOT or Questie.icons["loot"]
     Questie.usedIcons[Questie.ICON_TYPE_EVENT] = Questie.db.profile.ICON_EVENT or Questie.icons["event"]

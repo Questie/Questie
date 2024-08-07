@@ -377,7 +377,7 @@ function QuestieInit.OnAddonLoaded()
 
     MinimapIcon:Init()
 
-    Questie:SetIcons()
+    Questie.SetIcons()
 
     if QUESTIE_LOCALES_OVERRIDE ~= nil then
         l10n:InitializeLocaleOverride()
