@@ -42,22 +42,13 @@ local UiMapIdOverrides = {
     [1415] = 0, -- Eastern Kingdom
     [1945] = 0, -- Outland
 }
-local parentZoneToSubZone = {} -- Generated
 local zoneMap = {} -- Generated
 
 
 function ZoneDB:Initialize()
-    _ZoneDB:GenerateParentZoneToStartingZoneTable()
-
     -- Run tests if debug enabled
     if Questie.db.profile.debugEnabled then
         _ZoneDB:RunTests()
-    end
-end
-
-function _ZoneDB:GenerateParentZoneToStartingZoneTable()
-    for startingZone, parentZone in pairs(subZoneToParentZone) do
-        parentZoneToSubZone[parentZone] = startingZone
     end
 end
 
@@ -129,21 +120,6 @@ end
 ---@param areaId AreaId
 function ZoneDB.IsDungeonZone(areaId)
     return dungeonLocations[areaId] ~= nil
-end
-
----@param areaId AreaId
-function ZoneDB:GetAlternativeZoneId(areaId)
-    local entry = dungeons[areaId]
-    if entry then
-        return entry[2]
-    end
-
-    entry = parentZoneToSubZone[areaId]
-    if entry then
-        return entry
-    end
-
-    return nil
 end
 
 ---@param areaId AreaId
