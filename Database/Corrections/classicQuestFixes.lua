@@ -787,7 +787,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #889
         },
         [1322] = {
-            [questKeys.objectivesText] = "Acquire 6 Acidic Venom Sacs for Do'gol in Brackenwall Village.",
+            [questKeys.objectivesText] = {"Acquire 6 Acidic Venom Sacs for Do'gol in Brackenwall Village."},
         },
         [1324] = {
             [questKeys.objectives] = {{{4966,"Subdue Private Hendel"}}},
