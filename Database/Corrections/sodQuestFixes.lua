@@ -2611,6 +2611,10 @@ function SeasonOfDiscovery:LoadQuests()
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Phase 3: Use Shield Wall and survive"),0,{{"monster", 212252}}},
             },
         },
+        [84317] = { -- Infinite Midnight
+            [questKeys.startedBy] = {{228611}},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
         [84320] = { -- Lost Heirloom
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },

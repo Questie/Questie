@@ -173,6 +173,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [84211] = 4, -- Warrior Shockwave
     [84212] = 4, -- Warrior Shockwave
     [84213] = 4, -- Warrior Shockwave
+    [84317] = 4, -- Warrior Sudden Death
 
     -- fake IDs
     --- Mage runes

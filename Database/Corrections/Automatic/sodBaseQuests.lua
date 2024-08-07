@@ -5908,6 +5908,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Assist Doctor Jurgens with rift opening at either Tirisfal Glades or Westfall."},
             [questKeys.objectives] = {{{212252}}},
         },
+        [84317] = {
+            [questKeys.name] = "Infinite Midnight",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{224965}},
+            [questKeys.requiredLevel] = 55,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectivesText] = {"Gain astral insights."},
+            [questKeys.objectives] = nil,
+        },
         [84320] = {
             [questKeys.name] = "Lost Heirloom",
             [questKeys.startedBy] = {{376}},
