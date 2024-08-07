@@ -371,6 +371,8 @@ function QuestieInit.OnAddonLoaded()
 
         IsleOfQuelDanas.Initialize() -- This has to happen before option init
         QuestieOptions.Initialize()
+
+        ZoneDB.Initialize()
     end, 0,"Error during AddonLoaded initialization!")
 
     MinimapIcon:Init()
@@ -392,7 +394,6 @@ function QuestieInit.OnAddonLoaded()
         end
     end
 
-    ZoneDB.Initialize()
     Migration:Migrate()
 
     QuestieProfessions:Init()
