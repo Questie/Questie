@@ -346,6 +346,9 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.DUSKWOOD] = {{65.1, 23.7}},
             },
         },
+        [212252] = { -- Harvest Golem V000-A
+            [npcKeys.spawns] = {},
+        },
         [212261] = { -- Awakened Lich
             [npcKeys.spawns] = {},
         },
