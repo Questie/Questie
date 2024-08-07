@@ -65,7 +65,14 @@ end
 
 ---@return string
 function QuestieLink:GetQuestLinkString(questLevel, questName, questId)
-    return "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]"
+    local questLink = GetQuestLink and GetQuestLink(questId)
+    local questString = "["..questName.." ("..tostring(questId)..")]"
+
+    if Questie.db.profile.trackerShowQuestLevel then
+        questString = questString:gsub("%[", "[["..tostring(questLevel).."] ")
+    end
+
+    return questLink and questLink:gsub("%[(.-)%]", questString) or questString
 end
 
 ---@return string
@@ -361,7 +368,7 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(...)
                 local msg = ChatFrame1EditBox:GetText()
                 if msg then
                     ChatFrame1EditBox:SetText("")
-                    ChatEdit_InsertLink(string.gsub(msg, "%|Hquestie:" .. questId .. ":.*%|h", "%[%[" .. quest.level .. "%] " .. quest.name .. " %(" .. questId .. "%)%]"))
+                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(quest.level, quest.name, questId))
                 end
             end
         end

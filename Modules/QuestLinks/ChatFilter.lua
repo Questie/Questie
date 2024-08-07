@@ -67,9 +67,9 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
                     end
 
                     if questLevel then
-                        msg = string.gsub(msg, "%[%["..questLevel.."%] "..questName.." %("..sqid.."%)%]", questLink)
+                        msg = string.gsub(k, "%[%["..questLevel.."%] "..questName.." %("..sqid.."%)%]", questLink)
                     else
-                        msg = string.gsub(msg, "%["..questName.." %("..sqid.."%)%]", questLink)
+                        msg = string.gsub(k, "%["..questName.." %("..sqid.."%)%]", questLink)
                     end
                 end
             end
