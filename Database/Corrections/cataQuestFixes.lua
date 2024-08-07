@@ -456,6 +456,15 @@ function CataQuestFixes.Load()
         [8669] = { -- Genesis Shoulderpads
             [questKeys.objectives] = {nil,nil,{{20932},{20881},{20859},{20864}},{910,0}},
         },
+        [8764] = { -- The Changing of Paths - Protector No More
+            [questKeys.preQuestSingle] = {8751,8756,8761},
+        },
+        [8765] = { -- The Changing of Paths - Invoker No More
+            [questKeys.preQuestSingle] = {8751,8756,8761},
+        },
+        [8766] = { -- The Changing of Paths - Conqueror No More
+            [questKeys.preQuestSingle] = {8751,8756,8761},
+        },
         [9062] = { -- Soaked Pages
             [questKeys.preQuestSingle] = {},
         },
