@@ -6475,6 +6475,9 @@ function CataQuestFixes.Load()
         [28188] = { -- Prison Revolt
             [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
         },
+        [28189] = { -- Do the Right Thing
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [28191] = { -- A Fitting End
             [questKeys.preQuestSingle] = {28171},
             [questKeys.exclusiveTo] = {},
@@ -6601,6 +6604,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredClasses] = classKeys.PRIEST,
             [questKeys.nextQuestInChain] = 28477,
         },
+        [28329] = { -- Angry Scrubbing Bubbles
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [28338] = { -- Deadwood of the North
             [questKeys.preQuestSingle] = {},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
@@ -6619,6 +6625,9 @@ function CataQuestFixes.Load()
         },
         [28353] = { -- Jonesy Sent For You
             [questKeys.nextQuestInChain] = 28271,
+        },
+        [28355] = { -- Terrible Little Creatures
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [28362] = { -- Stupid Drizle!
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
