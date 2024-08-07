@@ -3859,6 +3859,9 @@ function CataQuestFixes.Load()
         [26000] = { -- Spelunking
             [questKeys.preQuestSingle] = {25794},
         },
+        [26003] = { -- Lessons from the Lost Isles
+            [questKeys.preQuestSingle] = {25999},
+        },
         [26007] = { -- Debriefing
             [questKeys.objectives] = {{{41885,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {26000},
