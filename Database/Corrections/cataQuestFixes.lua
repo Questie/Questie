@@ -3877,6 +3877,9 @@ function CataQuestFixes.Load()
         [26021] = { -- The Brothers Digsong 2: Eel-Egg-Trick Boogaloo
             [questKeys.objectives] = {{{41927,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{42006,41927},41927}}},
         },
+        [26026] = { -- Dream of a Better Tomorrow
+            [questKeys.preQuestSingle] = {26004},
+        },
         [26040] = { -- What? What? In My Gut...?
             [questKeys.preQuestSingle] = {25887},
         },
