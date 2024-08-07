@@ -61,6 +61,9 @@ function CataItemFixes.Load()
         [22978] = { -- Emitter Spare Part
             [itemKeys.npcDrops] = {},
         },
+        [23798] = { -- Diabolical Plans
+            [itemKeys.npcDrops] = {6073},
+        },
         [24416] = { -- Corrupted Flower
             [itemKeys.npcDrops] = {},
         },
