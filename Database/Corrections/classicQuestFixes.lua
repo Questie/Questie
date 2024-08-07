@@ -1384,6 +1384,9 @@ function QuestieQuestFixes:Load()
         [3453] = {
             [questKeys.objectives] = {{{8479,"Torch Creation"}}},
         },
+        [3454] = { -- The Torch of Retribution
+            [questKeys.nextQuestInChain] = 3462,
+        },
         [3483] = {
             [questKeys.parentQuest] = 3449, -- #1008
             [questKeys.specialFlags] = 1, -- #1131
