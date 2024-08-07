@@ -3870,6 +3870,9 @@ function CataQuestFixes.Load()
         [26010] = { -- Ashes to Ashes
             [questKeys.preQuestSingle] = {26004},
         },
+        [26011] = { -- Enemy of the Horde: Marshal Paltrow
+            [questKeys.preQuestSingle] = {26004},
+        },
         [26019] = { -- Enormous Eel Egg
             [questKeys.startedBy] = {{41925,41926},nil,{56571}},
             [questKeys.preQuestSingle] = {26015},
