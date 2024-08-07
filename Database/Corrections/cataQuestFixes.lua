@@ -6339,6 +6339,9 @@ function CataQuestFixes.Load()
         [28069] = { -- Adventurers Wanted: Blackrock Depths
             [questKeys.requiredMaxLevel] = 56,
         },
+        [28084] = { -- Might of the Krom'gar
+            [questKeys.preQuestSingle] = {26004},
+        },
         [28089] = { -- Warchief's Command: Hillsbrad Foothills!
             [questKeys.exclusiveTo] = {28096},
         },
