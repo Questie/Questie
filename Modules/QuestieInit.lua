@@ -369,6 +369,7 @@ function QuestieInit.OnAddonLoaded()
         QuestieCoords:Initialize()
         QuestieSlash.RegisterSlashCommands()
 
+        IsleOfQuelDanas.Initialize() -- This has to happen before option init
         QuestieOptions.Initialize()
     end, 0,"Error during AddonLoaded initialization!")
 
@@ -393,8 +394,6 @@ function QuestieInit.OnAddonLoaded()
 
     ZoneDB:Initialize()
     Migration:Migrate()
-
-    IsleOfQuelDanas.Initialize() -- This has to happen before option init
 
     QuestieProfessions:Init()
     QuestXP.Init()
