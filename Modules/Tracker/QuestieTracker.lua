@@ -2122,3 +2122,5 @@ function QuestieTracker:TrackAchieve(achieveId)
         end
     end
 end
+
+return QuestieTracker

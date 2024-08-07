@@ -16,7 +16,7 @@ class QuestFormatter:
                 g.write("    [{id}] = {{\n".format(id=item["questId"]))
                 g.write("        [questKeys.name] = \"{name}\",\n".format(name=item["name"]))
                 g.write("        [questKeys.startedBy] = {npc_start},\n".format(npc_start=self.__get_start(item)))
-                g.write("        [questKeys.finishedBy] = {npc_end},\n".format(npc_end=self.__get_end(item["end"])))
+                g.write("        [questKeys.finishedBy] = {npc_end},\n".format(npc_end=self.__get_end(item)))
                 g.write("        [questKeys.requiredLevel] = {reqLevel},\n".format(reqLevel=item["reqLevel"]))
                 g.write("        [questKeys.questLevel] = {level},\n".format(level=item["level"]))
                 g.write("        [questKeys.requiredRaces] = {reqRace},\n".format(reqRace=self.__get_race_string(item["reqRace"])))
@@ -45,21 +45,17 @@ class QuestFormatter:
 
     def __get_start(self, item):
         if "npcStart" in item:
-            return "{{" + item["npcStart"] + "}}"
+            return "{{" + ",".join(npcStart for npcStart in item["npcStart"]) + "}}"
         if "objectStart" in item:
-            return "{nil,{" + item["objectStart"] + "}}"
+            return "{nil,{" + ",".join(objectStart for objectStart in item["objectStart"]) + "}}"
         return "nil"
 
-    def __get_end(self, end_entry):
-        if end_entry == "nil":
-            return "nil"
-        if isinstance(end_entry, list):
-            ret = "{{"
-            for entry in end_entry:
-                ret += entry + ","
-            ret += "}}"
-            return ret
-        return "{{" + end_entry + "}}"
+    def __get_end(self, item):
+        if "npcEnd" in item:
+            return "{{" + ",".join(npcEnd for npcEnd in item["npcEnd"]) + "}}"
+        if "objectEnd" in item:
+            return "{nil,{" + ",".join(objectEnd for objectEnd in item["objectEnd"]) + "}}"
+        return "nil"
 
     def __get_race_string(self, req_race: int) -> str:
         if req_race == "0":
@@ -84,6 +80,8 @@ class QuestFormatter:
             return "raceIDs.TROLL"
         if req_race == "178":
             return "raceIDs.ALL_HORDE"
+        else:
+            return "raceIDs.NONE"
 
     def __get_class_string(self, req_class: int) -> str:
         if req_class == "0":
@@ -106,6 +104,8 @@ class QuestFormatter:
             return "classIDs.WARLOCK"
         if req_class == "1024":
             return "classIDs.DRUID"
+        else:
+            return "classIDs.NONE"
 
     def __get_objectives_text(self, item):
         if "objectivesText" in item:

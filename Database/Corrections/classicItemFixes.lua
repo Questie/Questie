@@ -675,6 +675,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [10515] = { -- Torch of Retribution
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [10575] = {
             [itemKeys.npcDrops] = {9461}, -- #1216
         },
@@ -793,9 +796,6 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {4294},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {175265},
-        },
-        [12283] = {
-            [itemKeys.npcDrops] = {7047,7048,7049},
         },
         [12291] = {
             [itemKeys.npcDrops] = {6557,9621},

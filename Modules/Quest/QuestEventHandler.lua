@@ -44,7 +44,6 @@ local QUEST_LOG_STATES = {
     QUEST_ABANDONED = "QUEST_ABANDONED"
 }
 
-local eventFrame = CreateFrame("Frame", "QuestieQuestEventFrame")
 local questLog = {}
 local questLogUpdateQueueSize = 1
 local skipNextUQLCEvent = false
@@ -54,21 +53,17 @@ local deletedQuestItem = false
 --- Registers all events that are required for questing (accepting, removing, objective updates, ...)
 function QuestEventHandler:RegisterEvents()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] RegisterEvents")
-    eventFrame:RegisterEvent("QUEST_ACCEPTED")
-    eventFrame:RegisterEvent("QUEST_TURNED_IN")
-    eventFrame:RegisterEvent("QUEST_REMOVED")
-    eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
-    eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
-    eventFrame:RegisterEvent("QUEST_AUTOCOMPLETE")
-    eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
-    eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-    eventFrame:RegisterEvent("NEW_RECIPE_LEARNED") -- Spell objectives; Runes in SoD count as recipes because "Engraving" is a profession?
-    --eventFrame:RegisterEvent("SPELLS_CHANGED") -- Spell objectives
 
-    eventFrame:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE")
-
-    eventFrame:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
-    eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
+    Questie:RegisterEvent("QUEST_ACCEPTED", _QuestEventHandler.QuestAccepted)
+    Questie:RegisterEvent("QUEST_REMOVED", _QuestEventHandler.QuestRemoved)
+    Questie:RegisterEvent("QUEST_TURNED_IN", _QuestEventHandler.QuestTurnedIn)
+    Questie:RegisterEvent("QUEST_LOG_UPDATE", _QuestEventHandler.QuestLogUpdate)
+    Questie:RegisterEvent("QUEST_WATCH_UPDATE", _QuestEventHandler.QuestWatchUpdate)
+    Questie:RegisterEvent("QUEST_AUTOCOMPLETE", _QuestEventHandler.QuestAutoComplete)
+    Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _QuestEventHandler.UnitQuestLogChanged)
+    Questie:RegisterEvent("NEW_RECIPE_LEARNED", _QuestEventHandler.NewRecipeLearned)
+    Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", _QuestEventHandler.PlayerInteractionManagerFrameHide)
+    Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _QuestEventHandler.ReputationChange)
 
     -- StaticPopup dialog hooks. Deleteing Quest items do not always trigger a Quest Log Update.
     hooksecurefunc("StaticPopup_Show", function(...)
@@ -224,7 +219,7 @@ end
 ---@return boolean true @if the function was successful, false otherwise
 function _QuestEventHandler:HandleQuestAccepted(questId)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
-    local cacheMiss, changes = QuestLogCache.CheckForChanges({ [questId] = true })
+    local cacheMiss, _ = QuestLogCache.CheckForChanges({ [questId] = true })
     if cacheMiss then
         -- if cacheMiss, no need to check changes as only 1 questId
         Questie:Debug(Questie.DEBUG_INFO, "Objectives are not cached yet")
@@ -350,7 +345,7 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
 end
 
 ---Fires when the quest log changed in any way. This event fires very often!
-function _QuestEventHandler:QuestLogUpdate()
+function _QuestEventHandler.QuestLogUpdate()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_LOG_UPDATE")
 
     local continueQueuing = true
@@ -410,7 +405,10 @@ end
 --- Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
 ---@param unitTarget string
 function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] UNIT_QUEST_LOG_CHANGED", unitTarget)
+    if unitTarget ~= "player" then
+        return
+    end
+
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] UNIT_QUEST_LOG_CHANGED - skipNextUQLCEvent - ", skipNextUQLCEvent)
 
     -- There seem to be quests which don't trigger a QUEST_WATCH_UPDATE.
@@ -483,6 +481,39 @@ function _QuestEventHandler:ReputationChange()
     doFullQuestLogScan = true
 end
 
+-- Spell objectives; Runes in SoD count as recipes because "Engraving" is a profession?
+function _QuestEventHandler.NewRecipeLearned()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED (QuestEventHandler)")
+
+    doFullQuestLogScan = true -- If this event is related to a spell objective, a QUEST_LOG_UPDATE will be fired afterwards
+end
+
+function _QuestEventHandler:PlayerInteractionManagerFrameHide(eventType)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] PLAYER_INTERACTION_MANAGER_FRAME_HIDE", eventType)
+
+    local eventName
+    if eventType == 1 then
+        eventName = "TRADE_CLOSED"
+    elseif eventType == 5 then
+        eventName = "MERCHANT_CLOSED"
+    elseif eventType == 8 then
+        eventName = "BANKFRAME_CLOSED"
+    elseif eventType == 10 then
+        eventName = "GUILDBANKFRAME_CLOSED"
+    elseif eventType == 12 then
+        eventName = "VENDOR_CLOSED"
+    elseif eventType == 17 then
+        eventName = "MAIL_CLOSED"
+    elseif eventType == 21 then
+        eventName = "AUCTION_HOUSE_CLOSED"
+    else
+        -- Unknown events are simply ignored
+        return
+    end
+
+    _QuestEventHandler:QuestRelatedFrameClosed(eventName)
+end
+
 --- Helper function to insert a callback to the questLogUpdateQueue and increase the index
 function _QuestLogUpdateQueue:Insert(callback)
     questLogUpdateQueue[questLogUpdateQueueSize] = callback
@@ -496,85 +527,4 @@ function _QuestLogUpdateQueue:GetFirst()
     return tableRemove(questLogUpdateQueue, 1)
 end
 
-local trackerMinimizedByDungeon = false
-function _QuestEventHandler:ZoneChangedNewArea()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
-    -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
-    -- backend Questie updates that occur when a player zones in/out of an instance. This
-    -- is necessary to get everything back into it's "normal" state after all the updates.
-    local isInInstance, instanceType = IsInInstance()
-
-    if isInInstance then
-        C_Timer.After(8, function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Entering Instance")
-            if Questie.db.profile.hideTrackerInDungeons then
-                trackerMinimizedByDungeon = true
-
-                QuestieCombatQueue:Queue(function()
-                    QuestieTracker:Collapse()
-                end)
-            end
-        end)
-
-    -- We only want this to fire outside of an instance if the player isn't dead and we need to reset the Tracker
-    elseif (not Questie.db.char.isTrackerExpanded and not UnitIsGhost("player")) and trackerMinimizedByDungeon == true then
-        C_Timer.After(8, function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance")
-            if Questie.db.profile.hideTrackerInDungeons then
-                trackerMinimizedByDungeon = false
-
-                QuestieCombatQueue:Queue(function()
-                    QuestieTracker:Expand()
-                end)
-            end
-        end)
-    end
-end
-
---- Is executed whenever an event is fired and triggers relevant event handling.
----@param event string
-function _QuestEventHandler:OnEvent(event, ...)
-    if event == "QUEST_ACCEPTED" then
-        _QuestEventHandler:QuestAccepted(...)
-    elseif event == "QUEST_TURNED_IN" then
-        _QuestEventHandler:QuestTurnedIn(...)
-    elseif event == "QUEST_REMOVED" then
-        _QuestEventHandler:QuestRemoved(...)
-    elseif event == "QUEST_LOG_UPDATE" then
-        _QuestEventHandler:QuestLogUpdate()
-    elseif event == "QUEST_WATCH_UPDATE" then
-        _QuestEventHandler:QuestWatchUpdate(...)
-    elseif event == "QUEST_AUTOCOMPLETE" then
-        _QuestEventHandler:QuestAutoComplete(...)
-    elseif event == "UNIT_QUEST_LOG_CHANGED" and select(1, ...) == "player" then
-        _QuestEventHandler:UnitQuestLogChanged(...)
-    elseif event == "ZONE_CHANGED_NEW_AREA" then
-        _QuestEventHandler:ZoneChangedNewArea()
-    elseif event == "NEW_RECIPE_LEARNED" then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED (QuestEventHandler)")
-        doFullQuestLogScan = true -- If this event is related to a spell objective, a QUEST_LOG_UPDATE will be fired afterwards
-    elseif event == "PLAYER_INTERACTION_MANAGER_FRAME_HIDE" then
-        local eventType = select(1, ...)
-        if eventType == 1 then
-            event = "TRADE_CLOSED"
-        elseif eventType == 5 then
-            event = "MERCHANT_CLOSED"
-        elseif eventType == 8 then
-            event = "BANKFRAME_CLOSED"
-        elseif eventType == 10 then
-            event = "GUILDBANKFRAME_CLOSED"
-        elseif eventType == 12 then
-            event = "VENDOR_CLOSED"
-        elseif eventType == 17 then
-            event = "MAIL_CLOSED"
-        elseif eventType == 21 then
-            event = "AUCTION_HOUSE_CLOSED"
-        else
-            -- Unknown event which we will simply ignore
-            return
-        end
-        _QuestEventHandler:QuestRelatedFrameClosed(event)
-    elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
-        _QuestEventHandler:ReputationChange()
-    end
-end
+return QuestEventHandler

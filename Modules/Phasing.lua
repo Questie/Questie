@@ -121,6 +121,7 @@ local phases = {
     TORUNSCAR_END = 1049,
     THERAZANE_AT_TEMPLE = 1050,
     THERAZANE_AT_THRONE_BEFORE_MARCH = 1051,
+    VOLJIN_BOOTY_BAY = 1052,
 }
 Phasing.phases = phases
 
@@ -415,6 +416,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.THERAZANE_AT_THRONE_BEFORE_MARCH then
         return (complete[26871] and (not complete[26750])) or false
+    end
+
+    if phase == phases.VOLJIN_BOOTY_BAY then
+        return complete[29152] or questLog[29152] or complete[29250] or questLog[29250] or false
     end
 
     return false

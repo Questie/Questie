@@ -32,7 +32,6 @@ function QuestieQuestBlacklist:Load()
         [11189] = true, -- Removed
         [13417] = true, -- Duplicate of 12973
         [936] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE,
-        [535] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- Valik
         [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
@@ -1192,7 +1191,7 @@ function QuestieQuestBlacklist:Load()
         [8439] = QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
 
         -- Phase 4 Zul'Aman
-        [11196] = true, -- Not in the game
+        --[11196] = true, -- Not in the game
 
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
@@ -1521,6 +1520,7 @@ function QuestieQuestBlacklist:Load()
         [245] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [251] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [253] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [254] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [255] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [259] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [260] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1541,6 +1541,7 @@ function QuestieQuestBlacklist:Load()
         [303] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [304] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [305] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [308] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [310] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [317] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [326] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1579,6 +1580,7 @@ function QuestieQuestBlacklist:Load()
         [398] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [400] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [404] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [403] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [405] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [406] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [407] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1636,6 +1638,7 @@ function QuestieQuestBlacklist:Load()
         [532] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [533] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [534] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [535] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [536] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [537] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [539] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1760,9 +1763,12 @@ function QuestieQuestBlacklist:Load()
         [892] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [897] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [904] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [914] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [924] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [926] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [939] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [946] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [962] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [969] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [975] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [977] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1831,6 +1837,9 @@ function QuestieQuestBlacklist:Load()
         [1461] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1480] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1483] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1486] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1489] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1490] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1656] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1659] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1660] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2013,6 +2022,10 @@ function QuestieQuestBlacklist:Load()
         [6202] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6394] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6395] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [6543] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [6545] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [6546] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [6547] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6561] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6562] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6564] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2684,10 +2697,7 @@ function QuestieQuestBlacklist:Load()
         [29037] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29039
         [29038] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29053
         [29040] = QuestieCorrections.CATA_HIDE, -- Duplicate of 29051
-        [29118] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29154] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29212] = QuestieCorrections.CATA_HIDE, -- Not in the game
-        [29217] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29234] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29256] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [29259] = QuestieCorrections.CATA_HIDE, -- Not in the game
@@ -2780,25 +2790,32 @@ function QuestieQuestBlacklist:Load()
 
         -- Phase 2 - Rise of the Zandalari
 
-        [29100] = true, -- Bwemba's Spirit
-        [29102] = true, -- To Fort Livingston
-        [29153] = true, -- Booty Bay's Interests
-        [29156] = true, -- The Troll Incursion
-        [29157] = true, -- The Zandalari Menace
+        --[11196] = true, -- Warlord of the Amani
+        --[29100] = true, -- Bwemba's Spirit
+        --[29102] = true, -- To Fort Livingston
+        --[29103] = true, -- Serpents and Poison
+        --[29104] = true, -- Spirits Are With Us
+        --[29153] = true, -- Booty Bay's Interests
+        --[29154] = true, -- Booty Bay's Interests
+        --[29155] = true, -- A Shiny Reward
+        --[29156] = true, -- The Troll Incursion
+        --[29157] = true, -- The Zandalari Menace
         [29158] = true, -- The Zandalar Representative
-        [29172] = true, -- The Beasts Within
-        [29173] = true, -- Secondary Targets
-        [29175] = true, -- Break Their Spirits
-        [29208] = true, -- An Old Friend
-        [29219] = true, -- Bwemba's Spirit
-        [29220] = true, -- To Bambala
-        [29229] = true, -- Follow That Cat
-        [29241] = true, -- Break the Godbreaker
-        [29242] = true, -- Putting a Price on Priceless
-        [29251] = true, -- Booty Bay's Interests
-        [29252] = true, -- Booty Bay's Interests
-        [29261] = true, -- Zul'Aman Voodoo
-        [29262] = true, -- Zul'Gurub Voodoo
+        --[29172] = true, -- The Beasts Within
+        --[29173] = true, -- Secondary Targets
+        --[29175] = true, -- Break Their Spirits
+        --[29186] = true, -- The Hex Lord's Fetish
+        --[29208] = true, -- An Old Friend
+        --[29217] = true, -- The Captive Scouts
+        --[29219] = true, -- Bwemba's Spirit
+        --[29220] = true, -- To Bambala
+        --[29229] = true, -- Follow That Cat
+        --[29241] = true, -- Break the Godbreaker
+        --[29242] = true, -- Putting a Price on Priceless
+        --[29251] = true, -- Booty Bay's Interests
+        --[29252] = true, -- Booty Bay's Interests
+        --[29261] = true, -- Zul'Aman Voodoo
+        --[29262] = true, -- Zul'Gurub Voodoo
 
         -- Phase 3 - Rage of the Firelands
 
@@ -3080,6 +3097,9 @@ function QuestieQuestBlacklist:Load()
         [79487] = true, -- A Smokywood Pastures' Thank You!
         [79492] = true, -- Metzen the Reindeer
         [79495] = true, -- Metzen the Reindeer
+
+        [80169] = true, -- Cluster Launcher
+
         [79588] = true, -- Small Furry Paws
         [79589] = true, -- Torn Bear Pelts
         [79590] = true, -- Heavy Grinding Stone
@@ -3088,11 +3108,24 @@ function QuestieQuestBlacklist:Load()
         [79593] = true, -- Coarse Weightstone
         [79594] = true, -- Copper Modulator
         [79595] = true, -- Carnival Boots
-        [80169] = true, -- Cluster Launcher
+        [80417] = true, -- Soft Bushy Tails
         [80421] = true, -- Green Iron Bracers
         [80422] = true, -- Green Fireworks
-        [82323] = true, -- Vibrant Plumes
         [80423] = true, -- The World's Largest Gnome!
+        [82323] = true, -- Vibrant Plumes
+        [82271] = true, -- More Glowing Scorpid Blood
+        [82272] = true, -- Glowing Scorpid Blood
+        [82273] = true, -- More Evil Bat Eyes
+        [82274] = true, -- Evil Bat Eyes
+        [82275] = true, -- Big Black Mace
+        [82276] = true, -- Rituals of Strength
+        [82277] = true, -- More Dense Grinding Stones
+        [82278] = true, -- More Thorium Widgets
+        [82279] = true, -- Thorium Widget
+        [82280] = true, -- Mechanical Repair Kits
+        [82281] = true, -- More Armor Kits
+        [82282] = true, -- Armor Kits
+        [82283] = true, -- Crocolisk Boy and the Bearded Murloc
 
         --- Automatic Overrides (for when Wowhead data is wrong)
         [13134] = false, -- Spill Their Blood
