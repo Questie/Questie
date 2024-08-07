@@ -2672,7 +2672,8 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [84369] = { -- Healing the Healer
-            [questKeys.requiredSourceItems] = {227924},
+            [questKeys.triggerEnd] = {"Collect Frostfire Hot Spring water",{[zoneIDs.WINTERSPRING]={{29.3,35.7}}}},
+            [questKeys.objectives] = {nil,nil,{{227924}}},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [84372] = { -- Lava Diving
