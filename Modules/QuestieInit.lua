@@ -392,7 +392,7 @@ function QuestieInit.OnAddonLoaded()
         end
     end
 
-    ZoneDB:Initialize()
+    ZoneDB.Initialize()
     Migration:Migrate()
 
     QuestieProfessions:Init()

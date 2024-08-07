@@ -45,7 +45,7 @@ local UiMapIdOverrides = {
 local zoneMap = {} -- Generated
 
 
-function ZoneDB:Initialize()
+function ZoneDB.Initialize()
     -- Run tests if debug enabled
     if Questie.db.profile.debugEnabled then
         _ZoneDB:RunTests()
