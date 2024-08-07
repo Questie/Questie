@@ -359,7 +359,7 @@ function _QuestieInit.StartStageCoroutine()
 end
 
 -- The UI elements might not be loaded at this point, so we must only initialize modules that do not rely on the UI
-function QuestieInit.AddonLoaded()
+function QuestieInit.OnAddonLoaded()
     print("ADDON LOADED")
 
     -- Loading everything for that it is totally irrelevant when exactly it is done

@@ -28,7 +28,7 @@ function Questie:OnInitialize()
 
     QuestieEventHandler:RegisterEarlyEvents()
 
-    QuestieInit.AddonLoaded()
+    QuestieInit.OnAddonLoaded()
 end
 
 function Questie:OnEnable()
