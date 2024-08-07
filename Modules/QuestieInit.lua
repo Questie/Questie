@@ -146,7 +146,6 @@ end
 QuestieInit.Stages = {}
 
 QuestieInit.Stages[1] = function() -- run as a coroutine
-    print("INIT STAGE 1")
     Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting the real init.")
 
     local dbCompiled = false
@@ -360,8 +359,6 @@ end
 
 -- The UI elements might not be loaded at this point, so we must only initialize modules that do not rely on the UI
 function QuestieInit.OnAddonLoaded()
-    print("ADDON LOADED")
-
     -- Loading everything for that it is totally irrelevant when exactly it is done
     ThreadLib.ThreadError(function()
         HBDHooks:Init()
@@ -403,8 +400,6 @@ function QuestieInit.OnAddonLoaded()
     if Questie.IsSoD then
         SeasonOfDiscovery.Initialize()
     end
-
-    print("ADDON LOADED DONE")
 end
 
 -- called by the PLAYER_LOGIN event handler
