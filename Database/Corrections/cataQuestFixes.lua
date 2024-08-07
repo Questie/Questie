@@ -4447,11 +4447,6 @@ function CataQuestFixes.Load()
         [26434] = { -- Primal Reagents of Power
             [questKeys.preQuestSingle] = {26433},
         },
-        [26440] = { -- Clingy
-            [questKeys.triggerEnd] = {"Pebble brought to crystal formation",{[zoneIDs.DEEPHOLM]={{29.45,47.47}}}},
-            [questKeys.objectives] = {},
-            [questKeys.preQuestSingle] = {26439},
-        },
         [26436] = { -- Entrenched
             [questKeys.preQuestSingle] = {26871},
         },
@@ -4464,6 +4459,11 @@ function CataQuestFixes.Load()
         [26439] = { -- Putting the Pieces Together
             [questKeys.preQuestSingle] = {26436},
             [questKeys.objectives] = {{{43115,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [26440] = { -- Clingy
+            [questKeys.triggerEnd] = {"Pebble brought to crystal formation",{[zoneIDs.DEEPHOLM]={{29.45,47.47}}}},
+            [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {26439},
         },
         [26442] = { -- Rock Lobster
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26488,26536},
