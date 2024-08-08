@@ -1256,7 +1256,7 @@ function CataQuestFixes.Load()
         },
         [13842] = { -- Dread Head Redemption
             [questKeys.finishedBy] = {{39605}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Soeak to Durek"),0,{{"monster",44414}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak to Durek"),0,{{"monster",44414}}}},
             [questKeys.objectives] = {nil,nil,{{60638}},nil,nil},
         },
         [13844] = { -- The Looting of Althalaxx
