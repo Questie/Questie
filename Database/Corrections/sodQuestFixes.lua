@@ -2154,7 +2154,7 @@ function SeasonOfDiscovery:LoadQuests()
         [82851] = { -- Dark Iron Ordinance
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
-        [82852] = { -- Shredder Turbochargers
+        [82853] = { -- Shredder Turbochargers
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
         [83188] = { -- Otherworldly Treasure
