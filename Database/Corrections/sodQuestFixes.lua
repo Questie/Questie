@@ -1885,6 +1885,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.parentQuest] = 82022,
             [questKeys.objectives] = {nil,{{441848}}},
         },
+        [82043] = { -- The Wild Gods
+            [questKeys.zoneOrSort] = zoneIDs.FELWOOD,
+        },
         [82062] = { -- Ever After
             [questKeys.zoneOrSort] = zoneIDs.BLACKROCK_DEPTHS,
         },
