@@ -2840,6 +2840,9 @@ function QuestieQuestBlacklist:Load()
         [30094] = true, -- The End Time
         [30095] = true, -- The End Time
 
+        -- Phase 4 - Hour of Twilight
+        [29801] = true, -- Proving Your Worth
+
         -- Darkmoon Faire
         --[27664] = true, -- Darkmoon Volcanic Deck
         --[27665] = true, -- Darkmoon Hurricane Deck
