@@ -3931,6 +3931,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{41642,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill all three Tentacle Horrors"),0,{{"monster",41641}}}},
         },
+        [26066] = { -- Reinforcements...
+            [questKeys.preQuestGroup] = {26060,26061},
+        },
         [26068] = { -- Kobold Fury!
             [questKeys.objectives] = {nil,{{203446}}},
         },
