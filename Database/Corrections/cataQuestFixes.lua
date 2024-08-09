@@ -3920,6 +3920,9 @@ function CataQuestFixes.Load()
         [26061] = { -- Da Voodoo: Ram Horns
             [questKeys.preQuestSingle] = {26059},
         },
+        [26062] = { -- Da Voodoo: Resonite Crystal
+            [questKeys.preQuestGroup] = {26060,26061},
+        },
         [26064] = { -- Fight On Their Stomachs
             [questKeys.preQuestSingle] = {26059},
         },
