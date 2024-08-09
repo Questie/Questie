@@ -3914,6 +3914,9 @@ function CataQuestFixes.Load()
         [26059] = { -- Eyes and Ears: Malaka'jin
             [questKeys.preQuestSingle] = {26115},
         },
+        [26060] = { -- Da Voodoo: Stormer Heart
+            [questKeys.preQuestSingle] = {26059},
+        },
         [26065] = { -- Free Wil'hai
             [questKeys.preQuestSingle] = {26080,26092},
             [questKeys.objectives] = {{{41642,nil,Questie.ICON_TYPE_EVENT}}},
