@@ -3892,6 +3892,12 @@ function CataQuestFixes.Load()
         [26043] = { -- BEWARE OF CRAGJAW!
             [questKeys.preQuestSingle] = {26004},
         },
+        [26046] = { -- Between a Rock and a Hard Place
+            [questKeys.preQuestSingle] = {26044},
+        },
+        [26047] = { -- And That's Why They Call Them Peons...
+            [questKeys.preQuestSingle] = {26044},
+        },
         [26048] = { -- Spare Parts Up In Here!
             [questKeys.preQuestGroup] = {26045,26046,26047},
         },
