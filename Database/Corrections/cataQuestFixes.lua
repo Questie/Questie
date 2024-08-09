@@ -3947,6 +3947,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{42051}}},
             [questKeys.preQuestSingle] = {25987,25988},
         },
+        [26073] = { -- All's Quiet on the Southern Front
+            [questKeys.preQuestGroup] = {26067,26068},
+        },
         [26079] = { -- Wanted!  Otto and Falconcrest
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
