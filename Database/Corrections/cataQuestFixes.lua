@@ -3920,6 +3920,9 @@ function CataQuestFixes.Load()
         [26061] = { -- Da Voodoo: Ram Horns
             [questKeys.preQuestSingle] = {26059},
         },
+        [26064] = { -- Fight On Their Stomachs
+            [questKeys.preQuestSingle] = {26059},
+        },
         [26065] = { -- Free Wil'hai
             [questKeys.preQuestSingle] = {26080,26092},
             [questKeys.objectives] = {{{41642,nil,Questie.ICON_TYPE_EVENT}}},
