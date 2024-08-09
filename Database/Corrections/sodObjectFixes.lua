@@ -502,6 +502,13 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.SEARING_GORGE] = {{65.0,45.0}},
             },
         },
+        [456918] = { -- Console
+            [objectKeys.zoneID] = zoneIDs.WESTFALL,
+            [objectKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{54.5,40.2}},
+                [zoneIDs.TIRISFAL_GLADES] = {{53.56,57.21}},
+            },
+        },
         [463206] = { -- Book
             [objectKeys.zoneID] = zoneIDs.BURNING_STEPPES,
             [objectKeys.spawns] = {

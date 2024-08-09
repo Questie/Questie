@@ -1983,6 +1983,7 @@ function QuestieQuestBlacklist:Load()
         [5520] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5523] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5541] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5582] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5664] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5665] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5666] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2839,6 +2840,9 @@ function QuestieQuestBlacklist:Load()
         [29453] = true, -- Your Time Has Come
         [30094] = true, -- The End Time
         [30095] = true, -- The End Time
+
+        -- Phase 4 - Hour of Twilight
+        [29801] = true, -- Proving Your Worth
 
         -- Darkmoon Faire
         --[27664] = true, -- Darkmoon Volcanic Deck

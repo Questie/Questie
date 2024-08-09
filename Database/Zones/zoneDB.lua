@@ -42,22 +42,13 @@ local UiMapIdOverrides = {
     [1415] = 0, -- Eastern Kingdom
     [1945] = 0, -- Outland
 }
-local parentZoneToSubZone = {} -- Generated
 local zoneMap = {} -- Generated
 
 
-function ZoneDB:Initialize()
-    _ZoneDB:GenerateParentZoneToStartingZoneTable()
-
+function ZoneDB.Initialize()
     -- Run tests if debug enabled
     if Questie.db.profile.debugEnabled then
         _ZoneDB:RunTests()
-    end
-end
-
-function _ZoneDB:GenerateParentZoneToStartingZoneTable()
-    for startingZone, parentZone in pairs(subZoneToParentZone) do
-        parentZoneToSubZone[parentZone] = startingZone
     end
 end
 
@@ -132,21 +123,6 @@ function ZoneDB.IsDungeonZone(areaId)
 end
 
 ---@param areaId AreaId
-function ZoneDB:GetAlternativeZoneId(areaId)
-    local entry = dungeons[areaId]
-    if entry then
-        return entry[2]
-    end
-
-    entry = parentZoneToSubZone[areaId]
-    if entry then
-        return entry
-    end
-
-    return nil
-end
-
----@param areaId AreaId
 function ZoneDB:GetParentZoneId(areaId)
     return dungeonParentZones[areaId] or subZoneToParentZone[areaId]
 end
@@ -162,16 +138,20 @@ do
 
     ---@param yield boolean?
     ---@return table
-    function ZoneDB:GetZonesWithQuests(yield)
+    function ZoneDB.GetZonesWithQuests(yield)
         local count = 0
+        local ridingProfession = QuestieProfessions.professionKeys.RIDING
+        local hiddenQuests = QuestieCorrections.hiddenQuests
+        local _HasRequiredRace = QuestiePlayer.HasRequiredRace
+        local _HasRequiredClass = QuestiePlayer.HasRequiredClass
+        local _QueryQuestSingle = QuestieDB.QueryQuestSingle
 
         for questId in pairs(QuestieDB.QuestPointers) do
-            if (not QuestieCorrections.hiddenQuests[questId]) then
-                if QuestiePlayer.HasRequiredRace(QuestieDB.QueryQuestSingle(questId, "requiredRaces"))
-                    and QuestiePlayer.HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses")) then
+            if (not hiddenQuests[questId]) then
+                if _HasRequiredRace(_QueryQuestSingle(questId, "requiredRaces")) and _HasRequiredClass(_QueryQuestSingle(questId, "requiredClasses")) then
 
-                    local zoneOrSort, requiredSkill = QuestieDB.QueryQuestSingle(questId, "zoneOrSort"), QuestieDB.QueryQuestSingle(questId, "requiredSkill")
-                    if requiredSkill and requiredSkill[1] ~= QuestieProfessions.professionKeys.RIDING then
+                    local zoneOrSort, requiredSkill = _QueryQuestSingle(questId, "zoneOrSort"), _QueryQuestSingle(questId, "requiredSkill")
+                    if requiredSkill and requiredSkill[1] ~= ridingProfession then
                         zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
 
                         if (not zoneMap[zoneOrSort]) then
@@ -192,18 +172,18 @@ do
                             end
                             zoneMap[zoneOrSort][questId] = true
                         end
-                    elseif _ZoneDB:IsSpecialQuest(zoneOrSort) then
+                    elseif _ZoneDB.IsSpecialQuest(zoneOrSort) then
                         if (not zoneMap[zoneOrSort]) then
                             zoneMap[zoneOrSort] = {}
                         end
                         zoneMap[zoneOrSort][questId] = true
                     else
                         -- This branch is kind of expensive so yield more often if it happens a lot
-                        local startedBy = QuestieDB.QueryQuestSingle(questId, "startedBy")
+                        local startedBy = _QueryQuestSingle(questId, "startedBy")
 
                         if startedBy then
-                            zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
-                            zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, startedBy[2])
+                            zoneMap = _ZoneDB.GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
+                            zoneMap = _ZoneDB.GetZonesWithQuestsFromObjects(zoneMap, startedBy[2])
                         end
                         if yield then
                             count = count + extraYield
@@ -213,10 +193,10 @@ do
                             end
                         end
 
-                        local finishedBy = QuestieDB.QueryQuestSingle(questId, "finishedBy")
+                        local finishedBy = _QueryQuestSingle(questId, "finishedBy")
                         if finishedBy then
-                            zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, finishedBy[1])
-                            zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, finishedBy[2])
+                            zoneMap = _ZoneDB.GetZonesWithQuestsFromNPCs(zoneMap, finishedBy[1])
+                            zoneMap = _ZoneDB.GetZonesWithQuestsFromObjects(zoneMap, finishedBy[2])
                         end
                         if yield then count = count + extraYield end
                     end
@@ -232,7 +212,7 @@ do
             end
         end
         if yield then coroutine.yield() end
-        zoneMap = _ZoneDB:SplitSeasonalQuests()
+        zoneMap = _ZoneDB.SplitSeasonalQuests()
 
         return zoneMap
     end
@@ -240,7 +220,7 @@ end
 
 
 ---@param zoneOrSort ZoneOrSort
-function _ZoneDB:IsSpecialQuest(zoneOrSort)
+function _ZoneDB.IsSpecialQuest(zoneOrSort)
     for _, v in pairs(QuestieDB.sortKeys) do
         if zoneOrSort == v then
             return true
@@ -252,7 +232,7 @@ end
 ---@param zones any @ I have no idea what this is does or looks
 ---@param npcIds NpcId[]
 ---@return any @ Ditto
-function _ZoneDB:GetZonesWithQuestsFromNPCs(zones, npcIds)
+function _ZoneDB.GetZonesWithQuestsFromNPCs(zones, npcIds)
     if (not npcIds) then
         return zones
     end
@@ -272,7 +252,7 @@ end
 ---@param zones any @ I have no idea what this is does or looks
 ---@param objectIds ObjectId[]
 ---@return any @ Ditto
-function _ZoneDB:GetZonesWithQuestsFromObjects(zones, objectIds)
+function _ZoneDB.GetZonesWithQuestsFromObjects(zones, objectIds)
     if (not objectIds) then
         return zones
     end
@@ -291,7 +271,7 @@ function _ZoneDB:GetZonesWithQuestsFromObjects(zones, objectIds)
 end
 
 ---@return table
-function _ZoneDB:SplitSeasonalQuests()
+function _ZoneDB.SplitSeasonalQuests()
     if (not zoneMap[QuestieDB.sortKeys.SPECIAL]) or (not zoneMap[QuestieDB.sortKeys.SEASONAL]) then
         return zoneMap
     end
@@ -326,7 +306,7 @@ function _ZoneDB:SplitSeasonalQuests()
     return updatedZoneMap
 end
 
-function ZoneDB:GetRelevantZones()
+function ZoneDB.GetRelevantZones()
     local zones = {}
     for category, data in pairs(l10n.zoneCategoryLookup) do
         zones[category] = {}

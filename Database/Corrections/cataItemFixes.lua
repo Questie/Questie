@@ -38,7 +38,10 @@ function CataItemFixes.Load()
             [itemKeys.startQuest] = 0,
         },
         [10458] = { -- Prayer to Elune
-            [itemKeys.npcDrops] = {}
+            [itemKeys.npcDrops] = {},
+        },
+        [12283] = { -- Broodling Essence
+            [itemKeys.npcDrops] = {},
         },
         [18597] = { -- Orcish Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,

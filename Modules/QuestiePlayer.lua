@@ -62,11 +62,6 @@ function QuestiePlayer.IsMaxLevel()
     return (Questie.IsCata and level == 85) or (Questie.IsWotlk and level == 80) or (Questie.IsTBC and level == 70) or (Questie.IsClassic and level == 60)
 end
 
----@return number
-function QuestiePlayer:GetRaceId()
-    return playerRaceId
-end
-
 ---@return string
 function QuestiePlayer:GetLocalizedClassName()
     return playerClassName

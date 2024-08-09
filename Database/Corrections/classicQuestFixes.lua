@@ -786,6 +786,9 @@ function QuestieQuestFixes:Load()
         [1302] = {
             [questKeys.preQuestSingle] = {}, -- #889
         },
+        [1322] = {
+            [questKeys.objectivesText] = {"Acquire 6 Acidic Venom Sacs for Do'gol in Brackenwall Village."},
+        },
         [1324] = {
             [questKeys.objectives] = {{{4966,"Subdue Private Hendel"}}},
             [questKeys.nextQuestInChain] = 1267, -- wotlkDB is wrong, classicGB is right
@@ -1384,6 +1387,9 @@ function QuestieQuestFixes:Load()
         [3453] = {
             [questKeys.objectives] = {{{8479,"Torch Creation"}}},
         },
+        [3454] = { -- The Torch of Retribution
+            [questKeys.nextQuestInChain] = 3462,
+        },
         [3483] = {
             [questKeys.parentQuest] = 3449, -- #1008
             [questKeys.specialFlags] = 1, -- #1131
@@ -1686,6 +1692,9 @@ function QuestieQuestFixes:Load()
         [4641] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- #877
             [questKeys.exclusiveTo] = {788}, -- #1956
+        },
+        [4726] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Draco-Incarcinatrix 900 and defeat the dragonkin."), 0, {{"monster",7047},{"monster",7048}},{"monster",7049}}},
         },
         [4729] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Empty Worg Pup Cage to capture it."), 0, {{"monster", 10221}}}},

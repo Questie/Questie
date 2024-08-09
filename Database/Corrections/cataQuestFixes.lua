@@ -293,6 +293,12 @@ function CataQuestFixes.Load()
         [7490] = { -- Victory for the Horde
             [questKeys.finishedBy] = {{39605}},
         },
+        [7495] = { -- Victory for the Alliance
+            [questKeys.finishedBy] = {{29611}},
+        },
+        [7781] = { -- The Lord of Blackrock
+            [questKeys.finishedBy] = {{29611}},
+        },
         [7783] = { -- The Lord of Blackrock
             [questKeys.finishedBy] = {{39605}},
         },
@@ -452,6 +458,15 @@ function CataQuestFixes.Load()
         },
         [8669] = { -- Genesis Shoulderpads
             [questKeys.objectives] = {nil,nil,{{20932},{20881},{20859},{20864}},{910,0}},
+        },
+        [8764] = { -- The Changing of Paths - Protector No More
+            [questKeys.preQuestSingle] = {8751,8756,8761},
+        },
+        [8765] = { -- The Changing of Paths - Invoker No More
+            [questKeys.preQuestSingle] = {8751,8756,8761},
+        },
+        [8766] = { -- The Changing of Paths - Conqueror No More
+            [questKeys.preQuestSingle] = {8751,8756,8761},
         },
         [9062] = { -- Soaked Pages
             [questKeys.preQuestSingle] = {},
@@ -929,6 +944,9 @@ function CataQuestFixes.Load()
         },
         [12754] = { -- Ambush At The Overlook
             [questKeys.preQuestGroup] = {},
+        },
+        [12774] = { -- Stormwind
+            [questKeys.finishedBy] = {{29611}},
         },
         [12821] = { -- Opening the Backdoor
             [questKeys.objectives] = {nil,nil,{{40731}}},
@@ -2286,6 +2304,9 @@ function CataQuestFixes.Load()
         [24593] = { -- Neither Human Nor Beast
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24646,24628},
+        },
+        [24597] = { -- A Gift for the King of Stormwind
+            [questKeys.finishedBy] = {{29611}},
         },
         [24612] = { -- A Gift for the Emissary of Orgrimmar
             [questKeys.finishedBy] = {{39605}},
@@ -4260,6 +4281,9 @@ function CataQuestFixes.Load()
         [26320] = { -- A Vision of the Past
             [questKeys.triggerEnd] = {"Vision of the Past uncovered", {[zoneIDs.THE_DEADMINES]={{-1,-1}}}},
         },
+        [26322] = { -- Rise of the Brotherhood
+            [questKeys.finishedBy] = {{29611}},
+        },
         [26324] = { -- Where Is My Warfleet?
             [questKeys.startedBy] = {{39605}},
             [questKeys.preQuestGroup] = {26294,26311},
@@ -4382,6 +4406,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {24540},
             [questKeys.requiredRaces] = raceKeys.TAUREN,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Tal"),0,{{"monster",2995}}}},
+        },
+        [26398] = { -- Walk With The Earth Mother
+            [questKeys.finishedBy] = {{39605}},
         },
         [26401] = { -- Return to Vestia
             [questKeys.preQuestSingle] = {25368},
@@ -5324,6 +5351,9 @@ function CataQuestFixes.Load()
         },
         [27225] = { -- A Summons from Ander Germaine
             [questKeys.exclusiveTo] = {27337},
+        },
+        [27240] = { -- Proof of Treachery
+            [questKeys.finishedBy] = {{29611}},
         },
         [27261] = { -- Questioning Reethe
             [questKeys.triggerEnd] = {"Question Reethe with Ogron", {[zoneIDs.DUSTWALLOW_MARSH]={{42.47,38.07}}}},
@@ -6486,6 +6516,9 @@ function CataQuestFixes.Load()
         [28188] = { -- Prison Revolt
             [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
         },
+        [28189] = { -- Do the Right Thing
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [28191] = { -- A Fitting End
             [questKeys.preQuestSingle] = {28171},
             [questKeys.exclusiveTo] = {},
@@ -6612,6 +6645,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredClasses] = classKeys.PRIEST,
             [questKeys.nextQuestInChain] = 28477,
         },
+        [28329] = { -- Angry Scrubbing Bubbles
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [28338] = { -- Deadwood of the North
             [questKeys.preQuestSingle] = {},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
@@ -6630,6 +6666,9 @@ function CataQuestFixes.Load()
         },
         [28353] = { -- Jonesy Sent For You
             [questKeys.nextQuestInChain] = 28271,
+        },
+        [28355] = { -- Terrible Little Creatures
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [28362] = { -- Stupid Drizle!
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
@@ -7627,7 +7666,7 @@ function CataQuestFixes.Load()
             [questKeys.name] = "Potion Master",
             [questKeys.objectivesText] = {"Bring a large supply of potions to an alchemy trainer in any capital city."},
             [questKeys.objectives] = {nil,nil,{{57191},{57192},{58488}}},
-            [questKeys.exclusiveTo] = {29481,29482},
+            [questKeys.exclusiveTo] = {10897,10899,10902,29481,29482},
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
         },
         [29071] = { -- Make Haste to Stormwind!
@@ -8154,13 +8193,13 @@ function CataQuestFixes.Load()
         [29481] = { -- Elixir Master
             [questKeys.requiredLevel] = 75,
             [questKeys.objectives] = {nil,nil,{{58086},{58087},{58085},{58088}}},
-            [questKeys.exclusiveTo] = {29067,29482},
+            [questKeys.exclusiveTo] = {10897,10899,10902,29067,29482},
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
         },
         [29482] = { -- Transmutation Master
             [questKeys.requiredLevel] = 75,
             [questKeys.objectives] = {nil,nil,{{58480}}},
-            [questKeys.exclusiveTo] = {29067,29481},
+            [questKeys.exclusiveTo] = {10897,10899,10902,29067,29481},
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,475},
         },
         [29506] = { -- A Fizzy Fusion

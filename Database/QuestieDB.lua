@@ -148,6 +148,7 @@ local questTagCorrections = {
     [90288] = {1, "Elite"},
     [90289] = {1, "Elite"},
     [90308] = {1, "Elite"},
+    [90312] = {1, "Elite"},
 }
 
 -- race bitmask data, for easy access
@@ -1420,59 +1421,6 @@ function QuestieDB.IsFriendlyToPlayer(friendlyToFaction)
     end
 
     return false
-end
-
---[[
-    https://github.com/cmangos/issues/wiki/AreaTable.dbc
-    Example to differentiate between Dungeon and Zone infront of a Dungeon:
-    1337 Uldaman = The Dungeon (MapID ~= 0, AreaID = 0)
-    1517 Uldaman = Cave infront of the Dungeon (MapID = 0, AreaID = 3 (Badlands))
-
-    Check `l10n.zoneLookup` for the available IDs
-]]
----@param zoneId number
----@return table
-function QuestieDB:GetQuestsByZoneId(zoneId)
-    if not zoneId then
-        return nil;
-    end
-    -- is in cache return that
-    if _QuestieDB.zoneCache[zoneId] then
-        return _QuestieDB.zoneCache[zoneId]
-    end
-    local zoneQuests = {};
-    local alternativeZoneID = ZoneDB:GetAlternativeZoneId(zoneId)
-    -- loop over all quests to populate a zone
-    for qid, _ in pairs(QuestieDB.QuestPointers or QuestieDB.questData) do
-        local quest = QuestieDB.GetQuest(qid);
-        if quest then
-            if quest.zoneOrSort > 0 then
-                if (quest.zoneOrSort == zoneId or (alternativeZoneID and quest.zoneOrSort == alternativeZoneID)) then
-                    zoneQuests[qid] = quest;
-                end
-            elseif quest.Starts.NPC and (not zoneQuests[qid]) then
-                local npc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
-                if npc and npc.friendly and npc.spawns then
-                    for zone, _ in pairs(npc.spawns) do
-                        if zone == zoneId  or (alternativeZoneID and zone == alternativeZoneID) then
-                            zoneQuests[qid] = quest;
-                        end
-                    end
-                end
-            elseif quest.Starts.GameObject and (not zoneQuests[qid]) then
-                local obj = QuestieDB:GetObject(quest.Starts.GameObject[1]);
-                if obj and obj.spawns then
-                    for zone, _ in pairs(obj.spawns) do
-                        if zone == zoneId  or (alternativeZoneID and zone == alternativeZoneID) then
-                            zoneQuests[qid] = quest;
-                        end
-                    end
-                end
-            end
-        end
-    end
-    _QuestieDB.zoneCache[zoneId] = zoneQuests;
-    return zoneQuests;
 end
 
 ---------------------------------------------------------------------------------------------------
