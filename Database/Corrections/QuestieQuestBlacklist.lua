@@ -2821,8 +2821,8 @@ function QuestieQuestBlacklist:Load()
 
         -- Phase 3 - Rage of the Firelands
 
-        --[29129] = true, -- A Legendary Engagement
-        --[29132] = true, -- A Legendary Engagement
+        [29129] = true, -- A Legendary Engagement
+        [29132] = true, -- A Legendary Engagement
         [29202] = true, -- The Fate of Runetotem
         [29280] = true, -- Nourishing Waters
         [29282] = true, -- Well Armed
