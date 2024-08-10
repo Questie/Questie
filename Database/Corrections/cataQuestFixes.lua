@@ -3560,11 +3560,13 @@ function CataQuestFixes.Load()
         [25796] = { -- Eminent Domain
             [questKeys.preQuestSingle] = {25790},
         },
-        [25798] = { -- Defend the Drill
+        [25798] = { -- Defend the Drill (Alliance)
             [questKeys.triggerEnd] = {"Oil Drilling Rig defended",[zoneIDs.THOUSAND_NEEDLES]={{85.9,44.6},{90.2,50.7},{87.2,49.5},{88.3,44.4}}},
+            [questKeys.preQuestSingle] = {25790},
         },
-        [25799] = { -- Defend the Drill
+        [25799] = { -- Defend the Drill (Horde)
             [questKeys.triggerEnd] = {"Oil Drilling Rig defended",[zoneIDs.THOUSAND_NEEDLES]={{85.9,44.6},{90.2,50.7},{87.2,49.5},{88.3,44.4}}},
+            [questKeys.preQuestSingle] = {25791},
         },
         [25801] = { -- Claws from the Deep
             [questKeys.preQuestSingle] = {25800},
