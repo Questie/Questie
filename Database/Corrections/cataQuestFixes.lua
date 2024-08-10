@@ -248,6 +248,39 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = -378,
             [questKeys.finishedBy] = {{51989}},
         },
+        [5627] = { -- Stars of Elune
+            [questKeys.startedBy] = {{11401}},
+        },
+        [5628] = { -- Returning Home
+            [questKeys.startedBy] = {{377,49749}},
+            [questKeys.exclusiveTo] = {5629,5630,5631,5632,5633},
+            [questKeys.nextQuestInChain] = 5627,
+        },
+        [5629] = { -- Returning Home
+            [questKeys.startedBy] = {{3600}},
+            [questKeys.exclusiveTo] = {5628,5630,5631,5632,5633},
+            [questKeys.nextQuestInChain] = 5627,
+        },
+        [5630] = { -- Returning Home
+            [questKeys.startedBy] = {{1226}},
+            [questKeys.exclusiveTo] = {5628,5629,5631,5632,5633},
+            [questKeys.nextQuestInChain] = 5627,
+        },
+        [5631] = { -- Returning Home
+            [questKeys.startedBy] = {{376}},
+            [questKeys.exclusiveTo] = {5628,5629,5630,5632,5633},
+            [questKeys.nextQuestInChain] = 5627,
+        },
+        [5632] = { -- Returning Home
+            [questKeys.startedBy] = {{11397}},
+            [questKeys.exclusiveTo] = {5628,5629,5630,5631,5633},
+            [questKeys.nextQuestInChain] = 5627,
+        },
+        [5633] = { -- Returning Home
+            [questKeys.startedBy] = {{11406}},
+            [questKeys.exclusiveTo] = {5628,5629,5630,5631,5632},
+            [questKeys.nextQuestInChain] = 5627,
+        },
         [5641] = { -- A Lack of Fear
             [questKeys.requiredRaces] = raceKeys.DWARF,
             [questKeys.startedBy] = {{11406}},
