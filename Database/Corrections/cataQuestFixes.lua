@@ -248,6 +248,12 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = -378,
             [questKeys.finishedBy] = {{51989}},
         },
+        [5641] = { -- A Lack of Fear
+            [questKeys.requiredRaces] = raceKeys.DWARF,
+        },
+        [5647] = { -- A Lack of Fear
+            [questKeys.requiredRaces] = raceKeys.DWARF,
+        },
         [6031] = { -- Runecloth
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,8}},
         },
