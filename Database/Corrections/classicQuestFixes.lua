@@ -2029,8 +2029,19 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5639},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [5641] = {
+            [questKeys.startedBy] = {{11406}},
+            [questKeys.exclusiveTo] = {},
+        },
+        [5645] = {
+            [questKeys.startedBy] = {{376}},
+            [questKeys.exclusiveTo] = {5647},
+            [questKeys.nextQuestInChain] = 5641,
+        },
         [5647] = {
             [questKeys.startedBy] = {{11401},nil,nil}, -- #2424
+            [questKeys.exclusiveTo] = {5645},
+            [questKeys.nextQuestInChain] = 5641,
         },
         [5676] = {
             [questKeys.exclusiveTo] = {5677,5678},
