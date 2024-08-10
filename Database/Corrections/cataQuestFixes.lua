@@ -250,9 +250,18 @@ function CataQuestFixes.Load()
         },
         [5641] = { -- A Lack of Fear
             [questKeys.requiredRaces] = raceKeys.DWARF,
+            [questKeys.startedBy] = {{11406}},
+            [questKeys.exclusiveTo] = {},
+        },
+        [5645] = { -- A Lack of Fear
+            [questKeys.startedBy] = {{376}},
+            [questKeys.exclusiveTo] = {5647},
+            [questKeys.nextQuestInChain] = 5641,
         },
         [5647] = { -- A Lack of Fear
             [questKeys.requiredRaces] = raceKeys.DWARF,
+            [questKeys.exclusiveTo] = {5645},
+            [questKeys.nextQuestInChain] = 5641,
         },
         [6031] = { -- Runecloth
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,8}},
