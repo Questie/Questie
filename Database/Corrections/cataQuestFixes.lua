@@ -3474,6 +3474,9 @@ function CataQuestFixes.Load()
         [25678] = { -- Pick Your Fate
             [questKeys.objectives] = {{{5996},{5997},{5998}}},
         },
+        [25715] = { -- A Closer Look
+            [questKeys.triggerEnd] = {"Scout the ships on the Shattershore",{[zoneIDs.BLASTED_LANDS] = {{69,32.7}}}},
+        },
         [25721] = { -- Fight the Flood
             [questKeys.nextQuestInChain] = 25727,
         },
@@ -3489,15 +3492,18 @@ function CataQuestFixes.Load()
         [25733] = { -- Get Out Of Here, Stalkers
             [questKeys.nextQuestInChain] = 25777,
         },
-        [25715] = { -- A Closer Look
-            [questKeys.triggerEnd] = {"Scout the ships on the Shattershore",{[zoneIDs.BLASTED_LANDS] = {{69,32.7}}}},
-        },
         [25740] = { -- Fact-Finding Mission
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25731,25664},
         },
         [25743] = { -- Decisions, Decisions
             [questKeys.objectives] = {nil,{{203194}}},
+        },
+        [25744] = { -- Negotiations (Alliance)
+            [questKeys.preQuestSingle] = {25562},
+        },
+        [25745] = { -- Negotiations (Horde)
+            [questKeys.preQuestSingle] = {25562},
         },
         [25749] = { -- Not Entirely Unprepared
             [questKeys.objectives] = {nil,nil,nil,nil,{{{41235,46470},41235,nil,Questie.ICON_TYPE_INTERACT}}},
