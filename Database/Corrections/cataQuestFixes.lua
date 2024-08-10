@@ -263,6 +263,24 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {5645},
             [questKeys.nextQuestInChain] = 5641,
         },
+        [5672] = { -- Elune's Grace
+            [questKeys.startedBy] = {{11401}},
+        },
+        [5673] = { -- Elune's Grace
+            [questKeys.exclusiveTo] = {5674,5675},
+            [questKeys.nextQuestInChain] = 5672,
+            [questKeys.startedBy] = {{376}},
+        },
+        [5674] = { -- Elune's Grace
+            [questKeys.exclusiveTo] = {5673,5675},
+            [questKeys.nextQuestInChain] = 5672,
+            [questKeys.startedBy] = {{11397}},
+        },
+        [5675] = { -- Elune's Grace
+            [questKeys.exclusiveTo] = {5673,5674},
+            [questKeys.nextQuestInChain] = 5672,
+            [questKeys.startedBy] = {{11406}},
+        },
         [6031] = { -- Runecloth
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,8}},
         },
