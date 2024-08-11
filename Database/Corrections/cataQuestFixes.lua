@@ -6764,11 +6764,13 @@ function CataQuestFixes.Load()
             [questKeys.requiredClasses] = classKeys.PRIEST,
             [questKeys.nextQuestInChain] = 28477,
             [questKeys.startedBy] = {{3045,4606,16658,43870}},
+            [questKeys.zoneOrSort] = 1637,
         },
         [28323] = { -- Meet with Brother Silverhallow
             [questKeys.nextQuestInChain] = 28478,
             [questKeys.requiredClasses] = classKeys.PRIEST,
             [questKeys.startedBy] = {{3045,4606,16658,43870}},
+            [questKeys.zoneOrSort] = 1637,
         },
         [28328] = { -- Twilight Scheming
             [questKeys.preQuestSingle] = {},
