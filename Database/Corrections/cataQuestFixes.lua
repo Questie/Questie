@@ -286,6 +286,14 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{11406}},
             [questKeys.exclusiveTo] = {},
         },
+        [5642] = { -- Shadowguard
+            [questKeys.exclusiveTo] = {5643},
+            [questKeys.nextQuestInChain] = 5680,
+        },
+        [5643] = { -- Shadowguard
+            [questKeys.exclusiveTo] = {5642},
+            [questKeys.nextQuestInChain] = 5680,
+        },
         [5645] = { -- A Lack of Fear
             [questKeys.startedBy] = {{376}},
             [questKeys.exclusiveTo] = {5647},
@@ -313,6 +321,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {5673,5674},
             [questKeys.nextQuestInChain] = 5672,
             [questKeys.startedBy] = {{11406}},
+        },
+        [5680] = { -- Shadowguard
+            [questKeys.startedBy] = {{6018}},
         },
         [6031] = { -- Runecloth
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,8}},
@@ -5391,8 +5402,20 @@ function CataQuestFixes.Load()
         [27261] = { -- Questioning Reethe
             [questKeys.triggerEnd] = {"Question Reethe with Ogron", {[zoneIDs.DUSTWALLOW_MARSH]={{42.47,38.07}}}},
         },
+        [27268] = { -- Make Haste to the Cathedral
+            [questKeys.nextQuestInChain] = 27361,
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE - raceKeys.NIGHT_ELF - raceKeys.GNOME,
+        },
+        [27269] = { -- The Temple of the Moon
+            [questKeys.nextQuestInChain] = 27362,
+            [questKeys.startedBy] = {{11401,11406,16756}},
+        },
         [27273] = { -- An Invitation from Moonglade
             [questKeys.nextQuestInChain] = 27356,
+        },
+        [27274] = { -- The Chief Surgeon
+            [questKeys.nextQuestInChain] = 27363,
+            [questKeys.startedBy] = {{11401,11406,16756}},
         },
         [27277] = { -- An Audience with Ureda
             [questKeys.nextQuestInChain] = 27400,
@@ -5436,6 +5459,23 @@ function CataQuestFixes.Load()
         [27321] = { -- The Writ of History
             [questKeys.preQuestSingle] = {27317},
         },
+        [27331] = { -- The Seer's Call
+            [questKeys.nextQuestInChain] = 27435,
+            [questKeys.startedBy] = {{3045,4606,16658,43870}},
+        },
+        [27332] = { -- Seek the Shadow-Walker
+            [questKeys.requiredRaces] = raceKeys.TROLL,
+            [questKeys.nextQuestInChain] = 27436,
+            [questKeys.startedBy] = {{3045,4606,16658,43870}},
+        },
+        [27334] = { -- Dark Cleric Cecille
+            [questKeys.nextQuestInChain] = 27437,
+            [questKeys.startedBy] = {{3045,4606,16658,43870}},
+        },
+        [27335] = { -- Journey to Orgrimmar
+            [questKeys.nextQuestInChain] = 27439,
+            [questKeys.startedBy] = {{3045,4606,16658,43870}},
+        },
         [27337] = { -- A Fitting Weapon
             [questKeys.startedBy] = {{914}},
             [questKeys.preQuestSingle] = {},
@@ -5458,6 +5498,16 @@ function CataQuestFixes.Load()
         },
         [27357] = { -- The Captive Bride
             [questKeys.preQuestSingle] = {27327},
+        },
+        [27361] = { -- Favored of the Light
+            [questKeys.preQuestSingle] = {},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE - raceKeys.NIGHT_ELF - raceKeys.GNOME,
+        },
+        [27362] = { -- Favored of Elune
+            [questKeys.preQuestSingle] = {},
+        },
+        [27363] = { -- A Budding Young Surgeon
+            [questKeys.preQuestSingle] = {},
         },
         [27366] = { -- Landgrab
             [questKeys.preQuestSingle] = {27338},
@@ -5554,6 +5604,22 @@ function CataQuestFixes.Load()
         },
         [27433] = { -- Shredderectomy
             [questKeys.preQuestSingle] = {27338},
+        },
+        [27435] = { -- A Seer's Staff
+            [questKeys.preQuestSingle] = {},
+        },
+        [27436] = { -- The Shadow-Walker's Task
+            [questKeys.preQuestSingle] = {},
+            [questKeys.requiredRaces] = raceKeys.TROLL,
+        },
+        [27437] = { -- The Dark Cleric's Bidding
+            [questKeys.preQuestSingle] = {},
+        },
+        [27439] = { -- Staff of the Light
+            [questKeys.preQuestSingle] = {},
+        },
+        [27441] = { -- A Seer's Staff
+            [questKeys.preQuestSingle] = {},
         },
         [27442] = { -- The War Has Many Fronts
             [questKeys.preQuestSingle] = {26006},
@@ -6513,6 +6579,10 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{48066}}, -- temporary until Questie can show multiple turn ins
             [questKeys.objectives] = {nil,nil,nil,nil,{{{47607,47608,47609,47610},47607},},},
         },
+        [28164] = { -- Seek Brother Silverhallow
+            [questKeys.nextQuestInChain] = 27441,
+            [questKeys.startedBy] = {{3045,4606,16658,43870}},
+        },
         [28165] = { -- D-Block
             [questKeys.finishedBy] = {{48061}}, -- temporary until Questie can show multiple turn ins
         },
@@ -6647,6 +6717,10 @@ function CataQuestFixes.Load()
         [28284] = { -- What's that Rattle?
             [questKeys.exclusiveTo] = {27317},
         },
+        [28285] = { -- Meet with High Priestess Laurena
+            [questKeys.nextQuestInChain] = 28328,
+            [questKeys.startedBy] = {{4090,11401,11406,16756}},
+        },
         [28289] = { -- Moonglade Calls
             [questKeys.nextQuestInChain] = 28343,
         },
@@ -6673,10 +6747,31 @@ function CataQuestFixes.Load()
         [28301] = { -- Meet with Kardris Dreamseeker
             [questKeys.finishedBy] = {{3344}},
         },
+        [28304] = { -- Meet with Dark Cleric Cecille
+            [questKeys.nextQuestInChain] = 28474,
+        },
+        [28307] = { -- Meet with Tyelis
+            [questKeys.nextQuestInChain] = 28475,
+            [questKeys.startedBy] = {{3045,4606,16658,43870}},
+        },
+        [28308] = { -- Meet with Seer Liwatha
+            [questKeys.nextQuestInChain] = 28476,
+            [questKeys.requiredClasses] = classKeys.PRIEST,
+            [questKeys.startedBy] = {{3045,4606,16658,43870}},
+        },
         [28309] = { -- Meet with Shadow-Walker Zuru
             [questKeys.requiredRaces] = raceKeys.TROLL,
             [questKeys.requiredClasses] = classKeys.PRIEST,
             [questKeys.nextQuestInChain] = 28477,
+            [questKeys.startedBy] = {{3045,4606,16658,43870}},
+        },
+        [28323] = { -- Meet with Brother Silverhallow
+            [questKeys.nextQuestInChain] = 28478,
+            [questKeys.requiredClasses] = classKeys.PRIEST,
+            [questKeys.startedBy] = {{3045,4606,16658,43870}},
+        },
+        [28328] = { -- Twilight Scheming
+            [questKeys.preQuestSingle] = {},
         },
         [28329] = { -- Angry Scrubbing Bubbles
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -6820,9 +6915,23 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28470},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
         },
+        [28474] = { -- Twilight Scheming
+            [questKeys.preQuestSingle] = {},
+        },
+        [28475] = { -- Twilight Scheming
+            [questKeys.preQuestSingle] = {},
+        },
+        [28476] = { -- Twilight Scheming
+            [questKeys.preQuestSingle] = {},
+            [questKeys.requiredClasses] = classKeys.PRIEST,
+        },
         [28477] = { -- Twilight Scheming
             [questKeys.preQuestSingle] = {},
             [questKeys.requiredRaces] = raceKeys.TROLL,
+        },
+        [28478] = { -- Twilight Scheming
+            [questKeys.preQuestSingle] = {},
+            [questKeys.requiredClasses] = classKeys.PRIEST,
         },
         [28486] = { -- Salhet's Gambit
             [questKeys.triggerEnd] = {"Higher ground secured", {[zoneIDs.ULDUM]={{53.76,75.39}}}},
