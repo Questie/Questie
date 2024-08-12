@@ -5402,6 +5402,9 @@ function CataQuestFixes.Load()
         [27261] = { -- Questioning Reethe
             [questKeys.triggerEnd] = {"Question Reethe with Ogron", {[zoneIDs.DUSTWALLOW_MARSH]={{42.47,38.07}}}},
         },
+        [27266] = { -- Wulf Calls
+            [questKeys.nextQuestInChain] = 27344,
+        },
         [27268] = { -- Make Haste to the Cathedral
             [questKeys.nextQuestInChain] = 27361,
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE - raceKeys.NIGHT_ELF - raceKeys.GNOME,
@@ -5486,6 +5489,7 @@ function CataQuestFixes.Load()
         },
         [27344] = { -- A Well-Earned Reward
             [questKeys.startedBy] = {{44247}},
+            [questKeys.preQuestSingle] = {},
         },
         [27349] = { -- Break in Communications: Dreadwatch Outpost
             [questKeys.triggerEnd] = {"Investigate Dreadwatch Outpost", {[zoneIDs.RUINS_OF_GILNEAS]={{53,32.6}}}},
@@ -6680,6 +6684,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{48040,48041,48043},48040,"Thieving plucker smashed",nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
         },
+        [28260] = { -- Meet with Wulf Hansreim
+            [questKeys.nextQuestInChain] = 28394,
+        },
         [28267] = { -- Firing Squad
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Commander Schnottz"),0,{{"monster",47972}}}},
             [questKeys.objectives] = {{{48189,nil,Questie.ICON_TYPE_EVENT}}},
@@ -6740,6 +6747,9 @@ function CataQuestFixes.Load()
         [28296] = { -- Meetup with the Caravan
             [questKeys.exclusiveTo] = {28557},
             [questKeys.zoneOrSort] = zoneIDs.TANARIS,
+        },
+        [28297] = { -- Meet with Ormak Grimshot
+            [questKeys.nextQuestInChain] = 28461,
         },
         [28299] = { -- Meet with Zevrost
             [questKeys.finishedBy] = {{3326}},
@@ -6845,6 +6855,7 @@ function CataQuestFixes.Load()
         [28394] = { -- The Golem Lord's Creations
             [questKeys.startedBy] = {{44247}},
             [questKeys.finishedBy] = {{44247}},
+            [questKeys.preQuestSingle] = {},
         },
         [28395] = { -- Feathers for Nafien
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 11}},
@@ -6902,6 +6913,9 @@ function CataQuestFixes.Load()
         [28460] = { -- Threat of the Winterfall
             [questKeys.preQuestSingle] = {},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
+        },
+        [28461] = { -- The Golem Lord's Creations
+            [questKeys.preQuestSingle] = {},
         },
         [28465] = { -- Slaves of the Firelord
             [questKeys.finishedBy] = {{3344}},
