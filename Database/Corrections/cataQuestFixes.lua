@@ -5413,6 +5413,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 27362,
             [questKeys.startedBy] = {{11401,11406,16756}},
         },
+        [27272] = { -- Demisette Sends Word
+            [questKeys.nextQuestInChain] = 27355,
+        },
         [27273] = { -- An Invitation from Moonglade
             [questKeys.nextQuestInChain] = 27356,
         },
@@ -5496,6 +5499,9 @@ function CataQuestFixes.Load()
         },
         [27354] = { -- Mastering the Arcane
             [questKeys.startedBy] = {{331}},
+        },
+        [27355] = { -- A Boon for the Powerful
+            [questKeys.preQuestSingle] = {},
         },
         [27356] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
@@ -6684,6 +6690,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{48040,48041,48043},48040,"Thieving plucker smashed",nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
         },
+        [28259] = { -- Meet with Demisette Cloyce
+            [questKeys.nextQuestInChain] = 28399,
+        },
         [28260] = { -- Meet with Wulf Hansreim
             [questKeys.nextQuestInChain] = 28394,
         },
@@ -6868,6 +6877,9 @@ function CataQuestFixes.Load()
         [28398] = { -- The Pyromancer's Grimoire
             [questKeys.startedBy] = {{331}},
             [questKeys.finishedBy] = {{331}},
+        },
+        [28399] = { -- Stones of Binding
+            [questKeys.preQuestSingle] = {},
         },
         [28403] = { -- Bad Datas
             [questKeys.triggerEnd] = {"Titan Data Uploaded",{[zoneIDs.ULDUM]={{36.18,23.25}}}},
