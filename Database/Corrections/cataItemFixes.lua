@@ -49,6 +49,9 @@ function CataItemFixes.Load()
         [18598] = { -- Human Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [19424] = { -- Sayge's Fortune #24
+            [itemKeys.startQuest] = 0,
+        },
         [18960] = { -- Lookout's Spyglass
             [itemKeys.npcDrops] = {5840},
         },
