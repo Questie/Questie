@@ -1243,6 +1243,8 @@ function CataQuestFixes.Load()
         },
         [13712] = { -- To The Rescue
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak to Kadrak"),0,{{"monster",8582}}}},
+            [questKeys.triggerEnd] = {"Splintertree Post Siege Broken",{[zoneIDs.ASHENVALE] = {{73.81,61.32}}}},
+            [questKeys.objectives] = {},
         },
         [13730] = { -- Playing With Felfire
             [questKeys.preQuestSingle] = {13803},
