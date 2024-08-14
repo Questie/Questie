@@ -3856,6 +3856,9 @@ function CataQuestFixes.Load()
         [25996] = { -- Waking the Beast
             [questKeys.objectives] = {{{41531},{41776,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
+        [25999] = { -- Barrier to Entry
+            [questKeys.objectives] = {nil,{{460013}}}
+        },
         [26000] = { -- Spelunking
             [questKeys.preQuestSingle] = {25794},
         },
