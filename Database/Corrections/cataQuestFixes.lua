@@ -3979,6 +3979,9 @@ function CataQuestFixes.Load()
         [26096] = { -- Scalding Shrooms
             [questKeys.preQuestSingle] = {25987,25988},
         },
+        [26097] = { -- Proof of Lies
+            [questKeys.preQuestSingle] = {26082},
+        },
         [26099] = { -- Is This Justice?
             [questKeys.preQuestSingle] = {26098},
         },
