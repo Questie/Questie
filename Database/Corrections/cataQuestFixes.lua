@@ -3979,6 +3979,9 @@ function CataQuestFixes.Load()
         [26096] = { -- Scalding Shrooms
             [questKeys.preQuestSingle] = {25987,25988},
         },
+        [26099] = { -- Is This Justice?
+            [questKeys.preQuestSingle] = {26098},
+        },
         [26105] = { -- Claim Korthun's End
             [questKeys.startedBy] = {{42115}},
             [questKeys.exclusiveTo] = {26121},
