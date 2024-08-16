@@ -444,6 +444,9 @@ function CataItemFixes.Load()
         [57766] = { -- Prickly Pear Fruit
             [itemKeys.npcDrops] = {},
         },
+        [57789] = { -- Fresh Dirt
+            [itemKeys.npcDrops] = {},
+        },
         [58141] = { -- Twilight Highlands Coastal Chart
             [itemKeys.npcDrops] = {42638},
         },
@@ -482,6 +485,7 @@ function CataItemFixes.Load()
         },
         [58950] = { -- Messner's Cage Key
             [itemKeys.class] = itemClasses.QUEST,
+            [itemKeys.npcDrops] = {}
         },
         [58951] = { -- Giant Furious Pike
             [itemKeys.npcDrops] = {}
