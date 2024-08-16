@@ -4211,7 +4211,7 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
         [26228] = { -- Livin' the Life
-            [questKeys.triggerEnd] = {"Livin' the Life!", {[zoneIDs.WESTFALL]={{61,25}}}},
+            [questKeys.triggerEnd] = {"Livin' the Life!", {[zoneIDs.WESTFALL]={{46.25,18.99}}}},
         },
         [26229] = { -- "I TAKE Candle!"
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
