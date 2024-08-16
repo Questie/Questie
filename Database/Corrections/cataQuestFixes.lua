@@ -4468,6 +4468,18 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
             [questKeys.objectives] = {{{42940,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [26393] = { -- A Swift Message
+            [questKeys.requiredRaces] = raceKeys.HUMAN,
+        },
+        [26394] = { -- Continue to Stormwind
+            [questKeys.requiredRaces] = raceKeys.HUMAN,
+        },
+        [26395] = { -- Dungar Longdrink
+            [questKeys.requiredRaces] = raceKeys.HUMAN,
+        },
+        [26396] = { -- Return to Argus
+            [questKeys.requiredRaces] = raceKeys.HUMAN,
+        },
         [26397] = { -- Walk With The Earth Mother
             [questKeys.finishedBy] = {{39605}},
             [questKeys.preQuestSingle] = {24540},
