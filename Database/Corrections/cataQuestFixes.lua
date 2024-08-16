@@ -236,8 +236,28 @@ function CataQuestFixes.Load()
         [3361] = { -- A Refugee's Quandary
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [3631] = { -- Summon Felsteed
+            [questKeys.exclusiveTo] = {4489},
+            [questKeys.nextQuestInChain] = 4490,
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [4487] = { -- Summon Felsteed
+            [questKeys.exclusiveTo] = {4488},
+            [questKeys.nextQuestInChain] = 4490,
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [4488] = { -- Summon Felsteed
+            [questKeys.exclusiveTo] = {4487},
+            [questKeys.nextQuestInChain] = 4490,
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [4489] = { -- Summon Felsteed
+            [questKeys.exclusiveTo] = {3631},
+            [questKeys.nextQuestInChain] = 4490,
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [5041] = { -- Supplies for the Crossroads
-            [questKeys.preQuestSingle] = {871}
+            [questKeys.preQuestSingle] = {871},
         },
         [5421] = { -- Fish in a Bucket
             [questKeys.specialFlags] = specialFlags.NONE,
@@ -5437,6 +5457,7 @@ function CataQuestFixes.Load()
         },
         [27282] = { -- Zevrost's Behest
             [questKeys.finishedBy] = {{3326}},
+            [questKeys.nextQuestInChain] = 27402,
         },
         [27283] = { -- A Journey to Moonglade
             [questKeys.nextQuestInChain] = 27404,
@@ -6762,6 +6783,7 @@ function CataQuestFixes.Load()
         },
         [28299] = { -- Meet with Zevrost
             [questKeys.finishedBy] = {{3326}},
+            [questKeys.nextQuestInChain] = 28459,
         },
         [28301] = { -- Meet with Kardris Dreamseeker
             [questKeys.finishedBy] = {{3344}},
@@ -6921,6 +6943,7 @@ function CataQuestFixes.Load()
         },
         [28459] = { -- Stones of Binding
             [questKeys.finishedBy] = {{3326}},
+            [questKeys.preQuestSingle] = {},
         },
         [28460] = { -- Threat of the Winterfall
             [questKeys.preQuestSingle] = {},
