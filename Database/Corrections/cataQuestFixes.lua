@@ -4245,6 +4245,9 @@ function CataQuestFixes.Load()
         [26250] = { -- On Second Thought, Take One Prisoner
             [questKeys.preQuestSingle] = {26248},
         },
+        [26252] = { -- Heart of the Watcher
+            [questKeys.startedBy] = {{114},nil,{57935}},
+        },
         [26254] = { -- Some Spraining to Do
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 42716}}}},
             [questKeys.objectives] = {{{42964,nil,Questie.ICON_TYPE_EVENT}}},
@@ -4305,6 +4308,9 @@ function CataQuestFixes.Load()
         [26294] = { -- Weapons of Mass Dysfunction
             [questKeys.finishedBy] = {{39605}},
             [questKeys.objectives] = {{{42673,nil,Questie.ICON_TYPE_INTERACT},{42671,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [26296] = { -- Evidence Collection
+            [questKeys.startedBy] = {{42677},nil,{58117}},
         },
         [26298] = { -- Hunt for Yenniku
             [questKeys.preQuestSingle] = {26280},
@@ -4633,6 +4639,9 @@ function CataQuestFixes.Load()
         },
         [26512] = { -- Tuning the Gnomecorder
             [questKeys.triggerEnd] = {"Test the Gnomecorder at the Lakeshire Graveyard", {[zoneIDs.REDRIDGE_MOUNTAINS]={{32.3,39.5}}}},
+        },
+        [26519] = { -- He Who Controls the Ettins
+            [questKeys.startedBy] = {{430,445,446,580},nil,{58898}},
         },
         [26536] = { -- Thunder Falls
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26488},
