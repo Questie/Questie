@@ -4356,6 +4356,7 @@ function CataQuestFixes.Load()
         },
         [26322] = { -- Rise of the Brotherhood
             [questKeys.finishedBy] = {{29611}},
+            [questKeys.triggerEnd] = {"Rise of the Brotherhood witnessed", {[zoneIDs.WESTFALL]={{56.29,47.52}}}},
         },
         [26324] = { -- Where Is My Warfleet?
             [questKeys.startedBy] = {{39605}},
