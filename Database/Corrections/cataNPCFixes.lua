@@ -15,6 +15,9 @@ function CataNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
+        [464] = { -- Watch Captain Parker
+            [npcKeys.waypoints] = {},
+        },
         [658] = { -- Sten Stoutarm
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{36.55,70.41}}},
         },
@@ -38,6 +41,9 @@ function CataNpcFixes.Load()
         },
         [881] = { -- Echeyakee
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{44.9,47.8}}},
+        },
+        [1416] = { -- Grimand Elmore
+            [npcKeys.waypoints] = {},
         },
         [1494] = { -- Negolash
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{50.75,79.65}}},
