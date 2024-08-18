@@ -5444,6 +5444,9 @@ function CataQuestFixes.Load()
         [27261] = { -- Questioning Reethe
             [questKeys.triggerEnd] = {"Question Reethe with Ogron", {[zoneIDs.DUSTWALLOW_MARSH]={{42.47,38.07}}}},
         },
+        [27265] = { -- Lord Grayson Shadowbreaker
+            [questKeys.nextQuestInChain] = 27343,
+        },
         [27266] = { -- Wulf Calls
             [questKeys.nextQuestInChain] = 27344,
         },
@@ -5490,6 +5493,9 @@ function CataQuestFixes.Load()
         [27283] = { -- A Journey to Moonglade
             [questKeys.nextQuestInChain] = 27404,
         },
+        [27298] = { -- Seek Out Master Pyreanor
+            [questKeys.nextQuestInChain] = 27434,
+        },
         [27299] = { -- Torn Ground
             [questKeys.preQuestSingle] = {},
         },
@@ -5498,6 +5504,10 @@ function CataQuestFixes.Load()
         },
         [27302] = { -- Simple Solutions
             [questKeys.preQuestSingle] = {27299},
+        },
+        [27304] = { -- Follow the Sun
+            [questKeys.nextQuestInChain] = 27403,
+            [questKeys.startedBy] = {{16681,20406,43795}},
         },
         [27310] = { -- No Weapons For You!
             [questKeys.preQuestSingle] = {27275},
@@ -5538,6 +5548,9 @@ function CataQuestFixes.Load()
         [27341] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
             [questKeys.preQuestSingle] = {27338},
+        },
+        [27343] = { -- The Hand of the Light
+            [questKeys.preQuestSingle] = {},
         },
         [27344] = { -- A Well-Earned Reward
             [questKeys.startedBy] = {{44247}},
@@ -5658,6 +5671,9 @@ function CataQuestFixes.Load()
         [27402] = { -- Token of Power
             [questKeys.preQuestSingle] = {},
         },
+        [27403] = { -- A True Sunwalker
+            [questKeys.preQuestSingle] = {},
+        },
         [27404] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
         },
@@ -5672,6 +5688,9 @@ function CataQuestFixes.Load()
         },
         [27433] = { -- Shredderectomy
             [questKeys.preQuestSingle] = {27338},
+        },
+        [27434] = { -- The Adept's Path
+            [questKeys.preQuestSingle] = {},
         },
         [27435] = { -- A Seer's Staff
             [questKeys.preQuestSingle] = {},
@@ -6766,6 +6785,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {28194,28195},
         },
+        [28268] = { -- Meet with Lord Grayson Shadowbreaker
+            [questKeys.nextQuestInChain] = 28405,
+        },
         [28271] = { -- Reduced Productivity
             [questKeys.preQuestSingle] = {28274},
             [questKeys.exclusiveTo] = {},
@@ -6833,6 +6855,13 @@ function CataQuestFixes.Load()
         },
         [28301] = { -- Meet with Kardris Dreamseeker
             [questKeys.finishedBy] = {{3344}},
+        },
+        [28302] = { -- Meet with Sunwalker Atohmo
+            [questKeys.nextQuestInChain] = 28466,
+            [questKeys.startedBy] = {{16681,20406,43795}},
+        },
+        [28303] = { -- Meet with Master Pyreanor
+            [questKeys.nextQuestInChain] = 28473,
         },
         [28304] = { -- Meet with Dark Cleric Cecille
             [questKeys.nextQuestInChain] = 28474,
@@ -6960,6 +6989,9 @@ function CataQuestFixes.Load()
         [28404] = { -- I'll Do It By Hand
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Defeat the defenses"), 0, {{"monster", 48529}}}},
         },
+        [28405] = { -- Weapons of Darkness
+            [questKeys.preQuestSingle] = {},
+        },
         [28406] = { -- The Dark Iron Army
             [questKeys.preQuestSingle] = {},
         },
@@ -7013,6 +7045,9 @@ function CataQuestFixes.Load()
         [28465] = { -- Slaves of the Firelord
             [questKeys.finishedBy] = {{3344}},
         },
+        [28466] = { -- Weapons of Darkness
+            [questKeys.preQuestSingle] = {},
+        },
         [28469] = { -- Winterfall Runners
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
         },
@@ -7023,6 +7058,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{10738},nil,{12842}},
             [questKeys.preQuestSingle] = {28470},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
+        },
+        [28473] = { -- Weapons of Darkness
+            [questKeys.preQuestSingle] = {},
         },
         [28474] = { -- Twilight Scheming
             [questKeys.preQuestSingle] = {},
