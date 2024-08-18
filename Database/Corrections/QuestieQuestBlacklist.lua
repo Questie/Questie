@@ -1890,10 +1890,14 @@ function QuestieQuestBlacklist:Load()
         [1861] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1879] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1880] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [1883] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1881] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1882] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1883] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1884] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1885] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1886] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1898] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1899] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1919] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1920] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1921] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -1922,6 +1926,8 @@ function QuestieQuestBlacklist:Load()
         [1961] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1962] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [1963] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1998] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [1999] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [2020] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [2058] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [2059] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2592,7 +2598,6 @@ function QuestieQuestBlacklist:Load()
         [9209] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9210] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9231] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [9233] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9287] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9288] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [9289] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2822,6 +2827,10 @@ function QuestieQuestBlacklist:Load()
         [14182] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [14183] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [14184] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [14418] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [14419] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [14420] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [14421] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [14436] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [14437] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [14439] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -3138,7 +3147,7 @@ function QuestieQuestBlacklist:Load()
         [30095] = true, -- The End Time
 
         -- Phase 4 - Hour of Twilight
-        [29801] = true, -- Proving Your Worth
+        --[29801] = true, -- Proving Your Worth
 
         -- Darkmoon Faire
         --[27664] = true, -- Darkmoon Volcanic Deck
