@@ -5436,7 +5436,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [27225] = { -- A Summons from Ander Germaine
-            [questKeys.exclusiveTo] = {27337},
+            [questKeys.nextQuestInChain] = 27337,
         },
         [27240] = { -- Proof of Treachery
             [questKeys.finishedBy] = {{29611}},
@@ -5481,7 +5481,7 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{3344}},
         },
         [27281] = { -- Grezz Ragefist
-            [questKeys.exclusiveTo] = {28290,27365,28457},
+            [questKeys.nextQuestInChain] = 27365,
         },
         [27282] = { -- Zevrost's Behest
             [questKeys.finishedBy] = {{3326}},
@@ -5569,6 +5569,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [27363] = { -- A Budding Young Surgeon
+            [questKeys.preQuestSingle] = {},
+        },
+        [27365] = { -- A Fitting Weapon
             [questKeys.preQuestSingle] = {},
         },
         [27366] = { -- Landgrab
@@ -6745,6 +6748,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{48040,48041,48043},48040,"Thieving plucker smashed",nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
         },
+        [28258] = { -- Meet with Ander Germaine
+            [questKeys.nextQuestInChain] = 28393,
+        },
         [28259] = { -- Meet with Demisette Cloyce
             [questKeys.nextQuestInChain] = 28399,
         },
@@ -6799,7 +6805,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 28343,
         },
         [28290] = { -- Meet with Grezz Ragefist
-            [questKeys.exclusiveTo] = {27281,27365,28457},
+            [questKeys.nextQuestInChain] = 28457,
         },
         [28292] = { -- That's No Pyramid!
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
@@ -6923,6 +6929,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {28390},
             [questKeys.requiredMinRep] = {1171,21000},
         },
+        [28393] = { -- A Dangerous Alliance
+            [questKeys.preQuestSingle] = {},
+        },
         [28394] = { -- The Golem Lord's Creations
             [questKeys.startedBy] = {{44247}},
             [questKeys.finishedBy] = {{44247}},
@@ -6980,6 +6989,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{37106,100006}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 48526}}}},
             [questKeys.exclusiveTo] = {24503},
+        },
+        [28457] = { -- A Dangerous Alliance
+            [questKeys.preQuestSingle] = {},
         },
         [28458] = { -- The Pyromancer's Grimoire
             [questKeys.preQuestSingle] = {},
