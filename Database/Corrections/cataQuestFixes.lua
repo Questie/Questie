@@ -380,6 +380,18 @@ function CataQuestFixes.Load()
         [6386] = { -- Return to Razor Hill
             [questKeys.requiredRaces] = raceKeys.ORC + raceKeys.TROLL,
         },
+        [6622] = { -- Triage
+            [questKeys.preQuestSingle] = {},
+        },
+        [6623] = { -- Horde Trauma
+            [questKeys.nextQuestInChain] = 6622,
+        },
+        [6624] = { -- Triage
+            [questKeys.preQuestSingle] = {},
+        },
+        [6625] = { -- Alliance Trauma
+            [questKeys.nextQuestInChain] = 6624,
+        },
         [7383] = { -- Teldrassil: The Burden of the Kaldorei
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {918,919},
