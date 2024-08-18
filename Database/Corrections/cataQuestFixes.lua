@@ -5447,6 +5447,9 @@ function CataQuestFixes.Load()
         [27266] = { -- Wulf Calls
             [questKeys.nextQuestInChain] = 27344,
         },
+        [27267] = { -- Make Contact with SI:7
+            [questKeys.nextQuestInChain] = 27351,
+        },
         [27268] = { -- Make Haste to the Cathedral
             [questKeys.nextQuestInChain] = 27361,
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE - raceKeys.NIGHT_ELF - raceKeys.GNOME,
@@ -5470,6 +5473,9 @@ function CataQuestFixes.Load()
         },
         [27278] = { -- Grimshot's Call
             [questKeys.nextQuestInChain] = 27395,
+        },
+        [27279] = { -- The Shattered Hand
+            [questKeys.nextQuestInChain] = 27396,
         },
         [27280] = { -- The Dreamseeker Calls
             [questKeys.finishedBy] = {{3344}},
@@ -5539,6 +5545,9 @@ function CataQuestFixes.Load()
         },
         [27349] = { -- Break in Communications: Dreadwatch Outpost
             [questKeys.triggerEnd] = {"Investigate Dreadwatch Outpost", {[zoneIDs.RUINS_OF_GILNEAS]={{53,32.6}}}},
+        },
+        [27351] = { -- A Royal Reward
+            [questKeys.preQuestSingle] = {},
         },
         [27354] = { -- Mastering the Arcane
             [questKeys.startedBy] = {{331}},
@@ -5623,6 +5632,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 25956,
         },
         [27395] = { -- A Marksman's Weapon
+            [questKeys.preQuestSingle] = {},
+        },
+        [27396] = { -- Blade of the Shattered Hand
             [questKeys.preQuestSingle] = {},
         },
         [27398] = { -- The Battle Is Won, The War Goes On
@@ -6739,6 +6751,9 @@ function CataQuestFixes.Load()
         [28260] = { -- Meet with Wulf Hansreim
             [questKeys.nextQuestInChain] = 28394,
         },
+        [28262] = { -- Meet with Lord Tony Romano
+            [questKeys.nextQuestInChain] = 28406,
+        },
         [28267] = { -- Firing Squad
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Commander Schnottz"),0,{{"monster",47972}}}},
             [questKeys.objectives] = {{{48189,nil,Questie.ICON_TYPE_EVENT}}},
@@ -6802,6 +6817,9 @@ function CataQuestFixes.Load()
         },
         [28297] = { -- Meet with Ormak Grimshot
             [questKeys.nextQuestInChain] = 28461,
+        },
+        [28298] = { -- Meet with Gordul
+            [questKeys.nextQuestInChain] = 28463,
         },
         [28299] = { -- Meet with Zevrost
             [questKeys.finishedBy] = {{3326}},
@@ -6933,6 +6951,9 @@ function CataQuestFixes.Load()
         [28404] = { -- I'll Do It By Hand
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Defeat the defenses"), 0, {{"monster", 48529}}}},
         },
+        [28406] = { -- The Dark Iron Army
+            [questKeys.preQuestSingle] = {},
+        },
         [28407] = { -- The Bachelorette
             [questKeys.preQuestGroup] = {28378,28379},
         },
@@ -6972,6 +6993,9 @@ function CataQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
         },
         [28461] = { -- The Golem Lord's Creations
+            [questKeys.preQuestSingle] = {},
+        },
+        [28463] = { -- The Dark Iron Army
             [questKeys.preQuestSingle] = {},
         },
         [28465] = { -- Slaves of the Firelord
