@@ -5461,6 +5461,10 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 27362,
             [questKeys.startedBy] = {{11401,11406,16756}},
         },
+        [27270] = { -- An Audience with the Farseer
+            [questKeys.nextQuestInChain] = 27353,
+            [questKeys.startedBy] = {{17519,23127,52292}},
+        },
         [27272] = { -- Demisette Sends Word
             [questKeys.nextQuestInChain] = 27355,
         },
@@ -5482,6 +5486,8 @@ function CataQuestFixes.Load()
         },
         [27280] = { -- The Dreamseeker Calls
             [questKeys.finishedBy] = {{3344}},
+            [questKeys.startedBy] = {{16661,51639}},
+            [questKeys.nextQuestInChain] = 27397,
         },
         [27281] = { -- Grezz Ragefist
             [questKeys.nextQuestInChain] = 27365,
@@ -5560,6 +5566,9 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Investigate Dreadwatch Outpost", {[zoneIDs.RUINS_OF_GILNEAS]={{53,32.6}}}},
         },
         [27351] = { -- A Royal Reward
+            [questKeys.preQuestSingle] = {},
+        },
+        [27353] = { -- Blessings of the Elements
             [questKeys.preQuestSingle] = {},
         },
         [27354] = { -- Mastering the Arcane
@@ -5651,6 +5660,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [27396] = { -- Blade of the Shattered Hand
+            [questKeys.preQuestSingle] = {},
+        },
+        [27397] = { -- Dreamseeker's Task
             [questKeys.preQuestSingle] = {},
         },
         [27398] = { -- The Battle Is Won, The War Goes On
@@ -6823,6 +6835,10 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 28328,
             [questKeys.startedBy] = {{4090,11401,11406,16756}},
         },
+        [28287] = { -- Meet with Farseer Umbrua
+            [questKeys.nextQuestInChain] = 28401,
+            [questKeys.startedBy] = {{17519,23127,52292}},
+        },
         [28289] = { -- Moonglade Calls
             [questKeys.nextQuestInChain] = 28343,
         },
@@ -6855,6 +6871,8 @@ function CataQuestFixes.Load()
         },
         [28301] = { -- Meet with Kardris Dreamseeker
             [questKeys.finishedBy] = {{3344}},
+            [questKeys.startedBy] = {{16661,51639}},
+            [questKeys.nextQuestInChain] = 28465,
         },
         [28302] = { -- Meet with Sunwalker Atohmo
             [questKeys.nextQuestInChain] = 28466,
@@ -6981,6 +6999,9 @@ function CataQuestFixes.Load()
         [28399] = { -- Stones of Binding
             [questKeys.preQuestSingle] = {},
         },
+        [28401] = { -- Slaves of the Firelord
+            [questKeys.preQuestSingle] = {},
+        },
         [28403] = { -- Bad Datas
             [questKeys.triggerEnd] = {"Titan Data Uploaded",{[zoneIDs.ULDUM]={{36.18,23.25}}}},
             [questKeys.objectives] = {},
@@ -7044,6 +7065,7 @@ function CataQuestFixes.Load()
         },
         [28465] = { -- Slaves of the Firelord
             [questKeys.finishedBy] = {{3344}},
+            [questKeys.preQuestSingle] = {},
         },
         [28466] = { -- Weapons of Darkness
             [questKeys.preQuestSingle] = {},
