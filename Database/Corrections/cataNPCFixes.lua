@@ -15,6 +15,9 @@ function CataNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
+        [464] = { -- Watch Captain Parker
+            [npcKeys.waypoints] = {},
+        },
         [658] = { -- Sten Stoutarm
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{36.55,70.41}}},
         },
@@ -35,6 +38,16 @@ function CataNpcFixes.Load()
         },
         [736] = { -- Panther
             [npcKeys.spawns] = {[5339] = {{35.51,19.86},{35.64,18.93},{35.47,20.26},{34.97,18.84},{34.52,19.13},{33.76,20.08},{33.38,20.35},{33.31,20.52},{33.40,20.79},{33.87,21.11},{34.98,22.08},{34.98,22.08},{36.57,23.31},{34.34,21.95},{32.79,23.87},{32.51,25.43},{32.66,26.37},{32.66,26.37},{32.70,27.43},{32.85,27.75},{32.86,29.12},{32.60,30.31}}},
+        },
+        [881] = { -- Echeyakee
+            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{44.9,47.8}}},
+        },
+        [1340] = { -- Mountaineer Kadrell
+            [npcKeys.waypoints] = {},
+            [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{35.06,46.58}}},
+        },
+        [1416] = { -- Grimand Elmore
+            [npcKeys.waypoints] = {},
         },
         [1494] = { -- Negolash
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{50.75,79.65}}},
@@ -194,6 +207,10 @@ function CataNpcFixes.Load()
         [10920] = { -- Kelek Skykeeper
             [npcKeys.questStarts] = {28479,28537,28848},
             [npcKeys.questEnds] = {28471,28536,28537},
+        },
+        [12677] = { -- Shadumbra
+            [npcKeys.waypoints] = {[zoneIDs.ASHENVALE] = {{{61.08,51.67},{61.24,52.36},{61.11,52.59},{61.78,52.65},{61.99,52.54},{61.13,52.41},{61.01,50.99},{61.16,50.40},{61.49,50.19},{61.84,49.99},{61.86,49.84},{62.18,49.63},{62.29,49.64},{62.70,49.65},{62.66,50.35}}}},
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{61.16,51.56}}},
         },
         [12759] = { -- Fury Shelda
             [npcKeys.waypoints] = {},
@@ -574,6 +591,9 @@ function CataNpcFixes.Load()
         [23616] = { -- Kyle the Frenzied
             [npcKeys.spawns] = {[zoneIDs.MULGORE]={{48.48,61.57}}},
         },
+        [25273] = { -- Warsong Recruitment Officer
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{41.62,53.99},{43.01,55.64}}},
+        },
         [25324] = { -- Earthen Ring Guide
             [npcKeys.spawns] = {
                 [zoneIDs.ASHENVALE]={
@@ -845,6 +865,9 @@ function CataNpcFixes.Load()
         [35257] = { -- Mountainfoot Miner
             [npcKeys.spawns] = {[zoneIDs.AZSHARA] = {{24.6,72.1},{24.28,72.01},{24.26,73.04},{25.01,71.7},{25.21,71.29},{25.1,69.9},{24.89,71.13},{24.88,71.47},{25.02,69.62},{23.28,69.89},{21.97,70.5},{22.44,69.44},{23.33,71.57},{24.57,70.39},{23.54,71.11},{24.92,68.02},{25.92,68.76},{26.63,70.12},{25.53,69.05},{23.73,69.29},{22.8,67.84},{23.46,67.15},{24.74,69.94},{23.02,68.02},{23.73,67.58},{23.73,67.06},{22.94,69.34},{23.61,66.73},{21.07,70.81},{21.16,71.18},{25,66.9},{26.57,69.8},{21.05,70.91},{24.84,71.2},{25.15,71.29}}},
         },
+        [35281] = { -- Rukua
+            [npcKeys.spawns] = {[zoneIDs.DARNASSUS] = {{43.79,78.57}}},
+        },
         [35486] = { -- First Bank of Kezan Vault
             [npcKeys.spawns] = {[zoneIDs.KEZAN] = {{29.89,71.33}}},
         },
@@ -966,7 +989,7 @@ function CataNpcFixes.Load()
         [36845] = { -- Agitated Earth Spirit
             [npcKeys.spawns] = {[zoneIDs.MULGORE] = {{34.11,47.71},{33.59,49.07},{33.41,48.97},{33.42,48.45},{33.26,47.86},{33.11,47.9},{33,47.71},{33.24,49.35},{32.93,49.22},{32.86,48.98},{33.06,48.77},{32.84,48.31},{32.7,48.47},{32.55,48.64},{32.46,48.57},{32.72,47.8},{32.26,48.28},{32.07,49.08},{32.53,49.15},{32.65,49.35},{32.87,49.63},{32.9,50.21},{32.78,50.18},{32.61,50.18},{32.43,50.22},{32.19,49.7},{32.27,49.44}}},
         },
-        [36915] = { -- Submerge Bunny
+        [36901] = { -- Submerge Bunny
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST] = {{45.79,33.96}}},
             [npcKeys.zoneID] = zoneIDs.KELP_THAR_FOREST,
         },

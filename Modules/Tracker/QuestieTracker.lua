@@ -139,130 +139,126 @@ function QuestieTracker.Initialize()
     -- Initialize hooks
     QuestieTracker:HookBaseTracker()
 
-    -- Insures all other data we're getting from other addons and WoW is loaded. There are edge
-    -- cases where Questie loads too fast before everything else is available.
-    C_Timer.After(1.0, function()
-        -- Hide frames during startup
-        if QuestieTracker.alreadyHooked then
-            if Questie.db.profile.stickyDurabilityFrame then DurabilityFrame:Hide() end
-            if TrackerUtils:IsVoiceOverLoaded() then VoiceOverFrame:Hide() end
+    -- Hide frames during startup
+    if QuestieTracker.alreadyHooked then
+        if Questie.db.profile.stickyDurabilityFrame then DurabilityFrame:Hide() end
+        if TrackerUtils:IsVoiceOverLoaded() then VoiceOverFrame:Hide() end
+    end
+
+    -- Flip some Dugi Guides options to prevent weird behavior
+    if IsAddOnLoaded("DugisGuideViewerZ") then
+        -- Turns off "Show Quest Objectives - Display quest objectives in small/anchored frame instead of the watch frame"
+        DugisGuideViewer:SetDB(false, 39) -- DGV_OBJECTIVECOUNTER
+
+        -- Turns off "Auto Quest Tracking - Automatically add quest to the Objective Tracker on accept or objective update"
+        DugisGuideViewer:SetDB(false, 78) -- DGV_AUTO_QUEST_TRACK
+
+        -- Turns on "Clear Final Waypoint - Always clear the last waypoint on reach"
+        DugisGuideViewer:SetDB(true, 1006) -- DGV_CLEAR_FINAL_WAYPOINT
+    end
+
+    -- Quest Focus Feature
+    if Questie.db.char.TrackerFocus then
+        local focusType = type(Questie.db.char.TrackerFocus)
+        if focusType == "number" then
+            TrackerUtils:FocusQuest(Questie.db.char.TrackerFocus)
+            QuestieQuest:ToggleNotes(false)
+        elseif focusType == "string" then
+            local questId, objectiveIndex = string.match(Questie.db.char.TrackerFocus, "(%d+) (%d+)")
+            TrackerUtils:FocusObjective(questId, objectiveIndex)
+            QuestieQuest:ToggleNotes(false)
+        end
+    end
+
+    QuestieCombatQueue:Queue(function()
+        -- Hides tracker during a login or reloadUI
+        if Questie.db.profile.hideTrackerInDungeons and IsInInstance() then
+            QuestieTracker:Collapse()
         end
 
-        -- Flip some Dugi Guides options to prevent weird behavior
-        if IsAddOnLoaded("DugisGuideViewerZ") then
-            -- Turns off "Show Quest Objectives - Display quest objectives in small/anchored frame instead of the watch frame"
-            DugisGuideViewer:SetDB(false, 39) -- DGV_OBJECTIVECOUNTER
+        -- Sync and populate the QuestieTracker - this should only run when a player has loaded
+        -- Questie for the first time or when Re-enabling the QuestieTracker after it's disabled.
 
-            -- Turns off "Auto Quest Tracking - Automatically add quest to the Objective Tracker on accept or objective update"
-            DugisGuideViewer:SetDB(false, 78) -- DGV_AUTO_QUEST_TRACK
+        -- The questsWatched variable is populated by the Unhooked GetNumQuestWatches(). If Questie
+        -- is enabled, this is always 0 unless it's run with a true var RE:GetNumQuestWatches(true).
+        if questsWatched > 0 then
+            -- When a quest is removed from the Watch Frame, the questIndex can change so we need to snag
+            -- the entire list and build a temp table with QuestIDs instead to ensure we remove them all.
+            local tempQuestIDs = {}
+            for i = 1, questsWatched do
+                local questIndex = GetQuestIndexForWatch(i)
+                if questIndex then
+                    local questId = select(8, GetQuestLogTitle(questIndex))
+                    if questId then
+                        tempQuestIDs[i] = questId
+                    end
+                end
+            end
 
-            -- Turns on "Clear Final Waypoint - Always clear the last waypoint on reach"
-            DugisGuideViewer:SetDB(true, 1006) -- DGV_CLEAR_FINAL_WAYPOINT
-        end
-
-        -- Quest Focus Feature
-        if Questie.db.char.TrackerFocus then
-            local focusType = type(Questie.db.char.TrackerFocus)
-            if focusType == "number" then
-                TrackerUtils:FocusQuest(Questie.db.char.TrackerFocus)
-                QuestieQuest:ToggleNotes(false)
-            elseif focusType == "string" then
-                local questId, objectiveIndex = string.match(Questie.db.char.TrackerFocus, "(%d+) (%d+)")
-                TrackerUtils:FocusObjective(questId, objectiveIndex)
-                QuestieQuest:ToggleNotes(false)
+            -- Remove quest from the Blizzard Quest Watch and populate the tracker.
+            for _, questId in pairs(tempQuestIDs) do
+                local questIndex = GetQuestLogIndexByID(questId)
+                if questIndex then
+                    QuestieTracker:AQW_Insert(questIndex, QUEST_WATCH_NO_EXPIRE)
+                end
             end
         end
 
-        QuestieCombatQueue:Queue(function()
-            -- Hides tracker during a login or reloadUI
-            if Questie.db.profile.hideTrackerInDungeons and IsInInstance() then
-                QuestieTracker:Collapse()
+        -- Look for any QuestID's that don't belong in the Questie.db.char.TrackedQuests or
+        -- the Questie.db.char.AutoUntrackedQuests tables. They can get out of sync.
+        if Questie.db.profile.autoTrackQuests and Questie.db.char.AutoUntrackedQuests then
+            for untrackedQuestId in pairs(Questie.db.char.AutoUntrackedQuests) do
+                if not QuestiePlayer.currentQuestlog[untrackedQuestId] then
+                    Questie.db.char.AutoUntrackedQuests[untrackedQuestId] = nil
+                end
             end
+        elseif Questie.db.char.TrackedQuests then
+            for trackedQuestId in pairs(Questie.db.char.TrackedQuests) do
+                if not QuestiePlayer.currentQuestlog[trackedQuestId] then
+                    Questie.db.char.TrackedQuests[trackedQuestId] = nil
+                end
+            end
+        end
 
-            -- Sync and populate the QuestieTracker - this should only run when a player has loaded
-            -- Questie for the first time or when Re-enabling the QuestieTracker after it's disabled.
+        -- The trackedAchievements variable is populated by GetTrackedAchievements(). If Questie
+        -- is enabled, this will always return nil so we need to save it before we enable Questie.
+        if Questie.IsWotlk or Questie.IsCata then
+            if #trackedAchievements > 0 then
+                local tempAchieves = trackedAchievements
 
-            -- The questsWatched variable is populated by the Unhooked GetNumQuestWatches(). If Questie
-            -- is enabled, this is always 0 unless it's run with a true var RE:GetNumQuestWatches(true).
-            if questsWatched > 0 then
-                -- When a quest is removed from the Watch Frame, the questIndex can change so we need to snag
-                -- the entire list and build a temp table with QuestIDs instead to ensure we remove them all.
-                local tempQuestIDs = {}
-                for i = 1, questsWatched do
-                    local questIndex = GetQuestIndexForWatch(i)
-                    if questIndex then
-                        local questId = select(8, GetQuestLogTitle(questIndex))
-                        if questId then
-                            tempQuestIDs[i] = questId
+                -- Remove achievement from the Blizzard Quest Watch and populate the tracker.
+                for _, achieveId in pairs(tempAchieves) do
+                    if achieveId then
+                        RemoveTrackedAchievement(achieveId)
+                        Questie.db.char.trackedAchievementIds[achieveId] = true
+
+                        if (not AchievementFrame) then
+                            AchievementFrame_LoadUI()
                         end
-                    end
-                end
 
-                -- Remove quest from the Blizzard Quest Watch and populate the tracker.
-                for _, questId in pairs(tempQuestIDs) do
-                    local questIndex = GetQuestLogIndexByID(questId)
-                    if questIndex then
-                        QuestieTracker:AQW_Insert(questIndex, QUEST_WATCH_NO_EXPIRE)
+                        AchievementFrameAchievements_ForceUpdate()
                     end
                 end
             end
 
-            -- Look for any QuestID's that don't belong in the Questie.db.char.TrackedQuests or
-            -- the Questie.db.char.AutoUntrackedQuests tables. They can get out of sync.
-            if Questie.db.profile.autoTrackQuests and Questie.db.char.AutoUntrackedQuests then
-                for untrackedQuestId in pairs(Questie.db.char.AutoUntrackedQuests) do
-                    if not QuestiePlayer.currentQuestlog[untrackedQuestId] then
-                        Questie.db.char.AutoUntrackedQuests[untrackedQuestId] = nil
-                    end
-                end
-            elseif Questie.db.char.TrackedQuests then
-                for trackedQuestId in pairs(Questie.db.char.TrackedQuests) do
-                    if not QuestiePlayer.currentQuestlog[trackedQuestId] then
-                        Questie.db.char.TrackedQuests[trackedQuestId] = nil
+            trackedAchievements = { GetTrackedAchievements() }
+            WatchFrame_Update()
+
+            -- Sync and populate QuestieTrackers achievement cache
+            if Questie.db.char.trackedAchievementIds ~= trackedAchievementIds then
+                for achieveId in pairs(Questie.db.char.trackedAchievementIds) do
+                    if Questie.db.char.trackedAchievementIds[achieveId] == true then
+                        trackedAchievementIds[achieveId] = true
                     end
                 end
             end
+        else
+            QuestWatch_Update()
+        end
 
-            -- The trackedAchievements variable is populated by GetTrackedAchievements(). If Questie
-            -- is enabled, this will always return nil so we need to save it before we enable Questie.
-            if Questie.IsWotlk or Questie.IsCata then
-                if #trackedAchievements > 0 then
-                    local tempAchieves = trackedAchievements
-
-                    -- Remove achievement from the Blizzard Quest Watch and populate the tracker.
-                    for _, achieveId in pairs(tempAchieves) do
-                        if achieveId then
-                            RemoveTrackedAchievement(achieveId)
-                            Questie.db.char.trackedAchievementIds[achieveId] = true
-
-                            if (not AchievementFrame) then
-                                AchievementFrame_LoadUI()
-                            end
-
-                            AchievementFrameAchievements_ForceUpdate()
-                        end
-                    end
-                end
-
-                trackedAchievements = { GetTrackedAchievements() }
-                WatchFrame_Update()
-
-                -- Sync and populate QuestieTrackers achievement cache
-                if Questie.db.char.trackedAchievementIds ~= trackedAchievementIds then
-                    for achieveId in pairs(Questie.db.char.trackedAchievementIds) do
-                        if Questie.db.char.trackedAchievementIds[achieveId] == true then
-                            trackedAchievementIds[achieveId] = true
-                        end
-                    end
-                end
-            else
-                QuestWatch_Update()
-            end
-
-            if QuestLogFrame:IsShown() then QuestLog_Update() end
-            QuestieTracker:Update()
-            trackerBaseFrame:Hide()
-        end)
+        if QuestLogFrame:IsShown() then QuestLog_Update() end
+        QuestieTracker:Update()
+        trackerBaseFrame:Hide()
     end)
 end
 
@@ -1852,9 +1848,6 @@ function QuestieTracker:HookBaseTracker()
     end
 
     QuestieTracker.alreadyHooked = true
-    QuestieCombatQueue:Queue(function()
-        QuestieTracker:Update()
-    end)
 end
 
 function QuestieTracker:RemoveQuest(questId)

@@ -49,6 +49,9 @@ function CataItemFixes.Load()
         [18598] = { -- Human Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [19424] = { -- Sayge's Fortune #24
+            [itemKeys.startQuest] = 0,
+        },
         [18960] = { -- Lookout's Spyglass
             [itemKeys.npcDrops] = {5840},
         },
@@ -63,6 +66,9 @@ function CataItemFixes.Load()
         },
         [22978] = { -- Emitter Spare Part
             [itemKeys.npcDrops] = {},
+        },
+        [23798] = { -- Diabolical Plans
+            [itemKeys.npcDrops] = {6073},
         },
         [24416] = { -- Corrupted Flower
             [itemKeys.npcDrops] = {},
@@ -441,6 +447,9 @@ function CataItemFixes.Load()
         [57766] = { -- Prickly Pear Fruit
             [itemKeys.npcDrops] = {},
         },
+        [57789] = { -- Fresh Dirt
+            [itemKeys.npcDrops] = {},
+        },
         [58141] = { -- Twilight Highlands Coastal Chart
             [itemKeys.npcDrops] = {42638},
         },
@@ -479,6 +488,7 @@ function CataItemFixes.Load()
         },
         [58950] = { -- Messner's Cage Key
             [itemKeys.class] = itemClasses.QUEST,
+            [itemKeys.npcDrops] = {}
         },
         [58951] = { -- Giant Furious Pike
             [itemKeys.npcDrops] = {}
