@@ -1885,6 +1885,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.parentQuest] = 82022,
             [questKeys.objectives] = {nil,{{441848}}},
         },
+        [82043] = { -- The Wild Gods
+            [questKeys.zoneOrSort] = zoneIDs.FELWOOD,
+        },
+        [82044] = { -- The Wild Gods
+            [questKeys.zoneOrSort] = zoneIDs.FELWOOD,
+        },
         [82062] = { -- Ever After
             [questKeys.zoneOrSort] = zoneIDs.BLACKROCK_DEPTHS,
         },
@@ -2154,7 +2160,7 @@ function SeasonOfDiscovery:LoadQuests()
         [82851] = { -- Dark Iron Ordinance
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
-        [82852] = { -- Shredder Turbochargers
+        [82853] = { -- Shredder Turbochargers
             [questKeys.zoneOrSort] = zoneIDs.RATCHET,
         },
         [83188] = { -- Otherworldly Treasure
@@ -2672,7 +2678,8 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [84369] = { -- Healing the Healer
-            [questKeys.requiredSourceItems] = {227924},
+            [questKeys.triggerEnd] = {"Collect Frostfire Hot Spring water",{[zoneIDs.WINTERSPRING]={{29.3,35.7}}}},
+            [questKeys.objectives] = {nil,nil,{{227924}}},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [84372] = { -- Lava Diving
