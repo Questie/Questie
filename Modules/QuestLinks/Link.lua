@@ -65,14 +65,20 @@ end
 
 ---@return string
 function QuestieLink:GetQuestLinkString(questLevel, questName, questId)
-    local questLink = GetQuestLink and GetQuestLink(questId)
     local questString = "["..questName.." ("..tostring(questId)..")]"
 
     if Questie.db.profile.trackerShowQuestLevel then
         questString = questString:gsub("%[", "[["..tostring(questLevel).."] ")
     end
 
-    return questLink and questLink:gsub("%[(.-)%]", questString) or questString
+    if GetQuestLink then
+        local questLink = GetQuestLink(questId)
+        if questLink then
+            return questLink:gsub("%[(.-)%]", questString)
+        end
+    end
+
+    return questString
 end
 
 ---@return string
