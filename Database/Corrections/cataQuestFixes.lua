@@ -19,6 +19,7 @@ QuestieCorrections.objectObjectiveFirst[25731] = true
 QuestieCorrections.objectObjectiveFirst[26659] = true
 QuestieCorrections.objectObjectiveFirst[26809] = true
 QuestieCorrections.killCreditObjectiveFirst[52] = true
+QuestieCorrections.killCreditObjectiveFirst[13798] = true
 QuestieCorrections.killCreditObjectiveFirst[26621] = true
 QuestieCorrections.killCreditObjectiveFirst[26875] = true
 
@@ -379,6 +380,9 @@ function CataQuestFixes.Load()
         },
         [6386] = { -- Return to Razor Hill
             [questKeys.requiredRaces] = raceKeys.ORC + raceKeys.TROLL,
+        },
+        [6441] = { -- Satyr Horns
+            [questKeys.preQuestSingle] = {26449},
         },
         [6622] = { -- Triage
             [questKeys.preQuestSingle] = {},
@@ -1281,6 +1285,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 26465,
         },
         [13621] = { -- Gorat's Vengeance
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the imbued blood"),0,{{"monster",33294}}}},
             [questKeys.preQuestSingle] = {13620},
         },
         [13628] = { -- Got Wood?
@@ -1294,6 +1299,11 @@ function CataQuestFixes.Load()
         },
         [13646] = { -- Astranaar Bound
             [questKeys.preQuestSingle] = {26464},
+        },
+        [13653] = { -- Crisis at Splintertree
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak to Gorka"),0,{{"monster",33421}}}},
+            [questKeys.triggerEnd] = {"Gorka accompanied to Mor'shan Ramparts",{[zoneIDs.ASHENVALE] = {{68.43,88.43}}}},
+            [questKeys.objectives] = {},
         },
         [13655] = { -- Explorers' League Document (2 of 6)
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -1353,6 +1363,14 @@ function CataQuestFixes.Load()
         [13708] = { -- Valiant Of Sen'jin
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [13712] = { -- To The Rescue
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak to Kadrak"),0,{{"monster",8582}}}},
+            [questKeys.triggerEnd] = {"Splintertree Post Siege Broken",{[zoneIDs.ASHENVALE] = {{73.81,61.32}}}},
+            [questKeys.objectives] = {},
+        },
+        [13730] = { -- Playing With Felfire
+            [questKeys.preQuestSingle] = {13803},
+        },
         [13766] = { -- Closure is Only Natural
             [questKeys.objectives] = {{{33767,nil,Questie.ICON_TYPE_EVENT}}},
         },
@@ -1360,18 +1378,36 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {13792},
             [questKeys.requiredSourceItems] = {45571,45572},
         },
+        [13798] = { -- Rain of Destruction
+            [questKeys.objectives] = {{{33688}},nil,nil,nil,{{{33945,33195},33195,"Attacking elves slain"}}},
+        },
+        [13801] = { -- Dead Elves Walking
+            [questKeys.preQuestSingle] = {13803},
+        },
+        [13806] = { -- Demon Duty
+            [questKeys.preQuestSingle] = {26449},
+        },
+        [13808] = { -- Mission Improbable
+            [questKeys.preQuestSingle] = {13805},
+        },
         [13831] = { -- A Troubling Prescription
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {13528},
         },
         [13841] = { -- All Apologies
+            [questKeys.preQuestSingle] = {13798},
             [questKeys.finishedBy] = {{39605}},
         },
         [13842] = { -- Dread Head Redemption
             [questKeys.finishedBy] = {{39605}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak to Durek"),0,{{"monster",44414}}}},
+            [questKeys.objectives] = {nil,nil,{{60638}},nil,nil},
         },
         [13844] = { -- The Looting of Althalaxx
             [questKeys.preQuestSingle] = {13509},
+        },
+        [13848] = { -- Bad News Bear-er
+            [questKeys.preQuestSingle] = {13805},
         },
         [13849] = { -- Astranaar's Burning!
             [questKeys.objectives] = {{{34123,nil,Questie.ICON_TYPE_EVENT}}},
@@ -1388,6 +1424,9 @@ function CataQuestFixes.Load()
         },
         [13869] = { -- Recover the Remains
             [questKeys.preQuestSingle] = {26454},
+        },
+        [13870] = { -- As Good as it Gets
+            [questKeys.preQuestGroup] = {13865,13815},
         },
         [13871] = { -- Security!
             [questKeys.preQuestSingle] = {13870},
@@ -1412,7 +1451,11 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{2165,34417},2165,nil,Questie.ICON_TYPE_EVENT},{{2071,2237,2070},2071,nil,Questie.ICON_TYPE_EVENT},{{34318,34396},34318,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Ask Orseus for a hippogryph"),0,{{"monster",34392}}}},
         },
-        [13886] = { -- Vortex
+        [13886] = { -- Vortex [Alliance]
+            [questKeys.preQuestGroup] = {13880,13884},
+            [questKeys.objectives] = {{{34295}}},
+        },
+        [13888] = { -- Vortex [Horde]
             [questKeys.preQuestGroup] = {13880,13884},
             [questKeys.objectives] = {{{34295}}},
         },
@@ -4584,11 +4627,6 @@ function CataQuestFixes.Load()
         [26434] = { -- Primal Reagents of Power
             [questKeys.preQuestSingle] = {26433},
         },
-        [26440] = { -- Clingy
-            [questKeys.triggerEnd] = {"Pebble brought to crystal formation",{[zoneIDs.DEEPHOLM]={{29.45,47.47}}}},
-            [questKeys.objectives] = {},
-            [questKeys.preQuestSingle] = {26439},
-        },
         [26436] = { -- Entrenched
             [questKeys.preQuestSingle] = {26871},
         },
@@ -4602,8 +4640,19 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26436},
             [questKeys.objectives] = {{{43115,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [26440] = { -- Clingy
+            [questKeys.triggerEnd] = {"Pebble brought to crystal formation",{[zoneIDs.DEEPHOLM]={{29.45,47.47}}}},
+            [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {26439},
+        },
         [26442] = { -- Rock Lobster
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26488,26536},
+        },
+        [26443] = { -- Diabolical Plans [Alliance]
+            [questKeys.startedBy] = {{6073,6115,11697}},
+        },
+        [26447] = { -- Diabolical Plans [Horde]
+            [questKeys.startedBy] = {{6073,6115,11697}},
         },
         [26454] = { -- A Shameful Waste
             [questKeys.preQuestSingle] = {},
