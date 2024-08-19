@@ -4112,6 +4112,7 @@ function CataQuestFixes.Load()
         },
         [26066] = { -- Reinforcements...
             [questKeys.preQuestGroup] = {26060,26061},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{11915,11917,11918},11915,"Boulderslide Kobold subdued",Questie.ICON_TYPE_INTERACT}}},
         },
         [26068] = { -- Kobold Fury!
             [questKeys.objectives] = {nil,{{203446}}},
