@@ -42,6 +42,10 @@ function CataNpcFixes.Load()
         [881] = { -- Echeyakee
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{44.9,47.8}}},
         },
+        [1340] = { -- Mountaineer Kadrell
+            [npcKeys.waypoints] = {},
+            [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{35.06,46.58}}},
+        },
         [1416] = { -- Grimand Elmore
             [npcKeys.waypoints] = {},
         },
