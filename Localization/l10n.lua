@@ -16,6 +16,8 @@ l10n.questLookup = {}
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
+local _InitializeLocaleOverride, _GetFallbackLocale
+
 local locale = 'enUS'
 local supportedLocals = {
     ['enUS'] = true,
@@ -29,23 +31,6 @@ local supportedLocals = {
     ['zhTW'] = true,
     ['koKR'] = true,
 }
-
-function l10n:InitializeLocaleOverride()
-    local overridingLocale = QUESTIE_LOCALES_OVERRIDE.locale
-    supportedLocals[overridingLocale] = true
-    l10n.itemLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.itemLookup end
-    l10n.questLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.questLookup end
-    l10n.npcNameLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.npcNameLookup end
-    l10n.objectLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.objectLookup end
-
-    for id, _ in pairs(l10n.translations) do
-        if QUESTIE_LOCALES_OVERRIDE.translations[id] ~= nil then
-            l10n.translations[id][overridingLocale] = QUESTIE_LOCALES_OVERRIDE.translations[id]
-        else
-            l10n.translations[id][overridingLocale] = false
-        end
-    end
-end
 
 function l10n:Initialize()
     local itemLookup = l10n.itemLookup[locale] and l10n.itemLookup[locale]() or {}
@@ -98,6 +83,41 @@ function l10n:Initialize()
     for id, name in pairs(objectLookup) do
         if QuestieDB.objectData[id] and name then
             QuestieDB.objectData[id][QuestieDB.objectKeys.name] = name
+        end
+    end
+end
+
+function l10n.InitializeUILocale()
+    if QUESTIE_LOCALES_OVERRIDE ~= nil then
+        _InitializeLocaleOverride()
+    end
+
+    -- Set proper locale. Either default to client Locale or override based on user.
+    if Questie.db.global.questieLocaleDiff then
+        l10n:SetUILocale(Questie.db.global.questieLocale);
+    else
+        if QUESTIE_LOCALES_OVERRIDE ~= nil then
+            l10n:SetUILocale(QUESTIE_LOCALES_OVERRIDE.locale);
+        else
+            l10n:SetUILocale(GetLocale());
+        end
+    end
+end
+
+---Load the locale override from QUESTIE_LOCALES_OVERRIDE (provided by a different addon)
+_InitializeLocaleOverride = function()
+    local overridingLocale = QUESTIE_LOCALES_OVERRIDE.locale
+    supportedLocals[overridingLocale] = true
+    l10n.itemLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.itemLookup end
+    l10n.questLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.questLookup end
+    l10n.npcNameLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.npcNameLookup end
+    l10n.objectLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.objectLookup end
+
+    for id, _ in pairs(l10n.translations) do
+        if QUESTIE_LOCALES_OVERRIDE.translations[id] ~= nil then
+            l10n.translations[id][overridingLocale] = QUESTIE_LOCALES_OVERRIDE.translations[id]
+        else
+            l10n.translations[id][overridingLocale] = false
         end
     end
 end
@@ -156,7 +176,7 @@ end
 
 setmetatable(l10n, { __call = function(_, ...) return _l10n:translate(...) end})
 
-function _l10n:GetFallbackLocale(lang)
+_GetFallbackLocale = function(lang)
     if (not lang) then
         return 'enUS'
     end
@@ -180,9 +200,9 @@ end
 
 function l10n:SetUILocale(lang)
     if lang then
-        locale = _l10n:GetFallbackLocale(lang)
+        locale = _GetFallbackLocale(lang)
     else
-        locale = _l10n:GetFallbackLocale(GetLocale())
+        locale = _GetFallbackLocale(GetLocale())
     end
 end
 

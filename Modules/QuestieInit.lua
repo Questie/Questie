@@ -148,20 +148,8 @@ QuestieInit.Stages = {}
 QuestieInit.Stages[1] = function() -- run as a coroutine
     Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting the real init.")
 
-    if QUESTIE_LOCALES_OVERRIDE ~= nil then
-        l10n:InitializeLocaleOverride()
-    end
-
-    -- Set proper locale. Either default to client Locale or override based on user.
-    if Questie.db.global.questieLocaleDiff then
-        l10n:SetUILocale(Questie.db.global.questieLocale);
-    else
-        if QUESTIE_LOCALES_OVERRIDE ~= nil then
-            l10n:SetUILocale(QUESTIE_LOCALES_OVERRIDE.locale);
-        else
-            l10n:SetUILocale(GetLocale());
-        end
-    end
+    -- This needs to happen after ADDON_LOADED
+    l10n.InitializeUILocale()
 
     local dbCompiled = false
 
