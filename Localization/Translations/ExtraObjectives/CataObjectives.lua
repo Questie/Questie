@@ -2666,7 +2666,6 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    
 }
 
 for k, v in pairs(cataObjectiveLocales) do

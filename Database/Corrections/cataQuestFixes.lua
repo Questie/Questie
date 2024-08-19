@@ -4731,6 +4731,9 @@ function CataQuestFixes.Load()
         [26540] = { -- Dangerous Compassion
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Go back to the ship"),0,{{"monster",43188}}}},
         },
+        [26546] = { -- Razorbeak Friends
+            [questKeys.objectives] = {{{2657,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [26549] = { -- Madness
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Negotiations Concluded",{[zoneIDs.TWILIGHT_HIGHLANDS]={{75.5,55.25}}}},
