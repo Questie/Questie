@@ -982,6 +982,12 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29092},
             [questKeys.startedBy] = {{25324}},
         },
+        [12172] = { -- Attunement to Dalaran
+            [questKeys.objectives] = {{{27135,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [12173] = { -- Attunement to Dalaran
+            [questKeys.objectives] = {{{27135,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [12246] = { -- A Possible Link
             [questKeys.preQuestSingle] = {},
         },
@@ -5477,6 +5483,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 27353,
             [questKeys.startedBy] = {{17519,23127,52292}},
         },
+        [27271] = { -- Journey to the Wizard's Sanctum
+            [questKeys.nextQuestInChain] = 27354,
+        },
         [27272] = { -- Demisette Sends Word
             [questKeys.nextQuestInChain] = 27355,
         },
@@ -5585,6 +5594,7 @@ function CataQuestFixes.Load()
         },
         [27354] = { -- Mastering the Arcane
             [questKeys.startedBy] = {{331}},
+            [questKeys.preQuestSingle] = {},
         },
         [27355] = { -- A Boon for the Powerful
             [questKeys.preQuestSingle] = {},
@@ -6803,6 +6813,10 @@ function CataQuestFixes.Load()
         [28262] = { -- Meet with Lord Tony Romano
             [questKeys.nextQuestInChain] = 28406,
         },
+        [28263] = { -- Meet with Maginor Dumas
+            [questKeys.requiredClasses] = classKeys.MAGE,
+            [questKeys.nextQuestInChain] = 28398,
+        },
         [28267] = { -- Firing Squad
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Commander Schnottz"),0,{{"monster",47972}}}},
             [questKeys.objectives] = {{{48189,nil,Questie.ICON_TYPE_EVENT}}},
@@ -6880,6 +6894,9 @@ function CataQuestFixes.Load()
         [28299] = { -- Meet with Zevrost
             [questKeys.finishedBy] = {{3326}},
             [questKeys.nextQuestInChain] = 28459,
+        },
+        [28300] = { -- Meet with Ureda
+            [questKeys.nextQuestInChain] = 28458,
         },
         [28301] = { -- Meet with Kardris Dreamseeker
             [questKeys.finishedBy] = {{3344}},
@@ -7007,6 +7024,7 @@ function CataQuestFixes.Load()
         [28398] = { -- The Pyromancer's Grimoire
             [questKeys.startedBy] = {{331}},
             [questKeys.finishedBy] = {{331}},
+            [questKeys.preQuestSingle] = {},
         },
         [28399] = { -- Stones of Binding
             [questKeys.preQuestSingle] = {},
