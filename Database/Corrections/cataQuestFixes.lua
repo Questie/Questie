@@ -978,6 +978,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10945,10951,10953},
         },
+        [11999] = { -- Rifle the Bodies
+            [questKeys.preQuestSingle] = {},
+        },
         [12012] = { -- Inform the Elder
             [questKeys.exclusiveTo] = {29092},
             [questKeys.startedBy] = {{25324}},
