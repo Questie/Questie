@@ -2408,7 +2408,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMinRep] = {59,9000},
         },
         [6661] = {
-            [questKeys.objectives] = {{{13016,"Rats Captured"}}},
+            [questKeys.objectives] = {{{13016,"Rats Captured",Questie.ICON_TYPE_INTERACT}}},
         },
         [6721] = {
             [questKeys.startedBy] = {{5116},nil,nil},
