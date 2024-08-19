@@ -982,6 +982,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29092},
             [questKeys.startedBy] = {{25324}},
         },
+        [12171] = { -- Of Traitors and Treason
+            [questKeys.preQuestSingle] = {},
+        },
         [12172] = { -- Attunement to Dalaran
             [questKeys.objectives] = {{{27135,nil,Questie.ICON_TYPE_EVENT}}},
         },
