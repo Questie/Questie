@@ -587,6 +587,9 @@ function CataNpcFixes.Load()
         [23616] = { -- Kyle the Frenzied
             [npcKeys.spawns] = {[zoneIDs.MULGORE]={{48.48,61.57}}},
         },
+        [25273] = { -- Warsong Recruitment Officer
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{41.62,53.99},{43.01,55.64}}},
+        },
         [25324] = { -- Earthen Ring Guide
             [npcKeys.spawns] = {
                 [zoneIDs.ASHENVALE]={
