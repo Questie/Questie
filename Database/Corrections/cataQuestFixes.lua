@@ -4732,7 +4732,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Go back to the ship"),0,{{"monster",43188}}}},
         },
         [26546] = { -- Razorbeak Friends
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Feed Trained Razorbeak"), 0, {{"monster",2657}}}},
+            [questKeys.objectives] = {{{2657,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26549] = { -- Madness
             [questKeys.objectives] = {},
