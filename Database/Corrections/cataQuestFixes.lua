@@ -4049,6 +4049,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25887},
             [questKeys.objectives] = {{{41955,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [26009] = { -- Seek and Destroy
+            [questKeys.requiredMaxRep] = {76,20999},
+        },
         [26010] = { -- Ashes to Ashes
             [questKeys.preQuestSingle] = {26004},
         },
