@@ -4134,7 +4134,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {26067,26068},
         },
         [26077] = { -- Final Delivery
-            [questKeys.objectives] = {{{41418,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{42038,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26079] = { -- Wanted!  Otto and Falconcrest
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
