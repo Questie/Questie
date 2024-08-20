@@ -231,6 +231,7 @@ function CataNpcFixes.Load()
         },
         [14822] = { -- Sayge
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{53.24,75.84},{-1,-1}}},
+            [npcKeys.waypoints] = {},
         },
         [14823] = { -- Silas Darkmoon
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{49.49,71.01},{-1,-1}}},
@@ -264,6 +265,7 @@ function CataNpcFixes.Load()
         },
         [14847] = { -- Professor Thaddeus Paleo
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{51.89,60.93},{-1,-1}}},
+            [npcKeys.waypoints] = {},
         },
         [14849] = { -- Darkmoon Faire Carnie
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{44.79,88.94},{44.65,87.63},{48.75,69.37},{46.68,65.47},{44.88,87.5},{44.88,89.13},{43.65,87.1},{43.51,87.66},{51.59,68.07},{56.28,87.47},{51.97,55.09},{56.28,88.91},{53.47,84.33},{48.04,78.48},{56.38,87.15},{55.78,55.78},{-1,-1}}},
