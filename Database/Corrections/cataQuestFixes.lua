@@ -4294,6 +4294,9 @@ function CataQuestFixes.Load()
         [26234] = { -- Stealing From Our Own
             [questKeys.requiredRaces] = raceKeys.TROLL,
         },
+        [26236] = { -- Shakedown at the Saldean's
+            [questKeys.preQuestSingle] = {26232},
+        },
         [26237] = { -- Times are Tough
             [questKeys.preQuestSingle] = {26236},
         },
