@@ -4294,6 +4294,9 @@ function CataQuestFixes.Load()
         [26234] = { -- Stealing From Our Own
             [questKeys.requiredRaces] = raceKeys.TROLL,
         },
+        [26237] = { -- Times are Tough
+            [questKeys.preQuestSingle] = {26236},
+        },
         [26241] = { -- Westfall Stew
             [questKeys.preQuestSingle] = {26236},
         },
