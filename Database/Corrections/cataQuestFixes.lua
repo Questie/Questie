@@ -36,6 +36,9 @@ function CataQuestFixes.Load()
         [2] = { -- Sharptalon's Claw
             [questKeys.preQuestSingle] = {},
         },
+        [11] = { -- Riverpaw Gnoll Bounty
+            [questKeys.preQuestSingle] = {},
+        },
         [23] = { -- Ursangous's Paw
             [questKeys.preQuestSingle] = {},
         },
