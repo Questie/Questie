@@ -4336,11 +4336,14 @@ function CataQuestFixes.Load()
         [26265] = { -- Dealing with the Fallout
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
-        [26266] = { -- Dealing with the Fallout
+        [26266] = { -- Hope for the People
             [questKeys.preQuestSingle] = {26270},
         },
         [26269] = { -- The Green Hills of Stranglethorn
             [questKeys.preQuestSingle] = {583},
+        },
+        [26270] = { -- You Have Our Thanks
+            [questKeys.preQuestSingle] = {26241},
         },
         [26273] = { -- The Basics: Hitting Things
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
