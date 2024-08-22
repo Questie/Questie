@@ -15,6 +15,12 @@ function CataNpcFixes.Load()
     local phases = Phasing.phases
 
     return {
+        [273] = { -- Tavernkeep Smitts
+            [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{73.78,44.48}}},
+        },
+        [302] = { -- Blind Mary
+            [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{82.02,59.32}}},
+        },
         [464] = { -- Watch Captain Parker
             [npcKeys.waypoints] = {},
         },
