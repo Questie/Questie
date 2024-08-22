@@ -21,6 +21,9 @@ function CataItemFixes.Load()
         [3082] = { -- Dargol's Skull
             [itemKeys.startQuest] = 25030,
         },
+        [4106] = { -- Tumbled Crystal
+            [itemKeys.npcDrops] = {1096,4260},
+        },
         [5169] = { -- Timberling Sprout
             [itemKeys.objectDrops] = {4608},
         },
