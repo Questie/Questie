@@ -4980,6 +4980,9 @@ function CataQuestFixes.Load()
         [26734] = { -- The Source of the Madness
             [questKeys.preQuestSingle] = {26733},
         },
+        [26735] = { -- The Fate of Kurzen
+            [questKeys.preQuestSingle] = {},
+        },
         [26738] = { -- Just Hatched
             [questKeys.preQuestSingle] = {26732},
         },
@@ -5101,6 +5104,9 @@ function CataQuestFixes.Load()
         [26835] = { -- A Slight Problem
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26791,26792},
+        },
+        [26838] = { -- Rebels Without a Clue
+            [questKeys.nextQuestInChain] = 26735,
         },
         [26840] = { -- Return to the Highlands
             [questKeys.startedBy] = {{39605}},
@@ -7549,6 +7555,9 @@ function CataQuestFixes.Load()
         },
         [28698] = { -- Cannonball!
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28699] = { -- Hero's Call: Northern Stranglethorn Vale!
+            [questKeys.nextQuestInChain] = 26735,
         },
         [28700] = { -- Taking the Overlook Back
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
