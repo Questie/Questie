@@ -6331,6 +6331,13 @@ function CataQuestFixes.Load()
         [27755] = { -- The Curse of the Tombs
             [questKeys.preQuestSingle] = {28501},
         },
+        [27756] = { -- The Foreman
+            [questKeys.nextQuestInChain] = 27758,
+        },
+        [27758] = { -- The Carpenter
+            [questKeys.preQuestSingle] = {27756},
+            [questKeys.nextQuestInChain] = 27758,
+        },
         [27760] = { -- Artificial Intelligence
             [questKeys.startedBy] = {{46590,46920,47014},nil,{62483}},
             [questKeys.preQuestSingle] = {28501},
@@ -6351,6 +6358,10 @@ function CataQuestFixes.Load()
         [27779] = { -- Gnomebliteration
             [questKeys.objectives] = {{{46384}}},
         },
+        [27781] = { -- The Machination
+            [questKeys.preQuestSingle] = {27758},
+            [questKeys.nextQuestInChain] = 27785,
+        },
         [27782] = { -- Mathias Needs You
             [questKeys.preQuestSingle] = {27745},
             [questKeys.nextQuestInChain] = 27784,
@@ -6358,6 +6369,10 @@ function CataQuestFixes.Load()
         [27783] = { -- Garona Needs You
             [questKeys.preQuestSingle] = {27745},
             [questKeys.nextQuestInChain] = 27786,
+        },
+        [27785] = { -- The Admiral
+            [questKeys.preQuestSingle] = {27781},
+            [questKeys.nextQuestInChain] = 27790,
         },
         [27798] = { -- Water of Life
             [questKeys.objectives] = {{{46819,nil,Questie.ICON_TYPE_EVENT}}},
