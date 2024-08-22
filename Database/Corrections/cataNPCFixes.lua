@@ -24,6 +24,9 @@ function CataNpcFixes.Load()
         [464] = { -- Watch Captain Parker
             [npcKeys.waypoints] = {},
         },
+        [511] = { -- Insane Ghoul
+            [npcKeys.waypoints] = {},
+        },
         [658] = { -- Sten Stoutarm
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{36.55,70.41}}},
         },
