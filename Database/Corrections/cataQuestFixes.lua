@@ -8689,6 +8689,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {29691},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [29826] = { -- Reclaiming Ahn'Kahet
+            [questKeys.startedBy] = {{55658}},
+        },
         [29829] = { -- Discretion is Key
             [questKeys.exclusiveTo] = {29830},
         },
