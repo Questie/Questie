@@ -4188,6 +4188,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",203709}}}},
         },
         [26150] = { -- A Visit With Maybell
+            [questKeys.preQuestSingle] = {60},      
             [questKeys.exclusiveTo] = {106},
             [questKeys.nextQuestInChain] = 106,
         },
