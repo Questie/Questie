@@ -5001,6 +5001,9 @@ function CataQuestFixes.Load()
         [26734] = { -- The Source of the Madness
             [questKeys.preQuestSingle] = {26733},
         },
+        [26735] = { -- The Fate of Kurzen
+            [questKeys.preQuestSingle] = {},
+        },
         [26738] = { -- Just Hatched
             [questKeys.preQuestSingle] = {26732},
         },
@@ -5122,6 +5125,9 @@ function CataQuestFixes.Load()
         [26835] = { -- A Slight Problem
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26791,26792},
+        },
+        [26838] = { -- Rebels Without a Clue
+            [questKeys.nextQuestInChain] = 26735,
         },
         [26840] = { -- Return to the Highlands
             [questKeys.startedBy] = {{39605}},
@@ -6346,6 +6352,13 @@ function CataQuestFixes.Load()
         [27755] = { -- The Curse of the Tombs
             [questKeys.preQuestSingle] = {28501},
         },
+        [27756] = { -- The Foreman
+            [questKeys.nextQuestInChain] = 27758,
+        },
+        [27758] = { -- The Carpenter
+            [questKeys.preQuestSingle] = {27756},
+            [questKeys.nextQuestInChain] = 27758,
+        },
         [27760] = { -- Artificial Intelligence
             [questKeys.startedBy] = {{46590,46920,47014},nil,{62483}},
             [questKeys.preQuestSingle] = {28501},
@@ -6366,6 +6379,10 @@ function CataQuestFixes.Load()
         [27779] = { -- Gnomebliteration
             [questKeys.objectives] = {{{46384}}},
         },
+        [27781] = { -- The Machination
+            [questKeys.preQuestSingle] = {27758},
+            [questKeys.nextQuestInChain] = 27785,
+        },
         [27782] = { -- Mathias Needs You
             [questKeys.preQuestSingle] = {27745},
             [questKeys.nextQuestInChain] = 27784,
@@ -6373,6 +6390,10 @@ function CataQuestFixes.Load()
         [27783] = { -- Garona Needs You
             [questKeys.preQuestSingle] = {27745},
             [questKeys.nextQuestInChain] = 27786,
+        },
+        [27785] = { -- The Admiral
+            [questKeys.preQuestSingle] = {27781},
+            [questKeys.nextQuestInChain] = 27790,
         },
         [27798] = { -- Water of Life
             [questKeys.objectives] = {{{46819,nil,Questie.ICON_TYPE_EVENT}}},
@@ -7571,6 +7592,9 @@ function CataQuestFixes.Load()
         [28698] = { -- Cannonball!
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [28699] = { -- Hero's Call: Northern Stranglethorn Vale!
+            [questKeys.nextQuestInChain] = 26735,
+        },
         [28700] = { -- Taking the Overlook Back
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
@@ -8700,6 +8724,9 @@ function CataQuestFixes.Load()
         [29692] = { -- Bring Me Another Shrubbery!
             [questKeys.preQuestSingle] = {29691},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [29826] = { -- Reclaiming Ahn'Kahet
+            [questKeys.startedBy] = {{55658}},
         },
         [29829] = { -- Discretion is Key
             [questKeys.exclusiveTo] = {29830},
