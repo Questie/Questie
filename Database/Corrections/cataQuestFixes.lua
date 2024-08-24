@@ -3116,7 +3116,7 @@ function CataQuestFixes.Load()
         },
         [25291] = { -- Twilight Training
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestSingle] = {25223,25224,25330},
+            [questKeys.preQuestGroup] = {25223,25224,25330},
         },
         [25294] = { -- Walking the Dog
             [questKeys.objectives] = {{{39659,nil,Questie.ICON_TYPE_INTERACT}}},
