@@ -4198,6 +4198,9 @@ function CataQuestFixes.Load()
         [26182] = { -- Back to the Tenebrous Cavern
             [questKeys.preQuestSingle] = {26143},
         },
+        [26186] = { -- Demoniac Vessel
+            [questKeys.requiredSourceItems] = {57177,57178,57179},
+        },
         [26189] = { -- The Angerfang Menace
             [questKeys.nextQuestInChain] = 26195,
         },
