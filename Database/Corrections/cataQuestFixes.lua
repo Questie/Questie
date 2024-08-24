@@ -8711,6 +8711,24 @@ function CataQuestFixes.Load()
         [29829] = { -- Discretion is Key
             [questKeys.exclusiveTo] = {29830},
         },
+        [29834] = { -- Gal'darah Must Pay
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [29835] = { -- Gal'darah Must Pay
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [29838] = { -- One of a Kind
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [29839] = { -- One of a Kind
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [29840] = { -- For Posterity
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [29844] = { -- For Posterity
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [29851] = { -- Champion of the Tournament
             [questKeys.objectives] = {{{35451}}},
             [questKeys.requiredRaces] = raceKeys.NONE,
@@ -8828,6 +8846,10 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.finishedBy] = {{3347}},
             --[questKeys.finishedBy] = {{3347,3009,4611,16642}}, -- TODO: Add when multiple turn-in locations are handled
         },
+        [29836] = { -- Just Checkin'
+            [questKeys.exclusiveTo] = {13099},
+            [questKeys.nextQuestInChain] = 29840,
+        },
     }
 
     local questFixesAlliance = {
@@ -8883,6 +8905,10 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{5499}},
             [questKeys.finishedBy] = {{5499}},
             --[questKeys.finishedBy] = {{5499,1537,4160,16723}}, -- TODO: Add when multiple turn-in locations are handled
+        },
+        [29836] = { -- Just Checkin'
+            [questKeys.exclusiveTo] = {13099},
+            [questKeys.nextQuestInChain] = 29844,
         },
     }
 
