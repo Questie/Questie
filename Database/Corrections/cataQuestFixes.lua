@@ -7683,8 +7683,8 @@ function CataQuestFixes.Load()
         [28738] = { -- The Twilight Forge
             [questKeys.nextQuestInChain] = 28740,
         },
-        [28740] = { -- Do My Eyes Deceive Me?
-            [questKeys.nextQuestInChain] = 28741,
+        [28741] = { -- Ascendant Lord Obsidius
+            [questKeys.preQuestSingle] = {28738},
         },
         [28755] = { -- Annals of the Silver Hand
             [questKeys.preQuestSingle] = {27464},
