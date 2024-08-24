@@ -3085,12 +3085,10 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
         },
         [25268] = { -- The Voice of Goldrinn
-            [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {25233,25234,25255}
+            [questKeys.preQuestSingle] = {25233},
         },
         [25269] = { -- The Voice of Lo'Gosh
-            [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {25233,25234,25255}
+            [questKeys.preQuestSingle] = {25233},
         },
         [25273] = { -- Lycanthoth the Corruptor
             [questKeys.finishedBy] = {{39627}},
