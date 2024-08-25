@@ -5022,6 +5022,12 @@ function CataQuestFixes.Load()
         [26778] = { -- The Cries of the Dead
             [questKeys.preQuestSingle] = {26760},
         },
+        [26782] = { -- The Mosh'Ogg Bounty
+            [questKeys.exclusiveTo] = {26783},
+        },
+        [26783] = { -- The Mosh'Ogg Bounty
+            [questKeys.exclusiveTo] = {26782},
+        },
         [26785] = { -- Part of the Pack
             [questKeys.preQuestSingle] = {26674},
             [questKeys.exclusiveTo] = {26717},
