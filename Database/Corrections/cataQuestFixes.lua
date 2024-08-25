@@ -4330,6 +4330,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26248},
         },
         [26252] = { -- Heart of the Watcher
+            [questKeys.preQuestSingle] = {26236},
             [questKeys.startedBy] = {{114},nil,{57935}},
         },
         [26254] = { -- Some Spraining to Do
