@@ -2310,6 +2310,18 @@ function QuestieTBCQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Place the 3 Grisly Totems near Gorgrom's corpse"), 0, {{"monster", 21514}}},
             },
         },
+        [10725] = {
+            [questKeys.nextQuestInChain] = 11031,
+        },
+        [10726] = {
+            [questKeys.nextQuestInChain] = 11034,
+        },
+        [10727] = {
+            [questKeys.nextQuestInChain] = 11033,
+        },
+        [10728] = {
+            [questKeys.nextQuestInChain] = 11032,
+        },
         [10742] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Rexxar's Battle Horn at the Altar of Goc"), 0, {{"object", 185309}}}},
         },

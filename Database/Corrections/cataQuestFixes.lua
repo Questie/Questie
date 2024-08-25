@@ -798,6 +798,22 @@ function CataQuestFixes.Load()
         [10676] = { -- Bane of the Illidari
             [questKeys.preQuestSingle] = {},
         },
+        [10729] = { -- Path of the Violet Mage
+            [questKeys.exclusiveTo] = {10730,10731,10732},
+            [questKeys.reputationReward] = {{967,5}},
+        },
+        [10730] = { -- Path of the Violet Restorer
+            [questKeys.exclusiveTo] = {10729,10731,10732},
+            [questKeys.reputationReward] = {{967,5}},
+        },
+        [10731] = { -- Path of the Violet Assassin
+            [questKeys.exclusiveTo] = {10729,10730,10732},
+            [questKeys.reputationReward] = {{967,5}},
+        },
+        [10732] = { -- Path of the Violet Protector
+            [questKeys.exclusiveTo] = {10729,10730,10731},
+            [questKeys.reputationReward] = {{967,5}},
+        },
         [10942] = { -- Children's Week
             [questKeys.zoneOrSort] = -378,
             [questKeys.startedBy] = {{22819}},
@@ -858,6 +874,18 @@ function CataQuestFixes.Load()
         },
         [10998] = { -- Grim(oire) Business
             [questKeys.preQuestSingle] = {},
+        },
+        [11031] = { -- Archmage No More
+            [questKeys.specialFlags] = 1,
+        },
+        [11032] = { -- Protector No More
+            [questKeys.specialFlags] = 1,
+        },
+        [11033] = { -- Assassin No More
+            [questKeys.specialFlags] = 1,
+        },
+        [11034] = { -- Restorer No More
+            [questKeys.specialFlags] = 1,
         },
         [11129] = { -- Kyle's Gone Missing!
             [questKeys.objectives] = {{{23616,nil,Questie.ICON_TYPE_INTERACT}}},

@@ -550,6 +550,18 @@ function QuestieWotlkQuestFixes:Load()
         [10728] = {
             [questKeys.objectives] = {nil,nil,nil,{967,42000}},
         },
+        [10729] = {
+            [questKeys.nextQuestInChain] = 10733,
+        },
+        [10730] = {
+            [questKeys.nextQuestInChain] = 10734,
+        },
+        [10731] = {
+            [questKeys.nextQuestInChain] = 10735,
+        },
+        [10732] = {
+            [questKeys.nextQuestInChain] = 10736,
+        },
         [10769] = {
             [questKeys.objectives] = {{{19823}},nil,{{31108}}},
         },
