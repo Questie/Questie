@@ -4683,6 +4683,9 @@ function CataQuestFixes.Load()
         [26447] = { -- Diabolical Plans [Horde]
             [questKeys.startedBy] = {{6073,6115,11697}},
         },
+        [26452] = { -- Gurubashi Challenge
+            [questKeys.preQuestSingle] = {26451},
+        },
         [26454] = { -- A Shameful Waste
             [questKeys.preQuestSingle] = {},
         },
