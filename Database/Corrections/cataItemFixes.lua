@@ -508,6 +508,18 @@ function CataItemFixes.Load()
         [59033] = { -- Blackrock Lever Key
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [59057] = { -- Poobah's Tiara
+            [itemKeys.npcDrops] = {2521,43417},
+        },
+        [59058] = { -- Poobah's Scepter
+            [itemKeys.npcDrops] = {2521,43417},
+        },
+        [59059] = { -- Poobah's Slippers
+            [itemKeys.npcDrops] = {2521,43417},
+        },
+        [59060] = { -- Poobah's Diary
+            [itemKeys.npcDrops] = {2521,43417},
+        },
         [59123] = { -- Verlok Miracle-Grow
             [itemKeys.npcDrops] = {},
         },
