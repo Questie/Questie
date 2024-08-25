@@ -5056,6 +5056,9 @@ function CataQuestFixes.Load()
         [26809] = { -- Backdoor Dealings
             [questKeys.objectives] = {{{43245}},{{204361}}},
         },
+        [26812] = { -- High Priestess Jeklik
+            [questKeys.preQuestSingle] = {26811},
+        },
         [26815] = { -- Zanzil's Secret
             [questKeys.preQuestSingle] = {26817},
         },
