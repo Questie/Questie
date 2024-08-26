@@ -3822,6 +3822,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25440},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take the Swift Seahorse to Nespirah"),0,{{"monster",40851}}}},
         },
+        [25891] = { -- Last Ditch Effort
+            [questKeys.objectives] = {{{41482,nil,Questie.ICON_TYPE_TALK}}},
+        },        
         [25892] = { -- Losing Ground
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",48901}}}},
             [questKeys.objectives] = {{{41562,nil,Questie.ICON_TYPE_EVENT}}},
@@ -3908,6 +3911,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {25942,25943},
         },
         [25945] = { -- We're Here to Do One Thing, Maybe Two...
+            [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Krom'gar Wagon taken to the Fold",{[zoneIDs.STONETALON_MOUNTAINS] = {{74.5,43.9}}}},
         },
         [25946] = { -- Helm's Deep
@@ -4054,8 +4058,14 @@ function CataQuestFixes.Load()
         [25996] = { -- Waking the Beast
             [questKeys.objectives] = {{{41531},{41776,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
+        [25999] = { -- Barrier to Entry
+            [questKeys.objectives] = {nil,{{460013}}}
+        },
         [26000] = { -- Spelunking
             [questKeys.preQuestSingle] = {25794},
+        },
+        [26003] = { -- Lessons from the Lost Isles
+            [questKeys.preQuestSingle] = {25999},
         },
         [26007] = { -- Debriefing
             [questKeys.objectives] = {{{41885,nil,Questie.ICON_TYPE_TALK}}},
@@ -4065,6 +4075,15 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25887},
             [questKeys.objectives] = {{{41955,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [26009] = { -- Seek and Destroy
+            [questKeys.requiredMaxRep] = {76,20999},
+        },
+        [26010] = { -- Ashes to Ashes
+            [questKeys.preQuestSingle] = {26004},
+        },
+        [26011] = { -- Enemy of the Horde: Marshal Paltrow
+            [questKeys.preQuestSingle] = {26004},
+        },
         [26019] = { -- Enormous Eel Egg
             [questKeys.startedBy] = {{41925,41926},nil,{56571}},
             [questKeys.preQuestSingle] = {26015},
@@ -4072,11 +4091,23 @@ function CataQuestFixes.Load()
         [26021] = { -- The Brothers Digsong 2: Eel-Egg-Trick Boogaloo
             [questKeys.objectives] = {{{41927,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{42006,41927},41927}}},
         },
+        [26026] = { -- Dream of a Better Tomorrow
+            [questKeys.preQuestSingle] = {26004},
+        },
         [26040] = { -- What? What? In My Gut...?
             [questKeys.preQuestSingle] = {25887},
         },
         [26043] = { -- BEWARE OF CRAGJAW!
             [questKeys.preQuestSingle] = {26004},
+        },
+        [26046] = { -- Between a Rock and a Hard Place
+            [questKeys.preQuestSingle] = {26044},
+        },
+        [26047] = { -- And That's Why They Call Them Peons...
+            [questKeys.preQuestSingle] = {26044},
+        },
+        [26048] = { -- Spare Parts Up In Here!
+            [questKeys.preQuestGroup] = {26045,26046,26047},
         },
         [26050] = { -- Goggle Boggle
             [questKeys.triggerEnd] = {"Defend Professor Phizzlethorpe", {[zoneIDs.ARATHI_HIGHLANDS]={{33.80,80.40}}}},
@@ -4091,10 +4122,26 @@ function CataQuestFixes.Load()
         [26059] = { -- Eyes and Ears: Malaka'jin
             [questKeys.preQuestSingle] = {26115},
         },
+        [26060] = { -- Da Voodoo: Stormer Heart
+            [questKeys.preQuestSingle] = {26059},
+        },
+        [26061] = { -- Da Voodoo: Ram Horns
+            [questKeys.preQuestSingle] = {26059},
+        },
+        [26062] = { -- Da Voodoo: Resonite Crystal
+            [questKeys.preQuestGroup] = {26060,26061},
+        },
+        [26064] = { -- Fight On Their Stomachs
+            [questKeys.preQuestSingle] = {26059},
+        },
         [26065] = { -- Free Wil'hai
             [questKeys.preQuestSingle] = {26080,26092},
             [questKeys.objectives] = {{{41642,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill all three Tentacle Horrors"),0,{{"monster",41641}}}},
+        },
+        [26066] = { -- Reinforcements...
+            [questKeys.preQuestGroup] = {26060,26061},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{11915,11917,11918},11915,"Boulderslide Kobold subdued",Questie.ICON_TYPE_INTERACT}}},
         },
         [26068] = { -- Kobold Fury!
             [questKeys.objectives] = {nil,{{203446}}},
@@ -4108,6 +4155,12 @@ function CataQuestFixes.Load()
         [26072] = { -- Into the Totem
             [questKeys.objectives] = {{{42051}}},
             [questKeys.preQuestSingle] = {25987,25988},
+        },
+        [26073] = { -- All's Quiet on the Southern Front
+            [questKeys.preQuestGroup] = {26067,26068},
+        },
+        [26077] = { -- Final Delivery
+            [questKeys.objectives] = {{{42038,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26079] = { -- Wanted!  Otto and Falconcrest
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -4137,6 +4190,12 @@ function CataQuestFixes.Load()
         },
         [26096] = { -- Scalding Shrooms
             [questKeys.preQuestSingle] = {25987,25988},
+        },
+        [26097] = { -- Proof of Lies
+            [questKeys.preQuestSingle] = {26082},
+        },
+        [26099] = { -- Is This Justice?
+            [questKeys.preQuestSingle] = {26098},
         },
         [26105] = { -- Claim Korthun's End
             [questKeys.startedBy] = {{42115}},
@@ -4183,6 +4242,9 @@ function CataQuestFixes.Load()
         },
         [26133] = { -- Fiends from the Netherworld
             [questKeys.preQuestSingle] = {26111},
+        },
+        [26134] = { -- Nothing Left for You Here
+            [questKeys.preQuestSingle] = {26115},
         },
         [26135] = { -- Visions of the Past: Rise from the Deep
             [questKeys.preQuestSingle] = {25973},
@@ -6717,6 +6779,9 @@ function CataQuestFixes.Load()
         [28069] = { -- Adventurers Wanted: Blackrock Depths
             [questKeys.requiredMaxLevel] = 56,
         },
+        [28084] = { -- Might of the Krom'gar
+            [questKeys.preQuestSingle] = {26004},
+        },
         [28089] = { -- Warchief's Command: Hillsbrad Foothills!
             [questKeys.exclusiveTo] = {28096},
         },
@@ -7335,6 +7400,7 @@ function CataQuestFixes.Load()
         },
         [28532] = { -- Warchief's Command: Stonetalon Mountains!
             [questKeys.requiredMaxLevel] = 28,
+            [questKeys.exclusiveTo] = {25945},
         },
         [28533] = { -- The High Council's Decision
             [questKeys.preQuestGroup] = {27738,27838,28291},
