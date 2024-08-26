@@ -7339,7 +7339,7 @@ function CataQuestFixes.Load()
         [28532] = { -- Warchief's Command: Stonetalon Mountains!
             [questKeys.requiredMaxLevel] = 28,
             [questKeys.exclusiveTo] = {25945},
-          },
+        },
         [28533] = { -- The High Council's Decision
             [questKeys.preQuestGroup] = {27738,27838,28291},
             [questKeys.preQuestSingle] = {},
