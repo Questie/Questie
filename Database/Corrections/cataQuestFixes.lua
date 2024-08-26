@@ -36,6 +36,9 @@ function CataQuestFixes.Load()
         [2] = { -- Sharptalon's Claw
             [questKeys.preQuestSingle] = {},
         },
+        [11] = { -- Riverpaw Gnoll Bounty
+            [questKeys.preQuestSingle] = {},
+        },
         [23] = { -- Ursangous's Paw
             [questKeys.preQuestSingle] = {},
         },
@@ -4273,6 +4276,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",203709}}}},
         },
         [26150] = { -- A Visit With Maybell
+            [questKeys.preQuestSingle] = {60},      
             [questKeys.exclusiveTo] = {106},
             [questKeys.nextQuestInChain] = 106,
         },
@@ -4352,6 +4356,10 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{42463,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
+        [26209] = { -- Murder Was The Case That They Gave Me
+            [questKeys.preQuestSingle] = {},            
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{42383,42391,42386},42383,nil,Questie.ICON_TYPE_TALK},{{42383,42391,42386},42383,nil,Questie.ICON_TYPE_TALK},{{42383,42391,42386},42383,nil,Questie.ICON_TYPE_TALK},{{42383,42391,42386},42383,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [26213] = { -- Hot On the Trail: The Riverpaw Clan
             [questKeys.preQuestSingle] = {26209},
         },
@@ -4385,6 +4393,15 @@ function CataQuestFixes.Load()
         [26234] = { -- Stealing From Our Own
             [questKeys.requiredRaces] = raceKeys.TROLL,
         },
+        [26236] = { -- Shakedown at the Saldean's
+            [questKeys.preQuestSingle] = {26232},
+        },
+        [26237] = { -- Times are Tough
+            [questKeys.preQuestSingle] = {26236},
+        },
+        [26241] = { -- Westfall Stew
+            [questKeys.preQuestSingle] = {26236},
+        },
         [26245] = { -- Gunship Down
             [questKeys.objectives] = {{{43048,nil,Questie.ICON_TYPE_EVENT},{43032,nil,Questie.ICON_TYPE_EVENT},{43044,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {},
@@ -4404,6 +4421,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26248},
         },
         [26252] = { -- Heart of the Watcher
+            [questKeys.preQuestSingle] = {26236},
             [questKeys.startedBy] = {{114},nil,{57935}},
         },
         [26254] = { -- Some Spraining to Do
@@ -4427,8 +4445,14 @@ function CataQuestFixes.Load()
         [26265] = { -- Dealing with the Fallout
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
+        [26266] = { -- Hope for the People
+            [questKeys.preQuestSingle] = {26270},
+        },
         [26269] = { -- The Green Hills of Stranglethorn
             [questKeys.preQuestSingle] = {583},
+        },
+        [26270] = { -- You Have Our Thanks
+            [questKeys.preQuestSingle] = {26241},
         },
         [26273] = { -- The Basics: Hitting Things
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
