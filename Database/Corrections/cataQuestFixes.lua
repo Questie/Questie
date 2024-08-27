@@ -6291,6 +6291,18 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27657,27658},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{46332,46331,46330,46328,46329,46327},46327}}},
         },
+        [27664] = { -- Darkmoon Volcanic Deck
+            [questKeys.specialFlags] = 1,
+        },
+        [27665] = { -- Darkmoon Hurricane Deck
+            [questKeys.specialFlags] = 1,
+        },
+        [27666] = { -- Darkmoon Earthquake Deck
+            [questKeys.specialFlags] = 1,
+        },
+        [27667] = { -- Darkmoon Earthquake Deck
+            [questKeys.specialFlags] = 1,
+        },
         [27668] = { -- Pay Attention!
             [questKeys.preQuestSingle] = {25944},
             [questKeys.exclusiveTo] = {25946},
@@ -8713,6 +8725,9 @@ function CataQuestFixes.Load()
         [29415] = { -- Missing Heirlooms
             [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.DUROTAR]={{60,46.1}}}},
         },
+        [29433] = { -- Test Your Strength
+            [questKeys.specialFlags] = 17,
+        },
         [29434] = { -- Tonk Commander
             [questKeys.objectives] = {{{33081}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Finlay Coolshot to start the game"),0,{{"monster",54605}}}},
@@ -8731,6 +8746,21 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29326},
             [questKeys.nextQuestInChain] = 29326,
         },
+        [29443] = { -- A Curious Crystal
+            [questKeys.specialFlags] = 17,
+        },
+        [29444] = { -- An Exotic Egg
+            [questKeys.specialFlags] = 17,
+        },
+        [29445] = { -- An Intriguing Grimoire
+            [questKeys.specialFlags] = 17,
+        },
+        [29446] = { -- A Wondrous Weapon
+            [questKeys.specialFlags] = 17,
+        },
+        [29451] = { -- The Master Strategist
+            [questKeys.specialFlags] = 17,
+        },
         [29452] = { -- Your Time Has Come
             [questKeys.nextQuestInChain] = 29129,
         },
@@ -8741,11 +8771,21 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{54490}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Jessica Rogers to start the game"),0,{{"monster",54485}}}},
         },
+        [29456] = { -- A Captured Banner
+            [questKeys.specialFlags] = 17,
+        },
+        [29457] = { -- The Enemy's Insignia
+            [questKeys.specialFlags] = 17,
+        },
+        [29458] = { -- The Captured Journal
+            [questKeys.specialFlags] = 17,
+        },
         [29463] = { -- It's Hammer Time
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mola to start the game"),0,{{"monster",54601}}}},
         },
         [29464] = { -- Tools of Divination
             [questKeys.startedBy] = {nil,nil,{71716}},
+            [questKeys.specialFlags] = 17,
         },
         [29475] = { -- Goblin Engineering
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,200},
@@ -8768,61 +8808,76 @@ function CataQuestFixes.Load()
         [29506] = { -- A Fizzy Fusion
             [questKeys.objectives] = {nil,{{460001}}},
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,75},
+            [questKeys.specialFlags] = 17,
         },
         [29507] = { -- Fun for the Little Ones
             [questKeys.startedBy] = {{14847}},
             [questKeys.objectives] = {nil,{{460001}}},
             [questKeys.requiredSkill] = {profKeys.ARCHAEOLOGY,75},
+            [questKeys.specialFlags] = 17,
         },
         [29508] = { -- Baby Needs Two Pair of Shoes
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,75},
             [questKeys.requiredSourceItems] = {71967},
             [questKeys.objectives] = {{{54510,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.specialFlags] = 17,
         },
         [29509] = { -- Putting the Crunch in the Frog
             [questKeys.requiredSkill] = {profKeys.COOKING,75},
             [questKeys.requiredSourceItems] = {72057},
+            [questKeys.specialFlags] = 17,
         },
         [29510] = { -- Putting Trash to Good Use
             [questKeys.requiredSourceItems] = {72018},
             [questKeys.requiredSkill] = {profKeys.ENCHANTING,75},
+            [questKeys.specialFlags] = 17,
         },
         [29511] = { -- Talkin' Tonks
             [questKeys.objectives] = {{{54504,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,75},
+            [questKeys.specialFlags] = 17,
         },
         [29512] = { -- Putting the Carnies Back Together Again
             [questKeys.objectives] = {{{54518,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSkill] = {profKeys.FIRST_AID,75},
+            [questKeys.specialFlags] = 17,
         },
         [29513] = { -- Spoilin' for Salty Sea Dogs
             [questKeys.requiredSkill] = {profKeys.FISHING,75},
             [questKeys.extraObjectives] = {{{[zoneIDs.DARKMOON_FAIRE_ISLAND]={{53.2,89.5}}},Questie.ICON_TYPE_NODE_FISH,l10n("Fish for Great Sea Herring")}},
+            [questKeys.specialFlags] = 17,
         },
         [29514] = { -- Herbs for Healing
             [questKeys.requiredSkill] = {profKeys.HERBALISM,75},
+            [questKeys.specialFlags] = 17,
         },
         [29515] = { -- Writing the Future
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION,75},
+            [questKeys.specialFlags] = 17,
             [questKeys.requiredSourceItems] = {71972},
         },
         [29516] = { -- Keeping the Faire Sparkling
             [questKeys.requiredSourceItems] = {72052},
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,75},
+            [questKeys.specialFlags] = 17,
         },
         [29517] = { -- Eyes on the Prizes
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,75},
+            [questKeys.specialFlags] = 17,
         },
         [29518] = { -- Rearm, Reuse, Recycle
             [questKeys.requiredSkill] = {profKeys.MINING,75},
+            [questKeys.specialFlags] = 17,
         },
         [29519] = { -- Tan My Hide
             [questKeys.requiredSkill] = {profKeys.SKINNING,75},
+            [questKeys.specialFlags] = 17,
         },
         [29520] = { -- Rearm, Reuse, Recycle
             [questKeys.requiredSkill] = {profKeys.TAILORING,75},
             [questKeys.requiredSourceItems] = {72049},
             [questKeys.objectives] = {nil,{{209288}}},
+            [questKeys.specialFlags] = 17,
         },
         [29536] = { -- Heart of Rage
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.THE_BLOOD_FURNACE]={{64.9,41.5}}}},
