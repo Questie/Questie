@@ -66,6 +66,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{786}},
             [questKeys.nextQuestInChain] = 24490,
         },
+        [384] = { -- Beer Basted Boar Ribs
+            [questKeys.requiredSkill] = {},
+        },
         [487] = { -- The Road to Darnassus
             [questKeys.preQuestSingle] = {483},
         },
