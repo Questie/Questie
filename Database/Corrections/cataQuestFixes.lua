@@ -3658,6 +3658,9 @@ function CataQuestFixes.Load()
         [25733] = { -- Get Out Of Here, Stalkers
             [questKeys.nextQuestInChain] = 25777,
         },
+        [25736] = { -- The Floodsurge Core
+            [questKeys.startedBy] = {{41167},nil,{55243}},
+        },
         [25740] = { -- Fact-Finding Mission
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25731,25664},
