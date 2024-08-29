@@ -24,6 +24,9 @@ function CataItemFixes.Load()
         [4106] = { -- Tumbled Crystal
             [itemKeys.npcDrops] = {1096,4260},
         },
+        [5084] = { -- Cap'n Garvey's Head
+            [itemKeys.npcDrops] = {34750},
+        },
         [5169] = { -- Timberling Sprout
             [itemKeys.objectDrops] = {4608},
         },
