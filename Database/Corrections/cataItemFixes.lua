@@ -405,6 +405,9 @@ function CataItemFixes.Load()
         [55238] = { -- Concentrated Solvent
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [55241] = { -- Incendicite Ore
+            [itemKeys.npcDrops] = {},
+        },
         [55280] = { -- Deepmoss Venom Sac
             [itemKeys.npcDrops] = {41185,4005,4006,4007},
         },
