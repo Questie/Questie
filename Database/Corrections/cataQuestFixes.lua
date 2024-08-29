@@ -5382,14 +5382,23 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44617,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{2061}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Flash Heal"), 2, {{"monster", 3595}}}},
         },
+        [26950] = { -- The Dark Side of the Light
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [26958] = { -- Your First Lesson
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{100}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 16503}}}},
             [questKeys.preQuestSingle] = {},
         },
+        [26959] = { -- Stripping Their Defenses
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [26960] = { -- My Son, the Prince
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{1747,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [26962] = { -- Stripping Their Offense
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [26963] = { -- Steadying Your Shot
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{56641}}},
@@ -5411,6 +5420,9 @@ function CataQuestFixes.Load()
             },
             [questKeys.preQuestSingle] = {},
         },
+        [26967] = { -- Battle for the Scarlet Monastery
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [26968] = { -- Arcane Missiles
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{5143}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Arcane Missiles"), 2, {{"monster", 16500}}}},
@@ -5428,6 +5440,9 @@ function CataQuestFixes.Load()
         },
         [26971] = { -- The Binding
             [questKeys.startedBy] = {{43835}},
+        },
+        [26972] = { -- The Dark Side of the Light
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [26973] = { -- The Only True Path
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
