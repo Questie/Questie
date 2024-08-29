@@ -116,7 +116,7 @@ function CataNpcFixes.Load()
             [npcKeys.name] = "Ferocious Yeti",
         },
         [2783] = { -- Marez Cowl
-            [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{23.22,64.81},{23.11,64.82}}},
+            [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{23.11,64.82}}},
         },
         [2964] = { -- Windfury Sorceress
             [npcKeys.spawns] = {
