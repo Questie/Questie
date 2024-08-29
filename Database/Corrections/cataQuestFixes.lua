@@ -4123,7 +4123,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {26045,26046,26047},
         },
         [26050] = { -- Goggle Boggle
-            [questKeys.triggerEnd] = {"Defend Professor Phizzlethorpe", {[zoneIDs.ARATHI_HIGHLANDS]={{33.80,80.40}}}},
+            [questKeys.triggerEnd] = {"Defend Professor Phizzlethorpe", {[zoneIDs.ARATHI_HIGHLANDS]={{29.47,82.07}}}},
         },
         [26056] = { -- The Wavespeaker
             [questKeys.nextQuestInChain] = 26065,
