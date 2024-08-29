@@ -115,6 +115,13 @@ function CataNpcFixes.Load()
         [2249] = { -- Ferocious Yeti
             [npcKeys.name] = "Ferocious Yeti",
         },
+        [2611] = { -- Fozruk
+            [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{43.67,67.08}}},
+            [npcKeys.waypoints] = {},
+        },
+        [2755] = { -- Myzrael
+            [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{57.3,34.58}}},
+        },
         [2783] = { -- Marez Cowl
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{23.11,64.82}}},
         },
