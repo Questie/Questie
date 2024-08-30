@@ -6124,9 +6124,11 @@ function CataQuestFixes.Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [27561] = { -- Rimblat's Stone
+            [questKeys.preQuestSingle] = {27457},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [27562] = { -- Beezil's Cog
+            [questKeys.preQuestSingle] = {27373},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [27564] = { -- In Defense of the Redoubt

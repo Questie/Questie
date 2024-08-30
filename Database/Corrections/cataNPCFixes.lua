@@ -1849,6 +1849,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{85.72,31.56}}},
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
+        [44453] = { -- Thassarian
+            [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{41.06,70.44}}},
+        },
         [44633] = { -- Stormcaller Jalara
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{51.39,52.21}}},
         },
