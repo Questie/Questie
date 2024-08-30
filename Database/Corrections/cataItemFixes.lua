@@ -24,6 +24,9 @@ function CataItemFixes.Load()
         [4106] = { -- Tumbled Crystal
             [itemKeys.npcDrops] = {1096,4260},
         },
+        [4506] = { -- Stromgarde Badge
+            [itemKeys.npcDrops] = {2588,2590,2591,24477},
+        },
         [5084] = { -- Cap'n Garvey's Head
             [itemKeys.npcDrops] = {34750},
         },
@@ -459,6 +462,9 @@ function CataItemFixes.Load()
         [57789] = { -- Fresh Dirt
             [itemKeys.npcDrops] = {},
         },
+        [58120] = { -- Skittering Spiderling
+            [itemKeys.npcDrops] = {42689},
+        },
         [58141] = { -- Twilight Highlands Coastal Chart
             [itemKeys.npcDrops] = {42638},
         },
@@ -467,6 +473,15 @@ function CataItemFixes.Load()
         },
         [58224] = { -- Induction Samophlange
             [itemKeys.objectDrops] = {204091},
+        },
+        [58228] = { -- Spider Idol
+            [itemKeys.npcDrops] = {42857},
+        },
+        [58252] = { -- Shadraspawn Egg
+            [itemKeys.npcDrops] = {},
+        },
+        [58282] = { -- Eye of Shadra
+            [itemKeys.objectDrops] = {204133},
         },
         [58365] = { -- Horn of the Ancients
             [itemKeys.class] = itemClasses.QUEST,
@@ -574,6 +589,9 @@ function CataItemFixes.Load()
         [60835] = { -- Depleted Totem
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [60850] = { -- Brownfeather Quill
+            [itemKeys.npcDrops] = {},
+        },
         [60857] = { -- Recovered Supplies
             [itemKeys.npcDrops] = {},
         },
@@ -597,6 +615,9 @@ function CataItemFixes.Load()
         },
         [61929] = { -- Broken Spectacles
             [itemKeys.npcDrops] = {45874},
+        },
+        [61973] = { -- Highvale Records
+            [itemKeys.objectDrops] = {144071},
         },
         [61976] = { -- Orb of the North Star
             [itemKeys.npcDrops] = {},
