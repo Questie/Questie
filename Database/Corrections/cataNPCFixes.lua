@@ -234,6 +234,9 @@ function CataNpcFixes.Load()
             [npcKeys.questStarts] = {28479,28537,28848},
             [npcKeys.questEnds] = {28471,28536,28537},
         },
+        [11897] = { -- Duskwing
+            [npcKeys.waypoints] = {},
+        },
         [12677] = { -- Shadumbra
             [npcKeys.waypoints] = {[zoneIDs.ASHENVALE] = {{{61.08,51.67},{61.24,52.36},{61.11,52.59},{61.78,52.65},{61.99,52.54},{61.13,52.41},{61.01,50.99},{61.16,50.40},{61.49,50.19},{61.84,49.99},{61.86,49.84},{62.18,49.63},{62.29,49.64},{62.70,49.65},{62.66,50.35}}}},
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{61.16,51.56}}},
