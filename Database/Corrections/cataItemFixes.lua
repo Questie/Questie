@@ -634,6 +634,9 @@ function CataItemFixes.Load()
         [62542] = { -- Mech Control Scrambler
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [62544] = { -- Dustbelcher Meat
+            [itemKeys.npcDrops] = {},
+        },
         [62607] = { -- Titan Activation Device
             [itemKeys.objectDrops] = {},
         },
