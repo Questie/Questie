@@ -85,6 +85,9 @@ function CataQuestFixes.Load()
         [583] = { -- Welcome to the Jungle
             [questKeys.preQuestSingle] = {},
         },
+        [648] = { -- Rescue OOX-17/TN!
+            [questKeys.zoneOrSort] = zoneIDs.TANARIS,
+        },
         [749] = { -- The Ravaged Caravan
             [questKeys.preQuestSingle] = {},
         },
@@ -100,6 +103,9 @@ function CataQuestFixes.Load()
         },
         [835] = { -- Securing the Lines
             [questKeys.preQuestSingle] = {},
+        },
+        [836] = { -- Rescue OOX-09/HL!
+            [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
         },
         [840] = { -- Conscript of the Horde
             [questKeys.exclusiveTo] = {},
@@ -3375,6 +3381,7 @@ function CataQuestFixes.Load()
         },
         [25476] = { -- Rescue OOX-22/FE!
             [questKeys.triggerEnd] = {"Escort OOX-22/FE to safety",{[zoneIDs.FERALAS]={{55.1,51.1}}}},
+            [questKeys.zoneOrSort] = zoneIDs.FERALAS,
         },
         [25477] = { -- Better Late Than Dead
             [questKeys.objectives] = {{{40223,nil,Questie.ICON_TYPE_INTERACT}}},
