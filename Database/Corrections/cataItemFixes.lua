@@ -521,7 +521,7 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {39464},
         },
         [58959] = { -- Petrified Stone Bat
-            [itemKeys.npcDrops] = {43181,43182},
+            [itemKeys.npcDrops] = {43181,43182,43339},
         },
         [58969] = { -- Jorgensen's Cage Key
             [itemKeys.class] = itemClasses.QUEST,
