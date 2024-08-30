@@ -5846,6 +5846,14 @@ function CataQuestFixes.Load()
         },
         [27369] = { -- Greasing the Wheel
             [questKeys.preQuestSingle] = {27368},
+            [questKeys.exclusiveTo] = {},
+        },
+        [27372] = { -- A Gift For Fiona
+            [questKeys.exclusiveTo] = {},
+        },
+        [27373] = { -- Onward, to Light's Hope Chapel
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27369,27372},
         },
         [27374] = { -- The Maw of Madness
             [questKeys.preQuestSingle] = {28655},
@@ -6351,8 +6359,13 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast"), 0, {{"monster", 46293}}}},
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
+        [27683] = { -- Into the Woods
+            [questKeys.exclusiveTo] = {27684},
+            [questKeys.nextQuestInChain] = 27367,
+        },
         [27684] = { -- Visitors
-            [questKeys.exclusiveTo] = {27367,27370},
+            [questKeys.exclusiveTo] = {27683},
+            [questKeys.nextQuestInChain] = 27367,
         },
         [27685] = { -- Good Deed Left Undone
             [questKeys.nextQuestInChain] = 25587,
