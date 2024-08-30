@@ -1865,7 +1865,6 @@ function CataNpcFixes.Load()
                     {26.12,47.3,phases.FARGO_AT_DOCKS},
                 },
             },
-            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{26.2,47.2}}},
         },
         [44910] = { -- Anduin Farm Ambush Quest Tracker
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{43.6,4.62}}},
