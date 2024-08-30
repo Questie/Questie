@@ -6534,7 +6534,7 @@ function CataQuestFixes.Load()
         },
         [27762] = { -- Fuselight, Ho!
             [questKeys.preQuestSingle] = {},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 48708}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 48708}}}},
         },
         [27777] = { -- Core Access Codes
             [questKeys.exclusiveTo] = {},
