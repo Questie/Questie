@@ -7886,12 +7886,14 @@ function CataQuestFixes.Load()
         [28755] = { -- Annals of the Silver Hand
             [questKeys.preQuestSingle] = {27464},
             [questKeys.requiredMaxRep] = {529,42999},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [28756] = { -- Aberrations of Bone
             [questKeys.objectives] = {{{11622}}},
             [questKeys.preQuestSingle] = {27464},
             [questKeys.requiredMaxRep] = {529,42999},
             [questKeys.zoneOrSort] = zoneIDs.SCHOLOMANCE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [28757] = { -- Beating Them Back! -- Human Mage
             [questKeys.requiredRaces] = raceKeys.HUMAN,
