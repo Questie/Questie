@@ -6532,6 +6532,10 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{206395},{206396},{206397}},nil,nil,{{{46888},46888,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.exclusiveTo] = {},
         },
+        [27762] = { -- Fuselight, Ho!
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 48708}}}},
+        },
         [27777] = { -- Core Access Codes
             [questKeys.exclusiveTo] = {},
         },
@@ -7551,8 +7555,12 @@ function CataQuestFixes.Load()
         [28577] = { -- Warchief's Command: Eastern Plaguelands!
             [questKeys.requiredMaxLevel] = 43,
         },
+        [28579] = { -- Hero's Call: Badlands!
+            [questKeys.nextQuestInChain] = 27762,
+        },
         [28580] = { -- Warchief's Command: Badlands!
             [questKeys.requiredMaxLevel] = 47,
+            [questKeys.nextQuestInChain] = 27762,
         },
         [28581] = { -- Warchief's Command: Searing Gorge!
             [questKeys.startedBy] = {nil,{207324,207325}},
