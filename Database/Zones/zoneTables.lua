@@ -600,6 +600,10 @@ ZoneDB.private.uiMapIdToAreaId = {
     [414] = 5892, -- Dragon Soul
     [415] = 5892, -- Dragon Soul
     [249] = 5034, -- Uldum
+    [306] = 2057, -- Scholomance
+    [307] = 2057, -- Scholomance
+    [308] = 2057, -- Scholomance
+    [309] = 2057, -- Scholomance
 
     -- Starting areas
     [425] = 6170, -- Northshire
