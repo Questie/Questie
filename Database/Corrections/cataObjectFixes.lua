@@ -50,6 +50,9 @@ function CataObjectFixes.Load()
         [181252] = { -- Fresh Fish Rack
             [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{68.24,57.78}}},
         },
+        [181758] = { -- Mound of Dirt
+            [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{61.17,49.64}}},
+        },
         [181781] = { -- Axxarien Crystal
             [objectKeys.name] = "Axxarien Crystal",
         },
