@@ -1625,6 +1625,9 @@ function QuestieQuestFixes:Load()
         [4288] = {
             [questKeys.triggerEnd] = {"Discover and examine the Western Crystal Pylon",{[zoneIDs.UN_GORO_CRATER]={{23,59}}}},
         },
+        [4295] = {
+            [questKeys.requiredLevel] = 42,
+        },
         [4322] = {
             [questKeys.triggerEnd] = {"Jail Break!", {[zoneIDs.BLACKROCK_DEPTHS]={{-1,-1}}}},
         },

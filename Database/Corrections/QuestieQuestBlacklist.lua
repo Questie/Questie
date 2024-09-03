@@ -243,7 +243,7 @@ function QuestieQuestBlacklist:Load()
         [8858] = true,
         [8859] = true,
         --Rocknot's Ale instance quest shown in SG/BS at lvl 1
-        [4295] = true,
+        --[4295] = true,
         --mount exchange/replacement
         [7678] = true,
         [7677] = true,
