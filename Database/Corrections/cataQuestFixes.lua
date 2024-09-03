@@ -73,6 +73,9 @@ function CataQuestFixes.Load()
         [487] = { -- The Road to Darnassus
             [questKeys.preQuestSingle] = {483},
         },
+        [489] = { -- Seek Redemption!
+            [questKeys.startedBy] = {{2083}},
+        },
         [495] = { -- The Crown of Will
             [questKeys.nextQuestInChain] = 0,
         },
@@ -701,11 +704,20 @@ function CataQuestFixes.Load()
         [9616] = { -- Bandits!
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [9623] = { -- Coming of Age
+            [questKeys.zoneOrSort] = zoneIDs.AZUREMYST_ISLE,
+        },
         [9626] = { -- Meeting the Warchief
             [questKeys.finishedBy] = {{39605}},
         },
+        [9672] = { -- The Bloodcurse Legacy
+            [questKeys.exclusiveTo] = {9751},
+        },
         [9731] = { -- Drain Schematics
             [questKeys.preQuestSingle] = {9720},
+        },
+        [9751] = { -- The Bloodcurse Legacy
+            [questKeys.exclusiveTo] = {9672},
         },
         [9811] = { -- Friend of the Sin'dorei
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE - raceKeys.BLOOD_ELF,
