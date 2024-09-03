@@ -58,6 +58,9 @@ function CataItemFixes.Load()
         [18598] = { -- Human Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [18943] = { -- Dark Iron Pillow
+            [itemKeys.npcDrops] = {},
+        },
         [19424] = { -- Sayge's Fortune #24
             [itemKeys.startQuest] = 0,
         },
@@ -78,6 +81,15 @@ function CataItemFixes.Load()
         },
         [23798] = { -- Diabolical Plans
             [itemKeys.npcDrops] = {6073},
+        },
+        [24025] = { -- Deathclaw's Paw
+            [itemKeys.npcDrops] = {17661},
+        },
+        [24026] = { -- Elder Brown Bear Flank
+            [itemKeys.npcDrops] = {17348},
+        },
+        [24049] = { -- Ysera's Tear
+            [itemKeys.npcDrops] = {},
         },
         [24416] = { -- Corrupted Flower
             [itemKeys.npcDrops] = {},
@@ -421,6 +433,9 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {41199},
         },
         [55809] = { -- Twilight Armor Plate
+            [itemKeys.npcDrops] = {},
+        },
+        [55989] = { -- Charred Granite Chips
             [itemKeys.npcDrops] = {},
         },
         [56012] = { -- Stone Knife of Sealing
