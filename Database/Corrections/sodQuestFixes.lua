@@ -2755,6 +2755,26 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [84548] = { -- Garona: A Study on Stealth and Treachery
+            [questKeys.startedBy] = {nil,nil,{228691}},
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.zoneOrSort] = zoneIDs.DIRE_MAUL,
+        },
+        [84549] = { -- The Arcanist's Cookbook
+            [questKeys.startedBy] = {nil,nil,{228693}},
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.zoneOrSort] = zoneIDs.DIRE_MAUL,
+        },
+        [84550] = { -- Codex of Defense
+            [questKeys.startedBy] = {nil,nil,{228692}},
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.zoneOrSort] = zoneIDs.DIRE_MAUL,
+        },
+        [84551] = { -- The Light and How To Swing It
+            [questKeys.startedBy] = {nil,nil,{228690}},
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.zoneOrSort] = zoneIDs.DIRE_MAUL,
+        },
         [84777] = { -- Feathers for Nafien
             [questKeys.preQuestSingle] = {8461},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
