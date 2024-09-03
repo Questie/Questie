@@ -49,6 +49,9 @@ function CataItemFixes.Load()
         [10458] = { -- Prayer to Elune
             [itemKeys.npcDrops] = {},
         },
+        [11818] = { -- Grimesilt Outhouse Key
+            [itemKeys.startQuest] = 0,
+        },
         [12283] = { -- Broodling Essence
             [itemKeys.npcDrops] = {},
         },
