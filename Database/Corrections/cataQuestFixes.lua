@@ -3660,6 +3660,12 @@ function CataQuestFixes.Load()
         [25678] = { -- Pick Your Fate
             [questKeys.objectives] = {{{5996},{5997},{5998}}},
         },
+        [25702] = { -- Home... Gone... Naga...
+            [questKeys.nextQuestInChain] = 25703,
+        },
+        [25710] = { -- Minor Distractions
+            [questKeys.preQuestSingle] = {},
+        },
         [25715] = { -- A Closer Look
             [questKeys.triggerEnd] = {"Scout the ships on the Shattershore",{[zoneIDs.BLASTED_LANDS] = {{69,32.7}}}},
         },
@@ -5819,6 +5825,7 @@ function CataQuestFixes.Load()
         [27341] = { -- Scouting the Shore
             [questKeys.triggerEnd] = {"Beach Head Control Point Scouted", {[zoneIDs.TWILIGHT_HIGHLANDS]={{77.5,65.2}}}},
             [questKeys.preQuestSingle] = {27338},
+            [questKeys.exclusiveTo] = {},
         },
         [27343] = { -- The Hand of the Light
             [questKeys.preQuestSingle] = {},
@@ -5864,6 +5871,7 @@ function CataQuestFixes.Load()
         },
         [27366] = { -- Landgrab
             [questKeys.preQuestSingle] = {27338},
+            [questKeys.exclusiveTo] = {},
         },
         [27369] = { -- Greasing the Wheel
             [questKeys.preQuestSingle] = {27368},
@@ -6801,6 +6809,9 @@ function CataQuestFixes.Load()
         [27978] = { -- Ghostbuster
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [27984] = { -- Lunthistle's Tale
+            [questKeys.objectives] = {{{8436,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [27987] = { -- Cannonball!
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
@@ -7011,6 +7022,9 @@ function CataQuestFixes.Load()
         },
         [28173] = { -- Blackout
             [questKeys.exclusiveTo] = {},
+        },
+        [28174] = { -- Burning Vengeance
+            [questKeys.preQuestSingle] = {},
         },
         [28175] = { -- Shining Through the Dark
             [questKeys.preQuestSingle] = {28171},
