@@ -1087,6 +1087,9 @@ function QuestieQuestFixes:Load()
         [1918] = {
             [questKeys.startedBy] = {{12759},nil,{16408}},
         },
+        [1919] = { -- Report to Jennea
+            [questKeys.startedBy] = {{328,7312}},
+        },
         [1920] = {
             [questKeys.preQuestSingle] = {}, -- #1328
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
