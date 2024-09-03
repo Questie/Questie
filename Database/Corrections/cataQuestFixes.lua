@@ -4873,6 +4873,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Negotiations Concluded",{[zoneIDs.TWILIGHT_HIGHLANDS]={{75.5,55.25}}}},
         },
+        [26542] = { -- Hero's Call: The Hinterlands!
+            [questKeys.requiredMaxLevel] = 33,
+        },
         [26543] = { -- Clammy Hands
             [questKeys.exclusiveTo] = {26572,26557,26556,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
         },
@@ -7476,6 +7479,7 @@ function CataQuestFixes.Load()
         },
         [28528] = { -- Hero's Call: Silithus!
             [questKeys.nextQuestInChain] = 8280,
+            [questKeys.requiredMaxLevel] = 57,
         },
         [28529] = { -- Writings of the Void
             [questKeys.startedBy] = {{48764},nil,{64450}},
@@ -7686,6 +7690,9 @@ function CataQuestFixes.Load()
         [28665] = { -- Cursed Shackles
             [questKeys.finishedBy] = {{48070}}, -- temporary until Questie can show multiple turn ins
         },
+        [28666] = { -- Hero's Call: Burning Steppes!
+            [questKeys.nextQuestInChain] = 28174,
+        },
         [28667] = { -- Warchief's Command: Burning Steppes!
             [questKeys.requiredMaxLevel] = 51,
         },
@@ -7701,6 +7708,11 @@ function CataQuestFixes.Load()
         [28671] = { -- Warchief's Command: Blasted Lands!
             [questKeys.startedBy] = {nil,{207324,207325}},
             [questKeys.requiredMaxLevel] = 57,
+        },
+        [28673] = { -- Hero's Call: Blasted Lands!
+            [questKeys.requiredMaxLevel] = 57,
+            [questKeys.exclusiveTo] = {28857},
+            [questKeys.nextQuestInChain] = 25710,
         },
         [28677] = { -- Warchief's Command: Swamp of Sorrows!
             [questKeys.requiredMaxLevel] = 53,
@@ -7783,9 +7795,11 @@ function CataQuestFixes.Load()
         },
         [28708] = { -- Hero's Call: Outland!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
+            [questKeys.requiredMaxLevel] = 67,
         },
-        [28709] = { -- Hero's Call: Borean Tundra!
+        [28709] = { -- Hero's Call: Northrend!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
+            [questKeys.requiredMaxLevel] = 77,
         },
         [28711] = { -- Warchief's Command: Northrend!
             [questKeys.requiredMaxLevel] = 77,
@@ -8139,6 +8153,10 @@ function CataQuestFixes.Load()
         },
         [28856] = { -- The Sands of Silithus
             [questKeys.nextQuestInChain] = 8280,
+        },
+        [28857] = { -- Hero's Call: Blasted Lands!
+            [questKeys.exclusiveTo] = {28673},
+            [questKeys.nextQuestInChain] = 25710,
         },
         [28859] = { -- The Dunes of Silithus
             [questKeys.nextQuestInChain] = 8280,
