@@ -20,7 +20,7 @@ function QuestieQuestBlacklist:Load()
         --[960] = true, -- Duplicate of 961 -- different quests, not duplicate
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
-        [7704] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE, -- Not implemented in Era, added in Wrath
+        [7704] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.CATA_HIDE, -- Not implemented in Era, added in Wrath
         [7668] = true, -- Not in the game (yet) Replaced with 8258 in Ph 4-- #1805
         [636] = true, -- Not in the game - #1900
         [6066] = true, -- Not in the game - #1957
@@ -2457,7 +2457,6 @@ function QuestieQuestBlacklist:Load()
         [7667] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [7669] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [7670] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [7704] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [7791] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [7792] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [7793] = QuestieCorrections.CATA_HIDE, -- Removed with cata
