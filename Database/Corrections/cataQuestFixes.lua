@@ -4312,6 +4312,12 @@ function CataQuestFixes.Load()
         [26154] = { -- Twilight Extermination
             [questKeys.objectives] = {{{47969,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,{{{42281,42280},42280},{{42285},42285}}},
         },
+        [26160] = { -- Blood Ritual
+            [questKeys.objectives] = {{{42298,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [26170] = { -- The Final Ritual
+            [questKeys.objectives] = {{{42298,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [26179] = { -- The Venture Co.
             [questKeys.preQuestSingle] = {751},
         },
