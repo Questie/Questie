@@ -2485,6 +2485,9 @@ function CataQuestFixes.Load()
         [24540] = { -- War Dance
             [questKeys.requiredRaces] = raceKeys.TAUREN,
         },
+        [24543] = { -- A Family Divided
+            [questKeys.preQuestSingle] = {24529},
+        },
         [24550] = { -- Journey into Thunder Bluff
             [questKeys.requiredRaces] = raceKeys.TAUREN,
         },
