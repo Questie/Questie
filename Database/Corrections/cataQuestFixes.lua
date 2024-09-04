@@ -2438,6 +2438,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 48526}}}},
             [questKeys.exclusiveTo] = {28414},
         },
+        [24518] = { -- The Low Road
+            [questKeys.startedBy] = {{37216}},
+        },
         [24520] = { -- Give Sassy the News
             [questKeys.sourceItemId] = 46856,
         },
