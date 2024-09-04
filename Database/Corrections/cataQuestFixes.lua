@@ -2542,6 +2542,9 @@ function CataQuestFixes.Load()
         [24633] = { -- Mahka's Plea
             [questKeys.objectives] = {{{37847,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [24634] = { -- Intelligence Warfare
+            [questKeys.preQuestSingle] = {24591},
+        },
         [24639] = { -- The Basics: Hitting Things
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
