@@ -3598,7 +3598,8 @@ function CataQuestFixes.Load()
         [25622] = { -- Burn, Baby, Burn!
             [questKeys.startedBy] = {{40895,100000}},
             [questKeys.finishedBy] = {{40895,100001}},
-            [questKeys.preQuestSingle] = {25615},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25615,25621},
             [questKeys.requiredSourceItems] = {55152},
         },
         [25623] = { -- Into the Maw!
@@ -3668,6 +3669,9 @@ function CataQuestFixes.Load()
         },
         [25670] = { -- DUN-dun-DUN-dun-DUN-dun
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Use Budd's Chain"),0,{{"object",203137}}}},
+        },
+        [25671] = { -- Thinning the Horde
+            [questKeys.requiredMaxRep] = {69,21000},
         },
         [25678] = { -- Pick Your Fate
             [questKeys.objectives] = {{{5996},{5997},{5998}}},
@@ -3940,6 +3944,9 @@ function CataQuestFixes.Load()
         },
         [25936] = { -- Pay It Forward
             [questKeys.objectives] = {{{41672,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25938] = { -- Help for Desolace
+            [questKeys.zoneOrSort] = zoneIDs.STONETALON_MOUNTAINS,
         },
         [25939] = { -- For Peat's Sake
             [questKeys.preQuestSingle] = {25926},
@@ -5353,6 +5360,9 @@ function CataQuestFixes.Load()
         [26898] = { -- Blackfathom Deeps
             [questKeys.exclusiveTo] = {26897},
             [questKeys.finishedBy] = {{33260}},
+        },
+        [26903] = { -- Willix the Importer
+            [questKeys.triggerEnd] = {"Help Willix the Importer escape from Razorfen Kraul", {[zoneIDs.RAZORFEN_KRAUL]={{-1,-1}}}},
         },
         [26904] = { -- Harnessing the Flames
             [questKeys.objectives] = {{{44389}},nil,nil,nil,nil,{{348}}},
