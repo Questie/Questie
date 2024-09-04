@@ -2540,6 +2540,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {24617},
         },
         [24633] = { -- Mahka's Plea
+            [questKeys.preQuestSingle] = {24653},
             [questKeys.objectives] = {{{37847,nil,Questie.ICON_TYPE_TALK}}},
         },
         [24634] = { -- Intelligence Warfare
