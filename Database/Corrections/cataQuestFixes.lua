@@ -2499,6 +2499,9 @@ function CataQuestFixes.Load()
         [24597] = { -- A Gift for the King of Stormwind
             [questKeys.finishedBy] = {{29611}},
         },
+        [24606] = { -- Blood of the Barrens
+            [questKeys.startedBy] = {{37560,37660,37661},nil,{49932}},
+        },
         [24612] = { -- A Gift for the Emissary of Orgrimmar
             [questKeys.finishedBy] = {{39605}},
         },
