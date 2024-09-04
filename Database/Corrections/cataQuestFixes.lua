@@ -2060,6 +2060,9 @@ function CataQuestFixes.Load()
         [14361] = { -- Peace of Mind
             [questKeys.preQuestSingle] = {14354},
         },
+        [14362] = { -- Ears Are Burning
+            [questKeys.startedBy] = {{4663,4664,4665,4666,4667},nil,{49203}},
+        },
         [14365] = { -- Ethel Rethor
             [questKeys.preQuestSingle] = {14354},
         },
