@@ -33,6 +33,9 @@ function CataItemFixes.Load()
         [5169] = { -- Timberling Sprout
             [itemKeys.objectDrops] = {4608},
         },
+        [5382] = { -- Anaya's Pendant
+            [itemKeys.npcDrops] = {33181},
+        },
         [5508] = { -- Fallen Moonstone
             [itemKeys.npcDrops] = {3758,3759,3762,3763},
         },
@@ -209,6 +212,9 @@ function CataItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
         },
         [48766] = { -- Kaja'mite Chunk
+            [itemKeys.npcDrops] = {},
+        },
+        [49164] = { -- Cenarion Supply Crate
             [itemKeys.npcDrops] = {},
         },
         [49172] = { -- Simmering Water Droplet
