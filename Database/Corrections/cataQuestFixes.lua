@@ -2709,6 +2709,9 @@ function CataQuestFixes.Load()
         [24787] = { -- More Than Expected
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [24807] = { -- Winnoa Pineforest
+            [questKeys.preQuestSingle] = {24601},
+        },
         [24812] = { -- No More Mercy
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
