@@ -2506,7 +2506,7 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
         },
         [24618] = { -- Claim the Battle Scar
-            [questKeys.triggerEnd] = {"Battlescar Flag Scouted",{[zoneIDs.THE_BARRENS] = {{45.2,69.4}}}},
+            [questKeys.objectives] = {{{37923}},{{201879,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24622] = { -- A Troll's Truest Companion
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -2898,7 +2898,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [25081] = { -- Claim the Battlescar
-            [questKeys.triggerEnd] = {"Battlescar Flag Scouted",{[zoneIDs.THE_BARRENS] = {{45.2,69.4}}}},
+            [questKeys.objectives] = {{{37922}},{{201878,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25094] = { -- Thunderdrome: Zumonga!
             [questKeys.objectives] = {{{39148}}},
