@@ -2086,6 +2086,9 @@ function CataQuestFixes.Load()
         [14372] = { -- Thargad's Camp
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [14376] = { -- Jugkar's Undoing
+            [questKeys.startedBy] = {{4676,35591},nil,{49220}},
+        },
         [14377] = { -- Befriending Giants
             [questKeys.preQuestGroup] = {14370,14371},
             [questKeys.objectives] = {{{36297,nil,Questie.ICON_TYPE_TALK}}},
