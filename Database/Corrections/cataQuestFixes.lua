@@ -368,6 +368,9 @@ function CataQuestFixes.Load()
         [5680] = { -- Shadowguard
             [questKeys.startedBy] = {{6018}},
         },
+        [5713] = { -- One Shot. One Kill.
+            [questKeys.triggerEnd] = {"Protect Aynasha", {[zoneIDs.DARKSHORE]={{47.65,88.97}}}},
+        },
         [6031] = { -- Runecloth
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,8}},
         },
