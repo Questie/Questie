@@ -3200,6 +3200,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25223,25224,25330},
         },
+        [25292] = { -- Next of Kin
+            [questKeys.preQuestSingle] = {24747},
+        },
         [25294] = { -- Walking the Dog
             [questKeys.objectives] = {{{39659,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {25291},
