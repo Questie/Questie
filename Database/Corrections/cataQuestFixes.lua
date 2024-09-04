@@ -288,6 +288,9 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = -378,
             [questKeys.finishedBy] = {{51989}},
         },
+        [5561] = { -- Kodo Roundup
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{4700,4702},4700,"Kodos Tamed"}}},
+        },
         [5627] = { -- Stars of Elune
             [questKeys.startedBy] = {{11401}},
         },
