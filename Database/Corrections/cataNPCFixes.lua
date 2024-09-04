@@ -1046,6 +1046,9 @@ function CataNpcFixes.Load()
         [37115] = { -- Teo Hammerstorm
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{35.82,64.59}}},
         },
+        [37165] = { -- Henry Zykes
+            [npcKeys.waypoints] = {[4709] = {{{42.57,22.30},{41.87,22.25},{41.64,21.56},{41.59,21.28},{41.41,20.36},{41.33,19.33},{40.63,18.26},{40.52,17.90},{40.43,17.31},{40.58,16.28},{40.62,15.49},{40.67,15.07}}}},
+        },
         [37602] = { -- Claims Adjuster
             [npcKeys.spawns] = {
                 [zoneIDs.KEZAN] = {
