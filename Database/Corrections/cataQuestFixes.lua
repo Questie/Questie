@@ -3033,24 +3033,23 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 25188,
             [questKeys.triggerEnd] = {"Escort Grandmatron Tekla to Raggaran",{[zoneIDs.DUROTAR] = {{42.6,49.96}}}},
         },
-        [25190] = { -- Raggaran's Rage TODO: add preQuestSingle to childQuests
+        [25190] = { -- Raggaran's Rage
             [questKeys.parentQuest] = 25188,
         },
         [25191] = { -- Survey the Destruction
-            [questKeys.objectives] = {},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Nibb Spindlegear"), 0, {{"monster", 38383}}}},
+            [questKeys.objectives] = {{{38383,nil,Questie.ICON_TYPE_TALK}}},
         },
-        [25192] = { -- Raggaran's Fury TODO: add preQuestSingle to childQuests
+        [25192] = { -- Raggaran's Fury
             [questKeys.parentQuest] = 25188,
         },
         [25193] = { -- Lost But Not Forgotten
             [questKeys.parentQuest] = 25188,
         },
-        [25194] = { -- Unbidden Visitors TODO: add preQuestSingle to childQuests
+        [25194] = { -- Unbidden Visitors
             [questKeys.parentQuest] = 25188,
             [questKeys.objectives] = {{{39337,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [25195] = { -- That's the End of That Raptor TODO: add preQuestSingle to childQuests
+        [25195] = { -- That's the End of That Raptor
             [questKeys.parentQuest] = 25188,
         },
         [25202] = { -- The Fastest Way to His Heart
