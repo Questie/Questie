@@ -2513,6 +2513,7 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
         },
         [24618] = { -- Claim the Battle Scar
+            [questKeys.preQuestSingle] = {24591},
             [questKeys.objectives] = {{{37923}},{{201879,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24622] = { -- A Troll's Truest Companion
