@@ -3906,7 +3906,7 @@ function CataQuestFixes.Load()
         },
         [25891] = { -- Last Ditch Effort
             [questKeys.objectives] = {{{41482,nil,Questie.ICON_TYPE_TALK}}},
-        },        
+        },
         [25892] = { -- Losing Ground
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",48901}}}},
             [questKeys.objectives] = {{{41562,nil,Questie.ICON_TYPE_EVENT}}},
@@ -4358,7 +4358,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",203709}}}},
         },
         [26150] = { -- A Visit With Maybell
-            [questKeys.preQuestSingle] = {60},      
+            [questKeys.preQuestSingle] = {60},
             [questKeys.exclusiveTo] = {106},
             [questKeys.nextQuestInChain] = 106,
         },
@@ -4445,7 +4445,7 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
         [26209] = { -- Murder Was The Case That They Gave Me
-            [questKeys.preQuestSingle] = {},            
+            [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{42383,42391,42386},42383,nil,Questie.ICON_TYPE_TALK},{{42383,42391,42386},42383,nil,Questie.ICON_TYPE_TALK},{{42383,42391,42386},42383,nil,Questie.ICON_TYPE_TALK},{{42383,42391,42386},42383,nil,Questie.ICON_TYPE_TALK}}},
         },
         [26213] = { -- Hot On the Trail: The Riverpaw Clan
@@ -4966,7 +4966,7 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
         [26567] = { -- John J. Keeshan
-            [questKeys.preQuestSingle] = {26520},
+            [questKeys.preQuestSingle] = {26520, 26545},
         },
         [26569] = { -- Surveying Equipment
             [questKeys.preQuestSingle] = {26568},
