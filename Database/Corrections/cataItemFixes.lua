@@ -67,6 +67,9 @@ function CataItemFixes.Load()
         [18943] = { -- Dark Iron Pillow
             [itemKeys.npcDrops] = {},
         },
+        [18947] = { -- Feral Scar Yeti Hide
+            [itemKeys.npcDrops] = {39896},
+        },
         [19424] = { -- Sayge's Fortune #24
             [itemKeys.startQuest] = 0,
         },
