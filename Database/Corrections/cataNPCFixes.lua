@@ -152,6 +152,9 @@ function CataNpcFixes.Load()
         [3203] = { -- Fizzle Darkclaw
             [npcKeys.waypoints] = {},
         },
+        [3341] = { -- Gann Stonespire
+            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{45.8,78.8}}},
+        },
         [3389] = { -- Regthar Deathgate
             [npcKeys.questStarts] = {851,852,855,4021},
         },
