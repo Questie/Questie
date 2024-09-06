@@ -265,6 +265,9 @@ function CataItemFixes.Load()
         [49756] = { -- Leftover Boar Meat
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [49875] = { -- Enervated Adder
+            [itemKeys.npcDrops] = {37738},
+        },
         [49881] = { -- Slaver's Key
             [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.npcDrops] = {37701},
