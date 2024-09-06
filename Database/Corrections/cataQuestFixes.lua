@@ -2491,6 +2491,9 @@ function CataQuestFixes.Load()
         [24543] = { -- A Family Divided
             [questKeys.preQuestSingle] = {24529},
         },
+        [24546] = { -- A Line in the Dirt
+            [questKeys.preQuestSingle] = {},
+        },
         [24550] = { -- Journey into Thunder Bluff
             [questKeys.requiredRaces] = raceKeys.TAUREN,
         },
