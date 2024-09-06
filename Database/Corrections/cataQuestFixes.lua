@@ -2502,6 +2502,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{37694,"Enslaved Gilnean freed",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Unlock the Ball and Chain"),0,{{"object",201775}}}},
         },
+        [24577] = { -- Desolation Hold Inspection
+            [questKeys.objectives] = {{{37811,"Gar'dul Notified",Questie.ICON_TYPE_TALK}}},
+        },
         [24593] = { -- Neither Human Nor Beast
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24646,24628},
