@@ -463,6 +463,9 @@ function CataQuestFixes.Load()
         [8544] = { -- Conqueror's Spaulders
             [questKeys.objectives] = {nil,nil,{{20928},{20875},{20863},{20858}},{910,0}},
         },
+        [8558] = { -- Sickle of Unyielding Strength
+            [questKeys.objectives] = {nil,nil,{{20886},{20873},{20862},{20858}},{609,42000}},
+        },
         [8559] = { -- Conqueror's Greaves
             [questKeys.objectives] = {nil,nil,{{20928},{20882},{20865},{20859}},{910,0}},
         },
@@ -594,6 +597,30 @@ function CataQuestFixes.Load()
         },
         [8669] = { -- Genesis Shoulderpads
             [questKeys.objectives] = {nil,nil,{{20932},{20881},{20859},{20864}},{910,0}},
+        },
+        [8705] = { -- Gavel of Infinite Wisdom
+            [questKeys.objectives] = {nil,nil,{{20890},{20868},{20861},{20865}},{609,42000}},
+        },
+        [8706] = { -- Hammer of the Gathering Storm
+            [questKeys.objectives] = {nil,nil,{{20886},{20869},{20861},{20865}},{609,42000}},
+        },
+        [8707] = { -- Blade of Vaulted Secrets
+            [questKeys.objectives] = {nil,nil,{{20890},{20871},{20860},{20864}},{609,42000}},
+        },
+        [8708] = { -- Mace of Unending Life
+            [questKeys.objectives] = {nil,nil,{{20890},{20870},{20862},{20858}},{609,42000}},
+        },
+        [8709] = { -- Dagger of Veiled Shadows
+            [questKeys.objectives] = {nil,nil,{{20886},{20872},{20859},{20863}},{609,42000}},
+        },
+        [8710] = { -- Kris of Unspoken Names
+            [questKeys.objectives] = {nil,nil,{{20890},{20867},{20859},{20863}},{609,42000}},
+        },
+        [8711] = { -- Blade of Eternal Justice
+            [questKeys.objectives] = {nil,nil,{{20886},{20869},{20861},{20865}},{609,42000}},
+        },
+        [8712] = { -- Scythe of the Unseen Path
+            [questKeys.objectives] = {nil,nil,{{20886},{20866},{20860},{20864}},{609,42000}},
         },
         [8764] = { -- The Changing of Paths - Protector No More
             [questKeys.preQuestSingle] = {8751,8756,8761},
