@@ -2503,6 +2503,9 @@ function CataQuestFixes.Load()
         [24567] = { -- Report for Tryouts
             [questKeys.sourceItemId] = 46856,
         },
+        [24569] = { -- Siegebreaker
+            [questKeys.preQuestGroup] = {24546,24551},
+        },
         [24575] = { -- Liberation Day
             [questKeys.requiredSourceItems] = {49881},
             [questKeys.objectives] = {{{37694,"Enslaved Gilnean freed",Questie.ICON_TYPE_INTERACT}}},
