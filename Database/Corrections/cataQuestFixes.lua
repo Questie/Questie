@@ -2494,6 +2494,9 @@ function CataQuestFixes.Load()
         [24550] = { -- Journey into Thunder Bluff
             [questKeys.requiredRaces] = raceKeys.TAUREN,
         },
+        [24566] = { -- Sowing a Solution
+            [questKeys.preQuestGroup] = {24570,24571},
+        },
         [24567] = { -- Report for Tryouts
             [questKeys.sourceItemId] = 46856,
         },
