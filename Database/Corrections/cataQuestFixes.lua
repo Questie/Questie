@@ -2558,6 +2558,9 @@ function CataQuestFixes.Load()
         [24634] = { -- Intelligence Warfare
             [questKeys.preQuestSingle] = {24591},
         },
+        [24637] = { -- The Butcher of Taurajo
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak with Karthog to lure out General Hawthorne"),0,{{"monster",38015}}}},
+        },
         [24639] = { -- The Basics: Hitting Things
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
