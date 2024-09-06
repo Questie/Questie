@@ -2027,6 +2027,12 @@ function CataQuestFixes.Load()
         [14324] = { -- Full of Hot Water
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Scalding Water Lord"), 0, {{"object", 195711}}}},
         },
+        [14330] = { -- Behind Closed Doors
+            [questKeys.startedBy] = {{4656},nil,{38567}},
+        },
+        [14333] = { -- While You're Here
+            [questKeys.requiredSourceItems] = {49194},
+        },
         [14337] = { -- Shadowprey Village
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
@@ -2100,7 +2106,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {14373,14374},
         },
         [14381] = { -- Cleansing Our Crevasse
-            [questKeys.objectives] = {{{36232,nil,Questie.ICON_TYPE_MOUNT_UP},{35606,nil,Questie.ICON_TYPE_INTERACT},{90,nil,Questie.ICON_TYPE_INTERACT},{35605,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{36227,nil,Questie.ICON_TYPE_MOUNT_UP},{35606,nil,Questie.ICON_TYPE_INTERACT},{90,nil,Questie.ICON_TYPE_INTERACT},{35605,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [14382] = { -- Two By Sea
             [questKeys.extraObjectives] = {
@@ -3363,6 +3369,15 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{39933,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {25584},
         },
+        [25407] = { -- Forces of Nature: Wisps
+            [questKeys.objectives] = {{{40079,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [25409] = { -- Forces of Nature: Hippogryphs
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{5300,5304},5300,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [25410] = { -- Forces of Nature: Treants
+            [questKeys.objectives] = {{{7584,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [25411] = { -- A New Master
             [questKeys.objectives] = {{{39974}}},
         },
@@ -3415,6 +3430,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25411},
             [questKeys.exclusiveTo] = {25412},
         },
+        [25451] = { -- Pristine Yeti Hide
+            [questKeys.startedBy] = {{39896},nil,{55166}},
+            [questKeys.preQuestSingle] = {25449},
+        },
         [25459] = { -- Ophidophobia
             [questKeys.preQuestSingle] = {25602},
         },
@@ -3439,7 +3458,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{5276,5278},5276,"Faerie Dragons Rallied",Questie.ICON_TYPE_INTERACT}}},
         },
         [25469] = { -- Forces of Nature: Mountain Giants
-            [questKeys.objectives] = {{{40026}}},
+            [questKeys.objectives] = {{{40026,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [25473] = { -- Kaja'Cola
             [questKeys.startedBy] = {{34872}},
@@ -3447,12 +3466,18 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {14075,14069},
         },
         [25476] = { -- Rescue OOX-22/FE!
-            [questKeys.triggerEnd] = {"Escort OOX-22/FE to safety",{[zoneIDs.FERALAS]={{55.1,51.1}}}},
+            [questKeys.triggerEnd] = {"Escort OOX-22/FE to safety",{[zoneIDs.FERALAS]={{55.63,51.35}}}},
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
         },
         [25477] = { -- Better Late Than Dead
             [questKeys.objectives] = {{{40223,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {25949,25558},
+        },
+        [25481] = { -- To New Thalanaar
+            [questKeys.zoneOrSort] = zoneIDs.FERALAS,
+        },
+        [25486] = { -- The Grimtotem are Coming
+            [questKeys.zoneOrSort] = zoneIDs.FERALAS,
         },
         [25496] = { -- Grudge Match
             [questKeys.preQuestSingle] = {25494},
@@ -3921,7 +3946,7 @@ function CataQuestFixes.Load()
         },
         [25891] = { -- Last Ditch Effort
             [questKeys.objectives] = {{{41482,nil,Questie.ICON_TYPE_TALK}}},
-        },        
+        },
         [25892] = { -- Losing Ground
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",48901}}}},
             [questKeys.objectives] = {{{41562,nil,Questie.ICON_TYPE_EVENT}}},
@@ -4373,7 +4398,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",203709}}}},
         },
         [26150] = { -- A Visit With Maybell
-            [questKeys.preQuestSingle] = {60},      
+            [questKeys.preQuestSingle] = {60},
             [questKeys.exclusiveTo] = {106},
             [questKeys.nextQuestInChain] = 106,
         },
@@ -4460,7 +4485,7 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
         [26209] = { -- Murder Was The Case That They Gave Me
-            [questKeys.preQuestSingle] = {},            
+            [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{42383,42391,42386},42383,nil,Questie.ICON_TYPE_TALK},{{42383,42391,42386},42383,nil,Questie.ICON_TYPE_TALK},{{42383,42391,42386},42383,nil,Questie.ICON_TYPE_TALK},{{42383,42391,42386},42383,nil,Questie.ICON_TYPE_TALK}}},
         },
         [26213] = { -- Hot On the Trail: The Riverpaw Clan
@@ -4981,7 +5006,7 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
         [26567] = { -- John J. Keeshan
-            [questKeys.preQuestSingle] = {26520},
+            [questKeys.preQuestSingle] = {26520, 26545},
         },
         [26569] = { -- Surveying Equipment
             [questKeys.preQuestSingle] = {26568},
@@ -5611,6 +5636,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{56641}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 3061}}}},
         },
+        [27022] = { -- Extinguishing the Idol
+            [questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[zoneIDs.RAZORFEN_DOWNS]={{-1,-1}}}},
+        },
         [27023] = { -- The Way of the Sunwalkers
             [questKeys.objectives] = {{{44848}},nil,nil,nil,nil,{{20271},{20154}}},
             [questKeys.extraObjectives] = {
@@ -5713,6 +5741,13 @@ function CataQuestFixes.Load()
         [27106] = { -- A Villain Unmasked
             [questKeys.objectives] = {{{2439,nil,Questie.ICON_TYPE_TALK},{2439}}},
         },
+        [27118] = { -- A Broken Trap
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [27120] = { -- The Gordok Ogre Suit
+            [questKeys.preQuestSingle] = {27119},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [27123] = { -- Deepholm, Realm of Earth
             [questKeys.exclusiveTo] = {26244,26245,26246},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 45005}}}},
@@ -5768,8 +5803,15 @@ function CataQuestFixes.Load()
         [27203] = { -- The Maelstrom
             [questKeys.preQuestSingle] = {},
         },
+        [27222] = { -- Take Down Tethyr!
+            [questKeys.objectives] = {{{23899,"Defend Theramore Docks from Tethyr"}}},
+        },
         [27225] = { -- A Summons from Ander Germaine
             [questKeys.nextQuestInChain] = 27337,
+        },
+        [27239] = {
+            [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak to Cassa Crimsonwing to fly on a gryphon"), 0, {{"monster", 23704}}}},
         },
         [27240] = { -- Proof of Treachery
             [questKeys.finishedBy] = {{29611}},

@@ -3040,12 +3040,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {33040},
         },
         [11142] = {
-            [questKeys.objectives] = {nil,{{500007},{500007}}},
             [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55}}}},
-            [questKeys.extraObjectives] = {
-                {{[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55}}}, Questie.ICON_TYPE_EVENT, l10n("Survey Alcaz Island"),},
-                {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Cassa Crimsonwing to fly on a gryphon"), 0, {{"monster", 23704}}},
-            },
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak to Cassa Crimsonwing to fly on a gryphon"), 0, {{"monster", 23704}}}},
         },
         [11146] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{4351,4352},4351,"Raptors Captured"}}},
