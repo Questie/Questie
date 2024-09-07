@@ -8619,6 +8619,9 @@ function CataQuestFixes.Load()
         [29157] = { -- The Zandalari Menace
             [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
         },
+        [29164] = { -- Perfecting Your Howl
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{54362,52816,52795,52300,52289,52794,52791,52219},54362,"Howl atop an invader's corpse"}}},
+        },
         [29167] = { -- The Banshee Queen
             [questKeys.objectives] = {{{10181,"Meeting with Lady Sylvanas Windrunner",Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {172},
