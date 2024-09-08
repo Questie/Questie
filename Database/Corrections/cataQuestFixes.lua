@@ -3863,12 +3863,14 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {},
         },
         [25798] = { -- Defend the Drill (Alliance)
-            [questKeys.triggerEnd] = {"Oil Drilling Rig defended",[zoneIDs.THOUSAND_NEEDLES]={{85.9,44.6},{90.2,50.7},{87.2,49.5},{88.3,44.4}}},
+            [questKeys.objectives] = {{{41299,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {25790},
+            [questKeys.exclusiveTo] = {},
         },
         [25799] = { -- Defend the Drill (Horde)
-            [questKeys.triggerEnd] = {"Oil Drilling Rig defended",[zoneIDs.THOUSAND_NEEDLES]={{85.9,44.6},{90.2,50.7},{87.2,49.5},{88.3,44.4}}},
+            [questKeys.objectives] = {{{41299,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {25791},
+            [questKeys.exclusiveTo] = {},
         },
         [25801] = { -- Claws from the Deep
             [questKeys.preQuestSingle] = {25800},
