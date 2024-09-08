@@ -91,6 +91,7 @@ function CataQuestFixes.Load()
         },
         [648] = { -- Rescue OOX-17/TN!
             [questKeys.zoneOrSort] = zoneIDs.TANARIS,
+            [questKeys.triggerEnd] = {"Escort OOX-17/TN to safety", {[zoneIDs.TANARIS]={{60.8,53.68}}}},
         },
         [749] = { -- The Ravaged Caravan
             [questKeys.preQuestSingle] = {},
