@@ -2616,6 +2616,30 @@ function CataQuestFixes.Load()
         [24723] = { -- The Western Pylon
             [questKeys.objectives] = {nil,{{164956,"Discover and examine the Western Crystal Pylon"}}},
         },
+        [24724] = { -- Crystal Restore
+            [questKeys.preQuestSingle] = {24695},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [24725] = { -- Crystal Charge
+            [questKeys.preQuestSingle] = {24695},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [24726] = { -- Crystal Force
+            [questKeys.preQuestSingle] = {24695},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [24727] = { -- Crystal Spire
+            [questKeys.preQuestSingle] = {24695},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [24728] = { -- Crystal Ward
+            [questKeys.preQuestSingle] = {24695},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [24729] = { -- Crystal Yield
+            [questKeys.preQuestSingle] = {24695},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [24735] = { -- A Little Help From My Friends
             [questKeys.preQuestSingle] = {24734},
         },
