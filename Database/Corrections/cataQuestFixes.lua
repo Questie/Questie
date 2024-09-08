@@ -2604,6 +2604,9 @@ function CataQuestFixes.Load()
         [24702] = { -- Here Lies Dadanga
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [24703] = { -- An Important Lesson
+            [questKeys.objectives] = {{{38237,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [24721] = { -- The Eastern Pylon
             [questKeys.objectives] = {nil,{{164957,"Discover and examine the Eastern Crystal Pylon"}}},
         },
