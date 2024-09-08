@@ -55,6 +55,9 @@ function CataItemFixes.Load()
         [11818] = { -- Grimesilt Outhouse Key
             [itemKeys.startQuest] = 0,
         },
+        [11949] = { -- Filled Tainted Ooze Jar
+            [itemKeys.npcDrops] = {7092,14345},
+        },
         [12283] = { -- Broodling Essence
             [itemKeys.npcDrops] = {},
         },
@@ -396,6 +399,9 @@ function CataItemFixes.Load()
         [54788] = { -- Twilight Pick
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [54809] = { -- Rocket Car Parts
+            [itemKeys.npcDrops] = {},
+        },
         [54814] = { -- Talisman of Flame Ascendancy
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -431,6 +437,9 @@ function CataItemFixes.Load()
         },
         [55213] = { -- Huntress Illiona's Cage Key
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [55226] = { -- Creature Carcass
+            [itemKeys.npcDrops] = {41097,41099,41100,41101,41103,41104,41111,41113,48147,48148},
         },
         [55238] = { -- Concentrated Solvent
             [itemKeys.class] = itemClasses.QUEST,
@@ -729,6 +738,9 @@ function CataItemFixes.Load()
         },
         [64585] = { -- Cannon Powder
             [itemKeys.npcDrops] = {49143},
+        },
+        [64662] = { -- Pure Glacier Ice
+            [itemKeys.npcDrops] = {49233},
         },
         [65504] = { -- Deep Alabaster Crystal
             [itemKeys.npcDrops] = {},
