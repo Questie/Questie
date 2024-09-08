@@ -922,6 +922,26 @@ function CataQuestFixes.Load()
         [11034] = { -- Restorer No More
             [questKeys.specialFlags] = 1,
         },
+        [11103] = { -- Sage No More
+            [questKeys.startedBy] = {{19935}},
+            [questKeys.finishedBy] = {{19935}},
+            [questKeys.specialFlags] = 1,
+        },
+        [11104] = { -- Restorer No More
+            [questKeys.startedBy] = {{19935}},
+            [questKeys.finishedBy] = {{19935}},
+            [questKeys.specialFlags] = 1,
+        },
+        [11105] = { -- Champion No More
+            [questKeys.startedBy] = {{19935}},
+            [questKeys.finishedBy] = {{19935}},
+            [questKeys.specialFlags] = 1,
+        },
+        [11106] = { -- Defender No More
+            [questKeys.startedBy] = {{19935}},
+            [questKeys.finishedBy] = {{19935}},
+            [questKeys.specialFlags] = 1,
+        },
         [11129] = { -- Kyle's Gone Missing!
             [questKeys.objectives] = {{{23616,nil,Questie.ICON_TYPE_INTERACT}}},
         },
