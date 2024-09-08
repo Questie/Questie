@@ -226,6 +226,10 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES]={{44.95,53.17}}},
             [npcKeys.waypoints] = {[zoneIDs.TIRISFAL_GLADES]={{{44.12,53.92},{44.23,53.97},{44.24,53.77},{44.25,53.52},{44.32,53.30},{44.42,53.10},{44.56,52.98},{44.73,52.95},{44.88,53.02},{45.01,53.18},{45.10,53.38},{45.11,53.39}}}},
         },
+        [10806] = { -- Ursius
+            [npcKeys.spawns] = {[zoneIDs.WINTERSPRING]={{59.68,40.81}}},
+            [npcKeys.waypoints] = {},
+        },
         [10878] = { -- Herald Moonstalker
             [npcKeys.waypoints] = {}, -- to do
         },
@@ -236,6 +240,12 @@ function CataNpcFixes.Load()
         [10920] = { -- Kelek Skykeeper
             [npcKeys.questStarts] = {28479,28537,28848},
             [npcKeys.questEnds] = {28471,28536,28537},
+        },
+        [10923] = { -- Tenell Leafrunner
+            [npcKeys.waypoints] = {},
+        },
+        [11804] = { -- Twilight Keeper Havunth
+            [npcKeys.waypoints] = {},
         },
         [11897] = { -- Duskwing
             [npcKeys.waypoints] = {},
@@ -294,6 +304,7 @@ function CataNpcFixes.Load()
         },
         [14846] = { -- Lhara
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{48.09,69.55},{-1,-1}}},
+            [npcKeys.waypoints] = {},
         },
         [14847] = { -- Professor Thaddeus Paleo
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{51.89,60.93},{-1,-1}}},
@@ -304,6 +315,7 @@ function CataNpcFixes.Load()
         },
         [14860] = { -- Flik
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{56.34,63.38},{-1,-1}}},
+            [npcKeys.waypoints] = {},
         },
         [14864] = { -- Khaz Modan Ram
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{58.16,82.88},{56.22,82.64},{57.76,81.98},{-1,-1}}},
@@ -326,6 +338,9 @@ function CataNpcFixes.Load()
         [15192] = { -- Anachronos
             [npcKeys.spawns] = {[zoneIDs.TANARIS]={{58.1,56.16}}},
         },
+        [15270] = { -- Huum Wildmane
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS]={{53.19,35.2}}},
+        },
         [15271] = { -- Tender
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{39.31,28.52},{38.46,29.21},{38.1,28.65},{38.49,28.49},{36.49,29.94},{36.46,29.43},{35.84,29.98},{35.96,27.94},{35.83,27.73},{35.43,29.77},{35.1,27.21},{32.28,20.74},{30.49,24.35},{32.32,22.37},{31.61,21.03},{32.61,23.37},{31.05,23.1},{31.91,23.03},{30.99,22.16},{30.21,22.09},{29.67,20.71},{30.35,19.06},{28.73,18.28},{27.73,18.13},{31.99,25.02},{29.83,24.32},{33.66,24.4},{33.62,26.9},{34.39,26.51},{33.88,26.11},{33.13,27.2},{31.73,24.16},{33.84,29.07},{33.8,28.11},{34.16,27.11},{32.87,24.3},{32.4,24.33},{31.21,24.36},{34.42,28.3},{34.49,28.96},{35.1,29.39},{39.56,26.29},{39.24,26.23},{39.84,24.25},{40.37,25.43},{41.14,25.17},{41.92,24.71},{41.32,23.04}}},
         },
@@ -346,6 +361,9 @@ function CataNpcFixes.Load()
         },
         [15303] = { -- Maxima Blastenheimer
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{52.5,56.14},{-1,-1}}},
+        },
+        [15306] = { -- Bor Wildmane
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS]={{53.15,35.13}}},
         },
         [15366] = { -- Springpaw Cub
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{36.72,22.99},{36.17,23.3},{36.39,22.84},{39.04,23.53},{39.15,22.1},{35.72,22.32},{39.94,20.21},{39.89,22.42},{39.44,18.79},{37.08,18.09},{36.61,18.78},{40.26,20.92},{39.9,19.14},{40.77,21.93},{40.76,19.89},{39.07,17.64},{39.99,17.99},{40.37,18.64},{40.64,18.28},{40.07,17.33},{38.31,17.22},{35.24,18.14},{33.56,18.16},{33.63,20.81},{33.82,17.22},{33.07,19.89},{32.97,18.77},{34.27,21.82},{32.93,16.8},{34.61,24.2}}},
@@ -611,6 +629,9 @@ function CataNpcFixes.Load()
                 [zoneIDs.SHATTRATH_CITY]={{62.16,32.04}},
                 [zoneIDs.SILVERMOON_CITY]={{69.84,42.97}},
             },
+        },
+        [17082] = { -- Rifleman Torrig
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS]={{54.48,32.94}}},
         },
         [17310] = { -- Gnarl
             [npcKeys.waypoints] = {},
@@ -1604,6 +1625,9 @@ function CataNpcFixes.Load()
         },
         [41294] = { -- Undersea Sanctuary
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{46.14,46.64}}},
+        },
+        [41299] = { -- Oil Drilling Rig
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{84.67,49.42},{85.8,45.04},{88.71,44.6},{91.19,46.62},{90.75,51.28},{87.42,49.7}}},
         },
         [41381] = { -- Nordu
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{27.4,55.56}}},
