@@ -61,6 +61,9 @@ function CataItemFixes.Load()
         [12283] = { -- Broodling Essence
             [itemKeys.npcDrops] = {},
         },
+        [12842] = { -- Crudely-Written Log
+            [itemKeys.startQuest] = 28471,
+        },
         [18597] = { -- Orcish Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
