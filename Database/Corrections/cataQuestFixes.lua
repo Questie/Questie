@@ -7209,6 +7209,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27752,27754}, -- could also be 27753
             [questKeys.finishedBy] = {{46591}},
         },
+        [28218] = { -- A Destiny of Flame and Sorrow
+            [questKeys.objectives] = {{{47733}}},
+        },
         [28223] = { -- The Warden
             [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
         },
@@ -7240,6 +7243,12 @@ function CataQuestFixes.Load()
         [28250] = { -- Thieving Little Pluckers
             [questKeys.objectives] = {nil,nil,nil,nil,{{{48040,48041,48043},48040,"Thieving plucker smashed",nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
+        },
+        [28256] = { -- The Skull of Gul'dan
+            [questKeys.objectives] = {{{47812,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [28257] = { -- The Fall of Tichondrius
+            [questKeys.objectives] = {{{47917}}},
         },
         [28258] = { -- Meet with Ander Germaine
             [questKeys.nextQuestInChain] = 28393,
