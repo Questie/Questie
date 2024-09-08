@@ -9307,7 +9307,7 @@ function CataQuestFixes:LoadFactionFixes()
 
     local questFixesAlliance = {
         [25513] = { -- Thunderdrome: Grudge Match!
-            [questKeys.preQuestSingle] = {25065,25095},
+            [questKeys.preQuestGroup] = {25065,25095},
         },
         [25619] = { -- Reoccupation
             [questKeys.preQuestSingle] = {},
