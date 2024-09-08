@@ -772,15 +772,24 @@ function QuestieItemFixes:Load()
         [7067] = {
             [itemKeys.npcDrops] = {92,2258,2359,2592,2735,2736,2752,2755,2791,2919,4034,4035,4120,4499,5465,7031,7032,7135,7136,7137,8278,9396,10119,11658,11659,11665,11746,11747,11777,11778,11781,11782,11783,11784,12076,12100,12101,13256,14462,14464,15205,15208,15307},
         },
+        [11914] = {
+            [itemKeys.class] = 12,
+        },
         [11947] = { -- #1315
             [itemKeys.relatedQuests] = {4512},
             [itemKeys.npcDrops] = {7086},
             [itemKeys.objectDrops] = {},
         },
+        [11948] = {
+            [itemKeys.class] = 12,
+        },
         [11949] = { -- #1315
             [itemKeys.relatedQuests] = {4512},
             [itemKeys.npcDrops] = {7092},
             [itemKeys.objectDrops] = {},
+        },
+        [11953] = {
+            [itemKeys.class] = 12,
         },
         [11954] = { -- #1070
             [itemKeys.relatedQuests] = {4513},

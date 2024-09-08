@@ -1670,6 +1670,12 @@ function QuestieQuestFixes:Load()
         [4507] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Gorishi Queen Lure."), 0, {{"object", 174792}}}},
         },
+        [4512] = {
+            [questKeys.requiredSourceItems] = {11914,11948},
+        },
+        [4513] = {
+            [questKeys.requiredSourceItems] = {11953},
+        },
         [4542] = {
             [questKeys.exclusiveTo] = {4841},
         },
