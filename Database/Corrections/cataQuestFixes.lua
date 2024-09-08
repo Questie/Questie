@@ -9148,6 +9148,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {10094,10177},
             [questKeys.nextQuestInChain] = 29643,
         },
+        [29682] = { -- Magisters' Terrace
+            [questKeys.objectives] = {{{55007,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [29684] = { -- Severed Communications
             [questKeys.objectives] = {{{24822,nil,Questie.ICON_TYPE_EVENT}}},
         },
