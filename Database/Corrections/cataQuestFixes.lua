@@ -7895,7 +7895,7 @@ function CataQuestFixes.Load()
         },
         [28673] = { -- Hero's Call: Blasted Lands!
             [questKeys.requiredMaxLevel] = 57,
-            [questKeys.exclusiveTo] = {28857},
+            [questKeys.exclusiveTo] = {28857,28867},
             [questKeys.nextQuestInChain] = 25710,
         },
         [28677] = { -- Warchief's Command: Swamp of Sorrows!
@@ -8339,7 +8339,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 8280,
         },
         [28857] = { -- Hero's Call: Blasted Lands!
-            [questKeys.exclusiveTo] = {28673},
+            [questKeys.exclusiveTo] = {28673,28867},
             [questKeys.nextQuestInChain] = 25710,
         },
         [28859] = { -- The Dunes of Silithus
@@ -8366,6 +8366,10 @@ function CataQuestFixes.Load()
         },
         [28866] = { -- Into the Stonecore
             [questKeys.preQuestSingle] = {27061},
+        },
+        [28867] = { -- Nethergarde Needs You!
+            [questKeys.exclusiveTo] = {28857,28673},
+            [questKeys.nextQuestInChain] = 25710,
         },
         [28869] = { -- Pebble
             [questKeys.nextQuestInChain] = 26440,
