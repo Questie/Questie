@@ -46,6 +46,9 @@ function CataItemFixes.Load()
         [5533] = { -- Ilkrud Magthrull's Tome
             [itemKeys.npcDrops] = {},
         },
+        [8170] = { -- Rugged Leather
+            [itemKeys.vendors] = {},
+        },
         [10441] = { -- Glowing Shard
             [itemKeys.startQuest] = 0,
         },
