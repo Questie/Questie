@@ -3856,6 +3856,11 @@ function CataQuestFixes.Load()
         },
         [25796] = { -- Eminent Domain
             [questKeys.preQuestSingle] = {25790},
+            [questKeys.exclusiveTo] = {},
+        },
+        [25797] = { -- Eminent Domain
+            [questKeys.preQuestSingle] = {25791},
+            [questKeys.exclusiveTo] = {},
         },
         [25798] = { -- Defend the Drill (Alliance)
             [questKeys.triggerEnd] = {"Oil Drilling Rig defended",[zoneIDs.THOUSAND_NEEDLES]={{85.9,44.6},{90.2,50.7},{87.2,49.5},{88.3,44.4}}},
