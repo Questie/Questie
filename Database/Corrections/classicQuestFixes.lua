@@ -3034,6 +3034,12 @@ function QuestieQuestFixes:Load()
         [8447] = {
             [questKeys.triggerEnd] = {"Waking Legends.",{[zoneIDs.MOONGLADE]={{40.0,48.6}}}},
         },
+        [8470] = {
+            [questKeys.startedBy] = {{7156,7157,7158},nil,{20741}},
+        },
+        [8471] = {
+            [questKeys.startedBy] = {{7438,7439,7440,7441,7442,10738,10916},nil,{20742}},
+        },
         [8481] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Plant the Demon Summoning Torch"),0,{{"object", 180673}}}},
         },
