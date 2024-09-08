@@ -16,6 +16,7 @@ QuestieCorrections.objectObjectiveFirst[14125] = true
 QuestieCorrections.objectObjectiveFirst[24817] = true
 QuestieCorrections.objectObjectiveFirst[25371] = true
 QuestieCorrections.objectObjectiveFirst[25731] = true
+QuestieCorrections.objectObjectiveFirst[25813] = true
 QuestieCorrections.objectObjectiveFirst[26659] = true
 QuestieCorrections.objectObjectiveFirst[26809] = true
 QuestieCorrections.killCreditObjectiveFirst[52] = true
