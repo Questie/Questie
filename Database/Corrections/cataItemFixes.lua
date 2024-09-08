@@ -52,6 +52,9 @@ function CataItemFixes.Load()
         [10458] = { -- Prayer to Elune
             [itemKeys.npcDrops] = {},
         },
+        [11114] = { -- Dinosaur Bone
+            [itemKeys.npcDrops] = {6501,6502,6503,6504,9162,9163,9164},
+        },
         [11818] = { -- Grimesilt Outhouse Key
             [itemKeys.startQuest] = 0,
         },
@@ -296,8 +299,14 @@ function CataItemFixes.Load()
         [50237] = { -- Un'Goro Coconut
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [50253] = { -- Un'Goro Lasher Seed
+            [itemKeys.npcDrops] = {38202},
+        },
         [50334] = { -- Rapier of the Gilnean Patriots
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [50374] = { -- Unbelievably Sticky Tar
+            [itemKeys.npcDrops] = {38307},
         },
         [50405] = { -- Fossil-Finder 3000
             [itemKeys.class] = itemClasses.QUEST,
