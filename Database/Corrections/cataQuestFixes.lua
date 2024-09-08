@@ -8434,23 +8434,25 @@ function CataQuestFixes.Load()
         [29036] = { -- Honor the Flame
             [questKeys.objectives] = {nil,{{208188}}},
         },
-        [29037] = { -- Hunting Practice
+        [29037] = { -- 'Borrowing' From the Winterfall
+            [questKeys.requiredSourceItems] = {68645},
+            [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
             --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29035,29038,29039,29040,29051,29052,29053},
         },
-        [29038] = { -- 'Borrowing' From the Winterfall
+        [29038] = { -- Hunting Practice
             [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
-            [questKeys.requiredSourceItems] = {68645},
-            [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{51711,nil,Questie.ICON_TYPE_EVENT}}},
             --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29035,29037,29039,29040,29051,29052,29053},
         },
         [29039] = { -- Hunting Practice
+            [questKeys.objectives] = {{{51711,nil,Questie.ICON_TYPE_EVENT}}},
             --[questKeys.requiredRaces] = raceKeys.HUMAN + raceKeys.DWARF + raceKeys.WORGEN, -- these are the correct races
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
