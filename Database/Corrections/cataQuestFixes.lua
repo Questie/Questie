@@ -7303,8 +7303,11 @@ function CataQuestFixes.Load()
         [28282] = { -- Narkrall, The Drake-Tamer
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the event"), 0, {{"monster", 48173}}}},
         },
+        [28283] = { -- What's that Rattle?
+            [questKeys.nextQuestInChain] = 27316,
+        },
         [28284] = { -- What's that Rattle?
-            [questKeys.exclusiveTo] = {27317},
+            [questKeys.nextQuestInChain] = 27317,
         },
         [28285] = { -- Meet with High Priestess Laurena
             [questKeys.nextQuestInChain] = 28328,
@@ -7560,6 +7563,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28470},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
         },
+        [28472] = { -- Words of the High Chief
+            [questKeys.nextQuestInChain] = 28479,
+        },
         [28473] = { -- Weapons of Darkness
             [questKeys.preQuestSingle] = {},
         },
@@ -7580,6 +7586,9 @@ function CataQuestFixes.Load()
         [28478] = { -- Twilight Scheming
             [questKeys.preQuestSingle] = {},
             [questKeys.requiredClasses] = classKeys.PRIEST,
+        },
+        [28479] = { -- The Ruins of Kel'Theril
+            [questKeys.preQuestSingle] = {},
         },
         [28486] = { -- Salhet's Gambit
             [questKeys.triggerEnd] = {"Higher ground secured", {[zoneIDs.ULDUM]={{53.76,75.39}}}},
