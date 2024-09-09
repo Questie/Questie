@@ -2466,6 +2466,14 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 48526}}}},
             [questKeys.exclusiveTo] = {28414},
         },
+        [24512] = { -- Warriors' Redemption
+            [questKeys.requiredSourceItems] = {49769},
+            [questKeys.objectives] = {{{37167,"Stonetalon Prisoner Armed",Questie.ICON_TYPE_TALK}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Acquire crates of Confiscated Arms"),0,{{"object",201701}}}},
+        },
+        [24518] = { -- The Low Road
+            [questKeys.startedBy] = {{37216}},
+        },
         [24520] = { -- Give Sassy the News
             [questKeys.sourceItemId] = 46856,
         },
@@ -2513,16 +2521,31 @@ function CataQuestFixes.Load()
         [24540] = { -- War Dance
             [questKeys.requiredRaces] = raceKeys.TAUREN,
         },
+        [24543] = { -- A Family Divided
+            [questKeys.preQuestSingle] = {24529},
+        },
+        [24546] = { -- A Line in the Dirt
+            [questKeys.preQuestSingle] = {},
+        },
         [24550] = { -- Journey into Thunder Bluff
             [questKeys.requiredRaces] = raceKeys.TAUREN,
         },
+        [24566] = { -- Sowing a Solution
+            [questKeys.preQuestGroup] = {24570,24571},
+        },
         [24567] = { -- Report for Tryouts
             [questKeys.sourceItemId] = 46856,
+        },
+        [24569] = { -- Siegebreaker
+            [questKeys.preQuestGroup] = {24546,24551},
         },
         [24575] = { -- Liberation Day
             [questKeys.requiredSourceItems] = {49881},
             [questKeys.objectives] = {{{37694,"Enslaved Gilnean freed",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Unlock the Ball and Chain"),0,{{"object",201775}}}},
+        },
+        [24577] = { -- Desolation Hold Inspection
+            [questKeys.objectives] = {{{37811,"Gar'dul Notified",Questie.ICON_TYPE_TALK}}},
         },
         [24593] = { -- Neither Human Nor Beast
             [questKeys.preQuestSingle] = {},
@@ -2538,6 +2561,7 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
         },
         [24618] = { -- Claim the Battle Scar
+            [questKeys.preQuestSingle] = {24591},
             [questKeys.objectives] = {{{37923}},{{201879,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24622] = { -- A Troll's Truest Companion
@@ -2564,7 +2588,14 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {24617},
         },
         [24633] = { -- Mahka's Plea
+            [questKeys.preQuestSingle] = {24653},
             [questKeys.objectives] = {{{37847,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [24634] = { -- Intelligence Warfare
+            [questKeys.preQuestSingle] = {24591},
+        },
+        [24637] = { -- The Butcher of Taurajo
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak with Karthog to lure out General Hawthorne"),0,{{"monster",38015}}}},
         },
         [24639] = { -- The Basics: Hitting Things
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -2601,6 +2632,9 @@ function CataQuestFixes.Load()
         },
         [24681] = { -- They Have Allies, But So Do We
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in a Glaive Thrower"),0,{{"monster",38150}}}},
+        },
+        [24684] = { -- A Weezil in the Henhouse
+            [questKeys.preQuestSingle] = {},
         },
         [24702] = { -- Here Lies Dadanga
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2767,6 +2801,9 @@ function CataQuestFixes.Load()
         },
         [24787] = { -- More Than Expected
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24807] = { -- Winnoa Pineforest
+            [questKeys.preQuestSingle] = {24601},
         },
         [24812] = { -- No More Mercy
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
