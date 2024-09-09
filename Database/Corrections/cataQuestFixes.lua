@@ -7641,6 +7641,9 @@ function CataQuestFixes.Load()
         [28490] = { -- Hero's Call: Darkshore!
             [questKeys.requiredMaxLevel] = 18,
         },
+        [28492] = { -- Hero's Call: Ashenvale!
+            [questKeys.requiredMaxLevel] = 23,
+        },
         [28493] = { -- Warchief's Command: Ashenvale!
             [questKeys.requiredMaxLevel] = 23,
         },
@@ -7769,6 +7772,9 @@ function CataQuestFixes.Load()
         },
         [28563] = { -- Hero's Call: Redridge Mountains!
             [questKeys.requiredMaxLevel] = 18,
+        },
+        [28564] = { -- Hero's Call: Duskwood!
+            [questKeys.requiredMaxLevel] = 23,
         },
         [28565] = { -- Hero's Call: Wetlands!
             [questKeys.nextQuestInChain] = 25395, -- Breadcrumb quest for 25395
