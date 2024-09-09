@@ -7638,6 +7638,9 @@ function CataQuestFixes.Load()
         [28488] = { -- Beneath the Surface
             [questKeys.exclusiveTo] = {26710,27048},
         },
+        [28490] = { -- Hero's Call: Darkshore!
+            [questKeys.requiredMaxLevel] = 18,
+        },
         [28493] = { -- Warchief's Command: Ashenvale!
             [questKeys.requiredMaxLevel] = 23,
         },
@@ -7751,6 +7754,9 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = 989,
             [questKeys.nextQuestInChain] = 27003,
         },
+        [28559] = { -- Hero's Call: Bloodmyst Isle!
+            [questKeys.requiredMaxLevel] = 18,
+        },
         [28560] = { -- Warchief's Command: Ghostlands!
             [questKeys.exclusiveTo] = {9144,9327,9329},
             [questKeys.requiredMaxLevel] = 18,
@@ -7758,9 +7764,18 @@ function CataQuestFixes.Load()
         [28561] = { -- Nahom Must Hold
             [questKeys.preQuestSingle] = {28533},
         },
+        [28562] = { -- Hero's Call: Westfall!
+            [questKeys.requiredMaxLevel] = 18,
+        },
+        [28563] = { -- Hero's Call: Redridge Mountains!
+            [questKeys.requiredMaxLevel] = 18,
+        },
         [28565] = { -- Hero's Call: Wetlands!
             [questKeys.nextQuestInChain] = 25395, -- Breadcrumb quest for 25395
             [questKeys.requiredMaxLevel] = 23,
+        },
+        [28567] = { -- Hero's Call: Loch Modan!
+            [questKeys.requiredMaxLevel] = 18,
         },
         [28568] = { -- Warchief's Command: Silverpine Forest!
             [questKeys.exclusiveTo] = {26964,26965},
