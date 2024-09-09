@@ -21,6 +21,9 @@ function CataNpcFixes.Load()
         [302] = { -- Blind Mary
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{82.02,59.32}}},
         },
+        [379] = { -- Darcy Parker
+            [npcKeys.waypoints] = {},
+        },
         [464] = { -- Watch Captain Parker
             [npcKeys.waypoints] = {},
         },
@@ -172,6 +175,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [3568] = { -- Mist
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{34.49,27.82}}},
+        },
         [3593] = { -- Alyissia
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.85,33.74}}},
         },
@@ -198,6 +204,10 @@ function CataNpcFixes.Load()
         },
         [3987] = { -- Dal Bloodclaw
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{41.66,35.7}}},
+            [npcKeys.waypoints] = {},
+        },
+        [7318] = { -- Rageclaw
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{45.75,52.82}}},
             [npcKeys.waypoints] = {},
         },
         [7319] = { -- Lady Sathrah
@@ -632,6 +642,9 @@ function CataNpcFixes.Load()
         },
         [17082] = { -- Rifleman Torrig
             [npcKeys.spawns] = {[zoneIDs.SILITHUS]={{54.48,32.94}}},
+        },
+        [17105] = { -- Emissary Valustraa
+            [npcKeys.subName] = nil,
         },
         [17310] = { -- Gnarl
             [npcKeys.waypoints] = {},
@@ -2260,7 +2273,7 @@ function CataNpcFixes.Load()
                 [zoneIDs.STORMWIND_CITY] = {{62.1,32.17},{62.26,72.96}},
                 [zoneIDs.IRONFORGE] = {{27.5,73.35}},
                 [zoneIDs.DARNASSUS] = {{38.56,49.4}},
-                [zoneIDs.THE_EXODAR] = {{51.33,42.02}},
+                --[zoneIDs.THE_EXODAR] = {{51.33,42.02}}, -- currently MIA
                 [zoneIDs.SHATTRATH_CITY] = {{52.02,29.16}},
                 [zoneIDs.DALARAN] = {{49.88,50.37}},
             },
