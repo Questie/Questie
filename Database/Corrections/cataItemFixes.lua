@@ -46,17 +46,29 @@ function CataItemFixes.Load()
         [5533] = { -- Ilkrud Magthrull's Tome
             [itemKeys.npcDrops] = {},
         },
+        [8170] = { -- Rugged Leather
+            [itemKeys.vendors] = {},
+        },
         [10441] = { -- Glowing Shard
             [itemKeys.startQuest] = 0,
         },
         [10458] = { -- Prayer to Elune
             [itemKeys.npcDrops] = {},
         },
+        [11114] = { -- Dinosaur Bone
+            [itemKeys.npcDrops] = {6501,6502,6503,6504,9162,9163,9164},
+        },
         [11818] = { -- Grimesilt Outhouse Key
             [itemKeys.startQuest] = 0,
         },
+        [11949] = { -- Filled Tainted Ooze Jar
+            [itemKeys.npcDrops] = {7092,14345},
+        },
         [12283] = { -- Broodling Essence
             [itemKeys.npcDrops] = {},
+        },
+        [12842] = { -- Crudely-Written Log
+            [itemKeys.startQuest] = 28471,
         },
         [18597] = { -- Orcish Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
@@ -293,8 +305,14 @@ function CataItemFixes.Load()
         [50237] = { -- Un'Goro Coconut
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [50253] = { -- Un'Goro Lasher Seed
+            [itemKeys.npcDrops] = {38202},
+        },
         [50334] = { -- Rapier of the Gilnean Patriots
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [50374] = { -- Unbelievably Sticky Tar
+            [itemKeys.npcDrops] = {38307},
         },
         [50405] = { -- Fossil-Finder 3000
             [itemKeys.class] = itemClasses.QUEST,
@@ -399,6 +417,9 @@ function CataItemFixes.Load()
         [54788] = { -- Twilight Pick
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [54809] = { -- Rocket Car Parts
+            [itemKeys.npcDrops] = {},
+        },
         [54814] = { -- Talisman of Flame Ascendancy
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -434,6 +455,9 @@ function CataItemFixes.Load()
         },
         [55213] = { -- Huntress Illiona's Cage Key
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [55226] = { -- Creature Carcass
+            [itemKeys.npcDrops] = {41097,41099,41100,41101,41103,41104,41111,41113,48147,48148},
         },
         [55238] = { -- Concentrated Solvent
             [itemKeys.class] = itemClasses.QUEST,
@@ -732,6 +756,9 @@ function CataItemFixes.Load()
         },
         [64585] = { -- Cannon Powder
             [itemKeys.npcDrops] = {49143},
+        },
+        [64662] = { -- Pure Glacier Ice
+            [itemKeys.npcDrops] = {49233},
         },
         [65504] = { -- Deep Alabaster Crystal
             [itemKeys.npcDrops] = {},

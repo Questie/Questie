@@ -16,6 +16,7 @@ QuestieCorrections.objectObjectiveFirst[14125] = true
 QuestieCorrections.objectObjectiveFirst[24817] = true
 QuestieCorrections.objectObjectiveFirst[25371] = true
 QuestieCorrections.objectObjectiveFirst[25731] = true
+QuestieCorrections.objectObjectiveFirst[25813] = true
 QuestieCorrections.objectObjectiveFirst[26659] = true
 QuestieCorrections.objectObjectiveFirst[26809] = true
 QuestieCorrections.killCreditObjectiveFirst[52] = true
@@ -91,6 +92,7 @@ function CataQuestFixes.Load()
         },
         [648] = { -- Rescue OOX-17/TN!
             [questKeys.zoneOrSort] = zoneIDs.TANARIS,
+            [questKeys.triggerEnd] = {"Escort OOX-17/TN to safety", {[zoneIDs.TANARIS]={{60.8,53.68}}}},
         },
         [749] = { -- The Ravaged Caravan
             [questKeys.preQuestSingle] = {},
@@ -920,6 +922,26 @@ function CataQuestFixes.Load()
             [questKeys.specialFlags] = 1,
         },
         [11034] = { -- Restorer No More
+            [questKeys.specialFlags] = 1,
+        },
+        [11103] = { -- Sage No More
+            [questKeys.startedBy] = {{19935}},
+            [questKeys.finishedBy] = {{19935}},
+            [questKeys.specialFlags] = 1,
+        },
+        [11104] = { -- Restorer No More
+            [questKeys.startedBy] = {{19935}},
+            [questKeys.finishedBy] = {{19935}},
+            [questKeys.specialFlags] = 1,
+        },
+        [11105] = { -- Champion No More
+            [questKeys.startedBy] = {{19935}},
+            [questKeys.finishedBy] = {{19935}},
+            [questKeys.specialFlags] = 1,
+        },
+        [11106] = { -- Defender No More
+            [questKeys.startedBy] = {{19935}},
+            [questKeys.finishedBy] = {{19935}},
             [questKeys.specialFlags] = 1,
         },
         [11129] = { -- Kyle's Gone Missing!
@@ -2614,6 +2636,12 @@ function CataQuestFixes.Load()
         [24684] = { -- A Weezil in the Henhouse
             [questKeys.preQuestSingle] = {},
         },
+        [24702] = { -- Here Lies Dadanga
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [24703] = { -- An Important Lesson
+            [questKeys.objectives] = {{{38237,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [24721] = { -- The Eastern Pylon
             [questKeys.objectives] = {nil,{{164957,"Discover and examine the Eastern Crystal Pylon"}}},
         },
@@ -2623,8 +2651,36 @@ function CataQuestFixes.Load()
         [24723] = { -- The Western Pylon
             [questKeys.objectives] = {nil,{{164956,"Discover and examine the Western Crystal Pylon"}}},
         },
+        [24724] = { -- Crystal Restore
+            [questKeys.preQuestSingle] = {24695},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [24725] = { -- Crystal Charge
+            [questKeys.preQuestSingle] = {24695},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [24726] = { -- Crystal Force
+            [questKeys.preQuestSingle] = {24695},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [24727] = { -- Crystal Spire
+            [questKeys.preQuestSingle] = {24695},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [24728] = { -- Crystal Ward
+            [questKeys.preQuestSingle] = {24695},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [24729] = { -- Crystal Yield
+            [questKeys.preQuestSingle] = {24695},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [24733] = { -- The Bait for Lar'korwi
+            [questKeys.requiredSourceItems] = {11569,11570},
+        },
         [24735] = { -- A Little Help From My Friends
             [questKeys.preQuestSingle] = {24734},
+            [questKeys.triggerEnd] = {"Escort Ringo to Marshal's Stand", {[zoneIDs.UN_GORO_CRATER]={{54.88,62.07}}}},
         },
         [24741] = { -- Trading Up
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Place the Wild Clucker Eggs in the trap"),0,{{"object",201972}}}},
@@ -3838,14 +3894,21 @@ function CataQuestFixes.Load()
         },
         [25796] = { -- Eminent Domain
             [questKeys.preQuestSingle] = {25790},
+            [questKeys.exclusiveTo] = {},
+        },
+        [25797] = { -- Eminent Domain
+            [questKeys.preQuestSingle] = {25791},
+            [questKeys.exclusiveTo] = {},
         },
         [25798] = { -- Defend the Drill (Alliance)
-            [questKeys.triggerEnd] = {"Oil Drilling Rig defended",[zoneIDs.THOUSAND_NEEDLES]={{85.9,44.6},{90.2,50.7},{87.2,49.5},{88.3,44.4}}},
+            [questKeys.objectives] = {{{41299,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {25790},
+            [questKeys.exclusiveTo] = {},
         },
         [25799] = { -- Defend the Drill (Horde)
-            [questKeys.triggerEnd] = {"Oil Drilling Rig defended",[zoneIDs.THOUSAND_NEEDLES]={{85.9,44.6},{90.2,50.7},{87.2,49.5},{88.3,44.4}}},
+            [questKeys.objectives] = {{{41299,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {25791},
+            [questKeys.exclusiveTo] = {},
         },
         [25801] = { -- Claws from the Deep
             [questKeys.preQuestSingle] = {25800},
@@ -7183,6 +7246,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27752,27754}, -- could also be 27753
             [questKeys.finishedBy] = {{46591}},
         },
+        [28218] = { -- A Destiny of Flame and Sorrow
+            [questKeys.objectives] = {{{47733}}},
+        },
         [28223] = { -- The Warden
             [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
         },
@@ -7214,6 +7280,12 @@ function CataQuestFixes.Load()
         [28250] = { -- Thieving Little Pluckers
             [questKeys.objectives] = {nil,nil,nil,nil,{{{48040,48041,48043},48040,"Thieving plucker smashed",nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
+        },
+        [28256] = { -- The Skull of Gul'dan
+            [questKeys.objectives] = {{{47812,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [28257] = { -- The Fall of Tichondrius
+            [questKeys.objectives] = {{{47917}}},
         },
         [28258] = { -- Meet with Ander Germaine
             [questKeys.nextQuestInChain] = 28393,
@@ -7268,8 +7340,11 @@ function CataQuestFixes.Load()
         [28282] = { -- Narkrall, The Drake-Tamer
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the event"), 0, {{"monster", 48173}}}},
         },
+        [28283] = { -- What's that Rattle?
+            [questKeys.nextQuestInChain] = 27316,
+        },
         [28284] = { -- What's that Rattle?
-            [questKeys.exclusiveTo] = {27317},
+            [questKeys.nextQuestInChain] = 27317,
         },
         [28285] = { -- Meet with High Priestess Laurena
             [questKeys.nextQuestInChain] = 28328,
@@ -7525,6 +7600,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28470},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
         },
+        [28472] = { -- Words of the High Chief
+            [questKeys.nextQuestInChain] = 28479,
+        },
         [28473] = { -- Weapons of Darkness
             [questKeys.preQuestSingle] = {},
         },
@@ -7545,6 +7623,9 @@ function CataQuestFixes.Load()
         [28478] = { -- Twilight Scheming
             [questKeys.preQuestSingle] = {},
             [questKeys.requiredClasses] = classKeys.PRIEST,
+        },
+        [28479] = { -- The Ruins of Kel'Theril
+            [questKeys.preQuestSingle] = {},
         },
         [28486] = { -- Salhet's Gambit
             [questKeys.triggerEnd] = {"Higher ground secured", {[zoneIDs.ULDUM]={{53.76,75.39}}}},
@@ -7598,6 +7679,7 @@ function CataQuestFixes.Load()
         [28521] = { -- Speak to Salfa
             [questKeys.preQuestGroup] = {28362,28364,28338,28366},
             [questKeys.exclusiveTo] = {28522,28524},
+            [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
         },
         [28523] = { -- More Beads for Salfa
             [questKeys.preQuestSingle] = {28522},
@@ -7850,7 +7932,7 @@ function CataQuestFixes.Load()
         },
         [28673] = { -- Hero's Call: Blasted Lands!
             [questKeys.requiredMaxLevel] = 57,
-            [questKeys.exclusiveTo] = {28857},
+            [questKeys.exclusiveTo] = {28857,28867},
             [questKeys.nextQuestInChain] = 25710,
         },
         [28677] = { -- Warchief's Command: Swamp of Sorrows!
@@ -8294,7 +8376,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 8280,
         },
         [28857] = { -- Hero's Call: Blasted Lands!
-            [questKeys.exclusiveTo] = {28673},
+            [questKeys.exclusiveTo] = {28673,28867},
             [questKeys.nextQuestInChain] = 25710,
         },
         [28859] = { -- The Dunes of Silithus
@@ -8321,6 +8403,10 @@ function CataQuestFixes.Load()
         },
         [28866] = { -- Into the Stonecore
             [questKeys.preQuestSingle] = {27061},
+        },
+        [28867] = { -- Nethergarde Needs You!
+            [questKeys.exclusiveTo] = {28857,28673},
+            [questKeys.nextQuestInChain] = 25710,
         },
         [28869] = { -- Pebble
             [questKeys.nextQuestInChain] = 26440,
@@ -8385,23 +8471,25 @@ function CataQuestFixes.Load()
         [29036] = { -- Honor the Flame
             [questKeys.objectives] = {nil,{{208188}}},
         },
-        [29037] = { -- Hunting Practice
+        [29037] = { -- 'Borrowing' From the Winterfall
+            [questKeys.requiredSourceItems] = {68645},
+            [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
             --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29035,29038,29039,29040,29051,29052,29053},
         },
-        [29038] = { -- 'Borrowing' From the Winterfall
+        [29038] = { -- Hunting Practice
             [questKeys.startedBy] = {}, -- we need this too, even while blacklisted, or it shows due to childQuests logic
-            [questKeys.requiredSourceItems] = {68645},
-            [questKeys.objectives] = {{{51677,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{51711,nil,Questie.ICON_TYPE_EVENT}}},
             --[questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.GNOME + raceKeys.NIGHT_ELF, -- these are the correct races
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29035,29037,29039,29040,29051,29052,29053},
         },
         [29039] = { -- Hunting Practice
+            [questKeys.objectives] = {{{51711,nil,Questie.ICON_TYPE_EVENT}}},
             --[questKeys.requiredRaces] = raceKeys.HUMAN + raceKeys.DWARF + raceKeys.WORGEN, -- these are the correct races
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE, -- but we use these so we only show the quests once.
             [questKeys.parentQuest] = 29034,
@@ -9097,6 +9185,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {10094,10177},
             [questKeys.nextQuestInChain] = 29643,
         },
+        [29682] = { -- Magisters' Terrace
+            [questKeys.objectives] = {{{55007,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [29684] = { -- Severed Communications
             [questKeys.objectives] = {{{24822,nil,Questie.ICON_TYPE_EVENT}}},
         },
@@ -9253,7 +9344,7 @@ function CataQuestFixes:LoadFactionFixes()
 
     local questFixesAlliance = {
         [25513] = { -- Thunderdrome: Grudge Match!
-            [questKeys.preQuestSingle] = {25065,25095},
+            [questKeys.preQuestGroup] = {25065,25095},
         },
         [25619] = { -- Reoccupation
             [questKeys.preQuestSingle] = {},
