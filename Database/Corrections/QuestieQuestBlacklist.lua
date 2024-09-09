@@ -862,8 +862,8 @@ function QuestieQuestBlacklist:Load()
         [4462] = true,
 
         --Darkmoon Faire
-        [7905] = true,
-        [7926] = true,
+        [7905] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
+        [7926] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
 
         [8743] = true, -- Bang a Gong! (AQ40 opening quest)
 
