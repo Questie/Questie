@@ -7834,7 +7834,7 @@ function CataQuestFixes.Load()
         [28575] = { -- Warchief's Command: Western Plaguelands!
             [questKeys.requiredMaxLevel] = 38,
         },
-        [28575] = { -- Hero's Call: Western Plaguelands!
+        [28576] = { -- Hero's Call: Western Plaguelands!
             [questKeys.requiredMaxLevel] = 38,
         },
         [28577] = { -- Warchief's Command: Eastern Plaguelands!
