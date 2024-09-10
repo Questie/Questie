@@ -7670,15 +7670,24 @@ function CataQuestFixes.Load()
         [28502] = { -- The Bandit Warlord
             [questKeys.preQuestSingle] = {28141},
         },
+        [28503] = { -- Hero's Call: Thousand Needles!
+            [questKeys.requiredMaxLevel] = 43,
+        },
         [28504] = { -- Warchief's Command: Thousand Needles!
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 43,
+        },
+        [28507] = { -- Hero's Call: Tanaris!
+            [questKeys.requiredMaxLevel] = 48,
         },
         [28509] = { -- Warchief's Command: Tanaris!
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 48,
         },
         [28510] = { -- Warchief's Command: Feralas!
+            [questKeys.requiredMaxLevel] = 38,
+        },
+        [28511] = { -- Hero's Call: Feralas!
             [questKeys.requiredMaxLevel] = 38,
         },
         [28517] = { -- The Howling Oak
@@ -7696,6 +7705,9 @@ function CataQuestFixes.Load()
         },
         [28524] = { -- Delivery for Donova
             [questKeys.exclusiveTo] = {28544,28545,28460,28768},
+        },
+        [28525] = { -- Hero's Call: Un'Goro Crater!
+            [questKeys.requiredMaxLevel] = 53,
         },
         [28526] = { -- Warchief's Command: Un'Goro Crater!
             [questKeys.objectives] = {},
@@ -7722,15 +7734,25 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 28,
             [questKeys.exclusiveTo] = {25945},
         },
+        [28531] = { -- Hero's Call: Desolace!
+            [questKeys.requiredMaxLevel] = 33,
+        },
         [28533] = { -- The High Council's Decision
             [questKeys.preQuestGroup] = {27738,27838,28291},
             [questKeys.preQuestSingle] = {},
         },
+        [28539] = { -- Hero's Call: Stonetalon Mountains!
+            [questKeys.requiredMaxLevel] = 28,
+        },
         [28542] = { -- Warchief's Command: Felwood!
+            [questKeys.requiredMaxLevel] = 48,
+        },
+        [28543] = { -- Hero's Call: Felwood!
             [questKeys.requiredMaxLevel] = 48,
         },
         [28544] = { -- Hero's Call: Winterspring!
             [questKeys.exclusiveTo] = {28524,28545,28460,28768},
+            [questKeys.requiredMaxLevel] = 53,
         },
         [28545] = { -- Warchief's Command: Winterspring!
             [questKeys.exclusiveTo] = {28524,28544,28460,28768},
@@ -7742,6 +7764,15 @@ function CataQuestFixes.Load()
         [28549] = { -- Warchief's Command: Southern Barrens!
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 33,
+        },
+        [28550] = { -- Hero's Call: Southern Barrens!
+            [questKeys.requiredMaxLevel] = 33,
+        },
+        [28551] = { -- Hero's Call: Southern Barrens!
+            [questKeys.requiredMaxLevel] = 33,
+        },
+        [28552] = { -- Hero's Call: Dustwallow Marsh!
+            [questKeys.requiredMaxLevel] = 38,
         },
         [28554] = { -- Warchief's Command: Dustwallow Marsh!
             [questKeys.objectives] = {},
@@ -7794,17 +7825,27 @@ function CataQuestFixes.Load()
         [28572] = { -- Warchief's Command: Arathi Highlands!
             [questKeys.requiredMaxLevel] = 28,
         },
+        [28573] = { -- Hero's Call: Arathi Highlands!
+            [questKeys.requiredMaxLevel] = 28,
+        },
         [28574] = { -- Warchief's Command: The Hinterlands!
             [questKeys.requiredMaxLevel] = 33,
         },
         [28575] = { -- Warchief's Command: Western Plaguelands!
             [questKeys.requiredMaxLevel] = 38,
         },
+        [28575] = { -- Hero's Call: Western Plaguelands!
+            [questKeys.requiredMaxLevel] = 38,
+        },
         [28577] = { -- Warchief's Command: Eastern Plaguelands!
+            [questKeys.requiredMaxLevel] = 43,
+        },
+        [28578] = { -- Hero's Call: Eastern Plaguelands!
             [questKeys.requiredMaxLevel] = 43,
         },
         [28579] = { -- Hero's Call: Badlands!
             [questKeys.nextQuestInChain] = 27762,
+            [questKeys.requiredMaxLevel] = 47,
         },
         [28580] = { -- Warchief's Command: Badlands!
             [questKeys.requiredMaxLevel] = 47,
@@ -7812,6 +7853,9 @@ function CataQuestFixes.Load()
         },
         [28581] = { -- Warchief's Command: Searing Gorge!
             [questKeys.startedBy] = {nil,{207324,207325}},
+            [questKeys.requiredMaxLevel] = 48,
+        },
+        [28582] = { -- Hero's Call: Searing Gorge!
             [questKeys.requiredMaxLevel] = 48,
         },
         [28584] = { -- Quality Construction
@@ -7936,6 +7980,7 @@ function CataQuestFixes.Load()
         },
         [28666] = { -- Hero's Call: Burning Steppes!
             [questKeys.nextQuestInChain] = 28174,
+            [questKeys.requiredMaxLevel] = 51,
         },
         [28667] = { -- Warchief's Command: Burning Steppes!
             [questKeys.requiredMaxLevel] = 51,
@@ -7957,6 +8002,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 57,
             [questKeys.exclusiveTo] = {28857,28867},
             [questKeys.nextQuestInChain] = 25710,
+        },
+        [28675] = { -- Hero's Call: Swamp of Sorrows!
+            [questKeys.requiredMaxLevel] = 53,
         },
         [28677] = { -- Warchief's Command: Swamp of Sorrows!
             [questKeys.requiredMaxLevel] = 53,
@@ -8027,9 +8075,13 @@ function CataQuestFixes.Load()
         },
         [28699] = { -- Hero's Call: Northern Stranglethorn Vale!
             [questKeys.nextQuestInChain] = 26735,
+            [questKeys.requiredMaxLevel] = 28,
         },
         [28700] = { -- Taking the Overlook Back
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28702] = { -- Hero's Call: The Cape of Stranglethorn!
+            [questKeys.requiredMaxLevel] = 33,
         },
         [28704] = { -- Warchief's Command: The Cape of Stranglethorn!
             [questKeys.requiredMaxLevel] = 33,
