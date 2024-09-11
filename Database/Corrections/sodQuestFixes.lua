@@ -2621,6 +2621,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{228611}},
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [84318] = { -- Oi!
+            [questKeys.startedBy] = {{228619,228620}},
+            [questKeys.objectives] = {nil,nil,{{227686}}},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84319] = { -- Oh No Ye Don't!
+            [questKeys.preQuestSingle] = {84318},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [84320] = { -- Lost Heirloom
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
@@ -2635,6 +2644,15 @@ function SeasonOfDiscovery:LoadQuests()
         [84323] = { -- The Prize Within
             [questKeys.preQuestSingle] = {84322},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84330] = { -- A Wee Bit O' Necromancy
+            [questKeys.preQuestSingle] = {84319},
+            [questKeys.objectives] = {nil,nil,{{227690}}},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84332] = { -- A Thane's Gratitude
+            [questKeys.preQuestSingle] = {84414},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [84348] = { -- Priority Target: Duke Tectonis
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
@@ -2750,6 +2768,11 @@ function SeasonOfDiscovery:LoadQuests()
         [84407] = { -- The Prize Within
             [questKeys.preQuestSingle] = {84406},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84414] = { -- Send Me On Me Way!
+            [questKeys.preQuestSingle] = {84330},
+            [questKeys.objectives] = {{{228619,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [84525] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,

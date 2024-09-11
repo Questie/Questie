@@ -174,6 +174,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [84212] = 4, -- Warrior Shockwave
     [84213] = 4, -- Warrior Shockwave
     [84317] = 4, -- Warrior Sudden Death
+    [84318] = 4, -- Paladin Shield of Righteousness
+    [84319] = 4, -- Paladin Shield of Righteousness
+    [84330] = 4, -- Paladin Shield of Righteousness
+    [84332] = 4, -- Paladin Shield of Righteousness
+    [84414] = 4, -- Paladin Shield of Righteousness
 
     -- fake IDs
     --- Mage runes
