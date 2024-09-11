@@ -1818,6 +1818,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {82003},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82008] = { -- Gnomish Solutions (Gnome)
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
@@ -1842,6 +1843,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {82011},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82016] = { -- Atal'ai Potent Potables
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
