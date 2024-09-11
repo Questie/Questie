@@ -34,6 +34,12 @@ function SeasonOfDiscovery:LoadQuests()
         [7636] = { -- An Introduction
             [questKeys.nextQuestInChain] = 84546,
         },
+        [7493] = { -- The Journey Has Just Begun
+            [questKeys.preQuestSingle] = {84561},
+        },
+        [7497] = { -- The Journey Has Just Begun
+            [questKeys.preQuestSingle] = {84560},
+        },
         [8922] = { -- A Supernatural Device
             [questKeys.preQuestSingle] = {84147,84148,84149,84150,84151,84152,84153,84154},
         },
@@ -2807,6 +2813,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {nil,nil,{228690}},
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.zoneOrSort] = zoneIDs.DIRE_MAUL,
+        },
+        [84560] = { -- Celebrating Good Times
+            [questKeys.preQuestSingle] = {7495},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84561] = { -- For All To See
+            [questKeys.preQuestSingle] = {7490},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84777] = { -- Feathers for Nafien
             [questKeys.preQuestSingle] = {8461},
