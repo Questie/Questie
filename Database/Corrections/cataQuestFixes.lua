@@ -7845,7 +7845,7 @@ function CataQuestFixes.Load()
         },
         [28579] = { -- Hero's Call: Badlands!
             [questKeys.nextQuestInChain] = 27762,
-            [questKeys.requiredMaxLevel] = 47,
+            [questKeys.requiredMaxLevel] = 46,
         },
         [28580] = { -- Warchief's Command: Badlands!
             [questKeys.requiredMaxLevel] = 47,
