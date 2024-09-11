@@ -2789,6 +2789,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [84545] = { -- A Hero's Reward
+            [questKeys.preQuestSingle] = {6824},
+            [questKeys.zoneOrSort] = zoneIDs.AZSHARA,
+        },
         [84546] = { -- Stave of the Ancients
             [questKeys.preQuestSingle] = {7633},
             [questKeys.objectives] = {nil,nil,{{18952},{18953},{18954},{18955}}},

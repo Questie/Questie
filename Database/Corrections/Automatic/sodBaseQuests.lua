@@ -6293,6 +6293,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Here ya go, boss!"},
             [questKeys.objectives] = nil,
         },
+        [84545] = {
+            [questKeys.name] = "A Hero's Reward",
+            [questKeys.startedBy] = {{13278}},
+            [questKeys.finishedBy] = {nil,{179551}},
+            [questKeys.requiredLevel] = 55,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Claim your reward from Hydraxis' Coffer."},
+            [questKeys.objectives] = nil,
+        },
         [84546] = {
             [questKeys.name] = "Stave of the Ancients",
             [questKeys.startedBy] = {{14524}},
