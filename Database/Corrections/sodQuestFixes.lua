@@ -31,6 +31,9 @@ function SeasonOfDiscovery:LoadQuests()
         [5167] = { -- Legplates of the Chromatic Flight
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [7636] = { -- An Introduction
+            [questKeys.nextQuestInChain] = 84546,
+        },
         [8922] = { -- A Supernatural Device
             [questKeys.preQuestSingle] = {84147,84148,84149,84150,84151,84152,84153,84154},
         },
@@ -2777,6 +2780,11 @@ function SeasonOfDiscovery:LoadQuests()
         [84525] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [84546] = { -- Stave of the Ancients
+            [questKeys.preQuestSingle] = {7633},
+            [questKeys.objectives] = {nil,nil,{{18952},{18953},{18954},{18955}}},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [84548] = { -- Garona: A Study on Stealth and Treachery
             [questKeys.startedBy] = {nil,nil,{228691}},

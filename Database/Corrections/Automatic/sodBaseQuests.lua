@@ -6293,6 +6293,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Here ya go, boss!"},
             [questKeys.objectives] = nil,
         },
+        [84546] = {
+            [questKeys.name] = "Stave of the Ancients",
+            [questKeys.startedBy] = {{14524}},
+            [questKeys.finishedBy] = {{14524}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"You must find and destroy these four demonic corrupters:Simone the Seductress.Klinfran the Crazed.Solenor the Slayer.Artorius the Doombringer.Destroy these creatures and return to Vartrus the Ancient in Felwood with their heads.Refer to the Petrified Bark in your inventory for clues as to their whereabouts.You MUST complete this task by yourself."},
+            [questKeys.objectives] = {nil,nil,{{18952},{18953},{18954},{18955},{18708}}},
+        },
         [84548] = {
             [questKeys.name] = "Garona: A Study on Stealth and Treachery",
             [questKeys.startedBy] = nil,
