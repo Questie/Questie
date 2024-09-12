@@ -8004,7 +8004,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 25710,
         },
         [28675] = { -- Hero's Call: Swamp of Sorrows!
-            [questKeys.requiredMaxLevel] = 53,
+            [questKeys.requiredMaxLevel] = 52,
         },
         [28677] = { -- Warchief's Command: Swamp of Sorrows!
             [questKeys.requiredMaxLevel] = 53,
