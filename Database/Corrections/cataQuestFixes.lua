@@ -7980,7 +7980,7 @@ function CataQuestFixes.Load()
         },
         [28666] = { -- Hero's Call: Burning Steppes!
             [questKeys.nextQuestInChain] = 28174,
-            [questKeys.requiredMaxLevel] = 51,
+            [questKeys.requiredMaxLevel] = 50,
         },
         [28667] = { -- Warchief's Command: Burning Steppes!
             [questKeys.requiredMaxLevel] = 51,
