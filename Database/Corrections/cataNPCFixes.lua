@@ -759,6 +759,18 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{53.05,64.94}}},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
         },
+        [28910] = { -- Baron Rivendare
+            [npcKeys.spawns] = {[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{54.68,57.44}}},
+        },
+        [28911] = { -- Prince Keleseth
+            [npcKeys.spawns] = {[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{54.3,57.3}}},
+        },
+        [28914] = { -- Orbaz Bloodbane
+            [npcKeys.spawns] = {[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{56.24,79.85}}},
+        },
+        [28919] = { -- Noth the Plaguebringer
+            [npcKeys.spawns] = {[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{55.89,52.4}}},
+        },
         [29631] = { -- Awilo Lon'gomba
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{69.96,39.01}}},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
@@ -774,6 +786,9 @@ function CataNpcFixes.Load()
         [31081] = { -- Officer Van Rossem
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{67.72,47.21}}},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
+        },
+        [31082] = { -- Scourge Commander Thalanor
+            [npcKeys.spawns] = {[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{34.07,30.34}}},
         },
         [31085] = { -- Sky-Reaver Klum
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{69.37,40.63}}},
