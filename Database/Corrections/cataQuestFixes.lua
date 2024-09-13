@@ -8746,11 +8746,17 @@ function CataQuestFixes.Load()
         [29129] = { -- A Legendary Engagement
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Ziradormi"),0,{{"monster",52382}}}},
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29131] = { -- Defend the Rebel Camp
             [questKeys.parentQuest] = 29100,
             [questKeys.triggerEnd] = {"Help Defend the Camp", {[zoneIDs.STRANGLETHORN_VALE]={{47.55,11.22}}}},
             [questKeys.nextQuestInChain] = 29133,
+        },
+        [29132] = { -- A Legendary Engagement
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Coridormi"),0,{{"monster",52408}}}},
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29133] = { -- To the Digsite
             [questKeys.parentQuest] = 29100,
@@ -8758,12 +8764,12 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{52762,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.nextQuestInChain] = 29150,
         },
-        [29132] = { -- A Legendary Engagement
-            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Coridormi"),0,{{"monster",52408}}}},
-        },
         [29134] = { -- A Wrinkle in Time
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Anachronos"),0,{{"monster",15192}}}},
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
+        },
+        [29135] = { -- All-Seeing Eye
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29146] = { -- Ridin' the Rocketway
             [questKeys.objectives] = {{{52585,nil,Questie.ICON_TYPE_MOUNT_UP}}},
@@ -9134,9 +9140,11 @@ function CataQuestFixes.Load()
         },
         [29452] = { -- Your Time Has Come
             [questKeys.nextQuestInChain] = 29129,
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29453] = { -- Your Time Has Come
             [questKeys.nextQuestInChain] = 29132,
+            [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29455] = { -- Target: Turtle
             [questKeys.objectives] = {{{54490}}},
