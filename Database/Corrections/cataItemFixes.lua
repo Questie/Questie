@@ -70,6 +70,9 @@ function CataItemFixes.Load()
         [12842] = { -- Crudely-Written Log
             [itemKeys.startQuest] = 28471,
         },
+        [16790] = { -- Damp Note
+            [itemKeys.startQuest] = 0,
+        },
         [18597] = { -- Orcish Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
