@@ -6723,7 +6723,7 @@ function CataQuestFixes.Load()
         },
         [27758] = { -- The Carpenter
             [questKeys.preQuestSingle] = {27756},
-            [questKeys.nextQuestInChain] = 27758,
+            [questKeys.nextQuestInChain] = 27781,
         },
         [27760] = { -- Artificial Intelligence
             [questKeys.startedBy] = {{46590,46920,47014},nil,{62483}},
