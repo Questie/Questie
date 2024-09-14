@@ -345,6 +345,9 @@ function CataNpcFixes.Load()
         [14871] = { -- Morja
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{55.93,70.73},{-1,-1}}},
         },
+        [15012] = { -- Javnir Nashak
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.25,15.1}}},
+        },
         [15192] = { -- Anachronos
             [npcKeys.spawns] = {[zoneIDs.TANARIS]={{58.1,56.16}}},
         },
