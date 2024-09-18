@@ -2292,8 +2292,17 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [52903] = { -- Tholo Whitehoof
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{41.66,56.36}}},
+        },
+        [52904] = { -- Anren Shadowseeker
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{41.66,56.33}}},
+        },
         [52906] = { -- Elderlimb
-            [npcKeys.spawns] = {[616]={{33.94,57.54}}},
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{33.94,57.54}}},
+        },
+        [52907] = { -- Thisalee Crow
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{24.47,55.74}}},
         },
         [52911] = { -- [DND] Follow that Cat
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{77.34,69}}},

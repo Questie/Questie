@@ -8838,7 +8838,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {69233},
         },
         [29197] = { -- Caught Unawares
-            [questKeys.objectives] = {{{52906,nil,Questie.ICON_TYPE_EVENT},{52907,nil,Questie.ICON_TYPE_EVENT},{52903,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{52906,nil,Questie.ICON_TYPE_EVENT},{52907,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{52903,52904},52903,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29199] = { -- Calling for Reinforcements
             [questKeys.objectives] = {nil,{{460014}}},
