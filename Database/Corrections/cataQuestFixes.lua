@@ -8821,6 +8821,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",40720},{"monster",40723}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{40650,40660},40650}}},
         },
+        [29181] = { -- Druids of the Talon
+            [questKeys.objectives] = {nil,{{460014}}},
+        },
         [29186] = { -- The Hex Lord's Fetish
             [questKeys.preQuestSingle] = {},
         },
@@ -8858,6 +8861,9 @@ function CataQuestFixes.Load()
         [29213] = { -- How's the Hunter Holding Up?
             [questKeys.parentQuest] = 29100,
             [questKeys.nextQuestInChain] = 29121,
+        },
+        [29214] = { -- The Shadow Wardens
+            [questKeys.objectives] = {nil,{{460014}}},
         },
         [29219] = { -- Bwemba's Spirit
             [questKeys.preQuestSingle] = {},
