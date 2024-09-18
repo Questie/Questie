@@ -8771,6 +8771,9 @@ function CataQuestFixes.Load()
         [29135] = { -- All-Seeing Eye
             [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
+        [29138] = { -- Burn Victims
+            [questKeys.preQuestSingle] = {29201},
+        },
         [29146] = { -- Ridin' the Rocketway
             [questKeys.objectives] = {{{52585,nil,Questie.ICON_TYPE_MOUNT_UP}}},
             [questKeys.preQuestSingle] = {172},
@@ -8798,6 +8801,12 @@ function CataQuestFixes.Load()
         [29157] = { -- The Zandalari Menace
             [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
         },
+        [29164] = { -- Perfecting Your Howl
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{52791,52794},52791,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [29166] = { -- Supplies for the Other Side
+            [questKeys.preQuestSingle] = {29198},
+        },
         [29167] = { -- The Banshee Queen
             [questKeys.objectives] = {{{10181,"Meeting with Lady Sylvanas Windrunner",Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {172},
@@ -8824,6 +8833,24 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Take your orphan out for ice cream.", {[zoneIDs.ORGRIMMAR]={{38.56,86.7}}}},
             [questKeys.preQuestGroup] = {29146,29167,29176},
             [questKeys.requiredSourceItems] = {69233},
+        },
+        [29197] = { -- Caught Unawares
+            [questKeys.objectives] = {{{52906,nil,Questie.ICON_TYPE_EVENT},{52907,nil,Questie.ICON_TYPE_EVENT},{52903,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [29199] = { -- Calling for Reinforcements
+            [questKeys.objectives] = {nil,{{460014}}},
+        },
+        [29200] = { -- Leyara
+            [questKeys.objectives] = {{{53014,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [29201] = { -- Through the Gates of Hell
+            [questKeys.preQuestSingle] = {29200},
+            [questKeys.objectives] = {{{53381}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Enter through the portal"),0,{{"object",208900}}}},
+            [questKeys.finishedBy] = {{53385}},
+        },
+        [29202] = { -- The Fate of Runetotem
+            [questKeys.preQuestSingle] = {29200},
         },
         [29208] = { -- An Old Friend
             [questKeys.preQuestSingle] = {26386,26776},
@@ -9092,9 +9119,29 @@ function CataQuestFixes.Load()
         },
         [29387] = { -- Guardians of Hyjal: Firelands Invasion!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
+            [questKeys.preQuestSingle] = {}, -- need to figure out if it actually has a prequest. need a level 85 without quests done in MH to test
+            [questKeys.preQuestGroup] = {25611,25807,25520,25372},
+            [questKeys.nextQuestInChain] = 29145,
+        },
+        [29388] = { -- Guardians of Hyjal: Firelands Invasion!
+            [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
+            [questKeys.preQuestSingle] = {}, -- need to figure out if it actually has a prequest. need a level 85 without quests done in MH to test
+            [questKeys.preQuestGroup] = {25612,25807,25520,25372},
+            [questKeys.nextQuestInChain] = 29145,
+        },
+        [29389] = { -- Guardians of Hyjal: Firelands Invasion!
+            [questKeys.nextQuestInChain] = 29145,
+        },
+        [29390] = { -- Guardians of Hyjal: Call of the Ancients
+            [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
+            [questKeys.nextQuestInChain] = 29388,
+            [questKeys.exclusiveTo] = {29389},
         },
         [29391] = { -- Guardians of Hyjal: Call of the Ancients
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 29387,
+            [questKeys.exclusiveTo] = {29389},
         },
         [29392] = { -- Missing Heirlooms
             [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.STORMWIND_CITY]={{41.4,72.5}}}},
@@ -9399,6 +9446,9 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.finishedBy] = {{3347}},
             --[questKeys.finishedBy] = {{3347,3009,4611,16642}}, -- TODO: Add when multiple turn-in locations are handled
         },
+        [29389] = { -- Guardians of Hyjal: Firelands Invasion!
+            [questKeys.preQuestGroup] = {25612,25807,25520,25372},
+        },
         [29475] = { -- Goblin Engineering
             [questKeys.startedBy] = {{11017,11031,16667,29513,52651}},
             [questKeys.finishedBy] = {{11017,11031,16667,29513,52651}},
@@ -9458,6 +9508,9 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{5499}},
             [questKeys.finishedBy] = {{5499}},
             --[questKeys.finishedBy] = {{5499,1537,4160,16723}}, -- TODO: Add when multiple turn-in locations are handled
+        },
+        [29389] = { -- Guardians of Hyjal: Firelands Invasion!
+            [questKeys.preQuestGroup] = {25611,25807,25520,25372},
         },
         [29475] = { -- Goblin Engineering
             [questKeys.startedBy] = {{5174,5518,16726,29513,52636}},

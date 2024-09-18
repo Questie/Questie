@@ -313,6 +313,9 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS]={{73.33,45.12},{73.60,44.81},{73.28,44.77},{73.01,44.96},{72.82,44.35},{73.15,44.49},{73.44,44.34},{72.99,43.75},{73.15,43.53},{73.43,43.39},{73.23,43.15},{73.16,42.86},{73.70,42.65}}},
             [objectKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
         },
+        [460014] = {
+            [objectKeys.name] = "Mark of the World Tree",
+        },
     }
 end
 
