@@ -430,11 +430,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.MOUNT_HYJAL_INVASION_SANCTUARY_ATTACK then
-        return complete[29196] and (not complete[29198]) and (questLog[29198].isComplete == 0) or false
+        return complete[29196] and (not complete[29198]) and (not questLog[29198] or (questLog[29198] and questLog[29198].isComplete == 0)) or false
     end
 
     if phase == phases.MOUNT_HYJAL_INVASION_SANCTUARY then
-        return complete[29198] or (questLog[29198].isComplete == 1) or false
+        return complete[29198] or (questLog[29198] and (questLog[29198].isComplete == 1)) or false
     end
 
     return false
