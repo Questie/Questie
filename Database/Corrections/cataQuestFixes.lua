@@ -5778,8 +5778,14 @@ function CataQuestFixes.Load()
         [27179] = { -- Field Work
             [questKeys.exclusiveTo] = {},
         },
+        [27186] = { -- Jarl Needs a Blade
+            [questKeys.preQuestSingle] = {27184},
+        },
         [27187] = { -- Do the World a Favor
             [questKeys.finishedBy] = {{100012}},
+        },
+        [27191] = { -- Hungry as an Ogre!
+            [questKeys.preQuestSingle] = {27184},
         },
         [27196] = { -- On to Something
             [questKeys.preQuestSingle] = {},
