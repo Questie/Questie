@@ -3734,6 +3734,9 @@ function CataQuestFixes.Load()
         [25671] = { -- Thinning the Horde
             [questKeys.requiredMaxRep] = {69,21000},
         },
+        [25675] = { -- Ogre Combat
+            [questKeys.preQuestSingle] = {25674},
+        },
         [25678] = { -- Pick Your Fate
             [questKeys.objectives] = {{{5996},{5997},{5998}}},
         },
