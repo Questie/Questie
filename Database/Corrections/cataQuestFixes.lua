@@ -6684,6 +6684,7 @@ function CataQuestFixes.Load()
         [27738] = { -- The Pit of Scales
             [questKeys.startedBy] = {{46136,47709}},
             [questKeys.objectives] = {{{46276}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Tahet"), 0, {{"monster", 46496}}}},
         },
         [27742] = { -- A Little on the Side
             [questKeys.exclusiveTo] = {},
