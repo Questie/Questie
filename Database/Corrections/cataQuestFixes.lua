@@ -2785,6 +2785,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{38469}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Krennan Aranas to join the battle"),0,{{"monster",38553}}}},
         },
+        [24905] = { -- Returning a Favor
+            [questKeys.exclusiveTo] = {24955},
+        },
         [24920] = { -- Slowing the Inevitable
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get on the Captured Riding Bat"),0,{{"monster",38615}}}},
         },
