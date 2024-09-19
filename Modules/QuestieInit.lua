@@ -255,11 +255,22 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     -- Fill the QuestLogCache for first time
     local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+    local str = ""
+    for k, _ in pairs(changes) do
+        str = str .. k .. ", "
+    end
+    print("QuestLogCache filled with changes: ", str, cacheMiss)
+
     if cacheMiss then
         -- We really want to wait for the cache to be filled before we continue.
         -- Other addons (e.g. ATT) can interfere with the cache and we need to make sure it's correct.
         coYield()
-        local _, newChanges = QuestLogCache.CheckForChanges(nil)
+        local newCacheMiss, newChanges = QuestLogCache.CheckForChanges(nil)
+        str = ""
+        for k, _ in pairs(changes) do
+            str = str .. k .. ", "
+        end
+        print("QuestLogCache re-filled with changes: ", str, newCacheMiss)
         changes = newChanges
     end
 

@@ -173,6 +173,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
         ----- title, level, questTag, isHeader, isCollapsed, isComplete, frequency, questID, startEvent, displayQuestID, isOnMap, hasLocalPOI, isTask, isBounty, isStory, isHidden, isScaling = GetQuestLogTitle(questLogIndex)
 
         local title, _, questTag, isHeader, _, isCompleteAccordingToBlizzard, _, questId = GetQuestLogTitle(questLogIndex)
+        print("questLogIndex", questLogIndex, "title", title, "questId", questId)
         if (not title) then
             break -- We exceeded the valid quest log entries
         end
@@ -269,6 +270,13 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
     print("questIdsToCheck=", ids)
     QuestLogCache.DebugPrintCacheChanges(cacheMiss, changes)
 ]]--
+
+
+    local str = ""
+    for k, _ in pairs(questIdsChecked) do
+        str = str..tostring(k)..","
+    end
+    print("questIdsChecked", str)
 
     return cacheMiss, changes
 end
