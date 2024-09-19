@@ -2796,6 +2796,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{35115}},
             [questKeys.preQuestSingle] = {14285,14286,14287,14288,14289,14290,14291},
         },
+        [24932] = { -- Cutting Losses
+            [questKeys.preQuestSingle] = {25103},
+        },
         [24937] = { -- Oomlot Dealt With
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24925,24929},
