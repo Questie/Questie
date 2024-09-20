@@ -680,6 +680,30 @@ function CataNpcFixes.Load()
         [24364] = { -- Flynn Firebrew
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{53.01,51.1}}},
         },
+        [24495] = { -- Blix Fixwidget
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{40.32,17.89}}},
+        },
+        [24497] = { -- Ram Master Ray
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{42.62,17.84}}},
+        },
+        [24498] = { -- Cort Gorestein
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{40.56,18.19}}},
+        },
+        [24499] = { -- Ja'ron
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{40.2,17.08}}},
+        },
+        [24510] = { -- Driz Tumblequick
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{42.69,17.71}}},
+        },
+        [24527] = { -- Bok Dropcertain
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{50.61,13.48}}},
+        },
+        [24657] = { -- Glodrak Huntsniper
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{41.23,18.53}}},
+        },
+        [24711] = { -- Tapper Swindlekeg
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{41.58,18.45}}},
+        },
         [25273] = { -- Warsong Recruitment Officer
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{41.62,53.99},{43.01,55.64}}},
         },
@@ -745,6 +769,9 @@ function CataNpcFixes.Load()
         },
         [26520] = { -- Festival Scorchling
             [npcKeys.spawns] = {[3]={{23.19,37.42}},[4]={{46.3,13.74}},[8]={{76.29,13.59}},[14]={{52.15,47.25}},[15]={{33.49,30.92}},[16]={{60.8,53.55}},[17]={{49.96,54.54}},[28]={{29.23,57.34}},[33]={{40.51,50.96}},[45]={{69.41,42.46}},[46]={{51.2,29.24}},[47]={{76.66,75.07}},[65]={{38.31,48.45}},[66]={{43.42,71.81}},[67]={{40.27,85.41}},[85]={{57.29,51.75}},[130]={{49.59,38.31}},[215]={{51.77,59.21}},[267]={{54.71,50.15}},[331]={{51.35,66.23}},[357]={{72.41,47.75}},[394]={{19.26,61.17}},[405]={{26.13,77.01}},[406]={{52.95,62.4}},[440]={{49.8,27.93}},[490]={{56.24,66.33}},[495]={{48.64,13.08}},[618]={{58.16,47.43}},[1377]={{50.82,41.4}},[2817]={{80.08,53.21}},[3430]={{46.41,50.51}},[3433]={{46.89,26.48}},[3483]={{57.16,42}},[3518]={{50.97,34.13}},[3519]={{51.97,42.96}},[3520]={{33.65,30.78}},[3521]={{35.47,51.69}},[3522]={{49.92,58.75}},[3523]={{32.16,68.33}},[3537]={{51.16,11.47}},[3711]={{47.4,61.75}},[4709]={{40.85,67.73}},[4922]={{52.96,45.93}},[5034]={{53.1,34.54}},[5287]={{50.34,70.33}}},
+        },
+        [27216] = { -- Bizzle Quicklift
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{41.53,17.6}}},
         },
         [28092] = { -- The Etymidian
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{47.38,9.21}}},
@@ -2376,17 +2403,17 @@ function CataNpcFixes.Load()
         [80004] = { -- Maintain a Trot for 8 seconds
             [npcKeys.name] = "Maintain a Trot for 8 seconds",
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
-            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{42.25,17.96}}}
         },
         [80005] = { -- Maintain a Canter for 8 seconds
             [npcKeys.name] = "Maintain a Canter for 8 seconds",
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
-            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{42.25,17.96}}}
         },
         [80006] = { -- Maintain a Gallop for 8 seconds
             [npcKeys.name] = "Maintain a Gallop for 8 seconds",
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
-            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{42.25,17.96}}}
         },
         -- Fake NPCs for Auto Accept and Auto Turn in
         [100000] = { -- "Burn, Baby, Burn!", "Bombs Away: Windshear Mine!"
@@ -2554,6 +2581,21 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.DALARAN]={{47.93,43.32}},
             },
         },]]
+        [24108] = { -- Self-Turning and Oscillating Utility Target
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{41.74,17.2}}},
+        },
+        [24202] = { -- [DND] Brewfest Barker Bunny 1
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{51.41,78.7}}},
+        },
+        [24203] = { -- [DND] Brewfest Barker Bunny 2
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{67.64,47.83}}},
+        },
+        [24204] = { -- [DND] Brewfest Barker Bunny 3
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{44.18,48.95}}},
+        },
+        [24205] = { -- [DND] Brewfest Barker Bunny 4
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{37.68,75.58}}},
+        },
         [26221] = { -- Earthen Ring Elder
             [npcKeys.spawns] = {
                 [zoneIDs.TIRISFAL_GLADES]={{62.01,67.92}},
@@ -2685,6 +2727,21 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.DALARAN]={{47.93,43.32}},
             },
         },]]
+        [24108] = { -- Self-Turning and Oscillating Utility Target
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{54.8,37.54}}},
+        },
+        [24202] = { -- [DND] Brewfest Barker Bunny 1
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE]={{30.2,66.5}}},
+        },
+        [24203] = { -- [DND] Brewfest Barker Bunny 2
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE]={{64,78.2}}},
+        },
+        [24204] = { -- [DND] Brewfest Barker Bunny 3
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE]={{64.3,24.3}}},
+        },
+        [24205] = { -- [DND] Brewfest Barker Bunny 4
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE]={{32.2,21}}},
+        },
         [26221] = { -- Earthen Ring Elder
             [npcKeys.spawns] = {
                 [zoneIDs.DARNASSUS]={{62.11,49.13}},

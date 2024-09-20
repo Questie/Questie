@@ -955,6 +955,18 @@ function CataQuestFixes.Load()
         [11272] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {30112},
         },
+        [11293] = { -- Bark for the Barleybrews!
+            [questKeys.exclusiveTo] = {11294},
+        },
+        [11294] = { -- Bark for the Thunderbrews!
+            [questKeys.exclusiveTo] = {11293},
+        },
+        [11407] = { -- Bark for Drohn's Distillery!
+            [questKeys.exclusiveTo] = {11408},
+        },
+        [11408] = { -- Bark for T'chali's Voodoo Brewery!
+            [questKeys.exclusiveTo] = {11407},
+        },
         [11585] = { -- Hellscream's Vigil
             [questKeys.preQuestSingle] = {},
         },
@@ -9179,9 +9191,17 @@ function CataQuestFixes.Load()
         [29392] = { -- Missing Heirlooms
             [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.STORMWIND_CITY]={{41.4,72.5}}}},
         },
+        [29393] = { -- Brew For Brewfest
+            [questKeys.startedBy] = {{24497}},
+            [questKeys.preQuestSingle] = {11412},
+        },
         [29394] = { -- Brew For Brewfest
             [questKeys.startedBy] = {{23558}},
             [questKeys.preQuestSingle] = {11122},
+        },
+        [29396] = { -- A New Supplier of Souvenirs
+            [questKeys.startedBy] = {{24510}},
+            [questKeys.preQuestSingle] = {11409},
         },
         [29397] = { -- A New Supplier of Souvenirs
             [questKeys.startedBy] = {{24468}},
@@ -9457,6 +9477,9 @@ function CataQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
 
     local questFixesHorde = {
+        [12318] = { -- Save Brewfest!
+            [questKeys.startedBy] = {},
+        },
         [25619] = { -- Reoccupation
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25952,25953,25954,25955,25956},
@@ -9517,6 +9540,9 @@ function CataQuestFixes:LoadFactionFixes()
     }
 
     local questFixesAlliance = {
+        [12318] = { -- Save Brewfest!
+            [questKeys.startedBy] = {{27584}},
+        },
         [25513] = { -- Thunderdrome: Grudge Match!
             [questKeys.preQuestGroup] = {25065,25095},
         },

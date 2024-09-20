@@ -102,7 +102,7 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{56.01,37.07}}},
         },
         [189990] = { -- Dark Iron Mole Machine Wreckage
-            [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{44.16,17.3}}},
+            [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{40.64,17.47}}},
         },
         [194102] = { -- Shatterspear Armaments
             [objectKeys.spawns] = {[141]={{90.96,99.06},{87.07,99.87},{91.69,98.44}},[148]={{62.81,7.27},{62.38,7.8},{63.28,10.48},{61.29,10.61},{61.2,7.71},{63.53,8.07},{63.21,8.92},{61.96,8.94},{61.52,9.23},{61.38,9.81},{62.9,10.82},{62.76,11.37},{62.06,11.44},{62.2,8.98},{61.66,9.22},{63.08,9.56},{62.78,9.64},{61.94,9.95},{61.89,11.07}}},
@@ -330,12 +330,18 @@ function CataObjectFixes:LoadFactionFixes()
     local zoneIDs = ZoneDB.zoneIDs
 
     local objectFixesHorde = {
+        [186189] = { -- Complimentary Brewfest Sampler
+            [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{41.56,17.56},{41.52,17.5},{41.39,17.42},{40.74,16.82},{40.34,16.81},{40.13,17.48},{40.39,18.04},{40.85,18.28},{40.9,18.31}}},
+        },
         [203461] = { -- Fuel Sampling Station
             [objectKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{51.49,60.41}}},
         },
     }
 
     local objectFixesAlliance = {
+        [186189] = { -- Complimentary Brewfest Sampler
+            [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{54.03,38.92},{54.03,38.95},{54.17,38.31},{54.67,37.93},{54.8,37.9},{54.69,37.94},{55.32,37.26},{55.3,37.28},{55.7,38.16},{55.67,38.17},{56.53,36.68},{55.63,36.48},{55.65,36.48},{56.26,37.94},{56.26,37.97},{55.9,36.43},{55.9,36.4},{56.29,37.96},{59.79,33.5},{59.77,33.51}}},
+        },
         [203461] = { -- Fuel Sampling Station
             [objectKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{55.8,72.44}}},
         },
