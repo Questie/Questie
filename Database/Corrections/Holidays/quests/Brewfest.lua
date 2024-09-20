@@ -1,5 +1,7 @@
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 local tinsert = table.insert
 local eventQuests = QuestieEvent.eventQuests
@@ -9,7 +11,7 @@ tinsert(eventQuests, {"Brewfest", 11127}) -- <NYI>Thunderbrew Secrets
 tinsert(eventQuests, {"Brewfest", 12022}) -- Chug and Chuck!
 tinsert(eventQuests, {"Brewfest", 11122}) -- There and Back Again
 tinsert(eventQuests, {"Brewfest", 11412}) -- There and Back Again
-tinsert(eventQuests, {"Brewfest", 11117}) -- Catch the Wild Wolpertinger!
+tinsert(eventQuests, {"Brewfest", 11117, nil, nil, QuestieCorrections.CATA_HIDE}) -- Catch the Wild Wolpertinger!
 tinsert(eventQuests, {"Brewfest", 11431}) -- Catch the Wild Wolpertinger!
 tinsert(eventQuests, {"Brewfest", 11318}) -- Now This is Ram Racing... Almost.
 tinsert(eventQuests, {"Brewfest", 11409}) -- Now This is Ram Racing... Almost.
@@ -26,11 +28,11 @@ tinsert(eventQuests, {"Brewfest", 11400}) -- Brewfest Riding Rams
 tinsert(eventQuests, {"Brewfest", 11442}) -- Welcome to Brewfest!
 tinsert(eventQuests, {"Brewfest", 11447}) -- Welcome to Brewfest!
 --tinsert(eventQuests, {"Brewfest", 12278}) -- Brew of the Month Club
-tinsert(eventQuests, {"Brewfest", 11118}) -- Pink Elekks On Parade
+tinsert(eventQuests, {"Brewfest", 11118, nil, nil, QuestieCorrections.CATA_HIDE}) -- Pink Elekks On Parade
 tinsert(eventQuests, {"Brewfest", 11320}) -- [NYI] Now this is Ram Racing... Almost.
 tinsert(eventQuests, {"Brewfest", 11441}) -- Brewfest!
 tinsert(eventQuests, {"Brewfest", 11446}) -- Brewfest!
-tinsert(eventQuests, {"Brewfest", 12062}) -- Insult Coren Direbrew
+tinsert(eventQuests, {"Brewfest", 12062, nil, nil, QuestieCorrections.CATA_HIDE}) -- Insult Coren Direbrew
 --tinsert(eventQuests, {"Brewfest", 12194}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
 --tinsert(eventQuests, {"Brewfest", 12193}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
 tinsert(eventQuests, {"Brewfest", 12191}) -- Chug and Chuck!
@@ -43,8 +45,8 @@ tinsert(eventQuests, {"Brewfest", 12491}) -- Direbrew's Dire Brew
 tinsert(eventQuests, {"Brewfest", 12492}) -- Direbrew's Dire Brew
 
 -- WotLK quests
-tinsert(eventQuests, {"Brewfest", 13931}) -- Another Year, Another Souvenir. -- Doesn't seem to be in the game
-tinsert(eventQuests, {"Brewfest", 13932}) -- Another Year, Another Souvenir. -- Doesn't seem to be in the game
+tinsert(eventQuests, {"Brewfest", 13931, nil, nil, QuestieCorrections.CATA_HIDE}) -- Another Year, Another Souvenir. -- Doesn't seem to be in the game
+tinsert(eventQuests, {"Brewfest", 13932, nil, nil, QuestieCorrections.CATA_HIDE}) -- Another Year, Another Souvenir. -- Doesn't seem to be in the game
 
 -- Cata quests
 tinsert(eventQuests, {"Brewfest", 11413}) -- Did Someone Say "Souvenir?"

@@ -677,6 +677,9 @@ function CataNpcFixes.Load()
         [23616] = { -- Kyle the Frenzied
             [npcKeys.spawns] = {[zoneIDs.MULGORE]={{48.48,61.57}}},
         },
+        [24364] = { -- Flynn Firebrew
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{53.01,51.1}}},
+        },
         [25273] = { -- Warsong Recruitment Officer
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{41.62,53.99},{43.01,55.64}}},
         },
@@ -2354,6 +2357,36 @@ function CataNpcFixes.Load()
                 [zoneIDs.SHATTRATH_CITY] = {{51.8,29.26}},
                 [zoneIDs.DALARAN] = {{50.29,50.38}},
             },
+        },
+        [80001] = { -- Maintain a Trot for 8 seconds
+            [npcKeys.name] = "Maintain a Trot for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{53.73,40.41}}}
+        },
+        [80002] = { -- Maintain a Canter for 8 seconds
+            [npcKeys.name] = "Maintain a Canter for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{53.73,40.41}}}
+        },
+        [80003] = { -- Maintain a Gallop for 8 seconds
+            [npcKeys.name] = "Maintain a Gallop for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{53.73,40.41}}}
+        },
+        [80004] = { -- Maintain a Trot for 8 seconds
+            [npcKeys.name] = "Maintain a Trot for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
+        },
+        [80005] = { -- Maintain a Canter for 8 seconds
+            [npcKeys.name] = "Maintain a Canter for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
+        },
+        [80006] = { -- Maintain a Gallop for 8 seconds
+            [npcKeys.name] = "Maintain a Gallop for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
         },
         -- Fake NPCs for Auto Accept and Auto Turn in
         [100000] = { -- "Burn, Baby, Burn!", "Bombs Away: Windshear Mine!"

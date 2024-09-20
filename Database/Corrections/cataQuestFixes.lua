@@ -1115,6 +1115,12 @@ function CataQuestFixes.Load()
         [12427] = { -- The Conquest Pit: Bear Wrestling!
             [questKeys.preQuestGroup] = {},
         },
+        [12491] = { -- Direbrew's Dire Brew
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [12492] = { -- Direbrew's Dire Brew
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [12539] = { -- Hoofing It
             [questKeys.preQuestGroup] = {},
         },
@@ -9172,6 +9178,14 @@ function CataQuestFixes.Load()
         },
         [29392] = { -- Missing Heirlooms
             [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.STORMWIND_CITY]={{41.4,72.5}}}},
+        },
+        [29394] = { -- Brew For Brewfest
+            [questKeys.startedBy] = {{23558}},
+            [questKeys.preQuestSingle] = {11122},
+        },
+        [29397] = { -- A New Supplier of Souvenirs
+            [questKeys.startedBy] = {{24468}},
+            [questKeys.preQuestSingle] = {11318},
         },
         [29415] = { -- Missing Heirlooms
             [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.DUROTAR]={{60,46.1}}}},
