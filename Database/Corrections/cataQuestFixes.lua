@@ -5243,6 +5243,9 @@ function CataQuestFixes.Load()
         [26738] = { -- Just Hatched
             [questKeys.preQuestSingle] = {26732},
         },
+        [26744] = { -- Deep Roots
+            [questKeys.preQuestSingle] = {26739},
+        },
         [26750] = { -- At the Stonemother's Call
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26584,26585,26659},
