@@ -3930,6 +3930,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25866,25867},
         },
+        [25872] = { -- The Brave and the Bold
+            [questKeys.preQuestSingle] = {25836},
+        },
         [25881] = { -- Lost Wardens
             [questKeys.preQuestSingle] = {25372},
             [questKeys.objectives] = {{{41499,nil,Questie.ICON_TYPE_TALK}}},
