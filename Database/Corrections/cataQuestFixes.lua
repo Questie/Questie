@@ -8739,10 +8739,18 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 29100,
             [questKeys.nextQuestInChain] = 29124,
         },
+        [29122] = { -- Echoes of Nemesis
+            [questKeys.startedBy] = {{52671}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak with Torga"),0,{{"monster",52425}}}},
+        },
         [29124] = { -- Warn the Rebel Camp
             [questKeys.parentQuest] = 29100,
             [questKeys.preQuestSingle] = {29121},
             [questKeys.nextQuestInChain] = 29131,
+        },
+        [29126] = { -- The Power of Malorne
+            [questKeys.startedBy] = {{52669}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Summon Galenges"),0,{{"object",208381}}}},
         },
         [29129] = { -- A Legendary Engagement
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -8775,9 +8783,15 @@ function CataQuestFixes.Load()
         [29138] = { -- Burn Victims
             [questKeys.preQuestSingle] = {29201},
         },
+        [29139] = { -- Aggressive Growth
+            [questKeys.objectives] = {nil,{{208545}}},
+        },
         [29146] = { -- Ridin' the Rocketway
             [questKeys.objectives] = {{{52585,nil,Questie.ICON_TYPE_MOUNT_UP}}},
             [questKeys.preQuestSingle] = {172},
+        },
+        [29148] = { -- Wings Aflame
+            [questKeys.startedBy] = {{52669}},
         },
         [29150] = { -- Voodoo Zombies
             [questKeys.parentQuest] = 29100,
@@ -8802,8 +8816,14 @@ function CataQuestFixes.Load()
         [29157] = { -- The Zandalari Menace
             [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
         },
+        [29162] = { -- Nature's Blessing
+            [questKeys.startedBy] = {{52669}},
+        },
         [29164] = { -- Perfecting Your Howl
             [questKeys.objectives] = {nil,nil,nil,nil,{{{52791,52794},52791,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [29165] = { -- The Call of the Pack
+            [questKeys.startedBy] = {{52669}},
         },
         [29166] = { -- Supplies for the Other Side
             [questKeys.preQuestSingle] = {29198},
