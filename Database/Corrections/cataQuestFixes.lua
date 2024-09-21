@@ -4727,6 +4727,9 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
             [questKeys.objectives] = {{{42291,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [26346] = { -- Myzrael's Tale [Alliance]
+            [questKeys.preQuestSingle] = {26042},
+        },
         [26350] = { -- Priestess Hu'rala
             [questKeys.preQuestSingle] = {26334},
         },
@@ -5457,6 +5460,9 @@ function CataQuestFixes.Load()
         [26910] = { -- Etched Letter
             [questKeys.requiredClasses] = classKeys.HUNTER,
             [questKeys.nextQuestInChain] = 26917,
+        },
+        [26911] = { -- Myzrael's Tale [Horde]
+            [questKeys.preQuestSingle] = {26042},
         },
         [26913] = { -- Charging into Battle -- Human Warrior
             [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{100}}},
