@@ -4163,6 +4163,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {27874},
             [questKeys.nextQuestInChain] = 25663,
         },
+        [25986] = { -- Trouble at the Lake
+            [questKeys.preQuestSingle] = {432},
+        },
         [25987] = { -- Put It On
             [questKeys.objectives] = {{{41814,nil,Questie.ICON_TYPE_EVENT}}},
         },
