@@ -3250,6 +3250,7 @@ ZoneDB.private.zoneIDs = {
     NORTHERN_STRANGLETHORN = 5339, -- this is the composite map of Northern Stranglethorn and The Cape of Stranglethorn (1 level higher)
     TOL_BARAD_PENINSULA = 5389, -- the northern isle
     THE_MAELSTROM = 5416,
+    MOLTEN_FRONT = 5733,
     DARKMOON_FAIRE_ISLAND = 5861,
 }
 

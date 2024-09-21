@@ -758,7 +758,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11318] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.objectives] = {{{80001},{80002},{80003}}},
+            [questKeys.objectives] = {{{80001,nil,Questie.ICON_TYPE_EVENT},{80002,nil,Questie.ICON_TYPE_EVENT},{80003,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11319] = {
             [questKeys.objectives] = {{{23876,"Spores frozen"}}},
@@ -953,7 +953,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11409] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.objectives] = {{{80004},{80005},{80006}}},
+            [questKeys.objectives] = {{{80004,nil,Questie.ICON_TYPE_EVENT},{80005,nil,Questie.ICON_TYPE_EVENT},{80006,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11410] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Fresh Barbfish Bait"), 0, {{"object", 186770},}}},
@@ -2182,9 +2182,11 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12491] = {
             [questKeys.startedBy] = {{23872},nil,{38280}},
+            [questKeys.preQuestSingle] = {},
         },
         [12492] = {
             [questKeys.startedBy] = {{23872},nil,{38281}},
+            [questKeys.preQuestSingle] = {},
         },
         [12498] = {
             [questKeys.extraObjectives] = {

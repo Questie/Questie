@@ -506,6 +506,18 @@ local easternKingdomsLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "丧钟镇",
     },
+    ["New Tinkertown"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(easternKingdomsLocales) do

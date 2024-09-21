@@ -174,6 +174,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [84212] = 4, -- Warrior Shockwave
     [84213] = 4, -- Warrior Shockwave
     [84317] = 4, -- Warrior Sudden Death
+    [84318] = 4, -- Paladin Shield of Righteousness
+    [84319] = 4, -- Paladin Shield of Righteousness
+    [84330] = 4, -- Paladin Shield of Righteousness
+    [84332] = 4, -- Paladin Shield of Righteousness
+    [84414] = 4, -- Paladin Shield of Righteousness
 
     -- fake IDs
     --- Mage runes
@@ -917,6 +922,8 @@ local questsToBlacklistBySoDPhase = {
         [4148] = true, -- Bloodpetal Zapper
         [5284] = true, -- The Way of the Weaponsmith - Replaced by 82662
         [5302] = true, -- The Way of the Weaponsmith - Replaced by 82665
+        [7636] = true, -- Stave of the Ancients - Replaced by 84546
+        [7486] = true, -- A Hero's Reward - Replaced by 84545
         [8467] = true, -- Feathers for Nafien - Replaced by 84777
         [8769] = true, -- A Ticking Present - Replaced by 79637
 

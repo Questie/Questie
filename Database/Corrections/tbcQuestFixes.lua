@@ -1042,6 +1042,9 @@ function QuestieTBCQuestFixes:Load()
         [9454] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9455] = {
+            [questKeys.startedBy] = {{17202},nil,{23678}},
+        },
         [9457] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Gift of Naias near the Altar of Naias"), 0, {{"object", 181636}}}},
         },

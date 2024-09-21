@@ -31,6 +31,15 @@ function SeasonOfDiscovery:LoadQuests()
         [5167] = { -- Legplates of the Chromatic Flight
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [7636] = { -- An Introduction
+            [questKeys.nextQuestInChain] = 84546,
+        },
+        [7493] = { -- The Journey Has Just Begun
+            [questKeys.preQuestSingle] = {84561},
+        },
+        [7497] = { -- The Journey Has Just Begun
+            [questKeys.preQuestSingle] = {84560},
+        },
         [8922] = { -- A Supernatural Device
             [questKeys.preQuestSingle] = {84147,84148,84149,84150,84151,84152,84153,84154},
         },
@@ -1815,6 +1824,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {82003},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82008] = { -- Gnomish Solutions (Gnome)
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
@@ -1839,6 +1849,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {82011},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82016] = { -- Atal'ai Potent Potables
             [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
@@ -2621,6 +2632,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{228611}},
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [84318] = { -- Oi!
+            [questKeys.startedBy] = {{228619,228620}},
+            [questKeys.objectives] = {nil,nil,{{227686}}},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84319] = { -- Oh No Ye Don't!
+            [questKeys.preQuestSingle] = {84318},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [84320] = { -- Lost Heirloom
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
@@ -2635,6 +2655,15 @@ function SeasonOfDiscovery:LoadQuests()
         [84323] = { -- The Prize Within
             [questKeys.preQuestSingle] = {84322},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84330] = { -- A Wee Bit O' Necromancy
+            [questKeys.preQuestSingle] = {84319},
+            [questKeys.objectives] = {nil,nil,{{227690}}},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [84332] = { -- A Thane's Gratitude
+            [questKeys.preQuestSingle] = {84414},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [84348] = { -- Priority Target: Duke Tectonis
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
@@ -2751,9 +2780,23 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84406},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [84414] = { -- Send Me On Me Way!
+            [questKeys.preQuestSingle] = {84330},
+            [questKeys.objectives] = {{{228619,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [84525] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [84545] = { -- A Hero's Reward
+            [questKeys.preQuestSingle] = {6824},
+            [questKeys.zoneOrSort] = zoneIDs.AZSHARA,
+        },
+        [84546] = { -- Stave of the Ancients
+            [questKeys.preQuestSingle] = {7633},
+            [questKeys.objectives] = {nil,nil,{{18952},{18953},{18954},{18955}}},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [84548] = { -- Garona: A Study on Stealth and Treachery
             [questKeys.startedBy] = {nil,nil,{228691}},
@@ -2774,6 +2817,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {nil,nil,{228690}},
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.zoneOrSort] = zoneIDs.DIRE_MAUL,
+        },
+        [84560] = { -- Celebrating Good Times
+            [questKeys.preQuestSingle] = {7495},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84561] = { -- For All To See
+            [questKeys.preQuestSingle] = {7490},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84777] = { -- Feathers for Nafien
             [questKeys.preQuestSingle] = {8461},

@@ -862,8 +862,8 @@ function QuestieQuestBlacklist:Load()
         [4462] = true,
 
         --Darkmoon Faire
-        [7905] = true,
-        [7926] = true,
+        [7905] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
+        [7926] = QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE + QuestieCorrections.TBC_HIDE + QuestieCorrections.WOTLK_HIDE,
 
         [8743] = true, -- Bang a Gong! (AQ40 opening quest)
 
@@ -2163,6 +2163,7 @@ function QuestieQuestBlacklist:Load()
         [3923] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4101] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4102] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [4141] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4261] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4402] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4421] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2203,6 +2204,7 @@ function QuestieQuestBlacklist:Load()
         [4967] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4968] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4969] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [4970] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4975] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4976] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5053] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2223,6 +2225,7 @@ function QuestieQuestBlacklist:Load()
         [5159] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5163] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5165] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5201] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5202] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5203] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5204] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2340,6 +2343,7 @@ function QuestieQuestBlacklist:Load()
         [5930] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5931] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [5932] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [5981] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6001] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6002] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6061] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2390,6 +2394,7 @@ function QuestieQuestBlacklist:Load()
         [6547] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6561] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6562] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [6563] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6564] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6565] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6609] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2409,6 +2414,7 @@ function QuestieQuestBlacklist:Load()
         [6841] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6842] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6921] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [6922] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [6981] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [7069] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [7181] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -2604,6 +2610,7 @@ function QuestieQuestBlacklist:Load()
         [8466] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [8467] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [8469] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [8471] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [8552] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [8905] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [8906] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -3384,16 +3391,16 @@ function QuestieQuestBlacklist:Load()
 
         -- [29129] = true, -- A Legendary Engagement
         -- [29132] = true, -- A Legendary Engagement
-        [29202] = true, -- The Fate of Runetotem
+        --[29202] = true, -- The Fate of Runetotem
         [29280] = true, -- Nourishing Waters
         [29282] = true, -- Well Armed
         [29284] = true, -- Aid of the Ancients
         [29326] = true, -- The Nordrassil Summit
-        [29387] = true, -- Guardians of Hyjal: Firelands Invasion!
-        [29388] = true, -- Guardians of Hyjal: Firelands Invasion!
-        [29389] = true, -- Guardians of Hyjal: Firelands Invasion!
-        [29390] = true, -- Guardians of Hyjal: Call of the Ancients
-        [29391] = true, -- Guardians of Hyjal: Call of the Ancients
+        --[29387] = true, -- Guardians of Hyjal: Firelands Invasion!
+        --[29388] = true, -- Guardians of Hyjal: Firelands Invasion!
+        --[29389] = true, -- Guardians of Hyjal: Firelands Invasion!
+        --[29390] = true, -- Guardians of Hyjal: Call of the Ancients
+        --[29391] = true, -- Guardians of Hyjal: Call of the Ancients
         [29437] = true, -- The Fallen Guardian
         [29439] = true, -- The Call of the World-Shaman
         [29440] = true, -- The Call of the World-Shaman
