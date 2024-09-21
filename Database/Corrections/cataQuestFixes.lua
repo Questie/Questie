@@ -8800,6 +8800,7 @@ function CataQuestFixes.Load()
         },
         [29138] = { -- Burn Victims
             [questKeys.preQuestSingle] = {29201},
+            [questKeys.objectives] = {{{52834,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29139] = { -- Aggressive Growth
             [questKeys.objectives] = {nil,{{208545}}},
@@ -8833,6 +8834,10 @@ function CataQuestFixes.Load()
         },
         [29157] = { -- The Zandalari Menace
             [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
+        },
+        [29161] = { -- Those Bears Up There
+            [questKeys.objectives] = {{{52688,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Climb the tree"),0,{{"monster",52676}}}},
         },
         [29162] = { -- Nature's Blessing
             [questKeys.startedBy] = {{52669}},
