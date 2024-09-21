@@ -278,7 +278,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
     end
     print("questIdsChecked", str)
 
-    return cacheMiss, changes
+    return cacheMiss, changes, questIdsChecked
 end
 
 
