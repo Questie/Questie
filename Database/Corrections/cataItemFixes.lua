@@ -643,6 +643,9 @@ function CataItemFixes.Load()
         [61929] = { -- Broken Spectacles
             [itemKeys.npcDrops] = {45874},
         },
+        [61923] = { -- Steamwheedle Ditty Bag
+            [itemKeys.npcDrops] = {46014},
+        },
         [61973] = { -- Highvale Records
             [itemKeys.objectDrops] = {144071},
         },
