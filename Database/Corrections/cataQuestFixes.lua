@@ -8745,6 +8745,9 @@ function CataQuestFixes.Load()
             [questKeys.childQuests] = {29102,29103,29104,29105,29114,29115,29116,29118,29120,29121,29124,29131,29133,29150,29151,29152,29213,29267},
             [questKeys.objectives] = {{{52767,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [29101] = { -- Punting Season
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{52218,52177},52177,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [29102] = { -- To Fort Livingston
             [questKeys.objectives] = {{{52281,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.parentQuest] = 29100,
