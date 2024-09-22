@@ -8861,12 +8861,26 @@ function CataQuestFixes.Load()
         [29135] = { -- All-Seeing Eye
             [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
+        [29137] = { -- Breach in the Defenses
+            [questKeys.exclusiveTo] = {29141,29142,29304},
+        },
         [29138] = { -- Burn Victims
             [questKeys.preQuestSingle] = {29201},
             [questKeys.objectives] = {{{52834,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29139] = { -- Aggressive Growth
             [questKeys.objectives] = {nil,{{208545}}},
+            [questKeys.exclusiveTo] = {29143},
+        },
+        [29141] = { -- The Harder They Fall
+            [questKeys.exclusiveTo] = {29137,29142,29304},
+        },
+        [29142] = { -- Traitors Return
+            [questKeys.exclusiveTo] = {29137,29141,29304},
+        },
+        [29143] = { -- Wisp Away
+            [questKeys.objectives] = {{{52531,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.exclusiveTo] = {29139},
         },
         [29146] = { -- Ridin' the Rocketway
             [questKeys.objectives] = {{{52585,nil,Questie.ICON_TYPE_MOUNT_UP}}},
@@ -9082,6 +9096,9 @@ function CataQuestFixes.Load()
         },
         [29298] = { -- A Smoke-Stained Locket
             [questKeys.startedBy] = {nil,nil,{69854}},
+        },
+        [29304] = { -- The Dogs of War
+            [questKeys.exclusiveTo] = {29137,29141,29142},
         },
         [29317] = { -- Fish Head
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29320,29361,29319,29322},
