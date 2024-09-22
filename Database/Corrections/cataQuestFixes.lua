@@ -9077,6 +9077,15 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{460012}}},
             [questKeys.nextQuestInChain] = 29250,
         },
+        [29246] = { -- Relieving the Pain
+            [questKeys.exclusiveTo] = {29247,29248},
+        },
+        [29247] = { -- Treating the Wounds
+            [questKeys.exclusiveTo] = {29246,29248},
+        },
+        [29248] = { -- Releasing the Pressure
+            [questKeys.exclusiveTo] = {29246,29247},
+        },
         [29250] = { -- Making Contact
             [questKeys.parentQuest] = 29219,
             [questKeys.nextQuestInChain] = 29251,
