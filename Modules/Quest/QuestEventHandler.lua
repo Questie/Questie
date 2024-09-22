@@ -428,14 +428,23 @@ function _QuestEventHandler:UpdateAllQuests()
     Questie:Debug(Questie.DEBUG_INFO, "Running full questlog check")
     local questIdsToCheck = {}
 
+    local str = ""
     -- TODO replace with a ready table so no need to generate at each call
     for questId, data in pairs(questLog) do
         if data.state == QUEST_LOG_STATES.QUEST_ACCEPTED then
             questIdsToCheck[questId] = true
+            str = str .. questId .. ", "
         end
     end
+    print("UpdateAllQuests - Quests to check: " .. str)
 
     local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck)
+
+    str = ""
+    for k, _ in pairs(changes) do
+        str = str..tostring(k)..","
+    end
+    print("UpdateAllQuests - changes", str, cacheMiss)
 
     if next(changes) then
         for questId, objIds in pairs(changes) do
@@ -452,6 +461,7 @@ function _QuestEventHandler:UpdateAllQuests()
             end)
         end)
     else
+        print("Nothing to update")
         Questie:Debug(Questie.DEBUG_INFO, "Nothing to update")
     end
 
