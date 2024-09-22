@@ -8872,6 +8872,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{52585,nil,Questie.ICON_TYPE_MOUNT_UP}}},
             [questKeys.preQuestSingle] = {172},
         },
+        [29147] = { -- Call the Flock
+            [questKeys.objectives] = {{{52595,nil,Questie.ICON_TYPE_INTERACT},{52596,nil,Questie.ICON_TYPE_INTERACT},{52594,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [29148] = { -- Wings Aflame
             [questKeys.startedBy] = {{52669}},
         },
