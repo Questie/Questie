@@ -8747,6 +8747,7 @@ function CataQuestFixes.Load()
         },
         [29101] = { -- Punting Season
             [questKeys.objectives] = {nil,nil,nil,nil,{{{52218,52177},52177,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.exclusiveTo] = {29125,29147,29161,29164},
         },
         [29102] = { -- To Fort Livingston
             [questKeys.objectives] = {{{52281,nil,Questie.ICON_TYPE_TALK}}},
@@ -8824,14 +8825,23 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{52671}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak with Torga"),0,{{"monster",52425}}}},
         },
+        [29123] = { -- Rage Against the Flames
+            [questKeys.exclusiveTo] = {29127,29149,29163,29166,29246,29247,29248},
+        },
         [29124] = { -- Warn the Rebel Camp
             [questKeys.parentQuest] = 29100,
             [questKeys.preQuestSingle] = {29121},
             [questKeys.nextQuestInChain] = 29131,
         },
+        [29125] = { -- Between the Trees
+            [questKeys.exclusiveTo] = {29101,29147,29161,29164},
+        },
         [29126] = { -- The Power of Malorne
             [questKeys.startedBy] = {{52669}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Summon Galenges"),0,{{"object",208381}}}},
+        },
+        [29127] = { -- Rage Against the Flames
+            [questKeys.exclusiveTo] = {29123,29149,29163,29166,29246,29247,29248},
         },
         [29129] = { -- A Legendary Engagement
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -8888,9 +8898,13 @@ function CataQuestFixes.Load()
         },
         [29147] = { -- Call the Flock
             [questKeys.objectives] = {{{52595,nil,Questie.ICON_TYPE_INTERACT},{52596,nil,Questie.ICON_TYPE_INTERACT},{52594,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.exclusiveTo] = {29101,29125,29161,29164},
         },
         [29148] = { -- Wings Aflame
             [questKeys.startedBy] = {{52669}},
+        },
+        [29149] = { -- Rage Against the Flames
+            [questKeys.exclusiveTo] = {29123,29127,29163,29166,29246,29247,29248},
         },
         [29150] = { -- Voodoo Zombies
             [questKeys.parentQuest] = 29100,
@@ -8918,18 +8932,24 @@ function CataQuestFixes.Load()
         [29161] = { -- Those Bears Up There
             [questKeys.objectives] = {{{52688,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Climb the tree"),0,{{"monster",52676}}}},
+            [questKeys.exclusiveTo] = {29101,29125,29147,29164},
         },
         [29162] = { -- Nature's Blessing
             [questKeys.startedBy] = {{52669}},
         },
+        [29163] = { -- Rage Against the Flames
+            [questKeys.exclusiveTo] = {29123,29127,29149,29166,29246,29247,29248},
+        },
         [29164] = { -- Perfecting Your Howl
             [questKeys.objectives] = {nil,nil,nil,nil,{{{54362,52816,52795,52300,52289,52794,52791,52219},54362,"Howl atop an invader's corpse",Questie.ICON_TYPE_EVENT}}},
+            [questKeys.exclusiveTo] = {29101,29125,29147,29161},
         },
         [29165] = { -- The Call of the Pack
             [questKeys.startedBy] = {{52669}},
         },
         [29166] = { -- Supplies for the Other Side
             [questKeys.preQuestSingle] = {29198},
+            [questKeys.exclusiveTo] = {29123,29127,29149,29163,29246,29247,29248},
         },
         [29167] = { -- The Banshee Queen
             [questKeys.objectives] = {{{10181,"Meeting with Lady Sylvanas Windrunner",Questie.ICON_TYPE_EVENT}}},
@@ -9078,13 +9098,13 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 29250,
         },
         [29246] = { -- Relieving the Pain
-            [questKeys.exclusiveTo] = {29247,29248},
+            [questKeys.exclusiveTo] = {29123,29127,29149,29163,29166,29247,29248},
         },
         [29247] = { -- Treating the Wounds
-            [questKeys.exclusiveTo] = {29246,29248},
+            [questKeys.exclusiveTo] = {29123,29127,29149,29163,29166,29246,29248},
         },
         [29248] = { -- Releasing the Pressure
-            [questKeys.exclusiveTo] = {29246,29247},
+            [questKeys.exclusiveTo] = {29123,29127,29149,29163,29166,29246,29247},
         },
         [29250] = { -- Making Contact
             [questKeys.parentQuest] = 29219,
