@@ -467,6 +467,9 @@ function CataQuestFixes.Load()
         [8544] = { -- Conqueror's Spaulders
             [questKeys.objectives] = {nil,nil,{{20928},{20875},{20863},{20858}},{910,0}},
         },
+        [8558] = { -- Sickle of Unyielding Strength
+            [questKeys.objectives] = {nil,nil,{{20886},{20873},{20862},{20858}},{609,42000}},
+        },
         [8559] = { -- Conqueror's Greaves
             [questKeys.objectives] = {nil,nil,{{20928},{20882},{20865},{20859}},{910,0}},
         },
@@ -598,6 +601,30 @@ function CataQuestFixes.Load()
         },
         [8669] = { -- Genesis Shoulderpads
             [questKeys.objectives] = {nil,nil,{{20932},{20881},{20859},{20864}},{910,0}},
+        },
+        [8705] = { -- Gavel of Infinite Wisdom
+            [questKeys.objectives] = {nil,nil,{{20890},{20868},{20861},{20865}},{609,42000}},
+        },
+        [8706] = { -- Hammer of the Gathering Storm
+            [questKeys.objectives] = {nil,nil,{{20886},{20869},{20861},{20865}},{609,42000}},
+        },
+        [8707] = { -- Blade of Vaulted Secrets
+            [questKeys.objectives] = {nil,nil,{{20890},{20871},{20860},{20864}},{609,42000}},
+        },
+        [8708] = { -- Mace of Unending Life
+            [questKeys.objectives] = {nil,nil,{{20890},{20870},{20862},{20858}},{609,42000}},
+        },
+        [8709] = { -- Dagger of Veiled Shadows
+            [questKeys.objectives] = {nil,nil,{{20886},{20872},{20859},{20863}},{609,42000}},
+        },
+        [8710] = { -- Kris of Unspoken Names
+            [questKeys.objectives] = {nil,nil,{{20890},{20867},{20859},{20863}},{609,42000}},
+        },
+        [8711] = { -- Blade of Eternal Justice
+            [questKeys.objectives] = {nil,nil,{{20886},{20869},{20861},{20865}},{609,42000}},
+        },
+        [8712] = { -- Scythe of the Unseen Path
+            [questKeys.objectives] = {nil,nil,{{20886},{20866},{20860},{20864}},{609,42000}},
         },
         [8764] = { -- The Changing of Paths - Protector No More
             [questKeys.preQuestSingle] = {8751,8756,8761},
@@ -2868,6 +2895,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{38469}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Krennan Aranas to join the battle"),0,{{"monster",38553}}}},
         },
+        [24905] = { -- Returning a Favor
+            [questKeys.exclusiveTo] = {24955},
+        },
         [24920] = { -- Slowing the Inevitable
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get on the Captured Riding Bat"),0,{{"monster",38615}}}},
         },
@@ -2878,6 +2908,9 @@ function CataQuestFixes.Load()
         [24930] = { -- While You're At It
             [questKeys.startedBy] = {{35115}},
             [questKeys.preQuestSingle] = {14285,14286,14287,14288,14289,14290,14291},
+        },
+        [24932] = { -- Cutting Losses
+            [questKeys.preQuestSingle] = {25103},
         },
         [24937] = { -- Oomlot Dealt With
             [questKeys.preQuestSingle] = {},
@@ -3016,6 +3049,9 @@ function CataQuestFixes.Load()
         },
         [25067] = { -- Thunderdrome: The Ginormus!
             [questKeys.objectives] = {{{39075}}},
+        },
+        [25072] = { -- A Few Good Goblins
+            [questKeys.preQuestSingle] = {25103},
         },
         [25073] = { -- Sen'jin Village
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -3817,6 +3853,9 @@ function CataQuestFixes.Load()
         [25671] = { -- Thinning the Horde
             [questKeys.requiredMaxRep] = {69,21000},
         },
+        [25675] = { -- Ogre Combat
+            [questKeys.preQuestSingle] = {25674},
+        },
         [25678] = { -- Pick Your Fate
             [questKeys.objectives] = {{{5996},{5997},{5998}}},
         },
@@ -4007,6 +4046,9 @@ function CataQuestFixes.Load()
         [25868] = { -- Yorla Darksnare
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25866,25867},
+        },
+        [25872] = { -- The Brave and the Bold
+            [questKeys.preQuestSingle] = {25836},
         },
         [25881] = { -- Lost Wardens
             [questKeys.preQuestSingle] = {25372},
@@ -4237,6 +4279,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{40833}},
             [questKeys.exclusiveTo] = {27874},
             [questKeys.nextQuestInChain] = 25663,
+        },
+        [25986] = { -- Trouble at the Lake
+            [questKeys.preQuestSingle] = {432},
         },
         [25987] = { -- Put It On
             [questKeys.objectives] = {{{41814,nil,Questie.ICON_TYPE_EVENT}}},
@@ -4799,6 +4844,9 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
             [questKeys.objectives] = {{{42291,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [26346] = { -- Myzrael's Tale [Alliance]
+            [questKeys.preQuestSingle] = {26042},
+        },
         [26350] = { -- Priestess Hu'rala
             [questKeys.preQuestSingle] = {26334},
         },
@@ -5318,6 +5366,9 @@ function CataQuestFixes.Load()
         [26738] = { -- Just Hatched
             [questKeys.preQuestSingle] = {26732},
         },
+        [26744] = { -- Deep Roots
+            [questKeys.preQuestSingle] = {26739},
+        },
         [26750] = { -- At the Stonemother's Call
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26584,26585,26659},
@@ -5526,6 +5577,9 @@ function CataQuestFixes.Load()
         [26910] = { -- Etched Letter
             [questKeys.requiredClasses] = classKeys.HUNTER,
             [questKeys.nextQuestInChain] = 26917,
+        },
+        [26911] = { -- Myzrael's Tale [Horde]
+            [questKeys.preQuestSingle] = {26042},
         },
         [26913] = { -- Charging into Battle -- Human Warrior
             [questKeys.objectives] = {{{44548}},nil,nil,nil,nil,{{100}}},
@@ -5871,8 +5925,14 @@ function CataQuestFixes.Load()
         [27179] = { -- Field Work
             [questKeys.exclusiveTo] = {},
         },
+        [27186] = { -- Jarl Needs a Blade
+            [questKeys.preQuestSingle] = {27184},
+        },
         [27187] = { -- Do the World a Favor
             [questKeys.finishedBy] = {{100012}},
+        },
+        [27191] = { -- Hungry as an Ogre!
+            [questKeys.preQuestSingle] = {27184},
         },
         [27196] = { -- On to Something
             [questKeys.preQuestSingle] = {},
@@ -8843,7 +8903,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{52669}},
         },
         [29164] = { -- Perfecting Your Howl
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{52791,52794},52791,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{54362,52816,52795,52300,52289,52794,52791,52219},54362,"Howl atop an invader's corpse",Questie.ICON_TYPE_EVENT}}},
         },
         [29165] = { -- The Call of the Pack
             [questKeys.startedBy] = {{52669}},
