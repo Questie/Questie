@@ -9113,6 +9113,12 @@ function CataQuestFixes.Load()
         [29251] = { -- Booty Bay's Interests
             [questKeys.preQuestSingle] = {29250},
         },
+        [29255] = { -- Embergris
+            [questKeys.exclusiveTo] = {29257,29299},
+        },
+        [29257] = { -- Steal Magmolias
+            [questKeys.exclusiveTo] = {29255,29299},
+        },
         [29267] = { -- Some Good Will Come
             [questKeys.parentQuest] = 29100,
             [questKeys.preQuestSingle] = {29121},
@@ -9123,8 +9129,32 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {29232},
             [questKeys.startedBy] = {{52374}},
         },
+        [29273] = { -- How Hot
+            [questKeys.exclusiveTo] = {29274},
+        },
+        [29274] = { -- Hounds of Shannox
+            [questKeys.exclusiveTo] = {29273},
+        },
+        [29287] = { -- Peaked Interest
+            [questKeys.exclusiveTo] = {29288,29290},
+        },
+        [29288] = { -- Starting Young
+            [questKeys.exclusiveTo] = {29287,29290},
+        },
+        [29290] = { -- Fire in the Skies
+            [questKeys.exclusiveTo] = {29287,29288},
+        },
+        [29293] = { -- Singed Wings
+            [questKeys.exclusiveTo] = {29296},
+        },
+        [29296] = { -- Territorial Birds
+            [questKeys.exclusiveTo] = {29293},
+        },
         [29298] = { -- A Smoke-Stained Locket
             [questKeys.startedBy] = {nil,nil,{69854}},
+        },
+        [29299] = { -- Some Like It Hot
+            [questKeys.exclusiveTo] = {29255,29257},
         },
         [29304] = { -- The Dogs of War
             [questKeys.exclusiveTo] = {29137,29141,29142},
