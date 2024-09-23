@@ -62,6 +62,7 @@ function QuestEventHandler:RegisterEvents()
     Questie:RegisterEvent("QUEST_AUTOCOMPLETE", _QuestEventHandler.QuestAutoComplete)
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _QuestEventHandler.UnitQuestLogChanged)
     Questie:RegisterEvent("NEW_RECIPE_LEARNED", _QuestEventHandler.NewRecipeLearned)
+    Questie:RegisterEvent("CURRENCY_DISPLAY_UPDATE", _QuestEventHandler.CurrencyDisplayUpdate)
     Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", _QuestEventHandler.PlayerInteractionManagerFrameHide)
     Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _QuestEventHandler.ReputationChange)
 
@@ -496,6 +497,12 @@ function _QuestEventHandler.NewRecipeLearned()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED (QuestEventHandler)")
 
     doFullQuestLogScan = true -- If this event is related to a spell objective, a QUEST_LOG_UPDATE will be fired afterwards
+end
+
+function _QuestEventHandler.CurrencyDisplayUpdate()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CURRENCY_DISPLAY_UPDATE (QuestEventHandler)")
+
+    doFullQuestLogScan = true -- If this event is related to a currency objective, a QUEST_LOG_UPDATE will be fired afterwards
 end
 
 function _QuestEventHandler:PlayerInteractionManagerFrameHide(eventType)
