@@ -5947,6 +5947,7 @@ function CataQuestFixes.Load()
         },
         [27293] = { -- The Grimtotem Plot
             [questKeys.preQuestSingle] = {27292},
+            [questKeys.requiredSourceItems] = {33050},
         },
         [27294] = { -- More than Coincidence
             [questKeys.preQuestSingle] = {27292},
