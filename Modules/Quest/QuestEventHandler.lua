@@ -362,7 +362,6 @@ function _QuestEventHandler.QuestLogUpdate(isRetry)
         -- Function call updates doFullQuestLogScan. Order matters.
         _QuestEventHandler:UpdateAllQuests()
     else
-        print("QuestLogUpdate - No full scan. Retrying", (not isRetry))
         if (not isRetry) then
             C_Timer.After(1.0, function()
                 _QuestEventHandler.QuestLogUpdate(true)
@@ -436,23 +435,14 @@ function _QuestEventHandler:UpdateAllQuests()
     Questie:Debug(Questie.DEBUG_INFO, "Running full questlog check")
     local questIdsToCheck = {}
 
-    local str = ""
     -- TODO replace with a ready table so no need to generate at each call
     for questId, data in pairs(questLog) do
         if data.state == QUEST_LOG_STATES.QUEST_ACCEPTED then
             questIdsToCheck[questId] = true
-            str = str .. questId .. ", "
         end
     end
-    print("UpdateAllQuests - Quests to check: " .. str)
 
     local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck)
-
-    str = ""
-    for k, _ in pairs(changes) do
-        str = str..tostring(k)..","
-    end
-    print("UpdateAllQuests - changes", str, cacheMiss)
 
     if next(changes) then
         for questId, objIds in pairs(changes) do
@@ -469,7 +459,6 @@ function _QuestEventHandler:UpdateAllQuests()
             end)
         end)
     else
-        print("Nothing to update")
         Questie:Debug(Questie.DEBUG_INFO, "Nothing to update")
     end
 
@@ -508,7 +497,6 @@ end
 
 function _QuestEventHandler.CurrencyDisplayUpdate()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CURRENCY_DISPLAY_UPDATE (QuestEventHandler)")
-    print("CurrencyDisplayUpdate")
 
     -- We want to make sure we are doing a full quest log scan, when the currency changed. There are quests which reward a currency and this
     -- currency is also a quest objective. When just setting doFullQuestLogScan to true, the QUEST_REMOVED event will revert it and therefore
