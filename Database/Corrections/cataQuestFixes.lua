@@ -6090,6 +6090,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 27439,
             [questKeys.startedBy] = {{3045,4606,16658,43870}},
         },
+        [27336] = { -- The Grimtotem Weapon
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{4344,4345},4344,"Totem Tests Performed"}}},
+        },
         [27337] = { -- A Fitting Weapon
             [questKeys.startedBy] = {{914}},
             [questKeys.preQuestSingle] = {},
