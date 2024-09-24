@@ -1211,6 +1211,9 @@ function CataQuestFixes.Load()
         [12869] = { -- Pushed Too Far
             [questKeys.preQuestSingle] = {},
         },
+        [13124] = { -- The Struggle Persists
+            [questKeys.startedBy] = {}, -- needs a fake NPC inside oculus
+        },
         [13125] = { -- The Air Stands Still
             [questKeys.preQuestSingle] = {},
         },
