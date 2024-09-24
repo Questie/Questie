@@ -346,7 +346,8 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
 end
 
 ---Fires when the quest log changed in any way. This event fires very often!
-function _QuestEventHandler.QuestLogUpdate()
+---@param isRetry boolean @Only manually added. The API event doesn't have this parameter.
+function _QuestEventHandler.QuestLogUpdate(isRetry)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_LOG_UPDATE")
 
     local continueQueuing = true
@@ -361,7 +362,12 @@ function _QuestEventHandler.QuestLogUpdate()
         -- Function call updates doFullQuestLogScan. Order matters.
         _QuestEventHandler:UpdateAllQuests()
     else
-        print("QuestLogUpdate - No full scan")
+        print("QuestLogUpdate - No full scan. Retrying", (not isRetry))
+        if (not isRetry) then
+            C_Timer.After(1.0, function()
+                _QuestEventHandler.QuestLogUpdate(true)
+            end)
+        end
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
