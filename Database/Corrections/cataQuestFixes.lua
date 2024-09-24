@@ -8897,6 +8897,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredClasses] = classKeys.SHAMAN + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
         [29137] = { -- Breach in the Defenses
+            [questKeys.preQuestSingle] = {29201},
             [questKeys.exclusiveTo] = {29141,29142,29304},
         },
         [29138] = { -- Burn Victims
@@ -8905,16 +8906,20 @@ function CataQuestFixes.Load()
         },
         [29139] = { -- Aggressive Growth
             [questKeys.objectives] = {nil,{{208545}}},
+            [questKeys.preQuestSingle] = {29201},
             [questKeys.exclusiveTo] = {29143},
         },
         [29141] = { -- The Harder They Fall
+            [questKeys.preQuestSingle] = {29201},
             [questKeys.exclusiveTo] = {29137,29142,29304},
         },
         [29142] = { -- Traitors Return
+            [questKeys.preQuestSingle] = {29201},
             [questKeys.exclusiveTo] = {29137,29141,29304},
         },
         [29143] = { -- Wisp Away
             [questKeys.objectives] = {{{52531,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {29201},
             [questKeys.exclusiveTo] = {29139},
         },
         [29146] = { -- Ridin' the Rocketway
@@ -8989,6 +8994,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {52716},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",40720},{"monster",40723}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{40650,40660},40650}}},
+        },
+        [29179] = { -- Hostile Elements
+            [questKeys.preQuestSingle] = {29201},
         },
         [29181] = { -- Druids of the Talon
             [questKeys.objectives] = {nil,{{460014}}},
@@ -9189,6 +9197,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29255,29257},
         },
         [29304] = { -- The Dogs of War
+            [questKeys.preQuestSingle] = {29201},
             [questKeys.exclusiveTo] = {29137,29141,29142},
         },
         [29317] = { -- Fish Head
