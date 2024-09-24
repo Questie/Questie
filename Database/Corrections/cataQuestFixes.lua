@@ -6162,6 +6162,9 @@ function CataQuestFixes.Load()
         [27408] = { -- Banner of the Stonemaul
             [questKeys.preQuestSingle] = {27407},
         },
+        [27409] = { -- The Essence of Enmity
+            [questKeys.preQuestSingle] = {27407},
+        },
         [27416] = { -- The Brood of Onyxia
             [questKeys.preQuestSingle] = {27414},
         },
