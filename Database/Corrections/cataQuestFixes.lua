@@ -6168,6 +6168,9 @@ function CataQuestFixes.Load()
         [27416] = { -- The Brood of Onyxia
             [questKeys.preQuestSingle] = {27414},
         },
+        [27418] = { -- Challenge Overlord Mok'Morokk
+            [questKeys.preQuestSingle] = {27415},
+        },
         [27420] = { -- Postponing the Inevitable
             [questKeys.preQuestSingle] = {},
             [questKeys.requiredSourceItems] = {61037},
