@@ -8423,6 +8423,27 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.HUMAN,
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
         },
+        [28798] = { -- Waters of Elune
+            [questKeys.requiredLevel] = 77,
+        },
+        [28799] = { -- Might of the Earthen
+            [questKeys.requiredLevel] = 80,
+        },
+        [28800] = { -- Whispers of the Djinn
+            [questKeys.requiredLevel] = 80,
+        },
+        [28801] = { -- Tol'vir Heiroglyphics
+            [questKeys.requiredLevel] = 83,
+        },
+        [28802] = { -- Map of the Architects
+            [questKeys.requiredLevel] = 83,
+        },
+        [28803] = { -- Vengeance of the Wildhammer
+            [questKeys.requiredLevel] = 83,
+        },
+        [28804] = { -- Dark Iron Contingency Plan
+            [questKeys.requiredLevel] = 77,
+        },
         [28805] = { -- The Eye of the Storm
             [questKeys.objectives] = {nil,{{207414}}},
         },
@@ -9122,6 +9143,12 @@ function CataQuestFixes.Load()
         },
         [29257] = { -- Steal Magmolias
             [questKeys.exclusiveTo] = {29255,29299},
+        },
+        [29261] = { -- Zul'Aman Voodoo
+            [questKeys.requiredLevel] = 85,
+        },
+        [29262] = { -- Zul'Gurub Voodoo
+            [questKeys.requiredLevel] = 85,
         },
         [29267] = { -- Some Good Will Come
             [questKeys.parentQuest] = 29100,
