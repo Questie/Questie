@@ -361,6 +361,7 @@ function _QuestEventHandler.QuestLogUpdate()
         -- Function call updates doFullQuestLogScan. Order matters.
         _QuestEventHandler:UpdateAllQuests()
     else
+        print("QuestLogUpdate - No full scan")
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
@@ -501,6 +502,7 @@ end
 
 function _QuestEventHandler.CurrencyDisplayUpdate()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CURRENCY_DISPLAY_UPDATE (QuestEventHandler)")
+    print("CurrencyDisplayUpdate")
 
     doFullQuestLogScan = true -- If this event is related to a currency objective, a QUEST_LOG_UPDATE will be fired afterwards
 end
