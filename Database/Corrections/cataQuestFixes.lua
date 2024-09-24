@@ -5952,6 +5952,9 @@ function CataQuestFixes.Load()
         [27294] = { -- More than Coincidence
             [questKeys.preQuestSingle] = {27292},
         },
+        [27295] = { -- Seek Out Tabetha
+            [questKeys.preQuestGroup] = {27293,27294},
+        },
         [27298] = { -- Seek Out Master Pyreanor
             [questKeys.nextQuestInChain] = 27434,
         },
