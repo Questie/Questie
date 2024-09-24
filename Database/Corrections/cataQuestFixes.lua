@@ -5945,6 +5945,9 @@ function CataQuestFixes.Load()
         [27283] = { -- A Journey to Moonglade
             [questKeys.nextQuestInChain] = 27404,
         },
+        [27293] = { -- The Grimtotem Plot
+            [questKeys.preQuestSingle] = {27292},
+        },
         [27298] = { -- Seek Out Master Pyreanor
             [questKeys.nextQuestInChain] = 27434,
         },
