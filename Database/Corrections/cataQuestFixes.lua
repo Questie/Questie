@@ -5961,6 +5961,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 27403,
             [questKeys.startedBy] = {{16681,20406,43795}},
         },
+        [27306] = { -- Talk to Ogron
+            [questKeys.preQuestSingle] = {27260},
+        },
         [27310] = { -- No Weapons For You!
             [questKeys.preQuestSingle] = {27275},
         },
