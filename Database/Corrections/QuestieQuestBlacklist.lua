@@ -3063,6 +3063,7 @@ function QuestieQuestBlacklist:Load()
         [11992] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [12238] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [12765] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [13159] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13204] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13205] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13303] = QuestieCorrections.CATA_HIDE, -- Removed with cata
@@ -3392,9 +3393,12 @@ function QuestieQuestBlacklist:Load()
         -- [29129] = true, -- A Legendary Engagement
         -- [29132] = true, -- A Legendary Engagement
         --[29202] = true, -- The Fate of Runetotem
+        [29204] = true, -- The Warden's Charge
+        [29263] = true, -- A Bitter Pill
         [29280] = true, -- Nourishing Waters
         [29282] = true, -- Well Armed
         [29284] = true, -- Aid of the Ancients
+        [29289] = true, -- Mother's Malice
         [29326] = true, -- The Nordrassil Summit
         --[29387] = true, -- Guardians of Hyjal: Firelands Invasion!
         --[29388] = true, -- Guardians of Hyjal: Firelands Invasion!

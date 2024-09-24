@@ -2718,6 +2718,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [84377] = { -- End of the Dark Horde
             [questKeys.startedBy] = {{10429},nil,{227911}},
+            [questKeys.finishedBy] = {{332}},
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [84384] = { -- Demonic Deceptions

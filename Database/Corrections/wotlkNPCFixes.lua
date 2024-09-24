@@ -3173,6 +3173,9 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
                 [zoneIDs.DALARAN]={{47.93,43.32}},
             },
         },
+        [24108] = { -- Self-Turning and Oscillating Utility Target
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{45.26,17.79}}},
+        },
         [26221] = {
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY]={{66.9,13.53}},[zoneIDs.ORGRIMMAR]={{46.44,38.69}},[zoneIDs.THUNDER_BLUFF]={{22.16,23.98}},[zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},[zoneIDs.SILVERMOON_CITY]={{68.67,42.94}}},
         },
@@ -3270,6 +3273,9 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
                 [zoneIDs.THE_EXODAR]={{74.02,58.23}},
                 [zoneIDs.DALARAN]={{47.93,43.32}},
             },
+        },
+        [24108] = { -- Self-Turning and Oscillating Utility Target
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{47.64,39.3}}},
         },
         [26221] = {
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{56.1,92.16}},[zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},[zoneIDs.IRONFORGE]={{65.14,27.71}},[zoneIDs.STORMWIND_CITY]={{49.32,72.3}},[zoneIDs.THE_EXODAR]={{43.27,26.26}}},

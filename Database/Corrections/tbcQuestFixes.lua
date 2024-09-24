@@ -1782,6 +1782,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10288] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 0,
         },
         [10291] = {
             [questKeys.preQuestSingle] = {},
