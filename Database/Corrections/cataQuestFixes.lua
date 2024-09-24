@@ -8838,6 +8838,7 @@ function CataQuestFixes.Load()
         },
         [29125] = { -- Between the Trees
             [questKeys.exclusiveTo] = {29101,29147,29161,29164},
+            [questKeys.objectives] = {{{52176,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29126] = { -- The Power of Malorne
             [questKeys.startedBy] = {{52669}},
