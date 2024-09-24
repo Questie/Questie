@@ -257,20 +257,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
         end
     end
 
-    -- DEBUG prints:
---[[
-    local ids = "ALL"
-    if questIdsToCheck then
-        ids = ""
-        for questId in pairs(questIdsToCheck) do
-            ids = ids..tostring(questId).."," --yes, ugly extra comma at end. CBA
-        end
-    end
-    print("questIdsToCheck=", ids)
-    QuestLogCache.DebugPrintCacheChanges(cacheMiss, changes)
-]]--
-
-    return cacheMiss, changes
+    return cacheMiss, changes, questIdsChecked
 end
 
 
