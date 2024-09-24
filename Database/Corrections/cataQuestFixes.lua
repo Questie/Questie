@@ -5881,9 +5881,6 @@ function CataQuestFixes.Load()
         [27240] = { -- Proof of Treachery
             [questKeys.finishedBy] = {{29611}},
         },
-        [27255] = { -- The Black Shield
-            [questKeys.preQuestSingle] = {27254},
-        },
         [27261] = { -- Questioning Reethe
             [questKeys.triggerEnd] = {"Question Reethe with Ogron", {[zoneIDs.DUSTWALLOW_MARSH]={{42.47,38.07}}}},
         },
