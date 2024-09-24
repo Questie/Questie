@@ -6170,6 +6170,8 @@ function CataQuestFixes.Load()
         },
         [27418] = { -- Challenge Overlord Mok'Morokk
             [questKeys.preQuestSingle] = {27415},
+            [questKeys.objectives] = {{{4500}},nil,nil,nil,},
+
         },
         [27420] = { -- Postponing the Inevitable
             [questKeys.preQuestSingle] = {},
