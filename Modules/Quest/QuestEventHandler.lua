@@ -510,7 +510,12 @@ function _QuestEventHandler.CurrencyDisplayUpdate()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CURRENCY_DISPLAY_UPDATE (QuestEventHandler)")
     print("CurrencyDisplayUpdate")
 
-    doFullQuestLogScan = true -- If this event is related to a currency objective, a QUEST_LOG_UPDATE will be fired afterwards
+    -- We want to make sure we are doing a full quest log scan, when the currency changed. There are quests which reward a currency and this
+    -- currency is also a quest objective. When just setting doFullQuestLogScan to true, the QUEST_REMOVED event will revert it and therefore
+    -- the next QLU event will not do a full scan.
+    _QuestLogUpdateQueue:Insert(function()
+        doFullQuestLogScan = true
+    end)
 end
 
 function _QuestEventHandler:PlayerInteractionManagerFrameHide(eventType)
