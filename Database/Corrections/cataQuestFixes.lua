@@ -6159,6 +6159,9 @@ function CataQuestFixes.Load()
         [27404] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
         },
+        [27416] = { -- The Brood of Onyxia
+            [questKeys.preQuestSingle] = {27414},
+        },
         [27420] = { -- Postponing the Inevitable
             [questKeys.preQuestSingle] = {},
             [questKeys.requiredSourceItems] = {61037},
