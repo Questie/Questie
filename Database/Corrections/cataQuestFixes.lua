@@ -6159,6 +6159,9 @@ function CataQuestFixes.Load()
         [27404] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
         },
+        [27408] = { -- Banner of the Stonemaul
+            [questKeys.preQuestSingle] = {27407},
+        },
         [27416] = { -- The Brood of Onyxia
             [questKeys.preQuestSingle] = {27414},
         },
