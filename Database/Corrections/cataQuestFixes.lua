@@ -443,6 +443,7 @@ function CataQuestFixes.Load()
         [7905] = { -- The Darkmoon Faire
             [questKeys.objectivesText] = {"Deliver the Free Ticket Voucher to Gelvas Grimgate, located inside the Darkmoon Faire."},
             [questKeys.startedBy] = {{54334}},
+            [questKeys.zoneOrSort] = zoneIDs.IRONFORGE,
         },
         [7926] = { -- The Darkmoon Faire
             [questKeys.objectivesText] = {"Deliver the Free Ticket Voucher to Gelvas Grimgate, located inside the Darkmoon Faire."},
