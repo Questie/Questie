@@ -1130,6 +1130,7 @@ local questsToBlacklistBySoDPhase = {
         [78265] = true, -- Fish Oil (replaced by 82850)
         [78266] = true, -- Dark Iron Ordinance (replaced by 82851)
         [78267] = true, -- Shredder Turbochargers (replaced by 82853)
+        [84377] = true, -- End of the Dark Horde - Replaced by 85882
     },
 }
 
