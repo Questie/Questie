@@ -1902,6 +1902,18 @@ function SeasonOfDiscovery:LoadQuests()
         [82044] = { -- The Wild Gods
             [questKeys.zoneOrSort] = zoneIDs.FELWOOD,
         },
+        [82055] = { -- Darkmoon Dunes Deck
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+        },
+        [82056] = { -- Darkmoon Nightmares Deck
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+        },
+        [82057] = { -- Darkmoon Plagues Deck
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+        },
+        [82058] = { -- Darkmoon Wilds Deck
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+        },
         [82062] = { -- Ever After
             [questKeys.zoneOrSort] = zoneIDs.BLACKROCK_DEPTHS,
         },
