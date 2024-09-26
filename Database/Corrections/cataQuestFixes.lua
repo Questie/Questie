@@ -3727,6 +3727,12 @@ function CataQuestFixes.Load()
         [25583] = { -- Upon the Scene of Battle
             [questKeys.preQuestSingle] = {25922},
         },
+        [25585] = { -- Quiet the Cannons [Alliance]
+            [questKeys.objectives] = {{{40869,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [25586] = { -- Quiet the Cannons [Horde]
+            [questKeys.objectives] = {{{40869,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [25587] = { -- Gimme Shelter!
             [questKeys.preQuestSingle] = {25949,25558},
             [questKeys.extraObjectives] = {
