@@ -3695,9 +3695,11 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",40720},{"monster",40723}}}},
         },
         [25561] = { -- Circle the Wagons... er, Boats [Alliance]
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak with Mazzer Stripscrew to get on your boat"),0,{{"monster",40726}}}},
             [questKeys.preQuestSingle] = {25532},
         },
         [25562] = { -- Circle the Wagons... er, Boats [Horde]
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak with Griznak to get on your boat"),0,{{"monster",40727}}}},
             [questKeys.preQuestSingle] = {25533},
         },
         [25564] = { -- Stormwind Elite Aquatic and Land Forces
