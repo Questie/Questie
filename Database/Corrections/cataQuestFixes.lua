@@ -7158,6 +7158,9 @@ function CataQuestFixes.Load()
         [28046] = { -- Finish The Job
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [28047] = { -- Freezing the Pipes
+            [questKeys.preQuestGroup] = {28051,28045},
+        },
         [28048] = { -- That Smart One's Gotta Go
             [questKeys.preQuestGroup] = {28051,28045},
         },
