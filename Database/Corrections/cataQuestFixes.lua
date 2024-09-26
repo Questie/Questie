@@ -3641,10 +3641,16 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",40720},{"monster",40723}}}},
             [questKeys.objectives] = {nil,{{202973}}},
         },
+        [25524] = { -- In the Outhouse [Alliance]
+            [questKeys.preQuestSingle] = {25504},
+        },
         [25525] = { -- Wave One
             [questKeys.objectives] = {nil,nil,nil,nil,{{{39833,39835},39835}}},
             [questKeys.requiredSourceItems] = {52716},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",40720},{"monster",40723}}}},
+        },
+        [25526] = { -- In the Outhouse [Horde]
+            [questKeys.preQuestSingle] = {25505},
         },
         [25536] = { -- Cold Welcome
             [questKeys.finishedBy] = {{40642}},
