@@ -3760,6 +3760,9 @@ function CataQuestFixes.Load()
         [25595] = { -- Something Edible
             [questKeys.preQuestSingle] = {25996},
         },
+        [25596] = { -- Where's Synge?
+            [questKeys.preQuestSingle] = {25562},
+        },
         [25598] = { -- Ain't Too Proud to Beg
             [questKeys.objectives] = {{{39669,nil,Questie.ICON_TYPE_EVENT}}},
         },
