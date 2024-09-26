@@ -3694,7 +3694,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {52716},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",40720},{"monster",40723}}}},
         },
-        [25562] = { -- Circle the Wagons... er, Boats
+        [25561] = { -- Circle the Wagons... er, Boats [Alliance]
+            [questKeys.preQuestSingle] = {25532},
+        },
+        [25562] = { -- Circle the Wagons... er, Boats [Horde]
             [questKeys.preQuestSingle] = {25533},
         },
         [25564] = { -- Stormwind Elite Aquatic and Land Forces
