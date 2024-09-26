@@ -3619,6 +3619,9 @@ function CataQuestFixes.Load()
                 {nil,Questie.ICON_TYPE_EVENT,l10n("Disable the Rod of Subjugation"),2,{{"object",460009}}},
             },
         },
+        [25517] = { -- Bar Fight! [Alliance]
+            [questKeys.preQuestSingle] = {25488},
+        },
         [25518] = { -- Bar Fight! [Horde]
             [questKeys.preQuestSingle] = {25489},
         },
