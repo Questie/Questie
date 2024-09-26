@@ -2775,7 +2775,7 @@ local cataObjectiveLocales = {
         ["zhCN"] = false,
     },
 }
-}
+
 
 for k, v in pairs(cataObjectiveLocales) do
     l10n.translations[k] = v
