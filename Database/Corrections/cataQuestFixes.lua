@@ -5761,6 +5761,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Master's Gate investigated", {[zoneIDs.DEEPHOLM]={{38.79,74.4}}}},
         },
+        [27009] = { -- The Coldbringer
+            [questKeys.preQuestSingle] = {},
+        },
         [27010] = { -- Quicksilver Submersion
             [questKeys.requiredSourceItems] = {60809},
             [questKeys.objectives] = {{{44938,nil, Questie.ICON_TYPE_EVENT}}},
