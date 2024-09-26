@@ -3619,6 +3619,9 @@ function CataQuestFixes.Load()
                 {nil,Questie.ICON_TYPE_EVENT,l10n("Disable the Rod of Subjugation"),2,{{"object",460009}}},
             },
         },
+        [25518] = { -- Bar Fight! [Horde]
+            [questKeys.preQuestSingle] = {25489},
+        },
         [25519] = { -- Children of Tortolla
             [questKeys.objectives] = {nil,nil,nil,nil,{{{40555,40557},40555,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Deep Corruptor"),0,{{"monster",40561}}}},
