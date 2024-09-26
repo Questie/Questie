@@ -3588,6 +3588,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{40223,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {25949,25558},
         },
+        [25478] = { -- To the Summit
+            [questKeys.objectives] = {{{40358,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [25481] = { -- To New Thalanaar
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
         },
