@@ -5849,9 +5849,11 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26766,26768,28866},
         },
         [27062] = { -- Looming Threat
+            [questKeys.exclusiveTo] = {27009},
             [questKeys.finishedBy] = {{44837}},
         },
         [27063] = { -- Looming Threat
+            [questKeys.exclusiveTo] = {27009},
             [questKeys.finishedBy] = {{44837}},
         },
         [27064] = { -- He's Holding Out on Us
