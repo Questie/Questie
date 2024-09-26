@@ -3643,6 +3643,7 @@ function CataQuestFixes.Load()
         },
         [25524] = { -- In the Outhouse [Alliance]
             [questKeys.preQuestSingle] = {25504},
+            [questKeys.requiredSourceItems] = {54821},
         },
         [25525] = { -- Wave One
             [questKeys.objectives] = {nil,nil,nil,nil,{{{39833,39835},39835}}},
@@ -3651,6 +3652,7 @@ function CataQuestFixes.Load()
         },
         [25526] = { -- In the Outhouse [Horde]
             [questKeys.preQuestSingle] = {25505},
+            [questKeys.requiredSourceItems] = {54821},
         },
         [25536] = { -- Cold Welcome
             [questKeys.finishedBy] = {{40642}},
