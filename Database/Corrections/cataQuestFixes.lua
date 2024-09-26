@@ -3738,7 +3738,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25562},
         },
         [25590] = { -- Where's Wizzle?
-            [questKeys.preQuestSingle] = {25562},
+            [questKeys.preQuestSingle] = {25561},
         },
         [25591] = { -- Thunderdrome: Grudge Match!
             [questKeys.objectives] = {{{40876}}},
