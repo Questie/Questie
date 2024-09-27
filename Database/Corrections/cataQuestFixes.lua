@@ -3959,6 +3959,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {25579,25580,25581,25582,25583},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Use the Blade to become a naga"),0,{{"object",460004}}}},
         },
+        [25762] = { -- The Ancient Brazier
+            [questKeys.preQuestSingle] = {25744,25745},
+        },
         [25764] = { -- Egg Hunt
             [questKeys.objectives] = {{{41224,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Disable the Shadow Cloak Generator"),0,{{"object",203208}}}},
