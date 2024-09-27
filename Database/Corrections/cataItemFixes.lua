@@ -790,6 +790,9 @@ function CataItemFixes.Load()
         [69233] = { -- Cone of Cold
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [69765] = { -- Lucifern
+            [itemKeys.npcDrops] = {},
+        },
         [69815] = { -- Seething Cinder
             [itemKeys.class] = itemClasses.QUEST,
         },

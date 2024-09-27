@@ -9199,6 +9199,9 @@ function CataQuestFixes.Load()
         [29262] = { -- Zul'Gurub Voodoo
             [questKeys.requiredLevel] = 85,
         },
+        [29264] = { -- Flamewakers of the Molten Flow
+            [questKeys.finishedBy] = {{52444}}, -- we need to be able to show multiple NPC ids for turn in. this is temp fix
+        },
         [29265] = { -- Fire Flowers
             [questKeys.preQuestSingle] = {29206},
         },
@@ -9213,7 +9216,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{52374}},
         },
         [29272] = { -- Need... Water... Badly...
-            [questKeys.preQuestSingle] = {29206},
+            [questKeys.preQuestSingle] = {29181},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the escort"),0,{{"monster",53233}}}},
             [questKeys.objectives] = {{{53234,nil,Questie.ICON_TYPE_EVENT}}},
         },
@@ -9224,10 +9227,14 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29273},
         },
         [29275] = { -- Fandral's Methods
-            [questKeys.preQuestSingle] = {29272},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29272,29254},
+            [questKeys.exclusiveTo] = {29276},
         },
         [29276] = { -- The Flame Spider Queen
-            [questKeys.preQuestSingle] = {29272},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29272,29254},
+            [questKeys.exclusiveTo] = {29275},
         },
         [29279] = { -- Filling the Moonwell
             [questKeys.preQuestSingle] = {},
