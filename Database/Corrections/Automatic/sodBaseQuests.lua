@@ -6458,6 +6458,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Travel to the Cenarion Hold in Silithus, on Kalimdor, and speak to the druids there about the evolving silithids. Aid them as requested while practicing your marksmanship skills."},
             [questKeys.objectives] = {{{15181}}},
         },
+        [85150] = {
+            [questKeys.name] = "The Only Good Bug is a Dead Bug",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Find and defeat four silithid darters. These are fast-moving, small silithid wasps with a blue exoskeleton."},
+            [questKeys.objectives] = {{{231984}}},
+        },
         [85507] = {
             [questKeys.name] = "Our Wayward Friend",
             [questKeys.startedBy] = {{5492}},
