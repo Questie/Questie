@@ -6491,6 +6491,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Travel to Un'Goro Crater, in the south of Kalimdor, and find evidence of Van Amburgh."},
             [questKeys.objectives] = nil,
         },
+        [85251] = {
+            [questKeys.name] = "Showdown at Un'Goro Crater",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Travel to the camp of Van Amburgh in Un'Goro crater, in the south of Kalimdor, and defeat the dwarf and his menagerie."},
+            [questKeys.objectives] = {{{232755}}},
+        },
         [85507] = {
             [questKeys.name] = "Our Wayward Friend",
             [questKeys.startedBy] = {{5492}},

@@ -705,6 +705,12 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.MOONGLADE] = {{72.4,62.2}},
             },
         },
+        [232755] = { -- Van Amburgh
+            [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
+            [npcKeys.spawns] = {
+                [zoneIDs.UN_GORO_CRATER] = {{23.64,33.23}},
+            },
+        },
         [233084] = { -- Estelenn
             [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
             [npcKeys.spawns] = {
