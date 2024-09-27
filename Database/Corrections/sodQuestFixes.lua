@@ -2866,7 +2866,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [84853] = { -- Tracks in the Snow
             [questKeys.startedBy] = {{228176}},
-            [questKeys.finishedBy] = {{600000}},
+            [questKeys.finishedBy] = {nil,{467315}},
             [questKeys.preQuestSingle] = {84636},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
