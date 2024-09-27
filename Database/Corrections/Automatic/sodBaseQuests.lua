@@ -6414,5 +6414,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Take the Head of Rend Blackhand to Master Mathias Shaw in Stormwind."},
             [questKeys.objectives] = nil,
         },
+        [85883] = {
+            [questKeys.name] = "For The Horde!",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{4949}},
+            [questKeys.requiredLevel] = 55,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Travel to Blackrock Spire and slay Warchief Rend Blackhand. Take his head and return to Orgrimmar."},
+            [questKeys.objectives] = nil,
+        },
     }
 end

@@ -2858,6 +2858,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [85883] = { -- For The Horde!
+            [questKeys.startedBy] = {{4949}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {4974},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
 
         --- Fake rune quests
         [90000] = {
