@@ -6436,6 +6436,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Travel to the hills in Winterspring in northern Kalimdor, north of Everlook, to meet up with Estelenn and find out what else she needs."},
             [questKeys.objectives] = nil,
         },
+        [84950] = {
+            [questKeys.name] = "Out in the Cold",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Use your survival supplies to set up a campsite foundation and a crude tent. If you lose your foundation, make a new one with your survival supplies and bring the materials there."},
+            [questKeys.objectives] = {{{9659}}},
+        },
         [85507] = {
             [questKeys.name] = "Our Wayward Friend",
             [questKeys.startedBy] = {{5492}},

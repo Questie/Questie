@@ -2870,6 +2870,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84636},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [84950] = { -- Out in the Cold
+            [questKeys.startedBy] = {nil,{467315}},
+            [questKeys.finishedBy] = {nil,{469796}},
+            [questKeys.preQuestSingle] = {84853},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+            [questKeys.extraObjectives] = {{{[zoneIDs.WINTERSPRING]={{58,21}}}, Questie.ICON_TYPE_EVENT, l10n("Use your Survival Supplies")}},
+        },
         [85507] = { -- Our Wayward Friend
             [questKeys.objectives] = {{{231498,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,

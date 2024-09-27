@@ -290,6 +290,18 @@ local seasonObjectiveLocals = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Use your Survival Supplies"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Benutze deine Überlebensvorräte",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(seasonObjectiveLocals) do
