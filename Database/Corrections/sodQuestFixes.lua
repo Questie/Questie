@@ -2889,6 +2889,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {85061},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [85248] = { -- Everyone Knows That Bugs Can't Fly
+            [questKeys.startedBy] = {{15181}},
+            [questKeys.finishedBy] = {{15181}},
+            [questKeys.objectives] = {{{231984,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {85150},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [85507] = { -- Our Wayward Friend
             [questKeys.objectives] = {{{231498,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,

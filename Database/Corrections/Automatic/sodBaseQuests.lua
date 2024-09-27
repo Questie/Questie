@@ -6469,6 +6469,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find and defeat four silithid darters. These are fast-moving, small silithid wasps with a blue exoskeleton."},
             [questKeys.objectives] = {{{231984}}},
         },
+        [85248] = {
+            [questKeys.name] = "Everyone Knows That Bugs Can't Fly",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Fight a silithid darter until you weaken it, then use your Concussive Shot skill to slow it. When it frenzies, use a Tranquilizing Shot to knock it unconscious. Tie it up, drag it back to Cenarion Hold, and secure it to the  hitching post across from Commander Mar'alith's war room for further study. Return to Commander Mar'alith in Cenarion Hold when finished. You can learn Tranquilizing Shot from the raid on Molten Core."},
+            [questKeys.objectives] = nil,
+        },
         [85507] = {
             [questKeys.name] = "Our Wayward Friend",
             [questKeys.startedBy] = {{5492}},
