@@ -6447,6 +6447,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Use your survival supplies to set up a campsite foundation and a crude tent. If you lose your foundation, make a new one with your survival supplies and bring the materials there."},
             [questKeys.objectives] = {{{9659}}},
         },
+        [85061] = {
+            [questKeys.name] = "Bug Hunt",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Travel to the Cenarion Hold in Silithus, on Kalimdor, and speak to the druids there about the evolving silithids. Aid them as requested while practicing your marksmanship skills."},
+            [questKeys.objectives] = {{{15181}}},
+        },
         [85507] = {
             [questKeys.name] = "Our Wayward Friend",
             [questKeys.startedBy] = {{5492}},
