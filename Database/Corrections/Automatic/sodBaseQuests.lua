@@ -6392,6 +6392,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"While you have proven yourself to me, you may need to continue to work toward proving yourself to the suspicious brethren of my tribe. &nbsp;To that end, I may be able to continue assisting you.Some of the Deadwood furbolgs wear a distinctive headdress that may be used as a means of proof in thinning their numbers. &nbsp;Bring me a feather from any headdresses you acquire; for every set of five you bring me, you will earn recognition amongst the Timbermaw."},
             [questKeys.objectives] = {nil,nil,{{21377}}},
         },
+        [85659] = {
+            [questKeys.name] = "Celebrating Good Times",
+            [questKeys.startedBy] = {{1748}},
+            [questKeys.finishedBy] = {{14394}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Seek out Major Mattingly in the Valley of Heroes."},
+            [questKeys.objectives] = nil,
+        },
         [85882] = {
             [questKeys.name] = "End of the Dark Horde",
             [questKeys.startedBy] = nil,

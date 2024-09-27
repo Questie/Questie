@@ -2833,7 +2833,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [84560] = { -- Celebrating Good Times
             [questKeys.preQuestSingle] = {7495},
-            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [84561] = { -- For All To See
             [questKeys.preQuestSingle] = {7490},
@@ -2843,6 +2843,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {8461},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = zoneIDs.FELWOOD,
+        },
+        [85659] = { -- Celebrating Good Times
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {84560},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [85882] = { -- End of the Dark Horde
             [questKeys.startedBy] = {{10429}},
