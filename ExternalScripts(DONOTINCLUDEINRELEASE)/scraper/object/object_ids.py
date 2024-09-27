@@ -1,4 +1,4 @@
-# https://www.wowhead.com/classic/objects?filter=6;2;11503
+# https://www.wowhead.com/classic/objects?filter=6;2;11505
 # r = []
 # document.getElementsByClassName("listview-cleartext").forEach(l => r.push(parseInt(l.href.substr(39, 6)))); r; // run for each page
 # [...new Set(r)].sort();
@@ -6,6 +6,7 @@ OBJECT_IDS = [
     175755,
     176366,
     177260,
+    375545,
     386675,
     386691,
     386759,
@@ -318,4 +319,12 @@ OBJECT_IDS = [
     464128,
     465021,
     465022,
+    469600,
+    477110,
+    477757,
+    478062,
+    478075,
+    478076,
+    489963,
+    499988,
 ]
