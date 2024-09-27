@@ -2845,10 +2845,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.FELWOOD,
         },
         [85882] = { -- End of the Dark Horde
-            [questKeys.startedBy] = {{10429},nil,{227911}},
+            [questKeys.startedBy] = {{10429}},
             [questKeys.finishedBy] = {{332}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {84377},
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
 
         --- Fake rune quests
