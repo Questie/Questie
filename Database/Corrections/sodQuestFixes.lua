@@ -2844,6 +2844,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = zoneIDs.FELWOOD,
         },
+        [85658] = { -- For All To See
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {84561},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [85659] = { -- Celebrating Good Times
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {84560},
