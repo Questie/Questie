@@ -4096,6 +4096,12 @@ function CataQuestFixes.Load()
         [25872] = { -- The Brave and the Bold
             [questKeys.preQuestSingle] = {25836},
         },
+        [25873] = { -- Horn of the Traitor [Alliance]
+            [questKeys.preQuestSingle] = {25835},
+        },
+        [25874] = { -- Horn of the Traitor [Horde]
+            [questKeys.preQuestSingle] = {25836},
+        },
         [25881] = { -- Lost Wardens
             [questKeys.preQuestSingle] = {25372},
             [questKeys.objectives] = {{{41499,nil,Questie.ICON_TYPE_TALK}}},
