@@ -3394,6 +3394,7 @@ function QuestieQuestBlacklist:Load()
         -- [29132] = true, -- A Legendary Engagement
         --[29202] = true, -- The Fate of Runetotem
         [29204] = true, -- The Warden's Charge
+        [29209] = true, -- Into the Fiery Depths
         [29263] = true, -- A Bitter Pill
         [29280] = true, -- Nourishing Waters
         [29282] = true, -- Well Armed

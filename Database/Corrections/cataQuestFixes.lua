@@ -8960,6 +8960,9 @@ function CataQuestFixes.Load()
         [29157] = { -- The Zandalari Menace
             [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
         },
+        [29160] = { -- Egg-stinction
+            [questKeys.exclusiveTo] = {29189},
+        },
         [29161] = { -- Those Bears Up There
             [questKeys.objectives] = {{{52688,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Climb the tree"),0,{{"monster",52676}}}},
@@ -9005,6 +9008,10 @@ function CataQuestFixes.Load()
         [29186] = { -- The Hex Lord's Fetish
             [questKeys.preQuestSingle] = {},
         },
+        [29189] = { -- Wicked Webs
+            [questKeys.preQuestSingle] = {29205},
+            [questKeys.exclusiveTo] = {29160},
+        },
         [29190] = { -- Let's Go Fly a Kite
             [questKeys.triggerEnd] = {"Fly Dragon Kites with your orphan", {[zoneIDs.ORGRIMMAR]={{58.5,58.3}}}},
             [questKeys.preQuestGroup] = {29146,29167,29176},
@@ -9014,6 +9021,9 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Take your orphan out for ice cream.", {[zoneIDs.ORGRIMMAR]={{38.56,86.7}}}},
             [questKeys.preQuestGroup] = {29146,29167,29176},
             [questKeys.requiredSourceItems] = {69233},
+        },
+        [29192] = { -- The Wardens are Watching
+            [questKeys.exclusiveTo] = {29211},
         },
         [29197] = { -- Caught Unawares
             [questKeys.objectives] = {{{52906,nil,Questie.ICON_TYPE_EVENT},{52907,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{52903,52904},52903,nil,Questie.ICON_TYPE_EVENT}}},
@@ -9034,8 +9044,26 @@ function CataQuestFixes.Load()
         [29202] = { -- The Fate of Runetotem
             [questKeys.preQuestSingle] = {29200},
         },
+        [29205] = { -- The Forlorn Spire
+            [questKeys.exclusiveTo] = {29206},
+        },
+        [29206] = { -- Into the Fire
+            [questKeys.exclusiveTo] = {29205},
+            [questKeys.preQuestSingle] = {29181},
+            [questKeys.objectives] = {{{52683}}},
+        },
         [29208] = { -- An Old Friend
             [questKeys.preQuestSingle] = {26386,26776},
+        },
+        [29210] = { -- Enduring the Heat
+            [questKeys.preQuestSingle] = {29211},
+            [questKeys.objectives] = {{{53886,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{52889,52885,52888,52890,52886,52887,52884},52889,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.finishedBy] = {{52823}}, -- we need to be able to show multiple NPC ids for turn in. this is temp fix
+        },
+        [29211] = { -- Solar Core Destruction
+            [questKeys.preQuestSingle] = {29205},
+            [questKeys.objectives] = {nil,{{208474}}},
+            [questKeys.exclusiveTo] = {29192},
         },
         [29213] = { -- How's the Hunter Holding Up?
             [questKeys.parentQuest] = 29100,
@@ -9132,6 +9160,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{460012}}},
             [questKeys.nextQuestInChain] = 29250,
         },
+        [29245] = { -- The Mysterious Seed
+            [questKeys.preQuestSingle] = {29214},
+        },
         [29246] = { -- Relieving the Pain
             [questKeys.exclusiveTo] = {29123,29127,29149,29163,29166,29247,29248},
         },
@@ -9141,6 +9172,9 @@ function CataQuestFixes.Load()
         [29248] = { -- Releasing the Pressure
             [questKeys.exclusiveTo] = {29123,29127,29149,29163,29166,29246,29247},
         },
+        [29249] = { -- Planting Season
+            [questKeys.objectives] = {nil,{{208537}}},
+        },
         [29250] = { -- Making Contact
             [questKeys.parentQuest] = 29219,
             [questKeys.nextQuestInChain] = 29251,
@@ -9148,17 +9182,25 @@ function CataQuestFixes.Load()
         [29251] = { -- Booty Bay's Interests
             [questKeys.preQuestSingle] = {29250},
         },
+        [29254] = { -- Little Lasher
+            [questKeys.startedBy] = {{53079}},
+        },
         [29255] = { -- Embergris
             [questKeys.exclusiveTo] = {29257,29299},
+            [questKeys.preQuestSingle] = {29254},
         },
         [29257] = { -- Steal Magmolias
             [questKeys.exclusiveTo] = {29255,29299},
+            [questKeys.preQuestSingle] = {29254},
         },
         [29261] = { -- Zul'Aman Voodoo
             [questKeys.requiredLevel] = 85,
         },
         [29262] = { -- Zul'Gurub Voodoo
             [questKeys.requiredLevel] = 85,
+        },
+        [29265] = { -- Fire Flowers
+            [questKeys.preQuestSingle] = {29206},
         },
         [29267] = { -- Some Good Will Come
             [questKeys.parentQuest] = 29100,
@@ -9170,11 +9212,34 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {29232},
             [questKeys.startedBy] = {{52374}},
         },
+        [29272] = { -- Need... Water... Badly...
+            [questKeys.preQuestSingle] = {29206},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the escort"),0,{{"monster",53233}}}},
+            [questKeys.objectives] = {{{53234,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [29273] = { -- How Hot
             [questKeys.exclusiveTo] = {29274},
         },
         [29274] = { -- Hounds of Shannox
             [questKeys.exclusiveTo] = {29273},
+        },
+        [29275] = { -- Fandral's Methods
+            [questKeys.preQuestSingle] = {29272},
+        },
+        [29276] = { -- The Flame Spider Queen
+            [questKeys.preQuestSingle] = {29272},
+        },
+        [29279] = { -- Filling the Moonwell
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29181,29214},
+        },
+        [29281] = { -- Additional Armaments
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29181,29214},
+        },
+        [29283] = { -- Calling the Ancients
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29181,29214},
         },
         [29287] = { -- Peaked Interest
             [questKeys.exclusiveTo] = {29288,29290},
@@ -9196,6 +9261,7 @@ function CataQuestFixes.Load()
         },
         [29299] = { -- Some Like It Hot
             [questKeys.exclusiveTo] = {29255,29257},
+            [questKeys.preQuestSingle] = {29254},
         },
         [29304] = { -- The Dogs of War
             [questKeys.preQuestSingle] = {29201},
@@ -9369,13 +9435,13 @@ function CataQuestFixes.Load()
         [29390] = { -- Guardians of Hyjal: Call of the Ancients
             [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
             [questKeys.nextQuestInChain] = 29388,
-            [questKeys.exclusiveTo] = {29389},
+            [questKeys.exclusiveTo] = {25372,29389},
         },
         [29391] = { -- Guardians of Hyjal: Call of the Ancients
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.nextQuestInChain] = 29387,
-            [questKeys.exclusiveTo] = {29389},
+            [questKeys.exclusiveTo] = {25372,29389},
         },
         [29392] = { -- Missing Heirlooms
             [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.STORMWIND_CITY]={{41.4,72.5}}}},
@@ -9501,7 +9567,7 @@ function CataQuestFixes.Load()
         },
         [29509] = { -- Putting the Crunch in the Frog
             [questKeys.requiredSkill] = {profKeys.COOKING,75},
-            [questKeys.requiredSourceItems] = {72057},
+            [questKeys.requiredSourceItems] = {30817,72057},
             [questKeys.specialFlags] = 17,
         },
         [29510] = { -- Putting Trash to Good Use
