@@ -4038,6 +4038,14 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25520,25807},
         },
+        [25835] = { -- Free Freewind Post [Alliance]
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25825,25704},
+        },
+        [25836] = { -- Free Freewind Post [Horde]
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25826,25704},
+        },
         [25839] = { -- The Ultrasafe Personnel Launcher
             [questKeys.objectives] = {{{41398,nil,Questie.ICON_TYPE_INTERACT}}},
         },
