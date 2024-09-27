@@ -194,5 +194,8 @@ function SeasonOfDiscovery:LoadItems()
         [228141] = { -- Necromancy 101
             [itemKeys.objectDrops] = {463211},
         },
+        [229416] = { -- Warm Fur
+            [itemKeys.npcDrops] = {7445},
+        },
     }
 end

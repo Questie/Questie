@@ -6513,6 +6513,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find the abandoned camp on the west side of the Burning Steppes, south of the road to the Altar of Storms, and investigate the area."},
             [questKeys.objectives] = {{{227755}}},
         },
+        [85525] = {
+            [questKeys.name] = "One Night in Winterspring",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Collect bear meat, warm fur, and dry wood. Bring the materials back to your campsite to construct a shelter so that you can survive the storm. If you lose your foundation, make a new one with your survival supplies and bring the materials there."},
+            [questKeys.objectives] = {nil,nil,{{12622},{229416},{229415}}},
+        },
         [85658] = {
             [questKeys.name] = "For All To See",
             [questKeys.startedBy] = {{4949}},

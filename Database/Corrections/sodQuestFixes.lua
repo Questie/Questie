@@ -2905,6 +2905,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{233084}},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [85525] = { -- One Night in Winterspring
+            [questKeys.startedBy] = {nil,{469796}},
+            [questKeys.finishedBy] = {{227755}},
+            [questKeys.objectives] = {nil,{469600},{{12622},{229416}}},
+            [questKeys.preQuestSingle] = {84950},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [85658] = { -- For All To See
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {84561},

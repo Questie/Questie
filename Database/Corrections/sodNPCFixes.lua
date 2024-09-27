@@ -711,6 +711,12 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.BURNING_STEPPES] = {{17,46}},
             },
         },
+        [227755] = { -- Estelenn
+            [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
+            [npcKeys.spawns] = {
+                [zoneIDs.WINTERSPRING] = {{58,21}},
+            },
+        },
 
         -- fake NPCs
         [900000] = {
