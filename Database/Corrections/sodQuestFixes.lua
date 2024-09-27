@@ -2284,6 +2284,12 @@ function SeasonOfDiscovery:LoadQuests()
         [84135] = { -- Beach Bot
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
+        [84136] = { -- The Beast Master of Moonglade
+            [questKeys.startedBy] = {{233084}},
+            [questKeys.finishedBy] = {{228176}},
+            [questKeys.preQuestSingle] = {85521},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [84137] = { -- Mechanical Romance
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {84135},
@@ -2677,6 +2683,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84414},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [84235] = { -- Dive! Dive!
+            [questKeys.startedBy] = {{228176}},
+            [questKeys.finishedBy] = {{228176}},
+            [questKeys.objectives] = {{{229897,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {84136},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [84348] = { -- Priority Target: Duke Tectonis
             [questKeys.zoneOrSort] = sortKeys.BLACKROCK_ERUPTION,
             [questKeys.questFlags] = questFlags.DAILY,
@@ -2839,10 +2852,23 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {7490},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
+        [84636] = { -- Prowler
+            [questKeys.startedBy] = {{228176}},
+            [questKeys.finishedBy] = {{228176}},
+            [questKeys.objectives] = {{{230481,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {84235},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [84777] = { -- Feathers for Nafien
             [questKeys.preQuestSingle] = {8461},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = zoneIDs.FELWOOD,
+        },
+        [84853] = { -- Tracks in the Snow
+            [questKeys.startedBy] = {{228176}},
+            [questKeys.finishedBy] = {{600000}},
+            [questKeys.preQuestSingle] = {84636},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85507] = { -- Our Wayward Friend
             [questKeys.objectives] = {{{231498,nil,Questie.ICON_TYPE_EVENT}}},
@@ -2866,6 +2892,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {{{232912,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {85510},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85521] = { -- Tracking the Trapper
+            [questKeys.startedBy] = {{10429}},
+            [questKeys.finishedBy] = {{233084}},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85658] = { -- For All To See
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,

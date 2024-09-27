@@ -693,6 +693,24 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.EASTERN_PLAGUELANDS] = {{47.8,50.4}},
             },
         },
+        [229897] = { -- Wild Windtwister
+            [npcKeys.zoneID] = zoneIDs.MOONGLADE,
+            [npcKeys.spawns] = {
+                [zoneIDs.MOONGLADE] = {{39,68}},
+            },
+        },
+        [230481] = { -- Earth Elemental Fragment
+            [npcKeys.zoneID] = zoneIDs.MOONGLADE,
+            [npcKeys.spawns] = {
+                [zoneIDs.MOONGLADE] = {{72.4,62.2}},
+            },
+        },
+        [233084] = { -- Estelenn
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+            [npcKeys.spawns] = {
+                [zoneIDs.BURNING_STEPPES] = {{17,46}},
+            },
+        },
 
         -- fake NPCs
         [900000] = {
