@@ -2844,6 +2844,29 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = zoneIDs.FELWOOD,
         },
+        [85507] = { -- Our Wayward Friend
+            [questKeys.objectives] = {{{231498,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85508] = { -- Our Wayward Friend
+            [questKeys.objectives] = {{{231498,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {85507},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85509] = { -- Grand Theft Echoing Orb
+            [questKeys.objectives] = {{{217980,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {85508},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85510] = { -- A Solid Lead
+            [questKeys.preQuestSingle] = {85509},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85511] = { -- Plaguelands Rendezvous
+            [questKeys.objectives] = {{{232912,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {85510},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [85658] = { -- For All To See
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {84561},
