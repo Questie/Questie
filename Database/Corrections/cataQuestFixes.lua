@@ -3961,6 +3961,7 @@ function CataQuestFixes.Load()
         },
         [25762] = { -- The Ancient Brazier
             [questKeys.preQuestSingle] = {25744,25745},
+            [questKeys.objectives] = {{{41242,nil,Questie.ICON_TYPE_INTERACT}},nil,{{55979}}},
         },
         [25764] = { -- Egg Hunt
             [questKeys.objectives] = {{{41224,nil,Questie.ICON_TYPE_EVENT}}},
