@@ -2896,6 +2896,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {85150},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [85250] = { -- Meeting the Menagerie
+            [questKeys.startedBy] = {{15181}},
+            [questKeys.finishedBy] = {{233084}},
+            [questKeys.preQuestSingle] = {85248},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [85507] = { -- Our Wayward Friend
             [questKeys.objectives] = {{{231498,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
