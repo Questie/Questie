@@ -6141,6 +6141,10 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{44247}},
             [questKeys.preQuestSingle] = {},
         },
+        [27346] = { -- The Zeppelin Crash
+            [questKeys.exclusiveTo] = {27348},
+        },
+        },
         [27349] = { -- Break in Communications: Dreadwatch Outpost
             [questKeys.triggerEnd] = {"Investigate Dreadwatch Outpost", {[zoneIDs.RUINS_OF_GILNEAS]={{53,32.6}}}},
         },
