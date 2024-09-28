@@ -7342,6 +7342,10 @@ function CataQuestFixes.Load()
         [28137] = { -- Teach A Man To Fish.... Or Steal
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [28140] = { -- The Elder Crone
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28136,28139},
+        },
         [28141] = { -- Relics of the Sun King
             [questKeys.preQuestSingle] = {28112},
         },
