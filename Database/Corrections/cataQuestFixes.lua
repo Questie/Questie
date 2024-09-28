@@ -7240,6 +7240,9 @@ function CataQuestFixes.Load()
         [28084] = { -- Might of the Krom'gar
             [questKeys.preQuestSingle] = {26004},
         },
+        [28086] = { -- Free the Pridelings
+            [questKeys.preQuestSingle] = {28085},
+        },
         [28089] = { -- Warchief's Command: Hillsbrad Foothills!
             [questKeys.exclusiveTo] = {28096},
         },
