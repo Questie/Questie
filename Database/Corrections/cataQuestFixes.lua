@@ -7243,6 +7243,9 @@ function CataQuestFixes.Load()
         [28086] = { -- Free the Pridelings
             [questKeys.preQuestSingle] = {28085},
         },
+        [28087] = { -- Death to all Trappers!
+            [questKeys.preQuestSingle] = {28085},
+        },
         [28089] = { -- Warchief's Command: Hillsbrad Foothills!
             [questKeys.exclusiveTo] = {28096},
         },
