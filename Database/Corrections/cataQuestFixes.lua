@@ -6093,8 +6093,11 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 27403,
             [questKeys.startedBy] = {{16681,20406,43795}},
         },
-        [27310] = { -- No Weapons For You!
+        [27310] = { -- No Weapons For You! [Alliance]
             [questKeys.preQuestSingle] = {27275},
+        },
+        [27311] = { -- No Weapons For You! [Horde]
+            [questKeys.preQuestSingle] = {27276},
         },
         [27312] = { -- Darkcloud Grimtotem
             [questKeys.preQuestSingle] = {27275},
