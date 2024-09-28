@@ -7318,6 +7318,12 @@ function CataQuestFixes.Load()
         [28122] = { -- A Huge Problem
             [questKeys.finishedBy] = {{48066}}, -- temporary until Questie can show multiple turn ins
         },
+        [28125] = { -- Something to Wear
+            [questKeys.preQuestSingle] = {28124},
+        },
+        [28127] = { -- Break Them Out
+            [questKeys.preQuestSingle] = {28124},
+        },
         [28130] = { -- Not The Friendliest Town
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
