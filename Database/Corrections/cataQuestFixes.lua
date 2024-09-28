@@ -7359,6 +7359,9 @@ function CataQuestFixes.Load()
         [28149] = { -- Whispers in the Wind
             [questKeys.preQuestSingle] = {28133},
         },
+        [28157] = { -- Four Twilight Elements
+            [questKeys.preQuestSingle] = {28142},
+        },
         [28162] = { -- Swamp Bait
             [questKeys.finishedBy] = {{48066}}, -- temporary until Questie can show multiple turn ins
         },
