@@ -7246,6 +7246,9 @@ function CataQuestFixes.Load()
         [28087] = { -- Death to all Trappers!
             [questKeys.preQuestSingle] = {28085},
         },
+        [28088] = { -- Release Heartrazor
+            [questKeys.preQuestGroup] = {28086,28087},
+        },
         [28089] = { -- Warchief's Command: Hillsbrad Foothills!
             [questKeys.exclusiveTo] = {28096},
         },
