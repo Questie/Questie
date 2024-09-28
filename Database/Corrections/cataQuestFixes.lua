@@ -25,6 +25,7 @@ QuestieCorrections.killCreditObjectiveFirst[25015] = true
 QuestieCorrections.killCreditObjectiveFirst[25801] = true
 QuestieCorrections.killCreditObjectiveFirst[26621] = true
 QuestieCorrections.killCreditObjectiveFirst[26875] = true
+QuestieCorrections.killCreditObjectiveFirst[29290] = true
 
 function CataQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
@@ -9263,18 +9264,15 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {29181,29214},
         },
         [29287] = { -- Peaked Interest
-            [questKeys.exclusiveTo] = {29288,29289,29290},
+            [questKeys.exclusiveTo] = {29288,29290},
         },
         [29288] = { -- Starting Young
-            [questKeys.exclusiveTo] = {29287,29289,29290},
-        },
-        [29289] = { -- Mother's Malice
-            [questKeys.exclusiveTo] = {29287,29288,29290},
-            [questKeys.preQuestSingle] = {29265},
+            [questKeys.exclusiveTo] = {29287,29290},
         },
         [29290] = { -- Fire in the Skies
-            [questKeys.exclusiveTo] = {29287,29288,29289},
+            [questKeys.exclusiveTo] = {29287,29288},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",53297}}}},
+            [questKeys.objectives] = {{{53310}},nil,nil,nil,{{{53477,53478,53479},53479},{{53309,53310,53469,53308},53308}}},
         },
         [29293] = { -- Singed Wings
             [questKeys.exclusiveTo] = {29296},
