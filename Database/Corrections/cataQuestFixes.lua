@@ -6114,7 +6114,10 @@ function CataQuestFixes.Load()
         [27317] = { -- The Rattle of Bones [Horde]
             [questKeys.preQuestSingle] = {27276},
         },
-        [27321] = { -- The Writ of History
+        [27320] = { -- The Writ of History [Alliance]
+            [questKeys.preQuestSingle] = {27316},
+        },
+        [27321] = { -- The Writ of History [Horde]
             [questKeys.preQuestSingle] = {27317},
         },
         [27331] = { -- The Seer's Call
