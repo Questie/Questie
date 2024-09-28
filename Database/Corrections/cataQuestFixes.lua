@@ -7368,6 +7368,12 @@ function CataQuestFixes.Load()
         [28158] = { -- Unbound
             [questKeys.preQuestSingle] = {28142},
         },
+        [28160] = { -- Spread the Word [Alliance]
+            [questKeys.preQuestSingle] = {28159},
+        },
+        [28161] = { -- Spread the Word [Horde]
+            [questKeys.preQuestSingle] = {28159},
+        },
         [28162] = { -- Swamp Bait
             [questKeys.finishedBy] = {{48066}}, -- temporary until Questie can show multiple turn ins
         },
