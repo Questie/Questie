@@ -6120,6 +6120,12 @@ function CataQuestFixes.Load()
         [27321] = { -- The Writ of History [Horde]
             [questKeys.preQuestSingle] = {27317},
         },
+        [27325] = { -- The Drums of War [Alliance]
+            [questKeys.preQuestSingle] = {27316},
+        },
+        [27326] = { -- The Drums of War [Horde]
+            [questKeys.preQuestSingle] = {27317},
+        },
         [27331] = { -- The Seer's Call
             [questKeys.nextQuestInChain] = 27435,
             [questKeys.startedBy] = {{3045,4606,16658,43870}},
