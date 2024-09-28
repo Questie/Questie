@@ -9065,7 +9065,7 @@ function CataQuestFixes.Load()
         },
         [29210] = { -- Enduring the Heat
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29159,29192 or 29211,29160 or 29189},
+            [questKeys.preQuestGroup] = {29192 or 29211,29160 or 29189},
             [questKeys.objectives] = {{{53886,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{52889,52885,52888,52890,52886,52887,52884,53887},52889,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.finishedBy] = {{52823}}, -- we need to be able to show multiple NPC ids for turn in. this is temp fix
         },
