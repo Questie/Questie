@@ -7506,10 +7506,12 @@ function CataQuestFixes.Load()
         [28282] = { -- Narkrall, The Drake-Tamer
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the event"), 0, {{"monster", 48173}}}},
         },
-        [28283] = { -- What's that Rattle?
+        [28283] = { -- What's that Rattle? [Alliance]
+            [questKeys.preQuestSingle] = {27275},
             [questKeys.nextQuestInChain] = 27316,
         },
-        [28284] = { -- What's that Rattle?
+        [28284] = { -- What's that Rattle? [Horde]
+            [questKeys.preQuestSingle] = {27276},
             [questKeys.nextQuestInChain] = 27317,
         },
         [28285] = { -- Meet with High Priestess Laurena
