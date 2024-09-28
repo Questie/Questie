@@ -6108,8 +6108,11 @@ function CataQuestFixes.Load()
         [27315] = { -- Grimtotem Chiefs: Isha Gloomaxe
             [questKeys.preQuestSingle] = {27275},
         },
-        [27317] = { -- The Rattle of Bones
-            [questKeys.preQuestSingle] = {},
+        [27316] = { -- The Rattle of Bones [Alliance]
+            [questKeys.preQuestSingle] = {27275},
+        },
+        [27317] = { -- The Rattle of Bones [Horde]
+            [questKeys.preQuestSingle] = {27276},
         },
         [27321] = { -- The Writ of History
             [questKeys.preQuestSingle] = {27317},
