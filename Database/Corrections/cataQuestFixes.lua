@@ -3590,6 +3590,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{40223,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {25949,25558},
         },
+        [25478] = { -- To the Summit
+            [questKeys.preQuestSingle] = {},
+        },
         [25481] = { -- To New Thalanaar
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
         },
@@ -5964,6 +5967,9 @@ function CataQuestFixes.Load()
         [27240] = { -- Proof of Treachery
             [questKeys.finishedBy] = {{29611}},
         },
+        [27258] = { -- The Black Shield
+            [questKeys.preQuestGroup] = {27257,27259,27261},
+        },
         [27261] = { -- Questioning Reethe
             [questKeys.triggerEnd] = {"Question Reethe with Ogron", {[zoneIDs.DUSTWALLOW_MARSH]={{42.47,38.07}}}},
         },
@@ -6025,6 +6031,16 @@ function CataQuestFixes.Load()
         [27283] = { -- A Journey to Moonglade
             [questKeys.nextQuestInChain] = 27404,
         },
+        [27293] = { -- The Grimtotem Plot
+            [questKeys.preQuestSingle] = {27292},
+            [questKeys.requiredSourceItems] = {33050},
+        },
+        [27294] = { -- More than Coincidence
+            [questKeys.preQuestSingle] = {27292},
+        },
+        [27295] = { -- Seek Out Tabetha
+            [questKeys.preQuestGroup] = {27293,27294},
+        },
         [27298] = { -- Seek Out Master Pyreanor
             [questKeys.nextQuestInChain] = 27434,
         },
@@ -6040,6 +6056,9 @@ function CataQuestFixes.Load()
         [27304] = { -- Follow the Sun
             [questKeys.nextQuestInChain] = 27403,
             [questKeys.startedBy] = {{16681,20406,43795}},
+        },
+        [27306] = { -- Talk to Ogron
+            [questKeys.preQuestSingle] = {27260},
         },
         [27310] = { -- No Weapons For You!
             [questKeys.preQuestSingle] = {27275},
@@ -6072,6 +6091,9 @@ function CataQuestFixes.Load()
         [27335] = { -- Journey to Orgrimmar
             [questKeys.nextQuestInChain] = 27439,
             [questKeys.startedBy] = {{3045,4606,16658,43870}},
+        },
+        [27336] = { -- The Grimtotem Weapon
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{4344,4345},4344,"Totem Tests Performed"}}},
         },
         [27337] = { -- A Fitting Weapon
             [questKeys.startedBy] = {{914}},
@@ -6225,6 +6247,20 @@ function CataQuestFixes.Load()
         },
         [27404] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
+        },
+        [27408] = { -- Banner of the Stonemaul
+            [questKeys.preQuestSingle] = {27407},
+        },
+        [27409] = { -- The Essence of Enmity
+            [questKeys.preQuestSingle] = {27407},
+        },
+        [27416] = { -- The Brood of Onyxia
+            [questKeys.preQuestSingle] = {27414},
+        },
+        [27418] = { -- Challenge Overlord Mok'Morokk
+            [questKeys.preQuestSingle] = {27415},
+            [questKeys.objectives] = {{{4500}},nil,nil,nil,},
+
         },
         [27420] = { -- Postponing the Inevitable
             [questKeys.preQuestSingle] = {},
