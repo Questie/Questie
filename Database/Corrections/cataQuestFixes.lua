@@ -8962,6 +8962,7 @@ function CataQuestFixes.Load()
         },
         [29160] = { -- Egg-stinction
             [questKeys.exclusiveTo] = {29189},
+            [questKeys.preQuestSingle] = {29205},
         },
         [29161] = { -- Those Bears Up There
             [questKeys.objectives] = {{{52688,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -9024,6 +9025,8 @@ function CataQuestFixes.Load()
         },
         [29192] = { -- The Wardens are Watching
             [questKeys.exclusiveTo] = {29211},
+            [questKeys.preQuestSingle] = {29205},
+            [questKeys.objectives] = {{{52871,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29197] = { -- Caught Unawares
             [questKeys.objectives] = {{{52906,nil,Questie.ICON_TYPE_EVENT},{52907,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{52903,52904},52903,nil,Questie.ICON_TYPE_EVENT}}},
@@ -9046,6 +9049,9 @@ function CataQuestFixes.Load()
         },
         [29205] = { -- The Forlorn Spire
             [questKeys.exclusiveTo] = {29206},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29138,29179,29139 or 29143,29137 or 29141 or 29142 or 29304},
+            [questKeys.objectives] = {{{52998}}},
         },
         [29206] = { -- Into the Fire
             [questKeys.exclusiveTo] = {29205},
@@ -9056,8 +9062,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26386,26776},
         },
         [29210] = { -- Enduring the Heat
-            [questKeys.preQuestSingle] = {29211},
-            [questKeys.objectives] = {{{53886,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{52889,52885,52888,52890,52886,52887,52884},52889,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29159,29192 or 29211,29160 or 29189},
+            [questKeys.objectives] = {{{53886,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{52889,52885,52888,52890,52886,52887,52884,53887},52889,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.finishedBy] = {{52823}}, -- we need to be able to show multiple NPC ids for turn in. this is temp fix
         },
         [29211] = { -- Solar Core Destruction
@@ -9159,6 +9166,10 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 29219,
             [questKeys.objectives] = {nil,{{460012}}},
             [questKeys.nextQuestInChain] = 29250,
+        },
+        [29243] = { -- Strike at the Heart
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29159,29192 or 29211,29160 or 29189,29283},
         },
         [29245] = { -- The Mysterious Seed
             [questKeys.preQuestSingle] = {29214},
