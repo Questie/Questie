@@ -7242,6 +7242,7 @@ function CataQuestFixes.Load()
         },
         [28086] = { -- Free the Pridelings
             [questKeys.preQuestSingle] = {28085},
+            [questKeys.objectives] = {{{47481,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [28087] = { -- Death to all Trappers!
             [questKeys.preQuestSingle] = {28085},
