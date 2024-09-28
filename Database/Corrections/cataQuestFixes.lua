@@ -7273,6 +7273,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {28090,28091},
         },
+        [28098] = { -- The Twilight Skymaster
+            [questKeys.objectives] = {{{47503,nil,Questie.ICON_TYPE_MOUNT_UP},{47510}}},
+        },
         [28100] = { -- A Talking Totem
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 12}},
         },
