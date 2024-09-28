@@ -6185,9 +6185,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [27357] = { -- The Captive Bride [Alliance]
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27320,27325,27327},
         },
         [27358] = { -- The Captive Bride [Horde]
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27321,27326,27328},
         },
         [27361] = { -- Favored of the Light
@@ -7248,6 +7250,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28085},
         },
         [28088] = { -- Release Heartrazor
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {28086,28087},
         },
         [28089] = { -- Warchief's Command: Hillsbrad Foothills!
