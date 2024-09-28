@@ -9050,12 +9050,13 @@ function CataQuestFixes.Load()
         [29205] = { -- The Forlorn Spire
             [questKeys.exclusiveTo] = {29206},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29138,29179,29139 or 29143,29137 or 29141 or 29142 or 29304},
+            [questKeys.preQuestGroup] = {29215,29138,29179,29139 or 29143,29137 or 29141 or 29142 or 29304},
             [questKeys.objectives] = {{{52998}}},
         },
         [29206] = { -- Into the Fire
             [questKeys.exclusiveTo] = {29205},
-            [questKeys.preQuestSingle] = {29181},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29182,29138,29179,29139 or 29143,29137 or 29141 or 29142 or 29304},
             [questKeys.objectives] = {{{52683}}},
         },
         [29208] = { -- An Old Friend
@@ -9233,9 +9234,11 @@ function CataQuestFixes.Load()
         },
         [29273] = { -- How Hot
             [questKeys.exclusiveTo] = {29274},
+            [questKeys.preQuestSingle] = {29206},
         },
         [29274] = { -- Hounds of Shannox
             [questKeys.exclusiveTo] = {29273},
+            [questKeys.preQuestSingle] = {29206},
         },
         [29275] = { -- Fandral's Methods
             [questKeys.preQuestSingle] = {},
@@ -9260,13 +9263,18 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {29181,29214},
         },
         [29287] = { -- Peaked Interest
-            [questKeys.exclusiveTo] = {29288,29290},
+            [questKeys.exclusiveTo] = {29288,29289,29290},
         },
         [29288] = { -- Starting Young
-            [questKeys.exclusiveTo] = {29287,29290},
+            [questKeys.exclusiveTo] = {29287,29289,29290},
+        },
+        [29289] = { -- Mother's Malice
+            [questKeys.exclusiveTo] = {29287,29288,29290},
+            [questKeys.preQuestSingle] = {29265},
         },
         [29290] = { -- Fire in the Skies
-            [questKeys.exclusiveTo] = {29287,29288},
+            [questKeys.exclusiveTo] = {29287,29288,29289},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",53297}}}},
         },
         [29293] = { -- Singed Wings
             [questKeys.exclusiveTo] = {29296},
