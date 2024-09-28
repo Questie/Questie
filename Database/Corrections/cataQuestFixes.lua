@@ -6099,8 +6099,11 @@ function CataQuestFixes.Load()
         [27311] = { -- No Weapons For You! [Horde]
             [questKeys.preQuestSingle] = {27276},
         },
-        [27312] = { -- Darkcloud Grimtotem
+        [27312] = { -- Darkcloud Grimtotem [Alliance]
             [questKeys.preQuestSingle] = {27275},
+        },
+        [27313] = { -- Darkcloud Grimtotem [Horde]
+            [questKeys.preQuestSingle] = {27276},
         },
         [27315] = { -- Grimtotem Chiefs: Isha Gloomaxe
             [questKeys.preQuestSingle] = {27275},
