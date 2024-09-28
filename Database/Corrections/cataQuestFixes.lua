@@ -9051,13 +9051,13 @@ function CataQuestFixes.Load()
         [29205] = { -- The Forlorn Spire
             [questKeys.exclusiveTo] = {29206},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29215,29138,29179,29139 or 29143,29137 or 29141 or 29142 or 29304},
+            [questKeys.preQuestGroup] = {29214,29138,29179,29139 or 29143,29137 or 29141 or 29142 or 29304},
             [questKeys.objectives] = {{{52998}}},
         },
         [29206] = { -- Into the Fire
             [questKeys.exclusiveTo] = {29205},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29182,29138,29179,29139 or 29143,29137 or 29141 or 29142 or 29304},
+            [questKeys.preQuestGroup] = {29181,29138,29179,29139 or 29143,29137 or 29141 or 29142 or 29304},
             [questKeys.objectives] = {{{52683}}},
         },
         [29208] = { -- An Old Friend
