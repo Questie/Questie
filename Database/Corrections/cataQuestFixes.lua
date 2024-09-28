@@ -6184,8 +6184,11 @@ function CataQuestFixes.Load()
         [27356] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
         },
-        [27357] = { -- The Captive Bride
-            [questKeys.preQuestSingle] = {27327},
+        [27357] = { -- The Captive Bride [Alliance]
+            [questKeys.preQuestGroup] = {27320,27325,27327},
+        },
+        [27358] = { -- The Captive Bride [Horde]
+            [questKeys.preQuestGroup] = {27321,27326,27328},
         },
         [27361] = { -- Favored of the Light
             [questKeys.preQuestSingle] = {},
