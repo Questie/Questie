@@ -196,6 +196,9 @@ function CataItemFixes.Load()
         [46696] = { -- Panther Figurine
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [46698] = { -- Moon-kissed Clay
+            [itemKeys.npcDrops] = {},
+        },
         [46702] = { -- Ancient Device Fragment
             [itemKeys.class] = itemClasses.QUEST,
         },
