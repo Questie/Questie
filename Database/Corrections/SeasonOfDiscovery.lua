@@ -662,7 +662,6 @@ local questsToBlacklistBySoDPhase = {
         [8110] = true,
         [8111] = true,
         [8112] = true,
-        [8113] = true,
         [8116] = true,
         [8117] = true,
         [8118] = true,
@@ -989,6 +988,7 @@ local questsToBlacklistBySoDPhase = {
         [8052] = true, -- The All-Seeing Eye of Zuldazar - Replaced by 85616
         [8104] = true, -- The Jewel of Kajaro - Replaced by 85629
         [8109] = true, -- Kezan's Unstoppable Taint - Replaced by 85625
+        [8113] = true, -- Pristine Enchanted South Seas Kelp - Replaced by 85608
         [8144] = true, -- Zandalarian Shadow Mastery Talisman - Replaced by 85633
         [8183] = true, -- The Heart of Hakkar - Replaced by 85660
 

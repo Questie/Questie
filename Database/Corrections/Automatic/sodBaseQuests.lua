@@ -6612,6 +6612,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring Maywiki of Zuldazar a Primal Hakkari Tabard.  You must also have a reputation equal to or greater than Revered with the Zandalar Tribe.Maywiki of Zuldazar is located on Yojamba Isle, Stranglethorn Vale."},
             [questKeys.objectives] = {nil,nil,{{19722}},{270,21000}},
         },
+        [85608] = {
+            [questKeys.name] = "Pristine Enchanted South Seas Kelp",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = nil,
+            [questKeys.objectives] = {nil,nil,{{19612}}},
+        },
         [85609] = {
             [questKeys.name] = "Paragons of Power: The Haruspex's Bracers",
             [questKeys.startedBy] = {{14904}},

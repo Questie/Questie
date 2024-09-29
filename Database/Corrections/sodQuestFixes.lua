@@ -2955,6 +2955,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14904}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
+        [85608] = { -- Pristine Enchanted South Seas Kelp
+            [questKeys.startedBy] = {{14904}},
+            [questKeys.finishedBy] = {{14904}},
+            [questKeys.preQuestSingle] = {8112},
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [85609] = { -- Paragons of Power: The Haruspex's Bracers
             [questKeys.finishedBy] = {{14904}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
