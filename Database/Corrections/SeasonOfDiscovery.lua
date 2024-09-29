@@ -712,7 +712,6 @@ local questsToBlacklistBySoDPhase = {
         [8184] = true,
         [8186] = true,
         [8187] = true,
-        [8190] = true,
         [8191] = true,
         [8195] = true,
         [8196] = true,
@@ -990,6 +989,7 @@ local questsToBlacklistBySoDPhase = {
         [8185] = true, -- Syncretist's Sigil - Replaced by 85601
         [8188] = true, -- Vodouisant's Vigilant Embrace - Replaced by 85603
         [8189] = true, -- Presence of Sight - Replaced by 85600
+        [8190] = true, -- Hoodoo Hex - Replaced by 85599
         [8192] = true, -- Animist's Caress - Replaced by 85602
 
         -- Events - These might not be re-added at level 60
