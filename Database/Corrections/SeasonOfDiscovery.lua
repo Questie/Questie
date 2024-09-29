@@ -716,7 +716,6 @@ local questsToBlacklistBySoDPhase = {
         [8189] = true,
         [8190] = true,
         [8191] = true,
-        [8192] = true,
         [8195] = true,
         [8196] = true,
         [8201] = true,
@@ -991,6 +990,7 @@ local questsToBlacklistBySoDPhase = {
         [8144] = true, -- Zandalarian Shadow Mastery Talisman - Replaced by 85633
         [8183] = true, -- The Heart of Hakkar - Replaced by 85660
         [8188] = true, -- Vodouisant's Vigilant Embrace - Replaced by 85603
+        [8192] = true, -- Animist's Caress - Replaced by 85602
 
         -- Events - These might not be re-added at level 60
         [6963] = true, -- Old "Stolen Winter Veil Treats" quest

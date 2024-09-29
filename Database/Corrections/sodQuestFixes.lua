@@ -2943,6 +2943,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84950},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [85602] = { -- Animist's Caress
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [85603] = { -- Vodouisant's Vigilant Embrace
             [questKeys.startedBy] = {{15042}},
             [questKeys.finishedBy] = {{15042}},
