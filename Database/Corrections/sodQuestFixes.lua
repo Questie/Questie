@@ -2943,6 +2943,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84950},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [85595] = { -- Presence of Might
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [85596] = { -- Death's Embrace
             [questKeys.startedBy] = {{15042}},
             [questKeys.finishedBy] = {{15042}},
