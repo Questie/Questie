@@ -2943,6 +2943,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84950},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [85600] = { -- Presence of Sight
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [85601] = { -- Syncretist's Sigil
             [questKeys.startedBy] = {{15042}},
             [questKeys.finishedBy] = {{15042}},
