@@ -6579,6 +6579,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Collect bear meat, warm fur, and dry wood. Bring the materials back to your campsite to construct a shelter so that you can survive the storm. If you lose your foundation, make a new one with your survival supplies and bring the materials there."},
             [questKeys.objectives] = {nil,nil,{{12622},{229416},{229415}}},
         },
+        [85597] = {
+            [questKeys.name] = "Falcon's Call",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = nil,
+            [questKeys.objectives] = {nil,nil,{{231525},{231512}}},
+        },
         [85598] = {
             [questKeys.name] = "Prophetic Aura",
             [questKeys.startedBy] = nil,
