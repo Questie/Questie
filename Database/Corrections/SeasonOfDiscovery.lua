@@ -710,7 +710,6 @@ local questsToBlacklistBySoDPhase = {
         [8147] = true,
         [8148] = true,
         [8184] = true,
-        [8185] = true,
         [8186] = true,
         [8187] = true,
         [8189] = true,
@@ -989,6 +988,7 @@ local questsToBlacklistBySoDPhase = {
         [8119] = true, -- The Unmarred Vision of Voodress - Replaced by 85604
         [8144] = true, -- Zandalarian Shadow Mastery Talisman - Replaced by 85633
         [8183] = true, -- The Heart of Hakkar - Replaced by 85660
+        [8185] = true, -- Syncretist's Sigil - Replaced by 85601
         [8188] = true, -- Vodouisant's Vigilant Embrace - Replaced by 85603
         [8192] = true, -- Animist's Caress - Replaced by 85602
 
