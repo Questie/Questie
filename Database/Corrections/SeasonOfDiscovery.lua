@@ -674,7 +674,6 @@ local questsToBlacklistBySoDPhase = {
         [8045] = true,
         [8046] = true,
         [8047] = true,
-        [8048] = true,
         [8049] = true,
         [8050] = true,
         [8051] = true,
@@ -987,6 +986,7 @@ local questsToBlacklistBySoDPhase = {
         [9053] = true,
 
         -- Original ZG quests
+        [8048] = true, -- The Hero's Brand - Replaced by 85617
         [8104] = true, -- The Jewel of Kajaro - Replaced by 85629
         [8109] = true, -- Kezan's Unstoppable Taint - Replaced by 85625
         [8144] = true, -- Zandalarian Shadow Mastery Talisman - Replaced by 85633

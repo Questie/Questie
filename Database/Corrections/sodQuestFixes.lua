@@ -2978,6 +2978,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14902}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
+        [85617] = { -- The Hero's Brand
+            [questKeys.startedBy] = {{14902}},
+            [questKeys.finishedBy] = {{14902}},
+            [questKeys.preQuestSingle] = {8047},
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [85618] = { -- Paragons of Power: The Freethinker's Armguards
             [questKeys.startedBy] = {{14902}},
             [questKeys.finishedBy] = {{14902}},
