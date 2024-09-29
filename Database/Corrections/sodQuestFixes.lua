@@ -3061,6 +3061,40 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [85701] = { -- Dragonscale Leatherworking
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
+            [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
+        },
+        [85702] = { -- Dragonscale Leatherworking
+            [questKeys.startedBy] = {{7867}},
+            [questKeys.finishedBy] = {{7867}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
+            [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
+        },
+        [85703] = { -- Elemental Leatherworking
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
+            [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
+        },
+        [85704] = { -- Elemental Leatherworking
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
+            [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
+        },
+        [85705] = { -- Tribal Leatherworking
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
+            [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
+        },
+        [85706] = { -- Tribal Leatherworking
+            [questKeys.startedBy] = {{7871}},
+            [questKeys.finishedBy] = {{7871}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
+            [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
+        },
         [85882] = { -- End of the Dark Horde
             [questKeys.startedBy] = {{10429}},
             [questKeys.finishedBy] = {{332}},
