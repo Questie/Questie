@@ -41,6 +41,13 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
+        [375878] = {
+            [objectKeys.name] = "Sandpile",
+            [objectKeys.zoneID] = 0,
+            [objectKeys.spawns] = nil,
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
         [386675] = {
             [objectKeys.name] = "Buried Treasure",
             [objectKeys.zoneID] = 1,
@@ -1725,7 +1732,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Greater Moonstone Formation",
             [objectKeys.zoneID] = 357,
             [objectKeys.spawns] = {
-                [357] = {{37.6,16.8},{37.7,20.4},{37.7,20.5},{40.3,19.7},{40.8,9.9},{40.8,12.5},{42.8,23.1},{47.4,21.8},{47.5,21.8},{51,19.8},{51.2,14.8},{54,13.4},{54,13.5}},
+                [357] = {{37.6,16.8},{37.7,20.4},{37.7,20.5},{40.3,19.7},{40.8,9.9},{40.8,12.5},{42.8,23.1},{47.4,21.9},{47.5,21.8},{51,19.8},{51.2,14.8},{54,13.4},{54,13.5}},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -1949,7 +1956,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Satyrweed Bramble",
             [objectKeys.zoneID] = 16,
             [objectKeys.spawns] = {
-                [16] = {{18.5,61.3},{18.5,63},{19.3,59.6},{19.7,58.9},{19.8,60.5},{19.8,61.6},{20.9,58.4},{21.1,63.6},{21.3,60.1},{21.3,60.8},{21.4,58.9},{21.6,63.5},{21.9,59.3},{22,62.7},{22.2,60.3},{22.2,61},{22.2,61.8}},
+                [16] = {{18.5,61.3},{18.5,63},{19.3,59.6},{19.7,58.9},{19.8,60.5},{19.8,61.6},{20.9,58.4},{20.9,58.5},{21.1,63.6},{21.3,60.1},{21.3,60.8},{21.6,63.5},{21.9,59.3},{22,62.7},{22.2,60.3},{22.2,61},{22.2,61.8}},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -2268,7 +2275,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Brass-fitted Flam-Tamp Flange",
             [objectKeys.zoneID] = 46,
             [objectKeys.spawns] = {
-                [46] = {{52.3,25},{52.5,25.2},{52.5,25.5},{53.2,26.8},{53.3,24.1}},
+                [46] = {{52.3,25},{52.5,25.2},{52.5,25.5},{53,23.9},{53.2,26.8}},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -2497,7 +2504,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Mech Arm",
             [objectKeys.zoneID] = 40,
             [objectKeys.spawns] = {
-                [40] = {{52.3,40.8},{52.3,48.9},{53.1,40},{53.2,41.1},{53.3,41.8},{53.5,40.7},{54.1,41.6}},
+                [40] = {{52.3,40.8},{52.3,48.9},{53.1,40},{53.2,41.1},{53.3,41.8},{53.5,38.7},{53.5,40.7},{54.1,41.6}},
                 [85] = {{52.4,57.7},{53,55.8},{53.3,57.5},{53.4,57.1},{53.7,56.6},{54.2,57.5},{54.2,58.7},{54.5,56.7},{54.5,58.2},{54.8,56.4},{57.9,56.9}},
                 [1519] = {{55.8,62}},
             },
@@ -2679,6 +2686,15 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
+        [469796] = {
+            [objectKeys.name] = "Campsite",
+            [objectKeys.zoneID] = 618,
+            [objectKeys.spawns] = {
+                [618] = {{57.7,20.8}},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
         [477110] = {
             [objectKeys.name] = "Brazier of Madness",
             [objectKeys.zoneID] = 0,
@@ -2721,10 +2737,33 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
-        [499988] = {
-            [objectKeys.name] = "Spellbook",
+        [495500] = {
+            [objectKeys.name] = "Shadowflame Cache",
             [objectKeys.zoneID] = 0,
             [objectKeys.spawns] = nil,
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
+        [495503] = {
+            [objectKeys.name] = "Chromatic Hoard",
+            [objectKeys.zoneID] = 0,
+            [objectKeys.spawns] = nil,
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
+        [495505] = {
+            [objectKeys.name] = "Favored Riches",
+            [objectKeys.zoneID] = 0,
+            [objectKeys.spawns] = nil,
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
+        [499988] = {
+            [objectKeys.name] = "Spellbook",
+            [objectKeys.zoneID] = 400,
+            [objectKeys.spawns] = {
+                [400] = {{80.1,77.1}},
+            },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },

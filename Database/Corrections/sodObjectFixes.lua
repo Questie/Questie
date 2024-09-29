@@ -528,13 +528,6 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.WINTERSPRING] = {{58,21}},
             },
         },
-        [469796] = { -- Crude Tent -- TODO: This might be wrong
-            [objectKeys.name] = "Crude Tent",
-            [objectKeys.zoneID] = zoneIDs.WINTERSPRING,
-            [objectKeys.spawns] = {
-                [zoneIDs.WINTERSPRING] = {{58,21}},
-            },
-        },
         [478075] = { -- Campsite
             [objectKeys.zoneID] = zoneIDs.BURNING_STEPPES,
             [objectKeys.spawns] = {
