@@ -6612,6 +6612,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Travel to the camp of Van Amburgh in Un'Goro crater, in the south of Kalimdor, and defeat the dwarf and his menagerie."},
             [questKeys.objectives] = {{{232755}}},
         },
+        [85304] = {
+            [questKeys.name] = "Essence of Fire",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{5497}},
+            [questKeys.requiredLevel] = 55,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Figure out what the unusual scroll is for and report your findings to a librarian in Stormwind or Undercity."},
+            [questKeys.objectives] = {{{232429},{232398}}},
+        },
         [85401] = {
             [questKeys.name] = "The Frigid Barrow",
             [questKeys.startedBy] = nil,

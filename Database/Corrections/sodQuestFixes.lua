@@ -2969,6 +2969,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {85250},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [85304] = { -- Essence of Fire
+            [questKeys.startedBy] = {{13020},nil,{230904}},
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
         [85401] = { -- The Frigid Barrow
             [questKeys.startedBy] = {{216289}},
             [questKeys.finishedBy] = {{216289}},
