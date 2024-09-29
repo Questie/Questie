@@ -2285,7 +2285,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [84136] = { -- The Beast Master of Moonglade
-            [questKeys.startedBy] = {{233084}},
+            [questKeys.startedBy] = {{227755}},
             [questKeys.finishedBy] = {{228176}},
             [questKeys.preQuestSingle] = {85521},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
@@ -2933,7 +2933,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [85521] = { -- Tracking the Trapper
             [questKeys.startedBy] = {{10429}},
-            [questKeys.finishedBy] = {{233084}},
+            [questKeys.finishedBy] = {{227755}},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85525] = { -- One Night in Winterspring

@@ -712,16 +712,16 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [233084] = { -- Estelenn
-            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+            [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
             [npcKeys.spawns] = {
-                -- TODO: Is there a better way? The NPC ID is correct, but the locations are needed for different quests
-                [zoneIDs.BURNING_STEPPES] = {{17.03,46.32}},
                 [zoneIDs.UN_GORO_CRATER] = {{23.64,33.23}},
             },
         },
         [227755] = { -- Estelenn
-            [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
             [npcKeys.spawns] = {
+                -- TODO: Is there a better way? The NPC ID is correct, but the locations are needed for different quests
+                [zoneIDs.BURNING_STEPPES] = {{17.03,46.32}},
                 [zoneIDs.WINTERSPRING] = {{58,21}},
             },
         },
