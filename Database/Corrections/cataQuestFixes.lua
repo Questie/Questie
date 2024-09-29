@@ -1672,6 +1672,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {489},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{2002,2003,2004,2005},2002}}},
         },
+        [13947] = { -- Blastranaar!
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak with Thraka to begin the assault"),0,{{"monster",34429}}}},
+        },
         [13948] = { -- Stepping Up Surveillance
             [questKeys.objectives] = {{{34326,nil,Questie.ICON_TYPE_EVENT}}},
         },
