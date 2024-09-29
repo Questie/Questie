@@ -3052,6 +3052,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
+        [85612] = { -- The Rage of Mugamba
+            [questKeys.startedBy] = {{14902}},
+            [questKeys.finishedBy] = {{14902}},
+            [questKeys.preQuestSingle] = {8043},
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [85613] = { -- Paragons of Power: The Vindicator's Armguards
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,

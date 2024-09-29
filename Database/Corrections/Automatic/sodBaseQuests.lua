@@ -6766,6 +6766,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring Maywiki of Zuldazar a Primal Hakkari Tabard.  Maywiki of Zuldazar is located on Yojamba Isle, Stranglethorn Vale. You must also be Revered with Zandalar."},
             [questKeys.objectives] = {nil,nil,{{19722}},{270,21000}},
         },
+        [85612] = {
+            [questKeys.name] = "The Rage of Mugamba",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = nil,
+            [questKeys.objectives] = {nil,nil,{{19576}}},
+        },
         [85613] = {
             [questKeys.name] = "Paragons of Power: The Vindicator's Armguards",
             [questKeys.startedBy] = {{14902}},

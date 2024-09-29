@@ -2794,6 +2794,9 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 60,
             [questKeys.specialFlags] = 1,
         },
+        [8044] = {
+            [questKeys.name] = "The Rage of Mugamba",
+        },
         [8105] = {
             [questKeys.specialFlags] = 0,
         },

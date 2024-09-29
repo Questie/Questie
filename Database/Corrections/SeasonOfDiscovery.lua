@@ -668,7 +668,6 @@ local questsToBlacklistBySoDPhase = {
         [8041] = true,
         [8042] = true,
         [8043] = true,
-        [8044] = true,
         [8045] = true,
         [8046] = true,
         [8047] = true,
@@ -975,6 +974,7 @@ local questsToBlacklistBySoDPhase = {
         [9053] = true,
 
         -- Original ZG quests
+        [8044] = true, -- The Rage of Mugamba - Replaced by 85612
         [8048] = true, -- The Hero's Brand - Replaced by 85617
         [8052] = true, -- The All-Seeing Eye of Zuldazar - Replaced by 85616
         [8104] = true, -- The Jewel of Kajaro - Replaced by 85629
