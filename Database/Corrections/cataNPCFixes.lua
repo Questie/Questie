@@ -2080,11 +2080,19 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{54.2,73.16},{57.48,70.39},{55.91,69.84},{53.8,66.6},{58.2,65.2}}},
         },
         [46987] = { -- Vision of Ysera
-            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{28.41,29.81}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.MOUNT_HYJAL] = {
+                    {28.41,29.81,phases.MOUNT_HYJAL_VISION_YSERA_1},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
         [46998] = { -- Vision of Ysera
-            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{27.03,62.64}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.MOUNT_HYJAL] = {
+                    {27.03,63.11,phases.MOUNT_HYJAL_VISION_YSERA_2},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
         [47002] = { -- Vision of Ysera
