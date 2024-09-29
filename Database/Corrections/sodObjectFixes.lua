@@ -528,6 +528,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.WINTERSPRING] = {{58,21}},
             },
         },
+        [478062] = { -- Damaged Silver Hand Breastplate
+            [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.WESTERN_PLAGUELANDS] = {{46.96,69.73}},
+            },
+        },
         [478075] = { -- Campsite
             [objectKeys.zoneID] = zoneIDs.BURNING_STEPPES,
             [objectKeys.spawns] = {

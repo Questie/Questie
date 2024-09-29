@@ -2896,11 +2896,49 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
             [questKeys.extraObjectives] = {{{[zoneIDs.WINTERSPRING]={{58,21}}}, Questie.ICON_TYPE_EVENT, l10n("Use your Survival Supplies")}},
         },
+        [85034] = { -- The Ruins of Andorhal
+            [questKeys.startedBy] = {{216289}},
+            [questKeys.finishedBy] = {{216289}},
+            [questKeys.preQuestSingle] = {85455},
+            [questKeys.objectives] = {nil,{{478062}}},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [85061] = { -- Bug Hunt
             [questKeys.startedBy] = {{227755}},
             [questKeys.finishedBy] = {{15181}},
             [questKeys.preQuestSingle] = {84950},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [85063] = { -- Culmination
+            [questKeys.startedBy] = {{232929}},
+            [questKeys.finishedBy] = {{232929}},
+            [questKeys.preQuestSingle] = {85458},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85064] = { -- Worst Case Scenario
+            [questKeys.startedBy] = {{232929}},
+            [questKeys.finishedBy] = {{231500}},
+            [questKeys.preQuestSingle] = {85063},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85065] = { -- A Most Curious Gnome
+            [questKeys.startedBy] = {{231500}},
+            [questKeys.finishedBy] = {{10667}},
+            [questKeys.preQuestSingle] = {85064},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85066] = { -- Making Ready
+            [questKeys.startedBy] = {{10667}},
+            [questKeys.finishedBy] = {{231500}},
+            [questKeys.preQuestSingle] = {85065},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85067] = { -- A Paladin of the Silver Hand
+            [questKeys.startedBy] = {{231500}},
+            [questKeys.finishedBy] = {{231500}},
+            [questKeys.objectives] = {{{231498,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {85066},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [85150] = { -- The Only Good Bug is a Dead Bug
             [questKeys.startedBy] = {{15181}},
@@ -2931,6 +2969,22 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{216289}},
             [questKeys.finishedBy] = {{216289}},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [85455] = { -- The Blood of the Lightbringer
+            [questKeys.startedBy] = {{12017},nil,{231452}},
+            [questKeys.finishedBy] = {{216289}},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85457] = { -- Just What Was Needed
+            [questKeys.finishedBy] = {{231500}},
+            [questKeys.preQuestSingle] = {85034},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85458] = { -- Darkwhisper Gorge
+            [questKeys.startedBy] = {{231500}},
+            [questKeys.finishedBy] = {{232929}},
+            [questKeys.preQuestSingle] = {85457},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [85501] = { -- The Heart of Chromaggus
             [questKeys.startedBy] = {{14020},nil,{231814}},

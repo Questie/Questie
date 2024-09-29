@@ -741,6 +741,10 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{50.7,27.9}}},
         },
+        [232929] = { -- Gregory
+            [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
+            [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{53.36,83.59}}},
+        },
 
         -- fake NPCs
         [900000] = {
