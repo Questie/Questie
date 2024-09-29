@@ -908,6 +908,8 @@ local questsToBlacklistBySoDPhase = {
         [5302] = true, -- The Way of the Weaponsmith - Replaced by 82665
         [7636] = true, -- Stave of the Ancients - Replaced by 84546
         [7486] = true, -- A Hero's Reward - Replaced by 84545
+        [7782] = true, -- The Lord of Blackrock - Replaced by 85643
+        [7784] = true, -- The Lord of Blackrock - Replaced by 85644
         [8467] = true, -- Feathers for Nafien - Replaced by 84777
         [8769] = true, -- A Ticking Present - Replaced by 79637
 

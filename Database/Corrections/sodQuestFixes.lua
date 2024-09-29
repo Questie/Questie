@@ -3159,6 +3159,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14905}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
+        [85643] = { -- The Lord of Blackrock
+            [questKeys.startedBy] = {{1748}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {7781},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
+        [85644] = { -- The Lord of Blackrock
+            [questKeys.startedBy] = {{4949}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {7783},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
         [85658] = { -- For All To See
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {84561},
