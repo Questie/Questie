@@ -1127,6 +1127,35 @@ local questsToBlacklistBySoDPhase = {
         [7890] = true, -- Heavy Grinding Stone
         [7889] = true, -- Coarse Weightstone
 
+        -- ZG quests
+        [8053] = true, -- Paragons of Power: The Freethinker's Armguards
+        [8054] = true, -- Paragons of Power: The Freethinker's Belt
+        [8055] = true, -- Paragons of Power: The Freethinker's Breastplate
+        [8056] = true, -- Paragons of Power: The Augur's Bracers
+        [8057] = true, -- Paragons of Power: The Haruspex's Bracers
+        [8058] = true, -- Paragons of Power: The Vindicator's Armguards
+        [8059] = true, -- Paragons of Power: The Demoniac's Wraps
+        [8060] = true, -- Paragons of Power: The Illusionist's Wraps
+        [8061] = true, -- Paragons of Power: The Confessor's Wraps
+        [8062] = true, -- Paragons of Power: The Predator's Bracers
+        [8063] = true, -- Paragons of Power: The Madcap's Bracers
+        [8064] = true, -- Paragons of Power: The Haruspex's Belt
+        [8065] = true, -- Paragons of Power: The Haruspex's Tunic
+        [8066] = true, -- Paragons of Power: The Predator's Belt
+        [8067] = true, -- Paragons of Power: The Predator's Mantle
+        [8068] = true, -- Paragons of Power: The Illusionist's Mantle
+        [8069] = true, -- Paragons of Power: The Illusionist's Robes
+        [8070] = true, -- Paragons of Power: The Confessor's Bindings
+        [8071] = true, -- Paragons of Power: The Confessor's Mantle
+        [8072] = true, -- Paragons of Power: The Madcap's Mantle
+        [8073] = true, -- Paragons of Power: The Madcap's Tunic
+        [8074] = true, -- Paragons of Power: The Augur's Belt
+        [8075] = true, -- Paragons of Power: The Augur's Hauberk
+        [8076] = true, -- Paragons of Power: The Demoniac's Mantle
+        [8077] = true, -- Paragons of Power: The Demoniac's Robes
+        [8078] = true, -- Paragons of Power: The Vindicator's Belt
+        [8079] = true, -- Paragons of Power: The Vindicator's Breastplate
+
         [78265] = true, -- Fish Oil (replaced by 82850)
         [78266] = true, -- Dark Iron Ordinance (replaced by 82851)
         [78267] = true, -- Shredder Turbochargers (replaced by 82853)

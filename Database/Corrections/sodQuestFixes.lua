@@ -2943,6 +2943,112 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84950},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [85605] = { -- Paragons of Power: The Augur's Bracers
+            [questKeys.finishedBy] = {{14904}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85606] = { -- Paragons of Power: The Augur's Belt
+            [questKeys.finishedBy] = {{14904}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85607] = { -- Paragons of Power: The Augur's Hauberk
+            [questKeys.finishedBy] = {{14904}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85609] = { -- Paragons of Power: The Haruspex's Bracers
+            [questKeys.finishedBy] = {{14904}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85610] = { -- Paragons of Power: The Haruspex's Belt
+            [questKeys.finishedBy] = {{14904}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85611] = { -- Paragons of Power: The Haruspex's Tunic
+            [questKeys.finishedBy] = {{14904}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85613] = { -- Paragons of Power: The Vindicator's Armguards
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85614] = { -- Paragons of Power: The Vindicator's Belt
+            [questKeys.finishedBy] = {{14902}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85615] = { -- Paragons of Power: The Vindicator's Breastplate
+            [questKeys.finishedBy] = {{14902}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85618] = { -- Paragons of Power: The Freethinker's Armguards
+            [questKeys.startedBy] = {{14902}},
+            [questKeys.finishedBy] = {{14902}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85619] = { -- Paragons of Power: The Freethinker's Belt
+            [questKeys.startedBy] = {{14902}},
+            [questKeys.finishedBy] = {{14902}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85620] = { -- Paragons of Power: The Freethinker's Breastplate
+            [questKeys.startedBy] = {{14902}},
+            [questKeys.finishedBy] = {{14902}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85622] = { -- Paragons of Power: The Confessor's Wraps
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85623] = { -- Paragons of Power: The Confessor's Bindings
+            [questKeys.finishedBy] = {{14903}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85624] = { -- Paragons of Power: The Confessor's Mantle
+            [questKeys.finishedBy] = {{14903}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85626] = { -- Paragons of Power: The Demoniac's Wraps
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85627] = { -- Paragons of Power: The Demoniac's Mantle
+            [questKeys.finishedBy] = {{14903}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85628] = { -- Paragons of Power: The Demoniac's Robes
+            [questKeys.finishedBy] = {{14903}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85630] = { -- Paragons of Power: The Illusionist's Wraps
+            [questKeys.finishedBy] = {{14903}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85631] = { -- Paragons of Power: The Illusionist's Mantle
+            [questKeys.finishedBy] = {{14903}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85632] = { -- Paragons of Power: The Illusionist's Robes
+            [questKeys.finishedBy] = {{14903}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85634] = { -- Paragons of Power: The Madcap's Bracers
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85635] = { -- Paragons of Power: The Madcap's Mantle
+            [questKeys.finishedBy] = {{14905}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85636] = { -- Paragons of Power: The Madcap's Tunic
+            [questKeys.finishedBy] = {{14905}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85638] = { -- Paragons of Power: The Predator's Bracers
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85639] = { -- Paragons of Power: The Predator's Belt
+            [questKeys.finishedBy] = {{14905}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85640] = { -- Paragons of Power: The Predator's Mantle
+            [questKeys.finishedBy] = {{14905}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [85658] = { -- For All To See
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {84561},
