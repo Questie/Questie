@@ -1693,6 +1693,9 @@ function CataQuestFixes.Load()
         [13957] = { -- The Mighty Hemet Nesingwary
             [questKeys.preQuestSingle] = {},
         },
+        [13958] = { -- Condition Critical!
+            [questKeys.preQuestSingle] = {13947},
+        },
         [13961] = { -- Drag it Out of Them
             [questKeys.triggerEnd] = {"Razormane Prisoner Delivered",{[zoneIDs.THE_BARRENS] = {{56.4,40.3}}}},
         },
