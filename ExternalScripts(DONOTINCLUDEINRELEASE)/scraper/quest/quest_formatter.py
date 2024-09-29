@@ -119,12 +119,29 @@ class QuestFormatter:
             objectives = ["{" + i + "}" for i in item["killObjective"]]
             return "{{" + ",".join(objectives) + "}}"
         elif "itemObjective" in item:
-            objectives = ["{" + i + "}" for i in item["itemObjective"]]
-            return "{nil,nil,{" + ",".join(objectives) + "}}"
+            reputation = ""
+            if "reputationObjective" in item:
+                reputation = "{" + item["reputationObjective"][0] + "," + self.__get_reputation_value(item["reputationObjective"][1]) + "}"
+
+            objectives = "{nil,nil,{" + ",".join(["{" + i + "}" for i in item["itemObjective"]]) + "}"
+            if reputation:
+                objectives += "," + reputation
+            return objectives + "}"
         elif "spellObjective" in item:
             return "{nil,nil,nil,nil,nil,{{" + item["spellObjective"] + "}}}"
         else:
             return "nil"
+
+    def __get_reputation_value(self, reputation_value_name):
+        if reputation_value_name == "Friendly":
+            return "3000"
+        if reputation_value_name == "Honored":
+            return "9000"
+        if reputation_value_name == "Revered":
+            return "21000"
+        if reputation_value_name == "Exalted":
+            return "42000"
+        return "0"
 
 
 if __name__ == '__main__':

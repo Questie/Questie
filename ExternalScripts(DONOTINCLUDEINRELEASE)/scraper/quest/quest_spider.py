@@ -79,6 +79,13 @@ class QuestSpider(scrapy.Spider):
         if spell_objective:
             result["spellObjective"] = re.search(r'spell=(\d+)', spell_objective).group(1)
 
+        # example quest: https://www.wowhead.com/classic/quest=85611/paragons-of-power-the-haruspexs-tunic
+        reputation_data = response.xpath('//tr[@data-icon-list-quantity]/td[a[contains(@href, "/faction=")]]')
+        if reputation_data:
+            reputation_value = reputation_data.xpath('.//span[@class="icon-list-quantity"]/text()').get()
+            faction_id = re.search(r'faction=(\d+)', reputation_data.xpath('./a/@href').get()).group(1)
+            result["reputationObjective"] = (faction_id, reputation_value)
+
         pre_quest_single, pre_quest_group, next_quest = self.__get_quest_chain(response)
         if pre_quest_single:
             result["preQuestSingle"] = pre_quest_single
