@@ -3095,6 +3095,20 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
             [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
         },
+        [85712] = { -- The Art of the Armorsmith
+            [questKeys.startedBy] = {{11177}},
+            [questKeys.finishedBy] = {{11177}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+        },
+        [85713] = { -- The Art of the Armorsmith
+            [questKeys.startedBy] = {{5164}},
+            [questKeys.finishedBy] = {{5164}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+        },
         [85882] = { -- End of the Dark Horde
             [questKeys.startedBy] = {{10429}},
             [questKeys.finishedBy] = {{332}},
