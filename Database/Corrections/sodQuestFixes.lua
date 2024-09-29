@@ -3015,6 +3015,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14903}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
+        [85629] = { -- The Jewel of Kajaro
+            [questKeys.startedBy] = {{14903}},
+            [questKeys.finishedBy] = {{14903}},
+            [questKeys.preQuestSingle] = {8103},
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [85630] = { -- Paragons of Power: The Illusionist's Wraps
             [questKeys.finishedBy] = {{14903}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
