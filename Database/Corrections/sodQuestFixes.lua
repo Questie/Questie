@@ -2940,6 +2940,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {85066},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [85112] = { -- The Depleted Scythe
+            [questKeys.startedBy] = {{12435},nil,{231722}},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
         [85150] = { -- The Only Good Bug is a Dead Bug
             [questKeys.startedBy] = {{15181}},
             [questKeys.finishedBy] = {{15181}},

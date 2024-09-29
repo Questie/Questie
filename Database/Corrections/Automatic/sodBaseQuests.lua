@@ -6557,6 +6557,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Go to Uther's Tomb and explain the situation to Aeonas."},
             [questKeys.objectives] = {{{232946}}},
         },
+        [85112] = {
+            [questKeys.name] = "The Depleted Scythe",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{6247}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Bring the staff to Doan Karhan in The Barrens."},
+            [questKeys.objectives] = nil,
+        },
         [85150] = {
             [questKeys.name] = "The Only Good Bug is a Dead Bug",
             [questKeys.startedBy] = nil,
