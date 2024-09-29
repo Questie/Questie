@@ -2885,7 +2885,7 @@ function SeasonOfDiscovery:LoadQuests()
         [84881] = { -- Into the Hold of Shadows
             [questKeys.startedBy] = {{6707}},
             [questKeys.finishedBy] = {{6706}},
-            [questKeys.objectives] = {{{231430},nil,{{229911}}}},
+            [questKeys.objectives] = {{{231430}},nil,{{229911}}},
             [questKeys.preQuestSingle] = {84880},
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
