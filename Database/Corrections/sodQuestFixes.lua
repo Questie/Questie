@@ -2978,6 +2978,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14902}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
+        [85616] = { -- The All-Seeing Eye of Zuldazar
+            [questKeys.startedBy] = {{14903}},
+            [questKeys.finishedBy] = {{14903}},
+            [questKeys.preQuestSingle] = {8051},
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [85617] = { -- The Hero's Brand
             [questKeys.startedBy] = {{14902}},
             [questKeys.finishedBy] = {{14902}},

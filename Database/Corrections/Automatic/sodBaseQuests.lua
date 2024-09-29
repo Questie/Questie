@@ -6678,6 +6678,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring Jin'rokh the Breaker a Primal Hakkari Kossack.  You must also have a reputation equal to or greater than Revered with the Zandalar Tribe.Jin'rokh the Breaker is located on Yojamba Isle, Stranglethorn Vale."},
             [questKeys.objectives] = {nil,nil,{{19723}},{270,21000}},
         },
+        [85616] = {
+            [questKeys.name] = "The All-Seeing Eye of Zuldazar",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = nil,
+            [questKeys.objectives] = {nil,nil,{{19593}}},
+        },
         [85617] = {
             [questKeys.name] = "The Hero's Brand",
             [questKeys.startedBy] = nil,
