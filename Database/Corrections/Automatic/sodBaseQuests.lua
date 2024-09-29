@@ -7019,6 +7019,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring Falthir the Sightless a Primal Hakkari Aegis.  You must also have a reputation equal to or greater than Revered with the Zandalar Tribe.Falthir the Sightless is located on Yojamba Isle, Stranglethorn Vale."},
             [questKeys.objectives] = {nil,nil,{{19724}},{270,21000}},
         },
+        [85637] = {
+            [questKeys.name] = "Maelstrom's Wrath",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = nil,
+            [questKeys.objectives] = {nil,nil,{{19620}}},
+        },
         [85638] = {
             [questKeys.name] = "Paragons of Power: The Predator's Bracers",
             [questKeys.startedBy] = {{14905}},

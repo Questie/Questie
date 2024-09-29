@@ -3141,6 +3141,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14905}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
+        [85637] = { -- Maelstrom's Wrath
+            [questKeys.startedBy] = {{14905}},
+            [questKeys.finishedBy] = {{14905}},
+            [questKeys.preQuestSingle] = {8147},
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [85638] = { -- Paragons of Power: The Predator's Bracers
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },

@@ -2820,6 +2820,9 @@ function QuestieQuestFixes:Load()
             },
             [questKeys.requiredMinRep] = {510,42000},
         },
+        [8148] = {
+            [questKeys.name] = "Maelstrom's Wrath",
+        },
         [8149] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place a tribute at Uther's Tomb"),0,{{"object", 1323},}}},
