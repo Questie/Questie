@@ -194,5 +194,8 @@ function SeasonOfDiscovery:LoadItems()
         [228141] = { -- Necromancy 101
             [itemKeys.objectDrops] = {463211},
         },
+        [229362] = { -- Storehouse Key
+            [itemKeys.npcDrops] = {230775},
+        },
     }
 end

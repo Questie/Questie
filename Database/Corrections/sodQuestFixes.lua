@@ -2870,6 +2870,25 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84636},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [84870] = { -- The Dark Hoard
+            [questKeys.startedBy] = {{12435},nil,{229352}},
+            [questKeys.finishedBy] = {{231050}},
+            [questKeys.objectives] = {nil,nil,{{229362}}},
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
+        [84880] = { -- The Enemy of my Enemy
+            [questKeys.startedBy] = {{231050}},
+            [questKeys.finishedBy] = {{6707}},
+            [questKeys.preQuestSingle] = {84870},
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
+        [84881] = { -- Into the Hold of Shadows
+            [questKeys.startedBy] = {{6707}},
+            [questKeys.finishedBy] = {{6706}},
+            [questKeys.objectives] = {{{231430},nil,{{229911}}}},
+            [questKeys.preQuestSingle] = {84880},
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
         [84950] = { -- Out in the Cold
             [questKeys.startedBy] = {nil,{467315}},
             [questKeys.finishedBy] = {nil,{469796}},

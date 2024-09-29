@@ -725,6 +725,18 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.WINTERSPRING] = {{58,21}},
             },
         },
+        [230775] = { -- Rage Talon Quartermaster
+            [npcKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1, -1}}},
+        },
+        [231050] = { -- Syndicate Infiltrator
+            [npcKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1, -1}}},
+        },
+        [231430] = { -- Caius Blackwood
+            [npcKeys.zoneID] = zoneIDs.FELWOOD,
+            [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{35.4,57.8}}},
+        },
 
         -- fake NPCs
         [900000] = {
