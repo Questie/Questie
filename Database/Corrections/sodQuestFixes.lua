@@ -2927,6 +2927,16 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {85250},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [85401] = { -- The Frigid Barrow
+            [questKeys.startedBy] = {{216289}},
+            [questKeys.finishedBy] = {{216289}},
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [85501] = { -- The Heart of Chromaggus
+            [questKeys.startedBy] = {{14020},nil,{231814}},
+            [questKeys.finishedBy] = {{216289}},
+            [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
         [85507] = { -- Our Wayward Friend
             [questKeys.objectives] = {{{231498,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,

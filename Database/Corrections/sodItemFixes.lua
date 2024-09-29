@@ -197,5 +197,8 @@ function SeasonOfDiscovery:LoadItems()
         [229362] = { -- Storehouse Key
             [itemKeys.npcDrops] = {230775},
         },
+        [231842] = { -- Nandieb's Stave
+            [itemKeys.npcDrops] = {232529},
+        },
     }
 end
