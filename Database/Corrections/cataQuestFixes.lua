@@ -1662,6 +1662,9 @@ function CataQuestFixes.Load()
         [13938] = { -- A Trip To The Wonderworks
             [questKeys.preQuestSingle] = {},
         },
+        [13943] = { -- Breathing Room
+            [questKeys.preQuestSingle] = {13936},
+        },
         [13945] = { -- Resident Danger
             [questKeys.preQuestSingle] = {476},
         },
