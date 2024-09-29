@@ -9063,7 +9063,7 @@ function CataQuestFixes.Load()
         [29192] = { -- The Wardens are Watching
             [questKeys.exclusiveTo] = {29211},
             [questKeys.preQuestSingle] = {29205},
-            [questKeys.objectives] = {{{52871,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{52872,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29197] = { -- Caught Unawares
             [questKeys.objectives] = {{{52906,nil,Questie.ICON_TYPE_EVENT},{52907,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{52903,52904},52903,nil,Questie.ICON_TYPE_EVENT}}},
@@ -9312,6 +9312,7 @@ function CataQuestFixes.Load()
         },
         [29293] = { -- Singed Wings
             [questKeys.exclusiveTo] = {29296},
+            [questKeys.objectives] = {{{53243,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [29296] = { -- Territorial Birds
             [questKeys.exclusiveTo] = {29293},
