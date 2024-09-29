@@ -1575,6 +1575,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {13868},
         },
+        [13879] = { -- Thunder Peak
+            [questKeys.preQuestSingle] = {13947},
+        },
         [13880] = { -- Hot Lava
             [questKeys.preQuestSingle] = {13877},
         },
