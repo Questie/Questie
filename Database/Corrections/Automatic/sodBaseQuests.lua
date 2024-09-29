@@ -6898,6 +6898,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Seek out Major Mattingly in the Valley of Heroes."},
             [questKeys.objectives] = nil,
         },
+        [85660] = {
+            [questKeys.name] = "The Heart of Hakkar",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{14875}},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring the Heart of Hakkar to Molthor on Yojamba Isle."},
+            [questKeys.objectives] = nil,
+        },
         [85701] = {
             [questKeys.name] = "Dragonscale Leatherworking",
             [questKeys.startedBy] = {{7866}},

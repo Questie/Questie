@@ -652,7 +652,6 @@ local questsToBlacklistBySoDPhase = {
         [5065] = true, -- The Lost Tablets of Mosh'aru
         [8181] = true, -- Confront Yeh'kinya
         [8182] = true, -- The Hand of Rastakhan
-        [8183] = true, -- The Heart of Hakkar
         [8411] = true,
         [8056] = true,
         [8057] = true,
@@ -989,6 +988,9 @@ local questsToBlacklistBySoDPhase = {
         [8422] = true,
         [8425] = true,
         [9053] = true,
+
+        -- Original ZG quests
+        [8183] = true, -- The Heart of Hakkar -- Replaced by 85660
 
         -- Events - These might not be re-added at level 60
         [6963] = true, -- Old "Stolen Winter Veil Treats" quest

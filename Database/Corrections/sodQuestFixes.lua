@@ -3061,6 +3061,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [85660] = { -- The Heart of Hakkar
+            [questKeys.startedBy] = {{14834},nil,{19802}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [85701] = { -- Dragonscale Leatherworking
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
