@@ -2943,6 +2943,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84950},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [85603] = { -- Vodouisant's Vigilant Embrace
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [85604] = { -- The Unmarred Vision of Voodress
             [questKeys.startedBy] = {{14904}},
             [questKeys.finishedBy] = {{14904}},

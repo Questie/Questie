@@ -713,7 +713,6 @@ local questsToBlacklistBySoDPhase = {
         [8185] = true,
         [8186] = true,
         [8187] = true,
-        [8188] = true,
         [8189] = true,
         [8190] = true,
         [8191] = true,
@@ -991,6 +990,7 @@ local questsToBlacklistBySoDPhase = {
         [8119] = true, -- The Unmarred Vision of Voodress - Replaced by 85604
         [8144] = true, -- Zandalarian Shadow Mastery Talisman - Replaced by 85633
         [8183] = true, -- The Heart of Hakkar - Replaced by 85660
+        [8188] = true, -- Vodouisant's Vigilant Embrace - Replaced by 85603
 
         -- Events - These might not be re-added at level 60
         [6963] = true, -- Old "Stolen Winter Veil Treats" quest

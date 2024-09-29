@@ -6579,6 +6579,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Collect bear meat, warm fur, and dry wood. Bring the materials back to your campsite to construct a shelter so that you can survive the storm. If you lose your foundation, make a new one with your survival supplies and bring the materials there."},
             [questKeys.objectives] = {nil,nil,{{12622},{229416},{229415}}},
         },
+        [85603] = {
+            [questKeys.name] = "Vodouisant's Vigilant Embrace",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = nil,
+            [questKeys.objectives] = {nil,nil,{{231518},{231512}}},
+        },
         [85604] = {
             [questKeys.name] = "The Unmarred Vision of Voodress",
             [questKeys.startedBy] = nil,
