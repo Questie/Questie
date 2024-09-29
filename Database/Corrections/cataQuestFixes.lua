@@ -1714,7 +1714,10 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 13976,
         },
         [13969] = { -- Grol'dom's Missing Kodo
-          [questKeys.preQuestSingle] = {13963},
+            [questKeys.preQuestSingle] = {13963},
+        },
+        [13974] = { -- Tweedle's Tiny Parcel
+            [questKeys.preQuestSingle] = {13947},
         },
         [13975] = { -- Crossroads Caravan Delivery
             [questKeys.objectives] = {},
