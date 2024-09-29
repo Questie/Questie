@@ -2947,54 +2947,63 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{15042}},
             [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85596] = { -- Death's Embrace
             [questKeys.startedBy] = {{15042}},
             [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85597] = { -- Falcon's Call
             [questKeys.startedBy] = {{15042}},
             [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85598] = { -- Prophetic Aura
             [questKeys.startedBy] = {{15042}},
             [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85599] = { -- Hoodoo Hex
             [questKeys.startedBy] = {{15042}},
             [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85600] = { -- Presence of Sight
             [questKeys.startedBy] = {{15042}},
             [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85601] = { -- Syncretist's Sigil
             [questKeys.startedBy] = {{15042}},
             [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85602] = { -- Animist's Caress
             [questKeys.startedBy] = {{15042}},
             [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85603] = { -- Vodouisant's Vigilant Embrace
             [questKeys.startedBy] = {{15042}},
             [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85604] = { -- The Unmarred Vision of Voodress
@@ -3002,18 +3011,22 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14904}},
             [questKeys.preQuestSingle] = {8118},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85605] = { -- Paragons of Power: The Augur's Bracers
             [questKeys.finishedBy] = {{14904}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85606] = { -- Paragons of Power: The Augur's Belt
             [questKeys.finishedBy] = {{14904}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85607] = { -- Paragons of Power: The Augur's Hauberk
             [questKeys.finishedBy] = {{14904}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85608] = { -- Pristine Enchanted South Seas Kelp
@@ -3021,29 +3034,36 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14904}},
             [questKeys.preQuestSingle] = {8112},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85609] = { -- Paragons of Power: The Haruspex's Bracers
             [questKeys.finishedBy] = {{14904}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85610] = { -- Paragons of Power: The Haruspex's Belt
             [questKeys.finishedBy] = {{14904}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85611] = { -- Paragons of Power: The Haruspex's Tunic
             [questKeys.finishedBy] = {{14904}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85613] = { -- Paragons of Power: The Vindicator's Armguards
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85614] = { -- Paragons of Power: The Vindicator's Belt
             [questKeys.finishedBy] = {{14902}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85615] = { -- Paragons of Power: The Vindicator's Breastplate
             [questKeys.finishedBy] = {{14902}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85616] = { -- The All-Seeing Eye of Zuldazar
@@ -3051,6 +3071,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14903}},
             [questKeys.preQuestSingle] = {8051},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85617] = { -- The Hero's Brand
@@ -3058,32 +3079,39 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14902}},
             [questKeys.preQuestSingle] = {8047},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85618] = { -- Paragons of Power: The Freethinker's Armguards
             [questKeys.startedBy] = {{14902}},
             [questKeys.finishedBy] = {{14902}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85619] = { -- Paragons of Power: The Freethinker's Belt
             [questKeys.startedBy] = {{14902}},
             [questKeys.finishedBy] = {{14902}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85620] = { -- Paragons of Power: The Freethinker's Breastplate
             [questKeys.startedBy] = {{14902}},
             [questKeys.finishedBy] = {{14902}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85622] = { -- Paragons of Power: The Confessor's Wraps
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85623] = { -- Paragons of Power: The Confessor's Bindings
             [questKeys.finishedBy] = {{14903}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85624] = { -- Paragons of Power: The Confessor's Mantle
             [questKeys.finishedBy] = {{14903}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85625] = { -- Kezan's Unstoppable Taint
@@ -3091,17 +3119,21 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14903}},
             [questKeys.preQuestSingle] = {8108},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85626] = { -- Paragons of Power: The Demoniac's Wraps
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85627] = { -- Paragons of Power: The Demoniac's Mantle
             [questKeys.finishedBy] = {{14903}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85628] = { -- Paragons of Power: The Demoniac's Robes
             [questKeys.finishedBy] = {{14903}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85629] = { -- The Jewel of Kajaro
@@ -3109,18 +3141,22 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14903}},
             [questKeys.preQuestSingle] = {8103},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85630] = { -- Paragons of Power: The Illusionist's Wraps
             [questKeys.finishedBy] = {{14903}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85631] = { -- Paragons of Power: The Illusionist's Mantle
             [questKeys.finishedBy] = {{14903}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85632] = { -- Paragons of Power: The Illusionist's Robes
             [questKeys.finishedBy] = {{14903}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85633] = { -- Zandalarian Shadow Mastery Talisman
@@ -3128,17 +3164,21 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14905}},
             [questKeys.preQuestSingle] = {8143},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85634] = { -- Paragons of Power: The Madcap's Bracers
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85635] = { -- Paragons of Power: The Madcap's Mantle
             [questKeys.finishedBy] = {{14905}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85636] = { -- Paragons of Power: The Madcap's Tunic
             [questKeys.finishedBy] = {{14905}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85637] = { -- Maelstrom's Wrath
@@ -3146,17 +3186,21 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14905}},
             [questKeys.preQuestSingle] = {8147},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85638] = { -- Paragons of Power: The Predator's Bracers
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85639] = { -- Paragons of Power: The Predator's Belt
             [questKeys.finishedBy] = {{14905}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85640] = { -- Paragons of Power: The Predator's Mantle
             [questKeys.finishedBy] = {{14905}},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85643] = { -- The Lord of Blackrock
