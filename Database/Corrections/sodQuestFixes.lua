@@ -2943,6 +2943,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84950},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [85604] = { -- The Unmarred Vision of Voodress
+            [questKeys.startedBy] = {{14904}},
+            [questKeys.finishedBy] = {{14904}},
+            [questKeys.preQuestSingle] = {8118},
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [85605] = { -- Paragons of Power: The Augur's Bracers
             [questKeys.finishedBy] = {{14904}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
