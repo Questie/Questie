@@ -6744,6 +6744,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring Al'tabim the All-Seeing a Primal Hakkari Aegis.  You must also have a reputation equal to or greater than Revered with the Zandalar Tribe.Al'tabim the All-Seeing is located on Yojamba Isle, Stranglethorn Vale."},
             [questKeys.objectives] = {nil,nil,{{19724}},{270,21000}},
         },
+        [85625] = {
+            [questKeys.name] = "Kezan's Unstoppable Taint",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = nil,
+            [questKeys.objectives] = {nil,nil,{{19604}}},
+        },
         [85626] = {
             [questKeys.name] = "Paragons of Power: The Demoniac's Wraps",
             [questKeys.startedBy] = {{14903}},

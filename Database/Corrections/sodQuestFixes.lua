@@ -3004,6 +3004,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14903}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
+        [85625] = { -- Kezan's Unstoppable Taint
+            [questKeys.startedBy] = {{14903}},
+            [questKeys.finishedBy] = {{14903}},
+            [questKeys.preQuestSingle] = {8108},
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [85626] = { -- Paragons of Power: The Demoniac's Wraps
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },

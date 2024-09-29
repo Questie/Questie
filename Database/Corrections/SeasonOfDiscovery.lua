@@ -706,7 +706,6 @@ local questsToBlacklistBySoDPhase = {
         [8106] = true,
         [8107] = true,
         [8108] = true,
-        [8109] = true,
         [8141] = true,
         [8142] = true,
         [8143] = true,
@@ -989,6 +988,7 @@ local questsToBlacklistBySoDPhase = {
 
         -- Original ZG quests
         [8104] = true, -- The Jewel of Kajaro - Replaced by 85629
+        [8109] = true, -- Kezan's Unstoppable Taint - Replaced by 85625
         [8144] = true, -- Zandalarian Shadow Mastery Talisman - Replaced by 85633
         [8183] = true, -- The Heart of Hakkar - Replaced by 85660
 
