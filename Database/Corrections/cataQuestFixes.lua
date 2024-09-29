@@ -1729,6 +1729,9 @@ function CataQuestFixes.Load()
         [13976] = { -- Three Friends of the Forest
             [questKeys.preQuestSingle] = {},
         },
+        [13977] = { -- Mass Production
+            [questKeys.preQuestSingle] = {13974},
+        },
         [13982] = { -- In a Bind
             [questKeys.preQuestSingle] = {13976},
         },
