@@ -3615,15 +3615,17 @@ function CataQuestFixes.Load()
         [25514] = { -- Breaking the Bonds
             [questKeys.objectives] = {{{40544,nil,Questie.ICON_TYPE_EVENT},{40545,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {
-                {nil,Questie.ICON_TYPE_EVENT,l10n("Disable the Rod of Subjugation"),1,{{"object",460008}}},
+                {nil,Questie.ICON_TYPE_TALK,l10n("Disable the Rod of Subjugation"),1,{{"object",460008}}},
                 {nil,Questie.ICON_TYPE_EVENT,l10n("Disable the Rod of Subjugation"),2,{{"object",460009}}},
             },
         },
         [25517] = { -- Bar Fight! [Alliance]
             [questKeys.preQuestSingle] = {25488},
+            [questKeys.requiredSourceItems] = {54747},
         },
         [25518] = { -- Bar Fight! [Horde]
             [questKeys.preQuestSingle] = {25489},
+            [questKeys.requiredSourceItems] = {54747},
         },
         [25519] = { -- Children of Tortolla
             [questKeys.objectives] = {nil,nil,nil,nil,{{{40555,40557},40555,nil,Questie.ICON_TYPE_EVENT}}},
