@@ -3027,6 +3027,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{14903}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
+        [85633] = { -- Zandalarian Shadow Mastery Talisman
+            [questKeys.startedBy] = {{14905}},
+            [questKeys.finishedBy] = {{14905}},
+            [questKeys.preQuestSingle] = {8143},
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
         [85634] = { -- Paragons of Power: The Madcap's Bracers
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },

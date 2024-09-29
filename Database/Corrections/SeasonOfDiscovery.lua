@@ -711,7 +711,6 @@ local questsToBlacklistBySoDPhase = {
         [8141] = true,
         [8142] = true,
         [8143] = true,
-        [8144] = true,
         [8145] = true,
         [8146] = true,
         [8147] = true,
@@ -990,7 +989,8 @@ local questsToBlacklistBySoDPhase = {
         [9053] = true,
 
         -- Original ZG quests
-        [8183] = true, -- The Heart of Hakkar -- Replaced by 85660
+        [8144] = true, -- Zandalarian Shadow Mastery Talisman - Replaced by 85633
+        [8183] = true, -- The Heart of Hakkar - Replaced by 85660
 
         -- Events - These might not be re-added at level 60
         [6963] = true, -- Old "Stolen Winter Veil Treats" quest
