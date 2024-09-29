@@ -627,6 +627,7 @@ local questsToBlacklistBySoDPhase = {
         [3637] = true, -- Gnome Engineering
         [4181] = true, -- Goblin Engineering
         [5284] = true, -- The Way of the Weaponsmith
+        [5302] = true, -- The Way of the Weaponsmith
         [6607] = true, -- Nat Pagle, Angler Extreme (Fishing 225+ quest)
         [6608] = true, -- You Too Good. (Fishing 225+ quest)
         [6609] = true, -- I Got Nothin' Left! (Fishing 225+ pre quest)
