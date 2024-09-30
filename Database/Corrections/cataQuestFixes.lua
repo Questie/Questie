@@ -5946,6 +5946,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{45199,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,nil,{{774}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Rejuvenation"), 2, {{"monster", 3060}}}},
         },
+        [27068] = { -- Chief Ukorz Sandscalp
+            [questKeys.preQuestSingle] = {},
+        },
         [27073] = { -- Give 'em Hell!
             [questKeys.preQuestSingle] = {27065},
         },
