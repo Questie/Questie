@@ -8,7 +8,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
-SeasonOfDiscovery.currentPhase = 4 -- TODO: Use API function which hopefully will come in the future
+SeasonOfDiscovery.currentPhase = 5 -- TODO: Use API function which hopefully will come in the future
 
 local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
     [1470]  = 1, -- Warlock Metamorphosis Part 1
@@ -641,15 +641,13 @@ local questsToBlacklistBySoDPhase = {
     },
     [4] = { -- SoD Phase 4 == Era Phase 1+2: level cap 60, MC, Ony, world bosses
     },
-    [5] = { -- SoD Phase 5 == Era Phase 3: BWL + Darkmoon Faire
+    [5] = { -- SoD Phase 5 == Era Phase 3: BWL + Zul'Gurub
+        [4788] = true, -- The Final Tablets
+        [5065] = true, -- The Lost Tablets of Mosh'aru
         [7761] = true, -- Blackhand's Command; BWL attune
         [7783] = true, -- The Lord of Blackrock Part 1
         [7784] = true, -- The Lord of Blackrock Part 2
         [7787] = true, -- Rise, Thunderfury!
-    },
-    [6] = { -- SoD Phase 6 == Era Phase 4: Zul'Gurub
-        [4788] = true, -- The Final Tablets
-        [5065] = true, -- The Lost Tablets of Mosh'aru
         [8181] = true, -- Confront Yeh'kinya
         [8182] = true, -- The Hand of Rastakhan
         [8411] = true,
@@ -750,7 +748,7 @@ local questsToBlacklistBySoDPhase = {
         [8287] = true,
         [8314] = true,
     },
-    [7] = { -- SoD Phase 7 == Era Phase 5: AQ
+    [6] = { -- SoD Phase 6 == Era Phase 5: AQ
         [8276] = true, -- Taking Back Silithus
         [8579] = true, -- Mortal Champions
         [8789] = true, -- Imperial Qiraji Armaments
@@ -758,7 +756,7 @@ local questsToBlacklistBySoDPhase = {
         [8791] = true, -- The Fall of Ossirian
         [8801] = true, -- C'Thun's Legacy
     },
-    [8] = { -- SoD Phase 8 == Era Phase 6: Naxxramas
+    [7] = { -- SoD Phase 7 == Era Phase 6: Naxxramas
         [9085] = true,
         [9142] = true,
         [9165] = true,
@@ -887,7 +885,7 @@ local questsToBlacklistBySoDPhase = {
         [9419] = true,
         [9416] = true,
     },
-    [9] = { -- Never appearing in Season of Discovery
+    [8] = { -- Never appearing in Season of Discovery
         [1203] = true, -- Jarl Needs a Blade - Replaced by 81570
         [1878] = true, -- Water Pouch Bounty - Replaced by 82209
         [2758] = true, -- The Origins of Smithing - Replaced by 80241
