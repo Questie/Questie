@@ -54,19 +54,25 @@ function Tutorial.ShowRunes()
     showPhase1RunesButton.Text:SetText(" " .. l10n("Phase 1"))
     showPhase1RunesButton.Text:SetTextColor(1, 0.82, 0)
     showPhase1RunesButton:SetChecked(true)
-    showPhase1RunesButton:SetPoint("BOTTOM", -60, 60)
+    showPhase1RunesButton:SetPoint("BOTTOM", -110, 60)
 
     local showPhase2RunesButton = CreateFrame("CheckButton", nil, baseFrame, "ChatConfigCheckButtonTemplate")
     showPhase2RunesButton.Text:SetText(" " .. l10n("Phase 2"))
     showPhase2RunesButton.Text:SetTextColor(1, 0.82, 0)
     showPhase2RunesButton:SetChecked(true)
-    showPhase2RunesButton:SetPoint("BOTTOM", 20, 60)
+    showPhase2RunesButton:SetPoint("BOTTOM", 70, 60)
 
     local showPhase3RunesButton = CreateFrame("CheckButton", nil, baseFrame, "ChatConfigCheckButtonTemplate")
     showPhase3RunesButton.Text:SetText(" " .. l10n("Phase 3"))
     showPhase3RunesButton.Text:SetTextColor(1, 0.82, 0)
     showPhase3RunesButton:SetChecked(true)
-    showPhase3RunesButton:SetPoint("BOTTOM", -60, 40)
+    showPhase3RunesButton:SetPoint("BOTTOM", -110, 40)
+
+    local showPhase4RunesButton = CreateFrame("CheckButton", nil, baseFrame, "ChatConfigCheckButtonTemplate")
+    showPhase4RunesButton.Text:SetText(" " .. l10n("Phase 4"))
+    showPhase4RunesButton.Text:SetTextColor(1, 0.82, 0)
+    showPhase4RunesButton:SetChecked(true)
+    showPhase4RunesButton:SetPoint("BOTTOM", 70, 40)
 
     local confirmButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
     confirmButton:SetText(DONE)
@@ -76,15 +82,17 @@ function Tutorial.ShowRunes()
         local showPhase1Runes = showPhase1RunesButton:GetChecked()
         local showPhase2Runes = showPhase2RunesButton:GetChecked()
         local showPhase3Runes = showPhase3RunesButton:GetChecked()
+        local showPhase4Runes = showPhase3RunesButton:GetChecked()
 
-        Questie.db.profile.showSoDRunes = showPhase1Runes or showPhase2Runes or showPhase3Runes
+        Questie.db.profile.showSoDRunes = showPhase1Runes or showPhase2Runes or showPhase3Runes or showPhase4Runes
         Questie.db.profile.tutorialShowRunesDone = true
 
         Questie.db.profile.showRunesOfPhase = {
             phase1 = showPhase1Runes,
             phase2 = showPhase2Runes,
             phase3 = showPhase3Runes,
-            phase4 = false,
+            phase4 = showPhase4Runes,
+            phase5 = false,
         }
 
         AvailableQuests.CalculateAndDrawAll()
