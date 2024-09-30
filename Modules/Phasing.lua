@@ -125,6 +125,8 @@ local phases = {
     MOUNT_HYJAL_INVASION_START = 1053,
     MOUNT_HYJAL_INVASION_SANCTUARY_ATTACK = 1054,
     MOUNT_HYJAL_INVASION_SANCTUARY = 1055,
+    MOUNT_HYJAL_VISION_YSERA_1 = 1056,
+    MOUNT_HYJAL_VISION_YSERA_2 = 1057,
 }
 Phasing.phases = phases
 
@@ -435,6 +437,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.MOUNT_HYJAL_INVASION_SANCTUARY then
         return complete[29198] or (questLog[29198] and (questLog[29198].isComplete == 1)) or false
+    end
+
+    if phase == phases.MOUNT_HYJAL_VISION_YSERA_1 then
+        return complete[25611] or false -- might be all quests at shrine needed for this NPC to popup. turn in this quest first, see if others are required, if you find that to be true - @cheeq
+    end
+
+    if phase == phases.MOUNT_HYJAL_VISION_YSERA_2 then
+        return (complete[25502] and complete[25520]) or false
     end
 
     return false
