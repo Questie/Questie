@@ -116,6 +116,7 @@ QuestieDB.questFlags = {
 QuestieDB.factionIDs = {
     UNDERCITY = 68,
     DARNASSUS = 69,
+    ZANDALAR_TRIBE = 270,
     TIMBERMAW_HOLD = 576,
     DARKMOON_FAIRE = 909,
     EXODAR = 930,

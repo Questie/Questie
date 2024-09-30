@@ -693,6 +693,58 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.EASTERN_PLAGUELANDS] = {{47.8,50.4}},
             },
         },
+        [229897] = { -- Wild Windtwister
+            [npcKeys.zoneID] = zoneIDs.MOONGLADE,
+            [npcKeys.spawns] = {
+                [zoneIDs.MOONGLADE] = {{39,68}},
+            },
+        },
+        [230481] = { -- Earth Elemental Fragment
+            [npcKeys.zoneID] = zoneIDs.MOONGLADE,
+            [npcKeys.spawns] = {
+                [zoneIDs.MOONGLADE] = {{72.4,62.2}},
+            },
+        },
+        [232755] = { -- Van Amburgh
+            [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
+            [npcKeys.spawns] = {
+                [zoneIDs.UN_GORO_CRATER] = {{23.64,33.23}},
+            },
+        },
+        [233084] = { -- Estelenn
+            [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
+            [npcKeys.spawns] = {
+                [zoneIDs.UN_GORO_CRATER] = {{23.64,33.23}},
+            },
+        },
+        [227755] = { -- Estelenn
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+            [npcKeys.spawns] = {
+                -- TODO: Is there a better way? The NPC ID is correct, but the locations are needed for different quests
+                [zoneIDs.BURNING_STEPPES] = {{17.03,46.32}},
+                [zoneIDs.WINTERSPRING] = {{58,21}},
+            },
+        },
+        [230775] = { -- Rage Talon Quartermaster
+            [npcKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1, -1}}},
+        },
+        [231050] = { -- Syndicate Infiltrator
+            [npcKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1, -1}}},
+        },
+        [231430] = { -- Caius Blackwood
+            [npcKeys.zoneID] = zoneIDs.FELWOOD,
+            [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{35.4,57.8}}},
+        },
+        [232529] = { -- Nandieb
+            [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
+            [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{50.7,27.9}}},
+        },
+        [232929] = { -- Gregory
+            [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
+            [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{53.36,83.59}}},
+        },
 
         -- fake NPCs
         [900000] = {

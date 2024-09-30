@@ -793,8 +793,14 @@ function CataItemFixes.Load()
         [69233] = { -- Cone of Cold
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [69765] = { -- Lucifern
+            [itemKeys.npcDrops] = {},
+        },
         [69815] = { -- Seething Cinder
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [69845] = { -- Fire Hawk Hatchling
+            [itemKeys.npcDrops] = {53275},
         },
         [69905] = { -- Giant Flesh-Eating Tadpole
             [itemKeys.npcDrops] = {},

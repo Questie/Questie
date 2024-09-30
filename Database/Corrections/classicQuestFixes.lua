@@ -2714,8 +2714,14 @@ function QuestieQuestFixes:Load()
         [7781] = {
             [questKeys.startedBy] = {{11583},nil,{19003}},
         },
+        [7782] = { -- The Lord of Blackrock
+            [questKeys.startedBy] = {{1748}},
+        },
         [7783] = {
             [questKeys.startedBy] = {{11583},nil,{19002}},
+        },
+        [7784] = { -- The Lord of Blackrock
+            [questKeys.startedBy] = {{4949}},
         },
         [7785] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.ROGUE,
@@ -2788,6 +2794,9 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 60,
             [questKeys.specialFlags] = 1,
         },
+        [8044] = {
+            [questKeys.name] = "The Rage of Mugamba",
+        },
         [8105] = {
             [questKeys.specialFlags] = 0,
         },
@@ -2819,6 +2828,9 @@ function QuestieQuestFixes:Load()
                 [zoneIDs.SILVERPINE_FOREST]={{39.68,17.75}}},
             },
             [questKeys.requiredMinRep] = {510,42000},
+        },
+        [8148] = {
+            [questKeys.name] = "Maelstrom's Wrath",
         },
         [8149] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
