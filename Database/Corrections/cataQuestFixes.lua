@@ -1575,6 +1575,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {13868},
         },
+        [13879] = { -- Thunder Peak
+            [questKeys.preQuestSingle] = {13947},
+        },
         [13880] = { -- Hot Lava
             [questKeys.preQuestSingle] = {13877},
         },
@@ -1662,12 +1665,18 @@ function CataQuestFixes.Load()
         [13938] = { -- A Trip To The Wonderworks
             [questKeys.preQuestSingle] = {},
         },
+        [13943] = { -- Breathing Room
+            [questKeys.preQuestSingle] = {13936},
+        },
         [13945] = { -- Resident Danger
             [questKeys.preQuestSingle] = {476},
         },
         [13946] = { -- Nature's Reprisal
             [questKeys.preQuestSingle] = {489},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{2002,2003,2004,2005},2002}}},
+        },
+        [13947] = { -- Blastranaar!
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak with Thraka to begin the assault"),0,{{"monster",34429}}}},
         },
         [13948] = { -- Stepping Up Surveillance
             [questKeys.objectives] = {{{34326,nil,Questie.ICON_TYPE_EVENT}}},
@@ -1690,6 +1699,9 @@ function CataQuestFixes.Load()
         [13957] = { -- The Mighty Hemet Nesingwary
             [questKeys.preQuestSingle] = {},
         },
+        [13958] = { -- Condition Critical!
+            [questKeys.preQuestSingle] = {13947},
+        },
         [13961] = { -- Drag it Out of Them
             [questKeys.triggerEnd] = {"Razormane Prisoner Delivered",{[zoneIDs.THE_BARRENS] = {{56.4,40.3}}}},
         },
@@ -1705,7 +1717,10 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 13976,
         },
         [13969] = { -- Grol'dom's Missing Kodo
-          [questKeys.preQuestSingle] = {13963},
+            [questKeys.preQuestSingle] = {13963},
+        },
+        [13974] = { -- Tweedle's Tiny Parcel
+            [questKeys.preQuestSingle] = {13947},
         },
         [13975] = { -- Crossroads Caravan Delivery
             [questKeys.objectives] = {},
@@ -1713,6 +1728,9 @@ function CataQuestFixes.Load()
         },
         [13976] = { -- Three Friends of the Forest
             [questKeys.preQuestSingle] = {},
+        },
+        [13977] = { -- Mass Production
+            [questKeys.preQuestSingle] = {13974},
         },
         [13982] = { -- In a Bind
             [questKeys.preQuestSingle] = {13976},
