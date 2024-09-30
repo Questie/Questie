@@ -7221,10 +7221,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 55,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Position yourself on top of the pillar with your back towards Frix Xizzix. Set 'Gadgetzan' to 'at War' and attack the dragon Tower Defense Automaton. It will eventually knock you off the platform towards Frix Xizzix, which you need to heal up. Once you get the 'Feeling much better, thank you!' buff, go to Booty Bay and buy the rune from Rix Xizzix."},
             [questKeys.requiredSpell] = -429242,
-            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
     }
 end
