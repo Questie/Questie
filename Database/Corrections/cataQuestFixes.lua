@@ -9465,6 +9465,8 @@ function CataQuestFixes.Load()
         [29299] = { -- Some Like It Hot
             [questKeys.exclusiveTo] = {29255,29257},
             [questKeys.preQuestSingle] = {29254},
+            [questKeys.objectives] = {{{53256,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Engage it to create Ember Pools"),0,{{"monster",53240}}}},
         },
         [29304] = { -- The Dogs of War
             [questKeys.preQuestSingle] = {29201},

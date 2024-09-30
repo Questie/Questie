@@ -2375,6 +2375,9 @@ function CataNpcFixes.Load()
         [53234] = { -- Anren Shadowseeker
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{42.62,59.91}}},
         },
+        [53256] = { -- Ember Pool Bunny
+            [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{47.24,53.26},{41.18,60.14},{54.33,61.61},{47.7,54.61},{50.11,57.35},{55.5,69.8},{49.28,68.68},{47.65,61.84},{40.41,55.57},{42.66,65.26}}},
+        },
         [53385] = { -- Malfurion Stormrage
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{47.16,90.58}}},
         },
