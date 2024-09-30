@@ -2951,6 +2951,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {24942,24945,24946},
             [questKeys.objectives] = {{{38842,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [24955] = { -- Un-Chartered
+            [questKeys.preQuestSingle] = {},
+        },
         [24958] = { -- Volcanoth!
             [questKeys.objectives] = {{{38855}}},
         },
