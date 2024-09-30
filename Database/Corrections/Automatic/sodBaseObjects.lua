@@ -2758,6 +2758,15 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
+        [499987] = {
+            [objectKeys.name] = "Spellbook",
+            [objectKeys.zoneID] = 45,
+            [objectKeys.spawns] = {
+                [45] = {{34.1,80.6}},
+            },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
         [499988] = {
             [objectKeys.name] = "Spellbook",
             [objectKeys.zoneID] = 400,

@@ -7192,6 +7192,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453700,
             [questKeys.zoneOrSort] = zoneIDs.BLASTED_LANDS,
         },
+        [90321] = {
+            [questKeys.name] = "Rune of Healing Specialization",
+            [questKeys.startedBy] = {nil,{499987}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN + classIDs.PRIEST + classIDs.SHAMAN + classIDs.DRUID + classIDs.MAGE,
+            [questKeys.requiredSpell] = -468761,
+            [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
+        },
     }
 end
 
