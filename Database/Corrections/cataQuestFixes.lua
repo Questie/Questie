@@ -4474,6 +4474,9 @@ function CataQuestFixes.Load()
         [26068] = { -- Kobold Fury!
             [questKeys.objectives] = {nil,{{203446}}},
         },
+        [26069] = { -- Nura Pathfinder
+            [questKeys.exclusiveTo] = {24504,28549},
+        },
         [26070] = { -- Clearing the Defiled
             [questKeys.preQuestSingle] = {25987},
         },
