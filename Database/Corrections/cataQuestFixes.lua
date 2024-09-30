@@ -9191,6 +9191,7 @@ function CataQuestFixes.Load()
         [29189] = { -- Wicked Webs
             [questKeys.preQuestSingle] = {29205},
             [questKeys.exclusiveTo] = {29160},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{52705,52783,52784,52989,52990,52991,52992,52751},52751}}},
         },
         [29190] = { -- Let's Go Fly a Kite
             [questKeys.triggerEnd] = {"Fly Dragon Kites with your orphan", {[zoneIDs.ORGRIMMAR]={{58.5,58.3}}}},
