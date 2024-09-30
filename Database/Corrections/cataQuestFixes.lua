@@ -3636,7 +3636,7 @@ function CataQuestFixes.Load()
         [25514] = { -- Breaking the Bonds
             [questKeys.objectives] = {{{40544,nil,Questie.ICON_TYPE_EVENT},{40545,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {
-                {nil,Questie.ICON_TYPE_TALK,l10n("Disable the Rod of Subjugation"),1,{{"object",460008}}},
+                {nil,Questie.ICON_TYPE_EVENT,l10n("Disable the Rod of Subjugation"),1,{{"object",460008}}},
                 {nil,Questie.ICON_TYPE_EVENT,l10n("Disable the Rod of Subjugation"),2,{{"object",460009}}},
             },
         },
