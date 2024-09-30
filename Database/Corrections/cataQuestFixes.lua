@@ -9945,6 +9945,9 @@ function CataQuestFixes:LoadFactionFixes()
         [12318] = { -- Save Brewfest!
             [questKeys.startedBy] = {},
         },
+        [24911] = { -- Tropical Paradise Beckons
+            [questKeys.startedBy] = {44374},
+        },
         [25619] = { -- Reoccupation
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25952,25953,25954,25955,25956},
@@ -10007,6 +10010,9 @@ function CataQuestFixes:LoadFactionFixes()
     local questFixesAlliance = {
         [12318] = { -- Save Brewfest!
             [questKeys.startedBy] = {{27584}},
+        },
+        [24911] = { -- Tropical Paradise Beckons
+            [questKeys.startedBy] = {38578},
         },
         [25513] = { -- Thunderdrome: Grudge Match!
             [questKeys.preQuestGroup] = {25065,25095},
