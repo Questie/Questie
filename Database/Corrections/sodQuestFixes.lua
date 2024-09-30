@@ -7203,6 +7203,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -468761,
             [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
         },
+        [90322] = {
+            [questKeys.name] = "Rune of Meditation Specialization",
+            [questKeys.startedBy] = {nil,{499988}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN + classIDs.PRIEST + classIDs.SHAMAN + classIDs.DRUID + classIDs.MAGE,
+            [questKeys.requiredSpell] = -468763,
+            [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
+        },
     }
 end
 
