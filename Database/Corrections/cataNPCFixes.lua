@@ -213,8 +213,21 @@ function CataNpcFixes.Load()
         [7319] = { -- Lady Sathrah
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{40.66,22.16}}},
         },
+        [7355] = { -- Tuten'kash
+            [npcKeys.spawns] = {[722]={{58.92,31.11}}},
+        },
+        [7357] = { -- Mordresh Fire Eye
+            [npcKeys.spawns] = {[722]={{85.84,46.96}}},
+        },
+        [7358] = { -- Amnennar the Coldbringer
+            [npcKeys.spawns] = {[722]={{44.43,59.62}}},
+        },
         [7363] = { -- Kum'isha the Collector
             [npcKeys.waypoints] = {},
+        },
+        [8567] = { -- Glutton
+            [npcKeys.spawns] = {[722]={{33.93,52.14}}},
+            [npcKeys.waypoints] = {[722]={{{33.93,52.14},{33.13,54.44},{33.40,59.02},{34.06,64.21},{35.39,68.79},{37.65,71.78},{40.38,74.88},{43.70,76.07}}}},
         },
         [8576] = { -- Ag'tor Bloodfist
             [npcKeys.spawns] = {
