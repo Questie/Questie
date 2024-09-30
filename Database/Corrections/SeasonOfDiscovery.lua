@@ -550,6 +550,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90320] = 4, -- Shadow Specialization (Priest, Warlock)
     [90321] = 5, -- Healing Specialization (Paladin, Priest, Shaman, Druid, Mage)
     [90322] = 5, -- Meditation Specialization (Paladin, Priest, Shaman, Druid, Mage)
+    [90323] = 3, -- Priest Light's Grace
 }
 
 --- "automatic" phase detection for the first few phases;

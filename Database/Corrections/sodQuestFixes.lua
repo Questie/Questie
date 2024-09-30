@@ -7214,6 +7214,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -468763,
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
+        [90323] = {
+            [questKeys.name] = "Light's Grace",
+            [questKeys.startedBy] = {{220930,218240,214954}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Position yourself on top of the pillar with your back towards Frix Xizzix. Set 'Gadgetzan' to 'at War' and attack the dragon Tower Defense Automaton. It will eventually knock you off the platform towards Frix Xizzix, which you need to heal up. Once you get the 'Feeling much better, thank you!' buff, go to Booty Bay and buy the rune from Rix Xizzix."},
+            [questKeys.requiredSpell] = -429242,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
