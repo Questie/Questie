@@ -3712,6 +3712,9 @@ function CataQuestFixes.Load()
                 {nil,Questie.ICON_TYPE_TALK,l10n("Start the fight"),0,{{"monster",40803},{"monster",41631}}},
             },
         },
+        [25556] = { -- Into Zul'Farrak
+            [questKeys.exclusiveTo] = {27068},
+        },
         [25558] = { -- All or Nothing
             [questKeys.extraObjectives] = {{{[zoneIDs.KELP_THAR_FOREST] = {{44.59,25.37}}},Questie.ICON_TYPE_EVENT,l10n("Defend The Briny Cutter")}},
             [questKeys.objectives] = {{{40714,nil,Questie.ICON_TYPE_EVENT}}},
