@@ -3710,6 +3710,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25505},
             [questKeys.requiredSourceItems] = {54821},
         },
+        [25534] = { -- Going Off-Task [Horde]
+            [questKeys.exclusiveTo] = {};
+        },
         [25536] = { -- Cold Welcome
             [questKeys.finishedBy] = {{40642}},
         },
@@ -5654,6 +5657,9 @@ function CataQuestFixes.Load()
         },
         [26882] = { -- Blackfathom Villainy
             [questKeys.questFlags] = 128,
+        },
+        [26886] = { -- Going Off-Task [Alliance]
+            [questKeys.exclusiveTo] = {},
         },
         [26892] = { -- Deep in the Deeps
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
