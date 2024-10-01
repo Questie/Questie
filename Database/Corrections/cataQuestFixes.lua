@@ -3066,7 +3066,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [25050] = { -- Rocket Rescue
-            [questKeys.preQuestSingle] = {25049},
+            [questKeys.preQuestGroup] = {25048,25049},
         },
         [25064] = { -- Moraya
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
