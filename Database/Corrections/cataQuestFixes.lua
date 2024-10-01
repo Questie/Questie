@@ -2009,6 +2009,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {14340},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Arcane Charge in Balboa's path"), 0, {{"monster", 35759}}}},
         },
+        [14255] = { -- Ethel Rethor -- #6159
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.preQuestSingle] = {14189},
+            [questKeys.nextQuestInChain] = 14256,
+        },
         [14261] = { -- Ice Cold
             [questKeys.preQuestSingle] = {14391},
         },
@@ -2163,6 +2168,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{4663,4664,4665,4666,4667},nil,{49203}},
         },
         [14365] = { -- Ethel Rethor
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {14354},
         },
         [14366] = { -- Holding Steady
