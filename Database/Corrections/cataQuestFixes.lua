@@ -7034,6 +7034,7 @@ function CataQuestFixes.Load()
         [27812] = { -- The Loyalty of Clan Mullan
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27810,27811},
+            [questKeys.exclusiveTo] = {},
         },
         [27813] = { -- Death Worthy of a Dragonmaw
             [questKeys.exclusiveTo] = {},
@@ -7044,7 +7045,7 @@ function CataQuestFixes.Load()
         [27815] = { -- Somethin' for the Boys
             [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27813,27814},
+            [questKeys.preQuestGroup] = {27813,27814,28234},
         },
         [27816] = { -- Personal Request
             [questKeys.preQuestSingle] = {},
@@ -7825,6 +7826,7 @@ function CataQuestFixes.Load()
         },
         [28413] = { -- Words and Music By...
             [questKeys.objectives] = {{{48366,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {28407},
         },
         [28414] = { -- Fourth and Goal
             [questKeys.objectives] = {{{37203,nil,Questie.ICON_TYPE_EVENT}}},
