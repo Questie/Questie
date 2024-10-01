@@ -9421,6 +9421,7 @@ function CataQuestFixes.Load()
         [29273] = { -- How Hot
             [questKeys.exclusiveTo] = {29274},
             [questKeys.preQuestSingle] = {29206},
+            [questKeys.objectives] = {{{53190,nil,Questie.ICON_TYPE_EVENT},{53191,nil,Questie.ICON_TYPE_EVENT},{53192,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29274] = { -- Hounds of Shannox
             [questKeys.exclusiveTo] = {29273},
