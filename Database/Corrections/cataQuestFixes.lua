@@ -2922,6 +2922,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {24955},
         },
         [24910] = { -- Rocket Rescue
+            [questKeys.objectives] = {{{38571},{40583}}},
             [questKeys.preQuestGroup] = {24907,24906},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in the balloon"),0,{{"monster",40604}}}},
         },
@@ -3073,6 +3074,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [25050] = { -- Rocket Rescue
+            [questKeys.objectives] = {{{38571},{40583}}},
             [questKeys.preQuestGroup] = {25048,25049},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in the balloon"),0,{{"monster",40604}}}},
         },
