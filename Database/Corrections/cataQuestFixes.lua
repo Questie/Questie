@@ -3073,6 +3073,9 @@ function CataQuestFixes.Load()
         [25052] = { -- Dead Man's Chest [Alliance]
             [questKeys.preQuestSingle] = {25121},
         },
+        [25053] = { -- To The Ground! [Alliance]
+            [questKeys.preQuestSingle] = {25121},
+        },
         [25064] = { -- Moraya
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
