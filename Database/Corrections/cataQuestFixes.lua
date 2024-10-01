@@ -3126,6 +3126,9 @@ function CataQuestFixes.Load()
         [25112] = { -- Butcherbot
             [questKeys.objectives] = {{{5419}}},
         },
+        [25115] = { -- Blisterpaw Butchery
+            [questKeys.objectives] = {{{5426}}},
+        },
         [25122] = { -- Morale Boost
             [questKeys.requiredSourceItems] = {52484},
             [questKeys.objectives] = {{{38441,nil,Questie.ICON_TYPE_INTERACT},{38647,nil,Questie.ICON_TYPE_INTERACT},{38746,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,{{{38745,38409},38409,nil,Questie.ICON_TYPE_INTERACT}}},
