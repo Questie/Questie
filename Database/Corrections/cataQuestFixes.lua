@@ -2921,6 +2921,9 @@ function CataQuestFixes.Load()
         [24905] = { -- Returning a Favor
             [questKeys.exclusiveTo] = {24955},
         },
+        [24910] = { -- Rocket Rescue
+            [questKeys.preQuestGroup] = {24907,25048},
+        },
         [24920] = { -- Slowing the Inevitable
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get on the Captured Riding Bat"),0,{{"monster",38615}}}},
         },
