@@ -4506,6 +4506,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26017,26018},
         },
+        [26082] = { -- To Battlescar!
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in Krom'gar Demolisher"),0,{{"monster",35163}}}},
+        },
         [26086] = { -- Orako
             [questKeys.preQuestSingle] = {26126},
         },
