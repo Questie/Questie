@@ -2012,7 +2012,7 @@ function CataQuestFixes.Load()
         [14255] = { -- Ethel Rethor -- #6159
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.preQuestSingle] = {14189},
-            [questKeys.exclusiveTo] = {14256},
+            [questKeys.nextQuestInChain] = 14256,
         },
         [14261] = { -- Ice Cold
             [questKeys.preQuestSingle] = {14391},
