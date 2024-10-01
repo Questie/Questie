@@ -393,11 +393,21 @@ function worldmapProvider:RemovePinsByRef(ref)
     end
 end
 
+-- Questie modification
+local lastUiMapId = -1;
+worldmapProvider.forceUpdate = false -- Put into worldmapProvider to allow addons to force update from outside of HBD.
 function worldmapProvider:RefreshAllData(fromOnShow)
-    self:RemoveAllData()
-
-    for icon, data in pairs(worldmapPins) do
-        self:HandlePin(icon, data)
+    local mapId = self:GetMap():GetMapID()
+    if(lastUiMapId ~= mapId or worldmapProvider.forceUpdate) then
+        self:RemoveAllData()
+        local cacheMap = self:GetMap()
+        local uiMapID = cacheMap:GetMapID()
+        for icon, data in pairs(worldmapPins) do
+            self:HandlePin(icon, data, uiMapID, cacheMap)
+        end
+        --DEFAULT_CHAT_FRAME:AddMessage(mapId .. " - " .. lastUiMapId .. " : " .. tostring(worldmapProvider.forceUpdate));
+        lastUiMapId = mapId;
+        worldmapProvider.forceUpdate = false;
     end
 end
 
@@ -406,6 +416,14 @@ function worldmapProvider:HandlePin(icon, data)
 
     -- check for a valid map
     if not uiMapID then return end
+
+    -- Questie modification
+    if (Questie.db.profile.hideIconsOnContinents == true) and (HBD.mapData[uiMapID].mapType == Enum.UIMapType.Continent or uiMapID == 947) or (uiMapID ~= data.uiMapID and data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT) then
+        icon:Hide();
+        return;
+    elseif(uiMapID == data.uiMapID and data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT) then
+        icon:Show();
+    end
 
     local x, y
     if uiMapID == WORLD_MAP_ID then
@@ -428,7 +446,7 @@ function worldmapProvider:HandlePin(icon, data)
                     return
                 end
             else
-                local show = false
+                local show = true -- Questie fix to show icons in neighbour areas
                 local parentMapID = HBD.mapData[data.uiMapID].parent
                 while parentMapID and HBD.mapData[parentMapID] do
                     if parentMapID == uiMapID then
@@ -441,6 +459,9 @@ function worldmapProvider:HandlePin(icon, data)
                         elseif data.worldMapShowFlag >= HBD_PINS_WORLDMAP_SHOW_CONTINENT and
                             parentMapType == Enum.UIMapType.Continent then
                             show = true
+                        elseif data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT then
+                            -- Questie modification
+                            show = false
                         end
                         break
                         -- worldmap is handled above already
@@ -664,6 +685,8 @@ function pins:SetMinimapObject(minimapObject)
 end
 
 -- world map constants
+-- show worldmap pin only on zone map (Questie modification)
+HBD_PINS_WORLDMAP_SHOW_CURRENT   = -1
 -- show worldmap pin on its parent zone map (if any)
 HBD_PINS_WORLDMAP_SHOW_PARENT    = 1
 -- show worldmap pin on the continent map
@@ -769,6 +792,8 @@ function pins:RemoveWorldMapIcon(ref, icon)
         worldmapPins[icon] = nil
     end
     worldmapProvider:RemovePinByIcon(icon)
+
+    worldmapProvider.forceUpdate = true -- Questie modification
 end
 
 --- Remove all worldmap icons belonging to your addon (as tracked by "ref")
@@ -781,6 +806,8 @@ function pins:RemoveAllWorldMapIcons(ref)
     end
     worldmapProvider:RemovePinsByRef(ref)
     wipe(worldmapPinRegistry[ref])
+
+    worldmapProvider.forceUpdate = true -- Questie modification
 end
 
 --- Return the angle and distance from the player to the specified pin
