@@ -3070,6 +3070,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {25048,25049},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in the balloon"),0,{{"monster",40604}}}},
         },
+        [25052] = { -- Dead Man's Chest [Alliance]
+            [questKeys.preQuestSingle] = {25121},
+        },
         [25064] = { -- Moraya
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
