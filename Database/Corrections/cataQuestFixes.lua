@@ -2918,7 +2918,8 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{38469}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Krennan Aranas to join the battle"),0,{{"monster",38553}}}},
         },
-        [24905] = { -- Returning a Favor
+        [24905] = { -- Returning a Favor [Horde]
+            [questKeys.preQuestSingle] = {24953},
             [questKeys.exclusiveTo] = {24955},
         },
         [24910] = { -- Rocket Rescue
