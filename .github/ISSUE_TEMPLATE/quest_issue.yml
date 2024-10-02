@@ -1,4 +1,4 @@
-name: New Quest issue
+name: Quest issue
 description: >
   If you encountered a bugged quest, missing objective markers, or if quests are shown on your map which is not available to you, choose this issue type.
 labels: ["Data Correction"]
