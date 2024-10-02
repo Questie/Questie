@@ -2964,6 +2964,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25534,25541},
         },
+        [24951] = { -- A Great Idea
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the Bootlegger Bug Bait to capture a Hazzali Swarmer"),0,{{"monster",5451}}}},
+        },
         [24952] = { -- Rocket Boot Boost
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {24942,24945,24946},
