@@ -3116,6 +3116,9 @@ function CataQuestFixes.Load()
         [25067] = { -- Thunderdrome: The Ginormus!
             [questKeys.objectives] = {{{39075}}},
         },
+        [25068] = { -- The Crumbling Past
+            [questKeys.preQuestSingle] = {25017},
+        },
         [25072] = { -- A Few Good Goblins
             [questKeys.preQuestSingle] = {25103},
         },
