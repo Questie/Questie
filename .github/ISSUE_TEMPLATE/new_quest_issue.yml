@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        # READ THIS FIRST
+        ## READ THIS FIRST
         Hello, thanks for taking the time to report a bug!
 
         Before you proceed, please verify that you're running the latest version of Questie. The easiest way to do this is via the Curseforge client, but you can also download the latest version here: [Questie on CurseForge](https://www.curseforge.com/wow/addons/questie)
@@ -26,6 +26,8 @@ body:
         You can simply drag and drop images here.
       placeholder: >
         Describe the issue with as much detail as possible. Include a Wowhead link and/or screenshots if you can.
+    validations:
+      required: true
 
   - type: input
     id: questie_version
@@ -38,7 +40,9 @@ body:
         2. Hovering over the Questie Minimap Icon
 
         It looks something like this: "v10.5.1".
-      placeholder: e.g., Questie v10.5.1
+      placeholder: v10.5.1
+    validations:
+      required: true
 
   - type: dropdown
     id: game_flavor
@@ -48,6 +52,8 @@ body:
         Please select the WoW version you encountered this issue in: Classic Era, Hardcore, Season of X (Mastery/Discovery), Wrath of the Lich King (WotLK), or Cataclysm (Cata).
       options:
         - Era/HC
-        - Seasonal
+        - Season of Mastery/Discovery
         - WotLK
         - Cata
+    validations:
+      required: true
