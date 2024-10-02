@@ -206,6 +206,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{41.66,35.7}}},
             [npcKeys.waypoints] = {},
         },
+        [7267] = { -- Chief Ukorz Sandscalp
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{42.51,34.20}}},
+        },
         [7271] = { -- Witch Doctor Zum'rah
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{44.17,15.35}}},
         },
