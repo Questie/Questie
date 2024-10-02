@@ -206,6 +206,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{41.66,35.7}}},
             [npcKeys.waypoints] = {},
         },
+        [7271] = { -- Witch Doctor Zum'rah
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{44.17,15.35}}},
+        },
         [7273] = { -- Gahz'rilla
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{29.68,38.98}}},
         },
