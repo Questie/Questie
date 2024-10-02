@@ -238,6 +238,9 @@ function CataNpcFixes.Load()
         [7795] = { -- Hydromancer Velratha
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{32.14,39.88}}},
         },
+        [7796] = { -- Nekrum Gutchewer
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{29.61,17.65}}},
+        },
         [8127] = { -- Antu'sul
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{64.84,25.92}}},
         },
