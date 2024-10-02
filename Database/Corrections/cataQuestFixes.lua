@@ -8017,6 +8017,10 @@ function CataQuestFixes.Load()
         [28517] = { -- The Howling Oak
             [questKeys.preQuestSingle] = {},
         },
+        [28520] = { -- The Fall of Neferset City
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28480,28483,28486}, -- 28483 might not be needed, worth to double check
+        },
         [28521] = { -- Speak to Salfa
             [questKeys.preQuestGroup] = {28362,28364,28338,28366},
             [questKeys.exclusiveTo] = {28522,28524},
