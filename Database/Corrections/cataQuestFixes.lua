@@ -3119,6 +3119,9 @@ function CataQuestFixes.Load()
         [25068] = { -- The Crumbling Past
             [questKeys.preQuestSingle] = {25017},
         },
+        [25069] = { -- The Secrets of Uldum
+            [questKeys.preQuestSingle] = {25017},
+        },
         [25072] = { -- A Few Good Goblins
             [questKeys.preQuestSingle] = {25103},
         },
