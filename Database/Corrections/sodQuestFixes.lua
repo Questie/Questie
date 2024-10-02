@@ -3075,6 +3075,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {85557},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [85559] = { -- Night Falls
+            [questKeys.startedBy] = {{233084}},
+            [questKeys.finishedBy] = {{233084}},
+            [questKeys.preQuestSingle] = {85251},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
         [85595] = { -- Presence of Might
             [questKeys.startedBy] = {{15042}},
             [questKeys.finishedBy] = {{15042}},

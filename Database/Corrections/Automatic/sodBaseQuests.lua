@@ -6832,6 +6832,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Watch Master Elemental Shaper Krixix craft your item."},
             [questKeys.objectives] = nil,
         },
+        [85559] = {
+            [questKeys.name] = "Night Falls",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Walk with Estelenn and see what she has to show you."},
+            [questKeys.objectives] = {{{233249}}},
+        },
         [85595] = {
             [questKeys.name] = "Presence of Might",
             [questKeys.startedBy] = nil,
