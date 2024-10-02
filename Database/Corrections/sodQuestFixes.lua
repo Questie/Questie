@@ -2971,6 +2971,25 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [85304] = { -- Essence of Fire
             [questKeys.startedBy] = {{13020},nil,{230904}},
+            [questKeys.nextQuestInChain] = 85385,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [85385] = { -- The Librarian's Apprentice
+            [questKeys.startedBy] = {{5497,7825}},
+            [questKeys.preQuestSingle] = {85304},
+            [questKeys.nextQuestInChain] = 85386,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [85386] = { -- Essence of Frost
+            [questKeys.requiredSourceItems] = {230946},
+            [questKeys.preQuestSingle] = {85385},
+            [questKeys.nextQuestInChain] = 85388,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [85388] = { -- A Foul Interference
+            [questKeys.startedBy] = {{232381}},
+            [questKeys.preQuestSingle] = {85386},
+            [questKeys.requiredSourceItems] = {231304},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [85401] = { -- The Frigid Barrow
