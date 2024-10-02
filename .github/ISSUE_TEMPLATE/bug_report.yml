@@ -19,7 +19,7 @@ body:
   - type: textarea
     id: details
     attributes:
-      label: Bug description (Description, Wowhead link, Screenshots)
+      label: Description
       description: >
         Explain in detail the problem you encountered. If possible explain how it can be reproduced and include any screenshots to help explain the issue. 
         You can simply drag and drop images here.

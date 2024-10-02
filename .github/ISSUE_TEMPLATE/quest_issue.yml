@@ -19,7 +19,7 @@ body:
   - type: textarea
     id: details
     attributes:
-      label: Details (Description, Wowhead link, Screenshots)
+      label: Description
       description: >
         Explain in detail the problem you encountered. Is a quest not showing, showing again, or is an objective or spawn missing? 
         If applicable, include a Wowhead link for the relevant quest/NPC/item and any screenshots to help explain the issue. 
