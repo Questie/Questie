@@ -2130,6 +2130,9 @@ function CataQuestFixes.Load()
         [14333] = { -- While You're Here
             [questKeys.requiredSourceItems] = {49194},
         },
+        [14335] = { -- Chipping In
+            [questKeys.preQuestGroup] = {5421,14334}, -- #6449
+        },
         [14337] = { -- Shadowprey Village
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
