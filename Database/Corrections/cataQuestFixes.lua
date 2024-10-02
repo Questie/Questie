@@ -9911,6 +9911,9 @@ function CataQuestFixes.Load()
         [29539] = { -- Heart of Rage
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.THE_BLOOD_FURNACE]={{64.9,41.5}}}},
         },
+        [29598] = { -- Taretha's Diversion
+            [questKeys.sourceItemId] = {25853},
+        },
         [29642] = { -- Trouble at Auchindoun
             [questKeys.exclusiveTo] = {10094,10177},
             [questKeys.nextQuestInChain] = 29643,
