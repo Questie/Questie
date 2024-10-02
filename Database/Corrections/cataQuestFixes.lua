@@ -2978,6 +2978,7 @@ function CataQuestFixes.Load()
         },
         [24955] = { -- Un-Chartered
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {nil, nil, nil, nil, {{{5471,5472,5473,5474,5475},5471,"Signatures obtained",Questie.ICON_TYPE_TALK}}},
         },
         [24957] = { -- Get The Centipaarty Started
             [questKeys.preQuestSingle] = {24955},
