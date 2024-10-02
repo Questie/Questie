@@ -3053,6 +3053,28 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84950},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [85555] = { -- Heavy Metal
+            [questKeys.startedBy] = {{12017},nil,{231995}},
+            [questKeys.nextQuestInChain] = 85556,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [85556] = { -- A Particular Set of Skills
+            [questKeys.preQuestSingle] = {85555},
+            [questKeys.requiredSourceItems] = {231996},
+            [questKeys.nextQuestInChain] = 85557,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [85557] = { -- Efficiency Is Priority One
+            [questKeys.startedBy] = {{14401}},
+            [questKeys.preQuestSingle] = {85556},
+            [questKeys.nextQuestInChain] = 85558,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [85558] = { -- Commit to Quality
+            [questKeys.startedBy] = {{14401}},
+            [questKeys.preQuestSingle] = {85557},
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
         [85595] = { -- Presence of Might
             [questKeys.startedBy] = {{15042}},
             [questKeys.finishedBy] = {{15042}},
