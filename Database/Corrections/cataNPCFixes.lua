@@ -216,6 +216,9 @@ function CataNpcFixes.Load()
         [7273] = { -- Gahz'rilla
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{29.68,38.98}}},
         },
+        [7275] = { -- Shadowpriest Sezz'ziz
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{30.61,17.65}}},
+        },
         [7318] = { -- Rageclaw
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{45.75,52.82}}},
             [npcKeys.waypoints] = {},
