@@ -2971,6 +2971,25 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [85304] = { -- Essence of Fire
             [questKeys.startedBy] = {{13020},nil,{230904}},
+            [questKeys.nextQuestInChain] = 85385,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [85385] = { -- The Librarian's Apprentice
+            [questKeys.startedBy] = {{5497,7825}},
+            [questKeys.preQuestSingle] = {85304},
+            [questKeys.nextQuestInChain] = 85386,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [85386] = { -- Essence of Frost
+            [questKeys.requiredSourceItems] = {230946},
+            [questKeys.preQuestSingle] = {85385},
+            [questKeys.nextQuestInChain] = 85388,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
+        [85388] = { -- A Foul Interference
+            [questKeys.startedBy] = {{232381}},
+            [questKeys.preQuestSingle] = {85386},
+            [questKeys.requiredSourceItems] = {231304},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [85401] = { -- The Frigid Barrow
@@ -3032,6 +3051,34 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{227755}},
             [questKeys.objectives] = {nil,{{469600}},{{12622},{229416}}},
             [questKeys.preQuestSingle] = {84950},
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [85555] = { -- Heavy Metal
+            [questKeys.startedBy] = {{12017},nil,{231995}},
+            [questKeys.nextQuestInChain] = 85556,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [85556] = { -- A Particular Set of Skills
+            [questKeys.preQuestSingle] = {85555},
+            [questKeys.requiredSourceItems] = {231996},
+            [questKeys.nextQuestInChain] = 85557,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [85557] = { -- Efficiency Is Priority One
+            [questKeys.startedBy] = {{14401}},
+            [questKeys.preQuestSingle] = {85556},
+            [questKeys.nextQuestInChain] = 85558,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [85558] = { -- Commit to Quality
+            [questKeys.startedBy] = {{14401}},
+            [questKeys.preQuestSingle] = {85557},
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
+        [85559] = { -- Night Falls
+            [questKeys.startedBy] = {{233084}},
+            [questKeys.finishedBy] = {{233084}},
+            [questKeys.preQuestSingle] = {85251},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85595] = { -- Presence of Might

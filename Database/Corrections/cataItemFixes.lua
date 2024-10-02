@@ -763,6 +763,9 @@ function CataItemFixes.Load()
         [63685] = { -- Ancient Copper Scroll
             [itemKeys.npcDrops] = {},
         },
+        [64318] = { -- Fine Dark Cloth
+            [itemKeys.npcDrops] = {},
+        },
         [64404] = { -- Ruby Crystal Cluster
             [itemKeys.npcDrops] = {48533,48639},
         },
