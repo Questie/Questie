@@ -2936,7 +2936,7 @@ function CataQuestFixes.Load()
         [24927] = { -- Dead Man's Chest [Horde]
             [questKeys.preQuestSingle] = {24947},
         },
-        [24927] = { -- To The Ground! [Horde]
+        [24928] = { -- To The Ground! [Horde]
             [questKeys.preQuestSingle] = {24947},
         },
         [24930] = { -- While You're At It
