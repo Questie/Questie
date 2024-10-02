@@ -1,0 +1,53 @@
+name: New Quest issue
+description: >
+  If you encountered a bugged quest, missing objective markers, or if quests are shown on your map which is not available to you, choose this issue type.
+labels: ["Data Correction"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # READ THIS FIRST
+        Hello, thanks for taking the time to report a bug!
+
+        Before you proceed, please verify that you're running the latest version of Questie. The easiest way to do this is via the Curseforge client, but you can also download the latest version here: [Questie on CurseForge](https://www.curseforge.com/wow/addons/questie)
+
+        Questie is one of the most popular Classic WoW addons, with over 100 million downloads. However, like almost all WoW addons, it's built and maintained by a team of volunteers.
+
+        Feel free to reach out to us on the [Questie Discord](https://discord.gg/s33MAYKeZd)
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Details (Description, Wowhead link, Screenshots)
+      description: >
+        Explain in detail the problem you encountered. Is a quest not showing, showing again, or is an objective or spawn missing? 
+        If applicable, include a Wowhead link for the relevant quest/NPC/item and any screenshots to help explain the issue. 
+        You can simply drag and drop images here.
+      placeholder: >
+        Describe the issue with as much detail as possible. Include a Wowhead link and/or screenshots if you can.
+
+  - type: input
+    id: questie_version
+    attributes:
+      label: Questie version
+      description: >
+        Which version of Questie are you using? You can find it by:
+        
+        1. Typing `/questie version` in the chat
+        2. Hovering over the Questie Minimap Icon
+
+        It looks something like this: "v10.5.1".
+      placeholder: e.g., Questie v10.5.1
+
+  - type: dropdown
+    id: game_flavor
+    attributes:
+      label: Game flavor
+      description: >
+        Please select the WoW version you encountered this issue in: Classic Era, Hardcore, Season of X (Mastery/Discovery), Wrath of the Lich King (WotLK), or Cataclysm (Cata).
+      options:
+        - Era/HC
+        - Seasonal
+        - WotLK
+        - Cata
