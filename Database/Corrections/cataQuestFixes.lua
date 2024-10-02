@@ -2943,6 +2943,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{35115}},
             [questKeys.preQuestSingle] = {14285,14286,14287,14288,14289,14290,14291},
         },
+        [24931] = { -- Gazer Tag
+            [questKeys.preQuestSingle] = {24932},
+        },
         [24932] = { -- Cutting Losses
             [questKeys.preQuestSingle] = {25103},
         },
