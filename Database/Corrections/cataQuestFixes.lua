@@ -2998,6 +2998,9 @@ function CataQuestFixes.Load()
         [24962] = { -- Trail-Worn Scroll
             [questKeys.startedBy] = {{1569}},
         },
+        [24963] = { -- Maul 'Em With Kindness
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{5471,5472,5473,5474,5475},5471,"Ogres fed"}}},
+        },
         [24964] = { -- The Thrill of the Hunt
             [questKeys.objectives] = {{{44794}},nil,nil,nil,nil,{{56641}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Steady Shot"), 2, {{"monster", 38911}}}},
