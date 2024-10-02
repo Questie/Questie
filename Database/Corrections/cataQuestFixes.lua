@@ -469,6 +469,12 @@ function CataQuestFixes.Load()
         [8544] = { -- Conqueror's Spaulders
             [questKeys.objectives] = {nil,nil,{{20928},{20875},{20863},{20858}},{910,0}},
         },
+        [8556] = { -- Signet of Unyielding Strength
+            [questKeys.objectives] = {nil,nil,{{20884},{20868},{20861},{20865}},{609,9000}},
+        },
+        [8557] = { -- Drape of Unyielding Strength
+            [questKeys.objectives] = {nil,nil,{{20885},{20867},{20864},{20860}},{609,21000}},
+        },
         [8558] = { -- Sickle of Unyielding Strength
             [questKeys.objectives] = {nil,nil,{{20886},{20873},{20862},{20858}},{609,42000}},
         },
@@ -603,6 +609,54 @@ function CataQuestFixes.Load()
         },
         [8669] = { -- Genesis Shoulderpads
             [questKeys.objectives] = {nil,nil,{{20932},{20881},{20859},{20864}},{910,0}},
+        },
+        [8689] = { -- Shroud of Infinite Wisdom
+            [questKeys.objectives] = {nil,nil,{{20885},{20870},{20859},{20863}},{609,21000}},
+        },
+        [8690] = { -- Cloak of the Gathering Storm
+            [questKeys.objectives] = {nil,nil,{{20889},{20871},{20863},{20859}},{609,21000}},
+        },
+        [8691] = { -- Drape of Vaulted Secrets
+            [questKeys.objectives] = {nil,nil,{{20885},{20873},{20858},{20862}},{609,21000}},
+        },
+        [8692] = { -- Cloak of Unending Life
+            [questKeys.objectives] = {nil,nil,{{20889},{20872},{20864},{20860}},{609,21000}},
+        },
+        [8693] = { -- Cloak of Veiled Shadows
+            [questKeys.objectives] = {nil,nil,{{20885},{20866},{20861},{20865}},{609,21000}},
+        },
+        [8694] = { -- Shroud of Unspoken Names
+            [questKeys.objectives] = {nil,nil,{{20889},{20869},{20861},{20865}},{609,21000}},
+        },
+        [8695] = { -- Cape of Eternal Justice
+            [questKeys.objectives] = {nil,nil,{{20889},{20871},{20859},{20863}},{609,21000}},
+        },
+        [8696] = { -- Cloak of the Unseen Path
+            [questKeys.objectives] = {nil,nil,{{20889},{20868},{20858},{20862}},{609,21000}},
+        },
+        [8697] = { -- Ring of Infinite Wisdom
+            [questKeys.objectives] = {nil,nil,{{20888},{20871},{20860},{20864}},{609,9000}},
+        },
+        [8698] = { -- Ring of the Gathering Storm
+            [questKeys.objectives] = {nil,nil,{{20884},{20872},{20860},{20864}},{609,9000}},
+        },
+        [8699] = { -- Band of Vaulted Secrets
+            [questKeys.objectives] = {nil,nil,{{20884},{20866},{20859},{20863}},{609,9000}},
+        },
+        [8700] = { -- Band of Unending Life
+            [questKeys.objectives] = {nil,nil,{{20884},{20873},{20861},{20865}},{609,9000}},
+        },
+        [8701] = { -- Band of Veiled Shadows
+            [questKeys.objectives] = {nil,nil,{{20888},{20867},{20858},{20862}},{609,9000}},
+        },
+        [8702] = { -- Ring of Unspoken Names
+            [questKeys.objectives] = {nil,nil,{{20888},{20870},{20858},{20862}},{609,9000}},
+        },
+        [8703] = { -- Ring of Eternal Justice
+            [questKeys.objectives] = {nil,nil,{{20884},{20872},{20860},{20864}},{609,9000}},
+        },
+        [8704] = { -- Signet of the Unseen Path
+            [questKeys.objectives] = {nil,nil,{{20888},{20869},{20859},{20863}},{609,9000}},
         },
         [8705] = { -- Gavel of Infinite Wisdom
             [questKeys.objectives] = {nil,nil,{{20890},{20868},{20861},{20865}},{609,42000}},
