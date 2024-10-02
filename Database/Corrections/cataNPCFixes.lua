@@ -225,6 +225,9 @@ function CataNpcFixes.Load()
         [7363] = { -- Kum'isha the Collector
             [npcKeys.waypoints] = {},
         },
+        [7795] = { -- Hydromancer Velratha
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{32.14,39.88}}},
+        },
         [8567] = { -- Glutton
             [npcKeys.spawns] = {[722]={{33.93,52.14}}},
             [npcKeys.waypoints] = {[722]={{{33.93,52.14},{33.13,54.44},{33.40,59.02},{34.06,64.21},{35.39,68.79},{37.65,71.78},{40.38,74.88},{43.70,76.07}}}},
