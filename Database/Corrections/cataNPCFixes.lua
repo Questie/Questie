@@ -209,6 +209,10 @@ function CataNpcFixes.Load()
         [7271] = { -- Witch Doctor Zum'rah
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{44.17,15.35}}},
         },
+        [7271] = { -- Theka the Martyr
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{54.94,25.12}}},
+            [npcKeys.waypoints] = {[zoneIDs.ZUL_FARRAK]={{{53.54,25.32},{52.81,27.82},{54.67,29.41},{56.60,26.42}}}},
+        },
         [7273] = { -- Gahz'rilla
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{29.68,38.98}}},
         },
