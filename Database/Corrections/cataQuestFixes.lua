@@ -2973,11 +2973,14 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {24942,24945,24946},
             [questKeys.objectives] = {{{38842,nil,Questie.ICON_TYPE_EVENT}}},
         },
-        [24952] = { -- Just Trying to Kill Some Bugs
+        [24953] = { -- Just Trying to Kill Some Bugs
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Narain to mount your bug"),0,{{"monster",11811}}}},
         },
         [24955] = { -- Un-Chartered
             [questKeys.preQuestSingle] = {},
+        },
+        [24957] = { -- Get The Centipaarty Started
+            [questKeys.preQuestSingle] = {24955},
         },
         [24958] = { -- Volcanoth!
             [questKeys.objectives] = {{{38855}}},
