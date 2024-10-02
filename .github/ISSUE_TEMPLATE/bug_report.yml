@@ -1,0 +1,58 @@
+name: Bug Report
+description: >
+  Create a report about any bug you might encounter. Maybe you've got some error message showing up?
+labels: ["Bug"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## READ THIS FIRST
+        Hello, thanks for taking the time to report a bug!
+
+        Before you proceed, please verify that you're running the latest version of Questie. The easiest way to do this is via the Curseforge client, but you can also download the latest version here: [Questie on CurseForge](https://www.curseforge.com/wow/addons/questie)
+
+        Questie is one of the most popular Classic WoW addons. However, like almost all WoW addons, it's built and maintained by a team of volunteers.
+
+        Feel free to reach out to us on the [Questie Discord](https://discord.gg/s33MAYKeZd)
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Bug description (Description, Wowhead link, Screenshots)
+      description: >
+        Explain in detail the problem you encountered. If possible explain how it can be reproduced and include any screenshots to help explain the issue. 
+        You can simply drag and drop images here.
+      placeholder: >
+        Describe the issue with as much detail as possible and include screenshots if you can.
+    validations:
+      required: true
+
+  - type: input
+    id: questie_version
+    attributes:
+      label: Questie version
+      description: >
+        Which version of Questie are you using? You can find it by:
+        
+        1. Typing `/questie version` in the chat
+        2. Hovering over the Questie Minimap Icon
+
+        It looks something like this: "v10.5.1".
+      placeholder: v10.5.1
+    validations:
+      required: true
+
+  - type: dropdown
+    id: game_flavor
+    attributes:
+      label: Game flavor
+      description: >
+        Please select the WoW version you encountered this issue in: Classic Era, Hardcore, Season of Discovery, Wrath of the Lich King (WotLK), or Cataclysm (Cata).
+      options:
+        - Era/HC
+        - Season of Discovery
+        - WotLK
+        - Cata
+    validations:
+      required: true
