@@ -14,6 +14,6 @@ jobs:
       - uses: github/issue-labeler@v3.4
         with:
           configuration-path: .github/labeler.yml
-          not-before: 2024-10-02T14:30:00Z
+          not-before: 2024-10-01T00:00:00Z
           enable-versioned-regex: 0
           repo-token: ${{ github.token }}
