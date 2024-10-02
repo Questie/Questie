@@ -244,6 +244,9 @@ function CataNpcFixes.Load()
         [7796] = { -- Nekrum Gutchewer
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{29.61,17.65}}},
         },
+        [7797] = { -- Ruuzlu
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{43.17,33.20}}},
+        },
         [8127] = { -- Antu'sul
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{64.84,25.92}}},
         },
