@@ -3758,6 +3758,7 @@ function CataQuestFixes.Load()
         [25545] = { -- To Arms!
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25357,25546},
+            [questKeys.exclusiveTo] = {},
         },
         [25546] = { -- Traveling on Our Stomachs
             [questKeys.exclusiveTo] = {},
@@ -3794,6 +3795,7 @@ function CataQuestFixes.Load()
         [25564] = { -- Stormwind Elite Aquatic and Land Forces
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25357,25546},
+            [questKeys.exclusiveTo] = {},
         },
         [25574] = { -- Flames from Above
             [questKeys.objectives] = {{{40856,nil,Questie.ICON_TYPE_EVENT}}},
