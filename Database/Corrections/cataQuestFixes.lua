@@ -9479,21 +9479,25 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{53234,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29273] = { -- How Hot
-            [questKeys.exclusiveTo] = {29274,29205},
-            [questKeys.preQuestSingle] = {29272},
+            [questKeys.exclusiveTo] = {29274,29275,29276},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29206,29272},
             [questKeys.objectives] = {{{53190,nil,Questie.ICON_TYPE_EVENT},{53191,nil,Questie.ICON_TYPE_EVENT},{53192,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29274] = { -- Hounds of Shannox
-            [questKeys.exclusiveTo] = {29273,29205},
-            [questKeys.preQuestSingle] = {29272},
+            [questKeys.exclusiveTo] = {29273,29275,29276},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29206,29272},
         },
         [29275] = { -- Fandral's Methods
-            [questKeys.preQuestSingle] = {29272},
-            [questKeys.exclusiveTo] = {29276,29206},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29272,29205},
+            [questKeys.exclusiveTo] = {29273,29274,29276},
         },
         [29276] = { -- The Flame Spider Queen
-            [questKeys.preQuestSingle] = {29272},
-            [questKeys.exclusiveTo] = {29275,29206},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29272,29205},
+            [questKeys.exclusiveTo] = {29273,29274,29275},
         },
         [29279] = { -- Filling the Moonwell
             [questKeys.preQuestSingle] = {},
