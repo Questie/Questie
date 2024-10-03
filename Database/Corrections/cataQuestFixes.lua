@@ -9486,16 +9486,13 @@ function CataQuestFixes.Load()
         [29274] = { -- Hounds of Shannox
             [questKeys.exclusiveTo] = {29273,29205},
             [questKeys.preQuestSingle] = {29272},
-            [questKeys.preQuestGroup] = {29272},
         },
         [29275] = { -- Fandral's Methods
             [questKeys.preQuestSingle] = {29272},
-            [questKeys.preQuestGroup] = {29272},
             [questKeys.exclusiveTo] = {29276,29206},
         },
         [29276] = { -- The Flame Spider Queen
             [questKeys.preQuestSingle] = {29272},
-            [questKeys.preQuestGroup] = {29272},
             [questKeys.exclusiveTo] = {29275,29206},
         },
         [29279] = { -- Filling the Moonwell
