@@ -3514,6 +3514,9 @@ function CataQuestFixes.Load()
         [25355] = { -- Lightning in a Bottle
             [questKeys.preQuestSingle] = {25277},
         },
+        [25357] = { -- Buy Us Some Time
+            [questKeys.exclusiveTo] = {},
+        },
         [25359] = { -- Toshe's Vengeance
             [questKeys.nextQuestInChain] = 25439,
         },
@@ -3755,6 +3758,9 @@ function CataQuestFixes.Load()
         [25545] = { -- To Arms!
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25357,25546},
+        },
+        [25546] = { -- Traveling on Our Stomachs
+            [questKeys.exclusiveTo] = {},
         },
         [25547] = { -- On Our Own Terms
             [questKeys.preQuestSingle] = {},
