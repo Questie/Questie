@@ -520,8 +520,27 @@ function QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
         return true
     end
     for preQuestIndex=1, #preQuestGroup do
-        if not Questie.db.char.complete[preQuestGroup[preQuestIndex]] then
+        local preQuestId = preQuestGroup[preQuestIndex]
+        if preQuestId < 0 and not Questie.db.char.complete[-preQuestId] then
+            -- Negative entries in preQuestGroup skip the exclusiveTo check
             return false
+        end
+        -- If a quest is not complete and no exlusive quest is complete, the requirement is not fulfilled
+        if not Questie.db.char.complete[preQuestId] then
+            local preQuest = QuestieDB.QueryQuestSingle(preQuestId, "exclusiveTo")
+            if (not preQuest) then
+                return false
+            end
+
+            local anyExlusiveFinished = false
+            for i=1, #preQuest do
+                if Questie.db.char.complete[preQuest[i]] then
+                    anyExlusiveFinished = true
+                end
+            end
+            if not anyExlusiveFinished then
+                return false
+            end
         end
     end
     -- All preQuests are complete

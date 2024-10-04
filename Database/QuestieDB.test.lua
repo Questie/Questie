@@ -147,9 +147,21 @@ describe("QuestieDB", function()
             assert.is_true(QuestieDB:IsPreQuestGroupFulfilled({1, 2, 3}))
         end)
 
-        it("should return false for unfulfilled preQuestGroup", function()
+        it("should return false for unfulfilled preQuestGroup without an exclusiveTo quest", function()
             Questie.db.char.complete = {[1]=true, [2]=true}
+            QuestieDB.QueryQuestSingle = spy.new(function() return nil end)
             assert.is_false(QuestieDB:IsPreQuestGroupFulfilled({1, 2, 3}))
+        end)
+
+        it("should return true for unfulfilled preQuestGroup when an exclusiveTo quest is fulfilled", function()
+            Questie.db.char.complete = {[1]=true, [2]=true, [4]=true}
+            QuestieDB.QueryQuestSingle = spy.new(function() return {4} end)
+            assert.is_true(QuestieDB:IsPreQuestGroupFulfilled({1, 2, 3}))
+        end)
+
+        it("should return false for unfulfilled preQuestGroup when ID is negative and exclusiveTo is not checked", function()
+            Questie.db.char.complete = {[1]=true, [2]=true}
+            assert.is_false(QuestieDB:IsPreQuestGroupFulfilled({1, 2, -3}))
         end)
     end)
 
