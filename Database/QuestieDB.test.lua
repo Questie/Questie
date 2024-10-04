@@ -7,6 +7,7 @@ describe("QuestieDB", function()
     local QuestieDB
 
     before_each(function()
+        _G["Questie"] = {db = {char = {complete = {}}}}
         QuestiePlayer = require("Modules.QuestiePlayer")
         QuestieDB = require("Database.QuestieDB")
     end)
@@ -129,6 +130,26 @@ describe("QuestieDB", function()
         it("should return false for invalid DB entry", function()
             QuestiePlayer.faction = "Alliance"
             assert.is_false(QuestieDB.IsFriendlyToPlayer("X"))
+        end)
+    end)
+
+    describe("IsPreQuestGroupFulfilled", function()
+        it("should return true for no preQuestGroup", function()
+            assert.is_true(QuestieDB:IsPreQuestGroupFulfilled(nil))
+        end)
+
+        it("should return true for empty preQuestGroup", function()
+            assert.is_true(QuestieDB:IsPreQuestGroupFulfilled({}))
+        end)
+
+        it("should return true for fulfilled preQuestGroup", function()
+            Questie.db.char.complete = {[1]=true, [2]=true, [3]=true}
+            assert.is_true(QuestieDB:IsPreQuestGroupFulfilled({1, 2, 3}))
+        end)
+
+        it("should return false for unfulfilled preQuestGroup", function()
+            Questie.db.char.complete = {[1]=true, [2]=true}
+            assert.is_false(QuestieDB:IsPreQuestGroupFulfilled({1, 2, 3}))
         end)
     end)
 end)
