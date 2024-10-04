@@ -3932,6 +3932,9 @@ function CataQuestFixes.Load()
         [25644] = { -- The Twilight Egg
             [questKeys.nextQuestInChain] = 25552,
         },
+        [25645] = { -- Return to Sage Palerunner
+            [questKeys.preQuestSingle] = {25368},
+        },
         [25646] = { -- Windshear Mine Cleanup
             [questKeys.preQuestSingle] = {25640},
         },
