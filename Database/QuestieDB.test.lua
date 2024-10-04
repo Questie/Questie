@@ -152,4 +152,24 @@ describe("QuestieDB", function()
             assert.is_false(QuestieDB:IsPreQuestGroupFulfilled({1, 2, 3}))
         end)
     end)
+
+    describe("IsPreQuestSingleFulfilled", function()
+        it("should return true for no preQuestSingle", function()
+            assert.is_true(QuestieDB:IsPreQuestSingleFulfilled(nil))
+        end)
+
+        it("should return true for empty preQuestSingle", function()
+            assert.is_true(QuestieDB:IsPreQuestSingleFulfilled({}))
+        end)
+
+        it("should return true for fulfilled preQuestSingle", function()
+            Questie.db.char.complete = {[1]=true}
+            assert.is_true(QuestieDB:IsPreQuestSingleFulfilled({1}))
+        end)
+
+        it("should return false for unfulfilled preQuestSingle", function()
+            Questie.db.char.complete = {[2]=true}
+            assert.is_false(QuestieDB:IsPreQuestSingleFulfilled({1}))
+        end)
+    end)
 end)
