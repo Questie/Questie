@@ -7497,6 +7497,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28133},
         },
         [28150] = { -- An Arcane Ally
+            [questKeys.preQuestGroup] = {27995,27997,28148},
             [questKeys.exclusiveTo] = {28000},
         },
         [28152] = { -- Jaedenar Awaits
