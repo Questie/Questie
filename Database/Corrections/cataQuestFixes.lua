@@ -7423,6 +7423,9 @@ function CataQuestFixes.Load()
         [28101] = { -- Mathias' Command
             [questKeys.preQuestGroup] = {27507,27508,27509},
         },
+        [28102] = { -- Fight the Power
+            [questKeys.preQuestSingle] = {28044},
+        },
         [28103] = { -- Easy Pickings
             [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {28101},
