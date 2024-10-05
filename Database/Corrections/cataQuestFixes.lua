@@ -7311,6 +7311,9 @@ function CataQuestFixes.Load()
         [27999] = { -- The Fate of the Doyles
             [questKeys.preQuestSingle] = {27808},
         },
+        [28000] = { -- Do the Imp-Possible
+            [questKeys.preQuestSingle] = {},
+        },
         [28001] = { -- A Coward's Due
             [questKeys.preQuestSingle] = {27817},
         },
