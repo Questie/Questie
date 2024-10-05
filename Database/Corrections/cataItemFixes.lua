@@ -724,6 +724,9 @@ function CataItemFixes.Load()
         [62817] = { -- Neferset Key
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [62820] = { -- Deadwood Honey Glob
+            [itemKeys.objectDrops] = {460015},
+        },
         [62822] = { -- Twilight Collar
             [itemKeys.npcDrops] = {5860,5861,5862,8419,47309,47310,47311},
         },
