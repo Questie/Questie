@@ -9932,7 +9932,10 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{55658}},
         },
         [29829] = { -- Discretion is Key
-            [questKeys.exclusiveTo] = {29830},
+            [questKeys.nextQuestInChain] = 29830,
+        },
+        [29830] = { -- Containment
+            [questKeys.preQuestSingle] = {},
         },
         [29834] = { -- Gal'darah Must Pay
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
