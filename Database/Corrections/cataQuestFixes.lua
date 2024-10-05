@@ -7305,6 +7305,9 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Ruumbo's Secret Discovered",{[zoneIDs.FELWOOD]={{51.5,83.7}}}},
             [questKeys.reputationReward] = {},
         },
+        [27997] = { -- The Corruption of the Jadefire
+            [questKeys.preQuestSingle] = {},
+        },
         [27999] = { -- The Fate of the Doyles
             [questKeys.preQuestSingle] = {27808},
         },
