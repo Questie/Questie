@@ -7717,6 +7717,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 28401,
             [questKeys.startedBy] = {{17519,23127,52292}},
         },
+        [28288] = { -- Open Their Eyes
+            [questKeys.preQuestSingle] = {28113},
+        },
         [28289] = { -- Moonglade Calls
             [questKeys.nextQuestInChain] = 28343,
         },
