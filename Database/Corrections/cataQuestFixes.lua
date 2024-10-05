@@ -7314,7 +7314,7 @@ function CataQuestFixes.Load()
         },
         [28000] = { -- Do the Imp-Possible
             [questKeys.preQuestSingle] = {},
-            [questKeys.objectives] = {{47339}},
+            [questKeys.objectives] = {{{47339}}},
         },
         [28001] = { -- A Coward's Due
             [questKeys.preQuestSingle] = {27817},
