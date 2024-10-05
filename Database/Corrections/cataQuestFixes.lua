@@ -7450,6 +7450,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27923,27924,28105},
         },
+        [28113] = { -- Break the Unbreakable
+            [questKeys.preQuestSingle] = {28044},
+        },
         [28116] = { -- Crying Violet
             [questKeys.preQuestSingle] = {},
         },
