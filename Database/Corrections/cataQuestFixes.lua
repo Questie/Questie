@@ -7349,6 +7349,9 @@ function CataQuestFixes.Load()
         [28048] = { -- That Smart One's Gotta Go
             [questKeys.preQuestGroup] = {28051,28045},
         },
+        [28049] = { -- See the Invisible
+            [questKeys.preQuestSingle] = {28000},
+        },
         [28050] = { -- Shark Tank
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
