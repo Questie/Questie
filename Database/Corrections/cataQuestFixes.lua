@@ -7514,6 +7514,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {28000},
         },
         [28152] = { -- Jaedenar Awaits
+            [questKeys.preQuestSingle] = {28113},
             [questKeys.exclusiveTo] = {28116},
         },
         [28157] = { -- Four Twilight Elements
