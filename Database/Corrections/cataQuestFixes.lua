@@ -7439,6 +7439,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27923,27924,28105},
         },
+        [28116] = { -- Crying Violet
+            [questKeys.preQuestSingle] = {},
+        },
         [28117] = { -- Clearing the Depths
             [questKeys.finishedBy] = {{48039}}, -- temporary until Questie can show multiple turn ins
         },
