@@ -7301,6 +7301,7 @@ function CataQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
         },
         [27995] = { -- Dance for Ruumbo!
+            [questKeys.preQuestGroup] = {27989,27994},
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Ruumbo's Secret Discovered",{[zoneIDs.FELWOOD]={{51.5,83.7}}}},
             [questKeys.reputationReward] = {},
