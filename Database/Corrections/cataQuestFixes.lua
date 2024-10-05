@@ -7492,6 +7492,9 @@ function CataQuestFixes.Load()
         [28149] = { -- Whispers in the Wind
             [questKeys.preQuestSingle] = {28133},
         },
+        [28150] = { -- An Arcane Ally
+            [questKeys.exclusiveTo] = {28000},
+        },
         [28157] = { -- Four Twilight Elements
             [questKeys.preQuestSingle] = {28142},
         },
