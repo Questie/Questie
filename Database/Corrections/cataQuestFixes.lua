@@ -7495,6 +7495,9 @@ function CataQuestFixes.Load()
         [28150] = { -- An Arcane Ally
             [questKeys.exclusiveTo] = {28000},
         },
+        [28152] = { -- Jaedenar Awaits
+            [questKeys.exclusiveTo] = {28116},
+        },
         [28157] = { -- Four Twilight Elements
             [questKeys.preQuestSingle] = {28142},
         },
