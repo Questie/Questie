@@ -7340,6 +7340,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{47422,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the bait near it"), 0, {{"monster", 47391}}}},
         },
+        [28044] = { -- Touch the Untouchable
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Use the Phaseblood Potion at the Sigil of Tichondrius"),0,{{"object",206656}}}},
+        },
         [28046] = { -- Finish The Job
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
