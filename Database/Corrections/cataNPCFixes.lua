@@ -1518,7 +1518,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {49.54,57.5,phases.VASHJIR_LEGIONS_REST},
                 {40.6,75.1,phases.WAVESPEAKER_AT_RUINS},
-                {39.2,78.6,phases.VASHJIR_NAR_SHOLA_TERRACE},
+                {39.22,78.63,phases.VASHJIR_NAR_SHOLA_TERRACE},
                 {29.6,78.9,phases.VASHJIR_NAR_SHOLA_TERRACE_WEST},
             }},
         },
@@ -1581,21 +1581,21 @@ function CataNpcFixes.Load()
         [40639] = { -- Engineer Hexascrub
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {48.99,49.2,phases.VASHJIR_LEGIONS_REST},
-                {32.8,69.2,phases.VASHJIR_NORTHERN_GARDEN},
+                {32.91,69.24,phases.VASHJIR_NORTHERN_GARDEN},
             }},
         },
         [40642] = { -- Captain Taylor
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {49.16,56.98,phases.VASHJIR_LEGIONS_REST},
-                {33.2,68.2,phases.VASHJIR_NORTHERN_GARDEN},
-                {39.1,78.5,phases.VASHJIR_NAR_SHOLA_TERRACE},
+                {33.23,68.36,phases.VASHJIR_NORTHERN_GARDEN},
+                {39.07,78.53,phases.VASHJIR_NAR_SHOLA_TERRACE},
             }},
         },
         [40643] = { -- Admiral Dvorek
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {49.17,56.95,phases.VASHJIR_LEGIONS_REST},
                 {33.0,67.8,phases.VASHJIR_NORTHERN_GARDEN},
-                {39.1,78.7,phases.VASHJIR_NAR_SHOLA_TERRACE},
+                {39.11,78.71,phases.VASHJIR_NAR_SHOLA_TERRACE},
             }},
         },
         [40644] = { -- Levia Dreamwaker
@@ -1605,7 +1605,7 @@ function CataNpcFixes.Load()
             }},
         },
         [40645] = { -- Jorlan Trueblade
-            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{56.59,80.24}}},
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{56.99,80.55}}},
         },
         [40690] = { -- Captain Taylor
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{45.05,23.58}}},
@@ -1715,6 +1715,9 @@ function CataNpcFixes.Load()
         [41299] = { -- Oil Drilling Rig
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{84.67,49.42},{85.8,45.04},{88.71,44.6},{91.19,46.62},{90.75,51.28},{87.42,49.7}}},
         },
+        [41340] = { -- Private Pollard
+            [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{63.98,59.8}}},
+        },
         [41381] = { -- Nordu
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{27.4,55.56}}},
         },
@@ -1723,6 +1726,9 @@ function CataNpcFixes.Load()
         },
         [41476] = { -- Naz'jar Honor Guard
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.33,78.57}}},
+        },
+        [41535] = { -- Engineer Hexascrub
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{56.94,80.5}}},
         },
         [41540] = { -- Captain Taylor
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{62.67,49.88}}},
@@ -1777,7 +1783,13 @@ function CataNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
         [42074] = { -- Fathom-Stalker Azjentus
-            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.2,79.55}}},
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.45,79.27}}},
+        },
+        [42076] = { -- Lady Naz'jar
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {29,78.45},
+                {46.38,79.03,phases.VASHJIR_LADY_NAZ_JAR_AT_RIDGE},
+            }},
         },
         [42077] = { -- Lady Naz'jar
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
@@ -2263,6 +2275,9 @@ function CataNpcFixes.Load()
         },
         [48533] = { -- Enormous Gyreworm
             [npcKeys.spawns] = {},
+        },
+        [48901] = { -- Tamed Seahorse
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{29.51,79.01}}},
         },
         [49444] = { -- Pip Quickwit
             [npcKeys.name] = "Pip Quickwit",

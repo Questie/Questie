@@ -127,6 +127,7 @@ local phases = {
     MOUNT_HYJAL_INVASION_SANCTUARY = 1055,
     MOUNT_HYJAL_VISION_YSERA_1 = 1056,
     MOUNT_HYJAL_VISION_YSERA_2 = 1057,
+    VASHJIR_LADY_NAZ_JAR_AT_RIDGE = 1058,
 }
 Phasing.phases = phases
 
@@ -178,7 +179,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.VASHJIR_LEGIONS_REST then
-        return complete[25966] or complete[25755] or ((not complete[25958]) and (not complete[25747]) and (not questLog[25958]) and (not questLog[25747])) or false
+        return (complete[25966] or complete[25755]) or ((not complete[25958]) and (not complete[25747]) and (not questLog[25958]) and (not questLog[25747])) or false
     end
 
     if phase == phases.VASHJIR_NORTHERN_GARDEN then
@@ -186,7 +187,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.VASHJIR_NAR_SHOLA_TERRACE_WEST then
-        return (not complete[25966]) and (not complete[25755]) and (complete[26191] or complete[25750]) or false
+        return (not complete[25967]) and (not complete[25892]) and (complete[26191] or complete[25750]) or false
     end
 
     if phase == phases.VASHJIR_NAR_SHOLA_TERRACE then
@@ -203,12 +204,16 @@ function Phasing.IsSpawnVisible(phase)
         return (complete[25629] and complete[25896]) or false
     end
 
+    if phase == phases.VASHJIR_LADY_NAZ_JAR_AT_RIDGE then
+        return complete[25859] or false
+    end
+
     if phase == phases.VASHJIR_ERANUK_AT_CAVERN then
         return (not complete[25988]) or complete[26143] or false
     end
 
     if phase == phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT then
-        return (complete[25988] and (not complete[26143])) or false
+        return ((complete[25988] or complete[25987]) and (not complete[26143])) or false
     end
 
     if phase == phases.SIRA_KESS_AT_GARDEN then

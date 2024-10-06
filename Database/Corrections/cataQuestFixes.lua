@@ -3753,6 +3753,9 @@ function CataQuestFixes.Load()
         [25537] = { -- Art of Attraction
             [questKeys.objectives] = {{{40654,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [25538] = { -- Odor Coater
+            [questKeys.objectives] = {{{40646,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [25540] = { -- Bellies Await
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25538,25539},
@@ -9290,7 +9293,7 @@ function CataQuestFixes.Load()
         [29192] = { -- The Wardens are Watching
             [questKeys.exclusiveTo] = {29211},
             [questKeys.preQuestSingle] = {29205},
-            [questKeys.objectives] = {{{52872,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{52122,52871,52872},52872,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29197] = { -- Caught Unawares
             [questKeys.objectives] = {{{52906,nil,Questie.ICON_TYPE_EVENT},{52907,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{52903,52904},52903,nil,Questie.ICON_TYPE_EVENT}}},
