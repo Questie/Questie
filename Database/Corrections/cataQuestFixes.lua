@@ -7642,6 +7642,7 @@ function CataQuestFixes.Load()
         },
         [28229] = { -- Nature and Nurture
             [questKeys.preQuestSingle] = {28374},
+            [questKeys.requiredSourceItems] = {63387},
         },
         [28232] = { -- Food From Below
             [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
