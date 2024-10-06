@@ -7863,6 +7863,9 @@ function CataQuestFixes.Load()
         [28339] = { -- Is Your Oil Running?
             [questKeys.preQuestGroup] = {28357,28370},
         },
+        [28340] = { -- A Bomb Deal
+            [questKeys.preQuestSingle] = {28380},
+        },
         [28343] = { -- The Breath of Cenarius
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {nil,{{207103}},{{63469}}},
