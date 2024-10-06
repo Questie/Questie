@@ -7477,6 +7477,9 @@ function CataQuestFixes.Load()
         [28127] = { -- Break Them Out
             [questKeys.preQuestSingle] = {28124},
         },
+        [28129] = { -- The Demon Prince
+            [questKeys.preQuestSingle] = {28119},
+        },
         [28130] = { -- Not The Friendliest Town
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
