@@ -7686,6 +7686,9 @@ function CataQuestFixes.Load()
         [28260] = { -- Meet with Wulf Hansreim
             [questKeys.nextQuestInChain] = 28394,
         },
+        [28261] = { -- Deceivers In Our Midst
+            [questKeys.preQuestSingle] = {28257},
+        }
         [28262] = { -- Meet with Lord Tony Romano
             [questKeys.nextQuestInChain] = 28406,
         },
