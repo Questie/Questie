@@ -7849,6 +7849,9 @@ function CataQuestFixes.Load()
         [28329] = { -- Angry Scrubbing Bubbles
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [28336] = { -- Slap and Cap
+            [questKeys.preQuestGroup] = {28357,28370},
+        },
         [28338] = { -- Deadwood of the North
             [questKeys.preQuestSingle] = {},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 10}},
