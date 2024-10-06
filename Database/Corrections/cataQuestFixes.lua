@@ -7631,6 +7631,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28374},
         },
         [28218] = { -- A Destiny of Flame and Sorrow
+            [questKeys.preQuestSingle] = {28217},
             [questKeys.objectives] = {{{47733}}},
         },
         [28223] = { -- The Warden
