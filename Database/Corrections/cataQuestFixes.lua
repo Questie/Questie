@@ -7636,6 +7636,9 @@ function CataQuestFixes.Load()
         [28228] = { -- Rejoining the Forest
             [questKeys.triggerEnd] = {"Protector brought to hill", {[zoneIDs.FELWOOD]={{48.7,25.2}}}},
         },
+        [28229] = { -- Nature and Nurture
+            [questKeys.preQuestSingle] = {28374},
+        },
         [28232] = { -- Food From Below
             [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
         },
