@@ -7637,6 +7637,9 @@ function CataQuestFixes.Load()
         [28219] = { -- Buzzers for Baby
             [questKeys.preQuestSingle] = {28229},
         },
+        [28220] = { -- Seeking Soil
+            [questKeys.objectives] = {nil, {{460016,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [28223] = { -- The Warden
             [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
         },
