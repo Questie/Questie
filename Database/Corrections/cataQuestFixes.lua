@@ -7845,6 +7845,9 @@ function CataQuestFixes.Load()
         [28355] = { -- Terrible Little Creatures
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [28361] = { -- Squirrely Clean
+            [questKeys.objectives] = {{{48457,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [28362] = { -- Stupid Drizle!
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 8}},
         },
