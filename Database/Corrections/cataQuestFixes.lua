@@ -1891,7 +1891,7 @@ function CataQuestFixes.Load()
         },
         [14113] = { -- Life of the Party
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {14109,24520,14007 or 14008 or 14009 or 14010 or 14011 or 14012 or 14013},
+            [questKeys.preQuestGroup] = {14109,24520,14007}, -- 14007 or 14008 or 14009 or 14010 or 14011 or 14012 or 14013
             [questKeys.objectives] = {nil,nil,nil,nil,{{{35186,35175},35175,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [14115] = { -- Pirate Party Crashers
@@ -1953,7 +1953,7 @@ function CataQuestFixes.Load()
         [14153] = { -- Life of the Party
             [questKeys.objectives] = {nil,nil,nil,nil,{{{35186,35175},35175,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {14110,24520,14007 or 14008 or 14009 or 14010 or 14011 or 14012 or 14013},
+            [questKeys.preQuestGroup] = {14110,24520,14007}, -- 14007 or 14008 or 14009 or 14010 or 14011 or 14012 or 14013
         },
         [14154] = { -- By the Skin of His Teeth
             [questKeys.triggerEnd] = {"Survive while holding back the worgen for 2 minutes",{[zoneIDs.GILNEAS_CITY] = {{55.1,62.7}}}},
@@ -3383,7 +3383,7 @@ function CataQuestFixes.Load()
         },
         [25251] = { -- Final Confrontation
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {25214,25243 or 25244},
+            [questKeys.preQuestGroup] = {25214,25243}, -- 25243 or 25244
             [questKeys.objectives] = {{{39592,nil,Questie.ICON_TYPE_INTERACT},{39582}}},
         },
         [25264] = { -- Ak'Zeloth
@@ -9323,13 +9323,13 @@ function CataQuestFixes.Load()
         [29205] = { -- The Forlorn Spire
             [questKeys.exclusiveTo] = {29206},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29214,29138,29179,29139 or 29143,29137 or 29141 or 29142 or 29304},
+            [questKeys.preQuestGroup] = {29214,29138,29179,29139,29137}, -- 29139 or 29143,29137 or 29141 or 29142 or 29304
             [questKeys.objectives] = {{{52998}}},
         },
         [29206] = { -- Into the Fire
             [questKeys.exclusiveTo] = {29205},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29181,29138,29179,29139 or 29143,29137 or 29141 or 29142 or 29304},
+            [questKeys.preQuestGroup] = {29181,29138,29179,29139,29137}, -- 29139 or 29143,29137 or 29141 or 29142 or 29304
             [questKeys.objectives] = {{{52683}}},
         },
         [29208] = { -- An Old Friend
@@ -9337,7 +9337,7 @@ function CataQuestFixes.Load()
         },
         [29210] = { -- Enduring the Heat
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29192 or 29211,29160 or 29189},
+            [questKeys.preQuestGroup] = {29192,29160}, -- 29192 or 29211,29160 or 29189
             [questKeys.objectives] = {{{53886,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{52889,52885,52888,52890,52886,52887,52884,53887},52889,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.finishedBy] = {{52823}}, -- we need to be able to show multiple NPC ids for turn in. this is temp fix
         },
@@ -9443,7 +9443,7 @@ function CataQuestFixes.Load()
         },
         [29243] = { -- Strike at the Heart
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29159,29192 or 29211,29160 or 29189,29283},
+            [questKeys.preQuestGroup] = {29159,29192,29160,29283}, -- 29192 or 29211,29160 or 29189
         },
         [29245] = { -- The Mysterious Seed
             [questKeys.preQuestSingle] = {29214},
