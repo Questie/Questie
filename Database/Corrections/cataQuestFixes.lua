@@ -3492,6 +3492,9 @@ function CataQuestFixes.Load()
         [25325] = { -- Through the Dream
             [questKeys.triggerEnd] = {"Arch Druid Fandral Staghelm delivered",{[zoneIDs.MOUNT_HYJAL] = {{52.3,17.4}}}},
         },
+        [25329] = { -- Might of the Stonemaul
+            [questKeys.preQuestSingle] = {25344},
+        },
         [25330] = { -- Waste of Flesh
             [questKeys.objectives] = {{{39453,nil,Questie.ICON_TYPE_INTERACT}}},
         },
