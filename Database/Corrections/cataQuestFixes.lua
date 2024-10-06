@@ -7851,6 +7851,7 @@ function CataQuestFixes.Load()
         },
         [28336] = { -- Slap and Cap
             [questKeys.preQuestGroup] = {28357,28370},
+            [questKeys.objectives] = {{{48331,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [28338] = { -- Deadwood of the North
             [questKeys.preQuestSingle] = {},
