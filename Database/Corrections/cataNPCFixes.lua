@@ -2242,6 +2242,10 @@ function CataNpcFixes.Load()
         [48257] = { -- Narkrall Rakeclaw
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{48.7,29.79}}},
         },
+        [48200] = { -- Sunbeam Bunny for Singin' in the Sun
+            [npcKeys.spawns] = {[zoneIDs.FELWOOD]={{52.25,23.49},{51.79,23.86},{52.16,24.86},{52.30,26.30},{50.98,25.39},{50.40,22.16},{51.59,21.49},{51.24,20.31},{48.19,23.64}}},
+            [npcKeys.zoneID] = zoneIDs.FELWOOD,
+        },
         [48264] = { -- Golluck Rockfist
             [npcKeys.spawns] = {
                 [zoneIDs.TWILIGHT_HIGHLANDS] = {
