@@ -7617,6 +7617,9 @@ function CataQuestFixes.Load()
         [28212] = { -- Hot Stuff
             [questKeys.preQuestGroup] = {27752,27754}, -- could also be 27753
         },
+        [28214] = { -- Cleanup at Bloodvenom Post
+            [questKeys.preQuestSingle] = {28208},
+        },
         [28215] = { -- Potential Energy
             [questKeys.preQuestGroup] = {27752,27754}, -- could also be 27753
         },
