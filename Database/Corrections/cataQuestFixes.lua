@@ -7849,6 +7849,9 @@ function CataQuestFixes.Load()
         [28329] = { -- Angry Scrubbing Bubbles
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [28335] = { -- Turn It Off! Turn It Off!
+            [questKeys.preQuestSingle] = {28380},
+        },
         [28336] = { -- Slap and Cap
             [questKeys.preQuestGroup] = {28357,28370},
             [questKeys.objectives] = {{{48331,nil,Questie.ICON_TYPE_INTERACT}}},
