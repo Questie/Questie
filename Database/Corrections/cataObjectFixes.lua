@@ -334,7 +334,7 @@ function CataObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.FELWOOD,
         },
         [460016] = {
-            [objectKeys.name] = "Felwood Rich Soil",
+            [objectKeys.name] = "Felwood Rich Soil", -- For Seeking Soil
             [objectKeys.spawns] = {[zoneIDs.FELWOOD]={{50.00,30.20},{48.11,31.21},{49.36,30.67},{48.72,28.15},{48.04,27.57},{47.65,28.81},{48.29,29.18}}},
             [objectKeys.zoneID] = zoneIDs.FELWOOD,
         },
