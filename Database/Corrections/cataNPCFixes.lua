@@ -207,20 +207,20 @@ function CataNpcFixes.Load()
             [npcKeys.waypoints] = {},
         },
         [7267] = { -- Chief Ukorz Sandscalp
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{42.51,34.20}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{42.51,34.20},{-1,-1}}},
         },
         [7271] = { -- Witch Doctor Zum'rah
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{44.17,15.35}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{44.17,15.35},{-1,-1}}},
         },
         [7272] = { -- Theka the Martyr
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{54.94,25.12}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{54.94,25.12},{-1,-1}}},
             [npcKeys.waypoints] = {[zoneIDs.ZUL_FARRAK]={{{53.54,25.32},{52.81,27.82},{54.67,29.41},{56.60,26.42}}}},
         },
         [7273] = { -- Gahz'rilla
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{29.68,38.98}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{29.68,38.98},{-1,-1}}},
         },
         [7275] = { -- Shadowpriest Sezz'ziz
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{30.61,17.65}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{30.61,17.65},{-1,-1}}},
         },
         [7318] = { -- Rageclaw
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{45.75,52.82}}},
