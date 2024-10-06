@@ -7960,6 +7960,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [28395] = { -- Feathers for Nafien
+            [questKeys.preQuestGroup] = {28338,28366},
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 11}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
