@@ -7627,6 +7627,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27752,27754}, -- could also be 27753
             [questKeys.finishedBy] = {{46591}},
         },
+        [28217] = { -- Wanted: The Demon Hunter
+            [questKeys.preQuestSingle] = {28374},
+        },
         [28218] = { -- A Destiny of Flame and Sorrow
             [questKeys.objectives] = {{{47733}}},
         },
