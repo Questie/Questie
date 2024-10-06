@@ -11,7 +11,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 
-local pcall, type = pcall, type
+local pcall, type, next = pcall, type, next
 local abs, min, floor = math.abs, math.min, math.floor
 
 
@@ -1396,7 +1396,14 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             local override = overrides[id]
             if override then
                 local kti = keyToRootIndex[key]
-                if kti and override[kti] ~= nil then return override[kti] end
+                if kti and override[kti] ~= nil then
+                    if type(override[kti]) ~= "table" or next(override[kti]) then
+                        return override[kti]
+                    else
+                        -- We want to return nil if the table is empty, to match the compiler behavior
+                        return nil
+                    end
+                end
             end
             local ptr = pointers[id]
             if not ptr then
