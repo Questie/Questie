@@ -7783,6 +7783,9 @@ function CataQuestFixes.Load()
         [28304] = { -- Meet with Dark Cleric Cecille
             [questKeys.nextQuestInChain] = 28474,
         },
+        [28305] = { -- The Fate of Bloodvenom Post
+            [questKeys.preQuestGroup] = {28126,28128,28155},
+        },
         [28307] = { -- Meet with Tyelis
             [questKeys.nextQuestInChain] = 28475,
             [questKeys.startedBy] = {{3045,4606,16658,43870}},
