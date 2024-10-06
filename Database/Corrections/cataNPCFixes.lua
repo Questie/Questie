@@ -242,16 +242,16 @@ function CataNpcFixes.Load()
             [npcKeys.waypoints] = {},
         },
         [7795] = { -- Hydromancer Velratha
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{32.14,39.88}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{32.14,39.88},{-1,-1}}},
         },
         [7796] = { -- Nekrum Gutchewer
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{29.61,17.65}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{29.61,17.65},{-1,-1}}},
         },
         [7797] = { -- Ruuzlu
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{43.17,33.20}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{43.17,33.20},{-1,-1}}},
         },
         [8127] = { -- Antu'sul
-            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{64.84,25.92}}},
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{64.84,25.92},{-1,-1}}},
         },
         [8567] = { -- Glutton
             [npcKeys.spawns] = {[722]={{33.93,52.14}}},
