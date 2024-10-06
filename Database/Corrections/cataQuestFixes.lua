@@ -2524,6 +2524,7 @@ function CataQuestFixes.Load()
         },
         [24463] = { -- Probing into Ashenvale
             [questKeys.preQuestSingle] = {24439},
+            [questKeys.exclusiveTo] = {13612,13866,28493},
         },
         [24467] = { -- Fade to Black
             [questKeys.preQuestSingle] = {14391},
