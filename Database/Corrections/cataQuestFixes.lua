@@ -7890,6 +7890,9 @@ function CataQuestFixes.Load()
         [28369] = { -- My Sister, Fanny
             [questKeys.nextQuestInChain] = 27753,
         },
+        [28370] = { -- Wisp-napping
+            [questKeys.preQuestGroup] = {28333,28334},
+        },
         [28372] = { -- Back to Business
             [questKeys.preQuestSingle] = {28264},
         },
