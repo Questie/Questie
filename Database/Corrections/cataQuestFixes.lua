@@ -7474,6 +7474,10 @@ function CataQuestFixes.Load()
         [28125] = { -- Something to Wear
             [questKeys.preQuestSingle] = {28124},
         },
+        [28126] = { -- Dousing the Flames of Protection
+            [questKeys.preQuestSingle] = {28119},
+            [questKeys.preQuestGroup] = {},
+        },
         [28127] = { -- Break Them Out
             [questKeys.preQuestSingle] = {28124},
         },
