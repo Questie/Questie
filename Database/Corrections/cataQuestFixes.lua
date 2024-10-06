@@ -7871,6 +7871,9 @@ function CataQuestFixes.Load()
         [28355] = { -- Terrible Little Creatures
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [28357] = { -- Take it to the Tree
+            [questKeys.preQuestGroup] = {28333,28334},
+        },
         [28361] = { -- Squirrely Clean
             [questKeys.objectives] = {{{48457,nil,Questie.ICON_TYPE_EVENT}}},
         },
