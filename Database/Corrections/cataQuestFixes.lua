@@ -7608,6 +7608,9 @@ function CataQuestFixes.Load()
         [28201] = { -- Ploughshares to Swords
             [questKeys.objectives] = {{{46333,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [28208] = { -- Winna's Kitten
+            [questKeys.preQuestGroup] = {28190,28207},
+        },
         [28211] = { -- Tempered in Elemental Flame
             [questKeys.preQuestGroup] = {27752,27754}, -- could also be 27753
         },
