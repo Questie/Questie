@@ -10089,7 +10089,7 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{27584}},
         },
         [24911] = { -- Tropical Paradise Beckons
-            [questKeys.startedBy] = {38578},
+            [questKeys.startedBy] = {{38578}},
         },
         [25513] = { -- Thunderdrome: Grudge Match!
             [questKeys.preQuestGroup] = {25065,25095},
