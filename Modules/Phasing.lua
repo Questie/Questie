@@ -179,7 +179,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.VASHJIR_LEGIONS_REST then
-        return (complete[25966] or complete[25755]) or ((not complete[25958]) and (not complete[25747]) and (not questLog[25958]) and (not questLog[25747])) or false
+        return complete[25966] or complete[25755] or ((not complete[25958]) and (not complete[25747]) and (not questLog[25958]) and (not questLog[25747])) or false
     end
 
     if phase == phases.VASHJIR_NORTHERN_GARDEN then

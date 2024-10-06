@@ -4042,7 +4042,9 @@ function CataQuestFixes.Load()
         },
         [25752] = { -- Swift Action
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {25749,25748,25751},
+            [questKeys.preQuestGroup] = {25748,25749,25751},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",50591}}}},
+            [questKeys.objectives] = {{{40639,nil,Questie.ICON_TYPE_TALK},{41249},{41250},{42549}}},
         },
         [25753] = { -- Fallen But Not Forgotten
             [questKeys.objectives] = {{{41281,nil,Questie.ICON_TYPE_TALK}}},
@@ -4375,6 +4377,8 @@ function CataQuestFixes.Load()
         },
         [25963] = { -- Swift Action
             [questKeys.preQuestGroup] = {25959,25960,25962},
+            [questKeys.objectives] = {{{40918,nil,Questie.ICON_TYPE_TALK},{41249},{41250},{42549}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",50592}}}},
         },
         [25964] = { -- Fallen But Not Forgotten
             [questKeys.preQuestSingle] = {25963},
@@ -4562,7 +4566,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25988},
         },
         [26072] = { -- Into the Totem
-            [questKeys.objectives] = {{{42051}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{41644,42051},42051}}},
             [questKeys.preQuestSingle] = {25987,25988},
         },
         [26073] = { -- All's Quiet on the Southern Front
@@ -4688,6 +4692,8 @@ function CataQuestFixes.Load()
         },
         [26154] = { -- Twilight Extermination
             [questKeys.objectives] = {{{47969,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,{{{42281,42280},42280},{{42285},42285}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26141,26142},
         },
         [26160] = { -- Blood Ritual
             [questKeys.objectives] = {{{42298,nil,Questie.ICON_TYPE_TALK}}},
