@@ -7720,6 +7720,7 @@ function CataQuestFixes.Load()
         },
         [28288] = { -- Open Their Eyes
             [questKeys.preQuestSingle] = {28113},
+            [questKeys.objectives] = {{{47369}}},
         },
         [28289] = { -- Moonglade Calls
             [questKeys.nextQuestInChain] = 28343,
