@@ -7634,6 +7634,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28217},
             [questKeys.objectives] = {{{47733}}},
         },
+        [28219] = { -- Buzzers for Baby
+            [questKeys.preQuestSingle] = {28229},
+        },
         [28223] = { -- The Warden
             [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
         },
