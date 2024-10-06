@@ -10023,7 +10023,7 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {},
         },
         [24911] = { -- Tropical Paradise Beckons
-            [questKeys.startedBy] = {44374},
+            [questKeys.startedBy] = {{44374}},
         },
         [25619] = { -- Reoccupation
             [questKeys.preQuestSingle] = {},
