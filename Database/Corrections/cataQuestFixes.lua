@@ -7876,6 +7876,9 @@ function CataQuestFixes.Load()
         [28369] = { -- My Sister, Fanny
             [questKeys.nextQuestInChain] = 27753,
         },
+        [28372] = { -- Back to Business
+            [questKeys.preQuestSingle] = {28264},
+        },
         [28374] = { -- Weeding the Lawn
             [questKeys.preQuestGroup] = {28360.28361},
             [questKeys.preQuestSingle] = {},
