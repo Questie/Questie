@@ -161,7 +161,12 @@ describe("QuestieDB", function()
 
         it("should return false for unfulfilled preQuestGroup when ID is negative and exclusiveTo is not checked", function()
             Questie.db.char.complete = {[1]=true, [2]=true}
-            assert.is_false(QuestieDB:IsPreQuestGroupFulfilled({1, 2, -3}))
+            assert.is_false(QuestieDB:IsPreQuestGroupFulfilled({1, -2, -3}))
+        end)
+
+        it("should return true for fulfilled preQuestGroup when ID is negative", function()
+            Questie.db.char.complete = {[1]=true, [2]=true}
+            assert.is_true(QuestieDB:IsPreQuestGroupFulfilled({1, -2}))
         end)
     end)
 
