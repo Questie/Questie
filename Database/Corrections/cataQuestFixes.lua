@@ -7927,6 +7927,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28377},
             [questKeys.startedBy] = {{48472}},
         },
+        [28380] = { -- Pikwik in Peril
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28336,28339},
+        },
         [28390] = { -- Glop, Son of Glop
             [questKeys.exclusiveTo] = {28391},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the chase"), 0, {{"monster", 43503}}}},
