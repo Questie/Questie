@@ -805,6 +805,12 @@ function CataItemFixes.Load()
         [69765] = { -- Lucifern
             [itemKeys.npcDrops] = {},
         },
+        [69812] = { -- Flame Druid Reagent Pouch
+            [itemKeys.npcDrops] = {},
+        },
+        [69813] = { -- Flame Druid Idol
+            [itemKeys.npcDrops] = {},
+        },
         [69815] = { -- Seething Cinder
             [itemKeys.class] = itemClasses.QUEST,
         },
