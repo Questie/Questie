@@ -7864,6 +7864,10 @@ function CataQuestFixes.Load()
         [28369] = { -- My Sister, Fanny
             [questKeys.nextQuestInChain] = 27753,
         },
+        [28374] = { -- Weeding the Lawn
+            [questKeys.preQuestGroup] = {28360.28361},
+            [questKeys.preQuestSingle] = {},
+        },
         [28376] = { -- Myzerian's Head
             [questKeys.startedBy] = {{48428},nil,{63700}},
             [questKeys.preQuestSingle] = {28367},
