@@ -7462,6 +7462,9 @@ function CataQuestFixes.Load()
         [28118] = { -- The Imprisoned Archmage
             [questKeys.finishedBy] = {{48039}}, -- temporary until Questie can show multiple turn ins
         },
+        [28119] = { -- Purity From Corruption
+            [questKeys.preQuestGroup] = {28116,28121},
+        },
         [28120] = { -- Learning From The Past
             [questKeys.finishedBy] = {{48039}}, -- temporary until Questie can show multiple turn ins
         },
