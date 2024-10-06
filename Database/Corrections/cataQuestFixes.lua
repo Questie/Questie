@@ -7646,6 +7646,10 @@ function CataQuestFixes.Load()
         [28223] = { -- The Warden
             [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
         },
+        [28224] = { -- The Last Protector
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {28221,28222},
+        },
         [28228] = { -- Rejoining the Forest
             [questKeys.triggerEnd] = {"Protector brought to hill", {[zoneIDs.FELWOOD]={{48.7,25.2}}}},
         },
