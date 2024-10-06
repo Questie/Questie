@@ -7670,6 +7670,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [28256] = { -- The Skull of Gul'dan
+            [questKeys.preQuestSingle] = {28218},
             [questKeys.objectives] = {{{47812,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [28257] = { -- The Fall of Tichondrius
