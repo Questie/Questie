@@ -7674,6 +7674,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{47812,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [28257] = { -- The Fall of Tichondrius
+            [questKeys.preQuestSingle] = {28256},
             [questKeys.objectives] = {{{47917}}},
         },
         [28258] = { -- Meet with Ander Germaine
