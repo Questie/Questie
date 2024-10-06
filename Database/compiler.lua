@@ -12,6 +12,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 
 local pcall, type, next = pcall, type, next
+local coYield = coroutine.yield
 local abs, min, floor = math.abs, math.min, math.floor
 
 
@@ -904,7 +905,7 @@ function QuestieDBCompiler:DecodePointerMap(stream)
             ret[stream:ReadInt24()] = stream:ReadInt24()
         end
         i = i + 768
-        coroutine.yield()
+        coYield()
     end
     return ret
 end
@@ -951,7 +952,7 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
     local supportedTypes = QuestieDBCompiler.supportedTypes
 
     while true do
-        coroutine.yield()
+        coYield()
         for _=0,Questie.db.profile.debugEnabled and TICKS_PER_YIELD_DEBUG or (entriesPerTick or TICKS_PER_YIELD) do
             index = index + 1
             if index == count then
@@ -1103,7 +1104,7 @@ function QuestieDBCompiler:ValidateNPCs()
 
         if count == TICKS_PER_YIELD_DEBUG then
             count = 0
-            coroutine.yield()
+            coYield()
         end
         count = count + 1
     end
@@ -1151,7 +1152,7 @@ function QuestieDBCompiler:ValidateObjects()
 
     if count == TICKS_PER_YIELD_DEBUG then
         count = 0
-        coroutine.yield()
+        coYield()
         end
         count = count + 1
     end
@@ -1236,7 +1237,7 @@ function QuestieDBCompiler:ValidateItems()
         --end
         if count == TICKS_PER_YIELD_DEBUG then
             count = 0
-            coroutine.yield()
+            coYield()
         end
         count = count + 1
     end
@@ -1268,7 +1269,7 @@ function QuestieDBCompiler:ValidateItems()
 
         if count == TICKS_PER_YIELD_DEBUG then
             count = 0
-            coroutine.yield()
+            coYield()
         end
         count = count + 1
     end
@@ -1365,7 +1366,7 @@ function QuestieDBCompiler:ValidateQuests()
 
         if count == TICKS_PER_YIELD_DEBUG then
             count = 0
-            coroutine.yield()
+            coYield()
         end
         count = count + 1
     end
@@ -1379,12 +1380,12 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
     local map, lastIndex, lastPtr, types, _, indexToKey, keyToIndex = unpack(skipMap)
 
     local stream = QuestieStream:GetStream("raw")
-    coroutine.yield()
+    coYield()
     stream:Load(pointers)
-    coroutine.yield()
+    coYield()
     pointers = QuestieDBCompiler:DecodePointerMap(stream)
     --Questie.db.global.__pointers = pointers
-    coroutine.yield()
+    coYield()
     stream:Load(data)
     handle.stream = stream
 
