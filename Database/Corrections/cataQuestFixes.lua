@@ -7640,6 +7640,9 @@ function CataQuestFixes.Load()
         [28220] = { -- Seeking Soil
             [questKeys.objectives] = {nil, {{460016,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [28221] = { -- These Roots Were Made For Stompin'
+            [questKeys.preQuestGroup] = {28219,28220},
+        },
         [28223] = { -- The Warden
             [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
         },
