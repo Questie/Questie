@@ -9523,7 +9523,7 @@ function CataQuestFixes.Load()
         [29201] = { -- Through the Gates of Hell
             [questKeys.preQuestSingle] = {29200},
             [questKeys.objectives] = {{{53381}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Enter through the portal"),0,{{"object",208900}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Go through the portal"),0,{{"object",208900}}}},
             [questKeys.finishedBy] = {{53385}},
         },
         [29202] = { -- The Fate of Runetotem
@@ -9652,7 +9652,7 @@ function CataQuestFixes.Load()
         },
         [29243] = { -- Strike at the Heart
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29159,29192,29160,29283}, -- 29192 or 29211,29160 or 29189
+            [questKeys.preQuestGroup] = {29283,-29205},
         },
         [29245] = { -- The Mysterious Seed
             [questKeys.preQuestSingle] = {29214},
@@ -9693,6 +9693,10 @@ function CataQuestFixes.Load()
         [29262] = { -- Zul'Gurub Voodoo
             [questKeys.requiredLevel] = 85,
         },
+        [29263] = { -- A Bitter Pill
+            [questKeys.exclusiveTo] = {29278,29295,29297},
+            [questKeys.preQuestSingle] = {29281},
+        },
         [29264] = { -- Flamewakers of the Molten Flow
             [questKeys.finishedBy] = {{52444}}, -- we need to be able to show multiple NPC ids for turn in. this is temp fix
         },
@@ -9732,23 +9736,37 @@ function CataQuestFixes.Load()
         },
         [29276] = { -- The Flame Spider Queen
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29211,29272,-29205}, -- 29211 + 29192
+            [questKeys.preQuestGroup] = {29272,-29205},
             [questKeys.exclusiveTo] = {29275},
+        },
+        [29278] = { -- Living Obsidium
+            [questKeys.exclusiveTo] = {29263,29295,29297},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Make it rain"),0,{{"monster",53373}}}},
         },
         [29279] = { -- Filling the Moonwell
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29181,29214},
             [questKeys.objectives] = {nil,{{460014}}},
         },
+        [29280] = { -- Nourishing Waters
+            [questKeys.preQuestSingle] = {29279},
+        },
         [29281] = { -- Additional Armaments
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29181,29214},
             [questKeys.objectives] = {nil,{{460014}}},
         },
+        [29282] = { -- Well Armed
+            [questKeys.preQuestSingle] = {29281},
+            [questKeys.finishedBy] = {{53196}}, -- temporary until we can show multiple NPC turn ins
+        },
         [29283] = { -- Calling the Ancients
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29181,29214},
             [questKeys.objectives] = {nil,{{460014}}},
+        },
+        [29284] = { -- Aid of the Ancients
+            [questKeys.preQuestSingle] = {29283},
         },
         [29287] = { -- Peaked Interest
             [questKeys.exclusiveTo] = {29288,29290},
@@ -9765,11 +9783,22 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29296},
             [questKeys.objectives] = {{{53243,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [29295] = { -- The Bigger They Are
+            [questKeys.exclusiveTo] = {29263,29278,29297},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {-29206,29281},
+        },
         [29296] = { -- Territorial Birds
             [questKeys.exclusiveTo] = {29293},
         },
+        [29297] = { -- Bye Bye Burdy
+            [questKeys.exclusiveTo] = {29263,29278,29295},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {-29205,29281},
+        },
         [29298] = { -- A Smoke-Stained Locket
             [questKeys.startedBy] = {nil,nil,{69854}},
+            [questKeys.nextQuestInChain] = 29302,
         },
         [29299] = { -- Some Like It Hot
             [questKeys.exclusiveTo] = {29255,29257},
@@ -9777,9 +9806,33 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{53256,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Engage it to create Ember Pools"),0,{{"monster",53240}}}},
         },
+        [29302] = { -- Unlocking the Secrets Within
+            [questKeys.nextQuestInChain] = 29303,
+            [questKeys.objectives] = {{{53296,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [29303] = { -- Tragedy and Family
+            [questKeys.nextQuestInChain] = 29310,
+            [questKeys.objectives] = {nil,{{208790,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.finishedBy] = {{100024}},
+        },
         [29304] = { -- The Dogs of War
             [questKeys.preQuestSingle] = {29201},
             [questKeys.exclusiveTo] = {29137,29141,29142},
+        },
+        [29305] = { -- Strike at the Heart
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29283,-29206},
+        },
+        [29310] = { -- The Tipping Point
+            [questKeys.nextQuestInChain] = 29311,
+            [questKeys.startedBy] = {{100025}},
+            [questKeys.objectives] = {nil,{{208791,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.finishedBy] = {{100026}},
+        },
+        [29311] = { -- The Rest is History
+            [questKeys.objectivesText] = {"Bring the Smoke-Stained Locket to Malfurion in the Molten Front."},
+            [questKeys.startedBy] = {{100027}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Go through the portal"),0,{{"object",208900}}}},
         },
         [29317] = { -- Fish Head
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,26572,29349,29354,29346,29348,29345,29320,29361,29319,29322},

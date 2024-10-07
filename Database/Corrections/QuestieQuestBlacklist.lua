@@ -3421,10 +3421,11 @@ function QuestieQuestBlacklist:Load()
         --[29202] = true, -- The Fate of Runetotem
         [29204] = true, -- The Warden's Charge
         [29209] = true, -- Into the Fiery Depths
-        [29263] = true, -- A Bitter Pill
-        [29280] = true, -- Nourishing Waters
-        [29282] = true, -- Well Armed
-        [29284] = true, -- Aid of the Ancients
+        [29244] = true, -- A Lieutenant of Flame
+        --[29263] = true, -- A Bitter Pill
+        --[29280] = true, -- Nourishing Waters
+        --[29282] = true, -- Well Armed
+        --[29284] = true, -- Aid of the Ancients
         [29289] = true, -- Mother's Malice
         [29326] = true, -- The Nordrassil Summit
         --[29387] = true, -- Guardians of Hyjal: Firelands Invasion!
