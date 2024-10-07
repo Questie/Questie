@@ -206,6 +206,22 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{41.66,35.7}}},
             [npcKeys.waypoints] = {},
         },
+        [7267] = { -- Chief Ukorz Sandscalp
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{42.51,34.20},{-1,-1}}},
+        },
+        [7271] = { -- Witch Doctor Zum'rah
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{44.17,15.35},{-1,-1}}},
+        },
+        [7272] = { -- Theka the Martyr
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{54.94,25.12},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.ZUL_FARRAK]={{{53.54,25.32},{52.81,27.82},{54.67,29.41},{56.60,26.42}}}},
+        },
+        [7273] = { -- Gahz'rilla
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{29.68,38.98},{-1,-1}}},
+        },
+        [7275] = { -- Shadowpriest Sezz'ziz
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{30.61,17.65},{-1,-1}}},
+        },
         [7318] = { -- Rageclaw
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{45.75,52.82}}},
             [npcKeys.waypoints] = {},
@@ -224,6 +240,18 @@ function CataNpcFixes.Load()
         },
         [7363] = { -- Kum'isha the Collector
             [npcKeys.waypoints] = {},
+        },
+        [7795] = { -- Hydromancer Velratha
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{32.14,39.88},{-1,-1}}},
+        },
+        [7796] = { -- Nekrum Gutchewer
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{29.61,17.65},{-1,-1}}},
+        },
+        [7797] = { -- Ruuzlu
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{43.17,33.20},{-1,-1}}},
+        },
+        [8127] = { -- Antu'sul
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{64.84,25.92},{-1,-1}}},
         },
         [8567] = { -- Glutton
             [npcKeys.spawns] = {[722]={{33.93,52.14}}},
@@ -679,6 +707,10 @@ function CataNpcFixes.Load()
         },
         [17713] = { -- Bloodcursed Naga
             [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{79.05,16.27},{82.04,21.1},{80.92,22.28},{81.35,21.57},{79.86,14.92},{79.99,17.91},{81.02,16.16},{82.04,18.08},{81.04,19.55},{81.43,18.85},{82.18,24.17},{82.98,16.51},{82.71,25.63},{81.59,25.06},{81.18,25.67},{82.09,16.62},{81.86,14.66},{80.97,13.72},{78.96,13.61},{79.83,12.1},{80.02,10.39},{80.97,45.51},{79.57,48.68},{82.43,47.45},{82.07,43.49},{82.94,48.49},{83.95,44.53},{82.99,50.62},{80.51,51.48},{83.07,52.31},{83.05,52.17},{84.32,56.31},{80.87,53.87},{80.44,53.57},{83.3,54.61},{85.56,57.55},{85.08,57.05},{86.92,56.75},{85.29,53.36},{87.6,55.06},{85.68,52.09},{86.6,51.87},{87.59,53.1}}},
+        },
+        [17876] = { -- Thrall
+            [npcKeys.spawns] = {[zoneIDs.OLD_HILLSBRAD_FOOTHILLS]={{74.48,57.73},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.OLD_HILLSBRAD_FOOTHILLS,
         },
         [20735] = { -- Archmage Lan'dalock
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{57.29,66.71}}},
@@ -1385,6 +1417,9 @@ function CataNpcFixes.Load()
         [38937] = { -- Vile Fin Tadpole
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{74.39,25.9},{74.44,26.04},{74.31,26.11},{74.32,26.02},{74.29,25.98},{72.22,25.35},{72.32,25.28},{72.29,25.17},{71.08,25.73},{70.89,25.59},{70.95,25.69},{70.88,25.81},{70.99,25.85},{69.62,25.19},{69.62,25.28},{69.55,25.27},{68.49,25.71},{68.51,25.82},{68.4,25.85},{68.41,25.92},{68.35,25.93},{66.88,27.06},{66.88,27.09},{66.89,26.91},{66.95,27.06},{64.06,28.96},{64.26,28.99},{64.05,29.1},{64.14,29.17},{65.02,28.58},{65.02,28.54},{65.13,28.6},{66.44,28.45},{66.25,28.43},{66.31,28.61},{66.25,28.61},{66.31,28.41},{59.77,27.36},{59.78,27.45},{59.69,27.42},{59.64,27.33},{59.72,27.98},{59.8,27.98},{59.99,27.64},{61.94,28.74},{61.98,28.54},{62.07,28.55},{61.93,28.55},{61.9,28.44},{61.99,28.72},{62.07,28.55},{61.94,28.56},{61.89,28.58},{61.9,28.45}}},
         },
+        [38996] = { -- Hazzali Hive Credit Bunny
+            [npcKeys.spawns] = {[440] = {{54.14,71.29}}},
+        },
         [39065] = { -- Aggra
             [npcKeys.spawns] = {
                 [zoneIDs.THE_LOST_ISLES] = {
@@ -1518,7 +1553,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {49.54,57.5,phases.VASHJIR_LEGIONS_REST},
                 {40.6,75.1,phases.WAVESPEAKER_AT_RUINS},
-                {39.2,78.6,phases.VASHJIR_NAR_SHOLA_TERRACE},
+                {39.22,78.63,phases.VASHJIR_NAR_SHOLA_TERRACE},
                 {29.6,78.9,phases.VASHJIR_NAR_SHOLA_TERRACE_WEST},
             }},
         },
@@ -1581,21 +1616,21 @@ function CataNpcFixes.Load()
         [40639] = { -- Engineer Hexascrub
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {48.99,49.2,phases.VASHJIR_LEGIONS_REST},
-                {32.8,69.2,phases.VASHJIR_NORTHERN_GARDEN},
+                {32.91,69.24,phases.VASHJIR_NORTHERN_GARDEN},
             }},
         },
         [40642] = { -- Captain Taylor
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {49.16,56.98,phases.VASHJIR_LEGIONS_REST},
-                {33.2,68.2,phases.VASHJIR_NORTHERN_GARDEN},
-                {39.1,78.5,phases.VASHJIR_NAR_SHOLA_TERRACE},
+                {33.23,68.36,phases.VASHJIR_NORTHERN_GARDEN},
+                {39.07,78.53,phases.VASHJIR_NAR_SHOLA_TERRACE},
             }},
         },
         [40643] = { -- Admiral Dvorek
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
                 {49.17,56.95,phases.VASHJIR_LEGIONS_REST},
                 {33.0,67.8,phases.VASHJIR_NORTHERN_GARDEN},
-                {39.1,78.7,phases.VASHJIR_NAR_SHOLA_TERRACE},
+                {39.11,78.71,phases.VASHJIR_NAR_SHOLA_TERRACE},
             }},
         },
         [40644] = { -- Levia Dreamwaker
@@ -1605,7 +1640,7 @@ function CataNpcFixes.Load()
             }},
         },
         [40645] = { -- Jorlan Trueblade
-            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{56.59,80.24}}},
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{56.99,80.55}}},
         },
         [40690] = { -- Captain Taylor
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{45.05,23.58}}},
@@ -1715,6 +1750,9 @@ function CataNpcFixes.Load()
         [41299] = { -- Oil Drilling Rig
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{84.67,49.42},{85.8,45.04},{88.71,44.6},{91.19,46.62},{90.75,51.28},{87.42,49.7}}},
         },
+        [41340] = { -- Private Pollard
+            [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{63.98,59.8}}},
+        },
         [41381] = { -- Nordu
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{27.4,55.56}}},
         },
@@ -1723,6 +1761,9 @@ function CataNpcFixes.Load()
         },
         [41476] = { -- Naz'jar Honor Guard
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.33,78.57}}},
+        },
+        [41535] = { -- Engineer Hexascrub
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{56.94,80.5}}},
         },
         [41540] = { -- Captain Taylor
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{62.67,49.88}}},
@@ -1777,7 +1818,13 @@ function CataNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
         },
         [42074] = { -- Fathom-Stalker Azjentus
-            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.2,79.55}}},
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.45,79.27}}},
+        },
+        [42076] = { -- Lady Naz'jar
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
+                {29,78.45},
+                {46.38,79.03,phases.VASHJIR_LADY_NAZ_JAR_AT_RIDGE},
+            }},
         },
         [42077] = { -- Lady Naz'jar
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={
@@ -2263,6 +2310,9 @@ function CataNpcFixes.Load()
         },
         [48533] = { -- Enormous Gyreworm
             [npcKeys.spawns] = {},
+        },
+        [48901] = { -- Tamed Seahorse
+            [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{29.51,79.01}}},
         },
         [49444] = { -- Pip Quickwit
             [npcKeys.name] = "Pip Quickwit",

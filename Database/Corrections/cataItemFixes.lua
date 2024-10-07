@@ -429,6 +429,9 @@ function CataItemFixes.Load()
         [54814] = { -- Talisman of Flame Ascendancy
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [54861] = { -- Glimmerdeep Clam
+            [itemKeys.npcDrops] = {},
+        },
         [55122] = { -- Tholo's Horn
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -493,7 +496,7 @@ function CataItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
         },
         [56254] = { -- Merciless Head
-            [itemKeys.npcDrops] = {41601,41729},
+            [itemKeys.npcDrops] = {41601,41729,41747},
         },
         [56569] = { -- Underlight Nibbler
             [itemKeys.npcDrops] = {41916},
@@ -800,6 +803,12 @@ function CataItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
         },
         [69765] = { -- Lucifern
+            [itemKeys.npcDrops] = {},
+        },
+        [69812] = { -- Flame Druid Reagent Pouch
+            [itemKeys.npcDrops] = {},
+        },
+        [69813] = { -- Flame Druid Idol
             [itemKeys.npcDrops] = {},
         },
         [69815] = { -- Seething Cinder
