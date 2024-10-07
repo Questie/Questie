@@ -64,7 +64,7 @@ QuestieDB.questCompilerTypes = {
     ['triggerEnd'] = "trigger", -- table: {text, {[zoneID] = {coordPair,...},...}}
     ['objectives'] = "objectives", -- table
     ['sourceItemId'] = "u24", -- int, item provided by quest starter
-    ['preQuestGroup'] = "u8u24array", -- table: {quest(int)}
+    ['preQuestGroup'] = "u8s24array", -- table: {quest(int)}
     ['preQuestSingle'] = "u8u24array", -- table: {quest(int)}
     ['childQuests'] = "u8u24array", -- table: {quest(int)}
     ['inGroupWith'] = "u8u24array", -- table: {quest(int)}
