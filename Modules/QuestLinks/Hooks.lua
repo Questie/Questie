@@ -5,6 +5,8 @@ local Hooks = QuestieLoader:CreateModule("Hooks")
 
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type QuestieLink
+local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 
 
 function Hooks:HookQuestLogTitle()
@@ -27,8 +29,8 @@ function Hooks:HookQuestLogTitle()
         end
 
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            local questId = GetQuestIDFromLogIndex(questLogLineIndex)
-            ChatEdit_InsertLink("[" .. string.gsub(self:GetText(), " *(.*)", "%1") .. " (" .. questId .. ")]")
+            local title, level, _, _, _, _, _, questId = GetQuestLogTitle(questLogLineIndex)
+            ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(level, title, questId))
         else
             -- only call if we actually want to fix this quest (normal quests already call AQW_insert)
             if Questie.db.profile.trackerEnabled and GetNumQuestLeaderBoards(questLogLineIndex) == 0 and (not IsQuestWatched(questLogLineIndex)) then
