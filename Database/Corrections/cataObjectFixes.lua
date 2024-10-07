@@ -325,6 +325,11 @@ function CataObjectFixes.Load()
         [460014] = {
             [objectKeys.name] = "Mark of the World Tree",
         },
+        [460015] = {
+            [objectKeys.name] = "Durnholde Keep Barrel",
+            [objectKeys.spawns] = {[zoneIDs.OLD_HILLSBRAD_FOOTHILLS]={{76.60,68.80},{77.14,66.30},{74.68,68.79},{69.09,62.61},{68.03,59.82},{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.OLD_HILLSBRAD_FOOTHILLS,
+        },
     }
 end
 
