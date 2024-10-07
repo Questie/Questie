@@ -3366,6 +3366,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{39464,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [25237] = { -- Tears of Stone
+            [questKeys.preQuestSingle] = {25230},
+        },
         [25244] = { -- What Kind of Name is Candy, Anyway?
             [questKeys.preQuestSingle] = {25213},
         },
