@@ -434,6 +434,30 @@ local advancedOptionsLocales = {
         ["esES"] = "Deshabilita el mensaje de 'Bienvenido a Cataclysm Classic' al inicio.",
         ["frFR"] = "Désactive le message 'Bienvenue sur Cataclysm Classic' au démarrage.",
     },
+    ["Enable bug hints for all game flavors"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Bug-Hinweise für alle Spielversionen aktivieren",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ["Enables the bug hint windows for all game versions, usually used for bug reports in SoD."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Aktiviert die Bug-Hinweisfenster für alle Spielversionen, das normalerweise für Fehlerberichte in SoD verwendet wird.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(advancedOptionsLocales) do

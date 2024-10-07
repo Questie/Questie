@@ -330,6 +330,17 @@ function QuestieOptions.tabs.advanced:Initialize()
                     QuestieTracker:Update()
                 end
             },
+            enableBugHintsForAllFlavors = {
+                type = "toggle",
+                order = 5.055,
+                name = function() return l10n("Enable bug hints for all game flavors") end,
+                desc = function() return l10n("Enables the bug hint windows for all game versions, usually used for bug reports in SoD.") end,
+                width = "full",
+                get = function () return Questie.db.profile.enableBugHintsForAllFlavors; end,
+                set = function (_, value)
+                    Questie.db.profile.enableBugHintsForAllFlavors = value
+                end,
+            },
             debugEnabled = {
                 type = "toggle",
                 order = 5.06,
