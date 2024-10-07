@@ -7740,7 +7740,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28229},
         },
         [28220] = { -- Seeking Soil
-            [questKeys.objectives] = {nil, {{460016,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {nil,{{460017,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [28221] = { -- These Roots Were Made For Stompin'
             [questKeys.preQuestGroup] = {28219,28220},
