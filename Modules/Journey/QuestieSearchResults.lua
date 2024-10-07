@@ -60,6 +60,7 @@ local function AddLinkedParagraph(frame, linkType, lookupObject, header, query)
     if lookupObject and #lookupObject > 0 then
         QuestieJourneyUtils:AddLine(frame,  Questie:Colorize(header, "yellow"))
         for _,id in pairs(lookupObject) do
+            id = math.abs(id)
             -- QuestieJourneyUtils:AddLine(frame, lookupDB[id][lookupKey].." ("..id..")")
             local link = AceGUI:Create("InteractiveLabel")
             link:SetText(query(id, "name").." ("..id..")");

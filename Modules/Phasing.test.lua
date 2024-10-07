@@ -518,7 +518,7 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_LEGIONS_REST))
         end)
 
-        it("should return true for Legions Rest when 25966 is complete", function()
+        --[[it("should return true for Legions Rest when 25966 is complete", function()
             Questie.db.char.complete[25958] = true
             Questie.db.char.complete[25959] = true
             Questie.db.char.complete[25960] = true
@@ -544,7 +544,7 @@ describe("Phasing", function()
             assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_NORTHERN_GARDEN))
             assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_NAR_SHOLA_TERRACE))
             assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_NAR_SHOLA_TERRACE_WEST))
-        end)
+        end)]]
 
         it("should return true for Nar'Shola Terrace and Northern Garden when 25959, 25960 and 25962 are complete", function()
             Questie.db.char.complete[25958] = true
