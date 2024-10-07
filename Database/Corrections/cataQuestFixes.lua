@@ -3428,6 +3428,9 @@ function CataQuestFixes.Load()
         [25237] = { -- Tears of Stone
             [questKeys.preQuestSingle] = {25230},
         },
+        [25241] = { -- The Land, Corrupted
+            [questKeys.preQuestSingle] = {25230},
+        },
         [25244] = { -- What Kind of Name is Candy, Anyway?
             [questKeys.preQuestSingle] = {25213},
         },
