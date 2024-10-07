@@ -3363,7 +3363,6 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{39464,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25241] = { -- The Land, Corrupted
-            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.preQuestSingle] = {25230},
         },
         [25244] = { -- What Kind of Name is Candy, Anyway?
@@ -3565,7 +3564,6 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25394},
         },
         [25397] = { -- The Land, Corrupted
-            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {25394},
         },
         [25404] = { -- If You're Not Against Us...
