@@ -3363,7 +3363,6 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{39464,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25237] = { -- Tears of Stone
-            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.preQuestSingle] = {25230},
         },
         [25244] = { -- What Kind of Name is Candy, Anyway?
@@ -3562,7 +3561,6 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 25770,
         },
         [25396] = { -- Tears of Stone
-            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {25394},
         },
         [25397] = { -- The Land, Corrupted
