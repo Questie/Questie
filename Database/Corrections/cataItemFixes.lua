@@ -49,6 +49,9 @@ function CataItemFixes.Load()
         [8170] = { -- Rugged Leather
             [itemKeys.vendors] = {},
         },
+        [8705] = { -- OOX-22/FE Distress Beacon
+            [itemKeys.startQuest] = 25475,
+        },
         [10441] = { -- Glowing Shard
             [itemKeys.startQuest] = 0,
         },
