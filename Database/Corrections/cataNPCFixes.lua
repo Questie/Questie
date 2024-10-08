@@ -2434,6 +2434,9 @@ function CataNpcFixes.Load()
         [52980] = { -- Kil'karil
             [npcKeys.waypoints] = {[zoneIDs.STRANGLETHORN_VALE] = {{{64.64,39.72},{64.72,40.22},{64.75,40.48},{64.69,40.06},{64.58,39.61},{64.24,39.65},{63.90,39.74},{63.57,39.84},{63.24,39.99},{62.93,40.20},{62.79,40.28}}}},
         },
+        [53131] = { -- Lava Bubbles
+            [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{52.36,52.25},{49.99,46.46},{55.54,55.48},{47.12,48.81}}},
+        },
         [53234] = { -- Anren Shadowseeker
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{42.62,59.91}}},
         },

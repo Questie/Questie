@@ -9708,6 +9708,7 @@ function CataQuestFixes.Load()
         [29263] = { -- A Bitter Pill
             [questKeys.exclusiveTo] = {29278,29295,29297},
             [questKeys.preQuestSingle] = {29281},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Start the fight"),0,{{"monster",53131}}}},
         },
         [29264] = { -- Flamewakers of the Molten Flow
             [questKeys.finishedBy] = {{52444}}, -- we need to be able to show multiple NPC ids for turn in. this is temp fix
