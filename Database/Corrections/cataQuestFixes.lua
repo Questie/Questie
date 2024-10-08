@@ -9558,7 +9558,7 @@ function CataQuestFixes.Load()
         },
         [29210] = { -- Enduring the Heat
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29192,29160}, -- 29192 or 29211,29160 or 29189
+            [questKeys.preQuestGroup] = {29192}, -- 29192 or 29211
             [questKeys.objectives] = {{{53886,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{52889,52885,52888,52890,52886,52887,52884,53887},52889,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.finishedBy] = {{52823}}, -- we need to be able to show multiple NPC ids for turn in. this is temp fix
         },
@@ -9664,7 +9664,7 @@ function CataQuestFixes.Load()
         },
         [29243] = { -- Strike at the Heart
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29283,-29205},
+            [questKeys.preQuestGroup] = {29210,29283,-29205},
         },
         [29245] = { -- The Mysterious Seed
             [questKeys.preQuestSingle] = {29214},
@@ -9834,7 +9834,7 @@ function CataQuestFixes.Load()
         },
         [29305] = { -- Strike at the Heart
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29283,-29206},
+            [questKeys.preQuestGroup] = {29283,29287,-29206}, -- 29287 or 29288 or 29290, see if it is available without 29293/29296. turn in 29287/29298/29290 first. there's a chance 29290 will not allow this quest
         },
         [29310] = { -- The Tipping Point
             [questKeys.nextQuestInChain] = 29311,
