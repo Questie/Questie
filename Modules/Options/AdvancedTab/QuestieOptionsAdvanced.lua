@@ -281,6 +281,18 @@ function QuestieOptions.tabs.advanced:Initialize()
                     Questie.db.profile.bugWorkarounds = value
                 end
             },
+            enableBugHintsForAllFlavors = {
+                type = "toggle",
+                order = 5.015,
+                name = function() return l10n("Enable bug hints for all game versions") end,
+                desc = function() return l10n("Enables the bug hint windows for all game versions, usually used for bug reports in SoD.") end,
+                hidden = function() return Questie.IsSoD end,
+                width = "full",
+                get = function () return Questie.db.profile.enableBugHintsForAllFlavors; end,
+                set = function (_, value)
+                    Questie.db.profile.enableBugHintsForAllFlavors = value
+                end,
+            },
             showItemIDs = {
                 type = "toggle",
                 order = 5.02,

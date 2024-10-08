@@ -434,6 +434,30 @@ local advancedOptionsLocales = {
         ["esES"] = "Deshabilita el mensaje de 'Bienvenido a Cataclysm Classic' al inicio.",
         ["frFR"] = "Désactive le message 'Bienvenue sur Cataclysm Classic' au démarrage.",
     },
+    ["Enable bug hints for all game versions"] = {
+        ["ptBR"] = "Ativar dicas de bugs para todas as versões do jogo",
+        ["ruRU"] = false,
+        ["deDE"] = "Bug-Hinweise für alle Spielversionen aktivieren",
+        ["koKR"] = false,
+        ["esMX"] = "Habilitar sugerencias de errores para todas las versiones del juego",
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = "Habilitar sugerencias de errores para todas las versiones del juego",
+        ["frFR"] = "Activer les indices de bugs pour toutes les versions du jeu",
+    },
+    ["Enables the bug hint windows for all game versions, usually used for bug reports in SoD."] = {
+        ["ptBR"] = "Ativa as janelas de dicas de bugs para todas as versões do jogo, geralmente usadas para relatórios de bugs no SoD.",
+        ["ruRU"] = false,
+        ["deDE"] = "Aktiviert die Bug-Hinweisfenster für alle Spielversionen, das normalerweise für Fehlerberichte in SoD verwendet wird.",
+        ["koKR"] = false,
+        ["esMX"] = "Habilita las ventanas de sugerencias de errores para todas las versiones del juego, generalmente utilizadas para informes de errores en SoD.",
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = "Habilita las ventanas de sugerencias de errores para todas las versiones del juego, generalmente utilizadas para informes de errores en SoD.",
+        ["frFR"] = "Active les fenêtres d'indices de bugs pour toutes les versions du jeu, généralement utilisées pour les rapports de bugs dans SoD.",
+    },
 }
 
 for k, v in pairs(advancedOptionsLocales) do

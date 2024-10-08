@@ -1981,11 +1981,11 @@ function QuestieTracker:AQW_Insert(index, expire)
                 -- Shows objective icons for tracked quests.
                 QuestieQuest:ToggleNotes(true)
 
-                -- Readd objective tooltips for tracked quests.
+                -- Read objective tooltips for tracked quests.
                 QuestieQuest:PopulateObjectiveNotes(quest)
             end
         else
-            if Questie.IsSoD then
+            if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
                 QuestieDebugOffer.QuestTracking(questId)
             else
                 Questie:Error("Missing quest " .. tostring(questId) .. "," .. tostring(expire) .. " during tracker update")
