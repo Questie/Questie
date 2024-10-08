@@ -7,6 +7,7 @@ describe("QuestieDB", function()
     local QuestieDB
 
     before_each(function()
+        _G["Questie"] = {db = {char = {complete = {}}}}
         QuestiePlayer = require("Modules.QuestiePlayer")
         QuestieDB = require("Database.QuestieDB")
     end)
@@ -129,6 +130,63 @@ describe("QuestieDB", function()
         it("should return false for invalid DB entry", function()
             QuestiePlayer.faction = "Alliance"
             assert.is_false(QuestieDB.IsFriendlyToPlayer("X"))
+        end)
+    end)
+
+    describe("IsPreQuestGroupFulfilled", function()
+        it("should return true for no preQuestGroup", function()
+            assert.is_true(QuestieDB:IsPreQuestGroupFulfilled(nil))
+        end)
+
+        it("should return true for empty preQuestGroup", function()
+            assert.is_true(QuestieDB:IsPreQuestGroupFulfilled({}))
+        end)
+
+        it("should return true for fulfilled preQuestGroup", function()
+            Questie.db.char.complete = {[1]=true, [2]=true, [3]=true}
+            assert.is_true(QuestieDB:IsPreQuestGroupFulfilled({1, 2, 3}))
+        end)
+
+        it("should return false for unfulfilled preQuestGroup without an exclusiveTo quest", function()
+            Questie.db.char.complete = {[1]=true, [2]=true}
+            QuestieDB.QueryQuestSingle = spy.new(function() return nil end)
+            assert.is_false(QuestieDB:IsPreQuestGroupFulfilled({1, 2, 3}))
+        end)
+
+        it("should return true for unfulfilled preQuestGroup when an exclusiveTo quest is fulfilled", function()
+            Questie.db.char.complete = {[1]=true, [2]=true, [4]=true}
+            QuestieDB.QueryQuestSingle = spy.new(function() return {4} end)
+            assert.is_true(QuestieDB:IsPreQuestGroupFulfilled({1, 2, 3}))
+        end)
+
+        it("should return false for unfulfilled preQuestGroup when ID is negative and exclusiveTo is not checked", function()
+            Questie.db.char.complete = {[1]=true, [2]=true}
+            assert.is_false(QuestieDB:IsPreQuestGroupFulfilled({1, -2, -3}))
+        end)
+
+        it("should return true for fulfilled preQuestGroup when ID is negative", function()
+            Questie.db.char.complete = {[1]=true, [2]=true}
+            assert.is_true(QuestieDB:IsPreQuestGroupFulfilled({1, -2}))
+        end)
+    end)
+
+    describe("IsPreQuestSingleFulfilled", function()
+        it("should return true for no preQuestSingle", function()
+            assert.is_true(QuestieDB:IsPreQuestSingleFulfilled(nil))
+        end)
+
+        it("should return true for empty preQuestSingle", function()
+            assert.is_true(QuestieDB:IsPreQuestSingleFulfilled({}))
+        end)
+
+        it("should return true for fulfilled preQuestSingle", function()
+            Questie.db.char.complete = {[1]=true}
+            assert.is_true(QuestieDB:IsPreQuestSingleFulfilled({1}))
+        end)
+
+        it("should return false for unfulfilled preQuestSingle", function()
+            Questie.db.char.complete = {[2]=true}
+            assert.is_false(QuestieDB:IsPreQuestSingleFulfilled({1}))
         end)
     end)
 end)

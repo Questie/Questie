@@ -206,6 +206,22 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{41.66,35.7}}},
             [npcKeys.waypoints] = {},
         },
+        [7267] = { -- Chief Ukorz Sandscalp
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{42.51,34.20},{-1,-1}}},
+        },
+        [7271] = { -- Witch Doctor Zum'rah
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{44.17,15.35},{-1,-1}}},
+        },
+        [7272] = { -- Theka the Martyr
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{54.94,25.12},{-1,-1}}},
+            [npcKeys.waypoints] = {[zoneIDs.ZUL_FARRAK]={{{53.54,25.32},{52.81,27.82},{54.67,29.41},{56.60,26.42}}}},
+        },
+        [7273] = { -- Gahz'rilla
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{29.68,38.98},{-1,-1}}},
+        },
+        [7275] = { -- Shadowpriest Sezz'ziz
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{30.61,17.65},{-1,-1}}},
+        },
         [7318] = { -- Rageclaw
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{45.75,52.82}}},
             [npcKeys.waypoints] = {},
@@ -224,6 +240,18 @@ function CataNpcFixes.Load()
         },
         [7363] = { -- Kum'isha the Collector
             [npcKeys.waypoints] = {},
+        },
+        [7795] = { -- Hydromancer Velratha
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{32.14,39.88},{-1,-1}}},
+        },
+        [7796] = { -- Nekrum Gutchewer
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{29.61,17.65},{-1,-1}}},
+        },
+        [7797] = { -- Ruuzlu
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{43.17,33.20},{-1,-1}}},
+        },
+        [8127] = { -- Antu'sul
+            [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{64.84,25.92},{-1,-1}}},
         },
         [8567] = { -- Glutton
             [npcKeys.spawns] = {[722]={{33.93,52.14}}},
@@ -679,6 +707,10 @@ function CataNpcFixes.Load()
         },
         [17713] = { -- Bloodcursed Naga
             [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{79.05,16.27},{82.04,21.1},{80.92,22.28},{81.35,21.57},{79.86,14.92},{79.99,17.91},{81.02,16.16},{82.04,18.08},{81.04,19.55},{81.43,18.85},{82.18,24.17},{82.98,16.51},{82.71,25.63},{81.59,25.06},{81.18,25.67},{82.09,16.62},{81.86,14.66},{80.97,13.72},{78.96,13.61},{79.83,12.1},{80.02,10.39},{80.97,45.51},{79.57,48.68},{82.43,47.45},{82.07,43.49},{82.94,48.49},{83.95,44.53},{82.99,50.62},{80.51,51.48},{83.07,52.31},{83.05,52.17},{84.32,56.31},{80.87,53.87},{80.44,53.57},{83.3,54.61},{85.56,57.55},{85.08,57.05},{86.92,56.75},{85.29,53.36},{87.6,55.06},{85.68,52.09},{86.6,51.87},{87.59,53.1}}},
+        },
+        [17876] = { -- Thrall
+            [npcKeys.spawns] = {[zoneIDs.OLD_HILLSBRAD_FOOTHILLS]={{74.48,57.73},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.OLD_HILLSBRAD_FOOTHILLS,
         },
         [20735] = { -- Archmage Lan'dalock
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{57.29,66.71}}},
@@ -1384,6 +1416,9 @@ function CataNpcFixes.Load()
         },
         [38937] = { -- Vile Fin Tadpole
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{74.39,25.9},{74.44,26.04},{74.31,26.11},{74.32,26.02},{74.29,25.98},{72.22,25.35},{72.32,25.28},{72.29,25.17},{71.08,25.73},{70.89,25.59},{70.95,25.69},{70.88,25.81},{70.99,25.85},{69.62,25.19},{69.62,25.28},{69.55,25.27},{68.49,25.71},{68.51,25.82},{68.4,25.85},{68.41,25.92},{68.35,25.93},{66.88,27.06},{66.88,27.09},{66.89,26.91},{66.95,27.06},{64.06,28.96},{64.26,28.99},{64.05,29.1},{64.14,29.17},{65.02,28.58},{65.02,28.54},{65.13,28.6},{66.44,28.45},{66.25,28.43},{66.31,28.61},{66.25,28.61},{66.31,28.41},{59.77,27.36},{59.78,27.45},{59.69,27.42},{59.64,27.33},{59.72,27.98},{59.8,27.98},{59.99,27.64},{61.94,28.74},{61.98,28.54},{62.07,28.55},{61.93,28.55},{61.9,28.44},{61.99,28.72},{62.07,28.55},{61.94,28.56},{61.89,28.58},{61.9,28.45}}},
+        },
+        [38996] = { -- Hazzali Hive Credit Bunny
+            [npcKeys.spawns] = {[440] = {{54.14,71.29}}},
         },
         [39065] = { -- Aggra
             [npcKeys.spawns] = {
@@ -2254,6 +2289,10 @@ function CataNpcFixes.Load()
         [48257] = { -- Narkrall Rakeclaw
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{48.7,29.79}}},
         },
+        [48200] = { -- Sunbeam Bunny for Singin' in the Sun
+            [npcKeys.spawns] = {[zoneIDs.FELWOOD]={{52.25,23.49},{51.79,23.86},{52.16,24.86},{52.30,26.30},{50.98,25.39},{50.40,22.16},{51.59,21.49},{51.24,20.31},{48.19,23.64}}},
+            [npcKeys.zoneID] = zoneIDs.FELWOOD,
+        },
         [48264] = { -- Golluck Rockfist
             [npcKeys.spawns] = {
                 [zoneIDs.TWILIGHT_HIGHLANDS] = {
@@ -2378,7 +2417,12 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{41.66,56.33}}},
         },
         [52906] = { -- Elderlimb
-            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{33.94,57.54}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.MOUNT_HYJAL] = {
+                    {33.94,57.54,phases.MOUNT_HYJAL_INVASION_SANCTUARY_ATTACK},
+                    {26,61.3,phases.MOUNT_HYJAL_INVASION_SANCTUARY},
+                },
+            },
         },
         [52907] = { -- Thisalee Crow
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{24.47,55.74}}},
@@ -2395,6 +2439,9 @@ function CataNpcFixes.Load()
         },
         [53256] = { -- Ember Pool Bunny
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{47.24,53.26},{41.18,60.14},{54.33,61.61},{47.7,54.61},{50.11,57.35},{55.5,69.8},{49.28,68.68},{47.65,61.84},{40.41,55.57},{42.66,65.26}}},
+        },
+        [53296] = { -- Locket A Event Controller
+            [npcKeys.spawns] = {[zoneIDs.MOONGLADE] = {{51.67,44.62}}},
         },
         [53385] = { -- Malfurion Stormrage
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{47.16,90.58}}},
@@ -2617,6 +2664,30 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{64.11,20.16}}},
             [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
             [npcKeys.questStarts] = {29116},
+        },
+        [100024] = { -- Tragedy and Family
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{40.5,53.37}}},
+            [npcKeys.zoneID] = zoneIDs.ASHENVALE,
+            [npcKeys.questEnds] = {29303},
+        },
+        [100025] = { -- Tipping Point
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{40.5,53.37}}},
+            [npcKeys.zoneID] = zoneIDs.ASHENVALE,
+            [npcKeys.questStarts] = {29310},
+        },
+        [100026] = { -- Tipping Point
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{7.64,34.62}}},
+            [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+            [npcKeys.questEnds] = {29310},
+        },
+        [100027] = { -- The Rest is History
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{7.64,34.62}}},
+            [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+            [npcKeys.questStarts] = {29311},
         },
     }
 end
