@@ -902,6 +902,18 @@ function CataQuestFixes.Load()
         [10328] = { -- Sunfury Briefings
             [questKeys.preQuestSingle] = {},
         },
+        [10416] = { -- Synthesis of Power
+            [questKeys.requiredMinRep] = {934,0},
+        },
+        [10419] = { -- Arcane Tomes
+            [questKeys.requiredMinRep] = {934,0},
+        },
+        [10420] = { -- A Cleansing Light
+            [questKeys.requiredMinRep] = {932,0},
+        },
+        [10421] = { -- Fel Armaments
+            [questKeys.requiredMinRep] = {932,0},
+        },
         [10639] = { -- Teron Gorefiend, I am...
             [questKeys.preQuestSingle] = {},
         },
