@@ -140,7 +140,10 @@ function QuestiePlayer:GetPartyMemberByName(playerName)
     if(UnitInParty("player") or UnitInRaid("player")) then
         local player = {}
         for index=1, 40 do
-            local name = UnitName("party"..index);
+            local name, realmName = UnitName("party"..index);
+            if realmName then
+                name = name .. "-" .. realmName
+            end
             local _, classFilename = UnitClass("party"..index);
             if name == playerName then
                 player.name = playerName;
