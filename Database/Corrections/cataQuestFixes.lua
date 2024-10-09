@@ -3037,6 +3037,9 @@ function CataQuestFixes.Load()
         [24945] = { -- Three Little Pygmies
             [questKeys.preQuestSingle] = {24940},
         },
+        [24949] = { -- Booty Duty
+            [questKeys.preQuestSingle] = {24947},
+        },
         [24950] = { -- Captain Dreadbeard [Horde]
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25534,25541},
