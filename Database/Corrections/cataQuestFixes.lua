@@ -5805,9 +5805,11 @@ function CataQuestFixes.Load()
         },
         [26895] = { -- The Thunderdrome!
             [questKeys.exclusiveTo] = {25067},
+            [questKeys.nextQuestInChain] = 25067,
         },
         [26896] = { -- The Thunderdrome!
             [questKeys.exclusiveTo] = {25067},
+            [questKeys.nextQuestInChain] = 25067,
         },
         [26897] = { -- Blackfathom Deeps
             [questKeys.exclusiveTo] = {26898},
