@@ -3825,6 +3825,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {54821},
         },
         [25533] = { -- Pirate Accuracy Increasing
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25516,25518,25526},
         },
         [25534] = { -- Going Off-Task [Horde]
