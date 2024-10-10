@@ -3840,6 +3840,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25538,25539},
         },
+        [25541] = { -- Filling Our Pockets
+            [questKeys.exclusiveTo] = {};
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {24927,24949},
+        },
         [25544] = { -- Wave Two
             [questKeys.requiredSourceItems] = {52716},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",40720},{"monster",40723}}}},
