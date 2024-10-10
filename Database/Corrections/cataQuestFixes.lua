@@ -10214,7 +10214,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Set the fuse on a barrel"),0,{{"object",460015}}}},
         },
         [29642] = { -- Trouble at Auchindoun
-            [questKeys.exclusiveTo] = {10094,10177},
+            [questKeys.exclusiveTo] = {10094},
             [questKeys.nextQuestInChain] = 29643,
         },
         [29682] = { -- Magisters' Terrace
