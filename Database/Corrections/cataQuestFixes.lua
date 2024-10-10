@@ -10149,6 +10149,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredSkill] = {profKeys.COOKING,75},
             [questKeys.requiredSourceItems] = {30817,72057},
             [questKeys.specialFlags] = 17,
+            [questKeys.objectives] = {{{54551,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29510] = { -- Putting Trash to Good Use
             [questKeys.requiredSourceItems] = {72018},
@@ -10177,7 +10178,7 @@ function CataQuestFixes.Load()
         [29515] = { -- Writing the Future
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION,75},
             [questKeys.specialFlags] = 17,
-            [questKeys.requiredSourceItems] = {71972},
+            [questKeys.requiredSourceItems] = {39354,71972},
         },
         [29516] = { -- Keeping the Faire Sparkling
             [questKeys.requiredSourceItems] = {72052},
@@ -10187,6 +10188,7 @@ function CataQuestFixes.Load()
         [29517] = { -- Eyes on the Prizes
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,75},
             [questKeys.specialFlags] = 17,
+            [questKeys.requiredSourceItems] = {6260,2320,6529},
         },
         [29518] = { -- Rearm, Reuse, Recycle
             [questKeys.requiredSkill] = {profKeys.MINING,75},
@@ -10196,9 +10198,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredSkill] = {profKeys.SKINNING,75},
             [questKeys.specialFlags] = 17,
         },
-        [29520] = { -- Rearm, Reuse, Recycle
+        [29520] = { -- Banners, Banners Everywhere!
             [questKeys.requiredSkill] = {profKeys.TAILORING,75},
-            [questKeys.requiredSourceItems] = {72049},
+            [questKeys.requiredSourceItems] = {2320,2604,6260,72049},
             [questKeys.objectives] = {nil,{{209288}}},
             [questKeys.specialFlags] = 17,
         },
