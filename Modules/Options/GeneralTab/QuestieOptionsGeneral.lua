@@ -66,7 +66,7 @@ function QuestieOptions.tabs.general:Initialize()
                     questAnnounceChannel = {
                         type = "select",
                         order = 7.2,
-                        values = _GetAnnounceChannels(),
+                        values = _GetAnnounceChannels,
                         style = 'dropdown',
                         disabled = function() return Questie.db.profile.questieShutUp end,
                         name = function() return l10n('Channels to announce in') end,
@@ -313,13 +313,15 @@ function QuestieOptions.tabs.general:Initialize()
                         type = "select",
                         style = "radio",
                         width = 3,
-                        name = l10n("Which available quests should be displayed"),
-                        values = {
-                            [Questie.LOWLEVEL_NONE] = l10n("Show only quests granting experience (Default)"),
-                            [Questie.LOWLEVEL_ALL] = l10n("Show all low level quests"),
-                            [Questie.LOWLEVEL_OFFSET] = l10n("Show quests to a set level below the player"),
-                            [Questie.LOWLEVEL_RANGE] = l10n("Show quests between two set levels"),
-                        },
+                        name = function() return l10n("Which available quests should be displayed") end,
+                        values = function()
+                            return {
+                                [Questie.LOWLEVEL_NONE] = l10n("Show only quests granting experience (Default)"),
+                                [Questie.LOWLEVEL_ALL] = l10n("Show all low level quests"),
+                                [Questie.LOWLEVEL_OFFSET] = l10n("Show quests to a set level below the player"),
+                                [Questie.LOWLEVEL_RANGE] = l10n("Show quests between two set levels"),
+                            }
+                        end,
                         get = function () return Questie.db.profile.lowLevelStyle end,
                         set = function (_, value)
                             Questie.db.profile.lowLevelStyle = value
@@ -505,7 +507,7 @@ function QuestieOptions.tabs.general:Initialize()
                     questCompleteSoundChoice = {
                         type = "select",
                         order = 9.03,
-                        values = _GetQuestSoundChoices(),
+                        values = _GetQuestSoundChoices,
                         sorting = _GetQuestSoundChoicesSort(),
                         style = 'dropdown',
                         name = function() return l10n('Quest Complete Sound Selection') end,
@@ -548,7 +550,7 @@ function QuestieOptions.tabs.general:Initialize()
                     objectiveCompleteSoundChoice = {
                         type = "select",
                         order = 9.07,
-                        values = _GetObjectiveSoundChoices(),
+                        values = _GetObjectiveSoundChoices,
                         sorting = _GetObjectiveSoundChoicesSort(),
                         style = 'dropdown',
                         name = function() return l10n('Objective Complete Sound Selection') end,
@@ -585,7 +587,7 @@ function QuestieOptions.tabs.general:Initialize()
                     objectiveProgressSoundChoice = {
                         type = "select",
                         order = 9.10,
-                        values = _GetObjectiveProgressSoundChoices(),
+                        values = _GetObjectiveProgressSoundChoices,
                         sorting = _GetObjectiveProgressSoundChoicesSort(),
                         style = 'dropdown',
                         name = function() return l10n('Objective Progress Sound Selection') end,

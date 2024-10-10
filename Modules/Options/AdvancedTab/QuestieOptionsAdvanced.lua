@@ -157,7 +157,7 @@ function QuestieOptions.tabs.advanced:Initialize()
             locale_dropdown = {
                 type = "select",
                 order = 3.1,
-                values = _GetLanguages(),
+                values = _GetLanguages,
                 style = 'dropdown',
                 name = function() return l10n('Select UI Locale'); end,
                 get = function()
