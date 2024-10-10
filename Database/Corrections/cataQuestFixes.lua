@@ -9834,7 +9834,7 @@ function CataQuestFixes.Load()
         },
         [29305] = { -- Strike at the Heart
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {29283,29287,-29206}, -- 29287 or 29288 or 29290, see if it is available without 29293/29296. turn in 29287/29298/29290 first. there's a chance 29290 will not allow this quest
+            [questKeys.preQuestGroup] = {29283,29287,29293,-29206}, -- 29287 or 29288 or 29290, 29293 or 29296.
         },
         [29310] = { -- The Tipping Point
             [questKeys.nextQuestInChain] = 29311,
