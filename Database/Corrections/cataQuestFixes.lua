@@ -9808,6 +9808,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29263,29278,29295},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {-29205,29281},
+            [questKeys.objectives] = {{{52661}}},
         },
         [29298] = { -- A Smoke-Stained Locket
             [questKeys.startedBy] = {nil,nil,{69854}},
