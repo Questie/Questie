@@ -2068,6 +2068,9 @@ function CataNpcFixes.Load()
         [45238] = { -- Harrison Jones
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.56,28.6}}},
         },
+        [45278] = { -- Freewind Brave
+            [npcKeys.spawns] ={[400]={{42.20,46.47}}},
+        },
         [45362] = { -- Earthcaller Yevaa
             [npcKeys.spawns] = {
                 [zoneIDs.TWILIGHT_HIGHLANDS] = {
