@@ -5003,6 +5003,7 @@ function CataQuestFixes.Load()
         },
         [26296] = { -- Evidence Collection
             [questKeys.startedBy] = {{42677},nil,{58117}},
+            [questKeys.raceKeys] = 2098253,
         },
         [26298] = { -- Hunt for Yenniku
             [questKeys.preQuestSingle] = {26280},
