@@ -790,7 +790,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {26280,26321},
         },
         [9455] = { -- Strange Findings
-            [questKeys.raceKeys] = 2098253,
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [9563] = { -- Gaining Mirren's Trust
             [questKeys.objectives] = {nil,nil,{{23848}},{946,3000}},
@@ -5003,7 +5003,7 @@ function CataQuestFixes.Load()
         },
         [26296] = { -- Evidence Collection
             [questKeys.startedBy] = {{42677},nil,{58117}},
-            [questKeys.raceKeys] = 2098253,
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [26298] = { -- Hunt for Yenniku
             [questKeys.preQuestSingle] = {26280},
