@@ -9689,13 +9689,13 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {29214},
         },
         [29246] = { -- Relieving the Pain
-            [questKeys.exclusiveTo] = {29123,29127,29149,29163,29166,29247,29248,29279},
+            [questKeys.exclusiveTo] = {29123,29127,29149,29163,29166,29247,29248},
         },
         [29247] = { -- Treating the Wounds
-            [questKeys.exclusiveTo] = {29123,29127,29149,29163,29166,29246,29248,29279},
+            [questKeys.exclusiveTo] = {29123,29127,29149,29163,29166,29246,29248},
         },
         [29248] = { -- Releasing the Pressure
-            [questKeys.exclusiveTo] = {29123,29127,29149,29163,29166,29246,29247,29279},
+            [questKeys.exclusiveTo] = {29123,29127,29149,29163,29166,29246,29247},
         },
         [29249] = { -- Planting Season
             [questKeys.objectives] = {nil,{{208537}}},
