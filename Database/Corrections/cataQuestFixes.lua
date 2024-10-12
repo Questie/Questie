@@ -5588,6 +5588,9 @@ function CataQuestFixes.Load()
         [26700] = { -- The Damsel's (Bad) Luck
             [questKeys.preQuestSingle] = {26698},
         },
+        [26701] = { -- Flight to Brackenwall
+            [questKeys.nextQuestInChain] = {26682},
+        },
         [26706] = { -- Endgame
             [questKeys.objectives] = {{{43729,"Gunship destroyed",Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get on a Hippogryph"), 0, {{"monster", 43747}}}},
