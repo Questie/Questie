@@ -5589,7 +5589,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26698},
         },
         [26701] = { -- Flight to Brackenwall
-            [questKeys.nextQuestInChain] = {26682},
+            [questKeys.nextQuestInChain] = 26682,
         },
         [26706] = { -- Endgame
             [questKeys.objectives] = {{{43729,"Gunship destroyed",Questie.ICON_TYPE_EVENT}}},
