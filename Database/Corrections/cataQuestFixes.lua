@@ -3222,6 +3222,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {25154,25155,25156,25157},
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,475},
         },
+        [25107] = { -- The Grand Tablet
+            [questKeys.preQuestSingle] = {25070},
+        },
         [25111] = { -- Scavengers Scavenged
             [questKeys.objectives] = {{{5429}}},
         },
