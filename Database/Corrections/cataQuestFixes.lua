@@ -5152,6 +5152,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {},
             [questKeys.objectives] = {{{43031,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [26378] = { -- Hero's Call: Westfall!
+            [questKeys.nextQuestInChain] = 26209,
+        },
         [26388] = { -- Twilight Skies
             [questKeys.extraObjectives] = {{{[zoneIDs.AZSHARA]={{50.7,73.9}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for the Zeppelin")}},
             [questKeys.preQuestSingle] = {28849},
@@ -8375,6 +8378,7 @@ function CataQuestFixes.Load()
         },
         [28562] = { -- Hero's Call: Westfall!
             [questKeys.requiredMaxLevel] = 18,
+            [questKeys.nextQuestInChain] = 26209,
         },
         [28563] = { -- Hero's Call: Redridge Mountains!
             [questKeys.requiredMaxLevel] = 18,
