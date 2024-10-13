@@ -725,6 +725,10 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.WINTERSPRING] = {{58,21}},
             },
         },
+        [228818] = { -- Shrine of Cooperation
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{47,58}}},
+        },
         [230775] = { -- Rage Talon Quartermaster
             [npcKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1, -1}}},

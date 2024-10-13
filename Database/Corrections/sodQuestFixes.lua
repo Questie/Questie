@@ -2672,6 +2672,36 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84322},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [84324] = { -- Diplomatic Overtures
+            [questKeys.preQuestSingle] = {84323},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84325] = { -- Shrine of Cooperation
+            [questKeys.startedBy] = {{228818}},
+            [questKeys.objectivesText] = {"To accept this quest, damage a Horde member and heal it with Altruist Ward. Then deliver the crystal to High Priestess Laurena in Stormwind Cathedral."},
+            [questKeys.preQuestSingle] = {84324},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84326] = { -- Diplomat Ring
+            [questKeys.startedBy] = {{376}},
+            [questKeys.preQuestSingle] = {84325},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84327] = { -- A Diplomatic Mission
+            [questKeys.startedBy] = {{376}},
+            [questKeys.preQuestSingle] = {84326},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84328] = { -- Repairing the Shard
+            [questKeys.startedBy] = {{211229}},
+            [questKeys.preQuestSingle] = {84327},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84329] = { -- The Convocation Assembles
+            [questKeys.startedBy] = {{376,211229}},
+            [questKeys.preQuestSingle] = {84328,84413},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [84330] = { -- A Wee Bit O' Necromancy
             [questKeys.preQuestSingle] = {84319},
             [questKeys.objectives] = {nil,nil,{{227690}}},
@@ -2800,6 +2830,27 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [84407] = { -- The Prize Within
             [questKeys.preQuestSingle] = {84406},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84408] = { -- Diplomatic Overtures
+            [questKeys.preQuestSingle] = {84407},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84410] = { -- Shrine of Cooperation
+            [questKeys.objectivesText] = {"To accept this quest, damage an Alliance member and heal it with Altruist Ward. Then deliver the crystal to Dietrich Praice in Orgrimmar."},
+            [questKeys.preQuestSingle] = {84324},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84411] = { -- Diplomat Ring
+            [questKeys.preQuestSingle] = {84410},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84412] = { -- A Diplomatic Mission
+            [questKeys.preQuestSingle] = {84411},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [84413] = { -- Repairing the Shard
+            [questKeys.preQuestSingle] = {84412},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [84414] = { -- Send Me On Me Way!
