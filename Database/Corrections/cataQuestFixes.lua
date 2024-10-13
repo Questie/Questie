@@ -4888,6 +4888,10 @@ function CataQuestFixes.Load()
         [26214] = { -- Hot On the Trail: Murlocs
             [questKeys.preQuestSingle] = {26209},
         },
+        [26215] = { -- Meet Two-Shoed Lou
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26213,26214},
+        },
         [26219] = { -- Full Circle
             [questKeys.objectives] = {{{42486,nil,Questie.ICON_TYPE_EVENT},{48416,nil,Questie.ICON_TYPE_EVENT}}},
         },
@@ -4908,6 +4912,9 @@ function CataQuestFixes.Load()
         [26230] = { -- Feast or Famine
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {26215},
+        },
+        [26232] = { -- Lou's Parting Thoughts
+            [questKeys.objectives] = {{{42417,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26233] = { -- Stealing From Our Own
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE - raceKeys.TROLL,
@@ -4950,6 +4957,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 42716}}}},
             [questKeys.objectives] = {{{42964,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [26257] = { -- It's Alive!
+            [questKeys.objectives] = {{{42381,nil,Questie.ICON_TYPE_INTERACT},{42342}}},
+        },
         [26258] = { -- Deathwing's Fall
             [questKeys.triggerEnd] = {"Deathwing's Fall reached", {[zoneIDs.DEEPHOLM]={{61.3,57.5}}}},
         },
@@ -4975,6 +4985,9 @@ function CataQuestFixes.Load()
         },
         [26270] = { -- You Have Our Thanks
             [questKeys.preQuestSingle] = {26241},
+        },
+        [26271] = { -- Feeding the Hungry and the Hopeless
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{42383,42384,42386,42390,42391,42400},42383,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26273] = { -- The Basics: Hitting Things
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -5002,8 +5015,21 @@ function CataQuestFixes.Load()
         [26285] = { -- Get Me Explosives Back!
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
+        [26286] = { -- In Defense of Westfall
+            [questKeys.preQuestSingle] = {26266},
+        },
+        [26287] = { -- The Westfall Brigade
+            [questKeys.preQuestSingle] = {26266},
+        },
+        [26289] = { -- Find Agent Kearnen
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26286,26271}, -- needs check if 26287 is ALSO required. Turn it in last
+        },
         [26290] = { -- Secrets of the Tower
-            [questKeys.objectives] = {{{42662}}},
+            [questKeys.objectives] = {{{42655,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [26292] = { -- To Moonbrook!
+            [questKeys.preQuestSingle] = {26291},
         },
         [26293] = { -- Machines of War
             [questKeys.startedBy] = {{39605}},
@@ -5015,6 +5041,10 @@ function CataQuestFixes.Load()
         },
         [26296] = { -- Evidence Collection
             [questKeys.startedBy] = {{42677},nil,{58117}},
+            [questKeys.preQuestSingle] = {26292}, -- might be 26291, needs double check
+        },
+        [26297] = { -- The Dawning of a New Day
+            [questKeys.objectives] = {{{42680,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26298] = { -- Hunt for Yenniku
             [questKeys.preQuestSingle] = {26280},
@@ -5056,7 +5086,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {26284,26285},
         },
         [26320] = { -- A Vision of the Past
-            [questKeys.triggerEnd] = {"Vision of the Past uncovered", {[zoneIDs.THE_DEADMINES]={{-1,-1}}}},
+            [questKeys.triggerEnd] = {"Vision of the Past uncovered", {[zoneIDs.THE_DEADMINES]={{25,14.5},{-1,-1}}}},
         },
         [26322] = { -- Rise of the Brotherhood
             [questKeys.finishedBy] = {{29611}},
@@ -5113,6 +5143,9 @@ function CataQuestFixes.Load()
         [26346] = { -- Myzrael's Tale [Alliance]
             [questKeys.preQuestSingle] = {26042},
         },
+        [26348] = { -- The Coast Isn't Clear
+            [questKeys.preQuestSingle] = {},
+        },
         [26350] = { -- Priestess Hu'rala
             [questKeys.preQuestSingle] = {26334},
         },
@@ -5145,6 +5178,13 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to High Tinker Mekkatorque"),0,{{"monster",42849}}}},
             [questKeys.objectives] = {{{42839}}},
+        },
+        [26365] = { -- Hero's Call: Redridge Mountains!
+            [questKeys.nextQuestInChain] = 26503,
+            [questKeys.exclusiveTo] = {28563},
+        },
+        [26371] = { -- The Legend of Captain Grayson
+            [questKeys.nextQuestInChain] = 26348,
         },
         [26373] = { -- On to Kharanos
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
@@ -5353,6 +5393,9 @@ function CataQuestFixes.Load()
         [26501] = { -- Sealing the Way
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Rockslide Reagent on Earthen Geomancer"),0,{{"monster",43170}}}},
             [questKeys.objectives] = {{{43164,nil,Questie.ICON_TYPE_EVENT},{43165,nil,Questie.ICON_TYPE_EVENT},{43166,nil,Questie.ICON_TYPE_EVENT},{43167,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [26503] = { -- Still Assessing the Threat
+            [questKeys.preQuestSingle] = {},
         },
         [26507] = { -- Petrified Delicacies
             [questKeys.preQuestSingle] = {26441},
@@ -8397,6 +8440,8 @@ function CataQuestFixes.Load()
         },
         [28563] = { -- Hero's Call: Redridge Mountains!
             [questKeys.requiredMaxLevel] = 18,
+            [questKeys.nextQuestInChain] = 26503,
+            [questKeys.exclusiveTo] = {26365},
         },
         [28564] = { -- Hero's Call: Duskwood!
             [questKeys.requiredMaxLevel] = 23,
@@ -9818,7 +9863,8 @@ function CataQuestFixes.Load()
         [29295] = { -- The Bigger They Are
             [questKeys.exclusiveTo] = {29263,29278,29297},
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {-29206,29281},
+            [questKeys.preQuestGroup] = {-29206,29281,29265,29264}, -- need to check if both 29264 and 29265 are required. turn in 29264 first, see if 29265 is needed
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill them to spawn the chips"),0,{{"monster",52107}}}},
         },
         [29296] = { -- Territorial Birds
             [questKeys.exclusiveTo] = {29293},
