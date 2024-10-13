@@ -3405,6 +3405,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,200},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
         },
+        [85798] = { -- Arms for the Field
+            [questKeys.startedBy] = {nil,nil,{21260}},
+            [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
+        },
         [85882] = { -- End of the Dark Horde
             [questKeys.startedBy] = {{10429}},
             [questKeys.preQuestSingle] = {84377},

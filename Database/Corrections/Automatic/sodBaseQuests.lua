@@ -7602,6 +7602,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"To become an Armorsmith, you must make the following items and return them to Grumnus: 4 Ornate Mithril Helms, 2 Ornate Mithril Boots, 1 Ornate Mithril Breastplate."},
             [questKeys.objectives] = {nil,nil,{{7937},{7936},{7935}}},
         },
+        [85798] = {
+            [questKeys.name] = "Arms for the Field",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{15443}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring 2 Moonsteel Broadswords to Janela Stouthammer at the Ironforge Brigade Outpost outside of Hive'Zora.  You must also bring Logistics Task Briefing VI in order to complete this quest."},
+            [questKeys.objectives] = {nil,nil,{{217281}}},
+        },
         [85882] = {
             [questKeys.name] = "End of the Dark Horde",
             [questKeys.startedBy] = nil,

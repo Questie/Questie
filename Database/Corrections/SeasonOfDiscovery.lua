@@ -932,6 +932,7 @@ local questsToBlacklistBySoDPhase = {
         [7784] = true, -- The Lord of Blackrock - Replaced by 85644
         [8467] = true, -- Feathers for Nafien - Replaced by 84777
         [8769] = true, -- A Ticking Present - Replaced by 79637
+        [8781] = true, -- Arms for the Field - Replaced by 85798
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,
