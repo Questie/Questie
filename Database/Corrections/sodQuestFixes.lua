@@ -3401,6 +3401,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [85705] = { -- Tribal Leatherworking
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questFlags.exclusiveTo] = {5143},
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
             [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
         },
@@ -3408,6 +3409,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{7871}},
             [questKeys.finishedBy] = {{7871}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questFlags.exclusiveTo] = {5148},
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
             [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
         },
