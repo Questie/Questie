@@ -2285,8 +2285,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [84136] = { -- The Beast Master of Moonglade
-            [questKeys.startedBy] = {{227755}},
-            [questKeys.finishedBy] = {{228176}},
             [questKeys.preQuestSingle] = {85521},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
@@ -2684,8 +2682,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [84235] = { -- Dive! Dive!
-            [questKeys.startedBy] = {{228176}},
-            [questKeys.finishedBy] = {{228176}},
             [questKeys.objectives] = {{{229897,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {84136},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
@@ -2854,7 +2850,6 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [84636] = { -- Prowler
             [questKeys.startedBy] = {{228176}},
-            [questKeys.finishedBy] = {{228176}},
             [questKeys.objectives] = {{{230481,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {84235},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
@@ -2872,13 +2867,10 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [84870] = { -- The Dark Hoard
             [questKeys.startedBy] = {{12435},nil,{229352}},
-            [questKeys.finishedBy] = {{231050}},
             [questKeys.objectives] = {nil,nil,{{229362}}},
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
         [84880] = { -- The Enemy of my Enemy
-            [questKeys.startedBy] = {{231050}},
-            [questKeys.finishedBy] = {{6707}},
             [questKeys.preQuestSingle] = {84870},
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
@@ -2891,7 +2883,6 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [84950] = { -- Out in the Cold
             [questKeys.startedBy] = {nil,{467315}},
-            [questKeys.finishedBy] = {nil,{469796}},
             [questKeys.preQuestSingle] = {84853},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
             [questKeys.extraObjectives] = {{{[zoneIDs.WINTERSPRING]={{58,21}}}, Questie.ICON_TYPE_EVENT, l10n("Use your Survival Supplies")}},
@@ -2904,14 +2895,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [85061] = { -- Bug Hunt
-            [questKeys.startedBy] = {{227755}},
-            [questKeys.finishedBy] = {{15181}},
             [questKeys.preQuestSingle] = {84950},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85063] = { -- Culmination
             [questKeys.startedBy] = {{232929}},
-            [questKeys.finishedBy] = {{232929}},
             [questKeys.preQuestSingle] = {85458},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
@@ -2923,13 +2911,10 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [85065] = { -- A Most Curious Gnome
             [questKeys.startedBy] = {{231500}},
-            [questKeys.finishedBy] = {{10667}},
             [questKeys.preQuestSingle] = {85064},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [85066] = { -- Making Ready
-            [questKeys.startedBy] = {{10667}},
-            [questKeys.finishedBy] = {{231500}},
             [questKeys.preQuestSingle] = {85065},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
@@ -2946,26 +2931,19 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [85150] = { -- The Only Good Bug is a Dead Bug
             [questKeys.startedBy] = {{15181}},
-            [questKeys.finishedBy] = {{15181}},
             [questKeys.preQuestSingle] = {85061},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85248] = { -- Everyone Knows That Bugs Can't Fly
-            [questKeys.startedBy] = {{15181}},
-            [questKeys.finishedBy] = {{15181}},
             [questKeys.objectives] = {{{231984,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {85150},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85250] = { -- Meeting the Menagerie
-            [questKeys.startedBy] = {{15181}},
-            [questKeys.finishedBy] = {{233084}},
             [questKeys.preQuestSingle] = {85248},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85251] = { -- Showdown at Un'Goro Crater
-            [questKeys.startedBy] = {{233084}},
-            [questKeys.finishedBy] = {{233084}},
             [questKeys.preQuestSingle] = {85250},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
@@ -2993,8 +2971,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [85401] = { -- The Frigid Barrow
-            [questKeys.startedBy] = {{216289}},
-            [questKeys.finishedBy] = {{216289}},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
         [85455] = { -- The Blood of the Lightbringer
@@ -3003,19 +2979,16 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [85457] = { -- Just What Was Needed
-            [questKeys.finishedBy] = {{231500}},
             [questKeys.preQuestSingle] = {85034},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [85458] = { -- Darkwhisper Gorge
             [questKeys.startedBy] = {{231500}},
-            [questKeys.finishedBy] = {{232929}},
             [questKeys.preQuestSingle] = {85457},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
         [85501] = { -- The Heart of Chromaggus
             [questKeys.startedBy] = {{14020},nil,{231814}},
-            [questKeys.finishedBy] = {{216289}},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
         [85507] = { -- Our Wayward Friend
@@ -3043,12 +3016,9 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [85521] = { -- Tracking the Trapper
             [questKeys.startedBy] = {{10429}},
-            [questKeys.finishedBy] = {{227755}},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85525] = { -- One Night in Winterspring
-            [questKeys.startedBy] = {nil,{469796}},
-            [questKeys.finishedBy] = {{227755}},
             [questKeys.objectives] = {nil,{{469600}},{{12622},{229416}}},
             [questKeys.preQuestSingle] = {84950},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
@@ -3082,64 +3052,46 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85595] = { -- Presence of Might
-            [questKeys.startedBy] = {{15042}},
-            [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85596] = { -- Death's Embrace
-            [questKeys.startedBy] = {{15042}},
-            [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85597] = { -- Falcon's Call
-            [questKeys.startedBy] = {{15042}},
-            [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85598] = { -- Prophetic Aura
-            [questKeys.startedBy] = {{15042}},
-            [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85599] = { -- Hoodoo Hex
-            [questKeys.startedBy] = {{15042}},
-            [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85600] = { -- Presence of Sight
-            [questKeys.startedBy] = {{15042}},
-            [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85601] = { -- Syncretist's Sigil
-            [questKeys.startedBy] = {{15042}},
-            [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85602] = { -- Animist's Caress
-            [questKeys.startedBy] = {{15042}},
-            [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85603] = { -- Vodouisant's Vigilant Embrace
-            [questKeys.startedBy] = {{15042}},
-            [questKeys.finishedBy] = {{15042}},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
@@ -3153,7 +3105,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85605] = { -- Paragons of Power: The Augur's Bracers
-            [questKeys.finishedBy] = {{14904}},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
@@ -3176,12 +3127,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85609] = { -- Paragons of Power: The Haruspex's Bracers
-            [questKeys.finishedBy] = {{14904}},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85610] = { -- Paragons of Power: The Haruspex's Belt
-            [questKeys.finishedBy] = {{14904}},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
@@ -3191,8 +3140,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85612] = { -- The Rage of Mugamba
-            [questKeys.startedBy] = {{14902}},
-            [questKeys.finishedBy] = {{14902}},
             [questKeys.preQuestSingle] = {8043},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
@@ -3203,7 +3150,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85614] = { -- Paragons of Power: The Vindicator's Belt
-            [questKeys.finishedBy] = {{14902}},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
@@ -3229,19 +3175,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85618] = { -- Paragons of Power: The Freethinker's Armguards
-            [questKeys.startedBy] = {{14902}},
-            [questKeys.finishedBy] = {{14902}},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85619] = { -- Paragons of Power: The Freethinker's Belt
-            [questKeys.startedBy] = {{14902}},
             [questKeys.finishedBy] = {{14902}},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85620] = { -- Paragons of Power: The Freethinker's Breastplate
-            [questKeys.startedBy] = {{14902}},
             [questKeys.finishedBy] = {{14902}},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
@@ -3251,7 +3193,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85623] = { -- Paragons of Power: The Confessor's Bindings
-            [questKeys.finishedBy] = {{14903}},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
@@ -3273,7 +3214,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85627] = { -- Paragons of Power: The Demoniac's Mantle
-            [questKeys.finishedBy] = {{14903}},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
@@ -3291,12 +3231,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85630] = { -- Paragons of Power: The Illusionist's Wraps
-            [questKeys.finishedBy] = {{14903}},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85631] = { -- Paragons of Power: The Illusionist's Mantle
-            [questKeys.finishedBy] = {{14903}},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
@@ -3318,12 +3256,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85635] = { -- Paragons of Power: The Madcap's Mantle
-            [questKeys.finishedBy] = {{14905}},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85636] = { -- Paragons of Power: The Madcap's Tunic
-            [questKeys.finishedBy] = {{14905}},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
@@ -3340,7 +3276,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85639] = { -- Paragons of Power: The Predator's Belt
-            [questKeys.finishedBy] = {{14905}},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,150}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
@@ -3350,25 +3285,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85643] = { -- The Lord of Blackrock
-            [questKeys.startedBy] = {{1748}},
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {7781},
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [85644] = { -- The Lord of Blackrock
-            [questKeys.startedBy] = {{4949}},
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {7783},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [85658] = { -- For All To See
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {84561},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [85659] = { -- Celebrating Good Times
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {84560},
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -3378,37 +3307,27 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85701] = { -- Dragonscale Leatherworking
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
             [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
         },
         [85702] = { -- Dragonscale Leatherworking
-            [questKeys.startedBy] = {{7867}},
-            [questKeys.finishedBy] = {{7867}},
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
             [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
         },
         [85703] = { -- Elemental Leatherworking
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
             [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
         },
         [85704] = { -- Elemental Leatherworking
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
             [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
         },
         [85705] = { -- Tribal Leatherworking
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {5143},
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
             [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
         },
         [85706] = { -- Tribal Leatherworking
-            [questKeys.startedBy] = {{7871}},
-            [questKeys.finishedBy] = {{7871}},
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.exclusiveTo] = {5148},
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
             [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,
@@ -3429,15 +3348,12 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [85882] = { -- End of the Dark Horde
             [questKeys.startedBy] = {{10429}},
-            [questKeys.finishedBy] = {{332}},
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {84377},
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [85883] = { -- For The Horde!
             [questKeys.startedBy] = {{4949}},
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {4974},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
