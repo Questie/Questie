@@ -453,6 +453,9 @@ function CataQuestFixes.Load()
         [8280] = { -- Securing the Supply Lines
             [questKeys.preQuestSingle] = {},
         },
+        [8284] = { -- The Twilight Mystery
+            [questKeys.preQuestSingle] = {8321},
+        },
         [8329] = { -- Warrior Training
             [questKeys.finishedBy] = {{43010}},
             [questKeys.zoneOrSort] = 6455,
