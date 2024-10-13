@@ -3032,6 +3032,20 @@ function SeasonOfDiscovery:LoadQuests()
         [85401] = { -- The Frigid Barrow
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
+        [85441] = { -- Thunderaan the Windseeker
+            [questKeys.finishedBy] = {{14347}},
+            [questKeys.preQuestSingle] = {85442},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
+        [85442] = { -- Examine the Vessel
+            [questKeys.startedBy] = {{14347},nil,{19016}},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
+        [85443] = { -- Rise, Thunderfury!
+            [questKeys.startedBy] = {{231494},nil,{232018}},
+            [questKeys.preQuestSingle] = {85441},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
         [85455] = { -- The Blood of the Lightbringer
             [questKeys.startedBy] = {{12017},nil,{231452}},
             [questKeys.finishedBy] = {{216289}},
