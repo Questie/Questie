@@ -1780,6 +1780,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [81960] = { -- Clarifying Air
+            [questKeys.startedBy] = {{2655,2656},nil,{220379}},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [81967] = { -- Otherworldly Treasure
@@ -1787,6 +1788,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [81968] = { -- Answering Air's Call
+            [questKeys.preQuestSingle] = {81960},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [81974] = { -- More Junk for Ziri
@@ -1926,21 +1928,27 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.NIGHTMARE_INCURSIONS,
         },
         [82071] = { -- Purifying Fire
+            [questKeys.startedBy] = {{5852,5855},nil,{221350}},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [82072] = { -- Purging Earth
+            [questKeys.startedBy] = {{5420,5426,5465},nil,{221352}},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [82073] = { -- Cleansing Water
+            [questKeys.startedBy] = {{6125,6126,6127},nil,{221351}},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [82074] = { -- Answering Fire's Call
+            [questKeys.preQuestSingle] = {82071},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [82075] = { -- Answering Earth's Call
+            [questKeys.preQuestSingle] = {82072},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [82076] = { -- Answering Water's Call
+            [questKeys.preQuestSingle] = {82073},
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
         [82081] = { -- A Broken Ritual
@@ -7241,6 +7249,19 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Position yourself on top of the pillar with your back towards Frix Xizzix. Set 'Gadgetzan' to 'at War' and attack the dragon Tower Defense Automaton. It will eventually knock you off the platform towards Frix Xizzix, which you need to heal up. Once you get the 'Feeling much better, thank you!' buff, go to Booty Bay and buy the rune from Rix Xizzix."},
             [questKeys.requiredSpell] = -429242,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [90324] = {
+            [questKeys.name] = "Rune of Overcharged",
+            [questKeys.startedBy] = {{222044}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 45,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Position yourself on top of the pillar with your back towards Frix Xizzix. Set 'Gadgetzan' to 'at War' and attack the dragon Tower Defense Automaton. It will eventually knock you off the platform towards Frix Xizzix, which you need to heal up. Once you get the 'Feeling much better, thank you!' buff, go to Booty Bay and buy the rune from Rix Xizzix."},
+            [questKeys.preQuestGroup] = {81968,82074,82075,82076},
+            [questKeys.requiredSpell] = -432140,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
     }
 end

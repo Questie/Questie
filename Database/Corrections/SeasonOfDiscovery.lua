@@ -463,8 +463,16 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [81900] = 3, -- Hunter Rapid Killing
     [81917] = 3, -- Hunter Rapid Killing
     [81919] = 3, -- Hunter Rapid Killing
+    [81960] = 3, -- Shaman Overcharged
+    [81968] = 3, -- Shaman Overcharged
     [82043] = 3, -- Mage Advanced Warding
     [82044] = 3, -- Mage Advanced Warding
+    [82071] = 3, -- Shaman Overcharged
+    [82072] = 3, -- Shaman Overcharged
+    [82073] = 3, -- Shaman Overcharged
+    [82074] = 3, -- Shaman Overcharged
+    [82075] = 3, -- Shaman Overcharged
+    [82076] = 3, -- Shaman Overcharged
     [82084] = 3, -- Mage Temporal Anomaly
     [82316] = 3, -- Priest Eye of the Void
     [90269] = 3, -- Druid Gale Winds
@@ -562,6 +570,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90321] = 5, -- Healing Specialization (Paladin, Priest, Shaman, Druid, Mage)
     [90322] = 5, -- Meditation Specialization (Paladin, Priest, Shaman, Druid, Mage)
     [90323] = 3, -- Paladin Light's Grace
+    [90324] = 3, -- Shaman Overcharged
 }
 
 --- "automatic" phase detection for the first few phases;
