@@ -2788,6 +2788,12 @@ function CataQuestFixes.Load()
         [24703] = { -- An Important Lesson
             [questKeys.objectives] = {{{38237,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [24704] = { -- The Evil Dragons of Un'Goro Crater
+            [questKeys.preQuestSingle] = {24703},
+        },
+        [24705] = { -- Town Dwellers Were Made to be Saved
+            [questKeys.preQuestSingle] = {24703},
+        },
         [24721] = { -- The Eastern Pylon
             [questKeys.objectives] = {nil,{{164957,"Discover and examine the Eastern Crystal Pylon"}}},
         },
