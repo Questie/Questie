@@ -1262,6 +1262,7 @@ function QuestieQuestBlacklist:Load()
         [13150] = true, -- Not in the game
         [13317] = true, -- Not in the game
         --[14103] = true, -- Titanium Powder
+        [14106] = true, -- Not in the game
         [14160] = true, -- Not in the game
         [13374] = true, -- Not in the game
         [13381] = true, -- Not in the game
@@ -1291,6 +1292,7 @@ function QuestieQuestBlacklist:Load()
         [13825] = true, -- EXISTS ingame, but can only be picked up if quest 6610 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
         [13826] = true, -- EXISTS ingame, but can only be picked up if quest 6607 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
         --[13843] = true, -- Questie NYI - only available if recipe 55252 is not known but quest 12889 is completed, we can't yet determine recipe knowledge - fixed
+        [25306] = true, -- Not in the game
 
         [8367] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
         [8371] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
@@ -1486,7 +1488,7 @@ function QuestieQuestBlacklist:Load()
         --[24801] = true, -- A Victory For The Sunreavers (H)
         --[24796] = true, -- A Victory For The Silver Covenant (A)
 
-        -- new raid weekly quests
+        --- new raid weekly quests
         --[24579] = true,
         --[24580] = true,
         --[24581] = true,
@@ -1508,6 +1510,35 @@ function QuestieQuestBlacklist:Load()
         [78752] = QuestieCorrections.WOTLK_HIDE, -- they have new versions of these quests
         [78753] = QuestieCorrections.WOTLK_HIDE, -- they have new versions of these quests
 
+        --- Daily quests
+        [24788] = true, -- Daily Heroic Random (1st)
+        [24789] = true, -- Daily Heroic Random (Nth)
+        [24790] = true, -- Daily Normal Random (1st)
+        [24791] = true, -- Daily Normal Random (Nth)
+        [24881] = true, -- Classic Random 5-15 (1st)
+        [24882] = true, -- Classic Random 15-25 (1st)
+        [24883] = true, -- Classic Random 24-34 (1st)
+        [24884] = true, -- Classic Random 35-45 (1st)
+        [24885] = true, -- Classic Random 46-55 (1st)
+        [24886] = true, -- Classic Random 56-60 (1st)
+        [24887] = true, -- Classic Random 60-64 (1st)
+        [24888] = true, -- Classic Random 65-70 (1st)
+        [24889] = true, -- Classic Random 5-15 (Nth)
+        [24890] = true, -- Classic Random 15-25 (Nth)
+        [24891] = true, -- Classic Random 24-34 (Nth)
+        [24892] = true, -- Classic Random 35-45 (Nth)
+        [24893] = true, -- Classic Random 46-55 (Nth)
+        [24894] = true, -- Classic Random 56-60 (Nth)
+        [24895] = true, -- Classic Random 60-64 (Nth)
+        [24896] = true, -- Classic Random 65-70 (Nth)
+        [24922] = true, -- Classic Random Heroic (1st)
+        [24923] = true, -- Burning Crusade Random Heroic (Nth)
+
+        --- Daily world event RDF
+        [25482] = true, -- World Event Dungeon - Headless Horseman
+        [25483] = true, -- World Event Dungeon - Coren Direbrew
+        [25484] = true, -- World Event Dungeon - Ahune
+        [25485] = true, -- World Event Dungeon - Hummel
 
         ----- Cata -------------- Cata quests --------------- Cata -----
         ----- Cata ------------- starting here -------------- Cata -----
