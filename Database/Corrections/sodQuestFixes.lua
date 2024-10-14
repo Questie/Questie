@@ -1275,7 +1275,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [81877] = { -- Fight Night
-            [questKeys.objectives] = {{221829}},
+            [questKeys.objectives] = {{{221829}}},
             [questKeys.preQuestSingle] = {81801},
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
