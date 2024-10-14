@@ -2798,6 +2798,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {24703},
         },
         [24705] = { -- Town Dwellers Were Made to be Saved
+            [questKeys.name] = 'Town Dwellers Were Made to be Saved',
             [questKeys.preQuestSingle] = {24703},
         },
         [24706] = { -- The Spirits of Golakka Hot Springs
