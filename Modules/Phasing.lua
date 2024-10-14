@@ -455,7 +455,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.GRYAN_TOWER then
-        return not complete[26322] or false
+        return (not complete[26322])
     end
 
     if phase == phases.GRYAN_FP then
