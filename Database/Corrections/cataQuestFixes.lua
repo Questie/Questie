@@ -135,6 +135,10 @@ function CataQuestFixes.Load()
         [872] = { -- The Far Watch Offensive
             [questKeys.preQuestSingle] = {871},
         },
+        [875] = { -- Harpy Lieutenants
+            [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {},
+        },
         [918] = { -- Timberling Seeds
             [questKeys.preQuestSingle] = {997},
         },
