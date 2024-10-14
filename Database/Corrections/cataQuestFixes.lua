@@ -2788,6 +2788,9 @@ function CataQuestFixes.Load()
         [24691] = { -- Peculiar Delicacies
             [questKeys.preQuestSingle] = {24690},
         },
+        [24698] = { -- Adventures in Archaeology
+            [questKeys.nextQuestInChain] = 24730,
+        },
         [24702] = { -- Here Lies Dadanga
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
@@ -2839,6 +2842,9 @@ function CataQuestFixes.Load()
         [24729] = { -- Crystal Yield
             [questKeys.preQuestSingle] = {24695},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [24730] = { -- Roll the Bones
+            [questKeys.preQuestSingle] = {},
         },
         [24733] = { -- The Bait for Lar'korwi
             [questKeys.requiredSourceItems] = {11569,11570},
