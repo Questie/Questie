@@ -896,11 +896,22 @@ function QuestieQuestBlacklist:Load()
         [1281] = true, -- Jim's Song <CHANGE TO GOSSIP>
         [1289] = true, -- Vimes's Report
         [1500] = true, -- Waking Naralex
+        [6843] = true, -- Da Foo
+        [7681] = true, -- Hunter test quest
+        [7682] = true, -- Hunter test quest2
+        [7797] = true, -- Dimensional Ripper - Everlook
         [7961] = true, -- Waskily Wabbits!
+        [8021] = true, -- Redeem iCoke Prize Voucher
+        [8023] = true, -- Redeem iCoke Prize Voucher
+        [8026] = true, -- Redeem iCoke Prize Voucher
+        [8230] = true, -- Collin's Test Quest
         [8478] = true, -- Choose Your Weapon
         [8489] = true, -- An Intact Converter
         [8896] = true, -- The Dwarven Spy
         [9168] = true, -- Heart of Deatholme
+        [9284] = true, -- Aldor Faction Test
+        [9285] = true, -- Consortium Faction Test
+        [9286] = true, -- Scryers Faction Test
         [9342] = true, -- Marauding Crust Bursters
         [9344] = true, -- A Hasty Departure
         [9346] = true, -- When Helboars Fly
@@ -908,7 +919,9 @@ function QuestieQuestBlacklist:Load()
         [9382] = true, -- The Fate of the Clefthoof
         [9408] = true, -- Forgotten Heroes
         [9511] = true, -- Kargath's Battle Plans
+        [9556] = true, -- To The Victor...
         [9568] = true, -- On the Offensive
+        [9713] = true, -- Glowcap Harvesting Enabling Flag
         [9749] = true, -- They're Alive! Maybe...
         [9929] = true, -- The Missing Merchant
         [9930] = true, -- The Missing Merchant
@@ -983,17 +996,21 @@ function QuestieQuestBlacklist:Load()
         [10196] = true, -- More Arakkoa Feathers
         [10207] = true, -- Forward Base: Reaver's Fall REUSE
         [10214] = true, -- When This Mine's a-Rockin'
+        [10219] = true, -- Walk the Dog
         [10244] = true, -- R.T.F.R.C.M.
         [10260] = true, -- Netherologist Coppernickels
         [10292] = true, -- More Power!
         [10370] = true, -- Nazgrel's Command <TXT>
         [10375] = true, -- Obsidian Warbeads
+        [10383] = true, -- This is a Breadcrumb!
         [10386] = true, -- The Fel Reaver Slayer
         [10387] = true, -- The Fel Reaver Slayer
         [10398] = true, -- Return to Honor Hold
         [10401] = true, -- Mission: End All, Be All
         [10404] = true, -- Against the Legion
         [10441] = true, -- Peddling the Goods
+        [10454] = true, -- FLAG - OFF THE RAILS
+        [10610] = true, -- Prospecting Basics
         [10716] = true, -- Test Flight: Raven's Wood <needs reward>
         [10815] = true, -- The Journal of Val'zareq: Portends of War
         [10841] = true, -- The Vengeful Harbringer
@@ -1001,6 +1018,9 @@ function QuestieQuestBlacklist:Load()
         [10871] = true, -- Ally of the Netherwing
         [10872] = true, -- Zuluhed the Whacked
         [10925] = true, -- Evil Draws Near
+        [11518] = true, -- Sunwell Daily Portal Flag
+        [11577] = true, -- WoW Collector's Edition: - DEM - E - FLAG
+        [11874] = true, -- Upper Deck Promo - Rocket Mount
 
         -- <NYI> quests
         [3482] = true, -- <NYI> <TXT> The Pocked Black Box
