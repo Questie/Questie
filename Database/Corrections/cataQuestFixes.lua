@@ -2789,6 +2789,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {24690},
         },
         [24698] = { -- Adventures in Archaeology
+            [questKeys.preQuestSingle] = {24693},
             [questKeys.nextQuestInChain] = 24730,
         },
         [24702] = { -- Here Lies Dadanga
