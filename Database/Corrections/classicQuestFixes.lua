@@ -3949,6 +3949,9 @@ function QuestieQuestFixes:Load()
         [9319] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [9321] = {
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
         [9322] = {
             [questKeys.requiredLevel] = 1,
         },

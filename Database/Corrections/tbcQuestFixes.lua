@@ -229,6 +229,9 @@ function QuestieTBCQuestFixes:Load()
         [1719] = {
             [questKeys.triggerEnd] = {"Step on the grate to begin the Affray", {[zoneIDs.THE_BARRENS]={{68.61,48.72}}}},
         },
+        [1782] = {
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
         [1799] = {
             [questKeys.preQuestSingle] = {4967,4969},
         },
@@ -881,6 +884,9 @@ function QuestieTBCQuestFixes:Load()
         [9066] = {
             [questKeys.objectives] = {{{15945,nil,Questie.ICON_TYPE_INTERACT},{15941,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [9094] = {
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
         [9130] = {
             [questKeys.requiredMinRep] = {},
         },
@@ -975,6 +981,30 @@ function QuestieTBCQuestFixes:Load()
         [9312] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {9305,9311},
+        },
+        [9317] = {
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [9318] = {
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [9320] = {
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [9333] = {
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [9334] = {
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [9335] = {
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [9336] = {
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [9337] = {
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
         [9339] = {
             [questKeys.objectivesText] = nil,
