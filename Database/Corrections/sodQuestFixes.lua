@@ -1263,6 +1263,22 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {1206},
             [questKeys.zoneOrSort] = zoneIDs.DUSTWALLOW_MARSH,
         },
+        [81682] = { -- The Old Camp
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
+        [81697] = { -- Defanged
+            [questKeys.preQuestSingle] = {81682},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
+        [81801] = { -- Return to the Arena
+            [questKeys.preQuestSingle] = {81697},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
+        [81877] = { -- Fight Night
+            [questKeys.objectives] = {{{221829}}},
+            [questKeys.preQuestSingle] = {81801},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+        },
 
         -- P3 Incursion Intro Quests
         [81716] = { -- Recover Incursion Field Report: Duskwood

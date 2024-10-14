@@ -453,6 +453,9 @@ function CataQuestFixes.Load()
         [8280] = { -- Securing the Supply Lines
             [questKeys.preQuestSingle] = {},
         },
+        [8284] = { -- The Twilight Mystery
+            [questKeys.preQuestSingle] = {8321},
+        },
         [8329] = { -- Warrior Training
             [questKeys.finishedBy] = {{43010}},
             [questKeys.zoneOrSort] = 6455,
@@ -2782,6 +2785,12 @@ function CataQuestFixes.Load()
         [24684] = { -- A Weezil in the Henhouse
             [questKeys.preQuestSingle] = {},
         },
+        [24691] = { -- Peculiar Delicacies
+            [questKeys.preQuestSingle] = {24690},
+        },
+        [24698] = { -- Adventures in Archaeology
+            [questKeys.nextQuestInChain] = 24730,
+        },
         [24700] = { -- Hard to Harvest
             [questKeys.preQuestSingle] = {24693},
         },
@@ -2793,6 +2802,19 @@ function CataQuestFixes.Load()
         },
         [24703] = { -- An Important Lesson
             [questKeys.objectives] = {{{38237,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [24704] = { -- The Evil Dragons of Un'Goro Crater
+            [questKeys.preQuestSingle] = {24703},
+        },
+        [24705] = { -- Town Dwellers Were Made to be Saved
+            [questKeys.name] = 'Town Dwellers Were Made to be Saved',
+            [questKeys.preQuestSingle] = {24703},
+        },
+        [24706] = { -- The Spirits of Golakka Hot Springs
+            [questKeys.preQuestGroup] = {24704,24705},
+        },
+        [24707] = { -- The Ballad of Maximillian
+            [questKeys.preQuestSingle] = {24706},
         },
         [24714] = { -- Chasing A-Me 01
             [questKeys.preQuestSingle] = {24701},
@@ -2833,6 +2855,9 @@ function CataQuestFixes.Load()
         [24729] = { -- Crystal Yield
             [questKeys.preQuestSingle] = {24695},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [24730] = { -- Roll the Bones
+            [questKeys.preQuestSingle] = {},
         },
         [24733] = { -- The Bait for Lar'korwi
             [questKeys.requiredSourceItems] = {11569,11570},
@@ -9923,6 +9948,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{100025}},
             [questKeys.objectives] = {nil,{{208791,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.finishedBy] = {{100026}},
+            [questKeys.preQuestSingle] = {29303},
         },
         [29311] = { -- The Rest is History
             [questKeys.objectivesText] = {"Bring the Smoke-Stained Locket to Malfurion in the Molten Front."},
