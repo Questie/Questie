@@ -2797,6 +2797,9 @@ function CataQuestFixes.Load()
         [24706] = { -- The Spirits of Golakka Hot Springs
             [questKeys.preQuestGroup] = {24704,24705},
         },
+        [24707] = { -- The Spirits of Golakka Hot Springs
+            [questKeys.preQuestSingle] = {24706},
+        },
         [24721] = { -- The Eastern Pylon
             [questKeys.objectives] = {nil,{{164957,"Discover and examine the Eastern Crystal Pylon"}}},
         },
