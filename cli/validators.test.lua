@@ -9,6 +9,7 @@ local questKeys = {
     preQuestGroup = "preQuestGroup",
     parentQuest = "parentQuest",
     childQuests = "childQuests",
+    zoneOrSort = "zoneOrSort",
 }
 
 describe("Validators", function()
@@ -217,6 +218,55 @@ describe("Validators", function()
                 [5] = "quest is missing/hidden in the database. parentQuest is 3",
             }, invalidQuests)
             assert.spy(exitMock).was_called_with(1)
+        end)
+    end)
+
+    describe("checkZoneOrSort", function()
+        it("should find quests without zoneOrSort set", function()
+            local quests = {
+                [1] = {},
+                [2] = {
+                    zoneOrSort = 1,
+                },
+                [3] = {},
+            }
+
+            local invalidQuests = Validators.checkZoneOrSort(quests, questKeys)
+
+            assert.are.same({
+                [1] = true,
+                [3] = true,
+            }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should find quests with zoneOrSort set to 0", function()
+            local quests = {
+                [1] = {
+                    zoneOrSort = 0,
+                },
+            }
+
+            local invalidQuests = Validators.checkZoneOrSort(quests, questKeys)
+
+            assert.are.same({[1] = true}, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should not report anything when zoneOrSort is fine", function()
+            local quests = {
+                [1] = {
+                    zoneOrSort = 1,
+                },
+                [2] = {
+                    zoneOrSort = -1,
+                },
+            }
+
+            local invalidQuests = Validators.checkZoneOrSort(quests, questKeys)
+
+            assert.are.same(nil, invalidQuests)
+            assert.spy(exitMock).was_not_called()
         end)
     end)
 end)

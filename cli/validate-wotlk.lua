@@ -219,6 +219,7 @@ local function _CheckWotlkDatabase()
     Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkPreQuestExclusiveness(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkParentChildQuestRelations(QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkZoneOrSort(QuestieDB.questData, QuestieDB.questKeys)
 end
 --? It is REALLLY slow and designed to be run through docker otherwise you have to change the path.
 -- local profiler = require("cli/profiler")
