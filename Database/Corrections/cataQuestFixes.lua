@@ -2785,11 +2785,26 @@ function CataQuestFixes.Load()
         [24684] = { -- A Weezil in the Henhouse
             [questKeys.preQuestSingle] = {},
         },
+        [24691] = { -- Peculiar Delicacies
+            [questKeys.preQuestSingle] = {24690},
+        },
         [24702] = { -- Here Lies Dadanga
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [24703] = { -- An Important Lesson
             [questKeys.objectives] = {{{38237,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [24704] = { -- The Evil Dragons of Un'Goro Crater
+            [questKeys.preQuestSingle] = {24703},
+        },
+        [24705] = { -- Town Dwellers Were Made to be Saved
+            [questKeys.preQuestSingle] = {24703},
+        },
+        [24706] = { -- The Spirits of Golakka Hot Springs
+            [questKeys.preQuestGroup] = {24704,24705},
+        },
+        [24707] = { -- The Ballad of Maximillian
+            [questKeys.preQuestSingle] = {24706},
         },
         [24721] = { -- The Eastern Pylon
             [questKeys.objectives] = {nil,{{164957,"Discover and examine the Eastern Crystal Pylon"}}},
