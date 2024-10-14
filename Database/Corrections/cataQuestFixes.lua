@@ -9932,6 +9932,7 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{100025}},
             [questKeys.objectives] = {nil,{{208791,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.finishedBy] = {{100026}},
+            [questKeys.preQuestSingle] = {29303},
         },
         [29311] = { -- The Rest is History
             [questKeys.objectivesText] = {"Bring the Smoke-Stained Locket to Malfurion in the Molten Front."},
