@@ -2794,10 +2794,17 @@ function CataQuestFixes.Load()
         [24703] = { -- An Important Lesson
             [questKeys.objectives] = {{{38237,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [24714] = { -- Chasing A-Me 01
+            [questKeys.preQuestSingle] = {24701},
+        },
+        [24717] = { -- The Apes of Un'Goro
+            [questKeys.preQuestSingle] = {24701},
+        },
         [24721] = { -- The Eastern Pylon
             [questKeys.objectives] = {nil,{{164957,"Discover and examine the Eastern Crystal Pylon"}}},
         },
         [24722] = { -- The Northern Pylon
+            [questKeys.preQuestSingle] = {24717},
             [questKeys.objectives] = {nil,{{164955,"Discover and examine the Northern Crystal Pylon"}}},
         },
         [24723] = { -- The Western Pylon
