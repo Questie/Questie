@@ -21,6 +21,8 @@ function WorldMapButton.Initialize()
     Questie.WorldMap = {
         Button = mapButton
     }
+
+    WorldMapButton.Toggle(Questie.db.profile.mapShowHideEnabled)
 end
 
 ---@param shouldShow boolean

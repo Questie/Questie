@@ -21,7 +21,7 @@ function QuestieOptions.tabs.auto:Initialize()
             autoModifier = {
                 type = "select",
                 order = 0,
-                values = _GetShortcuts(),
+                values = _GetShortcuts,
                 style = 'dropdown',
                 name = function() return l10n('Auto Modifier') end,
                 desc = function() return l10n('The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC.'); end,

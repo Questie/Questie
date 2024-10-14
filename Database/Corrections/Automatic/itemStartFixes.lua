@@ -2182,6 +2182,11 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       [65897] = {
         [itemKeys.startQuest] = 28776,
       },
+      --* Item 69854 https://www.wowhead.com/cata/item=69854
+      --* Starts: A Smoke-Stained Locket (29298)(https://www.wowhead.com/cata/quest=29298)
+      [69854] = {
+        [itemKeys.startQuest] = 29298,
+      },
       --* Item 70928 https://wotlk.wowhead.com/wotlk/item=70928
       --* Starts: Thanks, But No Thanks(29382)(https://wotlk.wowhead.com/wotlk/quest=29382)
       [70928] = {

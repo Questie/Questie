@@ -179,6 +179,7 @@ function QuestieOptionsDefaults:Load()
             migrationVersion = 0,
             globalMigrationSteps = {},
 
+            enableBugHintsForAllFlavors = false,
             debugEnabled = false,
             debugEnabledPrint = false,
             debugLevel = 0,

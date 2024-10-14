@@ -1,0 +1,15 @@
+# Label for Classic Era/HC quests
+era/hc:
+  - '### Game flavor\s*Era/HC'
+
+# Label for Classic Seasonal quests
+Season of Discovery:
+  - '### Game flavor\s*Season of Discovery'
+
+# Label for WotLK quests
+wotlk:
+  - '### Game flavor\s*WotLK'
+
+# Label for Cata quests
+cata:
+  - '### Game flavor\s*Cata'

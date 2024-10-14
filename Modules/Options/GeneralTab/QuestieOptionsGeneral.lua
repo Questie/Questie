@@ -1,22 +1,11 @@
--------------------------
---Import modules.
--------------------------
----@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 ---@type QuestieOptionsDefaults
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults");
 ---@type QuestieOptionsUtils
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
----@type QuestieMenu
-local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type QuestieTooltips
-local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 ---@type WorldMapButton
 local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
 ---@type QuestieCoords
@@ -77,7 +66,7 @@ function QuestieOptions.tabs.general:Initialize()
                     questAnnounceChannel = {
                         type = "select",
                         order = 7.2,
-                        values = _GetAnnounceChannels(),
+                        values = _GetAnnounceChannels,
                         style = 'dropdown',
                         disabled = function() return Questie.db.profile.questieShutUp end,
                         name = function() return l10n('Channels to announce in') end,
@@ -110,7 +99,7 @@ function QuestieOptions.tabs.general:Initialize()
                         width = 1.7,
                         hidden = true, -- does this even do anything anymore after YELL removed?
                         get = function () return not Questie.db.profile.disableYellComms end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.profile.disableYellComms = not value
                             if not value then
                                 QuestieLoader:ImportModule("QuestieComms"):RemoveAllRemotePlayers()
@@ -208,7 +197,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 return false;
                             end
                         end,
-                        set = function(info, value)
+                        set = function(_, value)
                             if value then
                                 SetCVar("instantQuestText", 1);
                             else
@@ -223,7 +212,7 @@ function QuestieOptions.tabs.general:Initialize()
                         desc = function() return l10n('Use custom Questie icons for NPC dialogs, reflecting the status and type of each quest.'); end,
                         width = 1.55,
                         get = function() return Questie.db.profile.enableQuestFrameIcons; end,
-                        set = function(info, value)
+                        set = function(_, value)
                             Questie.db.profile.enableQuestFrameIcons = value
                         end,
                     },
@@ -247,7 +236,7 @@ function QuestieOptions.tabs.general:Initialize()
                         desc = function() return l10n('Enable or disable the Questie minimap button. You can still access the options menu with /questie.'); end,
                         width = 1.55,
                         get = function() return not Questie.db.profile.minimap.hide; end,
-                        set = function(info, value)
+                        set = function(_, value)
                             Questie.db.profile.minimap.hide = not value;
 
                             if value then
@@ -324,13 +313,15 @@ function QuestieOptions.tabs.general:Initialize()
                         type = "select",
                         style = "radio",
                         width = 3,
-                        name = l10n("Which available quests should be displayed"),
-                        values = {
-                            [Questie.LOWLEVEL_NONE] = l10n("Show only quests granting experience (Default)"),
-                            [Questie.LOWLEVEL_ALL] = l10n("Show all low level quests"),
-                            [Questie.LOWLEVEL_OFFSET] = l10n("Show quests to a set level below the player"),
-                            [Questie.LOWLEVEL_RANGE] = l10n("Show quests between two set levels"),
-                        },
+                        name = function() return l10n("Which available quests should be displayed") end,
+                        values = function()
+                            return {
+                                [Questie.LOWLEVEL_NONE] = l10n("Show only quests granting experience (Default)"),
+                                [Questie.LOWLEVEL_ALL] = l10n("Show all low level quests"),
+                                [Questie.LOWLEVEL_OFFSET] = l10n("Show quests to a set level below the player"),
+                                [Questie.LOWLEVEL_RANGE] = l10n("Show quests between two set levels"),
+                            }
+                        end,
                         get = function () return Questie.db.profile.lowLevelStyle end,
                         set = function (_, value)
                             Questie.db.profile.lowLevelStyle = value
@@ -352,7 +343,7 @@ function QuestieOptions.tabs.general:Initialize()
                         step = 1,
                         disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_OFFSET) end,
                         get = function() return Questie.db.profile.manualLevelOffset end,
-                        set = function(info, value)
+                        set = function(_, value)
                             Questie.db.profile.manualLevelOffset = value;
                             QuestieOptionsUtils:Delay(0.3, function()
                                 AvailableQuests.ResetLevelRequirementCache()
@@ -396,8 +387,8 @@ function QuestieOptions.tabs.general:Initialize()
                         max = Questie.IsCata and 85 or (60 + 10 * GetExpansionLevel()),
                         step = 1,
                         disabled = function() return (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
-                        get = function(info) return Questie.db.profile.maxLevelFilter; end,
-                        set = function(info, value)
+                        get = function(_) return Questie.db.profile.maxLevelFilter; end,
+                        set = function(_, value)
                             if value < Questie.db.profile.minLevelFilter then
                                 value = Questie.db.profile.minLevelFilter
                             end
@@ -516,7 +507,7 @@ function QuestieOptions.tabs.general:Initialize()
                     questCompleteSoundChoice = {
                         type = "select",
                         order = 9.03,
-                        values = _GetQuestSoundChoices(),
+                        values = _GetQuestSoundChoices,
                         sorting = _GetQuestSoundChoicesSort(),
                         style = 'dropdown',
                         name = function() return l10n('Quest Complete Sound Selection') end,
@@ -559,7 +550,7 @@ function QuestieOptions.tabs.general:Initialize()
                     objectiveCompleteSoundChoice = {
                         type = "select",
                         order = 9.07,
-                        values = _GetObjectiveSoundChoices(),
+                        values = _GetObjectiveSoundChoices,
                         sorting = _GetObjectiveSoundChoicesSort(),
                         style = 'dropdown',
                         name = function() return l10n('Objective Complete Sound Selection') end,
@@ -596,7 +587,7 @@ function QuestieOptions.tabs.general:Initialize()
                     objectiveProgressSoundChoice = {
                         type = "select",
                         order = 9.10,
-                        values = _GetObjectiveProgressSoundChoices(),
+                        values = _GetObjectiveProgressSoundChoices,
                         sorting = _GetObjectiveProgressSoundChoicesSort(),
                         style = 'dropdown',
                         name = function() return l10n('Objective Progress Sound Selection') end,

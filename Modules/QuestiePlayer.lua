@@ -119,28 +119,14 @@ function QuestiePlayer:GetCurrentContinentId()
     return currentContinentId
 end
 
-function QuestiePlayer:GetPartyMembers()
-    local partyMembers = GetHomePartyInfo()
-    if partyMembers then
-        local party = {}
-        for _, v in pairs(partyMembers) do
-            local member = {}
-            member.Name = v;
-            local class, _, _ = UnitClass(v)
-            member.Class = class
-            member.Level = UnitLevel(v);
-            table.insert(party, member);
-        end
-        return party
-    end
-    return nil
-end
-
 function QuestiePlayer:GetPartyMemberByName(playerName)
     if(UnitInParty("player") or UnitInRaid("player")) then
         local player = {}
         for index=1, 40 do
-            local name = UnitName("party"..index);
+            local name, realmName = UnitName("party"..index);
+            if realmName then
+                name = name .. "-" .. realmName
+            end
             local _, classFilename = UnitClass("party"..index);
             if name == playerName then
                 player.name = playerName;
@@ -158,22 +144,6 @@ function QuestiePlayer:GetPartyMemberByName(playerName)
         end
     end
     return nil;
-end
-
-function QuestiePlayer:GetPartyMemberList()
-    local members = {}
-    if(UnitInParty("player") or UnitInRaid("player")) then
-        for index=1, 40 do
-            local name = UnitName("party"..index)
-            if name then
-                members[name] = true
-            end
-            if(index > 6 and not UnitInRaid("player")) then
-                break
-            end
-        end
-    end
-    return members
 end
 
 return QuestiePlayer

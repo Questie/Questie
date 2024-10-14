@@ -9,6 +9,9 @@ function CataItemFixes.Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [1357] = { -- Captain Sander's Treasure Map
+            [itemKeys.startQuest] = 26353,
+        },
         [2629] = { -- Intrepid Strongbox Key
             [itemKeys.npcDrops] = {41429},
         },
@@ -48,6 +51,9 @@ function CataItemFixes.Load()
         },
         [8170] = { -- Rugged Leather
             [itemKeys.vendors] = {},
+        },
+        [8705] = { -- OOX-22/FE Distress Beacon
+            [itemKeys.startQuest] = 25475,
         },
         [10441] = { -- Glowing Shard
             [itemKeys.startQuest] = 0,
@@ -429,6 +435,9 @@ function CataItemFixes.Load()
         [54814] = { -- Talisman of Flame Ascendancy
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [54861] = { -- Glimmerdeep Clam
+            [itemKeys.npcDrops] = {},
+        },
         [55122] = { -- Tholo's Horn
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -493,7 +502,7 @@ function CataItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
         },
         [56254] = { -- Merciless Head
-            [itemKeys.npcDrops] = {41601,41729},
+            [itemKeys.npcDrops] = {41601,41729,41747},
         },
         [56569] = { -- Underlight Nibbler
             [itemKeys.npcDrops] = {41916},
@@ -724,6 +733,9 @@ function CataItemFixes.Load()
         [62817] = { -- Neferset Key
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [62820] = { -- Deadwood Honey Glob
+            [itemKeys.objectDrops] = {460015},
+        },
         [62822] = { -- Twilight Collar
             [itemKeys.npcDrops] = {5860,5861,5862,8419,47309,47310,47311},
         },
@@ -800,6 +812,12 @@ function CataItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
         },
         [69765] = { -- Lucifern
+            [itemKeys.npcDrops] = {},
+        },
+        [69812] = { -- Flame Druid Reagent Pouch
+            [itemKeys.npcDrops] = {},
+        },
+        [69813] = { -- Flame Druid Idol
             [itemKeys.npcDrops] = {},
         },
         [69815] = { -- Seething Cinder

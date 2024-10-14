@@ -23,6 +23,7 @@ QuestieDB.sortKeys = {
     SPECIAL = -284,
     COOKING = -304,
     FIRST_AID = -324,
+    LEGENDARY = -344,
     DARKMOON_FAIRE = -364,
     LUNAR_FESTIVAL = -366,
     REPUTATION = -367,

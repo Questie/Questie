@@ -75,7 +75,7 @@ function QuestieOptions.tabs.icons:Initialize()
             iconThemePicker = {
                 type = "select",
                 order = 1.2,
-                values = _GetIconThemes(),
+                values = _GetIconThemes,
                 sorting = _GetIconThemesSort(),
                 style = 'dropdown',
                 width = 1,
@@ -732,7 +732,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     iconTypeSlay = {
                         type = "select",
                         order = 17,
-                        values = _GetIconTypes(),
+                        values = _GetIconTypes,
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         width = 0.796,
@@ -760,7 +760,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     iconTypeLoot = {
                         type = "select",
                         order = 18,
-                        values = _GetIconTypes(),
+                        values = _GetIconTypes,
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         width = 0.796,
@@ -788,7 +788,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     iconTypeObject = {
                         type = "select",
                         order = 19,
-                        values = _GetIconTypes(),
+                        values = _GetIconTypes,
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         width = 0.796,
@@ -816,7 +816,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     iconTypeEvent = {
                         type = "select",
                         order = 20,
-                        values = _GetIconTypes(),
+                        values = _GetIconTypes,
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         width = 0.796,
@@ -844,7 +844,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     iconTypeTalk = {
                         type = "select",
                         order = 21,
-                        values = _GetIconTypes(),
+                        values = _GetIconTypes,
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         width = 0.796,
@@ -877,7 +877,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     iconTypeAvailable = {
                         type = "select",
                         order = 23,
-                        values = _GetIconTypes(),
+                        values = _GetIconTypes,
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         width = 0.796,
@@ -904,7 +904,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     iconTypeComplete = {
                         type = "select",
                         order = 25,
-                        values = _GetIconTypes(),
+                        values = _GetIconTypes,
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         width = 0.796,
@@ -931,7 +931,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     iconTypeAvailableGray = {
                         type = "select",
                         order = 26,
-                        values = _GetIconTypes(),
+                        values = _GetIconTypes,
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         width = 0.796,
@@ -959,7 +959,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     iconTypeRepeatable = {
                         type = "select",
                         order = 28,
-                        values = _GetIconTypes(),
+                        values = _GetIconTypes,
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         width = 1.295,
@@ -986,7 +986,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     iconTypeRepeatableComplete = {
                         type = "select",
                         order = 29,
-                        values = _GetIconTypes(),
+                        values = _GetIconTypes,
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         width = 1.295,
@@ -1014,7 +1014,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     iconTypeEventQuest = {
                         type = "select",
                         order = 31,
-                        values = _GetIconTypes(),
+                        values = _GetIconTypes,
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         width = 1.295,
@@ -1041,7 +1041,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     iconTypeEventQuestComplete = {
                         type = "select",
                         order = 32,
-                        values = _GetIconTypes(),
+                        values = _GetIconTypes,
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         width = 1.295,
@@ -1069,7 +1069,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     iconTypePVPQuest = {
                         type = "select",
                         order = 34,
-                        values = _GetIconTypes(),
+                        values = _GetIconTypes,
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         width = 1.295,
@@ -1096,7 +1096,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     iconTypePVPQuestComplete = {
                         type = "select",
                         order = 35,
-                        values = _GetIconTypes(),
+                        values = _GetIconTypes,
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         width = 1.295,
