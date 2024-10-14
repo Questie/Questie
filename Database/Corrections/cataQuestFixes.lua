@@ -122,6 +122,10 @@ function CataQuestFixes.Load()
         [850] = { -- Kolkar Leaders
             [questKeys.startedBy] = {{34841}},
         },
+        [867] = { -- Harpy Raiders
+            [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {},
+        },
         [869] = { -- To Track a Thief
             [questKeys.triggerEnd] = {"Source of Tracks Discovered",{[zoneIDs.THE_BARRENS] = {{63.5,61.5}}}},
         },
