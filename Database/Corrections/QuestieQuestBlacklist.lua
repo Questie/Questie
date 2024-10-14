@@ -1026,7 +1026,6 @@ function QuestieQuestBlacklist:Load()
         [11874] = true, -- Upper Deck Promo - Rocket Mount
 
         -- <NYI> quests
-        [1281] = true, -- BETA Jim's Song <CHANGE TO GOSSIP>
         [3482] = true, -- <NYI> <TXT> The Pocked Black Box
         [7741] = true, -- Praise from the Emerald Circle <NYI> <TXT>
         [8339] = true, -- Royalty of the Council <NYI> <TXT> UNUSED
