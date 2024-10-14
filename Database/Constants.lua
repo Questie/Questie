@@ -27,6 +27,7 @@ QuestieDB.sortKeys = {
     DARKMOON_FAIRE = -364,
     LUNAR_FESTIVAL = -366,
     REPUTATION = -367,
+    INVASION = -368,
     MIDSUMMER = -369,
     BREWFEST = -370,
     INSCRIPTION = -371,
