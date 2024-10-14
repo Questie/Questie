@@ -2844,7 +2844,7 @@ function CataQuestFixes.Load()
         },
         [24730] = { -- Roll the Bones
             [questKeys.preQuestSingle] = {},
-        }
+        },
         [24733] = { -- The Bait for Lar'korwi
             [questKeys.requiredSourceItems] = {11569,11570},
         },
