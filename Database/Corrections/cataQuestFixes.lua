@@ -2788,6 +2788,9 @@ function CataQuestFixes.Load()
         [24691] = { -- Peculiar Delicacies
             [questKeys.preQuestSingle] = {24690},
         },
+        [24694] = { -- The Shaper's Terrace
+            [questKeys.preQuestSingle] = {24723},
+        },
         [24698] = { -- Adventures in Archaeology
             [questKeys.nextQuestInChain] = 24730,
         },
