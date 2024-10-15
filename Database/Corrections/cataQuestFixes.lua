@@ -7352,6 +7352,7 @@ function CataQuestFixes.Load()
         },
         [27915] = { -- The Heart of the Temple
             [questKeys.preQuestSingle] = {27914},
+            [questKeys.nextQuestInChain] = 27605,
         },
         [27905] = { -- Tailgunner!
             [questKeys.objectives] = {},
