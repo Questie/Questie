@@ -917,6 +917,9 @@ function CataQuestFixes.Load()
         [10421] = { -- Fel Armaments
             [questKeys.requiredMinRep] = {932,0},
         },
+        [10450] = { -- Bonechewer Blood
+            [questKeys.preQuestSingle] = {10291,10875},
+        },
         [10639] = { -- Teron Gorefiend, I am...
             [questKeys.preQuestSingle] = {},
         },
