@@ -7341,6 +7341,9 @@ function CataQuestFixes.Load()
         [27868] = { -- The Crucible of Carnage: The Twilight Terror!
             [questKeys.objectives] = {{{46949}}},
         },
+        [27871] = { -- To Stonard
+            [questKeys.preQuestSingle] = {27914},
+        },
         [27874] = { -- Aviana's Legacy
             [questKeys.preQuestSingle] = {25611,25612},
             [questKeys.exclusiveTo] = {25985},
