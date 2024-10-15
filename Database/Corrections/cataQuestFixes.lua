@@ -7350,6 +7350,9 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {62608,62610},
             [questKeys.preQuestSingle] = {27899},
         },
+        [27915] = { -- The Heart of the Temple
+            [questKeys.preQuestSingle] = {27914},
+        },
         [27905] = { -- Tailgunner!
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Escaped the Obelisk of the Sun",{[zoneIDs.ULDUM] = {{54.54,42.08}}}},
