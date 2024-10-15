@@ -741,7 +741,6 @@ local questsToBlacklistBySoDPhase = {
         [8240] = true,
         [8243] = true,
         [8246] = true,
-        [8446] = true,
         [8447] = true,
         [9208] = true,
         [9209] = true,
@@ -940,6 +939,7 @@ local questsToBlacklistBySoDPhase = {
         [7785] = true, -- Examine the Vessel - Replaced by 85442
         [7786] = true, -- Thunderaan the Windseeker - Replaced by 85441
         [7787] = true, -- Rise, Thunderfury! - Replaced by 85443
+        [8446] = true, -- Shrouded in Nightmare (Emerald Dream Dragons)
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,
