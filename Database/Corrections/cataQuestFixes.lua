@@ -9939,18 +9939,26 @@ function CataQuestFixes.Load()
         },
         [29287] = { -- Peaked Interest
             [questKeys.exclusiveTo] = {29288,29290},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29264,29265},
         },
         [29288] = { -- Starting Young
             [questKeys.exclusiveTo] = {29287,29290},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29264,29265},
         },
         [29290] = { -- Fire in the Skies
             [questKeys.exclusiveTo] = {29287,29288},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount up"),0,{{"monster",53297}}}},
             [questKeys.objectives] = {{{53310}},nil,nil,nil,{{{53477,53478,53479},53479},{{53309,53310,53469,53308},53308}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29264,29265},
         },
         [29293] = { -- Singed Wings
             [questKeys.exclusiveTo] = {29296},
             [questKeys.objectives] = {{{53243,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29264,29265},
         },
         [29295] = { -- The Bigger They Are
             [questKeys.exclusiveTo] = {29263,29278,29297},
@@ -9960,6 +9968,8 @@ function CataQuestFixes.Load()
         },
         [29296] = { -- Territorial Birds
             [questKeys.exclusiveTo] = {29293},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {29264,29265},
         },
         [29297] = { -- Bye Bye Burdy
             [questKeys.exclusiveTo] = {29263,29278,29295},
