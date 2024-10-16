@@ -4150,6 +4150,9 @@ function CataQuestFixes.Load()
         [25678] = { -- Pick Your Fate
             [questKeys.objectives] = {{{5996},{5997},{5998}}},
         },
+        [25696] = { -- The Sunveil Excursion
+            [questKeys.preQuestSingle] = {25695},
+        },
         [25702] = { -- Home... Gone... Naga...
             [questKeys.nextQuestInChain] = 25703,
         },
