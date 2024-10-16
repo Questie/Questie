@@ -2799,6 +2799,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {24723},
         },
         [24698] = { -- Adventures in Archaeology
+            [questKeys.preQuestSingle] = {24693},
             [questKeys.nextQuestInChain] = 24730,
         },
         [24700] = { -- Hard to Harvest
