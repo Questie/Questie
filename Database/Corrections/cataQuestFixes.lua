@@ -792,6 +792,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26280,26321},
         },
+        [9455] = { -- Strange Findings
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [9563] = { -- Gaining Mirren's Trust
             [questKeys.objectives] = {nil,nil,{{23848}},{946,3000}},
         },
@@ -5066,6 +5069,7 @@ function CataQuestFixes.Load()
         },
         [26296] = { -- Evidence Collection
             [questKeys.startedBy] = {{42677},nil,{58117}},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {26292}, -- might be 26291, needs double check
         },
         [26297] = { -- The Dawning of a New Day
@@ -5649,6 +5653,9 @@ function CataQuestFixes.Load()
         [26668] = { -- Detonation
             [questKeys.triggerEnd] = {"Blow up Render's Valley.", {[zoneIDs.REDRIDGE_MOUNTAINS]={{77.19,65.64}}}},
         },
+        [26682] = { -- A Shambling Threat
+            [questKeys.preQuestSingle] = {},
+        },
         [26683] = { -- Look To The Stars
             [questKeys.preQuestSingle] = {26661},
         },
@@ -5666,6 +5673,9 @@ function CataQuestFixes.Load()
         },
         [26700] = { -- The Damsel's (Bad) Luck
             [questKeys.preQuestSingle] = {26698},
+        },
+        [26701] = { -- Flight to Brackenwall
+            [questKeys.nextQuestInChain] = 26682,
         },
         [26706] = { -- Endgame
             [questKeys.objectives] = {{{43729,"Gunship destroyed",Questie.ICON_TYPE_EVENT}}},
