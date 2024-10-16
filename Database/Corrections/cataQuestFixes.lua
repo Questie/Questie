@@ -135,6 +135,10 @@ function CataQuestFixes.Load()
         [872] = { -- The Far Watch Offensive
             [questKeys.preQuestSingle] = {871},
         },
+        [875] = { -- Harpy Lieutenants
+            [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {},
+        },
         [918] = { -- Timberling Seeds
             [questKeys.preQuestSingle] = {997},
         },
@@ -792,6 +796,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26280,26321},
         },
+        [9455] = { -- Strange Findings
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [9563] = { -- Gaining Mirren's Trust
             [questKeys.objectives] = {nil,nil,{{23848}},{946,3000}},
         },
@@ -916,6 +923,9 @@ function CataQuestFixes.Load()
         },
         [10421] = { -- Fel Armaments
             [questKeys.requiredMinRep] = {932,0},
+        },
+        [10450] = { -- Bonechewer Blood
+            [questKeys.preQuestSingle] = {10291,10875},
         },
         [10639] = { -- Teron Gorefiend, I am...
             [questKeys.preQuestSingle] = {},
@@ -2788,8 +2798,18 @@ function CataQuestFixes.Load()
         [24691] = { -- Peculiar Delicacies
             [questKeys.preQuestSingle] = {24690},
         },
+        [24694] = { -- The Shaper's Terrace
+            [questKeys.preQuestSingle] = {24723},
+        },
         [24698] = { -- Adventures in Archaeology
+            [questKeys.preQuestSingle] = {24693},
             [questKeys.nextQuestInChain] = 24730,
+        },
+        [24700] = { -- Hard to Harvest
+            [questKeys.preQuestSingle] = {24693},
+        },
+        [24701] = { -- Marshal's Refuse
+            [questKeys.preQuestSingle] = {24693},
         },
         [24702] = { -- Here Lies Dadanga
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2810,10 +2830,17 @@ function CataQuestFixes.Load()
         [24707] = { -- The Ballad of Maximillian
             [questKeys.preQuestSingle] = {24706},
         },
+        [24714] = { -- Chasing A-Me 01
+            [questKeys.preQuestSingle] = {24701},
+        },
+        [24717] = { -- The Apes of Un'Goro
+            [questKeys.preQuestSingle] = {24701},
+        },
         [24721] = { -- The Eastern Pylon
             [questKeys.objectives] = {nil,{{164957,"Discover and examine the Eastern Crystal Pylon"}}},
         },
         [24722] = { -- The Northern Pylon
+            [questKeys.preQuestSingle] = {24717},
             [questKeys.objectives] = {nil,{{164955,"Discover and examine the Northern Crystal Pylon"}}},
         },
         [24723] = { -- The Western Pylon
@@ -2852,6 +2879,9 @@ function CataQuestFixes.Load()
         [24735] = { -- A Little Help From My Friends
             [questKeys.preQuestSingle] = {24734},
             [questKeys.triggerEnd] = {"Escort Ringo to Marshal's Stand", {[zoneIDs.UN_GORO_CRATER]={{54.88,62.07}}}},
+        },
+        [24737] = { -- Super Sticky
+            [questKeys.preQuestSingle] = {24693},
         },
         [24741] = { -- Trading Up
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Place the Wild Clucker Eggs in the trap"),0,{{"object",201972}}}},
@@ -2972,6 +3002,9 @@ function CataQuestFixes.Load()
         },
         [24787] = { -- More Than Expected
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [24794] = { -- Speak With Spraggle
+            [questKeys.nextQuestInChain] = 24736,
         },
         [24807] = { -- Winnoa Pineforest
             [questKeys.preQuestSingle] = {24601},
@@ -4120,8 +4153,17 @@ function CataQuestFixes.Load()
         [25678] = { -- Pick Your Fate
             [questKeys.objectives] = {{{5996},{5997},{5998}}},
         },
+        [25696] = { -- The Sunveil Excursion
+            [questKeys.preQuestSingle] = {25695},
+        },
         [25702] = { -- Home... Gone... Naga...
             [questKeys.nextQuestInChain] = 25703,
+        },
+        [25705] = { -- False Idols
+            [questKeys.preQuestSingle] = {25703},
+        },
+        [25706] = { -- Neptool's Revenge
+            [questKeys.preQuestSingle] = {25703},
         },
         [25710] = { -- Minor Distractions
             [questKeys.preQuestSingle] = {},
@@ -5066,6 +5108,7 @@ function CataQuestFixes.Load()
         },
         [26296] = { -- Evidence Collection
             [questKeys.startedBy] = {{42677},nil,{58117}},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {26292}, -- might be 26291, needs double check
         },
         [26297] = { -- The Dawning of a New Day
@@ -5649,6 +5692,9 @@ function CataQuestFixes.Load()
         [26668] = { -- Detonation
             [questKeys.triggerEnd] = {"Blow up Render's Valley.", {[zoneIDs.REDRIDGE_MOUNTAINS]={{77.19,65.64}}}},
         },
+        [26682] = { -- A Shambling Threat
+            [questKeys.preQuestSingle] = {},
+        },
         [26683] = { -- Look To The Stars
             [questKeys.preQuestSingle] = {26661},
         },
@@ -5666,6 +5712,9 @@ function CataQuestFixes.Load()
         },
         [26700] = { -- The Damsel's (Bad) Luck
             [questKeys.preQuestSingle] = {26698},
+        },
+        [26701] = { -- Flight to Brackenwall
+            [questKeys.nextQuestInChain] = 26682,
         },
         [26706] = { -- Endgame
             [questKeys.objectives] = {{{43729,"Gunship destroyed",Questie.ICON_TYPE_EVENT}}},
@@ -7075,6 +7124,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27606},
             [questKeys.exclusiveTo] = {27947},
         },
+        [27694] = { -- Pool of Tears
+            [questKeys.preQuestSingle] = {},
+        },
         [27695] = { -- The Elementium Axe
             [questKeys.preQuestGroup] = {27652,27654},
             [questKeys.exclusiveTo] = {},
@@ -7340,6 +7392,9 @@ function CataQuestFixes.Load()
         },
         [27868] = { -- The Crucible of Carnage: The Twilight Terror!
             [questKeys.objectives] = {{{46949}}},
+        },
+        [27869] = { -- The Dragon and the Temple
+            [questKeys.nextQuestInChain] = 27694,
         },
         [27871] = { -- To Stonard
             [questKeys.preQuestSingle] = {27914},

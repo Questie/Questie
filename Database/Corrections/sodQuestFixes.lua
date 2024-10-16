@@ -3076,6 +3076,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {85457},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [85468] = { -- Soul of Mischief
+            [questKeys.objectives] = {{{232731,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {85112},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Place Suspicious Supplies on the bone piles"), 0, {{"object", 600000}}}},
+        },
+        [85485] = { -- Soul of the Void
+            [questKeys.objectives] = {nil,nil,{{231797}}},
+            [questKeys.preQuestSingle] = {85468},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
         [85501] = { -- The Heart of Chromaggus
             [questKeys.startedBy] = {{14020},nil,{231814}},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
