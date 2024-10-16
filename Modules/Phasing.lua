@@ -128,6 +128,8 @@ local phases = {
     MOUNT_HYJAL_VISION_YSERA_1 = 1056,
     MOUNT_HYJAL_VISION_YSERA_2 = 1057,
     VASHJIR_LADY_NAZ_JAR_AT_RIDGE = 1058,
+    GRYAN_TOWER = 1059,
+    GRYAN_FP = 1060,
 }
 Phasing.phases = phases
 
@@ -450,6 +452,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.MOUNT_HYJAL_VISION_YSERA_2 then
         return (complete[25502] and complete[25520]) or false
+    end
+
+    if phase == phases.GRYAN_TOWER then
+        return (not complete[26322])
+    end
+
+    if phase == phases.GRYAN_FP then
+        return complete[26322] or false
     end
 
     return false

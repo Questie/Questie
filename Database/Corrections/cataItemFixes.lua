@@ -9,6 +9,9 @@ function CataItemFixes.Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [1357] = { -- Captain Sander's Treasure Map
+            [itemKeys.startQuest] = 26353,
+        },
         [2629] = { -- Intrepid Strongbox Key
             [itemKeys.npcDrops] = {41429},
         },
