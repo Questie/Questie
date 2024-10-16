@@ -2795,8 +2795,17 @@ function CataQuestFixes.Load()
         [24691] = { -- Peculiar Delicacies
             [questKeys.preQuestSingle] = {24690},
         },
+        [24694] = { -- The Shaper's Terrace
+            [questKeys.preQuestSingle] = {24723},
+        },
         [24698] = { -- Adventures in Archaeology
             [questKeys.nextQuestInChain] = 24730,
+        },
+        [24700] = { -- Hard to Harvest
+            [questKeys.preQuestSingle] = {24693},
+        },
+        [24701] = { -- Marshal's Refuse
+            [questKeys.preQuestSingle] = {24693},
         },
         [24702] = { -- Here Lies Dadanga
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2817,10 +2826,17 @@ function CataQuestFixes.Load()
         [24707] = { -- The Ballad of Maximillian
             [questKeys.preQuestSingle] = {24706},
         },
+        [24714] = { -- Chasing A-Me 01
+            [questKeys.preQuestSingle] = {24701},
+        },
+        [24717] = { -- The Apes of Un'Goro
+            [questKeys.preQuestSingle] = {24701},
+        },
         [24721] = { -- The Eastern Pylon
             [questKeys.objectives] = {nil,{{164957,"Discover and examine the Eastern Crystal Pylon"}}},
         },
         [24722] = { -- The Northern Pylon
+            [questKeys.preQuestSingle] = {24717},
             [questKeys.objectives] = {nil,{{164955,"Discover and examine the Northern Crystal Pylon"}}},
         },
         [24723] = { -- The Western Pylon
@@ -2859,6 +2875,9 @@ function CataQuestFixes.Load()
         [24735] = { -- A Little Help From My Friends
             [questKeys.preQuestSingle] = {24734},
             [questKeys.triggerEnd] = {"Escort Ringo to Marshal's Stand", {[zoneIDs.UN_GORO_CRATER]={{54.88,62.07}}}},
+        },
+        [24737] = { -- Super Sticky
+            [questKeys.preQuestSingle] = {24693},
         },
         [24741] = { -- Trading Up
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Place the Wild Clucker Eggs in the trap"),0,{{"object",201972}}}},
