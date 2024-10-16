@@ -540,5 +540,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.BURNING_STEPPES] = {{17,46}},
             },
         },
+
+        -- Fake IDs
+        [600000] = {
+            [objectKeys.name] = "Bone Pile", -- For Soul of Mischief
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{69.2,29.4},{69.2,29.6},{69.8,29.4},{69.8,29.6},{70.4,31},{70.6,30},{71.2,29.2},{71.4,31.8}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
     }
 end
