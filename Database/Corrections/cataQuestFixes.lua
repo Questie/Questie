@@ -9203,9 +9203,13 @@ function CataQuestFixes.Load()
         [28856] = { -- The Sands of Silithus
             [questKeys.nextQuestInChain] = 8280,
         },
-        [28857] = { -- Hero's Call: Blasted Lands!
-            [questKeys.exclusiveTo] = {28673,28867},
+        [28857] = { -- Blasted Lands: The Other Side of the World
+            [questKeys.exclusiveTo] = {28673,28867}, -- Not sure if true. Needs double checking.
             [questKeys.nextQuestInChain] = 25710,
+        },
+        [28858] = { -- Blasted Lands: The Other Side of the World
+            [questKeys.exclusiveTo] = {},
+            [questKeys.nextQuestInChain] = 25674,
         },
         [28859] = { -- The Dunes of Silithus
             [questKeys.nextQuestInChain] = 8280,
