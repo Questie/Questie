@@ -130,6 +130,9 @@ local phases = {
     VASHJIR_LADY_NAZ_JAR_AT_RIDGE = 1058,
     GRYAN_TOWER = 1059,
     GRYAN_FP = 1060,
+    MOLTEN_FRONT_CAMP = 1061,
+    MOLTEN_FRONT_DRUIDS = 1062,
+    MOLTEN_FRONT_WARDENS = 1063,
 }
 Phasing.phases = phases
 
@@ -460,6 +463,18 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.GRYAN_FP then
         return complete[26322] or false
+    end
+
+    if phase == phases.MOLTEN_FRONT_DRUIDS then
+        return complete[29206] and ((not questLog[29273] and not questLog[29274]) or ((questLog[29273] and (questLog[29273].isComplete == 0)) or (questLog[29274] and (questLog[29274].isComplete == 0)))) or false
+    end
+
+    if phase == phases.MOLTEN_FRONT_WARDENS then
+        return complete[29205] and ((not questLog[29275] and not questLog[29276]) or ((questLog[29275] and (questLog[29275].isComplete == 0)) or (questLog[29276] and (questLog[29276].isComplete == 0)))) or false
+    end
+
+    if phase == phases.MOLTEN_FRONT_CAMP then
+        return (questLog[29273] and questLog[29273].isComplete == 1) or (questLog[29274] and questLog[29274].isComplete == 1) or (questLog[29275] and questLog[29275].isComplete == 1) or (questLog[29276] and questLog[29276].isComplete == 1) or false
     end
 
     return false
