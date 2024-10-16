@@ -189,7 +189,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{51.0,78.8}}},
         },
         [3475] = { -- Echeyakee
-            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{56.4,34.9}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{44.07,46.47}}},
         },
         [3515] = { -- Corithras Moonrage
             [npcKeys.spawns] = {
