@@ -7124,6 +7124,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27606},
             [questKeys.exclusiveTo] = {27947},
         },
+        [27694] = { -- Pool of Tears
+            [questKeys.preQuestSingle] = {},
+        },
         [27695] = { -- The Elementium Axe
             [questKeys.preQuestGroup] = {27652,27654},
             [questKeys.exclusiveTo] = {},
@@ -7389,6 +7392,9 @@ function CataQuestFixes.Load()
         },
         [27868] = { -- The Crucible of Carnage: The Twilight Terror!
             [questKeys.objectives] = {{{46949}}},
+        },
+        [27869] = { -- The Dragon and the Temple
+            [questKeys.nextQuestInChain] = 27694,
         },
         [27874] = { -- Aviana's Legacy
             [questKeys.preQuestSingle] = {25611,25612},
