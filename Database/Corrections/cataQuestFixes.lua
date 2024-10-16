@@ -7413,13 +7413,19 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {62608,62610},
             [questKeys.preQuestSingle] = {27899},
         },
-        [27915] = { -- The Heart of the Temple
-            [questKeys.preQuestSingle] = {27914},
-            [questKeys.nextQuestInChain] = 27605,
-        },
         [27905] = { -- Tailgunner!
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Escaped the Obelisk of the Sun",{[zoneIDs.ULDUM] = {{54.54,42.08}}}},
+        },
+        [27909] = { -- The Purespring
+            [questKeys.preQuestGroup] = {27907,27908},
+        },
+        [27910] = { -- Last Regrets
+            [questKeys.preQuestGroup] = {27907,27908},
+        },
+        [27915] = { -- The Heart of the Temple
+            [questKeys.preQuestSingle] = {27914},
+            [questKeys.nextQuestInChain] = 27605,
         },
         [27922] = { -- Traitors!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Hide behind Neferset Frond"), 0, {{"object", 206579}}}},
