@@ -4156,6 +4156,12 @@ function CataQuestFixes.Load()
         [25702] = { -- Home... Gone... Naga...
             [questKeys.nextQuestInChain] = 25703,
         },
+        [25705] = { -- False Idols
+            [questKeys.preQuestSingle] = {25703},
+        },
+        [25706] = { -- Neptool's Revenge
+            [questKeys.preQuestSingle] = {25703},
+        },
         [25710] = { -- Minor Distractions
             [questKeys.preQuestSingle] = {},
         },
