@@ -7417,6 +7417,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27914},
             [questKeys.nextQuestInChain] = 27605,
         },
+        [27916] = { -- Ruag's Report
+            [questKeys.nextQuestInChain] = 28553,
+        },
         [27905] = { -- Tailgunner!
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Escaped the Obelisk of the Sun",{[zoneIDs.ULDUM] = {{54.54,42.08}}}},
@@ -8501,6 +8504,10 @@ function CataQuestFixes.Load()
         },
         [28552] = { -- Hero's Call: Dustwallow Marsh!
             [questKeys.requiredMaxLevel] = 38,
+        },
+        [28553] = { -- Okrilla and the Blasted Lands
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 25674,
         },
         [28554] = { -- Warchief's Command: Dustwallow Marsh!
             [questKeys.objectives] = {},
