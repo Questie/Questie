@@ -7400,6 +7400,10 @@ function CataQuestFixes.Load()
         [27869] = { -- The Dragon and the Temple
             [questKeys.nextQuestInChain] = 27694,
         },
+        [27871] = { -- To Stonard
+            [questKeys.preQuestSingle] = {27914},
+            [questKeys.nextQuestInChain] = 27852,
+        },
         [27874] = { -- Aviana's Legacy
             [questKeys.preQuestSingle] = {25611,25612},
             [questKeys.exclusiveTo] = {25985},
