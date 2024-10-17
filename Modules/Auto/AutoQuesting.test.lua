@@ -5,6 +5,8 @@ _G.QuestieCompat = {}
 describe("AutoQuesting", function()
     ---@type AutoQuesting
     local AutoQuesting
+    ---@type QuestieDB
+    local QuestieDB
 
     before_each(function()
         Questie.db.profile.autoaccept = true
@@ -42,6 +44,8 @@ describe("AutoQuesting", function()
             end
         }
 
+        QuestieDB = require("Database.QuestieDB")
+
         AutoQuesting = require("Modules/Auto/AutoQuesting")
         AutoQuesting.private.disallowedNPCs = {}
         AutoQuesting.private.disallowedQuests = {
@@ -54,6 +58,8 @@ describe("AutoQuesting", function()
     describe("accept", function()
         it("should accept quest from quest detail", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
+            QuestieDB.IsTrivial = spy.new(function() return false end)
 
             AutoQuesting.OnQuestDetail()
 
@@ -89,6 +95,25 @@ describe("AutoQuesting", function()
         it("should not accept quest from detail when quest is not allowed to accept", function()
             _G.GetQuestID = function() return 123 end
             AutoQuesting.private.disallowedQuests.accept[123] = true
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was_not.called()
+        end)
+
+        it("should accept trivial quest from detail when setting is enabled", function()
+            Questie.db.profile.acceptTrivial = true
+            _G.GetQuestID = function() return 123 end
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called()
+        end)
+
+        it("should not accept trivial quest from detail when setting is disabled", function()
+            _G.GetQuestID = function() return 123 end
+            QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
+            QuestieDB.IsTrivial = spy.new(function() return true end)
 
             AutoQuesting.OnQuestDetail()
 

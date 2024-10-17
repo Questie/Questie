@@ -1,5 +1,7 @@
 ---@class AutoQuesting
 local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local _IsBindTrue, _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedToAcceptFromNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn
 
@@ -14,7 +16,18 @@ function AutoQuesting.OnQuestDetail()
         return
     end
 
-    AcceptQuest()
+    local doAcceptQuest = false
+    if Questie.db.profile.acceptTrivial then
+        doAcceptQuest = true
+    else
+        local questId = GetQuestID()
+        local questLevel = QuestieDB.QueryQuestSingle(questId, "questLevel")
+        doAcceptQuest = (not QuestieDB.IsTrivial(questLevel))
+    end
+
+    if doAcceptQuest then
+        AcceptQuest()
+    end
 end
 
 function AutoQuesting.OnQuestGreetings()
