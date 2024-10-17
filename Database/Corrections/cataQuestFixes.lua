@@ -8771,6 +8771,7 @@ function CataQuestFixes.Load()
         },
         [28674] = { -- Starfall Village
             [questKeys.preQuestSingle] = {28722},
+            [questKeys.nextQuestInChain] = 28701,
         },
         [28675] = { -- Hero's Call: Swamp of Sorrows!
             [questKeys.requiredMaxLevel] = 52,
