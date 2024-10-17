@@ -7381,6 +7381,9 @@ function CataQuestFixes.Load()
         [27856] = { -- Marking the Fallen
             [questKeys.preQuestGroup] = {27852,27853},
         },
+        [27857] = { -- We're Under Attack!
+            [questKeys.preQuestGroup] = {27854,27855,27856},
+        },
         [27861] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
             [questKeys.exclusiveTo] = {27862,27863},
         },
