@@ -7372,6 +7372,15 @@ function CataQuestFixes.Load()
         [27817] = { -- Dropping the Hammer
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 47241}}}},
         },
+        [27854] = { -- Tides of Darkness
+            [questKeys.preQuestGroup] = {27852,27853},
+        },
+        [27855] = { -- Reinforcements Denied
+            [questKeys.preQuestGroup] = {27852,27853},
+        },
+        [27856] = { -- Marking the Fallen
+            [questKeys.preQuestGroup] = {27852,27853},
+        },
         [27861] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
             [questKeys.exclusiveTo] = {27862,27863},
         },
