@@ -7372,6 +7372,15 @@ function CataQuestFixes.Load()
         [27817] = { -- Dropping the Hammer
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 47241}}}},
         },
+        [27854] = { -- Tides of Darkness
+            [questKeys.preQuestGroup] = {27852,27853},
+        },
+        [27855] = { -- Reinforcements Denied
+            [questKeys.preQuestGroup] = {27852,27853},
+        },
+        [27856] = { -- Marking the Fallen
+            [questKeys.preQuestGroup] = {27852,27853},
+        },
         [27861] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
             [questKeys.exclusiveTo] = {27862,27863},
         },
@@ -7417,6 +7426,10 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Escaped the Obelisk of the Sun",{[zoneIDs.ULDUM] = {{54.54,42.08}}}},
         },
+        [27906] = { -- Neeka Bloodscar
+            [questKeys.preQuestSingle] = {27857},
+            [questKeys.nextQuestInChain] = 27907,
+        },
         [27909] = { -- The Purespring
             [questKeys.preQuestGroup] = {27907,27908},
         },
@@ -7426,6 +7439,9 @@ function CataQuestFixes.Load()
         [27915] = { -- The Heart of the Temple
             [questKeys.preQuestSingle] = {27914},
             [questKeys.nextQuestInChain] = 27605,
+        },
+        [27916] = { -- Ruag's Report
+            [questKeys.nextQuestInChain] = 28553,
         },
         [27922] = { -- Traitors!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Hide behind Neferset Frond"), 0, {{"object", 206579}}}},
@@ -8507,6 +8523,10 @@ function CataQuestFixes.Load()
         },
         [28552] = { -- Hero's Call: Dustwallow Marsh!
             [questKeys.requiredMaxLevel] = 38,
+        },
+        [28553] = { -- Okrilla and the Blasted Lands
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 25674,
         },
         [28554] = { -- Warchief's Command: Dustwallow Marsh!
             [questKeys.objectives] = {},
