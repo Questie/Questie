@@ -87,7 +87,7 @@ end
 ---@param zoneId number @The zone ID (Check `l10n.zoneLookup`)
 ---@return table<number,any> @The zoneTree table which represents the list of all the different quests
 function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
-    local quests = QuestieJourney.zoneMap[zoneId]--QuestieDB:GetQuestsByZoneId(zoneId)
+    local quests = QuestieJourney.zoneMap[zoneId]
 
     if (not quests) then
         return nil

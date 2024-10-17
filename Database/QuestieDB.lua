@@ -104,6 +104,7 @@ local questTagCorrections = {
     [12437] = {41, "PvP"},
     [12443] = {41, "PvP"},
     [12446] = {41, "PvP"},
+    [13129] = {81, "Dungeon"},
     [13199] = {41, "PvP"},
     [29135] = {62, "Raid"},
     [78680] = {1, "Elite"},
@@ -519,20 +520,26 @@ function QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
         return true
     end
     for preQuestIndex=1, #preQuestGroup do
-        -- If a quest is not complete and no exlusive quest is complete, the requirement is not fulfilled
-        if not Questie.db.char.complete[preQuestGroup[preQuestIndex]] then
-            local preQuest = QuestieDB.QueryQuestSingle(preQuestGroup[preQuestIndex], "exclusiveTo")
+        local preQuestId = preQuestGroup[preQuestIndex]
+        if preQuestId < 0 then
+            -- Negative entries in preQuestGroup skip the exclusiveTo check
+            if (not Questie.db.char.complete[-preQuestId]) then
+                return false
+            end
+        -- If a quest is not complete and no exclusive quest is complete, the requirement is not fulfilled
+        elseif not Questie.db.char.complete[preQuestId] then
+            local preQuest = QuestieDB.QueryQuestSingle(preQuestId, "exclusiveTo")
             if (not preQuest) then
                 return false
             end
 
-            local anyExlusiveFinished = false
+            local anyExclusiveFinished = false
             for i=1, #preQuest do
                 if Questie.db.char.complete[preQuest[i]] then
-                    anyExlusiveFinished = true
+                    anyExclusiveFinished = true
                 end
             end
-            if not anyExlusiveFinished then
+            if not anyExclusiveFinished then
                 return false
             end
         end
@@ -1421,59 +1428,6 @@ function QuestieDB.IsFriendlyToPlayer(friendlyToFaction)
     end
 
     return false
-end
-
---[[
-    https://github.com/cmangos/issues/wiki/AreaTable.dbc
-    Example to differentiate between Dungeon and Zone infront of a Dungeon:
-    1337 Uldaman = The Dungeon (MapID ~= 0, AreaID = 0)
-    1517 Uldaman = Cave infront of the Dungeon (MapID = 0, AreaID = 3 (Badlands))
-
-    Check `l10n.zoneLookup` for the available IDs
-]]
----@param zoneId number
----@return table
-function QuestieDB:GetQuestsByZoneId(zoneId)
-    if not zoneId then
-        return nil;
-    end
-    -- is in cache return that
-    if _QuestieDB.zoneCache[zoneId] then
-        return _QuestieDB.zoneCache[zoneId]
-    end
-    local zoneQuests = {};
-    local alternativeZoneID = ZoneDB:GetAlternativeZoneId(zoneId)
-    -- loop over all quests to populate a zone
-    for qid, _ in pairs(QuestieDB.QuestPointers or QuestieDB.questData) do
-        local quest = QuestieDB.GetQuest(qid);
-        if quest then
-            if quest.zoneOrSort > 0 then
-                if (quest.zoneOrSort == zoneId or (alternativeZoneID and quest.zoneOrSort == alternativeZoneID)) then
-                    zoneQuests[qid] = quest;
-                end
-            elseif quest.Starts.NPC and (not zoneQuests[qid]) then
-                local npc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
-                if npc and npc.friendly and npc.spawns then
-                    for zone, _ in pairs(npc.spawns) do
-                        if zone == zoneId  or (alternativeZoneID and zone == alternativeZoneID) then
-                            zoneQuests[qid] = quest;
-                        end
-                    end
-                end
-            elseif quest.Starts.GameObject and (not zoneQuests[qid]) then
-                local obj = QuestieDB:GetObject(quest.Starts.GameObject[1]);
-                if obj and obj.spawns then
-                    for zone, _ in pairs(obj.spawns) do
-                        if zone == zoneId  or (alternativeZoneID and zone == alternativeZoneID) then
-                            zoneQuests[qid] = quest;
-                        end
-                    end
-                end
-            end
-        end
-    end
-    _QuestieDB.zoneCache[zoneId] = zoneQuests;
-    return zoneQuests;
 end
 
 ---------------------------------------------------------------------------------------------------

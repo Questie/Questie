@@ -20,7 +20,9 @@ def get_commit_changelog():
     git_log = get_chronological_git_log(last_tag)
     categories = get_sorted_categories(git_log)
 
-    return get_changelog_string(categories)
+    contributors = get_contributors(last_tag)
+
+    return get_changelog_string(categories, contributors)
 
 
 def get_last_git_tag():
@@ -63,6 +65,17 @@ def get_sorted_categories(git_log):
 
     return categories
 
+def get_contributors(last_tag):
+    log_output = subprocess.run(
+        ["git", "log", f"{last_tag}..HEAD", "--pretty=format:%an"],
+        **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
+    ).stdout.decode().strip().split('\n')
+
+    # Remove duplicates
+    contributors = set(log_output)
+
+    return contributors
+
 
 def replace_start(line, a, b):
     if line.strip().startswith(a):
@@ -82,8 +95,9 @@ def transform_lines_into_past_tense(line):
     return line
 
 
-def get_changelog_string(categories):
+def get_changelog_string(categories, contributors):
     changelog = ''
+
     for key_header in commit_keys_and_header:
         key = key_header[0]
         if len(categories[key]) > 0:
@@ -92,6 +106,11 @@ def get_changelog_string(categories):
             for line in categories[key]:
                 changelog += f'* {line}\n'.replace('\\[', '[')
             changelog += '\n'
+
+    changelog += '\n## Contributors\n\n'
+    for contributor in contributors:
+        changelog += f'@{contributor}, '
+    changelog = changelog[:-2] + '\n\n'
 
     return changelog
 

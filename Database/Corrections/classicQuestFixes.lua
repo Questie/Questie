@@ -786,6 +786,9 @@ function QuestieQuestFixes:Load()
         [1302] = {
             [questKeys.preQuestSingle] = {}, -- #889
         },
+        [1322] = {
+            [questKeys.objectivesText] = {"Acquire 6 Acidic Venom Sacs for Do'gol in Brackenwall Village."},
+        },
         [1324] = {
             [questKeys.objectives] = {{{4966,"Subdue Private Hendel"}}},
             [questKeys.nextQuestInChain] = 1267, -- wotlkDB is wrong, classicGB is right
@@ -1084,6 +1087,9 @@ function QuestieQuestFixes:Load()
         [1918] = {
             [questKeys.startedBy] = {{12759},nil,{16408}},
         },
+        [1919] = { -- Report to Jennea
+            [questKeys.startedBy] = {{328,7312}},
+        },
         [1920] = {
             [questKeys.preQuestSingle] = {}, -- #1328
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
@@ -1191,7 +1197,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Offer the sacrifice at the fountain", {[zoneIDs.DARNASSUS]={{38.63,85.99}}}},
         },
         [2561] = {
-            [questKeys.objectives] = {{{7318,"Release Oben Rageclaw's spirit"}}},
+            [questKeys.objectives] = {{{7318,"Release Oben Rageclaw's spirit",Questie.ICON_TYPE_INTERACT}}},
         },
         [2608] = {
             [questKeys.triggerEnd] = {"Diagnosis Complete", {[zoneIDs.STORMWIND_CITY]={{78.04,59}}}},
@@ -1383,6 +1389,9 @@ function QuestieQuestFixes:Load()
         },
         [3453] = {
             [questKeys.objectives] = {{{8479,"Torch Creation"}}},
+        },
+        [3454] = { -- The Torch of Retribution
+            [questKeys.nextQuestInChain] = 3462,
         },
         [3483] = {
             [questKeys.parentQuest] = 3449, -- #1008
@@ -1616,6 +1625,9 @@ function QuestieQuestFixes:Load()
         [4288] = {
             [questKeys.triggerEnd] = {"Discover and examine the Western Crystal Pylon",{[zoneIDs.UN_GORO_CRATER]={{23,59}}}},
         },
+        [4295] = {
+            [questKeys.requiredLevel] = 42,
+        },
         [4322] = {
             [questKeys.triggerEnd] = {"Jail Break!", {[zoneIDs.BLACKROCK_DEPTHS]={{-1,-1}}}},
         },
@@ -1657,6 +1669,12 @@ function QuestieQuestFixes:Load()
         },
         [4507] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Gorishi Queen Lure."), 0, {{"object", 174792}}}},
+        },
+        [4512] = {
+            [questKeys.requiredSourceItems] = {11914,11948},
+        },
+        [4513] = {
+            [questKeys.requiredSourceItems] = {11953},
         },
         [4542] = {
             [questKeys.exclusiveTo] = {4841},
@@ -2402,7 +2420,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMinRep] = {59,9000},
         },
         [6661] = {
-            [questKeys.objectives] = {{{13016,"Rats Captured"}}},
+            [questKeys.objectives] = {{{13016,"Rats Captured",Questie.ICON_TYPE_INTERACT}}},
         },
         [6721] = {
             [questKeys.startedBy] = {{5116},nil,nil},
@@ -2696,8 +2714,14 @@ function QuestieQuestFixes:Load()
         [7781] = {
             [questKeys.startedBy] = {{11583},nil,{19003}},
         },
+        [7782] = { -- The Lord of Blackrock
+            [questKeys.startedBy] = {{1748}},
+        },
         [7783] = {
             [questKeys.startedBy] = {{11583},nil,{19002}},
+        },
+        [7784] = { -- The Lord of Blackrock
+            [questKeys.startedBy] = {{4949}},
         },
         [7785] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.ROGUE,
@@ -2770,6 +2794,9 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 60,
             [questKeys.specialFlags] = 1,
         },
+        [8044] = {
+            [questKeys.name] = "The Rage of Mugamba",
+        },
         [8105] = {
             [questKeys.specialFlags] = 0,
         },
@@ -2801,6 +2828,9 @@ function QuestieQuestFixes:Load()
                 [zoneIDs.SILVERPINE_FOREST]={{39.68,17.75}}},
             },
             [questKeys.requiredMinRep] = {510,42000},
+        },
+        [8148] = {
+            [questKeys.name] = "Maelstrom's Wrath",
         },
         [8149] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -3015,6 +3045,12 @@ function QuestieQuestFixes:Load()
         },
         [8447] = {
             [questKeys.triggerEnd] = {"Waking Legends.",{[zoneIDs.MOONGLADE]={{40.0,48.6}}}},
+        },
+        [8470] = {
+            [questKeys.startedBy] = {{7156,7157,7158},nil,{20741}},
+        },
+        [8471] = {
+            [questKeys.startedBy] = {{7438,7439,7440,7441,7442,10738,10916},nil,{20742}},
         },
         [8481] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Plant the Demon Summoning Torch"),0,{{"object", 180673}}}},
@@ -3912,6 +3948,9 @@ function QuestieQuestFixes:Load()
         },
         [9319] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [9321] = {
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
         [9322] = {
             [questKeys.requiredLevel] = 1,

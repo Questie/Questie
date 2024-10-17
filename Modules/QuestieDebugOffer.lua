@@ -269,7 +269,7 @@ local function filterItem(itemID, itemInfo, containerGUID)
     -- return true if we should create debug offer, false if not
     if itemID <= 0 or itemID == nil or containerGUID == nil then -- if itemID or containerGUID is invalid don't bother going further
         return nil
-    elseif itemID < 190000 then
+    elseif itemID < 190000 and (not Questie.db.profile.enableBugHintsForAllFlavors) then
         -- temporary catch-all for any item added before SoD so we only get SoD reports;
         -- OG chronoboon displacer was 184937 so safe to say any SoD items are higher than 190000
         return nil

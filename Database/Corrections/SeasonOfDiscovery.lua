@@ -8,7 +8,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
-SeasonOfDiscovery.currentPhase = 4 -- TODO: Use API function which hopefully will come in the future
+SeasonOfDiscovery.currentPhase = 5 -- TODO: Use API function which hopefully will come in the future
 
 local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
     [1470]  = 1, -- Warlock Metamorphosis Part 1
@@ -80,9 +80,6 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [78150] = 1, -- Mage Icy Veins
     [78229] = 1, -- Druid Wild Growth
     [78261] = 1, -- Rogue Deadly Brew Part 1
-    [78265] = 1, -- Grizzby prequest for multiple runes
-    [78266] = 1, -- Grizzby prequest for multiple runes
-    [78267] = 1, -- Grizzby prequest for multiple runes
     [78270] = 1, -- Rogue Deadly Brew Part 3
     [78277] = 1, -- Mage Horde Living Bomb
     [78287] = 1, -- Let Me Make You An Offer Alliance
@@ -169,6 +166,19 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [81955] = 3, -- Mage Book A Mind of Metal
     [81956] = 3, -- Mage Book Conjurer's Codex
     [82208] = 3, -- Mage Deep Freeze
+    [84135] = 4, -- Warrior Shockwave
+    [84137] = 4, -- Warrior Shockwave
+    [84138] = 4, -- Warrior Shockwave
+    [84146] = 4, -- Warrior Shockwave
+    [84211] = 4, -- Warrior Shockwave
+    [84212] = 4, -- Warrior Shockwave
+    [84213] = 4, -- Warrior Shockwave
+    [84317] = 4, -- Warrior Sudden Death
+    [84318] = 4, -- Paladin Shield of Righteousness
+    [84319] = 4, -- Paladin Shield of Righteousness
+    [84330] = 4, -- Paladin Shield of Righteousness
+    [84332] = 4, -- Paladin Shield of Righteousness
+    [84414] = 4, -- Paladin Shield of Righteousness
 
     -- fake IDs
     --- Mage runes
@@ -450,11 +460,23 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [80454] = 3, -- Rogue Honor Among Thieves
     [80455] = 3, -- Rogue Honor Among Thieves
     [80526] = 3, -- Rogue Honor Among Thieves
+    [81682] = 3, -- Warrior Gladiator Stance
+    [81697] = 3, -- Warrior Gladiator Stance
+    [81801] = 3, -- Warrior Gladiator Stance
+    [81877] = 3, -- Warrior Gladiator Stance
     [81900] = 3, -- Hunter Rapid Killing
     [81917] = 3, -- Hunter Rapid Killing
     [81919] = 3, -- Hunter Rapid Killing
+    [81960] = 3, -- Shaman Overcharged
+    [81968] = 3, -- Shaman Overcharged
     [82043] = 3, -- Mage Advanced Warding
     [82044] = 3, -- Mage Advanced Warding
+    [82071] = 3, -- Shaman Overcharged
+    [82072] = 3, -- Shaman Overcharged
+    [82073] = 3, -- Shaman Overcharged
+    [82074] = 3, -- Shaman Overcharged
+    [82075] = 3, -- Shaman Overcharged
+    [82076] = 3, -- Shaman Overcharged
     [82084] = 3, -- Mage Temporal Anomaly
     [82316] = 3, -- Priest Eye of the Void
     [90269] = 3, -- Druid Gale Winds
@@ -511,6 +533,12 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [84321] = 4, -- Priest Binding Heal
     [84322] = 4, -- Priest Binding Heal
     [84323] = 4, -- Priest Binding Heal
+    [84324] = 4, -- Priest Server-Wide Racials
+    [84325] = 4, -- Priest Server-Wide Racials
+    [84326] = 4, -- Priest Server-Wide Racials
+    [84327] = 4, -- Priest Server-Wide Racials
+    [84328] = 4, -- Priest Server-Wide Racials
+    [84329] = 4, -- Priest Server-Wide Racials
     [84369] = 4, -- Mage Frozen Orb
     [84394] = 4, -- Mage Arcance Barrage
     [84395] = 4, -- Mage Arcance Barrage
@@ -524,6 +552,11 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [84405] = 4, -- Priest Binding Heal
     [84406] = 4, -- Priest Binding Heal
     [84407] = 4, -- Priest Binding Heal
+    [84408] = 4, -- Priest Server-Wide Racials
+    [84410] = 4, -- Priest Server-Wide Racials
+    [84411] = 4, -- Priest Server-Wide Racials
+    [84412] = 4, -- Priest Server-Wide Racials
+    [84413] = 4, -- Priest Server-Wide Racials
     [90307] = 4, -- Druid Improved Swipe
     [90308] = 4, -- Druid Starfall
     [90309] = 4, -- Druid Tree of Life
@@ -538,6 +571,10 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90318] = 4, -- Nature Specialization (Druid, Rogue, Shaman)
     [90319] = 4, -- Ranged Weapon Specialization (Hunter, Rogue, Warrior)
     [90320] = 4, -- Shadow Specialization (Priest, Warlock)
+    [90321] = 5, -- Healing Specialization (Paladin, Priest, Shaman, Druid, Mage)
+    [90322] = 5, -- Meditation Specialization (Paladin, Priest, Shaman, Druid, Mage)
+    [90323] = 3, -- Paladin Light's Grace
+    [90324] = 3, -- Shaman Overcharged
 }
 
 --- "automatic" phase detection for the first few phases;
@@ -616,14 +653,8 @@ local questsToBlacklistBySoDPhase = {
         [3635] = true, -- Gnome Engineering
         [3637] = true, -- Gnome Engineering
         [4181] = true, -- Goblin Engineering
-        [5141] = true, -- Dragonscale Leatherworking
-        [5143] = true, -- Tribal Leatherworking
-        [5144] = true, -- Elemental Leatherworking
-        [5145] = true, -- Dragonscale Leatherworking
-        [5146] = true, -- Elemental Leatherworking
-        [5148] = true, -- Tribal Leatherworking
-        [5283] = true, -- The Art of the Armorsmith
         [5284] = true, -- The Way of the Weaponsmith
+        [5302] = true, -- The Way of the Weaponsmith
         [6607] = true, -- Nat Pagle, Angler Extreme (Fishing 225+ quest)
         [6608] = true, -- You Too Good. (Fishing 225+ quest)
         [6609] = true, -- I Got Nothin' Left! (Fishing 225+ pre quest)
@@ -637,18 +668,15 @@ local questsToBlacklistBySoDPhase = {
     },
     [4] = { -- SoD Phase 4 == Era Phase 1+2: level cap 60, MC, Ony, world bosses
     },
-    [5] = { -- SoD Phase 5 == Era Phase 3: BWL + Darkmoon Faire
+    [5] = { -- SoD Phase 5 == Era Phase 3: BWL + Zul'Gurub
+        [4788] = true, -- The Final Tablets
+        [5065] = true, -- The Lost Tablets of Mosh'aru
         [7761] = true, -- Blackhand's Command; BWL attune
         [7783] = true, -- The Lord of Blackrock Part 1
         [7784] = true, -- The Lord of Blackrock Part 2
         [7787] = true, -- Rise, Thunderfury!
-    },
-    [6] = { -- SoD Phase 6 == Era Phase 4: Zul'Gurub
-        [4788] = true, -- The Final Tablets
-        [5065] = true, -- The Lost Tablets of Mosh'aru
         [8181] = true, -- Confront Yeh'kinya
         [8182] = true, -- The Hand of Rastakhan
-        [8183] = true, -- The Heart of Hakkar
         [8411] = true,
         [8056] = true,
         [8057] = true,
@@ -659,23 +687,18 @@ local questsToBlacklistBySoDPhase = {
         [8110] = true,
         [8111] = true,
         [8112] = true,
-        [8113] = true,
         [8116] = true,
         [8117] = true,
         [8118] = true,
-        [8119] = true,
         [8041] = true,
         [8042] = true,
         [8043] = true,
-        [8044] = true,
         [8045] = true,
         [8046] = true,
         [8047] = true,
-        [8048] = true,
         [8049] = true,
         [8050] = true,
         [8051] = true,
-        [8052] = true,
         [8053] = true,
         [8054] = true,
         [8055] = true,
@@ -700,28 +723,15 @@ local questsToBlacklistBySoDPhase = {
         [8101] = true,
         [8102] = true,
         [8103] = true,
-        [8104] = true,
         [8106] = true,
         [8107] = true,
         [8108] = true,
-        [8109] = true,
         [8141] = true,
         [8142] = true,
         [8143] = true,
-        [8144] = true,
         [8145] = true,
         [8146] = true,
         [8147] = true,
-        [8148] = true,
-        [8184] = true,
-        [8185] = true,
-        [8186] = true,
-        [8187] = true,
-        [8188] = true,
-        [8189] = true,
-        [8190] = true,
-        [8191] = true,
-        [8192] = true,
         [8195] = true,
         [8196] = true,
         [8201] = true,
@@ -731,7 +741,6 @@ local questsToBlacklistBySoDPhase = {
         [8240] = true,
         [8243] = true,
         [8246] = true,
-        [8446] = true,
         [8447] = true,
         [9208] = true,
         [9209] = true,
@@ -765,7 +774,7 @@ local questsToBlacklistBySoDPhase = {
         [8287] = true,
         [8314] = true,
     },
-    [7] = { -- SoD Phase 7 == Era Phase 5: AQ
+    [6] = { -- SoD Phase 6 == Era Phase 5: AQ
         [8276] = true, -- Taking Back Silithus
         [8579] = true, -- Mortal Champions
         [8789] = true, -- Imperial Qiraji Armaments
@@ -773,7 +782,7 @@ local questsToBlacklistBySoDPhase = {
         [8791] = true, -- The Fall of Ossirian
         [8801] = true, -- C'Thun's Legacy
     },
-    [8] = { -- SoD Phase 8 == Era Phase 6: Naxxramas
+    [7] = { -- SoD Phase 7 == Era Phase 6: Naxxramas
         [9085] = true,
         [9142] = true,
         [9165] = true,
@@ -902,7 +911,7 @@ local questsToBlacklistBySoDPhase = {
         [9419] = true,
         [9416] = true,
     },
-    [9] = { -- Never appearing in Season of Discovery
+    [8] = { -- Never appearing in Season of Discovery
         [1203] = true, -- Jarl Needs a Blade - Replaced by 81570
         [1878] = true, -- Water Pouch Bounty - Replaced by 82209
         [2758] = true, -- The Origins of Smithing - Replaced by 80241
@@ -910,10 +919,27 @@ local questsToBlacklistBySoDPhase = {
         [2856] = true, -- Wild Leather Vest - Replaced by 82656
         [2881] = true, -- Troll Necklace Bounty - Replaced by 82210
         [4148] = true, -- Bloodpetal Zapper
+        [5283] = true, -- The Art of the Armorsmith -- Replaced by 85713
+        [5301] = true, -- The Art of the Armorsmith -- Replaced by 85712
+        [5141] = true, -- Dragonscale Leatherworking -- Replaced by 85702
+        [5143] = true, -- Tribal Leatherworking -- Replaced by 85705
+        [5144] = true, -- Elemental Leatherworking -- Replaced by 85703
+        [5145] = true, -- Dragonscale Leatherworking -- Replaced by 85701
+        [5146] = true, -- Elemental Leatherworking -- Replaced by 85704
+        [5148] = true, -- Tribal Leatherworking -- Replaced by 85706
         [5284] = true, -- The Way of the Weaponsmith - Replaced by 82662
         [5302] = true, -- The Way of the Weaponsmith - Replaced by 82665
+        [7636] = true, -- Stave of the Ancients - Replaced by 84546
+        [7486] = true, -- A Hero's Reward - Replaced by 84545
+        [7782] = true, -- The Lord of Blackrock - Replaced by 85643
+        [7784] = true, -- The Lord of Blackrock - Replaced by 85644
         [8467] = true, -- Feathers for Nafien - Replaced by 84777
         [8769] = true, -- A Ticking Present - Replaced by 79637
+        [8781] = true, -- Arms for the Field - Replaced by 85798
+        [7785] = true, -- Examine the Vessel - Replaced by 85442
+        [7786] = true, -- Thunderaan the Windseeker - Replaced by 85441
+        [7787] = true, -- Rise, Thunderfury! - Replaced by 85443
+        [8446] = true, -- Shrouded in Nightmare (Emerald Dream Dragons)
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,
@@ -975,6 +1001,27 @@ local questsToBlacklistBySoDPhase = {
         [8422] = true,
         [8425] = true,
         [9053] = true,
+
+        -- Original ZG quests
+        [8044] = true, -- The Rage of Mugamba - Replaced by 85612
+        [8048] = true, -- The Hero's Brand - Replaced by 85617
+        [8052] = true, -- The All-Seeing Eye of Zuldazar - Replaced by 85616
+        [8104] = true, -- The Jewel of Kajaro - Replaced by 85629
+        [8109] = true, -- Kezan's Unstoppable Taint - Replaced by 85625
+        [8113] = true, -- Pristine Enchanted South Seas Kelp - Replaced by 85608
+        [8119] = true, -- The Unmarred Vision of Voodress - Replaced by 85604
+        [8144] = true, -- Zandalarian Shadow Mastery Talisman - Replaced by 85633
+        [8148] = true, -- Maelstrom's Wrath - Replaced by 85637
+        [8183] = true, -- The Heart of Hakkar - Replaced by 85660
+        [8184] = true, -- Presence of Might - Replaced by 85595
+        [8185] = true, -- Syncretist's Sigil - Replaced by 85601
+        [8186] = true, -- Death's Embrace - Replaced by 85596
+        [8187] = true, -- Falcon's Call - Replaced by 85597
+        [8188] = true, -- Vodouisant's Vigilant Embrace - Replaced by 85603
+        [8189] = true, -- Presence of Sight - Replaced by 85600
+        [8190] = true, -- Hoodoo Hex - Replaced by 85599
+        [8191] = true, -- Prophetic Aura - Replaced by 85598
+        [8192] = true, -- Animist's Caress - Replaced by 85602
 
         -- Events - These might not be re-added at level 60
         [6963] = true, -- Old "Stolen Winter Veil Treats" quest
@@ -1114,6 +1161,39 @@ local questsToBlacklistBySoDPhase = {
         [7881] = true, -- Carnival Boots
         [7890] = true, -- Heavy Grinding Stone
         [7889] = true, -- Coarse Weightstone
+
+        -- ZG quests
+        [8053] = true, -- Paragons of Power: The Freethinker's Armguards
+        [8054] = true, -- Paragons of Power: The Freethinker's Belt
+        [8055] = true, -- Paragons of Power: The Freethinker's Breastplate
+        [8056] = true, -- Paragons of Power: The Augur's Bracers
+        [8057] = true, -- Paragons of Power: The Haruspex's Bracers
+        [8058] = true, -- Paragons of Power: The Vindicator's Armguards
+        [8059] = true, -- Paragons of Power: The Demoniac's Wraps
+        [8060] = true, -- Paragons of Power: The Illusionist's Wraps
+        [8061] = true, -- Paragons of Power: The Confessor's Wraps
+        [8062] = true, -- Paragons of Power: The Predator's Bracers
+        [8063] = true, -- Paragons of Power: The Madcap's Bracers
+        [8064] = true, -- Paragons of Power: The Haruspex's Belt
+        [8065] = true, -- Paragons of Power: The Haruspex's Tunic
+        [8066] = true, -- Paragons of Power: The Predator's Belt
+        [8067] = true, -- Paragons of Power: The Predator's Mantle
+        [8068] = true, -- Paragons of Power: The Illusionist's Mantle
+        [8069] = true, -- Paragons of Power: The Illusionist's Robes
+        [8070] = true, -- Paragons of Power: The Confessor's Bindings
+        [8071] = true, -- Paragons of Power: The Confessor's Mantle
+        [8072] = true, -- Paragons of Power: The Madcap's Mantle
+        [8073] = true, -- Paragons of Power: The Madcap's Tunic
+        [8074] = true, -- Paragons of Power: The Augur's Belt
+        [8075] = true, -- Paragons of Power: The Augur's Hauberk
+        [8076] = true, -- Paragons of Power: The Demoniac's Mantle
+        [8077] = true, -- Paragons of Power: The Demoniac's Robes
+        [8078] = true, -- Paragons of Power: The Vindicator's Belt
+        [8079] = true, -- Paragons of Power: The Vindicator's Breastplate
+
+        [78265] = true, -- Fish Oil (replaced by 82850)
+        [78266] = true, -- Dark Iron Ordinance (replaced by 82851)
+        [78267] = true, -- Shredder Turbochargers (replaced by 82853)
     },
 }
 

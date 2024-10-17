@@ -1,0 +1,28 @@
+name: Feature Request
+description: >
+  You're thinking about something to improve Questie? Let us know what feature you would like to see in Questie!
+labels: ["Feature Request"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## READ THIS FIRST
+        Hello, thanks for taking the time to report a bug!
+
+        Before you proceed, please verify that you're running the latest version of Questie. The easiest way to do this is via the Curseforge client, but you can also download the latest version here: [Questie on CurseForge](https://www.curseforge.com/wow/addons/questie)
+
+        Questie is one of the most popular Classic WoW addons. However, like almost all WoW addons, it's built and maintained by a team of volunteers.
+
+        Feel free to reach out to us on the [Questie Discord](https://discord.gg/s33MAYKeZd)
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Description
+      description: >
+        Explain in detail what the kind of changes or additional functionalities you suggest.
+      placeholder: >
+        Describe your idea with as much detail as possible and include screenshots if applicable.
+    validations:
+      required: true

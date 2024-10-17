@@ -502,6 +502,13 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.SEARING_GORGE] = {{65.0,45.0}},
             },
         },
+        [456918] = { -- Console
+            [objectKeys.zoneID] = zoneIDs.WESTFALL,
+            [objectKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{54.5,40.2}},
+                [zoneIDs.TIRISFAL_GLADES] = {{53.56,57.21}},
+            },
+        },
         [463206] = { -- Book
             [objectKeys.zoneID] = zoneIDs.BURNING_STEPPES,
             [objectKeys.spawns] = {
@@ -513,6 +520,32 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.spawns] = {
                 [zoneIDs.WESTERN_PLAGUELANDS] = {{69.41,72.84}},
             },
+        },
+        [467315] = { -- Old Campsite
+            [objectKeys.name] = "Old Campsite",
+            [objectKeys.zoneID] = zoneIDs.WINTERSPRING,
+            [objectKeys.spawns] = {
+                [zoneIDs.WINTERSPRING] = {{58,21}},
+            },
+        },
+        [478062] = { -- Damaged Silver Hand Breastplate
+            [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
+            [objectKeys.spawns] = {
+                [zoneIDs.WESTERN_PLAGUELANDS] = {{46.96,69.73}},
+            },
+        },
+        [478075] = { -- Campsite
+            [objectKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+            [objectKeys.spawns] = {
+                [zoneIDs.BURNING_STEPPES] = {{17,46}},
+            },
+        },
+
+        -- Fake IDs
+        [600000] = {
+            [objectKeys.name] = "Bone Pile", -- For Soul of Mischief
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{69.2,29.4},{69.2,29.6},{69.8,29.4},{69.8,29.6},{70.4,31},{70.6,30},{71.2,29.2},{71.4,31.8}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
     }
 end

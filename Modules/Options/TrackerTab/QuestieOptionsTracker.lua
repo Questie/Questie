@@ -155,7 +155,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     openQuestLog = {
                         type = "select",
                         order = 7,
-                        values = _GetShortcuts(),
+                        values = _GetShortcuts,
                         style = 'dropdown',
                         name = function()
                             if Questie.IsWotlk or Questie.IsCata then
@@ -181,7 +181,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     untrackQuest = {
                         type = "select",
                         order = 8,
-                        values = _GetShortcuts(),
+                        values = _GetShortcuts,
                         style = 'dropdown',
                         name = function()
                             if Questie.IsWotlk or Questie.IsCata then
@@ -534,7 +534,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     setTomTom = {
                         type = "select",
                         order = 10,
-                        values = _GetShortcuts(),
+                        values = _GetShortcuts,
                         style = 'dropdown',
                         name = function() return l10n('Set |cFF54e33bTomTom|r Target') end,
                         desc = function()

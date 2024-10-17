@@ -158,6 +158,7 @@ _AutoQuesting.disallowedQuests = {
         [12671] = true, -- Reconnaissance Flight (Flies you across the Sholazar Basin)
         [13926] = true, -- Little Orphan Roo of the Oracles (exclusive to the Wolvar)
         [13927] = true, -- Little Orphan Kekek of the Wolvar (exclusive to the Oracles)
+        [27022] = true, -- Extinguishing the Idol
     },
     turnIn = {
         [2199] = true, -- Lore for a Price (crafting material objectives)
@@ -172,8 +173,10 @@ _AutoQuesting.disallowedQuests = {
         [5166] = true, -- Breastplate of the Chromatic Flight (crafting material objectives)
         [5167] = true, -- Legplates of the Chromatic Defier (crafting material objectives)
         [7637] = true, -- Emphasis on Sacrifice (Gold objective)
+        [8196] = true, -- Essence Mangoes (ZG Turn-In)
         [8783] = true, -- Extraordinary Materials (crafting material objectives)
         [8809] = true, -- Extraordinary Materials (crafting material objectives)
+        [9338] = true, -- Allegiance to Cenarion Circle
         [10975] = true, -- Purging the Chambers of Bash'ir (Ethereum Prison Key exchange)
         -- Netherwing Drake quests
         [11109] = true,
@@ -194,6 +197,13 @@ _AutoQuesting.disallowedQuests = {
         [8388] = true,
         [8371] = true,
         [8385] = true,
+        [64845] = true,
+        -- AQ
+        [8548] = true,
+        [8572] = true,
+        [8573] = true,
+        [8574] = true,
+        [8288] = true,
         -- Aldor/scryer quests
         [10551] = true,
         [10552] = true,

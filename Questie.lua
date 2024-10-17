@@ -13,7 +13,10 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
+---@type QuestieInit
+local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 
+---Called on ADDON_LOADED - Saved Variables are loaded at this point
 function Questie:OnInitialize()
     -- This has to happen OnInitialize to be available asap
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
@@ -24,6 +27,8 @@ function Questie:OnInitialize()
     Questie.db.RegisterCallback(Questie, "OnProfileReset", "RefreshConfig")
 
     QuestieEventHandler:RegisterEarlyEvents()
+
+    QuestieInit.OnAddonLoaded()
 end
 
 function Questie:OnEnable()
@@ -220,7 +225,7 @@ Questie.ICON_TYPE_NODE_ORE = 22
 Questie.ICON_TYPE_CHEST = 23
 
 -- Load icon pathes from SavedVariables or set the default ones
-function Questie:SetIcons()
+function Questie.SetIcons()
     Questie.usedIcons[Questie.ICON_TYPE_SLAY] = Questie.db.profile.ICON_SLAY or Questie.icons["slay"]
     Questie.usedIcons[Questie.ICON_TYPE_LOOT] = Questie.db.profile.ICON_LOOT or Questie.icons["loot"]
     Questie.usedIcons[Questie.ICON_TYPE_EVENT] = Questie.db.profile.ICON_EVENT or Questie.icons["event"]
