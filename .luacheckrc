@@ -2802,6 +2802,7 @@ globals = {
     "HBD_PINS_WORLDMAP_SHOW_CURRENT",
     "HBD_PINS_WORLDMAP_SHOW_PARENT",
     "HBD_PINS_WORLDMAP_SHOW_WORLD",
+    "ImmersionFrame",
     "ImmersionContentFrame",
     "DBM",
     "hudDuration",
