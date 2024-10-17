@@ -9188,6 +9188,12 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.nextQuestInChain] = 14482,
         },
+        [28830] = { -- Chips off the Old Block
+            [questKeys.preQuestSingle] = {28829},
+        },
+        [28831] = { -- Damn You, Frostilicus
+            [questKeys.preQuestSingle] = {28829},
+        },
         [28832] = { -- Twilight Shores
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 50262}}}},
         },
