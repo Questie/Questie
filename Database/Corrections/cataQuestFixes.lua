@@ -7562,6 +7562,9 @@ function CataQuestFixes.Load()
         [27978] = { -- Ghostbuster
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [27979] = { -- Dark Ministry
+            [questKeys.requiredSourceItems] = {62823,62824,62825},
+        },
         [27984] = { -- Lunthistle's Tale
             [questKeys.objectives] = {{{8436,nil,Questie.ICON_TYPE_TALK}}},
         },
