@@ -3209,6 +3209,7 @@ function SeasonOfDiscovery:LoadQuests()
         [85604] = { -- The Unmarred Vision of Voodress
             [questKeys.startedBy] = {{14904}},
             [questKeys.finishedBy] = {{14904}},
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
             [questKeys.preQuestSingle] = {8118},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
@@ -3234,6 +3235,7 @@ function SeasonOfDiscovery:LoadQuests()
         [85608] = { -- Pristine Enchanted South Seas Kelp
             [questKeys.startedBy] = {{14904}},
             [questKeys.finishedBy] = {{14904}},
+            [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.preQuestSingle] = {8112},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
@@ -3256,6 +3258,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85612] = { -- The Rage of Mugamba
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.preQuestSingle] = {8043},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
@@ -3280,6 +3283,7 @@ function SeasonOfDiscovery:LoadQuests()
         [85616] = { -- The All-Seeing Eye of Zuldazar
             [questKeys.startedBy] = {{14903}},
             [questKeys.finishedBy] = {{14903}},
+            [questKeys.requiredClasses] = classIDs.PRIEST,
             [questKeys.preQuestSingle] = {8051},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
@@ -3288,6 +3292,7 @@ function SeasonOfDiscovery:LoadQuests()
         [85617] = { -- The Hero's Brand
             [questKeys.startedBy] = {{14902}},
             [questKeys.finishedBy] = {{14902}},
+            [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.preQuestSingle] = {8047},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
@@ -3353,6 +3358,7 @@ function SeasonOfDiscovery:LoadQuests()
         [85629] = { -- The Jewel of Kajaro
             [questKeys.startedBy] = {{14903}},
             [questKeys.finishedBy] = {{14903}},
+            [questKeys.requiredClasses] = classIDs.MAGE,
             [questKeys.preQuestSingle] = {8103},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
@@ -3377,6 +3383,7 @@ function SeasonOfDiscovery:LoadQuests()
         [85633] = { -- Zandalarian Shadow Mastery Talisman
             [questKeys.startedBy] = {{14905}},
             [questKeys.finishedBy] = {{14905}},
+            [questKeys.requiredClasses] = classIDs.ROGUE,
             [questKeys.preQuestSingle] = {8143},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
@@ -3400,6 +3407,7 @@ function SeasonOfDiscovery:LoadQuests()
         [85637] = { -- Maelstrom's Wrath
             [questKeys.startedBy] = {{14905}},
             [questKeys.finishedBy] = {{14905}},
+            [questKeys.requiredClasses] = classIDs.HUNTER,
             [questKeys.preQuestSingle] = {8147},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
