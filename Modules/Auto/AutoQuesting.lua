@@ -62,7 +62,23 @@ function AutoQuesting.OnGossipShow()
 
     if Questie.db.profile.autoaccept then
         if #availableQuests > 0 then
-            QuestieCompat.SelectAvailableQuest(1)
+            local indexToAccept = 0
+            if Questie.db.profile.acceptTrivial then
+                indexToAccept = 1
+            else
+                -- Check if there is a non-trivial quest available
+                for isTrivialIndex = 3, #availableQuests, INDIZES_AVAILABLE do
+                    local isTrivial = availableQuests[isTrivialIndex]
+                    if (not isTrivial) then
+                        indexToAccept = math.floor(isTrivialIndex / INDIZES_AVAILABLE) + 1
+                        break
+                    end
+                end
+            end
+
+            if indexToAccept > 0 then
+                QuestieCompat.SelectAvailableQuest(indexToAccept)
+            end
         end
     end
 end

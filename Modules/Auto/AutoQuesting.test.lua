@@ -9,6 +9,7 @@ describe("AutoQuesting", function()
     before_each(function()
         Questie.db.profile.autoaccept = true
         Questie.db.profile.autocomplete = true
+        Questie.db.profile.acceptTrivial = false
         Questie.db.profile.autoModifier = "disabled"
         _G.QuestieCompat.GetAvailableQuests = spy.new(function() end)
         _G.QuestieCompat.SelectAvailableQuest = spy.new(function() end)
@@ -261,6 +262,37 @@ describe("AutoQuesting", function()
             AutoQuesting.OnGossipShow()
 
             assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+        end)
+
+        it("should accept trivial quest from gossip when setting is enabled", function()
+            Questie.db.profile.acceptTrivial = true
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Trivial Quest", 1, true, 1, false, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
+        end)
+
+        it("should not accept trivial quest from gossip when setting is disabled", function()
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Trivial Quest", 1, true, 1, false, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+        end)
+
+        it("should skip trivial quest from gossip when setting is disabled and accept non-trivial", function()
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Trivial Quest", 1, true, 1, false, false, false, "Non-Trivial Quest", 1, false, 1, false, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(2)
         end)
     end)
 
