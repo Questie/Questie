@@ -96,11 +96,7 @@ def transform_lines_into_past_tense(line):
 
 
 def get_changelog_string(categories, contributors):
-    changelog = '## Contributors\n\n'
-
-    for contributor in contributors:
-        changelog += f'{contributor}, '
-    changelog = changelog[:-2] + '\n\n'
+    changelog = ''
 
     for key_header in commit_keys_and_header:
         key = key_header[0]
@@ -110,6 +106,11 @@ def get_changelog_string(categories, contributors):
             for line in categories[key]:
                 changelog += f'* {line}\n'.replace('\\[', '[')
             changelog += '\n'
+
+    changelog += '\n## Contributors\n\n'
+    for contributor in contributors:
+        changelog += f'@{contributor}, '
+    changelog = changelog[:-2] + '\n\n'
 
     return changelog
 
