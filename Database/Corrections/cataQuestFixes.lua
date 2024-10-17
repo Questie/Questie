@@ -8339,6 +8339,9 @@ function CataQuestFixes.Load()
         [28463] = { -- The Dark Iron Army
             [questKeys.preQuestSingle] = {},
         },
+        [28464] = { -- Falling to Corruption
+            [questKeys.preQuestSingle] = {},
+        },
         [28465] = { -- Slaves of the Firelord
             [questKeys.finishedBy] = {{3344}},
             [questKeys.preQuestSingle] = {},
