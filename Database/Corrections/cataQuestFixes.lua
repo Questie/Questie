@@ -8463,7 +8463,8 @@ function CataQuestFixes.Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [28524] = { -- Delivery for Donova
-            [questKeys.exclusiveTo] = {28544,28545,28460,28768},
+            [questKeys.exclusiveTo] = {28544,28545,28768},
+            [questKeys.nextQuestInChain] = 28460,
         },
         [28525] = { -- Hero's Call: Un'Goro Crater!
             [questKeys.requiredMaxLevel] = 53,
@@ -8510,11 +8511,13 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 48,
         },
         [28544] = { -- Hero's Call: Winterspring!
-            [questKeys.exclusiveTo] = {28524,28545,28460,28768},
+            [questKeys.exclusiveTo] = {28524,28545,28768},
+            [questKeys.nextQuestInChain] = 28460,
             [questKeys.requiredMaxLevel] = 53,
         },
         [28545] = { -- Warchief's Command: Winterspring!
-            [questKeys.exclusiveTo] = {28524,28544,28460,28768},
+            [questKeys.exclusiveTo] = {28524,28544,28768},
+            [questKeys.nextQuestInChain] = 28460,
             [questKeys.requiredMaxLevel] = 53,
         },
         [28548] = { -- Warchief's Command: Desolace!
@@ -9015,8 +9018,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 28759,
         },
         [28768] = { -- Winterspring!
-            [questKeys.requiredMaxLevel] = 53,
             [questKeys.exclusiveTo] = {28524,28544,28545},
+            [questKeys.nextQuestInChain] = 28460,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [28769] = { -- Lions for Lambs -- Human Mage
             [questKeys.requiredRaces] = raceKeys.HUMAN,
