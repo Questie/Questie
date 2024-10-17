@@ -184,9 +184,9 @@ _AllQuestWindowsClosed = function()
         and ((not QuestFrameDetailPanel) or (not QuestFrameDetailPanel:IsVisible()))
         and ((not QuestFrameProgressPanel) or (not QuestFrameProgressPanel:IsVisible()))
         and ((not QuestFrameRewardPanel) or (not QuestFrameRewardPanel:IsVisible()))
-        --and ((not ImmersionFrame) or (not ImmersionFrame.TalkBox) or (not ImmersionFrame.TalkBox:IsVisible())) --
+        -- Immersion addon support
+        and ((not ImmersionFrame) or (not ImmersionFrame.TitleButtons) or (not ImmersionFrame.TitleButtons:IsVisible()))
         and ((not ImmersionContentFrame) or (not ImmersionContentFrame:IsVisible())) --
-        --and ((not ImmersionTitleButton1) or (not ImmersionTitleButton1:IsVisible()))
     then
         return true
     end
