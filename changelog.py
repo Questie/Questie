@@ -65,6 +65,17 @@ def get_sorted_categories(git_log):
 
     return categories
 
+def get_contributors(last_tag):
+    log_output = subprocess.run(
+        ["git", "log", f"{last_tag}..HEAD", "--pretty=format:%an"],
+        **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
+    ).stdout.decode().strip().split('\n')
+
+    # Remove duplicates
+    contributors = set(log_output)
+
+    return contributors
+
 
 def replace_start(line, a, b):
     if line.strip().startswith(a):
@@ -82,17 +93,6 @@ def transform_lines_into_past_tense(line):
     line = replace_start(line, 'Blacklist ', 'Blacklisted ')
     line = replace_start(line, 'Remove ', 'Removed ')
     return line
-
-def get_contributors(last_tag):
-    log_output = subprocess.run(
-        ["git", "log", f"{last_tag}..HEAD", "--pretty=format:%an"],
-        **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
-    ).stdout.decode().strip().split('\n')
-
-    # Remove duplicates
-    contributors = set(log_output)
-
-    return contributors
 
 
 def get_changelog_string(categories, contributors):
