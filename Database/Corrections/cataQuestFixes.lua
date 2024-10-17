@@ -7372,6 +7372,15 @@ function CataQuestFixes.Load()
         [27817] = { -- Dropping the Hammer
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 47241}}}},
         },
+        [27854] = { -- Tides of Darkness
+            [questKeys.preQuestGroup] = {27852,27853},
+        },
+        [27855] = { -- Reinforcements Denied
+            [questKeys.preQuestGroup] = {27852,27853},
+        },
+        [27856] = { -- Marking the Fallen
+            [questKeys.preQuestGroup] = {27852,27853},
+        },
         [27857] = { -- We're Under Attack!
             [questKeys.preQuestGroup] = {27854,27855,27856},
         },
@@ -7419,6 +7428,9 @@ function CataQuestFixes.Load()
         [27915] = { -- The Heart of the Temple
             [questKeys.preQuestSingle] = {27914},
             [questKeys.nextQuestInChain] = 27605,
+        },
+        [27916] = { -- Ruag's Report
+            [questKeys.nextQuestInChain] = 28553,
         },
         [27905] = { -- Tailgunner!
             [questKeys.objectives] = {},
@@ -8504,6 +8516,10 @@ function CataQuestFixes.Load()
         },
         [28552] = { -- Hero's Call: Dustwallow Marsh!
             [questKeys.requiredMaxLevel] = 38,
+        },
+        [28553] = { -- Okrilla and the Blasted Lands
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 25674,
         },
         [28554] = { -- Warchief's Command: Dustwallow Marsh!
             [questKeys.objectives] = {},
