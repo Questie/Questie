@@ -16,10 +16,8 @@ function AutoQuesting.OnQuestDetail()
         return
     end
 
-    local doAcceptQuest = false
-    if Questie.db.profile.acceptTrivial then
-        doAcceptQuest = true
-    else
+    local doAcceptQuest = true
+    if (not Questie.db.profile.acceptTrivial) then
         local questId = GetQuestID()
         local questLevel = QuestieDB.QueryQuestSingle(questId, "questLevel")
         doAcceptQuest = (not QuestieDB.IsTrivial(questLevel))
