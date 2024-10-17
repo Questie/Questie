@@ -601,7 +601,6 @@ describe("AutoQuesting", function()
         end)
     end)
 
-
     describe("OnGossipClosed", function()
         it("should reset when no frame exists", function()
             Questie.db.profile.autoModifier = "shift"
