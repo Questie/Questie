@@ -8689,6 +8689,15 @@ function CataQuestFixes.Load()
         [28622] = { -- Three if by Air
             [questKeys.objectives] = {{{49211,nil,Questie.ICON_TYPE_EVENT},{49215,nil,Questie.ICON_TYPE_EVENT},{49216,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [28629] = { -- Are We There, Yeti?
+            [questKeys.preQuestSingle] = {28627},
+        },
+        [28630] = { -- Echo Three
+            [questKeys.preQuestSingle] = {28627},
+        },
+        [28631] = { -- The Perfect Horns
+            [questKeys.preQuestSingle] = {28627},
+        },
         [28635] = { -- A Haunting in Hillsbrad
             [questKeys.triggerEnd] = {"Search Dun Garok for Evidence of a Haunting", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.9,84.5}}}},
         },
