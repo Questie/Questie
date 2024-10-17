@@ -9237,6 +9237,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27520,27519,27706},
         },
+        [28847] = { -- The Pursuit Of Umbranse
+            [questKeys.preQuestGroup] = {28537,28722},
+        },
         [28849] = { -- Twilight Skies
             [questKeys.preQuestGroup] = {26337,26372,26374},
             [questKeys.exclusiveTo] = {},
