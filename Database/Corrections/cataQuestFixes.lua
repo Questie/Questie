@@ -9232,6 +9232,12 @@ function CataQuestFixes.Load()
         [28832] = { -- Twilight Shores
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 50262}}}},
         },
+        [28841] = { -- The Arcane Storm Within
+            [questKeys.preQuestSingle] = {28840},
+        },
+        [28842] = { -- Umbranse's Deliverance
+            [questKeys.preQuestSingle] = {28840},
+        },
         [28845] = { -- The Vortex Pinnacle
             [questKeys.exclusiveTo] = {28760,28779},
             [questKeys.preQuestSingle] = {},
