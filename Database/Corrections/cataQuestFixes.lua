@@ -7422,6 +7422,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {62608,62610},
             [questKeys.preQuestSingle] = {27899},
         },
+        [27906] = { -- Neeka Bloodscar
+            [questKeys.preQuestSingle] = {27857},
+            [questKeys.nextQuestInChain] = 27907,
+        },
         [27915] = { -- The Heart of the Temple
             [questKeys.preQuestSingle] = {27914},
             [questKeys.nextQuestInChain] = 27605,
