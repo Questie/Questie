@@ -5756,6 +5756,9 @@ function CataQuestFixes.Load()
         [26738] = { -- Just Hatched
             [questKeys.preQuestSingle] = {26732},
         },
+        [26742] = { -- Bloodscalp Insight
+            [questKeys.preQuestSingle] = {26736},
+        },
         [26744] = { -- Deep Roots
             [questKeys.preQuestSingle] = {26739},
         },
