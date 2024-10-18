@@ -8724,6 +8724,9 @@ function CataQuestFixes.Load()
         [28624] = { -- Kilram's Boast
             [questKeys.preQuestSingle] = {28618},
         },
+        [28627] = { -- Seril's Boast
+            [questKeys.preQuestSingle] = {28624},
+        },
         [28635] = { -- A Haunting in Hillsbrad
             [questKeys.triggerEnd] = {"Search Dun Garok for Evidence of a Haunting", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.9,84.5}}}},
         },
