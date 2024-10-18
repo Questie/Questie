@@ -301,6 +301,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES]={{44.95,53.17}}},
             [npcKeys.waypoints] = {[zoneIDs.TIRISFAL_GLADES]={{{44.12,53.92},{44.23,53.97},{44.24,53.77},{44.25,53.52},{44.32,53.30},{44.42,53.10},{44.56,52.98},{44.73,52.95},{44.88,53.02},{45.01,53.18},{45.10,53.38},{45.11,53.39}}}},
         },
+        [10737] = { -- Shy-Rotam
+            [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{46.1,17.6}}},
+        },
         [10806] = { -- Ursius
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING]={{59.68,40.81}}},
             [npcKeys.waypoints] = {},
