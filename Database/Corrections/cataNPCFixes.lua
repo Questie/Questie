@@ -312,7 +312,7 @@ function CataNpcFixes.Load()
             [npcKeys.waypoints] = {},
         },
         [10878] = { -- Herald Moonstalker
-            [npcKeys.waypoints] = {}, -- to do
+            [npcKeys.waypoints] = {},
         },
         [10916] = { -- Winterfall Runner
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING]={{21.24,46.13}}},
@@ -775,8 +775,8 @@ function CataNpcFixes.Load()
         [23973] = { -- Masked Orphan Matron
             [npcKeys.spawns] = {
                 [zoneIDs.TIRISFAL_GLADES]={{60.92,53.58}},
-                [zoneIDs.DUROTAR]={{50.13,72.56}}, -- todo
-                [zoneIDs.EVERSONG_WOODS]={{40.90,25.59}}, -- todo
+                [zoneIDs.DUROTAR]={{52.57,41.2}},
+                [zoneIDs.EVERSONG_WOODS]={{47.25,46.48}},
             },
         },
         [24364] = { -- Flynn Firebrew
@@ -799,9 +799,9 @@ function CataNpcFixes.Load()
         },
         [24519] = { -- Costumed Orphan Matron
             [npcKeys.spawns] = {
-                [zoneIDs.ELWYNN_FOREST]={{42.62,64.39}}, -- todo
-                [zoneIDs.DUN_MOROGH]={{53.29,51.47}}, -- todo
-                [zoneIDs.AZUREMYST_ISLE]={{49.16,51.33}}, -- todo
+                [zoneIDs.ELWYNN_FOREST]={{42.62,64.39}},
+                [zoneIDs.DUN_MOROGH]={{53.29,51.47}},
+                [zoneIDs.AZUREMYST_ISLE]={{49.16,51.33}},
             },
         },
         [24527] = { -- Bok Dropcertain
@@ -2597,6 +2597,9 @@ function CataNpcFixes.Load()
         [53950] = { -- Hired Courier
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{24.03,44.82}}},
         },
+        [54142] = { -- Hired Courier
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{57.33,9.01}}},
+        },
         [54334] = { -- Darkmoon Faire Mystic Mage
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY] = {{62.1,32.17},{62.26,72.96}},
@@ -2852,6 +2855,13 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.DALARAN]={{47.93,43.32}},
             },
         },]]
+        [23537] = { -- Headless Horseman - Fire (DND)
+            [npcKeys.spawns] = {
+                [zoneIDs.TIRISFAL_GLADES]={{56.98,53.02},{56.84,53.36},{56.67,53.21},{56.44,53.33},{56.32,53.05}},
+                [zoneIDs.DUROTAR]={{49.28,43.08},{49.24,42.9},{49.1,42.99},{49.16,43.16},{49.3,43.41}},
+                [zoneIDs.EVERSONG_WOODS]={{46.25,55.3},{46.36,55.33},{46.49,55.34},{46.55,55.19},{46.61,55.02}},
+            },
+        },
         [24108] = { -- Self-Turning and Oscillating Utility Target
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{41.74,17.2}}},
         },
@@ -2998,6 +3008,13 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.DALARAN]={{47.93,43.32}},
             },
         },]]
+        [23537] = { -- Headless Horseman - Fire (DND)
+            [npcKeys.spawns] = {
+                [zoneIDs.ELWYNN_FOREST]={{42.63,60},{42.39,59.71},{42.55,59.3},{42.74,59.34},{42.9,59.36}},
+                [zoneIDs.DUN_MOROGH]={{54.42,55.31},{54.54,55.48},{54.41,55.51},{54.43,55.75},{54.3,55.64}},
+                [zoneIDs.AZUREMYST_ISLE]={{43.44,51.52},{43.79,51.92},{43.64,52.07},{43.5,51.92},{43.35,51.74}},
+            },
+        },
         [24108] = { -- Self-Turning and Oscillating Utility Target
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{54.8,37.54}}},
         },

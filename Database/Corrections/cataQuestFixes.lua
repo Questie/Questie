@@ -1062,10 +1062,12 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{23616,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [11131] = { -- Stop the Fires!
-            [questKeys.exclusiveTo] = {12133,12135},
+            [questKeys.exclusiveTo] = {12135},
+            [questKeys.preQuestSingle] = {11360,11439,11440},
         },
         [11219] = { -- Stop the Fires!
-            [questKeys.exclusiveTo] = {12155,12139},
+            [questKeys.exclusiveTo] = {12139},
+            [questKeys.preQuestSingle] = {11361,11449,11450},
         },
         [11250] = { -- All Hail the Conqueror of Skorn!
             [questKeys.preQuestSingle] = {},
@@ -1087,9 +1089,11 @@ function CataQuestFixes.Load()
         },
         [11360] = { -- Fire Brigade Practice
             [questKeys.preQuestSingle] = {11356},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11361] = { -- Fire Training
             [questKeys.preQuestSingle] = {11357},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11407] = { -- Bark for Drohn's Distillery!
             [questKeys.exclusiveTo] = {11408},
@@ -1099,15 +1103,19 @@ function CataQuestFixes.Load()
         },
         [11439] = { -- Fire Brigade Practice
             [questKeys.preQuestSingle] = {11356},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11440] = { -- Fire Brigade Practice
             [questKeys.preQuestSingle] = {11356},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11449] = { -- Fire Training
             [questKeys.preQuestSingle] = {11357},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11450] = { -- Fire Training
             [questKeys.preQuestSingle] = {11357},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11585] = { -- Hellscream's Vigil
             [questKeys.preQuestSingle] = {},
@@ -1235,11 +1243,13 @@ function CataQuestFixes.Load()
         },
         [12135] = { -- "Let the Fires Come!"
             [questKeys.zoneOrSort] = -21,
-            [questKeys.exclusiveTo] = {12133,11131},
+            [questKeys.exclusiveTo] = {11131},
+            [questKeys.preQuestSingle] = {11360,11439,11440},
         },
         [12139] = { -- "Let the Fires Come!"
             [questKeys.zoneOrSort] = -21,
-            [questKeys.exclusiveTo] = {12155,11219},
+            [questKeys.exclusiveTo] = {11219},
+            [questKeys.preQuestSingle] = {11361,11449,11450},
         },
         [12155] = { -- Smash the Pumpkin
             [questKeys.zoneOrSort] = -21,
