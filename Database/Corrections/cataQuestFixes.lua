@@ -9284,6 +9284,12 @@ function CataQuestFixes.Load()
         [28838] = { -- The Owlbeasts' Defense
             [questKeys.preQuestSingle] = {28837},
         },
+        [28841] = { -- The Arcane Storm Within
+            [questKeys.preQuestSingle] = {28840},
+        },
+        [28842] = { -- Umbranse's Deliverance
+            [questKeys.preQuestSingle] = {28840},
+        },
         [28845] = { -- The Vortex Pinnacle
             [questKeys.exclusiveTo] = {28760,28779},
             [questKeys.preQuestSingle] = {},
