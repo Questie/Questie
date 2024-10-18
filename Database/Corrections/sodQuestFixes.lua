@@ -1821,51 +1821,61 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [81987] = { -- Goblin Solutions (Goblin)
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GOBLIN,
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
         [82001] = { -- Require Gnomish Problems (Goblin)
             [questKeys.preQuestSingle] = {81987},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GOBLIN,
             [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
         },
         [82002] = { -- Whats Red and Smells like Paint?" (Goblin)
             [questKeys.preQuestSingle] = {82001},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GOBLIN,
             [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
         },
         [82003] = { -- Victory Lap For the Goblins! (Goblin)
             [questKeys.preQuestSingle] = {82002},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GOBLIN,
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
         [82004] = { -- Hush Money (Goblin)
             [questKeys.preQuestSingle] = {82003},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GOBLIN,
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [82008] = { -- Gnomish Solutions (Gnome)
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GNOMISH,
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
         [82009] = { -- Require Goblin Problems (Gnome)
             [questKeys.preQuestSingle] = {82008},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GNOMISH,
             [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
         },
         [82010] = { -- Watering Down the Competition (Gnome)
             [questKeys.preQuestSingle] = {82009},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GNOMISH,
             [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
         },
         [82011] = { -- Victory Lap For the Gnomes! (Gnome)
             [questKeys.preQuestSingle] = {82010},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GNOMISH,
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
         [82013] = { -- Hush Money (Gnome)
             [questKeys.preQuestSingle] = {82011},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GNOMISH,
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
@@ -3087,9 +3097,27 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {85468},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
+        [85486] = { -- Soul of Enthralling
+            [questKeys.objectives] = {nil,nil,{{231798}}},
+            [questKeys.requiredSourceItems] = {231836},
+            [questKeys.preQuestSingle] = {85485},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
         [85501] = { -- The Heart of Chromaggus
             [questKeys.startedBy] = {{14020},nil,{231814}},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [85505] = { -- Soul of Devouring
+            [questKeys.objectives] = {nil,nil,{{231799}}},
+            [questKeys.requiredSourceItems] = {231837},
+            [questKeys.preQuestSingle] = {85486},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [85506] = { -- The Final Test
+            [questKeys.startedBy] = {{232802}},
+            [questKeys.objectives] = {{{232924,nil,Questie.ICON_TYPE_TALK}},nil,{{231800}}},
+            [questKeys.preQuestSingle] = {85505},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [85507] = { -- Our Wayward Friend
             [questKeys.objectives] = {{{231498,nil,Questie.ICON_TYPE_EVENT}}},
@@ -3152,46 +3180,55 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85595] = { -- Presence of Might
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85596] = { -- Death's Embrace
+            [questKeys.requiredClasses] = classIDs.ROGUE,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85597] = { -- Falcon's Call
+            [questKeys.requiredClasses] = classIDs.HUNTER,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85598] = { -- Prophetic Aura
+            [questKeys.requiredClasses] = classIDs.PRIEST,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85599] = { -- Hoodoo Hex
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85600] = { -- Presence of Sight
+            [questKeys.requiredClasses] = classIDs.MAGE,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85601] = { -- Syncretist's Sigil
+            [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85602] = { -- Animist's Caress
+            [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85603] = { -- Vodouisant's Vigilant Embrace
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
@@ -3199,6 +3236,7 @@ function SeasonOfDiscovery:LoadQuests()
         [85604] = { -- The Unmarred Vision of Voodress
             [questKeys.startedBy] = {{14904}},
             [questKeys.finishedBy] = {{14904}},
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
             [questKeys.preQuestSingle] = {8118},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
@@ -3224,6 +3262,7 @@ function SeasonOfDiscovery:LoadQuests()
         [85608] = { -- Pristine Enchanted South Seas Kelp
             [questKeys.startedBy] = {{14904}},
             [questKeys.finishedBy] = {{14904}},
+            [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.preQuestSingle] = {8112},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
@@ -3246,6 +3285,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [85612] = { -- The Rage of Mugamba
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
             [questKeys.preQuestSingle] = {8043},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
@@ -3270,6 +3310,7 @@ function SeasonOfDiscovery:LoadQuests()
         [85616] = { -- The All-Seeing Eye of Zuldazar
             [questKeys.startedBy] = {{14903}},
             [questKeys.finishedBy] = {{14903}},
+            [questKeys.requiredClasses] = classIDs.PRIEST,
             [questKeys.preQuestSingle] = {8051},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
@@ -3278,6 +3319,7 @@ function SeasonOfDiscovery:LoadQuests()
         [85617] = { -- The Hero's Brand
             [questKeys.startedBy] = {{14902}},
             [questKeys.finishedBy] = {{14902}},
+            [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.preQuestSingle] = {8047},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
@@ -3343,6 +3385,7 @@ function SeasonOfDiscovery:LoadQuests()
         [85629] = { -- The Jewel of Kajaro
             [questKeys.startedBy] = {{14903}},
             [questKeys.finishedBy] = {{14903}},
+            [questKeys.requiredClasses] = classIDs.MAGE,
             [questKeys.preQuestSingle] = {8103},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
@@ -3367,6 +3410,7 @@ function SeasonOfDiscovery:LoadQuests()
         [85633] = { -- Zandalarian Shadow Mastery Talisman
             [questKeys.startedBy] = {{14905}},
             [questKeys.finishedBy] = {{14905}},
+            [questKeys.requiredClasses] = classIDs.ROGUE,
             [questKeys.preQuestSingle] = {8143},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
@@ -3390,6 +3434,7 @@ function SeasonOfDiscovery:LoadQuests()
         [85637] = { -- Maelstrom's Wrath
             [questKeys.startedBy] = {{14905}},
             [questKeys.finishedBy] = {{14905}},
+            [questKeys.requiredClasses] = classIDs.HUNTER,
             [questKeys.preQuestSingle] = {8147},
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,100}},
