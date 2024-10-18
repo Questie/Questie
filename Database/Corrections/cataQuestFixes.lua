@@ -8365,6 +8365,9 @@ function CataQuestFixes.Load()
         [28463] = { -- The Dark Iron Army
             [questKeys.preQuestSingle] = {},
         },
+        [28464] = { -- Falling to Corruption
+            [questKeys.preQuestSingle] = {},
+        },
         [28465] = { -- Slaves of the Firelord
             [questKeys.finishedBy] = {{3344}},
             [questKeys.preQuestSingle] = {},
@@ -8489,7 +8492,8 @@ function CataQuestFixes.Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [28524] = { -- Delivery for Donova
-            [questKeys.exclusiveTo] = {28544,28545,28460,28768},
+            [questKeys.exclusiveTo] = {28544,28545,28768},
+            [questKeys.nextQuestInChain] = 28460,
         },
         [28525] = { -- Hero's Call: Un'Goro Crater!
             [questKeys.requiredMaxLevel] = 53,
@@ -8536,11 +8540,13 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 48,
         },
         [28544] = { -- Hero's Call: Winterspring!
-            [questKeys.exclusiveTo] = {28524,28545,28460,28768},
+            [questKeys.exclusiveTo] = {28524,28545,28768},
+            [questKeys.nextQuestInChain] = 28460,
             [questKeys.requiredMaxLevel] = 53,
         },
         [28545] = { -- Warchief's Command: Winterspring!
-            [questKeys.exclusiveTo] = {28524,28544,28460,28768},
+            [questKeys.exclusiveTo] = {28524,28544,28768},
+            [questKeys.nextQuestInChain] = 28460,
             [questKeys.requiredMaxLevel] = 53,
         },
         [28548] = { -- Warchief's Command: Desolace!
@@ -8717,6 +8723,9 @@ function CataQuestFixes.Load()
         },
         [28624] = { -- Kilram's Boast
             [questKeys.preQuestSingle] = {28618},
+        },
+        [28627] = { -- Seril's Boast
+            [questKeys.preQuestSingle] = {28624},
         },
         [28629] = { -- Are We There, Yeti?
             [questKeys.preQuestSingle] = {28627},
@@ -8932,6 +8941,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 26293,
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
+        [28718] = { -- Where There's Smoke, There's Delicious Meat
+            [questKeys.nextQuestInChain] = 28640,
+        },
         [28721] = { -- Walk A Mile In Their Shoes
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
@@ -9001,6 +9013,9 @@ function CataQuestFixes.Load()
         [28741] = { -- Ascendant Lord Obsidius
             [questKeys.preQuestSingle] = {28738},
         },
+        [28745] = { -- Screechy Keen
+            [questKeys.preQuestSingle] = {28638},
+        },
         [28755] = { -- Annals of the Silver Hand
             [questKeys.preQuestSingle] = {27464},
             [questKeys.requiredMaxRep] = {529,42999},
@@ -9057,8 +9072,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 28759,
         },
         [28768] = { -- Winterspring!
-            [questKeys.requiredMaxLevel] = 53,
             [questKeys.exclusiveTo] = {28524,28544,28545},
+            [questKeys.nextQuestInChain] = 28460,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [28769] = { -- Lions for Lambs -- Human Mage
             [questKeys.requiredRaces] = raceKeys.HUMAN,
@@ -9274,10 +9290,16 @@ function CataQuestFixes.Load()
         [28832] = { -- Twilight Shores
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 50262}}}},
         },
+        [28838] = { -- The Owlbeasts' Defense
+            [questKeys.preQuestSingle] = {28837},
+        },
         [28845] = { -- The Vortex Pinnacle
             [questKeys.exclusiveTo] = {28760,28779},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27520,27519,27706},
+        },
+        [28847] = { -- The Pursuit of Umbranse
+            [questKeys.preQuestGroup] = {28537,28722},
         },
         [28849] = { -- Twilight Skies
             [questKeys.preQuestGroup] = {26337,26372,26374},
