@@ -9001,6 +9001,9 @@ function CataQuestFixes.Load()
         [28741] = { -- Ascendant Lord Obsidius
             [questKeys.preQuestSingle] = {28738},
         },
+        [28745] = { -- Screechy Keen
+            [questKeys.preQuestSingle] = {28638},
+        },
         [28755] = { -- Annals of the Silver Hand
             [questKeys.preQuestSingle] = {27464},
             [questKeys.requiredMaxRep] = {529,42999},
