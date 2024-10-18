@@ -1085,14 +1085,29 @@ function CataQuestFixes.Load()
         [11357] = { -- Masked Orphan Matron
             [questKeys.startedBy] = {{20102}},
         },
+        [11360] = { -- Fire Brigade Practice
+            [questKeys.preQuestSingle] = {11356},
+        },
         [11361] = { -- Fire Training
-            [questKeys.preQuestSingle] = {29400},
+            [questKeys.preQuestSingle] = {11357},
         },
         [11407] = { -- Bark for Drohn's Distillery!
             [questKeys.exclusiveTo] = {11408},
         },
         [11408] = { -- Bark for T'chali's Voodoo Brewery!
             [questKeys.exclusiveTo] = {11407},
+        },
+        [11439] = { -- Fire Brigade Practice
+            [questKeys.preQuestSingle] = {11356},
+        },
+        [11440] = { -- Fire Brigade Practice
+            [questKeys.preQuestSingle] = {11356},
+        },
+        [11449] = { -- Fire Training
+            [questKeys.preQuestSingle] = {11357},
+        },
+        [11450] = { -- Fire Training
+            [questKeys.preQuestSingle] = {11357},
         },
         [11585] = { -- Hellscream's Vigil
             [questKeys.preQuestSingle] = {},
@@ -1215,6 +1230,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29092},
             [questKeys.startedBy] = {{25324}},
         },
+        [12133] = { -- Smash the Pumpkin
+            [questKeys.zoneOrSort] = -21,
+        },
         [12135] = { -- "Let the Fires Come!"
             [questKeys.zoneOrSort] = -21,
             [questKeys.exclusiveTo] = {12133,11131},
@@ -1222,6 +1240,9 @@ function CataQuestFixes.Load()
         [12139] = { -- "Let the Fires Come!"
             [questKeys.zoneOrSort] = -21,
             [questKeys.exclusiveTo] = {12155,11219},
+        },
+        [12155] = { -- Smash the Pumpkin
+            [questKeys.zoneOrSort] = -21,
         },
         [12171] = { -- Of Traitors and Treason
             [questKeys.preQuestSingle] = {},
@@ -4185,6 +4206,12 @@ function CataQuestFixes.Load()
         },
         [25690] = { -- A Bloodmage's Gotta Eat Too
             [questKeys.preQuestSingle] = {25684},
+        },
+        [25691] = { -- The Charred Granite of the Dark Portal
+            [questKeys.preQuestSingle] = {25689},
+        },
+        [25692] = { -- The Vile Blood of Demons
+            [questKeys.preQuestSingle] = {25689},
         },
         [25696] = { -- The Sunveil Excursion
             [questKeys.preQuestSingle] = {25695},
@@ -8733,6 +8760,15 @@ function CataQuestFixes.Load()
         [28627] = { -- Seril's Boast
             [questKeys.preQuestSingle] = {28624},
         },
+        [28629] = { -- Are We There, Yeti?
+            [questKeys.preQuestSingle] = {28627},
+        },
+        [28630] = { -- Echo Three
+            [questKeys.preQuestSingle] = {28627},
+        },
+        [28631] = { -- The Perfect Horns
+            [questKeys.preQuestSingle] = {28627},
+        },
         [28635] = { -- A Haunting in Hillsbrad
             [questKeys.triggerEnd] = {"Search Dun Garok for Evidence of a Haunting", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.9,84.5}}}},
         },
@@ -10346,6 +10382,12 @@ function CataQuestFixes.Load()
         },
         [29415] = { -- Missing Heirlooms
             [questKeys.objectives] = {{{54142,nil,Questie.ICON_TYPE_EVENT},{54142,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [29430] = { -- A Friend in Need
+            [questKeys.nextQuestInChain] = 29392,
+        },
+        [29431] = { -- A Friend in Need
+            [questKeys.nextQuestInChain] = 29415,
         },
         [29433] = { -- Test Your Strength
             [questKeys.specialFlags] = 17,
