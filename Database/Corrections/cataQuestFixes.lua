@@ -1230,6 +1230,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29092},
             [questKeys.startedBy] = {{25324}},
         },
+        [12133] = { -- Smash the Pumpkin
+            [questKeys.zoneOrSort] = -21,
+        },
         [12135] = { -- "Let the Fires Come!"
             [questKeys.zoneOrSort] = -21,
             [questKeys.exclusiveTo] = {12133,11131},
@@ -1237,6 +1240,9 @@ function CataQuestFixes.Load()
         [12139] = { -- "Let the Fires Come!"
             [questKeys.zoneOrSort] = -21,
             [questKeys.exclusiveTo] = {12155,11219},
+        },
+        [12155] = { -- Smash the Pumpkin
+            [questKeys.zoneOrSort] = -21,
         },
         [12171] = { -- Of Traitors and Treason
             [questKeys.preQuestSingle] = {},
