@@ -3097,9 +3097,27 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {85468},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
+        [85486] = { -- Soul of Enthralling
+            [questKeys.objectives] = {nil,nil,{{231798}}},
+            [questKeys.requiredSourceItems] = {231836},
+            [questKeys.preQuestSingle] = {85485},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
         [85501] = { -- The Heart of Chromaggus
             [questKeys.startedBy] = {{14020},nil,{231814}},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
+        },
+        [85505] = { -- Soul of Devouring
+            [questKeys.objectives] = {nil,nil,{{231799}}},
+            [questKeys.requiredSourceItems] = {231837},
+            [questKeys.preQuestSingle] = {85486},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [85506] = { -- The Final Test
+            [questKeys.startedBy] = {{232802}},
+            [questKeys.objectives] = {{{232924,nil,Questie.ICON_TYPE_TALK}},nil,{{231800}}},
+            [questKeys.preQuestSingle] = {85505},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [85507] = { -- Our Wayward Friend
             [questKeys.objectives] = {{{231498,nil,Questie.ICON_TYPE_EVENT}}},
