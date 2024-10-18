@@ -47,7 +47,7 @@ tinsert(eventQuests, {"Hallow's End", 12334}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12335}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12336}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12337}) -- Candy Bucket
-tinsert(eventQuests, {"Hallow's End", 12338}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 12338, nil, nil, QuestieCorrections.CATA_HIDE}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12339}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12340}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12341}) -- Candy Bucket
@@ -55,7 +55,7 @@ tinsert(eventQuests, {"Hallow's End", 12342}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12343}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12344}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12345}) -- Candy Bucket
-tinsert(eventQuests, {"Hallow's End", 12346}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 12346, nil, nil, QuestieCorrections.CATA_HIDE}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12347}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12348}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12349}) -- Candy Bucket
@@ -164,11 +164,10 @@ tinsert(eventQuests, {"Hallow's End", 13501}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 13548}) -- Candy Bucket
 
 -- Cata quests
-tinsert(eventQuests, {"Hallow's End", 28934}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 28951}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 28952}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 28953}) -- Candy Bucket
-tinsert(eventQuests, {"Hallow's End", 28954}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28954, nil, nil, QuestieCorrections.CATA_HIDE}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 28955}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 28956}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 28957}) -- Candy Bucket
