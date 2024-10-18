@@ -1085,14 +1085,29 @@ function CataQuestFixes.Load()
         [11357] = { -- Masked Orphan Matron
             [questKeys.startedBy] = {{20102}},
         },
+        [11360] = { -- Fire Brigade Practice
+            [questKeys.preQuestSingle] = {11356},
+        },
         [11361] = { -- Fire Training
-            [questKeys.preQuestSingle] = {29400},
+            [questKeys.preQuestSingle] = {11357},
         },
         [11407] = { -- Bark for Drohn's Distillery!
             [questKeys.exclusiveTo] = {11408},
         },
         [11408] = { -- Bark for T'chali's Voodoo Brewery!
             [questKeys.exclusiveTo] = {11407},
+        },
+        [11439] = { -- Fire Brigade Practice
+            [questKeys.preQuestSingle] = {11356},
+        },
+        [11440] = { -- Fire Brigade Practice
+            [questKeys.preQuestSingle] = {11356},
+        },
+        [11449] = { -- Fire Training
+            [questKeys.preQuestSingle] = {11357},
+        },
+        [11450] = { -- Fire Training
+            [questKeys.preQuestSingle] = {11357},
         },
         [11585] = { -- Hellscream's Vigil
             [questKeys.preQuestSingle] = {},
