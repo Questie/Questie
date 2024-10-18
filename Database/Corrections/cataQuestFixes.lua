@@ -10344,6 +10344,12 @@ function CataQuestFixes.Load()
         [29415] = { -- Missing Heirlooms
             [questKeys.objectives] = {{{54142,nil,Questie.ICON_TYPE_EVENT},{54142,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [29430] = { -- A Friend in Need
+            [questKeys.nextQuestInChain] = 29392,
+        },
+        [29431] = { -- A Friend in Need
+            [questKeys.nextQuestInChain] = 29415,
+        },
         [29433] = { -- Test Your Strength
             [questKeys.specialFlags] = 17,
         },
