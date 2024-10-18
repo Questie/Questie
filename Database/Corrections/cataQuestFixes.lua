@@ -4204,6 +4204,12 @@ function CataQuestFixes.Load()
         [25679] = { -- Into the Mountain
             [questKeys.preQuestGroup] = {25677,25678},
         },
+        [25691] = { -- The Charred Granite of the Dark Portal
+            [questKeys.preQuestSingle] = {25689},
+        },
+        [25692] = { -- The Vile Blood of Demons
+            [questKeys.preQuestSingle] = {25689},
+        },
         [25696] = { -- The Sunveil Excursion
             [questKeys.preQuestSingle] = {25695},
         },
