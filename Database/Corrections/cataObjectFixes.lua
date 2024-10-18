@@ -116,8 +116,14 @@ function CataObjectFixes.Load()
         [190050] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS]={{40.53,17.69}}},
         },
+        [190051] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{66.33,6.59}}},
+        },
         [190052] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{66.6,45.27}}},
+        },
+        [190053] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.FERALAS]={{46.33,45.19}}},
         },
         [190054] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{14.19,44.6}}},
@@ -146,6 +152,9 @@ function CataObjectFixes.Load()
         },
         [190106] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.WINTERSPRING]={{59.83,51.21}}},
+        },
+        [190107] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{55.47,36.79}}},
         },
         [190108] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{75.57,52.3}}},
@@ -266,6 +275,9 @@ function CataObjectFixes.Load()
         [208115] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.DARKSHORE]={{50.8,18.9}}},
         },
+        [208116] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.FERALAS]={{51.07,17.81}}},
+        },
         [208121] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.BADLANDS]={{20.87,56.31}}},
         },
@@ -329,6 +341,9 @@ function CataObjectFixes.Load()
         [208142] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{49.18,41.87}}},
         },
+        [208157] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{56.72,50.12}}},
+        },
         [208158] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.FELWOOD]={{44.59,28.99}}},
         },
@@ -373,6 +388,9 @@ function CataObjectFixes.Load()
         },
         [208179] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.ULDUM]={{54.68,33.01}}},
+        },
+        [208180] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{55.26,62.12}}},
         },
         [208316] = { -- Hero's Call Board -- Dalaran
             [objectKeys.spawns] = {[zoneIDs.DALARAN] = {{37.41,63.21}}},
