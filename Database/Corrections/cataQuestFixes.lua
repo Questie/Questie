@@ -4204,6 +4204,9 @@ function CataQuestFixes.Load()
         [25679] = { -- Into the Mountain
             [questKeys.preQuestGroup] = {25677,25678},
         },
+        [25690] = { -- A Bloodmage's Gotta Eat Too
+            [questKeys.preQuestSingle] = {25684},
+        },
         [25691] = { -- The Charred Granite of the Dark Portal
             [questKeys.preQuestSingle] = {25689},
         },

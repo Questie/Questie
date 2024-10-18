@@ -265,6 +265,9 @@ function CataNpcFixes.Load()
         [7363] = { -- Kum'isha the Collector
             [npcKeys.waypoints] = {},
         },
+        [7505] = { -- Bloodmage Drazial
+            [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{39.2,36.2}}},
+        },
         [7795] = { -- Hydromancer Velratha
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK]={{32.14,39.88},{-1,-1}}},
         },
