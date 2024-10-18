@@ -1956,7 +1956,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Satyrweed Bramble",
             [objectKeys.zoneID] = 16,
             [objectKeys.spawns] = {
-                [16] = {{18.5,61.3},{18.5,63},{19.3,59.6},{19.7,58.9},{19.8,60.5},{19.8,61.6},{20.9,58.4},{20.9,58.5},{21.1,63.6},{21.3,60.1},{21.3,60.8},{21.6,63.5},{21.9,59.3},{22,62.7},{22.2,60.3},{22.2,61},{22.2,61.8}},
+                [16] = {{18.5,61.3},{18.5,63},{19.3,59.6},{19.7,58.9},{19.8,60.5},{19.8,61.6},{19.9,64},{20.9,58.4},{20.9,58.5},{21.1,63.6},{21.3,60.1},{21.3,60.8},{21.6,63.5},{21.9,59.3},{22,62.7},{22.2,60.3},{22.2,61},{22.2,61.8}},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -2206,7 +2206,9 @@ function SeasonOfDiscovery:LoadBaseObjects()
         [454487] = {
             [objectKeys.name] = "Monument to Grom Hellscream",
             [objectKeys.zoneID] = 15475,
-            [objectKeys.spawns] = nil,
+            [objectKeys.spawns] = {
+                [15475] = {{-1,-1}},
+            },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
@@ -2275,7 +2277,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Brass-fitted Flam-Tamp Flange",
             [objectKeys.zoneID] = 46,
             [objectKeys.spawns] = {
-                [46] = {{52.3,25},{52.5,25.2},{52.5,25.5},{53,23.9},{53.2,26.8}},
+                [46] = {{52.3,25},{52.5,25.1},{52.5,25.5},{53,23.9},{53.2,26.8}},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
@@ -2504,8 +2506,8 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Mech Arm",
             [objectKeys.zoneID] = 40,
             [objectKeys.spawns] = {
-                [40] = {{52.3,40.8},{52.3,48.9},{53.1,40},{53.2,41.1},{53.3,41.8},{53.5,38.7},{53.5,40.7},{54.1,41.6}},
-                [85] = {{52.4,57.7},{53,55.8},{53.3,57.5},{53.4,57.1},{53.7,56.6},{54.2,57.5},{54.2,58.7},{54.5,56.7},{54.5,58.2},{54.8,56.4},{57.9,56.9}},
+                [40] = {{52.3,40.8},{52.3,48.9},{53.1,40},{53.2,41.1},{53.3,41.8},{53.5,38.7},{53.5,40.7},{53.9,39.8},{54.1,41.6}},
+                [85] = {{52.4,57.7},{53,55.8},{53.2,57},{53.3,57.5},{53.7,56.6},{54.2,57.5},{54.2,58.7},{54.5,56.7},{54.5,58.2},{54.8,56.4},{57.9,56.9}},
                 [1519] = {{55.8,62}},
             },
             [objectKeys.questStarts] = nil,
@@ -2690,10 +2692,10 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Campsite",
             [objectKeys.zoneID] = 618,
             [objectKeys.spawns] = {
-                [618] = {{57.7,20.8}},
+                [618] = {{57.9,20.8},{59.5,24.2}},
             },
-            [objectKeys.questStarts] = nil,
-            [objectKeys.questEnds] = nil,
+            [objectKeys.questStarts] = {85525},
+            [objectKeys.questEnds] = {84950,85525},
         },
         [477110] = {
             [objectKeys.name] = "Brazier of Madness",
@@ -2762,7 +2764,7 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.name] = "Spellbook",
             [objectKeys.zoneID] = 45,
             [objectKeys.spawns] = {
-                [45] = {{34.1,80.6}},
+                [45] = {{34.1,80.4},{34.1,80.5}},
             },
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
