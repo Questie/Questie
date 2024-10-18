@@ -4157,6 +4157,9 @@ function CataQuestFixes.Load()
         [25678] = { -- Pick Your Fate
             [questKeys.objectives] = {{{5996},{5997},{5998}}},
         },
+        [25690] = { -- A Bloodmage's Gotta Eat Too
+            [questKeys.preQuestSingle] = {25684},
+        },
         [25696] = { -- The Sunveil Excursion
             [questKeys.preQuestSingle] = {25695},
         },
