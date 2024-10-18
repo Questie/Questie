@@ -3252,6 +3252,7 @@ ZoneDB.private.zoneIDs = {
     THE_MAELSTROM = 5416,
     MOLTEN_FRONT = 5733,
     DARKMOON_FAIRE_ISLAND = 5861,
+    DEMON_FALL_CANYON = 15475, -- SoD Dungeon
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic
