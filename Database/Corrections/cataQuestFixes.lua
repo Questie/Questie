@@ -1061,6 +1061,12 @@ function CataQuestFixes.Load()
         [11129] = { -- Kyle's Gone Missing!
             [questKeys.objectives] = {{{23616,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [11131] = { -- Stop the Fires!
+            [questKeys.exclusiveTo] = {12133,12135},
+        },
+        [11219] = { -- Stop the Fires!
+            [questKeys.exclusiveTo] = {12155,12139},
+        },
         [11250] = { -- All Hail the Conqueror of Skorn!
             [questKeys.preQuestSingle] = {},
         },
@@ -1072,6 +1078,15 @@ function CataQuestFixes.Load()
         },
         [11294] = { -- Bark for the Thunderbrews!
             [questKeys.exclusiveTo] = {11293},
+        },
+        [11356] = { -- Costumed Orphan Matron
+            [questKeys.startedBy] = {{20102}},
+        },
+        [11357] = { -- Masked Orphan Matron
+            [questKeys.startedBy] = {{20102}},
+        },
+        [11361] = { -- Fire Training
+            [questKeys.preQuestSingle] = {29400},
         },
         [11407] = { -- Bark for Drohn's Distillery!
             [questKeys.exclusiveTo] = {11408},
@@ -1199,6 +1214,14 @@ function CataQuestFixes.Load()
         [12012] = { -- Inform the Elder
             [questKeys.exclusiveTo] = {29092},
             [questKeys.startedBy] = {{25324}},
+        },
+        [12135] = { -- "Let the Fires Come!"
+            [questKeys.zoneOrSort] = -21,
+            [questKeys.exclusiveTo] = {12133,11131},
+        },
+        [12139] = { -- "Let the Fires Come!"
+            [questKeys.zoneOrSort] = -21,
+            [questKeys.exclusiveTo] = {12155,11219},
         },
         [12171] = { -- Of Traitors and Treason
             [questKeys.preQuestSingle] = {},
@@ -7442,6 +7465,9 @@ function CataQuestFixes.Load()
         [27910] = { -- Last Regrets
             [questKeys.preQuestGroup] = {27907,27908},
         },
+        [27911] = { -- With Dying Breath
+            [questKeys.preQuestGroup] = {27909,27910},
+        },
         [27915] = { -- The Heart of the Temple
             [questKeys.preQuestSingle] = {27914},
             [questKeys.nextQuestInChain] = 27605,
@@ -8689,6 +8715,9 @@ function CataQuestFixes.Load()
         [28622] = { -- Three if by Air
             [questKeys.objectives] = {{{49211,nil,Questie.ICON_TYPE_EVENT},{49215,nil,Questie.ICON_TYPE_EVENT},{49216,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [28624] = { -- Kilram's Boast
+            [questKeys.preQuestSingle] = {28618},
+        },
         [28635] = { -- A Haunting in Hillsbrad
             [questKeys.triggerEnd] = {"Search Dun Garok for Evidence of a Haunting", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.9,84.5}}}},
         },
@@ -8768,6 +8797,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 57,
             [questKeys.exclusiveTo] = {28857,28867},
             [questKeys.nextQuestInChain] = 25710,
+        },
+        [28674] = { -- Starfall Village
+            [questKeys.preQuestSingle] = {28722},
+            [questKeys.nextQuestInChain] = 28701,
         },
         [28675] = { -- Hero's Call: Swamp of Sorrows!
             [questKeys.requiredMaxLevel] = 52,
@@ -9232,6 +9265,9 @@ function CataQuestFixes.Load()
         [28832] = { -- Twilight Shores
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 50262}}}},
         },
+        [28838] = { -- The Owlbeasts' Defense
+            [questKeys.preQuestSingle] = {28837},
+        },
         [28841] = { -- The Arcane Storm Within
             [questKeys.preQuestSingle] = {28840},
         },
@@ -9242,6 +9278,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {28760,28779},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27520,27519,27706},
+        },
+        [28847] = { -- The Pursuit of Umbranse
+            [questKeys.preQuestGroup] = {28537,28722},
         },
         [28849] = { -- Twilight Skies
             [questKeys.preQuestGroup] = {26337,26372,26374},
@@ -9403,6 +9442,10 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 29034,
             [questKeys.exclusiveTo] = {29035,29037,29038,29039,29040,29051,29052},
         },
+        [29054] = { -- Stink Bombs Away!
+            [questKeys.objectives] = {nil,{{180449,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the bombing run"),0,{{"monster",52548}}}},
+        },
         [29066] = { -- Good News... and Bad News
             [questKeys.startedBy] = {},
             [questKeys.preQuestSingle] = {25428},
@@ -9420,6 +9463,13 @@ function CataQuestFixes.Load()
         },
         [29073] = { -- Make Haste to Orgrimmar!
             [questKeys.exclusiveTo] = {25316}, -- same as above
+        },
+        [29074] = { -- A Season for Celebration
+            [questKeys.startedBy] = {{20102}},
+        },
+        [29075] = { -- A Time to Gain
+            [questKeys.objectives] = {nil,{{208186}}},
+            [questKeys.preQuestSingle] = {},
         },
         [29078] = { -- Beating Them Back! -- non Human
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE - raceKeys.HUMAN,
@@ -9618,6 +9668,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{52531,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {29201},
             [questKeys.exclusiveTo] = {29139},
+        },
+        [29144] = { -- Clean Up in Stormwind
+            [questKeys.objectives] = {nil,{{195122,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29146] = { -- Ridin' the Rocketway
             [questKeys.objectives] = {{{52585,nil,Questie.ICON_TYPE_MOUNT_UP}}},
@@ -10208,10 +10261,18 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.THUNDER_BLUFF]={{51.3,52.9}}}, Questie.ICON_TYPE_EVENT, l10n("Cook 5 Spice Bread and combine with Mulgore Spices")}},
         },
         [29371] = { -- A Time to Lose
-            [questKeys.objectives] = {nil,{{209140}}},
+            [questKeys.objectives] = {nil,{{301112,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [29374] = { -- Stink Bombs Away!
+            [questKeys.objectives] = {nil,{{180449,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the bombing run"),0,{{"monster",53764}}}},
+        },
+        [29376] = { -- A Time to Build Up
+            [questKeys.objectives] = {nil,{{205016},{460018}}},
+            [questKeys.preQuestSingle] = {},
         },
         [29377] = { -- A Time to Break Down
-            [questKeys.objectives] = {nil,{{209139}}},
+            [questKeys.objectives] = {nil,{{301111,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29387] = { -- Guardians of Hyjal: Firelands Invasion!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
@@ -10240,7 +10301,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {25372,29389},
         },
         [29392] = { -- Missing Heirlooms
-            [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.STORMWIND_CITY]={{41.4,72.5}}}},
+            [questKeys.objectives] = {{{53950,nil,Questie.ICON_TYPE_EVENT},{53950,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29393] = { -- Brew For Brewfest
             [questKeys.startedBy] = {{24497}},
@@ -10258,8 +10319,11 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{24468}},
             [questKeys.preQuestSingle] = {11318},
         },
+        [29400] = { -- A Season for Celebration
+            [questKeys.startedBy] = {{20102}},
+        },
         [29415] = { -- Missing Heirlooms
-            [questKeys.triggerEnd] = {"Search the courier's cabin", {[zoneIDs.DUROTAR]={{60,46.1}}}},
+            [questKeys.objectives] = {{{54142,nil,Questie.ICON_TYPE_EVENT},{54142,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29433] = { -- Test Your Strength
             [questKeys.specialFlags] = 17,
