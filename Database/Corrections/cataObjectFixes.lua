@@ -213,16 +213,6 @@ function CataObjectFixes.Load()
         [207384] = { -- Deep Garnet Crystal Chunk
             [objectKeys.spawns] = {},
         },
-        [208316] = { -- Hero's Call Board -- Dalaran
-            [objectKeys.spawns] = {[zoneIDs.DALARAN] = {{37.41,63.21}}},
-            [objectKeys.zoneID] = zoneIDs.DALARAN,
-            [objectKeys.questStarts] = {29071},
-            [objectKeys.questEnds] = {29071},
-        },
-        [208317] = { -- Warchief's Command Board -- Dalaran
-            [objectKeys.spawns] = {[zoneIDs.DALARAN] = {{58.8,27.49}}},
-            [objectKeys.zoneID] = zoneIDs.DALARAN,
-        },
         [208376] = { -- Direhammer's Boots
             [objectKeys.name] = "Direhammer's Boots",
             [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{76.05,66.49}}},
