@@ -110,6 +110,9 @@ function CataObjectFixes.Load()
         [190036] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{54.49,50.77}}},
         },
+        [190040] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{60.5,75.34}}},
+        },
         [190046] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS]={{26.46,41.5}}},
         },
@@ -158,6 +161,13 @@ function CataObjectFixes.Load()
         },
         [190108] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{75.57,52.3}}},
+        },
+        [194071] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.DALARAN]={{48.15,41.31}}},
+        },
+        [194072] = { -- Candy Bucket
+            [objectKeys.spawns] = {[zoneIDs.THE_UNDERBELLY]={{38.22,59.57}}},
+            [objectKeys.zoneID] = zoneIDs.THE_UNDERBELLY,
         },
         [194102] = { -- Shatterspear Armaments
             [objectKeys.spawns] = {[141]={{90.96,99.06},{87.07,99.87},{91.69,98.44}},[148]={{62.81,7.27},{62.38,7.8},{63.28,10.48},{61.29,10.61},{61.2,7.71},{63.53,8.07},{63.21,8.92},{61.96,8.94},{61.52,9.23},{61.38,9.81},{62.9,10.82},{62.76,11.37},{62.06,11.44},{62.2,8.98},{61.66,9.22},{63.08,9.56},{62.78,9.64},{61.94,9.95},{61.89,11.07}}},

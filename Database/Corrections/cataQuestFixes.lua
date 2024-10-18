@@ -9457,6 +9457,7 @@ function CataQuestFixes.Load()
         },
         [29075] = { -- A Time to Gain
             [questKeys.objectives] = {nil,{{208186}}},
+            [questKeys.preQuestSingle] = {},
         },
         [29078] = { -- Beating Them Back! -- non Human
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE - raceKeys.HUMAN,

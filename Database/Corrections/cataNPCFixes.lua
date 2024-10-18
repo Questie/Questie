@@ -2582,6 +2582,9 @@ function CataNpcFixes.Load()
         [53886] = { -- Igneous Depths Area Credit
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{57.78,49.7}}},
         },
+        [53949] = { -- Anson Hastings
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{60.04,75.13}}},
+        },
         [53950] = { -- Hired Courier
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{24.03,44.82}}},
         },
