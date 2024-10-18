@@ -7465,6 +7465,9 @@ function CataQuestFixes.Load()
         [27910] = { -- Last Regrets
             [questKeys.preQuestGroup] = {27907,27908},
         },
+        [27911] = { -- With Dying Breath
+            [questKeys.preQuestGroup] = {27909,27910},
+        },
         [27915] = { -- The Heart of the Temple
             [questKeys.preQuestSingle] = {27914},
             [questKeys.nextQuestInChain] = 27605,
