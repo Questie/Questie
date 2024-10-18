@@ -8923,6 +8923,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 26293,
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
+        [28718] = { -- Where There's Smoke, There's Delicious Meat
+            [questKeys.nextQuestInChain] = 28640,
+        },
         [28721] = { -- Walk A Mile In Their Shoes
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
