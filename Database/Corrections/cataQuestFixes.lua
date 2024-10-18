@@ -4157,6 +4157,12 @@ function CataQuestFixes.Load()
         [25678] = { -- Pick Your Fate
             [questKeys.objectives] = {{{5996},{5997},{5998}}},
         },
+        [25691] = { -- The Charred Granite of the Dark Portal
+            [questKeys.preQuestSingle] = {25689},
+        },
+        [25692] = { -- The Vile Blood of Demons
+            [questKeys.preQuestSingle] = {25689},
+        },
         [25696] = { -- The Sunveil Excursion
             [questKeys.preQuestSingle] = {25695},
         },
