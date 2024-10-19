@@ -4229,6 +4229,15 @@ function CataQuestFixes.Load()
         [25696] = { -- The Sunveil Excursion
             [questKeys.preQuestSingle] = {25695},
         },
+        [25697] = { -- The Amulet of Allistarj
+            [questKeys.preQuestSingle] = {25693},
+        },
+        [25698] = { -- The Amulet of Sevine
+            [questKeys.preQuestSingle] = {25693},
+        },
+        [25699] = { -- The Amulet of Grol
+            [questKeys.preQuestSingle] = {25693},
+        },
         [25702] = { -- Home... Gone... Naga...
             [questKeys.nextQuestInChain] = 25703,
         },
