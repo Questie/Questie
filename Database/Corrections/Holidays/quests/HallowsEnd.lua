@@ -83,17 +83,17 @@ tinsert(eventQuests, {"Hallow's End", 12370}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12371}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12373}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12374}) -- Candy Bucket
-tinsert(eventQuests, {"Hallow's End", 12375}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 12375, nil, nil, QuestieCorrections.CATA_HIDE}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12376}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12377}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12378}) -- Candy Bucket
-tinsert(eventQuests, {"Hallow's End", 12379}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 12379, nil, nil, QuestieCorrections.CATA_HIDE}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12380}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12381}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12382}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12383}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12384}) -- Candy Bucket
-tinsert(eventQuests, {"Hallow's End", 12385}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 12385, nil, nil, QuestieCorrections.CATA_HIDE}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12386}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12387}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12388}) -- Candy Bucket
@@ -167,7 +167,7 @@ tinsert(eventQuests, {"Hallow's End", 13548}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 28951}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 28952}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 28953}) -- Candy Bucket
-tinsert(eventQuests, {"Hallow's End", 28954, nil, nil, QuestieCorrections.CATA_HIDE}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 28954}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 28955}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 28956}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 28957}) -- Candy Bucket
