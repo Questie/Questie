@@ -61,6 +61,9 @@ function CataItemFixes.Load()
         [10458] = { -- Prayer to Elune
             [itemKeys.npcDrops] = {},
         },
+        [10754] = { -- The Amulet of Sevine
+            [itemKeys.npcDrops] = {41265},
+        },
         [11114] = { -- Dinosaur Bone
             [itemKeys.npcDrops] = {6501,6502,6503,6504,9162,9163,9164},
         },
