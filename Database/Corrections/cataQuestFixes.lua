@@ -1668,7 +1668,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Scalding Water Lord"), 0, {{"object", 195711}}}},
         },
         [14333] = { -- While You're Here
-            [questKeys.requiredSourceItems] = {},
+            [questKeys.requiredSourceItems] = {49194},
         },
         [14337] = { -- Shadowprey Village
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
