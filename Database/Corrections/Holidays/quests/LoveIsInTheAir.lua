@@ -88,4 +88,5 @@ tinsert(eventQuests, {"Love is in the Air", 24665}) -- Crushing the Crown (Shatt
 tinsert(eventQuests, {"Love is in the Air", 24666}) -- Crushing the Crown (Crystalsong A)
 
 -- Cata quests
+tinsert(eventQuests, {"Love is in the Air", 28934}) -- Crushing the Crown
 tinsert(eventQuests, {"Love is in the Air", 28935}) -- Crushing the Crown

@@ -74,7 +74,7 @@ class NPCSpider(scrapy.Spider):
         zone_id = None
         text = response.xpath("//div[contains(text(), 'This NPC can be found in')]").get()
         zone_id_match = re.search(r"zone=(\d+)", text)
-        zone_name_match = re.search(r"Shadowfang Keep|Blackfathom Deeps|Scarlet Monastery|Gnomeregan|The Temple of Atal'Hakkar|Molten Core", text)
+        zone_name_match = re.search(r"Shadowfang Keep|Blackfathom Deeps|Scarlet Monastery|Gnomeregan|The Temple of Atal'Hakkar|Molten Core|Demon Fall Canyon", text)
         if zone_id_match:
             zone_id = zone_id_match.group(1)
             if (zone_id == "719" or  # Blackfathom Deeps
@@ -82,7 +82,8 @@ class NPCSpider(scrapy.Spider):
                     zone_id == "796" or  # Scarlet Monastery
                     zone_id == "1477" or  # The Temple of Atal'Hakkar
                     zone_id == "2717" or  # Molten Core
-                    zone_id == "721"):  # Gnomeregan
+                    zone_id == "721" or  # Gnomeregan
+                    zone_id == "15475"): # Demon Fall Canyon
                 spawns = [[zone_id, "[-1,-1]"]]
         elif zone_name_match:
             zone_name = zone_name_match.group(0)
@@ -104,6 +105,9 @@ class NPCSpider(scrapy.Spider):
             elif zone_name == "Molten Core":
                 zone_id = "2717"
                 spawns = [["2717", "[-1,-1]"]]
+            elif zone_name == "Demon Fall Canyon":
+                zone_id = "15475"
+                spawns = [["15475", "[-1,-1]"]]
         return spawns, zone_id
 
     def __get_ids_from_listview(self, text):
