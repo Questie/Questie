@@ -11,7 +11,7 @@ jobs:
   triage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.2.0
+      - uses: actions/checkout@v4
         with:
           sparse-checkout: .github/labeler.yml
           sparse-checkout-cone-mode: false

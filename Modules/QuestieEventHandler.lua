@@ -104,7 +104,9 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("QUEST_ACCEPTED", QuestieAuto.QUEST_ACCEPTED)
     Questie:RegisterEvent("QUEST_DETAIL", function(...) -- When the quest is presented!
         QuestieAuto.QUEST_DETAIL(...)
-        if Questie.IsSoD then QuestieDebugOffer.QuestDialog(...) end;
+        if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
+            QuestieDebugOffer.QuestDialog(...)
+        end
     end)
     Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
     Questie:RegisterEvent("GOSSIP_SHOW", function(...)
@@ -119,7 +121,9 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED)               -- Called twice when the stopping to talk to an NPC
     Questie:RegisterEvent("QUEST_COMPLETE", function(...)                           -- When complete window shows
         QuestieAuto.QUEST_COMPLETE(...)
-        if Questie.IsSoD then QuestieDebugOffer.QuestDialog(...) end;
+        if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
+            QuestieDebugOffer.QuestDialog(...)
+        end
     end)
 
     Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
@@ -227,7 +231,7 @@ function QuestieEventHandler:RegisterLateEvents()
     end
 
     -- Questie Debug Offer
-    if Questie.IsSoD then
+    if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
         Questie:RegisterEvent("LOOT_OPENED", QuestieDebugOffer.LootWindow)
     end
 

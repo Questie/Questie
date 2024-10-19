@@ -302,6 +302,18 @@ local seasonObjectiveLocals = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Place Suspicious Supplies on the bone piles"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Lege Verdächtige Vorräte auf die Knochenhaufen",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(seasonObjectiveLocals) do
