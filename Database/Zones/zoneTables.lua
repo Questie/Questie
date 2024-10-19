@@ -3236,6 +3236,7 @@ ZoneDB.private.zoneIDs = {
     GILNEAS = 4714,
     GILNEAS_CITY = 4755,
     RUINS_OF_GILNEAS = 4706,
+    SOUTHERN_BARRENS = 4709,
     THE_LOST_ISLES = 4720,
     KEZAN = 4737,
     KELP_THAR_FOREST = 4815,
@@ -3247,11 +3248,12 @@ ZoneDB.private.zoneIDs = {
     SHIMMERING_EXPANSE = 5144, -- Vashj'ir sub zone
     ABYSSAL_DEPTHS = 5145, -- Vashj'ir sub zone
     THE_CAPE_OF_STRANGLETHORN = 5287,
-    NORTHERN_STRANGLETHORN = 5339, -- this is the composite map of Northern Stranglethorn and The Cape of Stranglethorn (1 level higher)
+    STRANGLETHORN_COMPOSITE_MAP = 5339, -- this is the composite map of Northern Stranglethorn and The Cape of Stranglethorn (1 level higher)
     TOL_BARAD_PENINSULA = 5389, -- the northern isle
     THE_MAELSTROM = 5416,
     MOLTEN_FRONT = 5733,
     DARKMOON_FAIRE_ISLAND = 5861,
+    DEMON_FALL_CANYON = 15475, -- SoD Dungeon
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic
