@@ -4223,6 +4223,9 @@ function CataQuestFixes.Load()
         [25692] = { -- The Vile Blood of Demons
             [questKeys.preQuestSingle] = {25689},
         },
+        [25693] = { -- Enhancing the Stone
+            [questKeys.preQuestGroup] = {25691,25692},
+        },
         [25696] = { -- The Sunveil Excursion
             [questKeys.preQuestSingle] = {25695},
         },
