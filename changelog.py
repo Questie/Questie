@@ -107,7 +107,7 @@ def get_changelog_string(categories, contributors):
                 changelog += f'* {line}\n'.replace('\\[', '[')
             changelog += '\n'
 
-    changelog += '\n## Contributors\n\n'
+    changelog += '## Contributors\n\n'
     for contributor in contributors:
         changelog += f'@{contributor}, '
     changelog = changelog[:-2] + '\n\n'
