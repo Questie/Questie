@@ -4226,6 +4226,9 @@ function CataQuestFixes.Load()
         [25696] = { -- The Sunveil Excursion
             [questKeys.preQuestSingle] = {25695},
         },
+        [25700] = { -- Loramus Thalipedes Awaits
+            [questKeys.preQuestGroup] = {25697,25698,25699},
+        },
         [25702] = { -- Home... Gone... Naga...
             [questKeys.nextQuestInChain] = 25703,
         },
