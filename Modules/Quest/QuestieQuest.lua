@@ -579,7 +579,7 @@ function QuestieQuest:UpdateQuest(questId)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is: Complete!")
 
             QuestieMap:UnloadQuestFrames(questId)
-            QuestFinisher:AddFinisher(quest)
+            QuestFinisher.AddFinisher(quest)
             quest.WasComplete = true
         elseif isComplete == -1 then
             -- Failed quests should be shown as available again
@@ -637,7 +637,7 @@ function QuestieQuest:UpdateQuest(questId)
                     if numCompleteObjectives == #quest.Objectives then
                         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] All Quest Objective(s) are Complete! Manually setting quest to Complete!")
                         QuestieMap:UnloadQuestFrames(questId)
-                        QuestFinisher:AddFinisher(quest)
+                        QuestFinisher.AddFinisher(quest)
                         quest.WasComplete = true
                         quest.isComplete = true
                     else
@@ -1351,9 +1351,9 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
     if #quest.Objectives == 0 and #quest.SpecialObjectives == 0 and ((quest.triggerEnd and #quest.triggerEnd > 0) or (quest.Finisher and quest.Finisher.Id ~= nil)) then
         -- Some quests when picked up will be flagged isComplete == 0 but the quest.Objective table or quest.SpecialObjectives table is nil. This
         -- check assumes the Quest should have been flagged questLogEngtry.isComplete == 1. We're specifically looking for a quest.triggerEnd or
-        -- a quest.Finisher.Id because this might throw an error if there is nothing to populate when we call QuestFinisher:AddFinisher().
+        -- a quest.Finisher.Id because this might throw an error if there is nothing to populate when we call QuestFinisher.AddFinisher().
         QuestieMap:UnloadQuestFrames(quest.Id)
-        QuestFinisher:AddFinisher(quest)
+        QuestFinisher.AddFinisher(quest)
         quest.isComplete = true
     end
 
