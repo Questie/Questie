@@ -2963,6 +2963,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{6707}},
             [questKeys.finishedBy] = {{6706}},
             [questKeys.objectives] = {{{231430}},nil,{{229911}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.FELWOOD]={{35.4,57.8}}}, Questie.ICON_TYPE_EVENT, l10n("Find Caius Blackwood")}},
             [questKeys.preQuestSingle] = {84880},
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
