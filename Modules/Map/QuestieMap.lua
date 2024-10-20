@@ -963,3 +963,5 @@ function QuestieMap:DrawWaypoints(icon, waypoints, zone, color)
         end
     end
 end
+
+return QuestieMap

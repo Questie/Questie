@@ -123,6 +123,7 @@ function QuestFinisher.AddFinisher(quest)
                         else
                             local x = coords[1];
                             local y = coords[2];
+                            
 
                             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Adding world icon as finisher:", finisherZone, x, y)
                             finisherIcons[finisherZone] = QuestieMap:DrawWorldIcon(data, finisherZone, x, y, coords[3])
@@ -175,3 +176,5 @@ end
 _GetIconScale = function()
     return Questie.db.profile.availableScale or 1.3
 end
+
+return QuestFinisher
