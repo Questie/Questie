@@ -813,6 +813,9 @@ function CataNpcFixes.Load()
         [24711] = { -- Tapper Swindlekeg
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{41.58,18.45}}},
         },
+        [24886] = { -- Exorcist Vaisha
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{49.9,46.67}}},
+        },
         [25273] = { -- Warsong Recruitment Officer
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{41.62,53.99},{43.01,55.64}}},
         },
@@ -1156,6 +1159,9 @@ function CataNpcFixes.Load()
                     {55.6,80.6,phases.LOST_ISLES_CHAPTER_3},
                 },
             },
+        },
+        [36163] = { -- Khan Kammah
+            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{73.36,41.69}}},
         },
         [36210] = { -- Sorata Firespinner
             [npcKeys.spawns] = {

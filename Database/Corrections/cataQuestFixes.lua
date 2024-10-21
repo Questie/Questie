@@ -4223,8 +4223,20 @@ function CataQuestFixes.Load()
         [25692] = { -- The Vile Blood of Demons
             [questKeys.preQuestSingle] = {25689},
         },
+        [25693] = { -- Enhancing the Stone
+            [questKeys.preQuestGroup] = {25691,25692},
+        },
         [25696] = { -- The Sunveil Excursion
             [questKeys.preQuestSingle] = {25695},
+        },
+        [25697] = { -- The Amulet of Allistarj
+            [questKeys.preQuestSingle] = {25693},
+        },
+        [25698] = { -- The Amulet of Sevine
+            [questKeys.preQuestSingle] = {25693},
+        },
+        [25699] = { -- The Amulet of Grol
+            [questKeys.preQuestSingle] = {25693},
         },
         [25702] = { -- Home... Gone... Naga...
             [questKeys.nextQuestInChain] = 25703,
@@ -10056,25 +10068,25 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{53234,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29273] = { -- How Hot
-            [questKeys.exclusiveTo] = {29274},
+            [questKeys.exclusiveTo] = {29274,29275,29276},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {-29206,29272},
             [questKeys.objectives] = {{{53190,nil,Questie.ICON_TYPE_EVENT},{53191,nil,Questie.ICON_TYPE_EVENT},{53192,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29274] = { -- Hounds of Shannox
-            [questKeys.exclusiveTo] = {29273},
+            [questKeys.exclusiveTo] = {29273,29275,29276},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {-29206,29272},
         },
         [29275] = { -- Fandral's Methods
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29211,29272,-29205}, -- 29211 + 29192
-            [questKeys.exclusiveTo] = {29276},
+            [questKeys.exclusiveTo] = {29273,29274,29276},
         },
         [29276] = { -- The Flame Spider Queen
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29272,-29205},
-            [questKeys.exclusiveTo] = {29275},
+            [questKeys.exclusiveTo] = {29273,29274,29275},
         },
         [29278] = { -- Living Obsidium
             [questKeys.exclusiveTo] = {29263,29295,29297},

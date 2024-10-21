@@ -125,16 +125,6 @@ function QuestieTBCObjectFixes:Load()
         [186273] = {
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{61.7,18.2}}},
         },
-        [186887] = {
-            [objectKeys.spawns] = {
-                [zoneIDs.DUROTAR]={{52.6,42.5}},
-                [zoneIDs.ELWYNN_FOREST]={{42.5,65.8}},
-                [zoneIDs.DUN_MOROGH]={{46.4,52.2}},
-                [zoneIDs.TIRISFAL_GLADES]={{60.9,52.7}},
-                [zoneIDs.AZUREMYST_ISLE]={{48.99,51.02}},
-                [zoneIDs.EVERSONG_WOODS]={{47.5,46.3}},
-            },
-        },
         [187039] = {
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{50.0,12.4},{50.7,13.3},{50.7,13.9},{50.47,19.23},{49.27,19.97},{49.08,19.02},{49.31,17.77},{49.48,17.03},{50.91,17.26},{50.18,16.55},{51.15,16.75},{51.98,15.68},{50.7,13.34},{51.94,13.16},{51.02,11.97},{51.6,13.9},{54.13,18.84},},},
         },
