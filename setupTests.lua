@@ -10,6 +10,13 @@ _G.table.getn = function(table)
     for _ in pairs(table) do count = count + 1 end
     return count
 end
+_G.strsplit = function(delimiter, str)
+    local results = {}
+    for match in (str .. delimiter):gmatch("(.-)" .. delimiter) do
+        table.insert(results, match)
+    end
+    return table.unpack(results)
+end
 _G.hooksecurefunc = EMTPY_FUNC
 _G.GetTime = function() return 0 end
 
