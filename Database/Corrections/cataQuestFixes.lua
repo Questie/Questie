@@ -853,6 +853,9 @@ function CataQuestFixes.Load()
         [9934] = { -- Message to Garadar
             [questKeys.preQuestSingle] = {},
         },
+        [9968] = { -- Strange Energy
+            [questKeys.preQuestSingle] = {},
+        },
         [9978] = { -- By Any Means Necessary
             [questKeys.preQuestSingle] = {},
         },
