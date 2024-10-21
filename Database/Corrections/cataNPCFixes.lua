@@ -1160,6 +1160,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [36163] = { -- Khan Kammah
+            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{73.36,41.69}}},
+        },
         [36210] = { -- Sorata Firespinner
             [npcKeys.spawns] = {
                 [zoneIDs.AZSHARA] = {
