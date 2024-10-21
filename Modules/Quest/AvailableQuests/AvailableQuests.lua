@@ -57,8 +57,8 @@ end
 function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
     --? Some quests can be started by both an NPC and a GameObject
 
-    if quest.Starts["GameObject"] then
-        local gameObjects = quest.Starts["GameObject"]
+    if quest.Starts.GameObject then
+        local gameObjects = quest.Starts.GameObject
         for i = 1, #gameObjects do
             local obj = QuestieDB:GetObject(gameObjects[i])
 
@@ -71,8 +71,8 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
             _AddStarter(obj, quest, "o_" .. obj.id)
         end
     end
-    if (quest.Starts["NPC"]) then
-        local npcs = quest.Starts["NPC"]
+    if (quest.Starts.NPC) then
+        local npcs = quest.Starts.NPC
         for i = 1, #npcs do
             local npc = QuestieDB:GetNPC(npcs[i])
 
