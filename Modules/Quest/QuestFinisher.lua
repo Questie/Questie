@@ -97,13 +97,13 @@ function QuestFinisher.AddFinisher(quest)
     local finisherLocs = {}
 
     for finisherZone, spawns in pairs(finisher.spawns or {}) do
-        if (finisherZone ~= nil and spawns ~= nil) then
+        if finisherZone and spawns then
             for _, coords in ipairs(spawns) do
                 local data = _GetIconData(quest, finisher.name)
 
                 if (coords[1] == -1 or coords[2] == -1) then
                     local dungeonLocation = ZoneDB:GetDungeonLocation(finisherZone)
-                    if dungeonLocation ~= nil then
+                    if dungeonLocation then
                         for _, value in ipairs(dungeonLocation) do
                             local zone = value[1];
                             local x = value[2];
