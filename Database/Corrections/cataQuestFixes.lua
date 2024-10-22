@@ -10381,7 +10381,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {25372,29389},
         },
         [29392] = { -- Missing Heirlooms
-            [questKeys.objectives] = {{{53950,nil,Questie.ICON_TYPE_EVENT},{53950,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{53950,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29393] = { -- Brew For Brewfest
             [questKeys.startedBy] = {{24497}},
@@ -10399,11 +10399,36 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{24468}},
             [questKeys.preQuestSingle] = {11318},
         },
+        [29398] = { -- Fencing the Goods
+            [questKeys.objectives] = {{{8719,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [29399] = { -- Shopping Around
+            [questKeys.objectives] = {{{53991,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
         [29400] = { -- A Season for Celebration
             [questKeys.startedBy] = {{20102}},
         },
+        [29402] = { -- Taking Precautions
+            [questKeys.objectives] = {nil,nil,{{3371},{17020},{71035}}},
+        },
+        [29413] = { -- The Creepy Crate
+            [questKeys.startedBy] = {nil,{209076}},
+        },
         [29415] = { -- Missing Heirlooms
-            [questKeys.objectives] = {{{54142,nil,Questie.ICON_TYPE_EVENT},{54142,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{54142,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [29416] = { -- Fencing the Goods
+            [questKeys.objectives] = {{{44866,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [29425] = { -- Shopping Around
+            [questKeys.objectives] = {{{6986,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [29426] = { -- Taking Precautions
+            [questKeys.objectives] = {nil,nil,{{3371},{17020},{71035}}},
+        },
+        [29429] = { -- The Creepy Crate
+            [questKeys.startedBy] = {nil,{209095}},
         },
         [29430] = { -- A Friend in Need
             [questKeys.nextQuestInChain] = 29392,
