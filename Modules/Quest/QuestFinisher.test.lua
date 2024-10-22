@@ -31,6 +31,8 @@ describe("QuestFinisher", function()
         QuestieDB.IsActiveEventQuest = function() return false end
         QuestieDB.IsPvPQuest = function() return false end
         ZoneDB.IsDungeonZone = function() return false end
+        QuestieMap.DrawWorldIcon = spy.new(function() end)
+        QuestieMap.DrawWaypoints = spy.new(function() end)
         QuestiePlayer.currentQuestlog = {}
         QuestieTooltips.lookupByKey = {}
 
@@ -40,7 +42,6 @@ describe("QuestFinisher", function()
     it("should add finisher", function()
         QuestiePlayer.currentQuestlog[1] = true
         QuestieDB.GetNPC = spy.new(function() return { id = 123, name = "Test Finisher", spawns = {[1]={{50,50}}} } end)
-        QuestieMap.DrawWorldIcon = spy.new(function() end)
         local quest = {
             Id = 1,
             Finisher = {
@@ -68,8 +69,6 @@ describe("QuestFinisher", function()
             spawns = {[1]={{50,50}}},
             waypoints = {[1] = {{{10,10},{20,20}}}}
         } end)
-        QuestieMap.DrawWorldIcon = spy.new(function() end)
-        QuestieMap.DrawWaypoints = spy.new(function() end)
         local quest = {
             Id = 1,
             Finisher = {
@@ -95,7 +94,6 @@ describe("QuestFinisher", function()
         QuestiePlayer.currentQuestlog[1] = true
         QuestieDB.GetNPC = spy.new(function() return { id = 123, name = "Test Finisher", spawns = {[1]={{-1,-1}}}} end)
         ZoneDB.GetDungeonLocation = spy.new(function() return {{2,60,60}} end)
-        QuestieMap.DrawWorldIcon = spy.new(function() end)
         local quest = {
             Id = 1,
             Finisher = {
