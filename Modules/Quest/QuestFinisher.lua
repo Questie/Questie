@@ -61,7 +61,7 @@ function QuestFinisher.AddFinisher(quest)
         if tooltip and #tooltip > 1 then
             for ttline = 1, #tooltip do
                 for index, line in pairs(tooltip) do
-                    if (ttline == index) then
+                    if ttline == index then
                         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing duplicate Quest Title!")
 
                         -- Remove duplicate Quest Title
@@ -120,7 +120,7 @@ function QuestFinisher.AddFinisher(quest)
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Adding world icon as finisher:", finisherZone, x, y)
                     finisherIcons[finisherZone] = QuestieMap:DrawWorldIcon(data, finisherZone, x, y, coords[3])
 
-                    if not finisherLocs[finisherZone] then
+                    if (not finisherLocs[finisherZone]) then
                         finisherLocs[finisherZone] = { x, y }
                     end
                 end
@@ -131,7 +131,7 @@ function QuestFinisher.AddFinisher(quest)
     if finisher.waypoints then
         for zone, waypoints in pairs(finisher.waypoints) do
             if (not ZoneDB.IsDungeonZone(zone)) then
-                if not finisherIcons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
+                if (not finisherIcons[zone]) and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                     local data = _GetIconData(quest, finisher.name)
 
                     finisherIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
