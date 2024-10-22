@@ -16,7 +16,7 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
 
 local pairs, ipairs, tostring = pairs, ipairs, tostring
-local _GetIconScale
+local _GetIcon, _GetIconScale
 
 ---@param quest Quest
 function QuestFinisher.AddFinisher(quest)
@@ -100,7 +100,7 @@ function QuestFinisher.AddFinisher(quest)
             for _, coords in ipairs(spawns) do
                 local data = {
                     Id = questId,
-                    Icon = Questie.ICON_TYPE_COMPLETE,
+                    Icon = _GetIcon(quest),
                     GetIconScale = _GetIconScale,
                     IconScale = _GetIconScale(),
                     Type = "complete",
@@ -108,14 +108,6 @@ function QuestFinisher.AddFinisher(quest)
                     Name = finisher.name,
                     IsObjectiveNote = false,
                 }
-
-                if QuestieDB.IsActiveEventQuest(quest.Id) then
-                    data.Icon = Questie.ICON_TYPE_EVENTQUEST_COMPLETE
-                elseif QuestieDB.IsPvPQuest(quest.Id) then
-                    data.Icon = Questie.ICON_TYPE_PVPQUEST_COMPLETE
-                elseif quest.IsRepeatable then
-                    data.Icon = Questie.ICON_TYPE_REPEATABLE_COMPLETE
-                end
 
                 if (coords[1] == -1 or coords[2] == -1) then
                     local dungeonLocation = ZoneDB:GetDungeonLocation(finisherZone)
@@ -150,7 +142,7 @@ function QuestFinisher.AddFinisher(quest)
                 if not finisherIcons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                     local data = {
                         Id = questId,
-                        Icon = Questie.ICON_TYPE_COMPLETE,
+                        Icon = _GetIcon(quest),
                         GetIconScale = _GetIconScale,
                         IconScale = _GetIconScale(),
                         Type = "complete",
@@ -158,14 +150,6 @@ function QuestFinisher.AddFinisher(quest)
                         Name = finisher.name,
                         IsObjectiveNote = false,
                     }
-
-                    if QuestieDB.IsActiveEventQuest(quest.Id) then
-                        data.Icon = Questie.ICON_TYPE_EVENTQUEST_COMPLETE
-                    elseif QuestieDB.IsPvPQuest(quest.Id) then
-                        data.Icon = Questie.ICON_TYPE_PVPQUEST_COMPLETE
-                    elseif quest.IsRepeatable then
-                        data.Icon = Questie.ICON_TYPE_REPEATABLE_COMPLETE
-                    end
 
                     finisherIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                     finisherLocs[zone] = { waypoints[1][1][1], waypoints[1][1][2] }
@@ -175,6 +159,17 @@ function QuestFinisher.AddFinisher(quest)
             end
         end
     end
+end
+
+_GetIcon = function(quest)
+    if QuestieDB.IsActiveEventQuest(quest.Id) then
+        return Questie.ICON_TYPE_EVENTQUEST_COMPLETE
+    elseif QuestieDB.IsPvPQuest(quest.Id) then
+        return Questie.ICON_TYPE_PVPQUEST_COMPLETE
+    elseif quest.IsRepeatable then
+        return Questie.ICON_TYPE_REPEATABLE_COMPLETE
+    end
+    return Questie.ICON_TYPE_COMPLETE
 end
 
 _GetIconScale = function()
