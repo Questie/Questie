@@ -18,7 +18,11 @@ _G.QUEST_ITEMS_NEEDED = ""
 _G.QUEST_OBJECTS_FOUND = ""
 _G.UIParent = {GetEffectiveScale = function() return 1 end}
 
-_G.C_QuestLog = {IsQuestFlaggedCompleted = function() return false end}
+_G.C_QuestLog = {IsQuestFlaggedCompleted = {}}
+setmetatable(_G.C_QuestLog.IsQuestFlaggedCompleted, {
+    mockedReturnValue = false,
+    __call = function(_, ...) return _.mockedReturnValue end}
+)
 _G.DurabilityFrame = {
     GetPoint = function() return nil end
 }

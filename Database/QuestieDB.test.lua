@@ -7,7 +7,7 @@ describe("QuestieDB", function()
     local QuestieDB
 
     before_each(function()
-        _G["Questie"] = {db = {char = {complete = {}}}}
+        Questie.db.char.complete = {}
         QuestiePlayer = require("Modules.QuestiePlayer")
         QuestieDB = require("Database.QuestieDB")
     end)

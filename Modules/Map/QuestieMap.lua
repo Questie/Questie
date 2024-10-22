@@ -560,7 +560,7 @@ end
 
 --A layer to keep the area convertion away from the other parts of the code
 --coordinates need to be 0-1 instead of 0-100
---showFlag isn't required but may want to be Modified
+--showFlag isn't required but may want to be Modified -- TODO: Can this be removed?
 ---@return IconFrame, IconFrame
 function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     if type(data) ~= "table" then
@@ -963,3 +963,5 @@ function QuestieMap:DrawWaypoints(icon, waypoints, zone, color)
         end
     end
 end
+
+return QuestieMap
