@@ -133,6 +133,10 @@ local phases = {
     MOLTEN_FRONT_CAMP = 1061,
     MOLTEN_FRONT_DRUIDS = 1062,
     MOLTEN_FRONT_WARDENS = 1063,
+    MARRIS_BRIDGE = 1064,
+    MARRIS_STABLES = 1065,
+    RAMBO_TEAM_CANYON = 1066,
+    RAMBO_TEAM_POST = 1067,
 }
 Phasing.phases = phases
 
@@ -475,6 +479,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.MOLTEN_FRONT_CAMP then
         return (questLog[29273] and questLog[29273].isComplete == 1) or (questLog[29274] and questLog[29274].isComplete == 1) or (questLog[29275] and questLog[29275].isComplete == 1) or (questLog[29276] and questLog[29276].isComplete == 1) or false
+    end
+
+    if phase == phases.MARRIS_BRIDGE then
+        return (not complete[26513])
+    end
+
+    if phase == phases.MARRIS_STABLES then
+        return complete[26513] or false
+    end
+
+    if phase == phases.RAMBO_TEAM_CANYON then
+        return (not complete[26708]) and ((not questLog[26708]) or (questLog[26708] and questLog[26708].isComplete == 0)) or false
+    end
+
+    if phase == phases.RAMBO_TEAM_POST then
+        return complete[26708] or (questLog[26708] and (questLog[26708].isComplete == 1)) or false
     end
 
     return false

@@ -707,6 +707,21 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES]={{62.5,67.97},{62.41,68},{62.31,67.96},{62.34,68.13},{62.26,68.14},{62.15,68.22},{62.21,68.28},{62.12,68.36},{62.14,68.51}}},
             [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
         },
+        [460019] = {
+            [objectKeys.name] = "Chain Lever",
+            [objectKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS]={{27.77,17.94}}},
+            [objectKeys.zoneID] = zoneIDs.REDRIDGE_MOUNTAINS,
+        },
+        [460020] = {
+            [objectKeys.name] = "Blackrock Holding Pen",
+            [objectKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS]={{68.92,58.76},{68.98,60.11},{69.8,59.14}}},
+            [objectKeys.zoneID] = zoneIDs.REDRIDGE_MOUNTAINS,
+        },
+        [460021] = {
+            [objectKeys.name] = "Ward of Ilgalar",
+            [objectKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS]={{71.94,44.82}}},
+            [objectKeys.zoneID] = zoneIDs.REDRIDGE_MOUNTAINS,
+        },
     }
 end
 

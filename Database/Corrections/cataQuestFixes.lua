@@ -5556,11 +5556,25 @@ function CataQuestFixes.Load()
         [26507] = { -- Petrified Delicacies
             [questKeys.preQuestSingle] = {26441},
         },
+        [26510] = { -- We Must Prepare!
+            [questKeys.preQuestSingle] = {},
+        },
         [26512] = { -- Tuning the Gnomecorder
             [questKeys.triggerEnd] = {"Test the Gnomecorder at the Lakeshire Graveyard", {[zoneIDs.REDRIDGE_MOUNTAINS]={{32.3,39.5}}}},
         },
+        [26513] = { -- Like a Fart in the Wind
+            [questKeys.preQuestSingle] = {26510},
+        },
         [26519] = { -- He Who Controls the Ettins
             [questKeys.startedBy] = {{430,445,446,580},nil,{58898}},
+            [questKeys.preQuestSingle] = {26512},
+        },
+        [26520] = { -- Saving Foreman Oslow
+            [questKeys.objectives] = {{{341,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Control the Canyon Ettin"),0,{{"monster",43094}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Ettin to lift the boulder"),0,{{"monster",43196}}},
+            },
         },
         [26536] = { -- Thunder Falls
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26488},
@@ -5575,6 +5589,9 @@ function CataQuestFixes.Load()
         },
         [26540] = { -- Dangerous Compassion
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Go back to the ship"),0,{{"monster",43188}}}},
+        },
+        [26545] = { -- Yowler Must Die!
+            [questKeys.startedBy] = {{344}},
         },
         [26546] = { -- Razorbeak Friends
             [questKeys.objectives] = {{{2657,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -5601,11 +5618,26 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {58949},
             [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{47.1,46.3}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Attach a Stag Eye to your Fishing Pole and fish for Sandy Carp")}},
         },
+        [26560] = { -- Jorgensen
+            [questKeys.preQuestSingle] = {26587},
+        },
+        [26561] = { -- Krakauer
+            [questKeys.preQuestSingle] = {26560},
+        },
+        [26562] = { -- And Last But Not Least... Danforth
+            [questKeys.preQuestSingle] = {26561},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Free Danforth"),0,{{"object",460019}}}},
+        },
+        [26563] = { -- Return of the Bravo Company
+            [questKeys.preQuestSingle] = {26562},
+            [questKeys.exclusiveTo] = {},
+        },
         [26566] = { -- A Triumph of Gnomish Ingenuity
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
         [26567] = { -- John J. Keeshan
-            [questKeys.preQuestSingle] = {26520, 26545},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26520,26545},
         },
         [26569] = { -- Surveying Equipment
             [questKeys.preQuestSingle] = {26568},
@@ -5616,6 +5648,9 @@ function CataQuestFixes.Load()
         [26572] = { -- A Golden Opportunity
             [questKeys.requiredSourceItems] = {58958},
             [questKeys.exclusiveTo] = {26557,26543,26556,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
+        },
+        [26573] = { -- His Heart Must Be In It
+            [questKeys.exclusiveTo] = {},
         },
         [26575] = { -- Rock Bottom
             [questKeys.preQuestSingle] = {26441},
@@ -5677,6 +5712,10 @@ function CataQuestFixes.Load()
         [26602] = { -- A Dish Best Served Huge
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Negolash"), 0, {{"object", 2289}}}},
         },
+        [26607] = { -- They Drew First Blood
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26563,26573},
+        },
         [26609] = { -- The Bloodsail Buccaneers
             [questKeys.preQuestSingle] = {26595,26601,26606},
         },
@@ -5688,7 +5727,7 @@ function CataQuestFixes.Load()
         },
         [26616] = { -- It's Never Over
             [questKeys.preQuestSingle] = {26607},
-            [questKeys.objectives] = {{{43450,nil,Questie.ICON_TYPE_MOUNT_UP}}},
+            [questKeys.objectives] = {{{43443,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
         [26619] = { -- You Say You Want a Revolution
             [questKeys.preQuestGroup] = {26540,26608},
@@ -5724,6 +5763,15 @@ function CataQuestFixes.Load()
         [26635] = { -- Cannonball Swim
             [questKeys.preQuestSingle] = {26631},
         },
+        [26636] = { -- Bravo Company Field Kit: Camouflage
+            [questKeys.preQuestSingle] = {26616},
+        },
+        [26637] = { -- Bravo Company Field Kit: Chloroform
+            [questKeys.preQuestSingle] = {26616},
+        },
+        [26638] = { -- Hunting the Hunters
+            [questKeys.preQuestSingle] = {26616},
+        },
         [26642] = { -- Preserving the Barrens
             [questKeys.exclusiveTo] = {28494},
             [questKeys.nextQuestInChain] = 871,
@@ -5735,6 +5783,12 @@ function CataQuestFixes.Load()
         [26645] = { -- The Night Watch
             [questKeys.preQuestSingle] = {26618},
         },
+        [26646] = { -- Prisoners of War
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26637,26638,26639,26640},
+            [questKeys.requiredSourceItems] = {59261},
+            [questKeys.objectives] = {nil,{{460020,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [26647] = { -- Ol' Blasty
             [questKeys.preQuestSingle] = {26644},
         },
@@ -5743,6 +5797,10 @@ function CataQuestFixes.Load()
         },
         [26650] = { -- The Damsel's Luck
             [questKeys.preQuestSingle] = {26649},
+        },
+        [26651] = { -- To Win a War, You Gotta Become War
+            [questKeys.startedBy] = {{43458}},
+            [questKeys.objectives] = {nil,{{204444,nil,Questie.ICON_TYPE_EVENT}},nil,nil,{{{43590},43590,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26656] = { -- Don't. Stop. Moving.
             [questKeys.extraObjectives] = {{{[zoneIDs.DEEPHOLM]={{50.61,13.76}}}, Questie.ICON_TYPE_EVENT, l10n("Bring the Opalescent Guardians here")}},
@@ -5779,12 +5837,23 @@ function CataQuestFixes.Load()
         },
         [26668] = { -- Detonation
             [questKeys.triggerEnd] = {"Blow up Render's Valley.", {[zoneIDs.REDRIDGE_MOUNTAINS]={{77.19,65.64}}}},
+            [questKeys.preQuestSingle] = {26651},
         },
         [26682] = { -- A Shambling Threat
             [questKeys.preQuestSingle] = {},
         },
         [26683] = { -- Look To The Stars
             [questKeys.preQuestSingle] = {26661},
+        },
+        [26692] = { -- Shadowhide Extinction
+            [questKeys.preQuestSingle] = {26668},
+        },
+        [26693] = { -- The Dark Tower
+            [questKeys.preQuestSingle] = {26668},
+        },
+        [26694] = { -- The Grand Magus Doane
+            [questKeys.startedBy] = {{43611}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Unlock the ward"), 0, {{"object", 460021}}}},
         },
         [26695] = { -- Prepare for Takeoff
             [questKeys.preQuestSingle] = {26679},
@@ -5808,6 +5877,10 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{43729,"Gunship destroyed",Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get on a Hippogryph"), 0, {{"monster", 43747}}}},
         },
+        [26708] = { -- AHHHHHHHHHHHH! AHHHHHHHHH!!!
+            [questKeys.preQuestSingle] = {26694},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 43714}}}},
+        },
         [26710] = { -- Lost In The Deeps
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Pebble brought to safety",{[zoneIDs.DEEPHOLM]={{58.4,25.6}}}},
@@ -5821,6 +5894,10 @@ function CataQuestFixes.Load()
         [26712] = { -- Off to the Bank (male)
             [questKeys.exclusiveTo] = {26711},
             [questKeys.sourceItemId] = 46856,
+        },
+        [26714] = { -- Darkblaze, Brood of the Worldbreaker
+            [questKeys.startedBy] = {{43733}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Summon Darkblaze"), 0, {{"monster", 43863}}}},
         },
         [26717] = { -- The Yorgen Worgen
             [questKeys.preQuestSingle] = {26785},

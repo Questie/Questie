@@ -29,8 +29,19 @@ function CataNpcFixes.Load()
         [302] = { -- Blind Mary
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{82.02,59.32}}},
         },
+        [334] = { -- Gath'Ilzogg
+            [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{57.76,56.3}}},
+        },
         [379] = { -- Darcy Parker
             [npcKeys.waypoints] = {},
+        },
+        [382] = { -- Marshal Marris
+            [npcKeys.spawns] = {
+                [zoneIDs.REDRIDGE_MOUNTAINS] = {
+                    {31.86,44.89,phases.MARRIS_BRIDGE},
+                    {29.73,44.52,phases.MARRIS_STABLES},
+                },
+            },
         },
         [464] = { -- Watch Captain Parker
             [npcKeys.waypoints] = {},
@@ -2047,8 +2058,24 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [43300] = { -- Messner
+            [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{47.65,41.8}}},
+        },
+        [43302] = { -- Danforth
+            [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{28.33,17.01}}},
+        },
+        [43303] = { -- Krakauer
+            [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{26.22,10.41}}},
+        },
+        [43305] = { -- Jorgensen
+            [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{33.65,11.65}}},
+        },
         [43344] = { -- Berracite
             [npcKeys.waypoints] = {[zoneIDs.DEEPHOLM] = {{{34.26,34.92},{34.49,34.58},{34.58,34.26},{34.60,33.95},{34.52,33.53},{34.52,33.30}}}},
+        },
+        [43443] = { -- Keeshan's Riverboat
+            [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{34.43,45.91}}},
+            [npcKeys.zoneID] = zoneIDs.REDRIDGE_MOUNTAINS,
         },
         [43513] = { -- Verlok Pillartumbler
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{69.89,24.77},{71.22,24.55},{69.03,24.15},{68.94,23.99},{69.36,23.92},{68.28,24.42},{68.52,25.9},{69.02,23.97},{68.38,25.91},{69.64,24.35},{67.69,24.36},{68.89,24.27},{71.22,24.57},{67.54,24.54},{67.59,24.48},{69.81,24.82},{69.85,24.76},{69.24,24.89},{68.45,25.92},{69.4,24.82},{68.97,25.43},{69.88,24.68},{67.69,24.49},{70.14,24.68},{69.46,24.21},{68.89,24.03},{68.95,24.04},{69.89,24.62},{70.59,24.71},{69.72,24.58},{68.71,24.25},{67.46,24.7},{70.8,24.69},{69.88,24.68},{69,25.34},{69.73,24.78},{68.91,24.46},{71.22,24.54},{70.93,24.69},{69.46,24.77},{68.58,25.8},{67.7,24.38},{68.34,25.84},{67.64,24.55},{69.6,26.39},{68.93,24},{68.68,24.19},{68.97,24.27},{69.13,24.74},{67.46,24.69},{67.49,24.6},{69.38,24.78},{69.35,24.77},{67.83,24},{67.74,24.3},{71.01,24.63},{69.08,24.26},{71.22,24.57},{68.28,25.85},{68.71,24.4},{68.52,25.82},{68.89,25.29},{68.46,25.84},{69.31,24.67},{67.59,24.61},{69.78,24.62}}},
@@ -2064,6 +2091,17 @@ function CataNpcFixes.Load()
         },
         [43729] = { -- Finale Credit
             [npcKeys.spawns] = {[zoneIDs.GILNEAS] = {{56.37,16.16}}},
+        },
+        [43733] = { -- Colonel Troteman
+            [npcKeys.spawns] = {
+                [zoneIDs.REDRIDGE_MOUNTAINS] = {
+                    {77.29,66.29,phases.RAMBO_TEAM_CANYON},
+                    {60.66,36.67,phases.RAMBO_TEAM_POST},
+                },
+            },
+        },
+        [43787] = { -- Blackrock Drake Rider
+            [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{70.12,45.33}}},
         },
         [43792] = { -- Therazane
             [npcKeys.questStarts] = {26709,28824},
