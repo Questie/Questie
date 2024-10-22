@@ -919,6 +919,9 @@ function CataQuestFixes.Load()
         [10328] = { -- Sunfury Briefings
             [questKeys.preQuestSingle] = {},
         },
+        [10388] = { -- Return to Thrallmar
+            [questKeys.startedBy] = {{19273}},
+        },
         [10416] = { -- Synthesis of Power
             [questKeys.requiredMinRep] = {934,0},
         },
