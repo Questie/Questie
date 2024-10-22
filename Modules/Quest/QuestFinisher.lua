@@ -16,7 +16,7 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
 
 local pairs, ipairs, tostring = pairs, ipairs, tostring
-local _GetIcon, _GetIconScale
+local _GetIconData, _GetIcon, _GetIconScale
 
 ---@param quest Quest
 function QuestFinisher.AddFinisher(quest)
@@ -98,16 +98,7 @@ function QuestFinisher.AddFinisher(quest)
     for finisherZone, spawns in pairs(finisher.spawns or {}) do
         if (finisherZone ~= nil and spawns ~= nil) then
             for _, coords in ipairs(spawns) do
-                local data = {
-                    Id = questId,
-                    Icon = _GetIcon(quest),
-                    GetIconScale = _GetIconScale,
-                    IconScale = _GetIconScale(),
-                    Type = "complete",
-                    QuestData = quest,
-                    Name = finisher.name,
-                    IsObjectiveNote = false,
-                }
+                local data = _GetIconData(quest, finisher.name)
 
                 if (coords[1] == -1 or coords[2] == -1) then
                     local dungeonLocation = ZoneDB:GetDungeonLocation(finisherZone)
@@ -140,16 +131,7 @@ function QuestFinisher.AddFinisher(quest)
         for zone, waypoints in pairs(finisher.waypoints) do
             if (not ZoneDB.IsDungeonZone(zone)) then
                 if not finisherIcons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
-                    local data = {
-                        Id = questId,
-                        Icon = _GetIcon(quest),
-                        GetIconScale = _GetIconScale,
-                        IconScale = _GetIconScale(),
-                        Type = "complete",
-                        QuestData = quest,
-                        Name = finisher.name,
-                        IsObjectiveNote = false,
-                    }
+                    local data = _GetIconData(quest, finisher.name)
 
                     finisherIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                     finisherLocs[zone] = { waypoints[1][1][1], waypoints[1][1][2] }
@@ -159,6 +141,19 @@ function QuestFinisher.AddFinisher(quest)
             end
         end
     end
+end
+
+_GetIconData = function(quest, finisherName)
+    return {
+        Id = quest.Id,
+        Icon = _GetIcon(quest),
+        GetIconScale = _GetIconScale,
+        IconScale = _GetIconScale(),
+        Type = "complete",
+        QuestData = quest,
+        Name = finisherName,
+        IsObjectiveNote = false,
+    }
 end
 
 _GetIcon = function(quest)
