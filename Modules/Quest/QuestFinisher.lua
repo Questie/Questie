@@ -20,7 +20,6 @@ local _GetIconScale
 
 ---@param quest Quest
 function QuestFinisher.AddFinisher(quest)
-    --We should never ever add the quest if IsQuestFlaggedComplete true.
     local questId = quest.Id
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding finisher for quest", questId)
 
