@@ -4,6 +4,8 @@ describe("QuestFinisher", function()
 
     ---@type QuestieDB
     local QuestieDB
+    ---@type ZoneDB
+    local ZoneDB
     ---@type QuestiePlayer
     local QuestiePlayer
     ---@type QuestieTooltips
@@ -20,6 +22,7 @@ describe("QuestFinisher", function()
     before_each(function()
         Questie.db.char.complete = {}
         QuestieDB = require("Database.QuestieDB")
+        ZoneDB = require("Database.Zones.zoneDB")
         QuestiePlayer = require("Modules.QuestiePlayer")
         QuestieTooltips = require("Modules.Tooltips.Tooltip")
         QuestieMap = require("Modules.Map.QuestieMap")
@@ -52,5 +55,28 @@ describe("QuestFinisher", function()
         QuestFinisher.AddFinisher(quest)
 
         assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
+    end)
+
+    it("should add finisher for dungeon location", function()
+        QuestiePlayer.currentQuestlog[1] = true
+        QuestieDB.GetNPC = spy.new(function() return { id = 1, name = "Test Finisher", spawns = {[1]={{-1,-1}}}} end)
+        ZoneDB.GetDungeonLocation = spy.new(function() return {{2,60,60}} end)
+        QuestieMap.DrawWorldIcon = spy.new(function() end)
+        local quest = {
+            Id = 1,
+            Finisher = {
+                Type = "monster",
+                Id = 1,
+                Name = "Test Finisher"
+            },
+            IsComplete = function()
+                return 1
+            end,
+            IsRepeatable = false
+        }
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 2, 60, 60)
     end)
 end)
