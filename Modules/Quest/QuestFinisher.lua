@@ -42,6 +42,7 @@ function QuestFinisher.AddFinisher(quest)
         end
 
         if finisher ~= nil then
+            -- TODO: Is this still true?
             -- Certain race conditions can occur when the NPC/Objects are both the Quest Starter and Quest Finisher
             -- which can result in duplicate Quest Title tooltips appearing. DrawAvailableQuest() would have already
             -- registered this NPC/Object so, the appropriate tooltip lines are already present. This checks and clears
