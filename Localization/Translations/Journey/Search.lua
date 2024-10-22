@@ -363,7 +363,7 @@ local searchLocales = {
         ["frFR"] = "\nLorsque cette option est sélectionnée, cache la quête de la carte, même si elle est active.\n\nCacher une quête est également possible en cliquant dessus tout en maintenant la touche Maj enfoncée sur la carte.",
     },
     ["Hidden by Questie"] = {
-        ["ptBR"] = "Oculto por Questie",
+        ["ptBR"] = "Oculta por Questie",
         ["ruRU"] = "Скрыто аддоном",
         ["deDE"] = "Von Questie versteckt",
         ["koKR"] = "퀘스티로 숨겨짐",
@@ -372,7 +372,7 @@ local searchLocales = {
         ["zhCN"] = "被Questie隐藏",
         ["zhTW"] = "被任務位置提示插件隱藏",
         ["esES"] = "Ocultada por Questie",
-        ["frFR"] = "Caché par Questie",
+        ["frFR"] = "Cachée par Questie",
     },
     ["NPCs starting this quest:"] = {
         ["ptBR"] = "NPCs que começam esta missão:",
