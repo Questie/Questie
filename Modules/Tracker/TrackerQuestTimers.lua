@@ -36,13 +36,13 @@ function TrackerQuestTimers:Initialize()
 end
 
 function TrackerQuestTimers:HideBlizzardTimer()
-    if Questie.IsWotlk or Questie.IsCata then
+    if QuestTimerFrame then
         QuestTimerFrame:Hide()
     end
 end
 
 function TrackerQuestTimers:ShowBlizzardTimer()
-    if Questie.IsWotlk or Questie.IsCata then
+    if QuestTimerFrame then
         QuestTimerFrame:Show()
     end
 end
