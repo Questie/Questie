@@ -57,9 +57,10 @@ function QuestFinisher.AddFinisher(quest)
 
     -- Clear duplicate keys if they exist
     if QuestieTooltips.lookupByKey[key] then
-        if QuestieTooltips.GetTooltip(key) ~= nil and #QuestieTooltips.GetTooltip(key) > 1 then
-            for ttline = 1, #QuestieTooltips.GetTooltip(key) do
-                for index, line in pairs(QuestieTooltips.GetTooltip(key)) do
+        local tooltip = QuestieTooltips.GetTooltip(key)
+        if tooltip and #tooltip > 1 then
+            for ttline = 1, #tooltip do
+                for index, line in pairs(tooltip) do
                     if (ttline == index) then
                         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing duplicate Quest Title!")
 
