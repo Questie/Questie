@@ -27,6 +27,7 @@ describe("QuestFinisher", function()
         QuestieTooltips = require("Modules.Tooltips.Tooltip")
         QuestieMap = require("Modules.Map.QuestieMap")
 
+        _G.C_QuestLog.IsQuestFlaggedCompleted.mockedReturnValue = false
         QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
         QuestieDB.IsActiveEventQuest = function() return false end
         QuestieDB.IsPvPQuest = function() return false end
@@ -111,5 +112,50 @@ describe("QuestFinisher", function()
 
         assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123")
         assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 2, 60, 60)
+        assert.spy(QuestieMap.DrawWaypoints).was_not_called()
+    end)
+
+    it("should not add finisher if quest is not in the players quest log", function()
+        QuestiePlayer.currentQuestlog = {}
+        local quest = {
+            Id = 1,
+        }
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was_not_called()
+        assert.spy(QuestieMap.DrawWaypoints).was_not_called()
+    end)
+
+    it("should not add finisher when IsQuestFlaggedCompleted is true", function()
+        QuestiePlayer.currentQuestlog[1] = true
+        _G.C_QuestLog.IsQuestFlaggedCompleted.mockedReturnValue = true
+        local quest = {
+            Id = 1,
+        }
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was_not_called()
+        assert.spy(QuestieMap.DrawWaypoints).was_not_called()
+    end)
+
+    it("should not add finisher when quest is already complete", function()
+        QuestiePlayer.currentQuestlog[1] = true
+        Questie.db.char.complete[1] = true
+        local quest = {
+            Id = 1,
+            IsComplete = function()
+                return 1
+            end,
+        }
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was_not_called()
+        assert.spy(QuestieMap.DrawWaypoints).was_not_called()
     end)
 end)
