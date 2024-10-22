@@ -16,7 +16,7 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
 
 local pairs, ipairs, tostring = pairs, ipairs, tostring
-local _GetIconData, _GetIcon, _GetIconScale
+local _GetIconData, _GetIcon, _GetIconScale, _RemoveDuplicateQuestTitle
 
 ---@param quest Quest
 function QuestFinisher.AddFinisher(quest)
@@ -49,46 +49,9 @@ function QuestFinisher.AddFinisher(quest)
         return
     end
 
-    -- TODO: Is this still true?
-    -- Certain race conditions can occur when the NPC/Objects are both the Quest Starter and Quest Finisher
-    -- which can result in duplicate Quest Title tooltips appearing. DrawAvailableQuest() would have already
-    -- registered this NPC/Object so, the appropriate tooltip lines are already present. This checks and clears
-    -- any duplicate keys before registering the Quest Finisher.
-
     -- Clear duplicate keys if they exist
     if QuestieTooltips.lookupByKey[key] then
-        local tooltip = QuestieTooltips.GetTooltip(key)
-        if tooltip and #tooltip > 1 then
-            for ttline = 1, #tooltip do
-                for index, line in pairs(tooltip) do
-                    if ttline == index then
-                        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing duplicate Quest Title!")
-
-                        -- Remove duplicate Quest Title
-                        QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. finisher.name] = nil
-
-                        -- Now check to see if the dup has a Special Objective
-                        local objText = string.match(line, ".*|cFFcbcbcb.*")
-
-                        if objText then
-                            local objIndex
-
-                            -- Grab the Special Objective index
-                            if quest.SpecialObjectives[1] then
-                                objIndex = quest.SpecialObjectives[1].Index
-                            end
-
-                            if objIndex then
-                                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing Special Objective!")
-
-                                -- Remove Special Objective Text
-                                QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. objIndex] = nil
-                            end
-                        end
-                    end
-                end
-            end
-        end
+        _RemoveDuplicateQuestTitle(questId, key, finisher.name, quest.SpecialObjectives[1])
     end
 
     QuestieTooltips:RegisterQuestStartTooltip(questId, finisher.name, finisher.id, key)
@@ -170,6 +133,46 @@ end
 
 _GetIconScale = function()
     return Questie.db.profile.availableScale or 1.3
+end
+
+-- TODO: Is this still true?
+-- Certain race conditions can occur when the NPC/Objects are both the Quest Starter and Quest Finisher
+-- which can result in duplicate Quest Title tooltips appearing. DrawAvailableQuest() would have already
+-- registered this NPC/Object so, the appropriate tooltip lines are already present. This checks and clears
+-- any duplicate keys before registering the Quest Finisher.
+_RemoveDuplicateQuestTitle = function(questId, key, finisherName, specialObjective)
+    local tooltip = QuestieTooltips.GetTooltip(key)
+    if tooltip and #tooltip > 1 then
+        for ttline = 1, #tooltip do
+            for index, line in pairs(tooltip) do
+                if ttline == index then
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing duplicate Quest Title!")
+
+                    -- Remove duplicate Quest Title
+                    QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. finisherName] = nil
+
+                    -- Now check to see if the dup has a Special Objective
+                    local objText = string.match(line, ".*|cFFcbcbcb.*")
+
+                    if objText then
+                        local objIndex
+
+                        -- Grab the Special Objective index
+                        if specialObjective then
+                            objIndex = specialObjective.Index
+                        end
+
+                        if objIndex then
+                            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing Special Objective!")
+
+                            -- Remove Special Objective Text
+                            QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. objIndex] = nil
+                        end
+                    end
+                end
+            end
+        end
+    end
 end
 
 return QuestFinisher
