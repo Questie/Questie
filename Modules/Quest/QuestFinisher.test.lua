@@ -27,6 +27,7 @@ describe("QuestFinisher", function()
         QuestieTooltips = require("Modules.Tooltips.Tooltip")
         QuestieMap = require("Modules.Map.QuestieMap")
 
+        QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
         QuestieDB.IsActiveEventQuest = function() return false end
         QuestieDB.IsPvPQuest = function() return false end
         ZoneDB.IsDungeonZone = function() return false end
@@ -38,13 +39,13 @@ describe("QuestFinisher", function()
 
     it("should add finisher", function()
         QuestiePlayer.currentQuestlog[1] = true
-        QuestieDB.GetNPC = spy.new(function() return { id = 1, name = "Test Finisher", spawns = {[1]={{50,50}}} } end)
+        QuestieDB.GetNPC = spy.new(function() return { id = 123, name = "Test Finisher", spawns = {[1]={{50,50}}} } end)
         QuestieMap.DrawWorldIcon = spy.new(function() end)
         local quest = {
             Id = 1,
             Finisher = {
                 Type = "monster",
-                Id = 1,
+                Id = 123,
                 Name = "Test Finisher"
             },
             IsComplete = function()
@@ -55,13 +56,14 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123")
         assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
     end)
 
     it("should add finisher with waypoints", function()
         QuestiePlayer.currentQuestlog[1] = true
         QuestieDB.GetNPC = spy.new(function() return {
-            id = 1,
+            id = 123,
             name = "Test Finisher",
             spawns = {[1]={{50,50}}},
             waypoints = {[1] = {{{10,10},{20,20}}}}
@@ -72,7 +74,7 @@ describe("QuestFinisher", function()
             Id = 1,
             Finisher = {
                 Type = "monster",
-                Id = 1,
+                Id = 123,
                 Name = "Test Finisher"
             },
             IsComplete = function()
@@ -83,6 +85,7 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123")
         assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
         assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 10, 10)
         assert.spy(QuestieMap.DrawWaypoints).was_called_with(QuestieMap, _, {{{10,10},{20,20}}}, 1)
@@ -90,14 +93,14 @@ describe("QuestFinisher", function()
 
     it("should add finisher for dungeon location", function()
         QuestiePlayer.currentQuestlog[1] = true
-        QuestieDB.GetNPC = spy.new(function() return { id = 1, name = "Test Finisher", spawns = {[1]={{-1,-1}}}} end)
+        QuestieDB.GetNPC = spy.new(function() return { id = 123, name = "Test Finisher", spawns = {[1]={{-1,-1}}}} end)
         ZoneDB.GetDungeonLocation = spy.new(function() return {{2,60,60}} end)
         QuestieMap.DrawWorldIcon = spy.new(function() end)
         local quest = {
             Id = 1,
             Finisher = {
                 Type = "monster",
-                Id = 1,
+                Id = 123,
                 Name = "Test Finisher"
             },
             IsComplete = function()
@@ -108,6 +111,7 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123")
         assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 2, 60, 60)
     end)
 end)
