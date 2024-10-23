@@ -1157,6 +1157,11 @@ function CataQuestFixes.Load()
             }},
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [11911] = { -- Quickening
+            [questKeys.startedBy] = {{55536}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.objectivesText] = {"Image of Warmage Kaitlyn in the Nexus wants you to collect 5 Arcane Splinters from Crystalline Protectors."},
+        },
         [11917] = { -- Striking Back
             [questKeys.preQuestSingle] = {12012,29092},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188049},{"object",188137},{"object",188138}}}},
