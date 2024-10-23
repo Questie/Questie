@@ -8877,6 +8877,9 @@ function CataQuestFixes.Load()
         [28635] = { -- A Haunting in Hillsbrad
             [questKeys.triggerEnd] = {"Search Dun Garok for Evidence of a Haunting", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.9,84.5}}}},
         },
+        [28640] = { -- Fresh Frostsabers
+            [questKeys.preQuestSingle] = {},
+        },
         [28649] = { -- A Special Surprise (Worgen)
             [questKeys.preQuestSingle] = {12738},
             [questKeys.nextQuestInChain] = 12751,
