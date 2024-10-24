@@ -5741,6 +5741,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26607},
             [questKeys.objectives] = {{{43443,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
+        [26618] = { -- Wolves at Our Heels
+            [questKeys.preQuestSingle] = {},
+        },
         [26619] = { -- You Say You Want a Revolution
             [questKeys.preQuestGroup] = {26540,26608},
         },
@@ -5752,7 +5755,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {26537,26564,26591},
         },
         [26627] = { -- The Hermit
-            [questKeys.exclusiveTo] = {26653},
+            [questKeys.nextQuestInChain] = 26653,
+            [questKeys.preQuestSingle] = {26618},
         },
         [26628] = { -- Death from Below
             [questKeys.triggerEnd] = {"Defend Shakes O'Breen", {[zoneIDs.ARATHI_HIGHLANDS]={{32.20,81.40}}}},
@@ -5855,7 +5859,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [26683] = { -- Look To The Stars
-            [questKeys.preQuestSingle] = {26661},
+            [questKeys.preQuestSingle] = {26618},
         },
         [26692] = { -- Shadowhide Extinction
             [questKeys.preQuestSingle] = {26668},
@@ -5911,14 +5915,14 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{43733}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Summon Darkblaze"), 0, {{"monster", 43863}}}},
         },
-        [26717] = { -- The Yorgen Worgen
-            [questKeys.preQuestSingle] = {26785},
-        },
         [26720] = { -- A Curse We Cannot Lift
-            [questKeys.objectives] = {{{43814}}},
+            [questKeys.objectives] = {{{43814,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26723] = { -- The Fate of Morbent Fel
-            [questKeys.preQuestSingle] = {26760},
+            [questKeys.preQuestSingle] = {26720},
+        },
+        [26728] = { -- Hero's Call: Duskwood!
+            [questKeys.nextQuestInChain] = 26618,
         },
         [26734] = { -- The Source of the Madness
             [questKeys.preQuestSingle] = {26733},
@@ -5945,6 +5949,9 @@ function CataQuestFixes.Load()
         [26755] = { -- Keep Them off the Front
             [questKeys.objectives] = {nil,nil,nil,nil,{{{43954,43960},43954,"Reinforcements bombarded",Questie.ICON_TYPE_SLAY}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Take control of a catapult"), 0, {{"monster",43952}}}},
+        },
+        [26760] = { -- Cry For The Moon
+            [questKeys.objectives] = {{{43950,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26762] = { -- Reactivate the Constructs
             [questKeys.objectives] = {{{43984,"Deactivated War Constructs reactivated",Questie.ICON_TYPE_INTERACT}}},
@@ -5978,7 +5985,7 @@ function CataQuestFixes.Load()
         },
         [26785] = { -- Part of the Pack
             [questKeys.preQuestSingle] = {26674},
-            [questKeys.exclusiveTo] = {26717},
+            [questKeys.nextQuestInChain] = 26717,
         },
         [26788] = { -- Cementing Our Victory
             [questKeys.preQuestSingle] = {26622},
@@ -8754,6 +8761,7 @@ function CataQuestFixes.Load()
         },
         [28564] = { -- Hero's Call: Duskwood!
             [questKeys.requiredMaxLevel] = 23,
+            [questKeys.nextQuestInChain] = 26618,
         },
         [28565] = { -- Hero's Call: Wetlands!
             [questKeys.nextQuestInChain] = 25395, -- Breadcrumb quest for 25395
