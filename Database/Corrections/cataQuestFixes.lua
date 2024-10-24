@@ -8857,7 +8857,7 @@ function CataQuestFixes.Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [28611] = { -- The Defilers' Ritual
-            [questKeys.extraObjectives] = {{{[zoneIDs.ULDUM]={{51.4,39.7}}}, Questie.ICON_TYPE_EVENT, l10n("Dive into the underwater cave")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ULDUM]={{52.08,40.04}}}, Questie.ICON_TYPE_EVENT, l10n("Dive into the underwater cave")}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27836,27837},
         },
