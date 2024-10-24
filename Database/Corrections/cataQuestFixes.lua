@@ -10868,7 +10868,6 @@ function CataQuestFixes:LoadFactionFixes()
             --[questKeys.finishedBy] = {{3347,3009,4611,16642}}, -- TODO: Add when multiple turn-in locations are handled
         },
         [29836] = { -- Just Checkin'
-            [questKeys.exclusiveTo] = {13099},
             [questKeys.nextQuestInChain] = 29840,
         },
     }
@@ -10937,7 +10936,6 @@ function CataQuestFixes:LoadFactionFixes()
             --[questKeys.finishedBy] = {{5499,1537,4160,16723}}, -- TODO: Add when multiple turn-in locations are handled
         },
         [29836] = { -- Just Checkin'
-            [questKeys.exclusiveTo] = {13099},
             [questKeys.nextQuestInChain] = 29844,
         },
     }
