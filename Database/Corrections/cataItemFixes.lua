@@ -9,6 +9,9 @@ function CataItemFixes.Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [1349] = { -- Abercrombie's Crate
+            [itemKeys.objectDrops] = {119},
+        },
         [1357] = { -- Captain Sander's Treasure Map
             [itemKeys.startQuest] = 26353,
         },

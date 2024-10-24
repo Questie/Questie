@@ -23,8 +23,8 @@ function CataNpcFixes.Load()
                 },
             },
         },
-        [273] = { -- Tavernkeep Smitts
-            [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{73.78,44.48}}},
+        [300] = { -- Zzarc' Vul
+            [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{37.87,84.35}}},
         },
         [302] = { -- Blind Mary
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{82.02,59.32}}},
@@ -2122,8 +2122,18 @@ function CataNpcFixes.Load()
         [43836] = { -- Windspeaker Lorvarius
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{47.97,53.7}}},
         },
+        [43861] = { -- Sven Yorgen
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {
+                    {18.35,58.06,phases.SVEN_YORGEN_VISIBLE},
+                },
+            },
+        },
         [43885] = { -- Emerine Junis
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{47.67,10.34}}},
+        },
+        [43950] = { -- Lurking Worgen
+            [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{18.57,57.26}}},
         },
         [44025] = { -- Therazane
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{63.33,24.95}}},
