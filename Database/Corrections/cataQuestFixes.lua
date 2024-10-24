@@ -1153,6 +1153,9 @@ function CataQuestFixes.Load()
                 {{[zoneIDs.STORMWIND_CITY] = {{60.4,60.2},{54.6,66.3},{69.8,65.2},{62.2,48.2},{71.2,40.7},{56.1,38.3}}},Questie.ICON_TYPE_NODE_FISH,l10n("Fish for Baby Crocolisk")},
             },
         },
+        [11672] = { -- Enlistment Day
+            [questKeys.preQuestSingle] = {},
+        },
         [11724] = { -- Massive Moth Omelet?
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
@@ -9060,6 +9063,7 @@ function CataQuestFixes.Load()
         [28709] = { -- Hero's Call: Northrend!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
             [questKeys.requiredMaxLevel] = 77,
+            [questKeys.nextQuestInChain] = 11672,
         },
         [28711] = { -- Warchief's Command: Northrend!
             [questKeys.requiredMaxLevel] = 77,
