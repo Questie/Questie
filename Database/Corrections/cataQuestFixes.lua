@@ -386,6 +386,15 @@ function CataQuestFixes.Load()
         [6031] = { -- Runecloth
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,8}},
         },
+        [6261] = { -- Dungar Longdrink
+            [questKeys.requiredRaces] = raceKeys.HUMAN,
+        },
+        [6281] = { -- Continue to Stormwind
+            [questKeys.requiredRaces] = raceKeys.HUMAN,
+        },
+        [6285] = { -- Return to Lewis
+            [questKeys.requiredRaces] = raceKeys.HUMAN,
+        },
         [6322] = { -- Michael Garrett
             [questKeys.requiredRaces] = raceKeys.UNDEAD,
         },
