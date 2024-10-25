@@ -1834,6 +1834,12 @@ function CataNpcFixes.Load()
         [41340] = { -- Private Pollard
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{63.98,59.8}}},
         },
+        [41372] = { -- Frostmane Retreat North
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{64.51,54.25}}},
+        },
+        [41373] = { -- Frostmane Retreat South
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{63.12,57.27}}},
+        },
         [41381] = { -- Nordu
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{27.4,55.56}}},
         },
@@ -1916,6 +1922,9 @@ function CataNpcFixes.Load()
         [42135] = { -- Defend the Bridge Quad Credit
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{38.49,78.6}}},
             [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
+        [42169] = { -- Amberstill Raid Controller
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{70.26,49.31}}},
         },
         [42197] = { -- L'ghorek
             [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{38.67,44.86},{38.75,44.75}}},

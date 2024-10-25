@@ -513,6 +513,9 @@ function CataItemFixes.Load()
         [56178] = { -- Duarn's Rope
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [56225] = { -- Frozen Artifact
+            [itemKeys.npcDrops] = {},
+        },
         [56254] = { -- Merciless Head
             [itemKeys.npcDrops] = {41601,41729,41747},
         },
