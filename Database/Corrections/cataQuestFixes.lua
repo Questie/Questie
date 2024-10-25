@@ -4901,7 +4901,8 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Arrest Ambassador Slaghammer"),0,{{"monster",42146}}}},
         },
         [26121] = { -- Claim Korthun's End
-            [questKeys.preQuestSingle] = {27443},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27443,26219},
             [questKeys.exclusiveTo] = {26105},
         },
         [26122] = { -- Environmental Awareness
@@ -4913,7 +4914,8 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26125},
         },
         [26125] = { -- Secure Seabrush
-            [questKeys.preQuestSingle] = {26006},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26006,26221},
             [questKeys.exclusiveTo] = {26124},
         },
         [26126] = { -- The Perfect Fuel
