@@ -70,8 +70,22 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{786}},
             [questKeys.nextQuestInChain] = 24490,
         },
+        [313] = { -- Forced to Watch from Afar
+            [questKeys.preQuestSingle] = {25724},
+            [questKeys.startedBy] = {{40950}},
+            [questKeys.objectives] = {{{40991,nil,Questie.ICON_TYPE_TALK},{40994,nil,Questie.ICON_TYPE_TALK},{41056,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [314] = { -- Protecting the Herd
+            [questKeys.preQuestSingle] = {25932},
+        },
         [384] = { -- Beer Basted Boar Ribs
             [questKeys.requiredSkill] = {},
+        },
+        [412] = { -- Operation Recombobulation
+            [questKeys.preQuestSingle] = {313},
+        },
+        [433] = { -- The Public Servant
+            [questKeys.objectives] = {{{41671,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [487] = { -- The Road to Darnassus
             [questKeys.preQuestSingle] = {483},
@@ -426,6 +440,18 @@ function CataQuestFixes.Load()
         },
         [6386] = { -- Return to Razor Hill
             [questKeys.requiredRaces] = raceKeys.ORC + raceKeys.TROLL,
+        },
+        [6387] = { -- Honor Students
+            [questKeys.requiredRaces] = raceKeys.GNOME + raceKeys.DWARF,
+        },
+        [6388] = { -- Gryth Thurden
+            [questKeys.requiredRaces] = raceKeys.GNOME + raceKeys.DWARF,
+        },
+        [6391] = { -- Ride to Ironforge
+            [questKeys.requiredRaces] = raceKeys.GNOME + raceKeys.DWARF,
+        },
+        [6392] = { -- Return to Gremlock
+            [questKeys.requiredRaces] = raceKeys.GNOME + raceKeys.DWARF,
         },
         [6441] = { -- Satyr Horns
             [questKeys.preQuestSingle] = {26449},
@@ -1103,11 +1129,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{20102}},
         },
         [11360] = { -- Fire Brigade Practice
-            [questKeys.preQuestSingle] = {11356},
             [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11361] = { -- Fire Training
-            [questKeys.preQuestSingle] = {11357},
             [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11407] = { -- Bark for Drohn's Distillery!
@@ -1117,19 +1141,15 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {11407},
         },
         [11439] = { -- Fire Brigade Practice
-            [questKeys.preQuestSingle] = {11356},
             [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11440] = { -- Fire Brigade Practice
-            [questKeys.preQuestSingle] = {11356},
             [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11449] = { -- Fire Training
-            [questKeys.preQuestSingle] = {11357},
             [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11450] = { -- Fire Training
-            [questKeys.preQuestSingle] = {11357},
             [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11585] = { -- Hellscream's Vigil
@@ -4364,7 +4384,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {}, -- Remove breadcrumb pre-quest
         },
         [25792] = { -- Pushing Forward
-            [questKeys.preQuestSingle] = {25667},
+            [questKeys.preQuestGroup] = {313,25667},
         },
         [25794] = { -- Undersea Sanctuary
             [questKeys.objectives] = {{{41294,nil,Questie.ICON_TYPE_EVENT}}},
@@ -4427,7 +4447,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {25826,25704},
         },
         [25838] = { -- Help from Steelgrill's Depot
-            [questKeys.preQuestSingle] = {25792},
+            [questKeys.preQuestGroup] = {412,25792},
         },
         [25839] = { -- The Ultrasafe Personnel Launcher
             [questKeys.objectives] = {{{41398,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -4590,7 +4610,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{42169,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25933] = { -- Help for the Quarry
-            [questKeys.preQuestSingle] = {25905},
+            [questKeys.preQuestGroup] = {314,25905},
         },
         [25936] = { -- Pay It Forward
             [questKeys.objectives] = {{{41672,nil,Questie.ICON_TYPE_EVENT}}},
@@ -4743,7 +4763,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 25663,
         },
         [25986] = { -- Trouble at the Lake
-            [questKeys.preQuestGroup] = {432,25937},
+            [questKeys.preQuestGroup] = {432,433,25937},
             [questKeys.nextQuestInChain] = 25978,
         },
         [25987] = { -- Put It On
@@ -4950,8 +4970,8 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Protect Kinelory", {[zoneIDs.ARATHI_HIGHLANDS] = {{54.85,55.55}}}},
         },
         [26118] = { -- Seize the Ambassador
-            [questKeys.objectives] = {{{42129,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Arrest Ambassador Slaghammer"),0,{{"monster",42146}}}},
+            [questKeys.objectives] = {{{42146,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.IRONFORGE] = {{41.67,53.03}}},Questie.ICON_TYPE_EVENT,l10n("The High Seat")}},
             [questKeys.preQuestSingle] = {26112},
         },
         [26121] = { -- Claim Korthun's End
@@ -5089,6 +5109,7 @@ function CataQuestFixes.Load()
         [26205] = { -- A Job for the Multi-Bot
             [questKeys.objectives] = {{{42563,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26206] = { -- The Future of Gnomeregan
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
@@ -5100,6 +5121,7 @@ function CataQuestFixes.Load()
         [26208] = { -- The Fight Continues
             [questKeys.objectives] = {{{42463,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26209] = { -- Murder Was The Case That They Gave Me
             [questKeys.preQuestSingle] = {},
@@ -5124,6 +5146,7 @@ function CataQuestFixes.Load()
         },
         [26222] = { -- Scrounging for Parts
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26228] = { -- Livin' the Life
             [questKeys.triggerEnd] = {"Livin' the Life!", {[zoneIDs.WESTFALL]={{46.25,18.99}}}},
@@ -5196,9 +5219,11 @@ function CataQuestFixes.Load()
         },
         [26264] = { -- What's Left Behind
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26265] = { -- Dealing with the Fallout
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26266] = { -- Hope for the People
             [questKeys.preQuestSingle] = {26270},
@@ -5234,9 +5259,11 @@ function CataQuestFixes.Load()
         [26284] = { -- Missing in Action
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",460002}}}},
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26285] = { -- Get Me Explosives Back!
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26286] = { -- In Defense of Westfall
             [questKeys.preQuestSingle] = {26266},
@@ -5302,12 +5329,14 @@ function CataQuestFixes.Load()
         },
         [26316] = { -- What's Keeping Jessup?
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26318] = { -- Finishin' the Job
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
             [questKeys.objectives] = {nil,{{204042}},nil,nil,{{{42773},42773}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26284,26285},
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26320] = { -- A Vision of the Past
             [questKeys.triggerEnd] = {"Vision of the Past uncovered", {[zoneIDs.THE_DEADMINES]={{25,14.5},{-1,-1}}}},
@@ -5333,12 +5362,15 @@ function CataQuestFixes.Load()
         },
         [26329] = { -- One More Thing
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26331] = { -- Crushcog's Minions
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26333] = { -- No Tanks!
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26334] = { -- Bloodlord Mandokir
             [questKeys.preQuestSingle] = {26332},
@@ -5356,6 +5388,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26331,26333},
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26340] = { -- The Hunt
             [questKeys.preQuestSingle] = {9457},
@@ -5363,6 +5396,7 @@ function CataQuestFixes.Load()
         [26342] = { -- Paint it Black
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
             [questKeys.objectives] = {{{42291,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26346] = { -- Myzrael's Tale [Alliance]
             [questKeys.preQuestSingle] = {26042},
@@ -5402,6 +5436,7 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to High Tinker Mekkatorque"),0,{{"monster",42849}}}},
             [questKeys.objectives] = {{{42839}}},
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26365] = { -- Hero's Call: Redridge Mountains!
             [questKeys.nextQuestInChain] = 26503,
@@ -5702,6 +5737,7 @@ function CataQuestFixes.Load()
         },
         [26566] = { -- A Triumph of Gnomish Ingenuity
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
+            [questKeys.requiredRaces] = raceKeys.GNOME,
         },
         [26567] = { -- John J. Keeshan
             [questKeys.preQuestSingle] = {},

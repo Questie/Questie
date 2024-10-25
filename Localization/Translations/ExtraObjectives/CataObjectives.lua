@@ -2522,7 +2522,7 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Arrest Ambassador Slaghammer"] = {
+    ["The High Seat"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,

@@ -100,6 +100,10 @@ function CataNpcFixes.Load()
             [npcKeys.waypoints] = {},
             [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{35.06,46.58}}},
         },
+        [1388] = { -- Vagash
+            [npcKeys.waypoints] = {},
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{69.79,44.37}}},
+        },
         [1416] = { -- Grimand Elmore
             [npcKeys.waypoints] = {},
         },
