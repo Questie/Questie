@@ -2478,6 +2478,9 @@ function CataNpcFixes.Load()
         [49956] = { -- Pebble
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM]={{63.07,20.88}}},
         },
+        [50044] = { -- Hell-Hoot
+            [npcKeys.waypoints] = {[zoneIDs.WINTERSPRING]={{52.40,32.36},{52.05,33.17},{52.01,33.64},{52.45,35.00},{52.67,36.69},{52.88,36.25},{52.88,36.25},{52.41,35.52},{52.41,35.52},{53.00,34.77},{52.81,34.79}}},
+        },
         [50482] = { -- Marith Lazuria
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{72.6,34.4}}},
         },
