@@ -93,12 +93,25 @@ function CataNpcFixes.Load()
         [881] = { -- Echeyakee
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{44.9,47.8}}},
         },
+        [1073] = { -- Ashlan Stonesmirk
+            [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{64.13,26.61}}},
+        },
+        [1105] = { -- Jern Hornhelm
+            [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{37.24,47.38}}},
+        },
+        [1139] = { -- Magistrate Bluntnose
+            [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{34.6,44.47}}},
+        },
         [1225] = { -- Ol' Sooty
             [npcKeys.waypoints] = {},
         },
         [1340] = { -- Mountaineer Kadrell
             [npcKeys.waypoints] = {},
             [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{35.06,46.58}}},
+        },
+        [1380] = { -- Saean
+            [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{56.51,65.94}}},
+            [npcKeys.zoneID] = zoneIDs.LOCH_MODAN,
         },
         [1388] = { -- Vagash
             [npcKeys.waypoints] = {},
@@ -243,6 +256,9 @@ function CataNpcFixes.Load()
         },
         [3987] = { -- Dal Bloodclaw
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{41.66,35.7}}},
+            [npcKeys.waypoints] = {},
+        },
+        [6577] = { -- Bingles Blastenheimer
             [npcKeys.waypoints] = {},
         },
         [7267] = { -- Chief Ukorz Sandscalp
