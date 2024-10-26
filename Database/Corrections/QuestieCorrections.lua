@@ -399,3 +399,5 @@ function QuestieCorrections:PreCompile() -- this happens only if we are about to
         count = count + 1
     end
 end
+
+return QuestieCorrections

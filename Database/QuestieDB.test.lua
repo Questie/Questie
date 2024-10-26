@@ -1,15 +1,70 @@
 dofile("setupTests.lua")
+dofile("Database/questDB.lua")
 
 describe("QuestieDB", function()
     ---@type QuestiePlayer
     local QuestiePlayer
+    ---@type QuestieLib
+    local QuestieLib
+    ---@type QuestieCorrections
+    local QuestieCorrections
     ---@type QuestieDB
     local QuestieDB
+
+    ---@type Quest
+    local testQuest
 
     before_each(function()
         Questie.db.char.complete = {}
         QuestiePlayer = require("Modules.QuestiePlayer")
+        QuestieLib = require("Modules.Libs.QuestieLib")
+        QuestieCorrections = require("Database.Corrections.QuestieCorrections")
+        QuestieCorrections.hiddenQuests = {}
         QuestieDB = require("Database.QuestieDB")
+        QuestieDB.private.questCache = {}
+        QuestieDB.QueryNPCSingle = function() return nil end
+
+        local questKeys = QuestieDB.questKeys
+        testQuest = {
+            [questKeys.name] = "Test Quest",
+            [questKeys.startedBy] = {{100, 200}},
+            [questKeys.finishedBy] =  {{300, 400}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = QuestieDB.raceKeys.ALL_HORDE,
+            [questKeys.requiredClasses] = QuestieDB.classKeys.MAGE,
+            [questKeys.objectivesText] = "Finish him!",
+            [questKeys.objectives] = {{{1000}}}
+        }
+    end)
+
+    describe("GetQuest", function()
+        it("should return a quest", function()
+            QuestieDB.QueryQuest = spy.new(function() return testQuest end)
+            QuestieLib.GetTbcLevel = function() return 60, 60 end
+
+            local quest = QuestieDB.GetQuest(123)
+
+            assert.are.same(123, quest.Id)
+            assert.are.same("Test Quest", quest.name)
+
+            local starter = quest.Starts
+            assert.are.same({100, 200}, starter.NPC)
+            assert.is_nil(starter.GameObject)
+            assert.is_nil(starter.Item)
+
+            local finisher = quest.Finisher
+            assert.are.same({300, 400}, finisher.NPC)
+            assert.is_nil(finisher.GameObject)
+
+            assert.are.same(60, quest.requiredLevel)
+            assert.are.same(60, quest.questLevel)
+            assert.are.same(QuestieDB.raceKeys.ALL_HORDE, quest.requiredRaces)
+            assert.are.same(QuestieDB.classKeys.MAGE, quest.requiredClasses)
+            assert.are.same("Finish him!", quest.Description)
+
+            assert.are.same({{Type="monster",Id=1000}}, quest.ObjectiveData)
+        end)
     end)
 
     describe("GetQuestTagInfo", function()
