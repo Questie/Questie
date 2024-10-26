@@ -232,7 +232,8 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
     QuestieJourneyUtils:Spacer(container)
 
-    if quest.Finisher and quest.Finisher.Name and quest.Finisher.Type == "monster" then
+    -- TODO: There can be multiple finishers
+    if quest.Finisher and quest.Finisher.Name and quest.Finisher.NPC then
         local endNPCGroup = AceGUI:Create("InlineGroup")
         endNPCGroup:SetLayout("Flow")
         endNPCGroup:SetTitle(l10n('Quest Turn-in NPC Information'))
@@ -240,7 +241,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         container:AddChild(endNPCGroup)
         QuestieJourneyUtils:Spacer(endNPCGroup)
 
-        local endNPC = QuestieDB:GetNPC(quest.Finisher.Id)
+        local endNPC = QuestieDB:GetNPC(quest.Finisher.NPC[1].Id)
 
         local endNPCNameLabel = AceGUI:Create("Label")
         endNPCNameLabel:SetText(endNPC.name)
