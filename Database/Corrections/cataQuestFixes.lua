@@ -2124,6 +2124,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{35257,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.AZSHARA] = {{29.06,66.41}}},Questie.ICON_TYPE_EVENT,l10n("Deliver the Stonified Miner here")}},
         },
+        [14189] = { -- Translation
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak to Narimar"),0,{{"monster",35315}}}},
+        },
         [14193] = { -- Nothing a Couple of Melons Won't Fix
             [questKeys.objectives] = {nil,{{195438}}},
             [questKeys.requiredSourceItems] = {48106},
