@@ -2141,6 +2141,9 @@ function CataQuestFixes.Load()
         [14195] = { -- All Becoming Clearer
             [questKeys.objectives] = {{{35382,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [14196] = { -- Firestarter
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Slay Disciple of Elune"),0,{{"monster",35384}}}},
+        },
         [14201] = { -- A Thousand Stories in the Sand
             [questKeys.preQuestSingle] = {24453},
         },
