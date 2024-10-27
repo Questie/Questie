@@ -2239,6 +2239,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {14189},
             [questKeys.nextQuestInChain] = 14256,
         },
+        [14256] = { -- The Emerging Threat
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Korrah"), 2, {{"monster", 35773}}}},
+        },
         [14261] = { -- Ice Cold
             [questKeys.preQuestSingle] = {14391},
         },
