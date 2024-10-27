@@ -2182,6 +2182,9 @@ function CataQuestFixes.Load()
         [14222] = { -- Last Stand
             [questKeys.startedBy] = {{35566}},
         },
+        [14223] = { -- Peace of Mind [Horde]
+            [questKeys.preQuestSingle] = {14189},
+        },
         [14226] = { -- Trouble Under Foot
             [questKeys.preQuestGroup] = {14249,14250,14263},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use Polymorph Insect on it"),0,{{"monster",6200},{"monster",6201},{"monster",6202}}}},
