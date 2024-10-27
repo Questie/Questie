@@ -2339,6 +2339,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{36025,nil,Questie.ICON_TYPE_EVENT},{36061,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
         },
+        [14309] = { -- Calming the Kodo
+            [questKeys.objectives] = {{{36094,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [14310] = { -- Segmentation Fault: Core Dumped
             [questKeys.objectives] = {{{36105,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Reactor Control Console"), 0, {{"object", 195683}}}},
