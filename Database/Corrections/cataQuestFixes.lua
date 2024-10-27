@@ -2344,7 +2344,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Reactor Control Console"), 0, {{"object", 195683}}}},
         },
         [14311] = { -- Taking Part
-            [questKeys.preQuestGroup] = {14305,14306},
+            [questKeys.preQuestSingle] = {14305},
         },
         [14312] = { -- An Introduction Is In Order
             [questKeys.preQuestSingle] = {14311},
