@@ -2381,6 +2381,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {48857},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [14360] = { -- Nothing a Couple of Melons Won't Fix [Horde]
+            [questKeys.objectives] = {nil,{{195438}}},
+            [questKeys.requiredSourceItems] = {48106},
+        },
         [14361] = { -- Peace of Mind
             [questKeys.preQuestSingle] = {14354},
         },
