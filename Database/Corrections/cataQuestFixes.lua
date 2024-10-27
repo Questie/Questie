@@ -2348,7 +2348,7 @@ function CataQuestFixes.Load()
         },
         [14311] = { -- Taking Part
             [questKeys.preQuestSingle] = {14305},
-            [questKeys.objectives] = {{{36123,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{36123,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [14312] = { -- An Introduction Is In Order
             [questKeys.preQuestSingle] = {14311},
