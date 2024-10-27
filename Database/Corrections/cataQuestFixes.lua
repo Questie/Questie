@@ -2158,6 +2158,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.objectives] = {nil,{{195497}}},
             [questKeys.requiredSourceItems] = {48857},
+            [questKeys.preQuestSingle] = {14189},
         },
         [14215] = { -- Memories of the Dead
             [questKeys.objectives] = {{{35595,nil,Questie.ICON_TYPE_INTERACT}}},
