@@ -2128,7 +2128,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak to Narimar"),0,{{"monster",35315}}}},
         },
         [14191] = { -- Furien's Footsteps
-            {{{35363,nil,Questie.ICON_TYPE_INTERACT},{35367,nil,Questie.ICON_TYPE_INTERACT},{35366,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,}
+            [questKeys.objectives] = {{{35363,nil,Questie.ICON_TYPE_EVENT},{35367,nil,Questie.ICON_TYPE_EVENT},{35366,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [14193] = { -- Nothing a Couple of Melons Won't Fix
             [questKeys.objectives] = {nil,{{195438}}},
