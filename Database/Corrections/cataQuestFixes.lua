@@ -2372,6 +2372,7 @@ function CataQuestFixes.Load()
         [14358] = { -- Ten Pounds of Flesh
             [questKeys.objectives] = {nil,{{195497}}},
             [questKeys.requiredSourceItems] = {48857},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [14359] = { -- Blessings From Above
             [questKeys.objectives] = {nil,{{195497}}},
