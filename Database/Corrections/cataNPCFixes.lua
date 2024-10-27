@@ -2926,7 +2926,7 @@ function CataNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
             [npcKeys.questStarts] = {29311},
         },
-        [100027] = { -- Rider on the Storm
+        [100028] = { -- Rider on the Storm
             [npcKeys.name] = "Nijel's Point Ruin",
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{67.77,17.28}}},
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
