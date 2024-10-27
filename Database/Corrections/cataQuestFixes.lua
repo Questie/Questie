@@ -2183,7 +2183,7 @@ function CataQuestFixes.Load()
         [14230] = { -- Manual Labor
             [questKeys.preQuestGroup] = {14249,14250,14263},
         },
-        [14362] = { -- Ears Are Burning [Horde]
+        [14232] = { -- Ears Are Burning [Horde]
             [questKeys.startedBy] = {{4663,4664,4665,4666,4667},nil,{49010}},
         },
         [14233] = { -- Orcs Can Write?
