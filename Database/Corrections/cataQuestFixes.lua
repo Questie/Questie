@@ -2226,6 +2226,9 @@ function CataQuestFixes.Load()
         [14245] = { -- It's a Town-In-A-Box
             [questKeys.objectives] = {nil,{{201938}}},
         },
+        [14246] = { -- Early Adoption
+            [questKeys.objectives] = {nil,{{195588}}},
+        },
         [14248] = { -- Help Wanted
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {14014,14019,14473}
