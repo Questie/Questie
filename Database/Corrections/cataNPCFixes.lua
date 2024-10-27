@@ -848,15 +848,18 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{49.9,46.67}}},
         },
         [25273] = { -- Warsong Recruitment Officer
-            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{41.62,53.99},{43.01,55.64}}},
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{41.62,53.99},{43.01,55.64}}},
         },
         [25324] = { -- Earthen Ring Guide
             [npcKeys.spawns] = {
-                [zoneIDs.ASHENVALE]={
+                [zoneIDs.ASHENVALE] = {
                     {15.5,19.0,phases.EARTHEN_GUIDE_BFD},
                     {9.36,12.99,phases.EARTHEN_GUIDE_SHORE},
                 },
             },
+        },
+        [25636] = { -- Captured Tuskarr Prisoner
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{44,77.8}}},
         },
         [25892] = { -- Burning Steppes Flame Warden
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{68.34,60.64}}},
@@ -872,10 +875,10 @@ function CataNpcFixes.Load()
         },
         [25975] = { -- Master Fire Eater
             [npcKeys.spawns] = {
-                [zoneIDs.DARNASSUS]={{63.19,47.48}},
-                [zoneIDs.IRONFORGE]={{65.36,25.06}},
-                [zoneIDs.STORMWIND_CITY]={{50.13,72.56}},
-                [zoneIDs.THE_EXODAR]={{40.90,25.59}},
+                [zoneIDs.DARNASSUS] = {{63.19,47.48}},
+                [zoneIDs.IRONFORGE] = {{65.36,25.06}},
+                [zoneIDs.STORMWIND_CITY] = {{50.13,72.56}},
+                [zoneIDs.THE_EXODAR] = {{40.90,25.59}},
             },
         },
         [26113] = { -- Frostwave Lieutenant
@@ -886,10 +889,10 @@ function CataNpcFixes.Load()
         },
         [26123] = { -- Midsummer Supplier
             [npcKeys.spawns] = {
-                [zoneIDs.IRONFORGE]={{64.82,26.28}},
-                [zoneIDs.DARNASSUS]={{61.9,48.3}},
-                [zoneIDs.THE_EXODAR]={{42.51,25.97}},
-                [zoneIDs.STORMWIND_CITY]={{49.02,71.95}},
+                [zoneIDs.IRONFORGE] = {{64.82,26.28}},
+                [zoneIDs.DARNASSUS] = {{61.9,48.3}},
+                [zoneIDs.THE_EXODAR] = {{42.51,25.97}},
+                [zoneIDs.STORMWIND_CITY] = {{49.02,71.95}},
             },
         },
         [26178] = { -- Hailstone Lieutenant
