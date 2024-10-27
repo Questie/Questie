@@ -2154,7 +2154,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{35229,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Mount Crowley's Horse"),0,{{"monster",44427}}}},
         },
-        [14213] = { -- Ten Pounds of Flesh
+        [14213] = { -- Ten Pounds of Flesh [Horde]
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.objectives] = {nil,{{195497}}},
             [questKeys.requiredSourceItems] = {48857},
@@ -2174,12 +2174,11 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{35618}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in a cannon"),0,{{"monster",35317}}}},
         },
-        [14219] = { -- To the Hilt!
+        [14219] = { -- To the Hilt! [Horde]
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.objectives] = {nil,{{195517}}},
             [questKeys.requiredSourceItems] = {48943},
             [questKeys.preQuestSingle] = {14189},
-
         },
         [14222] = { -- Last Stand
             [questKeys.startedBy] = {{35566}},
@@ -2364,12 +2363,12 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{36231}}},
             [questKeys.requiredSourceItems] = {49202},
         },
-        [14357] = { -- To the Hilt!
+        [14357] = { -- To the Hilt! [Alliance]
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
             [questKeys.objectives] = {nil,{{195517}}},
             [questKeys.requiredSourceItems] = {48943},
         },
-        [14358] = { -- Ten Pounds of Flesh
+        [14358] = { -- Ten Pounds of Flesh [Alliance]
             [questKeys.objectives] = {nil,{{195497}}},
             [questKeys.requiredSourceItems] = {48857},
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
