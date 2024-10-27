@@ -2178,6 +2178,8 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
             [questKeys.objectives] = {nil,{{195517}}},
             [questKeys.requiredSourceItems] = {48943},
+            [questKeys.preQuestSingle] = {14189},
+
         },
         [14222] = { -- Last Stand
             [questKeys.startedBy] = {{35566}},
