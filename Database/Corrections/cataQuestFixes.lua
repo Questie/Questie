@@ -2373,6 +2373,7 @@ function CataQuestFixes.Load()
         },
         [14362] = { -- Ears Are Burning [Alliance]
             [questKeys.startedBy] = {{4663,4664,4665,4666,4667},nil,{49203}},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [14365] = { -- Ethel Rethor
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
