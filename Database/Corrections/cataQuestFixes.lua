@@ -2138,6 +2138,9 @@ function CataQuestFixes.Load()
         [14194] = { -- Refleshification
             [questKeys.objectives] = {{{35257,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [14195] = { -- All Becoming Clearer
+            [questKeys.objectives] = {{{35382,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [14201] = { -- A Thousand Stories in the Sand
             [questKeys.preQuestSingle] = {24453},
         },
