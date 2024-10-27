@@ -2356,6 +2356,9 @@ function CataQuestFixes.Load()
         [14316] = { -- Cenarion Property
             [questKeys.preQuestSingle] = {14312},
         },
+        [14318] = { -- Delicate Negotiations
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak to Khan Leh'prah"), 0, {{"monster", 36056}}}},
+        },
         [14323] = { -- Absorbent
             [questKeys.preQuestSingle] = {14130},
         },
