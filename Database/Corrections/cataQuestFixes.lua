@@ -325,6 +325,9 @@ function CataQuestFixes.Load()
         [5561] = { -- Kodo Roundup
             [questKeys.objectives] = {nil,nil,nil,nil,{{{4700,4702},4700,"Kodos Tamed"}}},
         },
+        [5581] = { -- Portals of the Legion [Horde]
+            [questKeys.preQuestSingle] = {},
+        },
         [5627] = { -- Stars of Elune
             [questKeys.startedBy] = {{11401}},
         },
