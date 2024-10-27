@@ -2198,6 +2198,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {14249,14250,14263},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use Polymorph Insect on it"),0,{{"monster",6200},{"monster",6201},{"monster",6202}}}},
         },
+        [14227] = { -- Putting Their Heads Together [Horde]
+            [questKeys.requiredSourceItems] = {48953},
+        },
         [14230] = { -- Manual Labor
             [questKeys.preQuestGroup] = {14249,14250,14263},
         },
@@ -2397,6 +2400,9 @@ function CataQuestFixes.Load()
         [14362] = { -- Ears Are Burning [Alliance]
             [questKeys.startedBy] = {{4663,4664,4665,4666,4667},nil,{49203}},
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [14364] = { -- Putting Their Heads Together [Alliance]
+            [questKeys.requiredSourceItems] = {48953},
         },
         [14365] = { -- Ethel Rethor
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
