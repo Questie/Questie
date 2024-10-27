@@ -2183,6 +2183,9 @@ function CataQuestFixes.Load()
         [14230] = { -- Manual Labor
             [questKeys.preQuestGroup] = {14249,14250,14263},
         },
+        [14362] = { -- Ears Are Burning [Horde]
+            [questKeys.startedBy] = {{4663,4664,4665,4666,4667},nil,{49010}},
+        },
         [14233] = { -- Orcs Can Write?
             [questKeys.exclusiveTo] = {},
         },
@@ -2368,7 +2371,7 @@ function CataQuestFixes.Load()
         [14361] = { -- Peace of Mind
             [questKeys.preQuestSingle] = {14354},
         },
-        [14362] = { -- Ears Are Burning
+        [14362] = { -- Ears Are Burning [Alliance]
             [questKeys.startedBy] = {{4663,4664,4665,4666,4667},nil,{49203}},
         },
         [14365] = { -- Ethel Rethor
