@@ -3824,7 +3824,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Escort the Injured Fawn back home"),0,{{"monster",39930}}}},
         },
         [25395] = { -- The Stolen Keg
-            [questKeys.preQuestSingle] = {}, -- Remove breadcrumb pre-quests
+            [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 25770,
         },
         [25396] = { -- Tears of Stone
@@ -4325,6 +4325,7 @@ function CataQuestFixes.Load()
         },
         [25721] = { -- Fight the Flood
             [questKeys.nextQuestInChain] = 25727,
+            [questKeys.preQuestSingle] = {},
         },
         [25727] = { -- Drungeld Glowerglare
             [questKeys.nextQuestInChain] = 25733,
@@ -4340,6 +4341,7 @@ function CataQuestFixes.Load()
         },
         [25736] = { -- The Floodsurge Core
             [questKeys.startedBy] = {{41167},nil,{55243}},
+            [questKeys.preQuestSingle] = {25726},
         },
         [25740] = { -- Fact-Finding Mission
             [questKeys.preQuestSingle] = {},
@@ -4405,9 +4407,11 @@ function CataQuestFixes.Load()
         },
         [25777] = { -- Onwards to Menethil
             [questKeys.nextQuestInChain] = 25780,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25733,25734,25735},
         },
         [25780] = { -- Assault on Menethil Keep
-            [questKeys.preQuestSingle] = {}, -- Remove breadcrumb pre-quest
+            [questKeys.preQuestSingle] = {},
         },
         [25792] = { -- Pushing Forward
             [questKeys.preQuestGroup] = {313,25667},
@@ -4514,16 +4518,19 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 25865,
         },
         [25866] = { -- Dark Iron Trappers
-            [questKeys.preQuestSingle] = {25865}, -- Requires The Mosshide Job to be completed before unlocking
+            [questKeys.preQuestSingle] = {25865},
             [questKeys.inGroupWith] = {25867},
             [questKeys.nextQuestInChain] = 25868,
             [questKeys.exclusiveTo] = {},
         },
         [25867] = { -- Gnoll Escape
-            [questKeys.preQuestSingle] = {25865}, -- Requires The Mosshide Job to be completed before unlocking
+            [questKeys.preQuestSingle] = {25865},
             [questKeys.inGroupWith] = {25866},
             [questKeys.nextQuestInChain] = 25868,
             [questKeys.exclusiveTo] = {},
+            [questKeys.requiredSourceItems] = {56081},
+            [questKeys.objectives] = {{{41410,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",203282}}}},
         },
         [25868] = { -- Yorla Darksnare
             [questKeys.preQuestSingle] = {},
@@ -4877,6 +4884,9 @@ function CataQuestFixes.Load()
         [26048] = { -- Spare Parts Up In Here!
             [questKeys.preQuestGroup] = {26045,26046,26047},
         },
+        [26049] = { -- The Princess Unleashed
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon Myzrael"),0,{{"object",138492}}}},
+        },
         [26050] = { -- Goggle Boggle
             [questKeys.triggerEnd] = {"Defend Professor Phizzlethorpe", {[zoneIDs.ARATHI_HIGHLANDS]={{29.47,82.07}}}},
         },
@@ -4968,6 +4978,9 @@ function CataQuestFixes.Load()
         [26092] = { -- Orako's Report
             [questKeys.preQuestGroup] = {26088,26089},
         },
+        [26093] = { -- Northfold Manor
+            [questKeys.preQuestSingle] = {},
+        },
         [26094] = { -- Striking Back
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in"),0,{{"monster",42092}}}},
         },
@@ -4994,6 +5007,7 @@ function CataQuestFixes.Load()
         },
         [26116] = { -- Kinelory Strikes
             [questKeys.triggerEnd] = {"Protect Kinelory", {[zoneIDs.ARATHI_HIGHLANDS] = {{54.85,55.55}}}},
+            [questKeys.preQuestSingle] = {26114},
         },
         [26118] = { -- Seize the Ambassador
             [questKeys.objectives] = {{{42146,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -5042,6 +5056,9 @@ function CataQuestFixes.Load()
         },
         [26137] = { -- Checking on the Boys
             [questKeys.nextQuestInChain] = 25395,
+        },
+        [26139] = { -- Into Arathi
+            [questKeys.nextQuestInChain] = 26093,
         },
         [26143] = { -- All That Rises
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Control the Bound Torrent"),0,{{"monster",47969}}}},
@@ -5740,6 +5757,7 @@ function CataQuestFixes.Load()
         },
         [26542] = { -- Hero's Call: The Hinterlands!
             [questKeys.requiredMaxLevel] = 33,
+            [questKeys.nextQuestInChain] = 26547,
         },
         [26543] = { -- Clammy Hands
             [questKeys.exclusiveTo] = {26572,26557,26556,26588,29349,29345,29354,29346,29348,29317,29320,29361,29319,29322},
@@ -5886,7 +5904,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26618},
         },
         [26628] = { -- Death from Below
-            [questKeys.triggerEnd] = {"Defend Shakes O'Breen", {[zoneIDs.ARATHI_HIGHLANDS]={{32.20,81.40}}}},
+            [questKeys.triggerEnd] = {"Defend Shakes O'Breen", {[zoneIDs.ARATHI_HIGHLANDS]={{24.76,86.2}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Fire the cannon"), 0, {{"object", 113531}}}},
         },
         [26629] = { -- Seeing Where Your Loyalties Lie
             [questKeys.childQuests] = {26630},
@@ -6461,9 +6480,11 @@ function CataQuestFixes.Load()
         },
         [26980] = { -- Swiftgear Station
             [questKeys.nextQuestInChain] = 25864,
+            [questKeys.preQuestGroup] = {25805,25819,25820},
         },
         [26981] = { -- Whelgar's Retreat
             [questKeys.nextQuestInChain] = 25849,
+            [questKeys.preQuestSingle] = {25868},
         },
         [26997] = { -- The Usual Suspects
             [questKeys.objectives] = {{{29152,nil,Questie.ICON_TYPE_TALK}}},
@@ -8958,6 +8979,7 @@ function CataQuestFixes.Load()
         },
         [28573] = { -- Hero's Call: Arathi Highlands!
             [questKeys.requiredMaxLevel] = 28,
+            [questKeys.nextQuestInChain] = 26093,
         },
         [28574] = { -- Warchief's Command: The Hinterlands!
             [questKeys.requiredMaxLevel] = 33,
