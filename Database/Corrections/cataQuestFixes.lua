@@ -2298,6 +2298,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Rejuvenation"), 2, {{"monster", 35873}}}},
             [questKeys.requiredRaces] = raceKeys.WORGEN,
         },
+        [14284] = { -- A Revenant's Vengeance
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Lord Hydronis"), 2, {{"monster", 35902}}}},
+        },
         [14293] = { -- Save Krennan Aranas
             [questKeys.objectives] = {{{35753,nil,Questie.ICON_TYPE_EVENT}}},
         },
