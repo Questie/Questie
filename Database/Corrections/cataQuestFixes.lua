@@ -2130,9 +2130,10 @@ function CataQuestFixes.Load()
         [14191] = { -- Furien's Footsteps
             [questKeys.objectives] = {{{35363,nil,Questie.ICON_TYPE_EVENT},{35367,nil,Questie.ICON_TYPE_EVENT},{35366,nil,Questie.ICON_TYPE_EVENT}}},
         },
-        [14193] = { -- Nothing a Couple of Melons Won't Fix
+        [14193] = { -- Nothing a Couple of Melons Won't Fix [Alliance]
             [questKeys.objectives] = {nil,{{195438}}},
             [questKeys.requiredSourceItems] = {48106},
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [14194] = { -- Refleshification
             [questKeys.objectives] = {{{35257,nil,Questie.ICON_TYPE_INTERACT}}},
