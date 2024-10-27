@@ -2376,6 +2376,7 @@ function CataQuestFixes.Load()
         },
         [14338] = { -- Ghost Walker Post
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.preQuestSingle] = {14311},
         },
         [14340] = { -- Dressed to Impress
             [questKeys.objectives] = {{{35187,nil,Questie.ICON_TYPE_EVENT}}},
