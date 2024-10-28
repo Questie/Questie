@@ -4308,6 +4308,10 @@ function CataQuestFixes.Load()
         [25699] = { -- The Amulet of Grol
             [questKeys.preQuestSingle] = {25693},
         },
+        [25700] = { -- Loramus Thalipedes Awaits
+            [questKeys.preQuestGroup] = {25697,25698,25699},
+            [questKeys.objectives] = {{{7506,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [25702] = { -- Home... Gone... Naga...
             [questKeys.nextQuestInChain] = 25703,
         },
