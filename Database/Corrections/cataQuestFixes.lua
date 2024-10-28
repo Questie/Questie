@@ -1277,6 +1277,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {12012,29092},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's templars"),0,{{"object",188151},{"object",188152},{"object",188153},{"object",188154}}}},
         },
+        [11973] = { -- Prisoner of War
+            [questKeys.startedBy] = {{55531}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.objectivesText] = {"Warmage Kaitlyn wants you to free Keristrasza."},
+        },
         [11975] = { -- Now, When I Grow Up...
             [questKeys.zoneOrSort] = -378,
             [questKeys.preQuestSingle] = {},
