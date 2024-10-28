@@ -3427,10 +3427,14 @@ function QuestieQuestBlacklist:Load()
         [24485] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [24503] = QuestieCorrections.CATA_HIDE, -- Duplicate of 28414
         [24544] = true, -- Not in the game
+        [24568] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [24644] = QuestieCorrections.CATA_HIDE, -- Hidden quest in cata
         [24746] = true, -- Not in the game
         [24857] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [24860] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [24867] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [24908] = QuestieCorrections.CATA_HIDE, -- Not in the game
+        [24909] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [24984] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [24985] = QuestieCorrections.CATA_HIDE, -- Not in the game
         [24986] = QuestieCorrections.CATA_HIDE, -- Not in the game
