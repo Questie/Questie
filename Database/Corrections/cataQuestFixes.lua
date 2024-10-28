@@ -318,7 +318,7 @@ function CataQuestFixes.Load()
         },
         [5421] = { -- Fish in a Bucket
             [questKeys.specialFlags] = specialFlags.NONE,
-            [questKeys.parentQuest] = nil,
+            [questKeys.parentQuest] = 0,
         },
         [5502] = { -- A Warden of the Horde
             [questKeys.preQuestSingle] = {},
