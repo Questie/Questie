@@ -19,11 +19,11 @@ QuestieDB.questKeys = {
     ['objectivesText'] = 8, -- table: {string,...}, Description of the quest. Auto-complete if nil.
     ['triggerEnd'] = 9, -- table: {text, {[zoneID] = {coordPair,...},...}}
     ['objectives'] = 10, -- table
-        --['creatureObjective'] = 1, -- table {{creature(int), text(string)},...}, If text is nil the default "<Name> slain x/y" is used
-        --['objectObjective'] = 2, -- table {{object(int), text(string)},...}
-        --['itemObjective'] = 3, -- table {{item(int), text(string)},...}
+        --['creatureObjective'] = 1, -- table {{creature(int), text(string), iconFile},...}, If text is nil the default "<Name> slain x/y" is used
+        --['objectObjective'] = 2, -- table {{object(int), text(string), iconFile},...}
+        --['itemObjective'] = 3, -- table {{item(int), text(string), iconFile},...}
         --['reputationObjective'] = 4, -- table: {faction(int), value(int)}
-        --['killCreditObjective'] = 5, -- table: {{{creature(int), ...}, baseCreatureID, baseCreatureText}, ...}
+        --['killCreditObjective'] = 5, -- table: {{{creature(int), ...}, baseCreatureID, baseCreatureText, iconFile}, ...}
     ['sourceItemId'] = 11, -- int, item provided by quest starter
     ['preQuestGroup'] = 12, -- table: {quest(int)}
     ['preQuestSingle'] = 13, -- table: {quest(int)}
