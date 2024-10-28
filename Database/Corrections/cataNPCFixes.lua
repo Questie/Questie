@@ -899,6 +899,9 @@ function CataNpcFixes.Load()
                 [zoneIDs.STORMWIND_CITY] = {{49.02,71.95}},
             },
         },
+        [26156] = { -- Wartook Iceborn
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT] = {{12.75,51.71}}},
+        },
         [26178] = { -- Hailstone Lieutenant
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{40.23,31.37},{40.33,30.23},{39.24,30.39}}},
         },
