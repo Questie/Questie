@@ -9117,6 +9117,9 @@ function CataQuestFixes.Load()
         [28635] = { -- A Haunting in Hillsbrad
             [questKeys.triggerEnd] = {"Search Dun Garok for Evidence of a Haunting", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.9,84.5}}}},
         },
+        [28640] = { -- Fresh Frostsabers
+            [questKeys.preQuestSingle] = {},
+        },
         [28649] = { -- A Special Surprise (Worgen)
             [questKeys.preQuestSingle] = {12738},
             [questKeys.nextQuestInChain] = 12751,
@@ -9195,7 +9198,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 25710,
         },
         [28674] = { -- Starfall Village
-            [questKeys.preQuestSingle] = {28722},
+            [questKeys.preQuestGroup] = {28722,28628},
             [questKeys.nextQuestInChain] = 28701,
         },
         [28675] = { -- Hero's Call: Swamp of Sorrows!
@@ -9684,7 +9687,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27520,27519,27706},
         },
         [28847] = { -- The Pursuit of Umbranse
-            [questKeys.preQuestGroup] = {28537,28722},
+            [questKeys.preQuestGroup] = {28537,28628,28722},
         },
         [28849] = { -- Twilight Skies
             [questKeys.preQuestGroup] = {26337,26372,26374},
