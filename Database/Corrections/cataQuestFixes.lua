@@ -313,6 +313,9 @@ function CataQuestFixes.Load()
         [5041] = { -- Supplies for the Crossroads
             [questKeys.preQuestSingle] = {871},
         },
+        [5386] = { -- Catch of the Day
+            [questKeys.childQuests] = nil,
+        },
         [5421] = { -- Fish in a Bucket
             [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.parentQuest] = nil,
