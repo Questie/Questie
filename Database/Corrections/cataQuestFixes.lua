@@ -2382,6 +2382,7 @@ function CataQuestFixes.Load()
         },
         [14337] = { -- Shadowprey Village
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.preQuestSingle] = {14325}, -- Uncertain if correct but would mirror Alliance equivalent and definitely improves existing state
         },
         [14338] = { -- Ghost Walker Post
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
