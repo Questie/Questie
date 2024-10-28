@@ -2394,6 +2394,9 @@ function CataQuestFixes.Load()
         [14345] = { -- Wash Out
             [questKeys.preQuestGroup] = {14131,14132,14324},
         },
+        [14346] = { -- Cleansing Our Crevasse [Horde]
+            [questKeys.objectives] = {{{36227,nil,Questie.ICON_TYPE_MOUNT_UP},{35606,nil,Questie.ICON_TYPE_INTERACT},{90,nil,Questie.ICON_TYPE_INTERACT},{35605,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [14348] = { -- You Can't Take 'Em Alone
             [questKeys.objectives] = {{{36231}}},
             [questKeys.requiredSourceItems] = {49202},
@@ -2464,7 +2467,7 @@ function CataQuestFixes.Load()
         [14379] = { -- Rock Lobstrock!
             [questKeys.preQuestGroup] = {14373,14374},
         },
-        [14381] = { -- Cleansing Our Crevasse
+        [14381] = { -- Cleansing Our Crevasse [Alliance]
             [questKeys.objectives] = {{{36227,nil,Questie.ICON_TYPE_MOUNT_UP},{35606,nil,Questie.ICON_TYPE_INTERACT},{90,nil,Questie.ICON_TYPE_INTERACT},{35605,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [14382] = { -- Two By Sea
