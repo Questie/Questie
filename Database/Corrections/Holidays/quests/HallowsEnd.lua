@@ -249,11 +249,13 @@ tinsert(eventQuests, {"Hallow's End", 29400}) -- A Season for Celebration
 tinsert(eventQuests, {"Hallow's End", 29402}) -- Taking Precautions
 tinsert(eventQuests, {"Hallow's End", 29403}) -- The Collector's Agent
 tinsert(eventQuests, {"Hallow's End", 29411}) -- What Now?
+tinsert(eventQuests, {"Hallow's End", 29413}) -- The Creepy Crate
 tinsert(eventQuests, {"Hallow's End", 29415}) -- Missing Heirlooms
 tinsert(eventQuests, {"Hallow's End", 29416}) -- Fencing the Goods
 tinsert(eventQuests, {"Hallow's End", 29425}) -- Shopping Around
 tinsert(eventQuests, {"Hallow's End", 29426}) -- Taking Precautions
 tinsert(eventQuests, {"Hallow's End", 29427}) -- The Collector's Agent
 tinsert(eventQuests, {"Hallow's End", 29428}) -- What Now?
+tinsert(eventQuests, {"Hallow's End", 29429}) -- The Creepy Crate
 tinsert(eventQuests, {"Hallow's End", 29430}) -- A Friend in Need
 tinsert(eventQuests, {"Hallow's End", 29431}) -- A Friend in Need

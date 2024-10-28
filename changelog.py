@@ -67,12 +67,20 @@ def get_sorted_categories(git_log):
 
 def get_contributors(last_tag):
     log_output = subprocess.run(
-        ["git", "log", f"{last_tag}..HEAD", "--pretty=format:%an"],
+        ["git", "log", f"{last_tag}..HEAD", "--pretty=format:%an <%ae>"],
         **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
     ).stdout.decode().strip().split('\n')
 
-    # Remove duplicates
-    contributors = set(log_output)
+    # Use a dictionary to ensure uniqueness by email
+    unique_contributors = {}
+    for entry in log_output:
+        username, email = entry.split(' <')
+        email = email.rstrip('>')
+        if email not in unique_contributors or len(username) < len(unique_contributors[email]):
+            unique_contributors[email] = username
+
+    # Extract unique usernames
+    contributors = list(unique_contributors.values())
 
     return contributors
 
@@ -107,7 +115,7 @@ def get_changelog_string(categories, contributors):
                 changelog += f'* {line}\n'.replace('\\[', '[')
             changelog += '\n'
 
-    changelog += '\n## Contributors\n\n'
+    changelog += '## Contributors\n\n'
     for contributor in contributors:
         changelog += f'@{contributor}, '
     changelog = changelog[:-2] + '\n\n'
