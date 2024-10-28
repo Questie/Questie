@@ -859,7 +859,7 @@ function CataNpcFixes.Load()
             },
         },
         [25636] = { -- Captured Tuskarr Prisoner
-            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{44,77.8}}},
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{44.10,77.90}}},
         },
         [25892] = { -- Burning Steppes Flame Warden
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{68.34,60.64}}},
