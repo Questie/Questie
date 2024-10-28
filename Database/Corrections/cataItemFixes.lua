@@ -9,14 +9,23 @@ function CataItemFixes.Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [1349] = { -- Abercrombie's Crate
+            [itemKeys.objectDrops] = {119},
+        },
         [1357] = { -- Captain Sander's Treasure Map
             [itemKeys.startQuest] = 26353,
+        },
+        [2536] = { -- Trogg Stone Tooth
+            [itemKeys.npcDrops] = {1161,1162,1163,1164,1165,1166,1167,1197,1393},
         },
         [2629] = { -- Intrepid Strongbox Key
             [itemKeys.npcDrops] = {41429},
         },
         [2633] = { -- Jungle Remedy
             [itemKeys.npcDrops] = {937,940,941,942},
+        },
+        [2676] = { -- Shimmerweed
+            [itemKeys.npcDrops] = {41121},
         },
         [2859] = { -- Vile Fin Scale
             [itemKeys.npcDrops] = {1541,1543,1544,1545},
@@ -510,6 +519,9 @@ function CataItemFixes.Load()
         [56178] = { -- Duarn's Rope
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [56225] = { -- Frozen Artifact
+            [itemKeys.npcDrops] = {},
+        },
         [56254] = { -- Merciless Head
             [itemKeys.npcDrops] = {41601,41729,41747},
         },
@@ -652,6 +664,12 @@ function CataItemFixes.Load()
         [60382] = { -- Mylra's Knife
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [60502] = { -- Clever Plant Disguise Kit
+            [itemKeys.npcDrops] = {},
+        },
+        [60503] = { -- Potent Murloc Pheromones
+            [itemKeys.npcDrops] = {},
+        },
         [60574] = { -- The Upper World Pillar Fragment
             [itemKeys.npcDrops] = {},
         },
@@ -660,6 +678,9 @@ function CataItemFixes.Load()
         },
         [60681] = { -- Cannary's Cache
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [60738] = { -- Nascent Elementium Spike
+            [itemKeys.npcDrops] = {},
         },
         [60739] = { -- Twilight Slaver's Key
             [itemKeys.class] = itemClasses.QUEST,

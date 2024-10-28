@@ -23,8 +23,8 @@ function CataNpcFixes.Load()
                 },
             },
         },
-        [273] = { -- Tavernkeep Smitts
-            [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{73.78,44.48}}},
+        [300] = { -- Zzarc' Vul
+            [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{37.87,84.35}}},
         },
         [302] = { -- Blind Mary
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{82.02,59.32}}},
@@ -93,12 +93,29 @@ function CataNpcFixes.Load()
         [881] = { -- Echeyakee
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{44.9,47.8}}},
         },
+        [1073] = { -- Ashlan Stonesmirk
+            [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{64.13,26.61}}},
+        },
+        [1105] = { -- Jern Hornhelm
+            [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{37.24,47.38}}},
+        },
+        [1139] = { -- Magistrate Bluntnose
+            [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{34.6,44.47}}},
+        },
         [1225] = { -- Ol' Sooty
             [npcKeys.waypoints] = {},
         },
         [1340] = { -- Mountaineer Kadrell
             [npcKeys.waypoints] = {},
             [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{35.06,46.58}}},
+        },
+        [1380] = { -- Saean
+            [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{56.51,65.94}}},
+            [npcKeys.zoneID] = zoneIDs.LOCH_MODAN,
+        },
+        [1388] = { -- Vagash
+            [npcKeys.waypoints] = {},
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{69.79,44.37}}},
         },
         [1416] = { -- Grimand Elmore
             [npcKeys.waypoints] = {},
@@ -156,6 +173,10 @@ function CataNpcFixes.Load()
         [2611] = { -- Fozruk
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{43.67,67.08}}},
             [npcKeys.waypoints] = {},
+        },
+        [2714] = { -- Forsaken Courier
+            [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{51.03,64.80}}},
+            [npcKeys.waypoints] = {[zoneIDs.ARATHI_HIGHLANDS] = {{{51.03,64.80},{51.17,64.82},{51.32,64.77},{51.45,64.70},{51.66,64.61},{52.06,64.53},{52.22,64.58},{52.38,64.64},{52.70,64.76},{53.06,64.85}}}},
         },
         [2755] = { -- Myzrael
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{57.3,34.58}}},
@@ -239,6 +260,9 @@ function CataNpcFixes.Load()
         },
         [3987] = { -- Dal Bloodclaw
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{41.66,35.7}}},
+            [npcKeys.waypoints] = {},
+        },
+        [6577] = { -- Bingles Blastenheimer
             [npcKeys.waypoints] = {},
         },
         [7267] = { -- Chief Ukorz Sandscalp
@@ -1834,6 +1858,12 @@ function CataNpcFixes.Load()
         [41340] = { -- Private Pollard
             [npcKeys.spawns] = {[zoneIDs.KELP_THAR_FOREST]={{63.98,59.8}}},
         },
+        [41372] = { -- Frostmane Retreat North
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{64.51,54.25}}},
+        },
+        [41373] = { -- Frostmane Retreat South
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{63.12,57.27}}},
+        },
         [41381] = { -- Nordu
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{27.4,55.56}}},
         },
@@ -1842,6 +1872,9 @@ function CataNpcFixes.Load()
         },
         [41476] = { -- Naz'jar Honor Guard
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.33,78.57}}},
+        },
+        [41522] = { -- Calamoth Ashbeard
+            [npcKeys.spawns] = {[zoneIDs.WETLANDS]={{51.12,9.14}}},
         },
         [41535] = { -- Engineer Hexascrub
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{56.94,80.5}}},
@@ -1916,6 +1949,9 @@ function CataNpcFixes.Load()
         [42135] = { -- Defend the Bridge Quad Credit
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{38.49,78.6}}},
             [npcKeys.zoneID] = zoneIDs.SHIMMERING_EXPANSE,
+        },
+        [42169] = { -- Amberstill Raid Controller
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{70.26,49.31}}},
         },
         [42197] = { -- L'ghorek
             [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS]={{38.67,44.86},{38.75,44.75}}},
@@ -2122,8 +2158,18 @@ function CataNpcFixes.Load()
         [43836] = { -- Windspeaker Lorvarius
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{47.97,53.7}}},
         },
+        [43861] = { -- Sven Yorgen
+            [npcKeys.spawns] = {
+                [zoneIDs.DUSKWOOD] = {
+                    {18.35,58.06,phases.SVEN_YORGEN_VISIBLE},
+                },
+            },
+        },
         [43885] = { -- Emerine Junis
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{47.67,10.34}}},
+        },
+        [43950] = { -- Lurking Worgen
+            [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{18.57,57.26}}},
         },
         [44025] = { -- Therazane
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{63.33,24.95}}},
