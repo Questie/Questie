@@ -2373,6 +2373,7 @@ function CataQuestFixes.Load()
         },
         [14330] = { -- Behind Closed Doors
             [questKeys.startedBy] = {{4656},nil,{38567}},
+            [questKeys.preQuestSingle] = {14328},
         },
         [14333] = { -- While You're Here
             [questKeys.requiredSourceItems] = {49194},
