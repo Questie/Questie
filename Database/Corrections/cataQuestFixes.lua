@@ -2510,6 +2510,9 @@ function CataQuestFixes.Load()
         [14393] = { -- Into the Fray!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Speak to Khan Leh'Prah"), 0, {{"monster", 36398}}}},
         },
+        [14394] = { -- Death to Agogridon
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Speak to Khan Leh'Prah"), 0, {{"monster", 36398}}}},
+        },
         [14395] = { -- Gasping for Breath
             [questKeys.objectives] = {{{36440,nil,Questie.ICON_TYPE_INTERACT}}},
         },
