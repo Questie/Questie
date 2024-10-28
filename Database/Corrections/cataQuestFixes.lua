@@ -1197,6 +1197,11 @@ function CataQuestFixes.Load()
             }},
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [11905] = { -- Postponing the Inevitable
+            [questKeys.startedBy] = {{55535}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.objectivesText] = {"Image of Warmage Kaitlyn in the Nexus wants you to use the Interdimensional Refabricator near the rift."},
+        },
         [11917] = { -- Striking Back
             [questKeys.preQuestSingle] = {12012,29092},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188049},{"object",188137},{"object",188138}}}},
