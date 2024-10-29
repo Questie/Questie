@@ -5726,6 +5726,12 @@ function CataQuestFixes.Load()
         [26495] = { -- Chabal
             [questKeys.preQuestSingle] = {26493},
         },
+        [26496] = { -- Down with the Vilebranch
+            [questKeys.nextQuestInChain] = 26497,
+        },
+        [26497] = { -- Vilebranch Scum
+            [questKeys.preQuestSingle] = {},
+        },
         [26499] = { -- Stonefather's Boon
             [questKeys.objectives] = {{{43138,nil,Questie.ICON_TYPE_INTERACT}}},
         },
