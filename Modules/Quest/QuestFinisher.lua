@@ -31,7 +31,7 @@ function QuestFinisher.AddFinisher(quest)
         return
     end
 
-    if (not quest.Finisher) then
+    if (not quest.Finisher.NPC) and (not quest.Finisher.GameObject) then
         Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] Quest has no finisher:", questId, quest.name)
         return
     end

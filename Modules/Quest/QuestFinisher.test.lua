@@ -232,4 +232,26 @@ describe("QuestFinisher", function()
         assert.spy(QuestieMap.DrawWorldIcon).was_not_called()
         assert.spy(QuestieMap.DrawWaypoints).was_not_called()
     end)
+
+    it("should not add finisher when quest has no finisher", function()
+        QuestiePlayer.currentQuestlog[1] = true
+        Questie.db.char.complete[1] = true
+        QuestieDB.GetNPC = spy.new(function() end)
+        QuestieDB.GetObject = spy.new(function() end)
+        local quest = {
+            Id = 1,
+            Finisher = {},
+            IsComplete = function()
+                return 1
+            end,
+        }
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_not_called()
+        assert.spy(QuestieDB.GetNPC).was_not_called()
+        assert.spy(QuestieDB.GetObject).was_not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was_not_called()
+        assert.spy(QuestieMap.DrawWaypoints).was_not_called()
+    end)
 end)
