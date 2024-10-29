@@ -42,13 +42,25 @@ describe("QuestFinisher", function()
 
     it("should add finisher", function()
         QuestiePlayer.currentQuestlog[1] = true
-        QuestieDB.GetNPC = spy.new(function() return { id = 123, name = "Test Finisher", spawns = {[1]={{50,50}}} } end)
+        QuestieDB.GetNPC = spy.new(function(_, id)
+            if id == 123 then
+                return { id = 123, name = "Test Finisher", spawns = {[1]={{50,50}}} }
+            else
+                return { id = 456, name = "Test Finisher 2", spawns = {[2]={{60,60}}} }
+            end
+        end)
+        QuestieDB.GetObject = spy.new(function(_, id)
+            if id == 789 then
+                return { id = 789, name = "Test Finisher 3", spawns = {[3]={{70,70}}} }
+            else
+                return { id = 987, name = "Test Finisher 4", spawns = {[4]={{80,80}}} }
+            end
+        end)
         local quest = {
             Id = 1,
             Finisher = {
-                Type = "monster",
-                Id = 123,
-                Name = "Test Finisher"
+                NPC = {123,456},
+                GameObject = {789,987}
             },
             IsComplete = function()
                 return 1
@@ -59,7 +71,13 @@ describe("QuestFinisher", function()
         QuestFinisher.AddFinisher(quest)
 
         assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher 2", 456, "m_456")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher 3", 789, "o_789")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher 4", 987, "o_987")
         assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 2, 60, 60, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 3, 70, 70, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 4, 80, 80, nil)
     end)
 
     it("should add finisher with waypoints", function()
@@ -73,9 +91,7 @@ describe("QuestFinisher", function()
         local quest = {
             Id = 1,
             Finisher = {
-                Type = "monster",
-                Id = 123,
-                Name = "Test Finisher"
+                NPC = {123},
             },
             IsComplete = function()
                 return 1
@@ -98,9 +114,7 @@ describe("QuestFinisher", function()
         local quest = {
             Id = 1,
             Finisher = {
-                Type = "monster",
-                Id = 123,
-                Name = "Test Finisher"
+                NPC = {123},
             },
             IsComplete = function()
                 return 1

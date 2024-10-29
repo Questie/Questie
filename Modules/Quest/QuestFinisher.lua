@@ -16,7 +16,7 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
 
 local pairs, ipairs, tostring = pairs, ipairs, tostring
-local _GetIconData, _GetIcon, _GetIconScale, _RemoveDuplicateQuestTitle
+local _GetIconData, _GetIcon, _GetIconScale, _RemoveDuplicateQuestTitle, _AddFinisherToMap
 
 ---@param quest Quest
 function QuestFinisher.AddFinisher(quest)
@@ -36,25 +36,28 @@ function QuestFinisher.AddFinisher(quest)
         return
     end
 
-    local finisher, key
-
-    if quest.Finisher.Type == "monster" then
-        finisher = QuestieDB:GetNPC(quest.Finisher.Id)
-        key = "m_" .. quest.Finisher.Id
-    elseif quest.Finisher.Type == "object" then
-        finisher = QuestieDB:GetObject(quest.Finisher.Id)
-        key = "o_" .. quest.Finisher.Id
-    else
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] Unhandled finisher type:", quest.Finisher.Type, questId, quest.name)
-        return
+    if quest.Finisher.NPC then
+        for i = 1, #quest.Finisher.NPC do
+            local finisher = QuestieDB:GetNPC(quest.Finisher.NPC[i])
+            _AddFinisherToMap(finisher, quest, "m_" .. finisher.id)
+        end
     end
 
+    if quest.Finisher.GameObject then
+        for i = 1, #quest.Finisher.GameObject do
+            local finisher = QuestieDB:GetObject(quest.Finisher.GameObject[i])
+            _AddFinisherToMap(finisher, quest, "o_" .. finisher.id)
+        end
+    end
+end
+
+_AddFinisherToMap = function(finisher, quest, key)
     -- Clear duplicate keys if they exist
     if QuestieTooltips.lookupByKey[key] then
-        _RemoveDuplicateQuestTitle(questId, key, finisher.name, quest.SpecialObjectives[1])
+        _RemoveDuplicateQuestTitle(quest.Id, key, finisher.name, quest.SpecialObjectives[1])
     end
 
-    QuestieTooltips:RegisterQuestStartTooltip(questId, finisher.name, finisher.id, key)
+    QuestieTooltips:RegisterQuestStartTooltip(quest.Id, finisher.name, finisher.id, key)
 
     local finisherIcons = {}
     local finisherLocs = {}
