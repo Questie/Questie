@@ -926,6 +926,9 @@ function CataNpcFixes.Load()
         [28092] = { -- The Etymidian
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{47.38,9.21}}},
         },
+        [28138] = { -- Elder Harkek
+            [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{55.49,69.7}}},
+        },
         [28160] = { -- Archmage Pentarus
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{68.55,42.05}}},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
