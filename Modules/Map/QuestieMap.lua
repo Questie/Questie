@@ -837,8 +837,6 @@ function QuestieMap:FindClosestStarter()
 end
 
 --- The return type also contains, distance, zone and type but we never really use it.
----@type table<x:X, y:Y>
-local closestFinisher = {}
 function QuestieMap:FindClosestFinisher(quest)
     if (not quest) then
         return nil
@@ -846,12 +844,13 @@ function QuestieMap:FindClosestFinisher(quest)
 
     local playerX, playerY, _ = HBD:GetPlayerWorldPosition();
     local playerZone = HBD:GetPlayerWorldPosition();
-    closestFinisher = {
+
+    ---@type table<string, {distance: number, x: number, y: number, zone: number, name: string}>
+    local closestFinisher = {
         distance = 999999,
         x = -1,
         y = -1,
         zone = -1,
-        type = "",
     }
     for finisherType, finisher in pairs(quest.Finisher) do
         if (finisherType == "GameObject") then
