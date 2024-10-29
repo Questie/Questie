@@ -1075,6 +1075,14 @@ function CataQuestFixes.Load()
         [10998] = { -- Grim(oire) Business
             [questKeys.preQuestSingle] = {},
         },
+        [11002] = { -- The Fall of Magtheridon
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_PENINSULA,
+        },
+        [11003] = { -- The Fall of Magtheridon
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_PENINSULA,
+        },
         [11031] = { -- Archmage No More
             [questKeys.specialFlags] = 1,
         },
