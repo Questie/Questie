@@ -3873,7 +3873,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {25443},
         },
         [25419] = { -- Lady La-La's Medallion
-            [questKeys.requiredSourceItems] = {55188}, -- can't be fixed, we need to able to show both sourceItemId and requiredSourceItems in both QIB in same time.
+            [questKeys.requiredSourceItems] = {55188},
             [questKeys.startedBy] = {{41017},nil,{55186}},
             [questKeys.preQuestSingle] = {25459},
             [questKeys.finishedBy] = {{100009}},
@@ -7933,7 +7933,7 @@ function CataQuestFixes.Load()
         },
         [27953] = { -- The Reliquary
             [questKeys.preQuestSingle] = {},
-            [questKeys.nextQuestInChain] = 27005, -- curiously this one needs prequestsingle, unlike alliance counterpart
+            [questKeys.nextQuestInChain] = 27005,
         },
         [27955] = { -- Eye Spy
             [questKeys.objectives] = {{{47274,nil,Questie.ICON_TYPE_EVENT}}},
