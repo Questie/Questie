@@ -845,7 +845,6 @@ function QuestieMap:FindClosestFinisher(quest)
     local playerX, playerY, _ = HBD:GetPlayerWorldPosition();
     local playerZone = HBD:GetPlayerWorldPosition();
 
-    ---@type table<string, {distance: number, x: number, y: number, zone: number, name: string}>
     local closestFinisher = {
         distance = 999999,
         x = -1,
