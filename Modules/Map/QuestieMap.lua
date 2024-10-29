@@ -836,7 +836,6 @@ function QuestieMap:FindClosestStarter()
     return closestStarter;
 end
 
---- The return type also contains, distance, zone and type but we never really use it.
 function QuestieMap:FindClosestFinisher(quest)
     if (not quest) then
         return nil
