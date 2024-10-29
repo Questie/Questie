@@ -10613,13 +10613,13 @@ function CataQuestFixes.Load()
         },
         [29387] = { -- Guardians of Hyjal: Firelands Invasion!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
-            [questKeys.preQuestSingle] = {}, -- need to figure out if it actually has a prequest. need a level 85 without quests done in MH to test
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25611,25807,25520,25372},
             [questKeys.nextQuestInChain] = 29145,
         },
         [29388] = { -- Guardians of Hyjal: Firelands Invasion!
             [questKeys.startedBy] = {nil,{206109,206116,207323,207324,207325}},
-            [questKeys.preQuestSingle] = {}, -- need to figure out if it actually has a prequest. need a level 85 without quests done in MH to test
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25612,25807,25520,25372},
             [questKeys.nextQuestInChain] = 29145,
         },
