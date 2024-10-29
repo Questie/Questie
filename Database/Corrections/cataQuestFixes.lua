@@ -3617,7 +3617,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25222},
         },
         [25217] = { -- Totem Modification
-            [questKeys.requiredSourceItems] = {53052,54214,54216,54217}, -- can't be fixed, we need to able to show one item from multiple requiredSourceItems in QIB.
+            [questKeys.requiredSourceItems] = {53052,54214,54216,54217},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHIMMERING_EXPANSE] = {{40.4,34.2}}},Questie.ICON_TYPE_EVENT,l10n("Place a totem on the ground and defend it")}},
         },
         [25218] = { -- Undersea Inflation
@@ -8154,20 +8154,8 @@ function CataQuestFixes.Load()
         [28116] = { -- Crying Violet
             [questKeys.preQuestSingle] = {},
         },
-        [28117] = { -- Clearing the Depths
-            [questKeys.finishedBy] = {{48039}}, -- temporary until Questie can show multiple turn ins
-        },
-        [28118] = { -- The Imprisoned Archmage
-            [questKeys.finishedBy] = {{48039}}, -- temporary until Questie can show multiple turn ins
-        },
         [28119] = { -- Purity From Corruption
             [questKeys.preQuestGroup] = {28116,28121},
-        },
-        [28120] = { -- Learning From The Past
-            [questKeys.finishedBy] = {{48039}}, -- temporary until Questie can show multiple turn ins
-        },
-        [28122] = { -- A Huge Problem
-            [questKeys.finishedBy] = {{48066}}, -- temporary until Questie can show multiple turn ins
         },
         [28125] = { -- Something to Wear
             [questKeys.preQuestSingle] = {28124},
@@ -8240,19 +8228,12 @@ function CataQuestFixes.Load()
         [28161] = { -- Spread the Word [Horde]
             [questKeys.preQuestSingle] = {28159},
         },
-        [28162] = { -- Swamp Bait
-            [questKeys.finishedBy] = {{48066}}, -- temporary until Questie can show multiple turn ins
-        },
         [28163] = { -- The Leftovers
-            [questKeys.finishedBy] = {{48066}}, -- temporary until Questie can show multiple turn ins
             [questKeys.objectives] = {nil,nil,nil,nil,{{{47607,47608,47609,47610},47607},},},
         },
         [28164] = { -- Seek Brother Silverhallow
             [questKeys.nextQuestInChain] = 27441,
             [questKeys.startedBy] = {{3045,4606,16658,43870}},
-        },
-        [28165] = { -- D-Block
-            [questKeys.finishedBy] = {{48061}}, -- temporary until Questie can show multiple turn ins
         },
         [28167] = { -- Venomblood Antidote
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
@@ -8278,17 +8259,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{47855,nil,Questie.ICON_TYPE_EVENT},{47874,nil,Questie.ICON_TYPE_EVENT}}},
         },
-        [28185] = { -- D-Svarnos
-            [questKeys.finishedBy] = {{48061}}, -- temporary until Questie can show multiple turn ins
-        },
-        [28186] = { -- Cursed Shackles
-            [questKeys.finishedBy] = {{48061}}, -- temporary until Questie can show multiple turn ins
-        },
         [28187] = { -- Missed Me By Zhat Much!
             [questKeys.objectives] = {{{47940,nil,Questie.ICON_TYPE_EVENT}}},
-        },
-        [28188] = { -- Prison Revolt
-            [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
         },
         [28189] = { -- Do the Right Thing
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
@@ -8341,9 +8313,6 @@ function CataQuestFixes.Load()
         [28221] = { -- These Roots Were Made For Stompin'
             [questKeys.preQuestGroup] = {28219,28220},
         },
-        [28223] = { -- The Warden
-            [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
-        },
         [28224] = { -- The Last Protector
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestSingle] = {28221,28222},
@@ -8354,9 +8323,6 @@ function CataQuestFixes.Load()
         [28229] = { -- Nature and Nurture
             [questKeys.preQuestSingle] = {28374},
             [questKeys.requiredSourceItems] = {63387},
-        },
-        [28232] = { -- Food From Below
-            [questKeys.finishedBy] = {{48074}}, -- temporary until Questie can show multiple turn ins
         },
         [28233] = { -- The Lost Brother
             [questKeys.preQuestSingle] = {27809},
@@ -9144,33 +9110,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {28408,28409,28410,28411},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the wedding!"),0,{{"monster",48368}}}},
         },
-        [28657] = { -- A Huge Problem
-            [questKeys.finishedBy] = {{48069}}, -- temporary until Questie can show multiple turn ins
-        },
-        [28658] = { -- Swamp Bait
-            [questKeys.finishedBy] = {{48069}}, -- temporary until Questie can show multiple turn ins
-        },
         [28659] = { -- The Leftovers
-            [questKeys.finishedBy] = {{48069}}, -- temporary until Questie can show multiple turn ins
             [questKeys.objectives] = {nil,nil,nil,nil,{{{47595,47598,47599,47600},47595}}},
-        },
-        [28660] = { -- Clearing the Depths
-            [questKeys.finishedBy] = {{48071}}, -- temporary until Questie can show multiple turn ins
-        },
-        [28661] = { -- The Imprisoned Archmage
-            [questKeys.finishedBy] = {{48071}}, -- temporary until Questie can show multiple turn ins
-        },
-        [28662] = { -- Learning From The Past
-            [questKeys.finishedBy] = {{48071}}, -- temporary until Questie can show multiple turn ins
-        },
-        [28663] = { -- D-Block
-            [questKeys.finishedBy] = {{48070}}, -- temporary until Questie can show multiple turn ins
-        },
-        [28664] = { -- Svarnos
-            [questKeys.finishedBy] = {{48070}}, -- temporary until Questie can show multiple turn ins
-        },
-        [28665] = { -- Cursed Shackles
-            [questKeys.finishedBy] = {{48070}}, -- temporary until Questie can show multiple turn ins
         },
         [28666] = { -- Hero's Call: Burning Steppes!
             [questKeys.nextQuestInChain] = 28174,
@@ -9178,15 +9119,6 @@ function CataQuestFixes.Load()
         },
         [28667] = { -- Warchief's Command: Burning Steppes!
             [questKeys.requiredMaxLevel] = 51,
-        },
-        [28668] = { -- Prison Revolt
-            [questKeys.finishedBy] = {{48062}}, -- temporary until Questie can show multiple turn ins
-        },
-        [28669] = { -- The Warden
-            [questKeys.finishedBy] = {{48062}}, -- temporary until Questie can show multiple turn ins
-        },
-        [28670] = { -- Food From Below
-            [questKeys.finishedBy] = {{48062}}, -- temporary until Questie can show multiple turn ins
         },
         [28671] = { -- Warchief's Command: Blasted Lands!
             [questKeys.startedBy] = {nil,{207324,207325}},
@@ -9649,7 +9581,6 @@ function CataQuestFixes.Load()
         },
         [28824] = { -- Wayward Child
             [questKeys.preQuestSingle] = {26871},
-            [questKeys.finishedBy] = {{42465}}, -- needs the 2nd npcid, but questie can't show multiple turn in NPCs
         },
         [28825] = { -- A Personal Summons
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -10227,7 +10158,6 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29192}, -- 29192 or 29211
             [questKeys.objectives] = {{{53886,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{52889,52885,52888,52890,52886,52887,52884,53887},52889,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.finishedBy] = {{52823}}, -- we need to be able to show multiple NPC ids for turn in. this is temp fix
         },
         [29211] = { -- Solar Core Destruction
             [questKeys.preQuestSingle] = {29205},
@@ -10377,9 +10307,6 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {29281},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Start the fight"),0,{{"monster",53131}}}},
         },
-        [29264] = { -- Flamewakers of the Molten Flow
-            [questKeys.finishedBy] = {{52444}}, -- we need to be able to show multiple NPC ids for turn in. this is temp fix
-        },
         [29265] = { -- Fire Flowers
             [questKeys.preQuestSingle] = {29206},
         },
@@ -10438,7 +10365,6 @@ function CataQuestFixes.Load()
         },
         [29282] = { -- Well Armed
             [questKeys.preQuestSingle] = {29281},
-            [questKeys.finishedBy] = {{53196}}, -- temporary until we can show multiple NPC turn ins
         },
         [29283] = { -- Calling the Ancients
             [questKeys.preQuestSingle] = {},
@@ -11076,8 +11002,7 @@ function CataQuestFixes:LoadFactionFixes()
         },
         [29067] = { -- Potion Master
             [questKeys.startedBy] = {{3347}},
-            [questKeys.finishedBy] = {{3347}},
-            --[questKeys.finishedBy] = {{3347,3009,4611,16642}}, -- TODO: Add when multiple turn-in locations are handled
+            [questKeys.finishedBy] = {{3347,3009,4611,16642}},
         },
         [29389] = { -- Guardians of Hyjal: Firelands Invasion!
             [questKeys.preQuestGroup] = {25612,25807,25520,25372},
@@ -11094,13 +11019,11 @@ function CataQuestFixes:LoadFactionFixes()
         },
         [29481] = { -- Elixir Master
             [questKeys.startedBy] = {{3347}},
-            [questKeys.finishedBy] = {{3347}},
-            --[questKeys.finishedBy] = {{3347,3009,4611,16642}}, -- TODO: Add when multiple turn-in locations are handled
+            [questKeys.finishedBy] = {{3347,3009,4611,16642}},
         },
         [29482] = { -- Transmutation Master
             [questKeys.startedBy] = {{3347}},
-            [questKeys.finishedBy] = {{3347}},
-            --[questKeys.finishedBy] = {{3347,3009,4611,16642}}, -- TODO: Add when multiple turn-in locations are handled
+            [questKeys.finishedBy] = {{3347,3009,4611,16642}},
         },
         [29836] = { -- Just Checkin'
             [questKeys.nextQuestInChain] = 29840,
@@ -11145,8 +11068,7 @@ function CataQuestFixes:LoadFactionFixes()
         },
         [29067] = { -- Potion Master
             [questKeys.startedBy] = {{5499}},
-            [questKeys.finishedBy] = {{5499}},
-            --[questKeys.finishedBy] = {{5499,1537,4160,16723}}, -- TODO: Add when multiple turn-in locations are handled
+            [questKeys.finishedBy] = {{5499,1537,4160,16723}},
         },
         [29389] = { -- Guardians of Hyjal: Firelands Invasion!
             [questKeys.preQuestGroup] = {25611,25807,25520,25372},
@@ -11163,13 +11085,11 @@ function CataQuestFixes:LoadFactionFixes()
         },
         [29481] = { -- Elixir Master
             [questKeys.startedBy] = {{5499}},
-            [questKeys.finishedBy] = {{5499}},
-            --[questKeys.finishedBy] = {{5499,1537,4160,16723}}, -- TODO: Add when multiple turn-in locations are handled
+            [questKeys.finishedBy] = {{5499,1537,4160,16723}},
         },
         [29482] = { -- Transmutation Master
             [questKeys.startedBy] = {{5499}},
-            [questKeys.finishedBy] = {{5499}},
-            --[questKeys.finishedBy] = {{5499,1537,4160,16723}}, -- TODO: Add when multiple turn-in locations are handled
+            [questKeys.finishedBy] = {{5499,1537,4160,16723}},
         },
         [29836] = { -- Just Checkin'
             [questKeys.nextQuestInChain] = 29844,
