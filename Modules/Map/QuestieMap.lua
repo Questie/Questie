@@ -993,43 +993,7 @@ function QuestieMap:GetNearestQuestSpawn(quest)
         return nil
     end
     if quest:IsComplete() == 1 then
-        local finisherSpawns
-        local finisherName
-        if quest.Finisher ~= nil then
-            if quest.Finisher.Type == "monster" then
-                --finisher = QuestieDB:GetNPC(quest.Finisher.Id)
-                finisherSpawns, finisherName = QuestieDB.QueryNPCSingle(quest.Finisher.Id, "spawns"), QuestieDB.QueryNPCSingle(quest.Finisher.Id, "name")
-            elseif quest.Finisher.Type == "object" then
-                --finisher = QuestieDB:GetObject(quest.Finisher.Id)
-                finisherSpawns, finisherName = QuestieDB.QueryObjectSingle(quest.Finisher.Id, "spawns"), QuestieDB.QueryObjectSingle(quest.Finisher.Id, "name")
-            end
-        end
-        if finisherSpawns then -- redundant code
-            local bestDistance = 999999999
-            local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
-            local bestSpawn, bestSpawnZone, bestSpawnType, bestSpawnName
-            for zone, spawns in pairs(finisherSpawns) do
-                for _, spawn in pairs(spawns) do
-                    local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1] / 100.0, spawn[2] / 100.0, uiMapId)
-                    local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
-                    if dist then
-                        if dInstance ~= playerI then
-                            dist = 500000 + dist * 100 -- hack
-                        end
-                        if dist < bestDistance then
-                            bestDistance = dist
-                            bestSpawn = spawn
-                            bestSpawnZone = zone
-                            bestSpawnType = quest.Finisher.Type
-                            bestSpawnName = finisherName
-                        end
-                    end
-                end
-            end
-            return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnType, bestDistance
-        end
-        return nil
+        return QuestieMap:FindClosestFinisher(quest)
     end
 
     local bestDistance = 999999999
