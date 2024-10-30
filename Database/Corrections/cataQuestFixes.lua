@@ -10506,35 +10506,46 @@ function CataQuestFixes.Load()
         [29326] = { -- The Nordrassil Summit
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 29335,
+            [questKeys.objectives] = {{{54313,nil,Questie.ICON_TYPE_TALK}}},
         },
         [29327] = { -- Elemental Bonds: Doubt
             [questKeys.nextQuestInChain] = 29336,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Cyclonas"),0,{{"monster",53524}}}},
+            [questKeys.objectives] = {{{53518,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29328] = { -- Elemental Bonds: Desire
-            [questKeys.objectives] = {{{53646},{53647}}},
+            [questKeys.objectives] = {{{53649,nil,Questie.ICON_TYPE_EVENT},{53652,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {29336},
             [questKeys.nextQuestInChain] = 29337,
         },
         [29329] = { -- Elemental Bonds: Patience
             [questKeys.preQuestSingle] = {29337},
             [questKeys.nextQuestInChain] = 29338,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Aggra"),0,{{"monster",53738}}}},
+            [questKeys.objectives] = {{{53736,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29330] = { -- Elemental Bonds: Fury
             [questKeys.preQuestSingle] = {29338},
             [questKeys.nextQuestInChain] = 29331,
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{53915,53916,53917,53918},53915,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.finishedBy] = {{100029}},
         },
         [29331] = { -- Elemental Bonds: The Vow
             [questKeys.preQuestSingle] = {29330},
+            [questKeys.startedBy] = {{100030}},
         },
         [29335] = { -- Into Slashing Winds
             [questKeys.nextQuestInChain] = 29327,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Aggra"),0,{{"monster",54312}}}},
         },
         [29336] = { -- Into Coaxing Tides
             [questKeys.preQuestSingle] = {29327},
             [questKeys.nextQuestInChain] = 29328,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Aggra"),0,{{"monster",53519}}}},
         },
         [29337] = { -- Into Constant Earth
             [questKeys.nextQuestInChain] = 29329,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Aggra"),0,{{"monster",53652}}}},
         },
         [29338] = { -- Into Unrelenting Flame
             [questKeys.nextQuestInChain] = 29330,
@@ -10717,16 +10728,20 @@ function CataQuestFixes.Load()
         [29436] = { -- The Humanoid Cannonball
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Maxima Blastenheimer to start the game"),0,{{"monster",15303}}}},
         },
+        [29437] = { -- The Fallen Guardian
+            [questKeys.preQuestSingle] = {29326},
+            [questKeys.finishedBy] = {{100028}},
+        },
         [29438] = { -- He Shoots, He Scores!
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Rinling to start the game"),0,{{"monster",14841}}}},
         },
         [29439] = { -- The Call of the World-Shaman
-            [questKeys.exclusiveTo] = {29326},
             [questKeys.nextQuestInChain] = 29326,
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [29440] = { -- The Call of the World-Shaman
-            [questKeys.exclusiveTo] = {29326},
             [questKeys.nextQuestInChain] = 29326,
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [29443] = { -- A Curious Crystal
             [questKeys.specialFlags] = 17,

@@ -2594,6 +2594,10 @@ function CataNpcFixes.Load()
         [52767] = { -- Vol'jin
             [npcKeys.spawns] = {[5287] = {{41.03,73.13,phases.VOLJIN_BOOTY_BAY}}},
         },
+        [52793] = { -- Ysera
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{60.3,29.86}}},
+            [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
         [52838] = { -- Arch Druid Hamuul Runetotem
             [npcKeys.spawns] = {
                 [zoneIDs.MOUNT_HYJAL] = {
@@ -2693,6 +2697,9 @@ function CataNpcFixes.Load()
         [53950] = { -- Hired Courier
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{24.03,44.82}}},
         },
+        [54014] = { -- Aggra
+            [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{49.61,31.75}}},
+        },
         [54021] = { -- Hudson Barnes
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{64.17,46.29}}},
         },
@@ -2704,6 +2711,9 @@ function CataNpcFixes.Load()
         },
         [54170] = { -- Delian Sunshade
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{71.77,49.78}}},
+        },
+        [52793] = { -- Aggra
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{60.22,30.11}}},
         },
         [54334] = { -- Darkmoon Faire Mystic Mage
             [npcKeys.spawns] = {
@@ -2938,6 +2948,24 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{7.64,34.62}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
             [npcKeys.questStarts] = {29311},
+        },
+        [100028] = { -- The Fallen Guardian
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{49.07,19.47}}},
+            [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+            [npcKeys.questEnds] = {29437},
+        },
+        [100029] = { -- Elemental Bonds: Fury
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{51.29,26.1}}},
+            [npcKeys.zoneID] = zoneIDs.MOLTEN_FRONT,
+            [npcKeys.questEnds] = {29330},
+        },
+        [100030] = { -- Elemental Bonds: The Vow
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{51.29,26.1}}},
+            [npcKeys.zoneID] = zoneIDs.MOLTEN_FRONT,
+            [npcKeys.questStarts] = {29331},
         },
     }
 end
