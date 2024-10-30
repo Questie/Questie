@@ -2712,7 +2712,7 @@ function CataNpcFixes.Load()
         [54170] = { -- Delian Sunshade
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{71.77,49.78}}},
         },
-        [52793] = { -- Aggra
+        [54312] = { -- Aggra
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{60.22,30.11}}},
         },
         [54334] = { -- Darkmoon Faire Mystic Mage
