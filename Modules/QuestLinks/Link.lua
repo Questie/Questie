@@ -252,6 +252,8 @@ _GetQuestStarter = function (quest)
             else
                 starterZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
             end
+        else
+            starterZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
         end
 
         return starterName, starterZoneName
@@ -279,9 +281,8 @@ _GetQuestFinisher = function (quest)
         else
             finisherZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
         end
-    -- TODO: Is this good?
-    --else
-    --    finisherZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
+    else
+        finisherZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
     end
 
     return finisherName, finisherZoneName
