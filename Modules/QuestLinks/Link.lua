@@ -261,34 +261,30 @@ _GetQuestStarter = function (quest)
 end
 
 _GetQuestFinisher = function (quest)
-    if quest.Finisher and quest.Finisher.Id then
-        local finisherName, finisherZoneName
-        if quest.Finisher.Type == "monster" then
-            local npc = QuestieDB:GetNPC(quest.Finisher.Id)
-            finisherName = npc.name
+    local finisherName, finisherZoneName
+    if quest.Finisher.NPC then
+        local npc = QuestieDB:GetNPC(quest.Finisher.NPC[1])
+        finisherName = npc.name
 
-            if npc.zoneID ~= 0 then
-                finisherZoneName = TrackerUtils:GetZoneNameByID(npc.zoneID)
-            else
-                finisherZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
-            end
-        elseif quest.Finisher.Type == "object" then
-            local object = QuestieDB:GetObject(quest.Finisher.Id)
-            finisherName = object.name
-
-            if object.zoneID ~= 0 then
-                finisherZoneName = TrackerUtils:GetZoneNameByID(object.zoneID)
-            else
-                finisherZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
-            end
+        if npc.zoneID ~= 0 then
+            finisherZoneName = TrackerUtils:GetZoneNameByID(npc.zoneID)
         else
             finisherZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
         end
-
-        return finisherName, finisherZoneName
+    elseif quest.Finisher.GameObject then
+        local object = QuestieDB:GetObject(quest.Finisher.GameObject[1])
+        finisherName = object.name
+        if object.zoneID ~= 0 then
+            finisherZoneName = TrackerUtils:GetZoneNameByID(object.zoneID)
+        else
+            finisherZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
+        end
+    -- TODO: Is this good?
+    --else
+    --    finisherZoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
     end
 
-    return nil, nil
+    return finisherName, finisherZoneName
 end
 
 _AddPlayerQuestProgress = function (quest, starterName, starterZoneName, finisherName, finisherZoneName)
