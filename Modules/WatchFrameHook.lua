@@ -4,7 +4,7 @@ local WatchFrameHook = QuestieLoader:CreateModule("WatchFrameHook")
 local WatchFrame, QuestTimerFrame = WatchFrame or QuestWatchFrame, QuestTimerFrame
 
 function WatchFrameHook.Hide()
-    if (Questie.IsWotlk or Questie.IsCata) and QuestTimerFrame then
+    if QuestTimerFrame then
         QuestTimerFrame:Hide()
     end
 
