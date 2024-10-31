@@ -4536,7 +4536,7 @@ function CataQuestFixes.Load()
         [25843] = { -- Tortolla's Revenge
             [questKeys.preQuestSingle] = {25372},
             [questKeys.nextQuestInChain] = 25904,
-            [questKeys.startedBy] = {{41480}},
+            [questKeys.startedBy] = {{52838}},
         },
         [25849] = { -- When Archaeology Attacks
             [questKeys.preQuestSingle] = {},
@@ -10041,6 +10041,9 @@ function CataQuestFixes.Load()
         [29144] = { -- Clean Up in Stormwind
             [questKeys.objectives] = {nil,{{195122,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [29145] = { -- Opening the Door
+            [questKeys.preQuestSingle] = {25372},
+        },
         [29146] = { -- Ridin' the Rocketway
             [questKeys.objectives] = {{{52585,nil,Questie.ICON_TYPE_MOUNT_UP}}},
             [questKeys.preQuestSingle] = {172},
@@ -10527,7 +10530,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{53518,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29328] = { -- Elemental Bonds: Desire
-            [questKeys.objectives] = {{{53649,nil,Questie.ICON_TYPE_EVENT},{53652,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{53649,nil,Questie.ICON_TYPE_EVENT},{53670,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {29336},
             [questKeys.nextQuestInChain] = 29337,
         },
@@ -10535,7 +10538,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {29337},
             [questKeys.nextQuestInChain] = 29338,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Aggra"),0,{{"monster",53738}}}},
-            [questKeys.objectives] = {{{53736,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{53755,53736},53736,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29330] = { -- Elemental Bonds: Fury
             [questKeys.preQuestSingle] = {29338},
@@ -10742,8 +10745,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Maxima Blastenheimer to start the game"),0,{{"monster",15303}}}},
         },
         [29437] = { -- The Fallen Guardian
-            [questKeys.preQuestSingle] = {29326},
+            [questKeys.preQuestGroup] = {29326,25372},
             [questKeys.finishedBy] = {{100028}},
+            [questKeys.startedBy] = {{40289,52793}},
         },
         [29438] = { -- He Shoots, He Scores!
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Rinling to start the game"),0,{{"monster",14841}}}},

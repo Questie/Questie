@@ -2595,7 +2595,11 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[5287] = {{41.03,73.13,phases.VOLJIN_BOOTY_BAY}}},
         },
         [52793] = { -- Ysera
-            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{60.3,29.86}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.MOUNT_HYJAL] = {
+                    {60.3,29.86,phases.THRALL_AGGRA_PROPOSAL},
+                },
+            },
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
         [52838] = { -- Arch Druid Hamuul Runetotem
@@ -2609,11 +2613,7 @@ function CataNpcFixes.Load()
             },
         },
         [52844] = { -- Captain Saynna Stormrunner
-            [npcKeys.spawns] = {
-                [zoneIDs.MOUNT_HYJAL] = {
-                    {26.8,62.15},
-                },
-            },
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{26.8,62.15}}},
         },
         [52845] = { -- Malfurion Stormrage
             [npcKeys.spawns] = {
