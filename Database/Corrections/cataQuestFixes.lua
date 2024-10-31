@@ -483,14 +483,23 @@ function CataQuestFixes.Load()
         [7490] = { -- Victory for the Horde
             [questKeys.finishedBy] = {{39605}},
         },
+        [7491] = { -- For All To See
+            [questKeys.startedBy] = {{39605}},
+        },
         [7495] = { -- Victory for the Alliance
             [questKeys.finishedBy] = {{29611}},
         },
         [7781] = { -- The Lord of Blackrock
             [questKeys.finishedBy] = {{29611}},
         },
+        [7782] = { -- The Lord of Blackrock
+            [questKeys.startedBy] = {{29611}},
+        },
         [7783] = { -- The Lord of Blackrock
             [questKeys.finishedBy] = {{39605}},
+        },
+        [7784] = { -- The Lord of Blackrock
+            [questKeys.startedBy] = {{39605}},
         },
         [7905] = { -- The Darkmoon Faire
             [questKeys.objectivesText] = {"Deliver the Free Ticket Voucher to Gelvas Grimgate, located inside the Darkmoon Faire."},
