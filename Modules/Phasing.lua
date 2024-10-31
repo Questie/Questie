@@ -459,7 +459,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.MOUNT_HYJAL_VISION_YSERA_2 then
-        return (complete[25502] and complete[25520]) or false
+        return (complete[25502] and complete[25520] and (not complete[25830])) or false
     end
 
     if phase == phases.GRYAN_TOWER then
