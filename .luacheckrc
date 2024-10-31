@@ -1214,7 +1214,7 @@ globals = {
     "GetMouseButtonClicked",
     "GetMouseButtonName",
     "GetMouseClickFocus",
-    "GetMouseFocus",
+    "GetMouseFoci",
     "GetMouseMotionFocus",
     "GetMovieDownloadProgress",
     "GetMultiCastBarIndex",
