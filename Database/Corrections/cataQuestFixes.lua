@@ -3702,8 +3702,12 @@ function CataQuestFixes.Load()
         [25269] = { -- The Voice of Lo'Gosh
             [questKeys.preQuestSingle] = {25233},
         },
+        [25272] = { -- Lycanthoth the Corruptor
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Summon Lycanthoth"),0,{{"object",202660}}}},
+        },
         [25273] = { -- Lycanthoth the Corruptor
             [questKeys.finishedBy] = {{39627}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Summon Lycanthoth"),0,{{"object",202660}}}},
         },
         [25275] = { -- Report to the Labor Captain
             [questKeys.startedBy] = {{39605}},
