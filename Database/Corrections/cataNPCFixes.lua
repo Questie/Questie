@@ -2672,6 +2672,18 @@ function CataNpcFixes.Load()
         [53540] = { -- Cold Water Crayfish
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{83.97,51.69}}},
         },
+        [53670] = { -- Aggra
+            [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS] = {{69.82,34.2}}},
+            [npcKeys.zoneID] = zoneIDs.ABYSSAL_DEPTHS,
+        },
+        [53738] = { -- Aggra
+            [npcKeys.spawns] = {
+                [zoneIDs.DEEPHOLM] = {
+                    {64.05,46.09},
+                    {56.52,12.5,phases.AGGRA_THRONE},
+                },
+            },
+        },
         [53763] = { -- Candace Fenlow
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{62.42,66.72}}},
             [npcKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,

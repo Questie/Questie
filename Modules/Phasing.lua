@@ -138,6 +138,7 @@ local phases = {
     RAMBO_TEAM_CANYON = 1066,
     RAMBO_TEAM_POST = 1067,
     SVEN_YORGEN_VISIBLE = 1068,
+    AGGRA_THRONE = 1069,
 }
 Phasing.phases = phases
 
@@ -500,6 +501,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SVEN_YORGEN_VISIBLE then
         return complete[26760] or (questLog[26760] and (questLog[26760].isComplete == 1)) or false
+    end
+
+    if phase == phases.AGGRA_THRONE then
+        return (not complete[29329]) and ((not questLog[29329]) or (questLog[29329] and questLog[29329].isComplete == 0)) or false
     end
 
     return false
