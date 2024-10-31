@@ -233,7 +233,8 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
     QuestieJourneyUtils:Spacer(container)
 
     -- TODO: There can be multiple finishers
-    if quest.Finisher and quest.Finisher.Name and quest.Finisher.NPC then
+    -- TODO: There can be object finishers
+    if quest.Finisher.NPC then
         local endNPCGroup = AceGUI:Create("InlineGroup")
         endNPCGroup:SetLayout("Flow")
         endNPCGroup:SetTitle(l10n('Quest Turn-in NPC Information'))
