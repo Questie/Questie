@@ -7,22 +7,23 @@ describe("DistanceUtils", function()
     ---@type DistanceUtils
     local DistanceUtils
 
-    local HBDMock = {
-        GetPlayerWorldPosition = function()
-            return 0, 0, 0
-        end,
-        GetWorldCoordinatesFromZone = function()
-            return 0, 0, 0
-        end,
-        GetWorldDistance = function()
-            return 0
-        end
-    }
+    local HBDMock
 
     local match = require("luassert.match")
     local _ = match._ -- any match
 
     before_each(function()
+        HBDMock = {
+            GetPlayerWorldPosition = function()
+                return 0, 0, 0
+            end,
+            GetWorldCoordinatesFromZone = function()
+                return 0, 0, 0
+            end,
+            GetWorldDistance = function()
+                return 0
+            end
+        }
         setmetatable(_G.LibStub, {
             __call = function() return HBDMock end
         })
@@ -63,6 +64,40 @@ describe("DistanceUtils", function()
             assert.spy(ZoneDB.GetUiMapIdByAreaId).was_called_with(_, 1)
             assert.spy(HBDMock.GetWorldCoordinatesFromZone).was_called_with(HBDMock, 0.5, 0.5, 200)
             assert.spy(HBDMock.GetWorldDistance).was_called_with(HBDMock, 1, 50, 50, 123, 456)
+        end)
+    end)
+
+    describe("GetNearestObjective", function()
+        it("should return the nearest objective", function()
+            HBDMock.GetPlayerWorldPosition = spy.new(function()
+                return 50, 50, 1
+            end)
+            HBDMock.GetWorldCoordinatesFromZone = spy.new(function(_, _, _, uiMapId)
+                if uiMapId == 200 then
+                    return 123, 456, 1
+                end
+                return 0, 0, 2
+            end)
+            HBDMock.GetWorldDistance = spy.new(function(_, instanceId)
+                return instanceId == 1 and 0 or 100
+            end)
+            ZoneDB.GetUiMapIdByAreaId = spy.new(function(_, zoneId)
+                return zoneId == 1 and 200 or 300
+            end)
+            local objectiveSpawnList = {{
+                Name = "Test Objective",
+                Spawns = {
+                    [1] = {{50,50}},
+                    [2] = {{60,60}},
+                }
+            }}
+
+            local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestObjective(objectiveSpawnList)
+
+            assert.same({50,50}, bestSpawn)
+            assert.equals(1, bestSpawnZone)
+            assert.equals("Test Objective", bestSpawnName)
+            assert.equals(0, bestDistance)
         end)
     end)
 end)
