@@ -1201,6 +1201,9 @@ function CataNpcFixes.Load()
         [36163] = { -- Khan Kammah
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{73.36,41.69}}},
         },
+        [36206] = { -- Blubbergut
+            [npcKeys.waypoints] = {[zoneIDs.DESOLACE] = {{{21.25,75.62},{21.10,74.37},{20.67,73.59},{19.57,72.75},{18.35,72.66},{17.02,73.47},{17.00,75.76},{16.80,78.40},{16.13,80.43},{15.65,82.68},{16.63,84.07},{17.47,85.22},{19.47,84.87},{20.63,84.80},{21.78,84.21},{22.73,83.39},{23.16,81.92},{23.56,80.82},{24.08,79.56},{24.23,78.16},{23.55,77.20},{22.96,77.42},{22.38,77.71},{21.62,76.75},{21.37,76.60},{21.02,75.95},{20.19,75.06},{20.07,75.08},{18.86,74.07},{18.12,73.55},{18.12,73.55}}}},
+        },
         [36210] = { -- Sorata Firespinner
             [npcKeys.spawns] = {
                 [zoneIDs.AZSHARA] = {
@@ -2978,6 +2981,11 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{51.29,26.1}}},
             [npcKeys.zoneID] = zoneIDs.MOLTEN_FRONT,
             [npcKeys.questStarts] = {29331},
+        },
+        [100031] = { -- Rider on the Storm
+            [npcKeys.name] = "Nijel's Point Ruin",
+            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{67.77,17.28}}},
+            [npcKeys.zoneID] = zoneIDs.DESOLACE,
         },
     }
 end
