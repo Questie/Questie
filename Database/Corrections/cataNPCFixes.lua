@@ -3028,13 +3028,7 @@ function CataNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.MOLTEN_FRONT,
             [npcKeys.questEnds] = {29330},
         },
-        [100030] = { -- Elemental Bonds: The Vow
-            [npcKeys.name] = "!",
-            [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{51.29,26.1}}},
-            [npcKeys.zoneID] = zoneIDs.MOLTEN_FRONT,
-            [npcKeys.questStarts] = {29331},
-        },
-        [100031] = { -- Rider on the Storm
+        [100030] = { -- Rider on the Storm
             [npcKeys.name] = "Nijel's Point Ruin",
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{67.77,17.28}}},
             [npcKeys.zoneID] = zoneIDs.DESOLACE,

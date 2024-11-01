@@ -10674,7 +10674,6 @@ function CataQuestFixes.Load()
         },
         [29331] = { -- Elemental Bonds: The Vow
             [questKeys.preQuestSingle] = {29330},
-            [questKeys.startedBy] = {{100030}},
         },
         [29335] = { -- Into Slashing Winds
             [questKeys.nextQuestInChain] = 29327,
@@ -10871,7 +10870,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Maxima Blastenheimer to start the game"),0,{{"monster",15303}}}},
         },
         [29437] = { -- The Fallen Guardian
-            [questKeys.preQuestGroup] = {29327,25372}, -- 25372 certain. 29327 could be tricky, not 100% sure it's that one
+            [questKeys.preQuestGroup] = {29326,25372}, -- for some chars it opens after 29326, for others it opens after 29327. i have no idea Oo
             [questKeys.finishedBy] = {{100028}},
             [questKeys.startedBy] = {{40289,52793}},
         },
