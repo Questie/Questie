@@ -24,7 +24,7 @@ local eventsLocales = {
         ["frFR"] = "Fête lunaire",
         ["esES"] = "Festival Lunar",
         ["zhTW"] = "新年慶典",
-        ["zhCN"] = "新年",
+        ["zhCN"] = "春节",
     },
     ["Love is in the Air"] = {
         ["ptBR"] = "O Amor Está No Ar",
