@@ -862,6 +862,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [25335] = { -- Longrunner Proudhoof
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{48.32,19.77}}},
+        },
         [25636] = { -- Captured Tuskarr Prisoner
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{44.10,77.90}}},
         },
