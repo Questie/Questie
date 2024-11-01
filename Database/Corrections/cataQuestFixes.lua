@@ -896,6 +896,14 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{39605}},
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE - raceKeys.BLOOD_ELF - raceKeys.GOBLIN,
         },
+        [9824] = { -- Arcane Disturbances
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {},
+        },
+        [9825] = { -- Restless Activity
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {},
+        },
         [9871] = { -- Murkblood Invaders
             [questKeys.startedBy] = {{18238},nil,{24559}},
         },
