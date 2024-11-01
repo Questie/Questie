@@ -1118,30 +1118,10 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
 
     ---@type FinishedBy
     local finishedBy = QO.finishedBy
-    if finishedBy[1] then
-        for _, id in pairs(finishedBy[1]) do
-            if id then
-                QO.Finisher = {
-                    Type = "monster",
-                    Id = id,
-                    ---@type Name @We have to hard-type it here because of the function
-                    Name = QuestieDB.QueryNPCSingle(id, "name")
-                }
-            end
-        end
-    end
-    if finishedBy[2] then
-        for _, id in pairs(finishedBy[2]) do
-            if id then
-                QO.Finisher = {
-                    Type = "object",
-                    Id = id,
-                    ---@type Name @We have to hard-type it here because of the function
-                    Name = QuestieDB.QueryObjectSingle(id, "name")
-                }
-            end
-        end
-    end
+    QO.Finisher = {
+        NPC = finishedBy[1],
+        GameObject = finishedBy[2],
+    }
 
     --- to differentiate from the current quest log info.
     --- Quest objectives generated from DB+Corrections.
