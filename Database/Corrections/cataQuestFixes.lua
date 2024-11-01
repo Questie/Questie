@@ -1928,6 +1928,10 @@ function CataQuestFixes.Load()
         [13949] = { -- Crossroads Caravan Pickup
             [questKeys.preQuestGroup] = {872, 5041},
         },
+        [13952] = { -- The Grateful Dead
+            [questKeys.requiredRaces] = raceKeys.HUMAN,
+            [questKeys.exclusiveTo] = {14166,14167,14168,14169,14170,14171,14172,14173,14174,14175,14176,14177,27841,27846},
+        },
         [13953] = { -- Naga In Our Midst
             [questKeys.preQuestSingle] = {13895},
         },
@@ -2166,6 +2170,47 @@ function CataQuestFixes.Load()
         [14165] = { -- Stone Cold
             [questKeys.objectives] = {{{35257,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.AZSHARA] = {{29.06,66.41}}},Questie.ICON_TYPE_EVENT,l10n("Deliver the Stonified Miner here")}},
+        },
+        [14166] = { -- The Grateful Dead
+            [questKeys.exclusiveTo] = {13952,14167,14168,14169,14170,14171,14172,14173,14174,14175,14176,14177,27841,27846},
+        },
+        [14167] = { -- The Grateful Dead
+            [questKeys.requiredRaces] = raceKeys.DWARF,
+            [questKeys.exclusiveTo] = {13952,14166,14168,14169,14170,14171,14172,14173,14174,14175,14176,14177,27841,27846},
+        },
+        [14168] = { -- The Grateful Dead
+            [questKeys.exclusiveTo] = {13952,14166,14167,14169,14170,14171,14172,14173,14174,14175,14176,14177,27841,27846},
+        },
+        [14169] = { -- The Grateful Dead
+            [questKeys.exclusiveTo] = {13952,14166,14167,14168,14170,14171,14172,14173,14174,14175,14176,14177,27841,27846},
+        },
+        [14170] = { -- The Grateful Dead
+            [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14171,14172,14173,14174,14175,14176,14177,27841,27846},
+        },
+        [14171] = { -- The Grateful Dead
+            [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14170,14172,14173,14174,14175,14176,14177,27841,27846},
+        },
+        [14172] = { -- The Grateful Dead
+            [questKeys.requiredMinRep] = {932,0},
+            [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14170,14171,14173,14174,14175,14176,14177,27841,27846},
+        },
+        [14173] = { -- The Grateful Dead
+            [questKeys.requiredMinRep] = {934,0},
+            [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14170,14171,14172,14174,14175,14176,14177,27841,27846},
+        },
+        [14174] = { -- The Grateful Dead
+            [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14170,14171,14172,14173,14175,14176,14177,27841,27846},
+        },
+        [14175] = { -- The Grateful Dead
+            [questKeys.requiredRaces] = raceKeys.ORC,
+            [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14170,14171,14172,14173,14174,14176,14177,27841,27846},
+        },
+        [14176] = { -- The Grateful Dead
+            [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14170,14171,14172,14173,14174,14175,14177,27841,27846},
+        },
+        [14177] = { -- The Grateful Dead
+            [questKeys.requiredRaces] = raceKeys.TROLL,
+            [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14170,14171,14172,14173,14174,14175,14176,27841,27846},
         },
         [14189] = { -- Translation
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak to Narimar"),0,{{"monster",35315}}}},
@@ -7873,6 +7918,12 @@ function CataQuestFixes.Load()
         },
         [27817] = { -- Dropping the Hammer
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 47241}}}},
+        },
+        [27841] = { -- The Grateful Dead
+            [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14170,14171,14172,14173,14174,14175,14176,14177,27846},
+        },
+        [27846] = { -- The Grateful Dead
+            [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14170,14171,14172,14173,14174,14175,14176,14177,27841},
         },
         [27854] = { -- Tides of Darkness
             [questKeys.preQuestGroup] = {27852,27853},
