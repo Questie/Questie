@@ -1,6 +1,3 @@
---- COMPATIBILITY ---
-local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
-
 ---@class QuestieQuest
 local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest")
 ---@type QuestieQuestPrivate
@@ -45,12 +42,13 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Phasing
 local Phasing = QuestieLoader:ImportModule("Phasing")
+---@type QuestFinisher
+local QuestFinisher = QuestieLoader:ImportModule("QuestFinisher")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
 local tinsert = table.insert;
 local pairs = pairs;
-local ipairs = ipairs;
 
 local NOP_FUNCTION = function()
 end
@@ -581,7 +579,7 @@ function QuestieQuest:UpdateQuest(questId)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is: Complete!")
 
             QuestieMap:UnloadQuestFrames(questId)
-            QuestieQuest:AddFinisher(quest)
+            QuestFinisher.AddFinisher(quest)
             quest.WasComplete = true
         elseif isComplete == -1 then
             -- Failed quests should be shown as available again
@@ -639,7 +637,7 @@ function QuestieQuest:UpdateQuest(questId)
                     if numCompleteObjectives == #quest.Objectives then
                         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] All Quest Objective(s) are Complete! Manually setting quest to Complete!")
                         QuestieMap:UnloadQuestFrames(questId)
-                        QuestieQuest:AddFinisher(quest)
+                        QuestFinisher.AddFinisher(quest)
                         quest.WasComplete = true
                         quest.isComplete = true
                     else
@@ -911,164 +909,6 @@ function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
     end
 
     return false
-end
-
-local function _GetIconScaleForAvailable()
-    return Questie.db.profile.availableScale or 1.3
-end
-
----@param quest Quest
-function QuestieQuest:AddFinisher(quest)
-    --We should never ever add the quest if IsQuestFlaggedComplete true.
-    local questId = quest.Id
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding finisher for quest", questId)
-
-    if (QuestiePlayer.currentQuestlog[questId] and (IsQuestFlaggedCompleted(questId) == false) and (quest:IsComplete() == 1 or quest:IsComplete() == 0) and (not Questie.db.char.complete[questId])) then
-        local finisher, key
-
-        if quest.Finisher ~= nil then
-            if quest.Finisher.Type == "monster" then
-                finisher = QuestieDB:GetNPC(quest.Finisher.Id)
-                key = "m_" .. quest.Finisher.Id
-            elseif quest.Finisher.Type == "object" then
-                finisher = QuestieDB:GetObject(quest.Finisher.Id)
-                key = "o_" .. quest.Finisher.Id
-            else
-                Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] Unhandled finisher type:", quest.Finisher.Type, questId, quest.name)
-            end
-        else
-            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] Quest has no finisher:", questId, quest.name)
-        end
-
-        if finisher ~= nil then
-            -- Certain race conditions can occur when the NPC/Objects are both the Quest Starter and Quest Finisher
-            -- which can result in duplicate Quest Title tooltips appearing. DrawAvailableQuest() would have already
-            -- registered this NPC/Object so, the appropriate tooltip lines are already present. This checks and clears
-            -- any duplicate keys before registering the Quest Finisher.
-
-            -- Clear duplicate keys if they exist
-            if QuestieTooltips.lookupByKey[key] then
-                if QuestieTooltips.GetTooltip(key) ~= nil and #QuestieTooltips.GetTooltip(key) > 1 then
-                    for ttline = 1, #QuestieTooltips.GetTooltip(key) do
-                        for index, line in pairs(QuestieTooltips.GetTooltip(key)) do
-                            if (ttline == index) then
-                                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing duplicate Quest Title!")
-
-                                -- Remove duplicate Quest Title
-                                QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. finisher.name] = nil
-
-                                -- Now check to see if the dup has a Special Objective
-                                local objText = string.match(line, ".*|cFFcbcbcb.*")
-
-                                if objText then
-                                    local objIndex
-
-                                    -- Grab the Special Objective index
-                                    if quest.SpecialObjectives[1] then
-                                        objIndex = quest.SpecialObjectives[1].Index
-                                    end
-
-                                    if objIndex then
-                                        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing Special Objective!")
-
-                                        -- Remove Special Objective Text
-                                        QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. objIndex] = nil
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-
-            QuestieTooltips:RegisterQuestStartTooltip(questId, finisher.name, finisher.id, key)
-
-            local finisherIcons = {}
-            local finisherLocs = {}
-
-            for finisherZone, spawns in pairs(finisher.spawns or {}) do
-                if (finisherZone ~= nil and spawns ~= nil) then
-                    for _, coords in ipairs(spawns) do
-                        local data = {
-                            Id = questId,
-                            Icon = Questie.ICON_TYPE_COMPLETE,
-                            GetIconScale = _GetIconScaleForAvailable,
-                            IconScale = _GetIconScaleForAvailable(),
-                            Type = "complete",
-                            QuestData = quest,
-                            Name = finisher.name,
-                            IsObjectiveNote = false,
-                        }
-
-                        if QuestieDB.IsActiveEventQuest(quest.Id) then
-                            data.Icon = Questie.ICON_TYPE_EVENTQUEST_COMPLETE
-                        elseif QuestieDB.IsPvPQuest(quest.Id) then
-                            data.Icon = Questie.ICON_TYPE_PVPQUEST_COMPLETE
-                        elseif quest.IsRepeatable then
-                            data.Icon = Questie.ICON_TYPE_REPEATABLE_COMPLETE
-                        end
-
-                        if (coords[1] == -1 or coords[2] == -1) then
-                            local dungeonLocation = ZoneDB:GetDungeonLocation(finisherZone)
-                            if dungeonLocation ~= nil then
-                                for _, value in ipairs(dungeonLocation) do
-                                    local zone = value[1];
-                                    local x = value[2];
-                                    local y = value[3];
-
-                                    QuestieMap:DrawWorldIcon(data, zone, x, y)
-                                end
-                            end
-                        else
-                            local x = coords[1];
-                            local y = coords[2];
-
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Adding world icon as finisher:", finisherZone, x, y)
-                            finisherIcons[finisherZone] = QuestieMap:DrawWorldIcon(data, finisherZone, x, y, coords[3])
-
-                            if not finisherLocs[finisherZone] then
-                                finisherLocs[finisherZone] = { x, y }
-                            end
-                        end
-                    end
-                end
-            end
-
-            if finisher.waypoints then
-                for zone, waypoints in pairs(finisher.waypoints) do
-                    if (not ZoneDB.IsDungeonZone(zone)) then
-                        if not finisherIcons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
-                            local data = {
-                                Id = questId,
-                                Icon = Questie.ICON_TYPE_COMPLETE,
-                                GetIconScale = _GetIconScaleForAvailable,
-                                IconScale = _GetIconScaleForAvailable(),
-                                Type = "complete",
-                                QuestData = quest,
-                                Name = finisher.name,
-                                IsObjectiveNote = false,
-                            }
-
-                            if QuestieDB.IsActiveEventQuest(quest.Id) then
-                                data.Icon = Questie.ICON_TYPE_EVENTQUEST_COMPLETE
-                            elseif QuestieDB.IsPvPQuest(quest.Id) then
-                                data.Icon = Questie.ICON_TYPE_PVPQUEST_COMPLETE
-                            elseif quest.IsRepeatable then
-                                data.Icon = Questie.ICON_TYPE_REPEATABLE_COMPLETE
-                            end
-
-                            finisherIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
-                            finisherLocs[zone] = { waypoints[1][1][1], waypoints[1][1][2] }
-                        end
-
-                        QuestieMap:DrawWaypoints(finisherIcons[zone], waypoints, zone)
-                    end
-                end
-            end
-        else
-            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] finisher or finisher.spawns == nil for questId", questId)
-        end
-    end
 end
 
 ---@param quest Quest
@@ -1508,12 +1348,12 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
         end
     end
 
-    if #quest.Objectives == 0 and #quest.SpecialObjectives == 0 and ((quest.triggerEnd and #quest.triggerEnd > 0) or (quest.Finisher and quest.Finisher.Id ~= nil)) then
+    if #quest.Objectives == 0 and #quest.SpecialObjectives == 0 and ((quest.triggerEnd and #quest.triggerEnd > 0) or (quest.Finisher and (quest.Finisher.NPC or quest.Finisher.GameObject))) then
         -- Some quests when picked up will be flagged isComplete == 0 but the quest.Objective table or quest.SpecialObjectives table is nil. This
         -- check assumes the Quest should have been flagged questLogEngtry.isComplete == 1. We're specifically looking for a quest.triggerEnd or
-        -- a quest.Finisher.Id because this might throw an error if there is nothing to populate when we call QuestieQuest:AddFinisher().
+        -- a quest.Finisher because this might throw an error if there is nothing to populate when we call QuestFinisher.AddFinisher().
         QuestieMap:UnloadQuestFrames(quest.Id)
-        QuestieQuest:AddFinisher(quest)
+        QuestFinisher.AddFinisher(quest)
         quest.isComplete = true
     end
 

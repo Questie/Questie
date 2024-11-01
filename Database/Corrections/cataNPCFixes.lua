@@ -174,6 +174,10 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{43.67,67.08}}},
             [npcKeys.waypoints] = {},
         },
+        [2714] = { -- Forsaken Courier
+            [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{51.03,64.80}}},
+            [npcKeys.waypoints] = {[zoneIDs.ARATHI_HIGHLANDS] = {{{51.03,64.80},{51.17,64.82},{51.32,64.77},{51.45,64.70},{51.66,64.61},{52.06,64.53},{52.22,64.58},{52.38,64.64},{52.70,64.76},{53.06,64.85}}}},
+        },
         [2755] = { -- Myzrael
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{57.3,34.58}}},
         },
@@ -848,15 +852,18 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{49.9,46.67}}},
         },
         [25273] = { -- Warsong Recruitment Officer
-            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{41.62,53.99},{43.01,55.64}}},
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{41.62,53.99},{43.01,55.64}}},
         },
         [25324] = { -- Earthen Ring Guide
             [npcKeys.spawns] = {
-                [zoneIDs.ASHENVALE]={
+                [zoneIDs.ASHENVALE] = {
                     {15.5,19.0,phases.EARTHEN_GUIDE_BFD},
                     {9.36,12.99,phases.EARTHEN_GUIDE_SHORE},
                 },
             },
+        },
+        [25636] = { -- Captured Tuskarr Prisoner
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{44.10,77.90}}},
         },
         [25892] = { -- Burning Steppes Flame Warden
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{68.34,60.64}}},
@@ -872,10 +879,10 @@ function CataNpcFixes.Load()
         },
         [25975] = { -- Master Fire Eater
             [npcKeys.spawns] = {
-                [zoneIDs.DARNASSUS]={{63.19,47.48}},
-                [zoneIDs.IRONFORGE]={{65.36,25.06}},
-                [zoneIDs.STORMWIND_CITY]={{50.13,72.56}},
-                [zoneIDs.THE_EXODAR]={{40.90,25.59}},
+                [zoneIDs.DARNASSUS] = {{63.19,47.48}},
+                [zoneIDs.IRONFORGE] = {{65.36,25.06}},
+                [zoneIDs.STORMWIND_CITY] = {{50.13,72.56}},
+                [zoneIDs.THE_EXODAR] = {{40.90,25.59}},
             },
         },
         [26113] = { -- Frostwave Lieutenant
@@ -886,10 +893,10 @@ function CataNpcFixes.Load()
         },
         [26123] = { -- Midsummer Supplier
             [npcKeys.spawns] = {
-                [zoneIDs.IRONFORGE]={{64.82,26.28}},
-                [zoneIDs.DARNASSUS]={{61.9,48.3}},
-                [zoneIDs.THE_EXODAR]={{42.51,25.97}},
-                [zoneIDs.STORMWIND_CITY]={{49.02,71.95}},
+                [zoneIDs.IRONFORGE] = {{64.82,26.28}},
+                [zoneIDs.DARNASSUS] = {{61.9,48.3}},
+                [zoneIDs.THE_EXODAR] = {{42.51,25.97}},
+                [zoneIDs.STORMWIND_CITY] = {{49.02,71.95}},
             },
         },
         [26178] = { -- Hailstone Lieutenant
@@ -1872,6 +1879,9 @@ function CataNpcFixes.Load()
         [41476] = { -- Naz'jar Honor Guard
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{46.33,78.57}}},
         },
+        [41522] = { -- Calamoth Ashbeard
+            [npcKeys.spawns] = {[zoneIDs.WETLANDS]={{51.12,9.14}}},
+        },
         [41535] = { -- Engineer Hexascrub
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{56.94,80.5}}},
         },
@@ -2520,6 +2530,9 @@ function CataNpcFixes.Load()
         [49956] = { -- Pebble
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM]={{63.07,20.88}}},
         },
+        [50044] = { -- Hell-Hoot
+            [npcKeys.waypoints] = {[zoneIDs.WINTERSPRING] = {{{52.40,32.36},{52.05,33.17},{52.01,33.64},{52.45,35.00},{52.67,36.69},{52.88,36.25},{52.88,36.25},{52.41,35.52},{52.41,35.52},{53.00,34.77},{52.81,34.79}}}},
+        },
         [50482] = { -- Marith Lazuria
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{72.6,34.4}}},
         },
@@ -2584,6 +2597,14 @@ function CataNpcFixes.Load()
         [52767] = { -- Vol'jin
             [npcKeys.spawns] = {[5287] = {{41.03,73.13,phases.VOLJIN_BOOTY_BAY}}},
         },
+        [52793] = { -- Ysera
+            [npcKeys.spawns] = {
+                [zoneIDs.MOUNT_HYJAL] = {
+                    {60.3,29.86,phases.THRALL_AGGRA_PROPOSAL},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
         [52838] = { -- Arch Druid Hamuul Runetotem
             [npcKeys.spawns] = {
                 [zoneIDs.MOUNT_HYJAL] = {
@@ -2595,11 +2616,7 @@ function CataNpcFixes.Load()
             },
         },
         [52844] = { -- Captain Saynna Stormrunner
-            [npcKeys.spawns] = {
-                [zoneIDs.MOUNT_HYJAL] = {
-                    {26.8,62.15},
-                },
-            },
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{26.8,62.15}}},
         },
         [52845] = { -- Malfurion Stormrage
             [npcKeys.spawns] = {
@@ -2658,6 +2675,18 @@ function CataNpcFixes.Load()
         [53540] = { -- Cold Water Crayfish
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{83.97,51.69}}},
         },
+        [53670] = { -- Aggra
+            [npcKeys.spawns] = {[zoneIDs.ABYSSAL_DEPTHS] = {{69.82,34.2}}},
+            [npcKeys.zoneID] = zoneIDs.ABYSSAL_DEPTHS,
+        },
+        [53738] = { -- Aggra
+            [npcKeys.spawns] = {
+                [zoneIDs.DEEPHOLM] = {
+                    {56.52,12.5,phases.AGGRA_THRONE},
+                    {64.05,46.09,phases.AGGRA_PRECIPICE},
+                },
+            },
+        },
         [53763] = { -- Candace Fenlow
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{62.42,66.72}}},
             [npcKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
@@ -2683,6 +2712,9 @@ function CataNpcFixes.Load()
         [53950] = { -- Hired Courier
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{24.03,44.82}}},
         },
+        [54014] = { -- Aggra
+            [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{49.61,31.75}}},
+        },
         [54021] = { -- Hudson Barnes
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{64.17,46.29}}},
         },
@@ -2694,6 +2726,9 @@ function CataNpcFixes.Load()
         },
         [54170] = { -- Delian Sunshade
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{71.77,49.78}}},
+        },
+        [54312] = { -- Aggra
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{60.22,30.11}}},
         },
         [54334] = { -- Darkmoon Faire Mystic Mage
             [npcKeys.spawns] = {
@@ -2929,7 +2964,25 @@ function CataNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
             [npcKeys.questStarts] = {29311},
         },
-        [100028] = { -- Rider on the Storm
+        [100028] = { -- The Fallen Guardian
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL] = {{49.07,19.47}}},
+            [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+            [npcKeys.questEnds] = {29437},
+        },
+        [100029] = { -- Elemental Bonds: Fury
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{51.29,26.1}}},
+            [npcKeys.zoneID] = zoneIDs.MOLTEN_FRONT,
+            [npcKeys.questEnds] = {29330},
+        },
+        [100030] = { -- Elemental Bonds: The Vow
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.MOLTEN_FRONT] = {{51.29,26.1}}},
+            [npcKeys.zoneID] = zoneIDs.MOLTEN_FRONT,
+            [npcKeys.questStarts] = {29331},
+        },
+        [100031] = { -- Rider on the Storm
             [npcKeys.name] = "Nijel's Point Ruin",
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{67.77,17.28}}},
             [npcKeys.zoneID] = zoneIDs.DESOLACE,

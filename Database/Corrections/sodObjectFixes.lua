@@ -181,7 +181,7 @@ function SeasonOfDiscovery:LoadObjects()
         [409692] = { -- Scrolls
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
             [objectKeys.spawns] = {
-                [zoneIDs.THE_BARRENS] = {{49.3,33.5}},
+                [zoneIDs.THE_BARRENS] = {{49.3,32.88}},
             },
         },
         [409731] = { -- Scrolls
