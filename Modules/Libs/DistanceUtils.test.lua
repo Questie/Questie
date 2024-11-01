@@ -36,14 +36,17 @@ describe("DistanceUtils", function()
             HBDMock.GetPlayerWorldPosition = spy.new(function()
                 return 50, 50, 1
             end)
-            HBDMock.GetWorldCoordinatesFromZone = spy.new(function()
-                return 123, 456, 1
+            HBDMock.GetWorldCoordinatesFromZone = spy.new(function(_, _, _, uiMapId)
+                if uiMapId == 200 then
+                    return 123, 456, 1
+                end
+                return 0, 0, 2
             end)
-            HBDMock.GetWorldDistance = spy.new(function()
-                return 0
+            HBDMock.GetWorldDistance = spy.new(function(_, instanceId)
+                return instanceId == 1 and 0 or 100
             end)
-            ZoneDB.GetUiMapIdByAreaId = spy.new(function()
-                return 200
+            ZoneDB.GetUiMapIdByAreaId = spy.new(function(_, zoneId)
+                return zoneId == 1 and 200 or 300
             end)
             local spawns = {
                 [1] = {{50,50}},
