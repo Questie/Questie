@@ -239,7 +239,7 @@ local eventsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Jour des morts",
         ["esES"] = "Festividad de los Muertos",
-        ["zhTW"] = "悼念日",
+        ["zhTW"] = "亡者節",
         ["zhCN"] = "悼念日",
     },
 }
