@@ -7,7 +7,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 ---@param spawns table<AreaId, CoordPair[]>>
----@return CoordPair, AreaId, number, number
+---@return CoordPair, AreaId, number
 function DistanceUtils.GetNearestSpawn(spawns)
     local bestDistance = 999999999
     local bestSpawn, bestSpawnZone
