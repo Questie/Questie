@@ -2233,7 +2233,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Slay Disciple of Elune"),0,{{"monster",35384}}}},
         },
         [14198] = { -- Rider on the Storm
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Use the Raging Vortex Gem"),0,{{"monster",100031}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Use the Raging Vortex Gem"),0,{{"monster",100030}}}},
         },
         [14201] = { -- A Thousand Stories in the Sand
             [questKeys.preQuestSingle] = {24453},
