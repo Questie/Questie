@@ -27,7 +27,7 @@ local eventsLocales = {
         ["zhCN"] = "新年",
     },
     ["Love is in the Air"] = {
-        ["ptBR"] = "O Amor Está no Ar",
+        ["ptBR"] = "O Amor Está No Ar",
         ["ruRU"] = "Любовная лихорадка",
         ["deDE"] = "Liebe liegt in der Luft",
         ["koKR"] = "사랑이 피어남",
