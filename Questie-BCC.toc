@@ -109,6 +109,7 @@ Localization\lookups\TBC\lookupObjects\lookupObjects.xml
 Localization\lookups\TBC\lookupQuests\lookupQuests.xml
 
 # Libs
+Modules\Libs\DistanceUtils.lua
 Modules\Libs\QuestieLib.lua
 Modules\Libs\QuestieSerializer.lua
 Modules\Libs\QuestieCombatQueue.lua
