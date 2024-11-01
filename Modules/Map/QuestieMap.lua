@@ -24,6 +24,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local WeaponMasterSkills = QuestieLoader:ImportModule("WeaponMasterSkills")
 ---@type Phasing
 local Phasing = QuestieLoader:ImportModule("Phasing")
+---@type DistanceUtils
+local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 
 QuestieMap.ICON_MAP_TYPE = "MAP";
 QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
@@ -952,41 +954,6 @@ function QuestieMap:FindClosestFinisher(quest)
     return {closestFinisher.x, closestFinisher.y}, closestFinisher.zone, closestFinisher.name
 end
 
-function QuestieMap:GetNearestSpawn(objective)
-    if not objective then
-        return nil
-    end
-    local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
-    local bestDistance = 999999999
-    local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
-    -- TODO: This is just a temporary workaround - We have to find out why "objective.spawnList" can be nil
-    if objective and objective.spawnList and next(objective.spawnList) then
-        for id, spawnData in pairs(objective.spawnList) do
-            for zone, spawns in pairs(spawnData.Spawns) do
-                for _, spawn in pairs(spawns) do
-                    local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1] / 100.0, spawn[2] / 100.0, uiMapId)
-                    local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
-                    if dist then
-                        if dInstance ~= playerI then
-                            dist = 500000 + dist * 100 -- hack
-                        end
-                        if dist < bestDistance then
-                            bestDistance = dist
-                            bestSpawn = spawn
-                            bestSpawnZone = zone
-                            bestSpawnId = id
-                            bestSpawnType = spawnData.Type
-                            bestSpawnName = spawnData.Name
-                        end
-                    end
-                end
-            end
-        end
-    end
-    return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
-end
-
 ---@param quest Quest
 function QuestieMap:GetNearestQuestSpawn(quest)
     if not quest then
@@ -997,32 +964,28 @@ function QuestieMap:GetNearestQuestSpawn(quest)
     end
 
     local bestDistance = 999999999
-    local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
+    local bestSpawn, bestSpawnZone, bestSpawnName
 
     for _, objective in pairs(quest.Objectives) do
-        local spawn, zone, Name, id, Type, dist = QuestieMap:GetNearestSpawn(objective)
+        local spawn, zone, Name, dist = DistanceUtils.GetNearestObjective(objective.spawnList)
         if spawn and dist < bestDistance and ((not objective.Needed) or objective.Needed ~= objective.Collected) then
             bestDistance = dist
             bestSpawn = spawn
             bestSpawnZone = zone
-            bestSpawnId = id
-            bestSpawnType = Type
             bestSpawnName = Name
         end
     end
 
     for _, objective in pairs(quest.SpecialObjectives) do
-        local spawn, zone, Name, id, Type, dist = QuestieMap:GetNearestSpawn(objective)
+        local spawn, zone, Name, dist = DistanceUtils.GetNearestObjective(objective.spawnList)
         if spawn and dist < bestDistance and ((not objective.Needed) or objective.Needed ~= objective.Collected) then
             bestDistance = dist
             bestSpawn = spawn
             bestSpawnZone = zone
-            bestSpawnId = id
-            bestSpawnType = Type
             bestSpawnName = Name
         end
     end
-    return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
+    return bestSpawn, bestSpawnZone, bestSpawnName
 end
 
 QuestieMap.zoneWaypointColorOverrides = { -- this is used when the default orange color doesn't work well in specific zones. Not needed after 769ea832ff772b10c57351eb199348393625a99b

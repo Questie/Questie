@@ -24,6 +24,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type DistanceUtils
+local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
@@ -35,6 +37,9 @@ TrackerMenu.menuFrame = LibDropDown:Create_UIDropDownMenu("QuestieTrackerMenuFra
 local tinsert = table.insert
 
 -- Create local Quest Menu functions
+---@param menu table
+---@param quest Quest
+---@param objective QuestObjective
 TrackerMenu.addFocusOption = function(menu, quest, objective)
     if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(objective.Index) then
         tinsert(menu, {
@@ -57,6 +62,9 @@ TrackerMenu.addFocusOption = function(menu, quest, objective)
     end
 end
 
+---@param menu table
+---@param quest Quest
+---@param objective QuestObjective
 TrackerMenu.addTomTomOption = function(menu, quest, objective)
     tinsert(menu, {
         text = l10n('Set |cFF54e33bTomTom|r Target'),
@@ -64,8 +72,8 @@ TrackerMenu.addTomTomOption = function(menu, quest, objective)
             LibDropDown:CloseDropDownMenus()
 
             local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
-            if (not spawn) and objective ~= nil then
-                spawn, zone, name = QuestieMap:GetNearestSpawn(objective)
+            if (not spawn) and objective then
+                spawn, zone, name = DistanceUtils.GetNearestObjective(objective.spawnList)
             end
 
             if spawn then
