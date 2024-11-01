@@ -2679,8 +2679,8 @@ function CataNpcFixes.Load()
         [53738] = { -- Aggra
             [npcKeys.spawns] = {
                 [zoneIDs.DEEPHOLM] = {
-                    {64.05,46.09},
                     {56.52,12.5,phases.AGGRA_THRONE},
+                    {64.05,46.09,phases.AGGRA_PRECIPICE},
                 },
             },
         },

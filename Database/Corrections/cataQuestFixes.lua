@@ -10527,10 +10527,10 @@ function CataQuestFixes.Load()
         [29327] = { -- Elemental Bonds: Doubt
             [questKeys.nextQuestInChain] = 29336,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Cyclonas"),0,{{"monster",53524}}}},
-            [questKeys.objectives] = {{{53518,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{53518,53537},53518,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29328] = { -- Elemental Bonds: Desire
-            [questKeys.objectives] = {{{53649,nil,Questie.ICON_TYPE_EVENT},{53670,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{53676,53649},53649,nil,Questie.ICON_TYPE_EVENT},{{53670},53670,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {29336},
             [questKeys.nextQuestInChain] = 29337,
         },
@@ -10745,7 +10745,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Maxima Blastenheimer to start the game"),0,{{"monster",15303}}}},
         },
         [29437] = { -- The Fallen Guardian
-            [questKeys.preQuestGroup] = {29326,25372},
+            [questKeys.preQuestGroup] = {29327,25372}, -- 25372 certain. 29327 could be tricky, not 100% sure it's that one
             [questKeys.finishedBy] = {{100028}},
             [questKeys.startedBy] = {{40289,52793}},
         },
