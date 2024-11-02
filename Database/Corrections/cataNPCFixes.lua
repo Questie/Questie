@@ -2272,6 +2272,9 @@ function CataNpcFixes.Load()
         [45042] = { -- Thrall
             [npcKeys.spawns] = {[5416] = {{33.37,50.17}}},
         },
+        [45115] = { -- Twilight Sermon Completion Credit
+            [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{61.45,30.01}}},
+        },
         [45172] = { -- Thordun Hammerblow
             [npcKeys.spawns] = {
                 [zoneIDs.TWILIGHT_HIGHLANDS] = {

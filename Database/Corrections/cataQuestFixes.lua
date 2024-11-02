@@ -3925,6 +3925,7 @@ function CataQuestFixes.Load()
         },
         [25329] = { -- Might of the Stonemaul
             [questKeys.preQuestSingle] = {25344},
+            [questKeys.objectives] = {{{45115,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25330] = { -- Waste of Flesh
             [questKeys.objectives] = {{{39453,nil,Questie.ICON_TYPE_INTERACT}}},
