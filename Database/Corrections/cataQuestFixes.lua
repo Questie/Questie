@@ -4057,6 +4057,9 @@ function CataQuestFixes.Load()
         [25423] = { -- Ancient Suffering
             [questKeys.preQuestSingle] = {25350},
         },
+        [25427] = { -- Alpha Strike [Alliance]
+            [questKeys.preQuestSingle] = {25426},
+        },
         [25431] = { -- Stinglasher
             [questKeys.preQuestSingle] = {25427},
         },
