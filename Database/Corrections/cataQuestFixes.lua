@@ -3977,7 +3977,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25363},
         },
         [25367] = { -- Zukk'ash Infestation
-            [questKeys.preQuestSingle] = {25427},
+            [questKeys.preQuestSingle] = {25366},
+        },
+        [25369] = { -- Stinglasher (Horde)
+            [questKeys.preQuestSingle] = {25366},
         },
         [25370] = { -- Inciting the Elements
             [questKeys.preQuestSingle] = {},
