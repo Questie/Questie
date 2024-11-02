@@ -951,9 +951,6 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
             maxPerType = Questie.db.profile.iconLimit
         end
 
-        local closestStarter = QuestieMap:FindClosestStarter()
-        local objectiveCenter = closestStarter[quest.Id]
-
         local zoneCount = 0
         local zones = {}
         local objectiveZone
@@ -969,9 +966,13 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
             zoneCount = zoneCount + 1
         end
 
+        local objectiveCenter
         if zoneCount == 1 then -- this objective happens in 1 zone, clustering should be relative to that zone
             local x, y = HBD:GetWorldCoordinatesFromZone(0.5, 0.5, ZoneDB:GetUiMapIdByAreaId(objectiveZone))
             objectiveCenter = { x = x, y = y }
+        else
+            local closestStarter = QuestieMap:FindClosestStarter()
+            objectiveCenter = closestStarter[quest.Id]
         end
 
         local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
