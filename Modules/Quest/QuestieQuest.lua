@@ -971,7 +971,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
             local x, y = HBD:GetWorldCoordinatesFromZone(0.5, 0.5, ZoneDB:GetUiMapIdByAreaId(objectiveZone))
             objectiveCenter = { x = x, y = y }
         else
-            local closestStarter = QuestieMap:FindClosestStarter()
+            local closestStarter = QuestieMap:FindClosestStarterInQuestLog()
             objectiveCenter = closestStarter[quest.Id]
         end
 

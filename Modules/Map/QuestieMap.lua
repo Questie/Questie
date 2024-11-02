@@ -717,7 +717,7 @@ end
 --- The return type also contains, distance, zone and type but we never really use it.
 ---@type table<QuestId, {x:X, y:Y}>
 local closestStarter = {}
-function QuestieMap:FindClosestStarter()
+function QuestieMap:FindClosestStarterInQuestLog()
     local playerX, playerY, _ = HBD:GetPlayerWorldPosition();
     local playerZone = HBD:GetPlayerWorldPosition();
     for questId in pairs(QuestiePlayer.currentQuestlog) do
