@@ -3987,6 +3987,9 @@ function CataQuestFixes.Load()
         [25371] = { -- The Abyssal Ride
             [questKeys.objectives] = {{{39996,nil,Questie.ICON_TYPE_MOUNT_UP}},{{202766}}},
         },
+        [25374] = { -- Sasquatch Sighting
+            [questKeys.preQuestSingle] = {25373},
+        },
         [25377] = { -- The Horde's Hoard
             [questKeys.startedBy] = {{39918},nil,{53053}},
         },
