@@ -3970,6 +3970,9 @@ function CataQuestFixes.Load()
         [25361] = { -- A New Cloak's Sheen
             [questKeys.preQuestSingle] = {25338},
         },
+        [25364] = { -- Alpha Strike [Horde]
+            [questKeys.preQuestSingle] = {25363},
+        },
         [25367] = { -- Zukk'ash Infestation
             [questKeys.preQuestSingle] = {25427},
         },
