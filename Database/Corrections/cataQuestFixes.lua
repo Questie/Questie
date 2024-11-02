@@ -3967,6 +3967,9 @@ function CataQuestFixes.Load()
         [25359] = { -- Toshe's Vengeance
             [questKeys.nextQuestInChain] = 25439,
         },
+        [25361] = { -- A New Cloak's Sheen
+            [questKeys.preQuestSingle] = {25338},
+        },
         [25367] = { -- Zukk'ash Infestation
             [questKeys.preQuestSingle] = {25427},
         },
