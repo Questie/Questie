@@ -3980,7 +3980,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25366},
         },
         [25369] = { -- Stinglasher (Horde)
-            [questKeys.preQuestSingle] = {25366},
+            [questKeys.preQuestSingle] = {25427},
         },
         [25370] = { -- Inciting the Elements
             [questKeys.preQuestSingle] = {},
