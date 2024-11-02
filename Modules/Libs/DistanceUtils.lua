@@ -10,6 +10,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
+local _GetDistance
+
 ---@param spawns table<AreaId, CoordPair[]>>
 ---@return CoordPair, AreaId, number
 function DistanceUtils.GetNearestSpawn(spawns)
@@ -23,33 +25,19 @@ function DistanceUtils.GetNearestSpawn(spawns)
             if spawn[1] == -1 or spawn[2] == -1 then
                 local dungeonLocation = ZoneDB:GetDungeonLocation(zoneId)
                 for _, location in pairs(dungeonLocation) do
-                    local uiMapId = ZoneDB:GetUiMapIdByAreaId(location[1])
-                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(location[2] / 100.0, location[3] / 100.0, uiMapId)
-                    local dist = QuestieLib.Euclid(playerX, playerY, dX, dY)
-                    if dist then
-                        if dInstance ~= playerI then
-                            dist = 500000 + dist * 100 -- hack
-                        end
-                        if dist < bestDistance then
-                            bestDistance = dist
-                            bestSpawn = {location[2], location[3]}
-                            bestSpawnZone = zoneId
-                        end
+                    local dist = _GetDistance(location[1], location[2], location[3], playerX, playerY, playerI)
+                    if dist < bestDistance then
+                        bestDistance = dist
+                        bestSpawn = {location[2], location[3]}
+                        bestSpawnZone = zoneId
                     end
                 end
             else
-                local uiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
-                local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1] / 100.0, spawn[2] / 100.0, uiMapId)
-                local dist = QuestieLib.Euclid(playerX, playerY, dX, dY)
-                if dist then
-                    if dInstance ~= playerI then
-                        dist = 500000 + dist * 100 -- hack
-                    end
-                    if dist < bestDistance then
-                        bestDistance = dist
-                        bestSpawn = spawn
-                        bestSpawnZone = zoneId
-                    end
+                local dist = _GetDistance(zoneId, spawn[1], spawn[2], playerX, playerY, playerI)
+                if dist < bestDistance then
+                    bestDistance = dist
+                    bestSpawn = spawn
+                    bestSpawnZone = zoneId
                 end
             end
         end
@@ -110,6 +98,23 @@ function DistanceUtils.GetNearestFinisher(finisher)
     end
 
     return bestSpawn, bestSpawnZone, bestSpawnName, bestDistance
+end
+
+---@param zoneId AreaId
+---@param spawnX X
+---@param spawnY Y
+---@param playerX X
+---@param playerY Y
+---@param playerZone AreaId
+---@return number
+_GetDistance = function(zoneId, spawnX, spawnY, playerX, playerY, playerZone)
+    local uiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
+    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawnX / 100.0, spawnY / 100.0, uiMapId)
+    local dist = QuestieLib.Euclid(playerX, playerY, dX, dY)
+    if dInstance ~= playerZone then
+        dist = 500000 + dist * 100 -- hack
+    end
+    return dist
 end
 
 return DistanceUtils
