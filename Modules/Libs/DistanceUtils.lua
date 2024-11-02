@@ -20,17 +20,36 @@ function DistanceUtils.GetNearestSpawn(spawns)
 
     for zoneId, spawnEntries in pairs(spawns) do
         for _, spawn in pairs(spawnEntries) do
-            local uiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
-            local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1] / 100.0, spawn[2] / 100.0, uiMapId)
-            local dist = QuestieLib.Euclid(playerX, playerY, dX, dY)
-            if dist then
-                if dInstance ~= playerI then
-                    dist = 500000 + dist * 100 -- hack
+            if spawn[1] == -1 or spawn[2] == -1 then
+                local dungeonLocation = ZoneDB:GetDungeonLocation(zoneId)
+                for _, location in pairs(dungeonLocation) do
+                    local uiMapId = ZoneDB:GetUiMapIdByAreaId(location[1])
+                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(location[2] / 100.0, location[3] / 100.0, uiMapId)
+                    local dist = QuestieLib.Euclid(playerX, playerY, dX, dY)
+                    if dist then
+                        if dInstance ~= playerI then
+                            dist = 500000 + dist * 100 -- hack
+                        end
+                        if dist < bestDistance then
+                            bestDistance = dist
+                            bestSpawn = {location[2], location[3]}
+                            bestSpawnZone = zoneId
+                        end
+                    end
                 end
-                if dist < bestDistance then
-                    bestDistance = dist
-                    bestSpawn = spawn
-                    bestSpawnZone = zoneId
+            else
+                local uiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
+                local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1] / 100.0, spawn[2] / 100.0, uiMapId)
+                local dist = QuestieLib.Euclid(playerX, playerY, dX, dY)
+                if dist then
+                    if dInstance ~= playerI then
+                        dist = 500000 + dist * 100 -- hack
+                    end
+                    if dist < bestDistance then
+                        bestDistance = dist
+                        bestSpawn = spawn
+                        bestSpawnZone = zoneId
+                    end
                 end
             end
         end

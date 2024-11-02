@@ -62,6 +62,39 @@ describe("DistanceUtils", function()
             assert.spy(HBDMock.GetWorldCoordinatesFromZone).was_called_with(HBDMock, 0.5, 0.5, 200)
             assert.spy(QuestieLib.Euclid).was_called_with(50, 50, 123, 456)
         end)
+
+        it("should compare dungeon location when spawn is in dungeon", function()
+            HBDMock.GetPlayerWorldPosition = spy.new(function()
+                return 60, 60, 3
+            end)
+            HBDMock.GetWorldCoordinatesFromZone = spy.new(function(_, _, _, uiMapId)
+                if uiMapId == 200 then
+                    return 123, 456, 3
+                end
+                return 0, 0, 1
+            end)
+            QuestieLib.Euclid = spy.new(function(_, _, dX)
+                return dX == 123 and 0 or 100
+            end)
+            ZoneDB.GetDungeonLocation = spy.new(function()
+                return {{3,60,60}}
+            end)
+            ZoneDB.GetUiMapIdByAreaId = spy.new(function(_, zoneId)
+                return zoneId == 3 and 200 or 300
+            end)
+            local spawns = {
+                [1] = {{50,50}},
+                [2] = {{-1,-1}},
+            }
+
+            local bestSpawn, bestSpawnZone, bestDistance = DistanceUtils.GetNearestSpawn(spawns)
+
+            assert.same({60,60}, bestSpawn)
+            assert.equals(2, bestSpawnZone)
+            assert.equals(0, bestDistance)
+
+            assert.spy(ZoneDB.GetDungeonLocation).was_called_with(_, 2)
+        end)
     end)
 
     describe("GetNearestObjective", function()
