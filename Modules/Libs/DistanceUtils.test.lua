@@ -3,6 +3,8 @@ dofile("setupTests.lua")
 describe("DistanceUtils", function()
     ---@type ZoneDB
     local ZoneDB
+    ---@type QuestieDB
+    local QuestieDB
 
     ---@type DistanceUtils
     local DistanceUtils
@@ -21,6 +23,7 @@ describe("DistanceUtils", function()
         })
 
         ZoneDB = require("Database.Zones.zoneDB")
+        QuestieDB = require("Database.QuestieDB")
         DistanceUtils = require("Modules.Libs.DistanceUtils")
     end)
 
@@ -93,6 +96,41 @@ describe("DistanceUtils", function()
             assert.same({60,60}, bestSpawn)
             assert.equals(2, bestSpawnZone)
             assert.equals("Objective 2", bestSpawnName)
+            assert.equals(0, bestDistance)
+        end)
+    end)
+
+    describe("GetNearestFinisher", function()
+        it("should return the nearest NPC finisher", function()
+            QuestieDB.GetNPC = spy.new(function(_, id)
+                if id == 123 then
+                    return { id = 123, name = "Finisher 1", spawns = {[1]={{50,50}}} }
+                else
+                    return { id = 456, name = "Finisher 2", spawns = {[2]={{60,60}}} }
+                end
+            end)
+            HBDMock.GetPlayerWorldPosition = spy.new(function()
+                return 60, 60, 2
+            end)
+            ZoneDB.GetUiMapIdByAreaId = spy.new(function(_, zoneId)
+                return zoneId == 1 and 200 or 300
+            end)
+            HBDMock.GetWorldCoordinatesFromZone = spy.new(function(_, _, _, uiMapId)
+                if uiMapId == 300 then
+                    return 123, 456, 2
+                end
+                return 0, 0, 1
+            end)
+            HBDMock.GetWorldDistance = spy.new(function(_, instanceId)
+                return instanceId == 2 and 0 or 100
+            end)
+            local finisher = {NPC = {123,456}}
+
+            local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestFinisher(finisher)
+
+            assert.same({60,60}, bestSpawn)
+            assert.equals(2, bestSpawnZone)
+            assert.equals("Finisher 2", bestSpawnName)
             assert.equals(0, bestDistance)
         end)
     end)

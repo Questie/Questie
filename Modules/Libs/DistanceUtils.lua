@@ -3,6 +3,8 @@ local DistanceUtils = QuestieLoader:CreateModule("DistanceUtils")
 
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
@@ -54,5 +56,25 @@ function DistanceUtils.GetNearestObjective(objectiveSpawnList)
     return bestSpawn, bestSpawnZone, bestSpawnName, bestDistance
 end
 
+---@param finisher Finisher
+function DistanceUtils.GetNearestFinisher(finisher)
+    local bestDistance = 999999999
+    local bestSpawn, bestSpawnZone, bestSpawnName
+
+    for _, npcId in pairs(finisher.NPC) do
+        local npc = QuestieDB:GetNPC(npcId)
+        if npc and npc.spawns then
+            local spawn, zone, distance = DistanceUtils.GetNearestSpawn(npc.spawns)
+            if distance < bestDistance then
+                bestDistance = distance
+                bestSpawn = spawn
+                bestSpawnZone = zone
+                bestSpawnName = npc.name
+            end
+        end
+    end
+
+    return bestSpawn, bestSpawnZone, bestSpawnName, bestDistance
+end
 
 return DistanceUtils
