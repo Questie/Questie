@@ -1103,7 +1103,8 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
 
     ---@type StartedBy
     local startedBy = QO.startedBy
-    QO.Starts = {
+    ---@type Starters
+    QO.Starts = { -- TODO: Rename to Starters
         NPC = startedBy[1],
         GameObject = startedBy[2],
         Item = startedBy[3],
@@ -1118,6 +1119,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
 
     ---@type FinishedBy
     local finishedBy = QO.finishedBy
+    ---@type Finisher
     QO.Finisher = {
         NPC = finishedBy[1],
         GameObject = finishedBy[2],
