@@ -172,5 +172,52 @@ describe("DistanceUtils", function()
 
             assert.spy(QuestieDB.GetNPC).was_not_called()
         end)
+
+        it("should return the nearest finisher", function()
+            QuestieDB.GetNPC = spy.new(function(_, id)
+                if id == 123 then
+                    return { id = 123, name = "Finisher NPC 1", spawns = {[1]={{50,50}}} }
+                else
+                    return { id = 456, name = "Finisher NPC 2", spawns = {[2]={{60,60}}} }
+                end
+            end)
+            QuestieDB.GetObject = spy.new(function(_, id)
+                if id == 123 then
+                    return { id = 123, name = "Finisher Object 1", spawns = {[3]={{70,70}}} }
+                else
+                    return { id = 456, name = "Finisher Object 2", spawns = {[4]={{80,80}}} }
+                end
+            end)
+            HBDMock.GetPlayerWorldPosition = spy.new(function()
+                return 60, 60, 4
+            end)
+            ZoneDB.GetUiMapIdByAreaId = spy.new(function(_, zoneId)
+                if zoneId == 1 then
+                    return 100
+                elseif zoneId == 2 then
+                    return 200
+                elseif zoneId == 3 then
+                    return 300
+                end
+                return 400
+            end)
+            HBDMock.GetWorldCoordinatesFromZone = spy.new(function(_, _, _, uiMapId)
+                if uiMapId == 400 then
+                    return 123, 456, 4
+                end
+                return 0, 0, 1
+            end)
+            HBDMock.GetWorldDistance = spy.new(function(_, instanceId)
+                return instanceId == 4 and 0 or 100
+            end)
+            local finisher = {NPC = {123,456}, GameObject = {123,456}}
+
+            local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestFinisher(finisher)
+
+            assert.same({80,80}, bestSpawn)
+            assert.equals(4, bestSpawnZone)
+            assert.equals("Finisher Object 2", bestSpawnName)
+            assert.equals(0, bestDistance)
+        end)
     end)
 end)
