@@ -242,7 +242,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         container:AddChild(endNPCGroup)
         QuestieJourneyUtils:Spacer(endNPCGroup)
 
-        local endNPC = QuestieDB:GetNPC(quest.Finisher.NPC[1].Id)
+        local endNPC = QuestieDB:GetNPC(quest.Finisher.NPC[1])
 
         local endNPCNameLabel = AceGUI:Create("Label")
         endNPCNameLabel:SetText(endNPC.name)

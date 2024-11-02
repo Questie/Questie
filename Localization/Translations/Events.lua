@@ -230,6 +230,18 @@ local eventsLocales = {
         ["zhTW"] = "黑石山爆发",
         ["zhCN"] = "黑石山爆发",
     },
+    ["Day of the Dead"] = {
+        ["ptBR"] = "Dia dos Mortos",
+        ["ruRU"] = "День мертвых",
+        ["deDE"] = "Tag der Toten",
+        ["koKR"] = "망자의 날",
+        ["esMX"] = "Festividad de los Muertos",
+        ["enUS"] = true,
+        ["frFR"] = "Jour des morts",
+        ["esES"] = "Festividad de los Muertos",
+        ["zhTW"] = "悼念日",
+        ["zhCN"] = "悼念日",
+    },
 }
 
 for k, v in pairs(eventsLocales) do

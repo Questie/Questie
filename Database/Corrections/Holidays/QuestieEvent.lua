@@ -329,12 +329,10 @@ QuestieEvent.eventDates = {
         startDate = "13/9",
         endDate = "19/9"
     },
-    ["Pilgrim's Bounty"] = {
-        startDate = "21/11",
-        endDate = "27/11"
-    },
+    ["Pilgrim's Bounty"] = {startDate = "21/11", endDate = "27/11"},
     ["Hallow's End"] = {startDate = "18/10", endDate = "31/10"},
-    ["Winter Veil"] = {startDate = "15/12", endDate = "1/1"}
+    ["Winter Veil"] = {startDate = "15/12", endDate = "1/1"},
+    ["Day of the Dead"] = {startDate = "1/11", endDate = "2/11"},
 }
 
 -- ["EventName"] = false -> event doesn't exists in expansion
