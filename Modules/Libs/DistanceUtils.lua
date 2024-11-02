@@ -61,7 +61,7 @@ function DistanceUtils.GetNearestFinisher(finisher)
     local bestDistance = 999999999
     local bestSpawn, bestSpawnZone, bestSpawnName
 
-    for _, npcId in pairs(finisher.NPC) do
+    for _, npcId in pairs(finisher.NPC or {}) do
         local npc = QuestieDB:GetNPC(npcId)
         if npc and npc.spawns then
             local spawn, zone, distance = DistanceUtils.GetNearestSpawn(npc.spawns)
@@ -70,6 +70,19 @@ function DistanceUtils.GetNearestFinisher(finisher)
                 bestSpawn = spawn
                 bestSpawnZone = zone
                 bestSpawnName = npc.name
+            end
+        end
+    end
+
+    for _, objectId in pairs(finisher.GameObject or {}) do
+        local object = QuestieDB:GetObject(objectId)
+        if object and object.spawns then
+            local spawn, zone, distance = DistanceUtils.GetNearestSpawn(object.spawns)
+            if distance < bestDistance then
+                bestDistance = distance
+                bestSpawn = spawn
+                bestSpawnZone = zone
+                bestSpawnName = object.name
             end
         end
     end
