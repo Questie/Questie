@@ -3804,6 +3804,9 @@ function CataQuestFixes.Load()
         [25249] = { -- A Change of Heart
             [questKeys.preQuestSingle] = {},
         },
+        [25250] = { -- Sealing the Dream [Horde]
+            [questKeys.objectives] = {{{39834,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [25251] = { -- Final Confrontation
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25214,25243}, -- 25243 or 25244
@@ -3999,6 +4002,9 @@ function CataQuestFixes.Load()
         },
         [25397] = { -- The Land, Corrupted
             [questKeys.preQuestSingle] = {25394},
+        },
+        [25398] = { -- Sealing the Dream [Alliance]
+            [questKeys.objectives] = {{{39834,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25404] = { -- If You're Not Against Us...
             [questKeys.objectives] = {{{39933,nil,Questie.ICON_TYPE_TALK}}},
