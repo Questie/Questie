@@ -1092,7 +1092,7 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                         drawIcon.worldY = y
                         -- There are instances when X and Y are not in the same map such as in dungeons etc, we default to 0 if it is not set
                         -- This will create a distance of 0 but it doesn't matter.
-                        local distance = QuestieLib:Euclid(objectiveCenter.x or 0, objectiveCenter.y or 0, x, y);
+                        local distance = QuestieLib.Euclid(objectiveCenter.x or 0, objectiveCenter.y or 0, x, y);
                         drawIcon.distance = distance or 0 -- cache for clustering
                         -- there can be multiple icons at same distance at different directions
                         --local distance = floor(distance)

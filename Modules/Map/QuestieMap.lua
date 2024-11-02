@@ -658,7 +658,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
                     end
                     if (x and y) then
                         --Very small value before, hard to work with.
-                        local distance = QuestieLib:Euclid(QuestieMap.playerX, QuestieMap.playerY, x, y) / 10;
+                        local distance = QuestieLib.Euclid(QuestieMap.playerX, QuestieMap.playerY, x, y) / 10;
 
                         if (distance > profile.fadeLevel) then
                             local fade = 1 - (math.min(10, (distance - profile.fadeLevel)) * normalizedValue);
@@ -746,7 +746,7 @@ function QuestieMap:FindClosestStarter()
                                                         if (value[1] and value[2]) then
                                                             local x, y, _ = HBD:GetWorldCoordinatesFromZone(value[1] / 100, value[2] / 100, ZoneDB:GetUiMapIdByAreaId(value[3]))
                                                             if (x and y) then
-                                                                local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
+                                                                local distance = QuestieLib.Euclid(playerX or 0, playerY or 0, x, y);
                                                                 if (closestStarter[questId].distance > distance) then
                                                                     closestStarter[questId].distance = distance;
                                                                     closestStarter[questId].x = x;
@@ -762,7 +762,7 @@ function QuestieMap:FindClosestStarter()
                                                 local uiMapId = ZoneDB:GetUiMapIdByAreaId(Zone)
                                                 local x, y, _ = HBD:GetWorldCoordinatesFromZone(coords[1] / 100, coords[2] / 100, uiMapId)
                                                 if (x and y) then
-                                                    local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
+                                                    local distance = QuestieLib.Euclid(playerX or 0, playerY or 0, x, y);
                                                     if (closestStarter[questId].distance > distance) then
                                                         closestStarter[questId].distance = distance;
                                                         closestStarter[questId].x = x;
@@ -792,7 +792,7 @@ function QuestieMap:FindClosestStarter()
                                                             local uiMapId = ZoneDB:GetUiMapIdByAreaId(value[3])
                                                             local x, y, _ = HBD:GetWorldCoordinatesFromZone(value[1] / 100, value[2] / 100, uiMapId)
                                                             if (x and y) then
-                                                                local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
+                                                                local distance = QuestieLib.Euclid(playerX or 0, playerY or 0, x, y);
                                                                 if (closestStarter[questId].distance > distance) then
                                                                     closestStarter[questId].distance = distance;
                                                                     closestStarter[questId].x = x;
@@ -808,7 +808,7 @@ function QuestieMap:FindClosestStarter()
                                                 local uiMapId = ZoneDB:GetUiMapIdByAreaId(Zone)
                                                 local x, y, _ = HBD:GetWorldCoordinatesFromZone(coords[1] / 100, coords[2] / 100, uiMapId)
                                                 if (x and y) then
-                                                    local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
+                                                    local distance = QuestieLib.Euclid(playerX or 0, playerY or 0, x, y);
                                                     if (closestStarter[questId].distance > distance) then
                                                         closestStarter[questId].distance = distance;
                                                         closestStarter[questId].x = x;
@@ -867,7 +867,7 @@ function QuestieMap:FindClosestFinisher(quest)
                                             if (value[1] and value[2]) then
                                                 local x, y, _ = HBD:GetWorldCoordinatesFromZone(value[1] / 100, value[2] / 100, ZoneDB:GetUiMapIdByAreaId(value[3]))
                                                 if (x and y) then
-                                                    local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
+                                                    local distance = QuestieLib.Euclid(playerX or 0, playerY or 0, x, y);
                                                     if (closestFinisher.distance > distance) then
                                                         closestFinisher.distance = distance;
                                                         closestFinisher.x = x;
@@ -883,7 +883,7 @@ function QuestieMap:FindClosestFinisher(quest)
                                     local uiMapId = ZoneDB:GetUiMapIdByAreaId(Zone)
                                     local x, y, _ = HBD:GetWorldCoordinatesFromZone(coords[1] / 100, coords[2] / 100, uiMapId)
                                     if (x and y) then
-                                        local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
+                                        local distance = QuestieLib.Euclid(playerX or 0, playerY or 0, x, y);
                                         if (closestFinisher.distance > distance) then
                                             closestFinisher.distance = distance;
                                             closestFinisher.x = x;
@@ -913,7 +913,7 @@ function QuestieMap:FindClosestFinisher(quest)
                                                 local uiMapId = ZoneDB:GetUiMapIdByAreaId(value[3])
                                                 local x, y, _ = HBD:GetWorldCoordinatesFromZone(value[1] / 100, value[2] / 100, uiMapId)
                                                 if (x and y) then
-                                                    local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
+                                                    local distance = QuestieLib.Euclid(playerX or 0, playerY or 0, x, y);
                                                     if (closestFinisher.distance > distance) then
                                                         closestFinisher.distance = distance;
                                                         closestFinisher.x = x;
@@ -929,7 +929,7 @@ function QuestieMap:FindClosestFinisher(quest)
                                     local uiMapId = ZoneDB:GetUiMapIdByAreaId(Zone)
                                     local x, y, _ = HBD:GetWorldCoordinatesFromZone(coords[1] / 100, coords[2] / 100, uiMapId)
                                     if (x and y) then
-                                        local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
+                                        local distance = QuestieLib.Euclid(playerX or 0, playerY or 0, x, y);
                                         if (closestFinisher.distance > distance) then
                                             closestFinisher.distance = distance;
                                             closestFinisher.x = x;

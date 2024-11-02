@@ -340,7 +340,7 @@ function QuestieLib:CacheItemNames(questId)
     end
 end
 
-function QuestieLib:Euclid(x, y, i, e)
+function QuestieLib.Euclid(x, y, i, e)
     -- No need for absolute values as these are used only as squared
     local xd = x - i
     local yd = y - e
