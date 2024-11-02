@@ -5,6 +5,8 @@ describe("DistanceUtils", function()
     local ZoneDB
     ---@type QuestieDB
     local QuestieDB
+    ---@type QuestieLib
+    local QuestieLib
 
     ---@type DistanceUtils
     local DistanceUtils
@@ -17,13 +19,13 @@ describe("DistanceUtils", function()
     before_each(function()
         HBDMock.GetPlayerWorldPosition = function() end
         HBDMock.GetWorldCoordinatesFromZone = function() end
-        HBDMock.GetWorldDistance = function() end
         setmetatable(_G.LibStub, {
             __call = function() return HBDMock end
         })
 
         ZoneDB = require("Database.Zones.zoneDB")
         QuestieDB = require("Database.QuestieDB")
+        QuestieLib = require("Modules.Libs.QuestieLib")
         DistanceUtils = require("Modules.Libs.DistanceUtils")
     end)
 
@@ -38,8 +40,8 @@ describe("DistanceUtils", function()
                 end
                 return 0, 0, 2
             end)
-            HBDMock.GetWorldDistance = spy.new(function(_, instanceId)
-                return instanceId == 1 and 0 or 100
+            QuestieLib.Euclid = spy.new(function(_, _, dX)
+                return dX == 123 and 0 or 100
             end)
             ZoneDB.GetUiMapIdByAreaId = spy.new(function(_, zoneId)
                 return zoneId == 1 and 200 or 300
@@ -58,7 +60,7 @@ describe("DistanceUtils", function()
             assert.spy(HBDMock.GetPlayerWorldPosition).was_called()
             assert.spy(ZoneDB.GetUiMapIdByAreaId).was_called_with(_, 1)
             assert.spy(HBDMock.GetWorldCoordinatesFromZone).was_called_with(HBDMock, 0.5, 0.5, 200)
-            assert.spy(HBDMock.GetWorldDistance).was_called_with(HBDMock, 1, 50, 50, 123, 456)
+            assert.spy(QuestieLib.Euclid).was_called_with(50, 50, 123, 456)
         end)
     end)
 
@@ -76,8 +78,8 @@ describe("DistanceUtils", function()
                 end
                 return 0, 0, 1
             end)
-            HBDMock.GetWorldDistance = spy.new(function(_, instanceId)
-                return instanceId == 2 and 0 or 100
+            QuestieLib.Euclid = spy.new(function(_, _, dX)
+                return dX == 123 and 0 or 100
             end)
             local objectiveSpawnList = {{
                 Name = "Objective 1",
@@ -122,8 +124,8 @@ describe("DistanceUtils", function()
                 end
                 return 0, 0, 1
             end)
-            HBDMock.GetWorldDistance = spy.new(function(_, instanceId)
-                return instanceId == 2 and 0 or 100
+            QuestieLib.Euclid = spy.new(function(_, _, dX)
+                return dX == 123 and 0 or 100
             end)
             local finisher = {NPC = {123,456}}
 
@@ -158,8 +160,8 @@ describe("DistanceUtils", function()
                 end
                 return 0, 0, 1
             end)
-            HBDMock.GetWorldDistance = spy.new(function(_, instanceId)
-                return instanceId == 2 and 0 or 100
+            QuestieLib.Euclid = spy.new(function(_, _, dX)
+                return dX == 123 and 0 or 100
             end)
             local finisher = {GameObject = {123,456}}
 
@@ -207,8 +209,8 @@ describe("DistanceUtils", function()
                 end
                 return 0, 0, 1
             end)
-            HBDMock.GetWorldDistance = spy.new(function(_, instanceId)
-                return instanceId == 4 and 0 or 100
+            QuestieLib.Euclid = spy.new(function(_, _, dX)
+                return dX == 123 and 0 or 100
             end)
             local finisher = {NPC = {123,456}, GameObject = {123,456}}
 

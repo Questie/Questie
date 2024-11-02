@@ -5,6 +5,8 @@ local DistanceUtils = QuestieLoader:CreateModule("DistanceUtils")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
@@ -20,7 +22,7 @@ function DistanceUtils.GetNearestSpawn(spawns)
         for _, spawn in pairs(spawnEntries) do
             local uiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
             local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1] / 100.0, spawn[2] / 100.0, uiMapId)
-            local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
+            local dist = QuestieLib.Euclid(playerX, playerY, dX, dY)
             if dist then
                 if dInstance ~= playerI then
                     dist = 500000 + dist * 100 -- hack
