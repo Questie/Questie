@@ -119,11 +119,12 @@ function TrackerUtils:ShowObjectiveOnMap(objective)
     end
 end
 
----@param quest table The table provided by QuestieDB.GetQuest(questId)
+---@param quest Quest The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:ShowFinisherOnMap(quest)
-    local spawn, uiMapId = QuestieMap:FindClosestFinisher(quest)
+    local spawn, zoneId = DistanceUtils.GetNearestFinisher(quest.Finisher)
     if spawn then
         WorldMapFrame:Show()
+        local uiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
         WorldMapFrame:SetMapID(uiMapId)
         TrackerUtils:FlashFinisher(quest)
     end
