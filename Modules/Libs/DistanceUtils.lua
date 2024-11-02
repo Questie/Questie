@@ -66,7 +66,7 @@ function DistanceUtils.GetNearestObjective(objectiveSpawnList)
 end
 
 ---@param finisher Finisher
----@return CoordPair, AreaId, string, number≠
+---@return CoordPair, AreaId, string, number
 function DistanceUtils.GetNearestFinisher(finisher)
     local bestDistance = 999999999
     local bestSpawn, bestSpawnZone, bestSpawnName
