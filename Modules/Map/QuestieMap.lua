@@ -714,19 +714,6 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     return iconMap, iconMinimap;
 end
 
----@param questId QuestId
----@return CoordPair
-function QuestieMap:FindClosestStarterForQuest(questId)
-    local quest = QuestieDB.GetQuest(questId);
-    if quest then
-        local spawn = DistanceUtils.GetNearestFinisher(quest.Starts)
-        return spawn
-    end
-
-    local playerX, playerY = HBD:GetPlayerWorldPosition();
-    return {playerX, playerY}
-end
-
 ---@param quest Quest
 function QuestieMap:GetNearestQuestSpawn(quest)
     if not quest then

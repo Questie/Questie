@@ -100,6 +100,19 @@ function DistanceUtils.GetNearestFinisher(finisher)
     return bestSpawn, bestSpawnZone, bestSpawnName, bestDistance
 end
 
+---@param questId QuestId
+---@return CoordPair
+function DistanceUtils.GetNearestStarterForQuest(questId)
+    local quest = QuestieDB.GetQuest(questId);
+    if quest then
+        local spawn = DistanceUtils.GetNearestFinisher(quest.Starts)
+        return spawn
+    end
+
+    local playerX, playerY = HBD:GetPlayerWorldPosition();
+    return {playerX, playerY}
+end
+
 ---@param zoneId AreaId
 ---@param spawnX X
 ---@param spawnY Y

@@ -44,6 +44,8 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 local Phasing = QuestieLoader:ImportModule("Phasing")
 ---@type QuestFinisher
 local QuestFinisher = QuestieLoader:ImportModule("QuestFinisher")
+---@type DistanceUtils
+local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -971,7 +973,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
             local x, y = HBD:GetWorldCoordinatesFromZone(0.5, 0.5, ZoneDB:GetUiMapIdByAreaId(objectiveZone))
             objectiveCenter = { x = x, y = y }
         else
-            objectiveCenter = QuestieMap:FindClosestStarterForQuest(quest.Id)
+            objectiveCenter = DistanceUtils.GetNearestStarterForQuest(quest.Id)
         end
 
         local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
