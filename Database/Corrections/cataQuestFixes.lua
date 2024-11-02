@@ -4008,6 +4008,9 @@ function CataQuestFixes.Load()
         [25382] = { -- Disrupting the Rituals
             [questKeys.preQuestSingle] = {25584},
         },
+        [25383] = { -- Ysondre's Farewell [Horde]
+            [questKeys.preQuestSingle] = {25379},
+        },
         [25385] = { -- Save the Wee Animals
             [questKeys.preQuestSingle] = {25584},
         },
