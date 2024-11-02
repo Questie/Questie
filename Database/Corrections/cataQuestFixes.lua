@@ -3934,6 +3934,9 @@ function CataQuestFixes.Load()
         [25334] = { -- The Looming Threat
             [questKeys.objectives] = {{{39226,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [25340] = { -- Dark Heart [Horde]
+            [questKeys.requiredSourceItems] = {9530},
+        },
         [25352] = { -- Sweeping the Shelf
             [questKeys.preQuestSingle] = {25278},
         },
@@ -4404,6 +4407,9 @@ function CataQuestFixes.Load()
         [25652] = { -- Commandeer That Balloon!
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Climb into the balloon"),0,{{"monster",41019}}}},
             [questKeys.objectives] = {{{40984,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25654] = { -- Dark Heart [Alliance]
+            [questKeys.requiredSourceItems] = {9530},
         },
         [25655] = { -- The Wormwing Problem
             [questKeys.exclusiveTo] = {},
