@@ -315,4 +315,73 @@ describe("DistanceUtils", function()
             assert.same({50,50}, spawn)
         end)
     end)
+
+    describe("GetNearestSpawnForQuest", function()
+        it("should return finisher when quest is complete", function()
+            local quest = {
+                IsComplete = function() return 1 end,
+                Finisher = {123}
+            }
+            DistanceUtils.GetNearestFinisherOrStarter = function()
+                return {60,60}, 2, "Finisher"
+            end
+            DistanceUtils.GetNearestObjective = spy.new(function() end)
+
+            local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
+
+            assert.same({60,60}, spawn)
+            assert.equals(2, zone)
+            assert.equals("Finisher", name)
+
+            assert.spy(DistanceUtils.GetNearestObjective).was_not_called()
+        end)
+
+        it("should return nearest objective when quest is not complete", function()
+            local quest = {
+                IsComplete = function() return 0 end,
+                Finisher = {123},
+                Objectives = {
+                    {spawnList = {123}, Needed = 1, Collected = 0}
+                },
+                SpecialObjectives = {}
+            }
+            DistanceUtils.GetNearestFinisherOrStarter = spy.new(function() end)
+            DistanceUtils.GetNearestObjective = spy.new(function()
+                return {60,60}, 2, "Objective", 0
+            end)
+
+            local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
+
+            assert.same({60,60}, spawn)
+            assert.equals(2, zone)
+            assert.equals("Objective", name)
+
+            assert.spy(DistanceUtils.GetNearestObjective).was_called_with({123})
+            assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was_not_called()
+        end)
+
+        it("should return nearest specialObjective when quest is not complete", function()
+            local quest = {
+                IsComplete = function() return 0 end,
+                Finisher = {123},
+                Objectives = {},
+                SpecialObjectives = {
+                    {spawnList = {123}, Needed = 1, Collected = 0, SpecialObjective = true}
+                }
+            }
+            DistanceUtils.GetNearestFinisherOrStarter = spy.new(function() end)
+            DistanceUtils.GetNearestObjective = spy.new(function()
+                return {60,60}, 2, "Objective", 0
+            end)
+
+            local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
+
+            assert.same({60,60}, spawn)
+            assert.equals(2, zone)
+            assert.equals("Objective", name)
+
+            assert.spy(DistanceUtils.GetNearestObjective).was_called_with({123})
+            assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was_not_called()
+        end)
+    end)
 end)

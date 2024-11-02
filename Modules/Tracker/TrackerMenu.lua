@@ -14,8 +14,6 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieMap
-local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieCombatQueue
@@ -71,7 +69,7 @@ TrackerMenu.addTomTomOption = function(menu, quest, objective)
         func = function()
             LibDropDown:CloseDropDownMenus()
 
-            local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
+            local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
             if (not spawn) and objective then
                 spawn, zone, name = DistanceUtils.GetNearestObjective(objective.spawnList)
             end

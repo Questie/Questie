@@ -113,6 +113,39 @@ function DistanceUtils.GetNearestStarterForQuest(questId)
     return {playerX, playerY}
 end
 
+---@param quest Quest
+---@return CoordPair, AreaId, string
+function DistanceUtils.GetNearestSpawnForQuest(quest)
+    if quest:IsComplete() == 1 then
+        return DistanceUtils.GetNearestFinisherOrStarter(quest.Finisher)
+    end
+
+    local bestDistance = 999999999
+    local bestSpawn, bestSpawnZone, bestSpawnName
+
+    for _, objective in pairs(quest.Objectives) do
+        local spawn, zone, Name, dist = DistanceUtils.GetNearestObjective(objective.spawnList)
+        if spawn and dist < bestDistance and ((not objective.Needed) or objective.Needed ~= objective.Collected) then
+            bestDistance = dist
+            bestSpawn = spawn
+            bestSpawnZone = zone
+            bestSpawnName = Name
+        end
+    end
+
+    for _, objective in pairs(quest.SpecialObjectives) do
+        local spawn, zone, Name, dist = DistanceUtils.GetNearestObjective(objective.spawnList)
+        if spawn and dist < bestDistance and ((not objective.Needed) or objective.Needed ~= objective.Collected) then
+            bestDistance = dist
+            bestSpawn = spawn
+            bestSpawnZone = zone
+            bestSpawnName = Name
+        end
+    end
+
+    return bestSpawn, bestSpawnZone, bestSpawnName
+end
+
 ---@param zoneId AreaId
 ---@param spawnX X
 ---@param spawnY Y

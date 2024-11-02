@@ -550,7 +550,7 @@ local function _GetDistanceToClosestObjective(questId)
         return nil
     end
 
-    local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
+    local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
 
     if (not spawn) or (not zone) or (not name) then
         return nil
@@ -728,7 +728,7 @@ function TrackerUtils:GetSortedQuestIds()
             sortData.distance = _GetDistanceToClosestObjective(questId)
             sortData.q = questDetails[questId].quest
 
-            local _, zone, _ = QuestieMap:GetNearestQuestSpawn(sortData.q)
+            local _, zone, _ = DistanceUtils.GetNearestSpawnForQuest(sortData.q)
             sortData.zone = zone
             sortData.continent = _GetContinent(ZoneDB:GetUiMapIdByAreaId(zone))
             toSort[questId] = sortData
@@ -866,7 +866,7 @@ function TrackerUtils:GetSortedQuestIds()
             sortData.distance = _GetDistanceToClosestObjective(questId)
             sortData.q = questDetails[questId].quest
 
-            local _, zone, _ = QuestieMap:GetNearestQuestSpawn(sortData.q)
+            local _, zone, _ = DistanceUtils.GetNearestSpawnForQuest(sortData.q)
             sortData.zone = zone
             sortData.continent = _GetContinent(ZoneDB:GetUiMapIdByAreaId(zone))
             toSort[questId] = sortData

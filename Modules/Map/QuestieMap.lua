@@ -12,8 +12,6 @@ local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 ---@type ZoneDB
@@ -24,8 +22,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local WeaponMasterSkills = QuestieLoader:ImportModule("WeaponMasterSkills")
 ---@type Phasing
 local Phasing = QuestieLoader:ImportModule("Phasing")
----@type DistanceUtils
-local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 
 QuestieMap.ICON_MAP_TYPE = "MAP";
 QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
@@ -712,40 +708,6 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     end
 
     return iconMap, iconMinimap;
-end
-
----@param quest Quest
-function QuestieMap:GetNearestQuestSpawn(quest)
-    if not quest then
-        return nil
-    end
-    if quest:IsComplete() == 1 then
-        return DistanceUtils.GetNearestQuestFinisher(quest.Finisher)
-    end
-
-    local bestDistance = 999999999
-    local bestSpawn, bestSpawnZone, bestSpawnName
-
-    for _, objective in pairs(quest.Objectives) do
-        local spawn, zone, Name, dist = DistanceUtils.GetNearestObjective(objective.spawnList)
-        if spawn and dist < bestDistance and ((not objective.Needed) or objective.Needed ~= objective.Collected) then
-            bestDistance = dist
-            bestSpawn = spawn
-            bestSpawnZone = zone
-            bestSpawnName = Name
-        end
-    end
-
-    for _, objective in pairs(quest.SpecialObjectives) do
-        local spawn, zone, Name, dist = DistanceUtils.GetNearestObjective(objective.spawnList)
-        if spawn and dist < bestDistance and ((not objective.Needed) or objective.Needed ~= objective.Collected) then
-            bestDistance = dist
-            bestSpawn = spawn
-            bestSpawnZone = zone
-            bestSpawnName = Name
-        end
-    end
-    return bestSpawn, bestSpawnZone, bestSpawnName
 end
 
 QuestieMap.zoneWaypointColorOverrides = { -- this is used when the default orange color doesn't work well in specific zones. Not needed after 769ea832ff772b10c57351eb199348393625a99b
