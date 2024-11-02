@@ -3974,7 +3974,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25363},
         },
         [25365] = { -- Woodpaw Investigation
-            [questKeys.preQuestSingle] = {25363},
+            [questKeys.preQuestSingle] = {25366},
         },
         [25367] = { -- Zukk'ash Infestation
             [questKeys.preQuestSingle] = {25366},
