@@ -65,13 +65,13 @@ function DistanceUtils.GetNearestObjective(objectiveSpawnList)
     return bestSpawn, bestSpawnZone, bestSpawnName, bestDistance
 end
 
----@param finisher Finisher
+---@param finisherOrStarter Finisher|Starters
 ---@return CoordPair, AreaId, string, number
-function DistanceUtils.GetNearestFinisher(finisher)
+function DistanceUtils.GetNearestFinisherOrStarter(finisherOrStarter)
     local bestDistance = 999999999
     local bestSpawn, bestSpawnZone, bestSpawnName
 
-    for _, npcId in pairs(finisher.NPC or {}) do
+    for _, npcId in pairs(finisherOrStarter.NPC or {}) do
         local npc = QuestieDB:GetNPC(npcId)
         if npc and npc.spawns and npc.friendly then
             local spawn, zone, distance = DistanceUtils.GetNearestSpawn(npc.spawns)
@@ -84,7 +84,7 @@ function DistanceUtils.GetNearestFinisher(finisher)
         end
     end
 
-    for _, objectId in pairs(finisher.GameObject or {}) do
+    for _, objectId in pairs(finisherOrStarter.GameObject or {}) do
         local object = QuestieDB:GetObject(objectId)
         if object and object.spawns then
             local spawn, zone, distance = DistanceUtils.GetNearestSpawn(object.spawns)
@@ -105,7 +105,7 @@ end
 function DistanceUtils.GetNearestStarterForQuest(questId)
     local quest = QuestieDB.GetQuest(questId);
     if quest then
-        local spawn = DistanceUtils.GetNearestFinisher(quest.Starts)
+        local spawn = DistanceUtils.GetNearestFinisherOrStarter(quest.Starts)
         return spawn
     end
 

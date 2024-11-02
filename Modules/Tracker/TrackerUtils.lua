@@ -121,7 +121,7 @@ end
 
 ---@param quest Quest The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:ShowFinisherOnMap(quest)
-    local spawn, zoneId = DistanceUtils.GetNearestFinisher(quest.Finisher)
+    local spawn, zoneId = DistanceUtils.GetNearestFinisherOrStarter(quest.Finisher)
     if spawn then
         WorldMapFrame:Show()
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)

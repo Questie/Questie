@@ -135,8 +135,8 @@ describe("DistanceUtils", function()
         end)
     end)
 
-    describe("GetNearestFinisher", function()
-        it("should return the nearest NPC finisher", function()
+    describe("GetNearestFinisherOrStarter", function()
+        it("should return the nearest NPC location", function()
             QuestieDB.GetNPC = spy.new(function(_, id)
                 if id == 123 then
                     return { id = 123, name = "Finisher 1", spawns = {[1]={{50,50}}}, friendly = true }
@@ -162,7 +162,7 @@ describe("DistanceUtils", function()
             end)
             local finisher = {NPC = {123,456}}
 
-            local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestFinisher(finisher)
+            local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestFinisherOrStarter(finisher)
 
             assert.same({60,60}, bestSpawn)
             assert.equals(2, bestSpawnZone)
@@ -172,7 +172,7 @@ describe("DistanceUtils", function()
             assert.spy(QuestieDB.GetObject).was_not_called()
         end)
 
-        it("should return the nearest object finisher", function()
+        it("should return the nearest object location", function()
             QuestieDB.GetNPC = spy.new(function() end)
             QuestieDB.GetObject = spy.new(function(_, id)
                 if id == 123 then
@@ -198,7 +198,7 @@ describe("DistanceUtils", function()
             end)
             local finisher = {GameObject = {123,456}}
 
-            local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestFinisher(finisher)
+            local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestFinisherOrStarter(finisher)
 
             assert.same({60,60}, bestSpawn)
             assert.equals(2, bestSpawnZone)
@@ -208,7 +208,7 @@ describe("DistanceUtils", function()
             assert.spy(QuestieDB.GetNPC).was_not_called()
         end)
 
-        it("should return the nearest finisher", function()
+        it("should return the nearest location", function()
             QuestieDB.GetNPC = function(_, id)
                 if id == 123 then
                     return { id = 123, name = "Finisher NPC 1", spawns = {[1]={{50,50}}}, friendly = true }
@@ -247,7 +247,7 @@ describe("DistanceUtils", function()
             end
             local finisher = {NPC = {123,456}, GameObject = {123,456}}
 
-            local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestFinisher(finisher)
+            local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestFinisherOrStarter(finisher)
 
             assert.same({80,80}, bestSpawn)
             assert.equals(4, bestSpawnZone)
@@ -255,7 +255,7 @@ describe("DistanceUtils", function()
             assert.equals(0, bestDistance)
         end)
 
-        it("should skip unfriendly finisher", function()
+        it("should skip unfriendly NPCs", function()
             QuestieDB.GetNPC = function(_, id)
                 if id == 123 then
                     return { id = 123, name = "Finisher NPC 1", spawns = {[1]={{50,50}}}, friendly = true }
@@ -277,7 +277,7 @@ describe("DistanceUtils", function()
             end
             local finisher = {NPC = {123,456}}
 
-            local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestFinisher(finisher)
+            local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestFinisherOrStarter(finisher)
 
             assert.same({50,50}, bestSpawn)
             assert.equals(1, bestSpawnZone)
@@ -291,7 +291,7 @@ describe("DistanceUtils", function()
             QuestieDB.GetQuest = function()
                 return { Starts = {123} }
             end
-            DistanceUtils.GetNearestFinisher = function()
+            DistanceUtils.GetNearestFinisherOrStarter = function()
                 return {60,60}
             end
             local questId = 123
