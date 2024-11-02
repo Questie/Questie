@@ -3940,6 +3940,9 @@ function CataQuestFixes.Load()
         [25340] = { -- Dark Heart [Horde]
             [questKeys.requiredSourceItems] = {9530},
         },
+        [25344] = { -- Ogre Abduction [Horde]
+            [questKeys.objectives] = {{{11443,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [25352] = { -- Sweeping the Shelf
             [questKeys.preQuestSingle] = {25278},
         },
@@ -4005,6 +4008,9 @@ function CataQuestFixes.Load()
         },
         [25398] = { -- Sealing the Dream [Alliance]
             [questKeys.objectives] = {{{39834,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25403] = { -- Ogre Abduction [Alliance]
+            [questKeys.objectives] = {{{11443,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25404] = { -- If You're Not Against Us...
             [questKeys.objectives] = {{{39933,nil,Questie.ICON_TYPE_TALK}}},
