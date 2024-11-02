@@ -139,9 +139,9 @@ describe("DistanceUtils", function()
         it("should return the nearest NPC finisher", function()
             QuestieDB.GetNPC = spy.new(function(_, id)
                 if id == 123 then
-                    return { id = 123, name = "Finisher 1", spawns = {[1]={{50,50}}} }
+                    return { id = 123, name = "Finisher 1", spawns = {[1]={{50,50}}}, friendly = true }
                 else
-                    return { id = 456, name = "Finisher 2", spawns = {[2]={{60,60}}} }
+                    return { id = 456, name = "Finisher 2", spawns = {[2]={{60,60}}}, friendly = true }
                 end
             end)
             QuestieDB.GetObject = spy.new(function() end)
@@ -211,9 +211,9 @@ describe("DistanceUtils", function()
         it("should return the nearest finisher", function()
             QuestieDB.GetNPC = spy.new(function(_, id)
                 if id == 123 then
-                    return { id = 123, name = "Finisher NPC 1", spawns = {[1]={{50,50}}} }
+                    return { id = 123, name = "Finisher NPC 1", spawns = {[1]={{50,50}}}, friendly = true }
                 else
-                    return { id = 456, name = "Finisher NPC 2", spawns = {[2]={{60,60}}} }
+                    return { id = 456, name = "Finisher NPC 2", spawns = {[2]={{60,60}}}, friendly = true }
                 end
             end)
             QuestieDB.GetObject = spy.new(function(_, id)
@@ -253,6 +253,36 @@ describe("DistanceUtils", function()
             assert.equals(4, bestSpawnZone)
             assert.equals("Finisher Object 2", bestSpawnName)
             assert.equals(0, bestDistance)
+        end)
+
+        it("should skip unfriendly finisher", function()
+            QuestieDB.GetNPC = function(_, id)
+                if id == 123 then
+                    return { id = 123, name = "Finisher NPC 1", spawns = {[1]={{50,50}}}, friendly = true }
+                else
+                    return { id = 456, name = "Finisher NPC 2", spawns = {[2]={{60,60}}}, friendly = false }
+                end
+            end
+            HBDMock.GetPlayerWorldPosition = function()
+                return 60, 60, 2
+            end
+            ZoneDB.GetUiMapIdByAreaId = function()
+                return 100
+            end
+            HBDMock.GetWorldCoordinatesFromZone = function()
+                return 123, 456, 1
+            end
+            QuestieLib.Euclid = function()
+                return 0
+            end
+            local finisher = {NPC = {123,456}}
+
+            local bestSpawn, bestSpawnZone, bestSpawnName, bestDistance = DistanceUtils.GetNearestFinisher(finisher)
+
+            assert.same({50,50}, bestSpawn)
+            assert.equals(1, bestSpawnZone)
+            assert.equals("Finisher NPC 1", bestSpawnName)
+            assert.equals(500000, bestDistance)
         end)
     end)
 end)
