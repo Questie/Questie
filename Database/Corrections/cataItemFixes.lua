@@ -64,6 +64,9 @@ function CataItemFixes.Load()
         [8705] = { -- OOX-22/FE Distress Beacon
             [itemKeys.startQuest] = 25475,
         },
+        [9597] = { -- Mountain Giant Muisek
+            [itemKeys.npcDrops] = {40026},
+        },
         [10441] = { -- Glowing Shard
             [itemKeys.startQuest] = 0,
         },
