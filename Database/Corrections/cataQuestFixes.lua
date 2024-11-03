@@ -3807,6 +3807,9 @@ function CataQuestFixes.Load()
         [25249] = { -- A Change of Heart
             [questKeys.preQuestSingle] = {},
         },
+        [25250] = { -- Sealing the Dream [Horde]
+            [questKeys.objectives] = {{{39834,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [25251] = { -- Final Confrontation
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25214,25243}, -- 25243 or 25244
@@ -3925,6 +3928,7 @@ function CataQuestFixes.Load()
         },
         [25329] = { -- Might of the Stonemaul
             [questKeys.preQuestSingle] = {25344},
+            [questKeys.objectives] = {{{45115,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25330] = { -- Waste of Flesh
             [questKeys.objectives] = {{{39453,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -3934,8 +3938,17 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Kristoff Escorted Out",{[zoneIDs.MOUNT_HYJAL] = {{27.1,35.9}}}},
             [questKeys.preQuestSingle] = {25328},
         },
+        [25333] = { -- Might of the Sentinels
+            [questKeys.objectives] = {{{45115,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [25334] = { -- The Looming Threat
             [questKeys.objectives] = {{{39226,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [25340] = { -- Dark Heart [Horde]
+            [questKeys.requiredSourceItems] = {9530},
+        },
+        [25344] = { -- Ogre Abduction [Horde]
+            [questKeys.objectives] = {{{11443,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25352] = { -- Sweeping the Shelf
             [questKeys.preQuestSingle] = {25278},
@@ -3957,7 +3970,19 @@ function CataQuestFixes.Load()
         [25359] = { -- Toshe's Vengeance
             [questKeys.nextQuestInChain] = 25439,
         },
+        [25361] = { -- A New Cloak's Sheen
+            [questKeys.preQuestSingle] = {25338},
+        },
+        [25364] = { -- Alpha Strike [Horde]
+            [questKeys.preQuestSingle] = {25363},
+        },
+        [25365] = { -- Woodpaw Investigation
+            [questKeys.preQuestSingle] = {25366},
+        },
         [25367] = { -- Zukk'ash Infestation
+            [questKeys.preQuestSingle] = {25366},
+        },
+        [25369] = { -- Stinglasher (Horde)
             [questKeys.preQuestSingle] = {25427},
         },
         [25370] = { -- Inciting the Elements
@@ -3967,6 +3992,12 @@ function CataQuestFixes.Load()
         },
         [25371] = { -- The Abyssal Ride
             [questKeys.objectives] = {{{39996,nil,Questie.ICON_TYPE_MOUNT_UP}},{{202766}}},
+        },
+        [25374] = { -- Sasquatch Sighting [Horde]
+            [questKeys.preQuestSingle] = {25373},
+        },
+        [25375] = { -- Taming The Tamers [Horde]
+            [questKeys.preQuestSingle] = {25373},
         },
         [25377] = { -- The Horde's Hoard
             [questKeys.startedBy] = {{39918},nil,{53053}},
@@ -3979,6 +4010,9 @@ function CataQuestFixes.Load()
         },
         [25382] = { -- Disrupting the Rituals
             [questKeys.preQuestSingle] = {25584},
+        },
+        [25383] = { -- Ysondre's Farewell [Horde]
+            [questKeys.preQuestSingle] = {25379},
         },
         [25385] = { -- Save the Wee Animals
             [questKeys.preQuestSingle] = {25584},
@@ -3999,6 +4033,12 @@ function CataQuestFixes.Load()
         },
         [25397] = { -- The Land, Corrupted
             [questKeys.preQuestSingle] = {25394},
+        },
+        [25398] = { -- Sealing the Dream [Alliance]
+            [questKeys.objectives] = {{{39834,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25403] = { -- Ogre Abduction [Alliance]
+            [questKeys.objectives] = {{{11443,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [25404] = { -- If You're Not Against Us...
             [questKeys.objectives] = {{{39933,nil,Questie.ICON_TYPE_TALK}}},
@@ -4407,6 +4447,9 @@ function CataQuestFixes.Load()
         [25652] = { -- Commandeer That Balloon!
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Climb into the balloon"),0,{{"monster",41019}}}},
             [questKeys.objectives] = {{{40984,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [25654] = { -- Dark Heart [Alliance]
+            [questKeys.requiredSourceItems] = {9530},
         },
         [25655] = { -- The Wormwing Problem
             [questKeys.exclusiveTo] = {},
