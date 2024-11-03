@@ -471,6 +471,9 @@ function CataQuestFixes.Load()
         [6441] = { -- Satyr Horns
             [questKeys.preQuestSingle] = {26449},
         },
+        [6581] = { -- Warsong Saw Blades
+            [questKeys.parentQuest] = 0,
+        },
         [6622] = { -- Triage
             [questKeys.preQuestSingle] = {},
         },
