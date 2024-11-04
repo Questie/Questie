@@ -526,15 +526,6 @@ local function _GetWorldPlayerPosition()
     return position
 end
 
----@param x1 number Current Position X
----@param y1 number Current Position Y
----@param x2 number Previous Position X
----@param y2 number Previous Position Y
----@return number Distance @Distance between Current and Previous X/Y coordinates
-local function _GetDistance(x1, y1, x2, y2)
-    return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
-end
-
 ---@param uiMapId number Continent ID number
 ---@return string Continent Returns Continent Name or "UNKNOW"
 local function _GetContinent(uiMapId)
