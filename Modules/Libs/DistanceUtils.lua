@@ -116,10 +116,6 @@ end
 ---@param quest Quest
 ---@return CoordPair, AreaId, string
 function DistanceUtils.GetNearestSpawnForQuest(quest)
-    if (not quest) then
-        return nil, nil, nil
-    end
-
     if quest:IsComplete() == 1 then
         return DistanceUtils.GetNearestFinisherOrStarter(quest.Finisher)
     end

@@ -63,17 +63,30 @@ end
 ---@param menu table
 ---@param quest Quest
 ---@param objective QuestObjective
-TrackerMenu.addTomTomOption = function(menu, quest, objective)
+TrackerMenu.addTomTomOptionForQuest = function(menu, quest)
     tinsert(menu, {
         text = l10n('Set |cFF54e33bTomTom|r Target'),
         func = function()
             LibDropDown:CloseDropDownMenus()
 
             local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
-            if (not spawn) and objective then
-                spawn, zone, name = DistanceUtils.GetNearestObjective(objective.spawnList)
+            if spawn then
+                TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
             end
+        end
+    })
+end
 
+---@param menu table
+---@param quest Quest
+---@param objective QuestObjective
+TrackerMenu.addTomTomOptionForObjective = function(menu, objective)
+    tinsert(menu, {
+        text = l10n('Set |cFF54e33bTomTom|r Target'),
+        func = function()
+            LibDropDown:CloseDropDownMenus()
+
+            local spawn, zone, name = DistanceUtils.GetNearestObjective(objective.spawnList)
             if spawn then
                 TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
             end
@@ -393,7 +406,7 @@ function TrackerMenu:GetMenuForQuest(quest)
         local objectiveMenu = {}
 
         TrackerMenu.addFocusOption(objectiveMenu, quest, objective)
-        TrackerMenu.addTomTomOption(objectiveMenu, nil, objective)
+        TrackerMenu.addTomTomOptionForObjective(objectiveMenu, objective)
         TrackerMenu.addShowHideObjectivesOption(objectiveMenu, quest, objective)
         TrackerMenu.addShowObjectivesOnMapOption(objectiveMenu, quest, objective)
 
@@ -405,7 +418,7 @@ function TrackerMenu:GetMenuForQuest(quest)
             local objectiveMenu = {}
 
             TrackerMenu.addFocusOption(objectiveMenu, quest, objective)
-            TrackerMenu.addTomTomOption(objectiveMenu, nil, objective)
+            TrackerMenu.addTomTomOptionForObjective(objectiveMenu, objective)
             TrackerMenu.addShowHideObjectivesOption(objectiveMenu, quest, objective)
             TrackerMenu.addShowObjectivesOnMapOption(objectiveMenu, quest, objective)
 
@@ -419,7 +432,7 @@ function TrackerMenu:GetMenuForQuest(quest)
 
     TrackerMenu.addObjectiveOption(menu, subMenu, quest)
     TrackerMenu.addFocusUnfocusOption(menu, quest)
-    TrackerMenu.addTomTomOption(menu, quest, nil)
+    TrackerMenu.addTomTomOptionForQuest(menu, quest, nil)
     TrackerMenu.minMaxQuestOption(menu, quest)
     TrackerMenu.addShowHideQuestsOption(menu, quest)
     TrackerMenu.addShowFinisherOnMapOption(menu, quest)

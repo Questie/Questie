@@ -433,13 +433,5 @@ describe("DistanceUtils", function()
             assert.spy(DistanceUtils.GetNearestObjective).was_called_with({456})
             assert.spy(DistanceUtils.GetNearestObjective).was_not_called_with({123})
         end)
-
-        it("should return nil when quest is nil", function()
-            local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(nil)
-
-            assert.is_nil(spawn)
-            assert.is_nil(zone)
-            assert.is_nil(name)
-        end)
     end)
 end)
