@@ -102,8 +102,7 @@ end
 
 ---@param questId QuestId
 ---@return CoordPair
-function DistanceUtils.GetNearestStarterForQuest(questId)
-    local quest = QuestieDB.GetQuest(questId);
+function DistanceUtils.GetNearestStarterForQuest(quest)
     if quest then
         local spawn = DistanceUtils.GetNearestFinisherOrStarter(quest.Starts)
         return spawn

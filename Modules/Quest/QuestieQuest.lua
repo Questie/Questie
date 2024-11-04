@@ -973,7 +973,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
             local x, y = HBD:GetWorldCoordinatesFromZone(0.5, 0.5, ZoneDB:GetUiMapIdByAreaId(objectiveZone))
             objectiveCenter = { x = x, y = y }
         else
-            objectiveCenter = DistanceUtils.GetNearestStarterForQuest(quest.Id)
+            objectiveCenter = DistanceUtils.GetNearestStarterForQuest(quest)
         end
 
         local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
