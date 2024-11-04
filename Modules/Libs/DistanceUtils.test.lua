@@ -421,5 +421,26 @@ describe("DistanceUtils", function()
             assert.spy(DistanceUtils.GetNearestObjective).was_called_with({456})
             assert.spy(DistanceUtils.GetNearestObjective).was_not_called_with({123})
         end)
+
+        it("should skip special objectives that do not have a spawnList yet", function()
+            local quest = {
+                IsComplete = function() return 0 end,
+                Finisher = {123},
+                Objectives = {},
+                SpecialObjectives = {
+                    {Id = 1}
+                }
+            }
+            DistanceUtils.GetNearestObjective = spy.new(function() end)
+
+            local spawn, zone, name, distance = DistanceUtils.GetNearestSpawnForQuest(quest)
+
+            assert.is_nil(spawn)
+            assert.is_nil(zone)
+            assert.is_nil(name)
+            assert.equals(999999999, distance)
+
+            assert.spy(DistanceUtils.GetNearestObjective).was_not_called()
+        end)
     end)
 end)

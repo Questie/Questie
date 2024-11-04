@@ -118,7 +118,7 @@ function DistanceUtils.GetNearestSpawnForQuest(quest)
     local bestSpawn, bestSpawnZone, bestSpawnName
 
     for _, objective in pairs(quest.Objectives) do
-        if ((not objective.Needed) or objective.Needed ~= objective.Collected) then
+        if  ((not objective.Needed) or objective.Needed ~= objective.Collected) then
             local spawn, zone, Name, dist = DistanceUtils.GetNearestObjective(objective.spawnList)
             if spawn and dist < bestDistance then
                 bestDistance = dist
@@ -130,7 +130,7 @@ function DistanceUtils.GetNearestSpawnForQuest(quest)
     end
 
     for _, objective in pairs(quest.SpecialObjectives) do
-        if ((not objective.Needed) or objective.Needed ~= objective.Collected) then
+        if objective.spawnList and ((not objective.Needed) or objective.Needed ~= objective.Collected) then
             local spawn, zone, Name, dist = DistanceUtils.GetNearestObjective(objective.spawnList)
             if spawn and dist < bestDistance then
                 bestDistance = dist
