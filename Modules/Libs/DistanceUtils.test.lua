@@ -287,7 +287,7 @@ describe("DistanceUtils", function()
     end)
 
     describe("GetNearestStarterForQuest", function()
-        it("should return nearest starter when quest exists", function()
+        it("should return nearest starter", function()
             DistanceUtils.GetNearestFinisherOrStarter = function()
                 return {60,60}
             end
@@ -296,16 +296,6 @@ describe("DistanceUtils", function()
             local spawn = DistanceUtils.GetNearestStarterForQuest(quest)
 
             assert.same({60,60}, spawn)
-        end)
-
-        it("should return player position when quest does not exist", function()
-            HBDMock.GetPlayerWorldPosition = function()
-                return 50, 50
-            end
-
-            local spawn = DistanceUtils.GetNearestStarterForQuest(nil)
-
-            assert.same({50,50}, spawn)
         end)
     end)
 

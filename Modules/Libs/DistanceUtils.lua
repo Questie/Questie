@@ -103,13 +103,8 @@ end
 ---@param questId QuestId
 ---@return CoordPair
 function DistanceUtils.GetNearestStarterForQuest(quest)
-    if quest then
-        local spawn = DistanceUtils.GetNearestFinisherOrStarter(quest.Starts)
-        return spawn
-    end
-
-    local playerX, playerY = HBD:GetPlayerWorldPosition();
-    return {playerX, playerY}
+    local spawn = DistanceUtils.GetNearestFinisherOrStarter(quest.Starts)
+    return spawn
 end
 
 ---@param quest Quest
