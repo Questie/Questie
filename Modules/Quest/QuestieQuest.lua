@@ -784,6 +784,7 @@ local function _AddRequiredSourceItemObjective(quest)
             -- Save the itemObjective table from the quests objectives table
             local objectives = QuestieDB.QueryQuestSingle(quest.Id, "objectives")[3]
 
+            -- TODO: This is not required anymore since we validate the database for this case
             -- Look for an itemObjective Id that matches a requiredSourceItem Id - if found exit
             if objectives then
                 for _, itemObjectiveIndex in pairs(objectives) do

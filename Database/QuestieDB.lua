@@ -1256,6 +1256,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     if requiredSourceItems then
         for _, itemId in pairs(requiredSourceItems) do
             if itemId then
+                -- TODO: This is not required anymore since we validate the database for this case
                 -- Make sure requiredSourceItems aren't already an objective
                 local itemObjPresent = false
                 if objectives[3] then
