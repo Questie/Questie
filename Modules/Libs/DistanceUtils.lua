@@ -100,7 +100,7 @@ function DistanceUtils.GetNearestFinisherOrStarter(finisherOrStarter)
     return bestSpawn, bestSpawnZone, bestSpawnName, bestDistance
 end
 
----@param questId QuestId
+---@param quest Quest
 ---@return CoordPair
 function DistanceUtils.GetNearestStarterForQuest(quest)
     local spawn = DistanceUtils.GetNearestFinisherOrStarter(quest.Starts)
