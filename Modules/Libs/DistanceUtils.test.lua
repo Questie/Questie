@@ -306,15 +306,16 @@ describe("DistanceUtils", function()
                 Finisher = {123}
             }
             DistanceUtils.GetNearestFinisherOrStarter = function()
-                return {60,60}, 2, "Finisher"
+                return {60,60}, 2, "Finisher", 100
             end
             DistanceUtils.GetNearestObjective = spy.new(function() end)
 
-            local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
+            local spawn, zone, name, distance = DistanceUtils.GetNearestSpawnForQuest(quest)
 
             assert.same({60,60}, spawn)
             assert.equals(2, zone)
             assert.equals("Finisher", name)
+            assert.equals(100, distance)
 
             assert.spy(DistanceUtils.GetNearestObjective).was_not_called()
         end)
@@ -330,14 +331,15 @@ describe("DistanceUtils", function()
             }
             DistanceUtils.GetNearestFinisherOrStarter = spy.new(function() end)
             DistanceUtils.GetNearestObjective = spy.new(function()
-                return {60,60}, 2, "Objective", 0
+                return {60,60}, 2, "Objective", 100
             end)
 
-            local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
+            local spawn, zone, name, distance = DistanceUtils.GetNearestSpawnForQuest(quest)
 
             assert.same({60,60}, spawn)
             assert.equals(2, zone)
             assert.equals("Objective", name)
+            assert.equals(100, distance)
 
             assert.spy(DistanceUtils.GetNearestObjective).was_called_with({123})
             assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was_not_called()
@@ -354,14 +356,15 @@ describe("DistanceUtils", function()
             }
             DistanceUtils.GetNearestFinisherOrStarter = spy.new(function() end)
             DistanceUtils.GetNearestObjective = spy.new(function()
-                return {60,60}, 2, "Objective", 0
+                return {60,60}, 2, "Objective", 100
             end)
 
-            local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
+            local spawn, zone, name, distance = DistanceUtils.GetNearestSpawnForQuest(quest)
 
             assert.same({60,60}, spawn)
             assert.equals(2, zone)
             assert.equals("Objective", name)
+            assert.equals(100, distance)
 
             assert.spy(DistanceUtils.GetNearestObjective).was_called_with({123})
             assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was_not_called()
@@ -379,14 +382,15 @@ describe("DistanceUtils", function()
             }
             DistanceUtils.GetNearestFinisherOrStarter = spy.new(function() end)
             DistanceUtils.GetNearestObjective = spy.new(function()
-                return {60,60}, 2, "Objective", 0
+                return {60,60}, 2, "Objective", 100
             end)
 
-            local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
+            local spawn, zone, name, distance = DistanceUtils.GetNearestSpawnForQuest(quest)
 
             assert.same({60,60}, spawn)
             assert.equals(2, zone)
             assert.equals("Objective", name)
+            assert.equals(100, distance)
 
             assert.spy(DistanceUtils.GetNearestObjective).was_called_with({456})
             assert.spy(DistanceUtils.GetNearestObjective).was_not_called_with({123})
@@ -404,14 +408,15 @@ describe("DistanceUtils", function()
             }
             DistanceUtils.GetNearestFinisherOrStarter = spy.new(function() end)
             DistanceUtils.GetNearestObjective = spy.new(function()
-                return {60,60}, 2, "Objective", 0
+                return {60,60}, 2, "Objective", 100
             end)
 
-            local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
+            local spawn, zone, name, distance = DistanceUtils.GetNearestSpawnForQuest(quest)
 
             assert.same({60,60}, spawn)
             assert.equals(2, zone)
             assert.equals("Objective", name)
+            assert.equals(100, distance)
 
             assert.spy(DistanceUtils.GetNearestObjective).was_called_with({456})
             assert.spy(DistanceUtils.GetNearestObjective).was_not_called_with({123})
