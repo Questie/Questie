@@ -6880,6 +6880,9 @@ function CataQuestFixes.Load()
         [27106] = { -- A Villain Unmasked
             [questKeys.objectives] = {{{2439,nil,Questie.ICON_TYPE_TALK},{2439}}},
         },
+        [27111] = { -- The Treasure of the Shen'dralar
+            [questKeys.preQuestSingle] = {27110},
+        },
         [27118] = { -- A Broken Trap
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
