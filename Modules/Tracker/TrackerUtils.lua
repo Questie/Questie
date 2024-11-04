@@ -26,6 +26,8 @@ local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type DistanceUtils
 local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -773,7 +775,7 @@ function TrackerUtils:GetSortedQuestIds()
                 else
                     local position = _GetWorldPlayerPosition()
                     if position then
-                        local distance = playerPosition and _GetDistance(position.x, position.y, playerPosition.x, playerPosition.y)
+                        local distance = playerPosition and QuestieLib.Euclid(position.x, position.y, playerPosition.x, playerPosition.y)
                         if not distance or distance > 0.01 then -- Position has changed
                             Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils:GetSortedQuestIds] - Zone Proximity Timer Updated!")
                             playerPosition = position
@@ -883,7 +885,7 @@ function TrackerUtils:GetSortedQuestIds()
                 else
                     local position = _GetWorldPlayerPosition()
                     if position then
-                        local distance = playerPosition and _GetDistance(position.x, position.y, playerPosition.x, playerPosition.y)
+                        local distance = playerPosition and QuestieLib.Euclid(position.x, position.y, playerPosition.x, playerPosition.y)
                         if not distance or distance > 0.01 then -- Position has changed
                             Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils:GetSortedQuestIds] - Proximity Timer Updated!")
                             playerPosition = position
