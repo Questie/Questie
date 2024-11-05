@@ -3171,6 +3171,9 @@ function CataQuestFixes.Load()
         [24737] = { -- Super Sticky
             [questKeys.preQuestSingle] = {24693},
         },
+        [24740] = { -- Volcanic Activity
+            [questKeys.preQuestSingle] = {},
+        },
         [24741] = { -- Trading Up
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Place the Wild Clucker Eggs in the trap"),0,{{"object",201972}}}},
         },
