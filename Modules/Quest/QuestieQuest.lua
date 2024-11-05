@@ -1277,10 +1277,9 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
 end
 
 ---@param quest Quest
----@return true?
 function QuestieQuest:PopulateQuestLogInfo(quest)
     if (not quest) then
-        return nil
+        return
     end
 
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:PopulateQuestLogInfo] ", quest.Id)
@@ -1359,8 +1358,6 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
         QuestFinisher.AddFinisher(quest)
         quest.isComplete = true
     end
-
-    return true
 end
 
 ---@param self QuestObjective @quest.Objectives[] entry
