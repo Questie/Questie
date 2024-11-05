@@ -9056,7 +9056,7 @@ function CataQuestFixes.Load()
         },
         [28525] = { -- Hero's Call: Un'Goro Crater!
             [questKeys.requiredMaxLevel] = 53,
-            [questKeys.exclusiveTo] = {24740},
+            [questKeys.nextQuestInChain] = 24740,
         },
         [28526] = { -- Warchief's Command: Un'Goro Crater!
             [questKeys.objectives] = {},
