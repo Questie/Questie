@@ -24,10 +24,10 @@ local eventsLocales = {
         ["frFR"] = "Fête lunaire",
         ["esES"] = "Festival Lunar",
         ["zhTW"] = "新年慶典",
-        ["zhCN"] = "新年",
+        ["zhCN"] = "春节",
     },
     ["Love is in the Air"] = {
-        ["ptBR"] = "O Amor Está no Ar",
+        ["ptBR"] = "O Amor Está No Ar",
         ["ruRU"] = "Любовная лихорадка",
         ["deDE"] = "Liebe liegt in der Luft",
         ["koKR"] = "사랑이 피어남",
@@ -229,6 +229,18 @@ local eventsLocales = {
         ["esES"] = "Erupción de Roca Negra",
         ["zhTW"] = "黑石山爆发",
         ["zhCN"] = "黑石山爆发",
+    },
+    ["Day of the Dead"] = {
+        ["ptBR"] = "Dia dos Mortos",
+        ["ruRU"] = "День мертвых",
+        ["deDE"] = "Tag der Toten",
+        ["koKR"] = "망자의 날",
+        ["esMX"] = "Festividad de los Muertos",
+        ["enUS"] = true,
+        ["frFR"] = "Jour des morts",
+        ["esES"] = "Festividad de los Muertos",
+        ["zhTW"] = "亡者節",
+        ["zhCN"] = "悼念日",
     },
 }
 

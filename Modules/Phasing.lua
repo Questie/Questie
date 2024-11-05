@@ -133,6 +133,14 @@ local phases = {
     MOLTEN_FRONT_CAMP = 1061,
     MOLTEN_FRONT_DRUIDS = 1062,
     MOLTEN_FRONT_WARDENS = 1063,
+    MARRIS_BRIDGE = 1064,
+    MARRIS_STABLES = 1065,
+    RAMBO_TEAM_CANYON = 1066,
+    RAMBO_TEAM_POST = 1067,
+    SVEN_YORGEN_VISIBLE = 1068,
+    AGGRA_THRONE = 1069,
+    AGGRA_PRECIPICE = 1070,
+    THRALL_AGGRA_PROPOSAL = 1071,
 }
 Phasing.phases = phases
 
@@ -454,7 +462,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.MOUNT_HYJAL_VISION_YSERA_2 then
-        return (complete[25502] and complete[25520]) or false
+        return (complete[25502] and complete[25520] and (not complete[25830])) or false
     end
 
     if phase == phases.GRYAN_TOWER then
@@ -475,6 +483,38 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.MOLTEN_FRONT_CAMP then
         return (questLog[29273] and questLog[29273].isComplete == 1) or (questLog[29274] and questLog[29274].isComplete == 1) or (questLog[29275] and questLog[29275].isComplete == 1) or (questLog[29276] and questLog[29276].isComplete == 1) or false
+    end
+
+    if phase == phases.MARRIS_BRIDGE then
+        return (not complete[26513])
+    end
+
+    if phase == phases.MARRIS_STABLES then
+        return complete[26513] or false
+    end
+
+    if phase == phases.RAMBO_TEAM_CANYON then
+        return (not complete[26708]) and ((not questLog[26708]) or (questLog[26708] and questLog[26708].isComplete == 0)) or false
+    end
+
+    if phase == phases.RAMBO_TEAM_POST then
+        return complete[26708] or (questLog[26708] and (questLog[26708].isComplete == 1)) or false
+    end
+
+    if phase == phases.SVEN_YORGEN_VISIBLE then
+        return complete[26760] or (questLog[26760] and (questLog[26760].isComplete == 1)) or false
+    end
+
+    if phase == phases.AGGRA_THRONE then
+        return (not complete[29329]) and ((not questLog[29329]) or (questLog[29329] and questLog[29329].isComplete == 0)) or false
+    end
+
+    if phase == phases.AGGRA_PRECIPICE then
+        return complete[29329] or (questLog[29329] and questLog[29329].isComplete == 1) or false
+    end
+
+    if phase == phases.THRALL_AGGRA_PROPOSAL then
+        return (not complete[29331])
     end
 
     return false

@@ -560,7 +560,7 @@ end
 
 --A layer to keep the area convertion away from the other parts of the code
 --coordinates need to be 0-1 instead of 0-100
---showFlag isn't required but may want to be Modified
+--showFlag isn't required but may want to be Modified -- TODO: Can this be removed?
 ---@return IconFrame, IconFrame
 function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     if type(data) ~= "table" then
@@ -836,6 +836,122 @@ function QuestieMap:FindClosestStarter()
     return closestStarter;
 end
 
+function QuestieMap:FindClosestFinisher(quest)
+    if (not quest) then
+        return nil
+    end
+
+    local playerX, playerY, _ = HBD:GetPlayerWorldPosition();
+    local playerZone = HBD:GetPlayerWorldPosition();
+
+    local closestFinisher = {
+        distance = 999999,
+        x = -1,
+        y = -1,
+        zone = -1,
+    }
+    for finisherType, finisher in pairs(quest.Finisher) do
+        if (finisherType == "GameObject") then
+            for _, ObjectID in ipairs(finisher or {}) do
+                local obj = QuestieDB:GetObject(ObjectID)
+                if (obj ~= nil and obj.spawns ~= nil) then
+                    for Zone, Spawns in pairs(obj.spawns) do
+                        if (Zone ~= nil and Spawns ~= nil) then
+                            for _, coords in ipairs(Spawns) do
+                                if (coords[1] == -1 or coords[2] == -1) then -- instace locations
+                                    local dungeonLocation = ZoneDB:GetDungeonLocation(Zone)
+                                    if dungeonLocation ~= nil then
+                                        for _, value in ipairs(dungeonLocation) do
+                                            if (value[1] and value[2]) then
+                                                local x, y, _ = HBD:GetWorldCoordinatesFromZone(value[1] / 100, value[2] / 100, ZoneDB:GetUiMapIdByAreaId(value[3]))
+                                                if (x and y) then
+                                                    local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
+                                                    if (closestFinisher.distance > distance) then
+                                                        closestFinisher.distance = distance;
+                                                        closestFinisher.x = x;
+                                                        closestFinisher.y = y;
+                                                        closestFinisher.zone = ZoneDB:GetUiMapIdByAreaId(Zone);
+                                                        closestFinisher.name = obj.name;
+                                                    end
+                                                end
+                                            end
+                                        end
+                                    end
+                                else
+                                    local uiMapId = ZoneDB:GetUiMapIdByAreaId(Zone)
+                                    local x, y, _ = HBD:GetWorldCoordinatesFromZone(coords[1] / 100, coords[2] / 100, uiMapId)
+                                    if (x and y) then
+                                        local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
+                                        if (closestFinisher.distance > distance) then
+                                            closestFinisher.distance = distance;
+                                            closestFinisher.x = x;
+                                            closestFinisher.y = y;
+                                            closestFinisher.zone = uiMapId
+                                            closestFinisher.name = obj.name;
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        elseif (finisherType == "NPC") then
+            for _, NPCID in ipairs(finisher or {}) do
+                local NPC = QuestieDB:GetNPC(NPCID)
+                if (NPC ~= nil and NPC.spawns ~= nil and NPC.friendly) then
+                    for Zone, Spawns in pairs(NPC.spawns) do
+                        if (Zone ~= nil and Spawns ~= nil) then
+                            for _, coords in ipairs(Spawns) do
+                                if (coords[1] == -1 or coords[2] == -1) then
+                                    local dungeonLocation = ZoneDB:GetDungeonLocation(Zone)
+                                    if dungeonLocation ~= nil then
+                                        for _, value in ipairs(dungeonLocation) do
+                                            if (value[1] and value[2]) then
+                                                local uiMapId = ZoneDB:GetUiMapIdByAreaId(value[3])
+                                                local x, y, _ = HBD:GetWorldCoordinatesFromZone(value[1] / 100, value[2] / 100, uiMapId)
+                                                if (x and y) then
+                                                    local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
+                                                    if (closestFinisher.distance > distance) then
+                                                        closestFinisher.distance = distance;
+                                                        closestFinisher.x = x;
+                                                        closestFinisher.y = y;
+                                                        closestFinisher.zone = ZoneDB:GetUiMapIdByAreaId(Zone);
+                                                        closestFinisher.name = NPC.name;
+                                                    end
+                                                end
+                                            end
+                                        end
+                                    end
+                                elseif (coords[1] and coords[2]) then
+                                    local uiMapId = ZoneDB:GetUiMapIdByAreaId(Zone)
+                                    local x, y, _ = HBD:GetWorldCoordinatesFromZone(coords[1] / 100, coords[2] / 100, uiMapId)
+                                    if (x and y) then
+                                        local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
+                                        if (closestFinisher.distance > distance) then
+                                            closestFinisher.distance = distance;
+                                            closestFinisher.x = x;
+                                            closestFinisher.y = y;
+                                            closestFinisher.zone = ZoneDB:GetUiMapIdByAreaId(Zone);
+                                            closestFinisher.name = NPC.name;
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    if (closestFinisher.x == -1) then
+        closestFinisher.x = playerX;
+        closestFinisher.y = playerY;
+        closestFinisher.zone = playerZone;
+    end
+    return {closestFinisher.x, closestFinisher.y}, closestFinisher.zone, closestFinisher.name
+end
+
 function QuestieMap:GetNearestSpawn(objective)
     if not objective then
         return nil
@@ -877,43 +993,7 @@ function QuestieMap:GetNearestQuestSpawn(quest)
         return nil
     end
     if quest:IsComplete() == 1 then
-        local finisherSpawns
-        local finisherName
-        if quest.Finisher ~= nil then
-            if quest.Finisher.Type == "monster" then
-                --finisher = QuestieDB:GetNPC(quest.Finisher.Id)
-                finisherSpawns, finisherName = QuestieDB.QueryNPCSingle(quest.Finisher.Id, "spawns"), QuestieDB.QueryNPCSingle(quest.Finisher.Id, "name")
-            elseif quest.Finisher.Type == "object" then
-                --finisher = QuestieDB:GetObject(quest.Finisher.Id)
-                finisherSpawns, finisherName = QuestieDB.QueryObjectSingle(quest.Finisher.Id, "spawns"), QuestieDB.QueryObjectSingle(quest.Finisher.Id, "name")
-            end
-        end
-        if finisherSpawns then -- redundant code
-            local bestDistance = 999999999
-            local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
-            local bestSpawn, bestSpawnZone, bestSpawnType, bestSpawnName
-            for zone, spawns in pairs(finisherSpawns) do
-                for _, spawn in pairs(spawns) do
-                    local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1] / 100.0, spawn[2] / 100.0, uiMapId)
-                    local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
-                    if dist then
-                        if dInstance ~= playerI then
-                            dist = 500000 + dist * 100 -- hack
-                        end
-                        if dist < bestDistance then
-                            bestDistance = dist
-                            bestSpawn = spawn
-                            bestSpawnZone = zone
-                            bestSpawnType = quest.Finisher.Type
-                            bestSpawnName = finisherName
-                        end
-                    end
-                end
-            end
-            return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnType, bestDistance
-        end
-        return nil
+        return QuestieMap:FindClosestFinisher(quest)
     end
 
     local bestDistance = 999999999
@@ -963,3 +1043,5 @@ function QuestieMap:DrawWaypoints(icon, waypoints, zone, color)
         end
     end
 end
+
+return QuestieMap
