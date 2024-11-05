@@ -3087,7 +3087,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {24690},
         },
         [24694] = { -- The Shaper's Terrace
-            [questKeys.preQuestSingle] = {24723},
+            [questKeys.preQuestGroup] = {24720,24721,24722,24723},
         },
         [24697] = { -- How to Make Meat Fresh Again
             [questKeys.objectives] = {{{9163,nil,Questie.ICON_TYPE_EVENT}}},
