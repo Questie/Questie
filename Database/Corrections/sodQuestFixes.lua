@@ -2972,6 +2972,7 @@ function SeasonOfDiscovery:LoadQuests()
         [84496] = { -- Sweet Serenity
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,250},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
         },
         [84525] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
@@ -3600,10 +3601,12 @@ function SeasonOfDiscovery:LoadQuests()
         [85699] = { -- Snakestone of the Shadow Huntress
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,250},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
         },
         [85700] = { -- Corruption
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,250},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
         },
         [85701] = { -- Dragonscale Leatherworking
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
