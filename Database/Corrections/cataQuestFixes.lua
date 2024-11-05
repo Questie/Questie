@@ -3121,6 +3121,9 @@ function CataQuestFixes.Load()
         [24717] = { -- The Apes of Un'Goro
             [questKeys.preQuestSingle] = {24701},
         },
+        [24719] = { -- Claws of White
+            [questKeys.preQuestSingle] = {},
+        },
         [24721] = { -- The Eastern Pylon
             [questKeys.objectives] = {nil,{{164957,"Discover and examine the Eastern Crystal Pylon"}}},
         },
