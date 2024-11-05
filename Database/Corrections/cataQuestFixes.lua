@@ -3166,6 +3166,7 @@ function CataQuestFixes.Load()
         },
         [24733] = { -- The Bait for Lar'korwi
             [questKeys.requiredSourceItems] = {11569,11570},
+            [questKeys.sourceItemId] = 11568,
         },
         [24735] = { -- A Little Help From My Friends
             [questKeys.preQuestSingle] = {24734},
