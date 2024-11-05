@@ -1444,6 +1444,9 @@ function CataNpcFixes.Load()
         [38240] = { -- Dweller of the North
             [npcKeys.name] = "Dweller of the North"
         },
+        [38329] = { -- Durrin Direshovel
+            [npcKeys.waypoints] = {[zoneIDs.UN_GORO_CRATER] = {{38.36,82.99},{38.34,81.55},{38.63,80.45},{38.58,79.01},{38.60,78.27},{38.32,77.50},{37.63,76.69},{36.73,76.25},{36.33,76.73},{36.19,77.75},{36.56,79.01},{37.02,80.16},{37.36,81.31},{37.57,82.47},{38.35,82.70},{38.36,82.99}}},
+        },
         [38381] = { -- Brett "Coins" McQuid
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{52.2,73.22}}},
         },
