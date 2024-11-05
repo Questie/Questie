@@ -7679,6 +7679,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring the Heart of Hakkar to Molthor on Yojamba Isle."},
             [questKeys.objectives] = nil,
         },
+        [85699] = {
+            [questKeys.name] = "Snakestone of the Shadow Huntress",
+            [questKeys.startedBy] = {{11192}},
+            [questKeys.finishedBy] = {{11192}},
+            [questKeys.requiredLevel] = 50,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Travel to Blackrock Spire and slay Shadow Hunter Vosh'gajin. Recover Vosh'gajin's Snakestone and return to Kilram."},
+            [questKeys.objectives] = {nil,nil,{{13352}}},
+        },
         [85700] = {
             [questKeys.name] = "Corruption",
             [questKeys.startedBy] = {{11193}},

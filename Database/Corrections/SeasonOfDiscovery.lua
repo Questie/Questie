@@ -930,6 +930,7 @@ local questsToBlacklistBySoDPhase = {
         [5284] = true, -- The Way of the Weaponsmith - Replaced by 82662
         [5302] = true, -- The Way of the Weaponsmith - Replaced by 82665
         [5305] = true, -- Sweet Serenity - Replaced by 85700
+        [5306] = true, -- Snakestone of the Shadow Huntress - Replaced by 85700
         [5307] = true, -- Corruption - Replaced by 85700
         [7636] = true, -- Stave of the Ancients - Replaced by 84546
         [7486] = true, -- A Hero's Reward - Replaced by 84545
