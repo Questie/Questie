@@ -29,7 +29,7 @@ function DistanceUtils.GetNearestSpawn(spawns)
                     if dist < bestDistance then
                         bestDistance = dist
                         bestSpawn = {location[2], location[3]}
-                        bestSpawnZone = zoneId
+                        bestSpawnZone = location[1]
                     end
                 end
             else

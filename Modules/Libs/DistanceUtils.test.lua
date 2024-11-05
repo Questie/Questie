@@ -90,7 +90,7 @@ describe("DistanceUtils", function()
             local bestSpawn, bestSpawnZone, bestDistance = DistanceUtils.GetNearestSpawn(spawns)
 
             assert.same({60,60}, bestSpawn)
-            assert.equals(2, bestSpawnZone)
+            assert.equals(3, bestSpawnZone)
             assert.equals(0, bestDistance)
 
             assert.spy(ZoneDB.GetDungeonLocation).was_called_with(_, 2)
