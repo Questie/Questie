@@ -32399,7 +32399,7 @@ function SeasonOfDiscovery:LoadBaseItems()
         },
         [231313] = {
             [itemKeys.name] = "Grimy Rune",
-            [itemKeys.npcDrops] = {227028,228909},
+            [itemKeys.npcDrops] = {7449,10375,10390,10391,10429,10440,10480,10485,10812,11360,11880,11882,227028,228724,228909},
             [itemKeys.objectDrops] = nil,
             [itemKeys.itemDrops] = nil,
             [itemKeys.vendors] = nil,
