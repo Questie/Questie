@@ -3010,6 +3010,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {7490},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
+        [84590] = { -- The Balance of Light and Shadow
+            [questKeys.triggerEnd] = {"The Balance of Light and Shadow", {[zoneIDs.EASTERN_PLAGUELANDS]={{21.19,17.79}}}},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [84636] = { -- Prowler
             [questKeys.startedBy] = {{228176}},
             [questKeys.objectives] = {{{230481,nil,Questie.ICON_TYPE_INTERACT}}},

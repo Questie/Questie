@@ -6524,6 +6524,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Seek out Overlord Runthak in the Valley of Strength."},
             [questKeys.objectives] = nil,
         },
+        [84590] = {
+            [questKeys.name] = "The Balance of Light and Shadow",
+            [questKeys.startedBy] = {{14494}},
+            [questKeys.finishedBy] = {{14494}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Save 50 Peasants before 15 are slain. Speak with Eris Havenfire should you accomplish this task.You may view the Death Post to view how many Peasants have been slain."},
+            [questKeys.objectives] = nil,
+        },
         [84636] = {
             [questKeys.name] = "Prowler",
             [questKeys.startedBy] = nil,
