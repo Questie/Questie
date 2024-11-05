@@ -3127,6 +3127,9 @@ function CataQuestFixes.Load()
         [24714] = { -- Chasing A-Me 01
             [questKeys.preQuestSingle] = {24701},
         },
+        [24715] = { -- Repairing A-Me 01
+            [questKeys.requiredSourceItems] = {50237,50238},
+        },
         [24717] = { -- The Apes of Un'Goro
             [questKeys.preQuestSingle] = {24701},
         },
