@@ -329,6 +329,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
             assert.spy(_G.QuestieCompat.SelectActiveQuest).was_called_with(1)
+            assert.spy(_G.QuestieCompat.GetAvailableQuests).was_not.called()
 
             AutoQuesting.OnQuestProgress()
             assert.spy(_G.CompleteQuest).was.called()

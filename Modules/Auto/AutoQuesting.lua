@@ -50,8 +50,6 @@ function AutoQuesting.OnGossipShow()
         return
     end
 
-    local availableQuests = { QuestieCompat.GetAvailableQuests() }
-
     if Questie.db.profile.autocomplete then
         local completeQuests = { QuestieCompat.GetActiveQuests() }
         if #completeQuests > 0 then
@@ -72,6 +70,7 @@ function AutoQuesting.OnGossipShow()
     end
 
     if Questie.db.profile.autoaccept then
+        local availableQuests = { QuestieCompat.GetAvailableQuests() }
         if #availableQuests > 0 then
             local indexToAccept = 0
             if Questie.db.profile.acceptTrivial then
