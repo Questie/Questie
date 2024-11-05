@@ -3320,6 +3320,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",202112}}}},
             [questKeys.objectives] = {{{38345,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [24854] = { -- Finding Stormclaw
+            [questKeys.nextQuestInChain] = 24719,
+        },
         [24861] = { -- Last Rites, First Rites
             [questKeys.zoneOrSort] = 215,
             [questKeys.objectives] = {{{38438,nil,Questie.ICON_TYPE_EVENT}}},
