@@ -3593,6 +3593,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{14834},nil,{19802}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
+        [85700] = { -- Corruption
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,250},
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+        },
         [85701] = { -- Dragonscale Leatherworking
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
             [questKeys.zoneOrSort] = sortKeys.LEATHERWORKING,

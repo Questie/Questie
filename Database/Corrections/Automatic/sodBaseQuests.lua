@@ -7668,6 +7668,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring the Heart of Hakkar to Molthor on Yojamba Isle."},
             [questKeys.objectives] = nil,
         },
+        [85700] = {
+            [questKeys.name] = "Corruption",
+            [questKeys.startedBy] = {{11193}},
+            [questKeys.finishedBy] = {{11193}},
+            [questKeys.requiredLevel] = 50,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Find the Black Guard Swordsmith in Stratholme and destroy him. Recover the Insignia of the Black Guard and return to Seril Scourgebane. A quest."},
+            [questKeys.objectives] = {nil,nil,{{13350}}},
+        },
         [85701] = {
             [questKeys.name] = "Dragonscale Leatherworking",
             [questKeys.startedBy] = {{7866}},

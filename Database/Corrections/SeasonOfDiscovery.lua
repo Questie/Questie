@@ -929,6 +929,7 @@ local questsToBlacklistBySoDPhase = {
         [5148] = true, -- Tribal Leatherworking -- Replaced by 85706
         [5284] = true, -- The Way of the Weaponsmith - Replaced by 82662
         [5302] = true, -- The Way of the Weaponsmith - Replaced by 82665
+        [5307] = true, -- Corruption - Replaced by 85700
         [7636] = true, -- Stave of the Ancients - Replaced by 84546
         [7486] = true, -- A Hero's Reward - Replaced by 84545
         [7782] = true, -- The Lord of Blackrock - Replaced by 85643
