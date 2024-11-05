@@ -3112,6 +3112,7 @@ function CataQuestFixes.Load()
         },
         [24706] = { -- The Spirits of Golakka Hot Springs
             [questKeys.preQuestGroup] = {24704,24705},
+            [questKeys.objectives] = {{{38254,nil,Questie.ICON_TYPE_EVENT}}}
         },
         [24707] = { -- The Ballad of Maximillian
             [questKeys.preQuestSingle] = {24706},
