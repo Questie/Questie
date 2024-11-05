@@ -9061,6 +9061,7 @@ function CataQuestFixes.Load()
         [28526] = { -- Warchief's Command: Un'Goro Crater!
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 53,
+            [questKeys.nextQuestInChain] = 24740,
         },
         [28527] = { -- Warchief's Command: Silithus!
             [questKeys.objectives] = {},
