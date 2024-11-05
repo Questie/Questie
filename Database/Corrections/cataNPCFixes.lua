@@ -332,6 +332,9 @@ function CataNpcFixes.Load()
         [10445] = { -- Selina Dourman
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{55.56,55.01},{-1,-1}}},
         },
+        [10541] = { -- Krakle's Thermometer
+            [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{48.32,43.47}}},
+        },
         [10665] = { -- Junior Apothecary Holland
             [npcKeys.waypoints] = {},
         },
