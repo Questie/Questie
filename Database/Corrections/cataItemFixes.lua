@@ -85,6 +85,9 @@ function CataItemFixes.Load()
         [11114] = { -- Dinosaur Bone
             [itemKeys.npcDrops] = {6501,6502,6503,6504,9162,9163,9164},
         },
+        [11569] = { -- Preserved Threshadon Meat
+            [itemKeys.npcDrops] = {},
+        },
         [11570] = { -- Preserved Pheromone Mixture
             [itemKeys.npcDrops] = {},
         },
