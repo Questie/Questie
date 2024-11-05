@@ -3086,6 +3086,9 @@ function CataQuestFixes.Load()
         [24694] = { -- The Shaper's Terrace
             [questKeys.preQuestSingle] = {24723},
         },
+        [24697] = { -- How to Make Meat Fresh Again
+            [questKeys.objectives] = {{{9163,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [24698] = { -- Adventures in Archaeology
             [questKeys.preQuestSingle] = {24693},
             [questKeys.nextQuestInChain] = 24730,
