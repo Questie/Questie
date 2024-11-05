@@ -3177,6 +3177,9 @@ function CataQuestFixes.Load()
         [24741] = { -- Trading Up
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Place the Wild Clucker Eggs in the trap"),0,{{"object",201972}}}},
         },
+        [24742] = { -- Finding the Source
+            [questKeys.objectives] = {{{10541,nil,Questie.ICON_TYPE_EVENT}}}
+        },
         [24744] = { -- The Biggest Egg Ever
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Kill the Mechachicken"),0,{{"monster",38224}}}},
         },
