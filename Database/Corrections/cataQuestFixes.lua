@@ -3088,6 +3088,7 @@ function CataQuestFixes.Load()
         },
         [24694] = { -- The Shaper's Terrace
             [questKeys.preQuestGroup] = {24720,24721,24722,24723},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to the Un'Goro Examinant"),0,{{"monster",38504}}}},
         },
         [24697] = { -- How to Make Meat Fresh Again
             [questKeys.objectives] = {{{9163,nil,Questie.ICON_TYPE_EVENT}}},
