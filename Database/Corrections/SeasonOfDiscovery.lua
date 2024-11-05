@@ -1194,6 +1194,11 @@ local questsToBlacklistBySoDPhase = {
         [78265] = true, -- Fish Oil (replaced by 82850)
         [78266] = true, -- Dark Iron Ordinance (replaced by 82851)
         [78267] = true, -- Shredder Turbochargers (replaced by 82853)
+
+        [81716] = true, -- Recover Incursion Field Report: Duskwood
+        [81727] = true, -- Recover Incursion Field Report: Ashenvale
+        [81728] = true, -- Recover Incursion Field Report: Hinterlands
+        [81729] = true, -- Recover Incursion Field Report: Feralas
     },
 }
 
