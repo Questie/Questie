@@ -1285,11 +1285,11 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
 
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:PopulateQuestLogInfo] ", quest.Id)
 
-    local questLogEngtry = QuestLogCache.GetQuest(quest.Id) -- DO NOT MODIFY THE RETURNED TABLE
+    local questLogEntry = QuestLogCache.GetQuest(quest.Id) -- DO NOT MODIFY THE RETURNED TABLE
 
-    if (not questLogEngtry) then return end
+    if (not questLogEntry) then return end
 
-    if questLogEngtry.isComplete ~= nil and questLogEngtry.isComplete == 1 then
+    if questLogEntry.isComplete ~= nil and questLogEntry.isComplete == 1 then
         quest.isComplete = true
     end
 
