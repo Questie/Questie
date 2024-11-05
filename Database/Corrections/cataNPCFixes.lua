@@ -1435,6 +1435,15 @@ function CataNpcFixes.Load()
             [npcKeys.waypoints] = {[zoneIDs.THE_LOST_ISLES]={{{43.76,56.00},{43.70,55.84},{43.63,55.63},{43.52,55.25},{43.56,54.83},{43.62,54.27},{43.63,54.23},{43.78,54.01},{43.91,53.84},{44.32,53.66},{44.42,53.78},{44.89,54.45},{45.02,54.65},{45.18,54.91},{45.20,54.97},{45.35,55.30},{45.48,55.61},{45.64,56.11},{45.57,56.39},{45.55,56.45},{45.27,56.86},{45.07,56.93},{44.81,56.98},{44.70,56.98},{44.46,56.92},{44.21,56.74},{44.07,56.54},{43.76,56.00}}}},
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{43.78,56.02}}},
         },
+        [38238] = { -- Dweller by the Shore
+            [npcKeys.name] = "Dweller by the Shore"
+        },
+        [38239] = { -- Dweller in the Cliffs
+            [npcKeys.name] = "Dweller in the Cliffs"
+        },
+        [38240] = { -- Dweller of the North
+            [npcKeys.name] = "Dweller of the North"
+        },
         [38381] = { -- Brett "Coins" McQuid
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{52.2,73.22}}},
         },
