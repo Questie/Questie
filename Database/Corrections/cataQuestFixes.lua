@@ -11213,6 +11213,7 @@ function CataQuestFixes:LoadFactionFixes()
         },
         [24911] = { -- Tropical Paradise Beckons
             [questKeys.startedBy] = {{44374}},
+            [questKeys.nextQuestInChain] = 24740,
         },
         [25619] = { -- Reoccupation
             [questKeys.preQuestSingle] = {},
