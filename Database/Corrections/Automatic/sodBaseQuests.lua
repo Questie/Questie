@@ -6425,6 +6425,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Observe Orthas as he moves on from this world."},
             [questKeys.objectives] = {{{229037}}},
         },
+        [84496] = {
+            [questKeys.name] = "Sweet Serenity",
+            [questKeys.startedBy] = {{11191}},
+            [questKeys.finishedBy] = {{11191}},
+            [questKeys.requiredLevel] = 50,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Travel to Stratholme and kill the Crimson Hammersmith. Recover the Crimson Hammersmith's Apron and return to Lilith."},
+            [questKeys.objectives] = {nil,nil,{{13351}}},
+        },
         [84525] = {
             [questKeys.name] = "Otherworldly Treasure",
             [questKeys.startedBy] = {{222052}},

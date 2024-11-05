@@ -2969,6 +2969,10 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {{{228619,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [84496] = { -- Sweet Serenity
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,250},
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+        },
         [84525] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
