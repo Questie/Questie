@@ -3131,7 +3131,7 @@ function CataQuestFixes.Load()
         },
         [24707] = { -- The Ballad of Maximillian
             [questKeys.preQuestSingle] = {24706},
-            [questKeys.objectives] = {{{38708,nil,Questie.ICON_TYPE_EVENT}}}
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Speak to Maximillian"),0,{{"monster",38237}}}},
         },
         [24714] = { -- Chasing A-Me 01
             [questKeys.preQuestSingle] = {24701},
