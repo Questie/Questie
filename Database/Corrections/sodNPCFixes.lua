@@ -752,6 +752,10 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{53.36,83.59}}},
         },
+        [233158] = { -- Azgaloth
+            [npcKeys.zoneID] = zoneIDs.DEMON_FALL_CANYON,
+            [npcKeys.spawns] = {[zoneIDs.DEMON_FALL_CANYON] = {{-1,-1}}},
+        },
 
         -- fake NPCs
         [900000] = {

@@ -3097,6 +3097,36 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {85066},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [85068] = { -- Who Says You Can Never Go Back?
+            [questKeys.startedBy] = {{231500}},
+            [questKeys.preQuestSingle] = {85067},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85074] = { -- The Burning of Andorhal
+            [questKeys.startedBy] = {{232960}},
+            [questKeys.preQuestSingle] = {85068},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85087] = { -- A Desperate Escape
+            [questKeys.startedBy] = {{232998}},
+            [questKeys.preQuestSingle] = {85074},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85090] = { -- Back to the Future
+            [questKeys.startedBy] = {{233138}},
+            [questKeys.preQuestSingle] = {85087},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85091] = { -- The Cost of Victory
+            [questKeys.startedBy] = {{232932}},
+            [questKeys.preQuestSingle] = {85090},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85092] = { -- Truthbearer
+            [questKeys.startedBy] = {{233776}},
+            [questKeys.preQuestSingle] = {85091},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [85112] = { -- The Depleted Scythe
             [questKeys.startedBy] = {{12435},nil,{231722}},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
