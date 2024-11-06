@@ -3094,7 +3094,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Pull the lever"),0,{{"object",202187}}},{nil,Questie.ICON_TYPE_INTERACT,l10n("Pull the lever"),0,{{"object",202195}}},{nil,Questie.ICON_TYPE_INTERACT,l10n("Pull the lever"),0,{{"object",202196}}},{nil,Questie.ICON_TYPE_INTERACT,l10n("Pull the lever"),0,{{"object",202197}}}},
         },
         [24697] = { -- How to Make Meat Fresh Again
-            [questKeys.objectives] = {{{9163,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{9163,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [24698] = { -- Adventures in Archaeology
             [questKeys.preQuestSingle] = {24693},
