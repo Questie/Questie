@@ -31,7 +31,7 @@ function TrackerItemButton.New(buttonName)
             for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
                 local texture, _, _, _, _, _, _, _, _, itemId = QuestieCompat.GetContainerItemInfo(bag, slot)
 
-                if questItemId == itemId and QuestieDB.QueryItemSingle(itemId, "class") == 12 then
+                if questItemId == itemId and QuestieDB.QueryItemSingle(itemId, "class") == QuestieDB.itemClasses.QUEST then
                     validTexture = texture
                     self.itemId = questItemId
                     break
@@ -44,7 +44,7 @@ function TrackerItemButton.New(buttonName)
             for inventorySlot = 1, 19 do
                 local itemId = GetInventoryItemID("player", inventorySlot)
 
-                if questItemId == itemId and QuestieDB.QueryItemSingle(itemId, "class") == 12 then
+                if questItemId == itemId and QuestieDB.QueryItemSingle(itemId, "class") == QuestieDB.itemClasses.QUEST then
                     validTexture = GetInventoryItemTexture("player", inventorySlot)
                     self.itemId = questItemId
                     break
