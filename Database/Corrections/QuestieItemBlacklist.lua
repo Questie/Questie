@@ -225,5 +225,7 @@ function QuestieItemBlacklist:Load()
         [42780] = true, -- Relic of Ulduar
         [43013] = true, -- Chilled Meat
 
+        -- SoD
+        [231313] = true, -- Grimy Rune (dropped by any level 55+ mob)
     }
 end

@@ -929,6 +929,9 @@ local questsToBlacklistBySoDPhase = {
         [5148] = true, -- Tribal Leatherworking -- Replaced by 85706
         [5284] = true, -- The Way of the Weaponsmith - Replaced by 82662
         [5302] = true, -- The Way of the Weaponsmith - Replaced by 82665
+        [5305] = true, -- Sweet Serenity - Replaced by 85700
+        [5306] = true, -- Snakestone of the Shadow Huntress - Replaced by 85700
+        [5307] = true, -- Corruption - Replaced by 85700
         [7636] = true, -- Stave of the Ancients - Replaced by 84546
         [7486] = true, -- A Hero's Reward - Replaced by 84545
         [7782] = true, -- The Lord of Blackrock - Replaced by 85643
@@ -936,6 +939,7 @@ local questsToBlacklistBySoDPhase = {
         [8467] = true, -- Feathers for Nafien - Replaced by 84777
         [8769] = true, -- A Ticking Present - Replaced by 79637
         [8781] = true, -- Arms for the Field - Replaced by 85798
+        [7622] = true, -- The Balance of Light and Shadow - Replaced by 84590
         [7785] = true, -- Examine the Vessel - Replaced by 85442
         [7786] = true, -- Thunderaan the Windseeker - Replaced by 85441
         [7787] = true, -- Rise, Thunderfury! - Replaced by 85443
@@ -1194,6 +1198,11 @@ local questsToBlacklistBySoDPhase = {
         [78265] = true, -- Fish Oil (replaced by 82850)
         [78266] = true, -- Dark Iron Ordinance (replaced by 82851)
         [78267] = true, -- Shredder Turbochargers (replaced by 82853)
+
+        [81716] = true, -- Recover Incursion Field Report: Duskwood
+        [81727] = true, -- Recover Incursion Field Report: Ashenvale
+        [81728] = true, -- Recover Incursion Field Report: Hinterlands
+        [81729] = true, -- Recover Incursion Field Report: Feralas
     },
 }
 

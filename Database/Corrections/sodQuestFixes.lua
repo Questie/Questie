@@ -1287,6 +1287,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {nil,nil,{{219759, nil, Questie.ICON_TYPE_TALK}},nil,{{{221226},221226},{{221223},221223},{{221227},221227}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81727] = { -- Recover Incursion Field Report: Ashenvale
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1294,6 +1295,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {nil,nil,{{219770, nil, Questie.ICON_TYPE_TALK}},nil,{{{221283},221283},{{221282},221282},{{221292},221292}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81728] = { -- Recover Incursion Field Report: Hinterlands
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1301,6 +1303,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.objectives] = {nil,nil,{{219772, nil, Questie.ICON_TYPE_TALK}},nil,{{{221357},221357},{{221356},221356},{{221360},221360}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81729] = { -- Recover Incursion Field Report: Feralas
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1308,6 +1311,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.objectives] = {nil,nil,{{219771, nil, Questie.ICON_TYPE_TALK}},nil,{{{221407},221407},{{221406},221406},{{221408},221408}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMaxLevel] = 53,
         },
 
         -- Begin Duskwood Incursion
@@ -1315,79 +1319,94 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81731] = { -- Duskwood Mission II: Defeat Ogres
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81732] = { -- Duskwood Mission III: Defeat Dragonkin
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81733] = { -- Duskwood Mission IV: Ogre Intelligence
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {nil,nil,{{219776, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81734] = { -- Duskwood Mission V: Worgen Intelligence
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {nil,nil,{{219778, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81735] = { -- Duskwood Mission VI: Dragon Intelligence
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {nil,nil,{{219803, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81736] = { -- Duskwood Mission VII: Recover Shadowscythe
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81737] = { -- Duskwood Mission VIII: Recover Ogre Magi text
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81738] = { -- Duskwood Mission IX: Recover Dragon Egg
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81739] = { -- Duskwood Mission X: Nightmare Moss
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81740] = { -- Duskwood Mission XI: Cold Iron Ore
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81741] = { -- Duskwood Mission XII: Dream-Touched Dragonscale
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81742] = { -- Duskwood Mission XIII: Defeat Ylanthrius
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81743] = { -- Duskwood Mission XIV: Defeat Vvarc'zul
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81744] = { -- Duskwood Mission XV: Defeat Amokarok
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81745] = { -- Duskwood Mission XVI: Rescue Kroll Mountainshade
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
@@ -1395,6 +1414,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.DUSKWOOD]={{46.52,38.69}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Kroll Mountainshade to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81746] = { -- Duskwood Mission XVII: Rescue Alara Grovemender
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
@@ -1402,6 +1422,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.DUSKWOOD]={{46.52,38.69}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Alara Grovemender to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         [81747] = { -- Duskwood Mission XVIII: Rescue Elenora Marshwalker
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
@@ -1409,6 +1430,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.DUSKWOOD]={{46.52,38.69}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Elenora Marshwalker to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 39,
         },
         -- End Duskwood Incursion
 
@@ -1437,79 +1459,94 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81769] = { -- Ashenvale Mission II: Defeat Treants
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81770] = { -- Ashenvale Mission III: Defeat Dragonkin
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81771] = { -- Ashenvale Mission IV: Dragon Intelligence
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {nil,nil,{{219924, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81772] = { -- Ashenvale Mission V: Satyr Intelligence
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {nil,nil,{{219925, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81773] = { -- Ashenvale Mission VI: Treant Intelligence
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {nil,nil,{{219926, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81774] = { -- Ashenvale Mission VII: Recover Dreamengine
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81775] = { -- Ashenvale Mission VIII: Recover Azsharan Prophecy
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81776] = { -- Ashenvale Mission IX: Recover Dream-Touched Dragonegg
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81777] = { -- Ashenvale Mission X: Dreamroot
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81778] = { -- Ashenvale Mission XI: Fool's Gold Dust
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81779] = { -- Ashenvale Mission XII: Dream-Infused Dragonscale
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81780] = { -- Ashenvale Mission XIII: Defeat Larsera
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81781] = { -- Ashenvale Mission XIV: Defeat Zalius
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81782] = { -- Ashenvale Mission XV: Defeat Shredder 9000
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81783] = { -- Ashenvale Mission XVI: Rescue Alyssian Windcaller
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
@@ -1517,6 +1554,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{93.94,38.35}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Alyssian Windcaller to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81784] = { -- Ashenvale Mission XVII: Rescue Doran Dreambough
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
@@ -1524,6 +1562,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{93.94,38.35}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Doran Dreambough to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         [81785] = { -- Ashenvale Mission XVIII: Rescue Maseara Autumnmoon
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
@@ -1531,6 +1570,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{93.94,38.35}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Maseara Autumnmoon to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 49,
         },
         -- End Ashenvale Incursion
 
@@ -1539,79 +1579,94 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81787] = { -- Hinterlands Mission II: Defeat Giant Turtles
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81788] = { -- Hinterlands Mission III: Defeat Dragonkin
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81789] = { -- Hinterlands Mission IV: Dragon Intelligence
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.objectives] = {nil,nil,{{219928, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81817] = { -- Hinterlands Mission V: Turtle Intelligence
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.objectives] = {nil,nil,{{219937, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81820] = { -- Hinterlands Mission VI: Moonkin Intelligence
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.objectives] = {nil,nil,{{219938, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81826] = { -- Hinterlands Mission VII: Recover Star-Touched Dragonegg
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81830] = { -- Hinterlands Mission VIII: Recover Elunar Relic
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81832] = { -- Hinterlands Mission IX: Recover Dreampearl
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81833] = { -- Hinterlands Mission X: Star Lotus
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81834] = { -- Hinterlands Mission XI: Starsilver Ore
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81835] = { -- Hinterlands Mission XII: Starshells
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81837] = { -- Hinterlands Mission XIII: Defeat Florius
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81838] = { -- Hinterlands Mission XIV: Defeat Doomkin
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81839] = { -- Hinterlands Mission XV: Defeat Ghamoo-Raja
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81850] = { -- Hinterlands Mission XVI: Rescue Elianar Shadowdrinker
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
@@ -1619,6 +1674,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_HINTERLANDS]={{63.24,27.39}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Elianar Shadowdrinker to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81851] = { -- Hinterlands Mission XVII: Rescue Serlina Starbright
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
@@ -1626,6 +1682,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_HINTERLANDS]={{63.24,27.39}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Serlina Starbright to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81852] = { -- Hinterlands Mission XVIII: Rescue Veanna Cloudsleeper
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
@@ -1633,6 +1690,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_HINTERLANDS]={{63.24,27.39}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Veanna Cloudsleeper to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         -- End Hinterlands Incursion
 
@@ -1641,79 +1699,94 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81856] = { -- Feralas Mission II: Defeat Harpies
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81857] = { -- Feralas Mission III: Defeat Dragonkin
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81858] = { -- Feralas Mission IV: Dragon Intelligence
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.objectives] = {nil,nil,{{219957, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81859] = { -- Feralas Mission V: Cenarion Intelligence
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.objectives] = {nil,nil,{{219958, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81860] = { -- Feralas Mission VI: Harpy Intelligence
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.objectives] = {nil,nil,{{219959, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81861] = { -- Feralas Mission VII: Recover Moonglow Dragonegg
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81863] = { -- Feralas Mission VIII: Recover Keeper's Notes
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81864] = { -- Feralas Mission IX: Recover Harpy Screed
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81865] = { -- Feralas Mission X: Moonroot
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81866] = { -- Feralas Mission XI: Greater Moonstone
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81867] = { -- Feralas Mission XII: Greater Moondragon Scales
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81868] = { -- Feralas Mission XIII: Defeat Tyrannikus
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81870] = { -- Feralas Mission XIV: Defeat Alondrius
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81871] = { -- Feralas Mission XV: Defeat Slirena
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81872] = { -- Feralas Mission XVI: Rescue Mellias Earthtender
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
@@ -1721,6 +1794,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.FERALAS]={{50.97,11.67}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Mellias Earthtender to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81873] = { -- Feralas Mission XVII: Rescue Nerene Brooksinger
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
@@ -1728,6 +1802,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.FERALAS]={{50.97,11.67}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Nerene Brooksinger to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [81874] = { -- Feralas Mission XVIII: Rescue Jamniss Treemender
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
@@ -1735,6 +1810,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.FERALAS]={{50.97,11.67}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Jamniss Treemender to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
+            [questKeys.requiredMaxLevel] = 53,
         },
         -- End Feralas Incursion
 
@@ -1952,6 +2028,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = sortKeys.NIGHTMARE_INCURSIONS,
+            [questKeys.requiredMaxLevel] = 53,
         },
         [82071] = { -- Purifying Fire
             [questKeys.startedBy] = {{5852,5855},nil,{221350}},
@@ -2892,6 +2969,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {{{228619,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [84496] = { -- Sweet Serenity
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,250},
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
+        },
         [84525] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2932,6 +3014,10 @@ function SeasonOfDiscovery:LoadQuests()
         [84561] = { -- For All To See
             [questKeys.preQuestSingle] = {7490},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84590] = { -- The Balance of Light and Shadow
+            [questKeys.triggerEnd] = {"The Balance of Light and Shadow", {[zoneIDs.EASTERN_PLAGUELANDS]={{21.19,17.79}}}},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [84636] = { -- Prowler
             [questKeys.startedBy] = {{228176}},
@@ -3072,6 +3158,39 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{231494},nil,{232018}},
             [questKeys.preQuestSingle] = {85441},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
+        [85445] = { -- The Golden Disk
+            [questKeys.startedBy] = {{13020},nil,{231378}},
+            [questKeys.objectives] = {{{2888,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+            [questKeys.nextQuestInChain] = 85447,
+        },
+        [85446] = { -- Scale of the Dragon Lord
+            [questKeys.finishedBy] = {{232596}},
+            [questKeys.objectives] = {{{11583}},nil,{{231386},{232414}}},
+            [questKeys.preQuestSingle] = {85447},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+            [questKeys.nextQuestInChain] = 85453,
+        },
+        [85447] = { -- Grim Batol
+            [questKeys.preQuestSingle] = {85445},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+            [questKeys.nextQuestInChain] = 85446,
+        },
+        [85453] = { -- No Good Deed Goes Unpunished
+            [questKeys.startedBy] = {{232596}},
+            [questKeys.finishedBy] = {{232596}},
+            [questKeys.preQuestSingle] = {85446},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+            [questKeys.nextQuestInChain] = 85454,
+            [questKeys.extraObjectives] = {{{[zoneIDs.WETLANDS]={{74.4,70.5}}}, Questie.ICON_TYPE_EVENT, l10n("Fight Riosustrasz near the edge")}},
+        },
+        [85454] = { -- A Just Reward
+            [questKeys.startedBy] = {{232596}},
+            [questKeys.finishedBy] = {{232624}},
+            [questKeys.objectives] = {{{232626,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {85453},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [85455] = { -- The Blood of the Lightbringer
             [questKeys.startedBy] = {{12017},nil,{231452}},
@@ -3478,6 +3597,16 @@ function SeasonOfDiscovery:LoadQuests()
         [85660] = { -- The Heart of Hakkar
             [questKeys.startedBy] = {{14834},nil,{19802}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85699] = { -- Snakestone of the Shadow Huntress
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,250},
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
+        },
+        [85700] = { -- Corruption
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,250},
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
         },
         [85701] = { -- Dragonscale Leatherworking
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
