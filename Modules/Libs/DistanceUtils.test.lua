@@ -286,19 +286,6 @@ describe("DistanceUtils", function()
         end)
     end)
 
-    describe("GetNearestStarterForQuest", function()
-        it("should return nearest starter", function()
-            DistanceUtils.GetNearestFinisherOrStarter = function()
-                return {60,60}
-            end
-            local quest = { Starts = {123} }
-
-            local spawn = DistanceUtils.GetNearestStarterForQuest(quest)
-
-            assert.same({60,60}, spawn)
-        end)
-    end)
-
     describe("GetNearestSpawnForQuest", function()
         it("should return finisher when quest is complete", function()
             local quest = {

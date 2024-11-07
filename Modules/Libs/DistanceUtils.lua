@@ -101,13 +101,6 @@ function DistanceUtils.GetNearestFinisherOrStarter(finisherOrStarter)
 end
 
 ---@param quest Quest
----@return CoordPair
-function DistanceUtils.GetNearestStarterForQuest(quest)
-    local spawn = DistanceUtils.GetNearestFinisherOrStarter(quest.Starts)
-    return spawn
-end
-
----@param quest Quest
 ---@return CoordPair, AreaId, string, number
 function DistanceUtils.GetNearestSpawnForQuest(quest)
     if quest:IsComplete() == 1 then
