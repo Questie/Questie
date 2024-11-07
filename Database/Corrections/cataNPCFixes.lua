@@ -332,6 +332,9 @@ function CataNpcFixes.Load()
         [10445] = { -- Selina Dourman
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{55.56,55.01},{-1,-1}}},
         },
+        [10541] = { -- Krakle's Thermometer
+            [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{48.32,43.47}}},
+        },
         [10665] = { -- Junior Apothecary Holland
             [npcKeys.waypoints] = {},
         },
@@ -1431,6 +1434,21 @@ function CataNpcFixes.Load()
         [38224] = { -- Mechachicken
             [npcKeys.waypoints] = {[zoneIDs.THE_LOST_ISLES]={{{43.76,56.00},{43.70,55.84},{43.63,55.63},{43.52,55.25},{43.56,54.83},{43.62,54.27},{43.63,54.23},{43.78,54.01},{43.91,53.84},{44.32,53.66},{44.42,53.78},{44.89,54.45},{45.02,54.65},{45.18,54.91},{45.20,54.97},{45.35,55.30},{45.48,55.61},{45.64,56.11},{45.57,56.39},{45.55,56.45},{45.27,56.86},{45.07,56.93},{44.81,56.98},{44.70,56.98},{44.46,56.92},{44.21,56.74},{44.07,56.54},{43.76,56.00}}}},
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{43.78,56.02}}},
+        },
+        [38238] = { -- Dweller by the Shore
+            [npcKeys.name] = "Dweller by the Shore"
+        },
+        [38239] = { -- Dweller in the Cliffs
+            [npcKeys.name] = "Dweller in the Cliffs"
+        },
+        [38240] = { -- Dweller of the North
+            [npcKeys.name] = "Dweller of the North"
+        },
+        [38307] = { -- Gormashh
+            [npcKeys.waypoints] = {[zoneIDs.UN_GORO_CRATER] = {{{59.97,29.88},{59.73,29.41},{59.47,29.25},{59.21,29.64},{58.97,30.41},{59.10,30.58},{59.32,31.02},{59.68,31.29},{59.99,31.45},{60.32,31.65},{60.62,31.90},{60.86,32.16},{60.82,32.31},{60.76,32.63},{60.89,32.87},{60.81,33.11},{60.72,33.33},{60.60,33.70},{60.70,33.88}}}},
+        },
+        [38329] = { -- Durrin Direshovel
+            [npcKeys.waypoints] = {[zoneIDs.UN_GORO_CRATER] = {{{38.36,82.99},{38.34,81.55},{38.63,80.45},{38.58,79.01},{38.60,78.27},{38.32,77.50},{37.63,76.69},{36.73,76.25},{36.33,76.73},{36.19,77.75},{36.56,79.01},{37.02,80.16},{37.36,81.31},{37.57,82.47},{38.35,82.70},{38.36,82.99}}}},
         },
         [38381] = { -- Brett "Coins" McQuid
             [npcKeys.spawns] = {[zoneIDs.THE_LOST_ISLES] = {{52.2,73.22}}},
