@@ -223,6 +223,8 @@ function QuestieTooltips.GetTooltip(key)
                     end
                 end
             end
+        else
+            objectIsInCurrentZone = true
         end
 
         if (not objectIsInCurrentZone) then

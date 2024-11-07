@@ -179,6 +179,9 @@ function SeasonOfDiscovery:LoadItems()
         [221326] = { -- Sacred Stag Heart
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [225954] = { -- Charred Spell Notes
+            [itemKeys.npcDrops] = {227324},
+        },
         [226122] = { -- Dalton's Horn
             [itemKeys.class] = itemClasses.QUEST,
         },

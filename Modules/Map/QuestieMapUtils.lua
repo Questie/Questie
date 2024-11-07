@@ -122,7 +122,7 @@ function QuestieMap.utils:CalcHotzones(points, rangeR, count)
                 if (not point2.touched) and (aUiMapID == point2.UiMapID)
                     -- Do not cluster icons if they have no coordinates
                     and aX ~= 0 and aY ~= 0 and point2.worldX ~= 0 and point2.worldY ~= 0 then
-                    local distance = QuestieLib:Euclid(aX, aY, point2.worldX, point2.worldY)
+                    local distance = QuestieLib.Euclid(aX, aY, point2.worldX, point2.worldY)
                     if (distance < movingRange) then
                         point2.touched = true
                         notes[#notes+1] = point2

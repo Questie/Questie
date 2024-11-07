@@ -2969,6 +2969,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {{{228619,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [84496] = { -- Sweet Serenity
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,250},
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
+        },
         [84525] = { -- Otherworldly Treasure
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -3009,6 +3014,10 @@ function SeasonOfDiscovery:LoadQuests()
         [84561] = { -- For All To See
             [questKeys.preQuestSingle] = {7490},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [84590] = { -- The Balance of Light and Shadow
+            [questKeys.triggerEnd] = {"The Balance of Light and Shadow", {[zoneIDs.EASTERN_PLAGUELANDS]={{21.19,17.79}}}},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [84636] = { -- Prowler
             [questKeys.startedBy] = {{228176}},
@@ -3088,6 +3097,36 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {85066},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [85068] = { -- Who Says You Can Never Go Back?
+            [questKeys.startedBy] = {{231500}},
+            [questKeys.preQuestSingle] = {85067},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85074] = { -- The Burning of Andorhal
+            [questKeys.startedBy] = {{232960}},
+            [questKeys.preQuestSingle] = {85068},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85087] = { -- A Desperate Escape
+            [questKeys.startedBy] = {{232998}},
+            [questKeys.preQuestSingle] = {85074},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85090] = { -- Back to the Future
+            [questKeys.startedBy] = {{233138}},
+            [questKeys.preQuestSingle] = {85087},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85091] = { -- The Cost of Victory
+            [questKeys.startedBy] = {{232932}},
+            [questKeys.preQuestSingle] = {85090},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
+        [85092] = { -- Truthbearer
+            [questKeys.startedBy] = {{233776}},
+            [questKeys.preQuestSingle] = {85091},
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
+        },
         [85112] = { -- The Depleted Scythe
             [questKeys.startedBy] = {{12435},nil,{231722}},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
@@ -3149,6 +3188,39 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{231494},nil,{232018}},
             [questKeys.preQuestSingle] = {85441},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+        },
+        [85445] = { -- The Golden Disk
+            [questKeys.startedBy] = {{13020},nil,{231378}},
+            [questKeys.objectives] = {{{2888,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+            [questKeys.nextQuestInChain] = 85447,
+        },
+        [85446] = { -- Scale of the Dragon Lord
+            [questKeys.finishedBy] = {{232596}},
+            [questKeys.objectives] = {{{11583}},nil,{{231386},{232414}}},
+            [questKeys.preQuestSingle] = {85447},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+            [questKeys.nextQuestInChain] = 85453,
+        },
+        [85447] = { -- Grim Batol
+            [questKeys.preQuestSingle] = {85445},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+            [questKeys.nextQuestInChain] = 85446,
+        },
+        [85453] = { -- No Good Deed Goes Unpunished
+            [questKeys.startedBy] = {{232596}},
+            [questKeys.finishedBy] = {{232596}},
+            [questKeys.preQuestSingle] = {85446},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
+            [questKeys.nextQuestInChain] = 85454,
+            [questKeys.extraObjectives] = {{{[zoneIDs.WETLANDS]={{74.4,70.5}}}, Questie.ICON_TYPE_EVENT, l10n("Fight Riosustrasz near the edge")}},
+        },
+        [85454] = { -- A Just Reward
+            [questKeys.startedBy] = {{232596}},
+            [questKeys.finishedBy] = {{232624}},
+            [questKeys.objectives] = {{{232626,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {85453},
+            [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [85455] = { -- The Blood of the Lightbringer
             [questKeys.startedBy] = {{12017},nil,{231452}},
@@ -3555,6 +3627,16 @@ function SeasonOfDiscovery:LoadQuests()
         [85660] = { -- The Heart of Hakkar
             [questKeys.startedBy] = {{14834},nil,{19802}},
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+        },
+        [85699] = { -- Snakestone of the Shadow Huntress
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,250},
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
+        },
+        [85700] = { -- Corruption
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,250},
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSpecialization] = specKeys.BLACKSMITHING_WEAPON,
         },
         [85701] = { -- Dragonscale Leatherworking
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,225},
