@@ -22,10 +22,10 @@ local TrackerItemButton = QuestieLoader:ImportModule("TrackerItemButton")
 -------------------------
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
----@type QuestieMap
-local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type DistanceUtils
+local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
@@ -754,7 +754,7 @@ TrackerLinePool.OnClickQuest = function(self, button)
     end
 
     if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindSetTomTom, button) then
-        local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(self.Quest)
+        local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(self.Quest)
         if spawn then
             TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end

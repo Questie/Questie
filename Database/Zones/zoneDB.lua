@@ -113,6 +113,7 @@ end
 
 
 ---@param areaId AreaId
+---@return AreaCoordinate
 function ZoneDB:GetDungeonLocation(areaId)
     return dungeonLocations[areaId]
 end

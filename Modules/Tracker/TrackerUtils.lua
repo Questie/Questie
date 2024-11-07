@@ -24,6 +24,10 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type DistanceUtils
+local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -106,9 +110,9 @@ function TrackerUtils:SetTomTomTarget(title, zone, x, y)
     end
 end
 
----@param objective table The table provided by QuestieDB.GetQuest(questId).Objectives[objective]
+---@param objective QuestObjective
 function TrackerUtils:ShowObjectiveOnMap(objective)
-    local spawn, zone = QuestieMap:GetNearestSpawn(objective)
+    local spawn, zone = DistanceUtils.GetNearestObjective(objective.spawnList)
     if spawn then
         WorldMapFrame:Show()
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
@@ -117,11 +121,12 @@ function TrackerUtils:ShowObjectiveOnMap(objective)
     end
 end
 
----@param quest table The table provided by QuestieDB.GetQuest(questId)
+---@param quest Quest The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:ShowFinisherOnMap(quest)
-    local spawn, uiMapId = QuestieMap:FindClosestFinisher(quest)
+    local spawn, zoneId = DistanceUtils.GetNearestFinisherOrStarter(quest.Finisher)
     if spawn then
         WorldMapFrame:Show()
+        local uiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
         WorldMapFrame:SetMapID(uiMapId)
         TrackerUtils:FlashFinisher(quest)
     end
@@ -521,67 +526,6 @@ local function _GetWorldPlayerPosition()
     return position
 end
 
----@param x1 number Current Position X
----@param y1 number Current Position Y
----@param x2 number Previous Position X
----@param y2 number Previous Position Y
----@return number Distance @Distance between Current and Previous X/Y coordinates
-local function _GetDistance(x1, y1, x2, y2)
-    return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
-end
-
----@param questId number Quest ID number
----@return number|nil closestDistance Returns X/Y coordinates to closest Objective or nil if nothing is found
-local function _GetDistanceToClosestObjective(questId)
-    -- main function for proximity sorting
-    local player = _GetWorldPlayerPosition()
-
-    if (not player) then
-        return nil
-    end
-
-    local coordinates = {}
-    local quest = QuestieDB.GetQuest(questId)
-
-    if (not quest) then
-        return nil
-    end
-
-    local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
-
-    if (not spawn) or (not zone) or (not name) then
-        return nil
-    end
-
-    local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-    if not uiMapId then
-        return nil
-    end
-    local _, worldPosition = C_Map.GetWorldPosFromMapPos(uiMapId, {
-        x = spawn[1] / 100,
-        y = spawn[2] / 100
-    })
-
-    tinsert(coordinates, {
-        x = worldPosition.x,
-        y = worldPosition.y
-    })
-
-    if (not coordinates) then
-        return nil
-    end
-
-    local closestDistance
-    for _, _ in pairs(coordinates) do
-        local distance = _GetDistance(player.x, player.y, worldPosition.x, worldPosition.y)
-        if (not closestDistance) or (distance < closestDistance) then
-            closestDistance = distance
-        end
-    end
-
-    return closestDistance
-end
-
 ---@param uiMapId number Continent ID number
 ---@return string Continent Returns Continent Name or "UNKNOW"
 local function _GetContinent(uiMapId)
@@ -722,11 +666,11 @@ function TrackerUtils:GetSortedQuestIds()
         for _, questId in pairs(sortedQuestIds) do
             local sortData = {}
             sortData.questId = questId
-            sortData.distance = _GetDistanceToClosestObjective(questId)
             sortData.q = questDetails[questId].quest
 
-            local _, zone, _ = QuestieMap:GetNearestQuestSpawn(sortData.q)
+            local _, zone, _, distance = DistanceUtils.GetNearestSpawnForQuest(sortData.q)
             sortData.zone = zone
+            sortData.distance = distance
             sortData.continent = _GetContinent(ZoneDB:GetUiMapIdByAreaId(zone))
             toSort[questId] = sortData
         end
@@ -822,7 +766,7 @@ function TrackerUtils:GetSortedQuestIds()
                 else
                     local position = _GetWorldPlayerPosition()
                     if position then
-                        local distance = playerPosition and _GetDistance(position.x, position.y, playerPosition.x, playerPosition.y)
+                        local distance = playerPosition and QuestieLib.Euclid(position.x, position.y, playerPosition.x, playerPosition.y)
                         if not distance or distance > 0.01 then -- Position has changed
                             Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils:GetSortedQuestIds] - Zone Proximity Timer Updated!")
                             playerPosition = position
@@ -860,11 +804,11 @@ function TrackerUtils:GetSortedQuestIds()
         for _, questId in pairs(sortedQuestIds) do
             local sortData = {}
             sortData.questId = questId
-            sortData.distance = _GetDistanceToClosestObjective(questId)
             sortData.q = questDetails[questId].quest
 
-            local _, zone, _ = QuestieMap:GetNearestQuestSpawn(sortData.q)
+            local _, zone, _, distance = DistanceUtils.GetNearestSpawnForQuest(sortData.q)
             sortData.zone = zone
+            sortData.distance = distance
             sortData.continent = _GetContinent(ZoneDB:GetUiMapIdByAreaId(zone))
             toSort[questId] = sortData
         end
@@ -932,7 +876,7 @@ function TrackerUtils:GetSortedQuestIds()
                 else
                     local position = _GetWorldPlayerPosition()
                     if position then
-                        local distance = playerPosition and _GetDistance(position.x, position.y, playerPosition.x, playerPosition.y)
+                        local distance = playerPosition and QuestieLib.Euclid(position.x, position.y, playerPosition.x, playerPosition.y)
                         if not distance or distance > 0.01 then -- Position has changed
                             Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils:GetSortedQuestIds] - Proximity Timer Updated!")
                             playerPosition = position
