@@ -19,6 +19,9 @@ function DistanceUtils.GetNearestSpawn(spawns)
     local bestSpawn, bestSpawnZone
 
     local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
+    if (not playerX) or (not playerY) then
+        playerX, playerY = 0, 0
+    end
 
     for zoneId, spawnEntries in pairs(spawns) do
         for _, spawn in pairs(spawnEntries) do
