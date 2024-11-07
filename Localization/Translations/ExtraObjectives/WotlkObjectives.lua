@@ -3386,10 +3386,10 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Alliance Deserter Delivered"] = { -- 11711
+    ["Get a new Deserter if you lose him/her"] = { -- 11711
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["deDE"] = false,
+        ["deDE"] = "Holen dir einen neuen Deserteur, wenn du ihn/sie verlierst",
         ["koKR"] = false,
         ["esMX"] = false,
         ["enUS"] = true,

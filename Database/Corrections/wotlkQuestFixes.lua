@@ -1247,8 +1247,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{25590,"Fizzcrank's tale listened to."}}},
         },
         [11711] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.BOREAN_TUNDRA]={{55.28,50.86}}}, Questie.ICON_TYPE_EVENT, l10n("Alliance Deserter Delivered")}},
-            [questKeys.objectives] = {{{25761,"Alliance Deserter Delivered"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a new Deserter if you lose him/her"), 0, {{"monster", 25379}}}},
+            [questKeys.triggerEnd] = {"Alliance Deserter Delivered",{[zoneIDs.BOREAN_TUNDRA]={{55.28,50.86}}}},
             [questKeys.requiredSourceItems] = {},
         },
         [11712] = {
