@@ -138,6 +138,7 @@ _AutoQuesting.disallowedQuests = {
         [11189] = true, -- One Last Time
         [11241] = true, -- Trail of Fire
         [11570] = true, -- Escape from the Winterfin Caverns
+        [11664] = true, -- Escaping the Mist
         [11673] = true, -- Get Me Outa Here!
         [11705] = true, -- Foolish Endeavors
         [11930] = true, -- Across Transborea
