@@ -95,6 +95,36 @@ describe("DistanceUtils", function()
 
             assert.spy(ZoneDB.GetDungeonLocation).was_called_with(_, 2)
         end)
+
+        it("should use 0 values when player position can not be determined", function()
+            HBDMock.GetPlayerWorldPosition = spy.new(function()
+                return nil, nil, 2
+            end)
+            HBDMock.GetWorldCoordinatesFromZone = spy.new(function(_, _, _, uiMapId)
+                if uiMapId == 200 then
+                    return 123, 456, 2
+                end
+                return 0, 0, 1
+            end)
+            QuestieLib.Euclid = spy.new(function(_, _, dX)
+                return dX == 123 and 0 or 100
+            end)
+            ZoneDB.GetUiMapIdByAreaId = spy.new(function(_, zoneId)
+                return zoneId == 2 and 200 or 300
+            end)
+            local spawns = {
+                [1] = {{50,50}},
+                [2] = {{60,60}},
+            }
+
+            local bestSpawn, bestSpawnZone, bestDistance = DistanceUtils.GetNearestSpawn(spawns)
+
+            assert.same({60,60}, bestSpawn)
+            assert.equals(2, bestSpawnZone)
+            assert.equals(0, bestDistance)
+
+            assert.spy(QuestieLib.Euclid).was_called_with(0, 0, 123, 456)
+        end)
     end)
 
     describe("GetNearestObjective", function()
