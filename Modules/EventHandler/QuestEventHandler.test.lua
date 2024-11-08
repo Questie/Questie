@@ -130,9 +130,16 @@ describe("QuestEventHandler", function()
 
     it("should mark quest as abandoned on QUEST_REMOVED without preceding QUEST_TURNED_IN", function()
         Questie.SendMessage = spy.new()
-        _G.C_Timer = {NewTicker = function(_, callback) callback() return {} end}
+        QuestLogCache.RemoveQuest = spy.new()
+        QuestieQuest.SetObjectivesDirty = spy.new()
+        QuestieQuest.AbandonedQuest = spy.new()
+        QuestieJourney.AbandonQuest = spy.new()
+        QuestieAnnounce.AbandonedQuest = spy.new()
+        local callbacks = {}
+        _G.C_Timer = {NewTicker = function(_, callback) table.insert(callbacks, callback) return {} end}
 
         QuestEventHandler:QuestRemoved(QUEST_ID)
+        callbacks[1]()
 
         assert.spy(Questie.SendMessage).was_called_with(Questie, "QC_ID_BROADCAST_QUEST_REMOVE", QUEST_ID)
         assert.spy(QuestLogCache.RemoveQuest).was_called_with(QUEST_ID)
