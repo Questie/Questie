@@ -50,23 +50,10 @@ local skipNextUQLCEvent = false
 local doFullQuestLogScan = false
 local deletedQuestItem = false
 
---- Registers all events that are required for questing (accepting, removing, objective updates, ...)
-function QuestEventHandler:RegisterEvents()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] RegisterEvents")
+function QuestEventHandler:Initialize()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] Initialize")
 
-    Questie:RegisterEvent("QUEST_ACCEPTED", _QuestEventHandler.QuestAccepted)
-    Questie:RegisterEvent("QUEST_REMOVED", _QuestEventHandler.QuestRemoved)
-    Questie:RegisterEvent("QUEST_TURNED_IN", _QuestEventHandler.QuestTurnedIn)
-    Questie:RegisterEvent("QUEST_LOG_UPDATE", _QuestEventHandler.QuestLogUpdate)
-    Questie:RegisterEvent("QUEST_WATCH_UPDATE", _QuestEventHandler.QuestWatchUpdate)
-    Questie:RegisterEvent("QUEST_AUTOCOMPLETE", _QuestEventHandler.QuestAutoComplete)
-    Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _QuestEventHandler.UnitQuestLogChanged)
-    Questie:RegisterEvent("NEW_RECIPE_LEARNED", _QuestEventHandler.NewRecipeLearned)
-    Questie:RegisterEvent("CURRENCY_DISPLAY_UPDATE", _QuestEventHandler.CurrencyDisplayUpdate)
-    Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", _QuestEventHandler.PlayerInteractionManagerFrameHide)
-    Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _QuestEventHandler.ReputationChange)
-
-    -- StaticPopup dialog hooks. Deleteing Quest items do not always trigger a Quest Log Update.
+    -- StaticPopup dialog hooks. Deleting Quest items do not always trigger a Quest Log Update.
     hooksecurefunc("StaticPopup_Show", function(...)
         -- Hook StaticPopup_Show. If we find the "DELETE_ITEM" dialog, check for Quest Items and notify the player.
         local which, text_arg1 = ...
@@ -184,7 +171,7 @@ end
 --- Fires when a quest is accepted in anyway.
 ---@param questLogIndex number
 ---@param questId number
-function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
+function QuestEventHandler:QuestAccepted(questLogIndex, questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED", questLogIndex, questId)
 
     if questLog[questId] and questLog[questId].timer then
@@ -208,27 +195,25 @@ function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
         skipNextUQLCEvent = true
     end
 
-    QuestieCombatQueue:Queue(function()
-        QuestieLib:CacheItemNames(questId)
-        _QuestEventHandler:HandleQuestAccepted(questId)
-    end)
+    QuestieLib:CacheItemNames(questId)
+    _QuestEventHandler:HandleQuestAccepted(questId, false)
 
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED - skipNextUQLCEvent - ", skipNextUQLCEvent)
 end
 
 ---@param questId number
----@return boolean true @if the function was successful, false otherwise
-function _QuestEventHandler:HandleQuestAccepted(questId)
+function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
     local cacheMiss, _ = QuestLogCache.CheckForChanges({ [questId] = true })
     if cacheMiss then
         -- if cacheMiss, no need to check changes as only 1 questId
         Questie:Debug(Questie.DEBUG_INFO, "Objectives are not cached yet")
-        _QuestLogUpdateQueue:Insert(function()
-            return _QuestEventHandler:HandleQuestAccepted(questId)
-        end)
-
-        return false
+        if (not isRetry) then
+            C_Timer.After(0.5, function()
+                _QuestEventHandler:HandleQuestAccepted(questId, true)
+            end)
+        end
+        return
     end
 
     Questie:Debug(Questie.DEBUG_INFO, "Objectives are correct. Calling accept logic. quest:", questId)
@@ -244,15 +229,13 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
     else
         QuestieQuest:AcceptQuest(questId)
     end
-
-    return true
 end
 
 --- Fires when a quest is turned in
 ---@param questId number
 ---@param xpReward number
 ---@param moneyReward number
-function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
+function QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_TURNED_IN", xpReward, moneyReward, questId)
 
     if questLog[questId] and questLog[questId].timer then
@@ -298,7 +281,7 @@ end
 
 --- Fires when a quest is removed from the quest log. This includes turning it in and abandoning it.
 ---@param questId number
-function _QuestEventHandler:QuestRemoved(questId)
+function QuestEventHandler:QuestRemoved(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_REMOVED", questId)
     doFullQuestLogScan = false
 
@@ -346,7 +329,7 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
 end
 
 ---Fires when the quest log changed in any way. This event fires very often!
-function _QuestEventHandler.QuestLogUpdate()
+function QuestEventHandler.QuestLogUpdate()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_LOG_UPDATE")
 
     local continueQueuing = true
@@ -369,7 +352,7 @@ end
 
 --- Fires whenever a quest objective progressed
 ---@param questId number
-function _QuestEventHandler:QuestWatchUpdate(questId)
+function QuestEventHandler:QuestWatchUpdate(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_WATCH_UPDATE", questId)
 
     -- We do a full scan even though we have the questId because many QUEST_WATCH_UPDATE can fire before
@@ -394,7 +377,7 @@ end
 ---Some Quests are not turned in at an NPC or object. QUEST_AUTOCOMPLETE is fired for these quests.
 ---Good quest to test this: https://www.wowhead.com/quest=24502/necessary-roughness
 ---@param questId number
-function _QuestEventHandler:QuestAutoComplete(questId)
+function QuestEventHandler:QuestAutoComplete(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_AUTOCOMPLETE", questId)
 
     if Questie.db.profile.trackerEnabled then
@@ -405,7 +388,7 @@ end
 
 --- Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
 ---@param unitTarget string
-function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
+function QuestEventHandler:UnitQuestLogChanged(unitTarget)
     if unitTarget ~= "player" then
         return
     end
@@ -475,7 +458,7 @@ function _QuestEventHandler:QuestRelatedFrameClosed(event)
     end
 end
 
-function _QuestEventHandler:ReputationChange()
+function QuestEventHandler:ReputationChange()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] CHAT_MSG_COMBAT_FACTION_CHANGE")
 
     -- Reputational quest progression doesn't fire UNIT_QUEST_LOG_CHANGED event, only QUEST_LOG_UPDATE event.
@@ -483,13 +466,13 @@ function _QuestEventHandler:ReputationChange()
 end
 
 -- Spell objectives; Runes in SoD count as recipes because "Engraving" is a profession?
-function _QuestEventHandler.NewRecipeLearned()
+function QuestEventHandler.NewRecipeLearned()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED (QuestEventHandler)")
 
     doFullQuestLogScan = true -- If this event is related to a spell objective, a QUEST_LOG_UPDATE will be fired afterwards
 end
 
-function _QuestEventHandler.CurrencyDisplayUpdate()
+function QuestEventHandler.CurrencyDisplayUpdate()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CURRENCY_DISPLAY_UPDATE (QuestEventHandler)")
 
     -- We want to make sure we are doing a full quest log scan, when the currency changed. There are quests which reward a currency and this
@@ -500,7 +483,7 @@ function _QuestEventHandler.CurrencyDisplayUpdate()
     end)
 end
 
-function _QuestEventHandler:PlayerInteractionManagerFrameHide(eventType)
+function QuestEventHandler:PlayerInteractionManagerFrameHide(eventType)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] PLAYER_INTERACTION_MANAGER_FRAME_HIDE", eventType)
 
     local eventName

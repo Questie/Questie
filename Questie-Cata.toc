@@ -136,7 +136,10 @@ Modules\QuestieInit.lua
 Modules\MinimapIcon.lua
 Modules\QuestieProfessions.lua
 Modules\QuestieReputation.lua
-Modules\QuestieEventHandler.lua
+Modules\EventHandler\EventHandler.lua
+Modules\EventHandler\AchievementEventHandler.lua
+Modules\EventHandler\GroupEventHandler.lua
+Modules\EventHandler\QuestEventHandler.lua
 Modules\Migration.lua
 Modules\Phasing.lua
 Modules\QuestieMenu\Townsfolk.lua
@@ -185,7 +188,6 @@ Modules\Quest\AvailableQuests\AvailableQuests.lua
 Modules\Quest\QuestLogCache.lua
 Modules\Quest\DailyQuests.lua
 Modules\Quest\IsleOfQuelDanas.lua
-Modules\Quest\QuestEventHandler.lua
 Modules\Quest\QuestFinisher.lua
 Modules\Quest\QuestgiverFrame.lua
 Modules\Quest\QuestieQuest.lua

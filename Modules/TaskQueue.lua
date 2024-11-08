@@ -2,10 +2,20 @@
 local TaskQueue = QuestieLoader:CreateModule("TaskQueue")
 local _TaskQueue = TaskQueue.private
 
+local isRunning = false
+
 _TaskQueue.queue = {}
 function TaskQueue:OnUpdate()
+    if isRunning then
+        -- We want tasks to be ran sequentially, not multiple at once to avoid race conditions
+        return
+    end
     local val = table.remove(_TaskQueue.queue, 1)
-    if val then val() end
+    if val then
+        isRunning = true
+        val()
+        isRunning = false
+    end
 end
 
 function TaskQueue:Queue(...)
