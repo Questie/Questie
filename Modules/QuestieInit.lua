@@ -271,7 +271,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     QuestieQuest:GetAllQuestIds()
     coYield()
 
-    QuestEventHandler:RegisterEvents()
+    QuestEventHandler:Initialize()
 
     coYield()
     QuestieCombatQueue.Initialize()

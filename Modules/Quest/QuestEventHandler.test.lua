@@ -49,7 +49,7 @@ describe("QuestEventHandler", function()
 
         QuestieLib.CacheItemNames = spy.new(function() end)
 
-        QuestEventHandler:RegisterEvents()
+        QuestEventHandler:Initialize()
         QuestEventHandler.InitQuestLogStates({[QUEST_ID] = true})
     end)
 

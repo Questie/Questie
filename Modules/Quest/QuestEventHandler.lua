@@ -50,11 +50,10 @@ local skipNextUQLCEvent = false
 local doFullQuestLogScan = false
 local deletedQuestItem = false
 
---- Registers all events that are required for questing (accepting, removing, objective updates, ...)
-function QuestEventHandler:RegisterEvents()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] RegisterEvents")
+function QuestEventHandler:Initialize()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] Initialize")
 
-    -- StaticPopup dialog hooks. Deleteing Quest items do not always trigger a Quest Log Update.
+    -- StaticPopup dialog hooks. Deleting Quest items do not always trigger a Quest Log Update.
     hooksecurefunc("StaticPopup_Show", function(...)
         -- Hook StaticPopup_Show. If we find the "DELETE_ITEM" dialog, check for Quest Items and notify the player.
         local which, text_arg1 = ...
