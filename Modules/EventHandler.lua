@@ -86,6 +86,7 @@ function EventHandler:RegisterLateEvents()
     -- Spell objectives
     Questie:RegisterEvent("NEW_RECIPE_LEARNED", function() -- Needed for some spells that don't necessarily appear in the spellbook, but are definitely spells
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED")
+        QuestEventHandler.NewRecipeLearned()
         AvailableQuests.CalculateAndDrawAll()
     end)
 

@@ -54,7 +54,6 @@ local deletedQuestItem = false
 function QuestEventHandler:RegisterEvents()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] RegisterEvents")
 
-    Questie:RegisterEvent("NEW_RECIPE_LEARNED", _QuestEventHandler.NewRecipeLearned)
     Questie:RegisterEvent("CURRENCY_DISPLAY_UPDATE", _QuestEventHandler.CurrencyDisplayUpdate)
     Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", _QuestEventHandler.PlayerInteractionManagerFrameHide)
     Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _QuestEventHandler.ReputationChange)
@@ -476,7 +475,7 @@ function _QuestEventHandler:ReputationChange()
 end
 
 -- Spell objectives; Runes in SoD count as recipes because "Engraving" is a profession?
-function _QuestEventHandler.NewRecipeLearned()
+function QuestEventHandler.NewRecipeLearned()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED (QuestEventHandler)")
 
     doFullQuestLogScan = true -- If this event is related to a spell objective, a QUEST_LOG_UPDATE will be fired afterwards
