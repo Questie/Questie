@@ -7557,6 +7557,12 @@ function CataQuestFixes.Load()
         [27595] = { -- The Prophet Hadassi
             [questKeys.preQuestSingle] = {28135},
         },
+        [27604] = { -- Jammal'an the Prophet
+            [questKeys.zoneOrSort] = zoneIDs.SUNKEN_TEMPLE,
+        },
+        [27605] = { -- Eranikus
+            [questKeys.zoneOrSort] = zoneIDs.SUNKEN_TEMPLE,
+        },
         [27606] = { -- Blast Him!
             [questKeys.preQuestGroup] = {27584,27586},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Heth'Jatari Conch"), 0, {{"object", 205831}}}},
@@ -7608,6 +7614,9 @@ function CataQuestFixes.Load()
         },
         [27631] = { -- The High Commander's Vote
             [questKeys.preQuestSingle] = {27628},
+        },
+        [27633] = { -- The Blood God Hakkar
+            [questKeys.zoneOrSort] = zoneIDs.SUNKEN_TEMPLE,
         },
         [27635] = { -- Decontamination
             [questKeys.objectives] = {{{46185,nil,Questie.ICON_TYPE_MOUNT_UP}}},
@@ -8089,6 +8098,7 @@ function CataQuestFixes.Load()
         [27915] = { -- The Heart of the Temple
             [questKeys.preQuestSingle] = {27914},
             [questKeys.nextQuestInChain] = 27605,
+            [questKeys.zoneOrSort] = zoneIDs.SUNKEN_TEMPLE,
         },
         [27916] = { -- Ruag's Report
             [questKeys.nextQuestInChain] = 28553,
