@@ -131,6 +131,7 @@ Modules\MinimapIcon.lua
 Modules\QuestieProfessions.lua
 Modules\QuestieReputation.lua
 Modules\EventHandler\EventHandler.lua
+Modules\EventHandler\GroupEventHandler.lua
 Modules\EventHandler\QuestEventHandler.lua
 Modules\Migration.lua
 Modules\Phasing.lua

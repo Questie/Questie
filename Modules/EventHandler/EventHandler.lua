@@ -7,10 +7,10 @@ local _EventHandler = {}
 -------------------------
 ---@type QuestEventHandler
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
+---@type GroupEventHandler
+local GroupEventHandler = QuestieLoader:ImportModule("GroupEventHandler")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
----@type QuestieComms
-local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieTracker
@@ -260,9 +260,9 @@ function EventHandler:RegisterLateEvents()
     -- Questie Comms Events
 
     -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
-    Questie:RegisterBucketEvent("GROUP_ROSTER_UPDATE", 1, _EventHandler.GroupRosterUpdate)
-    Questie:RegisterEvent("GROUP_JOINED", _EventHandler.GroupJoined)
-    Questie:RegisterEvent("GROUP_LEFT", _EventHandler.GroupLeft)
+    Questie:RegisterBucketEvent("GROUP_ROSTER_UPDATE", 1, GroupEventHandler.GroupRosterUpdate)
+    Questie:RegisterEvent("GROUP_JOINED", GroupEventHandler.GroupJoined)
+    Questie:RegisterEvent("GROUP_LEFT", GroupEventHandler.GroupLeft)
 
     -- Nameplate / Target Frame Objective Events
     Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated)
@@ -506,46 +506,6 @@ function _EventHandler:ChatMsgCompatFactionChange()
 
         AvailableQuests.CalculateAndDrawAll()
     end
-end
-
-function _EventHandler.GroupRosterUpdate()
-    local currentMembers = GetNumGroupMembers()
-    -- Only want to do logic when number increases, not decreases.
-    if QuestiePlayer.numberOfGroupMembers < currentMembers then
-        -- Tell comms to send information to members.
-        --Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST")
-        QuestiePlayer.numberOfGroupMembers = currentMembers
-    else
-        -- We do however always want the local to be the current number to allow up and down.
-        QuestiePlayer.numberOfGroupMembers = currentMembers
-    end
-end
-
-function _EventHandler:GroupJoined()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] GROUP_JOINED")
-    local checkTimer
-    --We want this to be fairly quick.
-    checkTimer = C_Timer.NewTicker(0.2, function()
-        local partyPending = UnitInParty("player")
-        local isInParty = UnitInParty("party1")
-        local isInRaid = UnitInRaid("raid1")
-        if partyPending then
-            if (isInParty or isInRaid) then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[EventHandler] Player joined party/raid, ask for questlogs")
-                --Request other players log.
-                Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
-                checkTimer:Cancel()
-            end
-        else
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EventHandler] Player no longer in a party or pending invite. Cancel timer")
-            checkTimer:Cancel()
-        end
-    end)
-end
-
-function _EventHandler:GroupLeft()
-    --Resets both QuestieComms.remoteQuestLog and QuestieComms.data
-    QuestieComms:ResetAll()
 end
 
 local trackerHiddenByCombat, optionsHiddenByCombat, journeyHiddenByCombat = false, false, false
