@@ -136,6 +136,7 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("QUEST_AUTOCOMPLETE", QuestEventHandler.QuestAutoComplete)
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", QuestEventHandler.UnitQuestLogChanged)
     Questie:RegisterEvent("CURRENCY_DISPLAY_UPDATE", QuestEventHandler.CurrencyDisplayUpdate)
+    Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", QuestEventHandler.PlayerInteractionManagerFrameHide)
 
     Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")

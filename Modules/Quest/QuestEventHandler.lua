@@ -54,7 +54,6 @@ local deletedQuestItem = false
 function QuestEventHandler:RegisterEvents()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] RegisterEvents")
 
-    Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", _QuestEventHandler.PlayerInteractionManagerFrameHide)
     Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _QuestEventHandler.ReputationChange)
 
     -- StaticPopup dialog hooks. Deleteing Quest items do not always trigger a Quest Log Update.
@@ -491,7 +490,7 @@ function QuestEventHandler.CurrencyDisplayUpdate()
     end)
 end
 
-function _QuestEventHandler:PlayerInteractionManagerFrameHide(eventType)
+function QuestEventHandler:PlayerInteractionManagerFrameHide(eventType)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] PLAYER_INTERACTION_MANAGER_FRAME_HIDE", eventType)
 
     local eventName
