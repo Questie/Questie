@@ -54,7 +54,6 @@ local deletedQuestItem = false
 function QuestEventHandler:RegisterEvents()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] RegisterEvents")
 
-    Questie:RegisterEvent("QUEST_AUTOCOMPLETE", _QuestEventHandler.QuestAutoComplete)
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _QuestEventHandler.UnitQuestLogChanged)
     Questie:RegisterEvent("NEW_RECIPE_LEARNED", _QuestEventHandler.NewRecipeLearned)
     Questie:RegisterEvent("CURRENCY_DISPLAY_UPDATE", _QuestEventHandler.CurrencyDisplayUpdate)
@@ -389,7 +388,7 @@ end
 ---Some Quests are not turned in at an NPC or object. QUEST_AUTOCOMPLETE is fired for these quests.
 ---Good quest to test this: https://www.wowhead.com/quest=24502/necessary-roughness
 ---@param questId number
-function _QuestEventHandler:QuestAutoComplete(questId)
+function QuestEventHandler:QuestAutoComplete(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_AUTOCOMPLETE", questId)
 
     if Questie.db.profile.trackerEnabled then
