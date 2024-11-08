@@ -68,6 +68,8 @@ describe("QuestEventHandler", function()
     end)
 
     it("should handle accept on QLU when quest is initially missing in game cache", function()
+        local callbacks = {}
+        _G.C_Timer = {After = function(_, callback) table.insert(callbacks, callback) end}
         QuestLogCache.CheckForChanges = spy.new(function() return true, nil end)
         QuestieQuest.SetObjectivesDirty = spy.new()
         QuestieQuest.AcceptQuest = spy.new()
@@ -86,6 +88,7 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieTracker.Update).was_not_called()
 
         QuestLogCache.CheckForChanges = spy.new(function() return false, nil end)
+        callbacks[1]()
 
         QuestEventHandler.QuestLogUpdate()
 

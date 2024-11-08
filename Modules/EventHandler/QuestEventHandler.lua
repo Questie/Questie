@@ -196,19 +196,23 @@ function QuestEventHandler:QuestAccepted(questLogIndex, questId)
     end
 
     QuestieLib:CacheItemNames(questId)
-    _QuestEventHandler:HandleQuestAccepted(questId)
+    _QuestEventHandler:HandleQuestAccepted(questId, false)
 
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED - skipNextUQLCEvent - ", skipNextUQLCEvent)
 end
 
 ---@param questId number
-function _QuestEventHandler:HandleQuestAccepted(questId)
+function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
     local cacheMiss, _ = QuestLogCache.CheckForChanges({ [questId] = true })
     if cacheMiss then
         -- if cacheMiss, no need to check changes as only 1 questId
         Questie:Debug(Questie.DEBUG_INFO, "Objectives are not cached yet")
-        _QuestEventHandler:HandleQuestAccepted(questId)
+        if (not isRetry) then
+            C_Timer.After(0.5, function()
+                _QuestEventHandler:HandleQuestAccepted(questId, true)
+            end)
+        end
         return
     end
 
