@@ -54,8 +54,6 @@ local deletedQuestItem = false
 function QuestEventHandler:RegisterEvents()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] RegisterEvents")
 
-    Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _QuestEventHandler.ReputationChange)
-
     -- StaticPopup dialog hooks. Deleteing Quest items do not always trigger a Quest Log Update.
     hooksecurefunc("StaticPopup_Show", function(...)
         -- Hook StaticPopup_Show. If we find the "DELETE_ITEM" dialog, check for Quest Items and notify the player.
@@ -465,7 +463,7 @@ function _QuestEventHandler:QuestRelatedFrameClosed(event)
     end
 end
 
-function _QuestEventHandler:ReputationChange()
+function QuestEventHandler:ReputationChange()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] CHAT_MSG_COMBAT_FACTION_CHANGE")
 
     -- Reputational quest progression doesn't fire UNIT_QUEST_LOG_CHANGED event, only QUEST_LOG_UPDATE event.

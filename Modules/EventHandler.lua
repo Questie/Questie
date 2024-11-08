@@ -80,7 +80,10 @@ function EventHandler:RegisterLateEvents()
 
     -- Events to update a players professions and reputations
     Questie:RegisterBucketEvent("CHAT_MSG_SKILL", 2, _EventHandler.ChatMsgSkill)
-    Questie:RegisterBucketEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", 2, _EventHandler.ChatMsgCompatFactionChange)
+    Questie:RegisterBucketEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", 2, function()
+        QuestEventHandler:ReputationChange()
+        _EventHandler:ChatMsgCompatFactionChange()
+    end)
     Questie:RegisterEvent("CHAT_MSG_SYSTEM", _EventHandler.ChatMsgSystem)
 
     -- Spell objectives
