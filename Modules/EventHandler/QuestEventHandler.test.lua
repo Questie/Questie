@@ -43,7 +43,7 @@ describe("QuestEventHandler", function()
         QuestieNameplate = require("Modules.QuestieNameplate")
         WatchFrameHook = require("Modules.WatchFrameHook")
         AutoCompleteFrame = require("Modules.Tracker.AutoCompleteFrame")
-        QuestEventHandler = require("Modules.Quest.QuestEventHandler")
+        QuestEventHandler = require("Modules.EventHandler.QuestEventHandler")
 
         QuestieLib.CacheItemNames = spy.new(function() end)
 
