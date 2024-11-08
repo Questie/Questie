@@ -7807,6 +7807,9 @@ function CataQuestFixes.Load()
         [27704] = { -- Legends of the Sunken Temple
             [questKeys.triggerEnd] = {"Hall of Masks found", {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR]={{74,44.4}}}},
         },
+        [27705] = { -- Step One: The Priestess
+            [questKeys.startedBy] = {{46071}},
+        },
         [27707] = { -- Neferset Prison
             [questKeys.objectives] = {{{46425,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.finishedBy] = {{100013}},
@@ -7928,6 +7931,12 @@ function CataQuestFixes.Load()
         [27762] = { -- Fuselight, Ho!
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 48708}}}},
+        },
+        [27768] = { -- Step Two: The Bloodletter
+            [questKeys.startedBy] = {{46071}},
+        },
+        [27773] = { -- Step Three: Prophet
+            [questKeys.startedBy] = {{46071}},
         },
         [27777] = { -- Core Access Codes
             [questKeys.exclusiveTo] = {},
