@@ -195,10 +195,8 @@ function QuestEventHandler:QuestAccepted(questLogIndex, questId)
         skipNextUQLCEvent = true
     end
 
-    QuestieCombatQueue:Queue(function()
-        QuestieLib:CacheItemNames(questId)
-        _QuestEventHandler:HandleQuestAccepted(questId)
-    end)
+    QuestieLib:CacheItemNames(questId)
+    _QuestEventHandler:HandleQuestAccepted(questId)
 
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED - skipNextUQLCEvent - ", skipNextUQLCEvent)
 end
@@ -211,11 +209,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
     if cacheMiss then
         -- if cacheMiss, no need to check changes as only 1 questId
         Questie:Debug(Questie.DEBUG_INFO, "Objectives are not cached yet")
-        _QuestLogUpdateQueue:Insert(function()
-            return _QuestEventHandler:HandleQuestAccepted(questId)
-        end)
-
-        return false
+        return _QuestEventHandler:HandleQuestAccepted(questId)
     end
 
     Questie:Debug(Questie.DEBUG_INFO, "Objectives are correct. Calling accept logic. quest:", questId)
