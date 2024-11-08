@@ -1798,6 +1798,9 @@ function CataQuestFixes.Load()
         [13844] = { -- The Looting of Althalaxx
             [questKeys.preQuestSingle] = {13509},
         },
+        [13845] = { -- Sealed Vial of Poison
+            [questKeys.zoneOrSort] = 4613,
+        },
         [13848] = { -- Bad News Bear-er
             [questKeys.preQuestSingle] = {13805},
         },
@@ -2252,6 +2255,9 @@ function CataQuestFixes.Load()
         [14202] = { -- Survey the Lakeshore
             [questKeys.preQuestSingle] = {24453},
             [questKeys.objectives] = {{{35488,nil,Questie.ICON_TYPE_EVENT},{35487,nil,Questie.ICON_TYPE_EVENT},{35489,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [14203] = { -- Waterlogged Recipe
+            [questKeys.zoneOrSort] = 4613,
         },
         [14204] = { -- From the Shadows
             [questKeys.startedBy] = {{35378}},
