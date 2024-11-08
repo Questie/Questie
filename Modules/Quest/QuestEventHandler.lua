@@ -54,7 +54,6 @@ local deletedQuestItem = false
 function QuestEventHandler:RegisterEvents()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] RegisterEvents")
 
-    Questie:RegisterEvent("QUEST_LOG_UPDATE", _QuestEventHandler.QuestLogUpdate)
     Questie:RegisterEvent("QUEST_WATCH_UPDATE", _QuestEventHandler.QuestWatchUpdate)
     Questie:RegisterEvent("QUEST_AUTOCOMPLETE", _QuestEventHandler.QuestAutoComplete)
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _QuestEventHandler.UnitQuestLogChanged)
@@ -343,7 +342,7 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
 end
 
 ---Fires when the quest log changed in any way. This event fires very often!
-function _QuestEventHandler.QuestLogUpdate()
+function QuestEventHandler.QuestLogUpdate()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_LOG_UPDATE")
 
     local continueQueuing = true
