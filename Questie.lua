@@ -5,8 +5,8 @@ local band = bit.band
 -------------------------
 ---@type QuestieOptionsDefaults
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
----@type QuestieEventHandler
-local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler")
+---@type EventHandler
+local EventHandler = QuestieLoader:ImportModule("EventHandler")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type TrackerBaseFrame
@@ -26,7 +26,7 @@ function Questie:OnInitialize()
     Questie.db.RegisterCallback(Questie, "OnProfileCopied", "RefreshConfig")
     Questie.db.RegisterCallback(Questie, "OnProfileReset", "RefreshConfig")
 
-    QuestieEventHandler:RegisterEarlyEvents()
+    EventHandler:RegisterEarlyEvents()
 
     QuestieInit.OnAddonLoaded()
 end

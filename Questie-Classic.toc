@@ -127,7 +127,7 @@ Modules\QuestieInit.lua
 Modules\MinimapIcon.lua
 Modules\QuestieProfessions.lua
 Modules\QuestieReputation.lua
-Modules\QuestieEventHandler.lua
+Modules\EventHandler.lua
 Modules\Migration.lua
 Modules\Phasing.lua
 Modules\QuestieMenu\Townsfolk.lua

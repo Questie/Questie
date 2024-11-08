@@ -1,5 +1,5 @@
----@class QuestieEventHandler
-local QuestieEventHandler = QuestieLoader:CreateModule("QuestieEventHandler")
+---@class EventHandler
+local EventHandler = QuestieLoader:CreateModule("EventHandler")
 local _EventHandler = {}
 
 -------------------------
@@ -59,11 +59,11 @@ local trackerMinimizedByDungeon = false
 ---en/br/es/fr/gb/it/mx: "You are now %s with %s." (e.g. "You are now Honored with Stormwind."), all other languages are very alike
 local FACTION_STANDING_CHANGED_PATTERN
 
-function QuestieEventHandler:RegisterEarlyEvents()
+function EventHandler:RegisterEarlyEvents()
     Questie:RegisterEvent("PLAYER_LOGIN", _EventHandler.PlayerLogin)
 end
 
-function QuestieEventHandler:RegisterLateEvents()
+function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("PLAYER_LEVEL_UP", _EventHandler.PlayerLevelUp)
     Questie:RegisterEvent("PLAYER_REGEN_DISABLED", _EventHandler.PlayerRegenDisabled)
     Questie:RegisterEvent("PLAYER_REGEN_ENABLED", _EventHandler.PlayerRegenEnabled)
@@ -516,13 +516,13 @@ function _EventHandler:GroupJoined()
         local isInRaid = UnitInRaid("raid1")
         if partyPending then
             if (isInParty or isInRaid) then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieEventHandler] Player joined party/raid, ask for questlogs")
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[EventHandler] Player joined party/raid, ask for questlogs")
                 --Request other players log.
                 Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
                 checkTimer:Cancel()
             end
         else
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieEventHandler] Player no longer in a party or pending invite. Cancel timer")
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EventHandler] Player no longer in a party or pending invite. Cancel timer")
             checkTimer:Cancel()
         end
     end)
