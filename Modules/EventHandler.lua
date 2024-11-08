@@ -5,8 +5,8 @@ local _EventHandler = {}
 -------------------------
 --Import modules.
 -------------------------
----@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestEventHandler
+local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestieComms
@@ -101,7 +101,10 @@ function EventHandler:RegisterLateEvents()
             end)
         end
     end)
-    Questie:RegisterEvent("QUEST_ACCEPTED", QuestieAuto.QUEST_ACCEPTED)
+    Questie:RegisterEvent("QUEST_ACCEPTED", function(_, ...)
+        QuestEventHandler:QuestAccepted(...)
+        QuestieAuto:QUEST_ACCEPTED(...)
+    end)
     Questie:RegisterEvent("QUEST_DETAIL", function(...) -- When the quest is presented!
         QuestieAuto.QUEST_DETAIL(...)
         if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then

@@ -54,7 +54,6 @@ local deletedQuestItem = false
 function QuestEventHandler:RegisterEvents()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] RegisterEvents")
 
-    Questie:RegisterEvent("QUEST_ACCEPTED", _QuestEventHandler.QuestAccepted)
     Questie:RegisterEvent("QUEST_REMOVED", _QuestEventHandler.QuestRemoved)
     Questie:RegisterEvent("QUEST_TURNED_IN", _QuestEventHandler.QuestTurnedIn)
     Questie:RegisterEvent("QUEST_LOG_UPDATE", _QuestEventHandler.QuestLogUpdate)
@@ -184,7 +183,7 @@ end
 --- Fires when a quest is accepted in anyway.
 ---@param questLogIndex number
 ---@param questId number
-function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
+function QuestEventHandler:QuestAccepted(questLogIndex, questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED", questLogIndex, questId)
 
     if questLog[questId] and questLog[questId].timer then
