@@ -54,7 +54,6 @@ local deletedQuestItem = false
 function QuestEventHandler:RegisterEvents()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] RegisterEvents")
 
-    Questie:RegisterEvent("CURRENCY_DISPLAY_UPDATE", _QuestEventHandler.CurrencyDisplayUpdate)
     Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", _QuestEventHandler.PlayerInteractionManagerFrameHide)
     Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _QuestEventHandler.ReputationChange)
 
@@ -481,7 +480,7 @@ function QuestEventHandler.NewRecipeLearned()
     doFullQuestLogScan = true -- If this event is related to a spell objective, a QUEST_LOG_UPDATE will be fired afterwards
 end
 
-function _QuestEventHandler.CurrencyDisplayUpdate()
+function QuestEventHandler.CurrencyDisplayUpdate()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CURRENCY_DISPLAY_UPDATE (QuestEventHandler)")
 
     -- We want to make sure we are doing a full quest log scan, when the currency changed. There are quests which reward a currency and this
