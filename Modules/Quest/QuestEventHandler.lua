@@ -54,7 +54,6 @@ local deletedQuestItem = false
 function QuestEventHandler:RegisterEvents()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] RegisterEvents")
 
-    Questie:RegisterEvent("QUEST_TURNED_IN", _QuestEventHandler.QuestTurnedIn)
     Questie:RegisterEvent("QUEST_LOG_UPDATE", _QuestEventHandler.QuestLogUpdate)
     Questie:RegisterEvent("QUEST_WATCH_UPDATE", _QuestEventHandler.QuestWatchUpdate)
     Questie:RegisterEvent("QUEST_AUTOCOMPLETE", _QuestEventHandler.QuestAutoComplete)
@@ -250,7 +249,7 @@ end
 ---@param questId number
 ---@param xpReward number
 ---@param moneyReward number
-function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
+function QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_TURNED_IN", xpReward, moneyReward, questId)
 
     if questLog[questId] and questLog[questId].timer then
