@@ -8074,6 +8074,10 @@ function CataQuestFixes.Load()
         [27869] = { -- The Dragon and the Temple
             [questKeys.nextQuestInChain] = 27694,
         },
+        [27870] = { -- To Marshtide Watch
+            [questKeys.preQuestSingle] = {27914},
+            [questKeys.nextQuestInChain] = 27821,
+        },
         [27871] = { -- To Stonard
             [questKeys.preQuestSingle] = {27914},
             [questKeys.nextQuestInChain] = 27852,
