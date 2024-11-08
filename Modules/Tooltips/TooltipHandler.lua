@@ -103,12 +103,6 @@ function _QuestieTooltips.AddObjectDataToTooltip(name)
         if tooltipData then
             for _, line in pairs (tooltipData) do
                 if (not alreadyAddedObjectiveLines[line]) then
-                    local _, _, acquired, needed = string.find(line, "(%d+)/(%d+)")
-                    -- We need "tonumber", because acquired can contain parts of the color string
-                    if acquired and tonumber(acquired) == tonumber(needed) then
-                        -- We don't want to show completed objectives on game objects
-                        break;
-                    end
                     alreadyAddedObjectiveLines[line] = true
                     GameTooltip:AddLine(line)
                 end
