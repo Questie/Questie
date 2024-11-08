@@ -7,6 +7,8 @@ local _EventHandler = {}
 -------------------------
 ---@type QuestEventHandler
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
+---@type AchievementEventHandler
+local AchievementEventHandler = QuestieLoader:ImportModule("AchievementEventHandler")
 ---@type GroupEventHandler
 local GroupEventHandler = QuestieLoader:ImportModule("GroupEventHandler")
 ---@type QuestieJourney
@@ -177,72 +179,22 @@ function EventHandler:RegisterLateEvents()
 
     -- UI Achievement Events
     if Questie.IsWotlk or Questie.IsCata and Questie.db.profile.trackerEnabled then
-        -- Earned Achievement update
-        Questie:RegisterEvent("ACHIEVEMENT_EARNED", function(index, achieveId, alreadyEarned)
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ACHIEVEMENT_EARNED")
-            QuestieTracker:UntrackAchieveId(achieveId)
-            QuestieTracker:UpdateAchieveTrackerCache(achieveId)
-
-            if (not AchievementFrame) then
-                AchievementFrame_LoadUI()
-            end
-
-            AchievementFrameAchievements_ForceUpdate()
-
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-            end)
+        Questie:RegisterEvent("ACHIEVEMENT_EARNED", function(_, achieveId)
+            AchievementEventHandler.AchievementEarned(achieveId)
         end)
 
-        -- Track/Untrack Achievement updates
-        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function(index, achieveId, added)
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] TRACKED_ACHIEVEMENT_LIST_CHANGED")
-            QuestieTracker:UpdateAchieveTrackerCache(achieveId)
-        end)
-
-        -- Timed based Achievement updates
-        -- TODO: Fired when a timed event for an achievement begins or ends. The achievement does not have to be actively tracked for this to trigger.
-        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_UPDATE", function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] TRACKED_ACHIEVEMENT_UPDATE")
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-            end)
+        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_UPDATE", AchievementEventHandler.TrackedAchievementUpdate)
+        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function(_, achieveId)
+            AchievementEventHandler.TrackedAchievementListChanged(achieveId)
         end)
 
         -- This fires pretty often, multiple times for a single Achievement change and also for things most likely not related to Achievements at all.
         -- We use a bucket to hinder this from spamming
-        Questie:RegisterBucketEvent("CRITERIA_UPDATE", 2, function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CRITERIA_UPDATE")
+        Questie:RegisterBucketEvent("CRITERIA_UPDATE", 2, AchievementEventHandler.CriteriaUpdate)
 
-            if Questie.db.char.trackedAchievementIds and next(Questie.db.char.trackedAchievementIds) then
-                QuestieCombatQueue:Queue(function()
-                    QuestieTracker:Update()
-                end)
-            end
-        end)
-        -- Money based Achievement updates
-        Questie:RegisterEvent("CHAT_MSG_MONEY", function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_MONEY")
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-            end)
-        end)
-
-        -- Emote based Achievement updates
-        Questie:RegisterEvent("CHAT_MSG_TEXT_EMOTE", function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_TEXT_EMOTE")
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-            end)
-        end)
-
-        -- Player equipment changed based Achievement updates
-        Questie:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_EQUIPMENT_CHANGED")
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-            end)
-        end)
+        Questie:RegisterEvent("CHAT_MSG_MONEY", AchievementEventHandler.ChatMsgMoney)
+        Questie:RegisterEvent("CHAT_MSG_TEXT_EMOTE", AchievementEventHandler.ChatMsgTextEmote)
+        Questie:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", AchievementEventHandler.PlayerEquipmentChanged)
     end
 
     -- Questie Debug Offer
