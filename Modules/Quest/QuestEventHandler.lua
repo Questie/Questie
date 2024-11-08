@@ -54,7 +54,6 @@ local deletedQuestItem = false
 function QuestEventHandler:RegisterEvents()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] RegisterEvents")
 
-    Questie:RegisterEvent("QUEST_REMOVED", _QuestEventHandler.QuestRemoved)
     Questie:RegisterEvent("QUEST_TURNED_IN", _QuestEventHandler.QuestTurnedIn)
     Questie:RegisterEvent("QUEST_LOG_UPDATE", _QuestEventHandler.QuestLogUpdate)
     Questie:RegisterEvent("QUEST_WATCH_UPDATE", _QuestEventHandler.QuestWatchUpdate)
@@ -297,7 +296,7 @@ end
 
 --- Fires when a quest is removed from the quest log. This includes turning it in and abandoning it.
 ---@param questId number
-function _QuestEventHandler:QuestRemoved(questId)
+function QuestEventHandler:QuestRemoved(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_REMOVED", questId)
     doFullQuestLogScan = false
 

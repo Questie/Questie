@@ -128,6 +128,7 @@ function EventHandler:RegisterLateEvents()
             QuestieDebugOffer.QuestDialog(...)
         end
     end)
+    Questie:RegisterEvent("QUEST_REMOVED", QuestEventHandler.QuestRemoved)
 
     Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
