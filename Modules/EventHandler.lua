@@ -131,6 +131,7 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("QUEST_REMOVED", QuestEventHandler.QuestRemoved)
     Questie:RegisterEvent("QUEST_TURNED_IN", QuestEventHandler.QuestTurnedIn)
     Questie:RegisterEvent("QUEST_LOG_UPDATE", QuestEventHandler.QuestLogUpdate)
+    Questie:RegisterEvent("QUEST_WATCH_UPDATE", QuestEventHandler.QuestWatchUpdate)
 
     Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
