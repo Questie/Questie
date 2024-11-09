@@ -2465,6 +2465,13 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
         },
+        [16033] = { -- Bodley
+            [npcKeys.spawns] = {
+                [zoneIDs.BURNING_STEPPES] = {{26.4,24.45},},
+                [zoneIDs.SEARING_GORGE] = {{32.13,94.7},},
+            },
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+        },
         [16042] = {
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
         },
