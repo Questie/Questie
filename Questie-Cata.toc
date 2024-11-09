@@ -157,6 +157,7 @@ Modules\QuestieDebugOffer.lua
 Modules\WatchFrameHook.lua
 Modules\WorldMapButton\WorldMapButton.lua
 Modules\WorldMapButton\QuestieWorldMapButtonTemplate.xml
+Modules\DebugFunctions.lua
 
 # QuestLinks
 Modules\QuestLinks\ChatFilter.lua
