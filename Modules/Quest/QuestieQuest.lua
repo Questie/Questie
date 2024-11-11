@@ -84,6 +84,14 @@ function QuestieQuest.ResetAutoblacklistCategory(category)
     end
 end
 
+function QuestieQuest.ToggleAvailableQuests(showIcons)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:ToggleAvailableQuests] showIcons:", showIcons)
+    if showIcons then
+        AvailableQuests.CalculateAndDrawAll()
+    end
+    QuestieQuest:ToggleNotes(showIcons)
+end
+
 function QuestieQuest:ToggleNotes(showIcons)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:ToggleNotes] showIcons:", showIcons)
     QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
