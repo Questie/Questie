@@ -22,6 +22,7 @@ local openDebugWindows = {} -- determines if existing debug window is already op
 
 local GetBestMapForUnit = C_Map.GetBestMapForUnit
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition
+local strsplit, tContains, tostring, tonumber = strsplit, tContains, tostring, tonumber
 local PosX = 0
 local PosY = 0
 local target = "target"
