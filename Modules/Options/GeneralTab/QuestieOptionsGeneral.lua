@@ -22,6 +22,10 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 QuestieOptions.tabs.general = { ... }
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
+local LSM30 = LibStub("LibSharedMedia-3.0")
+
+local tinsert = table.insert
+
 local _GetAnnounceChannels
 local _IsAnnounceDisabled
 local _GetQuestSoundChoices
@@ -618,160 +622,126 @@ _IsAnnounceDisabled = function()
     return (not Questie.db.profile.questAnnounceChannel) or (Questie.db.profile.questAnnounceChannel == "disabled")
 end
 
+local questSoundChoices = {
+    ["QuestDefault"]     = "Default",
+    ["GameDefault"]      = "Game Default",
+    ["Troll Male"]       = "Troll Male",
+    ["Troll Female"]     = "Troll Female",
+    ["Tauren Male"]      = "Tauren Male",
+    ["Tauren Female"]    = "Tauren Female",
+    ["Undead Male"]      = "Undead Male",
+    ["Undead Female"]    = "Undead Female",
+    ["Orc Male"]         = "Orc Male",
+    ["Orc Female"]       = "Orc Female",
+    ["Night Elf Male"]   = "Night Elf Male",
+    ["Night Elf Female"] = "Night Elf Female",
+    ["Human Male"]       = "Human Male",
+    ["Human Female"]     = "Human Female",
+    ["Gnome Male"]       = "Gnome Male",
+    ["Gnome Female"]     = "Gnome Female",
+    ["Dwarf Male"]       = "Dwarf Male",
+    ["Dwarf Female"]     = "Dwarf Female",
+    ["Draenei Male"]     = "Draenei Male",
+    ["Draenei Female"]   = "Draenei Female",
+    ["Blood Elf Male"]   = "Blood Elf Male",
+    ["Blood Elf Female"] = "Blood Elf Female",
+    ["Goblin Male"]      = "Goblin Male",
+    ["Goblin Female"]    = "Goblin Female",
+    ["Worgen Male"]      = "Worgen Male",
+    ["Worgen Female"]    = "Worgen Female",
+    ["Gilnean Male"]     = "Gilnean Male",
+    ["Gilnean Female"]   = "Gilnean Female",
+    ["Zug Zug"]          = "Zug Zug",
+}
+
 _GetQuestSoundChoices = function()
-    return {
-        ["QuestDefault"]     = "Default",
-        ["GameDefault"]      = "Game Default",
-        ["Troll Male"]       = "Troll Male",
-        ["Troll Female"]     = "Troll Female",
-        ["Tauren Male"]      = "Tauren Male",
-        ["Tauren Female"]    = "Tauren Female",
-        ["Undead Male"]      = "Undead Male",
-        ["Undead Female"]    = "Undead Female",
-        ["Orc Male"]         = "Orc Male",
-        ["Orc Female"]       = "Orc Female",
-        ["Night Elf Male"]   = "Night Elf Male",
-        ["Night Elf Female"] = "Night Elf Female",
-        ["Human Male"]       = "Human Male",
-        ["Human Female"]     = "Human Female",
-        ["Gnome Male"]       = "Gnome Male",
-        ["Gnome Female"]     = "Gnome Female",
-        ["Dwarf Male"]       = "Dwarf Male",
-        ["Dwarf Female"]     = "Dwarf Female",
-        ["Draenei Male"]     = "Draenei Male",
-        ["Draenei Female"]   = "Draenei Female",
-        ["Blood Elf Male"]   = "Blood Elf Male",
-        ["Blood Elf Female"] = "Blood Elf Female",
-        ["Goblin Male"]      = "Goblin Male",
-        ["Goblin Female"]    = "Goblin Female",
-        ["Worgen Male"]      = "Worgen Male",
-        ["Worgen Female"]    = "Worgen Female",
-        ["Gilnean Male"]     = "Gilnean Male",
-        ["Gilnean Female"]   = "Gilnean Female",
-        ["Zug Zug"]          = "Zug Zug",
-    }
+    for _, sound in pairs(LSM30:List(LSM30.MediaType.SOUND)) do
+        questSoundChoices[sound] = sound
+    end
+    return questSoundChoices
 end
 
 _GetQuestSoundChoicesSort = function()
-    return {
-        "QuestDefault",
-        "GameDefault",
-        "Troll Male",
-        "Troll Female",
-        "Tauren Male",
-        "Tauren Female",
-        "Undead Male",
-        "Undead Female",
-        "Orc Male",
-        "Orc Female",
-        "Night Elf Male",
-        "Night Elf Female",
-        "Human Male",
-        "Human Female",
-        "Gnome Male",
-        "Gnome Female",
-        "Dwarf Male",
-        "Dwarf Female",
-        "Draenei Male",
-        "Draenei Female",
-        "Blood Elf Male",
-        "Blood Elf Female",
-        "Goblin Male",
-        "Goblin Female",
-        "Worgen Male",
-        "Worgen Female",
-        "Gilnean Male",
-        "Gilnean Female",
-        "Zug Zug",
-    }
+    local options = _GetQuestSoundChoices()
+    local sorting = {}
+    for key, _ in pairs(options) do
+        tinsert(sorting, key)
+    end
+    return sorting
 end
 
+local objectiveSoundChoices = {
+    ["ObjectiveDefault"]   = "Default",
+    ["Map Ping"]           = "Map Ping",
+    ["Window Close"]       = "Window Close",
+    ["Window Open"]        = "Window Open",
+    ["Boat Docked"]        = "Boat Docked",
+    ["Bell Toll Alliance"] = "Bell Toll Alliance",
+    ["Bell Toll Horde"]    = "Bell Toll Horde",
+}
+
 _GetObjectiveSoundChoices = function()
-    local choices = {
-        ["ObjectiveDefault"]   = "Default",
-        ["Map Ping"]           = "Map Ping",
-        ["Window Close"]       = "Window Close",
-        ["Window Open"]        = "Window Open",
-        ["Boat Docked"]        = "Boat Docked",
-        ["Bell Toll Alliance"] = "Bell Toll Alliance",
-        ["Bell Toll Horde"]    = "Bell Toll Horde",
-    }
     if Questie.IsWotlk or Questie.IsCata then
-        choices["Explosion"] = "Explosion"
-        choices["Shing!"] = "Shing!"
-        choices["Wham!"] = "Wham!"
-        choices["Simon Chime"] = "Simon Chime"
-        choices["War Drums"] = "War Drums"
-        choices["Humm"] = "Humm"
-        choices["Short Circuit"] = "Short Circuit"
+        objectiveSoundChoices["Explosion"] = "Explosion"
+        objectiveSoundChoices["Shing!"] = "Shing!"
+        objectiveSoundChoices["Wham!"] = "Wham!"
+        objectiveSoundChoices["Simon Chime"] = "Simon Chime"
+        objectiveSoundChoices["War Drums"] = "War Drums"
+        objectiveSoundChoices["Humm"] = "Humm"
+        objectiveSoundChoices["Short Circuit"] = "Short Circuit"
     end
-    return choices
+
+    for _, sound in pairs(LSM30:List(LSM30.MediaType.SOUND)) do
+        objectiveSoundChoices[sound] = sound
+    end
+
+    return objectiveSoundChoices
 end
 
 _GetObjectiveSoundChoicesSort = function()
-    local sorting = {
-        "ObjectiveDefault",
-        "Map Ping",
-        "Window Close",
-        "Window Open",
-        "Boat Docked",
-        "Bell Toll Alliance",
-        "Bell Toll Horde",
-    }
-    if Questie.IsWotlk or Questie.IsCata then
-        tinsert(sorting, "Explosion")
-        tinsert(sorting, "Shing!")
-        tinsert(sorting, "Wham!")
-        tinsert(sorting, "Simon Chime")
-        tinsert(sorting, "War Drums")
-        tinsert(sorting, "Humm")
-        tinsert(sorting, "Short Circuit")
+    local options = _GetObjectiveSoundChoices()
+    local sorting = {}
+    for key, _ in pairs(options) do
+        tinsert(sorting, key)
     end
     return sorting
 end
 
+local objectiveProgressChoices = {
+    ["ObjectiveProgress"]  = "Default",
+    ["ObjectiveDefault"]   = "Objective Complete",
+    ["Map Ping"]           = "Map Ping",
+    ["Window Close"]       = "Window Close",
+    ["Window Open"]        = "Window Open",
+    ["Boat Docked"]        = "Boat Docked",
+    ["Bell Toll Alliance"] = "Bell Toll Alliance",
+    ["Bell Toll Horde"]    = "Bell Toll Horde",
+}
+
 _GetObjectiveProgressSoundChoices = function()
-    local choices = {
-        ["ObjectiveProgress"]  = "Default",
-        ["ObjectiveDefault"]   = "Objective Complete",
-        ["Map Ping"]           = "Map Ping",
-        ["Window Close"]       = "Window Close",
-        ["Window Open"]        = "Window Open",
-        ["Boat Docked"]        = "Boat Docked",
-        ["Bell Toll Alliance"] = "Bell Toll Alliance",
-        ["Bell Toll Horde"]    = "Bell Toll Horde",
-    }
     if Questie.IsWotlk or Questie.IsCata then
-        choices["Explosion"] = "Explosion"
-        choices["Shing!"] = "Shing!"
-        choices["Wham!"] = "Wham!"
-        choices["Simon Chime"] = "Simon Chime"
-        choices["War Drums"] = "War Drums"
-        choices["Humm"] = "Humm"
-        choices["Short Circuit"] = "Short Circuit"
+        objectiveProgressChoices["Explosion"] = "Explosion"
+        objectiveProgressChoices["Shing!"] = "Shing!"
+        objectiveProgressChoices["Wham!"] = "Wham!"
+        objectiveProgressChoices["Simon Chime"] = "Simon Chime"
+        objectiveProgressChoices["War Drums"] = "War Drums"
+        objectiveProgressChoices["Humm"] = "Humm"
+        objectiveProgressChoices["Short Circuit"] = "Short Circuit"
     end
-    return choices
+
+    for _, sound in pairs(LSM30:List(LSM30.MediaType.SOUND)) do
+        objectiveProgressChoices[sound] = sound
+    end
+
+    return objectiveProgressChoices
 end
 
 _GetObjectiveProgressSoundChoicesSort = function()
-    local sorting = {
-        "ObjectiveProgress",
-        "ObjectiveDefault",
-        "Map Ping",
-        "Window Close",
-        "Window Open",
-        "Boat Docked",
-        "Bell Toll Alliance",
-        "Bell Toll Horde",
-    }
-    if Questie.IsWotlk or Questie.IsCata then
-        tinsert(sorting, "Explosion")
-        tinsert(sorting, "Shing!")
-        tinsert(sorting, "Wham!")
-        tinsert(sorting, "Simon Chime")
-        tinsert(sorting, "War Drums")
-        tinsert(sorting, "Humm")
-        tinsert(sorting, "Short Circuit")
+    local options = _GetObjectiveProgressSoundChoices()
+    local sorting = {}
+    for key, _ in pairs(options) do
+        tinsert(sorting, key)
     end
     return sorting
 end
+
