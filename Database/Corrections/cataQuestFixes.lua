@@ -6821,6 +6821,9 @@ function CataQuestFixes.Load()
         [27036] = { -- Vyrin's Revenge
             [questKeys.preQuestSingle] = {27016},
         },
+        [27039] = { -- Dangerous Intentions
+            [questKeys.preQuestSingle] = {26998},
+        },
         [27040] = { -- Decryption Made Easy
             [questKeys.finishedBy] = {{100008}},
             [questKeys.preQuestSingle] = {},
