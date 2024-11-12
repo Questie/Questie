@@ -3,13 +3,10 @@ local QuestieDebugOffer = QuestieLoader:CreateModule("QuestieDebugOffer")
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
-
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
-
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
@@ -310,6 +307,9 @@ local function filterItem(itemID, itemInfo, containerGUID)
 
         if itemQuality == Enum.ItemQuality.Poor then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Item " .. itemID .. " is poor quality, ignoring")
+            return nil
+        elseif classID == Enum.ItemClass.Consumable then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Item " .. itemID .. " is a Consumable, ignoring")
             return nil
         end
 
