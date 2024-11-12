@@ -6998,6 +6998,9 @@ function CataQuestFixes.Load()
         [27179] = { -- Field Work
             [questKeys.exclusiveTo] = {},
         },
+        [27180] = { -- Honor the Dead
+            [questKeys.preQuestSingle] = {27098},
+        },
         [27186] = { -- Jarl Needs a Blade
             [questKeys.preQuestSingle] = {27184},
         },
