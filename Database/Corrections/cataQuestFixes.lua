@@ -7187,6 +7187,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 27436,
             [questKeys.startedBy] = {{3045,4606,16658,43870}},
         },
+        [27333] = { -- Losing Ground
+            [questKeys.preQuestSingle] = {27290},
+        },
         [27334] = { -- Dark Cleric Cecille
             [questKeys.nextQuestInChain] = 27437,
             [questKeys.startedBy] = {{3045,4606,16658,43870}},
