@@ -7362,6 +7362,9 @@ function CataQuestFixes.Load()
         [27400] = { -- Mastering the Arcane
             [questKeys.preQuestSingle] = {},
         },
+        [27401] = { -- What Tomorrow Brings
+            [questKeys.objectives] = {{nil,{205417,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [27402] = { -- Token of Power
             [questKeys.preQuestSingle] = {},
         },
