@@ -7030,6 +7030,7 @@ function CataQuestFixes.Load()
         },
         [27226] = { -- Hair of the Dog
             [questKeys.preQuestSingle] = {27098},
+            [questKeys.objectives] = {{{45196,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [27231] = { -- Reinforcements from Fenris
             [questKeys.preQuestSingle] = {27098},
