@@ -735,11 +735,16 @@ end
 _GetSortedOptions = function(getOptions)
     return function()
         local sorting = {}
-        for key, _ in pairs(getOptions()) do
-            tinsert(sorting, key)
+        for key, value in pairs(getOptions()) do
+            tinsert(sorting, {key = key, value = value})
         end
         tableSort(sorting, function(a, b)
-            return stringLower(a) < stringLower(b)
+            return stringLower(a.value) < stringLower(b.value)
         end)
+        local sortedKeys = {}
+        for _, pair in ipairs(sorting) do
+            tinsert(sortedKeys, pair.key)
+        end
+        return sortedKeys
     end
 end
