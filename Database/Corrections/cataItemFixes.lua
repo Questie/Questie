@@ -706,6 +706,9 @@ function CataItemFixes.Load()
         [60857] = { -- Recovered Supplies
             [itemKeys.npcDrops] = {},
         },
+        [60862] = { -- Forsaken Insignia
+            [itemKeys.npcDrops] = {45197},
+        },
         [60879] = { -- Commander's Holy Symbol
             [itemKeys.npcDrops] = {4278},
         },
