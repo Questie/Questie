@@ -46,7 +46,7 @@ end
 -- entries on whitelist ignore this value
 local minLevelForDebugOffers = 10
 
-local itemBlacklist = {
+local sodItemBlacklist = {
     209027, -- Crap Treats (these are also looted from fishing, for which no real "objects" exists)
     215430, -- gnomeregan fallout, drops from nearly every mob in gnomeregan
     -- Waylaid Supplies level 10
@@ -277,7 +277,7 @@ local function filterItem(itemID, itemInfo, containerGUID)
     else
         if tContains(itemWhitelist, itemID) then -- if item is in our whitelist, we want it no matter what
             return itemTripCodes.ItemWhitelisted
-        elseif tContains(itemBlacklist, itemID) then -- if item is in our blacklist, ignore it
+        elseif tContains(sodItemBlacklist, itemID) or QuestieCorrections.questItemBlacklist[itemID] then -- if item is in our blacklist, ignore it
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Item " .. itemID .. " is in debug offer item blacklist, ignoring")
             return nil
         elseif UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
