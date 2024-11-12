@@ -24,7 +24,7 @@ local optionsDefaults = QuestieOptionsDefaults:Load()
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
-local tinsert = table.insert
+local tinsert, tableSort, stringLower = table.insert, table.sort, string.lower
 
 local _GetAnnounceChannels
 local _IsAnnounceDisabled
@@ -667,6 +667,9 @@ _GetQuestSoundChoicesSort = function()
     for key, _ in pairs(options) do
         tinsert(sorting, key)
     end
+    tableSort(sorting, function(a, b)
+        return stringLower(a) < stringLower(b)
+    end)
     return sorting
 end
 
@@ -704,6 +707,9 @@ _GetObjectiveSoundChoicesSort = function()
     for key, _ in pairs(options) do
         tinsert(sorting, key)
     end
+    tableSort(sorting, function(a, b)
+        return stringLower(a) < stringLower(b)
+    end)
     return sorting
 end
 
@@ -742,6 +748,9 @@ _GetObjectiveProgressSoundChoicesSort = function()
     for key, _ in pairs(options) do
         tinsert(sorting, key)
     end
+    tableSort(sorting, function(a, b)
+        return stringLower(a) < stringLower(b)
+    end)
     return sorting
 end
 
