@@ -8376,6 +8376,7 @@ function CataQuestFixes.Load()
         },
         [28089] = { -- Warchief's Command: Hillsbrad Foothills!
             [questKeys.exclusiveTo] = {28096},
+            [questKeys.preQuestSingle] = {26965},
         },
         [28090] = { -- Precious Goods
             [questKeys.exclusiveTo] = {},
