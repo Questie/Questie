@@ -7214,6 +7214,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{44247}},
             [questKeys.preQuestSingle] = {},
         },
+        [27345] = { -- The F.C.D.
+            [questKeys.preQuestSingle] = {27290},
+        },
         [27346] = { -- The Zeppelin Crash
             [questKeys.exclusiveTo] = {27348},
         },
