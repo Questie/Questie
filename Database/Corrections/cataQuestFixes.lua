@@ -7263,6 +7263,9 @@ function CataQuestFixes.Load()
         [27363] = { -- A Budding Young Surgeon
             [questKeys.preQuestSingle] = {},
         },
+        [27364] = { -- On Whose Orders?
+            [questKeys.preQuestSingle] = {27350},
+        },
         [27365] = { -- A Fitting Weapon
             [questKeys.preQuestSingle] = {},
         },
