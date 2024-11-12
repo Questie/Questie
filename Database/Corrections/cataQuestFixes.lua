@@ -7001,6 +7001,9 @@ function CataQuestFixes.Load()
         [27180] = { -- Honor the Dead
             [questKeys.preQuestSingle] = {27098},
         },
+        [27181] = { -- Excising the Taint
+            [questKeys.preQuestSingle] = {27098},
+        },
         [27186] = { -- Jarl Needs a Blade
             [questKeys.preQuestSingle] = {27184},
         },
