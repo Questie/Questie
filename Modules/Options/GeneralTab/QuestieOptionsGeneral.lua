@@ -483,6 +483,15 @@ function QuestieOptions.tabs.general:Initialize()
                 inline = true,
                 name = function() return l10n('Sound Options'); end,
                 args = {
+                    loadCustomSounds = {
+                        type = "toggle",
+                        order = 8.7,
+                        name = function() return l10n('Load custom sounds'); end,
+                        desc = function() return l10n('When this is enabled, sounds added through LibSharedMedia are loaded.'); end,
+                        width = 1.5,
+                        get = function () return Questie.db.profile.loadCustomSounds; end,
+                        set = function (_, value) Questie.db.profile.loadCustomSounds = value end
+                    },
                     questCompleteSound = {
                         type = "toggle",
                         order = 9.01,
