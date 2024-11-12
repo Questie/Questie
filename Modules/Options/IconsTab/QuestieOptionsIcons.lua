@@ -158,7 +158,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         get = function() return Questie.db.profile.enableAvailable; end,
                         set = function(info, value)
                             Questie.db.profile.enableAvailable = value
-                            QuestieQuest:ToggleNotes(value)
+                            QuestieQuest.ToggleAvailableQuests(value)
                         end,
                     },
                     showEventQuests = {
@@ -171,7 +171,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         get = function(info) return Questie.db.profile.showEventQuests end,
                         set = function(info, value)
                             Questie.db.profile.showEventQuests = value
-                            QuestieQuest:ToggleNotes(value)
+                            QuestieQuest.ToggleAvailableQuests(value)
                         end,
                     },
                     showRepeatableQuests = {
@@ -184,7 +184,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         get = function(info) return Questie.db.profile.showRepeatableQuests end,
                         set = function(info, value)
                             Questie.db.profile.showRepeatableQuests = value
-                            QuestieQuest:ToggleNotes(value)
+                            QuestieQuest.ToggleAvailableQuests(value)
                         end,
                     },
                     showPvPQuests = {
@@ -197,7 +197,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         get = function(info) return Questie.db.profile.showPvPQuests end,
                         set = function(info, value)
                             Questie.db.profile.showPvPQuests = value
-                            QuestieQuest:ToggleNotes(value)
+                            QuestieQuest.ToggleAvailableQuests(value)
                         end,
                     },
                     showDungeonQuests = {
@@ -210,7 +210,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         get = function(info) return Questie.db.profile.showDungeonQuests end,
                         set = function(info, value)
                             Questie.db.profile.showDungeonQuests = value
-                            QuestieQuest:ToggleNotes(value)
+                            QuestieQuest.ToggleAvailableQuests(value)
                         end,
                     },
                     showRaidQuests = {
@@ -223,7 +223,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         get = function(info) return Questie.db.profile.showRaidQuests end,
                         set = function(info, value)
                             Questie.db.profile.showRaidQuests = value
-                            QuestieQuest:ToggleNotes(value)
+                            QuestieQuest.ToggleAvailableQuests(value)
                         end,
                     },
                     showCompleteQuests = {
@@ -236,7 +236,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         get = function() return Questie.db.profile.enableTurnins; end,
                         set = function(info, value)
                             Questie.db.profile.enableTurnins = value
-                            QuestieQuest:ToggleNotes(value)
+                            QuestieQuest.ToggleAvailableQuests(value)
                         end,
                     },
                     showObjectivesToggle = {
@@ -264,8 +264,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         get = function(info) return Questie.db.profile.showAQWarEffortQuests end,
                         set = function(info, value)
                             Questie.db.profile.showAQWarEffortQuests = value
-                            QuestieQuest:ToggleNotes(value)
-                            QuestieQuest:SmoothReset()
+                            QuestieQuest.ToggleAvailableQuests(value)
                         end,
                     },
                     sod_rune_options = {
@@ -288,8 +287,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         get = function(info) return Questie.db.profile.showSoDRunes end,
                         set = function(info, value)
                             Questie.db.profile.showSoDRunes = value
-                            QuestieQuest:ToggleNotes(value)
-                            QuestieQuest:SmoothReset()
+                            QuestieQuest.ToggleAvailableQuests(value)
                         end,
                     },
                     sodRuneSelection = {
@@ -305,7 +303,7 @@ function QuestieOptions.tabs.icons:Initialize()
                                 get = function() return Questie.db.profile.showRunesOfPhase.phase1; end,
                                 set = function(info, value)
                                     Questie.db.profile.showRunesOfPhase.phase1 = value
-                                    QuestieQuest:SmoothReset()
+                                    QuestieQuest.ToggleAvailableQuests(value)
                                 end,
                             },
                             phase2 = {
@@ -314,7 +312,7 @@ function QuestieOptions.tabs.icons:Initialize()
                                 get = function() return Questie.db.profile.showRunesOfPhase.phase2; end,
                                 set = function(info, value)
                                     Questie.db.profile.showRunesOfPhase.phase2 = value
-                                    QuestieQuest:SmoothReset()
+                                    QuestieQuest.ToggleAvailableQuests(value)
                                 end,
                             },
                             phase3 = {
@@ -323,7 +321,7 @@ function QuestieOptions.tabs.icons:Initialize()
                                 get = function() return Questie.db.profile.showRunesOfPhase.phase3; end,
                                 set = function(info, value)
                                     Questie.db.profile.showRunesOfPhase.phase3 = value
-                                    QuestieQuest:SmoothReset()
+                                    QuestieQuest.ToggleAvailableQuests(value)
                                 end,
                             },
                             phase4 = {
@@ -332,7 +330,7 @@ function QuestieOptions.tabs.icons:Initialize()
                                 get = function() return Questie.db.profile.showRunesOfPhase.phase4; end,
                                 set = function(info, value)
                                     Questie.db.profile.showRunesOfPhase.phase4 = value
-                                    QuestieQuest:SmoothReset()
+                                    QuestieQuest.ToggleAvailableQuests(value)
                                 end,
                             },
                         },

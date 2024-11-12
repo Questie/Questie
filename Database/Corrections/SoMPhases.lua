@@ -391,6 +391,10 @@ local questsToBlacklistBySoMPhase = {
         [8822] = true,
         [8821] = true,
         [8819] = true,
+        [9415] = true,
+        [9416] = true,
+        [9419] = true,
+        [9422] = true,
     },
     [6] = { --Phase 6 - Naxxramas
         [9085] = true,
@@ -512,14 +516,9 @@ local questsToBlacklistBySoMPhase = {
         [9244] = true,
         [9245] = true,
         [9246] = true,
+        [9248] = true,
         [9250] = true,
         [9251] = true,
-        -- Silithus/EPL PvP
-        [9248] = true,
-        [9422] = true,
-        [9415] = true,
-        [9419] = true,
-        [9416] = true,
     },
 }
 

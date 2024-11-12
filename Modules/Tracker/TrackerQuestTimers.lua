@@ -130,7 +130,7 @@ function TrackerQuestTimers:UpdateTimerFrame()
         if timeRemainingString ~= nil then
             Questie:Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers:UpdateTimerFrame] - ", timeRemainingString)
 
-            QuestieCombatQueue.Queue(function()
+            QuestieCombatQueue:Queue(function()
                 timer.frame.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), Questie.db.profile.trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
                 timer.frame.label:SetText(Questie:Colorize(timeRemainingString, "blue"))
                 timer.frame:SetWidth(timer.frame.label:GetWidth() + ((34) - (18 - Questie.db.profile.trackerFontSizeQuest)) + Questie.db.profile.trackerFontSizeQuest)

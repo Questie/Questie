@@ -84,6 +84,14 @@ function QuestieQuest.ResetAutoblacklistCategory(category)
     end
 end
 
+function QuestieQuest.ToggleAvailableQuests(showIcons)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:ToggleAvailableQuests] showIcons:", showIcons)
+    if showIcons then
+        AvailableQuests.CalculateAndDrawAll()
+    end
+    QuestieQuest:ToggleNotes(showIcons)
+end
+
 function QuestieQuest:ToggleNotes(showIcons)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:ToggleNotes] showIcons:", showIcons)
     QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
@@ -977,6 +985,13 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
             objectiveCenter = DistanceUtils.GetNearestFinisherOrStarter(quest.Starts)
         end
 
+        if (not objectiveCenter) or (not objectiveCenter.x) or (not objectiveCenter.y) then
+            -- When an NPC doesn't have any spawns objectiveCenter will be nil.
+            -- Also for some areas HBD will return nil for the world coordinates.
+            -- This will create a distance of 0 but it doesn't matter.
+            objectiveCenter = { x = 0, y = 0 }
+        end
+
         local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
         local icon, iconPerZone = _DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType)
         _DrawObjectiveWaypoints(objective, icon, iconPerZone)
@@ -1093,8 +1108,6 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                         -- Cache world coordinates for clustering calculations
                         drawIcon.worldX = x
                         drawIcon.worldY = y
-                        -- There are instances when X and Y are not in the same map such as in dungeons etc, we default to 0 if it is not set
-                        -- This will create a distance of 0 but it doesn't matter.
                         local distance = QuestieLib.Euclid(objectiveCenter.x or 0, objectiveCenter.y or 0, x, y);
                         drawIcon.distance = distance or 0 -- cache for clustering
                         -- there can be multiple icons at same distance at different directions

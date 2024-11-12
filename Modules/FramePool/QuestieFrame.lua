@@ -456,6 +456,8 @@ function _Qframe:ShouldBeHidden()
     local iconType = data.Type -- v6.5.1 values: available, complete, manual, monster, object, item, event. This function is not called with manual.
     local questId = data.Id
 
+    local IsSoD = Questie.IsSoD
+
     --investigate quest and cache results to minimize DB lookups
     local repeatable = QuestieDB.IsRepeatable(questId)
     local event = QuestieDB.IsActiveEventQuest(questId)
@@ -483,6 +485,7 @@ function _Qframe:ShouldBeHidden()
                 or ((not profile.showDungeonQuests) and dungeon)
                 or ((not profile.showRaidQuests) and raid)
                 or ((not profile.showPvPQuests) and pvp)
+                or (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId))
             -- this quest group isn't loaded at all while disabled:
             -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId])
             )
