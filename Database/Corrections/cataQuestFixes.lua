@@ -6750,6 +6750,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 25849,
             [questKeys.preQuestSingle] = {25868},
         },
+        [26992] = { -- Agony Abounds
+            [questKeys.preQuestSingle] = {26965},
+        },
         [26995] = { -- Guts and Gore
             [questKeys.preQuestSingle] = {26965},
         },
