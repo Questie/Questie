@@ -7420,6 +7420,7 @@ function CataQuestFixes.Load()
         },
         [27438] = { -- The Great Escape
             [questKeys.preQuestSingle] = {27406},
+            [questKeys.triggerEnd] = {"Escape the Ruins of Gilneas",{[zoneIDs.SILVERPINE_FOREST]={{51.82,66.59}}}},
         },
         [27439] = { -- Staff of the Light
             [questKeys.preQuestSingle] = {},
