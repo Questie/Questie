@@ -29,11 +29,9 @@ local tinsert, tableSort, stringLower = table.insert, table.sort, string.lower
 local _GetAnnounceChannels
 local _IsAnnounceDisabled
 local _GetQuestSoundChoices
-local _GetQuestSoundChoicesSort
 local _GetObjectiveSoundChoices
-local _GetObjectiveSoundChoicesSort
 local _GetObjectiveProgressSoundChoices
-local _GetObjectiveProgressSoundChoicesSort
+local _GetSortedOptions
 
 function QuestieOptions.tabs.general:Initialize()
     return {
@@ -512,7 +510,7 @@ function QuestieOptions.tabs.general:Initialize()
                         type = "select",
                         order = 9.03,
                         values = _GetQuestSoundChoices,
-                        sorting = _GetQuestSoundChoicesSort(),
+                        sorting = _GetSortedOptions(_GetQuestSoundChoices()),
                         style = 'dropdown',
                         name = function() return l10n('Quest Complete Sound Selection') end,
                         desc = function() return l10n('The sound you hear when a quest is completed'); end,
@@ -555,7 +553,7 @@ function QuestieOptions.tabs.general:Initialize()
                         type = "select",
                         order = 9.07,
                         values = _GetObjectiveSoundChoices,
-                        sorting = _GetObjectiveSoundChoicesSort(),
+                        sorting = _GetSortedOptions(_GetObjectiveSoundChoices()),
                         style = 'dropdown',
                         name = function() return l10n('Objective Complete Sound Selection') end,
                         desc = function() return l10n('The sound you hear when an objective is completed'); end,
@@ -592,7 +590,7 @@ function QuestieOptions.tabs.general:Initialize()
                         type = "select",
                         order = 9.10,
                         values = _GetObjectiveProgressSoundChoices,
-                        sorting = _GetObjectiveProgressSoundChoicesSort(),
+                        sorting = _GetSortedOptions(_GetObjectiveProgressSoundChoices()),
                         style = 'dropdown',
                         name = function() return l10n('Objective Progress Sound Selection') end,
                         desc = function() return l10n('The sound you hear when you make progress on a quest objective'); end,
@@ -661,18 +659,6 @@ _GetQuestSoundChoices = function()
     return questSoundChoices
 end
 
-_GetQuestSoundChoicesSort = function()
-    local options = _GetQuestSoundChoices()
-    local sorting = {}
-    for key, _ in pairs(options) do
-        tinsert(sorting, key)
-    end
-    tableSort(sorting, function(a, b)
-        return stringLower(a) < stringLower(b)
-    end)
-    return sorting
-end
-
 local objectiveSoundChoices = {
     ["ObjectiveDefault"]   = "Default",
     ["Map Ping"]           = "Map Ping",
@@ -699,18 +685,6 @@ _GetObjectiveSoundChoices = function()
     end
 
     return objectiveSoundChoices
-end
-
-_GetObjectiveSoundChoicesSort = function()
-    local options = _GetObjectiveSoundChoices()
-    local sorting = {}
-    for key, _ in pairs(options) do
-        tinsert(sorting, key)
-    end
-    tableSort(sorting, function(a, b)
-        return stringLower(a) < stringLower(b)
-    end)
-    return sorting
 end
 
 local objectiveProgressChoices = {
@@ -742,8 +716,7 @@ _GetObjectiveProgressSoundChoices = function()
     return objectiveProgressChoices
 end
 
-_GetObjectiveProgressSoundChoicesSort = function()
-    local options = _GetObjectiveProgressSoundChoices()
+_GetSortedOptions = function(options)
     local sorting = {}
     for key, _ in pairs(options) do
         tinsert(sorting, key)
@@ -753,4 +726,3 @@ _GetObjectiveProgressSoundChoicesSort = function()
     end)
     return sorting
 end
-
