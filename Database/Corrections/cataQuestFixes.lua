@@ -6929,7 +6929,7 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = 6455,
         },
         [27093] = { -- Lost in the Darkness
-            [questKeys.Objectives] = {{{44941}}},
+            [questKeys.objectives] = {{{44941}}},
         },
         [27095] = { -- Skitterweb Menace
             [questKeys.preQuestSingle] = {27073},
