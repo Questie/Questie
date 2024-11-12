@@ -7463,6 +7463,9 @@ function CataQuestFixes.Load()
         [27472] = { -- Rise, Godfrey
             [questKeys.preQuestSingle] = {27438},
         },
+        [27474] = { -- Breaking the Barrier
+            [questKeys.preQuestSingle] = {27472},
+        },
         [27485] = { -- Warm Welcome
             [questKeys.preQuestSingle] = {27380},
             [questKeys.objectives] = {{{45708,nil,Questie.ICON_TYPE_EVENT}}},
