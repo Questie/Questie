@@ -7415,6 +7415,9 @@ function CataQuestFixes.Load()
         [27437] = { -- The Dark Cleric's Bidding
             [questKeys.preQuestSingle] = {},
         },
+        [27438] = { -- The Great Escape
+            [questKeys.preQuestSingle] = {27406},
+        },
         [27439] = { -- Staff of the Light
             [questKeys.preQuestSingle] = {},
         },
