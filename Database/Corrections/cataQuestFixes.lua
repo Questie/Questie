@@ -7015,7 +7015,7 @@ function CataQuestFixes.Load()
         },
         [27195] = { -- Nowhere to Run
             [questKeys.preQuestSingle] = {27194},
-            [questKeys.objectives] = {nil,{{}{205269,nil,Questie.ICON_TYPE_EVENT}}}, -- No bunny for this one, but the dynamite object is uniquely placed as a suitable location for the quest objective
+            [questKeys.objectives] = {nil,{{205269,nil,Questie.ICON_TYPE_EVENT}}}, -- No bunny for this one, but the dynamite object is uniquely placed as a suitable location for the quest objective
         },
         [27196] = { -- On to Something
             [questKeys.preQuestSingle] = {},
