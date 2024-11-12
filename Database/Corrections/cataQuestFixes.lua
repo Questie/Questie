@@ -6936,6 +6936,7 @@ function CataQuestFixes.Load()
         },
         [27097] = { -- Rise, Forsaken
             [questKeys.preQuestSingle] = {27096},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{44954,44966},44954},},}
         },
         [27100] = { -- Twilight Research
             [questKeys.startedBy] = {{43158,44936,44988},nil,{60816}},
