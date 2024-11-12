@@ -7466,6 +7466,9 @@ function CataQuestFixes.Load()
         [27474] = { -- Breaking the Barrier
             [questKeys.preQuestSingle] = {27472},
         },
+        [27475] = { -- Unyielding Servitors
+            [questKeys.preQuestSingle] = {27472},
+        },
         [27485] = { -- Warm Welcome
             [questKeys.preQuestSingle] = {27380},
             [questKeys.objectives] = {{{45708,nil,Questie.ICON_TYPE_EVENT}}},
