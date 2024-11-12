@@ -6934,6 +6934,9 @@ function CataQuestFixes.Load()
         [27095] = { -- Skitterweb Menace
             [questKeys.preQuestSingle] = {27073},
         },
+        [27097] = { -- Rise, Forsaken
+            [questKeys.preQuestSingle] = {27096},
+        },
         [27100] = { -- Twilight Research
             [questKeys.startedBy] = {{43158,44936,44988},nil,{60816}},
             [questKeys.preQuestSingle] = {27007},
