@@ -7373,7 +7373,7 @@ function CataQuestFixes.Load()
         },
         [27404] = { -- The Circle's Future
             [questKeys.preQuestSingle] = {},
-        },44369
+        },
         [27406] = { -- A Man Named Godfrey
             [questKeys.objectives] = {{{44369,nil,Questie.ICON_TYPE_INTERACT}}},
         },
