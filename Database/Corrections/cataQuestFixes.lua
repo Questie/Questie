@@ -6938,6 +6938,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27096},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{44954,44966},44954},},}
         },
+        [27099] = { -- No Escape
+            [questKeys.objectives] = {{{44951,nil,Questie.ICON_TYPE_EVENT}}}
+        },
         [27100] = { -- Twilight Research
             [questKeys.startedBy] = {{43158,44936,44988},nil,{60816}},
             [questKeys.preQuestSingle] = {27007},
