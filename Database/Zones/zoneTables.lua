@@ -714,6 +714,7 @@ ZoneDB.private.dungeons = {
     [5789] = {"End Time",nil,440},
     [5844] = {"Hour of Twilight",nil,440},
     [5892] = {"Dragon Soul",nil,440},
+    [15475] = {"Demon Fall Canyon",nil,331}, -- SoD
 }
 
 
@@ -819,6 +820,7 @@ ZoneDB.private.dungeonLocations = {
     [5861] = {{12, 41.79, 69.52},{215, 36.85, 35.86}}, -- Darkmoon Faire Island (coords are object 210177)
     [5892] = {Questie.IsCata and {440, 64.8, 50}}, -- Dragon Soul, Raid
     [7307] = {(Questie.IsCata and {51, 34.9, 83.9}) or {51, 34.8, 85.3}, (Questie.IsCata and {46, 21, 37.9}) or {46, 29.4, 38.3}}, -- Upper Blackrock Spire
+    [15475] = {{331, 84.7, 74.4}}, -- Demon Fall Canyon (SoD)
 }
 
 -- [dungeonZone] = parentZone
@@ -835,6 +837,7 @@ ZoneDB.private.dungeonParentZones = {
     [2279] = 2017,
     [2577] = 2557,
     [2797] = 719,
+    [15475] = 331, -- Demon Fall Canyon (SoD)
 }
 
 --? If you want to add something overwrite the data after the table
