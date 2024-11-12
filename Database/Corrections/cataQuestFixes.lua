@@ -7013,6 +7013,9 @@ function CataQuestFixes.Load()
         [27191] = { -- Hungry as an Ogre!
             [questKeys.preQuestSingle] = {27184},
         },
+        [27195] = { -- Nowhere to Run
+            [questKeys.preQuestSingle] = {27194},
+        },
         [27196] = { -- On to Something
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27176,27179},
