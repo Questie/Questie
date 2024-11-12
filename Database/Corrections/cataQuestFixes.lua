@@ -7113,6 +7113,9 @@ function CataQuestFixes.Load()
         [27283] = { -- A Journey to Moonglade
             [questKeys.nextQuestInChain] = 27404,
         },
+        [27290] = { -- To Forsaken Forward Command
+            [questKeys.preQuestSingle] = {27195}, -- Might also be The Waters Run Red... which turns in at the same time (27232)
+        },
         [27293] = { -- The Grimtotem Plot
             [questKeys.preQuestSingle] = {27292},
             [questKeys.requiredSourceItems] = {33050},
