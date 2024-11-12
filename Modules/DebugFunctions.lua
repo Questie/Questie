@@ -56,6 +56,6 @@ function DebugFunctions.ShowQuestObjectives(questId)
 
     for i, objective in pairs(quest.Objectives) do
         print("Adding objective", i, objective.Description)
-        QuestieQuest.PopulateObjective(quest, i, objective, false)
+        QuestieQuest:PopulateObjective(quest, i, objective, false)
     end
 end
