@@ -519,7 +519,7 @@ function QuestieOptions.tabs.general:Initialize()
                         type = "select",
                         order = 9.03,
                         values = _GetQuestSoundChoices,
-                        sorting = _GetSortedOptions(_GetQuestSoundChoices()),
+                        sorting = _GetSortedOptions(_GetQuestSoundChoices),
                         style = 'dropdown',
                         name = function() return l10n('Quest Complete Sound Selection') end,
                         desc = function() return l10n('The sound you hear when a quest is completed'); end,
@@ -562,7 +562,7 @@ function QuestieOptions.tabs.general:Initialize()
                         type = "select",
                         order = 9.07,
                         values = _GetObjectiveSoundChoices,
-                        sorting = _GetSortedOptions(_GetObjectiveSoundChoices()),
+                        sorting = _GetSortedOptions(_GetObjectiveSoundChoices),
                         style = 'dropdown',
                         name = function() return l10n('Objective Complete Sound Selection') end,
                         desc = function() return l10n('The sound you hear when an objective is completed'); end,
@@ -599,7 +599,7 @@ function QuestieOptions.tabs.general:Initialize()
                         type = "select",
                         order = 9.10,
                         values = _GetObjectiveProgressSoundChoices,
-                        sorting = _GetSortedOptions(_GetObjectiveProgressSoundChoices()),
+                        sorting = _GetSortedOptions(_GetObjectiveProgressSoundChoices),
                         style = 'dropdown',
                         name = function() return l10n('Objective Progress Sound Selection') end,
                         desc = function() return l10n('The sound you hear when you make progress on a quest objective'); end,
@@ -629,109 +629,117 @@ _IsAnnounceDisabled = function()
     return (not Questie.db.profile.questAnnounceChannel) or (Questie.db.profile.questAnnounceChannel == "disabled")
 end
 
-local questSoundChoices = {
-    ["QuestDefault"]     = "Default",
-    ["GameDefault"]      = "Game Default",
-    ["Troll Male"]       = "Troll Male",
-    ["Troll Female"]     = "Troll Female",
-    ["Tauren Male"]      = "Tauren Male",
-    ["Tauren Female"]    = "Tauren Female",
-    ["Undead Male"]      = "Undead Male",
-    ["Undead Female"]    = "Undead Female",
-    ["Orc Male"]         = "Orc Male",
-    ["Orc Female"]       = "Orc Female",
-    ["Night Elf Male"]   = "Night Elf Male",
-    ["Night Elf Female"] = "Night Elf Female",
-    ["Human Male"]       = "Human Male",
-    ["Human Female"]     = "Human Female",
-    ["Gnome Male"]       = "Gnome Male",
-    ["Gnome Female"]     = "Gnome Female",
-    ["Dwarf Male"]       = "Dwarf Male",
-    ["Dwarf Female"]     = "Dwarf Female",
-    ["Draenei Male"]     = "Draenei Male",
-    ["Draenei Female"]   = "Draenei Female",
-    ["Blood Elf Male"]   = "Blood Elf Male",
-    ["Blood Elf Female"] = "Blood Elf Female",
-    ["Goblin Male"]      = "Goblin Male",
-    ["Goblin Female"]    = "Goblin Female",
-    ["Worgen Male"]      = "Worgen Male",
-    ["Worgen Female"]    = "Worgen Female",
-    ["Gilnean Male"]     = "Gilnean Male",
-    ["Gilnean Female"]   = "Gilnean Female",
-    ["Zug Zug"]          = "Zug Zug",
-}
-
 _GetQuestSoundChoices = function()
-    for _, sound in pairs(LSM30:List(LSM30.MediaType.SOUND)) do
-        questSoundChoices[sound] = sound
+    local options = {
+        ["QuestDefault"]     = "Default",
+        ["GameDefault"]      = "Game Default",
+        ["Troll Male"]       = "Troll Male",
+        ["Troll Female"]     = "Troll Female",
+        ["Tauren Male"]      = "Tauren Male",
+        ["Tauren Female"]    = "Tauren Female",
+        ["Undead Male"]      = "Undead Male",
+        ["Undead Female"]    = "Undead Female",
+        ["Orc Male"]         = "Orc Male",
+        ["Orc Female"]       = "Orc Female",
+        ["Night Elf Male"]   = "Night Elf Male",
+        ["Night Elf Female"] = "Night Elf Female",
+        ["Human Male"]       = "Human Male",
+        ["Human Female"]     = "Human Female",
+        ["Gnome Male"]       = "Gnome Male",
+        ["Gnome Female"]     = "Gnome Female",
+        ["Dwarf Male"]       = "Dwarf Male",
+        ["Dwarf Female"]     = "Dwarf Female",
+        ["Draenei Male"]     = "Draenei Male",
+        ["Draenei Female"]   = "Draenei Female",
+        ["Blood Elf Male"]   = "Blood Elf Male",
+        ["Blood Elf Female"] = "Blood Elf Female",
+        ["Goblin Male"]      = "Goblin Male",
+        ["Goblin Female"]    = "Goblin Female",
+        ["Worgen Male"]      = "Worgen Male",
+        ["Worgen Female"]    = "Worgen Female",
+        ["Gilnean Male"]     = "Gilnean Male",
+        ["Gilnean Female"]   = "Gilnean Female",
+        ["Zug Zug"]          = "Zug Zug",
+    }
+    if Questie.db.profile.loadCustomSounds then
+        for _, sound in pairs(LSM30:List(LSM30.MediaType.SOUND)) do
+            options[sound] = sound
+        end
     end
-    return questSoundChoices
+    return options
 end
-
-local objectiveSoundChoices = {
-    ["ObjectiveDefault"]   = "Default",
-    ["Map Ping"]           = "Map Ping",
-    ["Window Close"]       = "Window Close",
-    ["Window Open"]        = "Window Open",
-    ["Boat Docked"]        = "Boat Docked",
-    ["Bell Toll Alliance"] = "Bell Toll Alliance",
-    ["Bell Toll Horde"]    = "Bell Toll Horde",
-}
 
 _GetObjectiveSoundChoices = function()
+    local options = {
+        ["ObjectiveDefault"]   = "Default",
+        ["Map Ping"]           = "Map Ping",
+        ["Window Close"]       = "Window Close",
+        ["Window Open"]        = "Window Open",
+        ["Boat Docked"]        = "Boat Docked",
+        ["Bell Toll Alliance"] = "Bell Toll Alliance",
+        ["Bell Toll Horde"]    = "Bell Toll Horde",
+    }
     if Questie.IsWotlk or Questie.IsCata then
-        objectiveSoundChoices["Explosion"] = "Explosion"
-        objectiveSoundChoices["Shing!"] = "Shing!"
-        objectiveSoundChoices["Wham!"] = "Wham!"
-        objectiveSoundChoices["Simon Chime"] = "Simon Chime"
-        objectiveSoundChoices["War Drums"] = "War Drums"
-        objectiveSoundChoices["Humm"] = "Humm"
-        objectiveSoundChoices["Short Circuit"] = "Short Circuit"
+        options["Explosion"] = "Explosion"
+        options["Shing!"] = "Shing!"
+        options["Wham!"] = "Wham!"
+        options["Simon Chime"] = "Simon Chime"
+        options["War Drums"] = "War Drums"
+        options["Humm"] = "Humm"
+        options["Short Circuit"] = "Short Circuit"
     end
 
-    for _, sound in pairs(LSM30:List(LSM30.MediaType.SOUND)) do
-        objectiveSoundChoices[sound] = sound
+    if Questie.db.profile.loadCustomSounds then
+        for _, sound in pairs(LSM30:List(LSM30.MediaType.SOUND)) do
+            options[sound] = sound
+        end
     end
 
-    return objectiveSoundChoices
+    return options
 end
-
-local objectiveProgressChoices = {
-    ["ObjectiveProgress"]  = "Default",
-    ["ObjectiveDefault"]   = "Objective Complete",
-    ["Map Ping"]           = "Map Ping",
-    ["Window Close"]       = "Window Close",
-    ["Window Open"]        = "Window Open",
-    ["Boat Docked"]        = "Boat Docked",
-    ["Bell Toll Alliance"] = "Bell Toll Alliance",
-    ["Bell Toll Horde"]    = "Bell Toll Horde",
-}
 
 _GetObjectiveProgressSoundChoices = function()
+    local options = {
+        ["ObjectiveProgress"]  = "Default",
+        ["ObjectiveDefault"]   = "Objective Complete",
+        ["Map Ping"]           = "Map Ping",
+        ["Window Close"]       = "Window Close",
+        ["Window Open"]        = "Window Open",
+        ["Boat Docked"]        = "Boat Docked",
+        ["Bell Toll Alliance"] = "Bell Toll Alliance",
+        ["Bell Toll Horde"]    = "Bell Toll Horde",
+    }
     if Questie.IsWotlk or Questie.IsCata then
-        objectiveProgressChoices["Explosion"] = "Explosion"
-        objectiveProgressChoices["Shing!"] = "Shing!"
-        objectiveProgressChoices["Wham!"] = "Wham!"
-        objectiveProgressChoices["Simon Chime"] = "Simon Chime"
-        objectiveProgressChoices["War Drums"] = "War Drums"
-        objectiveProgressChoices["Humm"] = "Humm"
-        objectiveProgressChoices["Short Circuit"] = "Short Circuit"
+        options["Explosion"] = "Explosion"
+        options["Shing!"] = "Shing!"
+        options["Wham!"] = "Wham!"
+        options["Simon Chime"] = "Simon Chime"
+        options["War Drums"] = "War Drums"
+        options["Humm"] = "Humm"
+        options["Short Circuit"] = "Short Circuit"
     end
 
-    for _, sound in pairs(LSM30:List(LSM30.MediaType.SOUND)) do
-        objectiveProgressChoices[sound] = sound
+    if Questie.db.profile.loadCustomSounds then
+        for _, sound in pairs(LSM30:List(LSM30.MediaType.SOUND)) do
+            options[sound] = sound
+        end
     end
 
-    return objectiveProgressChoices
+    return options
 end
 
-_GetSortedOptions = function(options)
-    local sorting = {}
-    for key, _ in pairs(options) do
-        tinsert(sorting, key)
+---Sorts options alphabetically, ignoring case.
+---We return a function to allow ace to refetch the options.
+---@param getOptions function
+---@return function
+_GetSortedOptions = function(getOptions)
+    return function()
+        local sorting = {}
+        for key, _ in pairs(getOptions()) do
+            tinsert(sorting, key)
+        end
+        tableSort(sorting, function(a, b)
+            return stringLower(a) < stringLower(b)
+        end)
     end
-    tableSort(sorting, function(a, b)
-        return stringLower(a) < stringLower(b)
-    end)
-    return sorting
 end
