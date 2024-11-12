@@ -308,6 +308,11 @@ local function filterItem(itemID, itemInfo, containerGUID)
             return itemTripCodes.ItemMissingFromDB
         end
 
+        if itemQuality == Enum.ItemQuality.Poor then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Item " .. itemID .. " is poor quality, ignoring")
+            return nil
+        end
+
         -- check matching questID for quest start items
         if questID > 0 then
             if questID ~= QuestieDB.QueryItemSingle(itemID, "startQuest") then
