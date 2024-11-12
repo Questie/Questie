@@ -6750,6 +6750,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 25849,
             [questKeys.preQuestSingle] = {25868},
         },
+        [26989] = { -- The Gilneas Liberation Front
+            [questKeys.preQuestSingle] = {26965},
+        },
         [26992] = { -- Agony Abounds
             [questKeys.preQuestSingle] = {26965},
         },
