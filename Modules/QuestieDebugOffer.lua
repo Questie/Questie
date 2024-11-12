@@ -311,6 +311,12 @@ local function filterItem(itemID, itemInfo, containerGUID)
         elseif classID == Enum.ItemClass.Consumable then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Item " .. itemID .. " is a Consumable, ignoring")
             return nil
+        elseif classID == Enum.ItemClass.Weapon then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Item " .. itemID .. " is a Weapon, ignoring")
+            return nil
+        elseif classID == Enum.ItemClass.Armor then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - Item " .. itemID .. " is Armor, ignoring")
+            return nil
         end
 
         -- check matching questID for quest start items
