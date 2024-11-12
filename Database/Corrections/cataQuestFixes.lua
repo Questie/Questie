@@ -7460,6 +7460,9 @@ function CataQuestFixes.Load()
         [27468] = { -- Siege Tank Rescue
             [questKeys.objectives] = {{{45524},{45526}}},
         },
+        [27472] = { -- Rise, Godfrey
+            [questKeys.preQuestSingle] = {27438},
+        },
         [27485] = { -- Warm Welcome
             [questKeys.preQuestSingle] = {27380},
             [questKeys.objectives] = {{{45708,nil,Questie.ICON_TYPE_EVENT}}},
