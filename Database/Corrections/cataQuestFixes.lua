@@ -1327,6 +1327,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10945,10951,10953},
         },
+        [11978] = { -- Into the Fold
+            [questKeys.preQuestSingle] = {},
+        },
         [11999] = { -- Rifle the Bodies
             [questKeys.preQuestSingle] = {},
         },
