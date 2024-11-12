@@ -6928,6 +6928,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Learn Spell: Charge"), 2, {{"monster", 43010}}}},
             [questKeys.zoneOrSort] = 6455,
         },
+        [27093] = { -- Lost in the Darkness
+            [questKeys.Objectives] = {{{44941}}},
+        },
         [27095] = { -- Skitterweb Menace
             [questKeys.preQuestSingle] = {27073},
         },
