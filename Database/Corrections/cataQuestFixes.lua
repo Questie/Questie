@@ -6851,7 +6851,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {},
         },
         [27045] = { -- Waiting to Exsanguinate
-            [questKeys.objectives] = {{nil,{{44894,nil,Questie.ICON_TYPE_EVENT}}}},
+            [questKeys.objectives] = {nil,{{44894,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27048] = { -- Underground Economy
             [questKeys.exclusiveTo] = {26710,28488},
