@@ -8,7 +8,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
-SeasonOfDiscovery.currentPhase = 5 -- TODO: Use API function which hopefully will come in the future
+SeasonOfDiscovery.currentPhase = 6 -- TODO: Use API function which hopefully will come in the future
 
 local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
     [1470]  = 1, -- Warlock Metamorphosis Part 1
@@ -780,6 +780,39 @@ local questsToBlacklistBySoDPhase = {
         [9422] = true,
     },
     [6] = { -- SoD Phase 6 == Era Phase 5: AQ
+        [8286] = true, -- Shifting Sands questline - What Tomorrow Brings
+        [8288] = true, -- Shifting Sands questline - Only One May Rise
+        [8301] = true, -- Shifting Sands questline - The Path of the Righteous
+        [8302] = true, -- Shifting Sands questline - The Hand of the Righteous
+        [8303] = true, -- Shifting Sands questline - Anachronos
+        [8305] = true, -- Shifting Sands questline - Long Forgotten Memories
+        [8519] = true, -- Shifting Sands questline - A Pawn on the Eternal Board
+        [8555] = true, -- Shifting Sands questline - The Charge of the Dragonflights
+        [8730] = true, -- Shifting Sands questline - Nefarius's Corruption
+        [8733] = true, -- Shifting Sands questline - Eranikus, Tyrant of the Dream
+        [8734] = true, -- Shifting Sands questline - Tyrande and Remulos
+        [8735] = true, -- Shifting Sands questline - The Nightmare's Corruption
+        [8736] = true, -- Shifting Sands questline - The Nightmare Manifests
+        [8741] = true, -- Shifting Sands questline - The Champion Returns
+        [8575] = true, -- Shifting Sands questline - Azuregos's Magical Ledger
+        [8576] = true, -- Shifting Sands questline - Translating the Ledger
+        [8577] = true, -- Shifting Sands questline - Stewvul, Ex-B.F.F.
+        [8578] = true, -- Shifting Sands questline - Scrying Goggles? No Problem!
+        [8584] = true, -- Shifting Sands questline - Never Ask Me About My Business
+        [8585] = true, -- Shifting Sands questline - The Isle of Dread!
+        [8586] = true, -- Shifting Sands questline - Dirge's Kickin' Chimaerok Chops
+        [8587] = true, -- Shifting Sands questline - Return to Narain
+        [8597] = true, -- Shifting Sands questline - Draconic for Dummies
+        [8598] = true, -- Shifting Sands questline - rAnS0m
+        [8599] = true, -- Shifting Sands questline - Love Song for Narain
+        [8606] = true, -- Shifting Sands questline - Decoy!
+        [8620] = true, -- Shifting Sands questline - The Only Prescription
+        [8728] = true, -- Shifting Sands questline - The Good News and The Bad News
+        [8729] = true, -- Shifting Sands questline - The Wrath of Neptulon
+        [8742] = true, -- Shifting Sands questline - The Might of Kalimdor
+        [8743] = true, -- Shifting Sands questline - Bang a Gong!
+        [8745] = true, -- Shifting Sands questline - Treasure of the Timeless One
+
         [8579] = true, -- Mortal Champions
         [8789] = true, -- Imperial Qiraji Armaments
         [8790] = true, -- Imperial Qiraji Regalia
@@ -1036,40 +1069,6 @@ local questsToBlacklistBySoDPhase = {
         [7045] = true, -- Old "A Smokywood Pastures Thank You!" quest
         [8746] = true, -- Old "Metzen the Reindeer" quest
         [8762] = true, -- Old "Metzen the Reindeer" quest
-
-        -- Shifting Sands questline - Likely never appearing in SoD as gates are open
-        [8286] = true, -- Shifting Sands questline - What Tomorrow Brings
-        [8288] = true, -- Shifting Sands questline - Only One May Rise
-        [8301] = true, -- Shifting Sands questline - The Path of the Righteous
-        [8302] = true, -- Shifting Sands questline - The Hand of the Righteous
-        [8303] = true, -- Shifting Sands questline - Anachronos
-        [8305] = true, -- Shifting Sands questline - Long Forgotten Memories
-        [8519] = true, -- Shifting Sands questline - A Pawn on the Eternal Board
-        [8555] = true, -- Shifting Sands questline - The Charge of the Dragonflights
-        [8730] = true, -- Shifting Sands questline - Nefarius's Corruption
-        [8733] = true, -- Shifting Sands questline - Eranikus, Tyrant of the Dream
-        [8734] = true, -- Shifting Sands questline - Tyrande and Remulos
-        [8735] = true, -- Shifting Sands questline - The Nightmare's Corruption
-        [8736] = true, -- Shifting Sands questline - The Nightmare Manifests
-        [8741] = true, -- Shifting Sands questline - The Champion Returns
-        [8575] = true, -- Shifting Sands questline - Azuregos's Magical Ledger
-        [8576] = true, -- Shifting Sands questline - Translating the Ledger
-        [8577] = true, -- Shifting Sands questline - Stewvul, Ex-B.F.F.
-        [8578] = true, -- Shifting Sands questline - Scrying Goggles? No Problem!
-        [8584] = true, -- Shifting Sands questline - Never Ask Me About My Business
-        [8585] = true, -- Shifting Sands questline - The Isle of Dread!
-        [8586] = true, -- Shifting Sands questline - Dirge's Kickin' Chimaerok Chops
-        [8587] = true, -- Shifting Sands questline - Return to Narain
-        [8597] = true, -- Shifting Sands questline - Draconic for Dummies
-        [8598] = true, -- Shifting Sands questline - rAnS0m
-        [8599] = true, -- Shifting Sands questline - Love Song for Narain
-        [8606] = true, -- Shifting Sands questline - Decoy!
-        [8620] = true, -- Shifting Sands questline - The Only Prescription
-        [8728] = true, -- Shifting Sands questline - The Good News and The Bad News
-        [8729] = true, -- Shifting Sands questline - The Wrath of Neptulon
-        [8742] = true, -- Shifting Sands questline - The Might of Kalimdor
-        [8743] = true, -- Shifting Sands questline - Bang a Gong!
-        [8745] = true, -- Shifting Sands questline - Treasure of the Timeless One
 
         -- Old T0.5 exchange quests
         [8905] = true, -- An Earnest Proposition
