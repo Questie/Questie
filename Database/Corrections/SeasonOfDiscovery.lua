@@ -752,7 +752,8 @@ local questsToBlacklistBySoDPhase = {
         [8278] = true,
         [8323] = true,
         [8324] = true,
-        [8275] = true,
+        [8275] = true, -- Taking Back Silithus
+        [8276] = true, -- Taking Back Silithus
         [8309] = true,
         [8310] = true,
         [8315] = true,
@@ -779,7 +780,6 @@ local questsToBlacklistBySoDPhase = {
         [9422] = true,
     },
     [6] = { -- SoD Phase 6 == Era Phase 5: AQ
-        [8276] = true, -- Taking Back Silithus
         [8579] = true, -- Mortal Champions
         [8789] = true, -- Imperial Qiraji Armaments
         [8790] = true, -- Imperial Qiraji Regalia
