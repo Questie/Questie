@@ -775,6 +775,8 @@ local questsToBlacklistBySoDPhase = {
         [8314] = true,
         [9415] = true,
         [9416] = true,
+        [9419] = true,
+        [9422] = true,
     },
     [6] = { -- SoD Phase 6 == Era Phase 5: AQ
         [8276] = true, -- Taking Back Silithus
@@ -908,8 +910,6 @@ local questsToBlacklistBySoDPhase = {
         [9251] = true,
         -- Silithus/EPL PvP
         [9248] = true,
-        [9422] = true,
-        [9419] = true,
     },
     [8] = { -- Never appearing in Season of Discovery
         [1203] = true, -- Jarl Needs a Blade - Replaced by 81570
