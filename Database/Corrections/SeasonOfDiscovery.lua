@@ -773,6 +773,7 @@ local questsToBlacklistBySoDPhase = {
         [8279] = true,
         [8287] = true,
         [8314] = true,
+        [9415] = true,
     },
     [6] = { -- SoD Phase 6 == Era Phase 5: AQ
         [8276] = true, -- Taking Back Silithus
@@ -907,7 +908,6 @@ local questsToBlacklistBySoDPhase = {
         -- Silithus/EPL PvP
         [9248] = true,
         [9422] = true,
-        [9415] = true,
         [9419] = true,
         [9416] = true,
     },
