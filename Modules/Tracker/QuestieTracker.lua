@@ -2093,7 +2093,7 @@ function QuestieTracker:TrackAchieve(achieveId)
 
         -- Krowi isn't using this check box for their Achievement frame
         if not IsAddOnLoaded("Krowi_AchievementFilter") then
-            mouseFocus = GetMouseFoci()[1]:GetName()
+            mouseFocus = QuestieCompat.GetMouseFocus():GetName()
             frameMatch = strmatch(mouseFocus, "(AchievementFrameAchievementsContainerButton%dTracked.*)")
         end
 
