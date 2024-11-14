@@ -7469,6 +7469,9 @@ function CataQuestFixes.Load()
         [27475] = { -- Unyielding Servitors
             [questKeys.preQuestSingle] = {27472},
         },
+        [27480] = { -- Ley Energies
+            [questKeys.preQuestSingle] = {27476},
+        },
         [27483] = { -- Practical Vengeance
             [questKeys.preQuestSingle] = {27476},
         },
