@@ -7590,6 +7590,9 @@ function CataQuestFixes.Load()
         [27549] = { -- By the Light of the Stars
             [questKeys.startedBy] = {{45296,45874}},
         },
+        [27550] = { -- Pyrewood's Fall
+            [questKeys.preQuestSingle] = {27542},
+        },
         [27555] = { -- Fiona's Lucky Charm
             [questKeys.preQuestGroup] = {27372,27369},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
