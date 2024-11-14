@@ -7575,6 +7575,9 @@ function CataQuestFixes.Load()
         [27541] = { -- Lessons From the Past
             [questKeys.preQuestSingle] = {27196},
         },
+        [27542] = { -- Taking the Battlefront
+            [questKeys.preQuestSingle] = {27518},
+        },
         [27544] = { -- Cenarion Tenacity
             [questKeys.preQuestSingle] = {27386},
         },
