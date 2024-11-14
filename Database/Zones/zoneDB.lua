@@ -24,7 +24,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local areaIdToUiMapId = ZoneDB.private.areaIdToUiMapId or {}
 local uiMapIdToAreaId = ZoneDB.private.uiMapIdToAreaId or {}
 local dungeons = ZoneDB.private.dungeons or {}
-local dungeonLocations = ZoneDB.private.dungeonLocations or {}
 local dungeonParentZones = ZoneDB.private.dungeonParentZones or {}
 local subZoneToParentZone = ZoneDB.private.subZoneToParentZone or {}
 
@@ -113,14 +112,19 @@ end
 
 
 ---@param areaId AreaId
----@return AreaCoordinate
+---@return AreaCoordinate?
 function ZoneDB:GetDungeonLocation(areaId)
-    return dungeonLocations[areaId]
+    local dungeon = dungeons[areaId]
+    if dungeon then
+        return dungeon[5]
+    end
+    return nil
 end
 
 ---@param areaId AreaId
+---@return boolean
 function ZoneDB.IsDungeonZone(areaId)
-    return dungeonLocations[areaId] ~= nil
+    return dungeons[areaId] ~= nil
 end
 
 ---@param areaId AreaId
