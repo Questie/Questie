@@ -7547,6 +7547,9 @@ function CataQuestFixes.Load()
         [27509] = { -- Breach in the Defenses
             [questKeys.objectives] = {nil,{{205486,"Twilight Portal destroyed"}}},
         },
+        [27510] = { -- A Wolf in Bear's Clothing
+            [questKeys.preQuestSingle] = {27484},
+        },
         [27511] = { -- The Thrill of Discovery
             [questKeys.objectives] = {{{45757,nil,Questie.ICON_TYPE_EVENT},{45760,nil,Questie.ICON_TYPE_EVENT},{45759,nil,Questie.ICON_TYPE_EVENT}}},
         },
