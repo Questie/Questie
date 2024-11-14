@@ -7469,6 +7469,9 @@ function CataQuestFixes.Load()
         [27475] = { -- Unyielding Servitors
             [questKeys.preQuestSingle] = {27472},
         },
+        [27483] = { -- Practical Vengeance
+            [questKeys.preQuestSingle] = {27476},
+        },
         [27485] = { -- Warm Welcome
             [questKeys.preQuestSingle] = {27380},
             [questKeys.objectives] = {{{45708,nil,Questie.ICON_TYPE_EVENT}}},
