@@ -7638,6 +7638,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27505,27506},
         },
+        [27574] = { -- I Never Forget a Face
+            [questKeys.preQuestSingle] = {27542},
+            [questKeys.exclusiveTo] = {27594},
+        },
         [27576] = { -- Patchwork Command
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27507,27508,27509},
