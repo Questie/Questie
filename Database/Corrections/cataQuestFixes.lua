@@ -7584,6 +7584,10 @@ function CataQuestFixes.Load()
         [27545] = { -- The Way is Open
             [questKeys.preQuestSingle] = {27537},
         },
+        [27547] = { -- Of No Consequence
+            [questKeys.preQuestSingle] = {27542},
+            [questKeys.objectives] = {{{45910,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [27548] = { -- Lessons in Fear
             [questKeys.preQuestSingle] = {27542},
         },
