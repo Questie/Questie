@@ -7471,6 +7471,7 @@ function CataQuestFixes.Load()
         },
         [27480] = { -- Ley Energies
             [questKeys.preQuestSingle] = {27476},
+            [questKeys.objectives] = {nil,nil,{{61311}}},
         },
         [27483] = { -- Practical Vengeance
             [questKeys.preQuestSingle] = {27476},
