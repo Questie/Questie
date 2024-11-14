@@ -6,7 +6,7 @@ local ZoneDB = QuestieLoader:CreateModule("ZoneDB")
 ---@field [2] AreaId? alternativeAreaId
 ---@field [3] AreaId areaId
 ---@field [4] AreaId parentZone
----@field [5] table<AreaId, CoordPair[]> dungeonLocations
+---@field [5] table<AreaId, AreaCoordinate> dungeonLocations
 
 ---@type table<AreaId, DungeonZoneEntry>
 ZoneDB.private.dungeons = {
