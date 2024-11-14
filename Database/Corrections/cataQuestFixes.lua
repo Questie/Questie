@@ -7645,6 +7645,7 @@ function CataQuestFixes.Load()
         [27576] = { -- Patchwork Command
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27507,27508,27509},
+            [questKeys.objectives] = {nil,nil,{{61505}}}
         },
         [27583] = { -- The Northern Flank
             [questKeys.preQuestSingle] = {26840},
