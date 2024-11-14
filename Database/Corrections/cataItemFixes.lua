@@ -730,6 +730,9 @@ function CataItemFixes.Load()
         [61376] = { -- Suspended Starlight
             [itemKeys.npcDrops] = {},
         },
+        [61505] = { -- Partially Digested Head
+            [itemKeys.startQuest] = 27574,
+        },
         [61929] = { -- Broken Spectacles
             [itemKeys.npcDrops] = {45874},
         },
