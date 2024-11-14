@@ -7664,6 +7664,9 @@ function CataQuestFixes.Load()
         [27595] = { -- The Prophet Hadassi
             [questKeys.preQuestSingle] = {28135},
         },
+        [27601] = { -- Cities in Dust
+            [questKeys.preQuestSingle] = {27594},
+        },
         [27604] = { -- Jammal'an the Prophet
             [questKeys.zoneOrSort] = zoneIDs.SUNKEN_TEMPLE,
         },
