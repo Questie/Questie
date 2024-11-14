@@ -836,7 +836,6 @@ ZoneDB.private.dungeonParentZones = {
     [2279] = 2017,
     [2577] = 2557,
     [2797] = 719,
-    [15475] = 331, -- Demon Fall Canyon (SoD)
 }
 
 --? If you want to add something overwrite the data after the table
