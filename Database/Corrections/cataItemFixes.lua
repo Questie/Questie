@@ -721,6 +721,9 @@ function CataItemFixes.Load()
         [61294] = { -- Infectis Scuttler
             [itemKeys.npcDrops] = {45657},
         },
+        [61310] = { -- Arcane Remnant
+            [itemKeys.startQuest] = 27480,
+        },
         [61317] = { -- Vermillion Egg
             [itemKeys.npcDrops] = {45651,45682},
         },
