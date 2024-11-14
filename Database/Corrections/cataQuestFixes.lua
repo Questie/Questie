@@ -7584,6 +7584,9 @@ function CataQuestFixes.Load()
         [27545] = { -- The Way is Open
             [questKeys.preQuestSingle] = {27537},
         },
+        [27548] = { -- Lessons in Fear
+            [questKeys.preQuestSingle] = {27542},
+        },
         [27549] = { -- By the Light of the Stars
             [questKeys.startedBy] = {{45296,45874}},
         },
