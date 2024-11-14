@@ -7658,6 +7658,9 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {27499},
             [questKeys.finishedBy] = {{100018}},
         },
+        [27594] = { -- On Her Majesty's Secret Service
+            [questKeys.objectives] = {{{45997}}},
+        },
         [27595] = { -- The Prophet Hadassi
             [questKeys.preQuestSingle] = {28135},
         },
