@@ -8784,6 +8784,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{3045,4606,16658,43870}},
             [questKeys.zoneOrSort] = 1637,
         },
+        [28324] = { -- Studies in Lethality
+            [questKeys.preQuestSingle] = {},
+        },
         [28328] = { -- Twilight Scheming
             [questKeys.preQuestSingle] = {},
         },
