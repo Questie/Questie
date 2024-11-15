@@ -944,6 +944,9 @@ function CataNpcFixes.Load()
         [26733] = { -- Banthok Icemist
             [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{22.6,41.73}}},
         },
+        [26770] = { -- Tivax the Breaker
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{26.76,39.05},{23.87,39.11}}},
+        },
         [27216] = { -- Bizzle Quicklift
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{41.53,17.6}}},
         },
