@@ -8382,6 +8382,7 @@ function CataQuestFixes.Load()
         },
         [28096] = { -- Welcome to the Machine
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{47444,nil,Questie.ICON_TYPE_TALK},{47443,nil,Questie.ICON_TYPE_TALK},{47442,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount the Skeletal Steed"), 0, {{"monster", 47445}}}},
         },
         [28097] = { -- The Gates of Grim Batol
