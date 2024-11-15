@@ -8428,6 +8428,9 @@ function CataQuestFixes.Load()
         [28113] = { -- Break the Unbreakable
             [questKeys.preQuestSingle] = {28044},
         },
+        [28114] = { -- Glorious Harvest
+            [questKeys.preQuestSingle] = {28096},
+        },
         [28116] = { -- Crying Violet
             [questKeys.preQuestSingle] = {},
         },
