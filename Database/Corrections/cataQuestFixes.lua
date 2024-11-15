@@ -1459,6 +1459,9 @@ function CataQuestFixes.Load()
         [13125] = { -- The Air Stands Still
             [questKeys.preQuestSingle] = {},
         },
+        [13187] = { -- The Faceless Ones
+            [questKeys.preQuestSingle] = {29826},
+        },
         [13188] = { -- Where Kings Walk
             [questKeys.finishedBy] = {{29611}},
         },
