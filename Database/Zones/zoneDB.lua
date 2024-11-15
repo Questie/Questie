@@ -26,9 +26,10 @@ local uiMapIdToAreaId = ZoneDB.private.uiMapIdToAreaId or {}
 local dungeons = ZoneDB.private.dungeons or {}
 local subZoneToParentZone = ZoneDB.private.subZoneToParentZone or {}
 
--- [dungeonZone] = parentZone
+-- Generated from alternativeAreaId in dungeons
+-- [alternativeDungeonAreaId] = dungeonZone
 ---@type table<AreaId, AreaId>
-local dungeonParentZones = {} -- Generated from alternativeAreaId in dungeons
+local alternativeDungeonAreaIdToDungeonAreaId = {}
 
 ---Zone ids enum
 ZoneDB.zoneIDs = ZoneDB.private.zoneIDs or {}
@@ -56,7 +57,7 @@ function ZoneDB.Initialize()
     for areaId, dungeonZoneEntry in pairs(dungeons) do
         local alternativeDungeonZone = dungeonZoneEntry[2]
         if alternativeDungeonZone then
-            dungeonParentZones[alternativeDungeonZone] = areaId
+            alternativeDungeonAreaIdToDungeonAreaId[alternativeDungeonZone] = areaId
         end
     end
 end
@@ -139,7 +140,7 @@ end
 
 ---@param areaId AreaId
 function ZoneDB:GetParentZoneId(areaId)
-    return dungeonParentZones[areaId] or subZoneToParentZone[areaId]
+    return alternativeDungeonAreaIdToDungeonAreaId[areaId] or subZoneToParentZone[areaId]
 end
 
 
