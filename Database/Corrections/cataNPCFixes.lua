@@ -2357,6 +2357,9 @@ function CataNpcFixes.Load()
         [45865] = { -- "Call in the Artillery" Northern Building Bunny
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{39.21,62.05}}},
         },
+        [45879] = { -- Lord Walden
+            [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{51.82,65.49},{44.64,73.11},{42.09,79.19}}},
+        },
         [45880] = { -- Baron Ashbury
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{51.82,65.49},{44.64,73.11}}},
         },
