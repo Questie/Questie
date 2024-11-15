@@ -944,6 +944,9 @@ function CataNpcFixes.Load()
         [26733] = { -- Banthok Icemist
             [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{22.6,41.73}}},
         },
+        [26762] = { -- Captain Emmy Malin
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{26.32,64.86}}},
+        },
         [26770] = { -- Tivax the Breaker
             [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{26.76,39.05},{23.87,39.11}}},
         },
