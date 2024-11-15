@@ -950,6 +950,9 @@ function CataNpcFixes.Load()
         [26770] = { -- Tivax the Breaker
             [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{26.76,39.05},{23.87,39.11}}},
         },
+        [26815] = { -- Lieutenant Ta'zinni
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{31.42,72.04}}},
+        },
         [27216] = { -- Bizzle Quicklift
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{41.53,17.6}}},
         },
