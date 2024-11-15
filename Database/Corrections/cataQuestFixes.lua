@@ -9368,6 +9368,9 @@ function CataQuestFixes.Load()
         [28631] = { -- The Perfect Horns
             [questKeys.preQuestSingle] = {28627},
         },
+        [28634] = { -- Extinction
+            [questKeys.preQuestSingle] = {},
+        },
         [28635] = { -- A Haunting in Hillsbrad
             [questKeys.triggerEnd] = {"Search Dun Garok for Evidence of a Haunting", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.9,84.5}}}},
         },
