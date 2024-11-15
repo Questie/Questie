@@ -1,7 +1,5 @@
 ---@class ZoneDB
 local ZoneDB = QuestieLoader:CreateModule("ZoneDB")
----@type ZoneDBPrivate
-ZoneDB.private = ZoneDB.private or {}
 
 local _ZoneDB = ZoneDB.private
 

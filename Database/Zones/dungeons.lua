@@ -1,5 +1,5 @@
 ---@type ZoneDB
-local ZoneDB = QuestieLoader:CreateModule("ZoneDB")
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 ---@alias DungeonZoneEntry
 ---@field [1] string name

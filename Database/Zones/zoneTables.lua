@@ -1,7 +1,5 @@
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
----@class ZoneDBPrivate
-ZoneDB.private = {}
 
 --- This table maps the areaId (used in the DB for example) to
 --- the UiMapId of each zone.
