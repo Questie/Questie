@@ -953,6 +953,9 @@ function CataNpcFixes.Load()
         [26815] = { -- Lieutenant Ta'zinni
             [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{31.42,72.04}}},
         },
+        [27007] = { -- Iceshatter
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{66.17,51.41}}},
+        },
         [27216] = { -- Bizzle Quicklift
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{41.53,17.6}}},
         },
