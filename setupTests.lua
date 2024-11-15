@@ -211,7 +211,6 @@ _G["Questie"] = {
     SendMessage = EMTPY_FUNC,
 }
 
----@type ZoneDB
 local ZoneDB = require("Database.Zones.zoneDB")
 ZoneDB.zoneIDs = {
     ICECROWN = 210,
