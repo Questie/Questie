@@ -7754,35 +7754,35 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
         },
         [84395] = { -- Undead Potatoes
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Undead Potatoes' and bring it to Owen Thadd in Undercity."},
+            [questKeys.objectivesText] = {"Collect 'Undead Potatoes' and bring it to Oran Snakewrithe in Undercity."},
         },
         [84396] = { -- Magma or Lava?
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Magma or Lava?' and bring it to Owen Thadd in Undercity."},
+            [questKeys.objectivesText] = {"Collect 'Magma or Lava?' and bring it to Oran Snakewrithe in Undercity."},
         },
         [84397] = { -- Northern Kalimdor - A Comprehensive Guide
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Northern Kalimdor - A Comprehensive Guide' and bring it to Owen Thadd in Undercity."},
+            [questKeys.objectivesText] = {"Collect 'Northern Kalimdor - A Comprehensive Guide' and bring it to Oran Snakewrithe in Undercity."},
         },
         [84398] = { -- A Study of the Light
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'A Study of the Light' and bring it to Owen Thadd in Undercity."},
+            [questKeys.objectivesText] = {"Collect 'A Study of the Light' and bring it to Oran Snakewrithe in Undercity."},
         },
         [84399] = { -- Ka-Boom!
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Ka-Boom!' and bring it to Owen Thadd in Undercity."},
+            [questKeys.objectivesText] = {"Collect 'Ka-Boom!' and bring it to Oran Snakewrithe in Undercity."},
         },
         [84400] = { -- The Knight and the Lady
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'The Knight and the Lady' and bring it to Owen Thadd in Undercity."},
+            [questKeys.objectivesText] = {"Collect 'The Knight and the Lady' and bring it to Oran Snakewrithe in Undercity."},
         },
         [84401] = { -- Scourge: Undead Menace or Misunderstood?
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Scourge: Undead Menace or Misunderstood?' and bring it to Owen Thadd in Undercity."},
+            [questKeys.objectivesText] = {"Collect 'Scourge: Undead Menace or Misunderstood?' and bring it to Oran Snakewrithe in Undercity."},
         },
         [84402] = { -- Necromancy 101
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.objectivesText] = {"Collect 'Necromancy 101' and bring it to Owen Thadd in Undercity."},
+            [questKeys.objectivesText] = {"Collect 'Necromancy 101' and bring it to Oran Snakewrithe in Undercity."},
         },
     }
 
@@ -7993,35 +7993,35 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
         },
         [84395] = { -- Undead Potatoes
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Undead Potatoes' and bring it to Garion Wendell in Stormwind."},
+            [questKeys.objectivesText] = {"Collect 'Undead Potatoes' and bring it to Jennea Cannon in Stormwind."},
         },
         [84396] = { -- Magma or Lava?
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Magma or Lava?' and bring it to Garion Wendell in Stormwind."},
+            [questKeys.objectivesText] = {"Collect 'Magma or Lava?' and bring it to Jennea Cannon in Stormwind."},
         },
         [84397] = { -- Northern Kalimdor - A Comprehensive Guide
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Northern Kalimdor - A Comprehensive Guide' and bring it to Garion Wendell in Stormwind."},
+            [questKeys.objectivesText] = {"Collect 'Northern Kalimdor - A Comprehensive Guide' and bring it to Jennea Cannon in Stormwind."},
         },
         [84398] = { -- A Study of the Light
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'A Study of the Light' and bring it to Garion Wendell in Stormwind."},
+            [questKeys.objectivesText] = {"Collect 'A Study of the Light' and bring it to Jennea Cannon in Stormwind."},
         },
         [84399] = { -- Ka-Boom!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Ka-Boom!' and bring it to Garion Wendell in Stormwind."},
+            [questKeys.objectivesText] = {"Collect 'Ka-Boom!' and bring it to Jennea Cannon in Stormwind."},
         },
         [84400] = { -- The Knight and the Lady
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'The Knight and the Lady' and bring it to Garion Wendell in Stormwind."},
+            [questKeys.objectivesText] = {"Collect 'The Knight and the Lady' and bring it to Jennea Cannon in Stormwind."},
         },
         [84401] = { -- Scourge: Undead Menace or Misunderstood?
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Scourge: Undead Menace or Misunderstood?' and bring it to Garion Wendell in Stormwind."},
+            [questKeys.objectivesText] = {"Collect 'Scourge: Undead Menace or Misunderstood?' and bring it to Jennea Cannon in Stormwind."},
         },
         [84402] = { -- Necromancy 101
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Collect 'Necromancy 101' and bring it to Garion Wendell in Stormwind."},
+            [questKeys.objectivesText] = {"Collect 'Necromancy 101' and bring it to Jennea Cannon in Stormwind."},
         },
     }
 
