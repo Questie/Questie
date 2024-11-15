@@ -42,6 +42,7 @@ Database\QuestXP\DB\xpDB-classic.lua
 Modules\QuestieStream.lua
 
 # Zones
+Database\Zones\dungeons.lua
 Database\Zones\zoneTables.lua
 Database\Zones\zoneDB.lua
 
