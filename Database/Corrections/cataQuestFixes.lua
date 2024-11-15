@@ -8624,6 +8624,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{48040,48041,48043},48040,"Thieving plucker smashed",nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
         },
+        [28251] = { -- Trouble at Southshore
+            [questKeys.nextQuestInChain] = 28324,
+        },
         [28256] = { -- The Skull of Gul'dan
             [questKeys.preQuestSingle] = {28218},
             [questKeys.objectives] = {{{47812,nil,Questie.ICON_TYPE_EVENT}}},
