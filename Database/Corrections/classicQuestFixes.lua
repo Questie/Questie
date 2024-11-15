@@ -590,6 +590,9 @@ function QuestieQuestFixes:Load()
         [976] = {
             [questKeys.triggerEnd] = {"Protect Feero Ironhand", {[zoneIDs.DARKSHORE]={{43.54,94.39}}}},
         },
+        [979] = { -- Find Ranshalla
+            [questKeys.nextQuestInChain] = 4901,
+        },
         [984] = {
             [questKeys.triggerEnd] = {"Find a corrupt furbolg camp",{[zoneIDs.DARKSHORE]={{50.91,34.74},{39.86,53.89},{42.68,86.53},{39.95,78.41}}}},
         },

@@ -1,7 +1,5 @@
 ---@class ZoneDB
 local ZoneDB = QuestieLoader:CreateModule("ZoneDB")
----@type ZoneDBPrivate
-ZoneDB.private = ZoneDB.private or {}
 
 local _ZoneDB = ZoneDB.private
 
@@ -24,9 +22,12 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local areaIdToUiMapId = ZoneDB.private.areaIdToUiMapId or {}
 local uiMapIdToAreaId = ZoneDB.private.uiMapIdToAreaId or {}
 local dungeons = ZoneDB.private.dungeons or {}
-local dungeonLocations = ZoneDB.private.dungeonLocations or {}
-local dungeonParentZones = ZoneDB.private.dungeonParentZones or {}
 local subZoneToParentZone = ZoneDB.private.subZoneToParentZone or {}
+
+-- Generated from alternativeAreaId in dungeons
+-- [alternativeDungeonAreaId] = dungeonZone
+---@type table<AreaId, AreaId>
+local alternativeDungeonAreaIdToDungeonAreaId = {}
 
 ---Zone ids enum
 ZoneDB.zoneIDs = ZoneDB.private.zoneIDs or {}
@@ -49,6 +50,13 @@ function ZoneDB.Initialize()
     -- Run tests if debug enabled
     if Questie.db.profile.debugEnabled then
         _ZoneDB:RunTests()
+    end
+
+    for areaId, dungeonZoneEntry in pairs(dungeons) do
+        local alternativeDungeonZone = dungeonZoneEntry[2]
+        if alternativeDungeonZone then
+            alternativeDungeonAreaIdToDungeonAreaId[alternativeDungeonZone] = areaId
+        end
     end
 end
 
@@ -113,19 +121,24 @@ end
 
 
 ---@param areaId AreaId
----@return AreaCoordinate
+---@return AreaCoordinate?
 function ZoneDB:GetDungeonLocation(areaId)
-    return dungeonLocations[areaId]
+    local dungeon = dungeons[areaId]
+    if dungeon then
+        return dungeon[4]
+    end
+    return nil
 end
 
 ---@param areaId AreaId
+---@return boolean
 function ZoneDB.IsDungeonZone(areaId)
-    return dungeonLocations[areaId] ~= nil
+    return dungeons[areaId] ~= nil
 end
 
 ---@param areaId AreaId
 function ZoneDB:GetParentZoneId(areaId)
-    return dungeonParentZones[areaId] or subZoneToParentZone[areaId]
+    return alternativeDungeonAreaIdToDungeonAreaId[areaId] or subZoneToParentZone[areaId]
 end
 
 

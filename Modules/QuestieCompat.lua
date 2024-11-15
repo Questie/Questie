@@ -202,3 +202,13 @@ function QuestieCompat.GetItemCooldown(itemID)
         return GetItemCooldown(itemID)
     end
 end
+
+--- Returns the frame that is currently under the mouse cursor.
+function QuestieCompat.GetMouseFocus()
+    if GetMouseFoci then
+        return GetMouseFoci()[1]
+    else
+        --- Old version (still used in WotLK client)
+        return GetMouseFocus()
+    end
+end
