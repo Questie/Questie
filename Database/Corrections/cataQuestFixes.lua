@@ -8431,6 +8431,9 @@ function CataQuestFixes.Load()
         [28114] = { -- Glorious Harvest
             [questKeys.preQuestSingle] = {28096},
         },
+        [28115] = { -- Past Their Prime
+            [questKeys.preQuestSingle] = {28096},
+        },
         [28116] = { -- Crying Violet
             [questKeys.preQuestSingle] = {},
         },
