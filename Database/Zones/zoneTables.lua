@@ -628,22 +628,6 @@ ZoneDB.private.uiMapIdToAreaId = {
     --[293] = 4950, -- Grim Batol
 }
 
--- [dungeonZone] = parentZone
----@type table<AreaId, AreaId>
-ZoneDB.private.dungeonParentZones = {
-    [133] = 721,
-    [236] = 209,
-    [978] = 1176,
-    [1316] = 722,
-    [1417] = 1477,
-    [1517] = 1337,
-    [1585] = 1584,
-    [1717] = 491,
-    [2279] = 2017,
-    [2577] = 2557,
-    [2797] = 719,
-}
-
 --? If you want to add something overwrite the data after the table
 --! Generated table, add something manually here and i'll kill you //Logon
 

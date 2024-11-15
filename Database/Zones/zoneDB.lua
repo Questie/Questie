@@ -24,8 +24,11 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local areaIdToUiMapId = ZoneDB.private.areaIdToUiMapId or {}
 local uiMapIdToAreaId = ZoneDB.private.uiMapIdToAreaId or {}
 local dungeons = ZoneDB.private.dungeons or {}
-local dungeonParentZones = ZoneDB.private.dungeonParentZones or {}
 local subZoneToParentZone = ZoneDB.private.subZoneToParentZone or {}
+
+-- [dungeonZone] = parentZone
+---@type table<AreaId, AreaId>
+local dungeonParentZones = {} -- Generated from alternativeAreaId in dungeons
 
 ---Zone ids enum
 ZoneDB.zoneIDs = ZoneDB.private.zoneIDs or {}
@@ -48,6 +51,13 @@ function ZoneDB.Initialize()
     -- Run tests if debug enabled
     if Questie.db.profile.debugEnabled then
         _ZoneDB:RunTests()
+    end
+
+    for areaId, dungeonZoneEntry in pairs(dungeons) do
+        local alternativeDungeonZone = dungeonZoneEntry[2]
+        if alternativeDungeonZone then
+            dungeonParentZones[alternativeDungeonZone] = areaId
+        end
     end
 end
 
