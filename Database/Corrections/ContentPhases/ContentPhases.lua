@@ -8,3 +8,5 @@ ContentPhases.activePhases = {
     SoD = 6,
     Anniversary = 1,
 }
+
+return ContentPhases
