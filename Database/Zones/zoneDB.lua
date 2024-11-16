@@ -126,6 +126,11 @@ function ZoneDB:GetDungeonLocation(areaId)
     local dungeon = dungeons[areaId]
     if dungeon then
         return dungeon[4]
+    else
+        local alternativeDungeonAreaId = alternativeDungeonAreaIdToDungeonAreaId[areaId]
+        if alternativeDungeonAreaId then
+            return dungeons[alternativeDungeonAreaId][4]
+        end
     end
     return nil
 end
