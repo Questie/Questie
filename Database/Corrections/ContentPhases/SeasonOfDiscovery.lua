@@ -587,7 +587,7 @@ local questsToBlacklistByPhase = {
 
 ---@return table<number, table<number, boolean>> @All quests that should be blacklisted separated by phase
 function ContentPhases.BlacklistSoDQuestsByPhase(questsToBlacklist, contentPhase)
-    for phase = contentPhase, #questsToBlacklistByPhase do
+    for phase = contentPhase + 1, #questsToBlacklistByPhase do
         for questId in pairs(questsToBlacklistByPhase[phase]) do
             questsToBlacklist[questId] = true
         end
