@@ -1605,7 +1605,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{1749,"Advice from Lady Prestor"}}},
         },
         [4224] = {
-            [questKeys.objectives] = {{{9563,"Ragged John's Story"}}},
+            [questKeys.objectives] = {{{9563,"Ragged John's Story",Questie.ICON_TYPE_TALK}}},
         },
         [4245] = {
             [questKeys.triggerEnd] = {"Protect A-Me 01 until you reach Karna Remtravel",{[zoneIDs.UN_GORO_CRATER]={{46.43, 13.78}}}},
