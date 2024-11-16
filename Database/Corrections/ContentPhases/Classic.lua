@@ -1,12 +1,12 @@
----@type QuestieQuestBlacklist
-local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
+---@type ContentPhases
+local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 
-local currentPhase = 5 -- TODO: Use API function which hopefully will come in the future
+local currentPhase = 1 -- TODO: Use API function which hopefully will come in the future
 
 -- This function blacklists any quests in phases LATER than the currentPhase value
 -- so in Phase 1, quests in phases 2+ are blacklisted, in phase 2, phases 3+ are blacklisted, etc
 -- Phase 1 is omitted, because everything not in this list is supposed to be available in Phase 1
-local questsToBlacklistBySoMPhase = {
+local questsToBlacklistByPhase = {
     [1] = {}, -- Phase 1 - Regular Phase 1 + Dire Maul + Tier 0.5 quests (this is required for counting, but should stay empty)
     [2] = { -- Phase 2 - World Bosses
     },
@@ -523,10 +523,9 @@ local questsToBlacklistBySoMPhase = {
     },
 }
 
----@return table<number, table<number, boolean>> @All quests that should be blacklisted separated by phase
-function QuestieQuestBlacklist:GetSoMQuestsToBlacklist()
-    for phase = 1, currentPhase do
-        questsToBlacklistBySoMPhase[phase] = {} -- empty table instead of nil to keep table size
+function ContentPhases.GetClassicQuestsToBlacklist(contentPhase)
+    for phase = 1, contentPhase do
+        questsToBlacklistByPhase[phase] = {} -- empty table instead of nil to keep table size
     end
-    return questsToBlacklistBySoMPhase
+    return questsToBlacklistByPhase
 end

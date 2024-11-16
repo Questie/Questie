@@ -2,6 +2,8 @@
 local QuestieQuestBlacklist = QuestieLoader:CreateModule("QuestieQuestBlacklist")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type ContentPhases
+local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 
 ---@return table<QuestId, boolean>
 function QuestieQuestBlacklist:Load()
@@ -4403,8 +4405,8 @@ function QuestieQuestBlacklist:Load()
 
     if Questie.IsSoM then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting SoM quests...")
-        local questsByPhase = QuestieQuestBlacklist:GetSoMQuestsToBlacklist()
-        for phase= 1, #questsByPhase do
+        local questsByPhase = ContentPhases.GetClassicQuestsToBlacklist(ContentPhases.activePhases.SoM)
+        for phase = 1, #questsByPhase do
             for questId, _ in pairs(questsByPhase[phase]) do
                 questsToBlacklist[questId] = true
             end
@@ -4414,7 +4416,7 @@ function QuestieQuestBlacklist:Load()
     if Questie.IsSoD then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting SoD quests...")
         local questsByPhase = QuestieQuestBlacklist:GetSoDQuestsToBlacklist()
-        for phase= 1, #questsByPhase do
+        for phase = 1, #questsByPhase do
             for questId, _ in pairs(questsByPhase[phase]) do
                 questsToBlacklist[questId] = true
             end
