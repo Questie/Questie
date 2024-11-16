@@ -525,7 +525,7 @@ local questsToBlacklistByPhase = {
 ---@param contentPhase number
 ---@return table<QuestId, boolean>
 function ContentPhases.BlacklistClassicQuestsByPhase(questsToBlacklist, contentPhase)
-    for phase = contentPhase, #questsToBlacklistByPhase do
+    for phase = contentPhase + 1, #questsToBlacklistByPhase do
         for questId in pairs(questsToBlacklistByPhase[phase]) do
             questsToBlacklist[questId] = true
         end
