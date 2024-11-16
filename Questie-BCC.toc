@@ -66,7 +66,6 @@ Database\Corrections\QuestieCorrections.lua
 Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieNPCBlacklist.lua
 Database\Corrections\QuestieQuestBlacklist.lua
-Database\Corrections\SoMPhases.lua
 Database\Corrections\Holidays\QuestieEvent.lua
 Database\Corrections\Holidays\quests\Brewfest.lua
 Database\Corrections\Holidays\quests\ChildrensWeek.lua

@@ -2,6 +2,8 @@
 local QuestieQuestBlacklist = QuestieLoader:CreateModule("QuestieQuestBlacklist")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type ContentPhases
+local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 
 ---@return table<QuestId, boolean>
 function QuestieQuestBlacklist:Load()
@@ -4401,24 +4403,15 @@ function QuestieQuestBlacklist:Load()
         [13359] = false, -- Where Dragons Fell
     }
 
-    if Questie.IsSoM then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting SoM quests...")
-        local questsByPhase = QuestieQuestBlacklist:GetSoMQuestsToBlacklist()
-        for phase= 1, #questsByPhase do
-            for questId, _ in pairs(questsByPhase[phase]) do
-                questsToBlacklist[questId] = true
-            end
-        end
-    end
-
     if Questie.IsSoD then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting SoD quests...")
-        local questsByPhase = QuestieQuestBlacklist:GetSoDQuestsToBlacklist()
-        for phase= 1, #questsByPhase do
-            for questId, _ in pairs(questsByPhase[phase]) do
-                questsToBlacklist[questId] = true
-            end
-        end
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoD...")
+        questsToBlacklist = ContentPhases.BlacklistSoDQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.SoD)
+    elseif Questie.IsAnniversary then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Anniversary...")
+        questsToBlacklist = ContentPhases.BlacklistClassicQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.Anniversary)
+    elseif Questie.IsSoM then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoM...")
+        questsToBlacklist = ContentPhases.BlacklistClassicQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.SoM)
     end
 
     return questsToBlacklist
