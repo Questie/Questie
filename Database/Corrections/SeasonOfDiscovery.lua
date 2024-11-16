@@ -5,8 +5,8 @@ local SeasonOfDiscovery = QuestieLoader:CreateModule("SeasonOfDiscovery")
 -------------------------
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-
-SeasonOfDiscovery.currentPhase = 6 -- TODO: Use API function which hopefully will come in the future
+---@type ContentPhases
+local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 
 local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests in Season of Discovery
     [1470]  = 1, -- Warlock Metamorphosis Part 1
@@ -582,19 +582,19 @@ function SeasonOfDiscovery.Initialize()
     local maxLevel = GetMaxPlayerLevel()
     local phaseDetected = true
     if maxLevel == 25 then
-        SeasonOfDiscovery.currentPhase = 1
+        ContentPhases.activePhases.SoD = 1
     elseif maxLevel == 40 then
-        SeasonOfDiscovery.currentPhase = 2
+        ContentPhases.activePhases.SoD = 2
     elseif maxLevel == 50 then
-        SeasonOfDiscovery.currentPhase = 3
-    elseif maxLevel == 60 and SeasonOfDiscovery.currentPhase <= 4 then
-        SeasonOfDiscovery.currentPhase = 4
+        ContentPhases.activePhases.SoD = 3
+    elseif maxLevel == 60 and ContentPhases.activePhases.SoD <= 4 then
+        ContentPhases.activePhases.SoD = 4
     else
         phaseDetected = false
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[SeasonOfDiscovery] Automatic phase detection failed, phase remains as " .. tostring(SeasonOfDiscovery.currentPhase))
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[SeasonOfDiscovery] Automatic phase detection failed, phase remains as " .. tostring(ContentPhases.activePhases.SoD))
     end
     if phaseDetected then
-        Questie:Debug(Questie.DEBUG_INFO, "[SeasonOfDiscovery] Phase automatically detected as " .. tostring(SeasonOfDiscovery.currentPhase))
+        Questie:Debug(Questie.DEBUG_INFO, "[SeasonOfDiscovery] Phase automatically detected as " .. tostring(ContentPhases.activePhases.SoD))
     end
 end
 
