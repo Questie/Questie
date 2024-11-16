@@ -413,6 +413,12 @@ local questsToBlacklistByPhase = {
         [8425] = true,
         [9053] = true,
 
+        -- Original Dire Maul Book quests
+        [7498] = true, -- Replaced by 84548
+        [7499] = true, -- Replaced by 84550
+        [7500] = true, -- Replaced by 84549
+        [7501] = true, -- Replaced by 84551
+
         -- Original ZG quests
         [8044] = true, -- The Rage of Mugamba - Replaced by 85612
         [8048] = true, -- The Hero's Brand - Replaced by 85617
