@@ -1,6 +1,7 @@
 dofile("setupTests.lua")
 
 dofile("Database/Corrections/QuestieCorrections.lua")
+dofile("Database/Corrections/ContentPhases/Anniversary.lua")
 dofile("Database/Corrections/ContentPhases/SeasonOfMastery.lua")
 dofile("Database/Corrections/ContentPhases/SeasonOfDiscovery.lua")
 
@@ -21,9 +22,25 @@ describe("QuestieQuestBlacklist", function()
     end)
 
     it("should blacklist Classic Anniversary quests", function()
+        Questie.IsSoM = false
         Questie.IsSoD = false
         Questie.IsAnniversary = true
         ContentPhases.activePhases.Anniversary = 3
+
+        local questToBlacklist = QuestieQuestBlacklist:Load()
+
+        assert.is_nil( questToBlacklist[7877]) -- Phase 2
+        assert.is_nil(questToBlacklist[7761]) -- Phase 3
+        assert.is_true(questToBlacklist[8411]) -- Phase 4
+        assert.is_true(questToBlacklist[8277]) -- Phase 5
+        assert.is_true(questToBlacklist[9085]) -- Phase 6
+    end)
+
+    it("should blacklist SoM quests", function()
+        Questie.IsSoM = true
+        Questie.IsSoD = false
+        Questie.IsAnniversary = false
+        ContentPhases.activePhases.SoM = 3
 
         local questToBlacklist = QuestieQuestBlacklist:Load()
 

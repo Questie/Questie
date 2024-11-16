@@ -69,6 +69,7 @@ Database\Corrections\QuestieQuestBlacklist.lua
 Database\Corrections\HardcoreBlacklist.lua
 Database\Corrections\SeasonOfDiscovery.lua
 Database\Corrections\ContentPhases\ContentPhases.lua
+Database\Corrections\ContentPhases\Anniversary.lua
 Database\Corrections\ContentPhases\SeasonOfDiscovery.lua
 Database\Corrections\ContentPhases\SeasonOfMastery.lua
 Database\Corrections\Holidays\QuestieEvent.lua
