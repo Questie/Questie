@@ -4413,12 +4413,7 @@ function QuestieQuestBlacklist:Load()
         end
     elseif Questie.IsSoM then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting SoM quests...")
-        local questsByPhase = ContentPhases.GetClassicQuestsToBlacklist(ContentPhases.activePhases.SoM)
-        for phase = 1, #questsByPhase do
-            for questId, _ in pairs(questsByPhase[phase]) do
-                questsToBlacklist[questId] = true
-            end
-        end
+        questsToBlacklist = ContentPhases.BlacklistClassicQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.SoM)
     end
 
     return questsToBlacklist
