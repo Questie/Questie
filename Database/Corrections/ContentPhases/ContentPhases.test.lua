@@ -1,5 +1,5 @@
 dofile("setupTests.lua")
-dofile("Database/Corrections/ContentPhases/Classic.lua")
+dofile("Database/Corrections/ContentPhases/SeasonOfMastery.lua")
 dofile("Database/Corrections/ContentPhases/SeasonOfDiscovery.lua")
 
 describe("ContentPhases", function()

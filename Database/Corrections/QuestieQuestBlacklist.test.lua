@@ -1,7 +1,7 @@
 dofile("setupTests.lua")
 
 dofile("Database/Corrections/QuestieCorrections.lua")
-dofile("Database/Corrections/ContentPhases/Classic.lua")
+dofile("Database/Corrections/ContentPhases/SeasonOfMastery.lua")
 dofile("Database/Corrections/ContentPhases/SeasonOfDiscovery.lua")
 
 local QuestieQuestBlacklist = require("Database.Corrections.QuestieQuestBlacklist")
