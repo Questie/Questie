@@ -8632,6 +8632,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28374},
             [questKeys.requiredSourceItems] = {63387},
         },
+        [28230] = { -- Protocol
+            [questKeys.preQuestSingle] = {28209},
+        },
         [28233] = { -- The Lost Brother
             [questKeys.preQuestSingle] = {27809},
         },
