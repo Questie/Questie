@@ -8578,6 +8578,9 @@ function CataQuestFixes.Load()
         [28201] = { -- Ploughshares to Swords
             [questKeys.objectives] = {{{46333,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [28206] = { -- A Lost Lad
+            [questKeys.name] = "A Lost Lad", -- Called Little Girl Lost in original Cata
+        },
         [28208] = { -- Winna's Kitten
             [questKeys.preQuestGroup] = {28190,28207},
         },
