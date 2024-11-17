@@ -8571,7 +8571,7 @@ function CataQuestFixes.Load()
         },
         [28196] = { -- The Battle for Hillsbrad
             [questKeys.preQuestSingle] = {28192},
-            [questkeys.startedBy] = {nil,nil,{63250}},
+            [questKeys.startedBy] = {nil,nil,{63250}},
         },
         [28199] = { -- For Science!
             [questKeys.preQuestSingle] = {28192},
