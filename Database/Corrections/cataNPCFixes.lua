@@ -2523,7 +2523,7 @@ function CataNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ULDUM,
         },
         [48020] = { -- Master Apothecary Lydon
-            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{40.08,59.29},{38.53,56.72},{36.64,57.99}}},
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{40.08,59.29},{38.53,56.72},{36.64,57.99}{36.62,61.15}}}, -- NPC that follows player, these are most likely interaction locations for quests
         },
         [48022] = { -- Salhet
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{54.07,58.14}}},
