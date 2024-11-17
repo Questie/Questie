@@ -8925,6 +8925,7 @@ function CataQuestFixes.Load()
         },
         [28375] = { -- The Road to Purgation
             [questKeys.preQuestSingle] = {28354},
+            [questKeys.triggerEnd] = {"The Road to Purgation taken",{[zoneIDs.HILLSBRAD_FOOTHILLS]={{29.24,83.89}}}},
         },
         [28376] = { -- Myzerian's Head
             [questKeys.startedBy] = {{48428},nil,{63700}},
