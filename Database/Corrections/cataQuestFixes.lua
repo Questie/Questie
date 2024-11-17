@@ -8863,6 +8863,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{207103}},{{63469}}},
             [questKeys.sourceItemId] = 63469,
         },
+        [28345] = { -- *Gurgle* HELP! *Gurgle*
+            [questKeys.preQuestSingle] = {28096},
+        },
         [28351] = { -- Unlimited Potential
             [questKeys.objectives] = {{{51217,nil,Questie.ICON_TYPE_INTERACT}}},
         },
