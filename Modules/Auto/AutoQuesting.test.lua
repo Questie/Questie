@@ -122,6 +122,7 @@ describe("AutoQuesting", function()
 
         it("should accept quests from quest greetings", function()
             _G.GetNumAvailableQuests = function() return 2 end
+            Questie.db.profile.autocomplete = false
 
             AutoQuesting.OnQuestGreetings()
 
@@ -131,6 +132,7 @@ describe("AutoQuesting", function()
         it("should not accept quest from quest greetings when auto accept is disabled", function()
             _G.GetNumAvailableQuests = function() return 2 end
             Questie.db.profile.autoaccept = false
+            Questie.db.profile.autocomplete = false
 
             AutoQuesting.OnQuestGreetings()
 
@@ -199,6 +201,7 @@ describe("AutoQuesting", function()
         it("should select available quest from greetings when re-talking to an NPC after auto modifier was held", function()
             _G.GetNumAvailableQuests = function() return 2 end
             Questie.db.profile.autoModifier = "shift"
+            Questie.db.profile.autocomplete = false
             _G.IsShiftKeyDown = function() return true end
 
             AutoQuesting.OnQuestGreetings()
@@ -381,6 +384,46 @@ describe("AutoQuesting", function()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was_not.called()
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was_not.called()
             assert.spy(_G.QuestieCompat.SelectActiveQuest).was_not.called()
+        end)
+
+        it("should turn in quest from greetings", function()
+            _G.GetNumActiveQuests = function() return 2 end
+            _G.GetActiveTitle = function() return "Test Quest", true end
+            _G.SelectActiveQuest = spy.new()
+            _G.GetNumAvailableQuests = spy.new()
+
+            AutoQuesting.OnQuestGreetings()
+
+            assert.spy(_G.SelectActiveQuest).was.called_with(1)
+            assert.spy(_G.GetNumAvailableQuests).was_not.called()
+        end)
+
+        it("should turn in second quest from greetings when first is not complete", function()
+            local isFirst = true
+            _G.GetActiveTitle = function()
+                if isFirst then
+                    isFirst = false
+                    return "Incomplete Quest", false
+                else
+                    return "Complete Quest", true
+                end
+            end
+            _G.SelectActiveQuest = spy.new()
+
+            AutoQuesting.OnQuestGreetings()
+
+            assert.spy(_G.SelectActiveQuest).was.called_with(2)
+        end)
+
+        it("should not turn in quest from greetings when auto turn in is disabled", function()
+            _G.GetNumActiveQuests = function() return 2 end
+            _G.SelectActiveQuest = spy.new()
+            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autocomplete = false
+
+            AutoQuesting.OnQuestGreetings()
+
+            assert.spy(_G.SelectActiveQuest).was_not.called()
         end)
     end)
 

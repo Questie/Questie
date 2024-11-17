@@ -30,16 +30,28 @@ end
 
 function AutoQuesting.OnQuestGreetings()
     print("AutoQuesting.OnQuestGreetings", _AllQuestWindowsClosed())
-    if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) then
+    if (not shouldRunAuto) or _IsBindTrue(Questie.db.profile.autoModifier) then
         shouldRunAuto = false
         return
     end
 
-    local availableQuestsCount = GetNumAvailableQuests()
-    if availableQuestsCount > 0 then
-        -- It is correct to use SelectAvailableQuest, instead of QuestieCompat.SelectAvailableQuest
-        -- TODO: Do we want to call SelectAvailableQuest in QuestieCompat.SelectAvailableQuest when C_GossipInfo.GetAvailableQuests() is an empty table?
-        SelectAvailableQuest(1)
+    if Questie.db.profile.autocomplete then
+        for index = 1, GetNumActiveQuests() do
+            local quest, isComplete = GetActiveTitle(index)
+            if isComplete then
+                SelectActiveQuest(index)
+                return
+            end
+        end
+    end
+
+    if Questie.db.profile.autoaccept then
+        local availableQuestsCount = GetNumAvailableQuests()
+        if availableQuestsCount > 0 then
+            -- It is correct to use SelectAvailableQuest, instead of QuestieCompat.SelectAvailableQuest
+            -- TODO: Do we want to call SelectAvailableQuest in QuestieCompat.SelectAvailableQuest when C_GossipInfo.GetAvailableQuests() is an empty table?
+            SelectAvailableQuest(1)
+        end
     end
 end
 
