@@ -8635,6 +8635,9 @@ function CataQuestFixes.Load()
         [28230] = { -- Protocol
             [questKeys.preQuestSingle] = {28209},
         },
+        [28231] = { -- Do it for Twinkles
+            [questKeys.preQuestSingle] = {28209},
+        },
         [28233] = { -- The Lost Brother
             [questKeys.preQuestSingle] = {27809},
         },
