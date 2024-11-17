@@ -799,6 +799,9 @@ function CataItemFixes.Load()
         [63149] = { -- Cursed Shackles
             [itemKeys.npcDrops] = {},
         },
+        [63250] = { -- The Battle for Hillsbrad
+            [itemKeys.startQuest] = 28196,
+        },
         [63315] = { -- Cellblock Rations
             [itemKeys.npcDrops] = {47550},
         },
