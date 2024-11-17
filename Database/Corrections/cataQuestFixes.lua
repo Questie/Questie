@@ -8865,6 +8865,7 @@ function CataQuestFixes.Load()
         },
         [28345] = { -- *Gurgle* HELP! *Gurgle*
             [questKeys.preQuestSingle] = {28096},
+            [questKeys.triggerEnd] = {"Orkus Safely Escorted Out of the Water",{[zoneIDs.HILLSBRAD_FOOTHILLS]={{49.99,74.38}}}},
         },
         [28351] = { -- Unlimited Potential
             [questKeys.objectives] = {{{51217,nil,Questie.ICON_TYPE_INTERACT}}},
