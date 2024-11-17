@@ -8554,6 +8554,7 @@ function CataQuestFixes.Load()
         },
         [28189] = { -- Do the Right Thing
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+            [questKeys.preQuestSingle] = {28192},
         },
         [28191] = { -- A Fitting End
             [questKeys.preQuestSingle] = {28171},
