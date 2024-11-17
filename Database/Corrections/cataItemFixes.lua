@@ -793,6 +793,9 @@ function CataItemFixes.Load()
         [63034] = { -- Dusty Prison Journal
             [itemKeys.npcDrops] = {},
         },
+        [63090] = { -- Muckgill's Flipper
+            [itemKeys.startQuest] = 28154,
+        },
         [63149] = { -- Cursed Shackles
             [itemKeys.npcDrops] = {},
         },
