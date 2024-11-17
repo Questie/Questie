@@ -8559,11 +8559,17 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28171},
             [questKeys.exclusiveTo] = {},
         },
+        [28192] = { -- No One Here Gets Out Alive
+            [questKeys.triggerEnd] = {"Assess the situation at the Sludge Fields", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{36.30,61.15}}}},
+        },
         [28193] = { -- Lockdown!
             [questKeys.objectives] = {{{47970,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [28194] = { -- The Great Escape
             [questKeys.preQuestSingle] = {28187},
+        },
+        [28199] = { -- For Science!
+            [questKeys.preQuestSingle] = {28192},
         },
         [28201] = { -- Ploughshares to Swords
             [questKeys.objectives] = {{{46333,nil,Questie.ICON_TYPE_TALK}}},
