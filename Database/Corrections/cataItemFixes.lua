@@ -787,6 +787,9 @@ function CataItemFixes.Load()
         [63027] = { -- Brazier Torch
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [63029] = { -- Creeper Egg
+            [itemKeys.npcDrops] = {47203},
+        },
         [63034] = { -- Dusty Prison Journal
             [itemKeys.npcDrops] = {},
         },
