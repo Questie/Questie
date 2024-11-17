@@ -8923,6 +8923,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{47747,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [28375] = { -- The Road to Purgation
+            [questKeys.preQuestSingle] = {28354},
+        },
         [28376] = { -- Myzerian's Head
             [questKeys.startedBy] = {{48428},nil,{63700}},
             [questKeys.preQuestSingle] = {28367},
