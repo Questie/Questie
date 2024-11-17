@@ -8485,6 +8485,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{45859,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {28112},
         },
+        [28146] = { -- Coastal Delicacies!
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{2374,2375,47759},2374,"Murlocs fed to Hungry Mine Spider"}}},
+        },
         [28147] = { -- Purple is Your Color
             [questKeys.preQuestSingle] = {28133},
         },
