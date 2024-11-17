@@ -8504,6 +8504,7 @@ function CataQuestFixes.Load()
         },
         [28156] = { -- Deep Mine Rescue
             [questKeys.preQuestSingle] = {28096},
+            [questKeys.triggerEnd] = {"Escort Dumass to Safety!", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{33.27,73.41}}}},
         },
         [28157] = { -- Four Twilight Elements
             [questKeys.preQuestSingle] = {28142},
