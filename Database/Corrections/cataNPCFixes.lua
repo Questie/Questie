@@ -2503,6 +2503,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{34.33,37.75}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
         },
+        [47869] = { -- Johnny Awesome
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{40.08,59.29},{38.53,56.72},{36.64,57.99}{36.62,61.15}}}, -- NPC that follows player, these are most likely interaction locations for quests
+        },
         [47872] = { -- Human Seedling
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{39.36,62.91},{39.01,63.11},{38.68,63.29},{38.5,63.79},{38.41,64.49},{38.64,64.65},{38.77,64.32},{38.92,63.91},{39.13,63.7},{39.39,63.56},{39.6,63.54},{39.85,63.58},{40.02,63.74},{39.9,63.96},{39.73,64.1},{39.48,64.15},{39.25,64.25},{39.15,64.43},{39.19,64.69},{39.38,64.83},{39.68,64.62}}},
         },
