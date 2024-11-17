@@ -2522,6 +2522,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{21.91,64.1}}},
             [npcKeys.zoneID] = zoneIDs.ULDUM,
         },
+        [48020] = { -- Master Apothecary Lydon
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{40.08,59.29},{38.53,56.72}}},
+        },
         [48022] = { -- Salhet
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{54.07,58.14}}},
             [npcKeys.zoneID] = zoneIDs.ULDUM,
