@@ -2488,6 +2488,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [47789] = { -- Clerk Horrace Whitesteed
+            [npcKeys.waypoints] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{{39.88,62.34},{38.93,62.10},{37.88,64.01},{37.05,63.22}}}},
+        },
         [47838] = { -- Shrine 1 Cleansed
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{34.18,35.74}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
