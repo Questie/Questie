@@ -8641,6 +8641,10 @@ function CataQuestFixes.Load()
         [28233] = { -- The Lost Brother
             [questKeys.preQuestSingle] = {27809},
         },
+        [28235] = { -- Burnside Must Fall
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28230,28231},
+        },
         [28241] = { -- A Vision of Twilight
             [questKeys.preQuestGroup] = {27752,27754}, -- could also be 27753
         },
