@@ -8837,6 +8837,9 @@ function CataQuestFixes.Load()
         [28329] = { -- Angry Scrubbing Bubbles
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [28331] = { -- Helcular's Rod Giveth...
+            [questKeys.objectives] = {{{48269,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [28333] = { -- It's Time to Oil Up
             [questKeys.requiredSourceItems] = {63515},
             [questKeys.objectives] = {{{48259,nil,Questie.ICON_TYPE_INTERACT}}}
