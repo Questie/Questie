@@ -8863,6 +8863,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{207103}},{{63469}}},
             [questKeys.sourceItemId] = 63469,
         },
+        [28344] = { -- Can You Smell What the Lok'tar is Cooking?
+            [questKeys.nextQuestInChain] = 28345,
+        },
         [28345] = { -- *Gurgle* HELP! *Gurgle*
             [questKeys.preQuestSingle] = {28096},
             [questKeys.triggerEnd] = {"Orkus Safely Escorted Out of the Water",{[zoneIDs.HILLSBRAD_FOOTHILLS]={{49.99,74.38}}}},
