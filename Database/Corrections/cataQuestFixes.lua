@@ -3887,7 +3887,7 @@ function CataQuestFixes.Load()
         },
         [25275] = { -- Report to the Labor Captain
             [questKeys.startedBy] = {{39605}},
-            [questKeys.exclusiveTo] = {14129},
+            [questKeys.nextQuestInChain] = 14129,
         },
         [25277] = { -- Cleaning House
             [questKeys.preQuestSingle] = {25272},
@@ -9171,8 +9171,8 @@ function CataQuestFixes.Load()
             [questKeys.requiredMaxLevel] = 18,
         },
         [28496] = { -- Warchief's Command: Azshara!
-            [questKeys.exclusiveTo] = {14129},
             [questKeys.requiredMaxLevel] = 18,
+            [questKeys.nextQuestInChain] = 14129,
         },
         [28497] = { -- Fire From the Sky
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 48699}}}},
