@@ -139,7 +139,7 @@ end
 
 function AutoQuesting.OnQuestComplete()
     print("AutoQuesting.OnQuestComplete", _AllQuestWindowsClosed())
-    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or GetNumQuestChoices() > 1 then
+    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or _IsBindTrue(Questie.db.profile.autoModifier) or GetNumQuestChoices() > 1 then
         return
     end
 

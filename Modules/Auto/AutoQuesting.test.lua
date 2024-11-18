@@ -370,7 +370,17 @@ describe("AutoQuesting", function()
             Questie.db.profile.autoModifier = "shift"
             _G.IsShiftKeyDown = function() return true end
 
+            AutoQuesting.OnQuestComplete()
+
+            assert.spy(_G.GetQuestReward).was_not.called()
+        end)
+
+        it("should not complete quest when manual mode is active and coming from gossip", function()
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+
             AutoQuesting.OnGossipShow()
+            _G.IsShiftKeyDown = function() return false end
 
             AutoQuesting.OnQuestComplete()
 
