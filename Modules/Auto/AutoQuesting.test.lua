@@ -404,6 +404,15 @@ describe("AutoQuesting", function()
             assert.spy(_G.GetQuestReward).was_not.called()
         end)
 
+        it("should not complete quest when quest is not allowed", function()
+            _G.GetQuestID = function() return 123 end
+            AutoQuesting.private.disallowedQuests.turnIn[123] = true
+
+            AutoQuesting.OnQuestComplete()
+
+            assert.spy(_G.GetQuestReward).was_not.called()
+        end)
+
         it("should not complete quest when quest has multiple rewards", function()
             _G.GetNumQuestChoices = function() return 2 end
 
