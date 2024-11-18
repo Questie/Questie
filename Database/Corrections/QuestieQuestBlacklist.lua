@@ -4408,10 +4408,10 @@ function QuestieQuestBlacklist:Load()
         questsToBlacklist = ContentPhases.BlacklistSoDQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.SoD)
     elseif Questie.IsAnniversary then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Anniversary...")
-        questsToBlacklist = ContentPhases.BlacklistClassicQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.Anniversary)
+        questsToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.Anniversary)
     elseif Questie.IsSoM then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoM...")
-        questsToBlacklist = ContentPhases.BlacklistClassicQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.SoM)
+        questsToBlacklist = ContentPhases.BlacklistSoMQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.SoM)
     end
 
     return questsToBlacklist
