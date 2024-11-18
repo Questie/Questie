@@ -246,7 +246,7 @@ describe("AutoQuesting", function()
         end)
     end)
 
-    describe("accept", function()
+    describe("Accept Flow", function()
         it("should not accept quest from details when coming from greetings and auto modifier was held", function()
             _G.GetNumAvailableQuests = function() return 2 end
             Questie.db.profile.autoModifier = "shift"
