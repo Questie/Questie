@@ -3,7 +3,7 @@ local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
-local _IsBindTrue, _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedToAcceptFromNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn
+local _IsBindTrue, _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn
 
 local shouldRunAuto = true
 
@@ -12,7 +12,7 @@ local INDIZES_COMPLETE = 6
 
 function AutoQuesting.OnQuestDetail()
     print("AutoQuesting.OnQuestDetail", _AllQuestWindowsClosed())
-    if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedToAcceptFromNPC()) or (not _IsQuestAllowedToAccept()) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autoaccept) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
         return
     end
 
@@ -45,7 +45,7 @@ function AutoQuesting.OnQuestGreetings()
         end
     end
 
-    if Questie.db.profile.autoaccept and _IsAllowedToAcceptFromNPC() then
+    if Questie.db.profile.autoaccept and _IsAllowedNPC() then
         local availableQuestsCount = GetNumAvailableQuests()
         if availableQuestsCount > 0 then
             -- It is correct to use SelectAvailableQuest, instead of QuestieCompat.SelectAvailableQuest
@@ -57,7 +57,7 @@ end
 
 function AutoQuesting.OnGossipShow()
     print("AutoQuesting.OnGossipShow", _AllQuestWindowsClosed())
-    if (not shouldRunAuto) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedToAcceptFromNPC()) then
+    if (not shouldRunAuto) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedNPC()) then
         shouldRunAuto = false
         return
     end
@@ -121,7 +121,7 @@ end
 
 function AutoQuesting.OnQuestProgress()
     print("AutoQuesting.OnQuestProgress", _AllQuestWindowsClosed())
-    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or (not IsQuestCompletable()) or (not _IsQuestAllowedToTurnIn()) or (not _IsAllowedToAcceptFromNPC()) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or (not IsQuestCompletable()) or (not _IsQuestAllowedToTurnIn()) or (not _IsAllowedNPC()) then
         return
     end
 
@@ -139,7 +139,7 @@ end
 
 function AutoQuesting.OnQuestComplete()
     print("AutoQuesting.OnQuestComplete", _AllQuestWindowsClosed())
-    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or _IsBindTrue(Questie.db.profile.autoModifier) or GetNumQuestChoices() > 1 or (not _IsQuestAllowedToTurnIn()) or (not _IsAllowedToAcceptFromNPC()) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or _IsBindTrue(Questie.db.profile.autoModifier) or GetNumQuestChoices() > 1 or (not _IsQuestAllowedToTurnIn()) or (not _IsAllowedNPC()) then
         return
     end
 
@@ -178,7 +178,7 @@ _IsBindTrue = function(bind)
     return bind and bindTruthTable[bind]()
 end
 
-_IsAllowedToAcceptFromNPC = function()
+_IsAllowedNPC = function()
     local npcGuid = UnitGUID("target")
     if npcGuid then
         local _, _, _, _, _, npcIDStr = strsplit("-", npcGuid)
