@@ -121,7 +121,7 @@ end
 
 function AutoQuesting.OnQuestProgress()
     print("AutoQuesting.OnQuestProgress", _AllQuestWindowsClosed())
-    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or (not IsQuestCompletable()) or (not _IsQuestAllowedToTurnIn()) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or (not IsQuestCompletable()) or (not _IsQuestAllowedToTurnIn()) or (not _IsAllowedToAcceptFromNPC()) then
         return
     end
 

@@ -355,6 +355,15 @@ describe("AutoQuesting", function()
             assert.spy(_G.CompleteQuest).was_not.called()
         end)
 
+        it("should not complete quest when NPC is not allowed for quest completion", function()
+            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            AutoQuesting.private.disallowedNPCs[123] = true
+
+            AutoQuesting.OnQuestProgress()
+
+            assert.spy(_G.CompleteQuest).was_not.called()
+        end)
+
         it("should not complete quest when quest is not allowed", function()
             _G.GetQuestID = function() return 123 end
             AutoQuesting.private.disallowedQuests.turnIn[123] = true
