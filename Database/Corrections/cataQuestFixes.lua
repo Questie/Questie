@@ -217,8 +217,17 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 0,-- there are some weird things happening if you completed these quests before prepatch
         },
+        [2945] = { -- Grime-Encrusted Ring
+            [questKeys.zoneOrSort] = 6457,
+        },
         [2947] = { -- Return of the Ring
             [questKeys.zoneOrSort] = 6457,
+        },
+        [2949] = { -- Return of the Ring
+            [questKeys.zoneOrSort] = 6457,
+        },
+        [2950] = { -- Nogg's Ring Redo
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [3091] = { -- Simple Note -- Tauren Warrior
             [questKeys.preQuestSingle] = {},
