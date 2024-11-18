@@ -1,5 +1,5 @@
 ---@class QuestieAuto
----@field private private QuestieAutoPrivate
+---@field private QuestieAutoPrivate
 local QuestieAuto = QuestieLoader:CreateModule("QuestieAuto");
 local _QuestieAuto = QuestieAuto.private
 ---@type QuestieDB
