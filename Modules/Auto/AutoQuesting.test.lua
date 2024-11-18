@@ -202,6 +202,18 @@ describe("AutoQuesting", function()
 
             assert.spy(_G.SelectActiveQuest).was_not.called()
         end)
+
+        it("should not turn in quest when NPC not allowed", function()
+            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            AutoQuesting.private.disallowedNPCs[123] = true
+            _G.SelectAvailableQuest = spy.new()
+            Questie.db.profile.autoaccept = false
+            Questie.db.profile.autocomplete = true
+
+            AutoQuesting.OnQuestGreetings()
+
+            assert.spy(_G.SelectActiveQuest).was_not.called()
+        end)
     end)
 
     describe("OnGossipShow", function()

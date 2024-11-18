@@ -30,7 +30,7 @@ end
 
 function AutoQuesting.OnQuestGreetings()
     print("AutoQuesting.OnQuestGreetings", _AllQuestWindowsClosed())
-    if (not shouldRunAuto) or _IsBindTrue(Questie.db.profile.autoModifier) then
+    if (not shouldRunAuto) or _IsBindTrue(Questie.db.profile.autoModifier) or (not _IsAllowedNPC()) then
         shouldRunAuto = false
         return
     end
@@ -45,7 +45,7 @@ function AutoQuesting.OnQuestGreetings()
         end
     end
 
-    if Questie.db.profile.autoaccept and _IsAllowedNPC() then
+    if Questie.db.profile.autoaccept then
         local availableQuestsCount = GetNumAvailableQuests()
         if availableQuestsCount > 0 then
             -- It is correct to use SelectAvailableQuest, instead of QuestieCompat.SelectAvailableQuest
