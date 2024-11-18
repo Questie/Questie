@@ -45,7 +45,7 @@ function AutoQuesting.OnQuestGreetings()
         end
     end
 
-    if Questie.db.profile.autoaccept then
+    if Questie.db.profile.autoaccept and _IsAllowedToAcceptFromNPC() then
         local availableQuestsCount = GetNumAvailableQuests()
         if availableQuestsCount > 0 then
             -- It is correct to use SelectAvailableQuest, instead of QuestieCompat.SelectAvailableQuest
