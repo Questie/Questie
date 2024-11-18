@@ -728,7 +728,7 @@ end
 ---@param debugPrint boolean? -- if true, IsDoable will print conclusions to debug channel
 ---@param returnText boolean? -- if true, IsDoable will return plaintext explanation instead of true/false
 ---@param returnBrief boolean? -- if true and returnText is true, IsDoable will return a very brief explanation instead of a verbose one
----@return boolean
+---@return string
 function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
 
     --!  Before changing any logic in QuestieDB.IsDoable, make sure
@@ -994,7 +994,7 @@ end
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
 function QuestieDB.IsComplete(questId)
     local questLogEntry = QuestLogCache.questLog_DO_NOT_MODIFY[questId] -- DO NOT MODIFY THE RETURNED TABLE
-    local noQuestItem = not QuestieQuest:CheckQuestSourceItem(questId)
+    local noQuestItem = not QuestieQuest:CheckQuestSourceItem(questId, false)
 
     --[[ pseudo:
     if no questLogEntry then return 0
@@ -1087,6 +1087,8 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     ---@field public reputationReward ReputationPair[]
     ---@field public extraObjectives ExtraObjective[]
     ---@field public requiredMaxLevel Level
+    ---@field public isComplete boolean
+    ---@field public Color Color
     local QO = {
         Id = questId
     }
@@ -1366,7 +1368,7 @@ function QuestieDB:GetCreatureLevels(quest)
 end
 
 ---@param npcId number
----@return table
+---@return table|nil
 function QuestieDB:GetNPC(npcId)
     if not npcId then
         return nil

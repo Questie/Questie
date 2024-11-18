@@ -56,7 +56,7 @@ function _MinimapIcon:CreateDataBrokerObject()
                 QuestieMenu:Show()
 
                 if QuestieJourney:IsShown() then
-                    QuestieJourney.ToggleJourneyWindow();
+                    QuestieJourney:ToggleJourneyWindow();
                 end
                 return;
             elseif button == "RightButton" then
