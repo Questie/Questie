@@ -151,6 +151,7 @@ _AutoQuesting.disallowedQuests = {
         [13301] = true, -- Assault by Ground
         [13481] = true, -- Let's Get Out of Here!
         [13482] = true, -- Let's Get Out of Here
+        [12688] = true, -- Engineering a Disaster
         ---
         [10346] = true, -- Gryphoneer Windbellow (Return to the Abyssal Shelf) (Alliance)
         [10347] = true, -- Wing Commander Brack (Return to the Abyssal Shelf) (Horde)
