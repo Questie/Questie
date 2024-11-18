@@ -152,8 +152,101 @@ describe("AutoQuesting", function()
         end)
     end)
 
-    describe("accept", function()
+    describe("OnGossipShow", function()
+        it("should accept available quest", function()
+            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Test Quest", 1, false, 1, false, false, false
+            end
 
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
+        end)
+
+        it("should accept available quest when active quests are not complete", function()
+            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Test Quest", 1, false, 1, false, false, false
+            end
+            _G.QuestieCompat.GetActiveQuests = function()
+                return "Test Quest", 1, false, false, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
+            assert.spy(_G.QuestieCompat.SelectActiveQuest).was_not.called()
+        end)
+
+        it("should not accept available quest when auto accept is disabled", function()
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Test Quest", 1, false, 1, false, false, false
+            end
+            Questie.db.profile.autoaccept = false
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+        end)
+
+        it("should not accept available quest when auto modifier is held", function()
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Test Quest", 1, false, 1, false, false, false
+            end
+            Questie.db.profile.autoModifier = "shift"
+            _G.IsShiftKeyDown = function() return true end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+        end)
+
+        it("should not accept available quest when NPC is not allowed to accept quests from", function()
+            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            AutoQuesting.private.disallowedNPCs[123] = true
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Test Quest", 1, false, 1, false, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+        end)
+
+        it("should accept trivial quest when setting is enabled", function()
+            Questie.db.profile.acceptTrivial = true
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Trivial Quest", 1, true, 1, false, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
+        end)
+
+        it("should not accept trivial quest when setting is disabled", function()
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Trivial Quest", 1, true, 1, false, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+        end)
+
+        it("should skip trivial quest when setting is disabled and accept non-trivial", function()
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return "Trivial Quest", 1, true, 1, false, false, false, "Non-Trivial Quest", 1, false, 1, false, false, false
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(2)
+        end)
+    end)
+
+    describe("accept", function()
         it("should not accept quest from details when coming from greetings and auto modifier was held", function()
             _G.GetNumAvailableQuests = function() return 2 end
             Questie.db.profile.autoModifier = "shift"
@@ -219,55 +312,6 @@ describe("AutoQuesting", function()
             assert.spy(_G.SelectAvailableQuest).was.called_with(1)
         end)
 
-        it("should accept available quest from gossip", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
-            _G.QuestieCompat.GetAvailableQuests = function()
-                return "Test Quest", 1, false, 1, false, false, false
-            end
-
-            AutoQuesting.OnGossipShow()
-
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
-        end)
-
-        it("should accept available quest from gossip when active quests are not complete", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
-            _G.QuestieCompat.GetAvailableQuests = function()
-                return "Test Quest", 1, false, 1, false, false, false
-            end
-            _G.QuestieCompat.GetActiveQuests = function()
-                return "Test Quest", 1, false, false, false, false
-            end
-
-            AutoQuesting.OnGossipShow()
-
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was_not.called()
-        end)
-
-        it("should not accept available quest from gossip when auto accept is disabled", function()
-            _G.QuestieCompat.GetAvailableQuests = function()
-                return "Test Quest", 1, false, 1, false, false, false
-            end
-            Questie.db.profile.autoaccept = false
-
-            AutoQuesting.OnGossipShow()
-
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
-        end)
-
-        it("should not accept available quest from gossip when auto modifier is held", function()
-            _G.QuestieCompat.GetAvailableQuests = function()
-                return "Test Quest", 1, false, 1, false, false, false
-            end
-            Questie.db.profile.autoModifier = "shift"
-            _G.IsShiftKeyDown = function() return true end
-
-            AutoQuesting.OnGossipShow()
-
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
-        end)
-
         it("should not accept available quest from gossip when coming from progress and auto modifier was held", function()
             _G.QuestieCompat.GetAvailableQuests = function()
                 return "Test Quest", 1, false, 1, false, false, false
@@ -283,49 +327,6 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
             assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
-        end)
-
-        it("should not accept available quest from gossip when NPC is not allowed to accept quests from", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
-            AutoQuesting.private.disallowedNPCs[123] = true
-            _G.QuestieCompat.GetAvailableQuests = function()
-                return "Test Quest", 1, false, 1, false, false, false
-            end
-
-            AutoQuesting.OnGossipShow()
-
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
-        end)
-
-        it("should accept trivial quest from gossip when setting is enabled", function()
-            Questie.db.profile.acceptTrivial = true
-            _G.QuestieCompat.GetAvailableQuests = function()
-                return "Trivial Quest", 1, true, 1, false, false, false
-            end
-
-            AutoQuesting.OnGossipShow()
-
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
-        end)
-
-        it("should not accept trivial quest from gossip when setting is disabled", function()
-            _G.QuestieCompat.GetAvailableQuests = function()
-                return "Trivial Quest", 1, true, 1, false, false, false
-            end
-
-            AutoQuesting.OnGossipShow()
-
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
-        end)
-
-        it("should skip trivial quest from gossip when setting is disabled and accept non-trivial", function()
-            _G.QuestieCompat.GetAvailableQuests = function()
-                return "Trivial Quest", 1, true, 1, false, false, false, "Non-Trivial Quest", 1, false, 1, false, false, false
-            end
-
-            AutoQuesting.OnGossipShow()
-
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(2)
         end)
     end)
 
