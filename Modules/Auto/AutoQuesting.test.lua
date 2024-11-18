@@ -121,8 +121,8 @@ describe("AutoQuesting", function()
         end)
     end)
 
-    describe("accept", function()
-        it("should accept quests from quest greetings", function()
+    describe("OnQuestGreetings", function()
+        it("should accept quests", function()
             _G.GetNumAvailableQuests = function() return 2 end
             Questie.db.profile.autocomplete = false
 
@@ -131,7 +131,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.SelectAvailableQuest).was.called_with(1)
         end)
 
-        it("should not accept quest from quest greetings when auto accept is disabled", function()
+        it("should not accept quest when auto accept is disabled", function()
             _G.GetNumAvailableQuests = function() return 2 end
             Questie.db.profile.autoaccept = false
             Questie.db.profile.autocomplete = false
@@ -141,7 +141,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.SelectAvailableQuest).was_not.called()
         end)
 
-        it("should not accept quest from greetings when auto modifier is held", function()
+        it("should not accept quest when auto modifier is held", function()
             _G.GetNumAvailableQuests = function() return 2 end
             Questie.db.profile.autoModifier = "shift"
             _G.IsShiftKeyDown = function() return true end
@@ -150,6 +150,9 @@ describe("AutoQuesting", function()
 
             assert.spy(_G.SelectAvailableQuest).was_not.called()
         end)
+    end)
+
+    describe("accept", function()
 
         it("should not accept quest from details when coming from greetings and auto modifier was held", function()
             _G.GetNumAvailableQuests = function() return 2 end
