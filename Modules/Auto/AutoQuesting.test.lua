@@ -55,8 +55,8 @@ describe("AutoQuesting", function()
         AutoQuesting.Reset()
     end)
 
-    describe("accept", function()
-        it("should accept quest from quest detail", function()
+    describe("OnQuestDetail", function()
+        it("should accept quest", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
             QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
             QuestieDB.IsTrivial = spy.new(function() return false end)
@@ -66,7 +66,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was.called()
         end)
 
-        it("should not accept quest from quest detail when auto accept is disabled", function()
+        it("should not accept quest when auto accept is disabled", function()
             Questie.db.profile.autoaccept = false
 
             AutoQuesting.OnQuestDetail()
@@ -74,7 +74,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was_not.called()
         end)
 
-        it("should not accept quest from detail when auto modifier is held", function()
+        it("should not accept quest when auto modifier is held", function()
             Questie.db.profile.autoModifier = "shift"
             _G.IsShiftKeyDown = function() return true end
 
@@ -83,7 +83,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was_not.called()
         end)
 
-        it("should not accept quest from detail when NPC is not allowed to accept quests from", function()
+        it("should not accept quest when NPC is not allowed to accept quests from", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
             AutoQuesting.private.disallowedNPCs[123] = true
 
@@ -92,7 +92,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was_not.called()
         end)
 
-        it("should not accept quest from detail when quest is not allowed to accept", function()
+        it("should not accept quest when quest is not allowed to accept", function()
             _G.GetQuestID = function() return 123 end
             AutoQuesting.private.disallowedQuests.accept[123] = true
 
@@ -101,7 +101,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was_not.called()
         end)
 
-        it("should accept trivial quest from detail when setting is enabled", function()
+        it("should accept trivial quest when setting is enabled", function()
             Questie.db.profile.acceptTrivial = true
             _G.GetQuestID = function() return 123 end
 
@@ -110,7 +110,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was.called()
         end)
 
-        it("should not accept trivial quest from detail when setting is disabled", function()
+        it("should not accept trivial quest when setting is disabled", function()
             _G.GetQuestID = function() return 123 end
             QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
             QuestieDB.IsTrivial = spy.new(function() return true end)
@@ -119,7 +119,9 @@ describe("AutoQuesting", function()
 
             assert.spy(_G.AcceptQuest).was_not.called()
         end)
+    end)
 
+    describe("accept", function()
         it("should accept quests from quest greetings", function()
             _G.GetNumAvailableQuests = function() return 2 end
             Questie.db.profile.autocomplete = false
