@@ -7888,5 +7888,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Travel to Blackrock Spire and slay Warchief Rend Blackhand. Take his head and return to Orgrimmar."},
             [questKeys.objectives] = nil,
         },
+        [86444] = {
+            [questKeys.name] = "The Only Prescription",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Recover the 8 lost chapters of Draconic for Dummies and combine them with the Magical Book Binding and return the completed book of Draconic for Dummies: Volume II to Narain Soothfancy in Tanaris."},
+            [questKeys.objectives] = {nil,nil,{{21111}}},
+        },
     }
 end

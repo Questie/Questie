@@ -40,6 +40,9 @@ function SeasonOfDiscovery:LoadQuests()
         [7497] = { -- The Journey Has Just Begun
             [questKeys.preQuestSingle] = {84560},
         },
+        [8728] = { -- The Good News and The Bad News
+            [questKeys.preQuestSingle] = {86444},
+        },
         [8922] = { -- A Supernatural Device
             [questKeys.preQuestSingle] = {84147,84148,84149,84150,84151,84152,84153,84154},
         },
@@ -3693,6 +3696,16 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {4974},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [86444] = { -- The Only Prescription
+            [questKeys.startedBy] = {{11811}},
+            [questKeys.finishedBy] = {{11811}},
+            [questKeys.preQuestSingle] = {8606},
+            [questFlags.sourceItemId] = 21112,
+            [questKeys.requiredSourceItems] = {21103,21104,21105,21106,21107,21108,21109,21110},
+            [questKeys.zoneOrSort] = zoneIDs.TANARIS,
+            [questFlags.requiredMinRep] = {factionIDs.BROOD_OF_NOZDORMU,0},
+            [questFlags.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,150}},
         },
 
         --- Fake rune quests
