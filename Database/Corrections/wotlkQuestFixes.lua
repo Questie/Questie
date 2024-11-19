@@ -2535,6 +2535,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Begin the distillation process"), 0, {{"monster", 28566}}}},
         },
         [12645] = {
+            [questKeys.objectives] = {{{27986,nil,Questie.ICON_TYPE_INTERACT},{28047,nil,Questie.ICON_TYPE_INTERACT},{28568,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSourceItems] = {},
         },
         [12648] = {
