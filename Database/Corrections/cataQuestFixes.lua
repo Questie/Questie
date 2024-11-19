@@ -7045,6 +7045,12 @@ function CataQuestFixes.Load()
         [27152] = { -- Unusual Behavior... Even For Gnolls
             [questKeys.triggerEnd] = {"Gnoll camp investigated", {[zoneIDs.WESTERN_PLAGUELANDS]={{57.5,35.6}}}},
         },
+        [27158] = { -- The Battle for Andorhal
+            [questKeys.nextQuestInChain] = 27159,
+        },
+        [27159] = { -- Scourge First... Horde Later
+            [questKeys.preQuestSingle] = {},
+        },
         [27176] = { -- A Strange Disc
             [questKeys.requiredSourceItems] = {60865},
             [questKeys.name] = "A Strange Disc",
@@ -9259,6 +9265,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 43,
         },
+        [28505] = { -- The Battle for Andorhal
+            [questKeys.nextQuestInChain] = 27159,
+        },
         [28507] = { -- Hero's Call: Tanaris!
             [questKeys.requiredMaxLevel] = 48,
         },
@@ -9438,6 +9447,7 @@ function CataQuestFixes.Load()
         },
         [28576] = { -- Hero's Call: Western Plaguelands!
             [questKeys.requiredMaxLevel] = 38,
+            [questKeys.nextQuestInChain] = 27159,
         },
         [28577] = { -- Warchief's Command: Eastern Plaguelands!
             [questKeys.requiredMaxLevel] = 43,
@@ -9789,6 +9799,9 @@ function CataQuestFixes.Load()
         },
         [28745] = { -- Screechy Keen
             [questKeys.preQuestSingle] = {28638},
+        },
+        [28749] = { -- The Battle for Andorhal
+            [questKeys.nextQuestInChain] = 27159,
         },
         [28755] = { -- Annals of the Silver Hand
             [questKeys.preQuestSingle] = {27464},
