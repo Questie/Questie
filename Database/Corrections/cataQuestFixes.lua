@@ -7051,6 +7051,12 @@ function CataQuestFixes.Load()
         [27159] = { -- Scourge First... Horde Later
             [questKeys.preQuestSingle] = {},
         },
+        [27165] = { -- Victory, For Now
+            [questKeys.nextQuestInChain] = 27166,
+        },
+        [27166] = { -- Go Fletch!
+            [questKeys.preQuestSingle] = {},
+        },
         [27176] = { -- A Strange Disc
             [questKeys.requiredSourceItems] = {60865},
             [questKeys.name] = "A Strange Disc",
