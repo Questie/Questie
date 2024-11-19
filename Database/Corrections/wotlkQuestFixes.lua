@@ -2298,6 +2298,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,{{190499,"Truth Serum Created"}}},
         },
         [12544] = {
+            [questKeys.objectives] = {{{28256,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Soo-rahm's Incense"), 0, {{"object", 190507}}}},
             [questKeys.requiredSourceItems] = {},
         },
