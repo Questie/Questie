@@ -9273,6 +9273,7 @@ function CataQuestFixes.Load()
         },
         [28505] = { -- The Battle for Andorhal
             [questKeys.nextQuestInChain] = 27159,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Western Plaguelands"), 0, {{"monster", 8018}}}},
         },
         [28507] = { -- Hero's Call: Tanaris!
             [questKeys.requiredMaxLevel] = 48,
@@ -9808,6 +9809,7 @@ function CataQuestFixes.Load()
         },
         [28749] = { -- The Battle for Andorhal
             [questKeys.nextQuestInChain] = 27159,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a portal to Western Plaguelands"), 0, {{"monster", 49635}}}},
         },
         [28755] = { -- Annals of the Silver Hand
             [questKeys.preQuestSingle] = {27464},
