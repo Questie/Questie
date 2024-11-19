@@ -2246,6 +2246,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {38380},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Feed with Zul'Drak Rat"), 0, {{"monster", 28145}}}},
         },
+        [12528] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [12529] = {
             [questKeys.requiredSourceItems] = {38619},
         },
