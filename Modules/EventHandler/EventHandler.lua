@@ -51,8 +51,6 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 ---@type AutoCompleteFrame
 local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
----@type TaskQueue
-local TaskQueue = QuestieLoader:ImportModule("TaskQueue")
 
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
@@ -85,20 +83,16 @@ function EventHandler:RegisterLateEvents()
     -- Events to update a players professions and reputations
     Questie:RegisterBucketEvent("CHAT_MSG_SKILL", 2, _EventHandler.ChatMsgSkill)
     Questie:RegisterBucketEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", 2, function()
-        TaskQueue:Queue(function()
-            QuestEventHandler:ReputationChange()
-            _EventHandler:ChatMsgCompatFactionChange()
-        end)
+        QuestEventHandler:ReputationChange()
+        _EventHandler:ChatMsgCompatFactionChange()
     end)
     Questie:RegisterEvent("CHAT_MSG_SYSTEM", _EventHandler.ChatMsgSystem)
 
     -- Spell objectives
     Questie:RegisterEvent("NEW_RECIPE_LEARNED", function() -- Needed for some spells that don't necessarily appear in the spellbook, but are definitely spells
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED")
-        TaskQueue:Queue(function()
-            QuestEventHandler.NewRecipeLearned()
-            AvailableQuests.CalculateAndDrawAll()
-        end)
+        QuestEventHandler.NewRecipeLearned()
+        AvailableQuests.CalculateAndDrawAll()
     end)
 
     -- UI Quest Events
@@ -119,9 +113,7 @@ function EventHandler:RegisterLateEvents()
     --    QuestieAuto:QUEST_ACCEPTED(...)
     --end)
     Questie:RegisterEvent("QUEST_ACCEPTED", function(_, questLogIndex, questId)
-        TaskQueue:Queue(function()
-            QuestEventHandler:QuestAccepted(questLogIndex, questId)
-        end)
+        QuestEventHandler:QuestAccepted(questLogIndex, questId)
         AutoQuesting.OnQuestAccepted()
     end)
     Questie:RegisterEvent("QUEST_DETAIL", function(...) -- When the quest is presented!
