@@ -144,6 +144,7 @@ _AutoQuesting.disallowedQuests = {
         [11930] = true, -- Across Transborea
         [12082] = true, -- Dun-da-Dun-tah!
         [12570] = true, -- Fortunate Misunderstandings
+        [12688] = true, -- Engineering a Disaster
         [12832] = true, -- Bitter Departure
         [13221] = true, -- I'm Not Dead Yet!
         [13229] = true, -- I'm Not Dead Yet!
@@ -151,7 +152,6 @@ _AutoQuesting.disallowedQuests = {
         [13301] = true, -- Assault by Ground
         [13481] = true, -- Let's Get Out of Here!
         [13482] = true, -- Let's Get Out of Here
-        [12688] = true, -- Engineering a Disaster
         ---
         [10346] = true, -- Gryphoneer Windbellow (Return to the Abyssal Shelf) (Alliance)
         [10347] = true, -- Wing Commander Brack (Return to the Abyssal Shelf) (Horde)
