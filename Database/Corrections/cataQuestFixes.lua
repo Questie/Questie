@@ -217,8 +217,23 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 0,-- there are some weird things happening if you completed these quests before prepatch
         },
+        [2945] = { -- Grime-Encrusted Ring
+            [questKeys.zoneOrSort] = 6457,
+        },
         [2947] = { -- Return of the Ring
             [questKeys.zoneOrSort] = 6457,
+        },
+        [2949] = { -- Return of the Ring
+            [questKeys.zoneOrSort] = 6457,
+        },
+        [2950] = { -- Nogg's Ring Redo
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [2951] = { -- The Sparklematic 5200!
+            [questKeys.preQuestSingle] = {},
+        },
+        [2952] = { -- The Sparklematic 5200!
+            [questKeys.exclusiveTo] = {},
         },
         [3091] = { -- Simple Note -- Tauren Warrior
             [questKeys.preQuestSingle] = {},
@@ -5946,6 +5961,15 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{69.12,88.51},{73.31,83.29}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Royal Monkfish")}},
             [questKeys.requiredSourceItems] = {58856},
         },
+        [26490] = { -- Prime Slime
+            [questKeys.preQuestGroup] = {26462,26483},
+        },
+        [26491] = { -- Skulk Rock Clean-Up
+            [questKeys.preQuestGroup] = {26462,26483},
+        },
+        [26492] = { -- Skulk Rock Supplies
+            [questKeys.preQuestGroup] = {26462,26483},
+        },
         [26493] = { -- There's Somebody Out There Who Wants It
             [questKeys.preQuestGroup] = {26450,26487},
         },
@@ -5956,10 +5980,15 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26493},
         },
         [26496] = { -- Down with the Vilebranch
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26491,26492},
             [questKeys.nextQuestInChain] = 26497,
         },
         [26497] = { -- Vilebranch Scum
             [questKeys.preQuestSingle] = {},
+        },
+        [26498] = { -- Death to the Vilebranch
+            [questKeys.preQuestSingle] = {26497},
         },
         [26499] = { -- Stonefather's Boon
             [questKeys.objectives] = {{{43138,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -5986,6 +6015,9 @@ function CataQuestFixes.Load()
         [26513] = { -- Like a Fart in the Wind
             [questKeys.preQuestSingle] = {26510},
         },
+        [26517] = { -- Summit of Fate
+            [questKeys.preQuestSingle] = {26515},
+        },
         [26519] = { -- He Who Controls the Ettins
             [questKeys.startedBy] = {{430,445,446,580},nil,{58898}},
             [questKeys.preQuestSingle] = {26512},
@@ -5996,6 +6028,21 @@ function CataQuestFixes.Load()
                 {nil, Questie.ICON_TYPE_INTERACT, l10n("Control the Canyon Ettin"),0,{{"monster",43094}}},
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Ettin to lift the boulder"),0,{{"monster",43196}}},
             },
+        },
+        [26521] = { -- Faces of Evil
+            [questKeys.objectives] = {{{42704,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [26525] = { -- Venomous Secrets
+            [questKeys.preQuestSingle] = {26517},
+        },
+        [26526] = { -- Hunt the Keeper
+            [questKeys.preQuestSingle] = {26517},
+        },
+        [26528] = { -- The Eye of Shadra
+            [questKeys.preQuestGroup] = {27625,27626},
+        },
+        [26531] = { -- Summoning Shadra
+            [questKeys.objectives] = {{{43067,nil,Questie.ICON_TYPE_EVENT},{43069,nil,Questie.ICON_TYPE_EVENT},{43068,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [26536] = { -- Thunder Falls
             [questKeys.exclusiveTo] = {29325,29321,29323,29324,29342,29343,29344,29347,29350,29359,26414,26420,26442,26488},
@@ -6016,6 +6063,11 @@ function CataQuestFixes.Load()
         },
         [26546] = { -- Razorbeak Friends
             [questKeys.objectives] = {{{2657,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [26548] = { -- Out to the Front
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26546,26547},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Stormfeather Outpost"),0,{{"monster",8018}}}},
         },
         [26549] = { -- Madness
             [questKeys.objectives] = {},
@@ -6203,6 +6255,9 @@ function CataQuestFixes.Load()
         },
         [26638] = { -- Hunting the Hunters
             [questKeys.preQuestSingle] = {26616},
+        },
+        [26641] = { -- Can't Make An Omelette Without...
+            [questKeys.preQuestGroup] = {27625,27626},
         },
         [26642] = { -- Preserving the Barrens
             [questKeys.exclusiveTo] = {28494},
@@ -6990,6 +7045,18 @@ function CataQuestFixes.Load()
         [27152] = { -- Unusual Behavior... Even For Gnolls
             [questKeys.triggerEnd] = {"Gnoll camp investigated", {[zoneIDs.WESTERN_PLAGUELANDS]={{57.5,35.6}}}},
         },
+        [27158] = { -- The Battle for Andorhal
+            [questKeys.nextQuestInChain] = 27159,
+        },
+        [27159] = { -- Scourge First... Horde Later
+            [questKeys.preQuestSingle] = {},
+        },
+        [27165] = { -- Victory, For Now
+            [questKeys.nextQuestInChain] = 27166,
+        },
+        [27166] = { -- Go Fletch!
+            [questKeys.preQuestSingle] = {},
+        },
         [27176] = { -- A Strange Disc
             [questKeys.requiredSourceItems] = {60865},
             [questKeys.name] = "A Strange Disc",
@@ -7730,6 +7797,12 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{46100,nil,Questie.ICON_TYPE_INTERACT},{46100,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {27611},
         },
+        [27625] = { -- In Defense of Quel'Danil
+            [questKeys.preQuestSingle] = {27725},
+        },
+        [27626] = { -- The Highvale Documents
+            [questKeys.preQuestSingle] = {27725},
+        },
         [27627] = { -- Just a Fancy Cockroach
             [questKeys.startedBy] = {{46126,46127,46128,46129}},
             [questKeys.finishedBy] = {{100012}},
@@ -7985,6 +8058,9 @@ function CataQuestFixes.Load()
         [27724] = { -- Hero's Call: Vashj'ir!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
             [questKeys.nextQuestInChain] = 14482,
+        },
+        [27725] = { -- Quel'Danil Lodge
+            [questKeys.preQuestSingle] = {26526},
         },
         [27726] = { -- Hero's Call: Mount Hyjal!
             [questKeys.objectives] = {{{15187, nil, Questie.ICON_TYPE_TALK}}},
@@ -9195,6 +9271,10 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 43,
         },
+        [28505] = { -- The Battle for Andorhal
+            [questKeys.nextQuestInChain] = 27159,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Western Plaguelands"), 0, {{"monster", 8018}}}},
+        },
         [28507] = { -- Hero's Call: Tanaris!
             [questKeys.requiredMaxLevel] = 48,
         },
@@ -9374,6 +9454,7 @@ function CataQuestFixes.Load()
         },
         [28576] = { -- Hero's Call: Western Plaguelands!
             [questKeys.requiredMaxLevel] = 38,
+            [questKeys.nextQuestInChain] = 27159,
         },
         [28577] = { -- Warchief's Command: Eastern Plaguelands!
             [questKeys.requiredMaxLevel] = 43,
@@ -9725,6 +9806,10 @@ function CataQuestFixes.Load()
         },
         [28745] = { -- Screechy Keen
             [questKeys.preQuestSingle] = {28638},
+        },
+        [28749] = { -- The Battle for Andorhal
+            [questKeys.nextQuestInChain] = 27159,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a portal to Western Plaguelands"), 0, {{"monster", 49635}}}},
         },
         [28755] = { -- Annals of the Silver Hand
             [questKeys.preQuestSingle] = {27464},

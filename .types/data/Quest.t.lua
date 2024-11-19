@@ -92,7 +92,7 @@
 ---@field Update fun(self: table) Quick call for _QuestieQuest.ObjectiveUpdate
 ---@field Coordinates table<AreaId, CoordPair[]> @ Only used for type "event"
 ---@field RequiredRepValue number @ Only used for type "reputation"
----@field Type "event"|"item"|"killcredit"|"monster"|"object"|"reputation" Added in _QuestieQuest.ObjectiveUpdate
+---@field Type "event"|"item"|"killcredit"|"monster"|"object"|"reputation"|"spell" Added in _QuestieQuest.ObjectiveUpdate
 ---@field isUpdated boolean Used and added in _QuestieQuest.ObjectiveUpdate
 ---@field Completed boolean Added in _QuestieQuest.ObjectiveUpdate
 ---@field Color Color Added in QuestieQuest:PopulateObjective

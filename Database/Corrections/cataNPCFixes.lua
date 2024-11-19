@@ -220,6 +220,10 @@ function CataNpcFixes.Load()
         [3395] = { -- Verog the Dervish
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{51.0,78.8}}},
         },
+        [3412] = { -- Nogg
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{56.28,56.36}}},
+            [npcKeys.waypoints] = {[zoneIDs.ORGRIMMAR]={{{56.28,56.36},{56.74,57.02}}}},
+        },
         [3475] = { -- Echeyakee
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{44.07,46.47}}},
         },
