@@ -97,15 +97,17 @@ C_Timer = {
         end
     end
 }
-C_Seasons = {
-    HasActiveSeason = function() return true end,
-    GetActiveSeason = function() return 1 end, -- HC is 3
-}
 GetMaxPlayerLevel = function() return 25 end
 Enum = {
     SeasonID = {
+        SeasonOfMastery = 1,
+        SeasonOfDiscovery = 2,
         Hardcore = 3
     }
+}
+C_Seasons = {
+    HasActiveSeason = function() return true end,
+    GetActiveSeason = function() return Enum.SeasonID.SeasonOfDiscovery end,
 }
 
 ItemRefTooltip = {
