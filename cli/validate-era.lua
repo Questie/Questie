@@ -157,6 +157,8 @@ local function _CheckClassicDatabase()
     print("\n\27[36mCompiling Classic database...\27[0m")
     loadTOC("Questie-Classic.toc")
 
+    assert(Questie.IsEra, "Questie is not started for Era/HC/Anniversary")
+
     Questie.Debug = _Debug
     Questie.Error = _ErrorOrWarning
     Questie.Warning = _ErrorOrWarning

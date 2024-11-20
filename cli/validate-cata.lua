@@ -157,6 +157,8 @@ local function _CheckCataDatabase()
     print("\n\27[36mCompiling Cata database...\27[0m")
     loadTOC("Questie-Cata.toc")
 
+    assert(Questie.IsCata, "Questie is not started for Cataclysm")
+
     Questie.Debug = _Debug
     Questie.Error = _ErrorOrWarning
     Questie.Warning = _ErrorOrWarning

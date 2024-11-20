@@ -166,6 +166,8 @@ local function _CheckSoDDatabase()
     print("\n\27[36mCompiling SoD database...\27[0m")
     loadTOC("Questie-Classic.toc")
 
+    assert(Questie.IsSoD, "Questie is not started for Season of Discovery")
+
     Questie.Debug = _Debug
     Questie.Error = _ErrorOrWarning
     Questie.Warning = _ErrorOrWarning
