@@ -10545,7 +10545,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29101,29125,29147,29164},
         },
         [29162] = { -- Nature's Blessing
-            [questKeys.startedBy] = {{52669}},
+            [questKeys.startedBy] = {{52671}},
         },
         [29163] = { -- Rage Against the Flames
             [questKeys.exclusiveTo] = {29123,29127,29149,29166,29246,29247,29248},
