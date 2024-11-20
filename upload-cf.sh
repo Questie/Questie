@@ -22,6 +22,7 @@ CF_METADATA=$(cat <<-EOF
             {slug: "Ace3", type: "embeddedLibrary"},
             {slug: "CallbackHandler", type: "embeddedLibrary"},
             {slug: "HereBeDragons", type: "embeddedLibrary"},
+            {slug: "Krowi's World Map Buttons", type: "embeddedLibrary"},
             {slug: "LibCompress", type: "embeddedLibrary"},
             {slug: "LibDataBroker-1-1", type: "embeddedLibrary"},
             {slug: "LibDBIcon-1-0", type: "embeddedLibrary"},
