@@ -3707,11 +3707,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{11811}},
             [questKeys.finishedBy] = {{11811}},
             [questKeys.preQuestSingle] = {8606},
-            [questFlags.sourceItemId] = 21112,
+            [questKeys.sourceItemId] = 21112,
             [questKeys.requiredSourceItems] = {21103,21104,21105,21106,21107,21108,21109,21110},
             [questKeys.zoneOrSort] = zoneIDs.TANARIS,
-            [questFlags.requiredMinRep] = {factionIDs.BROOD_OF_NOZDORMU,0},
-            [questFlags.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,150}},
+            [questKeys.requiredMinRep] = {factionIDs.BROOD_OF_NOZDORMU,0},
+            [questKeys.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,150}},
         },
         [86671] = { -- Imperial Qiraji Regalia
             [questKeys.startedBy] = {{15378}},
@@ -3760,14 +3760,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{17070}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
-            [questFlags.reputationReward] = {{factionIDs.CENARION_CIRCLE,100}},
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,100}},
         },
         [86725] = { -- Dust to Dust
             [questKeys.startedBy] = {{17068}},
             [questKeys.finishedBy] = {{17068}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
-            [questFlags.reputationReward] = {{factionIDs.CENARION_CIRCLE,100}},
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,100}},
         },
 
         --- Fake rune quests
