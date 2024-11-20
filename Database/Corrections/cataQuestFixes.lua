@@ -5962,13 +5962,13 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {58856},
         },
         [26490] = { -- Prime Slime
-            [questKeys.preQuestGroup] = {26462,26483},
+            [questKeys.preQuestSingle] = {26483},
         },
         [26491] = { -- Skulk Rock Clean-Up
-            [questKeys.preQuestGroup] = {26462,26483},
+            [questKeys.preQuestSingle] = {26483},
         },
         [26492] = { -- Skulk Rock Supplies
-            [questKeys.preQuestGroup] = {26462,26483},
+            [questKeys.preQuestSingle] = {26483},
         },
         [26493] = { -- There's Somebody Out There Who Wants It
             [questKeys.preQuestGroup] = {26450,26487},
