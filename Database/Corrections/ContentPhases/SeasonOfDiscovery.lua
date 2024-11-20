@@ -582,6 +582,7 @@ local questsToBlacklistByPhase = {
         [8574] = true, -- Stalwart's Battlegear - Replaced by 86678
 
         -- AQ Raid quests
+        [8789] = true, -- Imperial Qiraji Armaments - Replaced by 86672
         [8790] = true, -- Imperial Qiraji Regalia - Replaced by 86671
 
         [78265] = true, -- Fish Oil (replaced by 82850)

@@ -3718,6 +3718,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{15378}},
             [questKeys.zoneOrSort] = zoneIDs.AHN_QIRAJ,
         },
+        [86672] = { -- Imperial Qiraji Armaments
+            [questKeys.startedBy] = {{15378}},
+            [questKeys.finishedBy] = {{15378}},
+            [questKeys.zoneOrSort] = zoneIDs.AHN_QIRAJ,
+        },
         [86675] = { -- Volunteer's Battlegear
             [questKeys.startedBy] = {{15176}},
             [questKeys.finishedBy] = {{15176}},

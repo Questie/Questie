@@ -7921,6 +7921,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Merithra of the Dream in the Temple of Ahn'Qiraj will create Elementium Infused Armaments for you should you bring her Imperial Qiraji Regalia and 3 Elementium Ore."},
             [questKeys.objectives] = {nil,nil,{{235045},{18562}}},
         },
+        [86672] = {
+            [questKeys.name] = "Imperial Qiraji Armaments",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Arygos in the Temple of Ahn'Qiraj will create Elementium Infused Armaments for you should you bring him Imperial Qiraji Armaments and 3 Elementium Ore."},
+            [questKeys.objectives] = {nil,nil,{{235046},{18562}}},
+        },
         [86675] = {
             [questKeys.name] = "Volunteer's Battlegear",
             [questKeys.startedBy] = nil,
