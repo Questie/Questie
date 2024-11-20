@@ -7899,5 +7899,27 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Recover the 8 lost chapters of Draconic for Dummies and combine them with the Magical Book Binding and return the completed book of Draconic for Dummies: Volume II to Narain Soothfancy in Tanaris."},
             [questKeys.objectives] = {nil,nil,{{21111}}},
         },
+        [86724] = {
+            [questKeys.name] = "Dust to Dust",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Find and deliver 5 Silithyst to the Silithyst Extractor then speak with Apothecary Quinard at the Horde encampment near Hive'Regal."},
+            [questKeys.objectives] = {{{18199}}},
+        },
+        [86725] = {
+            [questKeys.name] = "Dust to Dust",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Find and deliver 5 Silithyst to the Silithyst Extractor then speak with Chief Expeditionary Requisitioner Enkles at the Alliance encampment near Hive'Zora."},
+            [questKeys.objectives] = {{{17090}}},
+        },
     }
 end

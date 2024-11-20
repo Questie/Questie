@@ -3707,6 +3707,20 @@ function SeasonOfDiscovery:LoadQuests()
             [questFlags.requiredMinRep] = {factionIDs.BROOD_OF_NOZDORMU,0},
             [questFlags.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,150}},
         },
+        [86724] = { -- Dust to Dust
+            [questKeys.startedBy] = {{17070}},
+            [questKeys.finishedBy] = {{17070}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
+            [questFlags.reputationReward] = {{factionIDs.CENARION_CIRCLE,100}},
+        },
+        [86725] = { -- Dust to Dust
+            [questKeys.startedBy] = {{17068}},
+            [questKeys.finishedBy] = {{17068}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
+            [questFlags.reputationReward] = {{factionIDs.CENARION_CIRCLE,100}},
+        },
 
         --- Fake rune quests
         [90000] = {
