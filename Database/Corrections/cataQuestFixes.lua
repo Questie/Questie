@@ -8286,7 +8286,6 @@ function CataQuestFixes.Load()
         },
         [27874] = { -- Aviana's Legacy
             [questKeys.preQuestSingle] = {25611,25612},
-            [questKeys.exclusiveTo] = {25985},
             [questKeys.nextQuestInChain] = 25663,
         },
         [27901] = { -- They Don't Know What They've Got Here
