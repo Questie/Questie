@@ -7888,6 +7888,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Travel to Blackrock Spire and slay Warchief Rend Blackhand. Take his head and return to Orgrimmar."},
             [questKeys.objectives] = nil,
         },
+        [86326] = {
+            [questKeys.name] = "Desert Power",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 55,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Speak to Selestrasza to claim your Qiraji Resonating Crystal."},
+            [questKeys.objectives] = {{{234539}}},
+        },
         [86444] = {
             [questKeys.name] = "The Only Prescription",
             [questKeys.startedBy] = nil,

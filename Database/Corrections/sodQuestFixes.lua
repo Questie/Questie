@@ -3697,6 +3697,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [86678] = { -- Desert Power
+            [questKeys.startedBy] = {{234539}},
+            [questKeys.finishedBy] = {{234539}},
+            [questKeys.objectives] = {{{234539,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.zoneOrSort] = zoneIDs.AHN_QIRAJ,
+        },
         [86444] = { -- The Only Prescription
             [questKeys.startedBy] = {{11811}},
             [questKeys.finishedBy] = {{11811}},
