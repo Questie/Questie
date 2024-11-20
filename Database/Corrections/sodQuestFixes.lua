@@ -3713,6 +3713,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questFlags.requiredMinRep] = {factionIDs.BROOD_OF_NOZDORMU,0},
             [questFlags.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,150}},
         },
+        [86671] = { -- Imperial Qiraji Regalia
+            [questKeys.startedBy] = {{15378}},
+            [questKeys.finishedBy] = {{15378}},
+            [questKeys.zoneOrSort] = zoneIDs.AHN_QIRAJ,
+        },
         [86675] = { -- Volunteer's Battlegear
             [questKeys.startedBy] = {{15176}},
             [questKeys.finishedBy] = {{15176}},

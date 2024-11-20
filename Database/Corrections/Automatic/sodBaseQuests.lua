@@ -7910,6 +7910,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Recover the 8 lost chapters of Draconic for Dummies and combine them with the Magical Book Binding and return the completed book of Draconic for Dummies: Volume II to Narain Soothfancy in Tanaris."},
             [questKeys.objectives] = {nil,nil,{{21111}}},
         },
+        [86671] = {
+            [questKeys.name] = "Imperial Qiraji Regalia",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Merithra of the Dream in the Temple of Ahn'Qiraj will create Elementium Infused Armaments for you should you bring her Imperial Qiraji Regalia and 3 Elementium Ore."},
+            [questKeys.objectives] = {nil,nil,{{235045},{18562}}},
+        },
         [86675] = {
             [questKeys.name] = "Volunteer's Battlegear",
             [questKeys.startedBy] = nil,
