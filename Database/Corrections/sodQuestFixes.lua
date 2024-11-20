@@ -3697,7 +3697,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [86678] = { -- Desert Power
+        [86326] = { -- Desert Power
             [questKeys.startedBy] = {{234539}},
             [questKeys.finishedBy] = {{234539}},
             [questKeys.objectives] = {{{234539,nil,Questie.ICON_TYPE_TALK}}},
