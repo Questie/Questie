@@ -575,6 +575,12 @@ local questsToBlacklistByPhase = {
         [8078] = true, -- Paragons of Power: The Vindicator's Belt
         [8079] = true, -- Paragons of Power: The Vindicator's Breastplate
 
+        -- AQ War Efforts
+        [8548] = true, -- Volunteer's Battlegear Replaced by 86675
+        [8572] = true, -- Veteran's Battlegear Replaced by 86676
+        [8573] = true, -- Champion's Battlegear Replaced by 86677
+        [8574] = true, -- Stalwart's Battlegear Replaced by 86678
+
         [78265] = true, -- Fish Oil (replaced by 82850)
         [78266] = true, -- Dark Iron Ordinance (replaced by 82851)
         [78267] = true, -- Shredder Turbochargers (replaced by 82853)
