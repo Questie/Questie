@@ -48,6 +48,7 @@ local questLog = {}
 local questLogUpdateQueueSize = 1
 local skipNextUQLCEvent = false
 local doFullQuestLogScan = false
+local doRetryWithoutChanges = false
 local deletedQuestItem = false
 
 function QuestEventHandler:Initialize()
@@ -366,6 +367,7 @@ local _UnitQuestLogChangedCallback = function()
     -- (Accept, removed, ...)
     if (not skipNextUQLCEvent) then
         doFullQuestLogScan = true
+        doRetryWithoutChanges = true
     else
         doFullQuestLogScan = false
         skipNextUQLCEvent = false
@@ -399,6 +401,7 @@ function QuestEventHandler:UnitQuestLogChanged(unitTarget)
     -- We don't add a full check to the queue if skipNextUQLCEvent == true (from QUEST_WATCH_UPDATE or QUEST_TURNED_IN)
     if (not skipNextUQLCEvent) then
         doFullQuestLogScan = true
+        doRetryWithoutChanges = true
         _QuestLogUpdateQueue:Insert(_UnitQuestLogChangedCallback)
     else
         Questie:Debug(Questie.DEBUG_INFO, "Skipping UnitQuestLogChanged")
@@ -437,6 +440,8 @@ function _QuestEventHandler:UpdateAllQuests()
         end)
     else
         Questie:Debug(Questie.DEBUG_INFO, "Nothing to update")
+        doFullQuestLogScan = doRetryWithoutChanges -- There haven't been any changes, even though we called UpdateAllQuests. We need to check again at next QUEST_LOG_UPDATE
+        doRetryWithoutChanges = false
     end
 
     -- Do UpdateAllQuests() again at next QUEST_LOG_UPDATE if there was "cacheMiss" (game's cache and addon's cache didn't have all required data yet)
