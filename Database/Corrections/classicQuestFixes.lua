@@ -2007,8 +2007,17 @@ function QuestieQuestFixes:Load()
         [5582] = {
             [questKeys.startedBy] = {{10678},nil,{13920}},
         },
+        [5621] = { -- Garments of the Moon
+            [questKeys.objectives] = {{{12427,"Heal and fortify Sentinel Shaya",Questie.ICON_TYPE_INTERACT}}},
+        },
         [5622] = {
             [questKeys.questLevel] = 5, -- #2306
+        },
+        [5624] = { -- Garments of the Light
+            [questKeys.objectives] = {{{12427,"Heal and fortify Guard Roberts",Questie.ICON_TYPE_INTERACT}}},
+        },
+        [5625] = { -- Garments of the Light
+            [questKeys.objectives] = {{{12427,"Heal and fortify Mountaineer Dolf",Questie.ICON_TYPE_INTERACT}}},
         },
         [5634] = {
             [questKeys.startedBy] = {{376},nil,nil},
@@ -2046,6 +2055,12 @@ function QuestieQuestFixes:Load()
         },
         [5647] = {
             [questKeys.startedBy] = {{11401},nil,nil}, -- #2424
+        },
+        [5648] = { -- Garments of Spirituality
+            [questKeys.objectives] = {{{12427,"Heal and fortify Grunt Kor'ja",Questie.ICON_TYPE_INTERACT}}},
+        },
+        [5650] = { -- Garments of Darkness
+            [questKeys.objectives] = {{{12427,"Heal and fortify Grunt Kor'ja",Questie.ICON_TYPE_INTERACT}}},
         },
         [5676] = {
             [questKeys.exclusiveTo] = {5677,5678},
