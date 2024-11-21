@@ -49,3 +49,10 @@ jobs:
 
       - name: Upload WAGO
         run: sh upload-wago.sh ${{github.ref_name}}
+
+      - name: Send CI failure to Discord
+        uses: nebularg/actions-discord-webhook@v1
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+        if: ${{ failure() }}
