@@ -40,6 +40,9 @@ function SeasonOfDiscovery:LoadQuests()
         [7497] = { -- The Journey Has Just Begun
             [questKeys.preQuestSingle] = {84560},
         },
+        [8728] = { -- The Good News and The Bad News
+            [questKeys.preQuestSingle] = {86444},
+        },
         [8922] = { -- A Supernatural Device
             [questKeys.preQuestSingle] = {84147,84148,84149,84150,84151,84152,84153,84154},
         },
@@ -3693,6 +3696,78 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {4974},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [86326] = { -- Desert Power
+            [questKeys.startedBy] = {{234539}},
+            [questKeys.finishedBy] = {{234539}},
+            [questKeys.objectives] = {{{234539,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.zoneOrSort] = zoneIDs.AHN_QIRAJ,
+        },
+        [86444] = { -- The Only Prescription
+            [questKeys.startedBy] = {{11811}},
+            [questKeys.finishedBy] = {{11811}},
+            [questKeys.preQuestSingle] = {8606},
+            [questKeys.sourceItemId] = 21112,
+            [questKeys.requiredSourceItems] = {21103,21104,21105,21106,21107,21108,21109,21110},
+            [questKeys.zoneOrSort] = zoneIDs.TANARIS,
+            [questKeys.requiredMinRep] = {factionIDs.BROOD_OF_NOZDORMU,0},
+            [questKeys.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,150}},
+        },
+        [86671] = { -- Imperial Qiraji Regalia
+            [questKeys.startedBy] = {{15378}},
+            [questKeys.finishedBy] = {{15378}},
+            [questKeys.zoneOrSort] = zoneIDs.AHN_QIRAJ,
+        },
+        [86672] = { -- Imperial Qiraji Armaments
+            [questKeys.startedBy] = {{15378}},
+            [questKeys.finishedBy] = {{15378}},
+            [questKeys.zoneOrSort] = zoneIDs.AHN_QIRAJ,
+        },
+        [86675] = { -- Volunteer's Battlegear
+            [questKeys.startedBy] = {{15176}},
+            [questKeys.finishedBy] = {{15176}},
+            [questKeys.preQuestSingle] = {8800},
+            [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
+            [questKeys.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,50}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [86676] = { -- Veteran's Battlegear
+            [questKeys.startedBy] = {{15176}},
+            [questKeys.finishedBy] = {{15176}},
+            [questKeys.preQuestSingle] = {8800},
+            [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
+            [questKeys.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,50}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [86677] = { -- Stalwart's Battlegear
+            [questKeys.startedBy] = {{15176}},
+            [questKeys.finishedBy] = {{15176}},
+            [questKeys.preQuestSingle] = {8800},
+            [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
+            [questKeys.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,50}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [86678] = { -- Champion's Battlegear
+            [questKeys.startedBy] = {{15176}},
+            [questKeys.finishedBy] = {{15176}},
+            [questKeys.preQuestSingle] = {8800},
+            [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
+            [questKeys.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,50}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [86724] = { -- Dust to Dust
+            [questKeys.startedBy] = {{17070}},
+            [questKeys.finishedBy] = {{17070}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,100}},
+        },
+        [86725] = { -- Dust to Dust
+            [questKeys.startedBy] = {{17068}},
+            [questKeys.finishedBy] = {{17068}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,100}},
         },
 
         --- Fake rune quests

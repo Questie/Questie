@@ -2246,6 +2246,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {38380},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Feed with Zul'Drak Rat"), 0, {{"monster", 28145}}}},
         },
+        [12528] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [12529] = {
             [questKeys.requiredSourceItems] = {38619},
         },
@@ -2298,6 +2301,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,{{190499,"Truth Serum Created"}}},
         },
         [12544] = {
+            [questKeys.objectives] = {{{28256,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Soo-rahm's Incense"), 0, {{"object", 190507}}}},
             [questKeys.requiredSourceItems] = {},
         },
@@ -2535,6 +2539,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Begin the distillation process"), 0, {{"monster", 28566}}}},
         },
         [12645] = {
+            [questKeys.objectives] = {{{27986,nil,Questie.ICON_TYPE_INTERACT},{28047,nil,Questie.ICON_TYPE_INTERACT},{28568,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSourceItems] = {},
         },
         [12648] = {

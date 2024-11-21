@@ -351,6 +351,7 @@ local questsToBlacklistByPhase = {
         [7786] = true, -- Thunderaan the Windseeker - Replaced by 85441
         [7787] = true, -- Rise, Thunderfury! - Replaced by 85443
         [8446] = true, -- Shrouded in Nightmare (Emerald Dream Dragons)
+        [8620] = true, -- The Only Prescription - Replaced by 86444
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,
@@ -573,6 +574,16 @@ local questsToBlacklistByPhase = {
         [8077] = true, -- Paragons of Power: The Demoniac's Robes
         [8078] = true, -- Paragons of Power: The Vindicator's Belt
         [8079] = true, -- Paragons of Power: The Vindicator's Breastplate
+
+        -- AQ War Efforts
+        [8548] = true, -- Volunteer's Battlegear - Replaced by 86675
+        [8572] = true, -- Veteran's Battlegear - Replaced by 86676
+        [8573] = true, -- Champion's Battlegear - Replaced by 86677
+        [8574] = true, -- Stalwart's Battlegear - Replaced by 86678
+
+        -- AQ Raid quests
+        [8789] = true, -- Imperial Qiraji Armaments - Replaced by 86672
+        [8790] = true, -- Imperial Qiraji Regalia - Replaced by 86671
 
         [78265] = true, -- Fish Oil (replaced by 82850)
         [78266] = true, -- Dark Iron Ordinance (replaced by 82851)

@@ -1244,6 +1244,12 @@ function QuestieItemFixes:Load()
         [21314] = {
             [itemKeys.npcDrops] = {},
         },
+        [21232] = { -- Imperial Qiraji Armaments
+            [itemKeys.npcDrops] = {15275,15276,15299,15509,15510,15511,15516,15517,15543,15544},
+        },
+        [21237] = { -- Imperial Qiraji Regalia
+            [itemKeys.npcDrops] = {15275,15276,15299,15509,15510,15511,15516,15517,15543,15544},
+        },
         [21557] = {
             [itemKeys.relatedQuests] = {8867},
             [itemKeys.npcDrops] = {15898},

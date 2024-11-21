@@ -97,15 +97,17 @@ C_Timer = {
         end
     end
 }
-C_Seasons = {
-    HasActiveSeason = function() return true end,
-    GetActiveSeason = function() return 1 end, -- HC is 3
-}
 GetMaxPlayerLevel = function() return 25 end
 Enum = {
     SeasonID = {
+        SeasonOfMastery = 1,
+        SeasonOfDiscovery = 2,
         Hardcore = 3
     }
+}
+C_Seasons = {
+    HasActiveSeason = function() return true end,
+    GetActiveSeason = function() return Enum.SeasonID.SeasonOfDiscovery end,
 }
 
 ItemRefTooltip = {
@@ -163,6 +165,8 @@ end
 local function _CheckSoDDatabase()
     print("\n\27[36mCompiling SoD database...\27[0m")
     loadTOC("Questie-Classic.toc")
+
+    assert(Questie.IsSoD, "Questie is not started for Season of Discovery")
 
     Questie.Debug = _Debug
     Questie.Error = _ErrorOrWarning

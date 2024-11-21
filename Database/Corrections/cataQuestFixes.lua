@@ -5962,13 +5962,13 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {58856},
         },
         [26490] = { -- Prime Slime
-            [questKeys.preQuestGroup] = {26462,26483},
+            [questKeys.preQuestSingle] = {26483},
         },
         [26491] = { -- Skulk Rock Clean-Up
-            [questKeys.preQuestGroup] = {26462,26483},
+            [questKeys.preQuestSingle] = {26483},
         },
         [26492] = { -- Skulk Rock Supplies
-            [questKeys.preQuestGroup] = {26462,26483},
+            [questKeys.preQuestSingle] = {26483},
         },
         [26493] = { -- There's Somebody Out There Who Wants It
             [questKeys.preQuestGroup] = {26450,26487},
@@ -8286,7 +8286,6 @@ function CataQuestFixes.Load()
         },
         [27874] = { -- Aviana's Legacy
             [questKeys.preQuestSingle] = {25611,25612},
-            [questKeys.exclusiveTo] = {25985},
             [questKeys.nextQuestInChain] = 25663,
         },
         [27901] = { -- They Don't Know What They've Got Here
@@ -10545,7 +10544,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {29101,29125,29147,29164},
         },
         [29162] = { -- Nature's Blessing
-            [questKeys.startedBy] = {{52669}},
+            [questKeys.startedBy] = {{52671}},
         },
         [29163] = { -- Rage Against the Flames
             [questKeys.exclusiveTo] = {29123,29127,29149,29166,29246,29247,29248},
