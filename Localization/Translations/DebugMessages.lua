@@ -351,7 +351,7 @@ local debugMessagesLocales = {
         ["esMX"] = "¡Recogiste %s que inicia %s!",
     },
     ["The '%s' world event is active!"] = {
-        ["ptBR"] = "O evento global '%s' está ativo!",
+        ["ptBR"] = "O evento mundial '%s' está ativo!",
         ["ruRU"] = "Игровое событие '%s' активно!",
         ["koKR"] = "월드 이벤트 '%s' 활성화",
         ["frFR"] = "L'évènement mondial '%s' est actif !",
