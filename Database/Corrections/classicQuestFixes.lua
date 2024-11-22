@@ -101,6 +101,9 @@ function QuestieQuestFixes:Load()
         [117] = {
             [questKeys.name] = "Thunderbrew",
         },
+        [123] = {
+            [questKeys.startedBy] = {{97,100,448,478},nil,{1307}},
+        },
         [136] = {
             [questKeys.startedBy] = {{513,515,126,171,456,127,517,458,391},nil,{1357}},
         },
