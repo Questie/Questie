@@ -6,6 +6,9 @@
 ---@class QuestieDBMIntegration
 local QuestieDBMIntegration = QuestieLoader:CreateModule("QuestieDBMIntegration");
 
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 --Libs
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 --Local Variables
@@ -143,7 +146,7 @@ do
             DelayedMapCheck()
             DBM:Schedule(1, DelayedMapCheck)
             if not warningShown then
-                DBM:AddMsg("Questie has activated DBM HUD overlay. For more options, visit DBM HUD tab in Questie options")
+                DBM:AddMsg(l10n("Questie has activated DBM HUD overlay. For more options, visit DBM HUD tab in Questie options"))
                 warningShown = true
             end
         end
