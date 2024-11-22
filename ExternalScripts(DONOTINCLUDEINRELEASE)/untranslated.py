@@ -11,16 +11,16 @@ for filePath in re.findall('file="([\\a-zA-Z]*?.lua)"', open('%sTranslations.xml
     with open('%s%s' % (basePath, filePath.replace('\\', '/')), 'r', encoding='utf-8') as translationFile:
         if translationFile.name.endswith('Objectives.lua'):
             continue
-        for filePath, tableContent in re.findall('\n\nlocal (.*?) = {\n(.*?\n)\}\n\n', translationFile.read(), re.DOTALL):
+        for filePath, tableContent in re.findall(r'\n\nlocal (.*?) = {\n(.*?\n)\}\n\n', translationFile.read(), re.DOTALL):
             if filePath not in translations:
                 translations[filePath] = {}
-            for option, translationContent in re.findall('\["(.*?)"] = {\n(.*?)}', tableContent, re.DOTALL):
+            for option, comment, translationContent in re.findall(r'\["(.*?)"] = {(.*?)\n(.*?)}', tableContent, re.DOTALL):
                 translations[filePath][option] = {}
                 if option in duplicates:
                     duplicates[option] += 1
                 else:
                     duplicates[option] = 0
-                for lang, translation in re.findall('\["(.*?)"] = (.*?),\n', translationContent, re.DOTALL):
+                for lang, translation, comment in re.findall(r'\["(.*?)"] = (.*?),(.*?)\n', translationContent, re.DOTALL):
                     if translation in ('nil', 'false'):
                         translations[filePath][option][lang] = False
                     else:

@@ -38,6 +38,18 @@ local dbmHudOptionsLocales = {
         ["esES"] = "Habilita o deshabilita la superposición del Heads Up Display (HUD) de DBM para objetos del mapa.",
         ["frFR"] = "Activer ou désactiver la superposition DBM Heads Up Display (HUD) pour afficher les objets cartographiques.",
     },
+    ["Questie has activated DBM HUD overlay. For more options, visit DBM HUD tab in Questie options"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Questie hat das DBM HUD aktiviert. Einstellungen dazu findest du in den Questie-Einstellungen im \"DBM HUD\"-Reiter.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
     ["Filter Options"] = {
         ["ptBR"] = "Opções de filtro",
         ["ruRU"] = "Фильтр значков",

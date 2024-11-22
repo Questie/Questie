@@ -6311,8 +6311,8 @@ local northrendLocales = {
         ["enUS"] = true,
         ["frFR"] = "Tournoi",
         ["esES"] = "Torneo",
-        ["zhTW"] = false,
-        ["zhCN"] = "比赛",
+        ["zhTW"] = "聯賽",
+        ["zhCN"] = "锦标赛",
     },
     ["Expedition Base Camp"] = {
         ["ptBR"] = "Acampamento da Expedição",
