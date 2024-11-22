@@ -13,6 +13,8 @@ function QuestieItemBlacklist:Load()
         [1210] = true, -- shadowgem
         [1529] = true, -- jade
         [1705] = true, -- lesser moonstone
+        [2318] = true, -- Light Leather
+        [2319] = true, -- Medium Leather
         [2447] = true, -- peacebloom
         [2449] = true, -- earthroot
         [2450] = true, -- briarthorn
@@ -22,6 +24,7 @@ function QuestieItemBlacklist:Load()
         [2589] = true, -- linen cloth
         [2592] = true, -- wool cloth
         [2842] = true, -- Silver Bar
+        [2934] = true, -- Ruined Leather Scraps
         [2997] = true, -- bolt of wool
         [3355] = true, -- wild steelbloom
         [3356] = true, -- kingsblood
@@ -34,6 +37,8 @@ function QuestieItemBlacklist:Load()
         [3821] = true, -- goldthorn
         [3864] = true, -- citrine
         [3927] = true, -- fine aged cheddar
+        [4234] = true, -- Heavy Leather
+        [4304] = true, -- Thick Leather
         [4306] = true, -- silk cloth
         [4338] = true, -- mageweave
         [4625] = true, -- firebloom
@@ -42,6 +47,7 @@ function QuestieItemBlacklist:Load()
         [7909] = true, -- aquamarine
         [7910] = true, -- star ruby
         [8153] = true, -- wildvine
+        [8170] = true, -- Rugged Leather
         [8244] = true, -- flawless-draenethyst-sphere
         [8831] = true, -- purple lotus
         [8836] = true, -- arthas tears
@@ -80,6 +86,14 @@ function QuestieItemBlacklist:Load()
         [15992] = true, -- Dense Blasting Powder
         [18335] = true, -- Pristine Black Diamond
         [19440] = true, -- Powerful Anti-Venom
+        [15417] = true, -- Devilsaur Leather
+        [15419] = true, -- Warbear Leather
+        [15422] = true, -- Frostsaber Leather
+        [15423] = true, -- Chimera Leather
+        [17012] = true, -- Core Leather
+        [19767] = true, -- Primal Bat Leather
+        [19768] = true, -- Primal Tiger Leather
+
         [20452] = true, -- Smoked Desert Dumplings
 
         -- stranglethorn pages
