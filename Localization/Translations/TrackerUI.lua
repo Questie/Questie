@@ -423,7 +423,7 @@ local trackerUILocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
         ["esES"] = false,
-        ["frFR"] = false,
+        ["frFR"] = "Maximiser la quête",
     },
 }
 
