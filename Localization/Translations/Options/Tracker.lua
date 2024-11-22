@@ -557,7 +557,7 @@ local trackerOptionsLocales = {
     -- VoiceOver Tracker Integration
     ["Sticky VoiceOver Frame"] = {
         ["ptBR"] = "Quadro VoiceOver fixo",
-        ["ruRU"] = false,
+        ["ruRU"] = "Клейкое окно VoiceOver",
         ["deDE"] = "Sticky VoiceOver-Fenster",
         ["koKR"] = false,
         ["esMX"] = "Marco VoiceOver pegajoso",
@@ -569,7 +569,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, the VoiceOver talking head / sound queue frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen."] = {
         ["ptBR"] = "Quando isso estiver marcado, o quadro de cabeça falante / fila de som do VoiceOver será colocado no lado esquerdo ou direito do rastreador do Questie, dependendo de onde o rastreador estiver localizado na sua tela.",
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда включено, говорящая голова или окно очереди звука VoiceOver будет отображено слева или справа от трекера Questie в зависимости от того, где он расположен на вашем экране",
         ["deDE"] = "Wenn diese Option aktiviert ist, wird das VoiceOver-Fenster auf der linken oder rechten Seite des Questie-Trackers platziert, je nachdem, wo sich der Tracker auf dem Bildschirm befindet.",
         ["koKR"] = false,
         ["esMX"] = "Cuando esto está marcado, el marco de la cabeza parlante de VoiceOver / cola de sonido se colocará en el lado izquierdo o derecho del rastreador de Questie dependiendo de dónde esté ubicado el rastreador en tu pantalla.",
