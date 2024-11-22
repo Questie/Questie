@@ -12,7 +12,7 @@ local maelstromLocales = {
         ["enUS"] = true,
         ["frFR"] = "Le Tréfonds",
         ["esES"] = "Infralar",
-        ["zhTW"] = false,
+        ["zhTW"] = "地深之源",
         ["zhCN"] = "深岩之洲",
     },
     ["The Lost Isles"] = {
@@ -24,7 +24,7 @@ local maelstromLocales = {
         ["enUS"] = true,
         ["frFR"] = "Les îles Perdues",
         ["esES"] = "Las Islas Perdidas",
-        ["zhTW"] = false,
+        ["zhTW"] = "失落群島",
         ["zhCN"] = "失落群岛",
     },
     ["Kezan"] = {
@@ -36,7 +36,7 @@ local maelstromLocales = {
         ["enUS"] = true,
         ["frFR"] = true,
         ["esES"] = true,
-        ["zhTW"] = false,
+        ["zhTW"] = "凱贊",
         ["zhCN"] = "科赞",
     },
 }

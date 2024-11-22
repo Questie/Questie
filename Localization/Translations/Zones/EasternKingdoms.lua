@@ -347,7 +347,7 @@ local easternKingdomsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Strangleronce septentrionale",
         ["esES"] = "Norte de la Vega de Tuercespina",
-        ["zhTW"] = false,
+        ["zhTW"] = "北荊棘谷",
         ["zhCN"] = "北荆棘谷",
     },
     ["The Cape of Stranglethorn"] = {
@@ -359,7 +359,7 @@ local easternKingdomsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Cap Strangleronce",
         ["esES"] = "El Cabo de Tuercespina",
-        ["zhTW"] = false,
+        ["zhTW"] = "荊棘谷海角",
         ["zhCN"] = "荆棘谷海角",
     },
     ["Tol Barad"] = {
@@ -371,7 +371,7 @@ local easternKingdomsLocales = {
         ["enUS"] = true,
         ["frFR"] = true,
         ["esES"] = true,
-        ["zhTW"] = false,
+        ["zhTW"] = "托巴拉德",
         ["zhCN"] = "托尔巴拉德",
     },
     ["Tol Barad Peninsula"] = {
@@ -383,7 +383,7 @@ local easternKingdomsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Péninsule de Tol Barad",
         ["esES"] = "Península de Tol Barad",
-        ["zhTW"] = false,
+        ["zhTW"] = "托巴拉德半島",
         ["zhCN"] = "托尔巴拉德半岛",
     },
     ["Kelp'thar Forest"] = {
@@ -395,7 +395,7 @@ local easternKingdomsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Forêt de Varech'thar",
         ["esES"] = "Bosque Kelp'thar",
-        ["zhTW"] = false,
+        ["zhTW"] = "凱波薩爾森林",
         ["zhCN"] = "柯尔普萨之森",
     },
     ["Shimmering Expanse"] = {
@@ -407,7 +407,7 @@ local easternKingdomsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Étendues Chatoyantes",
         ["esES"] = "Extensión Bruñida",
-        ["zhTW"] = false,
+        ["zhTW"] = "閃光瀚洋",
         ["zhCN"] = "烁光海床",
     },
     ["Abyssal Depths"] = {
@@ -419,7 +419,7 @@ local easternKingdomsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Profondeurs Abyssales",
         ["esES"] = "Profundidades Abisales",
-        ["zhTW"] = false,
+        ["zhTW"] = "地獄深淵",
         ["zhCN"] = "无底海渊",
     },
     ["Coldridge Valley"] = {
@@ -431,7 +431,7 @@ local easternKingdomsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Vallée des Frigères",
         ["esES"] = "Valle de Crestanevada",
-        ["zhTW"] = false,
+        ["zhTW"] = "寒脊山谷",
         ["zhCN"] = "寒脊山谷",
     },
     ["Twilight Highlands"] = {
@@ -443,7 +443,7 @@ local easternKingdomsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Hautes-terres du Crépuscule",
         ["esES"] = "Tierras Altas Crepusculares",
-        ["zhTW"] = false,
+        ["zhTW"] = "暮光高地",
         ["zhCN"] = "暮光高地",
     },
     ["Vashj'ir"] = {
@@ -455,7 +455,7 @@ local easternKingdomsLocales = {
         ["enUS"] = true,
         ["frFR"] = true,
         ["esES"] = true,
-        ["zhTW"] = false,
+        ["zhTW"] = "瓦許伊爾",
         ["zhCN"] = "瓦丝琪尔",
     },
     ["Gilneas"] = {
@@ -467,7 +467,7 @@ local easternKingdomsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Gilnéas",
         ["esES"] = true,
-        ["zhTW"] = false,
+        ["zhTW"] = "吉爾尼斯",
         ["zhCN"] = "吉尔尼斯",
     },
     ["Gilneas City"] = {
@@ -479,7 +479,7 @@ local easternKingdomsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Gilnéas",
         ["esES"] = "Ciudad de Gilneas",
-        ["zhTW"] = false,
+        ["zhTW"] = "吉爾尼斯城",
         ["zhCN"] = "吉尔尼斯城",
     },
     ["Ruins of Gilneas"] = {
@@ -491,7 +491,7 @@ local easternKingdomsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Ruines de Gilnéas",
         ["esES"] = "Ruinas de Gilneas",
-        ["zhTW"] = false,
+        ["zhTW"] = "吉爾尼斯廢墟",
         ["zhCN"] = "吉尔尼斯废墟",
     },
     ["Deathknell"] = {
@@ -503,7 +503,7 @@ local easternKingdomsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Le Glas",
         ["esES"] = "Camposanto",
-        ["zhTW"] = false,
+        ["zhTW"] = "喪鐘鎮",
         ["zhCN"] = "丧钟镇",
     },
     ["New Tinkertown"] = {
@@ -515,7 +515,7 @@ local easternKingdomsLocales = {
         ["enUS"] = true,
         ["frFR"] = "La Nouvelle-Brikabrok",
         ["esES"] = "Nueva Ciudad Manitas",
-        ["zhTW"] = false,
+        ["zhTW"] = "新地精區",
         ["zhCN"] = "新工匠镇",
     },
 }
