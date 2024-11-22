@@ -436,7 +436,7 @@ local advancedOptionsLocales = {
     },
     ["Enable bug hints for all game versions"] = {
         ["ptBR"] = "Ativar dicas de bugs para todas as versões do jogo",
-        ["ruRU"] = false,
+        ["ruRU"] = "Подсказки об ошибках для всех версий",
         ["deDE"] = "Bug-Hinweise für alle Spielversionen aktivieren",
         ["koKR"] = false,
         ["esMX"] = "Habilitar sugerencias de errores para todas las versiones del juego",
@@ -448,7 +448,7 @@ local advancedOptionsLocales = {
     },
     ["Enables the bug hint windows for all game versions, usually used for bug reports in SoD."] = {
         ["ptBR"] = "Ativa as janelas de dicas de bugs para todas as versões do jogo, geralmente usadas para relatórios de bugs no SoD.",
-        ["ruRU"] = false,
+        ["ruRU"] = "Включает окна подсказок об ошибках, обычно используемые в SoD, для всех версий игры",
         ["deDE"] = "Aktiviert die Bug-Hinweisfenster für alle Spielversionen, das normalerweise für Fehlerberichte in SoD verwendet wird.",
         ["koKR"] = false,
         ["esMX"] = "Habilita las ventanas de sugerencias de errores para todas las versiones del juego, generalmente utilizadas para informes de errores en SoD.",

@@ -40,7 +40,7 @@ local dbmHudOptionsLocales = {
     },
     ["Questie has activated DBM HUD overlay. For more options, visit DBM HUD tab in Questie options"] = {
         ["ptBR"] = "O Questie ativou a sobreposição de HUD do DBM. Para mais opções, acesse a aba HUD do DBM nas opções do Questie.",
-        ["ruRU"] = false,
+        ["ruRU"] = "В Questie активировано наложение DBM HUD. Для расширенных настроек посетите вкладку DBM HUD в параметрах Questie",
         ["deDE"] = "Questie hat das DBM HUD aktiviert. Einstellungen dazu findest du in den Questie-Einstellungen im \"DBM HUD\"-Reiter.",
         ["koKR"] = false,
         ["esMX"] = "Questie ha habilitado la superposición HUD de DBM. Para más opciones, visita la pestaña HUD de DBM en las opciones de Questie.",
