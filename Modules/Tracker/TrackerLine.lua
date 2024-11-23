@@ -65,37 +65,37 @@ function TrackerLine.Create(index, parent, previousLine, OnEnter, OnLeave, OnQue
 
     line.SetMode = _SetMode
 
-    function line:SetZone(ZoneId)
-        if type(ZoneId) == "string" then
-            self.expandZone.zoneId = ZoneId
-        elseif type(ZoneId) == "number" then
-            self.ZoneId = TrackerUtils:GetZoneNameByID(ZoneId)
-            self.expandZone.zoneId = ZoneId
+    function line:SetZone(zoneId)
+        if type(zoneId) == "string" then
+            self.expandZone.zoneId = zoneId
+        elseif type(zoneId) == "number" then
+            self.ZoneId = TrackerUtils:GetZoneNameByID(zoneId)
+            self.expandZone.zoneId = zoneId
         end
     end
 
-    function line:SetQuest(Quest)
-        if type(Quest) == "number" then
-            Quest = {
-                Id = Quest
+    function line:SetQuest(quest)
+        if type(quest) == "number" then
+            quest = {
+                Id = quest
             }
-            self.Quest = Quest
-            self.expandQuest.questId = Quest.Id
+            self.Quest = quest
+            self.expandQuest.questId = quest.Id
         else
-            self.Quest = Quest
-            self.expandQuest.questId = Quest.Id
+            self.Quest = quest
+            self.expandQuest.questId = quest.Id
         end
 
-        OnQuestAdded(Quest.Id, self)
+        OnQuestAdded(quest.Id, self)
 
         -- Set Timed Quest Flag
-        if Quest.trackTimedQuest then
-            self.trackTimedQuest = Quest.trackTimedQuest
+        if quest.trackTimedQuest then
+            self.trackTimedQuest = quest.trackTimedQuest
         end
     end
 
-    function line:SetObjective(Objective)
-        self.Objective = Objective
+    function line:SetObjective(objective)
+        self.Objective = objective
     end
 
     function line:OnUpdate(elapsed)
@@ -139,10 +139,10 @@ function TrackerLine.Create(index, parent, previousLine, OnEnter, OnLeave, OnQue
     line:RegisterForDrag("LeftButton")
     line:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
-    function line:SetOnClick(onClickmode)
-        if onClickmode == "quest" then
+    function line:SetOnClick(onClickMode)
+        if onClickMode == "quest" then
             self:SetScript("OnClick", _OnClickQuest)
-        elseif onClickmode == "achieve" then
+        elseif onClickMode == "achieve" then
             self:SetScript("OnClick", _OnClickAchieve)
         end
     end
