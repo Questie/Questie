@@ -229,6 +229,7 @@ Modules\Tracker\TrackerHeaderFrame.lua
 Modules\Tracker\TrackerQuestFrame.lua
 Modules\Tracker\TrackerQuestTimers.lua
 Modules\Tracker\TrackerItemButton.lua
+Modules\Tracker\LinePool\VoiceOverPlayButton.lua
 Modules\Tracker\LinePool\TrackerLine.lua
 Modules\Tracker\LinePool\TrackerLinePool.lua
 

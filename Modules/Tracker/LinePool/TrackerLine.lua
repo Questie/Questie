@@ -13,6 +13,8 @@ local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 ---@type TrackerMenu
 local TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
+---@type VoiceOverPlayButton
+local VoiceOverPlayButton = QuestieLoader:ImportModule("VoiceOverPlayButton")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieLink
@@ -35,6 +37,7 @@ local lineMarginLeft = 10
 ---@param OnEnter function @Callback function for OnEnter
 ---@param OnLeave function @Callback function for OnLeave
 ---@param OnQuestAdded function @Callback function for SetQuest
+---@return LineFrame
 function TrackerLine.Create(index, parent, previousLine, OnEnter, OnLeave, OnQuestAdded)
     local timeElapsed = 0
     local line = CreateFrame("Button", "linePool" .. index, parent)
@@ -302,82 +305,8 @@ function TrackerLine.Create(index, parent, previousLine, OnEnter, OnLeave, OnQue
 
     line.expandZone = expandZone
 
-    -- create play buttons for AI_VoiceOver
-    local playButton = CreateFrame("Button", "linePool.playButton" .. index, line)
-    playButton:SetWidth(20)
-    playButton:SetHeight(20)
-    playButton:SetHitRectInsets(2, 2, 2, 2)
-    playButton:SetPoint("RIGHT", line.label, "LEFT", -4, 0)
-    playButton:SetFrameLevel(0)
-    playButton:SetNormalTexture("Interface\\Addons\\Questie\\Icons\\QuestLogPlayButton")
-    playButton:SetHighlightTexture("Interface\\BUTTONS\\UI-Panel-MinimizeButton-Highlight")
+    line.playButton = VoiceOverPlayButton.Create(index, line)
 
-    function playButton:SetPlayButton(questId)
-        if questId ~= self.mode then
-            self.mode = questId
-
-            if questId and TrackerUtils:IsVoiceOverLoaded() then
-                self:Show()
-            else
-                self.mode = nil
-                self:SetAlpha(0)
-                self:Hide()
-            end
-        end
-    end
-
-    playButton:EnableMouse(true)
-    playButton:RegisterForClicks("LeftButtonUp")
-
-    playButton:SetScript("OnClick", function(self)
-        if self.mode ~= nil then
-            if TrackerUtils:IsVoiceOverLoaded() then
-                local button = VoiceOver.QuestOverlayUI.questPlayButtons[self.mode]
-                if button then
-                    if not VoiceOver.QuestOverlayUI.questPlayButtons[self.mode].soundData then
-                        local type, id = VoiceOver.DataModules:GetQuestLogQuestGiverTypeAndID(self.mode)
-                        local title = GetQuestLogTitle(GetQuestLogIndexByID(self.mode))
-                        VoiceOver.QuestOverlayUI.questPlayButtons[self.mode].soundData = {
-                            event = VoiceOver.Enums.SoundEvent.QuestAccept,
-                            questID = self.mode,
-                            name = id and VoiceOver.DataModules:GetObjectName(type, id) or "Unknown Name",
-                            title = title,
-                            unitGUID = id and VoiceOver.Enums.GUID:CanHaveID(type) and VoiceOver.Utils:MakeGUID(type, id) or nil
-                        }
-                    end
-
-                    local soundData = VoiceOver.QuestOverlayUI.questPlayButtons[self.mode].soundData
-                    local isPlaying = VoiceOver.SoundQueue:Contains(soundData)
-
-                    if not isPlaying then
-                        VoiceOver.SoundQueue:AddSoundToQueue(soundData)
-                        VoiceOver.QuestOverlayUI:UpdatePlayButtonTexture(self.mode)
-
-                        soundData.stopCallback = function()
-                            VoiceOver.QuestOverlayUI:UpdatePlayButtonTexture(self.mode)
-                            VoiceOver.QuestOverlayUI.questPlayButtons[self.mode].soundData = nil
-                        end
-                    else
-                        VoiceOver.SoundQueue:RemoveSoundFromQueue(soundData)
-                    end
-
-                    isPlaying = button.soundData and VoiceOver.SoundQueue:Contains(button.soundData)
-                    local texturePath = isPlaying and "Interface\\Addons\\Questie\\Icons\\QuestLogStopButton" or "Interface\\Addons\\Questie\\Icons\\QuestLogPlayButton"
-                    self:SetNormalTexture(texturePath)
-
-                    -- Move the VoiceOverFrame below the DurabilityFrame if it's present and not already moved
-                    if (Questie.db.profile.stickyDurabilityFrame and DurabilityFrame:IsVisible()) and select(5, VoiceOverFrame:GetPoint()) < -125 then
-                        QuestieTracker:UpdateVoiceOverFrame()
-                    end
-                end
-            end
-        end
-    end)
-
-    playButton:SetAlpha(0)
-    playButton:Hide()
-
-    line.playButton = playButton
     local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
 
     -- create expanding buttons for quests with objectives
