@@ -2,7 +2,7 @@
 local VoiceOverPlayButton = QuestieLoader:CreateModule("VoiceOverPlayButton")
 
 ---@type QuestieTracker
-local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker") -- TODO: Remove this explicit depenency
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker") -- TODO: Remove this explicit dependency
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 
