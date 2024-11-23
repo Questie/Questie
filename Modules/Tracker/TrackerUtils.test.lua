@@ -23,7 +23,7 @@ describe("TrackerUtils", function()
         CreateFrame.resetMockedFrames()
 
         QuestieDB = require("Database.QuestieDB")
-        TrackerLinePool = require("Modules.Tracker.TrackerLinePool")
+        TrackerLinePool = require("Modules.Tracker.LinePool.TrackerLinePool")
         require("Modules.Tracker.TrackerItemButton")
         TrackerUtils = require("Modules.Tracker.TrackerUtils")
         

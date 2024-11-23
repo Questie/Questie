@@ -12,7 +12,7 @@ describe("TrackerLinePool", function()
 
     before_each(function()
         QuestieLib = require("Modules.Libs.QuestieLib")
-        TrackerLinePool = require("Modules.Tracker.TrackerLinePool")
+        TrackerLinePool = require("Modules.Tracker.LinePool.TrackerLinePool")
     end)
 
     describe("UpdateQuestLines", function()
