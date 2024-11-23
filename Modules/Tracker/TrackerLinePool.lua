@@ -26,6 +26,8 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type DistanceUtils
 local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
@@ -40,6 +42,9 @@ local buttonIndex = 0
 local linePool = {}
 local buttonPool = {}
 local lineMarginLeft = 10
+
+---@type table<QuestId, table<Frame>>
+local linesByQuest = {}
 
 ---@param questFrame Frame
 function TrackerLinePool.Initialize(questFrame)
@@ -97,6 +102,15 @@ function TrackerLinePool.Initialize(questFrame)
             else
                 self.Quest = Quest
                 self.expandQuest.questId = Quest.Id
+            end
+
+            if (not linesByQuest[Quest.Id]) then
+                linesByQuest[Quest.Id] = {}
+            end
+
+            -- only insert when not already in the table
+            if (not tContains(linesByQuest[Quest.Id], self)) then
+                table.insert(linesByQuest[Quest.Id], self)
             end
 
             -- Set Timed Quest Flag
@@ -867,6 +881,26 @@ TrackerLinePool.SetMode = function(self, mode)
             local trackerFontSizeObjective = Questie.db.profile.trackerFontSizeObjective
             self.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
             self.label:SetHeight(trackerFontSizeObjective)
+        end
+    end
+end
+
+---@param questId QuestId
+function TrackerLinePool.UpdateQuestLines(questId)
+    if not linesByQuest[questId] then
+        return
+    end
+
+    local lines = linesByQuest[questId]
+    for _, line in pairs(lines) do
+        if line.Objective then
+            ---@type QuestObjective
+            local objective = line.Objective
+            objective:Update()
+            local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
+
+            local objDesc = objective.Description:gsub("%.", "")
+            line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
         end
     end
 end
