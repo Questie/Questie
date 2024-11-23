@@ -9,7 +9,7 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@param index number
 ---@param line LineFrame
 ---@return LineFrame
-function VoiceOverPlayButton.Create(index, line)
+function VoiceOverPlayButton.New(index, line)
     local playButton = CreateFrame("Button", "linePool.playButton" .. index, line)
     playButton:SetWidth(20)
     playButton:SetHeight(20)

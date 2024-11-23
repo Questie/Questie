@@ -32,7 +32,7 @@ function TrackerLinePool.Initialize(questFrame)
     -- create linePool for quests/achievements
     local previousLine
     for i = 1, linePoolSize do
-        local line = TrackerLine.Create(i, trackerQuestFrame.ScrollChildFrame, previousLine, TrackerLinePool.OnHighlightEnter, TrackerLinePool.OnHighlightLeave, TrackerLinePool.AddQuestLine)
+        local line = TrackerLine.New(i, trackerQuestFrame.ScrollChildFrame, previousLine, TrackerLinePool.OnHighlightEnter, TrackerLinePool.OnHighlightLeave, TrackerLinePool.AddQuestLine)
         linePool[i] = line
         previousLine = line
     end

@@ -38,7 +38,7 @@ local lineMarginLeft = 10
 ---@param OnLeave function @Callback function for OnLeave
 ---@param OnQuestAdded function @Callback function for SetQuest
 ---@return LineFrame
-function TrackerLine.Create(index, parent, previousLine, OnEnter, OnLeave, OnQuestAdded)
+function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestAdded)
     local timeElapsed = 0
     local line = CreateFrame("Button", "linePool" .. index, parent)
     line:SetWidth(1)
@@ -305,7 +305,7 @@ function TrackerLine.Create(index, parent, previousLine, OnEnter, OnLeave, OnQue
 
     line.expandZone = expandZone
 
-    line.playButton = VoiceOverPlayButton.Create(index, line)
+    line.playButton = VoiceOverPlayButton.New(index, line)
 
     local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
 
