@@ -2122,6 +2122,7 @@ function QuestieTracker:TrackAchieve(achieveId)
     end
 end
 
+---@param questId QuestId
 function QuestieTracker.UpdateQuestLines(questId)
     TrackerLinePool.UpdateQuestLines(questId)
 end
