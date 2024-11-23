@@ -98,7 +98,7 @@ function TrackerLine.Create(index, parent, previousLine, OnEnter, OnLeave, OnQue
         self.Objective = Objective
     end
 
-    line.OnUpdate = function(self, elapsed)
+    function line:OnUpdate(elapsed)
         if Questie.IsWotlk or Questie.IsCata then
             timeElapsed = timeElapsed + elapsed
 
@@ -172,7 +172,7 @@ function TrackerLine.Create(index, parent, previousLine, OnEnter, OnLeave, OnQue
     criteriaMark:SetPoint("RIGHT", line.label, "LEFT", -4, 0)
     criteriaMark:SetFrameLevel(100)
 
-    criteriaMark.SetCriteria = function(self, criteria)
+    function criteriaMark:SetCriteria(criteria)
         if criteria ~= self.mode then
             self.mode = criteria
 
@@ -204,7 +204,7 @@ function TrackerLine.Create(index, parent, previousLine, OnEnter, OnLeave, OnQue
     expandZone:SetHeight(1)
     expandZone:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
 
-    expandZone.SetMode = function(self, mode)
+    function expandZone:SetMode(mode)
         if mode ~= self.mode then
             self.mode = mode
         end
@@ -312,7 +312,7 @@ function TrackerLine.Create(index, parent, previousLine, OnEnter, OnLeave, OnQue
     playButton:SetNormalTexture("Interface\\Addons\\Questie\\Icons\\QuestLogPlayButton")
     playButton:SetHighlightTexture("Interface\\BUTTONS\\UI-Panel-MinimizeButton-Highlight")
 
-    playButton.SetPlayButton = function(self, questId)
+    function playButton:SetPlayButton(questId)
         if questId ~= self.mode then
             self.mode = questId
 
@@ -392,7 +392,7 @@ function TrackerLine.Create(index, parent, previousLine, OnEnter, OnLeave, OnQue
     expandQuest:SetPoint("RIGHT", line, "LEFT", 0, 0)
     expandQuest:SetFrameLevel(100)
 
-    expandQuest.SetMode = function(self, mode)
+    function expandQuest:SetMode(mode)
         if mode ~= self.mode then
             self.mode = mode
             if mode == 1 then
