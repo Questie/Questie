@@ -203,6 +203,7 @@ describe("QuestEventHandler", function()
         QuestieNameplate.UpdateNameplate = spy.new()
         QuestieQuest.UpdateQuest = spy.new()
         QuestieTracker.Update = spy.new()
+        QuestieTracker.UpdateQuestLines = spy.new()
 
         QuestEventHandler:QuestWatchUpdate(QUEST_ID)
         QuestEventHandler.QuestLogUpdate()
@@ -232,6 +233,7 @@ describe("QuestEventHandler", function()
         QuestieNameplate.UpdateNameplate = spy.new()
         QuestieQuest.UpdateQuest = spy.new()
         QuestieTracker.Update = spy.new()
+        QuestieTracker.UpdateQuestLines = spy.new()
         local bankframeClosedEvent = 8
 
         QuestEventHandler:PlayerInteractionManagerFrameHide(bankframeClosedEvent)
