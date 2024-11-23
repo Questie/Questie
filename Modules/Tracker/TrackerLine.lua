@@ -51,8 +51,10 @@ function TrackerLine.Create(index, parent, previousLine, OnEnter, OnLeave, OnQue
     line.label.frame = line
     line.label.SetText = function(self, text)
         self:_SetText(text)
-        self.frame:SetWidth(self:GetWidth())
-        self.frame:SetHeight(self:GetHeight())
+        if (not InCombatLockdown()) then
+            self.frame:SetWidth(self:GetWidth())
+            self.frame:SetHeight(self:GetHeight())
+        end
     end
 
     if previousLine then
