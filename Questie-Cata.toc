@@ -222,7 +222,7 @@ Modules\Journey\QuestieSearchResults.lua
 Modules\Tracker\AutoCompleteFrame.lua
 Modules\Tracker\QuestieTracker.lua
 Modules\Tracker\TrackerUtils.lua
-Modules\Tracker\TrackerMenu.lua
+Modules\Tracker\LinePool\TrackerMenu.lua
 Modules\Tracker\TrackerFadeTicker.lua
 Modules\Tracker\TrackerBaseFrame.lua
 Modules\Tracker\TrackerHeaderFrame.lua
