@@ -24,7 +24,7 @@ describe("TrackerUtils", function()
 
         QuestieDB = require("Database.QuestieDB")
         TrackerLinePool = require("Modules.Tracker.LinePool.TrackerLinePool")
-        require("Modules.Tracker.TrackerItemButton")
+        require("Modules.Tracker.LinePool.TrackerItemButton")
         TrackerUtils = require("Modules.Tracker.TrackerUtils")
         
         rePositionLineMock = spy.new(function() end)
