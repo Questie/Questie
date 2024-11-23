@@ -15,6 +15,8 @@ local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 local TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
 ---@type VoiceOverPlayButton
 local VoiceOverPlayButton = QuestieLoader:ImportModule("VoiceOverPlayButton")
+---@type ExpandQuestButton
+local ExpandQuestButton = QuestieLoader:ImportModule("ExpandQuestButton")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieLink
@@ -306,85 +308,7 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     line.expandZone = expandZone
 
     line.playButton = VoiceOverPlayButton.New(index, line)
-
-    local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
-
-    -- create expanding buttons for quests with objectives
-    local expandQuest = CreateFrame("Button", "linePool.expandQuest" .. index, line)
-    expandQuest.texture = expandQuest:CreateTexture(nil, "OVERLAY", nil, 0)
-    expandQuest.texture:SetWidth(trackerFontSizeQuest)
-    expandQuest.texture:SetHeight(trackerFontSizeQuest)
-    expandQuest.texture:SetAllPoints(expandQuest)
-
-    expandQuest:SetWidth(trackerFontSizeQuest)
-    expandQuest:SetHeight(trackerFontSizeQuest)
-    expandQuest:SetPoint("RIGHT", line, "LEFT", 0, 0)
-    expandQuest:SetFrameLevel(100)
-
-    function expandQuest:SetMode(mode)
-        if mode ~= self.mode then
-            self.mode = mode
-            if mode == 1 then
-                self.texture:SetTexture("Interface\\Buttons\\UI-MinusButton-Up")
-            else
-                self.texture:SetTexture("Interface\\Buttons\\UI-PlusButton-Up")
-            end
-            self:SetWidth(Questie.db.profile.trackerFontSizeQuest + 3)
-            self:SetHeight(Questie.db.profile.trackerFontSizeQuest + 3)
-        end
-    end
-
-    expandQuest:SetMode(1) -- maximized
-    expandQuest:EnableMouse(true)
-    expandQuest:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-
-    expandQuest:SetScript("OnClick", function(self)
-        if self.mode == 1 then
-            self:SetMode(0)
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:expandQuest] - Minimize")
-        else
-            self:SetMode(1)
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:expandQuest] - Maximize")
-        end
-        if Questie.db.char.collapsedQuests[self.questId] then
-            Questie.db.char.collapsedQuests[self.questId] = nil
-
-            -- This keeps both tables in sync so we can use them to maintain Min/Max states.
-            if Questie.db.char.minAllQuestsInZone[self.zoneId] and Questie.db.char.minAllQuestsInZone[self.zoneId][self.questId] then
-                Questie.db.char.minAllQuestsInZone[self.zoneId][self.questId] = nil
-            end
-        else
-            Questie.db.char.collapsedQuests[self.questId] = true
-
-            -- This keeps both tables in sync so we can use them to maintain Min/Max states.
-            if Questie.db.char.minAllQuestsInZone[self.zoneId] then
-                Questie.db.char.minAllQuestsInZone[self.zoneId][self.questId] = true
-            end
-        end
-        QuestieCombatQueue:Queue(function()
-            QuestieTracker:Update()
-        end)
-    end)
-
-    if Questie.IsWotlk or Questie.IsCata then
-        line:HookScript("OnUpdate", line.OnUpdate)
-    end
-
-    if Questie.db.profile.trackerFadeMinMaxButtons then
-        expandQuest:SetAlpha(0)
-    end
-
-    expandQuest:SetScript("OnEnter", function()
-        TrackerFadeTicker.Unfade()
-    end)
-
-    expandQuest:SetScript("OnLeave", function()
-        TrackerFadeTicker.Fade()
-    end)
-
-    expandQuest:Hide()
-
-    line.expandQuest = expandQuest
+    line.expandQuest = ExpandQuestButton.New(index, line)
 
     return line
 end
