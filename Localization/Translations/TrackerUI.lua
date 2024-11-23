@@ -416,14 +416,14 @@ local trackerUILocales = {
     ["Maximize Quest"] = {
         ["ptBR"] = false,
         ["ruRU"] = "Развернуть задание",
-        ["deDE"] = false,
+        ["deDE"] = "Quest maximieren",
         ["koKR"] = false,
-        ["esMX"] = false,
+        ["esMX"] = "Maximizar misión",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = false,
-        ["esES"] = false,
-        ["frFR"] = false,
+        ["esES"] = "Maximizar misión",
+        ["frFR"] = "Maximiser la quête",
     },
 }
 

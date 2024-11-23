@@ -55,11 +55,11 @@ local minimapOptionsLocales = {
         ["ruRU"] = "Показать/скрыть цветной ореол вокруг значков на миникарте",
         ["deDE"] = "Zeichnet eine leuchtende Textur hinter die Minimap-Icons. Farblich einzigartig für jede Quest.",
         ["koKR"] = "미니맵 아이콘에 반짝이는 효과를 표시합니다. 퀘스트마다 각각 다른 색상을 지닙니다.",
-        ["esMX"] = "Mostrar un aura detrás de los iconos de minimapa con colores únicos para cada misión",
+        ["esMX"] = "Muestra un aura detrás de los iconos de minimapa con colores únicos para cada misión",
         ["enUS"] = true,
         ["zhCN"] = "替小地图标记显示一圈光晕，且不同任务有不同的颜色",
         ["zhTW"] = "在小地圖圖示的後面繪製發光材質，每個任務都可以有不同的顏色。",
-        ["esES"] = "Mostrar un aura detrás de los iconos de minimapa con colores únicos para cada misión",
+        ["esES"] = "Muestra un aura detrás de los iconos de minimapa con colores únicos para cada misión",
         ["frFR"] = "Active un effet de surbrillance autour des icônes sur la minicarte, colorié différemment pour chaque quête.",
     },
     ["Minimap Note Options"] = {

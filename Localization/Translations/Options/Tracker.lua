@@ -195,11 +195,11 @@ local trackerOptionsLocales = {
         ["ruRU"] = "Когда включено, выполненные цели достижений будут автоматически изъяты из трекера",
         ["deDE"] = "Wenn diese Option aktiviert ist, werden abgeschlossene Erfolgsziele automatisch aus dem Questie-Tracker entfernt.",
         ["koKR"] = false,
-        ["esMX"] = false,
+        ["esMX"] = "Cuando está habilitado los objetivos de logro completados serán eliminados automáticamente del rastreador de Questie.",
         ["enUS"] = true,
         ["zhCN"] = "启用时，已完成的成就目标将会自动从任务列表中移除。",
         ["zhTW"] = "啟用時，已完成的成就目標將會自動從任務清單中移除。",
-        ["esES"] = false,
+        ["esES"] = "Cuando está habilitado los objetivos de logro completados serán eliminados automáticamente del rastreador de Questie.",
         ["frFR"] = "Si cette option est cochée, les objectifs des hauts faits terminées seront automatiquement supprimés du suivi de quêtes de Questie.",
     },
     ---------------------------------------------------------
@@ -557,7 +557,7 @@ local trackerOptionsLocales = {
     -- VoiceOver Tracker Integration
     ["Sticky VoiceOver Frame"] = {
         ["ptBR"] = "Quadro VoiceOver fixo",
-        ["ruRU"] = false,
+        ["ruRU"] = "Клейкое окно VoiceOver",
         ["deDE"] = "Sticky VoiceOver-Fenster",
         ["koKR"] = false,
         ["esMX"] = "Marco VoiceOver pegajoso",
@@ -569,7 +569,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, the VoiceOver talking head / sound queue frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen."] = {
         ["ptBR"] = "Quando isso estiver marcado, o quadro de cabeça falante / fila de som do VoiceOver será colocado no lado esquerdo ou direito do rastreador do Questie, dependendo de onde o rastreador estiver localizado na sua tela.",
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда включено, говорящая голова или окно очереди звука VoiceOver будет отображено слева или справа от трекера Questie в зависимости от того, где он расположен на вашем экране",
         ["deDE"] = "Wenn diese Option aktiviert ist, wird das VoiceOver-Fenster auf der linken oder rechten Seite des Questie-Trackers platziert, je nachdem, wo sich der Tracker auf dem Bildschirm befindet.",
         ["koKR"] = false,
         ["esMX"] = "Cuando esto está marcado, el marco de la cabeza parlante de VoiceOver / cola de sonido se colocará en el lado izquierdo o derecho del rastreador de Questie dependiendo de dónde esté ubicado el rastreador en tu pantalla.",
@@ -992,7 +992,7 @@ local trackerOptionsLocales = {
         ["enUS"] = true,
         ["zhCN"] = "取消追踪 / 任务链接",
         ["zhTW"] = "取消追蹤 / 任務連結",
-        ["esES"] = false,
+        ["esES"] = "No rastrear/vincular misión",
         ["frFR"] = "Désuivre / Lier la quête",
     },
     -- Classic and TBC only --
@@ -1227,11 +1227,11 @@ local trackerOptionsLocales = {
         ["ruRU"] = "Размер шрифта, используемого в названиях заданий.\n\nПРИМЕЧАНИЕ: Размер шрифта целей будет автоматически скорректирован до значения меньше или равно 'Размер шрифта названий заданий'. Это необходимо для того, чтобы избежать любых проблем с текстом и форматированием",
         ["deDE"] = "Die Schriftgröße der Quest-Titel.\n\nHINWEIS: Die Schriftgröße für Quest-Ziele wird automatisch auf weniger als oder gleich der Quest-Titel Schriftgröße angepasst. Dies ist notwendig, um Textkollisionen und Formatierungsfehler zu vermeiden.",
         ["koKR"] = false,
-        ["esMX"] = false,
+        ["esMX"] = "El tamaño de fuente utilizado para los títulos de misión.\n\nNOTA: El tamaño de la fuente de los objetivos se ajustará automáticamente a un tamaño menor o igual al del título de la misión. Esto es necesario para evitar colisiones de texto y anormalidades en el formato.",
         ["enUS"] = true,
         ["zhCN"] = "任务标题文字的字体大小。\n\n注意: 任务目标文字大小会自动调整为小于或等于任务文字大小大小，这是为了避免任务文字冲突和格式异常而必需的设定。",
         ["zhTW"] = "任務標題文字的字體大小。\n\n注意: 任務目標文字大小會自動調整為小於或等於任務文字大小，這是為了避免任何文字衝突和格式異常而必須的。",
-        ["esES"] = false,
+        ["esES"] = "El tamaño de fuente utilizado para los títulos de misión.\n\nNOTA: El tamaño de la fuente de los objetivos se ajustará automáticamente a un tamaño menor o igual al del título de la misión. Esto es necesario para evitar colisiones de texto y anormalidades en el formato.",
         ["frFR"] = "La taille de police utilisée pour les titres de quête.\n\nNOTE : La taille de police des objectifs s'ajustera automatiquement à moins ou égale à la taille de police des quêtes. Cela est nécessaire pour éviter toute collision de texte et toute anomalie de formatage.",
     },
     ---------------------------------------------------------

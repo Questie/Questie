@@ -91,15 +91,22 @@ function _QuestieTooltips.AddObjectDataToTooltip(name)
     if Questie.db.profile.enableTooltipsObjectID == true and count > 0 then
         if count == 1 then
             GameTooltip:AddDoubleLine("Object ID", "|cFFFFFFFF" .. lookup[1] .. "|r")
+        elseif count > 10 and (not Questie.db.profile.debugEnabled) then
+            GameTooltip:AddDoubleLine("Object ID", "|cFFFFFFFF" .. lookup[1] .. " (10+)|r")
         else
             GameTooltip:AddDoubleLine("Object ID", "|cFFFFFFFF" .. lookup[1] .. " (" .. count .. ")|r")
         end
     end
 
+    local addedObjects = 0
     local alreadyAddedObjectiveLines = {}
     for _, gameObjectId in pairs(lookup) do
-        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId);
+        if count > 10 and addedObjects >= 10 and (not Questie.db.profile.debugEnabled) then
+            -- only show 10 tooltips
+            break
+        end
 
+        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId);
         if tooltipData then
             for _, line in pairs (tooltipData) do
                 if (not alreadyAddedObjectiveLines[line]) then
@@ -107,6 +114,7 @@ function _QuestieTooltips.AddObjectDataToTooltip(name)
                     GameTooltip:AddLine(line)
                 end
             end
+            addedObjects = addedObjects + 1
         end
     end
     GameTooltip:Show()
