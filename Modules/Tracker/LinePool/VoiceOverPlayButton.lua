@@ -83,4 +83,6 @@ function VoiceOverPlayButton.New(index, line)
 
     playButton:SetAlpha(0)
     playButton:Hide()
+
+    return playButton
 end
