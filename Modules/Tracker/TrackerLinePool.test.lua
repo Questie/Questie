@@ -4,8 +4,6 @@ describe("TrackerLinePool", function()
 
     ---@type TrackerLinePool
     local TrackerLinePool
-    ---@type TrackerLine
-    local TrackerLine
     ---@type QuestieLib
     local QuestieLib
 
@@ -13,7 +11,6 @@ describe("TrackerLinePool", function()
     local _ = match._ -- any match
 
     before_each(function()
-        TrackerLine = require("Modules.Tracker.TrackerLine")
         QuestieLib = require("Modules.Libs.QuestieLib")
         TrackerLinePool = require("Modules.Tracker.TrackerLinePool")
     end)
