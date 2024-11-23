@@ -10,12 +10,12 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 
 ---@param index number
----@param line LineFrame
+---@param parent LineFrame
 ---@return LineFrame
-function ExpandQuestButton.New(index, line)
+function ExpandQuestButton.New(index, parent)
     local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
 
-    local expandQuest = CreateFrame("Button", "linePool.expandQuest" .. index, line)
+    local expandQuest = CreateFrame("Button", "linePool.expandQuest" .. index, parent)
     expandQuest.texture = expandQuest:CreateTexture(nil, "OVERLAY", nil, 0)
     expandQuest.texture:SetWidth(trackerFontSizeQuest)
     expandQuest.texture:SetHeight(trackerFontSizeQuest)
@@ -23,7 +23,7 @@ function ExpandQuestButton.New(index, line)
 
     expandQuest:SetWidth(trackerFontSizeQuest)
     expandQuest:SetHeight(trackerFontSizeQuest)
-    expandQuest:SetPoint("RIGHT", line, "LEFT", 0, 0)
+    expandQuest:SetPoint("RIGHT", parent, "LEFT", 0, 0)
     expandQuest:SetFrameLevel(100)
 
     function expandQuest:SetMode(mode)
@@ -72,7 +72,7 @@ function ExpandQuestButton.New(index, line)
     end)
 
     if Questie.IsWotlk or Questie.IsCata then
-        line:HookScript("OnUpdate", line.OnUpdate)
+        parent:HookScript("OnUpdate", parent.OnUpdate)
     end
 
     if Questie.db.profile.trackerFadeMinMaxButtons then

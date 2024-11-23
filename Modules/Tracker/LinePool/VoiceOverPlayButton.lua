@@ -7,14 +7,14 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker") -- TODO: Rem
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 
 ---@param index number
----@param line LineFrame
+---@param parent LineFrame
 ---@return LineFrame
-function VoiceOverPlayButton.New(index, line)
-    local playButton = CreateFrame("Button", "linePool.playButton" .. index, line)
+function VoiceOverPlayButton.New(index, parent)
+    local playButton = CreateFrame("Button", "linePool.playButton" .. index, parent)
     playButton:SetWidth(20)
     playButton:SetHeight(20)
     playButton:SetHitRectInsets(2, 2, 2, 2)
-    playButton:SetPoint("RIGHT", line.label, "LEFT", -4, 0)
+    playButton:SetPoint("RIGHT", parent.label, "LEFT", -4, 0)
     playButton:SetFrameLevel(0)
     playButton:SetNormalTexture("Interface\\Addons\\Questie\\Icons\\QuestLogPlayButton")
     playButton:SetHighlightTexture("Interface\\BUTTONS\\UI-Panel-MinimizeButton-Highlight")
