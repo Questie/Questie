@@ -3769,6 +3769,51 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,100}},
         },
+        [85964] = { -- Ten Commendation Signets
+            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,75}},
+        },
+        [85967] = { -- Ten Commendation Signets
+            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,75}},
+        },
+        [85968] = { -- One Commendation Signet
+            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,5}},
+        },
+        [85969] = { -- Ten Commendation Signets
+            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,75}},
+        },
+        [85970] = { -- One Commendation Signet
+            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,5}},
+        },
+        [85973] = { -- Ten Commendation Signets
+            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.reputationReward] = {{factionIDs.HYDRAXIAN_WATERLORDS,75}},
+        },
+        [85974] = { -- Ten Commendation Signets
+            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.reputationReward] = {{factionIDs.HYDRAXIAN_WATERLORDS,75}},
+        },
+        [86674] = { -- The Perfect Poison
+            [questKeys.finishedBy] = {{16091}},
+            [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,100}},
+        },
+        [85985] = { -- Ten Commendation Signets
+            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,75}},
+        },
+        [86160] = { -- Ten Commendation Signets
+            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,75}},
+        },
+        [86161] = { -- Ten Commendation Signets
+            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,75}},
+        },
 
         --- Fake rune quests
         [90000] = {
