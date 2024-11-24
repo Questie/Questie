@@ -950,9 +950,9 @@ function QuestieTracker:Update()
                                         -- That way when updating the text in combat from 0/100 -> 10/100 the text is not cut off.
                                         local additionalObjectiveMargin = 0
                                         if line.Objective and line.Objective.Needed >= 100 then
-                                            additionalObjectiveMargin = 10
+                                            additionalObjectiveMargin = 20
                                         elseif line.Objective and line.Objective.Needed >= 10 then
-                                            additionalObjectiveMargin = 5
+                                            additionalObjectiveMargin = 10
                                         end
 
                                         -- Set Objective label and Line widths
