@@ -8075,6 +8075,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"I accept commendation signets from adventurers who have received them in the line of duty. &nbsp;For each set of ten that you hand to me, you will receive significant recognition from my forces, the Hydraxian Waterlords. &nbsp;I also accept single tokens, but at a much reduced rate of recognition. &nbsp;I am much more interested in greater feats of duty, though no feat will be ignored.With that said, I will accept your signets if you are ready to hand in a set."},
             [questKeys.objectives] = {nil,nil,{{21438}}},
         },
+        [86674] = {
+            [questKeys.name] = "The Perfect Poison",
+            [questKeys.startedBy] = {{16091}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Dirk Thunderwood at Cenarion Hold wants you to bring him Venoxis's Venom Sac and Kurinnaxx's Venom Sac."},
+            [questKeys.objectives] = {nil,nil,{{22216},{22217}}},
+        },
         [85985] = {
             [questKeys.name] = "Ten Commendation Signets",
             [questKeys.startedBy] = {{14910}},

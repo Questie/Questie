@@ -3797,6 +3797,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
             [questKeys.reputationReward] = {{factionIDs.HYDRAXIAN_WATERLORDS,75}},
         },
+        [86674] = { -- The Perfect Poison
+            [questKeys.finishedBy] = {{16091}},
+            [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,100}},
+        },
         [85985] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,75}},

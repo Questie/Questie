@@ -352,6 +352,7 @@ local questsToBlacklistByPhase = {
         [7787] = true, -- Rise, Thunderfury! - Replaced by 85443
         [8446] = true, -- Shrouded in Nightmare (Emerald Dream Dragons)
         [8620] = true, -- The Only Prescription - Replaced by 86444
+        [9023] = true, -- The Perfect Poison - Replaced by 86674
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,
