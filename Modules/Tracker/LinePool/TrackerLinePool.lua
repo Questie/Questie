@@ -57,6 +57,8 @@ function TrackerLinePool.ResetLinesForChange()
         return
     end
 
+    linesByQuest = {} -- Reset to keep correct questId <-> line mapping
+
     for _, line in pairs(linePool) do
         line.mode = nil
         line.trackTimedQuest = nil
