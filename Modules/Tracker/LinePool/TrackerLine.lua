@@ -55,17 +55,6 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     line.label:SetPoint("TOPLEFT", line)
     line.label:Hide()
 
-    -- autoadjust parent size for clicks
-    line.label._SetText = line.label.SetText
-    line.label.frame = line
-    line.label.SetText = function(self, text)
-        self:_SetText(text)
-        if (not InCombatLockdown()) then
-            self.frame:SetWidth(self:GetWidth())
-            self.frame:SetHeight(self:GetHeight())
-        end
-    end
-
     if previousLine then
         line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, 0)
     else
