@@ -212,6 +212,7 @@ Modules\Tracker\TrackerHeaderFrame.lua
 Modules\Tracker\TrackerQuestFrame.lua
 Modules\Tracker\TrackerQuestTimers.lua
 Modules\Tracker\LinePool\TrackerItemButton.lua
+Modules\Tracker\LinePool\AchievementCriteriaCheckmark.lua
 Modules\Tracker\LinePool\ExpandQuestButton.lua
 Modules\Tracker\LinePool\ExpandZoneButton.lua
 Modules\Tracker\LinePool\VoiceOverPlayButton.lua
