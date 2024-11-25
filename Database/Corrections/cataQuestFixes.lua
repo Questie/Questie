@@ -2094,11 +2094,38 @@ function CataQuestFixes.Load()
             [questKeys.childQuests] = {28606},
             [questKeys.startedBy] = {{34874}},
         },
+        [14074] = { -- A Leg Up
+            [questKeys.exclusiveTo] = {14077,14080,14152},
+            [questKeys.requiredMinRep] = {1094,42000},
+        },
+        [14076] = { -- Breakfast Of Champions
+            [questKeys.exclusiveTo] = {14090,14112},
+            [questKeys.requiredMinRep] = {1094,42000},
+        },
+        [14077] = { -- The Light's Mercy
+            [questKeys.exclusiveTo] = {14074,14080,14152},
+            [questKeys.requiredMinRep] = {1094,42000},
+        },
         [14078] = { -- Lockdown!
             [questKeys.requiredClasses] = classKeys.WARRIOR + classKeys.HUNTER + classKeys.ROGUE + classKeys.PRIEST + classKeys.MAGE + classKeys.WARLOCK + classKeys.DRUID,
         },
+        [14080] = { -- Stop The Aggressors
+            [questKeys.exclusiveTo] = {14074,14077,14152},
+            [questKeys.requiredMinRep] = {1094,42000},
+        },
+        [14090] = { -- Gormok Wants His Snobolds
+            [questKeys.exclusiveTo] = {14076,14112},
+            [questKeys.requiredMinRep] = {1094,42000},
+        },
+        [14092] = { -- Breakfast Of Champions
+            [questKeys.exclusiveTo] = {14141,14145},
+            [questKeys.requiredMinRep] = {1124,42000},
+        },
         [14094] = { -- Salvage the Supplies
             [questKeys.preQuestSingle] = {14078},
+        },
+        [14096] = { -- You've Really Done It This Time, Kul
+            [questKeys.requiredMinRep] = {1094,42000},
         },
         [14098] = { -- Evacuate the Merchant Square
             [questKeys.startedBy] = {{34913}},
@@ -2107,6 +2134,24 @@ function CataQuestFixes.Load()
         [14099] = { -- Royal Orders
             [questKeys.preQuestGroup] = {14093,14098},
             [questKeys.preQuestSingle] = {},
+        },
+        [14101] = { -- Drottinn Hrothgar
+            [questKeys.exclusiveTo] = {14102,14104,14105},
+        },
+        [14102] = { -- Mistcaller Yngvar
+            [questKeys.exclusiveTo] = {14101,14104,14105},
+        },
+        [14104] = { -- Ornolf The Scarred
+            [questKeys.exclusiveTo] = {14101,14102,14105},
+        },
+        [14105] = { -- Deathspeaker Kharos
+            [questKeys.exclusiveTo] = {14101,14102,14104},
+        },
+        [14107] = { -- The Fate Of The Fallen
+            [questKeys.exclusiveTo] = {14108},
+        },
+        [14108] = { -- Get Kraken!
+            [questKeys.exclusiveTo] = {14107},
         },
         [14109] = { -- The New You
             [questKeys.requiredSourceItems] = {47044},
@@ -2117,6 +2162,10 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {47044},
             [questKeys.exclusiveTo] = {14109},
             [questKeys.sourceItemId] = 46856,
+        },
+        [14112] = { -- What Do You Feed a Yeti, Anyway?
+            [questKeys.exclusiveTo] = {14076,14090},
+            [questKeys.requiredMinRep] = {1094,42000},
         },
         [14113] = { -- Life of the Party
             [questKeys.preQuestSingle] = {},
@@ -2171,6 +2220,29 @@ function CataQuestFixes.Load()
         [14135] = { -- Up a Tree
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Cut down the tree"),0,{{"monster",35162}}}},
         },
+        [14136] = { -- Rescue at Sea
+            [questKeys.requiredMinRep] = {1124,42000},
+        },
+        [14140] = { -- Stop The Aggressors
+            [questKeys.requiredMinRep] = {1124,42000},
+        },
+        [14141] = { -- Gormok Wants His Snobolds
+            [questKeys.exclusiveTo] = {14092,14145},
+            [questKeys.requiredMinRep] = {1124,42000},
+        },
+        [14142] = { -- You've Really Done It This Time, Kul
+            [questKeys.requiredMinRep] = {1124,42000},
+        },
+        [14143] = { -- A Leg Up
+            [questKeys.requiredMinRep] = {1124,42000},
+        },
+        [14144] = { -- The Light's Mercy
+            [questKeys.requiredMinRep] = {1124,42000},
+        },
+        [14145] = { -- What Do You Feed a Yeti, Anyway?
+            [questKeys.exclusiveTo] = {14092,14141},
+            [questKeys.requiredMinRep] = {1124,42000},
+        },
         [14146] = { -- Defend the Gates!
             [questKeys.startedBy] = {{35086,35195}},
             [questKeys.finishedBy] = {{100007}},
@@ -2178,6 +2250,10 @@ function CataQuestFixes.Load()
         },
         [14138] = { -- Taking Care of Business
             [questKeys.requiredClasses] = classKeys.WARRIOR + classKeys.HUNTER + classKeys.ROGUE + classKeys.PRIEST + classKeys.SHAMAN + classKeys.MAGE + classKeys.WARLOCK, -- no DKs for goblin starter quests
+        },
+        [14152] = { -- Rescue at Sea
+            [questKeys.exclusiveTo] = {14074,14077,14080},
+            [questKeys.requiredMinRep] = {1094,42000},
         },
         [14153] = { -- Life of the Party
             [questKeys.objectives] = {nil,nil,nil,nil,{{{35186,35175},35175,nil,Questie.ICON_TYPE_INTERACT}}},
