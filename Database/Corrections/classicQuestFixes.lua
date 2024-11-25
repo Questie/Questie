@@ -101,11 +101,17 @@ function QuestieQuestFixes:Load()
         [117] = {
             [questKeys.name] = "Thunderbrew",
         },
+        [121] = { -- Messenger to Stormwind
+            [questKeys.nextQuestInChain] = 143,
+        },
         [123] = {
             [questKeys.startedBy] = {{97,100,448,478},nil,{1307}},
         },
         [136] = {
             [questKeys.startedBy] = {{513,515,126,171,456,127,517,458,391},nil,{1357}},
+        },
+        [144] = { -- Messenger to Westfall
+            [questKeys.nextQuestInChain] = 145,
         },
         [148] = {
             [questKeys.preQuestSingle] = {}, -- #1173
