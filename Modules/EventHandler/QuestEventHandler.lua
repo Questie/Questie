@@ -264,8 +264,8 @@ function QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
 
     local _, _, _, quality, _, itemID = GetQuestLogRewardInfo(GetNumQuestLogRewards(questId), questId)
 
-    if itemID ~= nil and quality == 1 then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Quest:", questId, "Recieved a possible Quest Item - do a full Quest Log check")
+    if itemID ~= nil and quality == Enum.ItemQuality.Standard then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Quest:", questId, "Received a possible Quest Item - do a full Quest Log check")
         doFullQuestLogScan = true
         skipNextUQLCEvent = false
     else
@@ -440,6 +440,7 @@ function _QuestEventHandler:UpdateAllQuests()
         end)
     else
         Questie:Debug(Questie.DEBUG_INFO, "Nothing to update")
+        print("Nothing to update. cacheMiss, doRetryWithoutChanges", cacheMiss, doRetryWithoutChanges)
         doFullQuestLogScan = doRetryWithoutChanges -- There haven't been any changes, even though we called UpdateAllQuests. We need to check again at next QUEST_LOG_UPDATE
         doRetryWithoutChanges = false
     end

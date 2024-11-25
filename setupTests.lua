@@ -14,6 +14,8 @@ end
 _G.hooksecurefunc = EMTPY_FUNC
 _G.GetTime = function() return 0 end
 
+_G.Enum = {ItemQuality = {Poor = 0, Standard = 0}}
+
 _G.QUEST_MONSTERS_KILLED = ""
 _G.QUEST_ITEMS_NEEDED = ""
 _G.QUEST_OBJECTS_FOUND = ""
