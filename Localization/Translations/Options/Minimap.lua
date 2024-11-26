@@ -79,11 +79,11 @@ local minimapOptionsLocales = {
         ["ruRU"] = "Одновременная регулировка размера всех значков на миникарте\n(по умолчанию: %s)",
         ["deDE"] = "Skaliert wie groß die Minimap-Icons sind.\n(Standard: %s)",
         ["koKR"] = "미니맵 아이콘의 크기를 설정합니다.\n(기본값: %s)",
-        ["esMX"] = "Especifíca la escala de los iconos en el minimapa.\n(Predeterminado: %s)",
+        ["esMX"] = "Define la escala de los iconos en el minimapa.\n(Predeterminado: %s)",
         ["enUS"] = true,
         ["zhCN"] = "调整小度图标记图标的缩放比例\n（预设：%s）",
         ["zhTW"] = "小地圖上圖示的大小。\n(預設值: %s)",
-        ["esES"] = "Especifíca la escala de los iconos en el minimapa.\n(Predeterminado: %s)",
+        ["esES"] = "Define la escala de los iconos en el minimapa.\n(Predeterminado: %s)",
         ["frFR"] = "Définis la taille des icônes sur la minicarte.\n(Par défaut : %s)",
     },
     ["Fade Icons over Player"] = {
