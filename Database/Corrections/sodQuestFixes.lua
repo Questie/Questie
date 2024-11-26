@@ -7682,6 +7682,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453696,
             [questKeys.zoneOrSort] = zoneIDs.SEARING_GORGE,
         },
+        [90326] = {
+            [questKeys.name] = "Rune of Fist Weapon Specialization",
+            [questKeys.startedBy] = {nil,{457096}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID + classIDs.HUNTER + classIDs.ROGUE + classIDs.SHAMAN + classIDs.WARRIOR,
+            [questKeys.requiredSpell] = -453691,
+            [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
+        },
     }
 end
 
