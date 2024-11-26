@@ -7755,6 +7755,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27542},
             [questKeys.objectives] = {{{45937,nil,Questie.ICON_TYPE_INTERACT},{45938,nil,Questie.ICON_TYPE_INTERACT},{45939,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [27536] = { -- Mostly Harmless
+            [questKeys.preQuestSingle] = {27587},
+        },
         [27555] = { -- Fiona's Lucky Charm
             [questKeys.preQuestGroup] = {27372,27369},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
