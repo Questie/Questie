@@ -427,6 +427,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [4759] = "Garfa de zancudo de llanura",
 [4769] = "Péñola trofeo de aguilón",
 [4770] = "Cinturón Erizapúas",
+[4783] = "Tótem de Viento de Halcón",
 [4801] = "Garras de acechador",
 [4802] = "Garras de puma de las estepas",
 [4803] = "Diente de alfa de pradera",
