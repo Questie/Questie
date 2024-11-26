@@ -1130,14 +1130,15 @@ function QuestieWotlkQuestFixes:Load()
         [11594] = {
             [questKeys.preQuestSingle] = {},
         },
-        [11595] = {
+        [11595] = { -- The Defense of Warsong Hold (Nefarian Variant)
+            [questKeys.preQuestGroup] = {7783,11586},
             [questKeys.exclusiveTo] = {11596,11597},
         },
-        [11596] = {
+        [11596] = { -- The Defense of Warsong Hold (Normal Variant)
             [questKeys.preQuestSingle] = {11585,11586},
             [questKeys.exclusiveTo] = {11595,11597},
         },
-        [11597] = {
+        [11597] = { -- The Defense of Warsong Hold (Scarab Lord Variant)
             [questKeys.preQuestSingle] = {8745},
             [questKeys.exclusiveTo] = {11595,11596},
         },
