@@ -11,6 +11,14 @@ _G.table.getn = function(table)
     for _ in pairs(table) do count = count + 1 end
     return count
 end
+_G.tContains = function(tab, val)
+    for _, value in ipairs(tab) do
+        if value == val then
+            return true
+        end
+    end
+    return false
+end
 _G.hooksecurefunc = EMTPY_FUNC
 _G.GetTime = function() return 0 end
 

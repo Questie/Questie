@@ -432,6 +432,7 @@ function _QuestEventHandler:UpdateAllQuests()
 
             QuestieNameplate:UpdateNameplate()
             QuestieQuest:UpdateQuest(questId)
+            QuestieTracker.UpdateQuestLines(questId)
         end
         QuestieCombatQueue:Queue(function()
             C_Timer.After(1.0, function()
