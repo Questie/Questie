@@ -6,7 +6,7 @@ CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 if [[ "$LATEST_GIT_TAG" == *"-b"* ]]; then
   RELEASE_TYPE="beta"
 else
-  RELEASE_TYPE="release"
+  RELEASE_TYPE="stable"
 fi
 
 echo "Uploading $RELEASE_TYPE $LATEST_GIT_TAG to Wago"
