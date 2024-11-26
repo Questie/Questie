@@ -3,6 +3,14 @@
 LATEST_GIT_TAG="$1"
 CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 
+if [[ "$LATEST_GIT_TAG" == *"-b"* ]]; then
+  RELEASE_TYPE="beta"
+else
+  RELEASE_TYPE="release"
+fi
+
+echo "Uploading $RELEASE_TYPE $LATEST_GIT_TAG to CurseForge"
+
 #### CurseForge Upload
 # Docs: https://support.curseforge.com/en/support/solutions/articles/9000197321-curseforge-upload-api
 
@@ -13,7 +21,7 @@ CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 CF_METADATA=$(cat <<-EOF
 {
     "displayName": "$LATEST_GIT_TAG",
-    "releaseType": "release",
+    "releaseType": "$RELEASE_TYPE",
     "changelog": $CHANGELOG,
     "changelogType": "markdown",
     "gameVersions": [10272, 12216, 11925],

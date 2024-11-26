@@ -26,10 +26,24 @@ def get_commit_changelog():
 
 
 def get_last_git_tag():
-    return subprocess.run(
-        ["git", "describe", "--tags", "--abbrev=0", "HEAD^"],
+    # get the tag this changelog is meant for
+    latest_tag = subprocess.run(
+        ["git", "describe", "--tags", "--abbrev=0", "HEAD"],
         **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
     ).stdout.decode().strip('\n')
+
+    if "-b" in latest_tag:
+        # If the latest tag is a beta release, get the previous tag
+        return subprocess.run(
+            ["git", "describe", "--tags", "--abbrev=0", f"{latest_tag}^"],
+            **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
+        ).stdout.decode().strip('\n')
+    else:
+        # If the latest tag is a stable release, get the previous non-beta tag
+        return subprocess.run(
+            ["git", "describe", "--tags", "--abbrev=0", "--exclude", "*-b*", "HEAD^"],
+            **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
+        ).stdout.decode().strip('\n')
 
 
 def get_chronological_git_log(last_tag):
