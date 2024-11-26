@@ -936,6 +936,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [9523] = "Temple trol",
 [9528] = "Corazón oscuro de Edana",
 [9530] = "Cuerno de Garfaodio",
+[9552] = "Nota con runas grabadas",
 [9574] = "Pergamino glífico",
 [9589] = "Minerales taraceados",
 [9590] = "Tronco astillado",
