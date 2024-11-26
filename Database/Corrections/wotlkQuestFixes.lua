@@ -1130,8 +1130,15 @@ function QuestieWotlkQuestFixes:Load()
         [11594] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11595] = {
+            [questKeys.exclusiveTo] = {11596,11597},
+        },
         [11596] = {
             [questKeys.preQuestSingle] = {11585,11586},
+            [questKeys.exclusiveTo] = {11595,11597},
+        },
+        [11597] = {
+            [questKeys.exclusiveTo] = {11595,11596},
         },
         [11606] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},
@@ -1144,6 +1151,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [11611] = {
+            [questKeys.preQuestSingle] = {11595,11596,11597},
             [questKeys.objectives] = {{{25284,"Warsong Peon Freed"}}},
         },
         [11626] = {
