@@ -726,6 +726,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [6534] = "Barras de acero forjado",
 [6535] = "Tablilla de Vergua",
 [6634] = "Ungüento de ritual",
+[6635] = "Sapta de tierra",
 [6640] = "Pezuña de acechador vil",
 [6652] = "Faltriquera de componentes",
 [6655] = "Ascua resplandeciente",
