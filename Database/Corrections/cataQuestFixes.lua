@@ -7973,6 +7973,9 @@ function CataQuestFixes.Load()
         [27655] = { -- Bring the Hammer Down
             [questKeys.preQuestSingle] = {27638,27639},
         },
+        [27656] = { -- Croc-Out
+            [questKeys.preQuestSingle] = {27536},
+        },
         [27657] = { -- Help from the Earthcaller
             [questKeys.preQuestSingle] = {27636,27637},
         },
