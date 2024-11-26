@@ -1213,6 +1213,12 @@ function CataQuestFixes.Load()
         [11585] = { -- Hellscream's Vigil
             [questKeys.preQuestSingle] = {},
         },
+        [11586] = { -- Hellscream's Vigil
+            [questKeys.preQuestSingle] = {11585},
+        },
+        [11598] = { -- Taking Back Mightstone Quarry
+            [questKeys.preQuestSingle] = {11595,11596,11597},
+        },
         [11632] = { -- What the Cold Wind Brings...
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
@@ -9795,6 +9801,8 @@ function CataQuestFixes.Load()
         },
         [28711] = { -- Warchief's Command: Northrend!
             [questKeys.requiredMaxLevel] = 77,
+            [questKeys.nextQuestInChain] = 11585,
+            [questKeys.exclusiveTo] = {11585,11586},
         },
         [28712] = { -- Enter the Dragon Queen
             [questKeys.preQuestSingle] = {28093,28109},

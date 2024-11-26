@@ -1110,6 +1110,9 @@ function QuestieWotlkQuestFixes:Load()
         [11582] = {
             [questKeys.requiredSourceItems] = {},
         },
+        [11585] = {
+            [questKeys.exclusiveTo] = {10212,11586}, -- we want to only show 11586 if you did the Nagrand quest
+        },
         [11587] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Open the prison"),0,{{"object", 187561}}}},
@@ -1131,16 +1134,15 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [11595] = { -- The Defense of Warsong Hold (Nefarian Variant)
-            [questKeys.preQuestGroup] = {7783,11586},
-            [questKeys.exclusiveTo] = {11596,11597},
+            [questKeys.preQuestGroup] = {7783,11585}, -- 11585 is exclusiveTo with 11586, so we need only 1 of them to check both
+            [questKeys.exclusiveTo] = {8745}, -- we use exclusiveTo for the the Scarab Lord quest, so it doesn't show when you did that one
         },
         [11596] = { -- The Defense of Warsong Hold (Normal Variant)
-            [questKeys.preQuestSingle] = {11585,11586},
-            [questKeys.exclusiveTo] = {11595,11597},
+            [questKeys.preQuestSingle] = {11585,11586}, -- we have both here since exclusiveTo fields are ignored in preQuestSingle
+            [questKeys.exclusiveTo] = {7784,8745}, -- we use exclusiveTo for the Nefarian Head quest and the Scarab Lord quests, so it doesn't show when you did either of those quests
         },
         [11597] = { -- The Defense of Warsong Hold (Scarab Lord Variant)
-            [questKeys.preQuestSingle] = {8745},
-            [questKeys.exclusiveTo] = {11595,11596},
+            [questKeys.preQuestGroup] = {8745,11585}, -- 11585 is exclusiveTo with 11586, so we need only 1 of them to check both
         },
         [11606] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},
