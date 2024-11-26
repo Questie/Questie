@@ -574,6 +574,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90323] = 3, -- Paladin Light's Grace
     [90324] = 3, -- Shaman Overcharged
     [90325] = 4, -- Dagger Specialization (Druid, Hunter, Mage, Priest, Rogue, Shaman, Warlock, Warrior)
+    [90326] = 4, -- Fire Specialization (Mage, Hunter, Shaman, Warlock)
 }
 
 --- "automatic" phase detection for the first few phases;

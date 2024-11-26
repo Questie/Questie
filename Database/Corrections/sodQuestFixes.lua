@@ -7671,6 +7671,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453690,
             [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
         },
+        [90326] = {
+            [questKeys.name] = "Rune of Fire Specialization",
+            [questKeys.startedBy] = {nil,{457097}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE + classIDs.HUNTER + classIDs.SHAMAN + classIDs.WARLOCK,
+            [questKeys.requiredSpell] = -453696,
+            [questKeys.zoneOrSort] = zoneIDs.SEARING_GORGE,
+        },
     }
 end
 
