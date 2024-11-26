@@ -1214,7 +1214,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
         },
         [11586] = { -- Hellscream's Vigil
-            [questKeys.preQuestSingle] = {11585},
+            [questKeys.exclusiveTo] = {11585},
         },
         [11598] = { -- Taking Back Mightstone Quarry
             [questKeys.preQuestSingle] = {11595,11596,11597},
