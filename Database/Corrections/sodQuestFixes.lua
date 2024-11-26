@@ -7660,6 +7660,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432140,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90325] = {
+            [questKeys.name] = "Rune of Dagger Specialization",
+            [questKeys.startedBy] = {nil,{457100}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID + classIDs.HUNTER + classIDs.MAGE + classIDs.PRIEST + classIDs.ROGUE + classIDs.SHAMAN + classIDs.WARLOCK + classIDs.WARRIOR,
+            [questKeys.requiredSpell] = -453690,
+            [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
+        },
     }
 end
 
