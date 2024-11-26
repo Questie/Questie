@@ -822,6 +822,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [7567] = "Hacha de la familia de Agamand",
 [7568] = "Daga de la familia de Agamand",
 [7569] = "Maza de la familia de Agamand",
+[7626] = "Fardo de pelajes",
 [7628] = "Carta anodina",
 [7666] = "Collar destrozado",
 [7669] = "Rubí del collar destrozado",
