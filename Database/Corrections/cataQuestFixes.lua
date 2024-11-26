@@ -4659,6 +4659,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {25697,25698,25699},
             [questKeys.objectives] = {{{7506,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [25701] = { -- You Are Rakh'likh, Demon
+            [questKeys.preQuestSingle] = {25700},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak with the Deathly Usher north of the Rise of the Defiler."),0,{{"monster",8816}}}},
+        },
         [25702] = { -- Home... Gone... Naga...
             [questKeys.nextQuestInChain] = 25703,
         },
