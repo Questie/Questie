@@ -165,6 +165,9 @@ function QuestieTBCItemFixes:Load()
         [25461] = {
             [itemKeys.npcDrops] = {18472},
         },
+        [24483] = { -- Withered Basidium
+            [itemKeys.startQuest] = 9827,
+        },
         [25462] = {
             [itemKeys.npcDrops] = {16807},
         },
