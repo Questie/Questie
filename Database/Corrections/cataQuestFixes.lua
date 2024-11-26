@@ -8001,6 +8001,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27657,27658},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{46332,46331,46330,46328,46329,46327},46327}}},
         },
+        [27663] = { -- Tastes Like Strider
+            [questKeys.preQuestSingle] = {27587},
+        },
         [27664] = { -- Darkmoon Volcanic Deck
             [questKeys.specialFlags] = 1,
         },
