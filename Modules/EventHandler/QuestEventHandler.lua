@@ -441,7 +441,6 @@ function _QuestEventHandler:UpdateAllQuests()
         end)
     else
         Questie:Debug(Questie.DEBUG_INFO, "Nothing to update")
-        print("Nothing to update. cacheMiss, doRetryWithoutChanges", cacheMiss, doRetryWithoutChanges)
         doFullQuestLogScan = doRetryWithoutChanges -- There haven't been any changes, even though we called UpdateAllQuests. We need to check again at next QUEST_LOG_UPDATE
         doRetryWithoutChanges = false
     end
