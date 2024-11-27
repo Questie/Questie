@@ -7715,6 +7715,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453694,
             [questKeys.zoneOrSort] = zoneIDs.AZSHARA,
         },
+        [90330] = {
+            [questKeys.name] = "Rune of Sword Specialization",
+            [questKeys.startedBy] = {nil,{457088}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.MAGE + classIDs.PALADIN + classIDs.ROGUE + classIDs.WARLOCK + classIDs.WARRIOR,
+            [questKeys.requiredSpell] = -453635,
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
     }
 end
 

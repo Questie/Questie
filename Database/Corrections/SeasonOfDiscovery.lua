@@ -578,6 +578,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90327] = 4, -- Fist Weapon Specialization (Druid, Hunter, Rogue, Shaman, Warrior)
     [90328] = 4, -- Mace Specialization (Druid, Paladin, Priest, Rogue, Shaman, Warrior)
     [90329] = 4, -- Pole Weapon Specialization (Druid, Hunter, Mage, Paladin, Priest, Shaman, Warlock, Warrior)
+    [90330] = 4, -- Sword Specialization (Hunter, Mage, Paladin, Rogue, Warlock, Warrior)
 }
 
 --- "automatic" phase detection for the first few phases;
