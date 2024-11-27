@@ -7786,6 +7786,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440560,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90336] = {
+            [questKeys.name] = "Overheat",
+            [questKeys.startedBy] = {{227324,227385,227386,227387}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectivesText] = {"Unfreeze the Novice Frost Mage at each of the farms on the map with fire spells without killing them. Then use Remove Lesser Curse and speak with them. Each will give you a page, combine all 4 to receive the rune."},
+            [questKeys.requiredSpell] = -401764,
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
     }
 end
 
