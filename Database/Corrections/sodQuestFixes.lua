@@ -7894,6 +7894,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440926,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
+        [90345] = {
+            [questKeys.name] = "Blunderbuss",
+            [questKeys.startedBy] = {nil,{179498,456874,456876,456877,456879,456883}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Use Pick Lock on Scarlet Footlockers until you have a Sending Sigil. Bring this to the 4 pillars located in Eastern Plaguelands, interact with all of them and you will be teleported to a house, open Adon's Trunk inside to receive the rune."},
+            [questKeys.requiredSpell] = -415922,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 
