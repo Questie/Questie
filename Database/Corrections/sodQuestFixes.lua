@@ -7834,6 +7834,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440630,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90340] = {
+            [questKeys.name] = "Coherence",
+            [questKeys.startedBy] = {{7032}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Kill Greater Obsidian Elements until Molten Obsidian Core drops, travel to a pool of standing water (Loch Modan is perfect for this) and walk into it to create a Sooty Obsidian Core, then use it to polish it and receive the rune."},
+            [questKeys.requiredSpell] = -416062,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 
