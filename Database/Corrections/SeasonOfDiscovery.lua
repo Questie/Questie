@@ -594,6 +594,9 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90343] = 4, -- Warlock Infernal Armor Step 1
     [90344] = 4, -- Warlock Infernal Armor Step 2
     [90345] = 4, -- Rogue Blunderbuss
+    [90346] = 4, -- Rogue Crimson Tempest Step 1
+    [90347] = 4, -- Rogue Crimson Tempest Step 2
+    [90348] = 4, -- Rogue Crimson Tempest Step 3
 }
 
 --- "automatic" phase detection for the first few phases;
