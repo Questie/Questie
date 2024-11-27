@@ -7798,6 +7798,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401764,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
+        [90337] = {
+            [questKeys.name] = "Fan of Knives",
+            [questKeys.startedBy] = {nil,{462432}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectivesText] = {"Find the Wooden Chest, iteract with it and input the code 'Frostsaber, Owl, Bear, Owl' to unlock it and receive the rune."},
+            [questKeys.requiredSpell] = -436609,
+            [questKeys.zoneOrSort] = sortKeys.ROGUE,
+        },
     }
 end
 

@@ -585,6 +585,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90334] = 4, -- Hunter Improved Volley Step 1
     [90335] = 4, -- Hunter Improved Volley Step 2
     [90336] = 4, -- Mage Overheat
+    [90337] = 4, -- Rogue Fan of Knives
 }
 
 --- "automatic" phase detection for the first few phases;
