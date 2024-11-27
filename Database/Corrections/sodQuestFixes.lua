@@ -7846,6 +7846,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416062,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90341] = {
+            [questKeys.name] = "Mark of Chaos",
+            [questKeys.startedBy] = {{1783,226799}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Use Drain Soul on Skeletal Flayer until you have 3 Plagued Soul Shards, then head to Pixi Pilfershard in Chillwind Camp, and hand them in to receive the rune."},
+            [questKeys.requiredSpell] = -440924,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [90342] = {
+            [questKeys.name] = "Mark of Chaos",
+            [questKeys.startedBy] = {{1783,226797}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Use Drain Soul on Skeletal Flayer until you have 3 Plagued Soul Shards, then head to Prazik Pilfershard in The Bulwark, and hand them in to receive the rune."},
+            [questKeys.requiredSpell] = -440924,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
     }
 end
 

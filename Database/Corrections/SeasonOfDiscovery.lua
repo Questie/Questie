@@ -589,6 +589,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90338] = 4, -- Shaman Storm, Earth, and Fire
     [90339] = 4, -- Shaman Feral Spirit
     [90340] = 4, -- Shaman Coherence
+    [90341] = 4, -- Warlock Mark of Chaos (Alliance)
+    [90342] = 4, -- Warlock Mark of Chaos (Horde)
 }
 
 --- "automatic" phase detection for the first few phases;
