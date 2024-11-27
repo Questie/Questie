@@ -7942,6 +7942,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415918,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90349] = {
+            [questKeys.name] = "Soul Warding: Step 1",
+            [questKeys.startedBy] = {{11082,227511},{461633}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Kill the Stratholme Couriers and get postbox keys, then use these on the mailboxes to get Stratholme Shadow Jar. You will need 3 of these for the next step."},
+            [questKeys.requiredSpell] = -402850,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
+        [90350] = {
+            [questKeys.name] = "Soul Warding: Step 2",
+            [questKeys.startedBy] = {{11082,227511},{461633}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Go to the 3 pedestals located before Cannon Master Willey, and check them to know which bosses to kill. Kill the required bosses, and use the Stratholme Shadow Jar on each of their corpses. Bring all 3 Echos back to the corresponding pedestal to receive the rune."},
+            [questKeys.requiredSpell] = -402850,
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
     }
 end
 
