@@ -7966,6 +7966,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402850,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
+        [90351] = {
+            [questKeys.name] = "Decimation: Step 1",
+            [questKeys.startedBy] = {{222288}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 10,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Summon your Explorer Imp and send them inside Fel Rifts until you get a Legion Portal Tuner from one of the bags returned. Then make your way to Blasted Lands, Feralas, or Azshara for the next step."},
+            [questKeys.requiredSpell] = -440922,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [90352] = {
+            [questKeys.name] = "Decimation: Step 2",
+            [questKeys.startedBy] = {{222698}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 10,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Use the Legion Portal Tuner on a fel scar, and send your Explorer Imp inside until you get a Portal Tuner Tuner. Use it on the Legion Portal Tuner to create a Overcharged Portal Tuner. Then use it on a Fel Scar and send your Explorer Imp back in, and he will return with the rune."},
+            [questKeys.requiredSpell] = -440922,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
     }
 end
 

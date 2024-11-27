@@ -599,6 +599,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90348] = 4, -- Rogue Crimson Tempest Step 3
     [90349] = 4, -- Priest Soul Warding Step 1
     [90350] = 4, -- Priest Soul Warding Step 2
+    [90351] = 4, -- Warlock Decimation Step 1
+    [90352] = 4, -- Warlock Decimation Step 2
 }
 
 --- "automatic" phase detection for the first few phases;
