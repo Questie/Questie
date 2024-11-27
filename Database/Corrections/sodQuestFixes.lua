@@ -7693,6 +7693,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453691,
             [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
         },
+        [90328] = {
+            [questKeys.name] = "Rune of Mace Specialization",
+            [questKeys.startedBy] = {nil,{457093}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID + classIDs.PALADIN + classIDs.PRIEST + classIDs.ROGUE + classIDs.SHAMAN + classIDs.WARRIOR,
+            [questKeys.requiredSpell] = -453689,
+            [questKeys.zoneOrSort] = zoneIDs.WETLANDS,
+        },
     }
 end
 
