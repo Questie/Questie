@@ -587,6 +587,7 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90336] = 4, -- Mage Overheat
     [90337] = 4, -- Rogue Fan of Knives
     [90338] = 4, -- Shaman Storm, Earth, and Fire
+    [90339] = 4, -- Shaman Feral Spirit
 }
 
 --- "automatic" phase detection for the first few phases;

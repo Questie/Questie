@@ -7822,6 +7822,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440634,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
+        [90339] = {
+            [questKeys.name] = "Feral Spirit",
+            [questKeys.startedBy] = {{226982}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Speak to Frijidar, and kill it to receive the rune."},
+            [questKeys.requiredSpell] = -440630,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 
