@@ -7704,6 +7704,17 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453689,
             [questKeys.zoneOrSort] = zoneIDs.WETLANDS,
         },
+        [90329] = {
+            [questKeys.name] = "Rune of Pole Weapon Specialization",
+            [questKeys.startedBy] = {nil,{457091}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID + classIDs.HUNTER + classIDs.MAGE + classIDs.PALADIN + classIDs.PRIEST + classIDs.SHAMAN + classIDs.WARLOCK + classIDs.WARRIOR,
+            [questKeys.requiredSpell] = -453694,
+            [questKeys.zoneOrSort] = zoneIDs.AZSHARA,
+        },
     }
 end
 
