@@ -7870,6 +7870,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440924,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
+        [90343] = {
+            [questKeys.name] = "Infernal Armor: Step 1",
+            [questKeys.startedBy] = {{6004,6006}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Kill Shadowsworn Cultist and Adepts until you have a Shadowsworn Note, enter the cave and get to the altar at the end of the cave."},
+            [questKeys.requiredSpell] = -440926,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [90344] = {
+            [questKeys.name] = "Infernal Armor: Step 2",
+            [questKeys.startedBy] = {{228414}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 55,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"You will need a Greater Spellstone, Shadow Ward, and then cast Sacrifice on your Voidwalker. Once done, then click the altar to perform a Shadow Ritual of Great Sacrifice. After surviving the ritual, kill Heliath to receive the rune."},
+            [questKeys.requiredSpell] = -440926,
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
     }
 end
 

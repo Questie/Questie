@@ -591,6 +591,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90340] = 4, -- Shaman Coherence
     [90341] = 4, -- Warlock Mark of Chaos (Alliance)
     [90342] = 4, -- Warlock Mark of Chaos (Horde)
+    [90343] = 4, -- Warlock Infernal Armor Step 1
+    [90344] = 4, -- Warlock Infernal Armor Step 2
 }
 
 --- "automatic" phase detection for the first few phases;
