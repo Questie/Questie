@@ -946,8 +946,17 @@ function QuestieTracker:Update()
                                         -- Check and measure Objective text and update tracker width
                                         QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + lineLabelWidthQBC)
 
+                                        -- We add some additional margin for the objective text if the objective is large.
+                                        -- That way when updating the text in combat from 0/100 -> 10/100 the text is not cut off.
+                                        local additionalObjectiveMargin = 0
+                                        if line.Objective and line.Objective.Needed >= 100 then
+                                            additionalObjectiveMargin = 20
+                                        elseif line.Objective and line.Objective.Needed >= 10 then
+                                            additionalObjectiveMargin = 10
+                                        end
+
                                         -- Set Objective label and Line widths
-                                        line.label:SetWidth(trackerBaseFrame:GetWidth() - lineLabelBaseFrameQBC)
+                                        line.label:SetWidth(trackerBaseFrame:GetWidth() - lineLabelBaseFrameQBC + additionalObjectiveMargin)
                                         line:SetWidth(line.label:GetWidth() + lineWidthQBC)
 
                                         -- Compare current text label and the largest text label in the Tracker, then save the widest width
@@ -2120,6 +2129,11 @@ function QuestieTracker:TrackAchieve(achieveId)
             Questie.db.char.collapsedZones["Achievements"] = nil
         end
     end
+end
+
+---@param questId QuestId
+function QuestieTracker.UpdateQuestLines(questId)
+    TrackerLinePool.UpdateQuestLines(questId)
 end
 
 return QuestieTracker

@@ -18,6 +18,14 @@ _G.strsplit = function(delimiter, str)
     end
     return table.unpack(results)
 end
+_G.tContains = function(tab, val)
+    for _, value in ipairs(tab) do
+        if value == val then
+            return true
+        end
+    end
+    return false
+end
 _G.hooksecurefunc = EMTPY_FUNC
 _G.GetTime = function() return 0 end
 

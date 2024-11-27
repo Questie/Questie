@@ -31,7 +31,7 @@ describe("TrackerItemButton", function()
         CreateFrame.resetMockedFrames()
 
         QuestieDB = require("Database.QuestieDB")
-        TrackerItemButton = require("Modules.Tracker.TrackerItemButton")
+        TrackerItemButton = require("Modules.Tracker.LinePool.TrackerItemButton")
     end)
 
     it("should return an item button", function()

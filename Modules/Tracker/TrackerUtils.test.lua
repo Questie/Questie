@@ -23,8 +23,8 @@ describe("TrackerUtils", function()
         CreateFrame.resetMockedFrames()
 
         QuestieDB = require("Database.QuestieDB")
-        TrackerLinePool = require("Modules.Tracker.TrackerLinePool")
-        require("Modules.Tracker.TrackerItemButton")
+        TrackerLinePool = require("Modules.Tracker.LinePool.TrackerLinePool")
+        require("Modules.Tracker.LinePool.TrackerItemButton")
         TrackerUtils = require("Modules.Tracker.TrackerUtils")
         
         rePositionLineMock = spy.new(function() end)
