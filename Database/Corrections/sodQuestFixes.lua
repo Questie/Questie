@@ -7726,6 +7726,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453635,
             [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
         },
+        [90331] = {
+            [questKeys.name] = "Resourcefulness: Step 1",
+            [questKeys.startedBy] = {{8606,8607,16117}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Defeat Plagued Swine until you loot Tainted Boar Meat, then kill Living Decay and Rotting Sludge until you loot a Bubbling Green Ichor. Combine both items to create a Rancid Hunk of Flesh."},
+            [questKeys.requiredSpell] = -440557,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [90332] = {
+            [questKeys.name] = "Resourcefulness: Step 2",
+            [questKeys.startedBy] = {{8603}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Use the Rancid Hunk of Flesh on a Carrion Grub, it will create a Regurgitated Skeleton. Loot this to receive the rune."},
+            [questKeys.requiredSpell] = -440557,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
