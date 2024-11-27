@@ -7750,6 +7750,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440557,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90333] = {
+            [questKeys.name] = "Hit and Run",
+            [questKeys.startedBy] = {{227746}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill the Escaped Core Hound. Loot it to receive the rune."},
+            [questKeys.requiredSpell] = -440563,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
