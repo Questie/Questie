@@ -7810,6 +7810,18 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -436609,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
+        [90338] = {
+            [questKeys.name] = "Storm, Earth, and Fire",
+            [questKeys.startedBy] = {{7158}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 50,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Kill Deadwood Shaman until Voltaic Icon drops, equip it and bring three enemies to low health at once, then kill all three with a single cast of Chain Lightning and use the Voltaic Icon to receive the rune."},
+            [questKeys.requiredSpell] = -440634,
+            [questKeys.zoneOrSort] = sortKeys.SHAMAN,
+        },
     }
 end
 
