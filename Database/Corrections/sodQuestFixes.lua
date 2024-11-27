@@ -7762,6 +7762,30 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440563,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
+        [90334] = {
+            [questKeys.name] = "Improved Volley: Step 1",
+            [questKeys.startedBy] = {{11880,11736,12179,15213,227951}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Kill any mobs in Silithus, until you loot Busted Gizmo, bring this to Edwi Copperbolt at Bronzebeard's Encampment."},
+            [questKeys.requiredSpell] = -440560,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
+        [90335] = {
+            [questKeys.name] = "Improved Volley: Step 2",
+            [questKeys.startedBy] = {{227493,227951}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectivesText] = {"Using the Desert Sonar obtained in the last step, find the area where the ground moves, and use it. Kill the summoned Sandworm, and loot it to receive the rune."},
+            [questKeys.requiredSpell] = -440560,
+            [questKeys.zoneOrSort] = sortKeys.HUNTER,
+        },
     }
 end
 
