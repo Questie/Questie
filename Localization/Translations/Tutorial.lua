@@ -70,7 +70,7 @@ local tutorialLocals = {
         ["esMX"] = "Questie puede mostrarte las ubicaciones de las runas para tu clase de fases anteriores de SoD.\n\n",
         ["enUS"] = true,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "Questie 可以顯示你的職業在之前的探索賽季階段的符文位置。\n\n",
         ["esES"] = "Questie puede mostrarte las ubicaciones de las runas para tu clase de fases anteriores de SoD.\n\n",
         ["frFR"] = "Questie peut afficher les emplacements des runes des phases précédentes de SoD pour votre classe.\n\n",
     },

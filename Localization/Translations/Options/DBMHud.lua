@@ -46,7 +46,7 @@ local dbmHudOptionsLocales = {
         ["esMX"] = "Questie ha habilitado la superposición HUD de DBM. Para más opciones, visita la pestaña HUD de DBM en las opciones de Questie.",
         ["enUS"] = true,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "Questie 已啟用 DBM 畫面中顯示 (HUD) 圖層，更多選項在 Questie 設定選項的 DBM HUD 標籤頁面中。",
         ["esES"] = "Questie ha habilitado la superposición HUD de DBM. Para más opciones, visita la pestaña HUD de DBM en las opciones de Questie.",
         ["frFR"] = "Questie a activé la superposition HUD de DBM. Pour plus d'options, rendez-vous dans l'onglet HUD de DBM dans les options de Questie.",
     },

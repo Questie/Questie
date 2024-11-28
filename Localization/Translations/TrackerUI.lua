@@ -421,7 +421,7 @@ local trackerUILocales = {
         ["esMX"] = "Maximizar misión",
         ["enUS"] = true,
         ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "最大化任務",
         ["esES"] = "Maximizar misión",
         ["frFR"] = "Maximiser la quête",
     },
