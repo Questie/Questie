@@ -1513,6 +1513,9 @@ function QuestieQuestFixes:Load()
         [4001] = {
             [questKeys.objectives] = {{{9021,"Information Gathered from Kharan"}}},
         },
+        [4021] = {
+            [questKeys.objectives] = {{9456},nil,{{11227}}},
+        },
         [4022] = {
             [questKeys.objectives] = {nil,nil,{{10575}},nil,{{{9459},9459,"Proof Presented"}}},
             [questKeys.objectivesText] = {"Show Cyrus Therepentous the Black Dragonflight Molt you received from Kalaran Windblade."},
