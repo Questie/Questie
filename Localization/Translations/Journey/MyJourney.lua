@@ -279,15 +279,15 @@ local myJourneyLocales = {
         ["frFR"] = "Note : %s",
     },
     ["Add New Adventure Note"] = {
-        ["ptBR"] = "Adicione uma nova anotação de aventura",
+        ["ptBR"] = "Adicionar nota",
         ["ruRU"] = "Новая заметка",
         ["deDE"] = "Neue Abenteuer-Notiz hinzufügen",
         ["koKR"] = "새 여행 메모 추가",
-        ["esMX"] = "Añadir nueva nota de aventura",
+        ["esMX"] = "Añadir nota",
         ["enUS"] = true,
         ["zhCN"] = "添加冒险笔记",
         ["zhTW"] = "新增冒險筆記",
-        ["esES"] = "Añadir nueva nota de aventura",
+        ["esES"] = "Añadir nota",
         ["frFR"] = "Ajouter une note",
     },
     ["Create an entry in your journal to remember a specific moment. Simply supply a title and description and Questie will remember it for you!"] = {
