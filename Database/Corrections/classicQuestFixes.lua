@@ -1323,10 +1323,14 @@ function QuestieQuestFixes:Load()
         },
         [2951] = {
             [questKeys.exclusiveTo] = {4601,4602},
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [2952] = {
             [questKeys.exclusiveTo] = {4605,4606},
+            [questKeys.preQuestSingle] = {2951,4601,4602},
+        },
+        [2953] = {
+            [questKeys.exclusiveTo] = {4603,4604},
+            [questKeys.preQuestSingle] = {2952,4605,4606},
         },
         [2954] = {
             [questKeys.triggerEnd] = {"Learn the purpose of the Stone Watcher of Norgannon", {[zoneIDs.TANARIS]={{37.66,81.42}}}},
@@ -1700,17 +1704,25 @@ function QuestieQuestFixes:Load()
         },
         [4601] = {
             [questKeys.exclusiveTo] = {2951,4602},
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [4602] = {
             [questKeys.exclusiveTo] = {2951,4601},
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [4603] = {
+            [questKeys.exclusiveTo] = {2953,4604},
+            [questKeys.preQuestSingle] = {2952,4605,4606},
+        },
+        [4604] = {
+            [questKeys.exclusiveTo] = {2953,4603},
+            [questKeys.preQuestSingle] = {2955,4605,4606},
         },
         [4605] = {
             [questKeys.exclusiveTo] = {2952,4606},
+            [questKeys.preQuestSingle] = {2951,4601,4602},
         },
         [4606] = {
             [questKeys.exclusiveTo] = {2952,4605},
+            [questKeys.preQuestSingle] = {2951,4601,4602},
         },
         [4621] = {
             [questKeys.preQuestSingle] = {1036},

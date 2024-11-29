@@ -26,8 +26,12 @@ function QuestieQuestBlacklist:Load()
         [7668] = true, -- Not in the game (yet) Replaced with 8258 in Ph 4-- #1805
         [636] = true, -- Not in the game - #1900
         [6066] = true, -- Not in the game - #1957
+        [4601] = true, -- Duplicate of 2951
+        [4602] = true, -- Duplicate of 2951
         [4603] = true, -- Duplicate of 2953
         [4604] = true, -- Duplicate of 2953
+        [4605] = true, -- Duplicate of 2952
+        [4606] = true, -- Duplicate of 2952
         [8856] = true, -- Duplicate of 8497
         [13053] = true, -- Removed
         [11402] = true, -- GM Island quest
