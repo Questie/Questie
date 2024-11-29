@@ -568,7 +568,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.requiredClasses] = nil,
+            [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.objectivesText] = nil,
             [questKeys.triggerEnd] = nil,
             [questKeys.objectives] = {},

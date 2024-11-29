@@ -229,12 +229,6 @@ function CataQuestFixes.Load()
         [2950] = { -- Nogg's Ring Redo
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
-        [2951] = { -- The Sparklematic 5200!
-            [questKeys.preQuestSingle] = {},
-        },
-        [2952] = { -- The Sparklematic 5200!
-            [questKeys.exclusiveTo] = {},
-        },
         [3091] = { -- Simple Note -- Tauren Warrior
             [questKeys.preQuestSingle] = {},
         },
