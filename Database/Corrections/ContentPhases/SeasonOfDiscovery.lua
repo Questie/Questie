@@ -328,6 +328,7 @@ local questsToBlacklistByPhase = {
         [4148] = true, -- Bloodpetal Zapper
         [5283] = true, -- The Art of the Armorsmith -- Replaced by 85713
         [5301] = true, -- The Art of the Armorsmith -- Replaced by 85712
+        [5124] = true, -- Fiery Plate Gauntlets -- Replaced by 84495
         [5141] = true, -- Dragonscale Leatherworking -- Replaced by 85702
         [5143] = true, -- Tribal Leatherworking -- Replaced by 85705
         [5144] = true, -- Elemental Leatherworking -- Replaced by 85703

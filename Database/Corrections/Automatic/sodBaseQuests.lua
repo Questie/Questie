@@ -6524,6 +6524,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Observe Orthas as he moves on from this world."},
             [questKeys.objectives] = {{{229037}}},
         },
+        [84495] = {
+            [questKeys.name] = "Fiery Plate Gauntlets",
+            [questKeys.startedBy] = {{10637}},
+            [questKeys.finishedBy] = {{10637}},
+            [questKeys.requiredLevel] = 55,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring Malyfous Darkhammer 6 Enchanted Thorium Bars, 2 Essence of Fire, and 4 Star Rubies. You will also need to turn in your Unfired Plate Gauntlets."},
+            [questKeys.objectives] = {nil,nil,{{12655},{7078},{7910},{12812}}},
+        },
         [84496] = {
             [questKeys.name] = "Sweet Serenity",
             [questKeys.startedBy] = {{11191}},
