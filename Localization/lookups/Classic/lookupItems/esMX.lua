@@ -560,6 +560,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [5385] = "Pata de reptador",
 [5386] = "Pelambre de Acechalunas refinada",
 [5388] = "Calavera de Ran Sangradientes",
+[5411] = "Tótem de limpieza Pezuña Invernal",
 [5412] = "Ojo de trillador",
 [5413] = "Colmillo de Acechalunas",
 [5414] = "Cuero cabelludo grisáceo",
