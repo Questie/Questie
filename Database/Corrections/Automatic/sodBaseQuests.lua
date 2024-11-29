@@ -8141,5 +8141,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Defend Nighthaven from Eranikus. Do not let Keeper Remulos perish. Do not slay Eranikus. Defend yourself. Await Tyrande."},
             [questKeys.objectives] = nil,
         },
+        [86445] = {
+            [questKeys.name] = "The Wrath of Neptulon",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{15192}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Use the Arcanite Buoy at the Swirling Maelstrom at the Bay of Storms in Azshara."},
+            [questKeys.objectives] = {nil,nil,{{21136},{21137}}},
+        },
     }
 end

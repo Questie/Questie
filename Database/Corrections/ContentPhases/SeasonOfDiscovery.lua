@@ -353,6 +353,7 @@ local questsToBlacklistByPhase = {
         [8446] = true, -- Shrouded in Nightmare (Emerald Dream Dragons)
         [8620] = true, -- The Only Prescription - Replaced by 86444
         [9023] = true, -- The Perfect Poison - Replaced by 86674
+        [8729] = true, -- The Wrath of Neptulon - Replaced by 86445
         [8730] = true, -- Nefarius's Corruption - Replaced by 86442
         [8736] = true, -- The Nightmare Manifests - Replaced by 86443
 

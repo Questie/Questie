@@ -3835,6 +3835,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredMinRep] = {factionIDs.BROOD_OF_NOZDORMU,0},
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,100},{factionIDs.BROOD_OF_NOZDORMU,100}},
         },
+        [86445] = { -- The Wrath of Neptulon
+            [questKeys.startedBy] = {{11811}},
+            [questKeys.preQuestSingle] = {8728},
+            [questKeys.zoneOrSort] = zoneIDs.AZSHARA,
+            [questKeys.requiredMinRep] = {factionIDs.BROOD_OF_NOZDORMU,0},
+            [questKeys.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,200}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Arcanite Buoy"),0,{{"object", 180669}}}},
+        },
 
         --- Fake rune quests
         [90000] = {
