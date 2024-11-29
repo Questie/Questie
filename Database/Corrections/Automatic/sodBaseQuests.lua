@@ -2388,6 +2388,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring the Brilliant Gold Ring, a Silver Bar, a Moss Agate, and 30 silver coins to Nogg in Orgrimmar."},
             [questKeys.objectives] = {nil,nil,{{2842},{1206}}},
         },
+        [80142] = {
+            [questKeys.name] = "Castpipe's Task",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 40,
+            [questKeys.questLevel] = 40,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Speak with Master Mechanic Castpipe in Ironforge."},
+            [questKeys.objectives] = nil,
+        },
         [80143] = {
             [questKeys.name] = "Data Rescue",
             [questKeys.startedBy] = {{7950}},

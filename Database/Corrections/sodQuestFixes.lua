@@ -1117,6 +1117,14 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [80142] = { -- Castpipe's Task
+            [questKeys.startedBy] = {{4077}},
+            [questKeys.finishedBy] = {{7950}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
+            [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.nextQuestInChain] = 80143,
+        },
         [80143] = { -- Data Rescue
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Step 1: obtain the Yellow Punch Card. You need the White Punch Card."), 0, {{"object", 142345}}},
