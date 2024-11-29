@@ -47,7 +47,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {86443},
         },
         [8742] = { -- The Might of Kalimdor
-            [questKeys.preQuestSingle] = {86442},
+            [questKeys.preQuestGroup] = {8741,86442,86445},
         },
         [8922] = { -- A Supernatural Device
             [questKeys.preQuestSingle] = {84147,84148,84149,84150,84151,84152,84153,84154},
