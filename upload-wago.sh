@@ -3,7 +3,7 @@
 LATEST_GIT_TAG="$1"
 CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 
-if [ "$LATEST_GIT_TAG" == *"-b"* ]; then
+if echo "$LATEST_GIT_TAG" | grep -q "^.*-b.*$"; then
   RELEASE_TYPE="beta"
 else
   RELEASE_TYPE="stable"
