@@ -549,6 +549,10 @@ local questsToBlacklistByPhase = {
         [7881] = true, -- Carnival Boots
         [7890] = true, -- Heavy Grinding Stone
         [7889] = true, -- Coarse Weightstone
+        [7907] = true, -- Darkmoon Beast Deck
+        [7927] = true, -- Darkmoon Warlords Deck
+        [7928] = true, -- Darkmoon Elementals Deck
+        [7929] = true, -- Darkmoon Portals Deck
 
         -- ZG quests
         [8053] = true, -- Paragons of Power: The Freethinker's Armguards

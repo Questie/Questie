@@ -3930,6 +3930,34 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,100}},
         },
+        [86760] = { -- Darkmoon Beast Deck
+            [questKeys.startedBy] = {nil,nil,{235278}},
+            [questKeys.finishedBy] = {{14847}},
+            [questKeys.objectives] = {nil,nil,{{235278}}},
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,150}},
+        },
+        [86761] = { -- Darkmoon Warlords Deck
+            [questKeys.startedBy] = {nil,nil,{235277}},
+            [questKeys.finishedBy] = {{14847}},
+            [questKeys.objectives] = {nil,nil,{{235277}}},
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,150}},
+        },
+        [86762] = { -- Darkmoon Elementals Deck
+            [questKeys.startedBy] = {nil,nil,{235276}},
+            [questKeys.finishedBy] = {{14847}},
+            [questKeys.objectives] = {nil,nil,{{235276}}},
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,150}},
+        },
+        [86763] = { -- Darkmoon Portals Deck
+            [questKeys.startedBy] = {nil,nil,{235275}},
+            [questKeys.finishedBy] = {{14847}},
+            [questKeys.objectives] = {nil,nil,{{235275}}},
+            [questKeys.zoneOrSort] = sortKeys.DARKMOON_FAIRE,
+            [questKeys.reputationReward] = {{factionIDs.DARKMOON_FAIRE,150}},
+        },
 
         --- Fake rune quests
         [90000] = {
