@@ -1322,7 +1322,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{6212},nil,{9326}},
         },
         [2951] = {
-            [questKeys.preQuestSingle] = {4601,4602},
+            [questKeys.exclusiveTo] = {4601,4602},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [2952] = {
@@ -1699,11 +1699,11 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1011},
         },
         [4601] = {
-            [questKeys.preQuestSingle] = {2951,4602},
+            [questKeys.exclusiveTo] = {2951,4602},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [4602] = {
-            [questKeys.preQuestSingle] = {2951,4601},
+            [questKeys.exclusiveTo] = {2951,4601},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [4605] = {
