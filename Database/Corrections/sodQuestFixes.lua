@@ -3842,7 +3842,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,5}},
         },
+        [85984] = { -- One Commendation Signets
+            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,5}},
+        },
         [85985] = { -- Ten Commendation Signets
+            [questKeys.zoneOrSort] = sortKeys.REPUTATION,
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,75}},
+        },
+        [85986] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,75}},
         },
