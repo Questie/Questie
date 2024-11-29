@@ -2661,6 +2661,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredLevel] = 60,
         },
         [7507] = {
+            [questKeys.name] = "Nostro's Compendium",
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
         },
         [7508] = {

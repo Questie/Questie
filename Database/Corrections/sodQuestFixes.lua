@@ -3059,6 +3059,22 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.zoneOrSort] = zoneIDs.DIRE_MAUL,
         },
+        [84555] = { -- Nostro's Compendium
+            [questKeys.startedBy] = {nil,nil,{18401}},
+            [questKeys.zoneOrSort] = zoneIDs.DIRE_MAUL,
+        },
+        [84556] = { -- The Forging of Quel'Serrar
+            [questKeys.startedBy] = {nil,nil,{18513}},
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
+            [questKeys.preQuestSingle] = {84555},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
+        [84557] = { -- The Forging of Quel'Serrar
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
+            [questKeys.preQuestSingle] = {84556},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+            [questKeys.reputationReward] = {{factionIDs.SHEN_DRALAR,200}},
+        },
         [84560] = { -- Celebrating Good Times
             [questKeys.preQuestSingle] = {7495},
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
