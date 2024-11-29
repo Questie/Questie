@@ -8119,5 +8119,16 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"I accept commendation signets from outsiders who have received them in the line of duty. &nbsp;For each set of ten that you hand to me, you will receive significant favor with the Timbermaw. &nbsp;I also accept single tokens, but for much less favor. &nbsp;I am much more interested in greater feats of service, though no feat will be ignored.I'll gladly exchange your signets if you are ready to hand in a set."},
             [questKeys.objectives] = {nil,nil,{{21438}}},
         },
+        [86442] = {
+            [questKeys.name] = "Nefarius's Corruption",
+            [questKeys.startedBy] = {{13020}},
+            [questKeys.finishedBy] = {{15192}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Slay Nefarian and recover the Red Scepter Shard. Return the Red Scepter Shard to Anachronos at the Caverns of Time in Tanaris. You have 5 hours to complete this task."},
+            [questKeys.objectives] = {nil,nil,{{21142},{21138}}},
+        },
     }
 end

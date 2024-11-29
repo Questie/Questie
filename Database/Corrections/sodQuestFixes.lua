@@ -43,6 +43,9 @@ function SeasonOfDiscovery:LoadQuests()
         [8728] = { -- The Good News and The Bad News
             [questKeys.preQuestSingle] = {86444},
         },
+        [8742] = { -- The Might of Kalimdor
+            [questKeys.preQuestSingle] = {86442},
+        },
         [8922] = { -- A Supernatural Device
             [questKeys.preQuestSingle] = {84147,84148,84149,84150,84151,84152,84153,84154},
         },
@@ -3813,6 +3816,12 @@ function SeasonOfDiscovery:LoadQuests()
         [86161] = { -- Ten Commendation Signets
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD,75}},
+        },
+        [86442] = { -- Nefarius's Corruption
+            [questKeys.preQuestSingle] = {8555},
+            [questKeys.zoneOrSort] = zoneIDs.BLACKWING_LAIR,
+            [questKeys.requiredMinRep] = {factionIDs.BROOD_OF_NOZDORMU,0},
+            [questKeys.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,200}},
         },
 
         --- Fake rune quests
