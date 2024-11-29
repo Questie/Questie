@@ -3103,6 +3103,18 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{67.77,17.28}}},
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
         },
+        [100031] = { -- Champion of the Tournament
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.TRIAL_OF_THE_CHAMPION] = {{51.1,32.7},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.TRIAL_OF_THE_CHAMPION,
+            [npcKeys.questStarts] = {29851},
+        },
+        [100032] = { -- Champion of the Tournament
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.TRIAL_OF_THE_CHAMPION] = {{51.1,32.7},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.TRIAL_OF_THE_CHAMPION,
+            [npcKeys.questEnds] = {29851},
+        },
     }
 end
 

@@ -11499,6 +11499,8 @@ function CataQuestFixes.Load()
         [29851] = { -- Champion of the Tournament
             [questKeys.objectives] = {{{35451}}},
             [questKeys.requiredRaces] = raceKeys.NONE,
+            [questKeys.startedBy] = {{100031}},
+            [questKeys.finishedBy] = {{100032}},
         },
         [30112] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {11272},
