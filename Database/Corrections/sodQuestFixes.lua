@@ -43,6 +43,9 @@ function SeasonOfDiscovery:LoadQuests()
         [8728] = { -- The Good News and The Bad News
             [questKeys.preQuestSingle] = {86444},
         },
+        [8735] = { -- The Nightmare's Corruption
+            [questKeys.preQuestSingle] = {86443},
+        },
         [8742] = { -- The Might of Kalimdor
             [questKeys.preQuestSingle] = {86442},
         },
@@ -3822,6 +3825,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.BLACKWING_LAIR,
             [questKeys.requiredMinRep] = {factionIDs.BROOD_OF_NOZDORMU,0},
             [questKeys.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,200}},
+        },
+        [86443] = { -- The Nightmare Manifests
+            [questKeys.startedBy] = {{11832}},
+            [questKeys.finishedBy] = {{11832}},
+            [questKeys.triggerEnd] = {"The Redemption of Eranikus", {[zoneIDs.MOONGLADE]={{51.8,36.4}}}},
+            [questKeys.preQuestSingle] = {8735},
+            [questKeys.zoneOrSort] = zoneIDs.BLACKWING_LAIR,
+            [questKeys.requiredMinRep] = {factionIDs.BROOD_OF_NOZDORMU,0},
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,100},{factionIDs.BROOD_OF_NOZDORMU,100}},
         },
 
         --- Fake rune quests

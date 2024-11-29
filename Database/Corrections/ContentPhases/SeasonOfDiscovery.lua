@@ -354,6 +354,7 @@ local questsToBlacklistByPhase = {
         [8620] = true, -- The Only Prescription - Replaced by 86444
         [9023] = true, -- The Perfect Poison - Replaced by 86674
         [8730] = true, -- Nefarius's Corruption - Replaced by 86442
+        [8736] = true, -- The Nightmare Manifests - Replaced by 86443
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,
