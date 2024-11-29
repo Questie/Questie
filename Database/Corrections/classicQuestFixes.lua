@@ -1514,7 +1514,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{9021,"Information Gathered from Kharan"}}},
         },
         [4021] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Hold off Kolkar invaders until Warlord Krom'zar spawns, loot the banner spawned on his corpse."), 0, {{"monster", 9456}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Hold off Kolkar invaders until Warlord Krom'zar spawns and then loot the banner spawned on his corpse."), 0, {{"monster", 9456}}}},
         },
         [4022] = {
             [questKeys.objectives] = {nil,nil,{{10575}},nil,{{{9459},9459,"Proof Presented"}}},

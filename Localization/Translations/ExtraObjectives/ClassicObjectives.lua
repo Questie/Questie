@@ -206,7 +206,7 @@ local classicObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Hold off Kolkar invaders until Warlord Krom'zar spawns, loot the banner spawned on his corpse."] = { -- 4021
+    ["Hold off Kolkar invaders until Warlord Krom'zar spawns and then loot the banner spawned on his corpse."] = { -- 4021
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
