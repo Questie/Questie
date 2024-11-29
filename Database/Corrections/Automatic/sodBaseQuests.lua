@@ -1200,6 +1200,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring the Lorgalis Manuscript to Gerrig Bonegrip in the Forlorn Cavern in Ironforge."},
             [questKeys.objectives] = {nil,nil,{{5359}}},
         },
+        [78924] = {
+            [questKeys.name] = "In Search of Thaelrid",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 25,
+            [questKeys.questLevel] = 27,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Seek out Argent Guard Thaelrid in Blackfathom Deeps."},
+            [questKeys.objectives] = nil,
+        },
         [78925] = {
             [questKeys.name] = "Twilight Falls",
             [questKeys.startedBy] = {{4784}},

@@ -578,6 +578,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [78924] = { -- In Search of Thaelrid
+            [questKeys.startedBy] = {{4786}},
+            [questKeys.finishedBy] = {{4787}},
+            [questKeys.zoneOrSort] = zoneIDs.BLACKFATHOM_DEEPS,
+            [questKeys.questFlags] = questFlags.RAID,
+            [questKeys.exclusiveTo] = {78921,78922}
+        },
         [78925] = { -- Twilight Falls (Alliance)
             [questKeys.startedBy] = {{4784}},
             [questKeys.finishedBy] = {{4784}},
