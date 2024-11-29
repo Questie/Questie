@@ -6183,6 +6183,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"You find a small runestone at the bottom of the chest..."},
             [questKeys.objectives] = nil,
         },
+        [84338] = {
+            [questKeys.name] = "A Binding Contract",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {{12944}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Turn the Thorium Brotherhood Contract in to Lokhtos Darkbargainer if you would like to receive the plans for Sulfuron."},
+            [questKeys.objectives] = {nil,nil,{{17203}}},
+        },
         [84348] = {
             [questKeys.name] = "Priority Target: Duke Tectonis",
             [questKeys.startedBy] = {{14627}},

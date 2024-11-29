@@ -2865,6 +2865,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {84414},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [84338] = { -- A Binding Contract
+            [questKeys.startedBy] = {nil,nil,{227730}},
+            [questKeys.zoneOrSort] = zoneIDs.BLACKROCK_DEPTHS,
+            [questKeys.reputationReward] = {{factionIDs.THORIUM_BROTHERHOOD,200}},
+        },
         [84235] = { -- Dive! Dive!
             [questKeys.objectives] = {{{229897,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {84136},

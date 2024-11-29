@@ -339,6 +339,7 @@ local questsToBlacklistByPhase = {
         [5305] = true, -- Sweet Serenity - Replaced by 85700
         [5306] = true, -- Snakestone of the Shadow Huntress - Replaced by 85700
         [5307] = true, -- Corruption - Replaced by 85700
+        [7604] = true, -- A Binding Contract - Replaced by 84338
         [7636] = true, -- Stave of the Ancients - Replaced by 84546
         [7486] = true, -- A Hero's Reward - Replaced by 84545
         [7782] = true, -- The Lord of Blackrock - Replaced by 85643
