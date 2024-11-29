@@ -4351,7 +4351,13 @@ function QuestieQuestBlacklist:Load()
         [79492] = true, -- Metzen the Reindeer
         [79495] = true, -- Metzen the Reindeer
 
+        [80164] = true, -- Large Cluster Rockets
+        [80165] = true, -- Cluster Rockets
+        [80166] = true, -- Small Rockets
+        [80167] = true, -- Large Rockets
+        [80168] = true, -- Firework Launcher
         [80169] = true, -- Cluster Launcher
+        [80170] = true, -- Festive Recipes
 
         [79588] = true, -- Small Furry Paws
         [79589] = true, -- Torn Bear Pelts

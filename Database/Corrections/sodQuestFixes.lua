@@ -1196,6 +1196,26 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
+        [80164] = { -- Large Cluster Rockets
+            [questKeys.zoneOrSort] = sortKeys.LUNAR_FESTIVAL,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [80165] = { -- Cluster Rockets
+            [questKeys.zoneOrSort] = sortKeys.LUNAR_FESTIVAL,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [80166] = { -- Small Rockets
+            [questKeys.zoneOrSort] = sortKeys.LUNAR_FESTIVAL,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [80167] = { -- Large Rockets
+            [questKeys.zoneOrSort] = sortKeys.LUNAR_FESTIVAL,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [80168] = { -- Large Rockets
+            [questKeys.zoneOrSort] = sortKeys.LUNAR_FESTIVAL,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [80180] = { -- The Grand Betrayal
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
