@@ -114,8 +114,10 @@ QuestieDB.questFlags = {
 }
 
 QuestieDB.factionIDs = {
+    THORIUM_BROTHERHOOD = 59,
     UNDERCITY = 68,
     DARNASSUS = 69,
+    STEAMWHEEDLE_CARTEL = 169,
     ZANDALAR_TRIBE = 270,
     ARGENT_DAWN = 529,
     TIMBERMAW_HOLD = 576,
