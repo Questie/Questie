@@ -744,6 +744,10 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.FELWOOD,
             [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{35.4,57.8}}},
         },
+        [231485] = { -- Procrastimond (actuall this NPC is in "elsewhere", but to get to him you need to use an item in Tanaris)
+            [npcKeys.zoneID] = zoneIDs.TANARIS,
+            [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{50,28}}},
+        },
         [232529] = { -- Nandieb
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{50.7,27.9}}},

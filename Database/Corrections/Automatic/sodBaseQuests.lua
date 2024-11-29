@@ -7151,6 +7151,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Convince Xirath near Northdale in Eastern Plaguelands to help you gain a Soul of Mischief and use it on the Depleted Scythe of Chaos."},
             [questKeys.objectives] = {{{232731}}},
         },
+        [85480] = {
+            [questKeys.name] = "Procrastimond's Gratitude",
+            [questKeys.startedBy] = {{231485}},
+            [questKeys.finishedBy] = {{231485}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"You are a remarkable mortal, little one. The gift of foresight is not common among your kind.I must warn you, though. Such knowledge can influence events, even unintentionally. It is quite possible your future will take a different path than the one written in my library.I found this book which does not appear to belong in my collection. Please accept it, with my thanks."},
+            [questKeys.objectives] = nil,
+        },
         [85485] = {
             [questKeys.name] = "Soul of the Void",
             [questKeys.startedBy] = {{232802}},
