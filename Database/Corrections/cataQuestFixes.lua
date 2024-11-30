@@ -9431,6 +9431,9 @@ function CataQuestFixes.Load()
         [28616] = { -- Stormpike Apocalypse
             [questKeys.triggerEnd] = {"Witness the Stormpike Apocalypse", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{57.03,46.26}}}},
         },
+        [28619] = { -- Warchief's Command: Arathi Highlands!
+            [questKeys.nextQuestInChain] = 26022,
+        },
         [28620] = { -- Eastpoint Tower
             [questKeys.nextQuestInChain] = 28634,
         },
