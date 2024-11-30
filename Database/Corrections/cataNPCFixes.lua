@@ -2581,6 +2581,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [48515] = { -- Stormpike Battle Master
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{27.20,86.37}}},
+        },
         [48490] = { -- Greater Colossus
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{66.61,41.73}}},
         },
