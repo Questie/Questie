@@ -9149,6 +9149,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.requiredMaxLevel] = 43,
         },
+        [28506] = { -- March of the Stormpike
+            [questKeys.triggerEnd] = [questKeys.triggerEnd] = {"See the March of the Stormpike", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{57.03,46.26}}}},
+        },
         [28507] = { -- Hero's Call: Tanaris!
             [questKeys.requiredMaxLevel] = 48,
         },
@@ -9392,7 +9395,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{207277,nil,Questie.ICON_TYPE_EVENT}},nil,nil,{{{49212},49212}}},
         },
         [28600] = { -- Matters of Loyalty
-            [questKeys.triggerEnd] = [questKeys.triggerEnd] = {"	Learn of Matters of Loyalty", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{58.44,34.34}}}},
+            [questKeys.triggerEnd] = [questKeys.triggerEnd] = {"Learn of Matters of Loyalty", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{58.44,34.34}}}},
         },
         [28602] = { -- Be Prepared
             [questKeys.preQuestSingle] = {27541},
