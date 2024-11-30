@@ -826,6 +826,9 @@ function CataItemFixes.Load()
         [64318] = { -- Fine Dark Cloth
             [itemKeys.npcDrops] = {},
         },
+        [64380] = { -- Beating Yeti Heart
+            [itemKeys.npcDrops] = {2248,48628},
+        },
         [64404] = { -- Ruby Crystal Cluster
             [itemKeys.npcDrops] = {48533,48639},
         },
