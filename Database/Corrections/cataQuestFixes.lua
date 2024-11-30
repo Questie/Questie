@@ -9121,6 +9121,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 871,
             [questKeys.requiredMaxLevel] = 18,
         },
+        [28495] = { -- A Fighting Chance
+            [questKeys.objectives] = {{{48187,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [28496] = { -- Warchief's Command: Azshara!
             [questKeys.exclusiveTo] = {14129},
             [questKeys.requiredMaxLevel] = 18,
