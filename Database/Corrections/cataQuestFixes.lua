@@ -9404,6 +9404,9 @@ function CataQuestFixes.Load()
         [28602] = { -- Be Prepared
             [questKeys.preQuestSingle] = {27541},
         },
+        [28604] = { -- Deception and Trickery
+            [questKeys.objectives] = {{{48912,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [28606] = { -- The Keys to the Hot Rod
             [questKeys.startedBy] = {{34874}},
             [questKeys.parentQuest] = 14071,
