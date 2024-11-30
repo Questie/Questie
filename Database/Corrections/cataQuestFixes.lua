@@ -9428,6 +9428,9 @@ function CataQuestFixes.Load()
         [28613] = { -- See You on the Other Side!
             [questKeys.zoneOrSort] = 989,
         },
+        [28616] = { -- Stormpike Apocalypse
+            [questKeys.triggerEnd] = {"Witness the Stormpike Apocalypse", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{57.03,46.26}}}},
+        },
         [28620] = { -- Eastpoint Tower
             [questKeys.nextQuestInChain] = 28634,
         },
