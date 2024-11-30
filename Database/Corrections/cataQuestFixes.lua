@@ -9355,6 +9355,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28583},
             [questKeys.objectives] = {{{49548,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [28587] = { -- Aid of the Frostwolf
+            [questKeys.preQuestSingle] = {28400},
+        },
         [28589] = { -- Everything But the Kitchen Sink
             [questKeys.objectives] = {{{49680,nil,Questie.ICON_TYPE_MOUNT_UP},{49683}}},
         },
