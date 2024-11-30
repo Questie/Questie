@@ -2442,6 +2442,9 @@ function CataNpcFixes.Load()
         [47422] = { -- Baited Black Drake
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{47.91,59.48},{49.55,63.06},{49.94,64.4},{47.66,61.35},{47.89,61.89},{49.34,63.3},{46.14,64.25},{47.18,60.64},{47.65,58.8},{46.82,61.18}}},
         },
+        [47484] = { -- Yetimus the Yeti Lord
+            [npcKeys.waypoints] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{{47.33,50.21},{47.60,52.35},{47.74,54.12},{47.24,55.72},{46.43,56.85},{45.60,57.74},{44.32,57.47},{42.86,57.13},{41.88,56.26},{41.45,55.05},{41.43,53.60},{41.51,52.12}}}},
+        },
         [47493] = { -- Warlord Krogg
             [npcKeys.spawns] = {
                 [zoneIDs.TWILIGHT_HIGHLANDS]={{29.63,40.98}}},
