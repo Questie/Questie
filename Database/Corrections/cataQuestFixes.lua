@@ -9223,6 +9223,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27738,27838,28291},
             [questKeys.preQuestSingle] = {},
         },
+        [28538] = { -- Cry of the Banshee
+            [questKeys.preQuestSingle] = {28506},
+        },
         [28539] = { -- Hero's Call: Stonetalon Mountains!
             [questKeys.requiredMaxLevel] = 28,
         },
