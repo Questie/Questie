@@ -2593,6 +2593,9 @@ function CataNpcFixes.Load()
         [48533] = { -- Enormous Gyreworm
             [npcKeys.spawns] = {},
         },
+        [48880] = { -- Captain Iceheart
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{49.40,46.73}}},
+        },
         [48901] = { -- Tamed Seahorse
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{29.51,79.01}}},
         },
