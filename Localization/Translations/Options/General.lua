@@ -363,7 +363,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Définis le nombre d'icônes des objectifs proches les unes des autres à fusionner.",
     },
     ["Isle of Quel'Danas Phase"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Fase da Ilha de Quel'Danas",
         ["ruRU"] = "Фаза Острова Кель'Данас",
         ["deDE"] = "Insel von Quel'Danas Phase",
         ["koKR"] = false,
@@ -375,7 +375,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Phase de L'île de Quel'Danas",
     },
     ["Select the phase fitting your realm progress on the Isle of Quel'Danas"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Selecione a fase correspondente ao progresso do seu reino na Ilha de Quel'Danas",
         ["ruRU"] = "Выбор фазы прогресса Острова Кель'Данас на вашем сервере",
         ["deDE"] = "Setz die Phase entsprechend des Fortschritts deines Servers",
         ["koKR"] = false,
@@ -387,7 +387,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Choisissez la phase correspondante à votre serveur pour la progression sur l'Ile de Quel'Danas",
     },
     ["Disable Phase reminder"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Desativar lembrete de fase",
         ["ruRU"] = "Отключить напоминание",
         ["deDE"] = "Phasen Erinnerung deaktivieren",
         ["koKR"] = false,
@@ -399,7 +399,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Désactiver le rappel de phase.",
     },
     ["Enable or disable the reminder on login to set the Isle of Quel'Danas phase"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Ativa ou desativa o lembrete ao conectar para definir a fase da Ilha de Quel'Danas",
         ["ruRU"] = "Включить/отключить напоминание выбора фазы Острова Кель'Данас при входе в игру",
         ["deDE"] = "Aktiviert/Deaktiviert die Erinnerung beim Login die Phase für die Insel von Quel'Danas anzupassen",
         ["koKR"] = false,
@@ -411,7 +411,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Activer ou désactiver le rappel du choix de la phase sur l'Ile de Quel'Danas à la connection.",
     },
     ["Current active phase of Isle of Quel'Danas is '%s'. Check the General settings to change the phase or disable this message."] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "A fase ativa atual da Ilha de Quel'Danas é '%s'. Verifique as configurações gerais para alterar a fase ou desativar esta mensagem.",
         ["ruRU"] = "Текущая фаза Острова Кель'Данас: '%s'. Для изменения фазы или для отключения этого сообщения проверьте настройки (вкладка 'Общее').",
         ["deDE"] = "Aktuell aktive Phase auf der Insel von Quel'Danas ist '%s'. Zum Ändern der Phase oder dieser Erinnerung schau in die Allgemein Einstellungen.",
         ["koKR"] = false,
@@ -423,7 +423,7 @@ local generalOptionsLocales = {
         ["frFR"] = "La phase actuelle de l'Ile de Quel Danas est '%s'. Vérifiez vos paramètres généraux pour la changer la phase en cours ou désactiver ce message.",
     },
     ["You picked up a quest from '%s'. Automatically switching to this phase..."] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Você pegou uma missão de '%s'. Alternando automaticamente para esta fase...",
         ["ruRU"] = "Вы приняли задание из '%s'. Автоматическое переключение на эту фазу...",
         ["deDE"] = "Du hast eine Quest aus '%s' angenommen. Es wird automatisch zu dieser Phase gewechselt...",
         ["koKR"] = false,
@@ -435,7 +435,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Vous avez accepté la quête de ‘%s’. Changement automatique pour la phase …",
     },
     ["Phase 1 - Sun's Reach Sanctum"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Fase 1 - Sacrário Beirassol",
         ["ruRU"] = "Фаза 1 - Святилище Солнечного Края",
         ["deDE"] = "Phase 1 - Sanktum der Sonnenweiten",
         ["koKR"] = false,
@@ -447,7 +447,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Phase 1 - Sanctum des confins du soleil",
     },
     ["Phase 2 - Activating the Sunwell Portal"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Fase 2 - Ativando o Portal para a Nascente do Sol",
         ["ruRU"] = "Фаза 2 - Портал в Шаттрате",
         ["deDE"] = "Phase 2 - Portal zur Insel von Quel'Danas",
         ["koKR"] = false,
@@ -459,7 +459,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Phase 2 - Activer le portail du Puit du soleil",
     },
     ["Phase 2.1 - Sun's Reach Armory"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Fase 2.1 - Armaria de Beirassol",
         ["ruRU"] = "Фаза 2.1 - Оружейная",
         ["deDE"] = "Phase 2.1 - Waffenkammer der Sonnenweiten",
         ["koKR"] = false,
@@ -471,7 +471,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Phase 2.1 - Armurerie des confins du soleil",
     },
     ["Phase 3 - Rebuilding the Anvil and Forge"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Fase 3 - Reconstruindo a Bigorna e a Forja",
         ["ruRU"] = "Фаза 3 - Наковальня и кузница",
         ["deDE"] = "Phase 3 - Schmiede und Amboss",
         ["koKR"] = false,
@@ -483,7 +483,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Phase 3 - Rebâtir la forge et l'enclume",
     },
     ["Phase 3.1 - Sun's Reach Harbor"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Fase 3.1 - Porto de Beirassol",
         ["ruRU"] = "Фаза 3.1 - Гавань Солнечного Края",
         ["deDE"] = "Phase 3.1 - Hafen der Sonnenweiten",
         ["koKR"] = false,
@@ -495,7 +495,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Phase 3.1 - Port des confins du soleil ",
     },
     ["Phase 4 - Creating the Alchemy Lab"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Fase 4 - Criando o Laboratório de Alquimia",
         ["ruRU"] = "Фаза 4 - Лаборатория",
         ["deDE"] = "Phase 4 - Alchemielabor",
         ["koKR"] = false,
@@ -507,7 +507,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Phase 4 - Créer le laboratoire d'alchimie",
     },
     ["Phase 4.1 - Building the Monument to the Fallen"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Fase 4.1 - Construindo o Monumento aos Caídos",
         ["ruRU"] = "Фаза 4.1 - Монумент Павшим",
         ["deDE"] = "Phase 4.1 - Monument für die Gefallenen",
         ["koKR"] = false,
@@ -519,7 +519,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Phase 4.1 - Construire le monument aux morts",
     },
     ["Phase 4.2 - Sun's Reach"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Fase 4.2 - Beirassol",
         ["ruRU"] = "Фаза 4.2 - Солнечный Край",
         ["deDE"] = "Phase 4.2 - Sonnenweiten",
         ["koKR"] = false,

@@ -414,7 +414,7 @@ local trackerUILocales = {
         ["frFR"] = "Impossible d'ouvrir le journal des quêtes en combat. Ouvrez-le manuellement.",
     },
     ["Maximize Quest"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Maximizar missão",
         ["ruRU"] = "Развернуть задание",
         ["deDE"] = "Quest maximieren",
         ["koKR"] = false,
