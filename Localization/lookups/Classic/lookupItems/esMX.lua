@@ -438,6 +438,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [4808] = "Piedra de pozo",
 [4809] = "Bellota ámbar",
 [4819] = "Sujetapapeles de Saltatuercas",
+[4823] = "Agua de los Videntes",
 [4834] = "Documentos de Ventura y Cía.",
 [4841] = "Cuerno de Arra'chea",
 [4843] = "Piedra rúnica de amatista",
