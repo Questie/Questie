@@ -9391,6 +9391,9 @@ function CataQuestFixes.Load()
         [28598] = { -- Burnin' at Both Ends
             [questKeys.objectives] = {nil,{{207277,nil,Questie.ICON_TYPE_EVENT}},nil,nil,{{{49212},49212}}},
         },
+        [28600] = { -- Matters of Loyalty
+            [questKeys.triggerEnd] = [questKeys.triggerEnd] = {"	Learn of Matters of Loyalty", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{58.44,34.34}}}},
+        },
         [28602] = { -- Be Prepared
             [questKeys.preQuestSingle] = {27541},
         },
