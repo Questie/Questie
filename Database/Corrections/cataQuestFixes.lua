@@ -5663,6 +5663,9 @@ function CataQuestFixes.Load()
         [26277] = { -- More Than Expected
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [26279] = { -- The Defense of Grom'gol: Ogre Oppression
+            [questKeys.preQuestSingle] = {26278},
+        },
         [26284] = { -- Missing in Action
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",460002}}}},
