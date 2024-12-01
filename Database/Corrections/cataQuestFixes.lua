@@ -535,6 +535,9 @@ function CataQuestFixes.Load()
         [8284] = { -- The Twilight Mystery
             [questKeys.preQuestSingle] = {8321},
         },
+        [8308] = { -- Brann Bronzebeard's Lost Letter
+            [questKeys.startedBy] = {nil,nil,{20460,20461}},
+        },
         [8329] = { -- Warrior Training
             [questKeys.finishedBy] = {{43010}},
             [questKeys.zoneOrSort] = 6455,
