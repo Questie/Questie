@@ -264,7 +264,7 @@ local raidLocales = {
         ["enUS"] = true,
         ["frFR"] = "Bastion de Baradin",
         ["esES"] = "Bastión de Baradin",
-        ["zhTW"] = false,
+        ["zhTW"] = "巴拉丁堡",
         ["zhCN"] = "巴拉丁监狱",
     },
     ["The Bastion of Twilight"] = {
@@ -276,7 +276,7 @@ local raidLocales = {
         ["enUS"] = true,
         ["frFR"] = "Le bastion du Crépuscule",
         ["esES"] = "El Bastión del Crepúsculo",
-        ["zhTW"] = false,
+        ["zhTW"] = "暮光堡壘",
         ["zhCN"] = "暮光堡垒",
     },
     ["Throne of the Four Winds"] = {
@@ -288,7 +288,7 @@ local raidLocales = {
         ["enUS"] = true,
         ["frFR"] = "Trône des quatre vents",
         ["esES"] = "Trono de los Cuatro Vientos",
-        ["zhTW"] = false,
+        ["zhTW"] = "四風王座",
         ["zhCN"] = "风神王座",
     },
     ["Firelands"] = {
@@ -300,7 +300,7 @@ local raidLocales = {
         ["enUS"] = true,
         ["frFR"] = "Terres de Feu",
         ["esES"] = "Tierras de Fuego",
-        ["zhTW"] = false,
+        ["zhTW"] = "火源之界",
         ["zhCN"] = "火焰之地",
     },
     ["Blackwing Descent"] = {
@@ -312,7 +312,7 @@ local raidLocales = {
         ["enUS"] = true,
         ["frFR"] = "Descente de l'Aile noire",
         ["esES"] = "Descenso de Alanegra",
-        ["zhTW"] = false,
+        ["zhTW"] = "黑翼陷窟",
         ["zhCN"] = "黑翼血环",
     },
     ["Dragon Soul"] = {
@@ -324,7 +324,7 @@ local raidLocales = {
         ["enUS"] = true,
         ["frFR"] = "L'Âme des dragons",
         ["esES"] = "Alma de Dragón",
-        ["zhTW"] = false,
+        ["zhTW"] = "巨龍之魂",
         ["zhCN"] = "巨龙之魂",
     },
 }

@@ -46,7 +46,7 @@ function QuestieSlash.HandleCommands(input)
         end)
 
         if QuestieJourney:IsShown() then
-            QuestieJourney.ToggleJourneyWindow();
+            QuestieJourney:ToggleJourneyWindow();
         end
         return ;
     end
@@ -95,7 +95,7 @@ function QuestieSlash.HandleCommands(input)
 
     -- /questie journey (or /questie journal, because of a typo)
     if mainCommand == "journey" or mainCommand == "journal" then
-        QuestieJourney.ToggleJourneyWindow();
+        QuestieJourney:ToggleJourneyWindow();
         QuestieOptions:HideFrame();
         return;
     end

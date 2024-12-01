@@ -1,6 +1,7 @@
 dofile("Modules/Libs/QuestieLoader.lua")
 
 dofile("Database/itemDB.lua")
+dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
 
 local EMTPY_FUNC = function() end
 
@@ -10,8 +11,18 @@ _G.table.getn = function(table)
     for _ in pairs(table) do count = count + 1 end
     return count
 end
+_G.tContains = function(tab, val)
+    for _, value in ipairs(tab) do
+        if value == val then
+            return true
+        end
+    end
+    return false
+end
 _G.hooksecurefunc = EMTPY_FUNC
 _G.GetTime = function() return 0 end
+
+_G.Enum = {ItemQuality = {Poor = 0, Standard = 0}}
 
 _G.QUEST_MONSTERS_KILLED = ""
 _G.QUEST_ITEMS_NEEDED = ""

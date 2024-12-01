@@ -206,6 +206,18 @@ local classicObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Hold off Kolkar invaders until Warlord Krom'zar spawns and then loot the banner spawned on his corpse."] = { -- 4021
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use the Altered Black Dragonflight Molt on Bael'gar's corpse."] = { -- 4024
         ["ptBR"] = "Use a Muda de Pele Alterada da Revoada Negra nos restos de Bael'Gar.",
         ["ruRU"] = "Используйте Измененную сброшенную шкуру черного дракона на трупе Бейл'Гора.",

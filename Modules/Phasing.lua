@@ -148,7 +148,7 @@ function Phasing.Initialize()
     playerFaction = UnitFactionGroup("player")
 end
 
----@param phase number|nil @The phase belonging to a spawn of an NPC
+---@param phase number? @The phase belonging to a spawn of an NPC
 ---@return boolean @true if the spawn is visible, false otherwise
 function Phasing.IsSpawnVisible(phase)
     if (not phase) or phase == phases.UNKNOWN then

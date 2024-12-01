@@ -551,7 +551,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Trône des marées",
         ["esES"] = "Trono de las Mareas",
-        ["zhTW"] = false,
+        ["zhTW"] = "海潮王座",
         ["zhCN"] = "潮汐王座",
     },
     ["Grim Batol"] = {
@@ -563,7 +563,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = true,
         ["esES"] = true,
-        ["zhTW"] = false,
+        ["zhTW"] = "格瑞姆巴托",
         ["zhCN"] = "格瑞姆巴托",
     },
     ["The Lost City of the Tol'vir"] = { -- do we have this string used anywhere? This one with "The "
@@ -575,7 +575,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Cité perdue des Tol'vir",
         ["esES"] = "Ciudad Perdida de los Tol'vir",
-        ["zhTW"] = false,
+        ["zhTW"] = "托維爾的失落之城",
         ["zhCN"] = "托维尔失落之城",
     },
     ["Lost City of the Tol'vir"] = {
@@ -587,7 +587,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Cité perdue des Tol'vir",
         ["esES"] = "Ciudad Perdida de los Tol'vir",
-        ["zhTW"] = false,
+        ["zhTW"] = "托維爾的失落之城",
         ["zhCN"] = "托维尔失落之城",
     },
     ["Halls of Origination"] = {
@@ -599,7 +599,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Salles de l'Origine",
         ["esES"] = "Cámaras de los Orígenes",
-        ["zhTW"] = false,
+        ["zhTW"] = "起源大廳",
         ["zhCN"] = "起源大厅",
     },
     ["The Stonecore"] = {
@@ -611,7 +611,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Le Cœur-de-Pierre",
         ["esES"] = "El Núcleo Pétreo",
-        ["zhTW"] = false,
+        ["zhTW"] = "石岩之心",
         ["zhCN"] = "巨石之核",
     },
     ["Blackrock Caverns"] = {
@@ -623,7 +623,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Cavernes de Rochenoire",
         ["esES"] = "Cavernas Roca Negra",
-        ["zhTW"] = false,
+        ["zhTW"] = "黑石洞穴",
         ["zhCN"] = "黑石岩窟",
     },
     ["The Vortex Pinnacle"] = {
@@ -635,7 +635,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "La cime du Vortex",
         ["esES"] = "La Cumbre del Vórtice",
-        ["zhTW"] = false,
+        ["zhTW"] = "漩渦尖塔",
         ["zhCN"] = "旋云之巅",
     },
     ["End Time"] = {
@@ -647,7 +647,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "La Fin des temps",
         ["esES"] = "Fin de los Días",
-        ["zhTW"] = false,
+        ["zhTW"] = "終焉之刻",
         ["zhCN"] = "时光之末",
     },
     ["Hour of Twilight"] = {
@@ -659,7 +659,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "L’Heure du Crépuscule",
         ["esES"] = "Hora del Crepúsculo",
-        ["zhTW"] = false,
+        ["zhTW"] = "暮光之時",
         ["zhCN"] = "暮光审判",
     },
     ["Well of Eternity"] = {
@@ -671,7 +671,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Puits d’éternité",
         ["esES"] = "Pozo de la Eternidad",
-        ["zhTW"] = false,
+        ["zhTW"] = "永恆之井",
         ["zhCN"] = "永恒之井",
     },
 }

@@ -414,16 +414,16 @@ local trackerUILocales = {
         ["frFR"] = "Impossible d'ouvrir le journal des quêtes en combat. Ouvrez-le manuellement.",
     },
     ["Maximize Quest"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Maximizar missão",
         ["ruRU"] = "Развернуть задание",
-        ["deDE"] = false,
+        ["deDE"] = "Quest maximieren",
         ["koKR"] = false,
-        ["esMX"] = false,
+        ["esMX"] = "Maximizar misión",
         ["enUS"] = true,
         ["zhCN"] = false,
-        ["zhTW"] = false,
-        ["esES"] = false,
-        ["frFR"] = false,
+        ["zhTW"] = "最大化任務",
+        ["esES"] = "Maximizar misión",
+        ["frFR"] = "Maximiser la quête",
     },
 }
 

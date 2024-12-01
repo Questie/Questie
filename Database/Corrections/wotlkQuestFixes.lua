@@ -325,6 +325,15 @@ function QuestieWotlkQuestFixes:Load()
         [7704] = {
             [questKeys.startedBy] = {nil,{179832},{18950}},
         },
+        [7785] = {
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [7786] = {
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [7787] = {
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
         [8149] = {
             [questKeys.objectives] = {nil,{{1323,"Place a tribute at Uther's Tomb"}}},
             [questKeys.extraObjectives] = {},
@@ -1110,6 +1119,9 @@ function QuestieWotlkQuestFixes:Load()
         [11582] = {
             [questKeys.requiredSourceItems] = {},
         },
+        [11585] = {
+            [questKeys.exclusiveTo] = {10212,11586}, -- we want to only show 11586 if you did the Nagrand quest
+        },
         [11587] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Open the prison"),0,{{"object", 187561}}}},
@@ -1130,8 +1142,16 @@ function QuestieWotlkQuestFixes:Load()
         [11594] = {
             [questKeys.preQuestSingle] = {},
         },
-        [11596] = {
-            [questKeys.preQuestSingle] = {11585,11586},
+        [11595] = { -- The Defense of Warsong Hold (Nefarian Variant)
+            [questKeys.preQuestGroup] = {7783,11585}, -- 11585 is exclusiveTo with 11586, so we need only 1 of them to check both
+            [questKeys.exclusiveTo] = {8745}, -- we use exclusiveTo for the the Scarab Lord quest, so it doesn't show when you did that one
+        },
+        [11596] = { -- The Defense of Warsong Hold (Normal Variant)
+            [questKeys.preQuestSingle] = {11585,11586}, -- we have both here since exclusiveTo fields are ignored in preQuestSingle
+            [questKeys.exclusiveTo] = {7784,8745}, -- we use exclusiveTo for the Nefarian Head quest and the Scarab Lord quests, so it doesn't show when you did either of those quests
+        },
+        [11597] = { -- The Defense of Warsong Hold (Scarab Lord Variant)
+            [questKeys.preQuestGroup] = {8745,11585}, -- 11585 is exclusiveTo with 11586, so we need only 1 of them to check both
         },
         [11606] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},
@@ -1144,6 +1164,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [11611] = {
+            [questKeys.preQuestSingle] = {11595,11596,11597},
             [questKeys.objectives] = {{{25284,"Warsong Peon Freed"}}},
         },
         [11626] = {
@@ -2246,6 +2267,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {38380},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Feed with Zul'Drak Rat"), 0, {{"monster", 28145}}}},
         },
+        [12528] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [12529] = {
             [questKeys.requiredSourceItems] = {38619},
         },
@@ -2298,6 +2322,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,{{190499,"Truth Serum Created"}}},
         },
         [12544] = {
+            [questKeys.objectives] = {{{28256,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Soo-rahm's Incense"), 0, {{"object", 190507}}}},
             [questKeys.requiredSourceItems] = {},
         },
@@ -2535,6 +2560,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Begin the distillation process"), 0, {{"monster", 28566}}}},
         },
         [12645] = {
+            [questKeys.objectives] = {{{27986,nil,Questie.ICON_TYPE_INTERACT},{28047,nil,Questie.ICON_TYPE_INTERACT},{28568,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSourceItems] = {},
         },
         [12648] = {

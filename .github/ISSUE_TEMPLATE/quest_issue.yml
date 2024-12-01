@@ -51,7 +51,7 @@ body:
       description: >
         Please select the WoW version you encountered this issue in
       options:
-        - Era/HC
+        - Era/HC/Anniversary
         - Season of Discovery
         - WotLK
         - Cata

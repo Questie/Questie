@@ -103,5 +103,47 @@ describe("TooltipHandler", function()
 
             assert.spy(GameTooltip.AddDoubleLine).was_called_with(GameTooltip, "Object ID", "|cFFFFFFFF1 (2)|r")
         end)
+
+        it("should stop counting after 10", function()
+            local name = "test"
+            l10n.objectNameLookup[name] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
+
+            QuestieTooltips.GetTooltip = spy.new(function() return {""} end)
+
+            _G.GameTooltip = {
+                AddLine = spy.new(),
+                AddDoubleLine = spy.new(),
+                Show = spy.new()
+            }
+
+            _G.Questie.db.profile.enableTooltipsObjectID = true
+
+            _QuestieTooltips.AddObjectDataToTooltip(name)
+
+            assert.spy(GameTooltip.AddDoubleLine).was_called_with(GameTooltip, "Object ID", "|cFFFFFFFF1 (10+)|r")
+            assert.spy(QuestieTooltips.GetTooltip).was_called(10)
+            assert.spy(QuestieTooltips.GetTooltip).was_not_called_with("o_11")
+        end)
+
+        it("should not stop counting after 10 when debug is active", function()
+            local name = "test"
+            _G.Questie.db.profile.debugEnabled = true
+            l10n.objectNameLookup[name] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
+
+            QuestieTooltips.GetTooltip = spy.new(function() return {""} end)
+
+            _G.GameTooltip = {
+                AddLine = spy.new(),
+                AddDoubleLine = spy.new(),
+                Show = spy.new()
+            }
+
+            _G.Questie.db.profile.enableTooltipsObjectID = true
+
+            _QuestieTooltips.AddObjectDataToTooltip(name)
+
+            assert.spy(GameTooltip.AddDoubleLine).was_called_with(GameTooltip, "Object ID", "|cFFFFFFFF1 (11)|r")
+            assert.spy(QuestieTooltips.GetTooltip).was_called(11)
+        end)
     end)
 end)

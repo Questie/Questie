@@ -61,6 +61,9 @@ function CataItemFixes.Load()
         [8170] = { -- Rugged Leather
             [itemKeys.vendors] = {},
         },
+        [8244] = { -- Flawless Draenethyst Sphere
+            [itemKeys.startQuest] = 25772,
+        },
         [8705] = { -- OOX-22/FE Distress Beacon
             [itemKeys.startQuest] = 25475,
         },
@@ -72,6 +75,9 @@ function CataItemFixes.Load()
         },
         [10458] = { -- Prayer to Elune
             [itemKeys.npcDrops] = {},
+        },
+        [10593] = { -- Imperfect Draenethyst Fragment
+            [itemKeys.startQuest] = 25771,
         },
         [10753] = { -- Amulet of Grol
             [itemKeys.npcDrops] = {41267},
@@ -706,6 +712,9 @@ function CataItemFixes.Load()
         [60857] = { -- Recovered Supplies
             [itemKeys.npcDrops] = {},
         },
+        [60862] = { -- Forsaken Insignia
+            [itemKeys.npcDrops] = {45197},
+        },
         [60879] = { -- Commander's Holy Symbol
             [itemKeys.npcDrops] = {4278},
         },
@@ -718,11 +727,17 @@ function CataItemFixes.Load()
         [61294] = { -- Infectis Scuttler
             [itemKeys.npcDrops] = {45657},
         },
+        [61310] = { -- Arcane Remnant
+            [itemKeys.startQuest] = 27480,
+        },
         [61317] = { -- Vermillion Egg
             [itemKeys.npcDrops] = {45651,45682},
         },
         [61376] = { -- Suspended Starlight
             [itemKeys.npcDrops] = {},
+        },
+        [61505] = { -- Partially Digested Head
+            [itemKeys.startQuest] = 27574,
         },
         [61929] = { -- Broken Spectacles
             [itemKeys.npcDrops] = {45874},

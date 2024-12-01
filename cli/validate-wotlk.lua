@@ -157,6 +157,8 @@ local function _CheckWotlkDatabase()
     print("\n\27[36mCompiling Wotlk database...\27[0m")
     loadTOC("Questie-WOTLKC.toc")
 
+    assert(Questie.IsWotlk, "Questie is not started for WotLK")
+
     Questie.Debug = _Debug
     Questie.Error = _ErrorOrWarning
     Questie.Warning = _ErrorOrWarning

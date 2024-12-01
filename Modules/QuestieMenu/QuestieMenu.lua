@@ -121,7 +121,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
                         local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
                         if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and (not QuestieCorrections.questNPCBlacklist[id]) then
                             local npcName = QuestieDB.QueryNPCSingle(id, "name") or ("Missing NPC name for " .. tostring(id))
-                            local subName = l10n(QuestieDB.QueryNPCSingle(id, "subName") or tostring(key))
+                            local subName = QuestieDB.QueryNPCSingle(id, "subName") or l10n(tostring(key))
                             local npcTitle = Questie:Colorize(npcName, "white") .. " (" .. subName .. ")"
                             QuestieMap:ShowNPC(id, icon, 1.2, npcTitle, {}, true, key, true)
                             _spawned[id] = true
@@ -313,13 +313,13 @@ function QuestieMenu:Show(hideDelay)
     tinsert(menuTable, { text= l10n('Advanced Search'), func=function()
         QuestieOptions:HideFrame();
         QuestieJourney.tabGroup:SelectTab("search");
-        QuestieJourney.ToggleJourneyWindow()
+        QuestieJourney:ToggleJourneyWindow()
     end})
 
     tinsert(menuTable, { text= l10n('Quests by Zone'), func=function()
         QuestieOptions:HideFrame();
         QuestieJourney.tabGroup:SelectTab("zone");
-        QuestieJourney.ToggleJourneyWindow()
+        QuestieJourney:ToggleJourneyWindow()
     end})
     tinsert(menuTable, { text= l10n("Questie Options"), func=function()
         QuestieCombatQueue:Queue(function()
@@ -331,7 +331,7 @@ function QuestieMenu:Show(hideDelay)
         QuestieCombatQueue:Queue(function()
             QuestieOptions:HideFrame();
             QuestieJourney.tabGroup:SelectTab("journey");
-            QuestieJourney.ToggleJourneyWindow()
+            QuestieJourney:ToggleJourneyWindow()
         end)
     end})
 

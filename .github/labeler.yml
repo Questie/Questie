@@ -1,6 +1,6 @@
 # Label for Classic Era/HC quests
-era/hc:
-  - '### Game flavor\s*Era/HC'
+era/hc/anniversary:
+  - '### Game flavor\s*Era/HC/Anniversary'
 
 # Label for Classic Seasonal quests
 Season of Discovery:

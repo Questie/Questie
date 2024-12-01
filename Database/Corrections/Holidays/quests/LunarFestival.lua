@@ -68,17 +68,23 @@ tinsert(eventQuests, {"Lunar Festival", 8872}) -- The Lunar Festival
 tinsert(eventQuests, {"Lunar Festival", 8873}) -- The Lunar Festival
 tinsert(eventQuests, {"Lunar Festival", 8874}) -- The Lunar Festival
 tinsert(eventQuests, {"Lunar Festival", 8875}) -- The Lunar Festival
-tinsert(eventQuests, {"Lunar Festival", 8876, nil, nil, QuestieCorrections.CLASSIC_HIDE}) -- Small Rockets
-tinsert(eventQuests, {"Lunar Festival", 8877, nil, nil, QuestieCorrections.CLASSIC_HIDE}) -- Firework Launcher
-tinsert(eventQuests, {"Lunar Festival", 8878, nil, nil, QuestieCorrections.CLASSIC_HIDE}) -- Festive Recipes
-tinsert(eventQuests, {"Lunar Festival", 8879, nil, nil, QuestieCorrections.CLASSIC_HIDE}) -- Large Rockets
-tinsert(eventQuests, {"Lunar Festival", 8880, nil, nil, QuestieCorrections.CLASSIC_HIDE}) -- Cluster Rockets
-tinsert(eventQuests, {"Lunar Festival", 8881, nil, nil, QuestieCorrections.CLASSIC_HIDE}) -- Large Cluster Rockets
-tinsert(eventQuests, {"Lunar Festival", 8882, nil, nil, QuestieCorrections.CLASSIC_HIDE}) -- Cluster Launcher
+tinsert(eventQuests, {"Lunar Festival", 8876, nil, nil, QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE}) -- Small Rockets
+tinsert(eventQuests, {"Lunar Festival", 8877, nil, nil, QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE}) -- Firework Launcher
+tinsert(eventQuests, {"Lunar Festival", 8878, nil, nil, QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE}) -- Festive Recipes
+tinsert(eventQuests, {"Lunar Festival", 8879, nil, nil, QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE}) -- Large Rockets
+tinsert(eventQuests, {"Lunar Festival", 8880, nil, nil, QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE}) -- Cluster Rockets
+tinsert(eventQuests, {"Lunar Festival", 8881, nil, nil, QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE}) -- Large Cluster Rockets
+tinsert(eventQuests, {"Lunar Festival", 8882, nil, nil, QuestieCorrections.CLASSIC_HIDE + QuestieCorrections.SOD_HIDE}) -- Cluster Launcher
 tinsert(eventQuests, {"Lunar Festival", 8883}) -- Valadar Starsong
 
 -- SoD quests
+tinsert(eventQuests, {"Lunar Festival", 80164}) -- Large Cluster Rockets
+tinsert(eventQuests, {"Lunar Festival", 80165}) -- Cluster Rockets
+tinsert(eventQuests, {"Lunar Festival", 80166}) -- Small Rockets
+tinsert(eventQuests, {"Lunar Festival", 80167}) -- Large Rockets
+tinsert(eventQuests, {"Lunar Festival", 80168}) -- Firework Launcher
 tinsert(eventQuests, {"Lunar Festival", 80169}) -- Cluster Launcher
+tinsert(eventQuests, {"Lunar Festival", 80170}) -- Festive Recipes
 
 -- Northrend Elders
 tinsert(eventQuests, {"Lunar Festival", 13012}) -- Sardis the Elder

@@ -158,6 +158,8 @@ local function _CheckTBCDatabase()
     print("\n\27[36mCompiling TBC database...\27[0m")
     loadTOC("Questie-BCC.toc")
 
+    assert(Questie.IsTBC, "Questie is not started for TBC")
+
     Questie.Debug = _Debug
     Questie.Error = _ErrorOrWarning
     Questie.Warning = _ErrorOrWarning

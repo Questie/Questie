@@ -220,6 +220,10 @@ function CataNpcFixes.Load()
         [3395] = { -- Verog the Dervish
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{51.0,78.8}}},
         },
+        [3412] = { -- Nogg
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{56.28,56.36}}},
+            [npcKeys.waypoints] = {[zoneIDs.ORGRIMMAR]={{{56.28,56.36},{56.74,57.02}}}},
+        },
         [3475] = { -- Echeyakee
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{44.07,46.47}}},
         },
@@ -940,6 +944,21 @@ function CataNpcFixes.Load()
         },
         [26520] = { -- Festival Scorchling
             [npcKeys.spawns] = {[3]={{23.19,37.42}},[4]={{46.3,13.74}},[8]={{76.29,13.59}},[14]={{52.15,47.25}},[15]={{33.49,30.92}},[16]={{60.8,53.55}},[17]={{49.96,54.54}},[28]={{29.23,57.34}},[33]={{40.51,50.96}},[45]={{69.41,42.46}},[46]={{51.2,29.24}},[47]={{76.66,75.07}},[65]={{38.31,48.45}},[66]={{43.42,71.81}},[67]={{40.27,85.41}},[85]={{57.29,51.75}},[130]={{49.59,38.31}},[215]={{51.77,59.21}},[267]={{54.71,50.15}},[331]={{51.35,66.23}},[357]={{72.41,47.75}},[394]={{19.26,61.17}},[405]={{26.13,77.01}},[406]={{52.95,62.4}},[440]={{49.8,27.93}},[490]={{56.24,66.33}},[495]={{48.64,13.08}},[618]={{58.16,47.43}},[1377]={{50.82,41.4}},[2817]={{80.08,53.21}},[3430]={{46.41,50.51}},[3433]={{46.89,26.48}},[3483]={{57.16,42}},[3518]={{50.97,34.13}},[3519]={{51.97,42.96}},[3520]={{33.65,30.78}},[3521]={{35.47,51.69}},[3522]={{49.92,58.75}},[3523]={{32.16,68.33}},[3537]={{51.16,11.47}},[3711]={{47.4,61.75}},[4709]={{40.85,67.73}},[4922]={{52.96,45.93}},[5034]={{53.1,34.54}},[5287]={{50.34,70.33}}},
+        },
+        [26733] = { -- Banthok Icemist
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{22.6,41.73}}},
+        },
+        [26762] = { -- Captain Emmy Malin
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{26.32,64.86}}},
+        },
+        [26770] = { -- Tivax the Breaker
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{26.76,39.05},{23.87,39.11}}},
+        },
+        [26815] = { -- Lieutenant Ta'zinni
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{31.42,72.04}}},
+        },
+        [27007] = { -- Iceshatter
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{66.17,51.41}}},
         },
         [27216] = { -- Bizzle Quicklift
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{41.53,17.6}}},
@@ -2275,6 +2294,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{85.72,31.56}}},
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
+        [44367] = { -- Forest Ettin
+            [npcKeys.waypoints] = {[zoneIDs.SILVERPINE_FOREST] = {{{37.15,23.18},{37.25,25.65},{37.34,27.46},{38.23,27.79},{39.09,27.26},{39.26,28.98},{40.27,28.82},{41.55,29.70},{42.76,29.45},{43.70,28.99},{45.18,28.80},{46.17,28.65},{46.53,26.97},{46.88,25.92},{48.35,25.70},{49.27,25.69},{49.67,24.02},{49.18,22.23},{48.48,20.34},{47.68,19.11},{46.90,18.36},{45.68,17.33},{44.43,17.10},{43.40,17.38},{42.39,17.41},{41.09,17.20},{39.96,17.15},{39.26,16.37},{38.36,15.73},{37.50,15.78},{37.32,15.83},{36.53,16.40},{35.96,17.34},{35.50,18.06},{35.85,19.17},{36.18,19.69},{36.49,20.71},{36.76,22.08},{37.02,23.56}}}},
+        },
         [44453] = { -- Thassarian
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{41.06,70.44}}},
         },
@@ -2333,6 +2355,9 @@ function CataNpcFixes.Load()
         [45708] = { -- Lirastrasza
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{27.6,21.01}}},
         },
+        [45734] = { -- Relios the Relic Keeper
+            [npcKeys.waypoints] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{{31.51,43.40},{31.76,43.70},{32.09,44.06},{32.45,44.58},{32.74,44.36},{33.05,44.08},{33.35,43.75},{33.58,43.36},{33.78,42.91},{33.82,42.50},{33.70,42.14},{33.53,41.82},{33.29,41.37}}}},
+        },
         [45757] = { -- Floor Kill Credit
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.48,29.87}}},
         },
@@ -2350,6 +2375,15 @@ function CataNpcFixes.Load()
         },
         [45865] = { -- "Call in the Artillery" Northern Building Bunny
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{39.21,62.05}}},
+        },
+        [45878] = { -- Lord Godfrey
+            [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{51.82,65.49},{44.64,73.11},{42.09,79.19}}},
+        },
+        [45879] = { -- Lord Walden
+            [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{51.82,65.49},{44.64,73.11},{42.09,79.19}}},
+        },
+        [45880] = { -- Baron Ashbury
+            [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{51.82,65.49},{44.64,73.11}}},
         },
         [46076] = { -- SI:7 Squad Commander
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{38.93,64.01}}},
@@ -3089,6 +3123,18 @@ function CataNpcFixes.Load()
             [npcKeys.name] = "Nijel's Point Ruin",
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{67.77,17.28}}},
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
+        },
+        [100031] = { -- Champion of the Tournament
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.TRIAL_OF_THE_CHAMPION] = {{51.1,32.7},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.TRIAL_OF_THE_CHAMPION,
+            [npcKeys.questStarts] = {29851},
+        },
+        [100032] = { -- Champion of the Tournament
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.TRIAL_OF_THE_CHAMPION] = {{51.1,32.7},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.TRIAL_OF_THE_CHAMPION,
+            [npcKeys.questEnds] = {29851},
         },
     }
 end

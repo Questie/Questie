@@ -47,7 +47,7 @@ local battlegroundsLocales = {
         ["enUS"] = true,
         ["frFR"] = "L'Œil du cyclone",
         ["esES"] = "Ojo de la Tormenta",
-        ["zhTW"] = false,
+        ["zhTW"] = "暴風之眼",
         ["zhCN"] = "风暴之眼",
     },
 }

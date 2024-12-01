@@ -3,6 +3,7 @@
 ## Description
 
 This is a scraper that runs on [wowhead.com/classic](https://www.wowhead.com/classic/).
+
 Currently, it is only used to scrape SoD related data.
 
 ## Usage
@@ -10,7 +11,10 @@ Currently, it is only used to scrape SoD related data.
 1. Install [Python](https://www.python.org/downloads/) (version 3.8 or higher)
 2. Install the required packages: `pip install -r requirements.txt`
 3. Run the scraper, with the desired flag:
-   - `python runner.py --quests` to scrape quests
-   - `python runner.py --items` to scrape items
-   - `python runner.py --npcs` to scrape NPCs
-   - `python runner.py --objects` to scrape objects
+   - `python runner.py --quest` to scrape quests
+   - `python runner.py --item` to scrape items
+   - `python runner.py --npc` to scrape NPCs
+   - `python runner.py --object` to scrape objects
+     
+4. For additional commands and utilities run:
+   - `python runner.py -h` 
