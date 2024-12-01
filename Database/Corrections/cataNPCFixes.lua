@@ -2476,6 +2476,9 @@ function CataNpcFixes.Load()
         [47422] = { -- Baited Black Drake
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{47.91,59.48},{49.55,63.06},{49.94,64.4},{47.66,61.35},{47.89,61.89},{49.34,63.3},{46.14,64.25},{47.18,60.64},{47.65,58.8},{46.82,61.18}}},
         },
+        [47484] = { -- Yetimus the Yeti Lord
+            [npcKeys.waypoints] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{{47.33,50.21},{47.60,52.35},{47.74,54.12},{47.24,55.72},{46.43,56.85},{45.60,57.74},{44.32,57.47},{42.86,57.13},{41.88,56.26},{41.45,55.05},{41.43,53.60},{41.51,52.12}}}},
+        },
         [47493] = { -- Warlord Krogg
             [npcKeys.spawns] = {
                 [zoneIDs.TWILIGHT_HIGHLANDS]={{29.63,40.98}}},
@@ -2522,6 +2525,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [47789] = { -- Clerk Horrace Whitesteed
+            [npcKeys.waypoints] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{{39.88,62.34},{38.93,62.10},{37.88,64.01},{37.05,63.22}}}},
+        },
         [47838] = { -- Shrine 1 Cleansed
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{34.18,35.74}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
@@ -2533,6 +2539,12 @@ function CataNpcFixes.Load()
         [47840] = { -- Shrine 3 Cleansed
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{34.33,37.75}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
+        },
+        [47869] = { -- Johnny Awesome
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{40.08,59.29},{38.53,56.72},{36.64,57.99},{36.62,61.15}}}, -- NPC that follows player, these are most likely interaction locations for quests
+        },
+        [47872] = { -- Human Seedling
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{39.36,62.91},{39.01,63.11},{38.68,63.29},{38.5,63.79},{38.41,64.49},{38.64,64.65},{38.77,64.32},{38.92,63.91},{39.13,63.7},{39.39,63.56},{39.6,63.54},{39.85,63.58},{40.02,63.74},{39.9,63.96},{39.73,64.1},{39.48,64.15},{39.25,64.25},{39.15,64.43},{39.19,64.69},{39.38,64.83},{39.68,64.62}}},
         },
         [47874] = { -- Obsidian Lair Pathing Credit
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{49.82,85.49}}},
@@ -2549,6 +2561,9 @@ function CataNpcFixes.Load()
         [47970] = { -- Schnottz Guests
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{21.91,64.1}}},
             [npcKeys.zoneID] = zoneIDs.ULDUM,
+        },
+        [48020] = { -- Master Apothecary Lydon
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{40.08,59.29},{38.53,56.72},{36.64,57.99},{36.62,61.15}}}, -- NPC that follows player, these are most likely interaction locations for quests
         },
         [48022] = { -- Salhet
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{54.07,58.14}}},
@@ -2603,11 +2618,17 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [48515] = { -- Stormpike Battle Master
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{27.20,86.37}}},
+        },
         [48490] = { -- Greater Colossus
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{66.61,41.73}}},
         },
         [48533] = { -- Enormous Gyreworm
             [npcKeys.spawns] = {},
+        },
+        [48880] = { -- Captain Iceheart
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{49.40,46.73}}},
         },
         [48901] = { -- Tamed Seahorse
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{29.51,79.01}}},
