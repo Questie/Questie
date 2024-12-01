@@ -565,6 +565,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [5412] = "Ojo de trillador",
 [5413] = "Colmillo de Acechalunas",
 [5414] = "Cuero cabelludo grisáceo",
+[5415] = "Tótem de limpieza Tronacuerno",
 [5424] = "Estatuilla antigua",
 [5437] = "Cabello de Bathran",
 [5440] = "Botella de enfermedad",
