@@ -8978,7 +8978,7 @@ function CataQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 11}},
         },
         [28397] = { -- They Will Never Expect This...
-            [questKeys.objectives] = {{{48482,48484}}},
+            [questKeys.objectives] = {{{48482},{48484}}},
         },
         [28398] = { -- The Pyromancer's Grimoire
             [questKeys.startedBy] = {{331}},
