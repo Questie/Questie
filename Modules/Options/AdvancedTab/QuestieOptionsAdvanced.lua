@@ -240,7 +240,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n('Reset Questie Journey'); end,
                 desc = function() return l10n('Reset Questie Journey to the default values'); end,
                 func = function(_,_)
-                    Questie.db.char.jouney = nil,
+                    Questie.db.char.jouney = nil
 
                     ReloadUI()
 
