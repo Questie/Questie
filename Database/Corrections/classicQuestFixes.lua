@@ -945,6 +945,9 @@ function QuestieQuestFixes:Load()
         [1521] = {
             [questKeys.exclusiveTo] = {1518},
         },
+        [1523] = {
+            [questKeys.startedBy] = {{5906}},
+        },
         [1558] = {
             [questKeys.triggerEnd] = {"Go to the top of the Stonewrought Dam in Loch Modan.", {[zoneIDs.LOCH_MODAN]={{47.63,14.33}}}},
         },
