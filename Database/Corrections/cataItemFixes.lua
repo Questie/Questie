@@ -823,6 +823,9 @@ function CataItemFixes.Load()
         [63685] = { -- Ancient Copper Scroll
             [itemKeys.npcDrops] = {},
         },
+        [63686] = { -- Daggerspine Attack Plans
+            [itemKeys.startQuest] = {28356},
+        },
         [64318] = { -- Fine Dark Cloth
             [itemKeys.npcDrops] = {},
         },
