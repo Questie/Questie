@@ -1471,6 +1471,12 @@ function QuestieNPCFixes:Load()
         [11783] = {
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1}}},
         },
+        [11798] = {
+            [npcKeys.npcFlags] = 11,
+        },
+        [11800] = {
+            [npcKeys.npcFlags] = 11,
+        },
         [11836] = {
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{49.1,29.89},{49.95,34.58},{39,63.09},{38.62,77},{39.28,68.07}}},
