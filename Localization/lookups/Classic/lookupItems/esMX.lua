@@ -448,6 +448,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [4848] = "Hocico de jabaguerrero",
 [4849] = "Costillar de jabaguerrero",
 [4850] = "Planes de ataque Erizapúas",
+[4854[ = "Capa con marca de demonio",
 [4859] = "Medallón del Filo Ardiente",
 [4862] = "Cola de escórpido obrero",
 [4863] = "Herramientas gnómicas",
