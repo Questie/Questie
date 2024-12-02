@@ -4357,7 +4357,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25505},
             [questKeys.requiredSourceItems] = {54821},
         },
-        [25533] = { -- Pirate Accuracy Increasing
+        [25533] = { -- Pirate Accuracy Increasing (Alliance)
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25515,25517,25524},
+        },
+        [25533] = { -- Pirate Accuracy Increasing (Horde)
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25516,25518,25526},
         },
