@@ -249,7 +249,7 @@ function QuestieOptions.tabs.advanced:Initialize()
             Spacer_F = QuestieOptionsUtils:Spacer(4.5),
             recompileDatabase = {
                 type = "execute",
-                order = 4.6,
+                order = 4.4,
                 name = function() return l10n('Recompile Database'); end,
                 desc = function() return l10n('Forces a recompile of the Questie database. This will also reload the UI.'); end,
                 func = function (_, _)
@@ -261,20 +261,20 @@ function QuestieOptions.tabs.advanced:Initialize()
                     ReloadUI()
                 end,
             },
-            Spacer_G = QuestieOptionsUtils:Spacer(4.7),
+            Spacer_F = QuestieOptionsUtils:Spacer(4.5),
             openProfiler = {
                 type = "execute",
-                order = 4.8,
+                order = 4.6,
                 name = function() return l10n('Open Profiler'); end,
                 desc = function() return l10n('Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes.'); end,
                 func = function (_, _)
                     QuestieLoader:ImportModule("Profiler"):Start()
                 end,
             },
-            Spacer_H = QuestieOptionsUtils:Spacer(4.9),
+            Spacer_G = QuestieOptionsUtils:Spacer(4.7),
             github_text = {
                 type = "description",
-                order = 4.10,
+                order = 4.8,
                 name = function() return Questie:Colorize(l10n('Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/Questie/Questie/ ))'), 'purple'); end,
                 fontSize = "medium",
             },
