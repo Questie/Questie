@@ -611,10 +611,25 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieOptions:SetProfileValue(info, value)
                         end,
                     },
-                    spacer_scale = QuestieOptionsUtils:Spacer(5.3),
+                    globalTownsfolkScale = {
+                        type = "range",
+                        order = 5.3,
+                        name = function() return l10n('Map Townsfolk Icons'); end,
+                        desc = function() return l10n('How large the townsfolk map icons are.\n(Default: %s)', optionsDefaults.profile.globalTownsfolkScale); end,
+                        width = 1.55,
+                        min = 0.01,
+                        max = 4,
+                        step = 0.01,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                        set = function (info, value)
+                            QuestieMap:RescaleTownsfolkIcons()
+                            QuestieOptions:SetProfileValue(info, value)
+                        end,
+                    },
+                    spacer_scale = QuestieOptionsUtils:Spacer(5.4),
                     availableScale = {
                         type = "range",
-                        order = 5.4,
+                        order = 5.5,
                         name = function() return l10n('Quest Icons'); end,
                         desc = function() return l10n('How large the available/complete icons are. Affects both map and minimap icons.\n(Default: %s)', optionsDefaults.profile.availableScale); end,
                         width = 3.1,
@@ -629,7 +644,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     },
                     lootScale = {
                         type = "range",
-                        order = 5.5,
+                        order = 5.6,
                         name = function() return l10n('Loot objectives'); end,
                         desc = function() return l10n('How large the loot icons are.\n(Default: %s)', optionsDefaults.profile.lootScale); end,
                         width = 1.55,
@@ -644,7 +659,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     },
                     monsterScale = {
                         type = "range",
-                        order = 5.6,
+                        order = 5.7,
                         name = function() return l10n('Slay objectives'); end,
                         desc = function() return l10n('How large the slay icons are.\n(Default: %s)', optionsDefaults.profile.monsterScale); end,
                         width = 1.55,
@@ -659,7 +674,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     },
                     eventScale = {
                         type = "range",
-                        order = 5.7,
+                        order = 5.8,
                         name = function() return l10n('Event objectives'); end,
                         desc = function() return l10n('How large the event icons are.\n(Default: %s)', optionsDefaults.profile.eventScale); end,
                         width = 1.55,
@@ -674,7 +689,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     },
                     objectScale = {
                         type = "range",
-                        order = 5.8,
+                        order = 5.9,
                         name = function() return l10n('Object objectives'); end,
                         desc = function() return l10n('How large the object icons are.\n(Default: %s)', optionsDefaults.profile.objectScale); end,
                         width = 1.55,
