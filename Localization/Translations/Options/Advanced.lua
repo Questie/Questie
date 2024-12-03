@@ -208,7 +208,7 @@ local advancedOptionsLocales = {
     },
     ["Reset Questie Journey"] = {
         ["ptBR"] = "Redefinir jornada",
-        ["ruRU"] = false,
+        ["ruRU"] = "Сбросить Путешествие",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = "Restablecer viaje",
@@ -220,7 +220,7 @@ local advancedOptionsLocales = {
     },
     ["Clear the Journey of the current character"] = {
         ["ptBR"] = "Redefine a jornada do personagem atual",
-        ["ruRU"] = false,
+        ["ruRU"] = "Сбросить данные раздела 'Путешествие' для текущего персонажа",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = "Restablece el viaje del personaje actual",
