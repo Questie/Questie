@@ -156,7 +156,7 @@ local nameplateOptionsLocales = {
         ["zhCN"] = "目标图标选项",
         ["zhTW"] = "目標頭像圖示選項",
         ["esES"] = "Opciones de icono del marco de objetivo",
-        ["frFR"] = "Options des icônes de la fenêtre de la cible",
+        ["frFR"] = "Options des icônes de le cadre de la cible",
     },
     ["Enable Target Frame Quest Objectives"] = {
         ["ptBR"] = "Ativar os objectivos da missão do quadro de alvo",
@@ -168,7 +168,7 @@ local nameplateOptionsLocales = {
         ["zhCN"] = "启用目标标记",
         ["zhTW"] = "啟用任務怪目標頭像圖示",
         ["esES"] = "Habilitar objetivo de misión en el marco de objetivo",
-        ["frFR"] = "Activer les icônes d'objectif de quête sur la fenêtre de la cible",
+        ["frFR"] = "Activer les icônes d'objectif de quête sur le cadre de la cible",
     },
     ["Enable or disable the quest objective icons over creature target frame."] = {
         ["ptBR"] = "Ativar ou desativar os ícones do objectivo da missão no quadro de alvo da criatura.",
@@ -180,7 +180,7 @@ local nameplateOptionsLocales = {
         ["zhCN"] = "启用或停用目标头像上的任务目标图标",
         ["zhTW"] = "啟用或停用在目標怪物的頭像框架上顯示任務目標圖示。",
         ["esES"] = "Habilita o deshabilita los iconos de objetico de mision en el marco de objetivo.",
-        ["frFR"] = "Active l'affichage des icônes d'objectif de quête sur la fenêtre de la cible.",
+        ["frFR"] = "Active l'affichage des icônes d'objectif de quête sur le cadre de la cible.",
     },
     ["Reset Target Frame"] = {
         ["ptBR"] = "Redefinir quadro de alvo",
@@ -204,7 +204,7 @@ local nameplateOptionsLocales = {
         ["zhCN"] = "重设目标头像的位置和大小",
         ["zhTW"] = "重置成預設的目標頭像框架位置和縮放大小。",
         ["esES"] = "Restablece el tamaño y la posición del marco de objetivo a los valores predeterminados.",
-        ["frFR"] = "Réinitialise les positions et l'échelle des icônes sur la fenêtre de la cible à leurs valeurs par défaut.",
+        ["frFR"] = "Réinitialise les positions et l'échelle des icônes sur le cadre de la cible à leurs valeurs par défaut.",
     },
 }
 
