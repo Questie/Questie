@@ -218,7 +218,7 @@ local advancedOptionsLocales = {
         ["esES"] = false,
         ["frFR"] = false,
     },
-    ["Reset Questie Journey to the default values"] = {
+    ["Clear the Journey of the current character"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,

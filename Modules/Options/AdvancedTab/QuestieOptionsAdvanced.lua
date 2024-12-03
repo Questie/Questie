@@ -238,7 +238,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "execute",
                 order = 4.4,
                 name = function() return l10n('Reset Questie Journey'); end,
-                desc = function() return l10n('Reset Questie Journey to the default values'); end,
+                desc = function() return l10n('Clear the Journey of the current character'); end,
                 func = function(_,_)
                     Questie.db.char.jouney = nil
 
