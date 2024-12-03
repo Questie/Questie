@@ -1309,6 +1309,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [16001] = "Insignia IV:7 (Fredo)",
 [16002] = "Insignia IV:7 (Turyen)",
 [16003] = "Insignia IV:7 (Rutger)",
+[16114] = "Porra de supervisor",
 [16190] = "Restos de desgarradora Furia Sangrienta",
 [16192] = "Colmillo de Besseleth",
 [16205] = "Semilla de Gaia",
