@@ -495,7 +495,7 @@ local trackerUILocales = {
         ["zhCN"] = "任务（按远近反向）",
         ["zhTW"] = "任務 (依遠近 (反向)",
         ["esES"] = "Misiones (Por proximidad invertida)",
-        ["frFR"] = "Quêtes (Par proximité inversé)",
+        ["frFR"] = "Quêtes (Par proximité inversée)",
     },
 }
 
