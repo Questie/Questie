@@ -457,6 +457,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [4869] = "Garra de Fizzle",
 [4870] = "Trozos de retal",
 [4871] = "Collar abrasador",
+[4883] = "Órdenes del almirante Valiente",
 [4886] = "Glándula de veneno de Venocola",
 [4887] = "Ojo de makrura intacto",
 [4888] = "Mucosidad de reptador",
