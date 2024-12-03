@@ -3813,6 +3813,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26886,26887},
         },
+        [25167] = { -- Breaking the chain
+            [questKeys.preQuestGroup] = {},
+        },
         [25171] = { -- Riding On
             [questKeys.preQuestSingle] = {25169},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Razor Hill"), 0, {{"monster", 10676}}}},
