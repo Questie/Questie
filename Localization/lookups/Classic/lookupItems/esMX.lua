@@ -1315,6 +1315,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [16209] = "Pedido de Morris",
 [16210] = "Cajón de Gordok",
 [16282] = "Fardo de pellejos",
+[16283] = "Artículos de cuero de Ahanu",
 [16303] = "Pata de Ursangous",
 [16304] = "Cabeza de Shadumbra",
 [16305] = "Garfa de Garrafilada",
