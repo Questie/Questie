@@ -136,6 +136,9 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{429,431,432,433,434,568,579,703,947},nil,{1962}},
             [questKeys.objectivesText] = {"Bring the Faded Shadowhide Pendant to Theocritus the Mage. NOTE: This is a very rare drop!"},
         },
+        [184] = { -- Furlbrow's Deed
+            [questKeys.startedBy] = {{116,474,583,880,881,6846,6866,6927},nil,{1972}},
+        },
         [201] = {
             [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.65,10.59}}}},
         },
