@@ -15,7 +15,6 @@ function QuestieOptionsDefaults:Load()
             monsterScale = 1,
             objectScale = 1,
             globalScale = 0.6,
-            globalTownsfolkScale = 0.6,
             globalMiniMapScale = 0.7,
             fadeLevel = 20,
             fadeOverPlayer = true,
