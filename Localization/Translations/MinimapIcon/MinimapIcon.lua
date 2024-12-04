@@ -3,7 +3,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local minimapIconLocales = {
     ["Toggle Menu"] = {
-        ["ptBR"] = "Mostrar Menu",
+        ["ptBR"] = "Mostrar menu",
         ["ruRU"] = "Открыть меню",
         ["koKR"] = "메뉴 표시",
         ["esMX"] = "Mostrar menú",
@@ -27,7 +27,7 @@ local minimapIconLocales = {
         ["frFR"] = "Afficher/cacher Questie",
     },
     ["Toggle My Journey"] = {
-        ["ptBR"] = "Mostrar minha viagem",
+        ["ptBR"] = "Mostrar minha jornada",
         ["ruRU"] = "Открыть 'Путешествие'",
         ["deDE"] = "Meine Reise zeigen/verstecken",
         ["koKR"] = "나의 여정 창 열기",
@@ -51,7 +51,7 @@ local minimapIconLocales = {
         ["frFR"] = "Cacher le bouton de la minicarte",
     },
     ["Reload Questie"] = {
-        ["ptBR"] = "Carregar Questie",
+        ["ptBR"] = "Recarregar Questie",
         ["ruRU"] = "Перезагрузить аддон",
         ["deDE"] = "Questie neu laden",
         ["koKR"] = "Questie 리로드",
