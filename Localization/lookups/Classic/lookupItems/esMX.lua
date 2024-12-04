@@ -739,6 +739,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [6652] = "Faltriquera de componentes",
 [6655] = "Ascua resplandeciente",
 [6656] = "Cuarzo en bruto",
+[6658] = "Collar de muestra",
 [6684] = "Vara de mando de husmeador",
 [6753] = "Talismán de plumas",
 [6766] = "Piel de demonio despellejada (old2)",
