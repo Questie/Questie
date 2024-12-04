@@ -394,11 +394,11 @@ local trackerUILocales = {
         ["ruRU"] = "Задание провалено!",
         ["deDE"] = "Quest fehlgeschlagen!",
         ["koKR"] = "퀘스트 실패",
-        ["esMX"] = "¡Misión fallida!",
+        ["esMX"] = "¡Misión fracasada!",
         ["enUS"] = true,
         ["zhCN"] = "任务失败！",
         ["zhTW"] = "任務失敗！",
-        ["esES"] = "¡Misión fallida!",
+        ["esES"] = "¡Misión fracasada!",
         ["frFR"] = "Quête échouée !",
     },
     ["Can't open Quest Log while in combat. Open it manually."] = {
