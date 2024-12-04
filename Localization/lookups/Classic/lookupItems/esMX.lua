@@ -693,6 +693,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [6081] = "Hongos del Señor del Lodo",
 [6082] = "Sangre de cría verde",
 [6083] = "Lágrimas rotas",
+[6145] = "Colgante de Clarice",
 [6146] = "Madera a la deriva desecada",
 [6166] = "Mandíbula de coyote",
 [6168] = "Garra de sacudidor Denteserra",
