@@ -24,7 +24,7 @@ local minimapIconLocales = {
         ["zhCN"] = "启动Questie",
         ["zhTW"] = "顯示/隱藏任務位置提示",
         ["esES"] = "Mostrar Questie",
-        ["frFR"] = "Afficher/cacher Questie",
+        ["frFR"] = "Afficher Questie",
     },
     ["Toggle My Journey"] = {
         ["ptBR"] = "Mostrar minha jornada",
@@ -36,7 +36,7 @@ local minimapIconLocales = {
         ["zhCN"] = "打开我的日志",
         ["zhTW"] = "顯示/隱藏我的冒險日記",
         ["esES"] = "Mostrar mi viaje",
-        ["frFR"] = "Mon voyage",
+        ["frFR"] = "Afficher mon voyage",
     },
     ["Hide Minimap Button"] = {
         ["ptBR"] = "Ocultar botão do minimapa",
