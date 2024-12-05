@@ -2287,6 +2287,9 @@ function CataNpcFixes.Load()
         [44148] = { -- Stonescale Matriarch
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{50.92,85.28}}},
         },
+        [44269] = { -- Zen'Kiki
+            [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{53.98,53.69}}},
+        },
         [44281] = { -- Felsen the Enduring Speak Credit
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{58.45,25.68}}},
         },
@@ -2299,6 +2302,9 @@ function CataNpcFixes.Load()
         },
         [44367] = { -- Forest Ettin
             [npcKeys.waypoints] = {[zoneIDs.SILVERPINE_FOREST] = {{{37.15,23.18},{37.25,25.65},{37.34,27.46},{38.23,27.79},{39.09,27.26},{39.26,28.98},{40.27,28.82},{41.55,29.70},{42.76,29.45},{43.70,28.99},{45.18,28.80},{46.17,28.65},{46.53,26.97},{46.88,25.92},{48.35,25.70},{49.27,25.69},{49.67,24.02},{49.18,22.23},{48.48,20.34},{47.68,19.11},{46.90,18.36},{45.68,17.33},{44.43,17.10},{43.40,17.38},{42.39,17.41},{41.09,17.20},{39.96,17.15},{39.26,16.37},{38.36,15.73},{37.50,15.78},{37.32,15.83},{36.53,16.40},{35.96,17.34},{35.50,18.06},{35.85,19.17},{36.18,19.69},{36.49,20.71},{36.76,22.08},{37.02,23.56}}}},
+        },
+        [44447] = { -- Andorhal Deathguard
+            [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{46.29,69.43},{47.33,62.56},{47.93,67.13},{49.14,66.31},{41.92,65.51},{41.89,66.68},{43.51,64.96},{47.93,71.05}}},
         },
         [44453] = { -- Thassarian
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{41.06,70.44}}},
@@ -2332,6 +2338,15 @@ function CataNpcFixes.Load()
         },
         [45115] = { -- Twilight Sermon Completion Credit
             [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{61.45,30.01}}},
+        },
+        [45165] = { -- Thurman Grant
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTERN_PLAGUELANDS] = {
+                    {42.7,84.11,phases.THURMAN_AT_CHILLWIND},
+                    {53.85,64.68,phases.THURMAN_AT_WRITHING},
+                    {39.83,69.74,phases.THURMAN_AT_ANDORHAL},
+                },
+            },
         },
         [45172] = { -- Thordun Hammerblow
             [npcKeys.spawns] = {

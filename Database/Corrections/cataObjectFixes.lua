@@ -731,6 +731,11 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS]={{71.94,44.82}}},
             [objectKeys.zoneID] = zoneIDs.REDRIDGE_MOUNTAINS,
         },
+        [460022] = {
+            [objectKeys.name] = "Cultist Cage",
+            [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{64.71,46.24},{67.17,45.51},{68.03,47.98},{67.58,46.85},{64.98,47.89},{65.56,46.69},{65.65,49.15},{66.74,48.84},{67.2,48.55},{66.69,47.04}}},
+            [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
+        },
     }
 end
 

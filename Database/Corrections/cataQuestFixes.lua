@@ -19,6 +19,7 @@ QuestieCorrections.objectObjectiveFirst[25731] = true
 QuestieCorrections.objectObjectiveFirst[25813] = true
 QuestieCorrections.objectObjectiveFirst[26659] = true
 QuestieCorrections.objectObjectiveFirst[26809] = true
+QuestieCorrections.objectObjectiveFirst[27161] = true
 QuestieCorrections.killCreditObjectiveFirst[52] = true
 QuestieCorrections.killCreditObjectiveFirst[13798] = true
 QuestieCorrections.killCreditObjectiveFirst[25015] = true
@@ -6799,6 +6800,9 @@ function CataQuestFixes.Load()
         [26932] = { -- Buzz Off
             [questKeys.preQuestSingle] = {26927},
         },
+        [26935] = { -- Northridge Lumber Mill
+            [questKeys.nextQuestInChain] = 27000,
+        },
         [26940] = { -- Arcane Missiles
             [questKeys.startedBy] = {{43006}},
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{5143}}},
@@ -6826,6 +6830,23 @@ function CataQuestFixes.Load()
         },
         [26950] = { -- The Dark Side of the Light
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [26952] = { -- The Menders' Stead
+            [questKeys.nextQuestInChain] = 26999,
+        },
+        [26953] = { -- Zen'Kiki, the Druid
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{1817,1822,1824,44482},1817}}},
+        },
+        [26954] = { -- Zen'Kiki, the Druid
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Zen'Kiki to engage the Diseased Hawks"), 0, {{"monster", 44269}}}},
+        },
+        [26955] = { -- Zen'Kiki and the Cultists
+            [questKeys.preQuestGroup] = {26954,27057},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 460022}}}},
+            [questKeys.objectives] = {{{44902,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [26956] = { -- I Ain't Sayin' You a Gourd-Digger...
+            [questKeys.objectives] = {nil,{{205054},{205053},{205052}}},
         },
         [26958] = { -- Your First Lesson
             [questKeys.objectives] = {{{44703}},nil,nil,nil,nil,{{100}}},
@@ -6925,6 +6946,21 @@ function CataQuestFixes.Load()
         [26997] = { -- The Usual Suspects
             [questKeys.objectives] = {{{29152,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [26999] = { -- A New Era for the Plaguelands
+            [questKeys.preQuestSingle] = {},
+        },
+        [27000] = { -- Learning the Ropes
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 44836}}}},
+            [questKeys.objectives] = {{{44284,nil, Questie.ICON_TYPE_INTERACT}}},
+        },
+        [27001] = { -- This Means WAR (Wild Arachnid Roundup)
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 44836}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Lure the spiders to the Recruits"), 0, {{"monster", 44437}}},
+            },
+            [questKeys.objectives] = {{{44284,nil, Questie.ICON_TYPE_INTERACT}}},
+        },
         [27003] = { -- Easy Money
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{46517,nil, Questie.ICON_TYPE_MOUNT_UP}}},
@@ -6952,6 +6988,12 @@ function CataQuestFixes.Load()
         [27010] = { -- Quicksilver Submersion
             [questKeys.requiredSourceItems] = {60809},
             [questKeys.objectives] = {{{44938,nil, Questie.ICON_TYPE_EVENT}}},
+        },
+        [27011] = { -- Redpine Thievery
+            [questKeys.preQuestSingle] = {27013},
+        },
+        [27012] = { -- A Gnoll's Resolve
+            [questKeys.preQuestSingle] = {27013},
         },
         [27014] = { -- Hallowed Note -- Tauren Priest
             [questKeys.preQuestSingle] = {},
@@ -7030,6 +7072,9 @@ function CataQuestFixes.Load()
         },
         [27051] = { -- Through Persistence
             [questKeys.requiredSourceItems] = {60768},
+        },
+        [27053] = { -- Gahrron's Withering Cauldron
+            [questKeys.preQuestSingle] = {27002},
         },
         [27059] = { -- The Wrong Sequence
             [questKeys.preQuestSingle] = {27041},
@@ -7144,8 +7189,14 @@ function CataQuestFixes.Load()
             [questKeys.name] = "Exploding Through",
             [questKeys.objectives] = {nil,{{205241}}},
         },
+        [27151] = { -- Taelan Fordring's Legacy
+            [questKeys.preQuestSingle] = {27002},
+        },
         [27152] = { -- Unusual Behavior... Even For Gnolls
             [questKeys.triggerEnd] = {"Gnoll camp investigated", {[zoneIDs.WESTERN_PLAGUELANDS]={{57.5,35.6}}}},
+        },
+        [27153] = { -- The Good People of Hearthglen
+            [questKeys.objectives] = {{{45148,nil,Questie.ICON_TYPE_TALK},{45149,nil,Questie.ICON_TYPE_TALK},{45150,nil,Questie.ICON_TYPE_TALK},{45151,nil,Questie.ICON_TYPE_TALK}}},
         },
         [27158] = { -- The Battle for Andorhal
             [questKeys.nextQuestInChain] = 27159,
@@ -7153,11 +7204,40 @@ function CataQuestFixes.Load()
         [27159] = { -- Scourge First... Horde Later
             [questKeys.preQuestSingle] = {},
         },
+        [27161] = { -- The Endless Flow
+            [questKeys.objectives] = {{{44329}},{{204966}}},
+        },
+        [27162] = { -- Scholomancer
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {27160},
+        },
+        [27163] = { -- Brute Strength
+            [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {27160},
+        },
+        [27164] = { -- Araj the Summoner
+            [questKeys.exclusiveTo] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Araj"), 0, {{"monster", 1852}}}},
+        },
         [27165] = { -- Victory, For Now
-            [questKeys.nextQuestInChain] = 27166,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27162,27163,27164},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a ride to Chillwind Camp"), 0, {{"monster", 46006}}}},
         },
         [27166] = { -- Go Fletch!
             [questKeys.preQuestSingle] = {},
+        },
+        [27168] = { -- Those That Couldn't Let Go
+            [questKeys.objectives] = {{{45166,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.preQuestSingle] = {27167}, -- it could also have 27166 as prequest in addition to 27167
+        },
+        [27169] = { -- Uther's Blessing
+            [questKeys.preQuestSingle] = {27165}, -- it could have other prequests in addition to 27165
+            [questKeys.objectives] = {nil,{{1323,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [27175] = { -- The Menders' Stead
+            [questKeys.nextQuestInChain] = 26999,
+            [questKeys.preQuestSingle] = {27168},
         },
         [27176] = { -- A Strange Disc
             [questKeys.requiredSourceItems] = {60865},
@@ -7197,12 +7277,24 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27176,27179},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{45180,45238},45238,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [27198] = { -- Supporting the Troops
+            [questKeys.preQuestSingle] = {27197},
+        },
+        [27199] = { -- Ashes to Ashes
+            [questKeys.preQuestSingle] = {27197},
+        },
         [27200] = { -- Siren's Song
             [questKeys.objectives] = {{{45183}}},
             [questKeys.preQuestSingle] = {28597},
         },
+        [27202] = { -- Brother Against Brother
+            [questKeys.preQuestSingle] = {},
+        },
         [27203] = { -- The Maelstrom
             [questKeys.preQuestSingle] = {},
+        },
+        [27205] = { -- The Depravity of the Forsaken
+            [questKeys.preQuestGroup] = {27198,27199},
         },
         [27222] = { -- Take Down Tethyr!
             [questKeys.objectives] = {{{23899,"Defend Theramore Docks from Tethyr"}}},
@@ -7216,6 +7308,10 @@ function CataQuestFixes.Load()
         },
         [27231] = { -- Reinforcements from Fenris
             [questKeys.preQuestSingle] = {27098},
+        },
+        [27233] = { -- The Menders' Stead
+            [questKeys.nextQuestInChain] = 26999,
+            [questKeys.preQuestSingle] = {27174},
         },
         [27239] = {
             [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55}}}},
@@ -8059,11 +8155,11 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
         [27683] = { -- Into the Woods
-            [questKeys.exclusiveTo] = {27684},
+            [questKeys.exclusiveTo] = {27684,28577,28578},
             [questKeys.nextQuestInChain] = 27367,
         },
         [27684] = { -- Visitors
-            [questKeys.exclusiveTo] = {27683},
+            [questKeys.exclusiveTo] = {27683,28577,28578},
             [questKeys.nextQuestInChain] = 27367,
         },
         [27685] = { -- Good Deed Left Undone
@@ -9647,9 +9743,13 @@ function CataQuestFixes.Load()
         },
         [28577] = { -- Warchief's Command: Eastern Plaguelands!
             [questKeys.requiredMaxLevel] = 43,
+            [questKeys.exclusiveTo] = {27683,27684,28578},
+            [questKeys.nextQuestInChain] = 27367,
         },
         [28578] = { -- Hero's Call: Eastern Plaguelands!
             [questKeys.requiredMaxLevel] = 43,
+            [questKeys.exclusiveTo] = {27683,27684,28577},
+            [questKeys.nextQuestInChain] = 27367,
         },
         [28579] = { -- Hero's Call: Badlands!
             [questKeys.nextQuestInChain] = 27762,

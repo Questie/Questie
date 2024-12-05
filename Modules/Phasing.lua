@@ -141,6 +141,9 @@ local phases = {
     AGGRA_THRONE = 1069,
     AGGRA_PRECIPICE = 1070,
     THRALL_AGGRA_PROPOSAL = 1071,
+    THURMAN_AT_CHILLWIND = 1072,
+    THURMAN_AT_WRITHING = 1073,
+    THURMAN_AT_ANDORHAL = 1074,
 }
 Phasing.phases = phases
 
@@ -515,6 +518,18 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.THRALL_AGGRA_PROPOSAL then
         return (not complete[29331])
+    end
+
+    if phase == phases.THURMAN_AT_CHILLWIND then
+        return (not complete[27170])
+    end
+
+    if phase == phases.THURMAN_AT_WRITHING then
+        return (complete[27170] and (not complete[27175] and not complete[27233] and not complete[26999])) or false
+    end
+
+    if phase == phases.THURMAN_AT_ANDORHAL then
+        return complete[27197] or false
     end
 
     return false
