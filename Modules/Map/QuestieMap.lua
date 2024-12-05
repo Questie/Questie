@@ -432,6 +432,7 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
     }
     data.ManualTooltipData.disableShiftToRemove = disableShiftToRemove
 
+    local manualIcons = {}
     -- draw the notes
     for zone, spawns in pairs(object.spawns) do
         if (zone ~= nil and spawns ~= nil) then
@@ -446,6 +447,17 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
                 else
                     QuestieMap:DrawManualIcon(data, zone, coords[1], coords[2], typ)
                 end
+            end
+        end
+    end
+    -- draw waypoints
+    if object.waypoints then
+        for zone, waypoints in pairs(object.waypoints) do
+            if not ZoneDB:GetDungeonLocation(zone) and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
+                if not manualIcons[zone] then
+                    manualIcons[zone] = QuestieMap:DrawManualIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
+                end
+                QuestieMap:DrawWaypoints(manualIcons[zone], waypoints, zone)
             end
         end
     end
