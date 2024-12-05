@@ -22,6 +22,7 @@ local _Qframe = {}
 ---@return IconFrame
 function QuestieFramePool.Qframe:New(frameId, OnEnter)
     ---@class IconFrame : Button
+    ---@field isManualIcon boolean
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
     newFrame.frameId = frameId;
 
@@ -314,6 +315,7 @@ function _Qframe:Unload()
     self:SetScript("OnHide", nil)
     self:SetFrameStrata("FULLSCREEN");
     self:SetFrameLevel(0);
+    self.isManualIcon = false
 
     -- Reset questIdFrames so they won't be toggled again
     local frameName = self:GetName()

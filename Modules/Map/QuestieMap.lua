@@ -500,6 +500,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
 
     -- create the map icon
     local icon = QuestieFramePool:GetFrame()
+    icon.isManualIcon = true
     icon.data = data
     icon.x = x
     icon.y = y
@@ -518,6 +519,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
 
     -- create the minimap icon
     local iconMinimap = QuestieFramePool:GetFrame()
+    iconMinimap.isManualIcon = true
     local colorsMinimap = { 1, 1, 1 }
     if data.IconColor ~= nil and Questie.db.profile.questMinimapObjectiveColors then
         colorsMinimap = data.IconColor
