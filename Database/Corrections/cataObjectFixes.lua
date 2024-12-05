@@ -10,6 +10,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 function CataObjectFixes.Load()
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs
+    local waypointPresets = QuestieDB.waypointPresets
 
     return {
         [2712] = { -- Calcified Elven Gem
@@ -291,6 +292,14 @@ function CataObjectFixes.Load()
         },
         [204091] = { -- Induction Samophlange
             [objectKeys.spawns] = {[zoneIDs.AZSHARA]={{55.28,49.89}}},
+        },
+        [204279] = { -- Spool of Rope
+            [objectKeys.spawns] = {[zoneIDs.DEEPHOLM]={{61.79,46.28}}},
+            [objectKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
+        },
+        [204280] = { -- Bottle of Whiskey
+            [objectKeys.spawns] = {[zoneIDs.DEEPHOLM]={{61.79,46.28}}},
+            [objectKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
         },
         [204281] = { -- Worm Mound
             [objectKeys.spawns] = {[1519]={{49.24,18.03},{52.53,14.86},{64.01,16.59},{63.39,5.73},{64.93,8.47},{56.45,22.58},{55.73,16.51},{53.73,19.56},{60.51,6.85},{58.05,10.49},{62.12,17.65},{59.07,20.64}}},
