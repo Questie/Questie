@@ -6,12 +6,9 @@ QuestieMap.utils = QuestieMap.utils or {}
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
-
 local ZOOM_MODIFIER = 1;
 
 -- All the speed we can get is worth it.
-local tinsert = table.insert
 local pairs = pairs
 
 function QuestieMap.utils:SetDrawOrder(frame)
