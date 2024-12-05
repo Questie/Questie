@@ -258,6 +258,11 @@ function _Qframe:BaseOnShow()
 end
 
 function _Qframe:BaseOnHide()
+    local data = self.data
+
+    if data and data.Type and data.Type == "complete" then
+        self:SetFrameLevel(self:GetFrameLevel() - 1)
+    end
     self.glow:Hide()
 end
 
