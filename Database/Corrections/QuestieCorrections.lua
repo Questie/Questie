@@ -400,7 +400,7 @@ function QuestieCorrections:PreCompile() -- this happens only if we are about to
         count = count + 1
     end
 
-    local waypointKey = QuestieDB.objectKeys["waypoints"]
+    waypointKey = QuestieDB.objectKeys["waypoints"]
     local objData = QuestieDB.objectData
     for id, data in pairs(objData) do
         local way = data[waypointKey]
