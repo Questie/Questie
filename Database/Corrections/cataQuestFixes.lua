@@ -4692,6 +4692,9 @@ function CataQuestFixes.Load()
         [25715] = { -- A Closer Look
             [questKeys.triggerEnd] = {"Scout the ships on the Shattershore",{[zoneIDs.BLASTED_LANDS] = {{69,32.7}}}},
         },
+        [25719] = { -- Demoniac Vessel
+            [questKeys.requiredSourceItems] = {57177,57178,57179,57180,57181,57182,57183},
+        },
         [25721] = { -- Fight the Flood
             [questKeys.nextQuestInChain] = 25727,
             [questKeys.preQuestSingle] = {},
@@ -5482,7 +5485,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {26143},
         },
         [26186] = { -- Demoniac Vessel
-            [questKeys.requiredSourceItems] = {57177,57178,57179},
+            [questKeys.requiredSourceItems] = {57177,57178,57179,57180,57181,57182,57183},
         },
         [26189] = { -- The Angerfang Menace
             [questKeys.nextQuestInChain] = 26195,
