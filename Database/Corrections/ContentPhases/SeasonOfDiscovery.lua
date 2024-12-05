@@ -620,6 +620,9 @@ local questsToBlacklistByPhase = {
         [8759] = true, -- The Path of the Invoker
         [8760] = true, -- The Path of the Invoker
         [8761] = true, -- The Grand Invoker
+        [8764] = true, -- The Changing of Paths - Protector No More
+        [8765] = true, -- The Changing of Paths - Invoker No More
+        [8766] = true, -- The Changing of Paths - Conqueror No More
     },
 }
 
