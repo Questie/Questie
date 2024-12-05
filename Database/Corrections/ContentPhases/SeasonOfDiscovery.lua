@@ -603,6 +603,23 @@ local questsToBlacklistByPhase = {
         [81727] = true, -- Recover Incursion Field Report: Ashenvale
         [81728] = true, -- Recover Incursion Field Report: Hinterlands
         [81729] = true, -- Recover Incursion Field Report: Feralas
+
+        -- AQ Brood of Nozdormu Rings (replaced with vendor)
+        [8747] = true, -- The Path of the Protector
+        [8748] = true, -- The Path of the Protector
+        [8749] = true, -- The Path of the Protector
+        [8750] = true, -- The Path of the Protector
+        [8751] = true, -- The Protector of Kalimdor
+        [8752] = true, -- The Path of the Conqueror
+        [8753] = true, -- The Path of the Conqueror
+        [8754] = true, -- The Path of the Conqueror
+        [8755] = true, -- The Path of the Conqueror
+        [8756] = true, -- The Qiraji Conqueror
+        [8757] = true, -- The Path of the Invoker
+        [8758] = true, -- The Path of the Invoker
+        [8759] = true, -- The Path of the Invoker
+        [8760] = true, -- The Path of the Invoker
+        [8761] = true, -- The Grand Invoker
     },
 }
 
