@@ -1196,6 +1196,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [35094] = { -- Crusader Silverdawn
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN] = {{69.51,23.09}}},
+        },
         [35120] = { -- FBoK Bank Teller
             [npcKeys.spawns] = {[zoneIDs.KEZAN] = {{31.11,71.91},{29.66,71.91}}},
         },
