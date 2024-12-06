@@ -8170,11 +8170,10 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
         [27683] = { -- Into the Woods
-            [questKeys.exclusiveTo] = {27684,28577,28578},
             [questKeys.nextQuestInChain] = 27367,
         },
         [27684] = { -- Visitors
-            [questKeys.exclusiveTo] = {27683,28577,28578},
+            [questKeys.exclusiveTo] = {28577,28578},
             [questKeys.nextQuestInChain] = 27367,
         },
         [27685] = { -- Good Deed Left Undone
@@ -9758,12 +9757,12 @@ function CataQuestFixes.Load()
         },
         [28577] = { -- Warchief's Command: Eastern Plaguelands!
             [questKeys.requiredMaxLevel] = 43,
-            [questKeys.exclusiveTo] = {27683,27684,28578},
+            [questKeys.exclusiveTo] = {27684,28578},
             [questKeys.nextQuestInChain] = 27367,
         },
         [28578] = { -- Hero's Call: Eastern Plaguelands!
             [questKeys.requiredMaxLevel] = 43,
-            [questKeys.exclusiveTo] = {27683,27684,28577},
+            [questKeys.exclusiveTo] = {27684,28577},
             [questKeys.nextQuestInChain] = 27367,
         },
         [28579] = { -- Hero's Call: Badlands!
