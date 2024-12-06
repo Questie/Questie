@@ -526,7 +526,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.THURMAN_AT_WRITHING then
-        return (complete[27170] and (not complete[27175] and not complete[27233] and not complete[26999])) or false
+        return (complete[27170] and (not complete[27197] or questLog[27197])) or false
     end
 
     if phase == phases.THASSARIAN_WPL_TOWER then

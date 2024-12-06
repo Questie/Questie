@@ -7197,9 +7197,14 @@ function CataQuestFixes.Load()
         },
         [27152] = { -- Unusual Behavior... Even For Gnolls
             [questKeys.triggerEnd] = {"Gnoll camp investigated", {[zoneIDs.WESTERN_PLAGUELANDS]={{57.5,35.6}}}},
+            [questKeys.startedBy] = {{45147}},
         },
         [27153] = { -- The Good People of Hearthglen
             [questKeys.objectives] = {{{45148,nil,Questie.ICON_TYPE_TALK},{45149,nil,Questie.ICON_TYPE_TALK},{45150,nil,Questie.ICON_TYPE_TALK},{45151,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.startedBy] = {{45147}},
+        },
+        [27154] = { -- Bagging Bisp
+            [questKeys.startedBy] = {{45147}},
         },
         [27158] = { -- The Battle for Andorhal
             [questKeys.nextQuestInChain] = 27159,
@@ -7232,7 +7237,7 @@ function CataQuestFixes.Load()
         },
         [27168] = { -- Those That Couldn't Let Go
             [questKeys.objectives] = {{{45166,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.preQuestGroup] = {27166,27167}, -- it could also have 27166 as prequest in addition to 27167
+            [questKeys.preQuestGroup] = {27166,27167},
         },
         [27169] = { -- Uther's Blessing
             [questKeys.preQuestGroup] = {27165,27166,27167}, -- need to check if 27165 VICTORY FOR NOW is actually needed
