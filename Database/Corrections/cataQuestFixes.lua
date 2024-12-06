@@ -7212,11 +7212,11 @@ function CataQuestFixes.Load()
         },
         [27162] = { -- Scholomancer
             [questKeys.exclusiveTo] = {},
-            [questKeys.preQuestSingle] = {27160},
+            [questKeys.preQuestGroup] = {27159,27160},
         },
         [27163] = { -- Brute Strength
             [questKeys.exclusiveTo] = {},
-            [questKeys.preQuestSingle] = {27160},
+            [questKeys.preQuestGroup] = {27159,27160},
         },
         [27164] = { -- Araj the Summoner
             [questKeys.exclusiveTo] = {},
@@ -7232,10 +7232,10 @@ function CataQuestFixes.Load()
         },
         [27168] = { -- Those That Couldn't Let Go
             [questKeys.objectives] = {{{45166,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.preQuestSingle] = {27167}, -- it could also have 27166 as prequest in addition to 27167
+            [questKeys.preQuestGroup] = {27166,27167}, -- it could also have 27166 as prequest in addition to 27167
         },
         [27169] = { -- Uther's Blessing
-            [questKeys.preQuestSingle] = {27165}, -- it could have other prequests in addition to 27165
+            [questKeys.preQuestGroup] = {27165,27166,27167}, -- need to check if 27165 VICTORY FOR NOW is actually needed
             [questKeys.objectives] = {nil,{{1323,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27175] = { -- The Menders' Stead
@@ -7280,6 +7280,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27176,27179},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{45180,45238},45238,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [27197] = { -- The Battle Resumes!
+            [questKeys.preQuestSingle] = {27174},
+        },
         [27198] = { -- Supporting the Troops
             [questKeys.preQuestSingle] = {27197},
         },
@@ -7291,10 +7294,14 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28597},
         },
         [27202] = { -- Brother Against Brother
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {27205},
         },
         [27203] = { -- The Maelstrom
             [questKeys.preQuestSingle] = {},
+        },
+        [27204] = { -- Aradne
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27201,27202},
         },
         [27205] = { -- The Depravity of the Forsaken
             [questKeys.preQuestGroup] = {27198,27199},
@@ -7316,7 +7323,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 26999,
             [questKeys.preQuestSingle] = {27174},
         },
-        [27239] = {
+        [27239] = { -- Survey Alcaz Island
             [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak to Cassa Crimsonwing to fly on a gryphon"), 0, {{"monster", 23704}}}},
         },

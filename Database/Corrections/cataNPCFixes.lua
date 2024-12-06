@@ -2307,7 +2307,20 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{46.29,69.43},{47.33,62.56},{47.93,67.13},{49.14,66.31},{41.92,65.51},{41.89,66.68},{43.51,64.96},{47.93,71.05}}},
         },
         [44453] = { -- Thassarian
-            [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{41.06,70.44}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTERN_PLAGUELANDS] = {
+                    {41.06,70.44,phases.THASSARIAN_WPL_TOWER},
+                    {39.91,69.47,phases.THASSARIAN_WPL_FP},
+                },
+            },
+        },
+        [44467] = { -- Lang Loosegrip
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTERN_PLAGUELANDS] = {
+                    {41.26,70.07,phases.THASSARIAN_WPL_TOWER},
+                    {40.03,69.24,phases.THASSARIAN_WPL_FP},
+                },
+            },
         },
         [44633] = { -- Stormcaller Jalara
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{51.39,52.21}}},
@@ -2344,7 +2357,7 @@ function CataNpcFixes.Load()
                 [zoneIDs.WESTERN_PLAGUELANDS] = {
                     {42.7,84.11,phases.THURMAN_AT_CHILLWIND},
                     {53.85,64.68,phases.THURMAN_AT_WRITHING},
-                    {39.83,69.74,phases.THURMAN_AT_ANDORHAL},
+                    {39.83,69.74,phases.THASSARIAN_WPL_FP}, -- we can use this
                 },
             },
         },

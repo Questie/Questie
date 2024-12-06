@@ -143,7 +143,8 @@ local phases = {
     THRALL_AGGRA_PROPOSAL = 1071,
     THURMAN_AT_CHILLWIND = 1072,
     THURMAN_AT_WRITHING = 1073,
-    THURMAN_AT_ANDORHAL = 1074,
+    THASSARIAN_WPL_TOWER = 1074,
+    THASSARIAN_WPL_FP = 1075,
 }
 Phasing.phases = phases
 
@@ -528,8 +529,12 @@ function Phasing.IsSpawnVisible(phase)
         return (complete[27170] and (not complete[27175] and not complete[27233] and not complete[26999])) or false
     end
 
-    if phase == phases.THURMAN_AT_ANDORHAL then
-        return complete[27197] or false
+    if phase == phases.THASSARIAN_WPL_TOWER then
+        return (not complete[27174])
+    end
+
+    if phase == phases.THASSARIAN_WPL_FP then
+        return complete[27174] or false
     end
 
     return false
