@@ -373,11 +373,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.HAR_KOA_AT_ALTAR then
-        return (not complete[12684])
+        return (not complete[12685])
     end
 
     if phase == phases.HAR_KOA_AT_ZIM_TORGA then
-        return complete[12684] or false
+        return complete[12685] or false
     end
 
     if phase == phases.EARTHEN_GUIDE_BFD then
