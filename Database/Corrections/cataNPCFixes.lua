@@ -367,6 +367,9 @@ function CataNpcFixes.Load()
         [10923] = { -- Tenell Leafrunner
             [npcKeys.waypoints] = {},
         },
+        [11034] = { -- Lord Maxwell Tyrosus
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{75.87,51.96}}},
+        },
         [11804] = { -- Twilight Keeper Havunth
             [npcKeys.waypoints] = {},
         },
@@ -582,19 +585,19 @@ function CataNpcFixes.Load()
         [16112] = { -- Crusade Commander Korfax
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={
                 {72.53,74.78,phases.SCARLET_ENCLAVE_ENTRACE},
-                {75.4,76.2,phases.SCARLET_ENCLAVE},
+                {75.35,76.18,phases.SCARLET_ENCLAVE},
             }},
         },
         [16115] = { -- Crusade Commander Eligor Dawnbringer
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={
                 {72.54,74.91,phases.SCARLET_ENCLAVE_ENTRACE},
-                {76.6,73.2,phases.SCARLET_ENCLAVE},
+                {76.71,73.1,phases.SCARLET_ENCLAVE},
             }},
         },
         [16116] = { -- Archmage Angela Dosantos
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={
-                {72.64,74.84,phases.SCARLET_ENCLAVE_ENTRACE},
-                {76,75.4,phases.SCARLET_ENCLAVE},
+                {72.65,74.84,phases.SCARLET_ENCLAVE_ENTRACE},
+                {76.08,75.35,phases.SCARLET_ENCLAVE},
             }},
         },
         [16128] = { -- Rhonin
@@ -2383,11 +2386,101 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [45400] = { -- Fiona's Caravan
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {
+                    {8.79,66.57,phases.CARAVAN_THONDRORIL},
+                    {35,69.29,phases.CARAVAN_CROWNGUARD},
+                    {53.02,53.2,phases.CARAVAN_LIGHTS_SHIELD},
+                    {61.61,42.61,phases.CARAVAN_EASTWALL},
+                    {50.59,20.09,phases.CARAVAN_NORTHPASS},
+                    {73.62,51.87,phases.CARAVAN_LIGHTS_HOPE},
+                },
+            },
+        },
+        [45417] = { -- Fiona
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {
+                    {9.02,66.52,phases.CARAVAN_THONDRORIL},
+                    {34.86,69.15,phases.CARAVAN_CROWNGUARD},
+                    {52.92,53.06,phases.CARAVAN_LIGHTS_SHIELD},
+                    {61.48,42.69,phases.CARAVAN_EASTWALL},
+                    {50.54,20.16,phases.CARAVAN_NORTHPASS},
+                    {73.71,52.1,phases.CARAVAN_LIGHTS_HOPE},
+                },
+            },
+        },
+        [45429] = { -- Tarenar Sunstrike
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {
+                    {18.37,74.84,phases.CARAVAN_THONDRORIL},
+                    {35.26,68.86,phases.CARAVAN_CROWNGUARD},
+                    {74.19,53.34,phases.CARAVAN_LIGHTS_SHIELD},
+                    {74.19,53.34,phases.CARAVAN_EASTWALL},
+                    {73.8,51.99,phases.CARAVAN_LIGHTS_HOPE},
+                },
+            },
+        },
+        [45431] = { -- Gidwin Goldbraids
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {
+                    {4.14,36.01,phases.CARAVAN_THONDRORIL},
+                    {34.97,68.55,phases.CARAVAN_CROWNGUARD},
+                    {74.36,53.32,phases.CARAVAN_LIGHTS_SHIELD},
+                    {74.36,53.32,phases.CARAVAN_EASTWALL},
+                    {73.75,52.18,phases.CARAVAN_LIGHTS_HOPE},
+                },
+            },
+        },
+        [45451] = { -- Argus Highbeacon
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {
+                    {35.77,68.57,phases.CARAVAN_CROWNGUARD},
+                    {53.97,53.63,phases.CARAVAN_LIGHTS_SHIELD},
+                    {62.23,42.63,phases.CARAVAN_EASTWALL},
+                    {50.49,20.22,phases.CARAVAN_NORTHPASS},
+                    {73.96,51.65,phases.CARAVAN_LIGHTS_HOPE},
+                    {35.77,68.57,phases.CARAVAN_LIGHTS_HOPE},
+                },
+            },
+        },
+        [45574] = { -- Vex'tul
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {
+                    {52.77,51.35,phases.VEXTUL_SPAWN},
+                    {53.97,53.63,phases.VEXTUL_FIONA},
+                    {60.61,43.33,phases.CARAVAN_EASTWALL},
+                    {52.62,20.48,phases.CARAVAN_NORTHPASS},
+                },
+            },
+        },
         [45708] = { -- Lirastrasza
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{27.6,21.01}}},
         },
+        [45729] = { -- Tarenar Sunstrike
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {
+                    {75.77,52.41,phases.CARAVAN_LIGHTS_SHIELD},
+                    {61.57,43.22,phases.CARAVAN_EASTWALL},
+                    {50.44,20.13,phases.TARENAR_NORTHPASS},
+                    {27.63,21.14,phases.TARENAR_PLAGUEWOOD},
+                },
+            },
+        },
+        [45730] = { -- Gidwin Goldbraids
+            [npcKeys.spawns] = {
+                [zoneIDs.EASTERN_PLAGUELANDS] = {
+                    {75.75,52.31,phases.CARAVAN_LIGHTS_SHIELD},
+                    {28.45,25.9,phases.TARENAR_PLAGUEWOOD},
+                },
+            },
+        },
         [45734] = { -- Relios the Relic Keeper
             [npcKeys.waypoints] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{{31.51,43.40},{31.76,43.70},{32.09,44.06},{32.45,44.58},{32.74,44.36},{33.05,44.08},{33.35,43.75},{33.58,43.36},{33.78,42.91},{33.82,42.50},{33.70,42.14},{33.53,41.82},{33.29,41.37}}}},
+        },
+        [45736] = { -- Deacon Andaal
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{61,44.19}}},
+            [npcKeys.waypoints] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{{62.14,43.58},{62.05,43.71},{61.97,43.84},{61.88,43.97},{61.79,44.10},{61.70,44.23},{61.61,44.37},{61.50,44.43},{61.37,44.46},{61.25,44.47},{61.14,44.38},{61.04,44.27},{61.02,44.09},{61.00,43.91},{61.00,43.72},{61.02,43.54},{61.03,43.35},{61.08,43.18},{61.15,43.03},{61.25,42.92},{61.35,42.83},{61.36,42.82}}}},
         },
         [45757] = { -- Floor Kill Credit
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.48,29.87}}},

@@ -109,6 +109,9 @@ function CataItemFixes.Load()
         [12842] = { -- Crudely-Written Log
             [itemKeys.startQuest] = 28471,
         },
+        [13202] = { -- Extended Annals of Darrowshire
+            [itemKeys.npcDrops] = {11063},
+        },
         [16790] = { -- Damp Note
             [itemKeys.startQuest] = 0,
         },
@@ -717,6 +720,9 @@ function CataItemFixes.Load()
         },
         [60879] = { -- Commander's Holy Symbol
             [itemKeys.npcDrops] = {4278},
+        },
+        [61285] = { -- Active Liquid Plague Agent
+            [itemKeys.npcDrops] = {8519,8520},
         },
         [61292] = { -- Plague Puffer
             [itemKeys.npcDrops] = {45650},

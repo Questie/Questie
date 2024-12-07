@@ -1931,6 +1931,7 @@ function QuestieQuestFixes:Load()
         [5211] = {
             [questKeys.preQuestSingle] = {}, -- #983
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay ghouls to free Darrowshire spirits"), 0, {{"monster", 8530}, {"monster", 8531}, {"monster", 8532}}}},
+            [questKeys.objectives] = {{{11064,nil,Questie.ICON_TYPE_TALK}}},
         },
         [5214] = {
             [questKeys.name] = "The Great Ezra Grimm",
@@ -2115,6 +2116,7 @@ function QuestieQuestFixes:Load()
         },
         [5721] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{38.8,91.2}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Relic Bundle in the Town Square."),}},
+            [questKeys.objectives] = {{{10936,nil,Questie.ICON_TYPE_TALK}}},
         },
         -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting non repeatable quests
         -- Alliance
