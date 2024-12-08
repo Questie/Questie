@@ -60,6 +60,7 @@ local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFla
 ---@type table<number, {[1]: number, [2]: string}>
 local questTagCorrections = {
     [373] = {81, "Dungeon"},
+    [4021] = {1, "Elite"},    
     [4146] = {81, "Dungeon"},
     [5342] = {0, ""},
     [5344] = {0, ""},
