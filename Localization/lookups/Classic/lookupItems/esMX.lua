@@ -167,6 +167,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [3017] = "Órdenes de Sevren",
 [3018] = "Pellejo de Lupos",
 [3035] = "Calabaza envenenada",
+[3080] = "Vela de señalización",
 [3081] = "Gema abisal",
 [3082] = "Calavera de Dargol",
 [3083] = "Piñón de estabilización",
