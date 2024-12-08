@@ -597,6 +597,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [5538] = "Alianza de Vorrel",
 [5544] = "Colección de Zarpasangrante",
 [5570] = "Huevo de Musgondo",
+[5572] = "Faltriquera verde pequeña",
 [5582] = "Savia del Espolón",
 [5583] = "Escama de dragón hada",
 [5584] = "Mostacho Crepuscular",
