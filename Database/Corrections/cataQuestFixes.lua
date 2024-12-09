@@ -2351,7 +2351,7 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Slay Disciple of Elune"),0,{{"monster",35384}}}},
         },
         [14198] = { -- Rider on the Storm
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Use the Raging Vortex Gem"),0,{{"monster",100030}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Use the Raging Vortex Gem"),0,{{"object",195450}}}},
         },
         [14201] = { -- A Thousand Stories in the Sand
             [questKeys.preQuestSingle] = {24453},
@@ -7569,6 +7569,7 @@ function CataQuestFixes.Load()
         [27373] = { -- Onward, to Light's Hope Chapel
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27369,27372},
+            [questKeys.objectives] = {{{45400,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
         [27374] = { -- The Maw of Madness
             [questKeys.preQuestSingle] = {28655},
@@ -7741,6 +7742,7 @@ function CataQuestFixes.Load()
         },
         [27448] = { -- The Trek Continues
             [questKeys.preQuestGroup] = {27381,27382},
+            [questKeys.objectives] = {{{45400,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
         [27449] = { -- Honor and Strength
             [questKeys.preQuestSingle] = {27432},
@@ -7762,7 +7764,7 @@ function CataQuestFixes.Load()
         },
         [27457] = { -- An Opportune Alliance
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27456,},
+            [questKeys.preQuestGroup] = {27456,27465},
         },
         [27461] = { -- To Take the Abbey
             [questKeys.preQuestSingle] = {27460},
@@ -7797,6 +7799,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27449,27465},
             [questKeys.exclusiveTo] = {27527}, -- NPC is gone if you reach this quest, even if you didn't take/complete this one
         },
+        [27482] = { -- Into the Flames
+            [questKeys.objectives] = {nil,{{204807,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.exclusiveTo] = {27527}, -- NPC is gone if you reach this quest, even if you didn't take/complete this one
+            [questKeys.finishedBy] = {{100030}},
+        },
         [27483] = { -- Practical Vengeance
             [questKeys.preQuestSingle] = {27476},
         },
@@ -7812,6 +7819,9 @@ function CataQuestFixes.Load()
         },
         [27488] = { -- Impatience
             [questKeys.preQuestSingle] = {27487},
+        },
+        [27489] = { -- Nobody to Blame but Myself
+            [questKeys.objectives] = {{{45400,nil,Questie.ICON_TYPE_MOUNT_UP}}},
         },
         [27490] = { -- SI:7 Drop
             [questKeys.objectives] = {{{45904,nil,Questie.ICON_TYPE_TALK},{45877,nil,Questie.ICON_TYPE_EVENT}}},
@@ -7907,7 +7917,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{17878},{17878},{17878}}},
         },
         [27526] = { -- Gidwin's Fate Revealed
-            [questKeys.objectives] = {{{45940,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{45730,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27528] = { -- Scourged Mass
             [questKeys.exclusiveTo] = {},
@@ -8005,7 +8015,7 @@ function CataQuestFixes.Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [27562] = { -- Beezil's Cog
-            [questKeys.preQuestSingle] = {27373}, -- 27381 instead?
+            [questKeys.preQuestSingle] = {27563},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [27564] = { -- In Defense of the Redoubt
@@ -8100,7 +8110,7 @@ function CataQuestFixes.Load()
         },
         [27618] = { -- Befouled No More
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {27614,27615,27616,27619},
+            [questKeys.preQuestGroup] = {27614,27615,27619},
             [questKeys.exclusiveTo] = {},
         },
         [27619] = { -- The Commander

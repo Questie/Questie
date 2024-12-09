@@ -155,6 +155,8 @@ local phases = {
     VEXTUL_FIONA = 1083,
     TARENAR_NORTHPASS = 1084,
     TARENAR_PLAGUEWOOD = 1085,
+    TARENAR_SAVED_GIDWIN = 1086,
+    TARENAR_GIDWIN_LHC = 1087,
 }
 Phasing.phases = phases
 
@@ -584,7 +586,15 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.TARENAR_PLAGUEWOOD then
-        return complete[27522] or false
+        return complete[27522] and ((not complete[27526]) and ((not questLog[27526]) or (questLog[27526] and questLog[27526].isComplete == 0))) or false
+    end
+
+    if phase == phases.TARENAR_SAVED_GIDWIN then
+        return (not complete[27527]) and (complete[27526] or (questLog[27526] and questLog[27526].isComplete == 1)) or false
+    end
+
+    if phase == phases.TARENAR_GIDWIN_LHC then
+        return complete[27527] or false
     end
 
     return false

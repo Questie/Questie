@@ -2290,6 +2290,9 @@ function CataNpcFixes.Load()
         [44148] = { -- Stonescale Matriarch
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{50.92,85.28}}},
         },
+        [44247] = { -- Wulf Hansreim
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{79.15,71.23}}},
+        },
         [44269] = { -- Zen'Kiki
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{53.98,53.69}}},
         },
@@ -2435,12 +2438,11 @@ function CataNpcFixes.Load()
         [45451] = { -- Argus Highbeacon
             [npcKeys.spawns] = {
                 [zoneIDs.EASTERN_PLAGUELANDS] = {
-                    {35.77,68.57,phases.CARAVAN_CROWNGUARD},
+                    {35.77,68.57}, -- it's permanent spawn at first tower
                     {53.97,53.63,phases.CARAVAN_LIGHTS_SHIELD},
                     {62.23,42.63,phases.CARAVAN_EASTWALL},
                     {50.49,20.22,phases.CARAVAN_NORTHPASS},
                     {73.96,51.65,phases.CARAVAN_LIGHTS_HOPE},
-                    {35.77,68.57,phases.CARAVAN_LIGHTS_HOPE},
                 },
             },
         },
@@ -2450,7 +2452,7 @@ function CataNpcFixes.Load()
                     {52.77,51.35,phases.VEXTUL_SPAWN},
                     {53.97,53.63,phases.VEXTUL_FIONA},
                     {60.61,43.33,phases.CARAVAN_EASTWALL},
-                    {52.62,20.48,phases.CARAVAN_NORTHPASS},
+                    {52.62,20.48,phases.TARENAR_PLAGUEWOOD},
                 },
             },
         },
@@ -2464,6 +2466,9 @@ function CataNpcFixes.Load()
                     {61.57,43.22,phases.CARAVAN_EASTWALL},
                     {50.44,20.13,phases.TARENAR_NORTHPASS},
                     {27.63,21.14,phases.TARENAR_PLAGUEWOOD},
+                    {28.54,25.94,phases.TARENAR_SAVED_GIDWIN},
+                    {73.8,51.99,phases.TARENAR_SAVED_GIDWIN},
+                    {73.8,51.99,phases.TARENAR_GIDWIN_LHC},
                 },
             },
         },
@@ -2472,6 +2477,9 @@ function CataNpcFixes.Load()
                 [zoneIDs.EASTERN_PLAGUELANDS] = {
                     {75.75,52.31,phases.CARAVAN_LIGHTS_SHIELD},
                     {28.45,25.9,phases.TARENAR_PLAGUEWOOD},
+                    {28.45,25.9,phases.TARENAR_SAVED_GIDWIN},
+                    {73.75,52.17,phases.TARENAR_SAVED_GIDWIN},
+                    {73.75,52.17,phases.TARENAR_GIDWIN_LHC},
                 },
             },
         },
@@ -2481,6 +2489,9 @@ function CataNpcFixes.Load()
         [45736] = { -- Deacon Andaal
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{61,44.19}}},
             [npcKeys.waypoints] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{{62.14,43.58},{62.05,43.71},{61.97,43.84},{61.88,43.97},{61.79,44.10},{61.70,44.23},{61.61,44.37},{61.50,44.43},{61.37,44.46},{61.25,44.47},{61.14,44.38},{61.04,44.27},{61.02,44.09},{61.00,43.91},{61.00,43.72},{61.02,43.54},{61.03,43.35},{61.08,43.18},{61.15,43.03},{61.25,42.92},{61.35,42.83},{61.36,42.82}}}},
+        },
+        [45744] = { -- Ix'lar the Underlord
+            [npcKeys.waypoints] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{{61.41,35.60},{61.23,35.60},{61.04,35.60},{60.73,35.59},{60.23,35.57},{60.05,35.55},{59.86,35.48},{59.79,35.45},{59.61,35.37},{59.43,35.28},{59.26,35.18},{59.09,35.06},{58.96,34.87},{58.88,34.62},{58.97,34.37},{59.08,34.15},{59.19,33.93},{59.22,33.88},{59.32,33.65},{59.37,33.39},{59.36,33.11},{59.36,32.83},{59.44,32.58},{59.56,32.37},{59.69,32.16},{59.81,31.95},{59.95,31.77},{60.11,31.64},{60.28,31.52},{60.46,31.42},{60.62,31.35},{60.71,31.35},{60.88,31.48},{61.02,31.66},{61.15,31.86},{61.31,31.96},{61.48,31.87},{61.61,31.77},{61.75,31.64},{61.85,31.52},{62.01,31.38},{62.20,31.38},{62.35,31.52},{62.42,31.71},{62.46,31.96},{62.32,32.15},{62.16,32.30},{62.06,32.52},{62.05,32.80},{62.06,32.91},{62.10,33.07},{62.15,33.19},{62.28,33.38},{62.35,33.64},{62.36,33.92},{62.35,34.18},{62.34,34.20},{62.33,34.48},{62.31,34.76},{62.27,35.03},{62.16,35.26},{62.02,35.44},{61.86,35.56},{61.67,35.59},{61.53,35.59},{61.41,35.60}}}},
         },
         [45757] = { -- Floor Kill Credit
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.48,29.87}}},
@@ -3243,10 +3254,11 @@ function CataNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.MOLTEN_FRONT,
             [npcKeys.questEnds] = {29330},
         },
-        [100030] = { -- Rider on the Storm
-            [npcKeys.name] = "Nijel's Point Ruin",
-            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{67.77,17.28}}},
-            [npcKeys.zoneID] = zoneIDs.DESOLACE,
+        [100030] = { -- Into the Flames
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{67.34,9.1}}},
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.questEnds] = {27482},
         },
         [100031] = { -- Champion of the Tournament
             [npcKeys.name] = "!",
