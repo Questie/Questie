@@ -741,6 +741,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [6635] = "Sapta de tierra",
 [6640] = "Pezuña de acechador vil",
 [6652] = "Faltriquera de componentes",
+[6653] = "Antorcha de la Llama Latente",
 [6655] = "Ascua resplandeciente",
 [6656] = "Cuarzo en bruto",
 [6658] = "Collar de muestra",
