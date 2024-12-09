@@ -478,6 +478,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [4926] = "Barril vacío de Chen",
 [4986] = "Piedra de energía con imperfecciones",
 [4992] = "Carta de reclutamiento",
+[4995] = "Carta de reclutamiento firmada",
 [5006] = "Diario de Khazgorm",
 [5012] = "Esporas de hongos",
 [5017] = "Nitroglicerina",
