@@ -8438,6 +8438,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Arygos in the Temple of Ahn'Qiraj will create Elementium Infused Armaments for you should you bring him Imperial Qiraji Armaments and 3 Elementium Ore."},
             [questKeys.objectives] = {nil,nil,{{235046},{18562}}},
         },
+        [86673] = {
+            [questKeys.name] = "The Fall of Ossirian",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Deliver the Head of Ossirian the Unscarred to Commander Mar'alith at Cenarion Hold in Silithus."},
+            [questKeys.objectives] = nil,
+        },
         [86674] = {
             [questKeys.name] = "The Perfect Poison",
             [questKeys.startedBy] = {{16091}},

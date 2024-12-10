@@ -3936,6 +3936,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{15378}},
             [questKeys.zoneOrSort] = zoneIDs.AHN_QIRAJ,
         },
+        [86673] = { -- The Fall of Ossirian
+            [questKeys.startedBy] = {{15339},nil,{21220}},
+            [questKeys.finishedBy] = {{15181}},
+            [questKeys.zoneOrSort] = zoneIDs.RUINS_OF_AHN_QIRAJ,
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,200},{factionIDs.BROOD_OF_NOZDORMU,200}},
+        },
         [86675] = { -- Volunteer's Battlegear
             [questKeys.startedBy] = {{15176}},
             [questKeys.finishedBy] = {{15176}},
