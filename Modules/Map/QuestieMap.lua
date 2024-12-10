@@ -688,9 +688,13 @@ QuestieMap.zoneWaypointHoverColorOverrides = {
 
 function QuestieMap:DrawWaypoints(icon, waypoints, zone, color)
     if waypoints and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then -- check that waypoint data actually exists
+        local shouldBeHidden = icon:ShouldBeHidden()
         local lineFrames = QuestieFramePool:CreateWaypoints(icon, waypoints, nil, color or QuestieMap.zoneWaypointColorOverrides[zone], zone)
         for _, lineFrame in ipairs(lineFrames) do
             QuestieMap:DrawLineIcon(lineFrame, zone, waypoints[1][1][1], waypoints[1][1][2])
+            if shouldBeHidden then
+                lineFrame:FakeHide()
+            end
         end
     end
 end
