@@ -3910,6 +3910,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,200}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Arcanite Buoy"),0,{{"object", 180669}}}},
         },
+        [86449] = { -- Treasure of the Timeless One
+            [questKeys.preQuestSingle] = {8742},
+            [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
+            [questKeys.requiredMinRep] = {factionIDs.BROOD_OF_NOZDORMU,0},
+            [questKeys.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,200}},
+        },
         [86671] = { -- Imperial Qiraji Regalia
             [questKeys.startedBy] = {{15378}},
             [questKeys.finishedBy] = {{15378}},

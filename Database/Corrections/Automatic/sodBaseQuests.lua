@@ -8394,6 +8394,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Use the Arcanite Buoy at the Swirling Maelstrom at the Bay of Storms in Azshara."},
             [questKeys.objectives] = {nil,nil,{{21136},{21137}}},
         },
+        [86449] = {
+            [questKeys.name] = "Treasure of the Timeless One",
+            [questKeys.startedBy] = {{15693}},
+            [questKeys.finishedBy] = {{15693}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Greetings, champion. I am Jonathan, keeper of the sacred gong and eternal watcher of the Bronze Flight.I have been empowered by the Timeless One himself to grant you an item of your choosing from his timeless treasure trove. May it aid you in your battles against C'Thun."},
+            [questKeys.objectives] = nil,
+        },
         [86671] = {
             [questKeys.name] = "Imperial Qiraji Regalia",
             [questKeys.startedBy] = nil,
