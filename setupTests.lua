@@ -1,6 +1,7 @@
 dofile("Modules/Libs/QuestieLoader.lua")
 
 dofile("Database/itemDB.lua")
+dofile("Database/Zones/zoneTables.lua")
 dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
 
 local EMTPY_FUNC = function() end
@@ -213,19 +214,6 @@ _G["Questie"] = {
         registeredEvents[eventName] = callback
     end,
     SendMessage = EMTPY_FUNC,
-}
-
----@type ZoneDB
-local ZoneDB = require("Database.Zones.zoneDB")
-ZoneDB.zoneIDs = {
-    ICECROWN = 210,
-    DEEPHOLM = 5042,
-    STORMWIND_CITY = 1519,
-    IRONFORGE = 1537,
-    TELDRASSIL = 141,
-    ORGRIMMAR = 1637,
-    THUNDER_BLUFF = 1638,
-    UNDERCITY = 1497,
 }
 
 ---@class TestUtils
