@@ -49,6 +49,9 @@ function SeasonOfDiscovery:LoadQuests()
         [8742] = { -- The Might of Kalimdor
             [questKeys.preQuestGroup] = {8741,86442,86445},
         },
+        [8801] = { -- C'Thun's Legacy
+            [questKeys.nextQuestInChain] = 86670,
+        },
         [8922] = { -- A Supernatural Device
             [questKeys.preQuestSingle] = {84147,84148,84149,84150,84151,84152,84153,84154},
         },
@@ -3915,6 +3918,13 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
             [questKeys.requiredMinRep] = {factionIDs.BROOD_OF_NOZDORMU,0},
             [questKeys.reputationReward] = {{factionIDs.BROOD_OF_NOZDORMU,200}},
+        },
+        [86670] = { -- The Savior of Kalimdor
+            [questKeys.startedBy] = {{15379}},
+            [questKeys.finishedBy] = {{15192}},
+            [questKeys.preQuestSingle] = {8801},
+            [questKeys.zoneOrSort] = zoneIDs.AHN_QIRAJ,
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,200},{factionIDs.BROOD_OF_NOZDORMU,1000}},
         },
         [86671] = { -- Imperial Qiraji Regalia
             [questKeys.startedBy] = {{15378}},

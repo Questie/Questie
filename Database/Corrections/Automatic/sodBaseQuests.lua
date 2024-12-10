@@ -8405,6 +8405,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Greetings, champion. I am Jonathan, keeper of the sacred gong and eternal watcher of the Bronze Flight.I have been empowered by the Timeless One himself to grant you an item of your choosing from his timeless treasure trove. May it aid you in your battles against C'Thun."},
             [questKeys.objectives] = nil,
         },
+        [86670] = {
+            [questKeys.name] = "The Savior of Kalimdor",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Take the Eye of C'Thun to Anachronos at the Caverns of Time."},
+            [questKeys.objectives] = nil,
+        },
         [86671] = {
             [questKeys.name] = "Imperial Qiraji Regalia",
             [questKeys.startedBy] = nil,

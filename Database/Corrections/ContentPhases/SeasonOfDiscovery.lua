@@ -359,6 +359,7 @@ local questsToBlacklistByPhase = {
         [8730] = true, -- Nefarius's Corruption - Replaced by 86442
         [8736] = true, -- The Nightmare Manifests - Replaced by 86443
         [8745] = true, -- Treasure of the Timeless One - Replaced by 86449
+        [8802] = true, -- The Savior of Kalimdor - Replaced by 86670
 
         -- Original Blackfathom Deeps quests (instance reworked to raid, new quest IDs)
         [909] = true,
