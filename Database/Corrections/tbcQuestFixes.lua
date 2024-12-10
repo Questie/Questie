@@ -2809,7 +2809,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [11026] = {
             [questKeys.preQuestSingle] = {11009},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Banishing Crystal and slay demons near the summoned portal"), 0, {{"monster", 20557},{"monster", 22195},{"monster", 22291},{"monster", 19973},{"monster", 22204}}}}
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Banishing Crystal and slay demons near the summoned portal"), 0, {{"monster", 20557},{"monster", 22195},{"monster", 22291},{"monster", 19973},{"monster", 22204}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{20557,22195,22291,19973,22204},20557}}},
         },
         [11030] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Purchase 1 Unstable Flask of the Beast for the cost of 10 Apexis Shards"), 0, {{"object", 185920}}}},
@@ -2885,6 +2886,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [11050] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [11051] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Banishing Crystal and slay demons near the summoned portal"), 0, {{"monster", 20557},{"monster", 22195},{"monster", 22291},{"monster", 19973},{"monster", 22204}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{20557,22195,22291,19973,22204},20557}}},
         },
         [11052] = {
             [questKeys.exclusiveTo] = {10708},
