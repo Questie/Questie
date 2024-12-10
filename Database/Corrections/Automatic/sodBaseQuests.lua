@@ -8504,6 +8504,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Bring 15 Cenarion Combat Badges, 20 Cenarion Logistics Badges, 20 Cenarion Tactical Badges and 1 Mark of Cenarius to Vargus at Cenarion Hold in Silithus.  You must also attain Exalted reputation with Cenarion Circle to be able to complete this quest."},
             [questKeys.objectives] = {nil,nil,{{20802},{20800},{20801},{21508}},{609,42000}},
         },
+        [86679] = {
+            [questKeys.name] = "Shrouded in Nightmare",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Find someone capable of deciphering the meaning behind the Nightmare Engulfed Object.Perhaps a druid of great power could assist you. A quest."},
+            [questKeys.objectives] = nil,
+        },
         [86724] = {
             [questKeys.name] = "Dust to Dust",
             [questKeys.startedBy] = {{17070}},
