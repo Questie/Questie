@@ -488,6 +488,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [5023] = "Cabeza de Verog",
 [5025] = "Cabeza de Hezrul",
 [5026] = "Alquitrán",
+[5027] = "Esporas devueltas",
 [5030] = "Brazales centauro",
 [5038] = "Lágrima de las lunas",
 [5040] = "Cuchillo de cazador de las Sombras",
