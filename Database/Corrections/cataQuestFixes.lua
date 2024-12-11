@@ -8469,12 +8469,20 @@ function CataQuestFixes.Load()
         [27762] = { -- Fuselight, Ho!
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Get in"), 0, {{"monster", 48708}}}},
+            [questKeys.nextQuestInChain] = 27763,
+        },
+        [27763] = { -- To Fuselight Proper
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 27774,
         },
         [27768] = { -- Step Two: The Bloodletter
             [questKeys.startedBy] = {{46071}},
         },
         [27773] = { -- Step Three: Prophet
             [questKeys.startedBy] = {{46071}},
+        },
+        [27774] = { -- Easily Swayed
+            [questKeys.preQuestSingle] = {},
         },
         [27777] = { -- Core Access Codes
             [questKeys.exclusiveTo] = {},
