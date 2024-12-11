@@ -6172,6 +6172,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Obtain a Necrotic Runestone from Maleki the Pallid in Stratholme, then find the Rotting Dwarf Corpse near the Undercroft in southwestern Eastern Plaguelands."},
             [questKeys.objectives] = {nil,nil,{{227690},{227687}}},
         },
+        [84331] = {
+            [questKeys.name] = "The Miracle",
+            [questKeys.startedBy] = {{228928}},
+            [questKeys.finishedBy] = {{228928}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Use your Diplomat Ring on the shards."},
+            [questKeys.objectives] = nil,
+        },
         [84332] = {
             [questKeys.name] = "A Thane's Gratitude",
             [questKeys.startedBy] = {nil,{462236}},

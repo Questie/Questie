@@ -2868,6 +2868,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {nil,nil,{{227690}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [84331] = { -- The Miracle
+            [questKeys.objectives] = {nil,{{462201}}},
+            [questKeys.preQuestSingle] = {84329},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [84332] = { -- A Thane's Gratitude
             [questKeys.preQuestSingle] = {84414},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,

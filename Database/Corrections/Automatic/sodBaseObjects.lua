@@ -2,15 +2,12 @@
 local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 --- Load the base quests for Season of Discovery
 --- These are generated, do NOT EDIT the data entries here.
 --- If you want to edit an object, do so in sodObjectFixes.lua
 function SeasonOfDiscovery:LoadBaseObjects()
     local objectKeys = QuestieDB.objectKeys
-    local zoneIDs = ZoneDB.zoneIDs
 
     return {
         [175755] = {
@@ -2553,6 +2550,13 @@ function SeasonOfDiscovery:LoadBaseObjects()
             [objectKeys.spawns] = {
                 [139] = {{61.3,69.2}},
             },
+            [objectKeys.questStarts] = nil,
+            [objectKeys.questEnds] = nil,
+        },
+        [462201] = {
+            [objectKeys.name] = "Shards of Light",
+            [objectKeys.zoneID] = 0,
+            [objectKeys.spawns] = nil,
             [objectKeys.questStarts] = nil,
             [objectKeys.questEnds] = nil,
         },
