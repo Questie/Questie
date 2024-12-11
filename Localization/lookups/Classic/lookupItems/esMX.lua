@@ -494,6 +494,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [5040] = "Cuchillo de cazador de las Sombras",
 [5050] = "Llave de ignición",
 [5051] = "Rata de madriguera",
+[5054] = "Churumbele",
 [5055] = "Cuerno de raptor intacto",
 [5056] = "Muestra de raíz",
 [5058] = "Huevo de silítido",
