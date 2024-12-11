@@ -534,6 +534,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [5134] = "Garra peluda pequeña",
 [5138] = "Cabeza de cosechador",
 [5143] = "Sangre de truenagarto",
+[5156] = "Pluma de Solescama",
 [5164] = "Alas de halcón trueno",
 [5165] = "Pluma de Solescama",
 [5166] = "Glándula venenosa de Tejemadera",
