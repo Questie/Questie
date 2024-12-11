@@ -187,6 +187,10 @@ function QuestieQuestFixes:Load()
         [310] = {
             [questKeys.childQuests] = {308,403},
         },
+        [337] = { -- An Old History Book
+            [questKeys.startedBy] = {{3,48,202,203,205,206,210,212,215,218,511,531,533,570,604,785,787,889,891,892,898,909,910,920,948,1110,1251,1270,1487},nil,{2794}},
+            [questKeys.objectivesText] = {"Return the book: The History of Stormwind, to the Stormwind Library. NOTE: This is a very rare drop!"},
+        },
         [353] = {
             [questKeys.preQuestSingle] = {}, -- #2364
         },
