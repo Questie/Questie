@@ -20,8 +20,18 @@ _G.tContains = function(tab, val)
     end
     return false
 end
+_G.strsplit = function(delimiter, str)
+    local results = {}
+    for match in (str .. delimiter):gmatch("(.-)" .. delimiter) do
+        table.insert(results, match)
+    end
+    return table.unpack(results)
+end
+_G.date = os.date
+_G.unpack = table.unpack
 _G.hooksecurefunc = EMTPY_FUNC
 _G.GetTime = function() return 0 end
+_G.GetCurrentRegion = function() return 3 end
 
 _G.Enum = {ItemQuality = {Poor = 0, Standard = 0}}
 

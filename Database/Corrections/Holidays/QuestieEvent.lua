@@ -62,6 +62,8 @@ _QuestieEvent.eventNamesForQuests = {}
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type ContentPhases
+local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@type QuestieNPCFixes
 local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
 ---@type l10n
@@ -139,7 +141,7 @@ function QuestieEvent:Load()
     end
 
     -- TODO: Also handle WotLK which has a different starting schedule
-    if Questie.IsClassic then
+    if Questie.IsClassic and ((not Questie.IsAnniversary) or (ContentPhases.activePhases.Anniversary >= 3)) then
         _LoadDarkmoonFaire()
     end
 
@@ -286,7 +288,7 @@ _WithinDates = function(startDay, startMonth, endDay, endMonth)
     if (not startDay) and (not startMonth) and (not endDay) and (not endMonth) then
         return true
     end
-    local date = (C_DateAndTime.GetTodaysDate or C_DateAndTime.GetCurrentCalendarTime)()
+    local date = (C_DateAndTime.GetTodaysDate or C_DateAndTime.GetCurrentCalendarTime)() -- TODO: Move to QuestieCompat
     local day = date.day or date.monthDay
     local month = date.month
     if (startMonth <= endMonth) -- Event start and end during same year
@@ -361,3 +363,5 @@ QuestieEvent.lunarFestival = {
     ["27"] = {startDate = "7/2", endDate = "21/2"},
     ["28"] = {startDate = "27/1", endDate = "10/2"}
 }
+
+return QuestieEvent
