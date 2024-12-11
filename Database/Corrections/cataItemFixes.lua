@@ -886,6 +886,9 @@ function CataItemFixes.Load()
         [69233] = { -- Cone of Cold
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [69238] = { -- Timeless Eye
+            [itemKeys.objectDrops] = {460024},
+        },
         [69765] = { -- Lucifern
             [itemKeys.npcDrops] = {},
         },

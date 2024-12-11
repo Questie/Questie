@@ -740,6 +740,16 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{64.71,46.24},{67.17,45.51},{68.03,47.98},{67.58,46.85},{64.98,47.89},{65.56,46.69},{65.65,49.15},{66.74,48.84},{67.2,48.55},{66.69,47.04}}},
             [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
         },
+        [460024] = {
+            [objectKeys.name] = "Timeless Eye",
+            [objectKeys.spawns] = {[zoneIDs.TANARIS]={{57.89,56.05}}},
+            [objectKeys.zoneID] = zoneIDs.TANARIS,
+        },
+        [460025] = {
+            [objectKeys.name] = "Timeless Eye",
+            [objectKeys.spawns] = {[5786]={{59.2,20.4}},[zoneIDs.THE_NEXUS] = {{-1,-1}}},
+            [objectKeys.zoneID] = 5786,
+        },
     }
 end
 

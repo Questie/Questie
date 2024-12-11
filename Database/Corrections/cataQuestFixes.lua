@@ -11053,6 +11053,16 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {29205},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{52122,52871,52872},52872,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [29193] = { -- On a Wing and a Prayer
+            [questKeys.requiredSourceItems] = {69238},
+            [questKeys.objectives] = {{{52835,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [29194] = { -- On a Wing and a Prayer
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the event"),0,{{"monster",52439}}}},
+            [questKeys.objectives] = {nil,{{460025,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.zoneOrSort] = 4024,
+            [questKeys.finishedBy] = {{53567}},
+        },
         [29197] = { -- Caught Unawares
             [questKeys.objectives] = {{{52906,nil,Questie.ICON_TYPE_EVENT},{52907,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{52903,52904},52903,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_SLAY,l10n("Defeat Raging Invader"),0,{{"monster",52557}}}},
@@ -11170,6 +11180,9 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 29219,
             [questKeys.preQuestSingle] = {29232},
             [questKeys.nextQuestInChain] = 29235,
+        },
+        [29234] = { -- Delegation
+            [questKeys.requiredSourceItems] = {70994,70995,70996,70997,70998,70999,71000,71001,71008,71015,71016,71017},
         },
         [29235] = { -- Defend Grom'gol
             [questKeys.parentQuest] = 29219,
