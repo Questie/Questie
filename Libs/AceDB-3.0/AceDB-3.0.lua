@@ -40,8 +40,8 @@
 -- end
 -- @class file
 -- @name AceDB-3.0.lua
--- @release $Id: AceDB-3.0.lua 1328 2024-03-20 22:36:27Z nevcairiel $
-local ACEDB_MAJOR, ACEDB_MINOR = "AceDB-3.0", 29
+-- @release $Id: AceDB-3.0.lua 1353 2024-08-27 13:37:35Z nevcairiel $
+local ACEDB_MAJOR, ACEDB_MINOR = "AceDB-3.0", 30
 local AceDB = LibStub:NewLibrary(ACEDB_MAJOR, ACEDB_MINOR)
 
 if not AceDB then return end -- No upgrade needed
@@ -525,6 +525,17 @@ function DBObjectLib:DeleteProfile(name, silent)
 		end
 	end
 
+	-- remove from unloaded namespaces
+	if self.sv.namespaces then
+		for nsname, data in pairs(self.sv.namespaces) do
+			if self.children and self.children[nsname] then
+				-- already a mapped namespace
+			elseif data.profiles then
+				data.profiles[name] = nil
+			end
+		end
+	end
+
 	-- switch all characters that use this profile back to the default
 	if self.sv.profileKeys then
 		for key, profile in pairs(self.sv.profileKeys) do
@@ -570,6 +581,20 @@ function DBObjectLib:CopyProfile(name, silent)
 		end
 	end
 
+	-- copy unloaded namespaces
+	if self.sv.namespaces then
+		for nsname, data in pairs(self.sv.namespaces) do
+			if self.children and self.children[nsname] then
+				-- already a mapped namespace
+			elseif data.profiles then
+				-- reset the current profile
+				data.profiles[self.keys.profile] = {}
+				-- copy data
+				copyTable(data.profiles[name], data.profiles[self.keys.profile])
+			end
+		end
+	end
+
 	-- Callback: OnProfileCopied, database, sourceProfileKey
 	self.callbacks:Fire("OnProfileCopied", self, name)
 end
@@ -593,6 +618,18 @@ function DBObjectLib:ResetProfile(noChildren, noCallbacks)
 	if self.children and not noChildren then
 		for _, db in pairs(self.children) do
 			DBObjectLib.ResetProfile(db, nil, noCallbacks)
+		end
+	end
+
+	-- reset unloaded namespaces
+	if self.sv.namespaces and not noChildren then
+		for nsname, data in pairs(self.sv.namespaces) do
+			if self.children and self.children[nsname] then
+				-- already a mapped namespace
+			elseif data.profiles then
+				-- reset the current profile
+				data.profiles[self.keys.profile] = nil
+			end
 		end
 	end
 
