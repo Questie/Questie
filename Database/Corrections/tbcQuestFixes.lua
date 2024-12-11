@@ -2920,10 +2920,12 @@ function QuestieTBCQuestFixes:Load()
         [11065] = {
             [questKeys.requiredLevel] = 70,
             [questKeys.preQuestSingle] = {11010, 11102},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use Wrangling Rope on weakened Aether Rays"), 0, {{"monster", 22181}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Wrangling Rope on weakened Aether Rays"), 0, {{"monster", 22181}}}},
+            [questKeys.objectives] = {{{22181,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11066] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use Wrangling Rope on weakened Aether Rays"), 0, {{"monster", 22181}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Wrangling Rope on weakened Aether Rays"), 0, {{"monster", 22181}}}},
+            [questKeys.objectives] = {{{22181,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11067] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
