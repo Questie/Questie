@@ -19,21 +19,21 @@ describe("TrackerLinePool", function()
         it("should set new objectives text", function()
             QuestieLib.GetRGBForObjective = function() return "|cFFEEEEEE" end
             local firstLine = {
-                label = {SetText = spy.new()},
+                label = {SetText = spy.new(function() end)},
                 Objective = {
                     Collected = 0,
                     Needed = 1,
                     Description = "Test Objective",
-                    Update = spy.new()
+                    Update = spy.new(function() end)
                 }
             }
             local secondLine = {
-                label = {SetText = spy.new()},
+                label = {SetText = spy.new(function() end)},
                 Objective = {
                     Collected = 5,
                     Needed = 10,
                     Description = "Another Test Objective",
-                    Update = spy.new()
+                    Update = spy.new(function() end)
                 }
             }
 
@@ -50,12 +50,12 @@ describe("TrackerLinePool", function()
 
         it("should do nothing when questId was not added", function()
             local line = {
-                label = {SetText = spy.new()},
+                label = {SetText = spy.new(function() end)},
                 Objective = {
                     Collected = 0,
                     Needed = 1,
                     Description = "Test Objective",
-                    Update = spy.new()
+                    Update = spy.new(function() end)
                 }
             }
 

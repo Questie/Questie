@@ -26,8 +26,8 @@ describe("TooltipHandler", function()
             end)
 
             _G.GameTooltip = {
-                AddLine = spy.new(),
-                Show = spy.new()
+                AddLine = spy.new(function() end),
+                Show = spy.new(function() end)
             }
 
             _QuestieTooltips.AddObjectDataToTooltip(name)
@@ -53,8 +53,8 @@ describe("TooltipHandler", function()
             end)
 
             _G.GameTooltip = {
-                AddLine = spy.new(),
-                Show = spy.new()
+                AddLine = spy.new(function() end),
+                Show = spy.new(function() end)
             }
 
             _QuestieTooltips.AddObjectDataToTooltip(name)
@@ -72,11 +72,11 @@ describe("TooltipHandler", function()
             local objectId = 1
             l10n.objectNameLookup[name] = {objectId}
 
-            QuestieTooltips.GetTooltip = spy.new()
+            QuestieTooltips.GetTooltip = spy.new(function() end)
 
             _G.GameTooltip = {
-                AddDoubleLine = spy.new(),
-                Show = spy.new()
+                AddDoubleLine = spy.new(function() end),
+                Show = spy.new(function() end)
             }
 
             _G.Questie.db.profile.enableTooltipsObjectID = true
@@ -90,11 +90,11 @@ describe("TooltipHandler", function()
             local name = "test"
             l10n.objectNameLookup[name] = {1, 2}
 
-            QuestieTooltips.GetTooltip = spy.new()
+            QuestieTooltips.GetTooltip = spy.new(function() end)
 
             _G.GameTooltip = {
-                AddDoubleLine = spy.new(),
-                Show = spy.new()
+                AddDoubleLine = spy.new(function() end),
+                Show = spy.new(function() end)
             }
 
             _G.Questie.db.profile.enableTooltipsObjectID = true
@@ -111,9 +111,9 @@ describe("TooltipHandler", function()
             QuestieTooltips.GetTooltip = spy.new(function() return {""} end)
 
             _G.GameTooltip = {
-                AddLine = spy.new(),
-                AddDoubleLine = spy.new(),
-                Show = spy.new()
+                AddLine = spy.new(function() end),
+                AddDoubleLine = spy.new(function() end),
+                Show = spy.new(function() end)
             }
 
             _G.Questie.db.profile.enableTooltipsObjectID = true
@@ -133,9 +133,9 @@ describe("TooltipHandler", function()
             QuestieTooltips.GetTooltip = spy.new(function() return {""} end)
 
             _G.GameTooltip = {
-                AddLine = spy.new(),
-                AddDoubleLine = spy.new(),
-                Show = spy.new()
+                AddLine = spy.new(function() end),
+                AddDoubleLine = spy.new(function() end),
+                Show = spy.new(function() end)
             }
 
             _G.Questie.db.profile.enableTooltipsObjectID = true

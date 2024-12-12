@@ -63,7 +63,7 @@ describe("TrackerQuestTimers", function()
             _G.GetQuestLogSelection = function()
                 return 456
             end
-            _G.SelectQuestLogEntry = spy.new()
+            _G.SelectQuestLogEntry = spy.new(function() end)
             _G.GetQuestLogTimeLeft = function()
                 return 81
             end
