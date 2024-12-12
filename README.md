@@ -44,14 +44,15 @@ Trust us it's (Good)!
    - `luarocks config lua_version 5.1`
 4. Install `busted`
    - `luarocks install busted`
-5. Install `luacheck`
+5. Install `bit32`
+    - `luarocks install bit32`
+6. Install `luacheck`
     - `luarocks install luacheck`
 
 ### Unit Tests
 
-1. Install [busted](https://github.com/lunarmodules/busted) with `luarocks install busted`
-2. Run `busted -p ".test.lua" ."` in the root directory of the project
-3. When adding new tests, make sure to name them `<module>.test.lua` and place them next to the module
+1. Run `busted -p ".test.lua" ."` in the root directory of the project
+2. When adding new tests, make sure to name them `<module>.test.lua` and place them next to the module
 
 
 ## Donation
