@@ -34,6 +34,17 @@ Trust us it's (Good)!
 - Translators can search for missing translations by: `["<yourLanguage>"] = false` (e.g. `["deDE"] = false`) and replace the `false` with a string of the new translation, e.g. `["<yourLanguage>"] = "YourTranslation"`. Current translations can be found in the [Translation folder](https://github.com/Questie/Questie/tree/master/Localization/Translations)
 - Additional information you might find interesting can be found [here](https://github.com/Questie/Questie/wiki/Contributing)
 
+### Installing lua
+
+1. Install [Lua](https://www.lua.org/download.html) (5.1, since the WoW client uses Lua 5.1)
+   - For macOS that is `brew install lua@5.1`
+2. Install [luarocks](https://luarocks.org/)
+   - For macOS that is `brew install luarocks`
+3. Configure `luarocks` to use the correct Lua version (by default luarocks uses the latest installed Lua version)
+   - `luarocks config lua_version 5.1`
+4. Install `busted`
+   - `luarocks install busted`
+
 ### Unit Tests
 
 1. Install [busted](https://github.com/lunarmodules/busted) with `luarocks install busted`
