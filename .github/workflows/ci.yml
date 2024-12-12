@@ -24,13 +24,8 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
-
       - name: Install Lua
-        uses: leafo/gh-actions-lua@v10
-        with:
-          luaVersion: "5.1"
+        uses: ./.github/workflows/install_lua.yml
 
       - name: Install and run Luacheck
         uses: nebularg/actions-luacheck@v1
@@ -81,13 +76,8 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
-
       - name: Install Lua
-        uses: leafo/gh-actions-lua@v10
-        with:
-          luaVersion: "5.1"
+        uses: ./.github/workflows/install_lua.yml
 
       - name: Install Luarocks
         uses: leafo/gh-actions-luarocks@v4
@@ -110,13 +100,8 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
-
       - name: Install Lua
-        uses: leafo/gh-actions-lua@v10
-        with:
-          luaVersion: "5.1"
+        uses: ./.github/workflows/install_lua.yml
 
       - name: Install Luarocks
         uses: leafo/gh-actions-luarocks@v4
@@ -168,13 +153,8 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
-
       - name: Install Lua
-        uses: leafo/gh-actions-lua@v10
-        with:
-          luaVersion: "5.1"
+        uses: ./.github/workflows/install_lua.yml
 
       - name: Install Luarocks
         uses: leafo/gh-actions-luarocks@v4
@@ -197,13 +177,8 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
-
       - name: Install Lua
-        uses: leafo/gh-actions-lua@v10
-        with:
-          luaVersion: "5.1"
+        uses: ./.github/workflows/install_lua.yml
 
       - name: Install Luarocks
         uses: leafo/gh-actions-luarocks@v4
