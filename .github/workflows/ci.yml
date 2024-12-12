@@ -46,8 +46,16 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
-      - name: Install Lua and LuaRocks
-        uses: ./.github/workflows/install_lua_and_luarocks.yml
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Lua
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "5.1"
+
+      - name: Install Luarocks
+        uses: leafo/gh-actions-luarocks@v4
 
       - name: Run Unit Tests
         run: |
@@ -68,8 +76,11 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
-      - name: Install Lua and LuaRocks
-        uses: ./.github/workflows/install_lua_and_luarocks.yml
+      - name: Install Lua
+        uses: ./.github/workflows/install_lua.yml
+
+      - name: Install Luarocks
+        uses: leafo/gh-actions-luarocks@v4
 
       - name: Validate Era database
         run: |
@@ -90,7 +101,10 @@ jobs:
 
     steps:
       - name: Install Lua
-        uses: ./.github/workflows/install_lua_and_luarocks.yml
+        uses: ./.github/workflows/install_lua.yml
+
+      - name: Install Luarocks
+        uses: leafo/gh-actions-luarocks@v4
 
       - name: Validate SoD database
         run: |
@@ -140,7 +154,10 @@ jobs:
 
     steps:
       - name: Install Lua
-        uses: ./.github/workflows/install_lua_and_luarocks.yml
+        uses: ./.github/workflows/install_lua.yml
+
+      - name: Install Luarocks
+        uses: leafo/gh-actions-luarocks@v4
 
       - name: Validate WotLK database
         run: |
@@ -161,7 +178,10 @@ jobs:
 
     steps:
       - name: Install Lua
-        uses: ./.github/workflows/install_lua_and_luarocks.yml
+        uses: ./.github/workflows/install_lua.yml
+
+      - name: Install Luarocks
+        uses: leafo/gh-actions-luarocks@v4
 
       - name: Validate Cata database
         run: |
