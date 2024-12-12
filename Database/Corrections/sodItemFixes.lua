@@ -218,7 +218,7 @@ function SeasonOfDiscovery:LoadItems()
         [234007] = { -- Spiked Silithid Chitin
             [itemKeys.npcDrops] = {11724,11727,13136},
         },
-        [234007] = { -- Qiraji Silk
+        [234008] = { -- Qiraji Silk
             [itemKeys.npcDrops] = {11880,11881,11882,11883,15201,15202,15213,15247,15343,15541},
         },
         [235045] = { -- Imperial Qiraji Regalia
