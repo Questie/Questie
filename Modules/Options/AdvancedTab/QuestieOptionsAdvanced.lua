@@ -243,7 +243,6 @@ function QuestieOptions.tabs.advanced:Initialize()
                     Questie.db.char.jouney = nil
 
                     ReloadUI()
-
                 end,
             },
             Spacer_F = QuestieOptionsUtils:Spacer(4.5),
