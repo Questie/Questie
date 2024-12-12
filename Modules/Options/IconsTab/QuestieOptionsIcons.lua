@@ -801,14 +801,15 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    iconTypeLineBreak = QuestieOptionsUtils:Spacer(19.3,nil,"minimal"),
                     objectiveSpacer4 = {
                         type = "description",
                         order = 19.5,
                         name = "",
                         desc = "",
                         image = "",
-                        imageWidth = 0.699,
-                        width = 0.699,
+                        imageWidth = 0.2,
+                        width = 0.2,
                         func = function() end,
                     },
                     iconTypeEvent = {
