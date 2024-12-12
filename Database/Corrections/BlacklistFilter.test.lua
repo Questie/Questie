@@ -1,7 +1,4 @@
-dofile("Modules/Libs/QuestieLoader.lua")
-_G.bit = {band = function(a, b)
-    return a & b
-end}
+dofile("setupTests.lua")
 
 local BlacklistFilter
 

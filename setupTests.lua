@@ -6,7 +6,8 @@ dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
 
 local EMTPY_FUNC = function() end
 
-_G.bit = {band = function() return 0 end}
+local bit = require("bit32")
+_G.bit = bit
 _G.table.getn = function(table)
     local count = 0
     for _ in pairs(table) do count = count + 1 end
