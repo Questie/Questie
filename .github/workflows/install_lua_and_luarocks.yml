@@ -1,0 +1,15 @@
+name: Install Lua and LuaRocks
+
+on:
+  workflow_call:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Lua
+        uses: ./.github/workflows/install_lua.yml
+
+      - name: Install LuaRocks
+        uses: leafo/gh-actions-luarocks@v4
