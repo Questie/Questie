@@ -155,7 +155,13 @@ end
 
 function QuestieJourney:PlayerLevelUp(level)
     -- Complete Quest added to Journey
-    ---@type JourneyEntry
+    ---@class JourneyEntry
+    ---@field Event string?
+    ---@field SubType string?
+    ---@field NewLevel number?
+    ---@field Level number?
+    ---@field Quest number?
+    ---@field Timestamp number
     local entry = {
         Event = "Level",
         NewLevel = level,

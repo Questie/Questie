@@ -62,7 +62,6 @@ end
 
 ---@param menu table
 ---@param quest Quest
----@param objective QuestObjective
 TrackerMenu.addTomTomOptionForQuest = function(menu, quest)
     tinsert(menu, {
         text = l10n('Set |cFF54e33bTomTom|r Target'),
@@ -78,7 +77,6 @@ TrackerMenu.addTomTomOptionForQuest = function(menu, quest)
 end
 
 ---@param menu table
----@param quest Quest
 ---@param objective QuestObjective
 TrackerMenu.addTomTomOptionForObjective = function(menu, objective)
     tinsert(menu, {
