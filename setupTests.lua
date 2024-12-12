@@ -25,10 +25,9 @@ _G.strsplit = function(delimiter, str)
     for match in (str .. delimiter):gmatch("(.-)" .. delimiter) do
         table.insert(results, match)
     end
-    return table.unpack(results)
+    return unpack(results)
 end
 _G.date = os.date
-_G.unpack = table.unpack
 _G.hooksecurefunc = EMTPY_FUNC
 _G.GetTime = function() return 0 end
 _G.GetCurrentRegion = function() return 3 end
@@ -121,7 +120,7 @@ setmetatable(_G.CreateFrame, {
                 point = {l, nil, nil, x, y}
             end,
             GetPoint = function()
-                return table.unpack(point)
+                return unpack(point)
             end,
             SetParent = EMTPY_FUNC,
             CreateFontString = function()
