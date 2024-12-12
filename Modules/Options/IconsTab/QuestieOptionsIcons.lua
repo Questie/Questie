@@ -857,6 +857,34 @@ function QuestieOptions.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    objectiveSpacer6 = {
+                        type = "description",
+                        order = 21.1,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.2,
+                        width = 0.2,
+                        func = function() end,
+                    },
+                    iconTypeInteract = {
+                        type = "select",
+                        order = 21.2,
+                        values = _GetIconTypes,
+                        sorting = _GetIconTypesSort(),
+                        style = 'dropdown',
+                        width = 0.796,
+                        name = function() return l10n('Interact objectives') end,
+                        desc = function() return l10n('The icon that is displayed for quest objectives where you need to use an item or interact with an NPC'); end,
+                        get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_INTERACT) or "interact"; end,
+                        disabled = function() return (not Questie.db.profile.enabled); end,
+                        set = function(input, key)
+                            Questie.db.profile.ICON_INTERACT = Questie.icons[key]
+                            QuestieOptionsUtils.DetermineTheme()
+                            Questie:SetIcons()
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
                     overrideNormalQuestsHeader = {
                         type = "header",
                         order = 22,
@@ -1124,6 +1152,7 @@ _GetIconTypes = function()
         ["event"] = "|T" .. Questie.icons["event"] .. ":0|t Event",
         ["object"] = "|T" .. Questie.icons["object"] .. ":0|t Object",
         ["talk"] = "|T" .. Questie.icons["talk"] .. ":0|t Talk",
+        ["interact"] = "|T" .. Questie.icons["interact"] .. ":0|t Interact",
         ["available"] = "|T" .. Questie.icons["available"] .. ":0|t Available",
         ["available_gray"] = "|T" .. Questie.icons["available_gray"] .. ":0|t Available gray",
         ["complete"] = "|T" .. Questie.icons["complete"] .. ":0|t Complete",
@@ -1164,6 +1193,7 @@ _GetIconTypesSort = function()
         "object_mono",
         "event",
         "talk",
+        "interact",
         "available",
         "available_gray",
         "incomplete",
@@ -1201,6 +1231,7 @@ function QuestieOptionsUtils.SetPfQuestIcons(info, value)
         Questie.db.profile.ICON_EVENT = Questie.icons["node"]
         Questie.db.profile.ICON_OBJECT = Questie.icons["node"]
         Questie.db.profile.ICON_TALK = Questie.icons["node"]
+        Questie.db.profile.ICON_INTERACT = Questie.icons["node"]
         -- TODO remove these setting changes once we have a style selection window/frame
         Questie.db.profile.questObjectiveColors = true
         Questie.db.profile.alwaysGlowMap = false
@@ -1213,6 +1244,7 @@ function QuestieOptionsUtils.SetPfQuestIcons(info, value)
         Questie.db.profile.ICON_EVENT = Questie.icons["event"]
         Questie.db.profile.ICON_OBJECT = Questie.icons["object"]
         Questie.db.profile.ICON_TALK = Questie.icons["talk"]
+        Questie.db.profile.ICON_INTERACT = Questie.icons["interact"]
         -- TODO remove these setting changes once we have a style selection window/frame
         Questie.db.profile.questObjectiveColors = false
         Questie.db.profile.alwaysGlowMap = true
@@ -1268,6 +1300,7 @@ function QuestieOptionsUtils.DetermineTheme()
             Questie.db.profile.ICON_EVENT == Questie.icons["node"] and
             Questie.db.profile.ICON_OBJECT == Questie.icons["node"] and
             Questie.db.profile.ICON_TALK == Questie.icons["node"] and
+            Questie.db.profile.ICON_INTERACT == Questie.icons["node"] and
             Questie.db.profile.questObjectiveColors == true and
             Questie.db.profile.alwaysGlowMap == false and
             Questie.db.profile.questMinimapObjectiveColors == true and
@@ -1281,6 +1314,7 @@ function QuestieOptionsUtils.DetermineTheme()
             Questie.db.profile.ICON_EVENT == Questie.icons["event"] and
             Questie.db.profile.ICON_OBJECT == Questie.icons["object"] and
             Questie.db.profile.ICON_TALK == Questie.icons["talk"] and
+            Questie.db.profile.ICON_INTERACT == Questie.icons["interact"] and
             Questie.db.profile.questObjectiveColors == optionsDefaults.profile.questObjectiveColors and
             Questie.db.profile.alwaysGlowMap == optionsDefaults.profile.alwaysGlowMap and
             Questie.db.profile.questMinimapObjectiveColors == optionsDefaults.profile.questMinimapObjectiveColors and
@@ -1309,6 +1343,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.ICON_EVENT = Questie.icons["event"]
         Questie.db.profile.ICON_OBJECT = Questie.icons["object"]
         Questie.db.profile.ICON_TALK = Questie.icons["talk"]
+        Questie.db.profile.ICON_INTERACT = Questie.icons["interact"]
         Questie.db.profile.questObjectiveColors = optionsDefaults.profile.questObjectiveColors
         Questie.db.profile.alwaysGlowMap = optionsDefaults.profile.alwaysGlowMap
         Questie.db.profile.questMinimapObjectiveColors = optionsDefaults.profile.questMinimapObjectiveColors
@@ -1327,6 +1362,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.ICON_EVENT = Questie.icons["node"]
         Questie.db.profile.ICON_OBJECT = Questie.icons["node"]
         Questie.db.profile.ICON_TALK = Questie.icons["node"]
+        Questie.db.profile.ICON_INTERACT = Questie.icons["node"]
         Questie.db.profile.questObjectiveColors = true
         Questie.db.profile.alwaysGlowMap = false
         Questie.db.profile.questMinimapObjectiveColors = true
@@ -1345,6 +1381,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.ICON_EVENT = Questie.icons["event"]
         Questie.db.profile.ICON_OBJECT = Questie.icons["object"]
         Questie.db.profile.ICON_TALK = Questie.icons["talk"]
+        Questie.db.profile.ICON_INTERACT = Questie.icons["interact"]
         Questie.db.profile.questObjectiveColors = optionsDefaults.profile.questObjectiveColors
         Questie.db.profile.alwaysGlowMap = optionsDefaults.profile.alwaysGlowMap
         Questie.db.profile.questMinimapObjectiveColors = optionsDefaults.profile.questMinimapObjectiveColors
