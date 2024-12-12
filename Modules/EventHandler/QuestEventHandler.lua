@@ -232,6 +232,10 @@ function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
         QuestieQuest:SmoothReset()
     else
         QuestieQuest:AcceptQuest(questId)
+
+        if Questie.db.profile.autoaccept and ImmersionFrame and ImmersionFrame:IsShown() then
+            ImmersionFrame:Hide()
+        end
     end
 end
 
