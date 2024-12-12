@@ -2343,6 +2343,7 @@ globals = {
     "frexp",
     "gcinfo",
     "getfenv",
+    "getglobal",
     "getmetatable",
     "getn",
     "gmatch",
@@ -2840,6 +2841,7 @@ globals = {
     "QuestieConfig",
     "QuestieCompat",
     "QuestieWorldMapButtonMixin",
+    "Validators",
     -----------------------------------------------------> busted unit testing
     "describe",
     "it",

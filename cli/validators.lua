@@ -1,4 +1,4 @@
-Validators = {}
+local Validators = {}
 
 ---@param quests table
 ---@param questKeys DatabaseQuestKeys
