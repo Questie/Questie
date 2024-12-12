@@ -49,6 +49,28 @@ describe("QuestieEvent", function()
             assert.is_equal(0, #QuestieEvent.activeQuests)
         end)
 
+        it("should not load for Anniversary HC servers in P1", function()
+            _G.C_DateAndTime = {GetTodaysDate=function()
+                return {
+                    weekDay = 4,
+                    day = 11,
+                    month = 12,
+                    year = 2024
+                }
+            end}
+            ContentPhases.activePhases.Anniversary = 1
+
+            Questie.IsClassic = true
+            Questie.IsAnniversary = false
+            Questie.IsAnniversaryHardcore = true
+
+            QuestieEvent:Load()
+
+            assert.spy(_G.print).was.not_called()
+            assert.is_nil(QuestieEvent.eventQuests)
+            assert.is_equal(0, #QuestieEvent.activeQuests)
+        end)
+
         it("should not load for Anniversary servers in P2", function()
             _G.C_DateAndTime = {GetTodaysDate=function()
                 return {
@@ -70,6 +92,28 @@ describe("QuestieEvent", function()
             assert.is_equal(0, #QuestieEvent.activeQuests)
         end)
 
+        it("should not load for Anniversary servers in P2", function()
+            _G.C_DateAndTime = {GetTodaysDate=function()
+                return {
+                    weekDay = 4,
+                    day = 11,
+                    month = 12,
+                    year = 2024
+                }
+            end}
+            ContentPhases.activePhases.Anniversary = 2
+
+            Questie.IsClassic = true
+            Questie.IsAnniversary = false
+            Questie.IsAnniversaryHardcore = true
+
+            QuestieEvent:Load()
+
+            assert.spy(_G.print).was.not_called()
+            assert.is_nil(QuestieEvent.eventQuests)
+            assert.is_equal(0, #QuestieEvent.activeQuests)
+        end)
+
         it("should load for Anniversary servers in P3", function()
             _G.C_DateAndTime = {GetTodaysDate=function()
                 return {
@@ -83,6 +127,28 @@ describe("QuestieEvent", function()
 
             Questie.IsClassic = true
             Questie.IsAnniversary = true
+
+            QuestieEvent:Load()
+
+            assert.spy(_G.print).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.is_nil(QuestieEvent.eventQuests)
+            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+        end)
+
+        it("should load for Anniversary HC servers in P3", function()
+            _G.C_DateAndTime = {GetTodaysDate=function()
+                return {
+                    weekDay = 4,
+                    day = 11,
+                    month = 12,
+                    year = 2024
+                }
+            end}
+            ContentPhases.activePhases.Anniversary = 3
+
+            Questie.IsClassic = true
+            Questie.IsAnniversary = false
+            Questie.IsAnniversaryHardcore = true
 
             QuestieEvent:Load()
 
