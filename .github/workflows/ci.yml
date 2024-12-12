@@ -53,10 +53,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Run Unit Tests
-        uses: lunarmodules/busted@v2.2.0
+
+      - name: Install Lua
+        uses: leafo/gh-actions-lua@v10
         with:
-          args: -p ".test.lua" .
+          luaVersion: "5.1"
+
+      - name: Install Luarocks
+        uses: leafo/gh-actions-luarocks@v4
+
+      - name: Run Unit Tests
+        run: |
+          luarocks install bit32
+          luarocks install busted
+          busted -p ".test.lua" .
+
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1
         with:
