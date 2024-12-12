@@ -1,4 +1,4 @@
----@class QuestieDB
+---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 
