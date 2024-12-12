@@ -44,6 +44,8 @@ Trust us it's (Good)!
    - `luarocks config lua_version 5.1`
 4. Install `busted`
    - `luarocks install busted`
+5. Install `luacheck`
+    - `luarocks install luacheck`
 
 ### Unit Tests
 
