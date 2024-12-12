@@ -2,6 +2,7 @@
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 QuestieDB.sortKeys = {
+    EPIC = -1,
     SEASONAL = -22,
     HERBALISM = -24,
     BATTLEGROUND = -25,

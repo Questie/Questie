@@ -1,5 +1,5 @@
 require("cli.dump")
-require("cli.validators")
+local Validators = require("cli.validators")
 
 WOW_PROJECT_ID = 2
 WOW_PROJECT_CLASSIC = 2
@@ -141,9 +141,7 @@ local function loadTOC(file)
             if chunck then
                 pcallResult, errorMessage = pcall(chunck, addonName, addonTable)
             end
-            if pcallResult then
-                --print("Loaded " .. line)
-            else
+            if (not pcallResult) then
                 if errorMessage then
                     print("Error loading " .. line .. ": " .. errorMessage)
                 else

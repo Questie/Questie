@@ -19,21 +19,21 @@ describe("TrackerLinePool", function()
         it("should set new objectives text", function()
             QuestieLib.GetRGBForObjective = function() return "|cFFEEEEEE" end
             local firstLine = {
-                label = {SetText = spy.new()},
+                label = {SetText = spy.new(function() end)},
                 Objective = {
                     Collected = 0,
                     Needed = 1,
                     Description = "Test Objective",
-                    Update = spy.new()
+                    Update = spy.new(function() end)
                 }
             }
             local secondLine = {
-                label = {SetText = spy.new()},
+                label = {SetText = spy.new(function() end)},
                 Objective = {
                     Collected = 5,
                     Needed = 10,
                     Description = "Another Test Objective",
-                    Update = spy.new()
+                    Update = spy.new(function() end)
                 }
             }
 
@@ -42,20 +42,20 @@ describe("TrackerLinePool", function()
 
             TrackerLinePool.UpdateQuestLines(123)
 
-            assert.spy(firstLine.Objective.Update).was_called()
-            assert.spy(firstLine.label.SetText).was_called_with(_, "|cFFEEEEEETest Objective: 0/1")
-            assert.spy(secondLine.Objective.Update).was_called()
-            assert.spy(secondLine.label.SetText).was_called_with(_, "|cFFEEEEEEAnother Test Objective: 5/10")
+            assert.spy(firstLine.Objective.Update).was.called()
+            assert.spy(firstLine.label.SetText).was.called_with(_, "|cFFEEEEEETest Objective: 0/1")
+            assert.spy(secondLine.Objective.Update).was.called()
+            assert.spy(secondLine.label.SetText).was.called_with(_, "|cFFEEEEEEAnother Test Objective: 5/10")
         end)
 
         it("should do nothing when questId was not added", function()
             local line = {
-                label = {SetText = spy.new()},
+                label = {SetText = spy.new(function() end)},
                 Objective = {
                     Collected = 0,
                     Needed = 1,
                     Description = "Test Objective",
-                    Update = spy.new()
+                    Update = spy.new(function() end)
                 }
             }
 

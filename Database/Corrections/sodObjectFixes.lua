@@ -509,6 +509,12 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.TIRISFAL_GLADES] = {{53.56,57.21}},
             },
         },
+        [462201] = { -- Shards of Light
+            [objectKeys.zoneID] = zoneIDs.DEADWIND_PASS,
+            [objectKeys.spawns] = {
+                [zoneIDs.DEADWIND_PASS] = {{40.6,78.4}},
+            },
+        },
         [463206] = { -- Book
             [objectKeys.zoneID] = zoneIDs.BURNING_STEPPES,
             [objectKeys.spawns] = {

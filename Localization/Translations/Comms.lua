@@ -11,7 +11,7 @@ local commsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Une mise à jour majeure pour Questie est disponible !",
         ["esES"] = "¡Existe un parche importante para Questie!",
-        ["zhTW"] = "任務位置提示插件 Questie 已有重要的更新版本!",
+        ["zhTW"] = "任務位置提示插件 Questie 已有重要的更新版本！",
         ["zhCN"] = "任务提示插件 Questie 已发布重要的更新版本！",
     },
     ["Please update as soon as possible!"] = {
@@ -23,7 +23,7 @@ local commsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Veuillez mettre à jour dès que possible !",
         ["esES"] = "¡Actualice lo antes posible!",
-        ["zhTW"] = "請盡快更新!",
+        ["zhTW"] = "請盡快更新！",
         ["zhCN"] = "请尽快更新！",
     },
     ["You have an outdated version of Questie!"] = {
@@ -35,7 +35,7 @@ local commsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Vous avez une version obsolète de Questie !",
         ["esES"] = "¡Tienes una versión desactualizada de Questie!",
-        ["zhTW"] = "你的任務位置提示插件 Questie 已經過期! ",
+        ["zhTW"] = "你的任務位置提示插件 Questie 已經過期！",
         ["zhCN"] = "你的任务提示插件 Questie 已经过期！",
     },
     ["Please consider updating!"] = {
@@ -47,7 +47,7 @@ local commsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Veuillez envisager de mettre à jour !",
         ["esES"] = "¡Por favor considere actualizar!",
-        ["zhTW"] = "請考慮更新插件!",
+        ["zhTW"] = "請考慮更新插件！",
         ["zhCN"] = "请考虑更新插件！",
     },
     ["You have an incompatible QuestieComms message! Please update!"] = {
@@ -59,7 +59,7 @@ local commsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Vous avez un message QuestieComms incompatible ! Veuillez mettre à jour !",
         ["esES"] = "¡Tienes un mensaje de QuestieComms incompatible! ¡Actualízalo!",
-        ["zhTW"] = "你有不相容版本的 QuestieComms 訊息! 請更新插件!",
+        ["zhTW"] = "你有不相容版本的 QuestieComms 訊息！請更新插件！",
         ["zhCN"] = "你有不兼容版本的 QuestieComms 信息！请更新插件！",
     },
     ["  Yours: v"] = {
@@ -83,7 +83,7 @@ local commsLocales = {
         ["enUS"] = true,
         ["frFR"] = "a une version incompatible de Questie, QuestieComms ne fonctionnera pas !",
         ["esES"] = "tiene una versión de Questie incompatible, ¡QuestieComms no funcionará!",
-        ["zhTW"] = "是不相容版本的任務位置提示插件 Questie，QuestieComms 無法使用!",
+        ["zhTW"] = "是不相容版本的任務位置提示插件 Questie，QuestieComms 無法使用！",
         ["zhCN"] = "是不兼容版本的任务提示插件 Questie和 QuestieComms 无法使用！",
     },
 }

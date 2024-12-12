@@ -125,7 +125,7 @@ if Questie.IsCata then
     dungeons[1583][4] = {{51, 34.9, 83.9}, {46, 21, 37.9}} -- Blackrock Spire
     dungeons[1584][4] = {{51, 34.9, 83.9}, {46, 21, 37.9}} -- Blackrock Depths
     dungeons[1977][4] = {{33, 72.1, 32.9}} -- Zul'Gurub
-    dungeons[2017][4] = {{139, 27.7, 11.5}, {139, 47.9, 24}} -- Stratholme
+    dungeons[2017][4] = {{139, 27.7, 11.5}, {139, 43.5, 19.4}} -- Stratholme
     dungeons[2100][4] = {{405, 29.1, 62.6}} -- Maraudon
     dungeons[2257][4] = {{1519, 69.49, 31.2}, {1537, 84.1, 53.1}} -- Deeprun Tram
     dungeons[2366][4] = {{440, 64.8, 50}} -- The Black Morass

@@ -26,18 +26,18 @@ describe("TooltipHandler", function()
             end)
 
             _G.GameTooltip = {
-                AddLine = spy.new(),
-                Show = spy.new()
+                AddLine = spy.new(function() end),
+                Show = spy.new(function() end)
             }
 
             _QuestieTooltips.AddObjectDataToTooltip(name)
 
-            assert.spy(GameTooltip.AddLine).was_called(3)
-            assert.spy(GameTooltip.AddLine).was_called_with(GameTooltip, "Quest Name")
-            assert.spy(GameTooltip.AddLine).was_called_with(GameTooltip, "0/1 Test Objective")
-            assert.spy(GameTooltip.AddLine).was_called_with(GameTooltip, "0/1 Other Objective")
-            assert.spy(GameTooltip.Show).was_called()
-            assert.spy(QuestieTooltips.GetTooltip).was_called_with("o_" .. objectId)
+            assert.spy(GameTooltip.AddLine).was.called(3)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Quest Name")
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "0/1 Test Objective")
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "0/1 Other Objective")
+            assert.spy(GameTooltip.Show).was.called()
+            assert.spy(QuestieTooltips.GetTooltip).was.called_with("o_" .. objectId)
         end)
 
         it("should add list of quest names", function()
@@ -53,18 +53,18 @@ describe("TooltipHandler", function()
             end)
 
             _G.GameTooltip = {
-                AddLine = spy.new(),
-                Show = spy.new()
+                AddLine = spy.new(function() end),
+                Show = spy.new(function() end)
             }
 
             _QuestieTooltips.AddObjectDataToTooltip(name)
 
-            assert.spy(GameTooltip.AddLine).was_called(2)
-            assert.spy(GameTooltip.AddLine).was_called_with(GameTooltip, "Quest Name")
-            assert.spy(GameTooltip.AddLine).was_called_with(GameTooltip, "Quest Name 2")
-            assert.spy(GameTooltip.Show).was_called()
-            assert.spy(QuestieTooltips.GetTooltip).was_called_with("o_1")
-            assert.spy(QuestieTooltips.GetTooltip).was_called_with("o_2")
+            assert.spy(GameTooltip.AddLine).was.called(2)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Quest Name")
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Quest Name 2")
+            assert.spy(GameTooltip.Show).was.called()
+            assert.spy(QuestieTooltips.GetTooltip).was.called_with("o_1")
+            assert.spy(QuestieTooltips.GetTooltip).was.called_with("o_2")
         end)
 
         it("should add object IDs", function()
@@ -72,11 +72,11 @@ describe("TooltipHandler", function()
             local objectId = 1
             l10n.objectNameLookup[name] = {objectId}
 
-            QuestieTooltips.GetTooltip = spy.new()
+            QuestieTooltips.GetTooltip = spy.new(function() end)
 
             _G.GameTooltip = {
-                AddDoubleLine = spy.new(),
-                Show = spy.new()
+                AddDoubleLine = spy.new(function() end),
+                Show = spy.new(function() end)
             }
 
             _G.Questie.db.profile.enableTooltipsObjectID = true
@@ -90,11 +90,11 @@ describe("TooltipHandler", function()
             local name = "test"
             l10n.objectNameLookup[name] = {1, 2}
 
-            QuestieTooltips.GetTooltip = spy.new()
+            QuestieTooltips.GetTooltip = spy.new(function() end)
 
             _G.GameTooltip = {
-                AddDoubleLine = spy.new(),
-                Show = spy.new()
+                AddDoubleLine = spy.new(function() end),
+                Show = spy.new(function() end)
             }
 
             _G.Questie.db.profile.enableTooltipsObjectID = true
@@ -111,17 +111,17 @@ describe("TooltipHandler", function()
             QuestieTooltips.GetTooltip = spy.new(function() return {""} end)
 
             _G.GameTooltip = {
-                AddLine = spy.new(),
-                AddDoubleLine = spy.new(),
-                Show = spy.new()
+                AddLine = spy.new(function() end),
+                AddDoubleLine = spy.new(function() end),
+                Show = spy.new(function() end)
             }
 
             _G.Questie.db.profile.enableTooltipsObjectID = true
 
             _QuestieTooltips.AddObjectDataToTooltip(name)
 
-            assert.spy(GameTooltip.AddDoubleLine).was_called_with(GameTooltip, "Object ID", "|cFFFFFFFF1 (10+)|r")
-            assert.spy(QuestieTooltips.GetTooltip).was_called(10)
+            assert.spy(GameTooltip.AddDoubleLine).was.called_with(GameTooltip, "Object ID", "|cFFFFFFFF1 (10+)|r")
+            assert.spy(QuestieTooltips.GetTooltip).was.called(10)
             assert.spy(QuestieTooltips.GetTooltip).was_not_called_with("o_11")
         end)
 
@@ -133,17 +133,17 @@ describe("TooltipHandler", function()
             QuestieTooltips.GetTooltip = spy.new(function() return {""} end)
 
             _G.GameTooltip = {
-                AddLine = spy.new(),
-                AddDoubleLine = spy.new(),
-                Show = spy.new()
+                AddLine = spy.new(function() end),
+                AddDoubleLine = spy.new(function() end),
+                Show = spy.new(function() end)
             }
 
             _G.Questie.db.profile.enableTooltipsObjectID = true
 
             _QuestieTooltips.AddObjectDataToTooltip(name)
 
-            assert.spy(GameTooltip.AddDoubleLine).was_called_with(GameTooltip, "Object ID", "|cFFFFFFFF1 (11)|r")
-            assert.spy(QuestieTooltips.GetTooltip).was_called(11)
+            assert.spy(GameTooltip.AddDoubleLine).was.called_with(GameTooltip, "Object ID", "|cFFFFFFFF1 (11)|r")
+            assert.spy(QuestieTooltips.GetTooltip).was.called(11)
         end)
     end)
 end)

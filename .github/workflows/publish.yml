@@ -37,12 +37,21 @@ jobs:
         run: python build.py -r
 
       - name: Create GitHub release
-        run: >
-          gh release create ${{github.ref_name}}
-          --verify-tag
-          -F CHANGELOG.md
-          releases/${{github.ref_name}}/Questie-${{github.ref_name}}.zip
-          releases/${{github.ref_name}}/release.json
+        run: |
+          if [[ "${{github.ref_name}}" == *"-b"* ]]; then
+            gh release create ${{github.ref_name}} \
+              --verify-tag \
+              --prerelease \
+              -F CHANGELOG.md \
+              releases/${{github.ref_name}}/Questie-${{github.ref_name}}.zip \
+              releases/${{github.ref_name}}/release.json
+          else
+            gh release create ${{github.ref_name}} \
+              --verify-tag \
+              -F CHANGELOG.md \
+              releases/${{github.ref_name}}/Questie-${{github.ref_name}}.zip \
+              releases/${{github.ref_name}}/release.json
+          fi
 
       - name: Upload CurseForge
         run: sh upload-cf.sh ${{github.ref_name}}

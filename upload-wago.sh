@@ -3,13 +3,21 @@
 LATEST_GIT_TAG="$1"
 CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 
+if echo "$LATEST_GIT_TAG" | grep -q "^.*-b.*$"; then
+  RELEASE_TYPE="beta"
+else
+  RELEASE_TYPE="stable"
+fi
+
+echo "Uploading $RELEASE_TYPE $LATEST_GIT_TAG to Wago"
+
 ### WAGO Upload
 # Docs: https://docs.wago.io/#introduction
 
 WAGO_METADATA=$(cat <<-EOF
 {
    "label": "$LATEST_GIT_TAG",
-   "stability": "stable",
+   "stability": "$RELEASE_TYPE",
    "changelog": $CHANGELOG,
    "supported_wotlk_patch": "3.4.3",
    "supported_cata_patch": "4.4.1",

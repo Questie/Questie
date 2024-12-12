@@ -10,6 +10,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 function CataObjectFixes.Load()
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs
+    local waypointPresets = QuestieDB.waypointPresets
 
     return {
         [2712] = { -- Calcified Elven Gem
@@ -292,6 +293,14 @@ function CataObjectFixes.Load()
         [204091] = { -- Induction Samophlange
             [objectKeys.spawns] = {[zoneIDs.AZSHARA]={{55.28,49.89}}},
         },
+        [204279] = { -- Spool of Rope
+            [objectKeys.spawns] = {[zoneIDs.DEEPHOLM]={{61.79,46.28}}},
+            [objectKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
+        },
+        [204280] = { -- Bottle of Whiskey
+            [objectKeys.spawns] = {[zoneIDs.DEEPHOLM]={{61.79,46.28}}},
+            [objectKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
+        },
         [204281] = { -- Worm Mound
             [objectKeys.spawns] = {[1519]={{49.24,18.03},{52.53,14.86},{64.01,16.59},{63.39,5.73},{64.93,8.47},{56.45,22.58},{55.73,16.51},{53.73,19.56},{60.51,6.85},{58.05,10.49},{62.12,17.65},{59.07,20.64}}},
         },
@@ -323,6 +332,10 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{62.23,29.86}}},
             [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
             [objectKeys.questStarts] = {27724,27726,27727,28551,28552,28558,28562,28563,28564,28576,28578,28579,28582,28666,28673,28675,28699,28702,28708,28709,28716,29156,29387,29391},
+        },
+        [207162] = { -- Crate of Fine Cloth
+            [objectKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{80.78,29.09}}},
+            [objectKeys.waypoints] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{{73.69,52.50},{73.23,52.59},{72.21,52.53},{71.32,51.62},{70.61,50.03},{70.43,48.73},{70.44,47.08},{70.59,45.07},{70.76,43.60},{70.99,41.88},{71.24,40.05},{71.49,38.21},{71.71,36.51},{71.87,34.99},{72.02,33.05},{72.09,31.44},{72.09,29.95},{72.04,28.35},{71.89,26.64},{71.67,24.97},{71.45,23.37},{71.23,21.62},{71.00,19.88},{70.88,18.34},{71.05,16.48},{71.66,15.10},{72.79,14.50},{73.94,14.23},{75.09,14.03},{76.18,14.47},{76.64,14.85},{76.66,14.87},{77.31,15.28},{78.36,16.28},{78.92,17.55},{79.36,18.90},{79.77,20.57},{80.14,22.60},{80.34,24.12},{80.50,25.68},{80.65,27.38},{80.79,29.16},{80.91,30.98},{81.02,32.79},{81.13,34.53},{81.24,36.27},{81.39,38.10},{81.54,39.96},{81.67,41.80},{81.75,43.53},{81.75,45.10},{81.65,46.47},{81.24,48.18},{80.50,49.45},{79.58,50.30},{78.58,50.99},{77.52,51.59},{76.29,52.00},{75.06,52.26},{74.02,52.44},{73.69,52.50}}}},
         },
         [207320] = { -- Hero's Call Board -- Ironforge
             [objectKeys.spawns] = {[zoneIDs.IRONFORGE] = {{25.46,69.78}}},
@@ -721,6 +734,21 @@ function CataObjectFixes.Load()
             [objectKeys.name] = "Ward of Ilgalar",
             [objectKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS]={{71.94,44.82}}},
             [objectKeys.zoneID] = zoneIDs.REDRIDGE_MOUNTAINS,
+        },
+        [460022] = {
+            [objectKeys.name] = "Cultist Cage",
+            [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{64.71,46.24},{67.17,45.51},{68.03,47.98},{67.58,46.85},{64.98,47.89},{65.56,46.69},{65.65,49.15},{66.74,48.84},{67.2,48.55},{66.69,47.04}}},
+            [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
+        },
+        [460024] = {
+            [objectKeys.name] = "Timeless Eye",
+            [objectKeys.spawns] = {[zoneIDs.TANARIS]={{57.89,56.05}}},
+            [objectKeys.zoneID] = zoneIDs.TANARIS,
+        },
+        [460025] = {
+            [objectKeys.name] = "Timeless Eye",
+            [objectKeys.spawns] = {[5786]={{59.2,20.4}},[zoneIDs.THE_NEXUS] = {{-1,-1}}},
+            [objectKeys.zoneID] = 5786,
         },
     }
 end

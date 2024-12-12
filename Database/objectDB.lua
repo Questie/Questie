@@ -1,8 +1,6 @@
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
-
----@class DatabaseObjectKeys
 QuestieDB.objectKeys = {
     ['name'] = 1, -- string
     ['questStarts'] = 2, -- table {questID(int),...}
@@ -10,6 +8,7 @@ QuestieDB.objectKeys = {
     ['spawns'] = 4, -- table {[zoneID(int)] = {coordPair(floatVector2D),...},...}
     ['zoneID'] = 5, -- guess as to where this object is most common
     ['factionID'] = 6, -- faction restriction mask (same as spawndb factionid)
+    ['waypoints'] = 7, -- waypoints for objects on ships/zeppelins/etc
 }
 
 QuestieDB.objectKeysReversed = {}
@@ -23,7 +22,8 @@ QuestieDB.objectCompilerTypes = {
     ['zoneID'] = "u16",
     ['questStarts'] = "u8u24array",
     ['questEnds'] = "u8u24array",
-    ['factionID'] = "u16"
+    ['factionID'] = "u16",
+    ['waypoints'] = "waypointlist",
 }
 
 QuestieDB.objectCompilerOrder = { -- order easily skipable data first for efficiency
@@ -31,7 +31,7 @@ QuestieDB.objectCompilerOrder = { -- order easily skipable data first for effici
     'zoneID', 'factionID',
 
     -- variable size
-    'name', 'spawns', 'questStarts', 'questEnds'
+    'name', 'spawns', 'questStarts', 'questEnds', 'waypoints'
 }
 
 -- temporary, until we remove the old db funcitons

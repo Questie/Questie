@@ -99,29 +99,20 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
         return nil
     end
 
-    if type(questTimers) == "number" then
-        local currentQuestLogSelection = GetQuestLogSelection()
-        SelectQuestLogEntry(questLogIndex)
-        -- We can't use GetQuestTimers because we don't know for which quest the timer is.
-        -- GetQuestLogTimeLeft returns the correct value though.
-        local timeRemaining = GetQuestLogTimeLeft(questLogIndex)
-        SelectQuestLogEntry(currentQuestLogSelection)
+    local currentQuestLogSelection = GetQuestLogSelection()
+    SelectQuestLogEntry(questLogIndex)
+    -- We can't use GetQuestTimers because we don't know for which quest the timer is.
+    -- GetQuestLogTimeLeft returns the correct value though.
+    local timeRemaining = GetQuestLogTimeLeft(questLogIndex)
+    SelectQuestLogEntry(currentQuestLogSelection)
 
-        if timeRemaining ~= nil then
-            local timeRemainingString = SecondsToTime(timeRemaining, false, true)
+    if timeRemaining ~= nil then
+        local timeRemainingString = SecondsToTime(timeRemaining, false, true)
 
-            if not strfind(timeRemainingString, "Seconds?") then
-                timeRemainingString = timeRemainingString .. " 0 Seconds"
-            end
-            return timeRemainingString, timeRemaining
-        else
-            return nil
-        end
+        return timeRemainingString, timeRemaining
     else
-        Questie:Error("The return value of GetQuestTimers is not number, something is off. Please report this!")
+        return nil
     end
-
-    return nil
 end
 
 function TrackerQuestTimers:UpdateTimerFrame()
@@ -141,3 +132,5 @@ function TrackerQuestTimers:UpdateTimerFrame()
         end
     end
 end
+
+return TrackerQuestTimers

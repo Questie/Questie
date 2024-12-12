@@ -1471,6 +1471,12 @@ function QuestieNPCFixes:Load()
         [11783] = {
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1}}},
         },
+        [11798] = {
+            [npcKeys.npcFlags] = 11,
+        },
+        [11800] = {
+            [npcKeys.npcFlags] = 11,
+        },
         [11836] = {
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{49.1,29.89},{49.95,34.58},{39,63.09},{38.62,77},{39.28,68.07}}},
@@ -1989,6 +1995,18 @@ function QuestieNPCFixes:Load()
         [14640] = {
             [npcKeys.spawns] = {[zoneIDs.FERALAS]={{39.9,21.9},{40.44,22.43},{40.32,24.63},{40.72,24.44},{38.69,23.6},{39.67,22.3},{38.78,21.93},{38.23,20.59},{38.17,21.4},{41.05,22.62},{39.62,22.23}}},
             [npcKeys.zoneID] = zoneIDs.FERALAS,
+        },
+        [14661] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.UN_GORO_CRATER] = {
+                    {27.2, 77.0},{39.5, 5.0},{76.99,61.56},{76.99,61.56},
+                    {77.2,61.67},{77.38,62.0},{77.58,61.99},{77.83,62.16},
+                    {78.04,62.48},{78.01,62.78},{78.07,63.04},{78.36,63.01},
+                    {78.45,62.59},{78.33,62.46},{78.06,62.47},{77.84,62.12},
+                    {77.6,62.02},{77.4,62.03},{77.2,61.69},{77.08,61.61},
+                    {76.5,61.32},{75.96,60.93},{75.66,60.84},{73.77,63.23}
+                },
+            },
         },
         [14693] = {
             [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
@@ -2717,3 +2735,5 @@ function QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)
         }
     end
 end
+
+return QuestieNPCFixes

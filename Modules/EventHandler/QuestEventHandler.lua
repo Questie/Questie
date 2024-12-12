@@ -268,8 +268,8 @@ function QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
 
     local _, _, _, quality, _, itemID = GetQuestLogRewardInfo(GetNumQuestLogRewards(questId), questId)
 
-    if itemID ~= nil and quality == 1 then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Quest:", questId, "Recieved a possible Quest Item - do a full Quest Log check")
+    if itemID ~= nil and quality == Enum.ItemQuality.Standard then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Quest:", questId, "Received a possible Quest Item - do a full Quest Log check")
         doFullQuestLogScan = true
         skipNextUQLCEvent = false
     else
@@ -365,6 +365,7 @@ function QuestEventHandler:QuestWatchUpdate(questId)
     -- a QUEST_LOG_UPDATE. Also not every QUEST_WATCH_UPDATE gets a single QUEST_LOG_UPDATE and doing a full
     -- scan is less error prone
     doFullQuestLogScan = true
+    doRetryWithoutChanges = true
 end
 
 local _UnitQuestLogChangedCallback = function()

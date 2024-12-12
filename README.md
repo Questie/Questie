@@ -4,13 +4,13 @@
 [![Stars](https://img.shields.io/github/stars/Questie/Questie)](https://img.shields.io/github/stars/Questie/Questie)
 
 [![Downloads](https://img.shields.io/github/downloads/Questie/Questie/total.svg)](https://github.com/Questie/Questie/releases/)
-[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v10.9.6/total.svg)](https://github.com/Questie/Questie/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v10.10.3/total.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/Questie/Questie.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/Questie/Questie/latest.svg)](https://github.com/Questie/Questie/commits/master)
 
 
 ## Download
-We suggest you use the [Curseforge Client](https://curseforge.overwolf.com/) to manage your Wow addons in general. You will find Questie [here on Curseforge](https://www.curseforge.com/wow/addons/questie).
+We suggest you use the [CurseForge Client](https://curseforge.overwolf.com/) to manage your WoW addons in general. You will find Questie [here on CurseForge](https://www.curseforge.com/wow/addons/questie).
 
 Alternatively you can always use [the latest GitHub release](https://github.com/Questie/Questie/releases/latest) and follow the [Installation Guide](https://github.com/Questie/Questie/wiki/Installation-Guide) in the Wiki to get the latest version of Questie up and running.
 
@@ -34,11 +34,25 @@ Trust us it's (Good)!
 - Translators can search for missing translations by: `["<yourLanguage>"] = false` (e.g. `["deDE"] = false`) and replace the `false` with a string of the new translation, e.g. `["<yourLanguage>"] = "YourTranslation"`. Current translations can be found in the [Translation folder](https://github.com/Questie/Questie/tree/master/Localization/Translations)
 - Additional information you might find interesting can be found [here](https://github.com/Questie/Questie/wiki/Contributing)
 
+### Installing lua
+
+1. Install [Lua](https://www.lua.org/download.html) (5.1, since the WoW client uses Lua 5.1)
+   - For macOS that is `brew install lua@5.1`
+2. Install [luarocks](https://luarocks.org/)
+   - For macOS that is `brew install luarocks`
+3. Configure `luarocks` to use the correct Lua version (by default luarocks uses the latest installed Lua version)
+   - `luarocks config lua_version 5.1`
+4. Install `busted`
+   - `luarocks install busted`
+5. Install `bit32`
+    - `luarocks install bit32`
+6. Install `luacheck`
+    - `luarocks install luacheck`
+
 ### Unit Tests
 
-1. Install [busted](https://github.com/lunarmodules/busted) with `luarocks install busted`
-2. Run `busted -p ".test.lua" ."` in the root directory of the project
-3. When adding new tests, make sure to name them `<module>.test.lua` and place them next to the module
+1. Run `busted -p ".test.lua" ."` in the root directory of the project
+2. When adding new tests, make sure to name them `<module>.test.lua` and place them next to the module
 
 
 ## Donation

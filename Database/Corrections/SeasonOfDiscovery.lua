@@ -573,6 +573,34 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90322] = 5, -- Meditation Specialization (Paladin, Priest, Shaman, Druid, Mage)
     [90323] = 3, -- Paladin Light's Grace
     [90324] = 3, -- Shaman Overcharged
+    [90325] = 4, -- Dagger Specialization (Druid, Hunter, Mage, Priest, Rogue, Shaman, Warlock, Warrior)
+    [90326] = 4, -- Fire Specialization (Mage, Hunter, Shaman, Warlock)
+    [90327] = 4, -- Fist Weapon Specialization (Druid, Hunter, Rogue, Shaman, Warrior)
+    [90328] = 4, -- Mace Specialization (Druid, Paladin, Priest, Rogue, Shaman, Warrior)
+    [90329] = 4, -- Pole Weapon Specialization (Druid, Hunter, Mage, Paladin, Priest, Shaman, Warlock, Warrior)
+    [90330] = 4, -- Sword Specialization (Hunter, Mage, Paladin, Rogue, Warlock, Warrior)
+    [90331] = 4, -- Hunter Resourcefulness Step 1
+    [90332] = 4, -- Hunter Resourcefulness Step 2
+    [90333] = 4, -- Hunter Hit and Run
+    [90334] = 4, -- Hunter Improved Volley Step 1
+    [90335] = 4, -- Hunter Improved Volley Step 2
+    [90336] = 4, -- Mage Overheat
+    [90337] = 4, -- Rogue Fan of Knives
+    [90338] = 4, -- Shaman Storm, Earth, and Fire
+    [90339] = 4, -- Shaman Feral Spirit
+    [90340] = 4, -- Shaman Coherence
+    [90341] = 4, -- Warlock Mark of Chaos (Alliance)
+    [90342] = 4, -- Warlock Mark of Chaos (Horde)
+    [90343] = 4, -- Warlock Infernal Armor Step 1
+    [90344] = 4, -- Warlock Infernal Armor Step 2
+    [90345] = 4, -- Rogue Blunderbuss
+    [90346] = 4, -- Rogue Crimson Tempest Step 1
+    [90347] = 4, -- Rogue Crimson Tempest Step 2
+    [90348] = 4, -- Rogue Crimson Tempest Step 3
+    [90349] = 4, -- Priest Soul Warding Step 1
+    [90350] = 4, -- Priest Soul Warding Step 2
+    [90351] = 4, -- Warlock Decimation Step 1
+    [90352] = 4, -- Warlock Decimation Step 2
 }
 
 --- "automatic" phase detection for the first few phases;

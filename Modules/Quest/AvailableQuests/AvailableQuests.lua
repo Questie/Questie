@@ -392,3 +392,5 @@ end
 _GetIconScaleForAvailable = function()
     return Questie.db.profile.availableScale or 1.3
 end
+
+return AvailableQuests

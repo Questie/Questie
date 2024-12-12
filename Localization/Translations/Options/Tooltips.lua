@@ -142,7 +142,7 @@ local tooltipOptionsLocales = {
         ["esMX"] = "Siguiente misión:",
         ["enUS"] = true,
         ["zhCN"] = "下一个任务链中的任务：",
-        ["zhTW"] = false,
+        ["zhTW"] = "後續任務:",
         ["esES"] = "Siguiente misión:",
         ["frFR"] = "Prochaine quête :",
     },

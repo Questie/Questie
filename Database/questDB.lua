@@ -1,4 +1,4 @@
----@class QuestieDB
+---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 
@@ -114,13 +114,16 @@ QuestieDB.questFlags = {
 }
 
 QuestieDB.factionIDs = {
+    THORIUM_BROTHERHOOD = 59,
     UNDERCITY = 68,
     DARNASSUS = 69,
+    STEAMWHEEDLE_CARTEL = 169,
     ZANDALAR_TRIBE = 270,
     ARGENT_DAWN = 529,
     TIMBERMAW_HOLD = 576,
     HYDRAXIAN_WATERLORDS = 749,
     CENARION_CIRCLE = 609,
+    SHEN_DRALAR = 809,
     DARKMOON_FAIRE = 909,
     BROOD_OF_NOZDORMU = 910,
     EXODAR = 930,

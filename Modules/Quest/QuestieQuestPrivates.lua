@@ -152,6 +152,7 @@ object = function(objectId, objective)
         Id = objectId,
         Name = name,
         Spawns = spawns,
+        Waypoints = QuestieDB.QueryObjectSingle(objectId, "waypoints") or {},
         Icon = objective.Icon or Questie.ICON_TYPE_OBJECT,
         GetIconScale = _GetIconScaleForObject,
         IconScale = _GetIconScaleForObject(),

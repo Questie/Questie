@@ -29,9 +29,6 @@ local subZoneToParentZone = ZoneDB.private.subZoneToParentZone or {}
 ---@type table<AreaId, AreaId>
 local alternativeDungeonAreaIdToDungeonAreaId = {}
 
----Zone ids enum
-ZoneDB.zoneIDs = ZoneDB.private.zoneIDs or {}
-
 
 -- Overrides for UiMapId to AreaId
 local UiMapIdOverrides = {

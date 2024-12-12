@@ -40,6 +40,9 @@ function SeasonOfDiscovery:LoadItems()
         [208085] = { -- Scarlet Lieutenant Signet Ring
             [itemKeys.npcDrops] = {1662,1664,1665},
         },
+        [208205] = { -- Blackrat's Note
+            [itemKeys.npcDrops] = {6123,6124},
+        },
         [208609] = { -- Glade Flower
             [itemKeys.objectDrops] = {407247},
         },
@@ -211,6 +214,12 @@ function SeasonOfDiscovery:LoadItems()
         },
         [231842] = { -- Nandieb's Stave
             [itemKeys.npcDrops] = {232529},
+        },
+        [234007] = { -- Spiked Silithid Chitin
+            [itemKeys.npcDrops] = {11724,11727,13136},
+        },
+        [234008] = { -- Qiraji Silk
+            [itemKeys.npcDrops] = {11880,11881,11882,11883,15201,15202,15213,15247,15343,15541},
         },
         [235045] = { -- Imperial Qiraji Regalia
             [itemKeys.npcDrops] = {15275,15276,15299,15509,15510,15511,15516,15517,15543,15544},

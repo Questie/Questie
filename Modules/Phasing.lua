@@ -141,6 +141,22 @@ local phases = {
     AGGRA_THRONE = 1069,
     AGGRA_PRECIPICE = 1070,
     THRALL_AGGRA_PROPOSAL = 1071,
+    THURMAN_AT_CHILLWIND = 1072,
+    THURMAN_AT_WRITHING = 1073,
+    THASSARIAN_WPL_TOWER = 1074,
+    THASSARIAN_WPL_FP = 1075,
+    CARAVAN_THONDRORIL = 1076,
+    CARAVAN_CROWNGUARD = 1077,
+    CARAVAN_LIGHTS_SHIELD = 1078,
+    CARAVAN_EASTWALL = 1079,
+    CARAVAN_NORTHPASS = 1080,
+    CARAVAN_LIGHTS_HOPE = 1081,
+    VEXTUL_SPAWN = 1082,
+    VEXTUL_FIONA = 1083,
+    TARENAR_NORTHPASS = 1084,
+    TARENAR_PLAGUEWOOD = 1085,
+    TARENAR_SAVED_GIDWIN = 1086,
+    TARENAR_GIDWIN_LHC = 1087,
 }
 Phasing.phases = phases
 
@@ -370,11 +386,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.HAR_KOA_AT_ALTAR then
-        return (not complete[12684])
+        return (not complete[12685])
     end
 
     if phase == phases.HAR_KOA_AT_ZIM_TORGA then
-        return complete[12684] or false
+        return complete[12685] or false
     end
 
     if phase == phases.EARTHEN_GUIDE_BFD then
@@ -458,7 +474,7 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.MOUNT_HYJAL_VISION_YSERA_1 then
-        return complete[25611] or false -- might be all quests at shrine needed for this NPC to popup. turn in this quest first, see if others are required, if you find that to be true - @cheeq
+        return complete[25611] or false
     end
 
     if phase == phases.MOUNT_HYJAL_VISION_YSERA_2 then
@@ -515,6 +531,70 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.THRALL_AGGRA_PROPOSAL then
         return (not complete[29331])
+    end
+
+    if phase == phases.THURMAN_AT_CHILLWIND then
+        return (not complete[27170])
+    end
+
+    if phase == phases.THURMAN_AT_WRITHING then
+        return (complete[27170] and (not complete[27197] or questLog[27197])) or false
+    end
+
+    if phase == phases.THASSARIAN_WPL_TOWER then
+        return (not complete[27174])
+    end
+
+    if phase == phases.THASSARIAN_WPL_FP then
+        return complete[27174] or false
+    end
+
+    if phase == phases.CARAVAN_THONDRORIL then
+        return (not complete[27373]) and ((not questLog[27373]) or (questLog[27373] and questLog[27373].isComplete == 0)) or false
+    end
+
+    if phase == phases.CARAVAN_CROWNGUARD then
+        return ((complete[27373]) or (questLog[27373] and questLog[27373].isComplete == 1)) and (not complete[27448]) and ((not questLog[27448]) or (questLog[27448] and questLog[27448].isComplete == 0)) or false
+    end
+
+    if phase == phases.CARAVAN_LIGHTS_SHIELD then
+        return ((complete[27448]) or (questLog[27448] and questLog[27448].isComplete == 1)) and (not complete[27465]) or false
+    end
+
+    if phase == phases.CARAVAN_EASTWALL then
+        return (complete[27465]) and (not complete[27489]) and ((not questLog[27489]) or (questLog[27489] and questLog[27489].isComplete == 0)) or false
+    end
+
+    if phase == phases.CARAVAN_NORTHPASS then
+        return ((complete[27489]) or (questLog[27489] and questLog[27489].isComplete == 1)) and (not complete[27526]) or false
+    end
+
+    if phase == phases.CARAVAN_LIGHTS_HOPE then
+        return complete[27526] or false
+    end
+
+    if phase == phases.VEXTUL_SPAWN then
+        return (not complete[27449])
+    end
+
+    if phase == phases.VEXTUL_FIONA then
+        return complete[27449] and (not complete[27465]) or false
+    end
+
+    if phase == phases.TARENAR_NORTHPASS then
+        return (not complete[27522]) and ((complete[27489]) or (questLog[27489] and questLog[27489].isComplete == 1)) or false
+    end
+
+    if phase == phases.TARENAR_PLAGUEWOOD then
+        return complete[27522] and ((not complete[27526]) and ((not questLog[27526]) or (questLog[27526] and questLog[27526].isComplete == 0))) or false
+    end
+
+    if phase == phases.TARENAR_SAVED_GIDWIN then
+        return (not complete[27527]) and (complete[27526] or (questLog[27526] and questLog[27526].isComplete == 1)) or false
+    end
+
+    if phase == phases.TARENAR_GIDWIN_LHC then
+        return complete[27527] or false
     end
 
     return false

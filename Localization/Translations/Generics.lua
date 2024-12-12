@@ -190,7 +190,7 @@ local genericsLocales = {
         ["esMX"] = "¡ADVERTENCIA!",
         ["enUS"] = true,
         ["zhCN"] = "警告！",
-        ["zhTW"] = "警告!",
+        ["zhTW"] = "警告！",
         ["esES"] = "¡ADVERTENCIA!",
         ["frFR"] = "ATTENTION !",
     },

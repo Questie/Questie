@@ -382,6 +382,7 @@ function QuestieCorrections:OptimizeWaypoints(waypointData)
 end
 
 function QuestieCorrections:PreCompile() -- this happens only if we are about to compile the database. Run intensive preprocessing tasks here (like ramer-douglas-peucker)
+    local yieldLimit = 500 -- 500 seems like a good number
     local waypointKey = QuestieDB.npcKeys["waypoints"]
     local npcData = QuestieDB.npcData
 
@@ -392,11 +393,25 @@ function QuestieCorrections:PreCompile() -- this happens only if we are about to
             npcData[id][waypointKey] = QuestieCorrections:OptimizeWaypoints(way)
         end
 
-        if count > 500 then -- 500 seems like a good number
+        if count > yieldLimit then
             count = 0
             coroutine.yield()
         end
         count = count + 1
+    end
+
+    waypointKey = QuestieDB.objectKeys["waypoints"]
+    local objData = QuestieDB.objectData
+    for id, data in pairs(objData) do
+        local way = data[waypointKey]
+        if way then
+            objData[id][waypointKey] = QuestieCorrections:OptimizeWaypoints(way)
+        end
+
+        if count > yieldLimit then
+             count = 0
+             coroutine.yield()
+        end
     end
 end
 

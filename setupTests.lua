@@ -1,22 +1,17 @@
 dofile("Modules/Libs/QuestieLoader.lua")
 
 dofile("Database/itemDB.lua")
+dofile("Database/Zones/zoneTables.lua")
 dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
 
 local EMTPY_FUNC = function() end
 
-_G.bit = {band = function() return 0 end}
+local bit = require("bit32")
+_G.bit = bit
 _G.table.getn = function(table)
     local count = 0
     for _ in pairs(table) do count = count + 1 end
     return count
-end
-_G.strsplit = function(delimiter, str)
-    local results = {}
-    for match in (str .. delimiter):gmatch("(.-)" .. delimiter) do
-        table.insert(results, match)
-    end
-    return table.unpack(results)
 end
 _G.tContains = function(tab, val)
     for _, value in ipairs(tab) do
@@ -26,8 +21,19 @@ _G.tContains = function(tab, val)
     end
     return false
 end
+_G.strsplit = function(delimiter, str)
+    local results = {}
+    for match in (str .. delimiter):gmatch("(.-)" .. delimiter) do
+        table.insert(results, match)
+    end
+    return unpack(results)
+end
+_G.date = os.date
 _G.hooksecurefunc = EMTPY_FUNC
 _G.GetTime = function() return 0 end
+_G.GetCurrentRegion = function() return 3 end
+
+_G.Enum = {ItemQuality = {Poor = 0, Standard = 0}}
 
 _G.QUEST_MONSTERS_KILLED = ""
 _G.QUEST_ITEMS_NEEDED = ""
@@ -115,7 +121,7 @@ setmetatable(_G.CreateFrame, {
                 point = {l, nil, nil, x, y}
             end,
             GetPoint = function()
-                return table.unpack(point)
+                return unpack(point)
             end,
             SetParent = EMTPY_FUNC,
             CreateFontString = function()
@@ -218,18 +224,6 @@ _G["Questie"] = {
         registeredEvents[eventName] = callback
     end,
     SendMessage = EMTPY_FUNC,
-}
-
-local ZoneDB = require("Database.Zones.zoneDB")
-ZoneDB.zoneIDs = {
-    ICECROWN = 210,
-    DEEPHOLM = 5042,
-    STORMWIND_CITY = 1519,
-    IRONFORGE = 1537,
-    TELDRASSIL = 141,
-    ORGRIMMAR = 1637,
-    THUNDER_BLUFF = 1638,
-    UNDERCITY = 1497,
 }
 
 ---@class TestUtils
