@@ -220,7 +220,7 @@ local advancedOptionsLocales = {
     },
     ["Clear the Journey of the current character"] = {
         ["ptBR"] = "Redefine a jornada do personagem atual",
-        ["ruRU"] = false,
+        ["ruRU"] = "Сбросить данные раздела 'Путешествие' для текущего персонажа",
         ["deDE"] = "Löscht die Reisedaten des aktuellen Charakters",
         ["koKR"] = false,
         ["esMX"] = "Restablece el viaje del personaje actual",
