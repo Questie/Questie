@@ -8,8 +8,6 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
-QuestieComms.data = {}
-
 --[i_1337][playerName][questId] = objective
 local commsTooltipLookup = {}
 
@@ -19,12 +17,12 @@ local commsTooltipLookup = {}
 local playerRegisteredTooltips = {}
 
 ---@param tooltipKey string @A key in the form of "i_1337"
----@return boolean @true if exist nil if not
+---@return boolean @true if exist false if not
 function QuestieComms.data:KeyExists(tooltipKey)
-    if(commsTooltipLookup[tooltipKey]) then
+    if commsTooltipLookup[tooltipKey] then
         return true;
     else
-        return nil;
+        return false;
     end
 end
 

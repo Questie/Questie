@@ -1,4 +1,4 @@
----@class QuestieComms
+---@class QuestieComms : QuestieModule
 local QuestieComms = QuestieLoader:CreateModule("QuestieComms");
 local _QuestieComms = QuestieComms.private
 -------------------------
@@ -22,6 +22,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
+
+QuestieComms.data = {}
 
 -- Addon message prefix
 _QuestieComms.prefix = "questie";
