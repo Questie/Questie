@@ -57,7 +57,7 @@ describe("DistanceUtils", function()
             assert.equals(1, bestSpawnZone)
             assert.equals(0, bestDistance)
 
-            assert.spy(HBDMock.GetPlayerWorldPosition).was_called()
+            assert.spy(HBDMock.GetPlayerWorldPosition).was.called()
             assert.spy(ZoneDB.GetUiMapIdByAreaId).was_called_with(_, 1)
             assert.spy(HBDMock.GetWorldCoordinatesFromZone).was_called_with(HBDMock, 0.5, 0.5, 200)
             assert.spy(QuestieLib.Euclid).was_called_with(50, 50, 123, 456)

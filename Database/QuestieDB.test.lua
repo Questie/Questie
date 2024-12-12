@@ -98,7 +98,7 @@ describe("QuestieDB", function()
             assert.are.same("Dungeon", questTag)
             assert.are.same(81, questType2)
             assert.are.same("Dungeon", questTag2)
-            assert.spy(_G.GetQuestTagInfo).was_called(1)
+            assert.spy(_G.GetQuestTagInfo).was.called(1)
         end)
     end)
 

@@ -42,10 +42,10 @@ describe("TrackerLinePool", function()
 
             TrackerLinePool.UpdateQuestLines(123)
 
-            assert.spy(firstLine.Objective.Update).was_called()
-            assert.spy(firstLine.label.SetText).was_called_with(_, "|cFFEEEEEETest Objective: 0/1")
-            assert.spy(secondLine.Objective.Update).was_called()
-            assert.spy(secondLine.label.SetText).was_called_with(_, "|cFFEEEEEEAnother Test Objective: 5/10")
+            assert.spy(firstLine.Objective.Update).was.called()
+            assert.spy(firstLine.label.SetText).was.called_with(_, "|cFFEEEEEETest Objective: 0/1")
+            assert.spy(secondLine.Objective.Update).was.called()
+            assert.spy(secondLine.label.SetText).was.called_with(_, "|cFFEEEEEEAnother Test Objective: 5/10")
         end)
 
         it("should do nothing when questId was not added", function()
