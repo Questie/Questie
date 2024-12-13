@@ -8526,6 +8526,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find someone capable of deciphering the meaning behind the Nightmare Engulfed Object.Perhaps a druid of great power could assist you. A quest."},
             [questKeys.objectives] = nil,
         },
+        [86680] = {
+            [questKeys.name] = "Waking Legends",
+            [questKeys.startedBy] = {{11832}},
+            [questKeys.finishedBy] = {{11832}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Wait for Keeper Remulos at the Moonglade to cleanse the Nightmare Engulfed Object."},
+            [questKeys.objectives] = nil,
+        },
         [86724] = {
             [questKeys.name] = "Dust to Dust",
             [questKeys.startedBy] = {{17070}},
