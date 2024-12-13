@@ -175,6 +175,7 @@ Questie.icons = {
     ["node"] = "Interface\\Addons\\Questie\\Icons\\node.tga",
     ["player"] = "Interface\\WorldMap\\WorldMapPartyIcon",
     ["fav"] = "Interface\\Addons\\Questie\\Icons\\fav.tga",
+    ["hand"] = "Interface\\Addons\\Questie\\Icons\\hand.blp",
     ["faction_alliance"] = "Interface\\Addons\\Questie\\Icons\\icon_alliance.tga",
     ["faction_horde"] = "Interface\\Addons\\Questie\\Icons\\icon_horde.tga",
     ["loot_mono"] = "Interface\\Addons\\Questie\\Icons\\loot_mono.tga",
