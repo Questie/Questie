@@ -1902,6 +1902,7 @@ function QuestieQuestFixes:Load()
         },
         [5103] = {
             [questKeys.requiredSourceItems] = {12812},
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,270},
         },
         [5122] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1140
@@ -1916,6 +1917,10 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.SHAMAN,
             [questKeys.objectives] = {{{10918,"Listen to Lorax's Tale"}}},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,270},
+        },
+        [5127] = {
+            [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,270},
         },
         [5143] = {
             [questKeys.preQuestSingle] = {2853},
