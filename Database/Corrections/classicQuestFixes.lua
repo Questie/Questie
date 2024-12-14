@@ -2034,6 +2034,7 @@ function QuestieQuestFixes:Load()
         },
         [5526] = {
             [questKeys.zoneOrSort] = zoneIDs.DIRE_MAUL,
+            [questKeys.requiredSourceItems] = {18501},
         },
         [5561] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{4700,4701,4702},4700,"Kodos Tamed"}}},

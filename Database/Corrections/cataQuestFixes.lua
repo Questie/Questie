@@ -7156,6 +7156,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{43158,44936,44988},nil,{60816}},
             [questKeys.preQuestSingle] = {27007},
         },
+        [27103] = { -- Shards of the Felvine
+            [questKeys.requiredSourceItems] = {18501},
+        },
         [27106] = { -- A Villain Unmasked
             [questKeys.objectives] = {{{2439,nil,Questie.ICON_TYPE_TALK},{2439}}},
         },

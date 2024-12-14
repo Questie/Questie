@@ -1282,7 +1282,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{49.81,9.8}}},
         },
         [10740] = {
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE]={{-1, -1}}},
+            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
         },
         [10741] = {
