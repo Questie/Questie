@@ -11205,6 +11205,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{460012}}},
             [questKeys.nextQuestInChain] = 29250,
         },
+        [29240] = { -- Emergency Extraction
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kalecgos"),0,{{"monster",53149}}}},
+        },
         [29243] = { -- Strike at the Heart
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29210,29283,-29205},
@@ -11265,6 +11268,13 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 29219,
             [questKeys.preQuestSingle] = {29232},
             [questKeys.startedBy] = {{52374}},
+        },
+        [29269] = { -- At One
+            [questKeys.objectives] = {{{53182,nil,Questie.ICON_TYPE_EVENT},{53149,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.zoneOrSort] = 4024,
+        },
+        [29270] = { -- Time Grows Short
+            [questKeys.zoneOrSort] = 4024,
         },
         [29272] = { -- Need... Water... Badly...
             [questKeys.preQuestSingle] = {29206},
