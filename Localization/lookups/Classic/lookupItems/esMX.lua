@@ -185,6 +185,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [3174] = "Icor de araña",
 [3183] = "Garra sarnosa",
 [3218] = "Grillete de piroleña",
+[3234] = "Anillo de Deliah",
 [3236] = "Icor de Putrepellejo",
 [3238] = "Hallazgos de Johaan",
 [3252] = "Informe de Mortacechador",
