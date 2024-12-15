@@ -1421,6 +1421,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [17684] = "Tallas de cristal terádrico",
 [17702] = "Vara de Celebras",
 [17703] = "Diamante de Celebras",
+[17735] = "El festín del Festival de Invierno",
 [17756] = "Trozo de fragmento oscuro",
 [17757] = "Amuleto de los espíritus",
 [17849] = "Estandarte Pico Tormenta",
