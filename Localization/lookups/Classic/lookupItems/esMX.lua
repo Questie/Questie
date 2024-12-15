@@ -852,6 +852,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [7672] = "Fuente de alimentación del collar destrozado",
 [7675] = "Calendario de envíos",
 [7737] = "Diario de Sethir",
+[7766] = "Odre de agua marrón vacío",
 [7769] = "Odre de agua marrón lleno",
 [7770] = "Odre de agua azul lleno",
 [7771] = "Odre de agua rojo lleno",
