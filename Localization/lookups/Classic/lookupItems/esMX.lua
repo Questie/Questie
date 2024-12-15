@@ -979,6 +979,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [10283] = "Muestras de corazón de lobo",
 [10327] = "Cuerno de Echeyakee",
 [10338] = "Cadáver reciente de zhebra",
+[10414] = "Concha de muestra de Quijaforte",
 [10420] = "Cráneo del Gélido",
 [10438] = "Caja de Félix",
 [10441] = "Fragmento resplandeciente",
