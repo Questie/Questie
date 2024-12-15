@@ -170,6 +170,30 @@ local soundsOptionsLocales = {
         ["esES"] = "El sonido que escuchas cuando avanzas en un objetivo de misión",
         ["frFR"] = "Le son que vous entendez lorsque vous progressez sur un objectif de quête",
     },
+    ["Sound Delay"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Sound-Verzögerung",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ["Delay (in seconds) between the event and playing the sound."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Verzögerung (in Sekunden) zwischen dem Ereignis und dem Abspielen des Sounds.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(soundsOptionsLocales) do
