@@ -609,6 +609,20 @@ function QuestieOptions.tabs.general:Initialize()
                             Questie.db.profile.objectiveProgressSoundChoiceName = value
                         end,
                     },
+                    soundDelay = {
+                        type = "range",
+                        order = 10.0,
+                        name = function() return l10n('Sound Delay'); end,
+                        desc = function() return l10n('Delay (in seconds) between the event and playing the sound.'); end,
+                        width = 1.4,
+                        min = 0.0,
+                        max = 1.0,
+                        step = 0.01,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                        set = function (info, value)
+                            QuestieOptions:SetProfileValue(info, value)
+                        end,
+                    },
                 },
             },
         },
