@@ -48,7 +48,7 @@ function DebugFunctions.ShowQuestObjectives(questId)
         }
     end
 
-    QuestLogCache.questLog_DO_NOT_MODIFY[8961] = {
+    QuestLogCache.questLog_DO_NOT_MODIFY[questId] = {
         title = quest.name,
         isComplete = 0,
         objectives = questCacheObjectives
