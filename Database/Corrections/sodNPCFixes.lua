@@ -699,6 +699,10 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.MOONGLADE] = {{39,68}},
             },
         },
+        [230302] = { -- Lord Kazzak
+            [npcKeys.zoneID] = zoneIDs.THE_TAINTED_SCAR,
+            [npcKeys.spawns] = {[zoneIDs.THE_TAINTED_SCAR]={{-1,-1}}},
+        },
         [230481] = { -- Earth Elemental Fragment
             [npcKeys.zoneID] = zoneIDs.MOONGLADE,
             [npcKeys.spawns] = {

@@ -3046,6 +3046,7 @@ ZoneDB.zoneIDs = {
     MOLTEN_FRONT = 5733,
     DARKMOON_FAIRE_ISLAND = 5861,
     DEMON_FALL_CANYON = 15475, -- SoD Dungeon
+    THE_TAINTED_SCAR = 15531, -- SoD Lord Kazzak Raid
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic
