@@ -880,7 +880,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_INTERACT) or "interact"; end,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         set = function(input, key)
-                            Questie.db.profile.ICON_INTERACT = Questie.icons[key]
+                            Questie.db.profile.ICON_TYPE_INTERACT = Questie.icons[key]
                             QuestieOptionsUtils.DetermineTheme()
                             Questie:SetIcons()
                             QuestieQuest:SmoothReset()
