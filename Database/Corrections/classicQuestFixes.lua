@@ -1901,6 +1901,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [5103] = {
+            [questKeys.requiredLevel] = 55,
             [questKeys.requiredSourceItems] = {12812},
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,270},
         },
