@@ -112,6 +112,9 @@ function CataItemFixes.Load()
         [13202] = { -- Extended Annals of Darrowshire
             [itemKeys.npcDrops] = {11063},
         },
+        [13250] = { -- Head of Balnazzar
+            [itemKeys.startQuest] = 0,
+        },
         [16790] = { -- Damp Note
             [itemKeys.startQuest] = 0,
         },
