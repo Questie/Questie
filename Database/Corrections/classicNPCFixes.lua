@@ -20,6 +20,8 @@ function QuestieNPCFixes:Load()
     return {
         [300] = {
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD]={{35,80},{36.81,83.79},{38,80}}}, -- #1047
+            [npcKeys.minLevel] = 30,
+            [npcKeys.maxLevel] = 30,
         },
         [314] = {
             [npcKeys.zoneID] = zoneIDs.DUSKWOOD,
