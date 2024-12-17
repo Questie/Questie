@@ -431,6 +431,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [105581] = "Truhe der Allianz",
 [106318] = "Ramponierte Truhe",
 [106319] = "Ramponierte Truhe",
+[107045] = "Quellbrunnen",
 [111095] = "Truhe der Allianz",
 [112877] = "Talvashs Wahrsageschale",
 [112888] = "Staubiges Regal",
