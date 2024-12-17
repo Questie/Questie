@@ -204,6 +204,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [3340] = "Mena de incendicita",
 [3348] = "Piel de crocolisco gigante",
 [3349] = "Bolsa de Shida",
+[3353] = "Colgante con runas grabadas",
 [3354] = "Colgante de Dalaran",
 [3356] = "Sangrerregia",
 [3357] = "Vidarraíz",
