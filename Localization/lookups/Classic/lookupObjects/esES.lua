@@ -429,6 +429,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [105581] = "Cofre de la Alianza",
 [106318] = "Cofre maltrecho",
 [106319] = "Cofre maltrecho",
+[107045] = "Fontana",
 [111095] = "Cofre de la Alianza",
 [112877] = "Cuenco de visión de Talvash",
 [112888] = "Estantería polvorienta",
