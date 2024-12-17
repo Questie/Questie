@@ -718,8 +718,20 @@ function CataItemFixes.Load()
         [60862] = { -- Forsaken Insignia
             [itemKeys.npcDrops] = {45197},
         },
+        [60878] = { -- Silverlaine's Enchanted Crystal
+            [itemKeys.npcDrops] = {3887},
+        },
         [60879] = { -- Commander's Holy Symbol
             [itemKeys.npcDrops] = {4278},
+        },
+        [60880] = { -- Springvale's Sharpening Stone
+            [itemKeys.npcDrops] = {4278},
+        },
+        [60881] = { -- Walden's Talisman
+            [itemKeys.npcDrops] = {46963},
+        },
+        [60885] = { -- Silverlaine Family Sword
+            [itemKeys.npcDrops] = {3887},
         },
         [61285] = { -- Active Liquid Plague Agent
             [itemKeys.npcDrops] = {8519,8520},
