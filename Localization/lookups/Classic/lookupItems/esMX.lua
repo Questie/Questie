@@ -224,6 +224,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [3460] = "Bebida especial de Johaan",
 [3466] = "Flujo concentrado",
 [3467] = "Llave de hierro mate",
+[3468] = "Descubrimiento de Renferrel",
 [3476] = "Lengua de oso gris",
 [3477] = "Icor de trepador",
 [3496] = "Sangre de león de montaña",
