@@ -764,6 +764,26 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.DEMON_FALL_CANYON,
             [npcKeys.spawns] = {[zoneIDs.DEMON_FALL_CANYON] = {{-1,-1}}},
         },
+        [233158] = { -- Rune Broker (Alliance)
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{57.4,26.8}},
+                [zoneIDs.IRONFORGE] = {{53.8,14.1}},
+                [zoneIDs.DARNASSUS] = {{28.6,38.6}},
+                [zoneIDs.ELWYNN_FOREST] = {{48.2,41.5}},
+                [zoneIDs.DUN_MOROGH] = {{29.5,72.1}},
+                [zoneIDs.TELDRASSIL] = {{58.9,43.7}},
+            },
+        },
+        [233428] = { -- Rune Broker (Horde)
+            [npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR] = {{49.5,46}},
+                [zoneIDs.THUNDER_BLUFF] = {{22.8,13.8}},
+                [zoneIDs.UNDERCITY] = {{79.4,19.8}},
+                [zoneIDs.DUROTAR] = {{42.7,68}},
+                [zoneIDs.MULGORE] = {{44.3,76.7}},
+                [zoneIDs.TIRISFAL_GLADES] = {{31.3,66.4}},
+            },
+        },
 
         -- fake NPCs
         [900000] = {
