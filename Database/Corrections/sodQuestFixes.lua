@@ -8204,6 +8204,26 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440922,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
+        [91000] = {
+            [questKeys.name] = "Rune Broker",
+            [questKeys.startedBy] = {{233158}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+        },
+        [91001] = {
+            [questKeys.name] = "Rune Broker",
+            [questKeys.startedBy] = {{233428}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+        },
     }
 end
 
