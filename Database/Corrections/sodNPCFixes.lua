@@ -764,7 +764,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.DEMON_FALL_CANYON,
             [npcKeys.spawns] = {[zoneIDs.DEMON_FALL_CANYON] = {{-1,-1}}},
         },
-        [233158] = { -- Rune Broker (Alliance)
+        [233335] = { -- Rune Broker (Alliance)
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY] = {{57.4,26.8}},
                 [zoneIDs.IRONFORGE] = {{53.8,14.1}},
