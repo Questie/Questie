@@ -496,6 +496,20 @@ function CataQuestFixes.Load()
         [6625] = { -- Alliance Trauma
             [questKeys.nextQuestInChain] = 6624,
         },
+        [6983] = { -- You're a Mean One...
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 0,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.objectives] = {{{15664,nil,Questie.ICON_TYPE_INTERACT}},nil,{{17662}}},
+        },
+        [7043] = { -- You're a Mean One...
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 0,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.objectives] = {{{15664,nil,Questie.ICON_TYPE_INTERACT}},nil,{{17662}}},
+        },
         [7383] = { -- Teldrassil: The Burden of the Kaldorei
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {918,919},

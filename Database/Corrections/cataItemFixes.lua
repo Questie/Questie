@@ -118,6 +118,9 @@ function CataItemFixes.Load()
         [16790] = { -- Damp Note
             [itemKeys.startQuest] = 0,
         },
+        [17662] = { -- Stolen Treats
+            [itemKeys.objectDrops] = {209497,209506},
+        },
         [18597] = { -- Orcish Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
