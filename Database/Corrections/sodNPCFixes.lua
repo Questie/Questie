@@ -693,6 +693,18 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.EASTERN_PLAGUELANDS] = {{47.8,50.4}},
             },
         },
+        [227755] = { -- Estelenn
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+            [npcKeys.spawns] = {
+                -- TODO: Is there a better way? The NPC ID is correct, but the locations are needed for different quests
+                [zoneIDs.BURNING_STEPPES] = {{17.03,46.32}},
+                [zoneIDs.WINTERSPRING] = {{58,21}},
+            },
+        },
+        [228818] = { -- Shrine of Cooperation
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{47,58}}},
+        },
         [229897] = { -- Wild Windtwister
             [npcKeys.zoneID] = zoneIDs.MOONGLADE,
             [npcKeys.spawns] = {
@@ -708,30 +720,6 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.spawns] = {
                 [zoneIDs.MOONGLADE] = {{72.4,62.2}},
             },
-        },
-        [232755] = { -- Van Amburgh
-            [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
-            [npcKeys.spawns] = {
-                [zoneIDs.UN_GORO_CRATER] = {{23.64,33.23}},
-            },
-        },
-        [233084] = { -- Estelenn
-            [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
-            [npcKeys.spawns] = {
-                [zoneIDs.UN_GORO_CRATER] = {{23.64,33.23}},
-            },
-        },
-        [227755] = { -- Estelenn
-            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
-            [npcKeys.spawns] = {
-                -- TODO: Is there a better way? The NPC ID is correct, but the locations are needed for different quests
-                [zoneIDs.BURNING_STEPPES] = {{17.03,46.32}},
-                [zoneIDs.WINTERSPRING] = {{58,21}},
-            },
-        },
-        [228818] = { -- Shrine of Cooperation
-            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
-            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{47,58}}},
         },
         [230319] = { -- Deliana
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE]={{43.53,52.64}}},
@@ -756,9 +744,21 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{50.7,27.9}}},
         },
+        [232755] = { -- Van Amburgh
+            [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
+            [npcKeys.spawns] = {
+                [zoneIDs.UN_GORO_CRATER] = {{23.64,33.23}},
+            },
+        },
         [232929] = { -- Gregory
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{53.36,83.59}}},
+        },
+        [233084] = { -- Estelenn
+            [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
+            [npcKeys.spawns] = {
+                [zoneIDs.UN_GORO_CRATER] = {{23.64,33.23}},
+            },
         },
         [233158] = { -- Azgaloth
             [npcKeys.zoneID] = zoneIDs.DEMON_FALL_CANYON,
