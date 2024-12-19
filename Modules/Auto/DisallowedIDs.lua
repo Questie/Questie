@@ -222,4 +222,5 @@ _QuestieAuto.disallowedQuests = {
     [27022] = true, -- Extinguishing the Idol
 
     [82062] = true, -- Ever After SoD
+    [83934] = true, -- Show Me The Money! - Costs one Tarnished Undermine Real
 }
