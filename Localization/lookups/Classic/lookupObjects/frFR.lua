@@ -430,6 +430,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [105581] = "Coffre de l'Alliance",
 [106318] = "Coffre endommagé",
 [106319] = "Coffre endommagé",
+[107045] = "Puits de printemps",
 [111095] = "Coffre de l'Alliance",
 [112877] = "Coupe de divination de Talvash",
 [112888] = "Etagère poussiéreuse",
