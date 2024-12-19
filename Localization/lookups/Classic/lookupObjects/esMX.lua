@@ -266,6 +266,7 @@ l10n.objectLookup["esMX"] = loadstring([[return {
 [1759] = "Registro de Trabalomas",
 [1760] = "Estantería estropeada",
 [1761] = "Proclamación de Trabalomas",
+[1763] = "SE BUSCA",
 [1764] = "Cadena con bola de preso",
 [1765] = "Cofre de madera gastado",
 [1766] = "Fuego",
