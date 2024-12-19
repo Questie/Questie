@@ -113,6 +113,7 @@ _QuestieAuto.disallowedQuests = {
     [4962] = true, -- Shard of a Felhound Warlock special quest
     [4963] = true, -- Shard of an Infernal Warlock special quest
     [4966] = true, -- Kanati Greycloud (Protect Kanati Greycloud)
+    [5162] = true, -- Wrath of the Blue Flight (Flies you from Winterspring to WPL)
     [5203] = true, -- Captured Arko'narin (Rescue From Jaedenar)
     [5321] = true, -- Kerlonian Evershade (The Sleeper Has Awakened)
     [5713] = true, -- Sentinel Aynasha (One Shot. One Kill.)
