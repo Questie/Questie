@@ -819,10 +819,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79486] = { -- A Smokywood Pastures' Thank You! (Alliance)
+            [questKeys.preQuestSingle] = {79484},
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79487] = { -- A Smokywood Pastures' Thank You! (Horde)
+            [questKeys.preQuestSingle] = {79485},
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
