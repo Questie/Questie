@@ -613,6 +613,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [5583] = "Escama de dragón hada",
 [5584] = "Mostacho Crepuscular",
 [5585] = "Ojo de trotador",
+[5594] = "Carta para Jin'Zil",
 [5619] = "Ampolla de jade",
 [5620] = "Vial de sangre inocente",
 [5621] = "Ampolla de turmalina",
