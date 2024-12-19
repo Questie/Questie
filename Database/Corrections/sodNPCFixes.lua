@@ -693,30 +693,6 @@ function SeasonOfDiscovery:LoadNPCs()
                 [zoneIDs.EASTERN_PLAGUELANDS] = {{47.8,50.4}},
             },
         },
-        [229897] = { -- Wild Windtwister
-            [npcKeys.zoneID] = zoneIDs.MOONGLADE,
-            [npcKeys.spawns] = {
-                [zoneIDs.MOONGLADE] = {{39,68}},
-            },
-        },
-        [230481] = { -- Earth Elemental Fragment
-            [npcKeys.zoneID] = zoneIDs.MOONGLADE,
-            [npcKeys.spawns] = {
-                [zoneIDs.MOONGLADE] = {{72.4,62.2}},
-            },
-        },
-        [232755] = { -- Van Amburgh
-            [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
-            [npcKeys.spawns] = {
-                [zoneIDs.UN_GORO_CRATER] = {{23.64,33.23}},
-            },
-        },
-        [233084] = { -- Estelenn
-            [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
-            [npcKeys.spawns] = {
-                [zoneIDs.UN_GORO_CRATER] = {{23.64,33.23}},
-            },
-        },
         [227755] = { -- Estelenn
             [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
             [npcKeys.spawns] = {
@@ -728,6 +704,22 @@ function SeasonOfDiscovery:LoadNPCs()
         [228818] = { -- Shrine of Cooperation
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{47,58}}},
+        },
+        [229897] = { -- Wild Windtwister
+            [npcKeys.zoneID] = zoneIDs.MOONGLADE,
+            [npcKeys.spawns] = {
+                [zoneIDs.MOONGLADE] = {{39,68}},
+            },
+        },
+        [230302] = { -- Lord Kazzak
+            [npcKeys.zoneID] = zoneIDs.THE_TAINTED_SCAR,
+            [npcKeys.spawns] = {[zoneIDs.THE_TAINTED_SCAR]={{-1,-1}}},
+        },
+        [230481] = { -- Earth Elemental Fragment
+            [npcKeys.zoneID] = zoneIDs.MOONGLADE,
+            [npcKeys.spawns] = {
+                [zoneIDs.MOONGLADE] = {{72.4,62.2}},
+            },
         },
         [230319] = { -- Deliana
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE]={{43.53,52.64}}},
@@ -752,13 +744,45 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{50.7,27.9}}},
         },
+        [232755] = { -- Van Amburgh
+            [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
+            [npcKeys.spawns] = {
+                [zoneIDs.UN_GORO_CRATER] = {{23.64,33.23}},
+            },
+        },
         [232929] = { -- Gregory
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{53.36,83.59}}},
         },
+        [233084] = { -- Estelenn
+            [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
+            [npcKeys.spawns] = {
+                [zoneIDs.UN_GORO_CRATER] = {{23.64,33.23}},
+            },
+        },
         [233158] = { -- Azgaloth
             [npcKeys.zoneID] = zoneIDs.DEMON_FALL_CANYON,
             [npcKeys.spawns] = {[zoneIDs.DEMON_FALL_CANYON] = {{-1,-1}}},
+        },
+        [233335] = { -- Rune Broker (Alliance)
+            [npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY] = {{57.4,26.8}},
+                [zoneIDs.IRONFORGE] = {{53.8,14.1}},
+                [zoneIDs.DARNASSUS] = {{28.6,38.6}},
+                [zoneIDs.ELWYNN_FOREST] = {{48.2,41.5}},
+                [zoneIDs.DUN_MOROGH] = {{29.5,72.1}},
+                [zoneIDs.TELDRASSIL] = {{58.9,43.7}},
+            },
+        },
+        [233428] = { -- Rune Broker (Horde)
+            [npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR] = {{49.5,46}},
+                [zoneIDs.THUNDER_BLUFF] = {{22.8,13.8}},
+                [zoneIDs.UNDERCITY] = {{79.4,19.8}},
+                [zoneIDs.DUROTAR] = {{42.7,68}},
+                [zoneIDs.MULGORE] = {{44.3,76.7}},
+                [zoneIDs.TIRISFAL_GLADES] = {{31.3,66.4}},
+            },
         },
 
         -- fake NPCs

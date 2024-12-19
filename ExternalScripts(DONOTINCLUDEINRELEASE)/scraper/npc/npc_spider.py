@@ -14,7 +14,7 @@ class NPCSpider(scrapy.Spider):
 
     def __init__(self) -> None:
         super().__init__()
-        self.start_urls = [self.base_url_classic.format(npc_id) for npc_id in NPC_IDS]
+        self.start_urls = [self.base_url_classic.format(npc_id) for npc_id in [230302]]
 
     def parse(self, response):
         result = {}

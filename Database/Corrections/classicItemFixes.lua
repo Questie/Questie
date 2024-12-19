@@ -687,6 +687,9 @@ function QuestieItemFixes:Load()
         [10639] = {
             [itemKeys.npcDrops] = {1988,1989},
         },
+        [10663] = { -- Essence of Hakkar
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [10691] = { -- #1396
             [itemKeys.relatedQuests] = {3568},
             [itemKeys.npcDrops] = {},

@@ -496,6 +496,20 @@ function CataQuestFixes.Load()
         [6625] = { -- Alliance Trauma
             [questKeys.nextQuestInChain] = 6624,
         },
+        [6983] = { -- You're a Mean One...
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 0,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.objectives] = {{{15664,nil,Questie.ICON_TYPE_INTERACT}},nil,{{17662}}},
+        },
+        [7043] = { -- You're a Mean One...
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 0,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.objectives] = {{{15664,nil,Questie.ICON_TYPE_INTERACT}},nil,{{17662}}},
+        },
         [7383] = { -- Teldrassil: The Burden of the Kaldorei
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {918,919},
@@ -7156,6 +7170,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{43158,44936,44988},nil,{60816}},
             [questKeys.preQuestSingle] = {27007},
         },
+        [27103] = { -- Shards of the Felvine
+            [questKeys.requiredSourceItems] = {18501},
+        },
         [27106] = { -- A Villain Unmasked
             [questKeys.objectives] = {{{2439,nil,Questie.ICON_TYPE_TALK},{2439}}},
         },
@@ -11205,6 +11222,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {nil,{{460012}}},
             [questKeys.nextQuestInChain] = 29250,
         },
+        [29240] = { -- Emergency Extraction
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Kalecgos"),0,{{"monster",53149}}}},
+        },
         [29243] = { -- Strike at the Heart
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {29210,29283,-29205},
@@ -11265,6 +11285,13 @@ function CataQuestFixes.Load()
             [questKeys.parentQuest] = 29219,
             [questKeys.preQuestSingle] = {29232},
             [questKeys.startedBy] = {{52374}},
+        },
+        [29269] = { -- At One
+            [questKeys.objectives] = {{{53182,nil,Questie.ICON_TYPE_EVENT},{53149,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.zoneOrSort] = 4024,
+        },
+        [29270] = { -- Time Grows Short
+            [questKeys.zoneOrSort] = 4024,
         },
         [29272] = { -- Need... Water... Badly...
             [questKeys.preQuestSingle] = {29206},

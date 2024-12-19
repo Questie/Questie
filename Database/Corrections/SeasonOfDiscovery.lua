@@ -601,6 +601,8 @@ local runeQuestsInSoD = {-- List quests here to have them flagged as Rune quests
     [90350] = 4, -- Priest Soul Warding Step 2
     [90351] = 4, -- Warlock Decimation Step 1
     [90352] = 4, -- Warlock Decimation Step 2
+    [91000] = 1, -- Rune Broker (Alliance)
+    [91001] = 1, -- Rune Broker (Horde)
 }
 
 --- "automatic" phase detection for the first few phases;
@@ -641,6 +643,8 @@ function QuestieDB.IsRuneAndShouldBeHidden(questId)
 
     if (not Questie.db.profile.showSoDRunes) then
         return true
+    elseif questId == 91000 or questId == 91001 then
+        return false -- Rune Broker quests are always shown
     end
 
     local showRunesOfPhase = Questie.db.profile.showRunesOfPhase

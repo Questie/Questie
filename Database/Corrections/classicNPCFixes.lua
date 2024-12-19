@@ -20,6 +20,8 @@ function QuestieNPCFixes:Load()
     return {
         [300] = {
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD]={{35,80},{36.81,83.79},{38,80}}}, -- #1047
+            [npcKeys.minLevel] = 30,
+            [npcKeys.maxLevel] = 30,
         },
         [314] = {
             [npcKeys.zoneID] = zoneIDs.DUSKWOOD,
@@ -1002,6 +1004,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
         },
+        [8443] = { -- Avatar of Hakkar
+            [npcKeys.zoneID] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+            [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
+        },
         [8477] = {
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
@@ -1282,7 +1288,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{49.81,9.8}}},
         },
         [10740] = {
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE]={{-1, -1}}},
+            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
         },
         [10741] = {

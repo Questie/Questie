@@ -12505,6 +12505,16 @@ function SeasonOfDiscovery:LoadBaseNPCs()
             [npcKeys.questStarts] = nil,
             [npcKeys.questEnds] = nil,
         },
+        [230302] = {
+            [npcKeys.name] = "Lord Kazzak",
+            [npcKeys.minLevel] = 99,
+            [npcKeys.maxLevel] = 99,
+            [npcKeys.zoneID] = 0,
+            [npcKeys.spawns] = nil,
+            [npcKeys.friendlyToFaction] = nil,
+            [npcKeys.questStarts] = nil,
+            [npcKeys.questEnds] = nil,
+        },
         [230317] = {
             [npcKeys.name] = "Mokvar",
             [npcKeys.minLevel] = 60,

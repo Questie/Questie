@@ -52,10 +52,6 @@ function SeasonOfDiscovery:LoadQuests()
         [8801] = { -- C'Thun's Legacy
             [questKeys.nextQuestInChain] = 86670,
         },
-        [8447] = { -- Waking Legends
-            [questKeys.preQuestSingle] = {86679},
-            [questKeys.triggerEnd] = {"Waking Legends.",{[zoneIDs.MOONGLADE]={{40.0,48.6}}}},
-        },
         [8922] = { -- A Supernatural Device
             [questKeys.preQuestSingle] = {84147,84148,84149,84150,84151,84152,84153,84154},
         },
@@ -3987,6 +3983,12 @@ function SeasonOfDiscovery:LoadQuests()
         [86679] = { -- Shrouded in Nightmare
             [questKeys.startedBy] = {{14887,14888,14889,14890},nil,{20644}},
             [questKeys.finishedBy] = {{11832}},
+            [questKeys.zoneOrSort] = sortKeys.EPIC,
+            [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,200}},
+        },
+        [86680] = { -- Waking Legends
+            [questKeys.triggerEnd] = {"Waking Legends.",{[zoneIDs.MOONGLADE]={{40.0,48.6}}}},
+            [questKeys.preQuestSingle] = {86679},
             [questKeys.zoneOrSort] = sortKeys.EPIC,
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,200}},
         },
@@ -8201,6 +8203,26 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Use the Legion Portal Tuner on a fel scar, and send your Explorer Imp inside until you get a Portal Tuner Tuner. Use it on the Legion Portal Tuner to create a Overcharged Portal Tuner. Then use it on a Fel Scar and send your Explorer Imp back in, and he will return with the rune."},
             [questKeys.requiredSpell] = -440922,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [91000] = {
+            [questKeys.name] = "Rune Broker",
+            [questKeys.startedBy] = {{233158}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+        },
+        [91001] = {
+            [questKeys.name] = "Rune Broker",
+            [questKeys.startedBy] = {{233428}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
     }
 end

@@ -1178,6 +1178,30 @@ local iconOptionsLocales = {
         ["esES"] = "Fase 4",
         ["frFR"] = true,
     },
+    ["Interact objectives"] = {
+        ["ptBR"] = "Objetivos de interação",
+        ["ruRU"] = "Взаимодействие",
+        ["deDE"] = "Interaktionsziele",
+        ["koKR"] = false,
+        ["esMX"] = "Objetivos de interacción",
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = "互動目標",
+        ["esES"] = "Objetivos de interacción",
+        ["frFR"] = "Objectifs d'interaction",
+    },
+    ["The icon that is displayed for quest objectives where you need to use an item or interact with an NPC"] = {
+        ["ptBR"] = "O ícone exibido para objetivos de missão onde você precisa usar um item ou interagir com um NPC",
+        ["ruRU"] = "Значок для целей заданий, в которых вам нужно использовать предмет или взаимодействовать с NPC",
+        ["deDE"] = "Das Icon welches für Questziele angezeigt wird, für die du einen Gegenstand auf einen NPC nutzen oder mit ihm anderweitig interagieren musst",
+        ["koKR"] = false,
+        ["esMX"] = "El icono que se muestra para objetivos de misiones donde necesitas usar un objeto o interactuar con un PNJ",
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = "顯示需要使用物品或與 NPC 互動的任務目標的圖示",
+        ["esES"] = "El icono que se muestra para objetivos de misiones donde necesitas usar un objeto o interactuar con un PNJ",
+        ["frFR"] = "L'icône affichée pour les objectifs de quête où vous devez utiliser un objet ou interagir avec un PNJ",
+    },
 }
 
 for k, v in pairs(iconOptionsLocales) do

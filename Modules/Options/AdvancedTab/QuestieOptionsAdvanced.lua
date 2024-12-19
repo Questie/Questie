@@ -234,9 +234,21 @@ function QuestieOptions.tabs.advanced:Initialize()
                 end,
             },
             Spacer_E = QuestieOptionsUtils:Spacer(4.3),
-            recompileDatabase = {
+            questieJourneyReset = {
                 type = "execute",
                 order = 4.4,
+                name = function() return l10n('Reset Questie Journey'); end,
+                desc = function() return l10n('Clear the Journey of the current character'); end,
+                func = function(_,_)
+                    Questie.db.char.journey = nil
+
+                    ReloadUI()
+                end,
+            },
+            Spacer_F = QuestieOptionsUtils:Spacer(4.5),
+            recompileDatabase = {
+                type = "execute",
+                order = 4.6,
                 name = function() return l10n('Recompile Database'); end,
                 desc = function() return l10n('Forces a recompile of the Questie database. This will also reload the UI.'); end,
                 func = function (_, _)
@@ -248,20 +260,20 @@ function QuestieOptions.tabs.advanced:Initialize()
                     ReloadUI()
                 end,
             },
-            Spacer_F = QuestieOptionsUtils:Spacer(4.5),
+            Spacer_G = QuestieOptionsUtils:Spacer(4.7),
             openProfiler = {
                 type = "execute",
-                order = 4.6,
+                order = 4.8,
                 name = function() return l10n('Open Profiler'); end,
                 desc = function() return l10n('Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes.'); end,
                 func = function (_, _)
                     QuestieLoader:ImportModule("Profiler"):Start()
                 end,
             },
-            Spacer_G = QuestieOptionsUtils:Spacer(4.7),
+            Spacer_H = QuestieOptionsUtils:Spacer(4.9),
             github_text = {
                 type = "description",
-                order = 4.8,
+                order = 4.10,
                 name = function() return Questie:Colorize(l10n('Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/Questie/Questie/ ))'), 'purple'); end,
                 fontSize = "medium",
             },
