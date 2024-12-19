@@ -441,7 +441,7 @@ function QuestieTracker:QuestItemLooted(text)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Quest Item Detected (itemId) - ", itemId)
 
             C_Timer.After(0.25, function()
-                _QuestEventHandler:UpdateAllQuests()
+                _QuestEventHandler:UpdateAllQuests(false)
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Callback --> QuestEventHandler:UpdateAllQuests()")
             end)
 

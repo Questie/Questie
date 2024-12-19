@@ -48,7 +48,6 @@ local questLog = {}
 local questLogUpdateQueueSize = 1
 local skipNextUQLCEvent = false
 local doFullQuestLogScan = false
-local doRetryWithoutChanges = false
 local deletedQuestItem = false
 
 function QuestEventHandler:Initialize()
@@ -153,7 +152,7 @@ function QuestEventHandler:Initialize()
         if deletedQuestItem then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] DeleteCursorItem: Quest Item deleted. Update all quests.")
 
-            _QuestEventHandler:UpdateAllQuests()
+            _QuestEventHandler:UpdateAllQuests(true)
             deletedQuestItem = false
         end
     end)
@@ -343,7 +342,7 @@ function QuestEventHandler.QuestLogUpdate()
     if doFullQuestLogScan then
         doFullQuestLogScan = false
         -- Function call updates doFullQuestLogScan. Order matters.
-        _QuestEventHandler:UpdateAllQuests()
+        _QuestEventHandler:UpdateAllQuests(true)
     else
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
@@ -360,7 +359,6 @@ function QuestEventHandler:QuestWatchUpdate(questId)
     -- a QUEST_LOG_UPDATE. Also not every QUEST_WATCH_UPDATE gets a single QUEST_LOG_UPDATE and doing a full
     -- scan is less error prone
     doFullQuestLogScan = true
-    doRetryWithoutChanges = true
 end
 
 local _UnitQuestLogChangedCallback = function()
@@ -368,7 +366,6 @@ local _UnitQuestLogChangedCallback = function()
     -- (Accept, removed, ...)
     if (not skipNextUQLCEvent) then
         doFullQuestLogScan = true
-        doRetryWithoutChanges = true
     else
         doFullQuestLogScan = false
         skipNextUQLCEvent = false
@@ -402,7 +399,6 @@ function QuestEventHandler:UnitQuestLogChanged(unitTarget)
     -- We don't add a full check to the queue if skipNextUQLCEvent == true (from QUEST_WATCH_UPDATE or QUEST_TURNED_IN)
     if (not skipNextUQLCEvent) then
         doFullQuestLogScan = true
-        doRetryWithoutChanges = true
         _QuestLogUpdateQueue:Insert(_UnitQuestLogChangedCallback)
     else
         Questie:Debug(Questie.DEBUG_INFO, "Skipping UnitQuestLogChanged")
@@ -412,7 +408,8 @@ end
 
 --- Does a full scan of the quest log and updates every quest that is in the QUEST_ACCEPTED state and which hash changed
 --- since the last check
-function _QuestEventHandler:UpdateAllQuests()
+---@param doRetryWithoutChanges boolean @If true, the function will be called again at next QUEST_LOG_UPDATE even if there were no changes
+function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
     Questie:Debug(Questie.DEBUG_INFO, "Running full questlog check")
     local questIdsToCheck = {}
 
@@ -443,7 +440,6 @@ function _QuestEventHandler:UpdateAllQuests()
     else
         Questie:Debug(Questie.DEBUG_INFO, "Nothing to update")
         doFullQuestLogScan = doRetryWithoutChanges -- There haven't been any changes, even though we called UpdateAllQuests. We need to check again at next QUEST_LOG_UPDATE
-        doRetryWithoutChanges = false
     end
 
     -- Do UpdateAllQuests() again at next QUEST_LOG_UPDATE if there was "cacheMiss" (game's cache and addon's cache didn't have all required data yet)
@@ -460,7 +456,7 @@ function _QuestEventHandler:QuestRelatedFrameClosed(event)
         Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event]", event)
 
         lastTimeQuestRelatedFrameClosedEvent = now
-        _QuestEventHandler:UpdateAllQuests()
+        _QuestEventHandler:UpdateAllQuests(false)
         QuestieTracker:Update()
     end
 end
