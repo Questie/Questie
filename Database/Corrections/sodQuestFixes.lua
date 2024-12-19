@@ -8208,7 +8208,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [91000] = {
             [questKeys.name] = "Rune Broker",
-            [questKeys.startedBy] = {{233158}},
+            [questKeys.startedBy] = {{233335}},
             [questKeys.finishedBy] = nil,
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 1,
