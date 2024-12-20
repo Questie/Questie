@@ -1059,6 +1059,11 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.TANARIS,
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{59.3,37.95}}},
         },
+        [9026] = {
+            -- Overmaster Pyron (not inside BRD, but at the entrance and this is the best way to show him, since there is no map for inside Blackrock Mountain)
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
         [9027] = {
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
