@@ -5933,6 +5933,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use your drum near a Mysterious Snow Mound"), 0, {{"object", 195309}}}},
             [questKeys.requiredSourceItems] = {},
         },
+        [14077] = { -- The Light's Mercy
+            [questKeys.objectives] = {{{34852,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [14079] = {
             [questKeys.requiredRaces] = raceIDs.HUMAN,
         },
@@ -5964,7 +5967,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
         [14090] = {
-            [questKeys.objectives] = {{{29618,"Snowblind Follower captured"}}},
+            [questKeys.objectives] = {{{29618,"Snowblind Follower captured",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSourceItems] = {},
         },
         [14092] = { -- Breakfast Of Champions
@@ -5990,7 +5993,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [14107] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{32149},32149,"Fallen Hero's Spirit blessed"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{32149},32149,"Fallen Hero's Spirit blessed",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSourceItems] = {47035},
         },
         [14108] = {
@@ -6008,7 +6011,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [14141] = { -- Gormok Wants His Snobolds
             [questKeys.exclusiveTo] = {14092,14145},
-            [questKeys.objectives] = {{{29618,"Snowblind Follower captured"}}},
+            [questKeys.objectives] = {{{29618,"Snowblind Follower captured",Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSourceItems] = {},
         },
         [14143] = { -- A Leg Up
@@ -6016,6 +6019,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [14144] = { -- The Light's Mercy
             [questKeys.exclusiveTo] = {14136,14140,14143},
+            [questKeys.objectives] = {{{34852,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [14145] = { -- What Do You Feed a Yeti, Anyway?
             [questKeys.exclusiveTo] = {14092,14141},
