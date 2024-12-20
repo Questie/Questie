@@ -170,10 +170,10 @@ local soundsOptionsLocales = {
         ["esES"] = "El sonido que escuchas cuando avanzas en un objetivo de misión",
         ["frFR"] = "Le son que vous entendez lorsque vous progressez sur un objectif de quête",
     },
-    ["Sound Delay"] = {
+    ["Progress Sound Delay"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["deDE"] = "Sound-Verzögerung",
+        ["deDE"] = "Fortschritts-Sound-Verzögerung",
         ["koKR"] = false,
         ["esMX"] = false,
         ["enUS"] = true,

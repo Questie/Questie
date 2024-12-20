@@ -612,7 +612,7 @@ function QuestieOptions.tabs.general:Initialize()
                     soundDelay = {
                         type = "range",
                         order = 10.0,
-                        name = function() return l10n('Sound Delay'); end,
+                        name = function() return l10n('Progress Sound Delay'); end,
                         desc = function() return l10n('Delay (in seconds) between the event and playing the sound.'); end,
                         width = 1.4,
                         min = 0.0,
