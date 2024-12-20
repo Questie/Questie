@@ -285,7 +285,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     local dateToday = date("%y-%m-%d")
 
-    if Questie.db.profile.showAQWarEffortQuests and ((not Questie.db.profile.aqWarningPrintDate) or (Questie.db.profile.aqWarningPrintDate < dateToday)) then
+    if (not Questie.IsSoD) and Questie.db.profile.showAQWarEffortQuests and ((not Questie.db.profile.aqWarningPrintDate) or (Questie.db.profile.aqWarningPrintDate < dateToday)) then
         Questie.db.profile.aqWarningPrintDate = dateToday
         C_Timer.After(2, function()
             print("|cffff0000-----------------------------|r")
