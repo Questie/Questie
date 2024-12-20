@@ -182,10 +182,10 @@ local soundsOptionsLocales = {
         ["esES"] = false,
         ["frFR"] = false,
     },
-    ["Delay (in seconds) between the event and playing the sound."] = {
+    ["Delay (in seconds, default: %s) for playing objective progress and completion sounds. Increase this if you hear double sounds."] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["deDE"] = "Verzögerung (in Sekunden) zwischen dem Ereignis und dem Abspielen des Sounds.",
+        ["deDE"] = "Verzögerung (in Sekunden, Voreinstellung: %s) beim Abspielen von Quest-Ziel-Fortschritts-Sounds. Diesen Wert erhöhen, falls Sounds doppelt abgespielt werden.",
         ["koKR"] = false,
         ["esMX"] = false,
         ["enUS"] = true,

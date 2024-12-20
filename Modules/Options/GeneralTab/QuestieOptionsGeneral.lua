@@ -613,7 +613,7 @@ function QuestieOptions.tabs.general:Initialize()
                         type = "range",
                         order = 10.0,
                         name = function() return l10n('Progress Sound Delay'); end,
-                        desc = function() return l10n('Delay (in seconds) between the event and playing the sound.'); end,
+                        desc = function() return l10n('Delay (in seconds, default: %s) for playing objective progress and completion sounds. Increase this if you hear double sounds.', optionsDefaults.profile.soundDelay); end,
                         width = 1.4,
                         min = 0.0,
                         max = 1.0,
