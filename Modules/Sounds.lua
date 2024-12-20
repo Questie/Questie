@@ -46,9 +46,7 @@ function Sounds.PlayQuestComplete()
 
     shouldPlayObjectiveProgress = false
     shouldPlayObjectiveComplete = false
-    C_Timer.After(Questie.db.profile.soundDelay, function ()
-        PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.questCompleteSoundChoiceName), "Master")
-    end)
+    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.questCompleteSoundChoiceName), "Master")
 end
 
 function Sounds.GetSelectedSoundFile(typeSelected)
