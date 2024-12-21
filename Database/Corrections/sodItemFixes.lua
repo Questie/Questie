@@ -50,7 +50,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.npcDrops] = {1998,1999,2000,2001},
         },
         [208689] = { -- Ferocious Idol
-            [itemKeys.npcDrops] = {98,117,500,1972,6788},
+            [itemKeys.npcDrops] = {98,117,452,500,1065,1972,6788},
         },
         [208771] = { -- Rune of Blade Dance
             [itemKeys.objectDrops] = {407453,408718,414532},
@@ -75,7 +75,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.npcDrops] = {2265,2266,2267,2268,2360,2387},
         },
         [210195] = { -- Unbalanced Idol
-            [itemKeys.npcDrops] = {1769,1770,1779},
+            [itemKeys.npcDrops] = {1769,1770,1779,1782,1924},
         },
         [210589] = { -- Echo of the Ancestors
             [itemKeys.npcDrops] = {204937},
@@ -215,11 +215,14 @@ function SeasonOfDiscovery:LoadItems()
         [231842] = { -- Nandieb's Stave
             [itemKeys.npcDrops] = {232529},
         },
+        [234006] = { -- Monstrous Silithid Chitin
+            [itemKeys.npcDrops] = {13136,15240,15286,15288,15341,15348,234798},
+        },
         [234007] = { -- Spiked Silithid Chitin
-            [itemKeys.npcDrops] = {11724,11727,13136},
+            [itemKeys.npcDrops] = {11724,11727,13136,15230,15233,15235,15236,15240,15318,15319,15320,15323,15324,15325,15327,15336,234798},
         },
         [234008] = { -- Qiraji Silk
-            [itemKeys.npcDrops] = {11880,11881,11882,11883,15201,15202,15213,15247,15343,15541},
+            [itemKeys.npcDrops] = {11880,11881,11882,11883,14479,15201,15202,15213,15247,15249,15263,15343,15516,15541,15542,234762,234800},
         },
         [235045] = { -- Imperial Qiraji Regalia
             [itemKeys.npcDrops] = {15275,15276,15299,15509,15510,15511,15516,15517,15543,15544},

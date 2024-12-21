@@ -73,6 +73,11 @@ local migrationFunctions = {
     [7] = function()
         Questie.db.profile.tutorialShowRunesDone = false
     end,
+    [8] = function()
+        if Questie.IsSoD then
+            Questie.db.profile.showAQWarEffortQuests = true
+        end
+    end,
 }
 
 function Migration:Migrate()

@@ -118,9 +118,6 @@ function CataItemFixes.Load()
         [16790] = { -- Damp Note
             [itemKeys.startQuest] = 0,
         },
-        [17662] = { -- Stolen Treats
-            [itemKeys.objectDrops] = {209497},
-        },
         [18597] = { -- Orcish Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -990,6 +987,9 @@ function CataItemFixes:LoadFactionFixes()
     local itemKeys = QuestieDB.itemKeys
 
     local itemFixesHorde = {
+        [17662] = { -- Stolen Treats
+            [itemKeys.objectDrops] = {209506},
+        },
         [56188] = { -- Rescue Flare
             [itemKeys.objectDrops] = {203410},
         },
@@ -999,6 +999,9 @@ function CataItemFixes:LoadFactionFixes()
     }
 
     local itemFixesAlliance = {
+        [17662] = { -- Stolen Treats
+            [itemKeys.objectDrops] = {209497},
+        },
         [56188] = { -- Rescue Flare
             [itemKeys.objectDrops] = {203403},
         },
