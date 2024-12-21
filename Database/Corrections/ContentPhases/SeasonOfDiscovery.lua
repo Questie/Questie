@@ -594,6 +594,12 @@ local questsToBlacklistByPhase = {
         [8572] = true, -- Veteran's Battlegear - Replaced by 86676
         [8573] = true, -- Champion's Battlegear - Replaced by 86677
         [8574] = true, -- Stalwart's Battlegear - Replaced by 86678
+        [8792] = true, -- The Horde Needs Your Help!
+        [8793] = true, -- The Horde Needs Your Help!
+        [8794] = true, -- The Horde Needs Your Help!
+        [8795] = true, -- The Alliance Needs Your Help!
+        [8796] = true, -- The Alliance Needs Your Help!
+        [8797] = true, -- The Alliance Needs Your Help!
 
         -- AQ Raid quests
         [8789] = true, -- Imperial Qiraji Armaments - Replaced by 86672
