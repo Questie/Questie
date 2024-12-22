@@ -1093,6 +1093,11 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
         },
+        [9046] = {
+            -- Scarshield Quartermaster (not inside UBRS, but at the entrance and this is the best way to show him, since there is no map for inside Blackrock Mountain)
+            [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
+        },
         [9077] = {
             [npcKeys.waypoints] = {},
         },
