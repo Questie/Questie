@@ -503,6 +503,12 @@ function CataQuestFixes.Load()
             [questKeys.requiredLevel] = 80,
             [questKeys.objectives] = {{{15664,nil,Questie.ICON_TYPE_INTERACT}},nil,{{17662}}},
         },
+        [7022] = { -- Greatfather Winter is Here!
+            [questKeys.startedBy] = {{13433}},
+        },
+        [7024] = { -- Great-father Winter is Here!
+            [questKeys.startedBy] = {{13429}},
+        },
         [7043] = { -- You're a Mean One...
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.preQuestSingle] = {},
