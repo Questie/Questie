@@ -1031,6 +1031,11 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{28.96,28.93}}},
             [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
         },
+        [8917] = {
+            -- Quarry Slave (not inside BRD, but at the entrance and this is the best way to show him, since there is no map for inside Blackrock Mountain)
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
         [8925] = {
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},

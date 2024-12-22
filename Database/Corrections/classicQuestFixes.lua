@@ -1639,6 +1639,11 @@ function QuestieQuestFixes:Load()
         [4261] = {
             [questKeys.triggerEnd] = {"Help Arei get to Safety", {[zoneIDs.FELWOOD]={{49.42,14.54}}}},
         },
+        [4264] = {
+            -- There are more mobs to drop this quest, but it would flood the map, as nearly all are inside BRD.
+            -- This at least show some icons.
+            [questKeys.startedBy] = {{8917,9319},nil,{11446}},
+        },
         [4265] = {
             [questKeys.triggerEnd] = {"Free Raschal.", {[zoneIDs.FERALAS]={{72.13,63.84}}}},
         },
