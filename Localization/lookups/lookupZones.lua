@@ -1316,8 +1316,9 @@ l10n.zoneLookup = {
         [796]="Scarlet Monastery",
     },
     [229]={
-        [1583]="Blackrock Spire",
+        [1583]="Lower Blackrock Spire",
         [4628]="Halls of Binding",
+        [7307]="Upper Blackrock Spire",
     },
     [230]={
         [1584]="Blackrock Depths",
