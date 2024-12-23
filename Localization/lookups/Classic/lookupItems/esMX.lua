@@ -1359,6 +1359,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [16408] = "Globo de agua contaminada",
 [16581] = "Cristal de resonita",
 [16602] = "Talismán trol",
+[16603] = "Cristal de resonita encantado",
 [16642] = "Manual de instrucciones de trituradora: Capítulo 1",
 [16643] = "Manual de instrucciones de trituradora: Capítulo 2",
 [16644] = "Manual de instrucciones de trituradora: Capítulo 3",
