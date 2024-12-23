@@ -617,6 +617,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [5619] = "Ampolla de jade",
 [5620] = "Vial de sangre inocente",
 [5621] = "Ampolla de turmalina",
+[5628] = "Nota de Zamah",
 [5635] = "Garra afilada",
 [5639] = "Ampolla de jade llena",
 [5645] = "Ampolla de turmalina llena",
