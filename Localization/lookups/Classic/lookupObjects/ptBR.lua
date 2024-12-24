@@ -420,6 +420,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [105581] = "Baú da Aliança",
 [106318] = "Baú Desgastado",
 [106319] = "Baú Desgastado",
+[107047] = "Poço das Ruínas de Poeira Estelar"
 [111095] = "Baú da Aliança",
 [112877] = "Bacia de Vidência do Didiê",
 [112888] = "Prateleira Empoeirada",
