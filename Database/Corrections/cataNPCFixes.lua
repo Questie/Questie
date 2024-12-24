@@ -827,6 +827,12 @@ function CataNpcFixes.Load()
         [22819] = { -- Orphan Matron Mercy
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{75.07,47.88}}},
         },
+        [23233] = { -- Chu'a'lor
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{28.76,57.36}}},
+        },
+        [23253] = { -- Kronk
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{28.9,57.92}}},
+        },
         [23616] = { -- Kyle the Frenzied
             [npcKeys.spawns] = {[zoneIDs.MULGORE]={{48.48,61.57}}},
         },
