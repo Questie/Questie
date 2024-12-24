@@ -316,6 +316,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [20727] = "Caixote de Embarque da Pinacotreca",
 [20737] = "Barril Espertamente Disfarçado",
 [20805] = "Projeto Desprotegido do Rebu",
+[20806] = "Poço Lunar do Vale Gris"
 [20807] = "Braseiro Antigo",
 [20920] = "Tubérculo Folhazul",
 [20923] = "Pedra da Memória",

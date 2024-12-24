@@ -324,6 +324,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [20727] = "Caisse pour le Bidulium",
 [20737] = "Tonneau camouflé avec zèle",
 [20805] = "Plans de Rizzle",
+[20806] = "Puits de lune d'Orneval",
 [20807] = "Brasero antique",
 [20920] = "Racines de Feuillebleue",
 [20923] = "Pierre du souvenir",
