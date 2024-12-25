@@ -2232,6 +2232,7 @@ l10n.objectLookup["esMX"] = loadstring([[return {
 [113770] = "Huevo de colores vivos",
 [113771] = "Huevo de colores vivos",
 [113772] = "Huevo de colores vivos",
+[113791] = "Blandón de Siemprefuente",
 [120584] = "Hoguera",
 [121264] = "Arcón de Lucius",
 [123207] = "Olla de fundir goblin",
