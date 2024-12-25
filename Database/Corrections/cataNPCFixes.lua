@@ -574,6 +574,21 @@ function CataNpcFixes.Load()
         [15669] = { -- Grimscale Oracle
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{25.5,68.83},{24.45,71.98},{23.67,71.46},{23.93,74.84},{24.34,74.24},{23.53,71.36},{24.37,68.89},{24.44,72.03},{24.6,69.82},{24.42,74.13},{23.65,74.62},{24.57,69.15},{24.8,66.79},{24.88,65.68},{23.67,74.7},{25.62,65.87},{25.75,68.97},{24.9,68.3}}},
         },
+        [15732] = { -- Wonderform Operator
+            [npcKeys.spawns] = {
+                -- [zoneIDs.THE_EXODAR]={{79.28,55.14}}, -- correct coords, but commented out because it's not offering the quest here
+                [zoneIDs.STORMWIND_CITY]={{67.85,71.45}}, --
+                [zoneIDs.DALARAN]={{49.35,44.82}},
+                [zoneIDs.DUN_MOROGH]={{60.31,33.84}},
+                [zoneIDs.EVERSONG_WOODS]={{56.45,51.79}},
+                [zoneIDs.THE_CAPE_OF_STRANGLETHORN]={{40.27,67.63}},
+                [zoneIDs.ORGRIMMAR]={{50.21,61.83}},
+                [zoneIDs.TIRISFAL_GLADES]={{61.03,59.36}},
+                [zoneIDs.WETLANDS]={{9.17,60.72}},
+                [zoneIDs.TANARIS]={{52.57,28.06}},
+                -- [zoneIDs.SHATTRATH_CITY]={{79.83,58.97}}, -- correct coords, but commented out because it's not offering the quest here
+            },
+        },
         [15951] = { -- Magister Duskwither
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{60.32,61.38}}},
         },
