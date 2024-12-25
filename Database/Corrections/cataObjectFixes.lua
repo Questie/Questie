@@ -761,6 +761,21 @@ function CataObjectFixes:LoadFactionFixes()
         [180449] = { -- Forsaken Stink Bomb
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{71.9,73.37},{72.97,66.13},{73.77,59.68},{73.62,52.32},{71.2,46.14},{65.58,40.17},{61.68,30.26},{62.75,33.49},{58.73,36.76},{55.11,44.8},{55.47,48.75},{58.21,53.72},{54.01,54.66},{50.43,52.9},{46.47,53.99},{48.12,62.84},{48.34,67.39},{50.01,71.56},{53.45,71.01},{57.88,68.15},{60.17,71.63},{62.18,73.99},{65.23,75.58},{67.4,79.36}}},
         },
+        [180743] = { -- Carefully Wrapped Present
+            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{52.26,74.43}}},
+        },
+        [180746] = { -- Gently Shaken Gift
+            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{52.22,74.35}}},
+        },
+        [180747] = { -- Gaily Wrapped Present
+            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{52.19,74.16}}},
+        },
+        [180748] = { -- Ticking Present
+            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{52.17,74.24}}},
+        },
+        [180793] = { -- Festive Gift
+            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{52.29,74.27}}},
+        },
         [186189] = { -- Complimentary Brewfest Sampler
             [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{41.56,17.56},{41.52,17.5},{41.39,17.42},{40.74,16.82},{40.34,16.81},{40.13,17.48},{40.39,18.04},{40.85,18.28},{40.9,18.31}}},
         },
@@ -777,6 +792,9 @@ function CataObjectFixes:LoadFactionFixes()
                 [zoneIDs.TIRISFAL_GLADES]={{60.9,52.72}},
                 [zoneIDs.EVERSONG_WOODS]={{47.58,46.24}},
             },
+        },
+        [187236] = { -- Winter Veil Gift
+            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{52.06,74.35}}},
         },
         [195122] = { -- Forsaken Stink Bomb Cloud
             [objectKeys.spawns] = {[zoneIDs.UNDERCITY]={{83.7,47.97},{81.66,37.08},{77.76,27.23},{64.27,19.51},{54.97,24.69},{51.59,31.68},{49.66,41.7},{51.01,53.73},{56.21,63.97},{63.71,68.2},{71.03,63.23},{78.75,59.37},{84.11,52.19},{71.06,20.77},{65.98,24.28},{66.01,37.53},{67.8,41.42},{64.28,41.54},{63.66,47.05},{67.2,47.66},{69.54,38.78},{68.4,33.68},{63.31,33.81},{59.41,39.68},{58.97,47.16},{62.18,53.13},{67.4,55.15},{71.57,51.18},{73.04,44.58},{71.95,38.48},{65.9,31.49},{62.32,20.03},{57.95,22.51}}},

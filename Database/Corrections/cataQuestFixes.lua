@@ -504,6 +504,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{15664,nil,Questie.ICON_TYPE_INTERACT}},nil,{{17662}}},
             [questKeys.objectivesText] = {"Recover the Stolen Treats and free Metzen the Reindeer after defeating the Abominable Greench, who is hiding out near Growless Cave in the Hillsbrad Foothills."},
         },
+        [6984] = { -- A Smokywood Pastures' Thank You!
+            [questKeys.startedBy] = {{13418}},
+        },
         [7022] = { -- Greatfather Winter is Here!
             [questKeys.startedBy] = {{13433}},
         },
@@ -517,6 +520,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredLevel] = 80,
             [questKeys.objectives] = {{{15664,nil,Questie.ICON_TYPE_INTERACT}},nil,{{17662}}},
             [questKeys.objectivesText] = {"Recover the Stolen Treats and free Metzen the Reindeer after defeating the Abominable Greench, who is hiding out near Growless Cave in the Hillsbrad Foothills."},
+            [questKeys.startedBy] = {{13433}},
         },
         [7383] = { -- Teldrassil: The Burden of the Kaldorei
             [questKeys.preQuestSingle] = {},
