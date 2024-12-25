@@ -10644,6 +10644,9 @@ function CataQuestFixes.Load()
         [28875] = { -- Bring Down the High Shaman
             [questKeys.preQuestSingle] = {28133},
         },
+        [29385] = { -- A Winter Veil Gift
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [28882] = { -- Victory in Tol Barad
             [questKeys.triggerEnd] = {"Victory in Tol Barad",{[zoneIDs.TOL_BARAD]={{51.1,49.9}}}},
         },
@@ -11601,6 +11604,9 @@ function CataQuestFixes.Load()
         },
         [29377] = { -- A Time to Break Down
             [questKeys.objectives] = {nil,{{301111,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [29385] = { -- A Winter Veil Gift
+            [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [29387] = { -- Guardians of Hyjal: Firelands Invasion!
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
