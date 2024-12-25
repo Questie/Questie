@@ -10644,7 +10644,7 @@ function CataQuestFixes.Load()
         [28875] = { -- Bring Down the High Shaman
             [questKeys.preQuestSingle] = {28133},
         },
-        [29385] = { -- A Winter Veil Gift
+        [28878] = { -- A Winter Veil Gift
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [28882] = { -- Victory in Tol Barad
