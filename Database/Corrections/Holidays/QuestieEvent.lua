@@ -133,7 +133,13 @@ function QuestieEvent:Load()
 
         if activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth) then
 
-            if ((not questData[5]) or (Questie.IsClassic and questData[5] == QuestieCorrections.CLASSIC_HIDE)) then
+            if ((not questData[5]) or
+                (Questie.IsClassic and questData[5] ~= QuestieCorrections.CLASSIC_HIDE) or
+                (Questie.IsTBC and questData[5] ~= QuestieCorrections.TBC_HIDE) or
+                (Questie.IsWotlk and questData[5] ~= QuestieCorrections.WOTLK_HIDE) or
+                (Questie.IsCata and questData[5] ~= QuestieCorrections.CATA_HIDE) or
+                (Questie.IsSoD and questData[5] ~= QuestieCorrections.SOD_HIDE)
+            ) then
                 QuestieCorrections.hiddenQuests[questId] = nil
                 QuestieEvent.activeQuests[questId] = true
             end
