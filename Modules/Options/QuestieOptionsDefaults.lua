@@ -144,6 +144,7 @@ function QuestieOptionsDefaults:Load()
             ldbDisplayText = "Questie",
             enableQuestFrameIcons = true,
             loadCustomSounds = false,
+            soundDelay = 0.5,
             soundOnQuestComplete = false,
             questCompleteSoundChoiceName = "QuestDefault",
             soundOnObjectiveComplete = false,
