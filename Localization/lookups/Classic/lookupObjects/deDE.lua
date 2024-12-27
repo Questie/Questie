@@ -324,6 +324,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [20727] = "Gizmorium-Transportkiste",
 [20737] = "Geschickt verkleidetes Fass",
 [20805] = "Rizzles Pläne",
+[20806] = "Mondbrunnen des Eschentals",
 [20807] = "Uralte Kohlenpfanne",
 [20920] = "Blaulaubknolle",
 [20923] = "Stein der Erinnerung",

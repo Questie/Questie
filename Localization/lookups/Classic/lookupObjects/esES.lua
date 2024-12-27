@@ -324,6 +324,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [20727] = "Cajón de embalaje de Gizmorium",
 [20737] = "Barril visiblemente camuflado",
 [20805] = "Planes vigilados de Rizzle",
+[20806] = "Poza de la Luna de Vallefresno",
 [20807] = "Blandón antiguo",
 [20920] = "Tubérculo hojazul",
 [20923] = "Piedra de Recuerdo",
