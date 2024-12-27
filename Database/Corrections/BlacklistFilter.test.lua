@@ -3,9 +3,13 @@ dofile("setupTests.lua")
 local BlacklistFilter
 
 describe("BlacklistFilter", function()
+
+    before_each(function()
+        BlacklistFilter = require("Database.Corrections.BlacklistFilter")
+    end)
+
     it("should remove blacklists", function()
         _G.Questie = {IsClassic = false, IsTBC = false, IsWotlk = false, IsSoD = false, IsCata = false}
-        BlacklistFilter = require("Database.Corrections.BlacklistFilter")
         local blacklist = {
             [1] = BlacklistFilter.CLASSIC_HIDE,
             [2] = true,
@@ -27,7 +31,6 @@ describe("BlacklistFilter", function()
 
     it("should set true for Classic client and CLASSIC_HIDE", function()
         _G.Questie = {IsClassic = true, IsTBC = false, IsWotlk = false, IsSoD = false, IsCata = false}
-        BlacklistFilter = require("Database.Corrections.BlacklistFilter")
         local blacklist = {
             [1] = BlacklistFilter.CLASSIC_HIDE,
             [2] = true,
@@ -49,7 +52,6 @@ describe("BlacklistFilter", function()
 
     it("should set true for TBC client and TBC_HIDE", function()
         _G.Questie = {IsClassic = false, IsTBC = true, IsWotlk = false, IsSoD = false, IsCata = false}
-        BlacklistFilter = require("Database.Corrections.BlacklistFilter")
         local blacklist = {
             [1] = BlacklistFilter.CLASSIC_HIDE,
             [2] = true,
@@ -71,7 +73,6 @@ describe("BlacklistFilter", function()
 
     it("should set true for Wotlk client and WOTLK_HIDE", function()
         _G.Questie = {IsClassic = false, IsTBC = false, IsWotlk = true, IsSoD = false, IsCata = false}
-        BlacklistFilter = require("Database.Corrections.BlacklistFilter")
         local blacklist = {
             [1] = BlacklistFilter.CLASSIC_HIDE,
             [2] = true,
@@ -93,7 +94,6 @@ describe("BlacklistFilter", function()
 
     it("should set true for Cata client and CATA_HIDE", function()
         _G.Questie = {IsClassic = false, IsTBC = false, IsWotlk = false, IsSoD = false, IsCata = true}
-        BlacklistFilter = require("Database.Corrections.BlacklistFilter")
         local blacklist = {
             [1] = BlacklistFilter.CLASSIC_HIDE,
             [2] = true,
@@ -115,7 +115,6 @@ describe("BlacklistFilter", function()
 
     it("should set true for SoD client and SOD_HIDE", function()
         _G.Questie = {IsClassic = true, IsTBC = false, IsWotlk = false, IsSoD = true, IsCata = false}
-        BlacklistFilter = require("Database.Corrections.BlacklistFilter")
         local blacklist = {
             [1] = BlacklistFilter.CLASSIC_HIDE,
             [2] = true,
@@ -137,7 +136,6 @@ describe("BlacklistFilter", function()
 
     it("should set true for Classic client and CLASSIC_HIDE + SOD_HIDE", function()
         _G.Questie = {IsClassic = true, IsTBC = false, IsWotlk = false, IsSoD = false, IsCata = false}
-        BlacklistFilter = require("Database.Corrections.BlacklistFilter")
         local blacklist = {
             [1] = BlacklistFilter.CLASSIC_HIDE + BlacklistFilter.SOD_HIDE,
         }
@@ -149,7 +147,6 @@ describe("BlacklistFilter", function()
 
     it("should set true for SoD client and CLASSIC_HIDE + SOD_HIDE", function()
         _G.Questie = {IsClassic = true, IsTBC = false, IsWotlk = false, IsSoD = true, IsCata = false}
-        BlacklistFilter = require("Database.Corrections.BlacklistFilter")
         local blacklist = {
             [1] = BlacklistFilter.CLASSIC_HIDE + BlacklistFilter.SOD_HIDE,
         }
@@ -161,7 +158,6 @@ describe("BlacklistFilter", function()
 
     it("should set true for Classic client and CLASSIC_HIDE + TBC_HIDE", function()
         _G.Questie = {IsClassic = true, IsTBC = false, IsWotlk = false, IsSoD = false, IsCata = false}
-        BlacklistFilter = require("Database.Corrections.BlacklistFilter")
         local blacklist = {
             [1] = BlacklistFilter.CLASSIC_HIDE + BlacklistFilter.TBC_HIDE,
         }
@@ -173,7 +169,6 @@ describe("BlacklistFilter", function()
 
     it("should set true for Cata client and CLASSIC_HIDE + TBC_HIDE + WOTLK_HIDE + CATA_HIDE", function()
         _G.Questie = {IsClassic = false, IsTBC = false, IsWotlk = false, IsSoD = false, IsCata = true}
-        BlacklistFilter = require("Database.Corrections.BlacklistFilter")
         local blacklist = {
             [1] = BlacklistFilter.CLASSIC_HIDE + BlacklistFilter.TBC_HIDE + BlacklistFilter.WOTLK_HIDE + BlacklistFilter.CATA_HIDE,
         }
