@@ -58,4 +58,4 @@ tinsert(eventQuests, {"Winter Veil", 13966, "25/12", "2/1", QuestieCorrections.C
 tinsert(eventQuests, {"Winter Veil", 29382, "25/12", "2/1"}) -- Thanks, But No Thanks
 tinsert(eventQuests, {"Winter Veil", 29383, "25/12", "2/1"}) -- Thanks, But No Thanks
 tinsert(eventQuests, {"Winter Veil", 29385, "25/12", "2/1"}) -- A Winter Veil Gift
-tinsert(eventQuests, {"Winter Veil", 28878, "25/12", "2/1"}) -- A Winter Veil Gift
+--tinsert(eventQuests, {"Winter Veil", 28878, "25/12", "2/1"}) -- A Winter Veil Gift
