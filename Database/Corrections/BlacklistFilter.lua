@@ -14,27 +14,9 @@ local bitband = bit.band
 ---@param blacklist table<QuestId, boolean>
 ---@return table<QuestId, boolean>
 function BlacklistFilter.filterExpansion(blacklist)
-    local isClassic = Questie.IsClassic
-    local isTBC = Questie.IsTBC
-    local isWotlk = Questie.IsWotlk
-    local isSoD = Questie.IsSoD
-    local isCata = Questie.IsCata
-
     for questId, flag in pairs(blacklist) do
         if flag ~= true and flag ~= false then
-            if isClassic and bitband(flag, BlacklistFilter.CLASSIC_HIDE) ~= 0 then
-                blacklist[questId] = true
-            end
-            if isTBC and bitband(flag, BlacklistFilter.TBC_HIDE) ~= 0 then
-                blacklist[questId] = true
-            end
-            if isWotlk and bitband(flag, BlacklistFilter.WOTLK_HIDE) ~= 0 then
-                blacklist[questId] = true
-            end
-            if isCata and bitband(flag, BlacklistFilter.CATA_HIDE) ~= 0 then
-                blacklist[questId] = true
-            end
-            if isSoD and bitband(flag, BlacklistFilter.SOD_HIDE) ~= 0 then
+            if BlacklistFilter.IsFlagged(flag) then
                 blacklist[questId] = true
             end
 
@@ -45,6 +27,29 @@ function BlacklistFilter.filterExpansion(blacklist)
     end
 
     return blacklist
+end
+
+---@param flag string
+---@return boolean
+function BlacklistFilter.IsFlagged(flag)
+    if flag ~= true and flag ~= false then
+        if Questie.IsClassic and bitband(flag, BlacklistFilter.CLASSIC_HIDE) ~= 0 then
+            return true
+        end
+        if Questie.IsTBC and bitband(flag, BlacklistFilter.TBC_HIDE) ~= 0 then
+            return true
+        end
+        if Questie.IsWotlk and bitband(flag, BlacklistFilter.WOTLK_HIDE) ~= 0 then
+            return true
+        end
+        if Questie.IsCata and bitband(flag, BlacklistFilter.CATA_HIDE) ~= 0 then
+            return true
+        end
+        if Questie.IsSoD and bitband(flag, BlacklistFilter.SOD_HIDE) ~= 0 then
+            return true
+        end
+    end
+    return false
 end
 
 return BlacklistFilter
