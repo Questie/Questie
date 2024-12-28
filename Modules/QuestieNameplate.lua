@@ -284,17 +284,17 @@ function _QuestieNameplate.GetValidIcon(tooltips) -- helper function to get the 
                 -- a cogwheel icon (for pfquest only).
                 local iconType = tooltip.objective.Icon
                 if iconType == Questie.ICON_TYPE_LOOT then
-                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["loot"] or Questie.db.profile.ICON_LOOT
+                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["loot"] or Questie.db.profile.ICON_LOOT or Questie.icons["loot"]
                 elseif iconType == Questie.ICON_TYPE_OBJECT then
-                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["loot"] or Questie.db.profile.ICON_OBJECT
+                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["loot"] or Questie.db.profile.ICON_OBJECT or Questie.icons["loot"]
                 elseif iconType == Questie.ICON_TYPE_SLAY then
-                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["slay"] or Questie.db.profile.ICON_SLAY
+                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["slay"] or Questie.db.profile.ICON_SLAY or Questie.icons["slay"]
                 elseif iconType == Questie.ICON_TYPE_EVENT then
-                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["event"] or Questie.db.profile.ICON_EVENT
+                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["event"] or Questie.db.profile.ICON_EVENT or Questie.icons["event"]
                 elseif iconType == Questie.ICON_TYPE_TALK then
-                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["talk"] or Questie.db.profile.ICON_TALK
+                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["talk"] or Questie.db.profile.ICON_TALK or Questie.icons["talk"]
                 elseif iconType == Questie.ICON_TYPE_INTERACT then
-                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["interact"] or Questie.db.profile.ICON_INTERACT
+                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["interact"] or Questie.db.profile.ICON_INTERACT or Questie.icons["interact"]
                 --? icon types below here are never reached or just not used on nameplates ?
                 elseif iconType == Questie.ICON_TYPE_AVAILABLE or iconType == Questie.ICON_TYPE_AVAILABLE_GRAY then
                     return Questie.icons["available"]
