@@ -319,10 +319,6 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{77.86,70.85}}},
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
-        [206585] = { -- Totem of Ruumbo
-            [objectKeys.questStarts] = {27989,27994,27995},
-            [objectKeys.questEnds] = {27989,27994,28100},
-        },
         [206111] = { -- Hero's Call Board -- Stormwind AH
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{62.86,71.49}}},
             [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
@@ -332,6 +328,17 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{62.23,29.86}}},
             [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
             [objectKeys.questStarts] = {27724,27726,27727,28551,28552,28558,28562,28563,28564,28576,28578,28579,28582,28666,28673,28675,28699,28702,28708,28709,28716,29156,29387,29391},
+        },
+        [206320] = { -- Wild Black Dragon Egg
+            [objectKeys.spawns] = {[zoneIDs.BADLANDS]={{73.72,48.82},{65.32,53.65},{64.59,49.09},{72.68,49.58},{65.05,50.85},{65.15,47.31},{66.58,45.8},{67.55,45.7},{67.91,44.59},{68.99,42.67},{72.69,39.42},{73.41,42.84},{69.16,53.41},{71.04,53.64},{69.52,37.81},{69.35,39.53},{68.29,43.55},{74.12,44.57},{71.49,49.73},{73.73,43.71},{71.25,52.02},{70.28,54.17},{73.16,41.22},{74.84,46.06},{74.4,47.56},{72.22,38.14},{70.61,37.55},{68.97,41.04}}},
+        },
+        [206550] = { -- The Sun
+            [objectKeys.spawns] = {[zoneIDs.BADLANDS] = {{49.13,57.28},{54.02,46.75},{17.07,65.65},{14.32,53.07},{22.85,47.96},{35.5,50.75},{27.27,38.97},{33.84,36.98},{28.34,58.8},{39.33,59.84},{44.18,35.91}}},
+            [objectKeys.zoneID] = zoneIDs.BADLANDS,
+        },
+        [206585] = { -- Totem of Ruumbo
+            [objectKeys.questStarts] = {27989,27994,27995},
+            [objectKeys.questEnds] = {27989,27994,28100},
         },
         [207162] = { -- Crate of Fine Cloth
             [objectKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS] = {{80.78,29.09}}},

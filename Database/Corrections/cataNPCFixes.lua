@@ -2554,8 +2554,26 @@ function CataNpcFixes.Load()
         [46316] = { -- Gimme Shelter Kill Credit 00
             [npcKeys.spawns] = {},
         },
+        [46339] = { -- Warden's Game Controller
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{50.25,54.27}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+            [npcKeys.questEnds] = {},
+        },
+        [46398] = { -- Sentinel's Pawn
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{47.88,53.22}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+            [npcKeys.questEnds] = {},
+        },
         [46459] = { -- "Mr. Goldmine's Wild Ride" Kill Credit
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{38.35,93.88}}},
+        },
+        [46471] = { -- Deathwing
+            [npcKeys.spawns] = {
+                [zoneIDs.BADLANDS] = {
+                    {41.94,43.65,phases.DEATHWING_TELDURIN},
+                    {39.3,38.76,phases.DEATHWING_MARTEK},
+                },
+            },
         },
         [46513] = { -- Initiate Goldmine
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{38.32,93.92}}},
@@ -2575,8 +2593,51 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{48.4,52.56}}},
             [npcKeys.zoneID] = zoneIDs.TWILIGHT_HIGHLANDS,
         },
+        [46654] = { -- Rhea
+            [npcKeys.spawns] = {
+                [zoneIDs.BADLANDS] = {
+                    {66.39,55.49,phases.RHEA_LETHLOR_RAVINE},
+                    {21.16,57.77,phases.RHEA_DRAGONS_MOUTH},
+                    --21.16,57.77,phases.RHEA_NEW_KARGATH},
+                    {15.96,33.39,phases.RHEA_HIDDEN_CLUTCH},
+                },
+            },
+        },
+        [46655] = { -- Rheastrasza
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{66.52,55.57}}},
+        },
+        [46664] = { -- Dr. Hieronymus Blam
+            [npcKeys.spawns] = {
+                [zoneIDs.BADLANDS] = { -- we'll use these phases
+                    {46.82,56.29,phases.RHEA_LETHLOR_RAVINE},
+                    {46.82,56.29,phases.RHEA_DRAGONS_MOUTH},
+                    --{46.82,56.29,phases.RHEA_NEW_KARGATH},
+                    {17.98,30.55,phases.RHEA_HIDDEN_CLUTCH},
+                },
+            },
+        },
         [46682] = { -- Fallen Stonard Warrior
             [npcKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS] = {{55.4,46.4},{55.4,46.8},{55.8,46.4},{56,46.6},{56.8,45.4},{57,45.6},{57.2,42.2},{57.2,47.8},{57.2,48.6},{57.4,42.8},{57.6,42},{57.6,47.8},{57.8,48.6},{58.2,40.8},{58.2,43},{58.4,40.4},{58.4,44.2},{58.6,42.6},{58.6,43.8},{58.8,40.2},{58.8,41},{58.8,42.4},{59.8,48.4},{60,42.2},{60,46.6},{60.2,42.6},{60.2,45.8},{60.2,48.6},{60.8,46.4},{61,40.4},{61,46.6},{61.2,40.6},{61.2,47.6},{61.4,43.6},{61.4,44.6},{61.6,44.2},{61.6,44.6},{62,46.4},{62.2,42.2},{62.2,42.8},{62.2,46.8},{63.2,41.8},{63.4,41},{63.6,41.2}}},
+        },
+        [46855] = { -- Eric "The Swift"
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{20.58,56.08}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+        },
+        [46856] = { -- Baelog
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{20.63,56.2}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+        },
+        [46857] = { -- Olaf
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{20.58,56.3}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+        },
+        [46859] = { -- Kalaran the Annihilator
+            [npcKeys.questStarts] = {},
+            [npcKeys.waypoints] = {[zoneIDs.BADLANDS]={{{26.27,45.28},{26.11,44.51},{26.15,43.62},{26.25,42.88},{26.42,42.03},{26.70,41.35},{27.06,40.92},{27.59,40.58},{28.02,40.36},{28.73,40.06},{29.31,39.86},{29.76,39.73},{30.22,39.60},{30.83,39.49},{31.21,39.48},{31.82,39.56},{32.16,40.01},{32.41,40.56},{32.54,41.28},{32.46,42.14},{32.23,43.11},{32.09,43.51},{31.77,44.33},{31.32,44.95},{30.59,45.52},{30.08,45.87},{29.58,46.22},{29.01,46.46},{28.41,46.59},{27.96,46.50},{27.43,46.36},{27.00,46.14},{26.54,45.71},{26.27,45.28}}}},
+        },
+        [46861] = { -- Nyxondra
+            [npcKeys.questStarts] = {},
+            [npcKeys.waypoints] = {[zoneIDs.BADLANDS]={{{9.48,40.11},{9.69,39.81},{9.83,39.58},{9.89,39.37},{10.01,39.03},{10.01,38.75},{9.95,38.31},{9.85,38.01},{9.71,37.75},{9.48,37.52},{9.29,37.42},{9.08,37.39},{8.85,37.43},{8.68,37.56},{8.40,37.75},{8.24,38.05},{8.15,38.31},{8.12,38.61},{8.11,39.05},{8.22,39.48},{8.32,39.72},{8.50,40.00},{8.76,40.20},{9.05,40.31},{9.24,40.29},{9.48,40.11}}}},
         },
         [46901] = { -- Cheerful Goblin Spirit
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{47.34,18.02}}},
@@ -2615,6 +2676,33 @@ function CataNpcFixes.Load()
         [47002] = { -- Vision of Ysera
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{43.8,45.95}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
+        },
+        [47080] = { -- Lucien Tosselwrench
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{26.49,62.3}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+        },
+        [47097] = { -- Cloud
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{49.13,57.28},{54.02,46.75},{17.07,65.65},{14.32,53.07},{22.85,47.96},{35.5,50.75},{27.27,38.97},{33.84,36.98},{28.34,58.8},{39.33,59.84},{44.18,35.91}}},
+        },
+        [47123] = { -- Night Elf Admirer
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{26.38,62.2}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+        },
+        [47124] = { -- Human Admirer
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{26.43,62.33}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+        },
+        [47125] = { -- Orc Admirer
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{26.26,62.14}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+        },
+        [47126] = { -- Blood Elf Admirer
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{26.43,62.5}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+        },
+        [47178] = { -- TDDC 3 Canyon Credit
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{41.56,44.15}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
         },
         [47241] = { -- Mullan Gryphon Mount
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{60.87,58.14},{60.63,57.78},{60.82,58.06},{60.78,57.98},{60.7,57.94}}},
@@ -3312,6 +3400,42 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TRIAL_OF_THE_CHAMPION] = {{51.1,32.7},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.TRIAL_OF_THE_CHAMPION,
             [npcKeys.questEnds] = {29851},
+        },
+        [100033] = { -- The Sentinel's Game
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{48.03,53.22}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+            [npcKeys.questEnds] = {27709,27886},
+        },
+        [100034] = { -- The Warden's Game
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{50.25,54.27}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+            [npcKeys.questEnds] = {27693,27885},
+        },
+        [100035] = { -- Ancient Protectors
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{50.3,52.1}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+            [npcKeys.questEnds] = {27793,27887},
+        },
+        [100036] = { -- The Titans' Trove
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{50.3,52.1}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+            [npcKeys.questStarts] = {27912,27913},
+        },
+        [100037] = { -- Rheastrasza's Gift
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{15.96,33.39}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+            [npcKeys.questEnds] = {27858,27897},
+        },
+        [100038] = { -- Devastation
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{15.96,33.39}}},
+            [npcKeys.zoneID] = zoneIDs.BADLANDS,
+            [npcKeys.questStarts] = {27930},
         },
     }
 end

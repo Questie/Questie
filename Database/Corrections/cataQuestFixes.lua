@@ -26,6 +26,7 @@ QuestieCorrections.killCreditObjectiveFirst[25015] = true
 QuestieCorrections.killCreditObjectiveFirst[25801] = true
 QuestieCorrections.killCreditObjectiveFirst[26621] = true
 QuestieCorrections.killCreditObjectiveFirst[26875] = true
+QuestieCorrections.killCreditObjectiveFirst[27715] = true
 QuestieCorrections.killCreditObjectiveFirst[29290] = true
 
 function CataQuestFixes.Load()
@@ -8339,6 +8340,11 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27606},
             [questKeys.exclusiveTo] = {27947},
         },
+        [27693] = { -- The Warden's Game
+            [questKeys.startedBy] = {nil,{206335}},
+            [questKeys.finishedBy] = {{100034}},
+            [questKeys.objectives] = {{{46339,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [27694] = { -- Pool of Tears
             [questKeys.preQuestSingle] = {},
         },
@@ -8378,6 +8384,11 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{46425,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.finishedBy] = {{100013}},
         },
+        [27709] = { -- The Sentinel's Game
+            [questKeys.startedBy] = {nil,{206336}},
+            [questKeys.finishedBy] = {{100033}},
+            [questKeys.objectives] = {{{46398,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [27711] = { -- Back to the Elementium Depths
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27702,27719},
@@ -8387,6 +8398,17 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27703,27798},
             [questKeys.nextQuestInChain] = 28885,
+        },
+        [27713] = { -- The Day that Deathwing Came
+            [questKeys.preQuestSingle] = {},
+        },
+        [27714] = { -- The Day that Deathwing Came: The Real Story
+            [questKeys.preQuestSingle] = {27713},
+            [questKeys.objectives] = {{{47080,nil,Questie.ICON_TYPE_EVENT},{47097,nil,Questie.ICON_TYPE_INTERACT}},{{206550,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [27715] = { -- The Day that Deathwing Came: What Really Happened
+            [questKeys.preQuestSingle] = {27714},
+            [questKeys.objectives] = {{{47178,nil,Questie.ICON_TYPE_EVENT},{46471,nil,Questie.ICON_TYPE_EVENT},{46471}},nil,nil,nil,{{{47124,47125,47126,47123},47123,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [27716] = { -- Piece of the Past
             [questKeys.startedBy] = {{39638,41227},nil,{62281}},
@@ -8504,14 +8526,33 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 27774,
         },
+        [27765] = { -- First Sample: Wild Eggs
+            [questKeys.preQuestSingle] = {27764},
+            [questKeys.exclusiveTo] = {},
+        },
+        [27766] = { -- Second Sample: Whelps
+            [questKeys.preQuestSingle] = {27764},
+            [questKeys.exclusiveTo] = {},
+        },
         [27768] = { -- Step Two: The Bloodletter
             [questKeys.startedBy] = {{46071}},
+        },
+        [27769] = { -- Rhea Revealed
+            [questKeys.finishedBy] = {{46655}},
+        },
+        [27770] = { -- Lifting the Veil
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27765,27766},
+            [questKeys.objectives] = {{{46658,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [27773] = { -- Step Three: Prophet
             [questKeys.startedBy] = {{46071}},
         },
         [27774] = { -- Easily Swayed
             [questKeys.preQuestSingle] = {},
+        },
+        [27776] = { -- It's Goat Time, Baby
+            [questKeys.objectives] = {{{46393,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [27777] = { -- Core Access Codes
             [questKeys.exclusiveTo] = {},
@@ -8540,6 +8581,26 @@ function CataQuestFixes.Load()
         [27785] = { -- The Admiral
             [questKeys.preQuestSingle] = {27781},
             [questKeys.nextQuestInChain] = 27790,
+        },
+        [27789] = { -- Troggish Troubles
+            [questKeys.objectives] = {{{46707,nil,Questie.ICON_TYPE_EVENT},{46707,nil,Questie.ICON_TYPE_EVENT},{46707,nil,Questie.ICON_TYPE_EVENT},{46707,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [27791] = { -- Dustwind Dig
+            [questKeys.preQuestSingle] = {27789},
+        },
+        [27793] = { -- Ancient Protectors
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27693,27709},
+            [questKeys.startedBy] = {{46760}},
+            [questKeys.finishedBy] = {{100035}},
+        },
+        [27796] = { -- The Warden's Pawn
+            [questKeys.preQuestSingle] = {27792},
+            [questKeys.exclusiveTo] = {},
+        },
+        [27797] = { -- The Sentinel's Pawn
+            [questKeys.preQuestSingle] = {27792},
+            [questKeys.exclusiveTo] = {},
         },
         [27798] = { -- Water of Life
             [questKeys.objectives] = {{{46819,nil,Questie.ICON_TYPE_EVENT}}},
@@ -8603,6 +8664,40 @@ function CataQuestFixes.Load()
         [27817] = { -- Dropping the Hammer
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 47241}}}},
         },
+        [27826] = { -- Into the Dragon's Mouth
+            [questKeys.preQuestSingle] = {27794},
+        },
+        [27828] = { -- Eric, the Utility Dwarf
+            [questKeys.preQuestSingle] = {27827},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.objectives] = {{{46855,nil,Questie.ICON_TYPE_EVENT},{46855,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [27829] = { -- The Wrath of a Dragonflight
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27828,27834,27835},
+            [questKeys.startedBy] = {{46855,46856,46857}},
+        },
+        [27830] = { -- Their Hunt Continues
+            [questKeys.exclusiveTo] = {},
+            [questKeys.startedBy] = {{46654}},
+        },
+        [27831] = { -- The Sorrow and the Fury
+            [questKeys.exclusiveTo] = {},
+            [questKeys.startedBy] = {{46654}},
+        },
+        [27832] = { -- The Hidden Clutch
+            [questKeys.exclusiveTo] = {},
+        },
+        [27834] = { -- Baelog, the Glass Cannon
+            [questKeys.preQuestSingle] = {27827},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.objectives] = {{{46856,nil,Questie.ICON_TYPE_EVENT},{46856,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [27835] = { -- Olaf, the Big Fella
+            [questKeys.preQuestSingle] = {27827},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.objectives] = {{{46857,nil,Questie.ICON_TYPE_EVENT},{46857,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [27841] = { -- The Grateful Dead
             [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14170,14171,14172,14173,14174,14175,14176,14177,27846},
         },
@@ -8620,6 +8715,13 @@ function CataQuestFixes.Load()
         },
         [27857] = { -- We're Under Attack!
             [questKeys.preQuestGroup] = {27854,27855,27856},
+        },
+        [27858] = { -- Rheastrasza's Gift
+            [questKeys.finishedBy] = {{100037}},
+        },
+        [27859] = { -- The Egg Lives On
+            [questKeys.preQuestSingle] = {27930},
+            [questKeys.objectivesText] = {},
         },
         [27861] = { -- The Crucible of Carnage: The Bloodeye Bruiser!
             [questKeys.exclusiveTo] = {27862,27863},
@@ -8661,6 +8763,38 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25611,25612},
             [questKeys.nextQuestInChain] = 25663,
         },
+        [27885] = { -- The Warden's Game
+            [questKeys.startedBy] = {nil,{206335}},
+            [questKeys.finishedBy] = {{100034}},
+            [questKeys.objectives] = {{{46339,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [27886] = { -- The Sentinel's Game
+            [questKeys.startedBy] = {nil,{206336}},
+            [questKeys.finishedBy] = {{100033}},
+            [questKeys.objectives] = {{{46398,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [27887] = { -- Ancient Protectors
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27885,27886},
+            [questKeys.startedBy] = {{46757}},
+            [questKeys.finishedBy] = {{100035}},
+        },
+        [27894] = { -- The Wrath of a Dragonflight
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27891,27892,27893},
+            [questKeys.startedBy] = {{47021,47022,47024}},
+        },
+        [27895] = { -- Their Hunt Continues
+            [questKeys.exclusiveTo] = {},
+            [questKeys.startedBy] = {{46654}},
+        },
+        [27896] = { -- The Sorrow and the Fury
+            [questKeys.exclusiveTo] = {},
+            [questKeys.startedBy] = {{46654}},
+        },
+        [27897] = { -- The Hidden Clutch
+            [questKeys.exclusiveTo] = {},
+        },
         [27901] = { -- They Don't Know What They've Got Here
             [questKeys.requiredSourceItems] = {62608,62610},
             [questKeys.preQuestSingle] = {27899},
@@ -8681,6 +8815,14 @@ function CataQuestFixes.Load()
         },
         [27911] = { -- With Dying Breath
             [questKeys.preQuestGroup] = {27909,27910},
+        },
+        [27912] = { -- The Titans' Trove
+            [questKeys.startedBy] = {{100036}},
+            [questKeys.preQuestSingle] = {27793},
+        },
+        [27913] = { -- The Titans' Trove
+            [questKeys.startedBy] = {{100036}},
+            [questKeys.preQuestSingle] = {27887},
         },
         [27915] = { -- The Heart of the Temple
             [questKeys.preQuestSingle] = {27914},
@@ -8704,6 +8846,10 @@ function CataQuestFixes.Load()
         [27929] = { -- Drag 'em Down
             [questKeys.preQuestSingle] = {27690},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Throw the Barbed Fleshhook at them"), 0, {{"monster", 47186}}}},
+        },
+        [27930] = { -- Devastation
+            [questKeys.preQuestSingle] = {27858},
+            [questKeys.startedBy] = {{100038}},
         },
         [27932] = { -- The Axe of Earthly Sundering
             [questKeys.preQuestSingle] = {27931},
@@ -12008,6 +12154,13 @@ function CataQuestFixes:LoadFactionFixes()
         [27203] = { -- The Maelstrom
             [questKeys.startedBy] = {{45244}},
         },
+        [27927] = { -- Down to the Scar
+            [questKeys.startedBy] = {{46660}},
+            [questKeys.nextQuestInChain] = 27713,
+        },
+        [28512] = { -- To the Aid of the Thorium Brotherhood
+            [questKeys.startedBy] = {{46660}},
+        },
         [29067] = { -- Potion Master
             [questKeys.startedBy] = {{3347}},
             [questKeys.finishedBy] = {{3347,3009,4611,16642}},
@@ -12073,6 +12226,13 @@ function CataQuestFixes:LoadFactionFixes()
         },
         [27203] = { -- The Maelstrom
             [questKeys.startedBy] = {{45226}},
+        },
+        [27927] = { -- Down to the Scar
+            [questKeys.startedBy] = {{46930}},
+            [questKeys.nextQuestInChain] = 27713,
+        },
+        [28512] = { -- To the Aid of the Thorium Brotherhood
+            [questKeys.startedBy] = {{46930}},
         },
         [29067] = { -- Potion Master
             [questKeys.startedBy] = {{5499}},

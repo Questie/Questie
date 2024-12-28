@@ -157,6 +157,12 @@ local phases = {
     TARENAR_PLAGUEWOOD = 1085,
     TARENAR_SAVED_GIDWIN = 1086,
     TARENAR_GIDWIN_LHC = 1087,
+    RHEA_LETHLOR_RAVINE = 1088,
+    RHEA_DRAGONS_MOUTH = 1089,
+    RHEA_NEW_KARGATH = 1090,
+    RHEA_HIDDEN_CLUTCH = 1091,
+    DEATHWING_TELDURIN = 1092,
+    DEATHWING_MARTEK = 1093,
 }
 Phasing.phases = phases
 
@@ -595,6 +601,26 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.TARENAR_GIDWIN_LHC then
         return complete[27527] or false
+    end
+
+    if phase == phases.RHEA_LETHLOR_RAVINE then
+        return (not complete[27769])
+    end
+
+    if phase == phases.RHEA_DRAGONS_MOUTH then
+        return complete[27769] and ((not complete[27832]) and ((not questLog[27832]) or (questLog[27832] and questLog[27832].isComplete == 0))) or false
+    end
+
+    if phase == phases.RHEA_HIDDEN_CLUTCH then
+        return (complete[27832] or (questLog[27832] and questLog[27832].isComplete == 1)) or false
+    end
+
+    if phase == phases.DEATHWING_TELDURIN then
+        return (not complete[27713])
+    end
+
+    if phase == phases.DEATHWING_MARTEK then
+        return complete[27713] or false
     end
 
     return false
