@@ -219,3 +219,32 @@ jobs:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
         if: ${{ failure() }}
+
+    validate-localized-db:
+      needs: unit-tests
+      runs-on: ubuntu-latest
+      if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
+
+      steps:
+        - name: Checkout project
+          uses: actions/checkout@v4
+
+        - name: Install Lua
+          uses: leafo/gh-actions-lua@v10
+          with:
+            luaVersion: "5.1"
+
+        - name: Install Luarocks
+          uses: leafo/gh-actions-luarocks@v4
+
+        - name: Validate Localized database
+          run: |
+            luarocks install bit32
+            lua cli/validate-cata.lua
+
+        - name: Send CI failure to Discord
+          uses: nebularg/actions-discord-webhook@v1
+          with:
+            webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+            status: ${{ job.status }}
+          if: ${{ failure() }}
