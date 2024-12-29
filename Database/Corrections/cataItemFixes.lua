@@ -130,6 +130,9 @@ function CataItemFixes.Load()
         [18947] = { -- Feral Scar Yeti Hide
             [itemKeys.npcDrops] = {39896},
         },
+        [18950] = { -- Chambermaid Pillaclencher's Pillow
+            [itemKeys.startQuest] = 0,
+        },
         [19424] = { -- Sayge's Fortune #24
             [itemKeys.startQuest] = 0,
         },
@@ -805,6 +808,12 @@ function CataItemFixes.Load()
         [62793] = { -- Furious Spectral Essence
             [itemKeys.npcDrops] = {47220},
         },
+        [62806] = { -- Dark Ember
+            [itemKeys.npcDrops] = {},
+        },
+        [62809] = { -- Glassweb Venom
+            [itemKeys.npcDrops] = {5856,47281},
+        },
         [62817] = { -- Neferset Key
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -814,11 +823,17 @@ function CataItemFixes.Load()
         [62822] = { -- Twilight Collar
             [itemKeys.npcDrops] = {5860,5861,5862,8419,47309,47310,47311},
         },
+        [62827] = { -- Filled Furnace Flask
+            [itemKeys.npcDrops] = {5850,5852,5855,47553},
+        },
         [62926] = { -- Twilight Caravan Cargo Key
             [itemKeys.class] = itemClasses.QUEST,
         },
         [62927] = { -- Twilight's Hammer Gatestone
             [itemKeys.npcDrops] = {},
+        },
+        [62934] = { -- Ash Chicken
+            [itemKeys.npcDrops] = {47278},
         },
         [63027] = { -- Brazier Torch
             [itemKeys.class] = itemClasses.QUEST,

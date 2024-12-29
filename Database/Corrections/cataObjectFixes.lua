@@ -60,6 +60,9 @@ function CataObjectFixes.Load()
         [164781] = { -- Yellow Power Crystal
             [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{42.98,45.54},{42.52,33.91},{38.13,41.81},{46.2,19.53},{39.74,26.91},{34.67,33.25},{27.74,46.43},{32.98,29.54},{37.82,20.53},{43.83,21.45},{46.21,19.69},{46.87,14.92},{47.35,12.89},{39.34,14.47},{37.75,20.61},{31.27,18.55},{30.13,21.21},{26.39,29.08},{19.61,38.82},{25.52,39.9},{24.73,40.49}}},
         },
+        [179832] = { -- Pillaclencher's Ornate Pillow
+            [objectKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{45.86,29.54}}},
+        },
         [180453] = { -- Hive'Regal Glyphed Crystal
             [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{55.61,90.54}}},
         },
@@ -335,6 +338,9 @@ function CataObjectFixes.Load()
         [206550] = { -- The Sun
             [objectKeys.spawns] = {[zoneIDs.BADLANDS] = {{49.13,57.28},{54.02,46.75},{17.07,65.65},{14.32,53.07},{22.85,47.96},{35.5,50.75},{27.27,38.97},{33.84,36.98},{28.34,58.8},{39.33,59.84},{44.18,35.91}}},
             [objectKeys.zoneID] = zoneIDs.BADLANDS,
+        },
+        [206573] = { -- Dark Ember
+            [objectKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{53.44,44.82}}},
         },
         [206585] = { -- Totem of Ruumbo
             [objectKeys.questStarts] = {27989,27994,27995},

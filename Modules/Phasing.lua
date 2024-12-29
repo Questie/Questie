@@ -163,6 +163,10 @@ local phases = {
     RHEA_HIDDEN_CLUTCH = 1091,
     DEATHWING_TELDURIN = 1092,
     DEATHWING_MARTEK = 1093,
+    SEARING_GORGE_NPCS_TOWERS = 1094,
+    SEARING_GORGE_CAVE_ASSAULT = 1095,
+    LUNK_IRON_SUMMIT = 1096,
+    LUNK_THORIUM_POINT = 1097,
 }
 Phasing.phases = phases
 
@@ -621,6 +625,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.DEATHWING_MARTEK then
         return complete[27713] or false
+    end
+
+    if phase == phases.SEARING_GORGE_NPCS_TOWERS then
+        return ((not complete[28052]) and (not questLog[28052])) or complete[28062]
+    end
+
+    if phase == phases.SEARING_GORGE_CAVE_ASSAULT then
+        return (complete[28052] or questLog[28052]) and (not complete[28062]) or false
+    end
+
+    if phase == phases.LUNK_IRON_SUMMIT then
+        return (not complete[28062])
+    end
+
+    if phase == phases.LUNK_THORIUM_POINT then
+        return complete[28062] or false
     end
 
     return false

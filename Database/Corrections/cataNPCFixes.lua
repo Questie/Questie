@@ -266,6 +266,10 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{41.66,35.7}}},
             [npcKeys.waypoints] = {},
         },
+        [5833] = { -- Margol the Rager
+            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{73.49,82.39}}},
+            [npcKeys.waypoints] = {[zoneIDs.SEARING_GORGE] = {{{73.49,82.39},{73.45,82.23},{73.41,82.08},{73.37,81.92},{73.33,81.76},{73.27,81.49},{73.14,81.02},{73.01,80.54},{72.90,80.07},{72.78,79.59},{72.68,79.11},{72.73,78.61},{72.80,78.27},{72.83,78.13},{72.87,77.97},{72.92,77.81},{72.96,77.65},{73.00,77.50},{73.04,77.34},{73.08,77.19},{73.12,77.03},{73.16,76.87},{73.20,76.71},{73.23,76.55},{73.25,76.39},{73.26,76.22},{73.27,76.05},{73.28,75.89},{73.28,75.72},{73.28,75.55},{73.28,75.38},{73.28,75.21},{73.27,75.04},{73.28,74.87},{73.28,74.78},{73.28,74.69},{73.29,74.52},{73.29,74.35},{73.28,74.19},{73.26,74.02},{73.19,73.90},{73.09,73.83},{72.98,73.79},{72.83,73.74},{72.49,73.64},{72.32,73.60},{72.21,73.56},{72.10,73.53},{71.99,73.50},{71.88,73.46},{71.77,73.42},{71.66,73.39},{71.55,73.35},{71.44,73.31},{71.33,73.28},{71.22,73.24},{71.11,73.21},{71.00,73.17},{70.89,73.14},{70.78,73.08},{70.68,73.02},{70.57,72.96},{70.47,72.89},{70.37,72.82},{70.27,72.75},{70.16,72.68},{70.06,72.61},{69.96,72.54},{69.86,72.47},{69.75,72.40},{69.65,72.33},{69.55,72.26},{69.45,72.19},{69.35,72.12},{69.25,72.04},{69.15,71.96},{69.11,71.94}}}},
+        },
         [6577] = { -- Bingles Blastenheimer
             [npcKeys.waypoints] = {},
         },
@@ -401,6 +405,38 @@ function CataNpcFixes.Load()
         [14508] = { -- Short John Mithril
             [npcKeys.spawns] = {[5287]={{45,25.38}}},
             [npcKeys.waypoints] = {},
+        },
+        [14625] = { -- Overseer Oilfist
+            [npcKeys.spawns] = {
+                [zoneIDs.SEARING_GORGE] = {
+                    {38.12,26.97,phases.SEARING_GORGE_NPCS_TOWERS},
+                    {50.01,39.05,phases.SEARING_GORGE_CAVE_ASSAULT},
+                },
+            },
+        },
+        [14626] = { -- Taskmaster Scrange
+            [npcKeys.spawns] = {
+                [zoneIDs.SEARING_GORGE] = {
+                    {36.81,28.24,phases.SEARING_GORGE_NPCS_TOWERS},
+                    {42.24,34.49,phases.SEARING_GORGE_CAVE_ASSAULT},
+                },
+            },
+        },
+        [14627] = { -- Hansel Heavyhands
+            [npcKeys.spawns] = {
+                [zoneIDs.SEARING_GORGE] = {
+                    {38.47,27.86,phases.SEARING_GORGE_NPCS_TOWERS},
+                    {42.25,34.63,phases.SEARING_GORGE_CAVE_ASSAULT},
+                },
+            },
+        },
+        [14628] = { -- Evonice Sootsmoker
+            [npcKeys.spawns] = {
+                [zoneIDs.SEARING_GORGE] = {
+                    {38.93,27.96,phases.SEARING_GORGE_NPCS_TOWERS},
+                    {43.77,28.71,phases.SEARING_GORGE_CAVE_ASSAULT},
+                },
+            },
         },
         [14822] = { -- Sayge
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND]={{53.24,75.84},{-1,-1}}},
@@ -2710,11 +2746,27 @@ function CataNpcFixes.Load()
         [47255] = { -- Gobbles
             [npcKeys.spawns] = {[zoneIDs.ULDUM]={{24.49,64.46}}},
         },
+        [47280] = { -- Lunk
+            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE]={{59.09,57.98}}},
+            [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
+        },
+        [47332] = { -- Lunk
+            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE]={{41.12,39.5}}},
+            [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
+        },
         [47374] = { -- Patch
             [npcKeys.spawns] = {
                 [zoneIDs.TWILIGHT_HIGHLANDS] = {
                     {29.58,41.07,phases.TWILIGHT_CARAVAN_AMBUSH_HORDE},
                     {29.31,52.39,phases.GRIM_BATOL_ATTACK_HORDE},
+                },
+            },
+        },
+        [47393] = { -- Mountain-Lord Rendan
+            [npcKeys.spawns] = {
+                [zoneIDs.SEARING_GORGE] = {
+                    {39.43,67.87,phases.SEARING_GORGE_NPCS_TOWERS},
+                    {40.8,51.65,phases.SEARING_GORGE_CAVE_ASSAULT},
                 },
             },
         },
@@ -2724,12 +2776,27 @@ function CataNpcFixes.Load()
         [47422] = { -- Baited Black Drake
             [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{47.91,59.48},{49.55,63.06},{49.94,64.4},{47.66,61.35},{47.89,61.89},{49.34,63.3},{46.14,64.25},{47.18,60.64},{47.65,58.8},{46.82,61.18}}},
         },
+        [47429] = { -- Lunk
+            [npcKeys.spawns] = {
+                [zoneIDs.SEARING_GORGE] = {
+                    {39.83,67.9,phases.LUNK_IRON_SUMMIT},
+                    {38.98,26.01,phases.LUNK_THORIUM_POINT},
+                },
+            },
+        },
+        [47467] = { -- Brotherhood Flying Machine
+            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE]={{41.44,55.72}}},
+            [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
+        },
         [47484] = { -- Yetimus the Yeti Lord
             [npcKeys.waypoints] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{{47.33,50.21},{47.60,52.35},{47.74,54.12},{47.24,55.72},{46.43,56.85},{45.60,57.74},{44.32,57.47},{42.86,57.13},{41.88,56.26},{41.45,55.05},{41.43,53.60},{41.51,52.12}}}},
         },
         [47493] = { -- Warlord Krogg
-            [npcKeys.spawns] = {
-                [zoneIDs.TWILIGHT_HIGHLANDS]={{29.63,40.98}}},
+            [npcKeys.spawns] = {[zoneIDs.TWILIGHT_HIGHLANDS]={{29.63,40.98}}},
+        },
+        [47553] = { -- Rasha'krak
+            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE]={{37.14,42.31}}},
+            [npcKeys.waypoints] = {[zoneIDs.SEARING_GORGE]={{{30.75,43.55},{30.93,43.62},{30.95,43.63},{31.29,43.73},{31.62,43.82},{31.96,43.88},{32.30,43.94},{32.64,43.97},{32.98,43.96},{33.32,43.94},{33.66,43.92},{33.99,43.86},{34.03,43.85},{34.31,43.75},{34.55,43.61},{34.83,43.55},{35.16,43.46},{35.36,43.40},{35.70,43.31},{35.95,43.16},{36.10,42.98},{36.16,42.90},{36.42,42.61},{36.50,42.55},{36.82,42.36},{37.13,42.18},{37.43,42.01},{37.63,41.89},{37.79,41.80},{38.02,41.66},{38.10,41.61},{38.32,41.49},{38.44,41.42},{38.42,41.43},{38.56,41.35},{38.87,41.17},{39.19,40.99},{39.50,40.76},{39.80,40.52},{40.09,40.28},{40.38,40.02},{40.41,39.99},{40.45,39.94},{40.73,39.65},{40.93,39.42},{41.07,39.30},{41.15,39.23},{41.35,39.02},{41.63,38.74},{41.92,38.46},{42.01,38.40},{42.50,37.77},{42.57,37.52}}}},
         },
         [47591] = { -- Baradin Crocolisk
             [npcKeys.spawns] = {[zoneIDs.TOL_BARAD]={{44.78,55.45},{37.67,51.43},{39.25,47.63},{37.78,52.88},{43.23,50.08},{38.76,53.22},{43.35,44.55},{36.99,48.26},{36.89,42.55},{35.6,42.25},{34.66,46.94},{38.67,47.15},{34.98,51.4},{40.58,43.79},{39.3,40.69},{45,42.88},{37.32,49.52},{41.7,53.48},{40.63,48.52},{37.72,55.84},{39.04,45.1},{38.93,42.14},{38.03,42.54},{43.62,44.08},{38.3,43.78}}},
@@ -3436,6 +3503,30 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{15.96,33.39}}},
             [npcKeys.zoneID] = zoneIDs.BADLANDS,
             [npcKeys.questStarts] = {27930},
+        },
+        [100039] = { -- Lunk's Adventure: Spider Rider
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{59.09,57.98}}},
+            [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
+            [npcKeys.questEnds] = {27959},
+        },
+        [100040] = { -- Lunk's Adventure: Cranky Little Dwarfs
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{41.12,39.5}}},
+            [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
+            [npcKeys.questEnds] = {27983},
+        },
+        [100041] = { -- Prayer to Elune
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{23.12,35.43}}},
+            [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
+            [npcKeys.questEnds] = {27985},
+        },
+        [100042] = { -- Minions of Calcinder, From Whence He Came
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{43.36,28.59}}},
+            [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
+            [npcKeys.questEnds] = {28061,28062},
         },
     }
 end

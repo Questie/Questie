@@ -8925,6 +8925,34 @@ function CataQuestFixes.Load()
         [27955] = { -- Eye Spy
             [questKeys.objectives] = {{{47274,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [27957] = { -- Lunk No Kill
+            [questKeys.preQuestSingle] = {27956},
+        },
+        [27958] = { -- A Proper Antivenom
+            [questKeys.preQuestSingle] = {27957},
+        },
+        [27959] = { -- Lunk's Adventure: Spider Rider
+            [questKeys.preQuestSingle] = {27957},
+            [questKeys.objectives] = {{{5856,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.finishedBy] = {{100039}},
+        },
+        [27961] = { -- Out of Place
+            [questKeys.preQuestSingle] = {27960},
+        },
+        [27962] = { -- A Lumbering Relic
+            [questKeys.preQuestSingle] = {27960},
+        },
+        [27963] = { -- A New Master... But Who?
+            [questKeys.preQuestSingle] = {},
+        },
+        [27964] = { -- Dig-Boss Dinwhisker
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Dark Iron Dwarves to lure Dig-Boss Dinwhisker"), 0, {{"monster", 47275}, {"monster", 47276}}},
+                                           {nil, Questie.ICON_TYPE_SLAY, l10n("Kill Dig-Boss Dinwhisker"), 0, {{"monster", 47271}}},
+            },
+        },
+        [27965] = { -- Thorium Point: The Seat of the Brotherhood
+            [questKeys.preQuestGroup] = {27964,27957},
+        },
         [27966] = { -- Salvaging the Remains
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
@@ -8949,14 +8977,41 @@ function CataQuestFixes.Load()
         [27975] = { -- WANTED: Foreman Wellson
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [27976] = { -- Curse These Fat Fingers
+            [questKeys.preQuestSingle] = {27965},
+        },
+        [27977] = { -- Recon Essentials
+            [questKeys.preQuestSingle] = {27965},
+        },
         [27978] = { -- Ghostbuster
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
         [27979] = { -- Dark Ministry
             [questKeys.requiredSourceItems] = {62823,62824,62825},
+            [questKeys.preQuestGroup] = {27976,27977},
+        },
+        [27981] = { -- Heat That Just Don't Quit
+            [questKeys.preQuestSingle] = {27965},
+        },
+        [27982] = { -- Twilight Collars
+            [questKeys.preQuestGroup] = {27976,27981},
+        },
+        [27983] = { -- Lunk's Adventure: Cranky Little Dwarfs
+            [questKeys.preQuestSingle] = {27965},
+            [questKeys.objectives] = {{{5840,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.finishedBy] = {{100040}},
         },
         [27984] = { -- Lunthistle's Tale
             [questKeys.objectives] = {{{8436,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestGroup] = {27976,27981},
+        },
+        [27985] = { -- Prayer to Elune
+            [questKeys.preQuestSingle] = {27984},
+            [questKeys.finishedBy] = {{100041}},
+        },
+        [27986] = { -- In the Hall of the Mountain-Lord
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27979,28099},
         },
         [27987] = { -- Cannonball!
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -9007,8 +9062,30 @@ function CataQuestFixes.Load()
         [28002] = { -- Crisis Management
             [questKeys.objectives] = {{{47516,nil,Questie.ICON_TYPE_TALK},{47519,nil,Questie.ICON_TYPE_TALK},{47520,nil,Questie.ICON_TYPE_TALK},{47707,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [28028] = { -- Siege!
+            [questKeys.preQuestSingle] = {27986},
+            [questKeys.exclusiveTo] = {},
+        },
+        [28029] = { -- Set Them Ablaze!
+            [questKeys.preQuestSingle] = {27986},
+            [questKeys.exclusiveTo] = {},
+        },
+        [28030] = { -- They Build a Better Bullet
+            [questKeys.preQuestSingle] = {27986},
+            [questKeys.exclusiveTo] = {},
+        },
         [28031] = { -- Special Delivery for Brivelthwerp [Alliance]
             [questKeys.preQuestSingle] = {25542,25561},
+        },
+        [28032] = { -- The Mysteries of the Fire-Gizzard
+            [questKeys.preQuestSingle] = {27986},
+        },
+        [28033] = { -- Deceit
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28028,28029,28030},
+        },
+        [28034] = { -- Lunk's Adventure: Rendan's Weakness
+            [questKeys.objectives] = {{{47434,nil,Questie.ICON_TYPE_TALK}}},
         },
         [28038] = { -- Blood in the Highlands
             [questKeys.preQuestSingle] = {},
@@ -9047,11 +9124,53 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{47446,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {28031,28042},
         },
+        [28052] = { -- Operation: Stir the Cauldron
+            [questKeys.triggerEnd] = {"Secure entrance into the Slag Pit", {[zoneIDs.SEARING_GORGE] = {{41.44,55.72}}}},
+            [questKeys.objectives] = {},
+        },
+        [28053] = { -- Lunk Like Your Style
+            [questKeys.preQuestSingle] = {28062},
+        },
+        [28054] = { -- Slavery is Bad
+            [questKeys.preQuestSingle] = {28052},
+            [questKeys.exclusiveTo] = {},
+        },
+        [28055] = { -- Sweet, Horrible Freedom
+            [questKeys.preQuestSingle] = {28052},
+            [questKeys.exclusiveTo] = {},
+        },
+        [28056] = { -- Rise, Obsidion
+            [questKeys.preQuestSingle] = {28052},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon Lathoric the Black"),0,{{"object",148498}}}},
+        },
+        [28057] = { -- Kill 'em With Sleep Deprivation
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {28054,28055,28056},
+        },
+        [28058] = { -- Look at the Size of It!
+            [questKeys.preQuestGroup] = {28054,28055,28056},
+            [questKeys.startedBy] = {nil,{179832},{62933}},
+        },
         [28059] = { -- Claiming The Keep
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
         },
+        [28060] = { -- Twisted Twilight Ties
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Help Hansel Heavyhands"),0,{{"monster",14627}}}},
+        },
+        [28061] = { -- Minions of Calcinder
+            [questKeys.preQuestSingle] = {28060},
+            [questKeys.finishedBy] = {{100042}},
+        },
+        [28062] = { -- From Whence He Came
+            [questKeys.finishedBy] = {{100042}},
+        },
         [28063] = { -- Leave No Weapon Behind
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
+        },
+        [28064] = { -- Welcome to the Brotherhood
+            [questKeys.preQuestSingle] = {28062},
+            [questKeys.startedBy] = {{14625}},
         },
         [28065] = { -- Walk A Mile In Their Shoes
             [questKeys.requiredRaces] = raceKeys.ALL_ALLIANCE,
@@ -9103,6 +9222,9 @@ function CataQuestFixes.Load()
         },
         [28098] = { -- The Twilight Skymaster
             [questKeys.objectives] = {{{47503,nil,Questie.ICON_TYPE_MOUNT_UP},{47510}}},
+        },
+        [28099] = { -- Rasha'krak
+            [questKeys.preQuestSingle] = {27965},
         },
         [28100] = { -- A Talking Totem
             [questKeys.reputationReward] = {{factionIDs.TIMBERMAW_HOLD, 12}},
@@ -12158,8 +12280,12 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{46660}},
             [questKeys.nextQuestInChain] = 27713,
         },
+        [28052] = { -- Operation: Stir the Cauldron
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to the Flight Master"), 0, {{"monster", 3305}}}},
+        },
         [28512] = { -- To the Aid of the Thorium Brotherhood
             [questKeys.startedBy] = {{46660}},
+            [questKeys.nextQuestInChain] = 27963,
         },
         [29067] = { -- Potion Master
             [questKeys.startedBy] = {{3347}},
@@ -12231,8 +12357,12 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{46930}},
             [questKeys.nextQuestInChain] = 27713,
         },
+        [28052] = { -- Operation: Stir the Cauldron
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to the Flight Master"), 0, {{"monster", 2941}}}},
+        },
         [28512] = { -- To the Aid of the Thorium Brotherhood
             [questKeys.startedBy] = {{46930}},
+            [questKeys.nextQuestInChain] = 27963,
         },
         [29067] = { -- Potion Master
             [questKeys.startedBy] = {{5499}},
