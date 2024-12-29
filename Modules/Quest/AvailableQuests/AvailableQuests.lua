@@ -36,7 +36,7 @@ local timer
 -- Keep track of all available quests to unload undoable when abandoning a quest
 local availableQuests = {}
 
-local dungeons = ZoneDB:GetDungeons()
+local dungeons
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
 
 local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetQuestIcon, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
@@ -44,6 +44,10 @@ local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvai
 ---@param callback function | nil
 function AvailableQuests.CalculateAndDrawAll(callback)
     Questie:Debug(Questie.DEBUG_INFO, "[AvailableQuests.CalculateAndDrawAll]")
+
+    if (not dungeons) then
+        dungeons = ZoneDB:GetDungeons()
+    end
 
     --? Cancel the previously running timer to not have multiple running at the same time
     if timer then
