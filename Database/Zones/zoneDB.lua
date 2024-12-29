@@ -19,10 +19,10 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local areaIdToUiMapId = ZoneDB.private.areaIdToUiMapId or {}
-local uiMapIdToAreaId = ZoneDB.private.uiMapIdToAreaId or {}
-local dungeons = ZoneDB.private.dungeons or {}
-local subZoneToParentZone = ZoneDB.private.subZoneToParentZone or {}
+local areaIdToUiMapId = ZoneDB.private.areaIdToUiMapId
+local uiMapIdToAreaId = ZoneDB.private.uiMapIdToAreaId
+local dungeons = ZoneDB.private.dungeons
+local subZoneToParentZone = ZoneDB.private.subZoneToParentZone
 
 -- Generated from alternativeAreaId in dungeons
 -- [alternativeDungeonAreaId] = dungeonZone
