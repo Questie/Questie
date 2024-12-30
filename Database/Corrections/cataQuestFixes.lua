@@ -6414,7 +6414,7 @@ function CataQuestFixes.Load()
         },
         [26646] = { -- Prisoners of War
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {26637,26638,26639,26640},
+            [questKeys.preQuestGroup] = {26636,26637,26638,26640},
             [questKeys.requiredSourceItems] = {59261},
             [questKeys.objectives] = {nil,{{460020,nil,Questie.ICON_TYPE_EVENT}}},
         },
