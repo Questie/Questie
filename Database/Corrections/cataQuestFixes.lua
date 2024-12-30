@@ -51,6 +51,12 @@ function CataQuestFixes.Load()
         [24] = { -- Shadumbra's Head
             [questKeys.preQuestSingle] = {},
         },
+        [35] = { -- Further Concerns
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a horse ride to Guard Thomas"), 0, {{"monster", 240}}}},
+        },
+        [46] = { -- Bounty on Murlocs
+            [questKeys.preQuestSingle] = {},
+        },
         [54] = { -- Report to Goldshire
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
             [questKeys.preQuestSingle] = {26390},
@@ -66,6 +72,9 @@ function CataQuestFixes.Load()
         [172] = { -- Children's Week
             [questKeys.zoneOrSort] = -378,
             [questKeys.startedBy] = {{51989}},
+        },
+        [184] = { -- Furlbrow's Deed
+            [questKeys.startedBy] = {nil,{203734}},
         },
         [218] = { -- Ice and Fire
             [questKeys.objectives] = {{{808}},nil,nil,nil,{{{946,37507},946},{{37112},37112}}},
