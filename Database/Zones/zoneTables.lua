@@ -3045,6 +3045,7 @@ ZoneDB.zoneIDs = {
     DARKMOON_FAIRE_ISLAND = 5861,
     DEMON_FALL_CANYON = 15475, -- SoD Dungeon
     THE_TAINTED_SCAR = 15531, -- SoD Lord Kazzak Raid
+    THE_BURNING_OF_ANDORHAL = 15828, -- SoD Paladin specific solo dungeon
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic

@@ -6779,7 +6779,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [85034] = {
             [questKeys.name] = "The Ruins of Andorhal",
-            [questKeys.startedBy] = nil,
+            [questKeys.startedBy] = {{1854}},
             [questKeys.finishedBy] = {{1854}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
@@ -6845,7 +6845,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [85067] = {
             [questKeys.name] = "A Paladin of the Silver Hand",
-            [questKeys.startedBy] = nil,
+            [questKeys.startedBy] = {{232932}},
             [questKeys.finishedBy] = {{232932}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
@@ -6867,7 +6867,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [85074] = {
             [questKeys.name] = "The Burning of Andorhal",
-            [questKeys.startedBy] = nil,
+            [questKeys.startedBy] = {{232960}},
             [questKeys.finishedBy] = {{232998}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
@@ -6889,7 +6889,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [85090] = {
             [questKeys.name] = "Back to the Future",
-            [questKeys.startedBy] = nil,
+            [questKeys.startedBy] = {{233138}},
             [questKeys.finishedBy] = {{232932}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
@@ -6900,7 +6900,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [85091] = {
             [questKeys.name] = "The Cost of Victory",
-            [questKeys.startedBy] = nil,
+            [questKeys.startedBy] = {{232932}},
             [questKeys.finishedBy] = {{233776}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
@@ -6911,7 +6911,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [85092] = {
             [questKeys.name] = "Truthbearer",
-            [questKeys.startedBy] = nil,
+            [questKeys.startedBy] = {{233776}},
             [questKeys.finishedBy] = {{233776}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
