@@ -293,6 +293,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [3691] = "Cuña de sangrita",
 [3692] = "Cráneo humano de Trabalomas",
 [3693] = "Espada de Humbert",
+[3701] = "Mención de honor lacrada de Darthalia",
 [3703] = "Cerveza de Costasur",
 [3706] = "Papiro hechizado",
 [3708] = "Vara de Helcular",
