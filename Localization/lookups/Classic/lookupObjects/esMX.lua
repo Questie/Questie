@@ -3737,7 +3737,7 @@ l10n.objectLookup["esMX"] = loadstring([[return {
 [176325] = "Diseños de herrería",
 [176326] = "Blandón",
 [176327] = "Diseños de herrería",
-[176344] = "Cofre de documentos n.º 1",
+[176344] = "Cofre de documentos",
 [176348] = "Vagoneta de Styleen",
 [176356] = "Sagradas escrituras de los Altonato",
 [176360] = "Paquete de correos",
@@ -5852,6 +5852,6 @@ l10n.objectLookup["esMX"] = loadstring([[return {
 [188498] = "Consola de máquina topo",
 [190395] = "Humo de la caldera",
 [190396] = "Humo de jarra",
-[190483] = "Cofre de documentos n.º 2",
-[190484] = "Cofre de documentos n.º 3",
+[190483] = "Cofre de documentos",
+[190484] = "Cofre de documentos",
 }]])

@@ -1161,4 +1161,6 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [181852] = "Bengala de bandera, Alianza",
 [181955] = "Santuario de Lordaeron",
 [182106] = "Estandarte de la torre",
+[190483] = "Cofre de documentos",
+[190484] = "Cofre de documentos",
 }]])
