@@ -3032,8 +3032,11 @@ function CataQuestFixes.Load()
         [24491] = { -- Follow that Gyro-Copter!
             [questKeys.nextQuestInChain] = 24492,
         },
+        [24492] = { -- Pack Your Bags
+            [questKeys.childQuests] = {24493},
+        },
         [24493] = { -- Don't Forget About Us
-            [questKeys.exclusiveTo] = {25724},
+            [questKeys.parentQuest] = 24492,
         },
         [24494] = { -- Empowered Rune -- Dwarf Shaman
             [questKeys.requiredRaces] = raceKeys.DWARF,
@@ -5541,6 +5544,10 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Fight in the Battle for the Abyssal Breach", {[zoneIDs.ABYSSAL_DEPTHS] = {{69.57,34.79}}}},
         },
+        [26195] = { -- Who Wards The Greenwarden
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {26189,25850,25853},
+        },
         [26197] = { -- The Future of Gnomeregan
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
         },
@@ -5916,7 +5923,7 @@ function CataQuestFixes.Load()
         },
         [26373] = { -- On to Kharanos
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
-            [questKeys.exclusiveTo] = {25724},
+            [questKeys.nextQuestInChain] = 25724,
         },
         [26374] = { -- Ready the Ground Troops
             [questKeys.objectives] = {{{42646}}},
