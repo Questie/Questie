@@ -1602,6 +1602,7 @@ l10n.itemLookup["ptBR"] = loadstring([[return {
 [21230] = "Artefato Qiraji Antigo",
 [21377] = "Pena do Cocar de Lenha Morta",
 [21383] = "Contas Espirituais de Invernoso",
+[21545] = "Suprimento do Bosque Defumado",
 [21557] = "Foguete Vermelho Pequeno",
 [21558] = "Foguete Azul Pequeno",
 [21559] = "Foguete Verde Pequeno",

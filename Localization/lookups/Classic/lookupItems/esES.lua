@@ -1603,6 +1603,7 @@ l10n.itemLookup["esES"] = loadstring([[return {
 [21230] = "Artefacto qiraji antiguo",
 [21377] = "Pluma de penacho de Muertobosque",
 [21383] = "Cuentas de Espíritu Nevada",
+[21545] = "Provisiones de Bosquehumeante",
 [21557] = "Cohete rojo pequeño",
 [21558] = "Cohete azul pequeño",
 [21559] = "Cohete verde pequeño",

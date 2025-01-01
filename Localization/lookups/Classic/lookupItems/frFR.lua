@@ -1602,6 +1602,7 @@ l10n.itemLookup["frFR"] = loadstring([[return {
 [21230] = "Ancien artefact qiraji",
 [21377] = "Coiffure de plumes mort-bois",
 [21383] = "Perles d'esprit tombe-hiver",
+[21545] = "Marchandises des Gourmandises Fumebois",
 [21557] = "Petite comète rouge",
 [21558] = "Petite comète bleue",
 [21559] = "Petite comète verte",
