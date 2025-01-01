@@ -2453,6 +2453,9 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [45212] = { -- Gory
+            [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{54.07,65.78}}},
+        },
         [45238] = { -- Harrison Jones
             [npcKeys.spawns] = {[zoneIDs.ULDUM] = {{64.56,28.6}}},
         },
