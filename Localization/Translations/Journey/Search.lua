@@ -3,7 +3,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local searchLocales = {
     ["Advanced Search"] = {
-        ["ptBR"] = "Pesquisa avançada",
+        ["ptBR"] = "Procura avançada",
         ["ruRU"] = "Расширенный поиск",
         ["deDE"] = "Erweiterte Suche",
         ["koKR"] = "고급 검색",
@@ -15,7 +15,7 @@ local searchLocales = {
         ["frFR"] = "Recherche avancée",
     },
     ["Search"] = {
-        ["ptBR"] = "Pesquisar",
+        ["ptBR"] = "Procurar",
         ["ruRU"] = "Поиск",
         ["deDE"] = "Suche",
         ["koKR"] = "검색",
@@ -27,7 +27,7 @@ local searchLocales = {
         ["frFR"] = "Rechercher",
     },
     ["Search By Name"] = {
-        ["ptBR"] = "Pesquisar por nome",
+        ["ptBR"] = "Procurar por nome",
         ["ruRU"] = "Поиск по имени",
         ["deDE"] = "Suche mit Namen",
         ["koKR"] = "이름으로 검색",
@@ -39,7 +39,7 @@ local searchLocales = {
         ["frFR"] = "Recherche par nom",
     },
     ["Search By ID"] = {
-        ["ptBR"] = "Pesquisar por ID",
+        ["ptBR"] = "Procurar por ID",
         ["ruRU"] = "Поиск по ID",
         ["deDE"] = "Suche mit ID",
         ["koKR"] = "ID로 검색",
@@ -51,7 +51,7 @@ local searchLocales = {
         ["frFR"] = "Recherche par ID",
     },
     ["Enter in your Search"] = {
-        ["ptBR"] = "Digite sua pesquisa",
+        ["ptBR"] = "Digite sua procura",
         ["ruRU"] = "Введите данные для поиска",
         ["deDE"] = "Suche",
         ["koKR"] = "검색을 입력해주세요",
@@ -127,11 +127,11 @@ local searchLocales = {
         ["ruRU"] = "Удалить с карты",
         ["deDE"] = "Von der Karte entfernen",
         ["koKR"] = "지도에서 제거",
-        ["esMX"] = "Quitar de mapa",
+        ["esMX"] = "Quitar del mapa",
         ["enUS"] = true,
         ["zhCN"] = "地图上移除",
         ["zhTW"] = "從地圖上移除",
-        ["esES"] = "Quitar de mapa",
+        ["esES"] = "Quitar del mapa",
         ["frFR"] = "Retirer de la carte",
     },
     ["Quest ID: "] = {
@@ -159,7 +159,7 @@ local searchLocales = {
         ["frFR"] = "Trouvé dans",
     },
     ["No Match for Search Results: %s"] = {
-        ["ptBR"] = "Nenhum resultado encontrado para sua pesquisa: %s",
+        ["ptBR"] = "Nenhum resultado encontrado para sua procura: %s",
         ["ruRU"] = "Нет совпадений для результатов поиска: %s",
         ["deDE"] = "Keine Treffer für die Suche: %s",
         ["koKR"] = "검색 결과가 없습니다: %s",

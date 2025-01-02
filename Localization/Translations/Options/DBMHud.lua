@@ -5,14 +5,14 @@ local dbmHudOptionsLocales = {
     ["DBM HUD"] = {
         ["ptBR"] = true,
         ["ruRU"] = true,
-        ["deDE"] = "DBM Interface",
+        ["deDE"] = true,
         ["koKR"] = true,
         ["esMX"] = true,
         ["enUS"] = true,
         ["zhCN"] = true,
         ["zhTW"] = true,
         ["esES"] = true,
-        ["frFR"] = "Affichage tête haute (HUD) de DBM",
+        ["frFR"] = "Affichage tête haute (HUD)",
     },
     ["Show DBM HUD"] = {
         ["ptBR"] = "Mostrar DBM HUD",

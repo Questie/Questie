@@ -3,7 +3,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local myJourneyLocales = {
     ["Questie Options"] = {
-        ["ptBR"] = "Opções do Questie",
+        ["ptBR"] = "Opções",
         ["ruRU"] = "Настройки Questie",
         ["deDE"] = "Questie-Einstellungen",
         ["koKR"] = "Questie 설정",
@@ -12,7 +12,7 @@ local myJourneyLocales = {
         ["zhCN"] = "打开 Questie",
         ["zhTW"] = "設定選項",
         ["esES"] = "Opciones",
-        ["frFR"] = "Options Questie",
+        ["frFR"] = "Options",
     },
     ["My Journey"] = {
         ["ptBR"] = "Minha jornada",
@@ -55,11 +55,11 @@ local myJourneyLocales = {
         ["ruRU"] = "Пора начинать свое первое путешествие!",
         ["deDE"] = "Es ist an der Zeit, dass du dich auf deine erste Reise begibst!",
         ["koKR"] = "당신은 이제 막 첫번째 여정을 시작했습니다!",
-        ["esMX"] = "¡Es hora de que te embarques en tu primera aventura!",
+        ["esMX"] = "¡Es hora de que te embarques en tu primer viaje!",
         ["enUS"] = true,
         ["zhCN"] = "是时候踏上旅程了！",
         ["zhTW"] = "該是你踏上第一次旅程的時候了！",
-        ["esES"] = "¡Es hora de que te embarques en tu primera aventura!",
+        ["esES"] = "¡Es hora de que te embarques en tu primer viaje!",
         ["frFR"] = "Il est temps d'embarquer pour votre premier voyage !",
     },
     ["Congratulations! You reached %s !"] = {

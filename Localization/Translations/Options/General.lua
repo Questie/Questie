@@ -3,19 +3,19 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local generalOptionsLocales = {
     ["General"] = {
-        ["ptBR"] = "Opções",
+        ["ptBR"] = "Geral",
         ["ruRU"] = "Общее",
         ["deDE"] = "Allgemein",
         ["koKR"] = "일반",
-        ["esMX"] = "Opciones",
+        ["esMX"] = true,
         ["enUS"] = true,
         ["zhCN"] = "选项",
         ["zhTW"] = "一般",
-        ["esES"] = "Opciones",
-        ["frFR"] = "Options",
+        ["esES"] = true,
+        ["frFR"] = "Général",
     },
     ["General Options"] = {
-        ["ptBR"] = "Opções Generais",
+        ["ptBR"] = "Opções generais",
         ["ruRU"] = "Общие настройки",
         ["deDE"] = "Allgemeine Einstellungen",
         ["koKR"] = "일반 설정",
@@ -27,7 +27,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Options générales",
     },
     ["Enable Minimap Button"] = {
-        ["ptBR"] = "Ative o botão do minimapa",
+        ["ptBR"] = "Ativar o botão do minimapa",
         ["ruRU"] = "Кнопка у миникарты",
         ["deDE"] = "Minimap-Button aktivieren",
         ["koKR"] = "미니맵 버튼 활성화",
@@ -51,7 +51,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Active le bouton Questie de la minicarte. Le panneau de configuration reste accessible avec la commande /questie.",
     },
     ["Enable Instant Quest Text"] = {
-        ["ptBR"] = "Ativar texto de pesquisa instantânea",
+        ["ptBR"] = "Ativar texto de procura instantânea",
         ["ruRU"] = "Мгновенное отображение текста",
         ["deDE"] = "Questtext sofort anzeigen",
         ["koKR"] = "퀘스트 내용 바로 표시",
@@ -63,7 +63,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Activer texte instantané (quêtes)",
     },
     ["Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface."] = {
-        ["ptBR"] = "Ativa / desativa a opção Texto da missão instantânea. Este é apenas um atalho para a opção WoW na Interface",
+        ["ptBR"] = "Ative ou desative a opção Texto da missão instantânea. Este é apenas um atalho para a opção WoW na Interface",
         ["ruRU"] = "Включает мгновенное отображение полного текста заданий. Это всего лишь ярлык для стандартной опции в настройках интерфейса игры",
         ["deDE"] = "Die Standardeinstellung für 'Questtext sofort anzeigen' aktivieren/deaktivieren. Dies ist nur eine Abkürzung zum WoW-Interface-Menü.",
         ["koKR"] = "퀘스트 지문이 한번에 표시됩니다. 이 설정은 게임설정의 '퀘스트 내용 바로 표시'와 동일합니다.",
@@ -75,7 +75,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Active l'option texte instantané (quêtes). Cela revient à cocher l'option du même nom dans l'interface.",
     },
     ["Auto Accept Quests"] = {
-        ["ptBR"] = "Aceitar automaticamente missões",
+        ["ptBR"] = "Aceitar missões",
         ["ruRU"] = "Вкл/выкл",
         ["deDE"] = "Quests automatisch annehmen",
         ["koKR"] = "자동 퀘스트 수락",
@@ -84,7 +84,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "自动接受任务",
         ["zhTW"] = "自動接受任務",
         ["esES"] = "Aceptar misiones",
-        ["frFR"] = "Acceptation automatique des quêtes",
+        ["frFR"] = "Acceptation des quêtes",
     },
     ["Enable or disable Questie auto-accepting quests."] = {
         ["ptBR"] = "Ativa ou desativa as missões de aceitação automática da Questie.",
