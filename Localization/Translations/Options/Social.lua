@@ -193,7 +193,7 @@ local socialOptionsLocales = {
         ["zhCN"] = "完成目标",
         ["zhTW"] = "任務目標完成",
         ["esES"] = "Objetivo completado",
-        ["frFR"] = "Objectif complété",
+        ["frFR"] = "Objectif terminé",
     },
     ["Announce completed objectives to other players"] = {
         ["ptBR"] = "Anunciar objetivos concluídos para outros jogadores",
@@ -217,7 +217,7 @@ local socialOptionsLocales = {
         ["zhCN"] = "任务完成",
         ["zhTW"] = "任務完成",
         ["esES"] = "Misión completada",
-        ["frFR"] = "Quête complétée",
+        ["frFR"] = "Quête terminée",
     },
     ["Announce quest completion to other players"] = {
         ["ptBR"] = "Anunciar a conclusão da missão para outros jogadores",
@@ -268,7 +268,7 @@ local socialOptionsLocales = {
         ["frFR"] = "Afficher les annonces localement lorsque vous n'êtes pas dans un groupe",
     },
     ["Questie will print your progress messages to chat when not in a group. Other players will NOT be able to see this."] = {
-        ["ptBR"] = "O Questie imprimirá suas mensagens de progresso no chat quando você não estiver em um grupo. Outros jogadores NÃO serão capazes de ver isso.",
+        ["ptBR"] = "O Questie imprimirá suas mensagens de progresso no bate-papo quando você não estiver em um grupo. Outros jogadores NÃO serão capazes de ver isso.",
         ["ruRU"] = "Questie будет отображать в чате оповещения о прогрессе ваших заданий, когда вы вне группы. Другие игроки НЕ БУДУТ видеть эти оповещения",
         ["deDE"] = "Questie wird deine Fortschrittsnachrichten im Chat anzeigen, wenn du nicht in einer Gruppe bist. Andere Spieler werden dies NICHT sehen können.",
         ["koKR"] = false,
@@ -277,7 +277,7 @@ local socialOptionsLocales = {
         ["zhCN"] = "不在队伍时会用系统白色显示你的任务进度信息，其他玩家无法看到。",
         ["zhTW"] = "不在隊伍中時會用系統白字顯示你的任務進度訊息，其他玩家無法看到。",
         ["esES"] = "Questie imprimirá tus mensajes de progreso al chat cuando no estés en un grupo. Otros jugadores NO podrán ver esto.",
-        ["frFR"] = "Questie affichera vos messages de progression dans le chat lorsque vous n'êtes pas dans un groupe. Les autres joueurs NE pourront PAS voir cela.",
+        ["frFR"] = "Questie affichera vos messages de progression dans la discussion lorsque vous n'êtes pas dans un groupe. Les autres joueurs NE pourront PAS voir cela.",
     },
 }
 
