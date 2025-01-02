@@ -743,7 +743,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1348
         },
         [1198] = {
-            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [1204] = {
             [questKeys.preQuestSingle] = {}, -- #938
