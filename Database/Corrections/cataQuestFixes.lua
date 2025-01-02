@@ -545,6 +545,12 @@ function CataQuestFixes.Load()
         [7495] = { -- Victory for the Alliance
             [questKeys.finishedBy] = {{29611}},
         },
+        [7737] = { -- Gaining Even More Acceptance
+            [questKeys.preQuestSingle] = {28064},
+            [questKeys.requiredMinRep] = {},
+            [questKeys.requiredMaxRep] = {59,42000},
+            [questKeys.reputationReward] = {{59,14}},
+        },
         [7781] = { -- The Lord of Blackrock
             [questKeys.finishedBy] = {{29611}},
         },
@@ -1778,6 +1784,13 @@ function CataQuestFixes.Load()
         [13661] = { -- Heartfelt Appreciation
             [questKeys.startedBy] = {{1153}},
             [questKeys.preQuestGroup] = {13655,13656,13657,13658,13659,13660},
+        },
+        [13662] = { -- Gaining Acceptance
+            [questKeys.preQuestSingle] = {28064},
+            [questKeys.requiredMinRep] = {},
+            [questKeys.requiredMaxRep] = {59,42000},
+            [questKeys.reputationReward] = {{59,13}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [13683] = { -- Stopping the Rituals
             [questKeys.preQuestSingle] = {26468},

@@ -1309,7 +1309,7 @@ function QuestieQuestBlacklist:Load()
         [13478] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- pvp marks removed in wotlk
 
         [6804] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
-        [7737] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE, -- replaced by 13662 in wotlk
+        [7737] = QuestieCorrections.WOTLK_HIDE, -- replaced by 13662 in wotlk
         [9094] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
         [9317] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
         [9318] = QuestieCorrections.WOTLK_HIDE + QuestieCorrections.CATA_HIDE,
@@ -3856,7 +3856,6 @@ function QuestieQuestBlacklist:Load()
         [13637] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13638] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13652] = QuestieCorrections.CATA_HIDE, -- Removed with cata
-        [13662] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [13802] = true, -- Not in the game
         [13804] = true, -- Not in the game
         [13894] = QuestieCorrections.CATA_HIDE, -- Removed with cata
