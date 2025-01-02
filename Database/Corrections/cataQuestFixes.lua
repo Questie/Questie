@@ -7684,7 +7684,8 @@ function CataQuestFixes.Load()
         [27390] = { -- The Battle of Darrowshire
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {27387,27388,27389},
-            [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{35.01,84.05}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Relic Bundle in the Town Square."),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{35.01,84.05}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Relic Bundle in the Town Square.")}},
+            [questKeys.objectives] = {{{10936,nil,Questie.ICON_TYPE_TALK}}},
         },
         [27392] = { -- I'm Not Supposed to Tell You This
             [questKeys.preQuestSingle] = {27383},
