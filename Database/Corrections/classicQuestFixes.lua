@@ -743,7 +743,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1348
         },
         [1198] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredRaces] = raceIDs.NONE, -- horde CAN get this quest
         },
         [1204] = {
             [questKeys.preQuestSingle] = {}, -- #938
