@@ -169,6 +169,8 @@ local phases = {
     LUNK_THORIUM_POINT = 1097,
     HORATIO_JANSEN_STEAD = 1098,
     HORATIO_SENTINEL_HILL = 1099,
+    BS_PRE_ASSAULT = 1100,
+    BS_POST_ASSAULT = 1101,
 }
 Phasing.phases = phases
 
@@ -651,6 +653,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.HORATIO_SENTINEL_HILL then
         return (complete[26270] and (not complete[26322])) or false
+    end
+
+    if phase == phases.BS_PRE_ASSAULT then
+        return (not complete[28230])
+    end
+
+    if phase == phases.BS_POST_ASSAULT then
+        return complete[28230] or false
     end
 
     return false

@@ -847,6 +847,18 @@ function CataItemFixes.Load()
         [63090] = { -- Muckgill's Flipper
             [itemKeys.startQuest] = 28154,
         },
+        [63114] = { -- Freed Red Whelpling
+            [itemKeys.npcDrops] = {47814},
+        },
+        [63116] = { -- Freed Green Whelpling
+            [itemKeys.npcDrops] = {47820},
+        },
+        [63117] = { -- Freed Blue Whelpling
+            [itemKeys.npcDrops] = {47821},
+        },
+        [63119] = { -- Freed Bronze Whelpling
+            [itemKeys.npcDrops] = {47822},
+        },
         [63149] = { -- Cursed Shackles
             [itemKeys.npcDrops] = {},
         },
@@ -857,19 +869,25 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {47550},
         },
         [63333] = { -- Obsidian Piston
-            [itemKeys.npcDrops] = {7039},
+            [itemKeys.objectDrops] = {206971,206972,206973,206974},
         },
         [63334] = { -- Stone Power Core
-            [itemKeys.npcDrops] = {7039},
+            [itemKeys.objectDrops] = {206971,206972,206973,206974},
         },
         [63335] = { -- Thorium Gearshaft
-            [itemKeys.npcDrops] = {7039},
+            [itemKeys.objectDrops] = {206971,206972,206973,206974},
         },
         [63336] = { -- Flux Exhaust Sieve
-            [itemKeys.npcDrops] = {7039},
+            [itemKeys.objectDrops] = {206971,206972,206973,206974},
         },
         [63351] = { -- Tahret Dynasty Mallet
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [63423] = { -- Fallen Flamekin
+            [itemKeys.npcDrops] = {9776,9778,9779},
+        },
+        [63424] = { -- Worg Cutlet
+            [itemKeys.npcDrops] = {9697},
         },
         [63685] = { -- Ancient Copper Scroll
             [itemKeys.npcDrops] = {},
@@ -885,6 +903,9 @@ function CataItemFixes.Load()
         },
         [64404] = { -- Ruby Crystal Cluster
             [itemKeys.npcDrops] = {48533,48639},
+        },
+        [64409] = { -- Flamefly
+            [itemKeys.npcDrops] = {48671},
         },
         [64585] = { -- Cannon Powder
             [itemKeys.npcDrops] = {49143},
