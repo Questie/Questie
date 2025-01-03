@@ -9485,25 +9485,25 @@ function CataQuestFixes.Load()
         [28202] = { -- A Perfect Costume
             [questKeys.preQuestSingle] = {28254},
             [questKeys.requiredRaces] = raceKeys.DWARF + raceKeys.HUMAN,
-            [questKeys.objectives] = {nil,{{206947,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{48001,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("2 Hides, 4 Mud, 2 Thread"),0,{{"object",206947}}}},
         },
         [28203] = { -- A Perfect Costume
             [questKeys.preQuestSingle] = {28254},
             [questKeys.requiredRaces] = raceKeys.DRAENEI + raceKeys.WORGEN,
-            [questKeys.objectives] = {nil,{{206947,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{48001,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("4 Hides, 1 Mud, 3 Thread"),0,{{"object",206947}}}},
         },
         [28204] = { -- A Perfect Costume
             [questKeys.preQuestSingle] = {28254},
             [questKeys.requiredRaces] = raceKeys.GNOME,
-            [questKeys.objectives] = {nil,{{206947,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{48001,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("1 Hide, 3 Mud, 4 Thread"),0,{{"object",206947}}}},
         },
         [28205] = { -- A Perfect Costume
             [questKeys.preQuestSingle] = {28254},
             [questKeys.requiredRaces] = raceKeys.NIGHT_ELF,
-            [questKeys.objectives] = {nil,{{206947,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{48001,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("3 Hides, 2 Mud, 1 Thread"),0,{{"object",206947}}}},
         },
         [28206] = { -- A Lost Lad
@@ -9619,6 +9619,7 @@ function CataQuestFixes.Load()
         },
         [28253] = { -- Taking the Horn For Ourselves
             [questKeys.preQuestSingle] = {28252},
+            [questKeys.requiredSourceItems] = {63357},
         },
         [28254] = { -- A Needle in a Hellhole
             [questKeys.preQuestSingle] = {28184},
@@ -9815,12 +9816,15 @@ function CataQuestFixes.Load()
         },
         [28317] = { -- A Delivery for Thorg'izog
             [questKeys.requiredSourceItems] = {63357},
+            [questKeys.preQuestGroup] = {28314,28315,28316},
         },
         [28318] = { -- A Delivery for Neeralak
             [questKeys.requiredSourceItems] = {63357},
+            [questKeys.preQuestGroup] = {28314,28315,28316},
         },
         [28319] = { -- A Delivery for Xi'lun
             [questKeys.requiredSourceItems] = {63357},
+            [questKeys.preQuestGroup] = {28314,28315,28316},
         },
         [28320] = { -- Assault on Dreadmaul Rock
             [questKeys.preQuestSingle] = {28327},
@@ -10341,6 +10345,14 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {26964,26965},
             [questKeys.requiredMaxLevel] = 18,
         },
+        [28569] = { -- The Bogpaddle Bullet
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Swamp of Sorrows"), 0, {{"monster", 48948}}}},
+            [questKeys.nextQuestInChain] = 28587,
+        },
+        [28570] = { -- The Bogpaddle Bullet
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Swamp of Sorrows"), 0, {{"monster", 48948}}}},
+            [questKeys.nextQuestInChain] = 28587,
+        },
         [28571] = { -- Warchief's Command: Hillsbrad Foothills!
             [questKeys.exclusiveTo] = {28096},
             [questKeys.requiredMaxLevel] = 23,
@@ -10544,9 +10556,11 @@ function CataQuestFixes.Load()
         },
         [28675] = { -- Hero's Call: Swamp of Sorrows!
             [questKeys.requiredMaxLevel] = 52,
+            [questKeys.nextQuestInChain] = 28587,
         },
         [28677] = { -- Warchief's Command: Swamp of Sorrows!
             [questKeys.requiredMaxLevel] = 53,
+            [questKeys.nextQuestInChain] = 28587,
         },
         [28678] = { -- Captain P. Harris
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,

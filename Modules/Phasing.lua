@@ -656,11 +656,11 @@ function Phasing.IsSpawnVisible(phase)
     end
 
     if phase == phases.BS_PRE_ASSAULT then
-        return (not complete[28230])
+        return (not complete[28320])
     end
 
     if phase == phases.BS_POST_ASSAULT then
-        return complete[28230] or false
+        return complete[28320] or false
     end
 
     return false
