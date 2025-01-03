@@ -532,6 +532,9 @@ function CataQuestFixes.Load()
             [questKeys.objectivesText] = {"Recover the Stolen Treats and free Metzen the Reindeer after defeating the Abominable Greench, who is hiding out near Growless Cave in the Hillsbrad Foothills."},
             [questKeys.startedBy] = {{13433}},
         },
+        [7162] = { -- Proving Grounds
+            [questKeys.preQuestSingle] = {},
+        },
         [7383] = { -- Teldrassil: The Burden of the Kaldorei
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {918,919},
