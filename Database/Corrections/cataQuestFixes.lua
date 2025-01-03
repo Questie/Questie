@@ -6865,6 +6865,9 @@ function CataQuestFixes.Load()
         [26935] = { -- Northridge Lumber Mill
             [questKeys.nextQuestInChain] = 27000,
         },
+        [26939] = { -- The G-Team
+            [questKeys.preQuestSingle] = {},
+        },
         [26940] = { -- Arcane Missiles
             [questKeys.startedBy] = {{43006}},
             [questKeys.objectives] = {{{44614}},nil,nil,nil,nil,{{5143}}},
