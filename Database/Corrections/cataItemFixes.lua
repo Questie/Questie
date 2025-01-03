@@ -115,6 +115,9 @@ function CataItemFixes.Load()
         [13250] = { -- Head of Balnazzar
             [itemKeys.startQuest] = 0,
         },
+        [13920] = { -- Healthy Dragon Scale
+            [itemKeys.startQuest] = 0,
+        },
         [16790] = { -- Damp Note
             [itemKeys.startQuest] = 0,
         },
