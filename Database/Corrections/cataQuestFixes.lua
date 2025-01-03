@@ -9592,9 +9592,6 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{48116,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.finishedBy] = {{48010}},
         },
-        [28245] = { -- Grunt Work
-            [questKeys.requiredSourceItems] = {63357},
-        },
         [28246] = { -- Strategic Cuts
             [questKeys.preQuestSingle] = {28239},
             [questKeys.requiredSourceItems] = {63357},
