@@ -12451,6 +12451,10 @@ function CataQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
 
     local questFixesHorde = {
+        [2280] = { -- The Platinum Discs
+            [questKeys.requiredLevel] = 35,
+            [questKeys.finishedBy] = {{46236}},
+        },
         [12318] = { -- Save Brewfest!
             [questKeys.startedBy] = {},
         },
@@ -12526,6 +12530,10 @@ function CataQuestFixes:LoadFactionFixes()
     }
 
     local questFixesAlliance = {
+        [2280] = { -- The Platinum Discs
+            [questKeys.requiredLevel] = 35,
+            [questKeys.finishedBy] = {{46234}},
+        },
         [12318] = { -- Save Brewfest!
             [questKeys.startedBy] = {{27584}},
         },
