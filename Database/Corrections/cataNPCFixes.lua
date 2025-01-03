@@ -337,6 +337,10 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [9046] = { -- Scarshield Quartermaster
+            [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
+            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{43.34,99.17}}},
+        },
         [9176] = { -- Gorlop
             [npcKeys.waypoints] = {[zoneIDs.BURNING_STEPPES] = {{{39.95,60.48},{40.24,60.42},{40.52,60.36},{40.81,60.31},{41.10,60.27},{41.38,60.18},{41.67,60.07},{41.95,59.95},{42.01,59.92},{42.02,59.92},{42.30,59.85},{42.59,59.84},{42.88,59.88},{43.16,59.97},{43.45,60.05},{43.74,60.11},{43.89,60.13},{43.91,60.14}}}},
         },
@@ -401,6 +405,10 @@ function CataNpcFixes.Load()
         },
         [13158] = { -- Lieutenant Sanders
             [npcKeys.waypoints] = {},
+        },
+        [14387] = { -- Lothos Riftwaker
+            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{32.12,94.7}}},
+            [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
         },
         [14431] = { -- Fury Shelda
             [npcKeys.waypoints] = {},
