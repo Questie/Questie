@@ -3545,6 +3545,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {24907,24906},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get in the balloon"),0,{{"monster",40604}}}},
         },
+        [24913] = { -- Remember the Light
+            [questKeys.preQuestSingle] = {27902},
+            [questKeys.objectives] = {{{47004,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [24920] = { -- Slowing the Inevitable
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get on the Captured Riding Bat"),0,{{"monster",38615}}}},
         },
@@ -8014,6 +8018,7 @@ function CataQuestFixes.Load()
         },
         [27536] = { -- Mostly Harmless
             [questKeys.preQuestSingle] = {27587},
+            [questKeys.exclusiveTo] = {},
         },
         [27538] = { -- The Perfect Poultice
             [questKeys.preQuestSingle] = {27516},
@@ -8103,6 +8108,9 @@ function CataQuestFixes.Load()
         [27586] = { -- Shells on the Sea Shore
             [questKeys.preQuestSingle] = {27583},
         },
+        [27587] = { -- Maliciously Delicious
+            [questKeys.preQuestSingle] = {},
+        },
         [27588] = { -- Signal the Attack
             [questKeys.triggerEnd] = {"Signal the Attack", {[zoneIDs.TWILIGHT_HIGHLANDS]={{42.33,68.8},{40.62,62.21}}}},
             [questKeys.objectives] = {},
@@ -8122,6 +8130,26 @@ function CataQuestFixes.Load()
         },
         [27595] = { -- The Prophet Hadassi
             [questKeys.preQuestSingle] = {28135},
+        },
+        [27597] = { -- Crazy Larry
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27536,27656},
+        },
+        [27598] = { -- Kill Gil
+            [questKeys.preQuestSingle] = {27597},
+            [questKeys.exclusiveTo] = {},
+        },
+        [27599] = { -- Can't Take It With Them
+            [questKeys.preQuestSingle] = {27597},
+            [questKeys.exclusiveTo] = {},
+        },
+        [27600] = { -- In With a Bang
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {27598,27599},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Talk to Lil' Crazy Jerry"), 0, {{"monster", 46245}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Go back to the mainland"), 0, {{"object", 206679}}},
+            },
         },
         [27601] = { -- Cities in Dust
             [questKeys.preQuestSingle] = {27594},
@@ -8291,7 +8319,8 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27638,27639},
         },
         [27656] = { -- Croc-Out
-            [questKeys.preQuestSingle] = {27536},
+            [questKeys.preQuestSingle] = {27587},
+            [questKeys.exclusiveTo] = {},
         },
         [27657] = { -- Help from the Earthcaller
             [questKeys.preQuestSingle] = {27636,27637},
@@ -8411,7 +8440,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {},
         },
         [27704] = { -- Legends of the Sunken Temple
-            [questKeys.triggerEnd] = {"Hall of Masks found", {[zoneIDs.SWAMP_OF_SORROWS]={{54.27,79.02}}}},
+            [questKeys.triggerEnd] = {"Hall of Masks found", {[zoneIDs.SWAMP_OF_SORROWS]={{73.8,44.2}}}},
         },
         [27705] = { -- Step One: The Priestess
             [questKeys.startedBy] = {{46071}},
@@ -8505,6 +8534,9 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{46276}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Tahet"), 0, {{"monster", 46496}}}},
         },
+        [27740] = { -- A Little on the Side
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Lil' Crazy Daisy"), 0, {{"monster", 46503}}}},
+        },
         [27742] = { -- A Little on the Side
             [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {27720,28885},
@@ -8572,6 +8604,7 @@ function CataQuestFixes.Load()
         },
         [27768] = { -- Step Two: The Bloodletter
             [questKeys.startedBy] = {{46071}},
+            [questKeys.finishedBy] = {{100044}},
         },
         [27769] = { -- Rhea Revealed
             [questKeys.finishedBy] = {{46655}},
@@ -8629,6 +8662,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {27693,27709},
             [questKeys.startedBy] = {{46760}},
             [questKeys.finishedBy] = {{100035}},
+        },
+        [27795] = { -- Tides of Darkness
+            [questKeys.preQuestGroup] = {27821,27822},
         },
         [27796] = { -- The Warden's Pawn
             [questKeys.preQuestSingle] = {27792},
@@ -8737,8 +8773,21 @@ function CataQuestFixes.Load()
         [27841] = { -- The Grateful Dead
             [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14170,14171,14172,14173,14174,14175,14176,14177,27846},
         },
+        [27843] = { -- Reinforcements Denied
+            [questKeys.preQuestGroup] = {27821,27822},
+        },
+        [27845] = { -- Marking the Fallen
+            [questKeys.preQuestGroup] = {27821,27822},
+            [questKeys.objectives] = {{{46881,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [27846] = { -- The Grateful Dead
             [questKeys.exclusiveTo] = {13952,14166,14167,14168,14169,14170,14171,14172,14173,14174,14175,14176,14177,27841},
+        },
+        [27849] = { -- Assault on Stonard
+            [questKeys.preQuestGroup] = {27795,27843,27845},
+        },
+        [27851] = { -- Cutting Supply
+            [questKeys.preQuestGroup] = {27795,27843,27845},
         },
         [27854] = { -- Tides of Darkness
             [questKeys.preQuestGroup] = {27852,27853},
@@ -8748,6 +8797,7 @@ function CataQuestFixes.Load()
         },
         [27856] = { -- Marking the Fallen
             [questKeys.preQuestGroup] = {27852,27853},
+            [questKeys.objectives] = {{{46882,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [27857] = { -- We're Under Attack!
             [questKeys.preQuestGroup] = {27854,27855,27856},
@@ -8835,6 +8885,12 @@ function CataQuestFixes.Load()
             [questKeys.requiredSourceItems] = {62608,62610},
             [questKeys.preQuestSingle] = {27899},
         },
+        [27902] = { -- The Purespring
+            [questKeys.preQuestSingle] = {27876},
+        },
+        [27904] = { -- Breath of Mist
+            [questKeys.preQuestSingle] = {27875},
+        },
         [27905] = { -- Tailgunner!
             [questKeys.objectives] = {},
             [questKeys.triggerEnd] = {"Escaped the Obelisk of the Sun",{[zoneIDs.ULDUM] = {{54.54,42.08}}}},
@@ -8867,6 +8923,18 @@ function CataQuestFixes.Load()
         },
         [27916] = { -- Ruag's Report
             [questKeys.nextQuestInChain] = 28553,
+        },
+        [27917] = { -- Sniffing Them Out
+            [questKeys.nextQuestInChain] = 27920,
+        },
+        [27918] = { -- The Harborage
+            [questKeys.preQuestGroup] = {27840,27860},
+        },
+        [27920] = { -- Armored to the Teeth
+            [questKeys.nextQuestInChain] = 27921,
+        },
+        [27921] = { -- Fighting Tooth and Claw
+            [questKeys.nextQuestInChain] = 27968,
         },
         [27922] = { -- Traitors!
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Hide behind Neferset Frond"), 0, {{"object", 206579}}}},
@@ -10350,11 +10418,11 @@ function CataQuestFixes.Load()
         },
         [28569] = { -- The Bogpaddle Bullet
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Swamp of Sorrows"), 0, {{"monster", 48948}}}},
-            [questKeys.nextQuestInChain] = 28587,
+            [questKeys.nextQuestInChain] = 27587,
         },
         [28570] = { -- The Bogpaddle Bullet
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Swamp of Sorrows"), 0, {{"monster", 48948}}}},
-            [questKeys.nextQuestInChain] = 28587,
+            [questKeys.nextQuestInChain] = 27587,
         },
         [28571] = { -- Warchief's Command: Hillsbrad Foothills!
             [questKeys.exclusiveTo] = {28096},
@@ -10559,11 +10627,13 @@ function CataQuestFixes.Load()
         },
         [28675] = { -- Hero's Call: Swamp of Sorrows!
             [questKeys.requiredMaxLevel] = 52,
-            [questKeys.nextQuestInChain] = 28587,
+            [questKeys.nextQuestInChain] = 27587,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Swamp of Sorrows"), 0, {{"monster", 48948}}}},
         },
         [28677] = { -- Warchief's Command: Swamp of Sorrows!
             [questKeys.requiredMaxLevel] = 53,
-            [questKeys.nextQuestInChain] = 28587,
+            [questKeys.nextQuestInChain] = 27587,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Swamp of Sorrows"), 0, {{"monster", 48948}}}},
         },
         [28678] = { -- Captain P. Harris
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,

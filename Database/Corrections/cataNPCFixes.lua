@@ -2744,6 +2744,10 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{43.8,45.95}}},
             [npcKeys.zoneID] = zoneIDs.MOUNT_HYJAL,
         },
+        [47004] = { -- Magtoor
+            [npcKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS]={{26.94,33.57}}},
+            [npcKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
+        },
         [47080] = { -- Lucien Tosselwrench
             [npcKeys.spawns] = {[zoneIDs.BADLANDS]={{26.49,62.3}}},
             [npcKeys.zoneID] = zoneIDs.BADLANDS,
@@ -3583,6 +3587,12 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{44.62,61.12}}},
             [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
             [npcKeys.questEnds] = {28252},
+        },
+        [100044] = { -- Step Two: The Bloodletter
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS] = {{77.3,46.3}}},
+            [npcKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
+            [npcKeys.questEnds] = {27768},
         },
     }
 end
