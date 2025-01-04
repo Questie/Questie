@@ -379,7 +379,7 @@ local trackerOptionsLocales = {
     },
     ---------------------------------------------------------
     ["Fade Quest Item Buttons"] = {
-        ["ptBR"] = "Desvanecer BTNs do item de missão",
+        ["ptBR"] = "Desvanecer botões do item de missão",
         ["ruRU"] = "Скрыть предметы заданий",
         ["deDE"] = "Questgegenstände ausblenden",
         ["koKR"] = "페이드 퀘스트 아이템 BTN",
