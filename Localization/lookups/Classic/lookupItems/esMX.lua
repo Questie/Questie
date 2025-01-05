@@ -677,6 +677,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [5835] = "Grog de Mok'Morokk",
 [5836] = "Caja fuerte de Mok'Morokk",
 [5837] = "Costilla de Metaleador",
+[5838] = "Pergamino de piel de kodo",
 [5840] = "Lengua abrasadora",
 [5841] = "Corazón abrasador",
 [5842] = "Muestra bruta de mena",
