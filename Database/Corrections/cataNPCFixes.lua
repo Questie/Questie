@@ -2055,6 +2055,9 @@ function CataNpcFixes.Load()
         [41381] = { -- Nordu
             [npcKeys.spawns] = {[zoneIDs.MOUNT_HYJAL]={{27.4,55.56}}},
         },
+        [41402] = { -- Abandoned Bloodwash Crate
+            [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS]={{62.95,64.27},{60.6,62.86},{61.55,63.07}}},
+        },
         [41455] = { -- Overseer Idra'kess
             [npcKeys.spawns] = {[zoneIDs.SHIMMERING_EXPANSE]={{36.84,79.75}}},
         },
@@ -3594,6 +3597,12 @@ function CataNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
             [npcKeys.questEnds] = {27768},
         },
+        [100045] = { -- The Future of the Rockpool
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{72.6,63.1},{73.1,71},{70.7,78.9},{56.9,85.3},{65.2,85.3}}},
+            [npcKeys.zoneID] = zoneIDs.BLASTED_LANDS,
+            [npcKeys.questEnds] = {25707},
+        },
     }
 end
 
@@ -3604,6 +3613,9 @@ function CataNpcFixes:LoadFactionFixes()
     local phases = Phasing.phases
 
     local npcFixesHorde = {
+        [7783] = { -- Loramus Thalipedes
+            [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{39.36,35.78}}},
+        },
         --[[[15898] = { -- Lunar Festival Vendor
             [npcKeys.spawns] = {
                 [zoneIDs.ORGRIMMAR]={{41.27,32.36}},
@@ -3760,6 +3772,9 @@ function CataNpcFixes:LoadFactionFixes()
     }
 
     local npcFixesAlliance = {
+        [7783] = { -- Loramus Thalipedes
+            [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{62.31,26.09}}},
+        },
         --[[[15898] = { -- Lunar Festival Vendor
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY]={{37.32,64.04}},

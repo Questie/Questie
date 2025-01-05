@@ -4704,6 +4704,10 @@ function CataQuestFixes.Load()
         [25679] = { -- Into the Mountain
             [questKeys.preQuestGroup] = {25677,25678},
         },
+        [25688] = { -- The Altar of Storms
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Start the event"),0,{{"object",203196}}}},
+            [questKeys.objectives] = {{{41193,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [25690] = { -- A Bloodmage's Gotta Eat Too
             [questKeys.preQuestSingle] = {25684},
         },
@@ -4739,17 +4743,42 @@ function CataQuestFixes.Load()
         [25702] = { -- Home... Gone... Naga...
             [questKeys.nextQuestInChain] = 25703,
         },
+        [25703] = { -- Atrocities
+            [questKeys.preQuestSingle] = {},
+        },
         [25705] = { -- False Idols
             [questKeys.preQuestSingle] = {25703},
         },
         [25706] = { -- Neptool's Revenge
             [questKeys.preQuestSingle] = {25703},
         },
+        [25707] = { -- The Future of the Rockpool
+            [questKeys.preQuestSingle] = {25703},
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Rockpool Tadpoles returned to the Forbidding Sea", {[zoneIDs.BLASTED_LANDS]={{72.6,63.1},{73.1,71},{70.7,78.9},{56.9,85.3},{65.2,85.3}}}},
+            [questKeys.finishedBy] = {{100045}},
+        },
+        [25708] = { -- Our Fallen Friends
+            [questKeys.preQuestSingle] = {25715},
+        },
+        [25709] = { -- Curtail the Darktail
+            [questKeys.preQuestSingle] = {25715},
+        },
         [25710] = { -- Minor Distractions
             [questKeys.preQuestSingle] = {},
         },
+        [25712] = { -- Nethergarde Reigns
+            [questKeys.preQuestSingle] = {25710},
+        },
+        [25713] = { -- Remove Their Arms
+            [questKeys.preQuestSingle] = {25710},
+        },
+        [25714] = { -- Watcher Mahar Ba
+            [questKeys.preQuestGroup] = {25708,25709,25711},
+        },
         [25715] = { -- A Closer Look
             [questKeys.triggerEnd] = {"Scout the ships on the Shattershore",{[zoneIDs.BLASTED_LANDS] = {{69,32.7}}}},
+            [questKeys.preQuestSingle] = {},
         },
         [25719] = { -- Demoniac Vessel
             [questKeys.requiredSourceItems] = {57177,57178,57179,57180,57181,57182,57183},
@@ -4831,6 +4860,12 @@ function CataQuestFixes.Load()
         },
         [25770] = { -- Keg Run
             [questKeys.nextQuestInChain] = 25721,
+        },
+        [25771] = { -- One Draenei's Junk...
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [25772] = { -- Kum'isha's Endeavors
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [25776] = { -- Sethria's Demise
             [questKeys.preQuestSingle] = {},
@@ -5525,11 +5560,52 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26141,26142},
         },
+        [26159] = { -- The First Step
+            [questKeys.preQuestSingle] = {26158},
+        },
         [26160] = { -- Blood Ritual
             [questKeys.objectives] = {{{42298,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [26162] = { -- The Altar of Storms
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Start the event"),0,{{"object",203196}}}},
+            [questKeys.objectives] = {{{41193,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [26163] = { -- Time is Short
+            [questKeys.preQuestGroup] = {26167,26168,26169},
+        },
+        [26164] = { -- The Charred Granite of the Dark Portal
+            [questKeys.preQuestSingle] = {26163},
+        },
+        [26165] = { -- The Vile Blood of Demons
+            [questKeys.preQuestSingle] = {26163},
+        },
+        [26166] = { -- Enhancing the Stone
+            [questKeys.preQuestGroup] = {26164,26165},
+        },
+        [26167] = { -- The Amulet of Allistarj
+            [questKeys.preQuestSingle] = {26160},
+        },
+        [26168] = { -- The Amulet of Sevine
+            [questKeys.preQuestSingle] = {26160},
+        },
+        [26169] = { -- The Amulet of Grol
+            [questKeys.preQuestSingle] = {26160},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon Grol"),0,{{"object",203230}}}},
+        },
         [26170] = { -- The Final Ritual
             [questKeys.objectives] = {{{42298,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {26162},
+        },
+        [26171] = { -- You Are Rakh'likh, Demon
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak with the Deathly Usher north of the Rise of the Defiler."),0,{{"monster",8816}}}},
+            [questKeys.objectives] = {{{41280},{41279}}},
+        },
+        [26172] = { -- A Bloodmage's Gotta Eat Too
+            [questKeys.preQuestSingle] = {26158},
+        },
+        [26175] = { -- Surwich
+            [questKeys.nextQuestInChain] = 26184,
+            [questKeys.preQuestSingle] = {26174},
         },
         [26176] = { -- Onward to Thelsamar
             [questKeys.nextQuestInChain] = 26842,
@@ -5542,6 +5618,9 @@ function CataQuestFixes.Load()
         },
         [26182] = { -- Back to the Tenebrous Cavern
             [questKeys.preQuestSingle] = {26143},
+        },
+        [26184] = { -- Wormthorn's Dream
+            [questKeys.preQuestSingle] = {},
         },
         [26186] = { -- Demoniac Vessel
             [questKeys.requiredSourceItems] = {57177,57178,57179,57180,57181,57182,57183},
@@ -8886,7 +8965,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27899},
         },
         [27902] = { -- The Purespring
-            [questKeys.preQuestSingle] = {27876},
+            [questKeys.preQuestGroup] = {27875,27876},
         },
         [27904] = { -- Breath of Mist
             [questKeys.preQuestSingle] = {27875},
@@ -8929,6 +9008,9 @@ function CataQuestFixes.Load()
         },
         [27918] = { -- The Harborage
             [questKeys.preQuestGroup] = {27840,27860},
+        },
+        [27919] = { -- Onward to the Blasted Lands
+            [questKeys.nextQuestInChain] = 25715,
         },
         [27920] = { -- Armored to the Teeth
             [questKeys.nextQuestInChain] = 27921,
@@ -11131,7 +11213,7 @@ function CataQuestFixes.Load()
         [28856] = { -- The Sands of Silithus
             [questKeys.nextQuestInChain] = 8280,
         },
-        [28857] = { -- Hero's Call: Blasted Lands!
+        [28857] = { -- Blasted Lands: The Other Side of the World
             [questKeys.exclusiveTo] = {28673,28867},
             [questKeys.nextQuestInChain] = 25710,
         },
