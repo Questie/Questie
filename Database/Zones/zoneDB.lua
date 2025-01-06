@@ -19,10 +19,10 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local areaIdToUiMapId = ZoneDB.private.areaIdToUiMapId or {}
-local uiMapIdToAreaId = ZoneDB.private.uiMapIdToAreaId or {}
-local dungeons = ZoneDB.private.dungeons or {}
-local subZoneToParentZone = ZoneDB.private.subZoneToParentZone or {}
+local areaIdToUiMapId
+local uiMapIdToAreaId
+local dungeons
+local subZoneToParentZone
 
 -- Generated from alternativeAreaId in dungeons
 -- [alternativeDungeonAreaId] = dungeonZone
@@ -44,6 +44,13 @@ local zoneMap = {} -- Generated
 
 
 function ZoneDB.Initialize()
+    areaIdToUiMapId = loadstring(ZoneDB.private.areaIdToUiMapId)()
+    uiMapIdToAreaId = loadstring(ZoneDB.private.uiMapIdToAreaId)()
+    dungeons = ZoneDB.private.dungeons
+    subZoneToParentZone = loadstring(ZoneDB.private.subZoneToParentZone)()
+    subZoneToParentZone[3545] = 3483 -- Hellfire Citadel -> Hellfire Peninsula
+    subZoneToParentZone[3563] = 3483 -- Hellfire Citadel -> Hellfire Peninsula
+
     -- Run tests if debug enabled
     if Questie.db.profile.debugEnabled then
         _ZoneDB:RunTests()

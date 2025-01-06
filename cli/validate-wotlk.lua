@@ -170,8 +170,11 @@ local function _CheckWotlkDatabase()
     }
     QuestieConfig = {}
 
+    ---@type QuestieDB
     local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+    ---@type QuestieCorrections
     local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+    ---@type l10n
     local l10n = QuestieLoader:ImportModule("l10n")
 
     print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")

@@ -157,6 +157,24 @@ local phases = {
     TARENAR_PLAGUEWOOD = 1085,
     TARENAR_SAVED_GIDWIN = 1086,
     TARENAR_GIDWIN_LHC = 1087,
+    RHEA_LETHLOR_RAVINE = 1088,
+    RHEA_DRAGONS_MOUTH = 1089,
+    RHEA_NEW_KARGATH = 1090,
+    RHEA_HIDDEN_CLUTCH = 1091,
+    DEATHWING_TELDURIN = 1092,
+    DEATHWING_MARTEK = 1093,
+    SEARING_GORGE_NPCS_TOWERS = 1094,
+    SEARING_GORGE_CAVE_ASSAULT = 1095,
+    LUNK_IRON_SUMMIT = 1096,
+    LUNK_THORIUM_POINT = 1097,
+    HORATIO_JANSEN_STEAD = 1098,
+    HORATIO_SENTINEL_HILL = 1099,
+    BS_PRE_ASSAULT = 1100,
+    BS_POST_ASSAULT = 1101,
+    SETHMAN_VISIBLE = 1102,
+    LASHTAIL_VISIBLE = 1103,
+    BERRIN_EMERINE_OSBORN_CAGE = 1104,
+    BERRIN_EMERINE_OSBORN_RESCUED = 1105,
 }
 Phasing.phases = phases
 
@@ -595,6 +613,74 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.TARENAR_GIDWIN_LHC then
         return complete[27527] or false
+    end
+
+    if phase == phases.RHEA_LETHLOR_RAVINE then
+        return (not complete[27769])
+    end
+
+    if phase == phases.RHEA_DRAGONS_MOUTH then
+        return complete[27769] and ((not complete[27832]) and ((not questLog[27832]) or (questLog[27832] and questLog[27832].isComplete == 0))) or false
+    end
+
+    if phase == phases.RHEA_HIDDEN_CLUTCH then
+        return (complete[27832] or (questLog[27832] and questLog[27832].isComplete == 1)) or false
+    end
+
+    if phase == phases.DEATHWING_TELDURIN then
+        return (not complete[27713])
+    end
+
+    if phase == phases.DEATHWING_MARTEK then
+        return complete[27713] or false
+    end
+
+    if phase == phases.SEARING_GORGE_NPCS_TOWERS then
+        return ((not complete[28052]) and (not questLog[28052])) or complete[28062]
+    end
+
+    if phase == phases.SEARING_GORGE_CAVE_ASSAULT then
+        return (complete[28052] or questLog[28052]) and (not complete[28062]) or false
+    end
+
+    if phase == phases.LUNK_IRON_SUMMIT then
+        return (not complete[28062])
+    end
+
+    if phase == phases.LUNK_THORIUM_POINT then
+        return complete[28062] or false
+    end
+
+    if phase == phases.HORATIO_JANSEN_STEAD then
+        return (not complete[26270])
+    end
+
+    if phase == phases.HORATIO_SENTINEL_HILL then
+        return (complete[26270] and (not complete[26322])) or false
+    end
+
+    if phase == phases.BS_PRE_ASSAULT then
+        return (not complete[28320])
+    end
+
+    if phase == phases.BS_POST_ASSAULT then
+        return complete[28320] or false
+    end
+
+    if phase == phases.SETHMAN_VISIBLE then
+        return (complete[26732] or (questLog[26732] and questLog[26732].isComplete == 1)) or false
+    end
+
+    if phase == phases.LASHTAIL_VISIBLE then
+        return complete[26739] or false
+    end
+
+    if phase == phases.BERRIN_EMERINE_OSBORN_CAGE then
+        return (not complete[26736])
+    end
+
+    if phase == phases.BERRIN_EMERINE_OSBORN_RESCUED then
+        return complete[26736] or false
     end
 
     return false

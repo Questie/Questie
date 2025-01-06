@@ -49,7 +49,7 @@ UnitLevel = function()
     return 60
 end
 GetLocale = function()
-    return "enUS"
+    return "deDE"
 end
 GetQuestGreenRange = function()
     return 10
@@ -151,9 +151,13 @@ local function _ErrorOrWarning(_, text, ...)
     io.stderr:write(tostring(text) .. "\n")
 end
 
-local function _CheckClassicDatabase()
+local function _CheckGermanClassicDatabase()
     print("\n\27[36mCompiling Classic database...\27[0m")
     loadTOC("Questie-Classic.toc")
+    dofile("Localization/lookups/Classic/lookupItems/deDE.lua")
+    dofile("Localization/lookups/Classic/lookupNpcs/deDE.lua")
+    dofile("Localization/lookups/Classic/lookupObjects/deDE.lua")
+    dofile("Localization/lookups/Classic/lookupQuests/deDE.lua")
 
     assert(Questie.IsEra, "Questie is not started for Era/HC/Anniversary")
 
@@ -195,6 +199,8 @@ local function _CheckClassicDatabase()
         ["itemData"] = QuestieDB.itemData,
         ["questData"] = QuestieDB.questData
     })
+    l10n.InitializeUILocale()
+    l10n:Initialize()
 
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
@@ -203,25 +209,10 @@ local function _CheckClassicDatabase()
 
     QuestieDB:Initialize()
 
-    print("\n\27[36mValidating objects...\27[0m")
-    QuestieDBCompiler:ValidateObjects()
-    print("\n\27[36mValidating items...\27[0m")
-    QuestieDBCompiler:ValidateItems()
-    print("\n\27[36mValidating NPCs...\27[0m")
-    QuestieDBCompiler:ValidateNPCs()
-    print("\n\27[36mValidating quests...\27[0m")
-    QuestieDBCompiler:ValidateQuests()
-
-    print("\n\27[32mClassic database compiled successfully\27[0m")
-
-    -- Remove hidden quests from the database as we don't want to validate them
-    for questId, _ in pairs(QuestieCorrections.hiddenQuests) do
-        QuestieDB.questData[questId] = nil
-    end
-
-    Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
-    Validators.checkPreQuestExclusiveness(QuestieDB.questData, QuestieDB.questKeys)
-    Validators.checkParentChildQuestRelations(QuestieDB.questData, QuestieDB.questKeys)
+    assert(QuestieDB.GetQuest(2).name == "Klaue von Scharfkralle")
+    assert(QuestieDB:GetNPC(3).name == "Fleischfresser")
+    assert(QuestieDB:GetObject(31).name == "Alte Löwenstatue")
+    assert(QuestieDB:GetItem(159).name == "Erfrischendes Quellwasser")
 end
 
-_CheckClassicDatabase()
+_CheckGermanClassicDatabase()

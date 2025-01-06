@@ -278,6 +278,18 @@ local dungeonLocales = {
         ["zhTW"] = "阿塔哈卡神廟",
         ["zhCN"] = "阿塔哈卡神庙",
     },
+    ["Sunken Temple"] = {
+        ["ptBR"] = "Templo Submerso",
+        ["ruRU"] = "Затонувший храм",
+        ["deDE"] = "Versunkener Tempel",
+        ["koKR"] = "가라앉은 사원",
+        ["esMX"] = "Templo Sumergido",
+        ["enUS"] = true,
+        ["frFR"] = "Temple englouti",
+        ["esES"] = "Templo Sumergido",
+        ["zhTW"] = "沉沒的神廟",
+        ["zhCN"] = "沉没的神庙",
+    },
     ["Caverns of Time"] = {
         ["ptBR"] = "Cavernas do Tempo",
         ["ruRU"] = "Пещеры Времени",

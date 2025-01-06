@@ -215,6 +215,9 @@ function SeasonOfDiscovery:LoadItems()
         [231842] = { -- Nandieb's Stave
             [itemKeys.npcDrops] = {232529},
         },
+        [231904] = { -- Tarnished Horn
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [234006] = { -- Monstrous Silithid Chitin
             [itemKeys.npcDrops] = {13136,15240,15286,15288,15341,15348,234798},
         },

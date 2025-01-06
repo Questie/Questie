@@ -115,6 +115,9 @@ function CataItemFixes.Load()
         [13250] = { -- Head of Balnazzar
             [itemKeys.startQuest] = 0,
         },
+        [13920] = { -- Healthy Dragon Scale
+            [itemKeys.startQuest] = 0,
+        },
         [16790] = { -- Damp Note
             [itemKeys.startQuest] = 0,
         },
@@ -129,6 +132,9 @@ function CataItemFixes.Load()
         },
         [18947] = { -- Feral Scar Yeti Hide
             [itemKeys.npcDrops] = {39896},
+        },
+        [18950] = { -- Chambermaid Pillaclencher's Pillow
+            [itemKeys.startQuest] = 0,
         },
         [19424] = { -- Sayge's Fortune #24
             [itemKeys.startQuest] = 0,
@@ -676,6 +682,9 @@ function CataItemFixes.Load()
         [59522] = { -- Key of Ilgalar
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [60291] = { -- Tkashi Fetish
+            [itemKeys.npcDrops] = {43977},
+        },
         [60297] = { -- Side of Basilisk Meat
             [itemKeys.npcDrops] = {43981},
         },
@@ -805,6 +814,12 @@ function CataItemFixes.Load()
         [62793] = { -- Furious Spectral Essence
             [itemKeys.npcDrops] = {47220},
         },
+        [62806] = { -- Dark Ember
+            [itemKeys.npcDrops] = {},
+        },
+        [62809] = { -- Glassweb Venom
+            [itemKeys.npcDrops] = {5856,47281},
+        },
         [62817] = { -- Neferset Key
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -814,11 +829,17 @@ function CataItemFixes.Load()
         [62822] = { -- Twilight Collar
             [itemKeys.npcDrops] = {5860,5861,5862,8419,47309,47310,47311},
         },
+        [62827] = { -- Filled Furnace Flask
+            [itemKeys.npcDrops] = {5850,5852,5855,47553},
+        },
         [62926] = { -- Twilight Caravan Cargo Key
             [itemKeys.class] = itemClasses.QUEST,
         },
         [62927] = { -- Twilight's Hammer Gatestone
             [itemKeys.npcDrops] = {},
+        },
+        [62934] = { -- Ash Chicken
+            [itemKeys.npcDrops] = {47278},
         },
         [63027] = { -- Brazier Torch
             [itemKeys.class] = itemClasses.QUEST,
@@ -832,6 +853,18 @@ function CataItemFixes.Load()
         [63090] = { -- Muckgill's Flipper
             [itemKeys.startQuest] = 28154,
         },
+        [63114] = { -- Freed Red Whelpling
+            [itemKeys.npcDrops] = {47814},
+        },
+        [63116] = { -- Freed Green Whelpling
+            [itemKeys.npcDrops] = {47820},
+        },
+        [63117] = { -- Freed Blue Whelpling
+            [itemKeys.npcDrops] = {47821},
+        },
+        [63119] = { -- Freed Bronze Whelpling
+            [itemKeys.npcDrops] = {47822},
+        },
         [63149] = { -- Cursed Shackles
             [itemKeys.npcDrops] = {},
         },
@@ -842,19 +875,25 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {47550},
         },
         [63333] = { -- Obsidian Piston
-            [itemKeys.npcDrops] = {7039},
+            [itemKeys.objectDrops] = {206971,206972,206973,206974},
         },
         [63334] = { -- Stone Power Core
-            [itemKeys.npcDrops] = {7039},
+            [itemKeys.objectDrops] = {206971,206972,206973,206974},
         },
         [63335] = { -- Thorium Gearshaft
-            [itemKeys.npcDrops] = {7039},
+            [itemKeys.objectDrops] = {206971,206972,206973,206974},
         },
         [63336] = { -- Flux Exhaust Sieve
-            [itemKeys.npcDrops] = {7039},
+            [itemKeys.objectDrops] = {206971,206972,206973,206974},
         },
         [63351] = { -- Tahret Dynasty Mallet
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [63423] = { -- Fallen Flamekin
+            [itemKeys.npcDrops] = {9776,9778,9779},
+        },
+        [63424] = { -- Worg Cutlet
+            [itemKeys.npcDrops] = {9697},
         },
         [63685] = { -- Ancient Copper Scroll
             [itemKeys.npcDrops] = {},
@@ -870,6 +909,9 @@ function CataItemFixes.Load()
         },
         [64404] = { -- Ruby Crystal Cluster
             [itemKeys.npcDrops] = {48533,48639},
+        },
+        [64409] = { -- Flamefly
+            [itemKeys.npcDrops] = {48671},
         },
         [64585] = { -- Cannon Powder
             [itemKeys.npcDrops] = {49143},

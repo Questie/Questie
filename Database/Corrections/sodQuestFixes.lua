@@ -838,6 +838,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
+        [79501] = { -- The Hero of the Day
+            [questKeys.preQuestSingle] = {79492},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [79502] = { -- The Hero of the Day
+            [questKeys.startedBy] = {{216924}},
+            [questKeys.preQuestSingle] = {79495},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
         [79535] = { -- Basilisks: Should Petrification be Feared?
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
@@ -3152,65 +3161,69 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{{[zoneIDs.WINTERSPRING]={{58,21}}}, Questie.ICON_TYPE_EVENT, l10n("Use your Survival Supplies")}},
         },
         [85034] = { -- The Ruins of Andorhal
-            [questKeys.startedBy] = {{216289}},
-            [questKeys.finishedBy] = {{216289}},
             [questKeys.preQuestSingle] = {85455},
             [questKeys.objectives] = {nil,{{478062}}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85457,
         },
         [85061] = { -- Bug Hunt
             [questKeys.preQuestSingle] = {84950},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
         [85063] = { -- Culmination
+            [questKeys.objectives] = {{{232929,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {85458},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85064,
         },
         [85064] = { -- Worst Case Scenario
             [questKeys.finishedBy] = {{231500}},
             [questKeys.preQuestSingle] = {85063},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85065,
         },
         [85065] = { -- A Most Curious Gnome
             [questKeys.preQuestSingle] = {85064},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85066,
         },
         [85066] = { -- Making Ready
             [questKeys.preQuestSingle] = {85065},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85067,
         },
         [85067] = { -- A Paladin of the Silver Hand
-            [questKeys.startedBy] = {{231500}},
-            [questKeys.finishedBy] = {{231500}},
             [questKeys.objectives] = {{{231498,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.preQuestSingle] = {85066},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85068,
         },
         [85068] = { -- Who Says You Can Never Go Back?
             [questKeys.preQuestSingle] = {85067},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85074,
         },
         [85074] = { -- The Burning of Andorhal
-            [questKeys.startedBy] = {{232960}},
             [questKeys.preQuestSingle] = {85068},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85087,
         },
         [85087] = { -- A Desperate Escape
             [questKeys.preQuestSingle] = {85074},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85090,
         },
         [85090] = { -- Back to the Future
-            [questKeys.startedBy] = {{233138}},
             [questKeys.preQuestSingle] = {85087},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85091,
         },
         [85091] = { -- The Cost of Victory
-            [questKeys.startedBy] = {{232932}},
             [questKeys.preQuestSingle] = {85090},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85092,
         },
         [85092] = { -- Truthbearer
-            [questKeys.startedBy] = {{233776}},
             [questKeys.preQuestSingle] = {85091},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
@@ -3306,16 +3319,18 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [85455] = { -- The Blood of the Lightbringer
             [questKeys.startedBy] = {{12017},nil,{231452}},
-            [questKeys.finishedBy] = {{216289}},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85034,
         },
         [85457] = { -- Just What Was Needed
             [questKeys.preQuestSingle] = {85034},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85458,
         },
         [85458] = { -- Darkwhisper Gorge
             [questKeys.preQuestSingle] = {85457},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
+            [questKeys.nextQuestInChain] = 85063,
         },
         [85468] = { -- Soul of Mischief
             [questKeys.objectives] = {{{232731,nil,Questie.ICON_TYPE_TALK}}},

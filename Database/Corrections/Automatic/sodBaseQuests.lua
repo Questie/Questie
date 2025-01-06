@@ -1750,6 +1750,28 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Find Metzen the Reindeer.  Use the notes provided to you for clues as to where he is being held.When you find Metzen, have the Pouch of Reindeer Dust in your possession so you can sprinkle some of the dust on him; this should free Metzen from his bonds of captivity.Return the Pouch of Reindeer Dust to Kaymard Copperpinch in Orgrimmar once Metzen is freed."},
             [questKeys.objectives] = {{{15664}}},
         },
+        [79501] = {
+            [questKeys.name] = "The Hero of the Day",
+            [questKeys.startedBy] = {{216902}},
+            [questKeys.finishedBy] = {nil,{180715}},
+            [questKeys.requiredLevel] = 40,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring 1 Deeprock Salt and 5 gold coins to any Holly Preserver machine, upon which you will receive 5 Preserved Holly."},
+            [questKeys.objectives] = {nil,nil,{{8150}}},
+        },
+        [79502] = {
+            [questKeys.name] = "The Hero of the Day",
+            [questKeys.startedBy] = nil,
+            [questKeys.finishedBy] = {nil,{180715}},
+            [questKeys.requiredLevel] = 40,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Bring 1 Deeprock Salt and 5 gold coins to the Holly Preserver machine, upon which you will receive 5 Preserved Holly."},
+            [questKeys.objectives] = {nil,nil,{{8150}}},
+        },
         [79535] = {
             [questKeys.name] = "Basilisks: Should Petrification be Feared?",
             [questKeys.startedBy] = {{211033}},
@@ -6779,7 +6801,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [85034] = {
             [questKeys.name] = "The Ruins of Andorhal",
-            [questKeys.startedBy] = nil,
+            [questKeys.startedBy] = {{1854}},
             [questKeys.finishedBy] = {{1854}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
@@ -6845,7 +6867,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [85067] = {
             [questKeys.name] = "A Paladin of the Silver Hand",
-            [questKeys.startedBy] = nil,
+            [questKeys.startedBy] = {{232932}},
             [questKeys.finishedBy] = {{232932}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
@@ -6867,7 +6889,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [85074] = {
             [questKeys.name] = "The Burning of Andorhal",
-            [questKeys.startedBy] = nil,
+            [questKeys.startedBy] = {{232960}},
             [questKeys.finishedBy] = {{232998}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
@@ -6889,7 +6911,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [85090] = {
             [questKeys.name] = "Back to the Future",
-            [questKeys.startedBy] = nil,
+            [questKeys.startedBy] = {{233138}},
             [questKeys.finishedBy] = {{232932}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
@@ -6900,7 +6922,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [85091] = {
             [questKeys.name] = "The Cost of Victory",
-            [questKeys.startedBy] = nil,
+            [questKeys.startedBy] = {{232932}},
             [questKeys.finishedBy] = {{233776}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
@@ -6911,7 +6933,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
         },
         [85092] = {
             [questKeys.name] = "Truthbearer",
-            [questKeys.startedBy] = nil,
+            [questKeys.startedBy] = {{233776}},
             [questKeys.finishedBy] = {{233776}},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,

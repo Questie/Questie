@@ -7,7 +7,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 --- Dungeons don't have a UiMapId!
 --- https://wow.gamepedia.com/UiMapID/Classic
 ---@type table<AreaId, UiMapId>
-ZoneDB.private.areaIdToUiMapId = {
+ZoneDB.private.areaIdToUiMapId = [[return {
     [1] = 1426, -- Dun Morogh
     [3] = 1418, -- Badlands
     [4] = 1419, -- Blasted Lands
@@ -279,10 +279,10 @@ ZoneDB.private.areaIdToUiMapId = {
     [4494] = 132, -- Ahn'kahet: The Old Kingdom
     [4720] = 174, -- The Lost Isles
     [4950] = 293, -- Grim Batol
-}
+}]]
 
 ---@type table<UiMapId, AreaId>
-ZoneDB.private.uiMapIdToAreaId = {
+ZoneDB.private.uiMapIdToAreaId = [[return {
     [1426] = 1, -- Dun Morogh
     [1418] = 3, -- Badlands
     [1419] = 4, -- Blasted Lands
@@ -625,13 +625,13 @@ ZoneDB.private.uiMapIdToAreaId = {
     --[160] = 4196, -- Drak'Tharon Keep
     --[174] = 4720, -- The Lost Isles
     --[293] = 4950, -- Grim Batol
-}
+}]]
 
 --? If you want to add something overwrite the data after the table
 --! Generated table, add something manually here and i'll kill you //Logon
 
 ---@type table<AreaId, AreaId> table<SubAreaId, ParentAreaId>
-ZoneDB.private.subZoneToParentZone = {
+ZoneDB.private.subZoneToParentZone = [[return {
   [2] = 40, -- Longshore -> Westfall
   [7] = 33, -- Blackwater Cove -> Stranglethorn Vale
   [9] = 12, -- Northshire Valley -> Elwynn Forest
@@ -2812,9 +2812,7 @@ ZoneDB.private.subZoneToParentZone = {
   [14339] = 14287, -- Agmar's Hammer -> Dragonblight
   [14340] = 14287, -- Coldwind Pass -> Dragonblight
   [14341] = 14287, -- Angrathar the Wrathgate -> Dragonblight
-}
-ZoneDB.private.subZoneToParentZone[3545] = 3483 -- Hellfire Citadel -> Hellfire Peninsula
-ZoneDB.private.subZoneToParentZone[3563] = 3483 -- Hellfire Citadel -> Hellfire Peninsula
+}]]
 
 -- Different source of zoneIds
 -- These are not in use anymore but are quite helpful when fixing the database
@@ -3047,6 +3045,7 @@ ZoneDB.zoneIDs = {
     DARKMOON_FAIRE_ISLAND = 5861,
     DEMON_FALL_CANYON = 15475, -- SoD Dungeon
     THE_TAINTED_SCAR = 15531, -- SoD Lord Kazzak Raid
+    THE_BURNING_OF_ANDORHAL = 15828, -- SoD Paladin specific solo dungeon
 }
 
 -- https://wowpedia.fandom.com/wiki/InstanceID --> Classic

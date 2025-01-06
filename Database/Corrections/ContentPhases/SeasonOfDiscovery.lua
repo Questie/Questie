@@ -451,16 +451,6 @@ local questsToBlacklistByPhase = {
         [8191] = true, -- Prophetic Aura - Replaced by 85598
         [8192] = true, -- Animist's Caress - Replaced by 85602
 
-        -- Events - These might not be re-added at level 60
-        [6963] = true, -- Old "Stolen Winter Veil Treats" quest
-        [6983] = true, -- Old "You're a Mean One..." quest
-        [6984] = true, -- Old "A Smokywood Pastures Thank You!" quest
-        [7042] = true, -- Old "Stolen Winter Veil Treats" quest
-        [7043] = true, -- Old "You're a Mean One..." quest
-        [7045] = true, -- Old "A Smokywood Pastures Thank You!" quest
-        [8746] = true, -- Old "Metzen the Reindeer" quest
-        [8762] = true, -- Old "Metzen the Reindeer" quest
-
         -- Old T0.5 exchange quests
         [8905] = true, -- An Earnest Proposition
         [8906] = true, -- An Earnest Proposition

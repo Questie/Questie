@@ -118,16 +118,14 @@ do
     end
 
     function QuestieCorrections:MinimalInit() -- db already compiled
-        if (not Questie.IsCata) then
-            -- Classic Era Corrections
-            addOverride(QuestieDB.itemDataOverrides, QuestieItemFixes:LoadFactionFixes())
-            addOverride(QuestieDB.npcDataOverrides, QuestieNPCFixes:LoadFactionFixes())
-            addOverride(QuestieDB.objectDataOverrides, QuestieObjectFixes:LoadFactionFixes())
-            addOverride(QuestieDB.questDataOverrides, QuestieQuestFixes:LoadFactionFixes())
-        end
+        -- Classic Era Corrections
+        addOverride(QuestieDB.itemDataOverrides, QuestieItemFixes:LoadFactionFixes())
+        addOverride(QuestieDB.npcDataOverrides, QuestieNPCFixes:LoadFactionFixes())
+        addOverride(QuestieDB.objectDataOverrides, QuestieObjectFixes:LoadFactionFixes())
+        addOverride(QuestieDB.questDataOverrides, QuestieQuestFixes:LoadFactionFixes())
 
         -- TBC Corrections
-        if (Questie.IsTBC or Questie.IsWotlk) then
+        if (Questie.IsTBC or Questie.IsWotlk or Questie.IsCata) then
             addOverride(QuestieDB.itemDataOverrides, QuestieTBCItemFixes:LoadFactionFixes())
             addOverride(QuestieDB.npcDataOverrides, QuestieTBCNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, QuestieTBCObjectFixes:LoadFactionFixes())
@@ -135,7 +133,7 @@ do
         end
 
         -- WOTLK Corrections
-        if (Questie.IsWotlk) then
+        if (Questie.IsWotlk or Questie.IsCata) then
             addOverride(QuestieDB.npcDataOverrides, QuestieWotlkNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.itemDataOverrides, QuestieWotlkItemFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, QuestieWotlkObjectFixes:LoadFactionFixes())

@@ -44,6 +44,7 @@ end
 local minLevelForDebugOffers = 10
 
 local sodItemBlacklist = {
+    11078, -- Relic Coffer Key
     209027, -- Crap Treats (these are also looted from fishing, for which no real "objects" exists)
     215430, -- gnomeregan fallout, drops from nearly every mob in gnomeregan
     -- Waylaid Supplies level 10
