@@ -838,6 +838,15 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
+        [79501] = { -- The Hero of the Day
+            [questKeys.preQuestSingle] = {79492},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [79502] = { -- The Hero of the Day
+            [questKeys.startedBy] = {{216924}},
+            [questKeys.preQuestSingle] = {79495},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
         [79535] = { -- Basilisks: Should Petrification be Feared?
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.MAGE,

@@ -13,20 +13,20 @@ tinsert(eventQuests, {"Winter Veil", 7023}) -- Greatfather Winter is Here!
 tinsert(eventQuests, {"Winter Veil", 7024}) -- Great-father Winter is Here!
 tinsert(eventQuests, {"Winter Veil", 6962}) -- Treats for Great-father Winter
 tinsert(eventQuests, {"Winter Veil", 7025}) -- Treats for Greatfather Winter
-tinsert(eventQuests, {"Winter Veil", 7043}) -- You're a Mean One...
-tinsert(eventQuests, {"Winter Veil", 6983}) -- You're a Mean One...
-tinsert(eventQuests, {"Winter Veil", 6984}) -- A Smokywood Pastures' Thank You!
-tinsert(eventQuests, {"Winter Veil", 7045}) -- A Smokywood Pastures' Thank You!
+tinsert(eventQuests, {"Winter Veil", 7043, nil, nil, QuestieCorrections.SOD_HIDE}) -- You're a Mean One...
+tinsert(eventQuests, {"Winter Veil", 6983, nil, nil, QuestieCorrections.SOD_HIDE}) -- You're a Mean One...
+tinsert(eventQuests, {"Winter Veil", 6984, nil, nil, QuestieCorrections.SOD_HIDE}) -- A Smokywood Pastures' Thank You!
+tinsert(eventQuests, {"Winter Veil", 7045, nil, nil, QuestieCorrections.SOD_HIDE}) -- A Smokywood Pastures' Thank You!
 tinsert(eventQuests, {"Winter Veil", 7063}) -- The Feast of Winter Veil
 tinsert(eventQuests, {"Winter Veil", 7061}) -- The Feast of Winter Veil
-tinsert(eventQuests, {"Winter Veil", 6963, nil, nil, QuestieCorrections.CATA_HIDE}) -- Stolen Winter Veil Treats
-tinsert(eventQuests, {"Winter Veil", 7042, nil, nil, QuestieCorrections.CATA_HIDE}) -- Stolen Winter Veil Treats
+tinsert(eventQuests, {"Winter Veil", 6963, nil, nil, QuestieCorrections.CATA_HIDE + QuestieCorrections.SOD_HIDE}) -- Stolen Winter Veil Treats
+tinsert(eventQuests, {"Winter Veil", 7042, nil, nil, QuestieCorrections.CATA_HIDE + QuestieCorrections.SOD_HIDE}) -- Stolen Winter Veil Treats
 tinsert(eventQuests, {"Winter Veil", 7062}) -- The Reason for the Season
-tinsert(eventQuests, {"Winter Veil", 8763}) -- The Hero of the Day
-tinsert(eventQuests, {"Winter Veil", 8799}) -- The Hero of the Day
+tinsert(eventQuests, {"Winter Veil", 8763, nil, nil, QuestieCorrections.SOD_HIDE}) -- The Hero of the Day
+tinsert(eventQuests, {"Winter Veil", 8799, nil, nil, QuestieCorrections.SOD_HIDE}) -- The Hero of the Day
 tinsert(eventQuests, {"Winter Veil", 6964}) -- The Reason for the Season
-tinsert(eventQuests, {"Winter Veil", 8762}) -- Metzen the Reindeer
-tinsert(eventQuests, {"Winter Veil", 8746}) -- Metzen the Reindeer
+tinsert(eventQuests, {"Winter Veil", 8762, nil, nil, QuestieCorrections.SOD_HIDE}) -- Metzen the Reindeer
+tinsert(eventQuests, {"Winter Veil", 8746, nil, nil, QuestieCorrections.SOD_HIDE}) -- Metzen the Reindeer
 tinsert(eventQuests, {"Winter Veil", 8744, "25/12", "2/1"}) -- A Carefully Wrapped Present
 tinsert(eventQuests, {"Winter Veil", 8767, "25/12", "2/1"}) -- A Gently Shaken Gift
 tinsert(eventQuests, {"Winter Veil", 8768, "25/12", "2/1"}) -- A Gaily Wrapped Present
@@ -47,6 +47,8 @@ tinsert(eventQuests, {"Winter Veil", 79486}) -- A Smokywood Pastures' Thank You!
 tinsert(eventQuests, {"Winter Veil", 79487}) -- A Smokywood Pastures' Thank You!
 tinsert(eventQuests, {"Winter Veil", 79492}) -- Metzen the Reindeer
 tinsert(eventQuests, {"Winter Veil", 79495}) -- Metzen the Reindeer
+tinsert(eventQuests, {"Winter Veil", 79501}) -- The Hero of the Day
+tinsert(eventQuests, {"Winter Veil", 79502}) -- The Hero of the Day
 tinsert(eventQuests, {"Winter Veil", 79637, "25/12", "2/1"}) -- A Ticking Present
 
 -- TBC quests
