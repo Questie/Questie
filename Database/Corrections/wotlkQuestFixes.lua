@@ -2381,7 +2381,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12573] = {
             [questKeys.requiredSourceItems] = {38622},
-            [questKeys.objectives] = {{{28315,"Extend Peace Offering to Shaman Vekjik"}}},
+            [questKeys.objectives] = {{{28315,"Extend Peace Offering to Shaman Vekjik",Questie.ICON_TYPE_TALK}}},
         },
         [12574] = {
             [questKeys.requiredSourceItems] = {38623},
