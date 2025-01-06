@@ -76,7 +76,7 @@ local socialOptionsLocales = {
         ["frFR"] = true,
     },
     ["Remove all Questie chat messages coming from other players and disable sending your own."] = {
-        ["ptBR"] = "Remove suas mensagens do Questie e as de outros jogadores.",
+        ["ptBR"] = "Remove suas mensagens de Questie e as de outros jogadores.",
         ["ruRU"] = "Скрывает в чатах все сообщения Questie от других игроков и отключает отправку ваших",
         ["deDE"] = "Alle Questie-Chatnachrichten anderer Spieler entfernen und das Senden der eigenen deaktivieren.",
         ["koKR"] = false,

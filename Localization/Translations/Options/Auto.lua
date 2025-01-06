@@ -15,7 +15,7 @@ local autoOptionsLocales = {
         ["frFR"] = "Remettre des quêtes",
     },
     ["When enabled, Questie will automatically hand in finished quests when talking to NPCs."] = {
-        ["ptBR"] = "Quando ativado, o Questie entregará automaticamente missões concluídas ao falar com NPCs.",
+        ["ptBR"] = "Se ativado, o Questie entregará automaticamente missões concluídas ao falar com NPCs.",
         ["ruRU"] = "Когда включено, задания будут завершаться автоматически при разговоре с NPC",
         ["deDE"] = "Wenn aktiviert, wird Questie automatisch Quests abgeben.",
         ["koKR"] = false,
@@ -39,7 +39,7 @@ local autoOptionsLocales = {
         ["frFR"] = "Accepter automatiquement",
     },
     ["When enabled, Questie will automatically accept quest dialogs when they appear, depending on the rules below."] = {
-        ["ptBR"] = "Quando ativado, o Questie aceitará automaticamente diálogos de missão quando aparecerem, dependendo das regras abaixo.",
+        ["ptBR"] = "Se ativado, o Questie aceitará automaticamente diálogos de missão quando aparecerem, dependendo das regras abaixo.",
         ["ruRU"] = "Когда включено, задания будут приниматься автоматически в зависимости от правил ниже",
         ["deDE"] = "Wenn aktiviert, wird Questie automatisch Quests annehmen, abhängig von den unten stehenden Regeln.",
         ["koKR"] = false,
@@ -231,7 +231,7 @@ local autoOptionsLocales = {
         ["frFR"] = "Rejeter automatiquement les quêtes partagées par des joueurs qui ne sont pas dans votre liste d'amis. Cette fonctionnalité remplace le comportement d'acceptation automatique.",
     },
     ["Further Auto customization is coming in a future Questie update."] = {
-        ["ptBR"] = "Mais personalizações automáticas estão chegando em uma futura atualização do Questie.",
+        ["ptBR"] = "Mais personalizações automáticas estão chegando em uma futura atualização de Questie.",
         ["ruRU"] = "Другие настройки автоматизации будут добавлены в будущих версиях Questie",
         ["deDE"] = "Weitere Anpassungsmöglichkeiten werden in einem zukünftigen Questie-Update kommen.",
         ["koKR"] = false,
