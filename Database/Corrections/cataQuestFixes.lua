@@ -81,6 +81,9 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {{786}},
             [questKeys.nextQuestInChain] = 24490,
         },
+        [239] = { -- Westbrook Garrison Needs Help!
+            [questKeys.preQuestSingle] = {59},
+        },
         [297] = { -- Gathering Idols
             [questKeys.exclusiveTo] = {26961},
         },
@@ -6053,6 +6056,7 @@ function CataQuestFixes.Load()
         },
         [26390] = { -- Ending the Invasion!
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
+            [questKeys.startedBy] = {{197}},
         },
         [26391] = { -- Extinguishing Hope
             [questKeys.preQuestSingle] = {28817,28818,28819,28820,28821,28822,28823,29083},
@@ -8658,7 +8662,7 @@ function CataQuestFixes.Load()
         },
         [27760] = { -- Artificial Intelligence
             [questKeys.startedBy] = {{46590,46920,47014},nil,{62483}},
-            [questKeys.preQuestSingle] = {28501},
+            [questKeys.preQuestSingle] = {28112},
         },
         [27761] = { -- A Disarming Distraction
             [questKeys.objectives] = {nil,{{206395},{206396},{206397}},nil,nil,{{{46888},46888,nil,Questie.ICON_TYPE_INTERACT}}},
