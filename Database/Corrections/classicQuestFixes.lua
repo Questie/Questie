@@ -1444,6 +1444,7 @@ function QuestieQuestFixes:Load()
 			},
         },
         [3629] = {
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
         },
         [3630] = {
