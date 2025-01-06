@@ -1059,6 +1059,9 @@ function CataNpcFixes.Load()
         [27216] = { -- Bizzle Quicklift
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{41.53,17.6}}},
         },
+        [28082] = { -- High-Shaman Rakjak
+            [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{54.99,69.11}}},
+        },
         [28092] = { -- The Etymidian
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{47.38,9.21}}},
         },
