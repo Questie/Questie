@@ -1495,6 +1495,9 @@ function CataQuestFixes.Load()
         [12563] = { -- Troll Patrol
             [questKeys.startedBy] = {},
         },
+        [12571] = { -- Make the Bad Snake Go Away
+            [questKeys.preQuestSingle] = {12570},
+        },
         [12581] = { -- A Hero's Burden
             [questKeys.preQuestGroup] = {},
         },
