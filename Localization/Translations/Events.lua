@@ -242,6 +242,18 @@ local eventsLocales = {
         ["zhTW"] = "亡者節",
         ["zhCN"] = "悼念日",
     },
+    ["Darkmoon Island"] = {
+        ["ptBR"] = "Ilha de Negraluna",
+        ["ruRU"] = "Остров Новолуния",
+        ["deDE"] = "Dunkelmondinsel",
+        ["koKR"] = "다크문 섬",
+        ["esMX"] = "Isla Luna Negra",
+        ["enUS"] = true,
+        ["frFR"] = "Île de Sombrelune",
+        ["esES"] = "Isla Luna Negra",
+        ["zhTW"] = "暗月島",
+        ["zhCN"] = "暗月岛",
+    },
 }
 
 for k, v in pairs(eventsLocales) do
