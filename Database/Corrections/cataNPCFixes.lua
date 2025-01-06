@@ -68,14 +68,20 @@ function CataNpcFixes.Load()
         [682] = { -- Stranglethorn Tiger
             [npcKeys.spawns] = {[33] = {{55.72,27.51},{55.69,27.97},{56.32,28.45},{58.13,29.80},{58.58,27.82},{57.61,26.64},{58.83,27.17},{60.30,27.71},{60.29,28.32},{61.03,29.64},{61.30,29.47},{61.39,30.60},{61.52,25.68},{61.28,31.16},{61.94,35.27},{61.29,34.65},{60.83,33.66},{59.67,32.77}}},
         },
+        [684] = { -- Shadowmaw Panther
+            [npcKeys.spawns] = {[33] = {{45.21,60.19},{50.37,55.96},{50.83,64.56},{52.64,59.71},{44.4,58.82},{46.73,56.8},{48.96,56.37},{49.98,59.92},{52.78,54.81},{51.27,54.87},{63.26,48.16},{59.23,47.44},{67.29,37.56},{63.08,36.89},{65.9,38.21},{66.31,41.28},{65.51,45.24},{66.6,44.1},{62.77,43.07},{61.52,50.81},{62.53,47.85},{60.7,47.04},{61.29,48.59},{60.72,49.89},{61.7,41.38},{66.58,44.06}}},
+        },
         [728] = { -- Bhag'thera
             [npcKeys.spawns] = {[33] = {{66.70,43.37},{63.11,48.16},{62.18,51.55},{61.38,49.75},{61.89,51.35},{66.83,38.58}}},
         },
-        [729] = { --Sin'Dall
+        [729] = { -- Sin'Dall
             [npcKeys.spawns] = {[33] = {{38.52,32.54}}},
         },
         [730] = { -- Tethis
             [npcKeys.spawns] = {[33] = {{65.64,58.52},{63.71,62.76},{59.79,59.32},{60.19,62.71},{62.84,61.32},{64.84,64.91}}},
+        },
+        [731] = { -- King Bangalash
+            [npcKeys.spawns] = {[33] = {{47.77,59.54}}},
         },
         [736] = { -- Panther
             [npcKeys.spawns] = {[33] = {{35.51,19.86},{35.64,18.93},{35.47,20.26},{34.97,18.84},{34.52,19.13},{33.76,20.08},{33.38,20.35},{33.31,20.52},{33.40,20.79},{33.87,21.11},{34.98,22.08},{34.98,22.08},{36.57,23.31},{34.34,21.95},{32.79,23.87},{32.51,25.43},{32.66,26.37},{32.66,26.37},{32.70,27.43},{32.85,27.75},{32.86,29.12},{32.60,30.31}}},
@@ -125,6 +131,9 @@ function CataNpcFixes.Load()
         },
         [1416] = { -- Grimand Elmore
             [npcKeys.waypoints] = {},
+        },
+        [1422] = { -- Corporal Sethman
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{46.98,10.84,phases.SETHMAN_VISIBLE}}},
         },
         [1494] = { -- Negolash
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{50.75,79.65}}},
@@ -179,6 +188,9 @@ function CataNpcFixes.Load()
         [2611] = { -- Fozruk
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{43.67,67.08}}},
             [npcKeys.waypoints] = {},
+        },
+        [2635] = { -- Elder Snapjaw Crocolisk
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{47.34,56.16},{49.29,55.17},{50.4,53.29},{48.74,50.01},{48.5,52.19},{50.83,50.83},{50.82,49.58},{50.9,48.22},{49.79,44.5}}},
         },
         [2714] = { -- Forsaken Courier
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{51.03,64.80}}},
@@ -270,6 +282,9 @@ function CataNpcFixes.Load()
         },
         [3987] = { -- Dal Bloodclaw
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{41.66,35.7}}},
+            [npcKeys.waypoints] = {},
+        },
+        [4260] = { -- Venture Co. Shredder
             [npcKeys.waypoints] = {},
         },
         [5833] = { -- Margol the Rager
@@ -2240,6 +2255,10 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{64.01,45.93}}},
             [npcKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
         },
+        [42736] = { -- Lashtail Hatchling
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{33.73,37.18,phases.LASHTAIL_VISIBLE}}},
+            [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+        },
         [42747] = { -- Slain Crew Member's Spirit
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{64.01,45.93}}},
             [npcKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
@@ -2376,8 +2395,32 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [43884] = { -- Osborn Obnoticus
+            [npcKeys.spawns] = {
+                [zoneIDs.STRANGLETHORN_VALE] = {
+                    {56.37,20.3,phases.BERRIN_EMERINE_OSBORN_CAGE},
+                    {47.13,10.55,phases.BERRIN_EMERINE_OSBORN_RESCUED},
+                },
+            },
+        },
         [43885] = { -- Emerine Junis
-            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{47.67,10.34}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.STRANGLETHORN_VALE] = {
+                    {56.41,20.3,phases.BERRIN_EMERINE_OSBORN_CAGE},
+                    {47.67,10.34,phases.BERRIN_EMERINE_OSBORN_RESCUED},
+                },
+            },
+        },
+        [43886] = { -- Berrin Burnquill
+            [npcKeys.spawns] = {
+                [zoneIDs.STRANGLETHORN_VALE] = {
+                    {56.45,20.3,phases.BERRIN_EMERINE_OSBORN_CAGE},
+                    {47.98,12.01,phases.BERRIN_EMERINE_OSBORN_RESCUED},
+                },
+            },
+        },
+        [43912] = { -- Chief Esquivel
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{66.1,11.73}}},
         },
         [43950] = { -- Lurking Worgen
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{18.57,57.26}}},

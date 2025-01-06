@@ -76,6 +76,24 @@ function CataQuestFixes.Load()
         [184] = { -- Furlbrow's Deed
             [questKeys.startedBy] = {nil,{203734}},
         },
+        [186] = { -- Tiger Stalking
+            [questKeys.startedBy] = {{717}},
+        },
+        [187] = { -- Tiger Prowess
+            [questKeys.startedBy] = {{717}},
+        },
+        [191] = { -- Panther Stalking
+            [questKeys.startedBy] = {{718}},
+        },
+        [192] = { -- Panther Prowess
+            [questKeys.startedBy] = {{718}},
+        },
+        [195] = { -- Raptor Stalking
+            [questKeys.startedBy] = {{715}},
+        },
+        [196] = { -- Raptor Prowess
+            [questKeys.startedBy] = {{715}},
+        },
         [218] = { -- Ice and Fire
             [questKeys.objectives] = {{{808}},nil,nil,nil,{{{946,37507},946},{{37112},37112}}},
             [questKeys.startedBy] = {{786}},
@@ -6007,8 +6025,17 @@ function CataQuestFixes.Load()
         [26358] = { -- Ready the Air Force
             [questKeys.preQuestSingle] = {26324},
         },
+        [26359] = { -- See Raptor
+            [questKeys.objectives] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the ritual"), 0, {{"monster",42812}}}},
+            [questKeys.triggerEnd] = {"Mind Vision complete", {[zoneIDs.STRANGLETHORN_VALE]={{89.42,45.16}}}},
+        },
         [26361] = { -- Smoot's Samophlange
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Stop Smoot"),0,{{"monster",42644}}}},
+        },
+        [26362] = { -- Be Raptor
+            [questKeys.objectives] = {{{42881,nil,Questie.ICON_TYPE_TALK},{42882,nil,Questie.ICON_TYPE_EVENT},{42883,nil,Questie.ICON_TYPE_TALK},{42884,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the ritual"), 0, {{"monster",42812}}}},
         },
         [26364] = { -- Down with Crushcog!
             [questKeys.zoneOrSort] = zoneIDs.CHILL_BREEZE_VALLEY,
@@ -6647,14 +6674,24 @@ function CataQuestFixes.Load()
         [26728] = { -- Hero's Call: Duskwood!
             [questKeys.nextQuestInChain] = 26618,
         },
+        [26729] = { -- Water Elementals
+            [questKeys.preQuestSingle] = {26736},
+        },
+        [26731] = { -- The Altar of Naias
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Summon Naias"), 0, {{"object", 181636}}}},
+        },
         [26734] = { -- The Source of the Madness
             [questKeys.preQuestSingle] = {26733},
         },
         [26735] = { -- The Fate of Kurzen
             [questKeys.preQuestSingle] = {},
         },
-        [26738] = { -- Just Hatched
-            [questKeys.preQuestSingle] = {26732},
+        [26736] = { -- Spared from Madness
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{43886,43921},43886,nil,Questie.ICON_TYPE_EVENT},{{43885,43920},43885,nil,Questie.ICON_TYPE_EVENT},{{43884,43919},43884,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object",460026}}}},
+        },
+        [26739] = { -- I Think She's Hungry
+            [questKeys.objectives] = {{{689}}},
         },
         [26742] = { -- Bloodscalp Insight
             [questKeys.preQuestSingle] = {26736},
@@ -6662,9 +6699,21 @@ function CataQuestFixes.Load()
         [26744] = { -- Deep Roots
             [questKeys.preQuestSingle] = {26739},
         },
+        [26745] = { -- Favored Skull
+            [questKeys.preQuestGroup] = {26736,26739},
+        },
+        [26748] = { -- Bloodlord Mandokir
+            [questKeys.preQuestSingle] = {26747},
+        },
+        [26749] = { -- Priestess Thaalia
+            [questKeys.preQuestSingle] = {26748},
+        },
         [26750] = { -- At the Stonemother's Call
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {26584,26585,26659},
+        },
+        [26751] = { -- Population Con-Troll
+            [questKeys.preQuestSingle] = {26746},
         },
         [26752] = { -- Audience with the Stonemother
             [questKeys.objectives] = {{{42465,nil,Questie.ICON_TYPE_TALK}}},
@@ -6694,11 +6743,26 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {26766,26768},
             [questKeys.extraObjectives] = {{{[zoneIDs.DEEPHOLM]={{50.9,85.3}}}, Questie.ICON_TYPE_EVENT, l10n("Place Trapped Basilisk Meat to spawn Stonescale Matriarch")}},
         },
+        [26773] = { -- See Raptor
+            [questKeys.objectives] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the ritual"), 0, {{"monster",44017}}}},
+            [questKeys.triggerEnd] = {"Mind Vision complete", {[zoneIDs.STRANGLETHORN_VALE]={{89.42,45.16}}}},
+        },
+        [26775] = { -- Be Raptor
+            [questKeys.objectives] = {{{42881,nil,Questie.ICON_TYPE_TALK},{42882,nil,Questie.ICON_TYPE_EVENT},{42883,nil,Questie.ICON_TYPE_TALK},{42884,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the ritual"), 0, {{"monster",44017}}}},
+        },
         [26777] = { -- Soothing Spirits
             [questKeys.objectives] = {{{43923,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [26778] = { -- The Cries of the Dead
             [questKeys.preQuestSingle] = {26760},
+        },
+        [26779] = { -- Zul'Mamwe Mambo
+            [questKeys.preQuestSingle] = {26773},
+        },
+        [26780] = { -- Nighttime in the Jungle
+            [questKeys.preQuestSingle] = {26773},
         },
         [26782] = { -- The Mosh'Ogg Bounty
             [questKeys.exclusiveTo] = {26783},
@@ -6736,6 +6800,9 @@ function CataQuestFixes.Load()
         },
         [26803] = { -- Missing Reports
             [questKeys.preQuestSingle] = {},
+        },
+        [26805] = { -- To the Cape!
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a ride to Explorers' League Digsite"), 0, {{"monster",43042}}}},
         },
         [26809] = { -- Backdoor Dealings
             [questKeys.objectives] = {{{43245}},{{204361}}},

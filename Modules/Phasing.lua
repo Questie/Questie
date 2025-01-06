@@ -171,6 +171,10 @@ local phases = {
     HORATIO_SENTINEL_HILL = 1099,
     BS_PRE_ASSAULT = 1100,
     BS_POST_ASSAULT = 1101,
+    SETHMAN_VISIBLE = 1102,
+    LASHTAIL_VISIBLE = 1103,
+    BERRIN_EMERINE_OSBORN_CAGE = 1104,
+    BERRIN_EMERINE_OSBORN_RESCUED = 1105,
 }
 Phasing.phases = phases
 
@@ -661,6 +665,22 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.BS_POST_ASSAULT then
         return complete[28320] or false
+    end
+
+    if phase == phases.SETHMAN_VISIBLE then
+        return (complete[26732] or (questLog[26732] and questLog[26732].isComplete == 1)) or false
+    end
+
+    if phase == phases.LASHTAIL_VISIBLE then
+        return complete[26739] or false
+    end
+
+    if phase == phases.BERRIN_EMERINE_OSBORN_CAGE then
+        return (not complete[26736])
+    end
+
+    if phase == phases.BERRIN_EMERINE_OSBORN_RESCUED then
+        return complete[26736] or false
     end
 
     return false

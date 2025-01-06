@@ -682,6 +682,9 @@ function CataItemFixes.Load()
         [59522] = { -- Key of Ilgalar
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [60291] = { -- Tkashi Fetish
+            [itemKeys.npcDrops] = {43977},
+        },
         [60297] = { -- Side of Basilisk Meat
             [itemKeys.npcDrops] = {43981},
         },

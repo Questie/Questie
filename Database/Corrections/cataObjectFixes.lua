@@ -775,6 +775,11 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[5786]={{59.2,20.4}},[zoneIDs.THE_NEXUS] = {{-1,-1}}},
             [objectKeys.zoneID] = 5786,
         },
+        [460026] = {
+            [objectKeys.name] = "Kurzen Cage",
+            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{56.40,20.29}}},
+            [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+        },
     }
 end
 
