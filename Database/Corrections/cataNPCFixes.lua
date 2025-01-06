@@ -1068,6 +1068,9 @@ function CataNpcFixes.Load()
         [28138] = { -- Elder Harkek
             [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{55.49,69.7}}},
         },
+        [28114] = { -- Mistcaller Soo-gan
+            [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{42.15,38.65}}},
+        },
         [28160] = { -- Archmage Pentarus
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{68.55,42.05}}},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
