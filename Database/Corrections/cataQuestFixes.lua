@@ -1498,6 +1498,9 @@ function CataQuestFixes.Load()
         [12571] = { -- Make the Bad Snake Go Away
             [questKeys.preQuestSingle] = {12570},
         },
+        [12572] = { -- Gods like Shiny Things
+            [questKeys.preQuestSingle] = {12570},
+        },
         [12581] = { -- A Hero's Burden
             [questKeys.preQuestGroup] = {},
         },
