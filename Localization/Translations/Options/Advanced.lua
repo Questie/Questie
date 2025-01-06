@@ -151,11 +151,11 @@ local advancedOptionsLocales = {
         ["ruRU"] = "Включить/отключить режим отладки",
         ["deDE"] = "Aktiviert/Deaktiviert die Debugging Funktion.",
         ["koKR"] = "디버그 기능을 사용합니다.",
-        ["esMX"] = "Activa o desactiva el modo depura.",
+        ["esMX"] = "Activa o desactiva el modo de depuración.",
         ["enUS"] = true,
         ["zhCN"] = "启用或停用Debug功能",
         ["zhTW"] = "啟用或停用除錯的功能。",
-        ["esES"] = "Activa o desactiva el modo depura.",
+        ["esES"] = "Activa o desactiva el modo de depuración.",
         ["frFR"] = "Active le mode debug.",
     },
     ["Debug level to print"] = {
