@@ -4855,6 +4855,7 @@ function QuestieQuestBlacklist:Load()
         [78304] = true, -- You've Got Yourself A Deal (not longer in the game)
         [78611] = true, -- A Waylaid Shipment (no longer available in P2)
         [79100] = true, -- A Waylaid Shipment (no longer available in P2)
+        [78924] = true, -- In Search of Thaelrid (no longer available)
         [79482] = true, -- Stolen Winter Veil Treats
         [79483] = true, -- Stolen Winter Veil Treats
         [79484] = true, -- You're a Mean One...
