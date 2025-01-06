@@ -2297,8 +2297,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12536] = {
             [questKeys.requiredSourceItems] = {38512},
-            [questKeys.triggerEnd] = {"Travel to Mistwhisper Refuge.",{[zoneIDs.SHOLAZAR_BASIN]={{46.31,39.88,},},},},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Captive Crocolisk"), 0, {{"monster", 28298}}}},
+            [questKeys.objectives] = {{{28298,"Travel to Mistwhisper Refuge",Questie.ICON_TYPE_TALK}}},
         },
         [12537] = {
             [questKeys.requiredSourceItems] = {38512},
