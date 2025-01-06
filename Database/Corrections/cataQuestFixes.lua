@@ -1486,6 +1486,9 @@ function CataQuestFixes.Load()
         [12492] = { -- Direbrew's Dire Brew
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
+        [12535] = { -- Mischief in the Making
+            [questKeys.preQuestSingle] = {12532},
+        },
         [12539] = { -- Hoofing It
             [questKeys.preQuestGroup] = {},
         },
