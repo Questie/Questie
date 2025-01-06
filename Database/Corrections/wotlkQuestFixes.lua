@@ -2476,8 +2476,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28415,28413},28415}}},
         },
         [12607] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{28379,28374},28379,}}},
+            [questKeys.objectives] = {{{28374,"Shattertusk Mammoth Delivered",Questie.ICON_TYPE_EVENT}}},
             [questKeys.requiredSourceItems] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Apply the harness"), 0, {{"monster", 28379}}}},
         },
         [12611] = {
             [questKeys.requiredSourceItems] = {},
