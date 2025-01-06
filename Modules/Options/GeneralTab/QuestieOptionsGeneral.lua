@@ -488,7 +488,7 @@ function QuestieOptions.tabs.general:Initialize()
                         order = 8.7,
                         name = function() return l10n('Load custom sounds'); end,
                         desc = function() return l10n('When this is enabled, sounds added through LibSharedMedia are loaded.'); end,
-                        width = 2,
+                        width = 2.5,
                         get = function () return Questie.db.profile.loadCustomSounds; end,
                         set = function (_, value) Questie.db.profile.loadCustomSounds = value end
                     },
