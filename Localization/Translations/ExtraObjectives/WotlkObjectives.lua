@@ -386,18 +386,6 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "和萨萨里安交谈",
     },
-    ["Talk to Captive Crocolisk"] = { -- 12536
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = "Sprich mit Gefangener Krokilisk",
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = "骑上被俘虏的鳄鱼",
-    },
     ["Use Raelorasz' Spark"] = { -- 11969
         ["ptBR"] = false,
         ["ruRU"] = false,
