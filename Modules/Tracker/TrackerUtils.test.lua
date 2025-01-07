@@ -5,6 +5,8 @@ local _GetMockedLine
 describe("TrackerUtils", function()
     ---@type QuestieDB
     local QuestieDB
+    ---@type QuestiePlayer
+    local QuestiePlayer
     ---@type TrackerLinePool
     local TrackerLinePool
     ---@type TrackerUtils
@@ -15,7 +17,9 @@ describe("TrackerUtils", function()
     local _ = match._ -- any match
 
     before_each(function()
-        Questie.db.profile = {}
+        Questie.db.profile = {
+            trackerShowCompleteQuests = true
+        }
         Questie.db.char = {
             collapsedQuests = {},
             collapsedZones = {},
@@ -23,6 +27,8 @@ describe("TrackerUtils", function()
         CreateFrame.resetMockedFrames()
 
         QuestieDB = require("Database.QuestieDB")
+        QuestiePlayer = require("Modules.QuestiePlayer")
+        QuestiePlayer.currentQuestlog = {}
         TrackerLinePool = require("Modules.Tracker.LinePool.TrackerLinePool")
         require("Modules.Tracker.LinePool.TrackerItemButton")
         TrackerUtils = require("Modules.Tracker.TrackerUtils")
@@ -509,5 +515,97 @@ describe("TrackerUtils", function()
             line.expandZone = {zoneId = "Durotar"}
             return line
         end
+    end)
+
+    describe("HasQuest", function()
+
+        before_each(function()
+            Questie.IsCata = false
+            Questie.IsWotlk = false
+        end)
+
+        it("should return true when a quest is tracked", function()
+            _G.GetNumQuestWatches = function() return 1 end
+
+            local hasQuest = TrackerUtils.HasQuest()
+
+            assert.is_true(hasQuest)
+        end)
+
+        it("should return true when no quest is tracked but an achievement for Cata", function()
+            _G.GetNumQuestWatches = function() return 0 end
+            _G.GetNumTrackedAchievements = function() return 1 end
+            Questie.IsCata = true
+
+            local hasQuest = TrackerUtils.HasQuest()
+
+            assert.is_true(hasQuest)
+        end)
+
+        it("should return true when no quest is tracked but an achievement for WotLK", function()
+            _G.GetNumQuestWatches = function() return 0 end
+            _G.GetNumTrackedAchievements = function() return 1 end
+            Questie.IsWotlk = true
+
+            local hasQuest = TrackerUtils.HasQuest()
+
+            assert.is_true(hasQuest)
+        end)
+
+        it("should return false when no quest and achievement is tracked for Cata", function()
+            _G.GetNumQuestWatches = function() return 0 end
+            _G.GetNumTrackedAchievements = function() return 0 end
+            Questie.IsCata = true
+
+            local hasQuest = TrackerUtils.HasQuest()
+
+            assert.is_false(hasQuest)
+        end)
+
+        it("should return false when no quest and achievement is tracked for WotLK", function()
+            _G.GetNumQuestWatches = function() return 0 end
+            _G.GetNumTrackedAchievements = function() return 0 end
+            Questie.IsWotlk = true
+
+            local hasQuest = TrackerUtils.HasQuest()
+
+            assert.is_false(hasQuest)
+        end)
+
+        it("should return false when no quest is tracked", function()
+            _G.GetNumQuestWatches = function() return 0 end
+
+            local hasQuest = TrackerUtils.HasQuest()
+
+            assert.is_false(hasQuest)
+        end)
+
+        it("should return true when a quest is tracked and it is not complete and complete quests should not show", function()
+            _G.GetNumQuestWatches = function() return 1 end
+            Questie.db.profile.trackerShowCompleteQuests = false
+            QuestiePlayer.currentQuestlog = {
+                [1] = {
+                    IsComplete = function() return 0 end
+                }
+            }
+
+            local hasQuest = TrackerUtils.HasQuest()
+
+            assert.is_true(hasQuest)
+        end)
+
+        it("should return false when a quest is tracked and it is complete and complete quests should not show", function()
+            _G.GetNumQuestWatches = function() return 1 end
+            Questie.db.profile.trackerShowCompleteQuests = false
+            QuestiePlayer.currentQuestlog = {
+                [1] = {
+                    IsComplete = function() return 1 end
+                }
+            }
+
+            local hasQuest = TrackerUtils.HasQuest()
+
+            assert.is_false(hasQuest)
+        end)
     end)
 end)
