@@ -175,6 +175,8 @@ local phases = {
     LASHTAIL_VISIBLE = 1103,
     BERRIN_EMERINE_OSBORN_CAGE = 1104,
     BERRIN_EMERINE_OSBORN_RESCUED = 1105,
+    BOOTY_BAY_REGULAR = 1106,
+    BOOTY_BAY_ATTACK = 1107,
 }
 Phasing.phases = phases
 
@@ -681,6 +683,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.BERRIN_EMERINE_OSBORN_RESCUED then
         return complete[26736] or false
+    end
+
+    if phase == phases.BOOTY_BAY_REGULAR then
+        return (not complete[26678]) or complete[26703] or false
+    end
+
+    if phase == phases.BOOTY_BAY_ATTACK then
+        return complete[26678] and (not complete[26703]) or false
     end
 
     return false

@@ -135,6 +135,9 @@ function CataNpcFixes.Load()
         [1422] = { -- Corporal Sethman
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{46.98,10.84,phases.SETHMAN_VISIBLE}}},
         },
+        [1490] = { -- Zanzil Witch Doctor
+            [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{61.8,40.9},{62.14,41.76},{59.46,48.72},{60.38,43.09}}},
+        },
         [1494] = { -- Negolash
             [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{50.75,79.65}}},
         },
@@ -184,6 +187,14 @@ function CataNpcFixes.Load()
         },
         [2249] = { -- Ferocious Yeti
             [npcKeys.name] = "Ferocious Yeti",
+        },
+        [2487] = { -- Fleet Master Seahorn
+            [npcKeys.spawns] = {
+                [zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {
+                    {41.09,73.27,phases.BOOTY_BAY_REGULAR},
+                    {41.53,72.95,phases.BOOTY_BAY_ATTACK},
+                },
+            },
         },
         [2611] = { -- Fozruk
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{43.67,67.08}}},
@@ -2295,6 +2306,10 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{64.01,45.93}}},
             [npcKeys.waypoints] = waypointPresets.ALLIANCE_GUNSHIP,
         },
+        [43110] = { -- Gurubashi Arena Challenger
+            [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{46.18,26.95}}},
+            [npcKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
+        },
         [43116] = { -- Pebble
             [npcKeys.spawns] = {
                 [zoneIDs.DEEPHOLM] = {
@@ -2330,6 +2345,10 @@ function CataNpcFixes.Load()
                 },
             },
         },
+        [43245] = { -- Zanzil the Outcast
+            [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{61.13,43.34}}},
+            [npcKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
+        },
         [43300] = { -- Messner
             [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{47.65,41.8}}},
         },
@@ -2345,12 +2364,25 @@ function CataNpcFixes.Load()
         [43344] = { -- Berracite
             [npcKeys.waypoints] = {[zoneIDs.DEEPHOLM] = {{{34.26,34.92},{34.49,34.58},{34.58,34.26},{34.60,33.95},{34.52,33.53},{34.52,33.30}}}},
         },
+        [43376] = { -- Freewheelin' Juntz Fitztittle
+            [npcKeys.waypoints] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{{56.68,53.83},{56.57,54.10},{56.48,54.32},{56.36,54.64},{56.33,55.08},{56.35,55.25},{56.39,55.62},{56.45,56.19},{56.50,56.87},{56.51,56.91},{56.51,57.01},{56.54,57.32},{56.55,57.65},{56.56,57.82},{56.33,57.93}}}},
+        },
+        [43377] = { -- Ephram "Midriff" Moonfall
+            [npcKeys.waypoints] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{{55.62,51.89},{55.80,52.00},{55.97,52.11},{56.00,51.97},{55.92,51.71},{55.87,51.44},{55.87,51.16},{55.92,50.88},{55.98,50.61},{56.05,50.34},{56.19,50.15},{56.34,49.98},{56.51,49.86},{56.69,49.75},{56.87,49.66},{57.06,49.65},{57.25,49.66},{57.44,49.68},{57.62,49.63},{57.81,49.56},{57.97,49.44},{57.96,49.16},{57.93,48.88},{57.91,48.60},{57.84,48.39},{57.66,48.49},{57.48,48.59},{57.30,48.69},{57.13,48.81},{56.96,48.94},{56.79,49.06},{56.62,49.18},{56.45,49.32},{56.29,49.47},{56.16,49.68},{56.09,49.79},{56.02,49.92},{55.88,50.13},{55.77,50.35},{55.70,50.61},{55.63,50.88},{55.53,51.13},{55.43,51.36},{55.32,51.59},{55.14,51.69},{54.95,51.73},{54.79,51.68},{54.76,51.40},{54.66,51.17},{54.61,51.10},{54.49,50.92},{54.42,50.75},{54.32,50.57},{54.23,50.56},{54.41,50.66},{54.44,50.84},{54.45,51.08},{54.46,51.37},{54.48,51.65},{54.58,51.89},{54.63,51.93},{54.82,51.95},{54.94,51.89},{55.12,51.81},{55.30,51.80},{55.49,51.86},{55.59,51.87}}}},
+        },
         [43443] = { -- Keeshan's Riverboat
             [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{34.43,45.91}}},
             [npcKeys.zoneID] = zoneIDs.REDRIDGE_MOUNTAINS,
         },
+        [43511] = { -- Deck Stain
+            [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{44.67,92.92},{44.61,93.25},{44.39,92.59},{44.62,93.37},{44.87,93.36},{44.85,92.99},{44.68,93.09},{44.71,92.77},{44.61,92.64}}},
+            [npcKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
+        },
         [43513] = { -- Verlok Pillartumbler
             [npcKeys.spawns] = {[zoneIDs.DEEPHOLM] = {{69.89,24.77},{71.22,24.55},{69.03,24.15},{68.94,23.99},{69.36,23.92},{68.28,24.42},{68.52,25.9},{69.02,23.97},{68.38,25.91},{69.64,24.35},{67.69,24.36},{68.89,24.27},{71.22,24.57},{67.54,24.54},{67.59,24.48},{69.81,24.82},{69.85,24.76},{69.24,24.89},{68.45,25.92},{69.4,24.82},{68.97,25.43},{69.88,24.68},{67.69,24.49},{70.14,24.68},{69.46,24.21},{68.89,24.03},{68.95,24.04},{69.89,24.62},{70.59,24.71},{69.72,24.58},{68.71,24.25},{67.46,24.7},{70.8,24.69},{69.88,24.68},{69,25.34},{69.73,24.78},{68.91,24.46},{71.22,24.54},{70.93,24.69},{69.46,24.77},{68.58,25.8},{67.7,24.38},{68.34,25.84},{67.64,24.55},{69.6,26.39},{68.93,24},{68.68,24.19},{68.97,24.27},{69.13,24.74},{67.46,24.69},{67.49,24.6},{69.38,24.78},{69.35,24.77},{67.83,24},{67.74,24.3},{71.01,24.63},{69.08,24.26},{71.22,24.57},{68.28,25.85},{68.71,24.4},{68.52,25.82},{68.89,25.29},{68.46,25.84},{69.31,24.67},{67.59,24.61},{69.78,24.62}}},
+        },
+        [43596] = { -- Venture Co. Oil Worker
+            [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{63.14,61.85},{63.05,61.52},{62.57,61.92},{63.56,62.01},{63.44,61.5},{63.29,61.31},{62.6,61.16},{62.56,61.24},{63.06,61.42},{62.82,62.36},{62.85,62.47},{62.75,62.42},{62.7,62.21},{59.65,62.17},{59.64,62.06},{59.7,62.11},{59.69,62.23},{59.65,62.25},{59.61,62.11},{59.61,61.97},{62.49,53.58},{62.48,53.33},{62.4,53.4},{62.22,54.12},{62.29,54.1},{62.98,53.74},{62.51,52.94},{62.15,53.28},{62.02,53.06},{61.96,53.28},{62.41,53.25},{62.36,53.51},{62.37,53.77},{62.39,54.17},{62.23,54.04},{60.55,55.87},{60.46,55.83},{60.58,55.83},{60.53,55.84},{60.47,55.73},{60.44,55.61},{55.24,70.15},{55.09,70.16},{55.15,70.24},{58.1,67.86},{58.08,67.76},{58,66.98},{58.31,67.02},{58.03,67.22},{58.07,67.69},{58.02,67.07},{58.75,67.05},{58.65,66.84},{58.35,67.06},{58.82,67.4},{58.8,67.84},{58.49,66.82},{58.85,67.84},{58.1,67.38},{58.14,67.47},{58.09,67.46},{58.1,67.42},{57.96,67.54},{58.04,67.66},{57.95,67.37},{57.99,67.6},{58.11,67.66},{57.95,67.46},{55.31,70.25},{55.36,70.39},{55.26,70.33},{55.19,70.29},{55.23,70.29},{55.41,70.21},{55.41,70.28},{55.32,70.44},{55.21,70.43},{55.29,70.3},{55.34,70.31},{55.25,70.36},{55.43,70.35},{55.26,70.34},{55.32,70.3},{55.12,70.14}}},
         },
         [43611] = { -- John J. Keeshan
             [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{77.68,65.51}}},
@@ -3660,6 +3692,54 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{72.6,63.1},{73.1,71},{70.7,78.9},{56.9,85.3},{65.2,85.3}}},
             [npcKeys.zoneID] = zoneIDs.BLASTED_LANDS,
             [npcKeys.questEnds] = {25707},
+        },
+        [100046] = { -- Eliminate the Outcast
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{61.21,44.29}}},
+            [npcKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
+            [npcKeys.questEnds] = {26551,26810},
+        },
+        [100047] = { -- Through the Troll Hole
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{61.21,44.29}}},
+            [npcKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
+            [npcKeys.questStarts] = {26552,26811},
+        },
+        [100048] = { -- Through the Troll Hole
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{78.51,35.68}}},
+            [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+            [npcKeys.questEnds] = {26552,26811},
+        },
+        [100049] = { -- High Priestess Jeklik
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{78.51,35.68}}},
+            [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+            [npcKeys.questStarts] = {26553,26812},
+        },
+        [100050] = { -- High Priestess Jeklik
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{78.32,43.86}}},
+            [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+            [npcKeys.questEnds] = {26553,26812},
+        },
+        [100051] = { -- Plunging Into Zul'Gurub
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{78.32,43.86}}},
+            [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+            [npcKeys.questStarts] = {26554,26813},
+        },
+        [100052] = { -- Plunging Into Zul'Gurub
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{82.1,35.37}}},
+            [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+            [npcKeys.questEnds] = {26554,26813},
+        },
+        [100053] = { -- High Priest Venoxis
+            [npcKeys.name] = "!",
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{82.1,35.37}}},
+            [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+            [npcKeys.questStarts] = {26555,26814},
         },
     }
 end
