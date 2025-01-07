@@ -39,7 +39,7 @@ local soundsOptionsLocales = {
         ["frFR"] = "Si cette option est activée, les sons du LibSharedMedia sont chargés.",
     },
     ["Play a short sound when completing a quest when it is ready to turn in."] = {
-        ["ptBR"] = "Reproduzir um som curto ao concluir uma missão quando estiver pronta para entregar.",
+        ["ptBR"] = "Reproduz um som curto ao concluir uma missão quando estiver pronta para entregar.",
         ["ruRU"] = "Воспроизводить короткий звук при выполнении задания, обозначая готовность его сдачи",
         ["deDE"] = "Spielt einen kurzen Ton, wenn eine Quest fertig ist und abgegeben werden kann.",
         ["koKR"] = false,
@@ -63,7 +63,7 @@ local soundsOptionsLocales = {
         ["frFR"] = "Objectif de quête terminé",
     },
     ["Play a short sound when completing a quest objective."] = {
-        ["ptBR"] = "Reproduzir um som curto ao completar um objetivo da missão.",
+        ["ptBR"] = "Reproduz um som curto ao completar um objetivo da missão.",
         ["ruRU"] = "Воспроизводить короткий звук при выполнении цели задания",
         ["deDE"] = "Spielt einen kurzen Ton, wenn ein Quest-Ziel abgeschlossen ist.",
         ["koKR"] = false,
@@ -135,7 +135,7 @@ local soundsOptionsLocales = {
         ["frFR"] = "Progression de l'objectif de quête",
     },
     ["Play a short sound when making progress on a quest objective."] = {
-        ["ptBR"] = "Reproduzir um som curto ao fazer progresso em um objetivo da missão.",
+        ["ptBR"] = "Reproduz um som curto ao fazer progresso em um objetivo da missão.",
         ["ruRU"] = "Воспроизводить короткий звук при прогрессе цели задания",
         ["deDE"] = "Spielt einen kurzen Ton, beim Fortschritt eines Quest-Ziels.",
         ["koKR"] = false,

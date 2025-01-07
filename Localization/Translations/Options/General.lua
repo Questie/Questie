@@ -39,7 +39,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Bouton de la minicarte",
     },
     ["Enable or disable the Questie minimap button. You can still access the options menu with /questie."] = {
-        ["ptBR"] = "Ative ou desative o botão do minimapa da missão. Você ainda pode acessar o menu de opções com o Questie",
+        ["ptBR"] = "Ativa ou desativa o botão do minimapa da missão. Você ainda pode acessar o menu de opções com o Questie",
         ["ruRU"] = "Показать/скрыть кнопку Questie у миникарты. Доступ к настройкам аддона также можно получить через команду '/questie'",
         ["deDE"] = "Questie Minimap-Button aktivieren/deaktivieren. Mit /questie kannst du trotzdem die Einstellungen aufrufen.",
         ["koKR"] = "Questie 미니맵 버튼을 사용합니다. /questie 명령어로도 설정 메뉴를 열 수 있습니다.",
@@ -63,7 +63,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Activer le texte des quêtes instantané",
     },
     ["Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface."] = {
-        ["ptBR"] = "Ative ou desative a opção de texto de missão instantânea.",
+        ["ptBR"] = "Ativa ou desativa a opção de texto de missão instantânea.",
         ["ruRU"] = "Включает мгновенное отображение полного текста заданий. Это всего лишь ярлык для стандартной опции в настройках интерфейса игры",
         ["deDE"] = "Die Standardeinstellung für 'Questtext sofort anzeigen' aktivieren/deaktivieren. Dies ist nur eine Abkürzung zum WoW-Interface-Menü.",
         ["koKR"] = "퀘스트 지문이 한번에 표시됩니다. 이 설정은 게임설정의 '퀘스트 내용 바로 표시'와 동일합니다.",
@@ -87,7 +87,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Acceptation des quêtes",
     },
     ["Enable or disable Questie auto-accepting quests."] = {
-        ["ptBR"] = "Ativa ou desativa as missões de aceitação automática da Questie.",
+        ["ptBR"] = "Ativa ou desativa as missões de aceitação automática de Questie.",
         ["ruRU"] = "Включить/отключить автоматическое принятие заданий",
         ["deDE"] = "Aktiviert/Deaktiviert, ob Questie Quests automatisch annimmt.",
         ["koKR"] = "퀘스티 자동 퀘스트 수락을 할지 말지 선택합니다.",
@@ -111,7 +111,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Terminaison automatique",
     },
     ["Enable or disable Questie auto-completing quests."] = {
-        ["ptBR"] = "Ative ou desative autoconcluir missões.",
+        ["ptBR"] = "Ativa ou desativa autoconcluir missões.",
         ["ruRU"] = "Включить/отключить автоматическое завершение выполненных заданий",
         ["deDE"] = "Aktiviert/Deaktiviert, ob Questie Quests automatisch abgibt.",
         ["koKR"] = "퀘스트 자동 퀘스트 완료를 할지 말지 선택합니다.",
@@ -375,7 +375,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Phase de L'île de Quel'Danas",
     },
     ["Select the phase fitting your realm progress on the Isle of Quel'Danas"] = {
-        ["ptBR"] = "Selecione a fase correspondente ao progresso do seu reino na Ilha de Quel'Danas",
+        ["ptBR"] = "Seleciona a fase correspondente ao progresso do seu reino na Ilha de Quel'Danas",
         ["ruRU"] = "Выбор фазы прогресса Острова Кель'Данас на вашем сервере",
         ["deDE"] = "Setz die Phase entsprechend des Fortschritts deines Servers",
         ["koKR"] = false,

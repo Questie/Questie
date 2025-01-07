@@ -39,7 +39,7 @@ local nameplateOptionsLocales = {
         ["frFR"] = "Afficher les icônes sur les plaques de nom",
     },
     ["Enable or disable the quest objective icons over creature nameplates."] = {
-        ["ptBR"] = "Ativar ou desativar os ícones dos objectivos de missão nas placas de nome das criaturas.",
+        ["ptBR"] = "Ativa ou desativa os ícones dos objectivos de missão nas placas de nome das criaturas.",
         ["ruRU"] = "Показать/скрыть значки целей заданий на индикаторах здоровья",
         ["deDE"] = "Aktiviert/Deaktiviert die Questziele an den Namensplaketten der Kreaturen.",
         ["koKR"] = "퀘스트 목표 이름표에 아이콘을 표시할지 설정합니다.",
@@ -171,7 +171,7 @@ local nameplateOptionsLocales = {
         ["frFR"] = "Activer les icônes d'objectif de quête sur le cadre de la cible",
     },
     ["Enable or disable the quest objective icons over creature target frame."] = {
-        ["ptBR"] = "Ativar ou desativar os ícones do objectivo da missão no quadro de alvo da criatura.",
+        ["ptBR"] = "Ativa ou desativa os ícones do objectivo da missão no quadro de alvo da criatura.",
         ["ruRU"] = "Показать/скрыть значки целей заданий на рамке выбранной цели",
         ["deDE"] = "Aktiviert/Deaktiviert die Anzeige der Questziele am anvisierten Ziel.",
         ["koKR"] = "퀘스트 목표 대상 프레임에 아이콘을 표시할지 설장합니다.",

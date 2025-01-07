@@ -375,7 +375,7 @@ local debugMessagesLocales = {
         ["esMX"] = "¡Error durante la inicialización!",
     },
     ["The quest %s is missing from Questie's database. Please report this on GitHub or Discord!"] = {
-        ["ptBR"] = "A missão %s está faltando no banco de dados da Questie. Por favor, informe isso no GitHub ou Discord!",
+        ["ptBR"] = "A missão %s está faltando no banco de dados de Questie. Por favor, informe isso no GitHub ou Discord!",
         ["ruRU"] = "Задание %s отсутствует в БД Questie. Пожалуйста, сообщите нам об этом на GitHub или в Discord!",
         ["koKR"] = "해당 퀘스트 %s 는 퀘스티 데이터베이스에서 찾을 수 없습니다. Github/Discord에 리포트 부탁드립니다!",
         ["frFR"] = "La quête %s n'est pas présente dans la Base de données Questie. Veuillez le signaler sur GitHub ou Discord !",

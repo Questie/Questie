@@ -546,11 +546,11 @@ local trackerOptionsLocales = {
         ["ruRU"] = "Когда включено, достижения в трекере будут отображаться сверху заданий",
         ["deDE"] = "Wenn diese Option aktiviert ist, werden Erfolge im Tracker zuerst und dann Quests angezeigt.",
         ["koKR"] = false,
-        ["esMX"] = "Si está marcado, el rastreador listará primero los logros y después las misiones.",
+        ["esMX"] = "Si está activado, el rastreador listará primero los logros y después las misiones.",
         ["enUS"] = true,
         ["zhCN"] = "启用时，任务追踪列表会将成就排在任务的前面",
         ["zhTW"] = "啟用時，任務追蹤清單會將成就排列在任務的前面。",
-        ["esES"] = "Si está marcado, el rastreador listará primero los logros y después las misiones.",
+        ["esES"] = "Si está activado, el rastreador listará primero los logros y después las misiones.",
         ["frFR"] = "Lorsque ceci est coché, le suivi de Questie affichera d'abord les hauts faits, puis les quêtes.",
     },
     ---------------------------------------------------------
@@ -890,7 +890,7 @@ local trackerOptionsLocales = {
     },
     ---------------------------------------------------------
     ["Set |cFF54e33bTomTom|r Target"] = {
-        ["ptBR"] = "Defina o alvo de |cFF54e33bTomTom|r",
+        ["ptBR"] = "Define o alvo de |cFF54e33bTomTom|r",
         ["ruRU"] = "Установить точку |cFF54e33bTomTom|r",
         ["deDE"] = "|cFF54e33bTomTom|r-Ziel setzen",
         ["koKR"] = "|cFF54e33bTomTom|r 대상 설정",

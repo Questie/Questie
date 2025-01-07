@@ -171,7 +171,7 @@ local myJourneyLocales = {
         ["frFR"] = "Abandonnée",
     },
     ["Entry Title"] = {
-        ["ptBR"] = "Título da entrada",
+        ["ptBR"] = "Título",
         ["ruRU"] = "Название",
         ["deDE"] = "Titel des Eintrags",
         ["koKR"] = "제목",
@@ -195,7 +195,7 @@ local myJourneyLocales = {
         ["frFR"] = "Message :",
     },
     ["You Completed the quest %s"] = {
-        ["ptBR"] = "Você completou a missão %s",
+        ["ptBR"] = "Você concluiu a missão %s",
         ["ruRU"] = "Задание выполнено: %s",
         ["deDE"] = "Du hast die Quest '%s' abgeschlossen",
         ["koKR"] = "%s 퀘스트를 완료했습니다",
@@ -207,7 +207,7 @@ local myJourneyLocales = {
         ["frFR"] = "Vous avez terminé la quête %s",
     },
     ["Add Entry"] = {
-        ["ptBR"] = "Adicionar uma entrada",
+        ["ptBR"] = "Adicionar entrada",
         ["ruRU"] = "Добавить заметку",
         ["deDE"] = "Eintrag hinzufügen",
         ["koKR"] = "메모 추가",
@@ -259,7 +259,7 @@ local myJourneyLocales = {
         ["ruRU"] = "Новая заметка: %s",
         ["deDE"] = "Neue Notiz für: %s",
         ["koKR"] = "새로운 메모: %s",
-        ["esMX"] = "Nueva Nota para: %s",
+        ["esMX"] = "Nueva nota para: %s",
         ["enUS"] = true,
         ["zhCN"] = "新笔记：%s",
         ["zhTW"] = "新筆記: %s",
@@ -291,7 +291,7 @@ local myJourneyLocales = {
         ["frFR"] = "Ajouter une note",
     },
     ["Create an entry in your journal to remember a specific moment. Simply supply a title and description and Questie will remember it for you!"] = {
-        ["ptBR"] = "Crie uma entrada no seu diário para lembrá-lo de um momento específico. Basta fornecer um título e uma descrição e o Questie lembrará disso para você!",
+        ["ptBR"] = "Cria uma entrada no seu diário para lembrá-lo de um momento específico. Basta fornecer um título e uma descrição e o Questie lembrará disso para você!",
         ["ruRU"] = "Создает заметку в журнале путешествия, чтобы запомнить определенный момент. Просто введите название и описание, и Questie запомнит это для вас!",
         ["deDE"] = "Erstelle einen Eintrag in deinem Reisetagebuch, um dich an einen bestimmten Moment zu erinnern. Gebe einfach einen Titel und eine Beschreibung an und Questie wird sich für dich erinnern!",
         ["koKR"] = "여정 내역에 메모를 남겨 특별한 순간을 기억해보세요. 간단하게 제목과 내용을 입력하면 Questie가 당신을 위해 기억해드립니다!",

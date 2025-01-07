@@ -79,7 +79,7 @@ local searchLocales = {
         ["ruRU"] = "Нет заданий в списке",
         ["deDE"] = "Keine Quests zum Auflisten vorhanden",
         ["koKR"] = "표시할 퀘스트가 없습니다",
-        ["esMX"] = "No hay Misiones que listar",
+        ["esMX"] = "No hay misiones que listar",
         ["enUS"] = true,
         ["zhCN"] = "无任务可列出",
         ["zhTW"] = "沒有任務可供列出",
@@ -351,7 +351,7 @@ local searchLocales = {
         ["frFR"] = "La quête est cachée",
     },
     ["\nWhen selected, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map."] = {
-        ["ptBR"] = "\nSe ativado, esconde a missão do mapa, mesmo que esteja ativa.\n\nTambém é possível esconder a missão utilizando Shift + Botão esquerdo nela no mapa.",
+        ["ptBR"] = "\nSe ativado, oculta a missão do mapa, mesmo que esteja ativa.\n\nTambém é possível ocultar a missão utilizando Shift + Botão esquerdo nela no mapa.",
         ["ruRU"] = "\nКогда выбрано, скрывает задание с карты, даже если оно активно.\n\nСкрыть задание можно также через Shift-клик по нему на карте",
         ["deDE"] = "\nWenn der Haken gesetzt ist, dann wird die Quest nicht auf der Karte angezeigt, auch wenn sie aktiv ist.\n\nQuests können auch per Shift+Linksklick auf der Karte versteckt werden.",
         ["koKR"] = "\n이 옵션을 선택하면 퀘스트를 지도에서 숨깁니다. \n\n 지도에서 Shift 클릭으로 퀘스트를 숨길 수도 있습니다.",

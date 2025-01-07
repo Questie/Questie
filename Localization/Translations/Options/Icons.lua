@@ -15,7 +15,7 @@ local iconOptionsLocales = {
         ["frFR"] = "Activer les icônes",
     },
     ["Shows or hides the icons that Questie draws on the world map and minimap."] = {
-        ["ptBR"] = "Ativar ou desativar os ícones da Questie",
+        ["ptBR"] = "Ativar ícones de Questie",
         ["ruRU"] = "Показать/скрыть значки Questie",
         ["deDE"] = "Aktivieren/Deaktivieren der Questie-Icons",
         ["koKR"] = "Questie 아이콘을 활성화합니다.",
@@ -639,7 +639,7 @@ local iconOptionsLocales = {
         ["frFR"] = "L'icône affichée pour les quêtes qui nécessitent des conditions supplémentaires à remplir avant de pouvoir être acceptées, ou qui sont de si bas niveau qu'elles ne donnent pas d'expérience en récompense",
     },
     ["Complete quests"] = {
-        ["ptBR"] = "Missões completadas",
+        ["ptBR"] = "Missões concluídas",
         ["ruRU"] = "Выполненные",
         ["deDE"] = "Abgeschlossene Quests",
         ["koKR"] = false,

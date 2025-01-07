@@ -39,7 +39,7 @@ local mapOptionsLocales = {
         ["frFR"] = "Afficher le bouton Questie sur la carte",
     },
     ["Enable or disable the Show/Hide Questie Button on Map (May fix some Map Addon interactions)."] = {
-        ["ptBR"] = "Ative ou desative o botão Mostrar / Ocultar Questie no mapa (pode corrigir algumas interações com o Mapa de Complementos)",
+        ["ptBR"] = "Ativa ou desativa o botão Mostrar / Ocultar Questie no mapa (pode corrigir algumas interações com o Mapa de Complementos)",
         ["ruRU"] = "Показать/скрыть кнопку Questie на карте мира (может исправить некоторые проблемы с аддонами карт)",
         ["deDE"] = "Aktiviert/Deaktiviert den Zeigen/Verstecken-Button an der Weltkarte (repariert möglicherweise Karten-Addon Interaktionen).",
         ["koKR"] = "지도에 Questie 버튼을 표시합니다 (따로 지도 애드온을 사용할 경우 충돌할 수 있습니다)",

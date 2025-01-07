@@ -15,7 +15,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Quêtes par zone",
     },
     ["Select Your Continent and Zone"] = {
-        ["ptBR"] = "Selecione seu continente e sua zona",
+        ["ptBR"] = "Seleciona seu continente e sua zona",
         ["ruRU"] = "Выберите континент и игровую зону",
         ["deDE"] = "Wähle deinen Kontinent und deine Zone",
         ["koKR"] = "대륙과 지역을 선택해주세요",
@@ -27,7 +27,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Sélectionnez votre continent et votre zone",
     },
     ["Select Your Continent"] = {
-        ["ptBR"] = "Selecione seu continente",
+        ["ptBR"] = "Seleciona seu continente",
         ["ruRU"] = "Выберите континент",
         ["deDE"] = "Wähle deinen Kontinent",
         ["koKR"] = "대륙 선택",
@@ -39,7 +39,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Sélectionnez votre continent",
     },
     ["Select Your Zone"] = {
-        ["ptBR"] = "Selecione a sua zona",
+        ["ptBR"] = "Seleciona sua zona",
         ["ruRU"] = "Выберите игровую зону",
         ["deDE"] = "Wähle deine Zone",
         ["koKR"] = "지역 선택",
@@ -51,7 +51,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Sélectionnez votre zone",
     },
     ["Select Your Profession"] = {
-        ["ptBR"] = "Selecione sua profissão",
+        ["ptBR"] = "Seleciona sua profissão",
         ["ruRU"] = "Выберите профессию",
         ["deDE"] = "Wähle deinen Beruf",
         ["koKR"] = "전문 기술 선택",
