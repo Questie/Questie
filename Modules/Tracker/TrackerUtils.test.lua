@@ -580,8 +580,12 @@ describe("TrackerUtils", function()
             assert.is_false(hasQuest)
         end)
 
-        it("should return true when a quest is tracked and it is not complete and complete quests should not show", function()
+        it("should return true when a single quest is tracked and it is not complete and complete quests should not show", function()
             _G.GetNumQuestWatches = function() return 1 end
+            _G.GetQuestLogIndexByID = function()
+                return 1
+            end
+            _G.IsQuestWatched = function() return true end
             Questie.db.profile.trackerShowCompleteQuests = false
             QuestiePlayer.currentQuestlog = {
                 [1] = {
@@ -594,8 +598,40 @@ describe("TrackerUtils", function()
             assert.is_true(hasQuest)
         end)
 
+        it("should return true when a single quest is tracked and it is not complete but another is and complete quests should not show", function()
+            _G.GetNumQuestWatches = function() return 1 end
+            _G.GetQuestLogIndexByID = function(questId)
+                return questId -- This is enough for the test case
+            end
+            _G.IsQuestWatched = function(index)
+                if index == 1 then
+                    return true
+                end
+                return false
+            end
+            Questie.db.profile.trackerShowCompleteQuests = false
+            QuestiePlayer.currentQuestlog = {
+                [1] = {
+                    Id = 1,
+                    IsComplete = function() return 0 end
+                },
+                [2] = {
+                    Id = 2,
+                    IsComplete = function() return 1 end
+                }
+            }
+
+            local hasQuest = TrackerUtils.HasQuest()
+
+            assert.is_true(hasQuest)
+        end)
+
         it("should return false when a quest is tracked and it is complete and complete quests should not show", function()
             _G.GetNumQuestWatches = function() return 1 end
+            _G.GetQuestLogIndexByID = function()
+                return 1
+            end
+            _G.IsQuestWatched = function() return true end
             Questie.db.profile.trackerShowCompleteQuests = false
             QuestiePlayer.currentQuestlog = {
                 [1] = {

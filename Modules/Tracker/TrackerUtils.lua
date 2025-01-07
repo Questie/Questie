@@ -1144,17 +1144,17 @@ function TrackerUtils.HasQuest()
         end
     else
         if not Questie.db.profile.trackerShowCompleteQuests then
-            local completedQuests = 0
-            -- Keep track of the number of completed quests
+            local isTrackingIncompleteQuest = false
             for _, quest in pairs(QuestiePlayer.currentQuestlog) do
                 if not quest then break end
-                if quest:IsComplete() == 1 then
-                    completedQuests = completedQuests + 1
+                if IsQuestWatched(GetQuestLogIndexByID(quest.Id)) and quest:IsComplete() == 0 then
+                    isTrackingIncompleteQuest = true
+                    break
                 end
             end
 
             -- This hides the Tracker when all tracked Quests are complete
-            if completedQuests == GetNumQuestWatches(true) then
+            if (not isTrackingIncompleteQuest) then
                 hasQuest = false
             else
                 hasQuest = true
