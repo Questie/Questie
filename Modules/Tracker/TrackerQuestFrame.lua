@@ -9,8 +9,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerFadeTicker
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
----@type QuestieTracker
-local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 
 local questFrame, trackerBaseFrame, trackerHeaderFrame
 
@@ -117,7 +117,7 @@ end
 
 function TrackerQuestFrame.PositionTrackedQuestsFrame()
     local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
-    if Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not QuestieTracker:HasQuest()) then
+    if Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not TrackerUtils.HasQuest()) then
         if Questie.db.profile.moveHeaderToBottom then
             -- Move the tracker header to the bottom
             questFrame:SetPoint("BOTTOMLEFT", trackerHeaderFrame, "TOPLEFT", 0, 4)

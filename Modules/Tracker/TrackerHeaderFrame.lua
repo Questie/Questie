@@ -175,7 +175,7 @@ function TrackerHeaderFrame.Initialize(baseFrame)
 
     headerFrame.trackedQuests = trackedQuests
 
-    if Questie.db.profile.trackerHeaderEnabled or (not QuestieTracker:HasQuest()) then
+    if Questie.db.profile.trackerHeaderEnabled or (not TrackerUtils.HasQuest()) then
         headerFrame:SetSize(1, Questie.db.profile.trackerFontSizeHeader) -- Width is updated later on
     else
         headerFrame:SetSize(1, 1)
@@ -194,7 +194,7 @@ function TrackerHeaderFrame:Update()
     local trackerFontSizeHeader = Questie.db.profile.trackerFontSizeHeader
     local trackerFontSizeZone = Questie.db.profile.trackerFontSizeZone
 
-    if Questie.db.profile.trackerHeaderEnabled or (not QuestieTracker:HasQuest()) then
+    if Questie.db.profile.trackerHeaderEnabled or (not TrackerUtils.HasQuest()) then
         headerFrame:ClearAllPoints()
         headerFrame.questieIcon.texture:SetWidth(trackerFontSizeHeader)
         headerFrame.questieIcon.texture:SetHeight(trackerFontSizeHeader)
