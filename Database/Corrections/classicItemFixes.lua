@@ -876,10 +876,10 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {176344},
         },
         [12766] = {
-            [itemKeys.objectDrops] = {190483},
+            [itemKeys.objectDrops] = {176344},
         },
         [12768] = {
-            [itemKeys.objectDrops] = {190484},
+            [itemKeys.objectDrops] = {176344},
         },
         [12813] = { -- #1313
             [itemKeys.relatedQuests] = {5085},
