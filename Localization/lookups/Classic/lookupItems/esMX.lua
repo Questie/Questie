@@ -659,6 +659,7 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [5799] = "Pedido de piezas de Kravel",
 [5800] = "Piezas de Kravel",
 [5801] = "Guano del Horado",
+[5802] = "Piezas de coches delicadas",
 [5803] = "Pizca de polvo onírico",
 [5804] = "Rumores goblin",
 [5805] = "Corazón de fanatismo",
