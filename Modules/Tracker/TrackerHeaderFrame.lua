@@ -3,8 +3,6 @@ local TrackerHeaderFrame = QuestieLoader:CreateModule("TrackerHeaderFrame")
 -------------------------
 --Import QuestieTracker modules.
 -------------------------
----@type QuestieTracker
-local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type TrackerBaseFrame
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerFadeTicker
@@ -30,7 +28,7 @@ local LSM30 = LibStub("LibSharedMedia-3.0")
 
 local headerFrame, trackerBaseFrame
 
-function TrackerHeaderFrame.Initialize(baseFrame)
+function TrackerHeaderFrame.Initialize(baseFrame, OnTrackedQuestClick)
     trackerBaseFrame = baseFrame
     headerFrame = CreateFrame("Button", "Questie_HeaderFrame", trackerBaseFrame)
 
@@ -162,7 +160,7 @@ function TrackerHeaderFrame.Initialize(baseFrame)
         end
 
         QuestieCombatQueue:Queue(function()
-            QuestieTracker:Update()
+            OnTrackedQuestClick()
         end)
     end)
 
