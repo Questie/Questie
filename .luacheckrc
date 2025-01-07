@@ -2568,6 +2568,7 @@ globals = {
     "CreateChannelPopup",
     "DeveloperConsole",
     "DressUpFrame",
+    "DressUpItemLink",
     "DropDownList1",
     "DropDownList2",
     "DurabilityFrame",
