@@ -457,6 +457,8 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
             else
                 ChatEdit_InsertLink(itemLink)
             end
+        elseif IsControlKeyDown() then
+            DressUpItemLink(itemLink)
         end
     end)
     f:AddChild(itemIcon)
