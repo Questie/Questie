@@ -1099,6 +1099,9 @@ function CataNpcFixes.Load()
         [28919] = { -- Noth the Plaguebringer
             [npcKeys.spawns] = {[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{55.89,52.4}}},
         },
+        [29006] = { -- Oracle Soo-nee
+            [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{53.34,56.43}}},
+        },
         [29631] = { -- Awilo Lon'gomba
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{69.96,39.01}}},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
