@@ -71,11 +71,11 @@ local staticPopup = {
         ["ruRU"] = "Questie поддерживает только",
         ["deDE"] = "Questie unterstützt nur",
         ["koKR"] = "퀘스티는 지원합니다",
-        ["esMX"] = "Questie sólo soporta",
+        ["esMX"] = "Questie solo soporta",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = "Questie 只支援",
-        ["esES"] = "Questie sólo soporta",
+        ["esES"] = "Questie solo soporta",
         ["frFR"] = "Questie prend en charge uniquement",
     },
     ["WoW Classic (Era/Cataclysm)!"] = {

@@ -1602,6 +1602,7 @@ l10n.itemLookup["deDE"] = loadstring([[return {
 [21230] = "Uraltes Qirajiartefakt",
 [21377] = "Kopfputzfeder der Totenwaldfelle",
 [21383] = "Geisterperlen der Winterfelle",
+[21545] = "Vorräte der Kokelwälder",
 [21557] = "Kleine rote Rakete",
 [21558] = "Kleine blaue Rakete",
 [21559] = "Kleine grüne Rakete",

@@ -108,7 +108,7 @@ local tooltipsUILocales = {
         ["zhCN"] = "任务开始于",
         ["zhTW"] = "任務開始於",
         ["esES"] = "Iniciado por",
-        ["frFR"] = "Début",
+        ["frFR"] = "Début ",
     },
     ["Ended by"] = {
         ["ptBR"] = "Terminado por",
@@ -120,7 +120,7 @@ local tooltipsUILocales = {
         ["zhCN"] = "任务结束于",
         ["zhTW"] = "任務結束於",
         ["esES"] = "Finalizado por",
-        ["frFR"] = "Fin",
+        ["frFR"] = "Fin ",
     },
     ["Completed on:"] = {
         ["ptBR"] = "Concluído em:",
@@ -132,7 +132,7 @@ local tooltipsUILocales = {
         ["zhCN"] = "完成于:",
         ["zhTW"] = "已完成:",
         ["esES"] = "Completado el:",
-        ["frFR"] = "Complété le:",
+        ["frFR"] = "Terminé le :",
     }
 }
 
