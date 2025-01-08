@@ -11266,7 +11266,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredLevel] = 77,
         },
         [28805] = { -- The Eye of the Storm
-            [questKeys.objectives] = {nil,{{207414}}},
+            [questKeys.objectives] = {nil,{{207414,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [28806] = { -- Fear No Evil -- Human Hunter
             [questKeys.requiredRaces] = raceKeys.HUMAN,
