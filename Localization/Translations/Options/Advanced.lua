@@ -288,7 +288,7 @@ local advancedOptionsLocales = {
         ["zhCN"] = "语言设置",
         ["zhTW"] = "語言設定",
         ["esES"] = "Opciones de idioma",
-        ["frFR"] = "Paramètre de localisation",
+        ["frFR"] = "Options de la langue",
     },
     ["Select UI Locale"] = {
         ["ptBR"] = "Selecionar idioma",
