@@ -2909,6 +2909,9 @@ function CataQuestFixes.Load()
         [14464] = { -- Lightning Strike Assassination
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Jump on!"),0,{{"monster",36761}}}},
         },
+        [14465] = { -- To Greymane Manor
+            [questKeys.requiredRaces] = raceKeys.WORGEN,
+        },
         [14468] = { -- Another Warm Body
             [questKeys.preQuestGroup] = {14161,14194,14197},
         },
@@ -2991,6 +2994,7 @@ function CataQuestFixes.Load()
         },
         [24438] = { -- Exodus
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Board the carriage"),0,{{"monster",38755},{"monster",44928}}}},
+            [questKeys.requiredRaces] = raceKeys.WORGEN,
         },
         [24439] = { -- The Conquest of Azshara
             [questKeys.preQuestSingle] = {24430},
@@ -8104,6 +8108,7 @@ function CataQuestFixes.Load()
         [27480] = { -- Ley Energies
             [questKeys.preQuestSingle] = {27476},
             [questKeys.objectives] = {nil,nil,{{61311}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [27481] = { -- Out of the Ziggurat
             [questKeys.preQuestGroup] = {27449,27465},
@@ -8337,6 +8342,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27542},
             [questKeys.exclusiveTo] = {27594}, -- Not breadcrumb, but unavailable after this point in the main zone quest chain
             [questKeys.objectives] = {nil,nil,{{61505}}},
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [27575] = { -- From the Belly of the Beast
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [27576] = { -- Patchwork Command
             [questKeys.preQuestSingle] = {},
@@ -8819,7 +8828,7 @@ function CataQuestFixes.Load()
         },
         [27760] = { -- Artificial Intelligence
             [questKeys.startedBy] = {{46590,46920,47014},nil,{62483}},
-            [questKeys.preQuestSingle] = {28112},
+            [questKeys.preQuestSingle] = {27922},
         },
         [27761] = { -- A Disarming Distraction
             [questKeys.objectives] = {nil,{{206395},{206396},{206397}},nil,nil,{{{46888},46888,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -9683,6 +9692,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {28113},
             [questKeys.nextQuestInChain] = 28116,
         },
+        [28154] = { -- Muckgill's Flipper or Something...
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
         [28156] = { -- Deep Mine Rescue
             [questKeys.preQuestSingle] = {28096},
             [questKeys.triggerEnd] = {"Escort Dumass to Safety!", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{33.27,73.41}}}},
@@ -10217,6 +10229,9 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 28271,
         },
         [28355] = { -- Terrible Little Creatures
+            [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
+        },
+        [28356] = { -- Preemptive Strike
             [questKeys.requiredRaces] = raceKeys.ALL_HORDE,
         },
         [28357] = { -- Take it to the Tree
