@@ -4547,7 +4547,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {}, -- quest is available by default in Mount Hyjal. Blizzard things
         },
         [25577] = { -- Crushing the Cores
-            [questKeys.objectives] = {nil,{{203067}}},
+            [questKeys.objectives] = {nil,{{203067,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {}, -- quest is available by default in Mount Hyjal. Blizzard things
             [questKeys.requiredSourceItems] = {55123},
         },
