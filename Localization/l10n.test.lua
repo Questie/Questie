@@ -157,7 +157,7 @@ describe("l10n", function()
 
         assert.are_same("Viande de loup coriace", QuestieDB.itemData[750][QuestieDB.itemKeys.name])
         assert.are_same("Morgaine la rusée", QuestieDB.npcData[99][QuestieDB.npcKeys.name])
-        assert.are_same("Avis de recherche: Gath'Ilzogg", QuestieDB.objectData[60][QuestieDB.objectKeys.name])
+        assert.are_same("Avis de recherche : Gath'Ilzogg", QuestieDB.objectData[60][QuestieDB.objectKeys.name])
         assert.are_same("Une livraison pour Zinge", QuestieDB.questData[1359][QuestieDB.questKeys.name])
     end)
 
@@ -247,7 +247,7 @@ describe("l10n", function()
 
         assert.are_same("Жесткое волчье мясо", QuestieDB.itemData[750][QuestieDB.itemKeys.name])
         assert.are_same("Моргана Лукавая", QuestieDB.npcData[99][QuestieDB.npcKeys.name])
-        assert.are_same("Разыскивается: Гат'Илзогг", QuestieDB.objectData[60][QuestieDB.objectKeys.name])
+        assert.are_same("Розыск: Гат'Илзогг", QuestieDB.objectData[60][QuestieDB.objectKeys.name])
         assert.are_same("Посылка для Зинг", QuestieDB.questData[1359][QuestieDB.questKeys.name])
     end)
 
