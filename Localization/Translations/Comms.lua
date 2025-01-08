@@ -27,7 +27,7 @@ local commsLocales = {
         ["zhCN"] = "请尽快更新！",
     },
     ["You have an outdated version of Questie!"] = {
-        ["ptBR"] = "Você tem uma versão desatualizada do Questie!",
+        ["ptBR"] = "Você tem uma versão desatualizada de Questie!",
         ["ruRU"] = "Вы используете устаревшую версию Questie!",
         ["deDE"] = "Du hast eine veraltete Questie-Version!",
         ["koKR"] = "오래된 퀘스티 버전을 사용 중입니다",
@@ -75,7 +75,7 @@ local commsLocales = {
         ["zhCN"] = "  你的: v",
     },
     ["has an incompatible Questie version, QuestieComms won't work!"] = {
-        ["ptBR"] = "possui uma versão incompatível do Questie, o QuestieComms não funcionará!",
+        ["ptBR"] = "possui uma versão incompatível de Questie, o QuestieComms não funcionará!",
         ["ruRU"] = "имеет несовместимую версию Questie, QuestieComms работать не будет!",
         ["deDE"] = "hat eine inkompatible Questie-Version, QuestieComms wird nicht funktionieren!",
         ["koKR"] = "호환 되지 않는 퀘스티 버전입니다. 퀘스티와 통신이 안됩니다!",

@@ -9,8 +9,12 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+
+QuestieCorrections.itemObjectiveFirst[5088] = true
 
 -- Further information on how to use this can be found at the wiki
 -- https://github.com/Questie/Questie/wiki/Corrections
@@ -576,26 +580,14 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = nil,
-            [questKeys.triggerEnd] = nil,
-            [questKeys.objectives] = {},
-            [questKeys.sourceItemId] = nil,
-            [questKeys.preQuestGroup] = nil,
-            [questKeys.preQuestSingle] = nil,
-            [questKeys.childQuests] = nil,
-            [questKeys.inGroupWith] = nil,
-            [questKeys.exclusiveTo] = nil,
-            [questKeys.zoneOrSort] = 148,
-            [questKeys.requiredSkill] = nil,
-            [questKeys.requiredMinRep] = nil,
-            [questKeys.requiredMaxRep] = nil,
-            [questKeys.requiredSourceItems] = nil,
+            [questKeys.zoneOrSort] = zoneIDs.DARKSHORE,
             [questKeys.nextQuestInChain] = 0,
             [questKeys.questFlags] = 8,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.parentQuest] = 949, -- workaround, can't mimic ingame 100%
         },
         [961] = {
+            [questKeys.finishedBy] = {{3616}},
             [questKeys.preQuestSingle] = nil,
             [questKeys.exclusiveTo] = nil,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -1260,6 +1252,14 @@ function QuestieQuestFixes:Load()
         [2801] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{7572},7572,"A Tale of Sorrow"}}},
         },
+        [2841] = {
+            [questKeys.exclusiveTo] = {2842},
+            [questKeys.childQuests] = {},
+        },
+        [2842] = {
+            [questKeys.requiredLevel] = 20,
+            [questKeys.parentQuest] = 0,
+        },
         [2843] = {
             [questKeys.triggerEnd] = {"Goblin Transponder", {[zoneIDs.STRANGLETHORN_VALE]={{27.56,77.42}}}},
         },
@@ -1893,8 +1893,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #1824
         },
         [5088] = {
-            [questKeys.triggerEnd] = {"Light the Sacred Fire of Life", {[zoneIDs.THOUSAND_NEEDLES]={{38.08,35.35}}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Light the Sacred Fire of Life"),0,{{"object", 175944}}}},
+            [questKeys.objectives] = {nil,{{175944}},{{12925}}},
         },
         [5089] = {
             [questKeys.startedBy] = {{9568},nil,{12780}},

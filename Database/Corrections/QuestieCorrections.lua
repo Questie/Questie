@@ -93,6 +93,7 @@ QuestieCorrections.SOD_HIDE = 16 -- Hide when Season of Discovery; use to hide q
 
 QuestieCorrections.killCreditObjectiveFirst = {}
 QuestieCorrections.objectObjectiveFirst = {}
+QuestieCorrections.itemObjectiveFirst = {}
 
 do
     local type, assert = type, assert

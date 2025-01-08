@@ -3,7 +3,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local myJourneyLocales = {
     ["Questie Options"] = {
-        ["ptBR"] = "Opções do Questie",
+        ["ptBR"] = "Opções",
         ["ruRU"] = "Настройки Questie",
         ["deDE"] = "Questie-Einstellungen",
         ["koKR"] = "Questie 설정",
@@ -12,7 +12,7 @@ local myJourneyLocales = {
         ["zhCN"] = "打开 Questie",
         ["zhTW"] = "設定選項",
         ["esES"] = "Opciones",
-        ["frFR"] = "Options Questie",
+        ["frFR"] = "Options",
     },
     ["My Journey"] = {
         ["ptBR"] = "Minha jornada",
@@ -55,11 +55,11 @@ local myJourneyLocales = {
         ["ruRU"] = "Пора начинать свое первое путешествие!",
         ["deDE"] = "Es ist an der Zeit, dass du dich auf deine erste Reise begibst!",
         ["koKR"] = "당신은 이제 막 첫번째 여정을 시작했습니다!",
-        ["esMX"] = "¡Es hora de que te embarques en tu primera aventura!",
+        ["esMX"] = "¡Es hora de que te embarques en tu primer viaje!",
         ["enUS"] = true,
         ["zhCN"] = "是时候踏上旅程了！",
         ["zhTW"] = "該是你踏上第一次旅程的時候了！",
-        ["esES"] = "¡Es hora de que te embarques en tu primera aventura!",
+        ["esES"] = "¡Es hora de que te embarques en tu primer viaje!",
         ["frFR"] = "Il est temps d'embarquer pour votre premier voyage !",
     },
     ["Congratulations! You reached %s !"] = {
@@ -171,7 +171,7 @@ local myJourneyLocales = {
         ["frFR"] = "Abandonnée",
     },
     ["Entry Title"] = {
-        ["ptBR"] = "Título da entrada",
+        ["ptBR"] = "Título",
         ["ruRU"] = "Название",
         ["deDE"] = "Titel des Eintrags",
         ["koKR"] = "제목",
@@ -195,7 +195,7 @@ local myJourneyLocales = {
         ["frFR"] = "Message :",
     },
     ["You Completed the quest %s"] = {
-        ["ptBR"] = "Você completou a missão %s",
+        ["ptBR"] = "Você concluiu a missão %s",
         ["ruRU"] = "Задание выполнено: %s",
         ["deDE"] = "Du hast die Quest '%s' abgeschlossen",
         ["koKR"] = "%s 퀘스트를 완료했습니다",
@@ -207,7 +207,7 @@ local myJourneyLocales = {
         ["frFR"] = "Vous avez terminé la quête %s",
     },
     ["Add Entry"] = {
-        ["ptBR"] = "Adicionar uma entrada",
+        ["ptBR"] = "Adicionar entrada",
         ["ruRU"] = "Добавить заметку",
         ["deDE"] = "Eintrag hinzufügen",
         ["koKR"] = "메모 추가",
@@ -259,7 +259,7 @@ local myJourneyLocales = {
         ["ruRU"] = "Новая заметка: %s",
         ["deDE"] = "Neue Notiz für: %s",
         ["koKR"] = "새로운 메모: %s",
-        ["esMX"] = "Nueva Nota para: %s",
+        ["esMX"] = "Nueva nota para: %s",
         ["enUS"] = true,
         ["zhCN"] = "新笔记：%s",
         ["zhTW"] = "新筆記: %s",
@@ -291,7 +291,7 @@ local myJourneyLocales = {
         ["frFR"] = "Ajouter une note",
     },
     ["Create an entry in your journal to remember a specific moment. Simply supply a title and description and Questie will remember it for you!"] = {
-        ["ptBR"] = "Crie uma entrada no seu diário para lembrá-lo de um momento específico. Basta fornecer um título e uma descrição e o Questie lembrará disso para você!",
+        ["ptBR"] = "Cria uma entrada no seu diário para lembrá-lo de um momento específico. Basta fornecer um título e uma descrição e o Questie lembrará disso para você!",
         ["ruRU"] = "Создает заметку в журнале путешествия, чтобы запомнить определенный момент. Просто введите название и описание, и Questie запомнит это для вас!",
         ["deDE"] = "Erstelle einen Eintrag in deinem Reisetagebuch, um dich an einen bestimmten Moment zu erinnern. Gebe einfach einen Titel und eine Beschreibung an und Questie wird sich für dich erinnern!",
         ["koKR"] = "여정 내역에 메모를 남겨 특별한 순간을 기억해보세요. 간단하게 제목과 내용을 입력하면 Questie가 당신을 위해 기억해드립니다!",

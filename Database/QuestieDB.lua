@@ -103,7 +103,20 @@ local questTagCorrections = {
     [13129] = {81, "Dungeon"},
     [13199] = {41, "PvP"},
     [13662] = {0, ""},
+    [28735] = {81, "Dungeon"},
+    [28737] = {81, "Dungeon"},
+    [28738] = {81, "Dungeon"},
+    [28740] = {81, "Dungeon"},
+    [28845] = {81, "Dungeon"},
     [29135] = {62, "Raid"},
+    [29153] = {81, "Dungeon"},
+    [29154] = {81, "Dungeon"},
+    [29172] = {81, "Dungeon"},
+    [29173] = {81, "Dungeon"},
+    [29175] = {81, "Dungeon"},
+    [29208] = {81, "Dungeon"},
+    [29241] = {81, "Dungeon"},
+    [29242] = {81, "Dungeon"},
     [78680] = {1, "Elite"},
     [78681] = {1, "Elite"},
     [78684] = {1, "Elite"},
@@ -1384,6 +1397,10 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         Text = itemObjective[2],
                         Icon = itemObjective[3]
                     }
+                    if QuestieCorrections.itemObjectiveFirst[questId] then
+                        tinsert(QO.ObjectiveData, 1, QO.ObjectiveData[#QO.ObjectiveData])
+                        tremove(QO.ObjectiveData)
+                    end
                 end
             end
         end

@@ -1128,4 +1128,44 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
     return true
 end
 
+---@return boolean @true if the Tracker tracks a quest, false if not
+function TrackerUtils.HasQuest()
+    local hasQuest
+
+    if (GetNumQuestWatches(true) == 0) then
+        if Questie.IsWotlk or Questie.IsCata then
+            if (GetNumTrackedAchievements(true) == 0) then
+                hasQuest = false
+            else
+                hasQuest = true
+            end
+        else
+            hasQuest = false
+        end
+    else
+        if not Questie.db.profile.trackerShowCompleteQuests then
+            local isTrackingIncompleteQuest = false
+            for _, quest in pairs(QuestiePlayer.currentQuestlog) do
+                if not quest then break end
+                if IsQuestWatched(GetQuestLogIndexByID(quest.Id)) and quest:IsComplete() == 0 then
+                    isTrackingIncompleteQuest = true
+                    break
+                end
+            end
+
+            -- This hides the Tracker when all tracked Quests are complete
+            if (not isTrackingIncompleteQuest) then
+                hasQuest = false
+            else
+                hasQuest = true
+            end
+        else
+            hasQuest = true
+        end
+    end
+
+    Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils.HasQuest] - ", hasQuest)
+    return hasQuest
+end
+
 return TrackerUtils

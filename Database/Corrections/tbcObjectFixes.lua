@@ -565,16 +565,6 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY]={{56.37,59.82}}},
             [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
         },
-        [190483] = {
-            [objectKeys.name] = "Document Chest",
-            [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{33.76,39.99}}},
-            [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
-        },
-        [190484] = {
-            [objectKeys.name] = "Document Chest",
-            [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{39.34,41.53}}},
-            [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
-        },
 
         -- Below are fake objects
         [400000] = {

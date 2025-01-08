@@ -1137,6 +1137,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [181069] = "Grand morceau d'obsidienne",
 [181073] = "Chaudron parfumé",
 [181074] = "Butin de l'arène",
+[181083] = "Possessions de Sothos et Jarien",
 [181085] = "Caisse de fournitures de Stratholme",
 [181098] = "Cendre volcanique",
 [181108] = "Gisement de vrai-argent",
@@ -1181,4 +1182,6 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [181852] = "Signal de drapeau, Alliance",
 [181955] = "Sanctuaire de guérison",
 [182106] = "Bannière de la tour",
+[190483] = "Coffre de documents",
+[190484] = "Coffre de documents",
 }]])

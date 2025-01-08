@@ -5,6 +5,8 @@ local TrackerBaseFrame = QuestieLoader:CreateModule("TrackerBaseFrame")
 -------------------------
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type TrackerFadeTicker
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 -------------------------
@@ -171,7 +173,7 @@ function TrackerBaseFrame.Initialize()
 end
 
 function TrackerBaseFrame:Update()
-    if Questie.db.char.isTrackerExpanded and QuestieTracker:HasQuest() then
+    if Questie.db.char.isTrackerExpanded and TrackerUtils.HasQuest() then
         if Questie.db.profile.trackerBackdropEnabled then
             if Questie.db.profile.trackerBorderEnabled then
                 if not Questie.db.profile.trackerBackdropFader then

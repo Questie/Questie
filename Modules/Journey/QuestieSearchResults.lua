@@ -447,6 +447,20 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     itemIcon:SetCallback("OnLeave", function()
         GameTooltip:Hide()
     end)
+    itemIcon:SetCallback("OnClick", function()
+        if (not itemLink) then
+            itemLink = select(2, GetItemInfo(itemId))
+        end
+        if IsShiftKeyDown() then
+            if (not ChatFrame1EditBox:IsVisible()) then
+                ChatFrame_OpenChat(itemLink)
+            else
+                ChatEdit_InsertLink(itemLink)
+            end
+        elseif IsControlKeyDown() then
+            DressUpItemLink(itemLink)
+        end
+    end)
     f:AddChild(itemIcon)
 
     local spawnIdLabel = AceGUI:Create("Label")

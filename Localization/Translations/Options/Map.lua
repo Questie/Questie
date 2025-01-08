@@ -39,15 +39,15 @@ local mapOptionsLocales = {
         ["frFR"] = "Afficher le bouton Questie sur la carte",
     },
     ["Enable or disable the Show/Hide Questie Button on Map (May fix some Map Addon interactions)."] = {
-        ["ptBR"] = "Ative ou desative o botão Mostrar / Ocultar Questie no mapa (pode corrigir algumas interações com o Mapa de Complementos)",
+        ["ptBR"] = "Ativa ou desativa o botão Mostrar / Ocultar Questie no mapa (pode corrigir algumas interações com o Mapa de Complementos)",
         ["ruRU"] = "Показать/скрыть кнопку Questie на карте мира (может исправить некоторые проблемы с аддонами карт)",
         ["deDE"] = "Aktiviert/Deaktiviert den Zeigen/Verstecken-Button an der Weltkarte (repariert möglicherweise Karten-Addon Interaktionen).",
         ["koKR"] = "지도에 Questie 버튼을 표시합니다 (따로 지도 애드온을 사용할 경우 충돌할 수 있습니다)",
-        ["esMX"] = "Habilita o deshabilita el botón de mostrar/ocultar Questie en el mapa (Puede solucionar algunas interacciones con Addons de mapas)",
+        ["esMX"] = "Activa o desactiva el botón de mostrar/ocultar Questie en el mapa (Puede solucionar algunas interacciones con Addons de mapas)",
         ["enUS"] = true,
         ["zhCN"] = "启用或停用大地图上的Questie切换按钮（可以解决某些地图插件的冲突）",
         ["zhTW"] = "啟用或停用大地圖上的顯示/隱藏任務圖示按鈕 (可以修正某些地圖插件的互動問題)。",
-        ["esES"] = "Habilita o deshabilita el botón de mostrar/ocultar Questie en el mapa (Puede solucionar algunas interacciones con Addons de mapas)",
+        ["esES"] = "Activa o desactiva el botón de mostrar/ocultar Questie en el mapa (Puede solucionar algunas interacciones con Addons de mapas)",
         ["frFR"] = "Active l'affichage du bouton Afficher/Masquer Questie sur la carte. (peut corriger certaines interactions avec des add-ons modifiant la carte)",
     },
     ["Map Icons Glow"] = {
@@ -111,7 +111,7 @@ local mapOptionsLocales = {
         ["frFR"] = "Options des icônes sur la carte",
     },
     ["How large the map icons are.\n(Default: %s)"] = {
-        ["ptBR"] = "Qual é o tamanho dos ícones do mapa.\n(Por defeito: %s)",
+        ["ptBR"] = "Qual é o tamanho dos ícones do mapa.\n(Padrão: %s)",
         ["ruRU"] = "Одновременная регулировка размера всех значков на карте мира\n(по умолчанию: %s)",
         ["deDE"] = "Skaliert die Größe aller Weltkarten-Icons.\n(Standard: %s)",
         ["koKR"] = "지도 아이콘의 크기를 설정합니다.\n( 기본값: %s )",
@@ -135,7 +135,7 @@ local mapOptionsLocales = {
         ["frFR"] = "Échelle des icônes de quête disponible/terminée",
     },
     ["How large the available/complete icons are. Affects both map and minimap icons.\n(Default: %s)"] = {
-        ["ptBR"] = "Qual é o tamanho dos ícones disponíveis / completos\n(Por defeito: %s)",
+        ["ptBR"] = "Qual é o tamanho dos ícones disponíveis / completos\n(Padrão: %s)",
         ["ruRU"] = "Регулировка размера значков доступных/выполненных заданий на карте мира и миникарте\n(по умолчанию: %s)",
         ["deDE"] = "Skaliert die Icons der verfügbaren/abgeschlossenen Quests.\n(Standard: %s)",
         ["koKR"] = "수행가능/완료 퀘스트 아이콘의 크기를 설정합니다.\n(기본값: %s)",
@@ -159,7 +159,7 @@ local mapOptionsLocales = {
         ["frFR"] = "Échelle des icônes d'évènement",
     },
     ["How large the event icons are.\n(Default: %s)"] = {
-        ["ptBR"] = "Qual é o tamanho dos ícones do evento.\n(Por defeito: %s)",
+        ["ptBR"] = "Qual é o tamanho dos ícones do evento.\n(Padrão: %s)",
         ["ruRU"] = "Регулировка размера значков событий на карте мира и миникарте\n(по умолчанию: %s)",
         ["deDE"] = "Skaliert wie groß die Event-Icons sind.\n(Standard: %s)",
         ["koKR"] = "이벤트 아이콘의 크기를 설정합니다.\n(기본값: %s)",
@@ -183,7 +183,7 @@ local mapOptionsLocales = {
         ["frFR"] = "Échelle des icônes de fouille",
     },
     ["How large the loot icons are.\n(Default: %s)"] = {
-        ["ptBR"] = "Qual é o tamanho dos ícones de pilhagem\n(Por defeito: %s)",
+        ["ptBR"] = "Qual é o tamanho dos ícones de pilhagem\n(Padrão: %s)",
         ["ruRU"] = "Регулировка размера значков добычи на карте мира и миникарте\n(по умолчанию: %s)",
         ["deDE"] = "Skaliert wie groß die Loot-Icons sind.\n(Standard: %s)",
         ["koKR"] = "수집 아이콘의 크기를 설정합니다.\n(기본값: %s)",
@@ -207,7 +207,7 @@ local mapOptionsLocales = {
         ["frFR"] = "Échelle des icônes de combat",
     },
     ["How large the slay icons are.\n(Default: %s)"] = {
-        ["ptBR"] = "Qual é o tamanho dos ícones para matar\n(Por defeito: %s)",
+        ["ptBR"] = "Qual é o tamanho dos ícones para matar\n(Padrão: %s)",
         ["ruRU"] = "Регулировка размера значков убийств на карте мира и миникарте\n(по умолчанию: %s)",
         ["deDE"] = "Skaliert wie groß die Töten-Icons sind.\n(Standard: %s)",
         ["koKR"] = "처치 아이콘의 크기를 설정합니다.\n( 기본값: %s)",
@@ -231,7 +231,7 @@ local mapOptionsLocales = {
         ["frFR"] = "Échelle des icônes d'objet",
     },
     ["How large the object icons are.\n(Default: %s)"] = {
-        ["ptBR"] = "Qual é o tamanho dos ícones de objeto.\n(Por defeito: %s)",
+        ["ptBR"] = "Qual é o tamanho dos ícones de objeto.\n(Padrão: %s)",
         ["ruRU"] = "Регулировка размера значков объектов на карте мира и миникарте\n(по умолчанию: %s)",
         ["deDE"] = "Skaliert wie groß die Objekt-Icons sind.\n(Standard: %s)",
         ["koKR"] = "오브젝트 아이콘의 크기를 설정합니다.\n(기본값: %s)",
@@ -279,7 +279,7 @@ local mapOptionsLocales = {
         ["frFR"] = "Précision des coordonnées sur la carte",
     },
     ["How many decimals to include in the precision on the Map for Player and Cursor coordinates.\n(Default: %s)"] = {
-        ["ptBR"] = "Número de casas decimais a serem incluídas na precisão do mapa para as coordenadas do jogador e do cursor.\n(Por defeito: %s)",
+        ["ptBR"] = "Número de casas decimais a serem incluídas na precisão do mapa para as coordenadas do jogador e do cursor.\n(Padrão: %s)",
         ["ruRU"] = "Допустимое количество знаков после запятой при отображении координат\n(по умолчанию: %s)",
         ["deDE"] = "Wie viele Nachkommastellen in die Genauigkeit für Spieler- und Mauszeiger-Koordinanten einfließen sollen.\n(Standard: %s)",
         ["koKR"] = "지도 좌표에 소수점 몇자리까지 표시할지 설정합니다.\n( 기본값: %s)",
