@@ -1252,6 +1252,14 @@ function QuestieQuestFixes:Load()
         [2801] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{7572},7572,"A Tale of Sorrow"}}},
         },
+        [2841] = {
+            [questKeys.exclusiveTo] = {2842},
+            [questKeys.childQuests] = {},
+        },
+        [2842] = {
+            [questKeys.requiredLevel] = 20,
+            [questKeys.parentQuest] = 0,
+        },
         [2843] = {
             [questKeys.triggerEnd] = {"Goblin Transponder", {[zoneIDs.STRANGLETHORN_VALE]={{27.56,77.42}}}},
         },
