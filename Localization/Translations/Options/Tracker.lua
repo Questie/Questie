@@ -677,7 +677,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "列表中的任务目标会根据完成度变换颜色。\n\n极简的选项不会显示游戏内建任务完成信息，只会显示 \"任务完成！\" 或 \"任务失败！\"。",
         ["zhTW"] = "清單中的任務目標會依據完成度變換顏色。\n\n極簡的選項將不會顯示遊戲內建的任務完成訊息，只會顯示 \"任務完成！\" 或 \"任務失敗！\"。",
         ["esES"] = "Cambia el color de los objetivos en el rastreador de misiones según lo completos que estén.\n\nNOTA: La opción Minimalista no mostrará el \"Texto de completo de Blizzard\" y solo etiquetará la misión como \"¡Misión completada!\" o \"¡Misión fracasada!\".",
-        ["frFR"] = "Modifiez la couleur des objectifs dans le suivi de Questie en fonction de leur état de complétude.\n\nNOTE : L'option Minimaliste n'affichera pas le \"Texte de terminaison de Blizzard\" et se contentera d'étiqueter la quête comme \"Quête terminée !\" ou \"Quête échouée !\".",
+        ["frFR"] = "Modifiez la couleur des objectifs dans le suivi de Questie en fonction de leur état de terminaison.\n\nNOTE : L'option Minimaliste n'affichera pas le \"Texte de terminaison de Blizzard\" et se contentera d'étiqueter la quête comme \"Quête terminée !\" ou \"Quête échouée !\".",
     },
     ---------------------------------------------------------
     ["Red to Green"] = {

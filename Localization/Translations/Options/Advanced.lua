@@ -63,15 +63,15 @@ local advancedOptionsLocales = {
         ["frFR"] = "Active la limite au nombre d'icônes affichées d'un même type.",
     },
     ["Limits the amount of icons drawn per type. ( Default: %s )"] = {
-        ["ptBR"] = "Limita a quantidade de ícones desenhados por tipo. ( Por defeito: %s )",
+        ["ptBR"] = "Limita a quantidade de ícones desenhados por tipo. (Padrão: %s)",
         ["ruRU"] = "Регулировка ограничения количества значков, отображаемых для каждого типа (по умолчанию: %s)",
         ["deDE"] = "Wie viele Icons pro Type gezeigt werden sollen. ( Standard: %s )",
         ["koKR"] = "아이콘의 종류 별로 표시를 제한할 개수를 설정합니다. ( 기본값: %s )",
-        ["esMX"] = "Limita la cantidad de iconos por tipo. ( Predeterminado: %s)",
+        ["esMX"] = "Limita la cantidad de iconos por tipo. (Predeterminado: %s)",
         ["enUS"] = true,
         ["zhCN"] = "限制每种类型图标数量 ( 默认: %s )",
         ["zhTW"] = "限制每種類型繪製的圖示數量。(預設值: %s )",
-        ["esES"] = "Limita la cantidad de iconos por tipo. ( Predeterminado: %s)",
+        ["esES"] = "Limita la cantidad de iconos por tipo. (Predeterminado: %s)",
         ["frFR"] = "Limite le nombre d'icônes affichées d'un même type. (Par défaut : %s)",
     },
     ["Enable bug workarounds"] = {
@@ -339,7 +339,7 @@ local advancedOptionsLocales = {
         ["frFR"] = "Passer la validation",
     },
     ["Skip database validation upon recompile. Validation is only present with debug enabled in the first place."] = {
-        ["ptBR"] = "Ignora validação do banco de dados ao recompilar. A validação está presente apenas quando o modo de depuração está activado desde o início.",
+        ["ptBR"] = "Ignora validação do banco de dados ao recompilar. A validação está presente apenas quando o modo de depuração está ativado desde o início.",
         ["ruRU"] = "Пропустить валидацию БД после перекомпиляции. Валидация имеется только при включенном режиме отладки",
         ["deDE"] = "Die Datenbank-Validierung beim Neukompilieren überspringen. Die Validierung findet nur bei aktivem Debugging statt.",
         ["koKR"] = false,

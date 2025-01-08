@@ -84,7 +84,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "总共完成了 %d 个任务",
         ["zhTW"] = "總共完成了 %d 個任務",
         ["esES"] = "ha completado un total de %d misiones",
-        ["frFR"] = "a complété un total de %d quêtes",
+        ["frFR"] = "a terminé un total de %d quêtes",
     },
     ["Toggles the Minimap Button for Questie"] = {
         ["ptBR"] = "Mostra/oculta o botão de Questie no minimapa",

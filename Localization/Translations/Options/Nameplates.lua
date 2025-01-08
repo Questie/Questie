@@ -63,7 +63,7 @@ local nameplateOptionsLocales = {
         ["frFR"] = "Position de l'icône X",
     },
     ["Where on the X axis the nameplate icon should be. ( Default: %s )"] = {
-        ["ptBR"] = "O ícone da placa de nome deve aparecer no ícone dos nomes da placa. (Por defeito: %s)",
+        ["ptBR"] = "O ícone da placa de nome deve aparecer no ícone dos nomes da placa. (Padrão: %s)",
         ["ruRU"] = "Регулировка позиции значков по оси X (по умолчанию: %s)",
         ["deDE"] = "An welcher Stelle auf der X-Achse des anvisierten Ziels die Icons der Questziele angezeigt werden sollen. ( Standard: %s )",
         ["koKR"] = "대상 프레임에 표시할 아이콘의 X좌표를 설정합니다. ( 기본값: %s )",
@@ -87,7 +87,7 @@ local nameplateOptionsLocales = {
         ["frFR"] = "Position de l'icône Y",
     },
     ["Where on the Y axis the nameplate icon should be. ( Default: %s )"] = {
-        ["ptBR"] = "O ícone da placa de nome deve aparecer no ícone de ordenadas. (Por defeito: %s)",
+        ["ptBR"] = "O ícone da placa de nome deve aparecer no ícone de ordenadas. (Padrão: %s)",
         ["ruRU"] = "Регулировка позиции значков по оси Y (по умолчанию: %s)",
         ["deDE"] = "An welcher Stelle auf der Y-Achse des anvisierten Ziels die Icons der Questziele angezeigt werden sollen. ( Standard: %s )",
         ["koKR"] = "대상 프레임에 표시할 아이콘의 Y좌표를 설정합니다. ( 기본값: %s )",
@@ -111,7 +111,7 @@ local nameplateOptionsLocales = {
         ["frFR"] = "Échelle des icônes sur les plaques de nom",
     },
     ["Scale the size of the quest icons on creature nameplates. ( Default: %s )"] = {
-        ["ptBR"] = "Mude o tamanho dos ícones da missão nas placas de nome das criaturas. (Por defeito: %s)",
+        ["ptBR"] = "Mude o tamanho dos ícones da missão nas placas de nome das criaturas. (Padrão: %s)",
         ["ruRU"] = "Регулировка размера значков на индикаторах здоровья (по умолчанию: %s)",
         ["deDE"] = "Skaliert wie groß die Quest-Icons an den Namensplaketten der Gegner sein sollen. ( Standard: %s )",
         ["koKR"] = "퀘스트 목표 이름표에 표시할 아이콘의 크기를 설정합니다. ( 기본값: %s )",
@@ -195,7 +195,7 @@ local nameplateOptionsLocales = {
         ["frFR"] = "Réinitialiser",
     },
     ["Reset to default target frame position and scale."] = {
-        ["ptBR"] = "Redefine as posições e a escala do quadro de destino por defeito.",
+        ["ptBR"] = "Redefine as posições e a escala do quadro de destino padrão.",
         ["ruRU"] = "Сбросить настройки значков целей заданий на рамке выбранной цели к значениям по умолчанию",
         ["deDE"] = "Setzt die Position und Skalierung der Icons am anvisierten Ziel zurück.",
         ["koKR"] = "대상 프레임 아이콘 위치와 크기를 기본값으로 초기화합니다.",

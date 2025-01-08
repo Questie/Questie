@@ -192,7 +192,7 @@ local soundsOptionsLocales = {
         ["zhCN"] = false,
         ["zhTW"] = "延遲播放任務目標進度音效和任務完成音效 (單位為秒，預設值: %s)。如果聽到重複的音效，請增加此數值。",
         ["esES"] = "Retraso (en segundos, predeterminado: %s) para reproducir los sonidos de progreso y finalización de objetivos. Aumenta este valor si escuchas sonidos duplicados.",
-        ["frFR"] = "Délai (en secondes, par défaut : %s) pour jouer les sons de progression et de complétion des objectifs. Augmentez ce délai si vous entendez des sons doublés.",
+        ["frFR"] = "Délai (en secondes, par défaut : %s) pour jouer les sons de progression et de terminaison des objectifs. Augmentez ce délai si vous entendez des sons doublés.",
     },
 }
 

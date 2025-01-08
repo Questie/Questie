@@ -156,7 +156,7 @@ local searchLocales = {
         ["zhCN"] = "任务可被发现",
         ["zhTW"] = "任務地點",
         ["esES"] = "Encontrado en",
-        ["frFR"] = "Trouvé dans",
+        ["frFR"] = "Trouvé dans ",
     },
     ["No Match for Search Results: %s"] = {
         ["ptBR"] = "Nenhum resultado encontrado para sua procura: %s",

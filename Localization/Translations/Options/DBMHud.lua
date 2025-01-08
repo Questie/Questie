@@ -75,7 +75,7 @@ local dbmHudOptionsLocales = {
         ["frFR"] = "Afficher les icônes des donneurs de quêtes",
     },
     ["Toggles whether or not available/complete quest icons appear on HUD. (Default: %s)"] = {
-        ["ptBR"] = "Alterna se os ícones de missão disponíveis/completos não aparecem ou não no HUD. (Por defeito: %s)",
+        ["ptBR"] = "Alterna se os ícones de missão disponíveis/completos não aparecem ou não no HUD. (Padrão: %s)",
         ["ruRU"] = "Показать/скрыть значки доступных или выполненных заданий на DBM HUD (по умолчанию: %s)",
         ["deDE"] = "Schaltet ein, ob Icons für verfügbare/abgeschlossene Quests im HUD angezeigt werden oder nicht. (Standard: %s)",
         ["koKR"] = "수행가능/완료 퀘스트 아이콘을 HUD에 표시합니다. (기본값: %s)",
@@ -111,7 +111,7 @@ local dbmHudOptionsLocales = {
         ["frFR"] = "Taux de rafraîchissement pour le HUD (nécessite d'activer/désactiver le HUD)",
     },
     ["Adjusts the fresh rate for HUD Icons which affects how often UI refreshes their position. (Default: %s)"] = {
-        ["ptBR"] = "Ajusta a taxa de atualização dos ícones HUD, que afeta a frequência com que a interface do usuário atualiza sua posição. (Por defeito: %s)",
+        ["ptBR"] = "Ajusta a taxa de atualização dos ícones HUD, que afeta a frequência com que a interface do usuário atualiza sua posição. (Padrão: %s)",
         ["ruRU"] = "Регулирует частоту обновления значков DBM HUD, которая влияет на то, как часто пользовательский интерфейс обновляет их позиции (по умолчанию: %s)",
         ["deDE"] = "Passt die Aktualisierungsrate für HUD-Icons an, die sich darauf auswirkt, wie oft die Benutzeroberfläche ihre Position aktualisiert. (Standard: %s)",
         ["koKR"] = "HUD 아이콘의 위치를 새로 표시하는 주기를 설정합니다. (기본값: %s)",
@@ -135,7 +135,7 @@ local dbmHudOptionsLocales = {
         ["frFR"] = "Activer le visuel de proximité pour les icônes HUD",
     },
     ["Adjusts the size of the icons that appear on the HUD. (Default: %s)"] = {
-        ["ptBR"] = "Ajusta o tamanho dos ícones que aparecem no HUD. (Por defeito: %s)",
+        ["ptBR"] = "Ajusta o tamanho dos ícones que aparecem no HUD. (Padrão: %s)",
         ["ruRU"] = "Регулирует размер значков, отображаемых на DBM HUD (по умолчанию: %s)",
         ["deDE"] = "Passt die Größe der Icons an, die auf dem HUD erscheinen. (Standard: %s)",
         ["koKR"] = "HUD에 표시될 아이콘의 크기를 설정합니다. (기본값: %s)",
@@ -183,7 +183,7 @@ local dbmHudOptionsLocales = {
         ["frFR"] = "Afficher les icônes de butin de quête",
     },
     ["Toggles whether or not loot icons appear on the DBM HUD. (Default: %s)"] = {
-        ["ptBR"] = "Alterna se os ícones de saque aparecem ou não no HUD. (Por defeito: %s)",
+        ["ptBR"] = "Alterna se os ícones de saque aparecem ou não no HUD. (Padrão: %s)",
         ["ruRU"] = "Показать/скрыть значки добычи на DMB HUD (по умолчанию: %s)",
         ["deDE"] = "Aktiviert/Deaktivert die Anzeige von Beute-Icons im HUD. (Standard: %s)",
         ["koKR"] = "수집 아이콘을 HUD에 표시합니다. (기본값: %s)",
@@ -231,7 +231,7 @@ local dbmHudOptionsLocales = {
         ["frFR"] = "Afficher les icônes de meurtre de quête",
     },
     ["Toggles whether or not slay icons appear on the DBM HUD. (Default: %s)"] = {
-        ["ptBR"] = "Alterna se os ícones slay aparecem ou não no HUD. (Por defeito: %s)",
+        ["ptBR"] = "Alterna se os ícones slay aparecem ou não no HUD. (Padrão: %s)",
         ["ruRU"] = "Показать/скрыть значки убийств на DBM HUD (по умолчанию: %s)",
         ["deDE"] = "Aktiviert/Deaktiviert die Anzeige von Tötungs-Icons im HUD. (Standard: %s)",
         ["koKR"] = "처치 아이콘을 HUD에 표시합니다. (기본값: %s)",
@@ -255,7 +255,7 @@ local dbmHudOptionsLocales = {
         ["frFR"] = "Rayon/taille global pour les icônes HUD",
     },
     ["Adjusts the zoom level for HUD Icons which affects how close in or how far out you see them. (Default: %s)"] = {
-        ["ptBR"] = "Ajusta o nível de zoom dos ícones HUD, o que afeta a proximidade ou a distância que você os vê. (Por defeito: %s)",
+        ["ptBR"] = "Ajusta o nível de zoom dos ícones HUD, o que afeta a proximidade ou a distância que você os vê. (Padrão: %s)",
         ["ruRU"] = "Регулирует уровень масштабирования для значков DBM HUD, который влияет на то, как близко или как далеко вы видите их (по умолчанию: %s)",
         ["deDE"] = "Stellt die Zoomstufe für HUD-Icons ein, die beeinflusst, wie nah oder wie weit entfernt sie zu sehen sind. (Standard: %s)",
         ["koKR"] = "가까운 거리면 커지고 먼 거리면 작아지는 HUD 아이콘의 확대 비율을 설정합니다. (기본값: %s)",
