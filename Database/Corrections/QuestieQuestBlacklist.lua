@@ -3122,9 +3122,11 @@ function QuestieQuestBlacklist:Load()
         [4510] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4521] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4541] = true, -- Not in the game
+        [4561] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4581] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4641] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4642] = QuestieCorrections.CATA_HIDE, -- Removed with cata
+        [4661] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4701] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4721] = QuestieCorrections.CATA_HIDE, -- Removed with cata
         [4724] = QuestieCorrections.CATA_HIDE, -- Removed with cata
