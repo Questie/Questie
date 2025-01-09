@@ -29,11 +29,15 @@ _G.strsplit = function(delimiter, str)
     return unpack(results)
 end
 _G.date = os.date
+_G.string.trim = function(str)
+    return str:gsub("^%s*(.-)%s*$", "%1")
+end
+_G.strlen = string.len
 _G.hooksecurefunc = EMTPY_FUNC
 _G.GetTime = function() return 0 end
 _G.GetCurrentRegion = function() return 3 end
 
-_G.Enum = {ItemQuality = {Poor = 0, Standard = 0}}
+_G.Enum = {ItemQuality = {Poor = 0, Standard = 1}}
 
 _G.QUEST_MONSTERS_KILLED = ""
 _G.QUEST_ITEMS_NEEDED = ""
@@ -62,6 +66,9 @@ _G.UnitInParty = function() return false end
 _G.UnitInRaid = function() return false end
 _G.UnitFactionGroup = function() return "Horde" end
 _G.UnitName = function() return "Testi" end
+_G.QUEST_MONSTERS_KILLED = "%s slain: %d/%d"
+_G.QUEST_ITEMS_NEEDED = "%s: %d/%d"
+_G.QUEST_OBJECTS_FOUND = "%s: %d/%d"
 
 local mockedFrames = {}
 _G.CreateFrame = {
@@ -219,6 +226,9 @@ _G["Questie"] = {
         global = {},
     },
     Debug = EMTPY_FUNC,
+    Warning = function(_, text)
+        print("|cffffff00[WARNING]|r", text)
+    end,
     icons = {},
     RegisterEvent = function(_, eventName, callback)
         registeredEvents[eventName] = callback
