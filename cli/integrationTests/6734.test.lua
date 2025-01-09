@@ -216,6 +216,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestEventHandler:UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
+        assert.equals(2, QuestLogCache.GetQuestCount())
         cachedQuest = QuestLogCache.GetQuest(2863)
         assert.equals(0, cachedQuest.isComplete)
         assert.equals(1, #cachedQuest.objectives)
