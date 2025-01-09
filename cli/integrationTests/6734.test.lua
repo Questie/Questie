@@ -54,56 +54,18 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         _G.GetQuestLogTitle = function(index)
             return table.unpack(mockedQuestLogTitle[index] or {nil, nil, nil, false, nil, false, nil, nil})
         end
-        local markOfQualityComplete = false
-        local alphaStrikeProgressed = false
+        local mockedQuestObjectives = {
+            [2822] = {{
+                type = "item",
+                numRequired = 10,
+                text = "Thick Yeti Hide: 0/10",
+                finished = false,
+                numFulfilled = 0,
+            }}
+        }
         _G.C_QuestLog = {
             GetQuestObjectives = function(questId)
-                if questId == 2822 then
-                    if markOfQualityComplete then
-                        return {{
-                            type = "item",
-                            numRequired = 10,
-                            text = "Thick Yeti Hide: 10/10",
-                            finished = true,
-                            numFulfilled = 10,
-                        }}
-                    else
-                        return {{
-                            type = "item",
-                            numRequired = 10,
-                            text = "Thick Yeti Hide: 0/10",
-                            finished = false,
-                            numFulfilled = 0,
-                        }}
-                    end
-                elseif questId == 7734 then
-                    return {{
-                        type = "item",
-                        numRequired = 10,
-                        text = "Rage Scar Yeti Hide: 0/10",
-                        finished = false,
-                        numFulfilled = 0,
-                    }}
-                elseif questId == 2863 then
-                    if alphaStrikeProgressed then
-                        return {{
-                            type = "monster",
-                            numRequired = 5,
-                            text = "Woodpaw Alpha slain: 1/5",
-                            finished = false,
-                            numFulfilled = 1,
-                        }}
-                    else
-                        return {{
-                            type = "monster",
-                            numRequired = 5,
-                            text = "Woodpaw Alpha slain: 0/5",
-                            finished = false,
-                            numFulfilled = 0,
-                        }}
-                    end
-                end
-                return {}
+                return mockedQuestObjectives[questId] or {}
             end
         }
         QuestLogCache = require("Modules.Quest.QuestLogCache")
@@ -154,7 +116,13 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         }, cachedQuest.objectives[1])
 
         mockedQuestLogTitle[2] = {"The Mark of Quality", 46, nil, false, false, 1, nil, 2822}
-        markOfQualityComplete = true
+        mockedQuestObjectives[2822] = {{
+            type = "item",
+            numRequired = 10,
+            text = "Thick Yeti Hide: 10/10",
+            finished = true,
+            numFulfilled = 10,
+        }}
 
         QuestEventHandler:QuestWatchUpdate(2822)
         QuestEventHandler:UnitQuestLogChanged("player")
@@ -183,6 +151,15 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         assert.equals(0, QuestLogCache.GetQuestCount())
 
         mockedQuestLogTitle[2] = {"Improved Quality", 40, nil, false, false, nil, nil, 7734}
+        mockedQuestObjectives = {
+            [7734] = {{
+                type = "item",
+                numRequired = 10,
+                text = "Rage Scar Yeti Hide: 0/10",
+                finished = false,
+                numFulfilled = 0,
+            }}
+        }
         QuestEventHandler:QuestAccepted(2, 7734)
         QuestEventHandler:UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
@@ -203,6 +180,13 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         }, cachedQuest.objectives[1])
 
         mockedQuestLogTitle[3] = {"Alpha Strike", 43, nil, false, false, nil, nil, 2863}
+        mockedQuestObjectives[2863] = {{
+            type = "monster",
+            numRequired = 5,
+            text = "Woodpaw Alpha slain: 0/5",
+            finished = false,
+            numFulfilled = 0,
+        }}
         QuestEventHandler:QuestAccepted(2, 2863)
         QuestEventHandler:UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
@@ -222,7 +206,13 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             type = "monster"
         }, cachedQuest.objectives[1])
 
-        alphaStrikeProgressed = true
+        mockedQuestObjectives[2863] = {{
+            type = "monster",
+            numRequired = 5,
+            text = "Woodpaw Alpha slain: 1/5",
+            finished = false,
+            numFulfilled = 1,
+        }}
         QuestEventHandler:UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
