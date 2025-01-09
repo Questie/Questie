@@ -8628,6 +8628,9 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Torben Zapblast"), 0, {{"monster", 46293}}}},
             [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
+        [27675] = { -- Forged Documents
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,500},
+        },
         [27683] = { -- Into the Woods
             [questKeys.nextQuestInChain] = 27367,
         },
