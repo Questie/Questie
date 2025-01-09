@@ -47,17 +47,12 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
     end
 
     it("should work", function()
-        local firstMockedQuest = {"The Mark of Quality", 46, nil, false, false, nil, nil, 2822}
-        local secondMockedQuest = {nil, nil, nil, false, nil, false, nil, nil}
+        local mockedQuestLogTitle = {
+            [1] = {"Feralas", nil, nil, true, false, false, nil, nil},
+            [2] = {"The Mark of Quality", 46, nil, false, false, nil, nil, 2822},
+        }
         _G.GetQuestLogTitle = function(index)
-            if index == 1 then
-                return "Feralas", nil, nil, true, false, false, nil, nil
-            elseif index == 2 then
-                return table.unpack(firstMockedQuest)
-            elseif index == 3 then
-                return table.unpack(secondMockedQuest)
-            end
-            return nil, nil, nil, false, nil, false, nil, nil
+            return table.unpack(mockedQuestLogTitle[index] or {nil, nil, nil, false, nil, false, nil, nil})
         end
         local markOfQualityComplete = false
         local alphaStrikeProgressed = false
@@ -158,7 +153,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             type = "item"
         }, cachedQuest.objectives[1])
 
-        firstMockedQuest = {"The Mark of Quality", 46, nil, false, false, 1, nil, 2822}
+        mockedQuestLogTitle[2] = {"The Mark of Quality", 46, nil, false, false, 1, nil, 2822}
         markOfQualityComplete = true
 
         QuestEventHandler:QuestWatchUpdate(2822)
@@ -187,7 +182,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
 
         assert.equals(0, QuestLogCache.GetQuestCount())
 
-        firstMockedQuest = {"Improved Quality", 40, nil, false, false, nil, nil, 7734}
+        mockedQuestLogTitle[2] = {"Improved Quality", 40, nil, false, false, nil, nil, 7734}
         QuestEventHandler:QuestAccepted(2, 7734)
         QuestEventHandler:UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
@@ -207,7 +202,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             type = "item"
         }, cachedQuest.objectives[1])
 
-        secondMockedQuest = {"Alpha Strike", 43, nil, false, false, nil, nil, 2863}
+        mockedQuestLogTitle[3] = {"Alpha Strike", 43, nil, false, false, nil, nil, 2863}
         QuestEventHandler:QuestAccepted(2, 2863)
         QuestEventHandler:UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
