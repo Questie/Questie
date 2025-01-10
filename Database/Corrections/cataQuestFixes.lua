@@ -950,6 +950,15 @@ function CataQuestFixes.Load()
         [9563] = { -- Gaining Mirren's Trust
             [questKeys.objectives] = {nil,nil,{{23848}},{946,3000}},
         },
+        [9604] = { -- On the Wings of a Hippogryph
+            [questKeys.requiredRaces] = raceKeys.DRAENEI,
+        },
+        [9605] = { -- Hippogryph Master Stephanos
+            [questKeys.requiredRaces] = raceKeys.DRAENEI,
+        },
+        [9606] = { -- Return to Caregiver Chellan
+            [questKeys.requiredRaces] = raceKeys.DRAENEI,
+        },
         [9612] = { -- A Hearty Thanks!
             [questKeys.requiredRaces] = raceKeys.DRAENEI,
         },
@@ -964,6 +973,9 @@ function CataQuestFixes.Load()
         },
         [9672] = { -- The Bloodcurse Legacy
             [questKeys.exclusiveTo] = {9751},
+        },
+        [9693] = { -- What Argus Means to Me
+            [questKeys.preQuestSingle] = {},
         },
         [9731] = { -- Drain Schematics
             [questKeys.preQuestSingle] = {9720},

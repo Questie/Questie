@@ -87,6 +87,9 @@ function CataObjectFixes.Load()
         [181781] = { -- Axxarien Crystal
             [objectKeys.name] = "Axxarien Crystal",
         },
+        [181892] = { -- Aquatic Stinkhorn
+            [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{64.48,62.54},{61.04,68.68},{57.86,73.45},{57.24,75.25},{56.02,79.56},{55.09,82.45},{54.99,81.9},{61.35,67.99},{56.75,79.14},{58.17,72.75},{57.41,75.72},{66.2,59.95}}},
+        },
         [185309] = { -- Altar of Goc
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{64.15,18.5}}},
         },

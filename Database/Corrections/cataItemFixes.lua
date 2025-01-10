@@ -163,6 +163,18 @@ function CataItemFixes.Load()
         [24026] = { -- Elder Brown Bear Flank
             [itemKeys.npcDrops] = {17348},
         },
+        [24040] = { -- Blood Mushroom
+            [itemKeys.npcDrops] = {},
+        },
+        [24041] = { -- Aquatic Stinkhorn
+            [itemKeys.npcDrops] = {17673},
+        },
+        [24042] = { -- Ruinous Polyspore
+            [itemKeys.npcDrops] = {},
+        },
+        [24043] = { -- Fel Cone Fungus
+            [itemKeys.npcDrops] = {},
+        },
         [24049] = { -- Ysera's Tear
             [itemKeys.npcDrops] = {},
         },

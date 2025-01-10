@@ -1226,6 +1226,9 @@ function QuestieTBCQuestFixes:Load()
         [9619] = {
             [questKeys.requiredSourceItems] = {},
         },
+        [9629] = {
+            [questKeys.objectives] = {{{17326,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [9635] = {
             [questKeys.requiredSkill] = {202,305},
         },
@@ -1235,12 +1238,22 @@ function QuestieTBCQuestFixes:Load()
         [9645] = {
             [questKeys.triggerEnd] = {"Journal Entry Read", {[3457]={{-1,-1}}}},
         },
+        [9663] = {
+            [questKeys.objectives] = {{{17440,"High Chief Stillpine Warned",Questie.ICON_TYPE_TALK},{17116,"Exarch Menelaous Warned",Questie.ICON_TYPE_TALK},{17240,"Admiral Odesyus Warned",Questie.ICON_TYPE_TALK}}},
+        },
         [9666] = {
-            [questKeys.objectives] = {{{17701}},nil,nil,nil,{{{17701},17701,"Declaration of Power"}}},
+            [questKeys.objectives] = {{{17701},{17701,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9667] = {
             [questKeys.preQuestSingle] = {9559},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Bristlelimb Furbolgs to lure High Chief Bristlelimb"), 0, {{"monster", 17320}, {"monster", 17321}}}},
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_SLAY, l10n("Kill Bristlelimb Furbolgs to lure High Chief Bristlelimb"), 0, {{"monster", 17320}, {"monster", 17321}}},
+                {nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",181928}}},
+            },
+            [questKeys.objectives] = {{{17682,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [9668] = {
+            [questKeys.nextQuestInChain] = 9693,
         },
         [9669] = {
             [questKeys.requiredLevel] = 16,
@@ -1329,7 +1342,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
         },
         [9756] = {
-            [questKeys.objectives] = {{{17824,"Sunhawk Information Recovered"}},nil,nil,nil},
+            [questKeys.objectives] = {{{17824,"Sunhawk Information Recovered",Questie.ICON_TYPE_TALK}}},
         },
         [9757] = {
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
