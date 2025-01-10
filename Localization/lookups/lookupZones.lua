@@ -1,6 +1,9 @@
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+-- This file contains all zones which are used in Era, TBC and WotLK.
+-- For Cata this file is used as base and updated with the corrections found in `Questie\Localization\lookups\Cata\lookupZones.lua`
+
 -- These need to match with QuestieJourney.questCategoryKeys
 l10n.continentLookup = {
     [1] = "Eastern Kingdoms",
