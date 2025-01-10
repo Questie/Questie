@@ -1018,22 +1018,22 @@ function QuestieItemFixes:Load()
         [16967] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {500000},
+            [itemKeys.objectDrops] = {400006},
         },
         [16968] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {500002},
+            [itemKeys.objectDrops] = {400008},
         },
         [16969] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {500003},
+            [itemKeys.objectDrops] = {400009},
         },
         [16970] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {500001},
+            [itemKeys.objectDrops] = {400007},
         },
         [16973] = { -- #1156
             [itemKeys.relatedQuests] = {5247},
@@ -1059,7 +1059,7 @@ function QuestieItemFixes:Load()
         [17696] = {
             [itemKeys.relatedQuests] = {7029,7041},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {400061},
+            [itemKeys.objectDrops] = {400003},
         },
         [17761] = {
             [itemKeys.npcDrops] = {12240},
@@ -1332,7 +1332,7 @@ function QuestieItemFixes:Load()
         },
         [190307] = {
             [itemKeys.name] = "Unlit Torch",
-            [itemKeys.objectDrops] = {400014},
+            [itemKeys.objectDrops] = {400001},
             [itemKeys.flags] = 2, -- Conjured
             [itemKeys.relatedQuests] = {65602},
         },

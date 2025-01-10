@@ -567,96 +567,102 @@ function QuestieTBCObjectFixes:Load()
         },
 
         -- Below are fake objects
-        [400000] = {
+        -- For TBC fixes 410001-419999
+        [410001] = {
             [objectKeys.name] = "Mailbox",
             [objectKeys.questStarts] = {9672},
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{55.2,59.2}}},
             [objectKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
         },
-        [400001] = {
+        [410002] = {
             [objectKeys.name] = "Open the Survival Kit",
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{40.5,19}}},
             [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
-        [400002] = {
+        [410003] = {
             [objectKeys.name] = "Equip a Weapon",
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{39.5,19}}},
             [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
-        [400003] = {
+        [410004] = {
             [objectKeys.name] = "Open the Survival Kit",
             [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{76.8,29.7}}},
             [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
         },
-        [400004] = {
+        [410005] = {
             [objectKeys.name] = "Equip a Weapon",
             [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{76.8,29.7}}},
             [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
         },
-        [400005] = {
+        [410006] = {
             [objectKeys.name] = "Train a Spell at your class trainer",
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{40,19}}},
             [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
-        [400006] = {
+        [410007] = {
             [objectKeys.name] = "Train a Spell at your class trainer",
             [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{77.15,29.82}}},
             [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
         },
-        [400007] = {
+        [410008] = {
             [objectKeys.name] = "Spend a Talent Point",
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{40,19}}},
             [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
-        [400008] = {
+        [410009] = {
             [objectKeys.name] = "Spend a Talent Point",
             [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{77.15,29.82}}},
             [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
         },
-        [400009] = {
+        [410010] = {
             [objectKeys.name] = "Open the Survival Kit",
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{83.5,37}}},
             [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
-        [400010] = {
+        [410011] = {
             [objectKeys.name] = "Equip a Weapon",
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{84.5,37}}},
             [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
-        [400011] = {
+        [410012] = {
             [objectKeys.name] = "Train a Spell at your class trainer",
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{84,37}}},
             [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
-        [400012] = {
+        [410013] = {
             [objectKeys.name] = "Spend a Talent Point",
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{84,37}}},
             [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
-        [400013] = {
+        [410014] = {
             [objectKeys.name] = "Gather Nether Residue from any Herb or Ore Deposit in Outland",
             [objectKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{53.9,44.8}}},
             [objectKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
         },
-        [400014] = {
+        [410015] = {
             [objectKeys.name] = "Scrying Orb",
             [objectKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.MAGISTERS_TERRACE,
         },
-        [400058] = {
+        [410016] = {
             [objectKeys.name] = "Portal to Socrethar's Seat",
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{36.44,18.35}}},
             [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
-        [400059] = {
+        [410017] = {
             [objectKeys.name] = "Portal to Netherstorm",
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{30.56,17.69}}},
             [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
-        [400060] = {
+        [410018] = {
             [objectKeys.name] = "Ethereum Transponder Zeta",
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{56.81,38.7}}},
             [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [410019] = {
+            [objectKeys.name] = "Bristlelimb Cage",
+            [objectKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{26.87,62.99},{27.99,63.44},{28.56,67.02},{27.7,65.43},{28.17,67.44},{27.7,62.24},{27.35,62.2},{27.25,66.91},{28.11,65.84},{25.7,67.77},{25.45,68.37},{24.41,67.84},{24.53,67.21},{25.04,66.59},{25.47,66.6}}},
+            [objectKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
         },
     }
 end

@@ -824,7 +824,7 @@ function CataItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
         },
         [62820] = { -- Deadwood Honey Glob
-            [itemKeys.objectDrops] = {460015},
+            [itemKeys.objectDrops] = {430016},
         },
         [62822] = { -- Twilight Collar
             [itemKeys.npcDrops] = {5860,5861,5862,8419,47309,47310,47311},
@@ -944,7 +944,7 @@ function CataItemFixes.Load()
             [itemKeys.class] = itemClasses.QUEST,
         },
         [69238] = { -- Timeless Eye
-            [itemKeys.objectDrops] = {460024},
+            [itemKeys.objectDrops] = {430024},
         },
         [69765] = { -- Lucifern
             [itemKeys.npcDrops] = {},

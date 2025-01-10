@@ -1755,10 +1755,10 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Empty Worg Pup Cage to capture it."), 0, {{"monster", 10221}}}},
         },
         [4734] = {
-            [questKeys.objectives] = {nil,{{400062,"Test the Eggscilliscope Prototype"}}},
+            [questKeys.objectives] = {nil,{{400004,"Test the Eggscilliscope Prototype"}}},
         },
         [4735] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Collect eggs using the Collectronic Module."), 0, {{"object", 400062}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Collect eggs using the Collectronic Module."), 0, {{"object", 400004}}}},
         },
         [4736] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1829,8 +1829,8 @@ function QuestieQuestFixes:Load()
         [4867] = {
             [questKeys.requiredSourceItems] = {12533,12534},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Combine Omokk's Head with the Roughshod Pike."),0,{{"object", 175621}}},
-			                               {nil, Questie.ICON_TYPE_OBJECT, l10n("Use it to instantly kill one nearby ogre."),0,{{"object", 400063}}},
-			},
+                                           {nil, Questie.ICON_TYPE_OBJECT, l10n("Use it to instantly kill one nearby ogre."),0,{{"object", 400005}}},
+            },
         },
         [4881] = {
             [questKeys.startedBy] = {{10617},nil,{12564}},
@@ -2267,7 +2267,7 @@ function QuestieQuestFixes:Load()
             },
         },
         [6027] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Lord Kragaru"), 0, {{"object", 400060}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Lord Kragaru"), 0, {{"object", 400002}}}},
         },
         [6041] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Plant the bomb!"), 0, {{"object", 177668}}}},
