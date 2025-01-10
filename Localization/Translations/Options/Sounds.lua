@@ -187,11 +187,11 @@ local soundsOptionsLocales = {
         ["ruRU"] = "Задержка (в секундах, по умолчанию: %s) для воспроизведения звуков прогресса и выполнения целей. Увеличьте это значение, если вы слышите двойные звуки",
         ["deDE"] = "Verzögerung (in Sekunden, Voreinstellung: %s) beim Abspielen von Quest-Ziel-Fortschritts-Sounds. Diesen Wert erhöhen, falls Sounds doppelt abgespielt werden.",
         ["koKR"] = false,
-        ["esMX"] = "Retraso (en segundos, predeterminado: %s) para reproducir los sonidos de progreso y finalización de objetivos. Aumenta este valor si escuchas sonidos duplicados.",
+        ["esMX"] = "Retraso (en segundos, predeterminado: %s) para reproducir los sonidos de progreso y completación de objetivos. Aumenta este valor si escuchas sonidos duplicados.",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = "延遲播放任務目標進度音效和任務完成音效 (單位為秒，預設值: %s)。如果聽到重複的音效，請增加此數值。",
-        ["esES"] = "Retraso (en segundos, predeterminado: %s) para reproducir los sonidos de progreso y finalización de objetivos. Aumenta este valor si escuchas sonidos duplicados.",
+        ["esES"] = "Retraso (en segundos, predeterminado: %s) para reproducir los sonidos de progreso y completación de objetivos. Aumenta este valor si escuchas sonidos duplicados.",
         ["frFR"] = "Délai (en secondes, par défaut : %s) pour jouer les sons de progression et de terminaison des objectifs. Augmentez ce délai si vous entendez des sons doublés.",
     },
 }
