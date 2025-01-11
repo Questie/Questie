@@ -2138,8 +2138,7 @@ function CataQuestFixes.Load()
             [questKeys.triggerEnd] = {"Fungal Culture Planted",{[zoneIDs.THE_BARRENS] = {{55.1,80.4},{57,78.9},{57.7,81.1}}}},
         },
         [14001] = { -- Goblin Escape Pods
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{34748,35649},34748,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Open the Goblin Escape Pod"), 0, {{"object", 195188}}}},
+            [questKeys.objectives] = {nil,{{195188}},nil,nil,},
         },
         [14007] = { -- Steady Shot
             [questKeys.objectives] = {{{48304}},nil,nil,nil,nil,{{56641}}},
@@ -2948,6 +2947,9 @@ function CataQuestFixes.Load()
         },
         [14473] = { -- It's Our Problem Now
             [questKeys.preQuestSingle] = {14001},
+        },
+        [14474] = { -- Goblin Escape Pods
+            [questKeys.objectives] = {nil,{{195188}},nil,nil,},
         },
         [14477] = { -- Push the Button!
             [questKeys.objectives] = {nil,{{430004,nil,Questie.ICON_TYPE_EVENT}}},
