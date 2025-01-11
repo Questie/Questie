@@ -1614,13 +1614,14 @@ function CataQuestFixes.Load()
         },
         [13514] = { -- The Ancients' Ire
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get on the Protector's back"),0,{{"monster",43742}}}},
-            [questKeys.preQuestSingle] = {13512},
+            [questKeys.preQuestGroup] = {13512,13513},
         },
         [13515] = { -- Ending the Threat
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Speak to Sandrya Moonfall to start the attack"),0,{{"monster",33178}}}},
         },
         [13518] = { -- The Last Wave of Survivors
             [questKeys.objectives] = {{{33093,nil,Questie.ICON_TYPE_TALK},{32911,nil,Questie.ICON_TYPE_TALK},{33095,nil,Questie.ICON_TYPE_TALK},{33094,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.preQuestSingle] = {},
         },
         [13519] = { -- The Twilight's Hammer
             [questKeys.preQuestSingle] = {13591},
@@ -1633,9 +1634,10 @@ function CataQuestFixes.Load()
         },
         [13523] = { -- Power Over the Tides
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use Orb of Elune on its corpse"),0,{{"monster",32890}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{32937,32890},32890,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [13526] = { -- The Bear's Paw
-            [questKeys.preQuestSingle] = {13525},
+        [13525] = { -- What's Happening to the Blackwood Furbolg?
+            [questKeys.nextQuestInChain] = 13526,
         },
         [13529] = { -- The Corruption's Source
             [questKeys.preQuestSingle] = {13528},
@@ -1651,10 +1653,11 @@ function CataQuestFixes.Load()
         },
         [13544] = { -- The Bear's Blessing
             [questKeys.requiredSourceItems] = {44886},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Use Fleetfoot's Tailfeathers"),0,{{"object",194106}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Use Bear's Paw Bundle"),0,{{"object",194106}}}},
         },
         [13545] = { -- Coaxing the Spirits
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the Blessed Herb Bundle"),0,{{"monster",33043},{"monster",33044}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{33000,33044},30000,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [13547] = { -- Coaxing the Spirits
             [questKeys.objectives] = {{{33001,nil,Questie.ICON_TYPE_TALK},{33033,nil,Questie.ICON_TYPE_TALK},{33035,nil,Questie.ICON_TYPE_TALK},{33037,nil,Questie.ICON_TYPE_TALK}}},
@@ -1686,7 +1689,7 @@ function CataQuestFixes.Load()
         },
         [13565] = { -- Twice Removed
             [questKeys.preQuestSingle] = {13564},
-            [questKeys.objectives] = {{{33207},{34009,"Withered Ents called",Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{33207}},nil,nil,nil,{{{33206,34009},34009,"Withered Ents called",Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Use Petrified Root on its corpse"),0,{{"monster",33206}}}},
         },
         [13566] = { -- Ritual Materials
@@ -1717,7 +1720,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {13544},
         },
         [13576] = { -- Mutual Aid
-            [questKeys.objectives] = {{{32999}}},
+            [questKeys.objectives] = {{{32999,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [13580] = { -- Soothing the Elements
             [questKeys.objectives] = {},
@@ -1768,7 +1771,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {13569},
         },
         [13601] = { -- In Aid of the Refugees
-            [questKeys.preQuestSingle] = {13596},
+            [questKeys.preQuestGroup] = {13519,13596},
         },
         [13605] = { -- The Last Refugee
             [questKeys.triggerEnd] = {"Archaeologist Hollee escorted to safety.",{[zoneIDs.DARKSHORE] = {{41.18,43.36}}}},
@@ -6101,6 +6104,12 @@ function CataQuestFixes.Load()
         },
         [26378] = { -- Hero's Call: Westfall!
             [questKeys.nextQuestInChain] = 26209,
+        },
+        [26383] = { -- Breaking Waves of Change
+            [questKeys.nextQuestInChain] = 13518,
+        },
+        [26385] = { -- Breaking Waves of Change
+            [questKeys.nextQuestInChain] = 13518,
         },
         [26388] = { -- Twilight Skies
             [questKeys.extraObjectives] = {{{[zoneIDs.AZSHARA]={{50.7,73.9}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for the Zeppelin")}},
@@ -10475,6 +10484,7 @@ function CataQuestFixes.Load()
         },
         [28490] = { -- Hero's Call: Darkshore!
             [questKeys.requiredMaxLevel] = 18,
+            [questKeys.nextQuestInChain] = 13518,
         },
         [28492] = { -- Hero's Call: Ashenvale!
             [questKeys.requiredMaxLevel] = 23,

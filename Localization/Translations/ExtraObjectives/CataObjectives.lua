@@ -770,10 +770,10 @@ local cataObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Use Fleetfoot's Tailfeathers"] = {
+    ["Use Bear's Paw Bundle"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["deDE"] = "Benutze Flitzfuß' Schwanzfedern",
+        ["deDE"] = "Benutze Bärenklaubündel",
         ["koKR"] = false,
         ["esMX"] = false,
         ["enUS"] = true,

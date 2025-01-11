@@ -413,6 +413,9 @@ function CataNpcFixes.Load()
         [11034] = { -- Lord Maxwell Tyrosus
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{75.87,51.96}}},
         },
+        [11711] = { -- Sentinel Aynasha
+            [npcKeys.waypoints] = {},
+        },
         [11804] = { -- Twilight Keeper Havunth
             [npcKeys.waypoints] = {},
         },
@@ -1153,6 +1156,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DALARAN]={{54.0,32.26}}},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
         },
+        [32863] = { -- Shatterspear Overseer
+            [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{63.39,14.62},{60.02,17.02},{62.15,16.81},{60.8,13.96},{60.68,22.81},{63.87,18.99},{61.15,19.47},{62.59,19.9},{60.51,18.83},{60.01,16.44},{62.34,14.47},{60.71,14.33}}},
+        },
         [32937] = { -- Tranquil Tidal Spirit
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{44.19,26.64},{43.5,27.26},{42.25,27.54},{43.09,28.12},{44.69,28.13},{43.66,28.55},{42.37,28.57},{44.33,28.99},{40.89,29.28},{44.82,29.52},{41.75,29.57},{42.4,29.59},{43.12,29.63},{43.49,29.94},{44.51,30.03},{42.71,30.46},{43.74,30.47},{44.01,31.01},{43.35,31.05}}},
         },
@@ -1164,15 +1170,61 @@ function CataNpcFixes.Load()
                 },
             },
         },
-        [32971] = { -- Ranger Glynda Nal'Shea
-            [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{50.22,19.79}}},
+        [32971] = { -- Ranger Glynda Nal'Shea 
+            [npcKeys.spawns] = {
+                [zoneIDs.DARKSHORE]={
+                    {50.22,19.79,phases.CERELLEAN_NEAR_EDGE},
+                    {50.69,19.73,phases.CERELLEAN_NEAR_TREE},
+                },
+            },
+        },
+        [32972] = { -- Serendia Oakwhisper
+            [npcKeys.spawns] = {
+                [zoneIDs.DARKSHORE]={
+                    {51.8,18.07,phases.SERENDIA_FP},
+                    {50.92,18.08,phases.SERENDIA_INN},
+                },
+            },
         },
         [32973] = { -- Dentaria Silverglade
-            [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{51.72,17.92}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.DARKSHORE]={
+                    {51.72,17.92,phases.CERELLEAN_NEAR_EDGE},
+                    {50.65,19.72,phases.CERELLEAN_NEAR_TREE},
+                },
+            },
+        },
+        [32979] = { -- Gorbold Steelhand
+            [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{51.01,19.19}}},
         },
         [33000] = { -- Spirit of Corruption
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{45.46,86.94},{44.52,86.88},{44.27,86.8},{45.75,86.43},{45.21,86.26},{44.75,86.25},{44.27,86},{43.61,84.91},{45.34,84.75},{44.97,84.64},{45.92,83.96},{45.29,83.64},{44.41,83.36},{46.32,83.35},{45.41,83.01},{44.36,82.9},{45.72,82.62},{45.1,82.56},{44.13,82.34},{45.71,82.13},{44.26,81.79},{43.58,81.66},{45.83,81.37},{44.8,81.33},{43.92,81.3},{43.89,80.82},{44.87,87.34},{46.56,87.07},{45.31,86.88},{44.8,86.75},{44.14,86.08},{46.51,85.71},{43.61,85.53},{44.28,85.49},{44.52,85},{45.65,84.98},{44.29,84.73},{45.34,84.2},{44.43,84.07},{45.06,84.01},{43.82,83.81},{45.88,83},{45.1,82.98},{43.97,82.92},{44.84,82.91},{46.14,82.76},{45.48,82.66},{44.55,82.5},{44.81,82.17}}},
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
+        },
+        [33053] = { -- Grimclaw
+            [npcKeys.spawns] = {
+                [zoneIDs.DARKSHORE]={
+                    {42.91,39.04,phases.GRIMCLAW_THICKET},
+                    {50.14,19.42,phases.GRIMCLAW_INN},
+                },
+            },
+        },
+        [33112] = { -- Selenn
+            [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{44.44,56.76}}},
+        },
+        [33117] = { -- Elder Brownpaw
+            [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{40.94,56.48}}},
+        },
+        [33119] = { -- Aroom
+            [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{45.59,48.47}}},
+        },
+        [33232] = { -- Archaeologist Hollee
+            [npcKeys.spawns] = {
+                [zoneIDs.DARKSHORE]={
+                    {38.58,42.45,phases.HOLLEE_RUINS},
+                    {42.57,45.25,phases.HOLLEE_CAMP},
+                },
+            },
         },
         [37759] = { -- Omusa's Spirit
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{43.6,52.2}}},
@@ -1197,6 +1249,9 @@ function CataNpcFixes.Load()
         [34398] = { -- Nightmare Guardian
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{49.33,55.7}}},
             [npcKeys.waypoints] = {[zoneIDs.DARKSHORE]={{{50.02,55.25},{49.91,55.19},{49.79,55.18},{49.69,55.25},{49.60,55.36},{49.51,55.47},{49.42,55.58},{49.33,55.70},{49.23,55.84},{49.13,55.92},{49.02,55.99},{48.92,56.04}}}},
+        },
+        [34422] = { -- Malfurion Stormrage
+            [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{32.79,84.29}}},
         },
         [34435] = { -- Cheerful Human Spirit
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{47.8,26.69}}},
