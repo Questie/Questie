@@ -2946,7 +2946,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestGroup] = {14469,14470,14471},
         },
         [14473] = { -- It's Our Problem Now
-            [questKeys.preQuestSingle] = {14001},
+            [questKeys.preQuestSingle] = {14001,14474},
         },
         [14474] = { -- Goblin Escape Pods
             [questKeys.objectives] = {nil,{{195188}},nil,nil,},
