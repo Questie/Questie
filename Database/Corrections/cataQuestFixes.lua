@@ -2177,7 +2177,7 @@ function CataQuestFixes.Load()
         },
         [14019] = { -- Monkey Business
             [questKeys.objectives] = {{{34699,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.preQuestSingle] = {14001},
+            [questKeys.preQuestSingle] = {14001,14474},
         },
         [14021] = { -- Miner Troubles
             [questKeys.triggerEnd] = {"Kaja'mite Ore mining a success!",{[zoneIDs.THE_LOST_ISLES] = {{31.9,73.6}}}},
